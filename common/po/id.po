@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/"
@@ -1793,58 +1793,8 @@ msgstr "PERINGATAN"
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jangan ikutkan \"{path}\" dari snapshot berikutnya?"
 
-#~ msgid "Working..."
-#~ msgstr "Sedang Bekerja..."
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Setiap {n} jam"
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Anda tidak boleh menyertakan folder backup!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Anda tidak boleh menyertakan sub-folder backup !"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Anda tidak boleh menghapus profil terakhir !"
-
-#~ msgid "Settings"
-#~ msgstr "Pengaturan"
-
-#~ msgid "&Snapshot"
-#~ msgstr "&Snapshot"
-
-#~ msgid "Config File Help"
-#~ msgstr "Bantuan File Pengaturan"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Kembalikan file atau folder yang telah dipilih.\n"
-#~ "Jika tombol ini abu-abu ini karena \"{now}\" dipilih di bagian kiri dari "
-#~ "daftar snapshot."
-
-#~ msgid "&View"
-#~ msgstr "&Tampilan"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " dan tambahkan user anda pada grup 'fuse'"
-
-#~ msgid "Diff Options"
-#~ msgstr "Pilihan Perbandingan"
-
-#~ msgid "Diff"
-#~ msgstr "Bandingkan"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Terenkripsi secara lokal"
 
 #, python-format
 #~ msgid ""
@@ -1856,35 +1806,13 @@ msgstr "Jangan ikutkan \"{path}\" dari snapshot berikutnya?"
 #~ "hingga anda memasukkannya juga.\n"
 #~ "Apakah anda ingin memasukkan symlinks tujuan?"
 
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Kunci proses mount telah habis"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Setiap 5 menit"
-
-#, python-format
 #~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
-#~ "Otentikasi tak bersandi untuk %(user)s@%(host)s gagal. Lihat pada 'man "
-#~ "backintime' untuk instruksi lebih lanjut."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s tidak ditemukan dalam ssh_known_hosts."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr "Ping %s gagal. Host sedang down atau alamatnya salah."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Tabrakan hash muncul pada hash_id %s. Naikkan nilai global hash_collision "
-#~ "dan cobalah lagi."
+#~ "### Catatan ini telah di decode dengan pencarian pola otomatis\n"
+#~ "### Jika ada beberapa jalur yang tidak didecode anda dapat mendecodenya "
+#~ "secara manual menggunakan:\n"
 
 #, python-format
 #~ msgid ""
@@ -1898,47 +1826,48 @@ msgstr "Jangan ikutkan \"{path}\" dari snapshot berikutnya?"
 #~ "silahkan logout dan login kembali.\n"
 #~ "Lihat pada 'man backintime' untuk instruksi lebih lanjut."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s tidak ditemukan dalam ssh_known_hosts."
+
+#~ msgid "&Snapshot"
+#~ msgstr "&Snapshot"
+
+#~ msgid "&View"
+#~ msgstr "&Tampilan"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "DENGAN KESALAHAN !"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Setiap 10 menit"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Setiap 30 menit"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Setiap 4 jam"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Setiap 6 jam"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Setiap 12 jam"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1946,29 +1875,68 @@ msgstr "Jangan ikutkan \"{path}\" dari snapshot berikutnya?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Perubahan dan Kesalahan"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Config File Help"
+#~ msgstr "Bantuan File Pengaturan"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Diff"
+#~ msgstr "Bandingkan"
 
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Catatan ini telah di decode dengan pencarian pola otomatis\n"
-#~ "### Jika ada beberapa jalur yang tidak didecode anda dapat mendecodenya "
-#~ "secara manual menggunakan:\n"
+#~ msgid "Diff Options"
+#~ msgstr "Pilihan Perbandingan"
 
 #~ msgid "Error:"
 #~ msgstr "Kesalahan:"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "Setiap 10 menit"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Setiap 12 jam"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Setiap 30 menit"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Setiap 4 jam"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Setiap 5 menit"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Setiap 6 jam"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Setiap {n} jam"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Snapshot: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Tabrakan hash muncul pada hash_id %s. Naikkan nilai global hash_collision "
+#~ "dan cobalah lagi."
+
+#~ msgid "Local encrypted"
+#~ msgstr "Terenkripsi secara lokal"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Kunci proses mount telah habis"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "Otentikasi tak bersandi untuk %(user)s@%(host)s gagal. Lihat pada 'man "
+#~ "backintime' untuk instruksi lebih lanjut."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr "Ping %s gagal. Host sedang down atau alamatnya salah."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1978,5 +1946,37 @@ msgstr "Jangan ikutkan \"{path}\" dari snapshot berikutnya?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Pulihan '%s' ke ..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Perubahan dan Kesalahan"
+#, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Kembalikan file atau folder yang telah dipilih.\n"
+#~ "Jika tombol ini abu-abu ini karena \"{now}\" dipilih di bagian kiri dari "
+#~ "daftar snapshot."
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Pengaturan"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Snapshot: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "DENGAN KESALAHAN !"
+
+#~ msgid "Working..."
+#~ msgstr "Sedang Bekerja..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Anda tidak boleh menyertakan folder backup!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Anda tidak boleh menyertakan sub-folder backup !"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Anda tidak boleh menghapus profil terakhir !"

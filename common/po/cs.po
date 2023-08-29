@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-08-05 07:53+0000\n"
 "Last-Translator: p-bo <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/"
@@ -1814,12 +1814,210 @@ msgstr "VAROVÁNÍ"
 msgid "Exclude {path} from future snapshots?"
 msgstr "Vynechat „{path}“ z budoucích zachycených stavů?"
 
-#~ msgid "Working..."
-#~ msgstr "Zpracování…"
+#~ msgid " and add your user to group 'fuse'"
+#~ msgstr " a přidejte svůj uživatelský účet do systémové skupiny „fuse“"
+
+#, python-format
+#~ msgid ""
+#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
+#~ "include it, too.\n"
+#~ "Would you like to include the symlinks target instead?"
+#~ msgstr ""
+#~ "„%s“ je symbolický odkaz. Odkazovaný cíl nebude zazálohován, pokud jeho "
+#~ "umístění výslovně nezahrnete.\n"
+#~ "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
+
+#~ msgid ""
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
+#~ msgstr ""
+#~ "### Tento záznam událostí byl dekódován pomocí automatického "
+#~ "vyhledávacího vzorce\n"
+#~ "### Pokud některá umístění nejsou dekódována, můžete je dekódovat ručně, "
+#~ "pomocí:\n"
+
+#, python-format
+#~ msgid ""
+#~ "%(user)s is not member of group 'fuse'.\n"
+#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login "
+#~ "again.\n"
+#~ "Look at 'man backintime' for further instructions."
+#~ msgstr ""
+#~ "%(user)s není členem skupiny fuse.\n"
+#~ " Spusťte příkaz: sudo adduser %(user)s fuse . Aby se změny projevily, "
+#~ "bude nutné se odhlásit a znovu přihlásit.\n"
+#~ "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
+
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s nebyl nalezen v souboru ssh_known_hosts."
+
+#~ msgid "&Snapshot"
+#~ msgstr "Zachycený &stav"
+
+#~ msgid "&View"
+#~ msgstr "&Zobrazit"
+
+#~ msgid "..."
+#~ msgstr "…"
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "Změny a chyby"
+
+#~ msgid "Config File Help"
+#~ msgstr "Nápověda k souboru s nastaveními"
+
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Vytvořte nový SSH klíč, nechráněný heslem."
+
+#~ msgid "Diff"
+#~ msgstr "Porovnat"
+
+#~ msgid "Diff Options"
+#~ msgstr "Předvolby porovnávání (diff)"
+
+#~ msgid "Error:"
+#~ msgstr "Chyba:"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "Každých 10 minut"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Každých 12 hodin"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Každých 30 minut"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Každé 4 hodiny"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Každých 5 minut"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Každých 6 hodin"
 
 #, python-brace-format
 #~ msgid "Every {n} hours"
 #~ msgstr "Každých {n} hodin"
+
+#, python-format
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Vyskytly se dva stejné otisky v hash_id %s. Zvyšte celkovou hodnotu "
+#~ "parametru hash_collision a zkuste to znovu."
+
+#~ msgid "Key File"
+#~ msgstr "Soubor s klíčem"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Vypsat pouze odlišné zachycené stavy"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Na tomto počítači – v šifrované podobě"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Časový limit zámku procesu připojování (mount)"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "Ověření uživatele %(user)s na stroji %(host)s pomocí ssh klíče se "
+#~ "nezdařilo. Další pokyny naleznete v manuálové stránce aplikace (man "
+#~ "backintime)."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr ""
+#~ "Ověření dostupnosti stroje (ping) %s nebylo úspěšné. Stroj je buď "
+#~ "vypnutý, nebo je zadaná nesprávná IP adresa."
+
+#, python-format
+#~ msgid "Restore '%s'"
+#~ msgstr "Obnovit „%s“"
+
+#, python-format
+#~ msgid "Restore '%s' to ..."
+#~ msgstr "Obnovit „%s“ na…"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Obnovit označený soubor či složku.\n"
+#~ "Pokud je toto tlačítko nedostupné (vyšedlé), je to nejspíš tím, že v "
+#~ "seznamu zachycených stavů (vlevo) je označena položka „{now}“."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "Spustit s nižší prioritou na vst./výst. (ionice):"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "Spustit s nižší prioritou (nice):"
+
+#, fuzzy
+#~ msgid "Run 'rsync' with 'ionice':"
+#~ msgstr "Spustit nástroj rsync s parametrem nocache:"
+
+#~ msgid "Run 'rsync' with 'nocache':"
+#~ msgstr "Spustit nástroj rsync s parametrem nocache:"
+
+#~ msgid "SSH"
+#~ msgstr "Na jiném stroji (skrze SSH tunel)"
+
+#~ msgid "Settings"
+#~ msgstr "Nastavení"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Zachycený stav: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "S CHYBAMI!"
+
+#~ msgid "Working..."
+#~ msgstr "Zpracování…"
 
 #, fuzzy
 #~ msgid "You can't include backup folder!"
@@ -1834,201 +2032,3 @@ msgstr "Vynechat „{path}“ z budoucích zachycených stavů?"
 
 #~ msgid "You can't remove the last profile!"
 #~ msgstr "Nelze odebrat poslední zbývající profil!"
-
-#~ msgid "Settings"
-#~ msgstr "Nastavení"
-
-#~ msgid "&Snapshot"
-#~ msgstr "Zachycený &stav"
-
-#~ msgid "Config File Help"
-#~ msgstr "Nápověda k souboru s nastaveními"
-
-#, fuzzy, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Obnovit označený soubor či složku.\n"
-#~ "Pokud je toto tlačítko nedostupné (vyšedlé), je to nejspíš tím, že v "
-#~ "seznamu zachycených stavů (vlevo) je označena položka „{now}“."
-
-#~ msgid "&View"
-#~ msgstr "&Zobrazit"
-
-#~ msgid " and add your user to group 'fuse'"
-#~ msgstr " a přidejte svůj uživatelský účet do systémové skupiny „fuse“"
-
-#~ msgid "Diff Options"
-#~ msgstr "Předvolby porovnávání (diff)"
-
-#~ msgid "Diff"
-#~ msgstr "Porovnat"
-
-#~ msgid "SSH"
-#~ msgstr "Na jiném stroji (skrze SSH tunel)"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Na tomto počítači – v šifrované podobě"
-
-#, python-format
-#~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
-#~ "include it, too.\n"
-#~ "Would you like to include the symlinks target instead?"
-#~ msgstr ""
-#~ "„%s“ je symbolický odkaz. Odkazovaný cíl nebude zazálohován, pokud jeho "
-#~ "umístění výslovně nezahrnete.\n"
-#~ "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
-
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Časový limit zámku procesu připojování (mount)"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Každých 5 minut"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Vypsat pouze odlišné zachycené stavy"
-
-#, python-format
-#~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
-#~ msgstr ""
-#~ "Ověření uživatele %(user)s na stroji %(host)s pomocí ssh klíče se "
-#~ "nezdařilo. Další pokyny naleznete v manuálové stránce aplikace (man "
-#~ "backintime)."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s nebyl nalezen v souboru ssh_known_hosts."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr ""
-#~ "Ověření dostupnosti stroje (ping) %s nebylo úspěšné. Stroj je buď "
-#~ "vypnutý, nebo je zadaná nesprávná IP adresa."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Vyskytly se dva stejné otisky v hash_id %s. Zvyšte celkovou hodnotu "
-#~ "parametru hash_collision a zkuste to znovu."
-
-#, python-format
-#~ msgid ""
-#~ "%(user)s is not member of group 'fuse'.\n"
-#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login "
-#~ "again.\n"
-#~ "Look at 'man backintime' for further instructions."
-#~ msgstr ""
-#~ "%(user)s není členem skupiny fuse.\n"
-#~ " Spusťte příkaz: sudo adduser %(user)s fuse . Aby se změny projevily, "
-#~ "bude nutné se odhlásit a znovu přihlásit.\n"
-#~ "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
-
-#~ msgid "..."
-#~ msgstr "…"
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "S CHYBAMI!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Každých 10 minut"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Každých 30 minut"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Každé 4 hodiny"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Každých 6 hodin"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Každých 12 hodin"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Tento záznam událostí byl dekódován pomocí automatického "
-#~ "vyhledávacího vzorce\n"
-#~ "### Pokud některá umístění nejsou dekódována, můžete je dekódovat ručně, "
-#~ "pomocí:\n"
-
-#~ msgid "Error:"
-#~ msgstr "Chyba:"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Zachycený stav: %s"
-
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "Obnovit „%s“"
-
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "Obnovit „%s“ na…"
-
-#~ msgid "Changes & Errors"
-#~ msgstr "Změny a chyby"
-
-#, fuzzy
-#~ msgid "Run 'rsync' with 'ionice':"
-#~ msgstr "Spustit nástroj rsync s parametrem nocache:"
-
-#~ msgid "Run 'rsync' with 'nocache':"
-#~ msgstr "Spustit nástroj rsync s parametrem nocache:"
-
-#~ msgid "Key File"
-#~ msgstr "Soubor s klíčem"
-
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Vytvořte nový SSH klíč, nechráněný heslem."
-
-#~ msgid "Run 'nice':"
-#~ msgstr "Spustit s nižší prioritou (nice):"
-
-#~ msgid "Run 'ionice':"
-#~ msgstr "Spustit s nižší prioritou na vst./výst. (ionice):"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/"
@@ -1792,60 +1792,8 @@ msgstr ""
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
 
-#~ msgid "Working..."
-#~ msgstr "Käsitellään…"
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "{n} tunnin välein"
-
-#, fuzzy
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Itse varmuuskopiokansiota ei voi lisätä!"
-
-#, fuzzy
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Varmuuskopiokansion alikansiota ei voi ottaa mukaan!"
-
-#, fuzzy
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Viimeistä profiilia ei voi poistaa!"
-
-#~ msgid "Settings"
-#~ msgstr "Asetukset"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "Otos"
-
-#~ msgid "Config File Help"
-#~ msgstr "Määritystiedoston ohje"
-
-#, fuzzy, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Palauta valittu tiedosto tai kansio.\n"
-#~ "Jos painike on harmaana, ”{now}” on todennäköisimmin valittu "
-#~ "otosluettelossa vasemmalla."
-
-#, fuzzy
-#~ msgid "&View"
-#~ msgstr "Näkymä"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " ja lisättävä käyttäjätunnuksesi ”fuse”-ryhmään"
-
-#~ msgid "Diff Options"
-#~ msgstr "Diff-asetukset"
-
-#~ msgid "Diff"
-#~ msgstr "Erot"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
 
 #, python-format
 #~ msgid ""
@@ -1857,8 +1805,112 @@ msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
 #~ "erikseen mukaan.\n"
 #~ "Haluatko ottaa mukaan symlinkkien kohteet?"
 
+#~ msgid ""
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
+#~ msgstr ""
+#~ "### Tämän lokin koodaus on purettu automaattisella hakukuviolla\n"
+#~ "### Ellei joidenkin sijaintien koodausta ole purettu, ne voi purkaa "
+#~ "komennolla:\n"
+
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "Konetta %s ei ole ssh_known_hosts-tiedostossa"
+
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "Otos"
+
+#, fuzzy
+#~ msgid "&View"
+#~ msgstr "Näkymä"
+
+#~ msgid "..."
+#~ msgstr "…"
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "Muutokset ja virheet"
+
+#~ msgid "Config File Help"
+#~ msgstr "Määritystiedoston ohje"
+
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Luo uusi salasanaton SSH-avain."
+
+#~ msgid "Diff"
+#~ msgstr "Erot"
+
+#~ msgid "Diff Options"
+#~ msgstr "Diff-asetukset"
+
+#~ msgid "Error:"
+#~ msgstr "Virhe:"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "10 minuutin välein"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "12 tunnin välein"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "30 minuutin välein"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "4 tunnin välein"
+
 #~ msgid "Every 5 minutes"
 #~ msgstr "5 minuutin välein"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "6 tunnin välein"
+
+#, fuzzy, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "{n} tunnin välein"
+
+#, python-format
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Sattui tiivisteristiriita tiivistetunnisteessa %s. Kasvata yleistä "
+#~ "hash_collision-arvoa ja yritä uudelleen."
+
+#~ msgid "Key File"
+#~ msgstr "Avaintiedosto"
 
 #~ msgid "List only different snapshots"
 #~ msgstr "Luettele vain eri otokset"
@@ -1872,89 +1924,8 @@ msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
 #~ "backintime”"
 
 #, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "Konetta %s ei ole ssh_known_hosts-tiedostossa"
-
-#, python-format
 #~ msgid "Ping %s failed. Host is down or wrong address."
 #~ msgstr "”ping %s” epäonnistui. Kone ei ole käynnissä tai osoite on väärin."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Sattui tiivisteristiriita tiivistetunnisteessa %s. Kasvata yleistä "
-#~ "hash_collision-arvoa ja yritä uudelleen."
-
-#~ msgid "..."
-#~ msgstr "…"
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "VIRHEITÄ!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "10 minuutin välein"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "30 minuutin välein"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "4 tunnin välein"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "6 tunnin välein"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "12 tunnin välein"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Tämän lokin koodaus on purettu automaattisella hakukuviolla\n"
-#~ "### Ellei joidenkin sijaintien koodausta ole purettu, ne voi purkaa "
-#~ "komennolla:\n"
-
-#~ msgid "Error:"
-#~ msgstr "Virhe:"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Otos: %s"
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1964,8 +1935,21 @@ msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Palauta ”%s” kohteeseen…"
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Muutokset ja virheet"
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Palauta valittu tiedosto tai kansio.\n"
+#~ "Jos painike on harmaana, ”{now}” on todennäköisimmin valittu "
+#~ "otosluettelossa vasemmalla."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "Suorita ”ionice”"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "Suorita ”nice”:"
 
 #, fuzzy
 #~ msgid "Run 'rsync' with 'ionice':"
@@ -1974,14 +1958,30 @@ msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
 #~ msgid "Run 'rsync' with 'nocache':"
 #~ msgstr "Suorita rsync nocachellä:"
 
-#~ msgid "Key File"
-#~ msgstr "Avaintiedosto"
+#~ msgid "SSH"
+#~ msgstr "SSH"
 
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Luo uusi salasanaton SSH-avain."
+#~ msgid "Settings"
+#~ msgstr "Asetukset"
 
-#~ msgid "Run 'nice':"
-#~ msgstr "Suorita ”nice”:"
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Otos: %s"
 
-#~ msgid "Run 'ionice':"
-#~ msgstr "Suorita ”ionice”"
+#~ msgid "WITH ERRORS !"
+#~ msgstr "VIRHEITÄ!"
+
+#~ msgid "Working..."
+#~ msgstr "Käsitellään…"
+
+#, fuzzy
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Itse varmuuskopiokansiota ei voi lisätä!"
+
+#, fuzzy
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Varmuuskopiokansion alikansiota ei voi ottaa mukaan!"
+
+#, fuzzy
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Viimeistä profiilia ei voi poistaa!"

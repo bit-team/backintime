@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-08-22 21:53+0000\n"
 "Last-Translator: alexgabi <alexgabi@disroot.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/"
@@ -1772,58 +1772,8 @@ msgstr "ABISUA"
 msgid "Exclude {path} from future snapshots?"
 msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
 
-#~ msgid "Working..."
-#~ msgstr "Lanean..."
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "{n} ordutik behin"
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Ezin duzu babeskopiaren karpeta sartu babeskopian!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Ezin duzu babeskopiaren azpi-karpetak sartu babeskopian!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Ezin duzu ezabatu azken profila!"
-
-#~ msgid "Settings"
-#~ msgstr "Ezarpenak"
-
-#~ msgid "&Snapshot"
-#~ msgstr "&Babeskopia"
-
-#~ msgid "Config File Help"
-#~ msgstr "Config fitxategiaren laguntza"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Leheneratu hautatutako fitxategi edo karpetak.\n"
-#~ "Botoi hau grisa badago gehienetan da \"{now}\" hautatua dagoelako "
-#~ "ezkerreko babeskopien zerrendan."
-
-#~ msgid "&View"
-#~ msgstr "&Ikusi"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " eta gehitu zure erabiltzailea 'fuse' taldera"
-
-#~ msgid "Diff Options"
-#~ msgstr "Diff aukerak"
-
-#~ msgid "Diff"
-#~ msgstr "Dif"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Lokala zifratua"
 
 #, python-format
 #~ msgid ""
@@ -1835,39 +1785,14 @@ msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
 #~ "da egingo are eta bera ere gehitu arte.\n"
 #~ "Nahi duzu gehitu esteka sinbolikoen helburu-objektuak?"
 
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Muntatze prozedura blokeatuta iraungitzean"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "5 minuturo"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Zerrendatu bakarri desberdinak diren babeskopiak"
-
-#, python-format
 #~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
-#~ "Huts egin du  %(user)s@%(host)s-en pasahitzik gabeko autentifikazioa. "
-#~ "Begiratu  'man backintime' azalpenak ikusteko."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "Ez da aurkitu %s ssh-known-host ostalarian."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr ""
-#~ "Huts egin du %s ping. Ostalaria erorita dago edo helbidea okerra da."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Hash talka gertatu da hemen: hash_id %s. Handitu hash_collision balioa "
-#~ "eta saiatu berriz."
+#~ "### Erregistro hau automatikoki bilatutako txantiloi baten bidez dekodetu "
+#~ "da\n"
+#~ "### Baldin eta bide-izenen bat ez badago dekodetua eskuz dekodetu "
+#~ "dezakezu honekin\n"
 
 #, python-format
 #~ msgid ""
@@ -1881,47 +1806,48 @@ msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
 #~ "zaitez eta sartu berriro.\n"
 #~ "Begira ezazu  'man backintime' azalpen zabalagoa izateko."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "Ez da aurkitu %s ssh-known-host ostalarian."
+
+#~ msgid "&Snapshot"
+#~ msgstr "&Babeskopia"
+
+#~ msgid "&View"
+#~ msgstr "&Ikusi"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "ERROREAK DAUDE!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "10 minuturo"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "30 minuturo"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "4 ordutan behin"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "6 ordutan behin"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "12 ordutan behin"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1929,30 +1855,78 @@ msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Aldaketa eta erroreak"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Config File Help"
+#~ msgstr "Config fitxategiaren laguntza"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Sortu pasahitzik gabeko SSH gako berri bat."
 
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Erregistro hau automatikoki bilatutako txantiloi baten bidez dekodetu "
-#~ "da\n"
-#~ "### Baldin eta bide-izenen bat ez badago dekodetua eskuz dekodetu "
-#~ "dezakezu honekin\n"
+#~ msgid "Diff"
+#~ msgstr "Dif"
+
+#~ msgid "Diff Options"
+#~ msgstr "Diff aukerak"
 
 #~ msgid "Error:"
 #~ msgstr "Errorea:"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "10 minuturo"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "12 ordutan behin"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "30 minuturo"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "4 ordutan behin"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "5 minuturo"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "6 ordutan behin"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "{n} ordutik behin"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Babeskopia: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Hash talka gertatu da hemen: hash_id %s. Handitu hash_collision balioa "
+#~ "eta saiatu berriz."
+
+#~ msgid "Key File"
+#~ msgstr "Gako fitxategia"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Zerrendatu bakarri desberdinak diren babeskopiak"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Lokala zifratua"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Muntatze prozedura blokeatuta iraungitzean"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "Huts egin du  %(user)s@%(host)s-en pasahitzik gabeko autentifikazioa. "
+#~ "Begiratu  'man backintime' azalpenak ikusteko."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr ""
+#~ "Huts egin du %s ping. Ostalaria erorita dago edo helbidea okerra da."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1962,8 +1936,21 @@ msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Berreskuratu  '%s' hona..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Aldaketa eta erroreak"
+#, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Leheneratu hautatutako fitxategi edo karpetak.\n"
+#~ "Botoi hau grisa badago gehienetan da \"{now}\" hautatua dagoelako "
+#~ "ezkerreko babeskopien zerrendan."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "Exekutatu 'ionice'"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "Exekutatu 'nice':"
 
 #, fuzzy
 #~ msgid "Run 'rsync' with 'ionice':"
@@ -1972,14 +1959,27 @@ msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
 #~ msgid "Run 'rsync' with 'nocache':"
 #~ msgstr "Exekutatu 'rsync' 'nocache'-rekin"
 
-#~ msgid "Key File"
-#~ msgstr "Gako fitxategia"
+#~ msgid "SSH"
+#~ msgstr "SSH"
 
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Sortu pasahitzik gabeko SSH gako berri bat."
+#~ msgid "Settings"
+#~ msgstr "Ezarpenak"
 
-#~ msgid "Run 'nice':"
-#~ msgstr "Exekutatu 'nice':"
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Babeskopia: %s"
 
-#~ msgid "Run 'ionice':"
-#~ msgstr "Exekutatu 'ionice'"
+#~ msgid "WITH ERRORS !"
+#~ msgstr "ERROREAK DAUDE!"
+
+#~ msgid "Working..."
+#~ msgstr "Lanean..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Ezin duzu babeskopiaren karpeta sartu babeskopian!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Ezin duzu babeskopiaren azpi-karpetak sartu babeskopian!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Ezin duzu ezabatu azken profila!"

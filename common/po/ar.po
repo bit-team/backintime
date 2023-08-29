@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/"
@@ -1689,12 +1689,124 @@ msgstr ""
 msgid "Exclude {path} from future snapshots?"
 msgstr ""
 
-#~ msgid "Working..."
-#~ msgstr "يعمل..."
+#, python-format
+#~ msgid ""
+#~ "%(user)s is not member of group 'fuse'.\n"
+#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login "
+#~ "again.\n"
+#~ "Look at 'man backintime' for further instructions."
+#~ msgstr ""
+#~ "%(user)s ليس عضوا في مجموعة 'fuse'.\n"
+#~ " شغل 'sudo adduser %(user)s fuse'. لتطبيق التغييرات سجّل الخروج ثم ادخل.\n"
+#~ "ألق نظرة على 'man backintime' لمزيد من التعليمات."
+
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "لم يوجد %s في ssh_known_hosts."
+
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "لقطات"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "تغييرات & أخطاء"
+
+#~ msgid "Diff"
+#~ msgstr "فرق"
+
+#~ msgid "Diff Options"
+#~ msgstr "خيارات الاختلافات"
+
+#~ msgid "Error:"
+#~ msgstr "خطأ:"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "كل ١٠ دقائق"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "كل ١٢ ساعات"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "كل ٣٠ دقيقة"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "كل ٤ ساعات"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "كل ٥ دقائق"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "كل ٦ ساعات"
 
 #, fuzzy, python-brace-format
 #~ msgid "Every {n} hours"
 #~ msgstr "كل ساعتان"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "سرد لقطات المُختلفة فقط"
+
+#, python-format
+#~ msgid "Restore '%s'"
+#~ msgstr "إسترجع '%s'"
+
+#, python-format
+#~ msgid "Restore '%s' to ..."
+#~ msgstr "إسترجع '%s' إلى ..."
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "إعدادات"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "لقطة: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "بأخطاء"
+
+#~ msgid "Working..."
+#~ msgstr "يعمل..."
 
 #, fuzzy
 #~ msgid "You can't include backup folder!"
@@ -1707,115 +1819,3 @@ msgstr ""
 #, fuzzy
 #~ msgid "You can't remove the last profile!"
 #~ msgstr "لا يُمكنك إزالة آخر ملف شخصي !"
-
-#~ msgid "Settings"
-#~ msgstr "إعدادات"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "لقطات"
-
-#~ msgid "Diff Options"
-#~ msgstr "خيارات الاختلافات"
-
-#~ msgid "Diff"
-#~ msgstr "فرق"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "كل ٥ دقائق"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "سرد لقطات المُختلفة فقط"
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "لم يوجد %s في ssh_known_hosts."
-
-#, python-format
-#~ msgid ""
-#~ "%(user)s is not member of group 'fuse'.\n"
-#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login "
-#~ "again.\n"
-#~ "Look at 'man backintime' for further instructions."
-#~ msgstr ""
-#~ "%(user)s ليس عضوا في مجموعة 'fuse'.\n"
-#~ " شغل 'sudo adduser %(user)s fuse'. لتطبيق التغييرات سجّل الخروج ثم ادخل.\n"
-#~ "ألق نظرة على 'man backintime' لمزيد من التعليمات."
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "بأخطاء"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "كل ١٠ دقائق"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "كل ٣٠ دقيقة"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "كل ٤ ساعات"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "كل ٦ ساعات"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "كل ١٢ ساعات"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "Error:"
-#~ msgstr "خطأ:"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "لقطة: %s"
-
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "إسترجع '%s'"
-
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "إسترجع '%s' إلى ..."
-
-#~ msgid "Changes & Errors"
-#~ msgstr "تغييرات & أخطاء"

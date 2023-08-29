@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/"
@@ -1753,30 +1753,40 @@ msgstr "هشدار"
 msgid "Exclude {path} from future snapshots?"
 msgstr "\"{path}\" را مورد استثنا قرار میدهی از اسنپ‌شات‌های آینده؟"
 
-#~ msgid "Working..."
-#~ msgstr "در حال کار..."
+#~ msgid " and add your user to group 'fuse'"
+#~ msgstr " و کاربر خود را به گروه 'fuse' اضافه کنید"
+
+#, python-format
+#~ msgid ""
+#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
+#~ "include it, too.\n"
+#~ "Would you like to include the symlinks target instead?"
+#~ msgstr ""
+#~ "\"%s\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که "
+#~ "شما این را هم شامل کنید.\n"
+#~ "آیا مایل به تمایلات هستید که در عوض پیوندهای نمادین هدف را شامل کنید؟"
+
+#~ msgid "&Snapshot"
+#~ msgstr "اسنپ‌شات‌ها"
+
+#~ msgid "&View"
+#~ msgstr "نمایه"
+
+#~ msgid "Config File Help"
+#~ msgstr "پیکربندی فایل کمک"
+
+#~ msgid "Diff"
+#~ msgstr "مقایسه کن"
+
+#~ msgid "Diff Options"
+#~ msgstr "گزینه‌های مقایسه"
 
 #, python-brace-format
 #~ msgid "Every {n} hours"
 #~ msgstr "هر {n} ساعت"
 
-#~ msgid "You can't include backup folder!"
-#~ msgstr "شما نمی‌توانید پوشه پشتیبان را شامل کنید!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "شما نمی‌توانید زیرپوشه پشتیبان را شامل کنید!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "شما نمیتوانید آخرین پروفایل را حذف کنید!"
-
-#~ msgid "Settings"
-#~ msgstr "تنظیمات"
-
-#~ msgid "&Snapshot"
-#~ msgstr "اسنپ‌شات‌ها"
-
-#~ msgid "Config File Help"
-#~ msgstr "پیکربندی فایل کمک"
+#~ msgid "Local encrypted"
+#~ msgstr "رمزنگاری شده محلی"
 
 #, python-brace-format
 #~ msgid ""
@@ -1788,30 +1798,20 @@ msgstr "\"{path}\" را مورد استثنا قرار میدهی از اسنپ�
 #~ "اگر این دکمه خاکستری شد، به نظر میاید که \"{now}\" در دست چپ لیست اسنپ‌شات‌ "
 #~ "انتخاب شده است."
 
-#~ msgid "&View"
-#~ msgstr "نمایه"
-
-#~ msgid " and add your user to group 'fuse'"
-#~ msgstr " و کاربر خود را به گروه 'fuse' اضافه کنید"
-
-#~ msgid "Diff Options"
-#~ msgstr "گزینه‌های مقایسه"
-
-#~ msgid "Diff"
-#~ msgstr "مقایسه کن"
-
 #~ msgid "SSH"
 #~ msgstr "اس‌اس‌اچ(SSH)"
 
-#~ msgid "Local encrypted"
-#~ msgstr "رمزنگاری شده محلی"
+#~ msgid "Settings"
+#~ msgstr "تنظیمات"
 
-#, python-format
-#~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
-#~ "include it, too.\n"
-#~ "Would you like to include the symlinks target instead?"
-#~ msgstr ""
-#~ "\"%s\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که "
-#~ "شما این را هم شامل کنید.\n"
-#~ "آیا مایل به تمایلات هستید که در عوض پیوندهای نمادین هدف را شامل کنید؟"
+#~ msgid "Working..."
+#~ msgstr "در حال کار..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "شما نمی‌توانید پوشه پشتیبان را شامل کنید!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "شما نمی‌توانید زیرپوشه پشتیبان را شامل کنید!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "شما نمیتوانید آخرین پروفایل را حذف کنید!"

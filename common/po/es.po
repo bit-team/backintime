@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/"
@@ -1700,49 +1700,90 @@ msgstr "ADVERTENCIA"
 msgid "Exclude {path} from future snapshots?"
 msgstr "¿Excluir \"{path}\" de futuras instantáneas?"
 
-#~ msgid "Working..."
-#~ msgstr "Trabajando..."
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Cada {n} horas"
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "¡No puede incluir una carpeta de copias de seguridad!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "¡No puede incluir una subcarpeta de copias de seguridad!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "¡No puede eliminar el último perfil!"
-
-#~ msgid "Settings"
-#~ msgstr "Preferencias"
-
-#~ msgid "&Snapshot"
-#~ msgstr "&Instantáneas"
-
-#~ msgid "Diff Options"
-#~ msgstr "Opciones al mostrar diferencias (Diff)"
-
-#~ msgid "Diff"
-#~ msgstr "Diferencias"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Encriptado local"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Cada cinco minutos"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Listar sólo instantáneas diferentes"
+#~ msgid ""
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
+#~ msgstr "Este log ha sido decodificado con busqueda automática de patrón.\n"
 
 #, python-format
 #~ msgid "%s not found in ssh_known_hosts."
 #~ msgstr "%s no se ha encontrado en ssh_known_hosts"
+
+#~ msgid "&Snapshot"
+#~ msgstr "&Instantáneas"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "Cambios & Errores"
+
+#~ msgid "Diff"
+#~ msgstr "Diferencias"
+
+#~ msgid "Diff Options"
+#~ msgstr "Opciones al mostrar diferencias (Diff)"
+
+#~ msgid "Error:"
+#~ msgstr "Error:"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "Cada diez minutos"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Cada 12 horas"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Cada 30 minutos"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Cada 4 horas"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Cada cinco minutos"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Cada 6 horas"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Cada {n} horas"
 
 #, python-format
 #~ msgid ""
@@ -1752,74 +1793,11 @@ msgstr "¿Excluir \"{path}\" de futuras instantáneas?"
 #~ "Una colisión Hash ha ocurrido en hash_id%s. Incremente el valor global "
 #~ "hash_collision y trate de nuevo."
 
-#~ msgid "..."
-#~ msgstr "..."
+#~ msgid "List only different snapshots"
+#~ msgstr "Listar sólo instantáneas diferentes"
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "¡CON ERRORES!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Cada diez minutos"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Cada 30 minutos"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Cada 4 horas"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Cada 6 horas"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Cada 12 horas"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr "Este log ha sido decodificado con busqueda automática de patrón.\n"
-
-#~ msgid "Error:"
-#~ msgstr "Error:"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Instantánea: %s"
+#~ msgid "Local encrypted"
+#~ msgstr "Encriptado local"
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1829,5 +1807,27 @@ msgstr "¿Excluir \"{path}\" de futuras instantáneas?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Recuperar '%s' en"
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Cambios & Errores"
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Preferencias"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Instantánea: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "¡CON ERRORES!"
+
+#~ msgid "Working..."
+#~ msgstr "Trabajando..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "¡No puede incluir una carpeta de copias de seguridad!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "¡No puede incluir una subcarpeta de copias de seguridad!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "¡No puede eliminar el último perfil!"

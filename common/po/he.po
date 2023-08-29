@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/"
@@ -1677,30 +1677,105 @@ msgstr "אזהרה"
 msgid "Exclude {path} from future snapshots?"
 msgstr "האם להמנע מ-\"{path}\" בגיבויים עתידיים?"
 
-#~ msgid "Working..."
-#~ msgstr "פועל..."
+#~ msgid " and add your user to group 'fuse'"
+#~ msgstr " ולהוסיף את המשתמש שלך לקבוצה ‚fuse’"
+
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s לא נמצא ברשימה ssh_known_hosts."
+
+#~ msgid "&Snapshot"
+#~ msgstr "&תמונת מצב"
+
+#~ msgid "&View"
+#~ msgstr "ת&צוגה"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "שינוים ושגיאות"
+
+#~ msgid "Config File Help"
+#~ msgstr "עזרה בקובץ הגדרות"
+
+#~ msgid "Diff"
+#~ msgstr "שינויים"
+
+#~ msgid "Diff Options"
+#~ msgstr "אפשרויות שינויים"
+
+#~ msgid "Error:"
+#~ msgstr "שגיאה:"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "כל 10 דקות"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "כל 12 שעות"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "כל 30 דקות"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "כל 4 שעות"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "כל 5 דקות"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "כל 6 שעות"
 
 #, python-brace-format
 #~ msgid "Every {n} hours"
 #~ msgstr "כל {n} שעות"
 
-#~ msgid "You can't include backup folder!"
-#~ msgstr "לא ניתן לכלול את תיקיית הגיבוי!"
+#~ msgid "Local encrypted"
+#~ msgstr "מוצפן מקומית"
 
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "לא ניתן לכלול תת־תיקיות של תיקיית הגיבוי!"
+#, python-format
+#~ msgid "Restore '%s'"
+#~ msgstr "לשחזר '%s'"
 
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "לא ניתן להסיר את הפרופיל האחרון!"
-
-#~ msgid "Settings"
-#~ msgstr "הגדרות"
-
-#~ msgid "&Snapshot"
-#~ msgstr "&תמונת מצב"
-
-#~ msgid "Config File Help"
-#~ msgstr "עזרה בקובץ הגדרות"
+#, python-format
+#~ msgid "Restore '%s' to ..."
+#~ msgstr "לשחזר '%s' ל..."
 
 #, python-brace-format
 #~ msgid ""
@@ -1712,102 +1787,27 @@ msgstr "האם להמנע מ-\"{path}\" בגיבויים עתידיים?"
 #~ "אם הכפתור הזה מושבת ומסומן באפור זה כנראה כיוון שבחרת ב„{now}” ברשימת "
 #~ "תמונות המצב שמימין."
 
-#~ msgid "&View"
-#~ msgstr "ת&צוגה"
-
-#~ msgid " and add your user to group 'fuse'"
-#~ msgstr " ולהוסיף את המשתמש שלך לקבוצה ‚fuse’"
-
-#~ msgid "Diff Options"
-#~ msgstr "אפשרויות שינויים"
-
-#~ msgid "Diff"
-#~ msgstr "שינויים"
-
 #~ msgid "SSH"
 #~ msgstr "SSH"
 
-#~ msgid "Local encrypted"
-#~ msgstr "מוצפן מקומית"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "כל 5 דקות"
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s לא נמצא ברשימה ssh_known_hosts."
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "עם שגיאות !"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "כל 10 דקות"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "כל 30 דקות"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "כל 4 שעות"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "כל 6 שעות"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "כל 12 שעות"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "Error:"
-#~ msgstr "שגיאה:"
+#~ msgid "Settings"
+#~ msgstr "הגדרות"
 
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "גיבוי: %s"
 
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "לשחזר '%s'"
+#~ msgid "WITH ERRORS !"
+#~ msgstr "עם שגיאות !"
 
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "לשחזר '%s' ל..."
+#~ msgid "Working..."
+#~ msgstr "פועל..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "שינוים ושגיאות"
+#~ msgid "You can't include backup folder!"
+#~ msgstr "לא ניתן לכלול את תיקיית הגיבוי!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "לא ניתן לכלול תת־תיקיות של תיקיית הגיבוי!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "לא ניתן להסיר את הפרופיל האחרון!"

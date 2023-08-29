@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-08-22 21:53+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/"
@@ -1829,63 +1829,8 @@ msgstr ""
 msgid "Exclude {path} from future snapshots?"
 msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 
-#~ msgid "Working..."
-#~ msgstr "Arbetar..."
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Var {n}:e timme"
-
-#, fuzzy
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Du kan inte inkludera mappen för säkerhetskopior!"
-
-#, fuzzy
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Du kan inte inkludera en undermapp för säkerhetskopior!"
-
-#, fuzzy
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Du kan inte ta bort den senaste profilen!"
-
-#~ msgid "Settings"
-#~ msgstr "Inställningar"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "Ögonblicksbild"
-
-#~ msgid "Config File Help"
-#~ msgstr "Hjälp för konfigurationsfil"
-
-#, fuzzy, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Återskapa vald fil eller mapp.\n"
-#~ "Om denna knapp är gråtonad är det högst sannolikt för att \"{now}\" är "
-#~ "vald i listan över ögonblicksbilder på vänstra sidan."
-
-#, fuzzy
-#~ msgid "&View"
-#~ msgstr "Visa"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " lägg till din användare till gruppen \"fuse\""
-
-#~ msgid "Diff Options"
-#~ msgstr "Jämförelsealternativ"
-
-#~ msgid "Diff"
-#~ msgstr "Jämförelse"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Lokal krypterad"
 
 #, python-format
 #~ msgid ""
@@ -1897,38 +1842,12 @@ msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 #~ "tills du inkluderar det också.\n"
 #~ "Vill du inkludera symlinks-målet istället?"
 
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Monteringsprocess lås tiden ute"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Var 5:e minut"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Lista endast olika ögonblicksbilder"
-
-#, python-format
 #~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
-#~ "Lösenordslös autentisering för %(user)s@%(host)s misslyckades. Se \"man "
-#~ "backintime\" för ytterligare instruktioner."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s hittades inte i ssh_known_hosts."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr "Pinga %s misslyckades. Värd är nere eller fel adress."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Hash-kollision inträffade i hash_id %s. Öka globalvärdet för "
-#~ "hash_collision och försök igen."
+#~ "### Den här loggen har avkodats med automatiskt sökmönster\n"
+#~ "### Om några sökvägar inte har avkodats kan du manuellt avkoda dem med:\n"
 
 #, python-format
 #~ msgid ""
@@ -1942,47 +1861,50 @@ msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 #~ "och logga in igen.\n"
 #~ "Se \"man backintime\" för ytterligare instruktioner."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s hittades inte i ssh_known_hosts."
+
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "Ögonblicksbild"
+
+#, fuzzy
+#~ msgid "&View"
+#~ msgstr "Visa"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "MED FEL!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Var 10:e minut"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Var 30:e minut"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Var 4:e timme"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Var 6:e timme"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Var 12:e timme"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1990,28 +1912,77 @@ msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Ändringar & fel"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Config File Help"
+#~ msgstr "Hjälp för konfigurationsfil"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Skapa en ny SSH-nyckel utan lösenord."
 
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Den här loggen har avkodats med automatiskt sökmönster\n"
-#~ "### Om några sökvägar inte har avkodats kan du manuellt avkoda dem med:\n"
+#~ msgid "Diff"
+#~ msgstr "Jämförelse"
+
+#~ msgid "Diff Options"
+#~ msgstr "Jämförelsealternativ"
 
 #~ msgid "Error:"
 #~ msgstr "Fel:"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "Var 10:e minut"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Var 12:e timme"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Var 30:e minut"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Var 4:e timme"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Var 5:e minut"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Var 6:e timme"
+
+#, fuzzy, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Var {n}:e timme"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Ögonblicksbild: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Hash-kollision inträffade i hash_id %s. Öka globalvärdet för "
+#~ "hash_collision och försök igen."
+
+#~ msgid "Key File"
+#~ msgstr "Nyckelfil"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Lista endast olika ögonblicksbilder"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Lokal krypterad"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Monteringsprocess lås tiden ute"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "Lösenordslös autentisering för %(user)s@%(host)s misslyckades. Se \"man "
+#~ "backintime\" för ytterligare instruktioner."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr "Pinga %s misslyckades. Värd är nere eller fel adress."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -2021,8 +1992,21 @@ msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Återställ \"%s\" till..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Ändringar & fel"
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Återskapa vald fil eller mapp.\n"
+#~ "Om denna knapp är gråtonad är det högst sannolikt för att \"{now}\" är "
+#~ "vald i listan över ögonblicksbilder på vänstra sidan."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "Kör \"ionice\":"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "Kör \"nice\":"
 
 #, fuzzy
 #~ msgid "Run 'rsync' with 'ionice':"
@@ -2031,14 +2015,30 @@ msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 #~ msgid "Run 'rsync' with 'nocache':"
 #~ msgstr "Kör \"rsync\" med \"nocache\":"
 
-#~ msgid "Key File"
-#~ msgstr "Nyckelfil"
+#~ msgid "SSH"
+#~ msgstr "SSH"
 
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Skapa en ny SSH-nyckel utan lösenord."
+#~ msgid "Settings"
+#~ msgstr "Inställningar"
 
-#~ msgid "Run 'nice':"
-#~ msgstr "Kör \"nice\":"
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Ögonblicksbild: %s"
 
-#~ msgid "Run 'ionice':"
-#~ msgstr "Kör \"ionice\":"
+#~ msgid "WITH ERRORS !"
+#~ msgstr "MED FEL!"
+
+#~ msgid "Working..."
+#~ msgstr "Arbetar..."
+
+#, fuzzy
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Du kan inte inkludera mappen för säkerhetskopior!"
+
+#, fuzzy
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Du kan inte inkludera en undermapp för säkerhetskopior!"
+
+#, fuzzy
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Du kan inte ta bort den senaste profilen!"

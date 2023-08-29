@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/"
@@ -1848,61 +1848,8 @@ msgstr ""
 msgid "Exclude {path} from future snapshots?"
 msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
 
-#~ msgid "Working..."
-#~ msgstr "Bezig met..."
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Iedere {n} uur"
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "U kunt de reservekopiemap niet toevoegen!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "U kunt geen onderliggende map van de reservekopiemap toevoegen!"
-
-#, fuzzy
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "U kunt het laatste profiel niet verwijderen!"
-
-#~ msgid "Settings"
-#~ msgstr "Instellingen"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "Reservekopie"
-
-#~ msgid "Config File Help"
-#~ msgstr "Configuratiebestand-hulp"
-
-#, fuzzy, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Geselecteerd bestand of map herstellen.\n"
-#~ "Wanneer deze knop grijs gedimd is komt dat hoogstwaarschijnlijk omdat "
-#~ "\"{now}\" is geselecteerd in de reservekopielijst aan de linkerkant."
-
-#, fuzzy
-#~ msgid "&View"
-#~ msgstr "Beeld"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " en uw gebruiker toe te voegen aan de groep 'fuse'"
-
-#~ msgid "Diff Options"
-#~ msgstr "Vergelijkopties"
-
-#~ msgid "Diff"
-#~ msgstr "Vergelijken met"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Lokaal versleuteld"
 
 #, python-format
 #~ msgid ""
@@ -1915,40 +1862,13 @@ msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
 #~ "Wilt u i.p.v. de symbolische link het doel zelf opnemen in de "
 #~ "reservekopie?"
 
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Time-out aankoppelprocesvergrendeling"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Elke 5 minuten"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Alleen reservekopieën tonen die verschillen"
-
-#, python-format
 #~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
-#~ "Authenticatie aanmelden zonder wachtwoord voor %(user)s@%(host)s is "
-#~ "mislukt. Bekijk de 'Back In Time-handleiding' voor verdere instructies."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s is niet gevonden in de ssh_bekende_gastcomputers."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr ""
-#~ "Pingen van %s is mislukt. Gastcomputer is uitgeschakeld of er is een "
-#~ "verkeerd adres gebruikt."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Er heeft een Hash collision plaatsgevonden in hash_id %s. Vergroot de "
-#~ "globale waarde voor hash_collision en probeer het opnieuw."
+#~ "### Dit logboek is gedecodeerd met automatisch zoekpatroon\n"
+#~ "### Als sommige paden niet gedecodeerd zijn dan kunt u deze handmatig "
+#~ "decoderen met:\n"
 
 #, python-format
 #~ msgid ""
@@ -1962,47 +1882,50 @@ msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
 #~ "te passen dient u zich eerst af te melden en daarna weer aan te melden.\n"
 #~ "Bekijk de 'Back In Time-handleiding' voor verdere instructies."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s is niet gevonden in de ssh_bekende_gastcomputers."
+
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "Reservekopie"
+
+#, fuzzy
+#~ msgid "&View"
+#~ msgstr "Beeld"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "MET FOUTEN!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Elke 10 minuten"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Elke 30 minuten"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Elke 4 uren"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Elke 6 uren"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Elke 12 uren"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -2010,29 +1933,79 @@ msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Wijzigingen & fouten"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Config File Help"
+#~ msgstr "Configuratiebestand-hulp"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Maak een nieuwe SSH-sleutel aan zonder wachtwoord."
 
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Dit logboek is gedecodeerd met automatisch zoekpatroon\n"
-#~ "### Als sommige paden niet gedecodeerd zijn dan kunt u deze handmatig "
-#~ "decoderen met:\n"
+#~ msgid "Diff"
+#~ msgstr "Vergelijken met"
+
+#~ msgid "Diff Options"
+#~ msgstr "Vergelijkopties"
 
 #~ msgid "Error:"
 #~ msgstr "Fout:"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "Elke 10 minuten"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Elke 12 uren"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Elke 30 minuten"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Elke 4 uren"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Elke 5 minuten"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Elke 6 uren"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Iedere {n} uur"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Reservekopie: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Er heeft een Hash collision plaatsgevonden in hash_id %s. Vergroot de "
+#~ "globale waarde voor hash_collision en probeer het opnieuw."
+
+#~ msgid "Key File"
+#~ msgstr "Sleutelbestand"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Alleen reservekopieën tonen die verschillen"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Lokaal versleuteld"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Time-out aankoppelprocesvergrendeling"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "Authenticatie aanmelden zonder wachtwoord voor %(user)s@%(host)s is "
+#~ "mislukt. Bekijk de 'Back In Time-handleiding' voor verdere instructies."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr ""
+#~ "Pingen van %s is mislukt. Gastcomputer is uitgeschakeld of er is een "
+#~ "verkeerd adres gebruikt."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -2042,8 +2015,21 @@ msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "'%s' herstellen naar..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Wijzigingen & fouten"
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Geselecteerd bestand of map herstellen.\n"
+#~ "Wanneer deze knop grijs gedimd is komt dat hoogstwaarschijnlijk omdat "
+#~ "\"{now}\" is geselecteerd in de reservekopielijst aan de linkerkant."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "'ionice' uitvoeren:"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "'nice' uitvoeren:"
 
 #, fuzzy
 #~ msgid "Run 'rsync' with 'ionice':"
@@ -2052,14 +2038,28 @@ msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
 #~ msgid "Run 'rsync' with 'nocache':"
 #~ msgstr "'rsync' uitvoeren met 'nocache':"
 
-#~ msgid "Key File"
-#~ msgstr "Sleutelbestand"
+#~ msgid "SSH"
+#~ msgstr "SSH"
 
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Maak een nieuwe SSH-sleutel aan zonder wachtwoord."
+#~ msgid "Settings"
+#~ msgstr "Instellingen"
 
-#~ msgid "Run 'nice':"
-#~ msgstr "'nice' uitvoeren:"
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Reservekopie: %s"
 
-#~ msgid "Run 'ionice':"
-#~ msgstr "'ionice' uitvoeren:"
+#~ msgid "WITH ERRORS !"
+#~ msgstr "MET FOUTEN!"
+
+#~ msgid "Working..."
+#~ msgstr "Bezig met..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "U kunt de reservekopiemap niet toevoegen!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "U kunt geen onderliggende map van de reservekopiemap toevoegen!"
+
+#, fuzzy
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "U kunt het laatste profiel niet verwijderen!"

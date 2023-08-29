@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-25 09:38+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/"
@@ -1763,58 +1763,8 @@ msgstr "ADVERTENCIA"
 msgid "Exclude {path} from future snapshots?"
 msgstr "Excluír «{path}» de instantáneas futuras?"
 
-#~ msgid "Working..."
-#~ msgstr "En proceso..."
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Cada {n} horas"
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Non pode incluír o cartafol da copia de seguranza!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Non pode incluír un sub-cartafol da copia de seguranza!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Non pode eliminar o último perfil!"
-
-#~ msgid "Settings"
-#~ msgstr "Axustes"
-
-#~ msgid "&Snapshot"
-#~ msgstr "In&stantánea"
-
-#~ msgid "Config File Help"
-#~ msgstr "Axuda para o ficheiro de configuración"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Restaurar o ficheiro ou cartafol seleccionado.\n"
-#~ "Se este botón está en gris probabelmente «{now}» está seleccionado na "
-#~ "lista de copias da esquerda."
-
-#~ msgid "&View"
-#~ msgstr "&Ver"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " e engadir o seu usuario ao grupo «fuse»"
-
-#~ msgid "Diff Options"
-#~ msgstr "Opcións de comparación"
-
-#~ msgid "Diff"
-#~ msgstr "Diferenzas"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Cifrado local"
 
 #, python-format
 #~ msgid ""
@@ -1826,38 +1776,13 @@ msgstr "Excluír «{path}» de instantáneas futuras?"
 #~ "inclúa.\n"
 #~ "Desexa incluír tamén o destino das ligazóns simbólicas?"
 
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Tempo de espera do bloqueo do proceso de montaxe"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Cada 5 minutos"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Listar unicamente as copias de seguranza diferentes"
-
-#, python-format
 #~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
-#~ "Fallou a autenticación de %(user)s@%(host)s. Vexa 'man backintime' para "
-#~ "máis instrucións."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s non se encotrou en ssh_known_hosts."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr "Fallou o ping %s. O servidor está caído ou o enderezo é incorrecto."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Produciuse un conflito de hash no hash_id %s. Incremente o valor global "
-#~ "hash_collision e probe de novo."
+#~ "### Este rexistro decodificouse cun patrón de busca automático\n"
+#~ "### Se algunhas rutas non están decodificadas pode facelo manualmente "
+#~ "con:\n"
 
 #, python-format
 #~ msgid ""
@@ -1871,47 +1796,48 @@ msgstr "Excluír «{path}» de instantáneas futuras?"
 #~ "sesión.\n"
 #~ "Vexa 'man backintime' para máis instrucións."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s non se encotrou en ssh_known_hosts."
+
+#~ msgid "&Snapshot"
+#~ msgstr "In&stantánea"
+
+#~ msgid "&View"
+#~ msgstr "&Ver"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "HAI ERROS"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Cada 10 minutos"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Cada 30 minutos"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Cada 4 horas"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Cada 6 horas"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Cada 12 horas"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1919,29 +1845,77 @@ msgstr "Excluír «{path}» de instantáneas futuras?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Cambios e erros"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Config File Help"
+#~ msgstr "Axuda para o ficheiro de configuración"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Crear unha nova chave SSH sen contrasinal."
 
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Este rexistro decodificouse cun patrón de busca automático\n"
-#~ "### Se algunhas rutas non están decodificadas pode facelo manualmente "
-#~ "con:\n"
+#~ msgid "Diff"
+#~ msgstr "Diferenzas"
+
+#~ msgid "Diff Options"
+#~ msgstr "Opcións de comparación"
 
 #~ msgid "Error:"
 #~ msgstr "Produciuse un erro"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "Cada 10 minutos"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Cada 12 horas"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Cada 30 minutos"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Cada 4 horas"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Cada 5 minutos"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Cada 6 horas"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Cada {n} horas"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Copia de seguranza: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Produciuse un conflito de hash no hash_id %s. Incremente o valor global "
+#~ "hash_collision e probe de novo."
+
+#~ msgid "Key File"
+#~ msgstr "Ficheiro de chaves"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Listar unicamente as copias de seguranza diferentes"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Cifrado local"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Tempo de espera do bloqueo do proceso de montaxe"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "Fallou a autenticación de %(user)s@%(host)s. Vexa 'man backintime' para "
+#~ "máis instrucións."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr "Fallou o ping %s. O servidor está caído ou o enderezo é incorrecto."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1951,8 +1925,21 @@ msgstr "Excluír «{path}» de instantáneas futuras?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Restabelecer '%s' como ..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Cambios e erros"
+#, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Restaurar o ficheiro ou cartafol seleccionado.\n"
+#~ "Se este botón está en gris probabelmente «{now}» está seleccionado na "
+#~ "lista de copias da esquerda."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "Executar «ionice»:"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "Executar «nice»:"
 
 #, fuzzy
 #~ msgid "Run 'rsync' with 'ionice':"
@@ -1961,14 +1948,27 @@ msgstr "Excluír «{path}» de instantáneas futuras?"
 #~ msgid "Run 'rsync' with 'nocache':"
 #~ msgstr "Executar «rsync» con «nocache»:"
 
-#~ msgid "Key File"
-#~ msgstr "Ficheiro de chaves"
+#~ msgid "SSH"
+#~ msgstr "SSH"
 
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Crear unha nova chave SSH sen contrasinal."
+#~ msgid "Settings"
+#~ msgstr "Axustes"
 
-#~ msgid "Run 'nice':"
-#~ msgstr "Executar «nice»:"
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Copia de seguranza: %s"
 
-#~ msgid "Run 'ionice':"
-#~ msgstr "Executar «ionice»:"
+#~ msgid "WITH ERRORS !"
+#~ msgstr "HAI ERROS"
+
+#~ msgid "Working..."
+#~ msgstr "En proceso..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Non pode incluír o cartafol da copia de seguranza!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Non pode incluír un sub-cartafol da copia de seguranza!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Non pode eliminar o último perfil!"

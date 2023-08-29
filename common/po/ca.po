@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/"
@@ -1674,50 +1674,6 @@ msgstr ""
 msgid "Exclude {path} from future snapshots?"
 msgstr ""
 
-#~ msgid "Working..."
-#~ msgstr "S'està treballant..."
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Cada {n} hores"
-
-#, fuzzy
-#~ msgid "You can't include backup folder!"
-#~ msgstr "No podeu incloure la carpeta de còpies de seguretat!"
-
-#, fuzzy
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "No podeu incloure una subcarpeta de còpies de seguretat!"
-
-#, fuzzy
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "No es pot esborrar el darrer perfil !"
-
-#~ msgid "Settings"
-#~ msgstr "Configuració"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "Instantànies"
-
-#~ msgid "Diff Options"
-#~ msgstr "Opcions de diff"
-
-#~ msgid "Diff"
-#~ msgstr "Diff"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Xifrat local"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Cada 5 minuts"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "LLista només les instantànies diferents"
-
 #, python-format
 #~ msgid ""
 #~ "%(user)s is not member of group 'fuse'.\n"
@@ -1730,47 +1686,42 @@ msgstr ""
 #~ "sortiu i torneu a entrar a la sessió.\n"
 #~ "Mireu a 'man backintime' per a més instruccions."
 
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "Instantànies"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "AMB ERRORS !"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Cada 10 minuts"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Cada 30 minuts"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Cada 4 hores"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Cada 6 hores"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Cada 12 hores"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1778,21 +1729,45 @@ msgstr ""
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Canvis i Errors"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Diff"
+#~ msgstr "Diff"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Diff Options"
+#~ msgstr "Opcions de diff"
 
 #~ msgid "Error:"
 #~ msgstr "S'ha produït un error:"
 
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Instantània: %s"
+#~ msgid "Every 10 minutes"
+#~ msgstr "Cada 10 minuts"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Cada 12 hores"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Cada 30 minuts"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Cada 4 hores"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Cada 5 minuts"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Cada 6 hores"
+
+#, fuzzy, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Cada {n} hores"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "LLista només les instantànies diferents"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Xifrat local"
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1802,5 +1777,30 @@ msgstr ""
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Restaura '%s' a..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Canvis i Errors"
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Configuració"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Instantània: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "AMB ERRORS !"
+
+#~ msgid "Working..."
+#~ msgstr "S'està treballant..."
+
+#, fuzzy
+#~ msgid "You can't include backup folder!"
+#~ msgstr "No podeu incloure la carpeta de còpies de seguretat!"
+
+#, fuzzy
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "No podeu incloure una subcarpeta de còpies de seguretat!"
+
+#, fuzzy
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "No es pot esborrar el darrer perfil !"

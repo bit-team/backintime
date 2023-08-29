@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/"
@@ -1726,77 +1726,13 @@ msgstr ""
 msgid "Exclude {path} from future snapshots?"
 msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 
-#~ msgid "Working..."
-#~ msgstr "Dolgozom..."
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "{n} óránként"
-
-#, fuzzy
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Nem adható hozzá a biztonsági mentés mappája!"
-
-#, fuzzy
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Nem adható hozzá a biztonsági mentés almappája!"
-
-#, fuzzy
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Nem távolíthatod el az utolsó profilt!"
-
-#~ msgid "Settings"
-#~ msgstr "Beállítások"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "Pillanatképek"
-
-#~ msgid "Diff Options"
-#~ msgstr "Diff beállítások"
-
-#~ msgid "Diff"
-#~ msgstr "Különbség"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Helyi titkosított"
-
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "A csatolási folyamat túl sok időt vett igénybe"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Ötpercenként"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Csak az eltérő pillanatképek listázása"
-
-#, python-format
 #~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
+#~ "### This log has been decoded with automatic search pattern\n"
+#~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
-#~ "A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a "
-#~ "'man backintime'-ot további részletekért."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "A(z) %s nem található itt: ssh_known_hosts."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr ""
-#~ "A(z) %s ping sikertelen volt. A kiszolgáló nem működik vagy rossz a cím."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Hash-ütközés történt: hash_id %s. Megnövelem a hash_collision értékét, és "
-#~ "újra próbálom."
+#~ "### Ezt a naplófájlt automatikus keresési mintával dekódolták\n"
+#~ "### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel "
+#~ "dekódolni:\n"
 
 #, python-format
 #~ msgid ""
@@ -1810,47 +1746,46 @@ msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 #~ "és vissza.\n"
 #~ "Nézd meg a 'man backintime'-ot további részletekért."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "A(z) %s nem található itt: ssh_known_hosts."
+
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "Pillanatképek"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "HIBÁKKAL!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Tízpercenként"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "30 percenként"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Négyóránként"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Hatóránként"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Tizenkétóránként"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1858,29 +1793,69 @@ msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Változások & Hibák"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Diff"
+#~ msgstr "Különbség"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Ezt a naplófájlt automatikus keresési mintával dekódolták\n"
-#~ "### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel "
-#~ "dekódolni:\n"
+#~ msgid "Diff Options"
+#~ msgstr "Diff beállítások"
 
 #~ msgid "Error:"
 #~ msgstr "Hiba:"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "Tízpercenként"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Tizenkétóránként"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "30 percenként"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Négyóránként"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Ötpercenként"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Hatóránként"
+
+#, fuzzy, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "{n} óránként"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Pillanatkép: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "Hash-ütközés történt: hash_id %s. Megnövelem a hash_collision értékét, és "
+#~ "újra próbálom."
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Csak az eltérő pillanatképek listázása"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Helyi titkosított"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "A csatolási folyamat túl sok időt vett igénybe"
+
+#, python-format
+#~ msgid ""
+#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+#~ "backintime' for further instructions."
+#~ msgstr ""
+#~ "A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a "
+#~ "'man backintime'-ot további részletekért."
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr ""
+#~ "A(z) %s ping sikertelen volt. A kiszolgáló nem működik vagy rossz a cím."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1890,5 +1865,30 @@ msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "A(z) '%s' visszaállítása ide..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Változások & Hibák"
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Beállítások"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Pillanatkép: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "HIBÁKKAL!"
+
+#~ msgid "Working..."
+#~ msgstr "Dolgozom..."
+
+#, fuzzy
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Nem adható hozzá a biztonsági mentés mappája!"
+
+#, fuzzy
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Nem adható hozzá a biztonsági mentés almappája!"
+
+#, fuzzy
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Nem távolíthatod el az utolsó profilt!"

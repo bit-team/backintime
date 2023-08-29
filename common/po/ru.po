@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-08-15 11:53+0000\n"
 "Last-Translator: Dmitriy Q <krotesk@mail.ru>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/"
@@ -1768,81 +1768,8 @@ msgstr "ПРЕДУПРЕЖДЕНИЕ"
 msgid "Exclude {path} from future snapshots?"
 msgstr "Исключить \"{path}\" из будущих снимков?"
 
-#~ msgid "Working..."
-#~ msgstr "Выполняется..."
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Каждые {n} часа"
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Вы не можете добавить папку для резервного копирования!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Вы не можете включить резервную вложенную папку!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Невозможно удалить последний профиль!"
-
-#~ msgid "Settings"
-#~ msgstr "Настройки"
-
-#~ msgid "&Snapshot"
-#~ msgstr "&Снимок"
-
-#~ msgid "Config File Help"
-#~ msgstr "Справка о файле конфигурации"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Восстановить выбранный файл или папку.\n"
-#~ "Если эта кнопка выделена серым цветом, то, скорее всего, в левом списке "
-#~ "снимков выбран \"{now}\"."
-
-#~ msgid "&View"
-#~ msgstr "&Вид"
-
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " и добавить пользователя в группу 'fuse'"
-
-#~ msgid "Diff Options"
-#~ msgstr "Параметры сравнения"
-
-#~ msgid "Diff"
-#~ msgstr "Различия"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Локальное шифрование"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Каждые 5 минут"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Показать только различающиеся снимки состояния"
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s не найдено в ssh_known_hosts."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr ""
-#~ "Отсутсвует подключение к %s. Сервер не отвечает или неправильный адрес."
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "В hash_id %s возникла хеш-коллизия. Увеличьте глобальную переменую "
-#~ "hash_collision и попробуйте снова."
 
 #, python-format
 #~ msgid ""
@@ -1856,47 +1783,48 @@ msgstr "Исключить \"{path}\" из будущих снимков?"
 #~ "выйдите и войдите снова.\n"
 #~ "Выполните 'man backintime' для дальнейших инструкций."
 
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "%s не найдено в ssh_known_hosts."
+
+#~ msgid "&Snapshot"
+#~ msgstr "&Снимок"
+
+#~ msgid "&View"
+#~ msgstr "&Вид"
+
 #~ msgid "..."
 #~ msgstr "..."
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "С ОШИБКАМИ!"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Каждые 10 минут"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Каждые 30 минут"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Каждые 4 часа"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Каждые 6 часов"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Каждые 12 часов"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
 
 #~ msgid "AES128-CBC"
 #~ msgstr "AES128-CBC"
 
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
 
 #~ msgid "Blowfish-CBC"
 #~ msgstr "Blowfish-CBC"
@@ -1904,21 +1832,64 @@ msgstr "Исключить \"{path}\" из будущих снимков?"
 #~ msgid "Cast128-CBC"
 #~ msgstr "Cast128-CBC"
 
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
+#~ msgid "Changes & Errors"
+#~ msgstr "Изменения и ошибки"
 
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
+#~ msgid "Config File Help"
+#~ msgstr "Справка о файле конфигурации"
 
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
+#~ msgid "Diff"
+#~ msgstr "Различия"
+
+#~ msgid "Diff Options"
+#~ msgstr "Параметры сравнения"
 
 #~ msgid "Error:"
 #~ msgstr "Ошибка:"
 
+#~ msgid "Every 10 minutes"
+#~ msgstr "Каждые 10 минут"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Каждые 12 часов"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Каждые 30 минут"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Каждые 4 часа"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Каждые 5 минут"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Каждые 6 часов"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Каждые {n} часа"
+
 #, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Резервная копия: %s"
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "В hash_id %s возникла хеш-коллизия. Увеличьте глобальную переменую "
+#~ "hash_collision и попробуйте снова."
+
+#~ msgid "Key File"
+#~ msgstr "Файл ключа"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Показать только различающиеся снимки состояния"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Локальное шифрование"
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr ""
+#~ "Отсутсвует подключение к %s. Сервер не отвечает или неправильный адрес."
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1928,8 +1899,15 @@ msgstr "Исключить \"{path}\" из будущих снимков?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Восстановить '%s' в ..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Изменения и ошибки"
+#, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is "
+#~ "selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Восстановить выбранный файл или папку.\n"
+#~ "Если эта кнопка выделена серым цветом, то, скорее всего, в левом списке "
+#~ "снимков выбран \"{now}\"."
 
 #, fuzzy
 #~ msgid "Run 'rsync' with 'ionice':"
@@ -1938,5 +1916,27 @@ msgstr "Исключить \"{path}\" из будущих снимков?"
 #~ msgid "Run 'rsync' with 'nocache':"
 #~ msgstr "Запустить 'rsync' как 'nocache':"
 
-#~ msgid "Key File"
-#~ msgstr "Файл ключа"
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Настройки"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Резервная копия: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "С ОШИБКАМИ!"
+
+#~ msgid "Working..."
+#~ msgstr "Выполняется..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Вы не можете добавить папку для резервного копирования!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Вы не можете включить резервную вложенную папку!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Невозможно удалить последний профиль!"

@@ -96,6 +96,7 @@ def update_po_language_files():
             '--verbose',
             f'--lang={lang}',
             '--update',
+            '--sort-by-file',
             '--backup=off',  # don't create *.po~ files
             f'{po_path}',
             f'{TEMPLATE_PO}'

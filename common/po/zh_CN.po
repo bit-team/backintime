@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:10+0200\n"
+"POT-Creation-Date: 2023-08-29 21:11+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/"
@@ -1704,12 +1704,133 @@ msgstr "警告"
 msgid "Exclude {path} from future snapshots?"
 msgstr "在未来的快照中排除 \"{path}\"？"
 
-#~ msgid "Working..."
-#~ msgstr "正在进行..."
+#~ msgid " and add your user to group 'fuse'"
+#~ msgstr " 把用户加入到 'fuse' 组"
+
+#, python-format
+#~ msgid "%s not found in ssh_known_hosts."
+#~ msgstr "未在 ssh_known_hosts 中找到 %s。"
+
+#, fuzzy
+#~ msgid "&Snapshot"
+#~ msgstr "快照"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "变更 & 错误"
+
+#~ msgid "Diff"
+#~ msgstr "差异"
+
+#~ msgid "Diff Options"
+#~ msgstr "Diff 选项"
+
+#~ msgid "Error:"
+#~ msgstr "错误："
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "每10分钟"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "每12小时"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "每30分钟"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "每4小时"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "每5分钟"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "每6小时"
 
 #, python-brace-format
 #~ msgid "Every {n} hours"
 #~ msgstr "每{n}小时"
+
+#, python-format
+#~ msgid ""
+#~ "Hash collision occurred in hash_id %s. Incrementing global value "
+#~ "hash_collision and try again."
+#~ msgstr ""
+#~ "在 hash_id %s 中发现哈希碰撞。请递增 hash_collision 的全局设定值并重试。"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "仅列出不同的快照"
+
+#~ msgid "Local encrypted"
+#~ msgstr "本地加密"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "解除挂载锁超时"
+
+#, python-format
+#~ msgid "Ping %s failed. Host is down or wrong address."
+#~ msgstr "Ping %s 失败。可能主机未上线或您输入的地址错误。"
+
+#, python-format
+#~ msgid "Restore '%s'"
+#~ msgstr "还原 '%s'"
+
+#, python-format
+#~ msgid "Restore '%s' to ..."
+#~ msgstr "还原 '%s' 至 ..."
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "设置"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "快照：%s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "发生错误！"
+
+#~ msgid "Working..."
+#~ msgstr "正在进行..."
 
 #, fuzzy
 #~ msgid "You can't include backup folder!"
@@ -1722,124 +1843,3 @@ msgstr "在未来的快照中排除 \"{path}\"？"
 #, fuzzy
 #~ msgid "You can't remove the last profile!"
 #~ msgstr "不能删除唯一的配置！"
-
-#~ msgid "Settings"
-#~ msgstr "设置"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "快照"
-
-#~ msgid " and add your user to group 'fuse'"
-#~ msgstr " 把用户加入到 'fuse' 组"
-
-#~ msgid "Diff Options"
-#~ msgstr "Diff 选项"
-
-#~ msgid "Diff"
-#~ msgstr "差异"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Local encrypted"
-#~ msgstr "本地加密"
-
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "解除挂载锁超时"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "每5分钟"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "仅列出不同的快照"
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "未在 ssh_known_hosts 中找到 %s。"
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr "Ping %s 失败。可能主机未上线或您输入的地址错误。"
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "在 hash_id %s 中发现哈希碰撞。请递增 hash_collision 的全局设定值并重试。"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "发生错误！"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "每10分钟"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "每30分钟"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "每4小时"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "每6小时"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "每12小时"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "Error:"
-#~ msgstr "错误："
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "快照：%s"
-
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "还原 '%s'"
-
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "还原 '%s' 至 ..."
-
-#~ msgid "Changes & Errors"
-#~ msgstr "变更 & 错误"
