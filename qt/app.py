@@ -400,8 +400,14 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+        # Finished countdown of manual GUI starts
         if 0 == self.config.manual_starts_countdown():
+
+            # Do nothing if English is the current used language
             if self.config.language_used != 'en':
+
+                # Show the message only if teh current used language is
+                # translated equal or less then 97%
                 self._open_approach_translator_dialog(cutoff=97)
 
         # BIT counts down how often the GUI was started. Until the end of that
