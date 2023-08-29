@@ -1785,7 +1785,6 @@ files that the receiver requests to be transferred.""")
 
         dlg.exec()
 
-        print(f'{self.config.language()=} {dlg.language_code=}')
         # Apply/OK pressed & the language value modified
         if dlg.result() == 1 and self.config.language() != dlg.language_code:
 
