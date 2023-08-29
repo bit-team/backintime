@@ -28,6 +28,7 @@ PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text().strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 
+
 def update_po_template():
     """The po template file is update via `xgettext`.
 
@@ -67,6 +68,8 @@ def update_po_template():
         f'--package-version="{PACKAGE_VERSION}"',
         f'--msgid-bugs-address={BUG_ADDRESS}',
         f'--output={TEMPLATE_PO}',
+        '--sort-by-file',
+        '--sort-output',
     ]
     cmd.extend(py_files)
 
