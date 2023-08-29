@@ -19,6 +19,7 @@ Version 1.3.4-dev (development of upcoming release)
            6: New snapshot taken but with errors.
 * Feature: The `rsync` exit code is now contained in the snapshot log (part of #489). Example:
            [E] Error: 'rsync' ended with exit code -9 (negative values are signal numbers, see 'kill -l')
+* Fix bug: Treat rsync exit code 24 as INFO instead of ERROR (#1506)
 * Breaking change: Minimal Python version 3.8 required (#1358).
 * Removed: Handling and checking of user group "fuse" (#1472).
 * Feature: Exclude /swapfile by default (#1053)
