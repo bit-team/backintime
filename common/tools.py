@@ -196,24 +196,24 @@ def get_available_language_codes():
 
     # full path of one mo-file
     # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
-    po = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
+    mo = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
 
-    if po:
-        po = pathlib.Path(po)
+    if mo:
+        mo = pathlib.Path(mo)
     else:
         # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
         # language. Should be re-design.
-        po = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.po'
+        mo = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.mo'
 
     # e.g. de/LC_MESSAGES/backintime.mo
-    po = po.relative_to(_GETTEXT_LOCALE_DIR)
+    mo = mo.relative_to(_GETTEXT_LOCALE_DIR)
 
     # e.g. */LC_MESSAGES/backintime.mo
-    po = pathlib.Path('*') / pathlib.Path(*po.parts[1:])
+    mo = pathlib.Path('*') / pathlib.Path(*mo.parts[1:])
 
-    pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
+    mofiles = _GETTEXT_LOCALE_DIR.rglob(str(mo))
 
-    return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
+    return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in mofiles]
 
 
 def get_language_names(language_code):
@@ -261,6 +261,23 @@ def get_language_names(language_code):
         result[c] = names
 
     return result
+
+
+def get_native_language_and_completeness(language_code):
+    """Return the language name in its native flavour and the completeness of
+    its translation in percent.
+
+    Args:
+        language_code(str): The language code.
+
+    Returns:
+        A two-entry tuple with language name as string and a percent as
+        integer.
+    """
+    name = languages.names[language_code][language_code]
+    completeness = languages.completeness[language_code]
+
+    return (name, completeness)
 
 
 # |------------------------------------|
