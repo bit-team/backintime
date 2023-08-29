@@ -25,7 +25,7 @@ class LanguageDialog(QDialog):
         self.used_language_code = used_language_code
         self.configured_language_code = configured_language_code
 
-        self.setWindowTitle(_('Language selection'))
+        self.setWindowTitle(_('Setup language'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
         scroll = QScrollArea(self)
@@ -41,10 +41,9 @@ class LanguageDialog(QDialog):
         self._scroll.setMinimumWidth(new_width)
 
         buttonbox = QDialogButtonBox(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Apply, self)
+            QDialogButtonBox.Cancel | QDialogButtonBox.OK, self)
 
-        # ApplyRole emits "clicked" instead of "accepted"
-        buttonbox.clicked.connect(self.accept)
+        buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
 
         layout = QVBoxLayout(self)
@@ -192,7 +191,7 @@ class ApproachTranslatorDialog(QDialog):
             'level of technical expertise, you can contribute to the '
             'translation and thus Back In Time itself.'
             '\n'
-            'Please visit the {translation_platform_url}. If you wish '
+            'Please visit the {translation_platform_url} if you wish '
             'to contribute. For further assistance and questions, '
             'please visit the {back_in_time_project_website}.'
             '\n'
@@ -223,10 +222,7 @@ class ApproachTranslatorDialog(QDialog):
 
         return result
 
-
     def __init__(self, parent, language_name, completeness):
-        """
-        """
         super().__init__(parent)
 
         self.setWindowTitle(_('Your translation'))

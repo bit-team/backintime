@@ -481,7 +481,7 @@ class MainWindow(QMainWindow):
                 self.btnLastLogViewClicked, None,
                 None),
             'act_settings': (
-                icon.SETTINGS, _('Manage profiles…'),
+                icon.SETTINGS, '{}…'.format(_('Manage profiles')),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
             'act_shutdown': (
@@ -489,7 +489,7 @@ class MainWindow(QMainWindow):
                 None, None,
                 _('Shut down system after snapshot has finished.')),
             'act_setup_language': (
-                None, _('Setup language…'),
+                None, '{}…'.format(_('Setup language')),
                 self.slot_setup_language, None,
                 None),
             'act_quit': (
@@ -551,7 +551,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, _('Compare snapshots…'),
+                icon.SNAPSHOTS, '{}…'.format(_('Compare snapshots')),
                 self.btnSnapshotsClicked, None, None),
         }
 
