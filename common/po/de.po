@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 14:42+0200\n"
+"POT-Creation-Date: 2023-08-29 21:02+0200\n"
 "PO-Revision-Date: 2023-08-29 12:27+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/"
@@ -18,102 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profil »{profile}«: Bitte Passwort für {mode} eingeben: "
-
-#: common/sshtools.py:204
-#, fuzzy, python-brace-format
-msgid "Can't mount {sshfs}"
-msgstr "%s kann nicht eingebunden werden"
-
-#: common/sshtools.py:264
-msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
-
-#: common/sshtools.py:407
-msgid ""
-"Could not unlock ssh private key. Wrong password or password not available "
-"for cron."
-msgstr ""
-"Privater SSH-Schlüssel konnte nicht entsperrt werden. Passwort falsch oder "
-"für cron nicht verfügbar."
-
-#: common/sshtools.py:495
-#, fuzzy, python-brace-format
-msgid "Cipher {cipher} failed for {host}"
-msgstr ""
-"Verschlüsselungsverfahren %(cipher)s fehlgeschlagen für %(host)s:\n"
-"%(err)s"
-
-#: common/sshtools.py:642
-#, fuzzy
-msgid "Remote path exists but is not a directory"
-msgstr ""
-"Der Pfad existiert auf dem entfernten Rechner, ist aber kein Verzeichnis:\n"
-"%s"
-
-#: common/sshtools.py:647
-#, fuzzy
-msgid "Remote path is not writable"
-msgstr ""
-"Der Pfad auf dem entfernten Rechner ist nicht beschreibbar:\n"
-"%s"
-
-#: common/sshtools.py:652
-#, fuzzy
-msgid "Remote path is not executable"
-msgstr ""
-"Der Pfad auf dem entfernten Rechner ist nicht ausführbar:\n"
-"%s"
-
-#: common/sshtools.py:657
-#, fuzzy
-msgid "Couldn't create remote path"
-msgstr ""
-"Erstellen des Pfades auf dem entfernten Rechner fehlgeschlagen:\n"
-"%s"
-
-#: common/sshtools.py:937
-#, fuzzy, python-brace-format
-msgid "Remote host {host} doesn't support {command}"
-msgstr "Der entfernte Rechner %s unterstützt keine Hardlinks"
-
-#: common/sshtools.py:941 common/sshtools.py:950
-#, fuzzy
-msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Entfernter Rechner %(host)s unterstützt »%(command)s« nicht:\n"
-"%(err)s\n"
-"Weitere Informationen unter »man backintime«"
-
-#: common/sshtools.py:945
-#, fuzzy, python-brace-format
-msgid "Check commands on host {host} returned unknown error"
-msgstr ""
-"Überprüfen der Befehle auf dem Rechner %(host)s gab unbekanntem Fehler "
-"zurück:\n"
-"%(err)s\n"
-"Weitere Informationen unter »man backintime«."
-
-#: common/sshtools.py:966
-#, fuzzy, python-brace-format
-msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Der entfernte Rechner %s unterstützt keine Hardlinks"
-
-#: common/sshtools.py:1049
-#, python-brace-format
-msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr ""
-"Den öffentlichen SSH-Schlüssel »{pubkey}« zum entfernten Rechner »{host}« "
-"kopieren"
-
-#: common/sshtools.py:1051
-#, python-brace-format
-msgid "Please enter password for \"{user}\""
-msgstr "Bitte Passwort für »{user}« eingeben"
 
 #: common/mount.py:600
 #, fuzzy, python-brace-format
@@ -131,169 +35,9 @@ msgstr ""
 msgid "mountpoint {} not empty."
 msgstr "Einhängepunkt %s ist nicht leer."
 
-#: common/snapshots.py:341 common/snapshots.py:592
-msgid "FAILED"
-msgstr "FEHLGESCHLAGEN"
-
-#: common/snapshots.py:538 common/snapshots.py:600
-msgid "Restore permissions"
-msgstr "Berechtigungen wiederherstellen"
-
-#: common/snapshots.py:595 qt/app.py:287 qt/app.py:912 qt/app.py:947
-#: qt/qtsystrayicon.py:78
-msgid "Done"
-msgstr "Fertig"
-
-#: common/snapshots.py:703
-msgid "Deferring backup while on battery"
-msgstr "Aufschieben der Sicherung im Akkubetrieb"
-
-#: common/snapshots.py:765
-msgid ""
-"Can't find snapshots folder.\n"
-"If it is on a removable drive please plug it in."
-msgstr ""
-"Schnappschussordner konnte nicht gefunden werden.\n"
-"Wenn es ein Wechsellaufwerk ist, bitte verbinden."
-
-#: common/snapshots.py:767
-#, python-format
-msgid "Waiting %s second."
-msgid_plural "Waiting %s seconds."
-msgstr[0] "%s Sekunde wird gewartet."
-msgstr[1] "%s Sekunden wird gewartet."
-
-#: common/snapshots.py:804
-#, fuzzy, python-brace-format
-msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Schnappschuss {snapshot_id} konnte nicht erstellt werden!"
-
-#: common/snapshots.py:821
-msgid "Finalizing"
-msgstr "Finalisierung läuft"
-
-#: common/snapshots.py:907 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Schnappschuss erstellen"
-
-#: common/snapshots.py:942
-msgid "Can't create folder"
-msgstr "Verzeichnis kann nicht erstellt werden"
-
-#: common/snapshots.py:959
-msgid "Saving config file..."
-msgstr "Konfigurationsdatei wird gespeichert …"
-
-#: common/snapshots.py:1035
-msgid "Saving permissions..."
-msgstr "Zugriffsrechte werden gespeichert …"
-
-#: common/snapshots.py:1143
-#, python-brace-format
-msgid "Found leftover {snapshot_id} which can be continued."
-msgstr ""
-"Schnappschuss »{snapshot_id}« gefunden, welcher fortgesetzt werden kann."
-
-#: common/snapshots.py:1162
-#, python-brace-format
-msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr "Schnappschuss »{snapshot_id}« vom letzten Vorgang wird entfernt"
-
-#: common/snapshots.py:1172
-msgid "Can't remove folder"
-msgstr "Ordner kann nicht entfernt werden"
-
-#: common/snapshots.py:1215
-msgid "Taking snapshot"
-msgstr "Schnappschuss wird erstellt"
-
-#: common/snapshots.py:1247
-#, python-brace-format
-msgid ""
-"Error: 'rsync' ended with exit code {exit_code} (negative values are signal "
-"numbers, see 'kill -l')"
-msgstr ""
-
-#: common/snapshots.py:1263
-msgid "Nothing changed, no new snapshot necessary"
-msgstr "Keine Änderungen, es ist kein neuer Schnappschuss notwendig"
-
-#: common/snapshots.py:1294
-#, python-brace-format
-msgid "Can't rename {new_path} to {path}"
-msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen"
-
-#: common/snapshots.py:1612 common/snapshots.py:1664 qt/settingsdialog.py:672
-msgid "Smart remove"
-msgstr "Intelligentes Löschen"
-
-#: common/snapshots.py:1639
-msgid "Removing old snapshots"
-msgstr "Alte Schnappschüsse werden entfernt"
-
-#: common/snapshots.py:1674
-msgid "Trying to keep min free space"
-msgstr "Das Minimum an freiem Speicher wird freigehalten"
-
-#: common/snapshots.py:1713
-#, python-brace-format
-msgid "Trying to keep min {perc} free inodes"
-msgstr "Es wird versucht mindestens {perc} freie Inodes zu behalten"
-
-#: common/snapshots.py:2795 qt/app.py:1595
-msgid "Now"
-msgstr "Jetzt"
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "Speichern der Konfiguration ist fehlgeschlagen"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "Laden der Konfiguration ist fehlgeschlagen"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Profil »{name}« bereits vorhanden!"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "Das kann nicht rückgängig gemacht werden!"
-
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "»{command}« kann nicht eingehängt werden"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Einstellungen für den verschlüsselten Ordner nicht gefunden."
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "Soll ein neuer verschlüsselter Ordner erstellt werden?"
-
-#: common/encfstools.py:146 common/config.py:50
+#: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
 msgstr "Abbruch"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Passwort bitte bestätigen"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr "Passwort stimmt nicht überein"
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-"encfs-Version 1.7.2 und davor haben einen Fehler mit der Option --reverse. "
-"Bitte encfs aktualisieren."
 
 #: common/config.py:99 common/config.py:106
 msgid "Day(s)"
@@ -459,190 +203,281 @@ msgstr "udev-Zeitplan funktioniert nicht mit Modus {mode}"
 msgid "Couldn't find UUID for {path}"
 msgstr "UUID für »{path}« konnte nicht gefunden werden"
 
-#: qt/restoredialog.py:47 qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-#: qt/app.py:535 qt/settingsdialog.py:2229
-msgid "Restore"
-msgstr "Wiederherstellen"
+#: common/snapshots.py:342 common/snapshots.py:593
+msgid "FAILED"
+msgstr "FEHLGESCHLAGEN"
 
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Komplettes Protokoll anzeigen"
+#: common/snapshots.py:539 common/snapshots.py:601
+msgid "Restore permissions"
+msgstr "Berechtigungen wiederherstellen"
 
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "Letzte Protokollansicht"
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:912 qt/app.py:947
+#: qt/qtsystrayicon.py:78
+msgid "Done"
+msgstr "Fertig"
 
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "Schnappschussprotokollansicht"
+#: common/snapshots.py:704
+msgid "Deferring backup while on battery"
+msgstr "Aufschieben der Sicherung im Akkubetrieb"
 
-#: qt/logviewdialog.py:63 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/qtsystrayicon.py:74
-msgid "Profile"
-msgstr "Profil"
+#: common/snapshots.py:766
+msgid ""
+"Can't find snapshots folder.\n"
+"If it is on a removable drive please plug it in."
+msgstr ""
+"Schnappschussordner konnte nicht gefunden werden.\n"
+"Wenn es ein Wechsellaufwerk ist, bitte verbinden."
 
-#: qt/logviewdialog.py:71 qt/snapshotsdialog.py:99 qt/qttools.py:347
-msgid "Snapshots"
-msgstr "Schnappschüsse"
+#: common/snapshots.py:768
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] "%s Sekunde wird gewartet."
+msgstr[1] "%s Sekunden wird gewartet."
 
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "Filter"
+#: common/snapshots.py:805
+#, fuzzy, python-brace-format
+msgid "Failed to take snapshot {snapshot_id}."
+msgstr "Schnappschuss {snapshot_id} konnte nicht erstellt werden!"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
-msgid "All"
-msgstr "Alles"
+#: common/snapshots.py:822
+msgid "Finalizing"
+msgstr "Finalisierung läuft"
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
-#: qt/settingsdialog.py:802
-msgid "Errors"
-msgstr "Fehler"
+#: common/snapshots.py:908 common/encfstools.py:509
+msgid "Take snapshot"
+msgstr "Schnappschuss erstellen"
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
-msgid "Changes"
-msgstr "Änderungen"
+#: common/snapshots.py:943
+msgid "Can't create folder"
+msgstr "Verzeichnis kann nicht erstellt werden"
 
-#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#: common/snapshots.py:960
+msgid "Saving config file..."
+msgstr "Konfigurationsdatei wird gespeichert …"
+
+#: common/snapshots.py:1036
+msgid "Saving permissions..."
+msgstr "Zugriffsrechte werden gespeichert …"
+
+#: common/snapshots.py:1144
+#, python-brace-format
+msgid "Found leftover {snapshot_id} which can be continued."
+msgstr ""
+"Schnappschuss »{snapshot_id}« gefunden, welcher fortgesetzt werden kann."
+
+#: common/snapshots.py:1163
+#, python-brace-format
+msgid "Removing leftover {snapshot_id} folder from last run"
+msgstr "Schnappschuss »{snapshot_id}« vom letzten Vorgang wird entfernt"
+
+#: common/snapshots.py:1173
+msgid "Can't remove folder"
+msgstr "Ordner kann nicht entfernt werden"
+
+#: common/snapshots.py:1216
+msgid "Taking snapshot"
+msgstr "Schnappschuss wird erstellt"
+
+#: common/snapshots.py:1248
+msgid "Success"
+msgstr ""
+
+#: common/snapshots.py:1249
+msgid "Partial transfer due to vanished source files (see 'man rsync')"
+msgstr ""
+
+#: common/snapshots.py:1252
+#, python-brace-format
+msgid "'rsync' ended with exit code {exit_code}"
+msgstr ""
+
+#: common/snapshots.py:1261
+msgid "See 'man rsync' for more details"
+msgstr ""
+
+#: common/snapshots.py:1265
+msgid ""
+"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+msgstr ""
+
+#: common/snapshots.py:1280
+msgid "Nothing changed, no new snapshot necessary"
+msgstr "Keine Änderungen, es ist kein neuer Schnappschuss notwendig"
+
+#: common/snapshots.py:1311
+#, python-brace-format
+msgid "Can't rename {new_path} to {path}"
+msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen"
+
+#: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:672
+msgid "Smart remove"
+msgstr "Intelligentes Löschen"
+
+#: common/snapshots.py:1656
+msgid "Removing old snapshots"
+msgstr "Alte Schnappschüsse werden entfernt"
+
+#: common/snapshots.py:1691
+msgid "Trying to keep min free space"
+msgstr "Das Minimum an freiem Speicher wird freigehalten"
+
+#: common/snapshots.py:1730
+#, python-brace-format
+msgid "Trying to keep min {perc} free inodes"
+msgstr "Es wird versucht mindestens {perc} freie Inodes zu behalten"
+
+#: common/snapshots.py:2812 qt/app.py:1595
+msgid "Now"
+msgstr "Jetzt"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "»{command}« kann nicht eingehängt werden"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Einstellungen für den verschlüsselten Ordner nicht gefunden."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Soll ein neuer verschlüsselter Ordner erstellt werden?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Passwort bitte bestätigen"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr "Passwort stimmt nicht überein"
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"encfs-Version 1.7.2 und davor haben einen Fehler mit der Option --reverse. "
+"Bitte encfs aktualisieren."
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Profil »{profile}«: Bitte Passwort für {mode} eingeben: "
+
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Speichern der Konfiguration ist fehlgeschlagen"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Laden der Konfiguration ist fehlgeschlagen"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Profil »{name}« bereits vorhanden!"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "Das kann nicht rückgängig gemacht werden!"
+
+#: common/sshtools.py:204
+#, fuzzy, python-brace-format
+msgid "Can't mount {sshfs}"
+msgstr "%s kann nicht eingebunden werden"
+
+#: common/sshtools.py:264
+msgid "ssh-agent not found. Please make sure it is installed."
+msgstr ""
+
+#: common/sshtools.py:407
+msgid ""
+"Could not unlock ssh private key. Wrong password or password not available "
+"for cron."
+msgstr ""
+"Privater SSH-Schlüssel konnte nicht entsperrt werden. Passwort falsch oder "
+"für cron nicht verfügbar."
+
+#: common/sshtools.py:495
+#, fuzzy, python-brace-format
+msgid "Cipher {cipher} failed for {host}"
+msgstr ""
+"Verschlüsselungsverfahren %(cipher)s fehlgeschlagen für %(host)s:\n"
+"%(err)s"
+
+#: common/sshtools.py:642
+#, fuzzy
+msgid "Remote path exists but is not a directory"
+msgstr ""
+"Der Pfad existiert auf dem entfernten Rechner, ist aber kein Verzeichnis:\n"
+"%s"
+
+#: common/sshtools.py:647
+#, fuzzy
+msgid "Remote path is not writable"
+msgstr ""
+"Der Pfad auf dem entfernten Rechner ist nicht beschreibbar:\n"
+"%s"
+
+#: common/sshtools.py:652
+#, fuzzy
+msgid "Remote path is not executable"
+msgstr ""
+"Der Pfad auf dem entfernten Rechner ist nicht ausführbar:\n"
+"%s"
+
+#: common/sshtools.py:657
+#, fuzzy
+msgid "Couldn't create remote path"
+msgstr ""
+"Erstellen des Pfades auf dem entfernten Rechner fehlgeschlagen:\n"
+"%s"
+
+#: common/sshtools.py:937
+#, fuzzy, python-brace-format
+msgid "Remote host {host} doesn't support {command}"
+msgstr "Der entfernte Rechner %s unterstützt keine Hardlinks"
+
+#: common/sshtools.py:941 common/sshtools.py:950
+#, fuzzy
+msgid "Look at 'man backintime' for further instructions"
+msgstr ""
+"Entfernter Rechner %(host)s unterstützt »%(command)s« nicht:\n"
+"%(err)s\n"
+"Weitere Informationen unter »man backintime«"
+
+#: common/sshtools.py:945
+#, fuzzy, python-brace-format
+msgid "Check commands on host {host} returned unknown error"
+msgstr ""
+"Überprüfen der Befehle auf dem Rechner %(host)s gab unbekanntem Fehler "
+"zurück:\n"
+"%(err)s\n"
+"Weitere Informationen unter »man backintime«."
+
+#: common/sshtools.py:966
+#, fuzzy, python-brace-format
+msgid "Remote host {host} doesn't support hardlinks"
+msgstr "Der entfernte Rechner %s unterstützt keine Hardlinks"
+
+#: common/sshtools.py:1049
+#, python-brace-format
+msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
+msgstr ""
+"Den öffentlichen SSH-Schlüssel »{pubkey}« zum entfernten Rechner »{host}« "
+"kopieren"
+
+#: common/sshtools.py:1051
+#, python-brace-format
+msgid "Please enter password for \"{user}\""
+msgstr "Bitte Passwort für »{user}« eingeben"
+
+#: qt/messagebox.py:55 qt/logviewdialog.py:96
 #, fuzzy
 msgid "Information"
 msgstr "Informationen"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Fehler, [I] Information, [C] Änderung"
-
-#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
-msgid "decode paths"
-msgstr "Pfade entschlüsseln"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Kopieren"
-
-#: qt/logviewdialog.py:171 qt/app.py:254
-msgid "Add to Exclude"
-msgstr "Ausschließen"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "Dekodieren"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "Wollen Sie das ausschließen?"
-
-#: qt/snapshotsdialog.py:51
-msgid "Options about comparing snapshots"
-msgstr ""
-
-#: qt/snapshotsdialog.py:58
-msgid "Command"
-msgstr "Befehl"
-
-#: qt/snapshotsdialog.py:62
-msgid "Parameters"
-msgstr "Parameter"
-
-#: qt/snapshotsdialog.py:66
-msgid "Use %1 and %2 for path parameters"
-msgstr "%1 und %2 als Pfadparameter verwenden"
-
-#: qt/snapshotsdialog.py:110
-msgid "Differing snapshots only"
-msgstr "Nur unterschiedliche Schnappschüsse"
-
-#: qt/snapshotsdialog.py:118
-msgid "List only equal snapshots to: "
-msgstr "Nur gleiche Schnappschüsse auflisten zu: "
-
-#: qt/snapshotsdialog.py:129
-msgid "Deep check (more accurate, but slow)"
-msgstr "Gründliche Prüfung (genauer, aber langsamer)"
-
-#: qt/snapshotsdialog.py:142 qt/app.py:540 qt/app.py:1399 qt/app.py:1431
-#, fuzzy
-msgid "Restore to …"
-msgstr "Wiederherstellen zu …"
-
-#: qt/snapshotsdialog.py:150
-msgid "Delete"
-msgstr "Löschen"
-
-#: qt/snapshotsdialog.py:154
-msgid "Select All"
-msgstr "Alles auswählen"
-
-#: qt/snapshotsdialog.py:167
-msgid "Compare"
-msgstr ""
-
-#: qt/snapshotsdialog.py:178
-msgid "Go To"
-msgstr "Gehen zu"
-
-#: qt/snapshotsdialog.py:179
-#, fuzzy
-msgid "Options"
-msgstr "&Optionen"
-
-#: qt/snapshotsdialog.py:328
-msgid "You can't compare a snapshot to itself"
-msgstr "Sie können einen Schnappschuss nicht mit sich selbst vergleichen"
-
-#: qt/snapshotsdialog.py:336
-msgid "Command not found"
-msgstr "Befehl nicht gefunden"
-
-#: qt/snapshotsdialog.py:367
-#, fuzzy, python-brace-format
-msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr ""
-"Soll »{file}« wirklich in dem Schnappschuss »{snapshot_id}« gelöscht werden?"
-
-#: qt/snapshotsdialog.py:373
-#, fuzzy, python-brace-format
-msgid "Do you really want to delete {file} in {count} snapshots?"
-msgstr "Soll »{file}« wirklich in {count} Schnappschüssen gelöscht werden?"
-
-#: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "WARNUNG"
-
-#: qt/snapshotsdialog.py:378
-msgid "This cannot be revoked!"
-msgstr "Das kann nicht rückgängig gemacht werden!"
-
-#: qt/snapshotsdialog.py:394
-#, fuzzy, python-brace-format
-msgid "Exclude {path} from future snapshots?"
-msgstr "»{path}« von zukünftigen Schnappschüssen ausschließen?"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Heute"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Gestern"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Diese Woche"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "Letzte Woche"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
-"Das hier ist KEIN Schnappschuss, aber eine aktuellen Ansicht Ihrer lokalen "
-"Daten"
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Letzte Überprüfung {time}"
 
 #: qt/messagebox.py:73 qt/app.py:964
 msgid "Error"
@@ -651,6 +486,15 @@ msgstr "Fehler"
 #: qt/messagebox.py:79 qt/messagebox.py:85
 msgid "Question"
 msgstr "Frage"
+
+#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Komplettes Protokoll anzeigen"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -668,6 +512,10 @@ msgstr ""
 #: qt/app.py:252
 msgid "Add to Include"
 msgstr "Einbeziehen"
+
+#: qt/app.py:254 qt/logviewdialog.py:171
+msgid "Add to Exclude"
+msgstr "Ausschließen"
 
 #: qt/app.py:339
 #, python-brace-format
@@ -804,6 +652,11 @@ msgstr "Über"
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Ausgewählte Dateien oder Ordner zum Originalort wiederherstellen."
+
+#: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
+#, fuzzy
+msgid "Restore to …"
+msgstr "Wiederherstellen zu …"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to a new destination."
@@ -1029,40 +882,28 @@ msgstr "Übersetzungen"
 msgid "License"
 msgstr "Lizenz"
 
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
+#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
+#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+msgid "Profile"
+msgstr "Profil"
 
-#: qt/languagedialog.py:144
+#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+msgid "decode paths"
+msgstr "Pfade entschlüsseln"
+
+#: qt/qtsystrayicon.py:101
+msgid "View Last Log"
+msgstr "Letztes Protokoll ansehen"
+
+#: qt/qtsystrayicon.py:105
 #, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
+msgid "Start {appname}"
+msgstr "Starte {appname}"
 
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
+#: qt/qtsystrayicon.py:167
 #, fuzzy
-msgid "translation platform"
-msgstr "Übersetzungen"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Übersetzungen"
+msgid "Working…"
+msgstr "In Bearbeitung"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1448,6 +1289,19 @@ msgstr "Protokollierungsstufe"
 msgid "None"
 msgstr "Nichts"
 
+#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
+#: qt/logviewdialog.py:94
+msgid "Errors"
+msgstr "Fehler"
+
+#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
+msgid "Changes"
+msgstr "Änderungen"
+
+#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
+msgid "All"
+msgstr "Alles"
+
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "E&xperten-Einstellungen"
@@ -1760,19 +1614,180 @@ msgstr "Benutzerrückrufskript hat keine Shebang-Zeile (#!/bin/sh)."
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang im Benutzerrückrufskript ist nicht ausführbar."
 
-#: qt/qtsystrayicon.py:101
-msgid "View Last Log"
-msgstr "Letztes Protokoll ansehen"
+#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Schnappschüsse"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Heute"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Gestern"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Diese Woche"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Letzte Woche"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+"Das hier ist KEIN Schnappschuss, aber eine aktuellen Ansicht Ihrer lokalen "
+"Daten"
+
+#: qt/qttools.py:544
 #, python-brace-format
-msgid "Start {appname}"
-msgstr "Starte {appname}"
+msgid "Last check {time}"
+msgstr "Letzte Überprüfung {time}"
 
-#: qt/qtsystrayicon.py:167
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Letzte Protokollansicht"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Schnappschussprotokollansicht"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Filter"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Fehler, [I] Information, [C] Änderung"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Kopieren"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Dekodieren"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "Wollen Sie das ausschließen?"
+
+#: qt/snapshotsdialog.py:51
+msgid "Options about comparing snapshots"
+msgstr ""
+
+#: qt/snapshotsdialog.py:58
+msgid "Command"
+msgstr "Befehl"
+
+#: qt/snapshotsdialog.py:62
+msgid "Parameters"
+msgstr "Parameter"
+
+#: qt/snapshotsdialog.py:66
+msgid "Use %1 and %2 for path parameters"
+msgstr "%1 und %2 als Pfadparameter verwenden"
+
+#: qt/snapshotsdialog.py:110
+msgid "Differing snapshots only"
+msgstr "Nur unterschiedliche Schnappschüsse"
+
+#: qt/snapshotsdialog.py:118
+msgid "List only equal snapshots to: "
+msgstr "Nur gleiche Schnappschüsse auflisten zu: "
+
+#: qt/snapshotsdialog.py:129
+msgid "Deep check (more accurate, but slow)"
+msgstr "Gründliche Prüfung (genauer, aber langsamer)"
+
+#: qt/snapshotsdialog.py:150
+msgid "Delete"
+msgstr "Löschen"
+
+#: qt/snapshotsdialog.py:154
+msgid "Select All"
+msgstr "Alles auswählen"
+
+#: qt/snapshotsdialog.py:167
+msgid "Compare"
+msgstr ""
+
+#: qt/snapshotsdialog.py:178
+msgid "Go To"
+msgstr "Gehen zu"
+
+#: qt/snapshotsdialog.py:179
 #, fuzzy
-msgid "Working…"
-msgstr "In Bearbeitung"
+msgid "Options"
+msgstr "&Optionen"
+
+#: qt/snapshotsdialog.py:328
+msgid "You can't compare a snapshot to itself"
+msgstr "Sie können einen Schnappschuss nicht mit sich selbst vergleichen"
+
+#: qt/snapshotsdialog.py:336
+msgid "Command not found"
+msgstr "Befehl nicht gefunden"
+
+#: qt/snapshotsdialog.py:367
+#, fuzzy, python-brace-format
+msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
+msgstr ""
+"Soll »{file}« wirklich in dem Schnappschuss »{snapshot_id}« gelöscht werden?"
+
+#: qt/snapshotsdialog.py:373
+#, fuzzy, python-brace-format
+msgid "Do you really want to delete {file} in {count} snapshots?"
+msgstr "Soll »{file}« wirklich in {count} Schnappschüssen gelöscht werden?"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "WARNUNG"
+
+#: qt/snapshotsdialog.py:378
+msgid "This cannot be revoked!"
+msgstr "Das kann nicht rückgängig gemacht werden!"
+
+#: qt/snapshotsdialog.py:394
+#, fuzzy, python-brace-format
+msgid "Exclude {path} from future snapshots?"
+msgstr "»{path}« von zukünftigen Schnappschüssen ausschließen?"
+
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Übersetzungen"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Übersetzungen"
 
 #~ msgid "Working..."
 #~ msgstr "Wird bearbeitet …"
