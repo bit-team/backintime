@@ -94,7 +94,7 @@ import settingsdialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
-from languagedialog import LanguageDialog
+import languagedialog
 import messagebox
 
 
@@ -400,6 +400,14 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+        if 0 == self.config.manual_starts_countdown():
+            self._open_approach_translator_dialog(cutoff=97)
+
+        # BIT counts down how often the GUI was started. Until the end of that
+        # countdown a dialog with a text about contributing to translating
+        # BIT is prestented to the users.
+        self.config.decrement_manual_starts_countdown()
+
     @property
     def showHiddenFiles(self):
         return self.config.boolValue('qt.show_hidden_files', False)
@@ -473,7 +481,7 @@ class MainWindow(QMainWindow):
                 self.btnLastLogViewClicked, None,
                 None),
             'act_settings': (
-                icon.SETTINGS, _('Manage profiles…'),
+                icon.SETTINGS, '{}…'.format(_('Manage profiles')),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
             'act_shutdown': (
@@ -481,7 +489,7 @@ class MainWindow(QMainWindow):
                 None, None,
                 _('Shut down system after snapshot has finished.')),
             'act_setup_language': (
-                None, _('Setup language…'),
+                None, '{}…'.format(_('Setup language')),
                 self.slot_setup_language, None,
                 None),
             'act_quit': (
@@ -510,6 +518,9 @@ class MainWindow(QMainWindow):
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self.btnReportBugClicked, None, None),
+            'act_help_translation': (
+                None, _('Translation'),
+                self.slot_help_translation, None, None),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -540,7 +551,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, _('Compare snapshots…'),
+                icon.SNAPSHOTS, '{}…'.format(_('Compare snapshots')),
                 self.btnSnapshotsClicked, None, None),
         }
 
@@ -626,6 +637,7 @@ class MainWindow(QMainWindow):
                 self.act_help_faq,
                 self.act_help_question,
                 self.act_help_bugreport,
+                self.act_help_translation,
                 self.act_help_about,
             )
         }
@@ -1750,6 +1762,16 @@ files that the receiver requests to be transferred.""")
         yield
         self.setMouseButtonNavigation()
 
+    def _open_approach_translator_dialog(self, cutoff=101):
+        code = self.config.language_used
+        name, perc = tools.get_native_language_and_completeness(code)
+
+        if perc > cutoff:
+            return
+
+        dlg = languagedialog.ApproachTranslatorDialog(self, name, perc)
+        dlg.exec()
+
     # |-------|
     # | Slots |
     # |-------|
@@ -1757,12 +1779,13 @@ files that the receiver requests to be transferred.""")
         """Show a modal language settings dialog and modify the UI language
         settings."""
 
-        dlg = LanguageDialog(
+        dlg = languagedialog.LanguageDialog(
             used_language_code=self.config.language_used,
             configured_language_code=self.config.language())
 
         dlg.exec()
 
+        # Apply/OK pressed & the language value modified
         if dlg.result() == 1 and self.config.language != dlg.language_code:
 
             self.config.setLanguage(dlg.language_code)
@@ -1770,6 +1793,9 @@ files that the receiver requests to be transferred.""")
             messagebox.info(_('The language settings take effect only after '
                               'restarting Back In Time.'),
                             widget_to_center_on=dlg)
+
+    def slot_help_translation(self):
+        self._open_approach_translator_dialog()
 
 
 class About(QDialog):
