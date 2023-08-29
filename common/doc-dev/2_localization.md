@@ -17,6 +17,7 @@ to localize software.
 
 # Quick guide: Synchronize translations between Weblate and Microsoft GitHub upstream repository
 
+[!WARNING]
 Do not follow this steps if you are new to this process! Please go to the next
 section and start reading from there.
 
