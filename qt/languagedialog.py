@@ -1,17 +1,20 @@
-import locale
+import textwrap
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
+                             QTabWidget,
                              QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
                              QDialogButtonBox,
                              QRadioButton,
+                             QLabel,
+                             QToolTip,
                              )
 import tools
 import qttools
-import logger
 import languages
 
 
@@ -22,7 +25,7 @@ class LanguageDialog(QDialog):
         self.used_language_code = used_language_code
         self.configured_language_code = configured_language_code
 
-        self.setWindowTitle(_('Language selection'))
+        self.setWindowTitle(_('Setup language'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
         scroll = QScrollArea(self)
@@ -37,12 +40,15 @@ class LanguageDialog(QDialog):
         new_width = self._calculate_scroll_area_width()
         self._scroll.setMinimumWidth(new_width)
 
-        button = QDialogButtonBox(QDialogButtonBox.Apply, self)
-        button.clicked.connect(self.accept)
+        buttonbox = QDialogButtonBox(
+            QDialogButtonBox.Cancel | QDialogButtonBox.Ok, self)
+
+        buttonbox.accepted.connect(self.accept)
+        buttonbox.rejected.connect(self.reject)
 
         layout = QVBoxLayout(self)
         layout.addWidget(scroll)
-        layout.addWidget(button)
+        layout.addWidget(buttonbox)
 
     def _calculate_scroll_area_width(self):
         """Credits:
@@ -61,11 +67,13 @@ class LanguageDialog(QDialog):
         r.lang_code = lang_code
 
         # Is it the current used AND configured language?
-        if r.lang_code == self.used_language_code and r.lang_code == self.configured_language_code:
+        if (r.lang_code == self.used_language_code
+                and r.lang_code == self.configured_language_code):
+
             r.setChecked(True)
 
         # "System default"
-        elif self.configured_language_code == '' and r.lang_code == None:
+        elif self.configured_language_code == '' and r.lang_code is None:
             r.setChecked(True)
 
         return r
@@ -134,7 +142,7 @@ class LanguageDialog(QDialog):
                     tooltip = '{}\n{}'.format(
                         tooltip,
                         _('Translated: {percent}').format(
-                            percent=f'{languages.completeness[code]}%')
+                            percent=f'{complete}%')
                     )
 
             # Create button
@@ -156,3 +164,81 @@ class LanguageDialog(QDialog):
 
         if btn.isChecked():
             self.language_code = btn.lang_code
+
+
+class ApproachTranslatorDialog(QDialog):
+    """Prestens a message to the users to motivate them contributing to the
+    translation of Back In Time.
+    """
+
+    # ToDo (2023-08): Move to packages meta-data (pyproject.toml).
+    _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
+    _URL_PROJECT = 'https://github.com/bit-team/backintime'
+
+    @staticmethod
+    def _complete_text(language, percent):
+
+        # Note: The length of the variable names in that string are on
+        # purpose. It is relevant when wrapping the text.
+        txt = _(
+            'Hello'
+            '\n'
+            'You have used Back In Time in the {language} '
+            'language a few times by now.'
+            '\n'
+            'The translation of your installed version of Back In Time '
+            'into {language} is {perc} complete. Regardless of your '
+            'level of technical expertise, you can contribute to the '
+            'translation and thus Back In Time itself.'
+            '\n'
+            'Please visit the {translation_platform_url} if you wish '
+            'to contribute. For further assistance and questions, '
+            'please visit the {back_in_time_project_website}.'
+            '\n'
+            'We apologize for the interruption, and this message '
+            'will not be shown again. This dialog is available at '
+            'any time via the help menu.'
+            '\n'
+            'Your Back In Time Team.'
+        )
+
+        # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
+        # <p> tags.
+        result = ''
+        for t in txt.split('\n'):
+            result += '<p>' + '<br>'.join(textwrap.wrap(t, width=60)) + '</p>'
+
+        # Insert data in placeholder variables.
+        result = result.format(
+            language=f'<strong>{language}</strong>',
+            perc=f'<strong>{percent} %</strong>',
+            translation_platform_url='<a href="{}">{}</a>'.format(
+                __class__._URL_PLATFORM,
+                _('translation platform')),
+            back_in_time_project_website='<a href="{}">Back In Time {}</a>'.format(
+                __class__._URL_PROJECT,
+                _('Website'))
+        )
+
+        return result
+
+    def __init__(self, parent, language_name, completeness):
+        super().__init__(parent)
+
+        self.setWindowTitle(_('Your translation'))
+        self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+
+        txt = __class__._complete_text(language_name, completeness)
+        widget = QLabel(txt, self)
+        widget.setOpenExternalLinks(True)
+        widget.linkHovered.connect(self.slot_link_hovered)
+
+        button = QDialogButtonBox(QDialogButtonBox.Ok, self)
+        button.clicked.connect(self.accept)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(widget)
+        layout.addWidget(button)
+
+    def slot_link_hovered(self, url):
+        QToolTip.showText(QCursor.pos(), url.strip('https://'))
