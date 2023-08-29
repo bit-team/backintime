@@ -4,7 +4,7 @@
 ## Index
 
 <!-- TOC start https://ecotrust-canada.github.io/markdown-toc/ -->
-- [Quick guide: Synchronize translations between Weblate and Microsoft GitHub](#quick-guide--synchronize-translations-between-weblate-and-microsoft-github)
+- [Quick guide: Synchronize translations between Weblate and Microsoft GitHub](#quick-guide-synchronize-translations-between-weblate-and-microsoft-github)
 - [Introducing the localization process](#introducing-the-localization-process-in-the-back-in-time-project)
 - [Transfer translatable strings onto Weblate platform](#transfer-translatable-strings-onto-weblate-plattform)
 - [Transfer back translation from Weblate into Back In Time upstream repository](#transfer-back-translation-from-weblate-into-back-in-time-upstream-repository)
