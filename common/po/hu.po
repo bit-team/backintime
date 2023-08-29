@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-30 22:00+0200\n"
-"PO-Revision-Date: 2016-10-30 18:01+0000\n"
-"Last-Translator: Germar <Unknown>\n"
-"Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
+"PO-Revision-Date: 2023-07-28 07:22+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: common/config.py:95
 msgid "Disabled"
@@ -31,7 +31,7 @@ msgstr "Minden (újra)indításkor"
 #: common/config.py:97 common/config.py:98 common/config.py:99
 #, fuzzy, python-brace-format
 msgid "Every {n} minutes"
-msgstr "Ötpercenként"
+msgstr "{n} percenként"
 
 #: common/config.py:100
 msgid "Every hour"
@@ -41,7 +41,7 @@ msgstr "Óránként"
 #: common/config.py:104
 #, fuzzy, python-brace-format
 msgid "Every {n} hours"
-msgstr "Kétóránként"
+msgstr "{n} óránként"
 
 #: common/config.py:105
 msgid "Custom Hours"
@@ -71,7 +71,7 @@ msgstr "Havonta"
 #: common/config.py:111
 #, fuzzy
 msgid "Every Year"
-msgstr "Naponta"
+msgstr "Évente"
 
 #: common/config.py:115 common/config.py:122
 msgid "Day(s)"
@@ -126,32 +126,32 @@ msgstr "Fő profil"
 #: common/config.py:401
 #, fuzzy, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "Profil: \"%s\""
+msgstr "Profil: \"{name}\""
 
 #: common/config.py:362
 #, fuzzy
 msgid "Snapshots folder is not valid!"
-msgstr "A pillanatkép-könyvtár nem érvényes"
+msgstr "A pillanatkép-könyvtár nem érvényes!"
 
 #: common/config.py:374
 #, fuzzy
 msgid "You must select at least one folder to back up!"
-msgstr "Legalább egy könyvtárat ki kell jelölnie a mentéshez"
+msgstr "Legalább egy könyvtárat ki kell jelölnie a mentéshez!"
 
 #: common/config.py:391
 #, fuzzy
 msgid "You can't include backup folder!"
-msgstr "Nem adható hozzá a biztonsági mentés mappája"
+msgstr "Nem adható hozzá a biztonsági mentés mappája!"
 
 #: common/config.py:403
 #, fuzzy
 msgid "You can't include backup sub-folder!"
-msgstr "Nem adható hozzá a biztonsági mentés almappája"
+msgstr "Nem adható hozzá a biztonsági mentés almappája!"
 
 #: common/config.py:461
 #, fuzzy, python-brace-format
 msgid "{path} is not a folder !"
-msgstr "A(z) %s nem könyvtár"
+msgstr "A(z) {path} nem könyvtár!"
 
 #: common/config.py:470
 msgid "Host/User/Profile-ID must not be empty!"
@@ -163,7 +163,7 @@ msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Nem tudok ide írni: %s\n"
+"Nem tudok ide írni: {path}\n"
 "Biztos, hogy van írási jogod?"
 
 #: common/config.py:497
@@ -221,12 +221,12 @@ msgstr ""
 #: common/config.py:1703
 #, fuzzy, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr "Az udev időzítése nem működik ezzel a móddal: %s"
+msgstr "Az udev időzítése nem működik ezzel a móddal {mode}"
 
 #: common/config.py:1715
 #, fuzzy, python-brace-format
 msgid "Couldn't find UUID for \"{path}\"'"
-msgstr "Nem találom a \"%s\" meghajtó UUID-ját"
+msgstr "Nem találom a \"{path}\" meghajtó UUID-ját"
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
@@ -235,7 +235,7 @@ msgstr "MEGHIÚSULT"
 #: common/snapshots.py:522 common/snapshots.py:584
 #, fuzzy
 msgid "Restore permissions"
-msgstr "Engedélyek visszaállítása:"
+msgstr "Engedélyek visszaállítása"
 
 #: common/snapshots.py:579 qt/app.py:449 qt/app.py:710 qt/app.py:743
 #: qt/qtsystrayicon.py:74
@@ -265,7 +265,7 @@ msgstr[1] "%s másodperc várakozás."
 #: common/snapshots.py:788
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id} !!!"
-msgstr "A %s pillanatkép készítése meghiúsult!!!"
+msgstr "A {snapshot_id} pillanatkép készítése meghiúsult!!!"
 
 #: common/snapshots.py:797
 msgid "Finalizing"
@@ -278,7 +278,7 @@ msgstr "Pillanatkép készítése"
 #: common/snapshots.py:912
 #, fuzzy
 msgid "Can't create folder"
-msgstr "A(z) %s mappa nem hozható létre"
+msgstr "A(z) mappa nem hozható létre"
 
 #: common/snapshots.py:929
 msgid "Saving config file..."
@@ -301,7 +301,7 @@ msgstr ""
 #: common/snapshots.py:1139
 #, fuzzy
 msgid "Can't remove folder"
-msgstr "A(z) %s mappa nem távolítható el"
+msgstr "A(z) mappa nem távolítható el"
 
 #: common/snapshots.py:1177
 msgid "Taking snapshot"
@@ -314,7 +314,7 @@ msgstr ""
 #: common/snapshots.py:1241
 #, fuzzy, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr "Nem tudom a(z) %(path)s útvonalat átnevezni erre: %(new_path)s"
+msgstr "Nem tudom a(z) {new_path} útvonalat átnevezni erre {path}"
 
 #: common/snapshots.py:1559 common/snapshots.py:1611 qt/settingsdialog.py:645
 msgid "Smart remove"
@@ -331,30 +331,26 @@ msgstr "A minimálisan megadott szabad hely kialakítása"
 #: common/snapshots.py:1660
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Megpróbálok legalább %d%% szabad inode-ot tartani"
+msgstr "Megpróbálok legalább {perc} szabad inode-ot tartani"
 
 #: common/snapshots.py:2742 qt/app.py:264 qt/app.py:1369
 msgid "Now"
 msgstr "Most"
 
 #: common/encfstools.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr ""
-"Nem tudtam felcsatolni a következőt: '%(command)s':\n"
-"\n"
-"%(error)s"
+msgstr "Nem tudtam felcsatolni a következőt '{command}'"
 
 #: common/encfstools.py:138
+#, fuzzy
 msgid "Config for encrypted folder not found."
-msgstr "A titkosított mappa konfigurációja nem található"
+msgstr "A titkosított mappa konfigurációja nem található."
 
 #: common/encfstools.py:146
 #, fuzzy
 msgid "Create a new encrypted folder?"
-msgstr ""
-"\n"
-"Létrehozzak egy új titkosított mappát?"
+msgstr "Létrehozzak egy új titkosított mappát?"
 
 #: common/encfstools.py:155
 msgid "Please confirm password"
@@ -363,7 +359,7 @@ msgstr "Erősítsd meg a jelszót"
 #: common/password.py:243
 #, fuzzy, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "A(z) '%(profile)s' profil: add meg a jelszót a következőhöz: %(mode)s "
+msgstr "A(z) '{profile}' profil: add meg a jelszót a következőhöz {mode}: "
 
 #: common/configfile.py:111
 msgid "Failed to save config"
@@ -376,7 +372,7 @@ msgstr ""
 #: common/configfile.py:697 common/configfile.py:796
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists!"
-msgstr "A \"%s\" már létezik!"
+msgstr "A \"{name}\" már létezik!"
 
 #: common/configfile.py:742
 #, fuzzy
@@ -401,8 +397,9 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2215
-#: qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
+#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259
+#: qt/settingsdialog.py:2215 qt/snapshotsdialog.py:142
+#: qt/snapshotsdialog.py:147
 msgid "Restore"
 msgstr "Visszaállítás"
 
@@ -532,15 +529,15 @@ msgstr ""
 
 #: qt/app.py:250
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr ""
 
 #: qt/app.py:262
 #, python-brace-format
 msgid ""
 "Restore selected file or folder.\n"
-"If this button is grayed out this is most likely because \"{now}\" is "
-"selected in left hand snapshots list."
+"If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 msgstr ""
 
 #: qt/app.py:268 qt/qttools.py:324 qt/logviewdialog.py:75
@@ -594,17 +591,15 @@ msgid ""
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Nem található a pillanatképek könyvtára.\n"
-"Ha egy eltávolítható lemezen van, csatlakoztasd és nyomd meg az OK-t"
+"Ha egy eltávolítható lemezen van, csatlakoztasd és nyomd meg az OK-t."
 
 #: qt/app.py:557
 #, fuzzy
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Ha bezárod ezt az ablakot, a Back In Time nem tudja lekapcsolni a rendszert "
-"a biztonsági mentés elvégzése után.\n"
+"Ha bezárod ezt az ablakot, a Back In Time nem tudja lekapcsolni a rendszert a biztonsági mentés elvégzése után.\n"
 "Biztos bezárod?"
 
 #: qt/app.py:702
@@ -618,7 +613,7 @@ msgstr "Kész, nincs szükség biztonsági mentés készítésére"
 #: qt/app.py:754
 #, fuzzy
 msgid "Working"
-msgstr "Dolgozik:"
+msgstr "Dolgozik"
 
 #: qt/app.py:781 qt/qtsystrayicon.py:194
 msgid "Sent"
@@ -651,9 +646,7 @@ msgstr "Biztonsági mentés mappái"
 #: qt/app.py:987
 #, fuzzy
 msgid "Are you sure you want to remove the snapshot"
-msgstr ""
-"Biztos, hogy el akar távolítani a következő pillanatképet:\n"
-"%s?"
+msgstr "Biztos, hogy el akar távolítani a következő pillanatképet"
 
 #: qt/app.py:1076
 #, python-brace-format
@@ -665,8 +658,7 @@ msgstr ""
 #: qt/app.py:1082 qt/settingsdialog.py:741
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
@@ -685,29 +677,25 @@ msgstr ""
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!!!"
 msgstr ""
 
 #: qt/app.py:1142
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore the files(s)\n"
 "into new folder {path}"
-msgstr "Biztos, hogy törlöd a \"%(file)s\"-t a \"%(count)d-pillanatképből?\n"
+msgstr ""
 
 #: qt/app.py:1146
-#, fuzzy
 msgid "Do you really want to restore the files(s)"
-msgstr "Biztosan törlöd a(z) \"%s\" profilt?"
+msgstr ""
 
 #: qt/app.py:1158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
-"Biztos, hogy el akar távolítani a következő pillanatképet:\n"
-"%s?"
 
 #: qt/app.py:1161
 msgid ""
@@ -731,17 +719,17 @@ msgstr "Pillanatképek"
 #: qt/app.py:1374
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {name}"
-msgstr "A %s időpontban észült pillanatkép megtekintése"
+msgstr "A {name} időpontban észült pillanatkép megtekintése"
 
 #: qt/app.py:1413
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
-msgstr "Visszaállítás"
+msgstr "Visszaállítás {path}"
 
 #: qt/app.py:1415
 #, fuzzy, python-brace-format
 msgid "Restore {path} to ..."
-msgstr "Visszaállítás ide..."
+msgstr "Visszaállítás {path} ide..."
 
 #: qt/app.py:1529 qt/app.py:1546
 msgid "Authors"
@@ -759,7 +747,7 @@ msgstr ""
 #: qt/settingsdialog.py:2312 qt/logviewdialog.py:67
 #, fuzzy
 msgid "Profile"
-msgstr "Profil:"
+msgstr "Profil"
 
 #: qt/qtsystrayicon.py:92 qt/logviewdialog.py:113
 msgid "decode paths"
@@ -798,7 +786,7 @@ msgstr "Általános"
 #: qt/settingsdialog.py:151 qt/settingsdialog.py:2314
 #, fuzzy
 msgid "Mode"
-msgstr "Mód:"
+msgstr "Mód"
 
 #: qt/settingsdialog.py:165 qt/settingsdialog.py:504
 msgid "Warning"
@@ -808,8 +796,8 @@ msgstr ""
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 
 #: qt/settingsdialog.py:177 qt/settingsdialog.py:1910
@@ -827,27 +815,27 @@ msgstr "Az SSH beállításai"
 #: qt/settingsdialog.py:213 qt/settingsdialog.py:332
 #, fuzzy
 msgid "Host"
-msgstr "Kiszolgáló:"
+msgstr "Kiszolgáló"
 
 #: qt/settingsdialog.py:218
 #, fuzzy
 msgid "Port"
-msgstr "Port:"
+msgstr "Port"
 
 #: qt/settingsdialog.py:223 qt/settingsdialog.py:338
 #, fuzzy
 msgid "User"
-msgstr "Felhasználó:"
+msgstr "Felhasználó"
 
 #: qt/settingsdialog.py:228
 #, fuzzy
 msgid "Path"
-msgstr "Elérési út:"
+msgstr "Elérési út"
 
 #: qt/settingsdialog.py:234
 #, fuzzy
 msgid "Cipher"
-msgstr "Cipher:"
+msgstr "Cipher"
 
 #: qt/settingsdialog.py:240
 #, fuzzy
@@ -893,22 +881,22 @@ msgstr "Ütemterv"
 #: qt/settingsdialog.py:367
 #, fuzzy
 msgid "Day"
-msgstr "Nap:"
+msgstr "Nap"
 
 #: qt/settingsdialog.py:378
 #, fuzzy
 msgid "Weekday"
-msgstr "Hét napja:"
+msgstr "Hét napja"
 
 #: qt/settingsdialog.py:393
 #, fuzzy
 msgid "Hour"
-msgstr "Óra:"
+msgstr "Óra"
 
 #: qt/settingsdialog.py:408
 #, fuzzy
 msgid "Hours"
-msgstr "Óra:"
+msgstr "Óra"
 
 #: qt/settingsdialog.py:419
 msgid ""
@@ -919,12 +907,11 @@ msgstr ""
 #: qt/settingsdialog.py:426
 #, fuzzy
 msgid "Every"
-msgstr "Naponta"
+msgstr "Minden"
 
 #: qt/settingsdialog.py:447
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 "Futtassa a Back In Time-ot, amint csatolod a meghajtót (X naponta egyszer).\n"
@@ -955,12 +942,10 @@ msgstr "Kihagyás"
 #: qt/settingsdialog.py:506
 #, fuzzy
 msgid ""
-"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH "
-"encrypted'.\n"
+"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks kare allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
-"<b>Figyelem:</b> a helyettesítő karaktreket ('foo*', '[fF]oo', 'fo?') az "
-"'SSH encrypted' mód nem veszi figyelembe.\n"
+"A helyettesítő karaktreket ('foo*', '[fF]oo', 'fo?') az 'SSH encrypted' mód nem veszi figyelembe.\n"
 "Csak az elválasztó csillag megengedett ('foo/*', 'foo/**/bar')"
 
 #: qt/settingsdialog.py:520
@@ -970,7 +955,7 @@ msgstr "Kihagyandó minták, fájlok és mappák"
 #: qt/settingsdialog.py:533
 #, fuzzy
 msgid "Highly recommended"
-msgstr "Erősen ajánlott:"
+msgstr "Erősen ajánlott"
 
 #: qt/settingsdialog.py:556
 msgid "Add default"
@@ -998,12 +983,12 @@ msgstr "Automatikus eltávolítás"
 #: qt/settingsdialog.py:599
 #, fuzzy
 msgid "Older than"
-msgstr "Régebbi, mint:"
+msgstr "Régebbi, mint"
 
 #: qt/settingsdialog.py:616
 #, fuzzy
 msgid "If free space is less than"
-msgstr "Ha a szabad hely kevesebb, mint:"
+msgstr "Ha a szabad hely kevesebb, mint"
 
 #: qt/settingsdialog.py:631
 #, fuzzy
@@ -1017,39 +1002,44 @@ msgstr ""
 #: qt/settingsdialog.py:657
 #, fuzzy
 msgid "EXPERIMENTAL"
-msgstr " KÍSÉRLETI!"
+msgstr "KÍSÉRLETI"
 
 #: qt/settingsdialog.py:663
+#, fuzzy
 msgid "Keep all snapshots for the last"
-msgstr "Tartsd meg a pillanatképeket a legutóbbi:"
+msgstr "Tartsd meg a pillanatképeket a legutóbbi"
 
 #: qt/settingsdialog.py:667 qt/settingsdialog.py:674
 msgid "day(s)"
 msgstr "napból"
 
 #: qt/settingsdialog.py:670
+#, fuzzy
 msgid "Keep one snapshot per day for the last"
-msgstr "Tarts meg napi egy pillanatképet a legutóbbi:"
+msgstr "Tarts meg napi egy pillanatképet a legutóbbi"
 
 #: qt/settingsdialog.py:677
+#, fuzzy
 msgid "Keep one snapshot per week for the last"
-msgstr "Tarts meg heti egy pillanatképet a legutóbbi:"
+msgstr "Tarts meg heti egy pillanatképet a legutóbbi"
 
 #: qt/settingsdialog.py:681
 msgid "weeks(s)"
 msgstr "hétből"
 
 #: qt/settingsdialog.py:684
+#, fuzzy
 msgid "Keep one snapshot per month for the last"
-msgstr "Tarts meg havi egy pillanatképet a legutóbbi:"
+msgstr "Tarts meg havi egy pillanatképet a legutóbbi"
 
 #: qt/settingsdialog.py:688
 msgid "month(s)"
 msgstr "hónapból"
 
 #: qt/settingsdialog.py:691
+#, fuzzy
 msgid "Keep one snapshot per year for all years"
-msgstr "Tarts meg évi egy pillanatképet a legutóbbi:"
+msgstr "Tarts meg évi egy pillanatképet a legutóbbi"
 
 #: qt/settingsdialog.py:700
 msgid "Don't remove named snapshots"
@@ -1098,7 +1088,7 @@ msgstr ""
 #: qt/settingsdialog.py:767
 #, fuzzy
 msgid "Log Level"
-msgstr "Naplózás szintje:"
+msgstr "Naplózás szintje"
 
 #: qt/settingsdialog.py:772
 msgid "None"
@@ -1165,12 +1155,12 @@ msgstr ""
 #: qt/settingsdialog.py:878
 #, fuzzy
 msgid "Limit rsync bandwidth usage"
-msgstr "Az rsync sávszélesség-használatának korlátja: "
+msgstr "Az rsync sávszélesség-használatának korlátja"
 
 #: qt/settingsdialog.py:881
 #, fuzzy
 msgid "KB/sec"
-msgstr " KB/sec"
+msgstr "KB/sec"
 
 #: qt/settingsdialog.py:919
 msgid "Preserve ACL"
@@ -1189,8 +1179,7 @@ msgid "Paste additional options to rsync"
 msgstr ""
 
 #: qt/settingsdialog.py:992
-msgid ""
-"Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
+msgid "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 
 #: qt/settingsdialog.py:1003
@@ -1245,13 +1234,9 @@ msgstr ""
 
 #: qt/settingsdialog.py:1072
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
 #: qt/settingsdialog.py:1107
@@ -1268,12 +1253,13 @@ msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Biztosan törlöd a(z) \"%s\" profilt?"
 
 #: qt/settingsdialog.py:1413
+#, fuzzy
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
 "Az egyedi órák csak vesszővel elválasztott, listázott értékek lehetnek (pl. "
-"8,12,18,23), vagy */3, ha háromóránként akarsz mentést készíteni."
+"8,12,18,23), vagy */3, ha háromóránként akarsz mentést készíteni"
 
 #: qt/settingsdialog.py:1455
 msgid ""
@@ -1325,8 +1311,7 @@ msgstr "Felveendő fájl"
 #: qt/settingsdialog.py:1864 qt/settingsdialog.py:1890
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
@@ -1366,13 +1351,10 @@ msgstr ""
 #: qt/settingsdialog.py:2127
 #, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host{addFuse}.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
@@ -1424,7 +1406,7 @@ msgstr ""
 #: qt/logviewdialog.py:89
 #, fuzzy
 msgid "Filter"
-msgstr "Szűrő:"
+msgstr "Szűrő"
 
 #: qt/logviewdialog.py:100
 msgid "Informations"
@@ -1453,21 +1435,20 @@ msgstr "Diff beállítások"
 #: qt/snapshotsdialog.py:60
 #, fuzzy
 msgid "Command"
-msgstr "Parancs:"
+msgstr "Parancs"
 
 #: qt/snapshotsdialog.py:64
 #, fuzzy
 msgid "Parameters"
-msgstr "Paraméterek:"
+msgstr "Paraméterek"
 
 #: qt/snapshotsdialog.py:68
 msgid "Use %1 and %2 for path parameters"
 msgstr "Használja ezeket útvonal-paraméterként: %1 és %2"
 
 #: qt/snapshotsdialog.py:112
-#, fuzzy
 msgid "Differing snapshots only"
-msgstr "Pillanatkép készítése"
+msgstr ""
 
 #: qt/snapshotsdialog.py:120
 msgid "List only equal snapshots to: "
@@ -1490,8 +1471,9 @@ msgid "Diff"
 msgstr "Különbség"
 
 #: qt/snapshotsdialog.py:180
+#, fuzzy
 msgid "Go To"
-msgstr "Ugrás ide:"
+msgstr "Ugrás ide"
 
 #: qt/snapshotsdialog.py:330
 msgid "You can't compare a snapshot to itself"
@@ -1500,18 +1482,17 @@ msgstr "Egy pillanatkép nem hasonlítható össze önmagával"
 #: qt/snapshotsdialog.py:338
 #, fuzzy
 msgid "Command not found"
-msgstr "A következő parancs nem található: %s"
+msgstr "A következő parancs nem található"
 
 #: qt/snapshotsdialog.py:369
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete \"{file}\" in snapshot \"{snapshot_id}\"?"
-msgstr ""
-"Biztosan töröljem a \"%(file)s\" fájlt a \"%(snapshot_id)s pillanatképből?\n"
+msgstr "Biztosan töröljem a \"{file}\" fájlt a \"{snapshot_id}\" pillanatképből?"
 
 #: qt/snapshotsdialog.py:374
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete \"{file}\" in {count} snapshots?"
-msgstr "Biztos, hogy törlöd a \"%(file)s\"-t a \"%(count)d-pillanatképből?\n"
+msgstr "Biztos, hogy törlöd a \"{file}\"-t a {count}-pillanatképből?"
 
 #: qt/snapshotsdialog.py:379
 msgid "WARNING"
@@ -1525,7 +1506,7 @@ msgstr "Nem lehet visszavonni!"
 #: qt/snapshotsdialog.py:395
 #, fuzzy, python-brace-format
 msgid "Exclude \"{path}\" from future snapshots?"
-msgstr "Kizárjam a \"%s\"-t a jövőbeli pillanatképekből?"
+msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 
 #~ msgid "SSH"
 #~ msgstr "SSH"
@@ -1539,8 +1520,7 @@ msgstr "Kizárjam a \"%s\"-t a jövőbeli pillanatképekből?"
 #~ "%(err)s\n"
 #~ "Look at 'man backintime' for further instructions"
 #~ msgstr ""
-#~ "A(z) %(host)s távoli kiszolgáló nem támogatja a következőt: "
-#~ "'%(command)s':\n"
+#~ "A(z) %(host)s távoli kiszolgáló nem támogatja a következőt: '%(command)s':\n"
 #~ "%(err)s\n"
 #~ "Nézd meg a 'man backintime'-ot további részletekért"
 
@@ -1564,19 +1544,19 @@ msgstr "Kizárjam a \"%s\"-t a jövőbeli pillanatképekből?"
 #~ msgstr "Nem tudom felcsatolni: %s"
 
 #~ msgid ""
-#~ "Could not unlock ssh private key. Wrong password or password not "
-#~ "available for cron."
+#~ "Could not unlock ssh private key. Wrong password or password not available "
+#~ "for cron."
 #~ msgstr ""
-#~ "Nem tudtam feloldani az ssh privát kulcsát. Hibás jelszó vagy a cron nem "
-#~ "éri el a jelszót."
+#~ "Nem tudtam feloldani az ssh privát kulcsát. Hibás jelszó vagy a cron nem éri"
+#~ " el a jelszót."
 
 #, python-format
 #~ msgid ""
 #~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 #~ "backintime' for further instructions."
 #~ msgstr ""
-#~ "A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a "
-#~ "'man backintime'-ot további részletekért."
+#~ "A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a 'man"
+#~ " backintime'-ot további részletekért."
 
 #, python-format
 #~ msgid ""
@@ -1633,8 +1613,7 @@ msgstr "Kizárjam a \"%s\"-t a jövőbeli pillanatképekből?"
 #~ "%(err)s\n"
 #~ "Look at 'man backintime' for further instructions"
 #~ msgstr ""
-#~ "A parancsok ellenőzése a(z) %(host)s kiszolgálón ismeretlen hibát "
-#~ "okozott:\n"
+#~ "A parancsok ellenőzése a(z) %(host)s kiszolgálón ismeretlen hibát okozott:\n"
 #~ "%(err)s\n"
 #~ "Nézd meg a 'man backintime'-ot további részletekért"
 
@@ -1653,13 +1632,11 @@ msgstr "Kizárjam a \"%s\"-t a jövőbeli pillanatképekből?"
 #, python-format
 #~ msgid ""
 #~ "%(user)s is not member of group 'fuse'.\n"
-#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login "
-#~ "again.\n"
+#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
 #~ "Look at 'man backintime' for further instructions."
 #~ msgstr ""
 #~ "A(z) %(user)s nem tagja a 'fuse' csoportnak.\n"
-#~ " Futtasd le a 'sudo adduser %(user)s fuse' parancsot, majd jelentkezz ki "
-#~ "és vissza.\n"
+#~ " Futtasd le a 'sudo adduser %(user)s fuse' parancsot, majd jelentkezz ki és vissza.\n"
 #~ "Nézd meg a 'man backintime'-ot további részletekért."
 
 #, python-format
@@ -1735,8 +1712,7 @@ msgstr "Kizárjam a \"%s\"-t a jövőbeli pillanatképekből?"
 #~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
 #~ "### Ezt a naplófájlt automatikus keresési mintával dekódolták\n"
-#~ "### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel "
-#~ "dekódolni:\n"
+#~ "### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel dekódolni:\n"
 
 #~ msgid "Error:"
 #~ msgstr "Hiba:"

@@ -4,13 +4,32 @@
 ## Index
 
 <!-- TOC start https://ecotrust-canada.github.io/markdown-toc/ -->
+- [Quick guide: Synchronize translations between Weblate and Microsoft GitHub](#quick-guide--synchronize-translations-between-weblate-and-microsoft-github)
 - [Introducing the localization process](#introducing-the-localization-process-in-the-back-in-time-project)
 - [Transfer translatable strings onto Weblate platform](#transfer-translatable-strings-onto-weblate-plattform)
 - [Transfer back translation from Weblate into Back In Time upstream repository](#transfer-back-translation-from-weblate-into-back-in-time-upstream-repository)
 - [Setup Weblate project](#setup-weblate-project)
 <!-- TOC end -->
 
-That file **does not** describe how to use the [GNU gettext utilities](https://www.gnu.org/software/gettext/manual/html_node/index.html) to localize software.
+That file **does not** describe how to use the [GNU gettext
+utilities](https://www.gnu.org/software/gettext/manual/html_node/index.html)
+to localize software.
+
+# Quick guide: Synchronize translations between Weblate and Microsoft GitHub upstream repository
+
+Do not follow this steps if you are new to this process! Please go to the next
+section and start reading from there.
+
+The following steps are a quick reminder for maintainers of _Back In
+Time_. The goal is to synchronize the state of the ongoing translation at
+Weblate and the modified py-files in the upstream repository at Microsoft
+GitHub.
+
+1. Weblate: "Commit" and "Lock" the project.
+2. git: Start a new branch.
+3. Download and integrate Weblate into the git repository via `./update_language_files.py weblate`.
+4. Check via `git status` or `git diff`. The `po`-files in `common/po` and the file `common/languages.py` should be modified.
+5. Commit.
 
 # Introducing the localization process in the Back In Time project
 

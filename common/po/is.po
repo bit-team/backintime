@@ -10,16 +10,15 @@ msgstr ""
 "Project-Id-Version: 20110902-common_po_common-is\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-30 22:00+0200\n"
-"PO-Revision-Date: 2023-06-20 17:51+0000\n"
-"Last-Translator: sveinki <sv1@fellsnet.is>\n"
-"Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/"
-"common/is/>\n"
+"PO-Revision-Date: 2023-07-28 07:22+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:95
@@ -223,7 +222,7 @@ msgstr "Áætlað udev virkar ekki með hamnum {mode}"
 #: common/config.py:1715
 #, python-brace-format
 msgid "Couldn't find UUID for \"{path}\"'"
-msgstr "Gat ekki fundið UUID fyrir \"{path}\"'"
+msgstr "Gat ekki fundið UUID fyrir \"{path}\""
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
@@ -258,7 +257,7 @@ msgstr[1] "Bið %s sekúndur."
 #: common/snapshots.py:788
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id} !!!"
-msgstr "Mistókst að taka skyndiafritið %s !!!"
+msgstr "Mistókst að taka skyndiafritið {snapshot_id} !!!"
 
 #: common/snapshots.py:797
 msgid "Finalizing"
@@ -322,7 +321,7 @@ msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
 #: common/snapshots.py:1660
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Reyna að halda a.m.k. {perc}% af lausum i-hnútum (inodes)"
+msgstr "Reyna að halda a.m.k. {perc} af lausum i-hnútum (inodes)"
 
 #: common/snapshots.py:2742 qt/app.py:264 qt/app.py:1369
 msgid "Now"
@@ -385,8 +384,9 @@ msgstr "Villa"
 msgid "Question"
 msgstr "Spurning"
 
-#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2215
-#: qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
+#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259
+#: qt/settingsdialog.py:2215 qt/snapshotsdialog.py:142
+#: qt/snapshotsdialog.py:147
 msgid "Restore"
 msgstr "Endurheimta"
 
@@ -515,15 +515,15 @@ msgstr ""
 
 #: qt/app.py:250
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr ""
 
 #: qt/app.py:262
 #, python-brace-format
 msgid ""
 "Restore selected file or folder.\n"
-"If this button is grayed out this is most likely because \"{now}\" is "
-"selected in left hand snapshots list."
+"If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 msgstr ""
 
 #: qt/app.py:268 qt/qttools.py:324 qt/logviewdialog.py:75
@@ -576,8 +576,7 @@ msgstr ""
 
 #: qt/app.py:557
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
 
@@ -635,8 +634,7 @@ msgstr ""
 #: qt/app.py:1082 qt/settingsdialog.py:741
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
@@ -655,8 +653,7 @@ msgstr "Fjarlægja nýjar skrár í upprunalegri möppu"
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!!!"
 msgstr ""
 
@@ -680,9 +677,11 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Ertu viss um að þú viljir fjarlægja allar nýrri skrár í {path}?"
 
 #: qt/app.py:1161
+#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
+"Ertu viss um að þú viljir fjarlægja allar nýrri skrár í upprunalegri möppu?"
 
 #: qt/app.py:1166
 msgid ""
@@ -736,7 +735,7 @@ msgstr "afkóða slóðir"
 #: qt/qtsystrayicon.py:101
 #, fuzzy, python-brace-format
 msgid "Start {appname}"
-msgstr "Ræsa BackInTime"
+msgstr "Ræsa {appname}"
 
 #: qt/qtsystrayicon.py:161
 msgid "Working..."
@@ -774,8 +773,8 @@ msgstr "Aðvörun"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 
 #: qt/settingsdialog.py:177 qt/settingsdialog.py:1910
@@ -876,8 +875,7 @@ msgstr "Hverjar"
 
 #: qt/settingsdialog.py:447
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 
@@ -903,8 +901,7 @@ msgstr "&Undanskilja"
 
 #: qt/settingsdialog.py:506
 msgid ""
-"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH "
-"encrypted'.\n"
+"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks kare allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
 
@@ -915,7 +912,7 @@ msgstr "Undanskilja mynstur, skrár eða möppur"
 #: qt/settingsdialog.py:533
 #, fuzzy
 msgid "Highly recommended"
-msgstr "Sérstaklega mælt með:"
+msgstr "Sérstaklega mælt með"
 
 #: qt/settingsdialog.py:556
 msgid "Add default"
@@ -958,7 +955,7 @@ msgstr "Keyra í bakgrunni á fjartengdri vél."
 #: qt/settingsdialog.py:657
 #, fuzzy
 msgid "EXPERIMENTAL"
-msgstr " Á tilraunastigi!"
+msgstr "Á tilraunastigi"
 
 #: qt/settingsdialog.py:663
 msgid "Keep all snapshots for the last"
@@ -1106,7 +1103,7 @@ msgstr "Takmarka notkun rsync á bandbreidd"
 #: qt/settingsdialog.py:881
 #, fuzzy
 msgid "KB/sec"
-msgstr " KB/sek"
+msgstr "KB/sek"
 
 #: qt/settingsdialog.py:919
 msgid "Preserve ACL"
@@ -1125,8 +1122,7 @@ msgid "Paste additional options to rsync"
 msgstr "Líma viðbótarvalkosti inn í rsync"
 
 #: qt/settingsdialog.py:992
-msgid ""
-"Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
+msgid "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 
 #: qt/settingsdialog.py:1003
@@ -1182,13 +1178,9 @@ msgstr ""
 
 #: qt/settingsdialog.py:1072
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
 #: qt/settingsdialog.py:1107
@@ -1219,7 +1211,7 @@ msgstr ""
 #: qt/settingsdialog.py:1466
 #, fuzzy, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "Einkalykilsskráin \"%(file)s\" er ekki til."
+msgstr "Einkalykilsskráin \"{file}\" er ekki til."
 
 #: qt/settingsdialog.py:1618
 msgid ""
@@ -1260,8 +1252,7 @@ msgstr "Hafa með skrá"
 #: qt/settingsdialog.py:1864 qt/settingsdialog.py:1890
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
@@ -1301,13 +1292,10 @@ msgstr " og bættu notandanum þínum í hópinn 'fuse'"
 #: qt/settingsdialog.py:2127
 #, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host{addFuse}.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
@@ -1435,8 +1423,7 @@ msgstr "Skipun fannst ekki"
 #: qt/snapshotsdialog.py:369
 #, python-brace-format
 msgid "Do you really want to delete \"{file}\" in snapshot \"{snapshot_id}\"?"
-msgstr ""
-"Ertu viss um að þú viljir eyða \"{file}\" í skyndiafritinu \"{snapshot_id}\"?"
+msgstr "Ertu viss um að þú viljir eyða \"{file}\" í skyndiafritinu \"{snapshot_id}\"?"
 
 #: qt/snapshotsdialog.py:374
 #, python-brace-format

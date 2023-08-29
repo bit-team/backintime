@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-30 22:00+0200\n"
-"PO-Revision-Date: 2023-06-23 15:23+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/"
-"common/he/>\n"
+"PO-Revision-Date: 2023-07-28 07:22+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -265,9 +264,9 @@ msgstr[0] "בהמתנה של שנייה אחת."
 msgstr[1] "בהמתנה של %s שניות."
 
 #: common/snapshots.py:788
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id} !!!"
-msgstr "כשל בשמירת תמונת מצב %s!!!"
+msgstr "כשל בשמירת תמונת מצב {snapshot_id}!!!"
 
 #: common/snapshots.py:797
 msgid "Finalizing"
@@ -331,7 +330,7 @@ msgstr "מתבצע ניסיון לשמור על מקום פנוי מזערי"
 #: common/snapshots.py:1660
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "מתבצע ניסיון לשמור {perc}% מה־inodes פנויים"
+msgstr "מתבצע ניסיון לשמור {perc} מה־inodes פנויים"
 
 #: common/snapshots.py:2742 qt/app.py:264 qt/app.py:1369
 msgid "Now"
@@ -394,8 +393,9 @@ msgstr "שגיאה"
 msgid "Question"
 msgstr "שאלה"
 
-#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2215
-#: qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
+#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259
+#: qt/settingsdialog.py:2215 qt/snapshotsdialog.py:142
+#: qt/snapshotsdialog.py:147
 msgid "Restore"
 msgstr "שחזור"
 
@@ -526,16 +526,18 @@ msgstr "שחזור התיקייה שמופיעה ואת כל התוכן שלה �
 #: qt/app.py:250
 #, fuzzy
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr "שחזור התיקייה שמופיע ואת כל התוכן שלה ליעד חדש."
 
 #: qt/app.py:262
 #, python-brace-format
 msgid ""
 "Restore selected file or folder.\n"
-"If this button is grayed out this is most likely because \"{now}\" is "
-"selected in left hand snapshots list."
+"If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 msgstr ""
+"שחזור הקובץ או התיקייה הנבחרים.\n"
+"אם הכפתור הזה מושבת ומסומן באפור זה כנראה כיוון שבחרת ב„{now}” ברשימת תמונות המצב שמימין."
 
 #: qt/app.py:268 qt/qttools.py:324 qt/logviewdialog.py:75
 #: qt/snapshotsdialog.py:101
@@ -593,12 +595,10 @@ msgstr ""
 #: qt/app.py:557
 #, fuzzy
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"סגירת החלון תגרום לכך של־Back In Time לא תהיה אפשרות לכבות את המערכת שלך עם "
-"סיום שמירת תמונת המצב.\n"
+"סגירת החלון תגרום לכך של־Back In Time לא תהיה אפשרות לכבות את המערכת שלך עם סיום שמירת תמונת המצב.\n"
 "להמשיך בסגירה?"
 
 #: qt/app.py:702
@@ -657,8 +657,7 @@ msgstr ""
 #: qt/app.py:1082 qt/settingsdialog.py:741
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
@@ -680,8 +679,7 @@ msgstr "הסרת קבצים חדשים בתיקייה המקורית"
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!!!"
 msgstr ""
 
@@ -759,9 +757,9 @@ msgid "decode paths"
 msgstr "פענוח נתיבים"
 
 #: qt/qtsystrayicon.py:101
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Start {appname}"
-msgstr "הפעלת BackInTime"
+msgstr "הפעלת {appname}"
 
 #: qt/qtsystrayicon.py:161
 msgid "Working..."
@@ -799,8 +797,8 @@ msgstr "אזהרה"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 
 #: qt/settingsdialog.py:177 qt/settingsdialog.py:1910
@@ -902,8 +900,7 @@ msgstr "כל"
 
 #: qt/settingsdialog.py:447
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 
@@ -929,8 +926,7 @@ msgstr "לה&חריג"
 
 #: qt/settingsdialog.py:506
 msgid ""
-"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH "
-"encrypted'.\n"
+"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks kare allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
 
@@ -941,7 +937,7 @@ msgstr "החרגת תבניות, קבצים או תיקיות"
 #: qt/settingsdialog.py:533
 #, fuzzy
 msgid "Highly recommended"
-msgstr "מאוד מומלץ:"
+msgstr "מאוד מומלץ"
 
 #: qt/settingsdialog.py:556
 msgid "Add default"
@@ -982,9 +978,8 @@ msgid "Run in background on remote Host."
 msgstr "הרצה ברקע במארח המרוחק."
 
 #: qt/settingsdialog.py:657
-#, fuzzy
 msgid "EXPERIMENTAL"
-msgstr " נסיוני!"
+msgstr "נסיוני"
 
 #: qt/settingsdialog.py:663
 msgid "Keep all snapshots for the last"
@@ -1130,9 +1125,8 @@ msgid "Limit rsync bandwidth usage"
 msgstr "הגבלת ניצולת רוחב הפס של rsync"
 
 #: qt/settingsdialog.py:881
-#, fuzzy
 msgid "KB/sec"
-msgstr " ק״ב/שנייה"
+msgstr "ק״ב/שנייה"
 
 #: qt/settingsdialog.py:919
 msgid "Preserve ACL"
@@ -1151,11 +1145,10 @@ msgid "Paste additional options to rsync"
 msgstr "הדבקת אפשרויות נוספות ל־rsync"
 
 #: qt/settingsdialog.py:992
-msgid ""
-"Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
+msgid "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
-"חובה לשים אפשרויות במירכאות, למשל: ‎--exclude-from=\"/path/to/my exclude file"
-"\"‎."
+"חובה לשים אפשרויות במירכאות, למשל: ‎--exclude-from=\"/path/to/my exclude "
+"file\"‎."
 
 #: qt/settingsdialog.py:1003
 msgid "Add prefix to SSH commands"
@@ -1210,13 +1203,9 @@ msgstr "עריכת משוב משתמש"
 
 #: qt/settingsdialog.py:1072
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
 #: qt/settingsdialog.py:1107
@@ -1249,7 +1238,7 @@ msgstr ""
 #: qt/settingsdialog.py:1466
 #, fuzzy, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "קובץ המפתח הפרטי „%(file)s” לא קיים."
+msgstr "קובץ המפתח הפרטי „{file}” לא קיים."
 
 #: qt/settingsdialog.py:1618
 msgid ""
@@ -1266,9 +1255,9 @@ msgid ""
 "\n"
 "{keytype} key fingerprint is:"
 msgstr ""
-"לא ניתן לאמת את „%(host)s”.\n"
+"לא ניתן לאמת את „{host}”.\n"
 "\n"
-"טביעת האצבע של המפתח %(keytype)s היא:"
+"טביעת האצבע של המפתח {keytype} היא:"
 
 #: qt/settingsdialog.py:1656
 msgid ""
@@ -1295,8 +1284,7 @@ msgstr "לכלול קובץ"
 #: qt/settingsdialog.py:1864 qt/settingsdialog.py:1890
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
@@ -1336,13 +1324,10 @@ msgstr " ולהוסיף את המשתמש שלך לקבוצה ‚fuse’"
 #: qt/settingsdialog.py:2127
 #, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host{addFuse}.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
