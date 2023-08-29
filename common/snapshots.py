@@ -127,7 +127,7 @@ class Snapshots:
 
         return(mid, message)
 
-    #TODO: make own class for takeSnapshotMessage
+    # TODO: make own class for takeSnapshotMessage
     def setTakeSnapshotMessage(self, type_id, message, timeout = -1):
         """Update the status message of the active snapshot creation job
 
@@ -137,8 +137,9 @@ class Snapshots:
 
         Args:
             type_id: Simplified severity level of the status message:
+                     0: INFO
                      1: ERROR
-                     other values: INFO
+                     other values: defaults to INFO (may change in the future)
             message: status message string
             timeout: Requested maximum processing duration in plug-ins.
                      Default: -1 (no limit)
@@ -1241,11 +1242,27 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         has_errors = False  # TODO Fix inconsistent usage: Collects return value,
                             #      but errors are also checked via params[0]
 
-        if rsync_exit_code != 0:  # indicates an error
+        # dict of exit codes (as keys) that are treated as INFO only by BiT
+        # (not as ERROR). The values are message strings for the snapshot log.
+        rsync_non_error_exit_codes = {
+            0: _("Success"),
+            24: _("Partial transfer due to vanished source files (see 'man rsync')")
+        }
+
+        rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}").format(exit_code=rsync_exit_code)
+
+        if rsync_exit_code in rsync_non_error_exit_codes:
+            self.setTakeSnapshotMessage(0,
+                                        rsync_exit_code_msg + ": {msg}".format(
+                                            msg=rsync_non_error_exit_codes[rsync_exit_code]))
+        elif rsync_exit_code > 0:  # indicates a rsync error
             params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
             self.setTakeSnapshotMessage(1,
-                                        _("Error: 'rsync' ended with exit code {exit_code} (negative values are signal numbers, see 'kill -l')".format(
-                                            exit_code=rsync_exit_code)))
+                                        rsync_exit_code_msg + ": " + _("See 'man rsync' for more details"))
+        elif rsync_exit_code < 0:  # indicates a rsync error caused by a signal
+            params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
+            self.setTakeSnapshotMessage(1,
+                                        rsync_exit_code_msg + ": " + _("Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"))
 
         # params[0] -> error?
         if params[0]:
