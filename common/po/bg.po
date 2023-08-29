@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-17 09:25+0000\n"
 "Last-Translator: Dmitriy Q <krotesk@mail.ru>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/"
@@ -19,19 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr ""
-
-#: common/mount.py:687
-msgid "{} not found. Please install e.g. {}"
-msgstr ""
-
-#: common/mount.py:708
-msgid "mountpoint {} not empty."
-msgstr ""
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -200,6 +187,73 @@ msgstr "Планираните при монтиране на диск архи�
 msgid "Couldn't find UUID for {path}"
 msgstr "Не може да бъде намерен UUID за \"{path}\""
 
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Запазването на конфигурацията се провали"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Зареждането на конфигурация се провали"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Профилът \"{name}\" вече съществува!"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "Това действие не може да бъде отменено!"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "Неуспех в монтирането '{command}'"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Конфигурацията за криптираната папка не е намерена."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Създаване на нова криптирана папка?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Моля потвърдете паролата"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr ""
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Създайте моментен архив"
+
+#: common/mount.py:600
+#, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr ""
+
+#: common/mount.py:687
+msgid "{} not found. Please install e.g. {}"
+msgstr ""
+
+#: common/mount.py:708
+msgid "mountpoint {} not empty."
+msgstr ""
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Профил '{profile}': Въведете парола за {mode}: "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "Провал"
@@ -241,10 +295,6 @@ msgstr "Неуспех при създаването на моментен ар�
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Приключване"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Създайте моментен архив"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -328,56 +378,6 @@ msgstr "Опит за запазване на минимум {perc} свобод
 msgid "Now"
 msgstr "Сега"
 
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "Неуспех в монтирането '{command}'"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Конфигурацията за криптираната папка не е намерена."
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "Създаване на нова криптирана папка?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Моля потвърдете паролата"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr ""
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Профил '{profile}': Въведете парола за {mode}: "
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "Запазването на конфигурацията се провали"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "Зареждането на конфигурация се провали"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Профилът \"{name}\" вече съществува!"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "Това действие не може да бъде отменено!"
-
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
@@ -444,28 +444,6 @@ msgstr ""
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Моля въведете паролата за \"{user}\""
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "Информации"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "Грешка"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "Въпрос"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "Възстановяване"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Покажи всички записани събития"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -619,6 +597,11 @@ msgstr "Преводачи"
 msgid "About"
 msgstr "Относно"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Възстановяване"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Възстановете избраните файлове или папки на първоначалното място."
@@ -690,6 +673,10 @@ msgstr "Готово, не е необходимо архивиране"
 #: qt/app.py:958
 msgid "Working"
 msgstr "Изпълняване"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Грешка"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -849,14 +836,103 @@ msgstr "Преводачи"
 msgid "License"
 msgstr "Лизенз за изходния код"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Преводачи"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Преводачи"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Последно преглеждане на записа със събития"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Преглеждане на записа със сибития относно моментните копия"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Профил"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Моментни архиви"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Филтър"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Всичко"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Промени"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Грешки"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Информации"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[Г] Грешка, [И] Информация, [П] Промяна"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "декодиране на пътищата"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Копирайте"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Декодиране"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "Искате ли да изключите това?"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Въпрос"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -871,6 +947,35 @@ msgstr "Стартиране на {appname}"
 #, fuzzy
 msgid "Working…"
 msgstr "Изпълняване"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Днес"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Вчера"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Тази седмица"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Миналата седмица"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr "Това НЕ е моментно копие, а текущ изглед на локалните Ви файлове"
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Последна проверка {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Покажи всички записани събития"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1251,19 +1356,6 @@ msgstr "Ниво на записа"
 msgid "None"
 msgstr "Нищо"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "Грешки"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "Промени"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "Всичко"
-
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "Е&кспертни настройки"
@@ -1570,63 +1662,6 @@ msgstr "Потребителският скрипт няма шебанг (#!/bi
 msgid "Shebang in user-callback script is not executable."
 msgstr "Шебангът в потребителският скрипт не е изпълним."
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "Моментни архиви"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Днес"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Вчера"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Тази седмица"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "Миналата седмица"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "Това НЕ е моментно копие, а текущ изглед на локалните Ви файлове"
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Последна проверка {time}"
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "Последно преглеждане на записа със събития"
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "Преглеждане на записа със сибития относно моментните копия"
-
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "Филтър"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[Г] Грешка, [И] Информация, [П] Промяна"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Копирайте"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "Декодиране"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "Искате ли да изключите това?"
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1697,52 +1732,17 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Наистина ли искате да изтриете \"{file}\" от {count} моментни копия?"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "ВНИМАНИЕ"
-
-#: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
 msgstr "Това действие не може да бъде отменено!"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "ВНИМАНИЕ"
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Изключете \"{path}\" от бъдещите моментни копия?"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "Преводачи"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Преводачи"
 
 #~ msgid "Working..."
 #~ msgstr "Изпълнение..."

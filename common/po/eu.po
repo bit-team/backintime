@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-08-22 21:53+0000\n"
 "Last-Translator: alexgabi <alexgabi@disroot.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/"
@@ -19,21 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, fuzzy, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr "Ezin izan du %(proc)s desmontatu %(mountpoint)s-tik"
-
-#: common/mount.py:687
-#, fuzzy
-msgid "{} not found. Please install e.g. {}"
-msgstr "Ez du %(proc)s aurkitu. Instala ezazu ad.  %(install_command)s"
-
-#: common/mount.py:708
-#, fuzzy
-msgid "mountpoint {} not empty."
-msgstr "%s munstatze-puntua ez dago hutsik."
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -202,6 +187,77 @@ msgstr "Programatutako udev-a ez dabil {mode} moduarekin"
 msgid "Couldn't find UUID for {path}"
 msgstr "Ezin da UUID aurkitu honentzat: \"{path}\""
 
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Huts egin du ezarpenak gordetzen"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Huts egin du ezarpenak kargatzen"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "\"{name}\" profila badago honezkero!"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "Honek ez dauka atzera bueltarik!"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "'{command}' ezin da muntatu"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Ez dira aurkitu zifratutako karpetaren ezarpenak."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Sortu karpeta zifratu berri bat?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Egiaztatu pasahitza mesedez"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr "Pasahitzak ez datoz bat"
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"encfs-ren 1.7.2 bertsioak eta honen aurrekoek badute akats bat --reverse "
+"aukeran. Eguneratu encfs mesedez"
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Egin babeskopia"
+
+#: common/mount.py:600
+#, fuzzy, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr "Ezin izan du %(proc)s desmontatu %(mountpoint)s-tik"
+
+#: common/mount.py:687
+#, fuzzy
+msgid "{} not found. Please install e.g. {}"
+msgstr "Ez du %(proc)s aurkitu. Instala ezazu ad.  %(install_command)s"
+
+#: common/mount.py:708
+#, fuzzy
+msgid "mountpoint {} not empty."
+msgstr "%s munstatze-puntua ez dago hutsik."
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "'{profile}' profila: Sartu pasahitza honentzat {mode}: "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "HUTS EGIN DU"
@@ -242,10 +298,6 @@ msgstr "Huts egin du {snapshot_id} babeskopia egiten!!!"
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Amaitzen"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Egin babeskopia"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -328,58 +380,6 @@ msgstr "Saiatu gutxienez {perc} nodo libre mantentzen"
 #: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
 msgstr "Orain"
-
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "'{command}' ezin da muntatu"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Ez dira aurkitu zifratutako karpetaren ezarpenak."
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "Sortu karpeta zifratu berri bat?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Egiaztatu pasahitza mesedez"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr "Pasahitzak ez datoz bat"
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-"encfs-ren 1.7.2 bertsioak eta honen aurrekoek badute akats bat --reverse "
-"aukeran. Eguneratu encfs mesedez"
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "'{profile}' profila: Sartu pasahitza honentzat {mode}: "
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "Huts egin du ezarpenak gordetzen"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "Huts egin du ezarpenak kargatzen"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "\"{name}\" profila badago honezkero!"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "Honek ez dauka atzera bueltarik!"
 
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
@@ -468,28 +468,6 @@ msgstr "Kopiatu \"{pubkey}\" ssh-gako publikoa \"{host}\" urrutiko ostalarira"
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Egiaztatu \"{user}\"-en pasahitza, mesedez"
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "Informazioa"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "Errorea"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "Galdera"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "Berreskuratu"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Erakutsi erregistro osoa"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -643,6 +621,11 @@ msgstr "Itzulpenak"
 msgid "About"
 msgstr "Honi buruz"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Berreskuratu"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Leheneratu hautatutako fitxategiak eta karpetak jatorrizko kokalekura."
@@ -715,6 +698,10 @@ msgstr "Egina, ez da babeskopia egin behar"
 #: qt/app.py:958
 msgid "Working"
 msgstr "Lanean"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Errorea"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -871,14 +858,103 @@ msgstr "Itzulpenak"
 msgid "License"
 msgstr "Lizentzia"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Itzulpenak"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Itzulpenak"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Azken erregistroaren ikuspegia"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Babeskopiaren erregistro ikuspegia"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Profila"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Babeskopiak"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Iragazi"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Guztiak"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Aldaketak"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Akatsak"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Informazioa"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Errorea, [I] Informazioa, [C] Aldaketa"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "dekodetu bide-izenak"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Kopiatu"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Dekodetu"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "Nahi duzu hau kanpoan utzi?"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Galdera"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -893,6 +969,35 @@ msgstr "Hasi {appname}"
 #, fuzzy
 msgid "Working…"
 msgstr "Lanean"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Gaur"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Atzo"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Aste honetan"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Joan den astean"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr "Hau EZ da babeskopia bat zure fitxategi lokalen ikuspegia baizik"
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Azken kontrola {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Erakutsi erregistro osoa"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1278,19 +1383,6 @@ msgstr "Erregistro maila"
 msgid "None"
 msgstr "Ezer Ez"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "Akatsak"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "Aldaketak"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "Guztiak"
-
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "A&ukera aurreratuak"
@@ -1597,63 +1689,6 @@ msgstr ""
 msgid "Shebang in user-callback script is not executable."
 msgstr "Erabiltzalearen atzera-deiaren scriptaren shebang ez da exekutagarria."
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "Babeskopiak"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Gaur"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Atzo"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Aste honetan"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "Joan den astean"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "Hau EZ da babeskopia bat zure fitxategi lokalen ikuspegia baizik"
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Azken kontrola {time}"
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "Azken erregistroaren ikuspegia"
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "Babeskopiaren erregistro ikuspegia"
-
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "Iragazi"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Errorea, [I] Informazioa, [C] Aldaketa"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Kopiatu"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "Dekodetu"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "Nahi duzu hau kanpoan utzi?"
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1725,52 +1760,17 @@ msgstr ""
 "Seguru zaude {count} babeskopiako \"{file}\" fitxategia ezabatu nahi duzula?"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "ABISUA"
-
-#: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
 msgstr "Honek ez dauka atzera bueltarik!"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "ABISUA"
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Baztertu \"{path}\" hurrengo babeskopietan?"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "Itzulpenak"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Itzulpenak"
 
 #~ msgid "Working..."
 #~ msgstr "Lanean..."

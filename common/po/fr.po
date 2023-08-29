@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/"
@@ -19,22 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, fuzzy, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr "Impossible de démonter %(proc)s depuis %(mountpoint)s"
-
-#: common/mount.py:687
-#, fuzzy
-msgid "{} not found. Please install e.g. {}"
-msgstr ""
-"%(proc)s non trouvé. Veuillez par exemple installer %(install_command)s"
-
-#: common/mount.py:708
-#, fuzzy
-msgid "mountpoint {} not empty."
-msgstr "le point de montage %s n'est pas vide."
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -203,6 +187,78 @@ msgstr "Le programme udev ne fonctionne pas avec le mode {mode}"
 msgid "Couldn't find UUID for {path}"
 msgstr "Impossible de trouver l'UUID pour \"{path}\""
 
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Échec de l'enregistrement de la configuration"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Échec du chargement de la configuration"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Le profil \"{name}\" existe déjà !"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "Ceci ne peut être annulé !"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "Impossible de monter '{command}'"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Configuration du dossier chiffré introuvable."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Créer un nouveau dossier chiffré ?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Veuillez confirmer votre mot de passe"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr "Le mot de passe ne correspond pas"
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"Les versions 1.7.2 et précédentes de encfs ont un bug avec l'option --"
+"reverse. Veuillez mettre à jour encfs"
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Prendre un instantané"
+
+#: common/mount.py:600
+#, fuzzy, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr "Impossible de démonter %(proc)s depuis %(mountpoint)s"
+
+#: common/mount.py:687
+#, fuzzy
+msgid "{} not found. Please install e.g. {}"
+msgstr ""
+"%(proc)s non trouvé. Veuillez par exemple installer %(install_command)s"
+
+#: common/mount.py:708
+#, fuzzy
+msgid "mountpoint {} not empty."
+msgstr "le point de montage %s n'est pas vide."
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Profil '{profile}' : Entrez le mot de passe pour {mode}  : "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "ÉCHEC"
@@ -244,10 +300,6 @@ msgstr "Impossible d'effectuer la sauvegarde {snapshot_id} !!!"
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Finalisation"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Prendre un instantané"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -333,58 +385,6 @@ msgstr "Essaye de conserver un minimum de {perc} d'inodes libres"
 #: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
 msgstr "Maintenant"
-
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "Impossible de monter '{command}'"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Configuration du dossier chiffré introuvable."
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "Créer un nouveau dossier chiffré ?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Veuillez confirmer votre mot de passe"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr "Le mot de passe ne correspond pas"
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-"Les versions 1.7.2 et précédentes de encfs ont un bug avec l'option --"
-"reverse. Veuillez mettre à jour encfs"
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profil '{profile}' : Entrez le mot de passe pour {mode}  : "
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "Échec de l'enregistrement de la configuration"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "Échec du chargement de la configuration"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Le profil \"{name}\" existe déjà !"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "Ceci ne peut être annulé !"
 
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
@@ -475,28 +475,6 @@ msgstr ""
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Veuillez fournir un mot de passe pour \"{user}\""
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "Informations"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "Erreur"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "Question"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "Restaurer"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Afficher le journal complet"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -654,6 +632,11 @@ msgstr "Traductions"
 msgid "About"
 msgstr "À propos"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Restaurer"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
@@ -733,6 +716,10 @@ msgstr "Terminé, il n'y a rien à sauvegarder"
 #: qt/app.py:958
 msgid "Working"
 msgstr "En cours"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Erreur"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -894,14 +881,103 @@ msgstr "Traductions"
 msgid "License"
 msgstr "Licence"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Traductions"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Traductions"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Voir le dernier journal"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Voir le journal des instantanés"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Profil"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Instantanés"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Filtre"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Tous"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Modifications"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Erreurs"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Informations"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Erreur, [I] Information, [C] Modification"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "décoder les chemins"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Copier"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Décode"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "Voulez-vous exclure ceci ?"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Question"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -916,6 +992,37 @@ msgstr "Démarrer {appname}"
 #, fuzzy
 msgid "Working…"
 msgstr "En cours"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Hier"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Cette semaine"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "La semaine dernière"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+"Ceci n'est PAS un instantané (sauvegarde) mais une vue de l'état actuel de "
+"vos fichiers locaux"
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Dernière vérification {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Afficher le journal complet"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1302,19 +1409,6 @@ msgstr "Niveau de journalisation"
 msgid "None"
 msgstr "Aucun"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "Erreurs"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "Modifications"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "Tous"
-
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "Options avancées"
@@ -1625,65 +1719,6 @@ msgstr "Le script de rappel (callback) n'a pas de shebang (#!/bin/sh)."
 msgid "Shebang in user-callback script is not executable."
 msgstr "Le shebang du script de rappel n'est pas exécutable."
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "Instantanés"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Aujourd'hui"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Hier"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Cette semaine"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "La semaine dernière"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
-"Ceci n'est PAS un instantané (sauvegarde) mais une vue de l'état actuel de "
-"vos fichiers locaux"
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Dernière vérification {time}"
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "Voir le dernier journal"
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "Voir le journal des instantanés"
-
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "Filtre"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Erreur, [I] Information, [C] Modification"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Copier"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "Décode"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "Voulez-vous exclure ceci ?"
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1755,52 +1790,17 @@ msgstr ""
 "Voulez-vous vraiment supprimer \"{file}\" dans les {count} instantanés ?"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "ATTENTION"
-
-#: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
 msgstr "Ceci ne peut être annulé !"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "ATTENTION"
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Exclure \"{path}\" des futurs instantanés ?"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "Traductions"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Traductions"
 
 #~ msgid "Working..."
 #~ msgstr "Traitement en cours…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/"
@@ -20,19 +20,6 @@ msgstr ""
 "%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr ""
-
-#: common/mount.py:687
-msgid "{} not found. Please install e.g. {}"
-msgstr ""
-
-#: common/mount.py:708
-msgid "mountpoint {} not empty."
-msgstr ""
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -202,6 +189,73 @@ msgstr "Suplanuoti udev neveikia naudojant režimą {mode}"
 msgid "Couldn't find UUID for {path}"
 msgstr "Nepavyko rasti UUID adresui \"{path}\""
 
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Nepavyko išsaugoti konfiguracijos"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Nepavyko įkelti konfiguracijos"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Profilis \"{name}\" jau egzistuoja!"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "Tai negali būti atšaukta!"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "Neįmanoma įrengti '{command}'"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Konfiguracija užšifruotam aplankui nerasta."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Sukurti naują užšifruotą aplanką?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Prašome patvirtinti slaptažodį"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr ""
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Išsaugoti momentinę nuotrauką"
+
+#: common/mount.py:600
+#, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr ""
+
+#: common/mount.py:687
+msgid "{} not found. Please install e.g. {}"
+msgstr ""
+
+#: common/mount.py:708
+msgid "mountpoint {} not empty."
+msgstr ""
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Profilis '{profile}': Įveskite slaptažodį dėl {mode}: "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "NEPAVYKO"
@@ -243,10 +297,6 @@ msgstr "Nepavyko išsaugoti momentinės kopijos {snapshot_id} !!!"
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Baigiama"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Išsaugoti momentinę nuotrauką"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -330,56 +380,6 @@ msgstr "Bandoma išlaikyti mažiausiai {perc} laisvų inodų"
 msgid "Now"
 msgstr "Dabar"
 
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "Neįmanoma įrengti '{command}'"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Konfiguracija užšifruotam aplankui nerasta."
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "Sukurti naują užšifruotą aplanką?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Prašome patvirtinti slaptažodį"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr ""
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profilis '{profile}': Įveskite slaptažodį dėl {mode}: "
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "Nepavyko išsaugoti konfiguracijos"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "Nepavyko įkelti konfiguracijos"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Profilis \"{name}\" jau egzistuoja!"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "Tai negali būti atšaukta!"
-
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
@@ -447,28 +447,6 @@ msgstr ""
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Prašome įvesti slaptažodį vartotojui \"{user}\""
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "Informacija"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "Klaida"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "Klausimas"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "Atstatyti"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Parodyti visą žurnalą"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -622,6 +600,11 @@ msgstr "Vertimai"
 msgid "About"
 msgstr "Apie"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Atstatyti"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Atkurkite pasirinktus failus arba aplankus į pradinę paskirties vietą."
@@ -695,6 +678,10 @@ msgstr "Atlikta, atsarginė kopija nebūtina"
 #: qt/app.py:958
 msgid "Working"
 msgstr "Dirbama"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Klaida"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -851,14 +838,103 @@ msgstr "Vertimai"
 msgid "License"
 msgstr "Licenzija"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Vertimai"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Vertimai"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Paskutinio \"log\" vaizdas"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Momentinės kopijos žurnalo vaizdas"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Profilis"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Momentinės kopijos"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Filtras"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Visi"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Pakeitimai"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Kaidos"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Informacija"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Klaida, [I] Informacija, [C] Pakeisti"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "iškoduoti adresus"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Kopijuoti"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Dekoduoti"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "Ar norite tai išskirti?"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Klausimas"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -873,6 +949,35 @@ msgstr "Paleisti {appname}"
 #, fuzzy
 msgid "Working…"
 msgstr "Dirbama"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Šiandien"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Vakar"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Šią savaitę"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Praeitą savaitę"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr "Tai NE momentinė kopija, o tiesioginis vietinių failų vaizdas"
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Paskutinis patikrinimas {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Parodyti visą žurnalą"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1257,19 +1362,6 @@ msgstr "Žurnalo lygis"
 msgid "None"
 msgstr "Tuščia"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "Kaidos"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "Pakeitimai"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "Visi"
-
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "&Parinktys ekspertams"
@@ -1580,63 +1672,6 @@ msgstr ""
 msgid "Shebang in user-callback script is not executable."
 msgstr "„Shebang“ vartotojo atgalinio iškvietimo scenarijuje nėra vykdomas."
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "Momentinės kopijos"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Šiandien"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Vakar"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Šią savaitę"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "Praeitą savaitę"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "Tai NE momentinė kopija, o tiesioginis vietinių failų vaizdas"
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Paskutinis patikrinimas {time}"
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "Paskutinio \"log\" vaizdas"
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "Momentinės kopijos žurnalo vaizdas"
-
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "Filtras"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Klaida, [I] Informacija, [C] Pakeisti"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Kopijuoti"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "Dekoduoti"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "Ar norite tai išskirti?"
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1707,52 +1742,17 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Ar tikrai norite ištrinti „{file}“ iš {count} momentinių nuotraukų?"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "DĖMESIO"
-
-#: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
 msgstr "Tai negali būti atšaukta!"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "DĖMESIO"
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Ištraukti \"{path}\" iš momentinių nuotraukų ateityje?"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "Vertimai"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Vertimai"
 
 #~ msgid "Working..."
 #~ msgstr "Dirbama..."

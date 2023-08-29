@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/"
@@ -18,19 +18,6 @@ msgstr ""
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
-
-#: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr ""
-
-#: common/mount.py:687
-msgid "{} not found. Please install e.g. {}"
-msgstr ""
-
-#: common/mount.py:708
-msgid "mountpoint {} not empty."
-msgstr ""
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -199,6 +186,72 @@ msgstr "Razpored udev ne deluje z načinom {mode}"
 msgid "Couldn't find UUID for {path}"
 msgstr "Ni bilo mogoče najti UUID za \"{path}\""
 
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Konfiguracije ni bilo mogoče shraniti"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Konfiguracije ni bilo mogoče naložiti"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Profil \"{name}\" že obstaja!"
+
+#: common/configfile.py:736
+msgid "The last profile cannot be removed."
+msgstr ""
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "Ni mogoče namestiti '{command}'"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Ni mogoče najti konfiguracije za šifrirano mapo."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Želite ustvariti novo šifrirano mapo?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Prosim potrdite geslo"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr ""
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Izdelaj posnetek"
+
+#: common/mount.py:600
+#, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr ""
+
+#: common/mount.py:687
+msgid "{} not found. Please install e.g. {}"
+msgstr ""
+
+#: common/mount.py:708
+msgid "mountpoint {} not empty."
+msgstr ""
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Profil '{profile}': Vnesite geslo za {mode}: "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "SPODLETELO"
@@ -241,10 +294,6 @@ msgstr "Posnetek {snapshot_id} ni uspel !!!"
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Zaključevanje"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Izdelaj posnetek"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -328,55 +377,6 @@ msgstr "Poskus ohranjanja najmanj {perc} prostih inodov"
 msgid "Now"
 msgstr "Zdaj"
 
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "Ni mogoče namestiti '{command}'"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Ni mogoče najti konfiguracije za šifrirano mapo."
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "Želite ustvariti novo šifrirano mapo?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Prosim potrdite geslo"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr ""
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profil '{profile}': Vnesite geslo za {mode}: "
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "Konfiguracije ni bilo mogoče shraniti"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "Konfiguracije ni bilo mogoče naložiti"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Profil \"{name}\" že obstaja!"
-
-#: common/configfile.py:736
-msgid "The last profile cannot be removed."
-msgstr ""
-
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
@@ -443,28 +443,6 @@ msgstr ""
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Prosim vnesite geslo za \"{user}\""
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "Informacije"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "Napaka"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "Vprašanje"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "Obnovi"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Prikaži celoten dnevnik"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -617,6 +595,11 @@ msgstr "Prevodi"
 msgid "About"
 msgstr "O programu"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Obnovi"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Obnovi izbrane datoteke ali mape v prvotni cilj."
@@ -687,6 +670,10 @@ msgstr "Narejeno, varnostna kopija ni potrebna"
 #: qt/app.py:958
 msgid "Working"
 msgstr "V obdelavi"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Napaka"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -842,14 +829,103 @@ msgstr "Prevodi"
 msgid "License"
 msgstr "Licenca"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Prevodi"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Prevodi"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Profil"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Posnetki"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Filter"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Vse"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Spremembe"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Napake"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Informacije"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr ""
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr ""
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr ""
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr ""
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Vprašanje"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -864,6 +940,35 @@ msgstr "Zaženi {appname}"
 #, fuzzy
 msgid "Working…"
 msgstr "V obdelavi"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Danes"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Včeraj"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Ta teden"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Prejšnji teden"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr ""
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Prikaži celoten dnevnik"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1247,19 +1352,6 @@ msgstr "Nivo poročanja"
 msgid "None"
 msgstr "Brez"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "Napake"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "Spremembe"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "Vse"
-
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "Napredno"
@@ -1536,63 +1628,6 @@ msgstr ""
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "Posnetki"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Danes"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Včeraj"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Ta teden"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "Prejšnji teden"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr ""
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr ""
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr ""
-
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "Filter"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Kopiraj"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr ""
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr ""
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1663,52 +1698,17 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Ali res želite obnoviti datoteko/datoteke"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "POZOR"
-
-#: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
 msgstr ""
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "POZOR"
 
 #: qt/snapshotsdialog.py:394
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr ""
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "Prevodi"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Prevodi"
 
 #~ msgid "Working..."
 #~ msgstr "Počakajte ..."

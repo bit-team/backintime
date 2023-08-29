@@ -69,7 +69,7 @@ def update_po_template():
         f'--msgid-bugs-address={BUG_ADDRESS}',
         f'--output={TEMPLATE_PO}',
         '--sort-by-file',
-        '--sort-output',
+        # '--sort-output',
     ]
     cmd.extend(py_files)
 

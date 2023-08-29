@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/"
@@ -19,20 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr ""
-
-#: common/mount.py:687
-msgid "{} not found. Please install e.g. {}"
-msgstr ""
-
-#: common/mount.py:708
-#, fuzzy
-msgid "mountpoint {} not empty."
-msgstr "挂载点 %s 不为空。"
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -198,6 +184,80 @@ msgstr ""
 msgid "Couldn't find UUID for {path}"
 msgstr "无法找到 \"{path}\" 的 UUID"
 
+#: common/configfile.py:107
+#, fuzzy
+msgid "Failed to save config"
+msgstr "保存配置失败"
+
+#: common/configfile.py:143
+#, fuzzy
+msgid "Failed to load config"
+msgstr "无法加载配置"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, fuzzy, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "\"{name}\"配置已存在！"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "警告：该操作无法撤销！"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "无法加载 {command}"
+
+#: common/encfstools.py:134
+#, fuzzy
+msgid "Config for encrypted folder not found."
+msgstr "未找到加密文件夹的配置文件。"
+
+#: common/encfstools.py:142
+#, fuzzy
+msgid "Create a new encrypted folder?"
+msgstr "是否创建一个新的加密文件夹？"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "确认密码"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr "密码不一致"
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"encfs 1.7.2 及更早的版本中 --reverse 选项存在缺陷，请更新系统中安装的 encfs "
+"版本"
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "创建快照"
+
+#: common/mount.py:600
+#, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr ""
+
+#: common/mount.py:687
+msgid "{} not found. Please install e.g. {}"
+msgstr ""
+
+#: common/mount.py:708
+#, fuzzy
+msgid "mountpoint {} not empty."
+msgstr "挂载点 %s 不为空。"
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr ""
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "失败"
@@ -239,10 +299,6 @@ msgstr "创建快照 {snapshot_id} 失败!!!"
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "正在完成"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "创建快照"
 
 #: common/snapshots.py:943
 #, fuzzy
@@ -328,62 +384,6 @@ msgstr "尝试保留最小可用空间"
 msgid "Now"
 msgstr "现在"
 
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "无法加载 {command}"
-
-#: common/encfstools.py:134
-#, fuzzy
-msgid "Config for encrypted folder not found."
-msgstr "未找到加密文件夹的配置文件。"
-
-#: common/encfstools.py:142
-#, fuzzy
-msgid "Create a new encrypted folder?"
-msgstr "是否创建一个新的加密文件夹？"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "确认密码"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr "密码不一致"
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-"encfs 1.7.2 及更早的版本中 --reverse 选项存在缺陷，请更新系统中安装的 encfs "
-"版本"
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr ""
-
-#: common/configfile.py:107
-#, fuzzy
-msgid "Failed to save config"
-msgstr "保存配置失败"
-
-#: common/configfile.py:143
-#, fuzzy
-msgid "Failed to load config"
-msgstr "无法加载配置"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "\"{name}\"配置已存在！"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "警告：该操作无法撤销！"
-
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
@@ -460,28 +460,6 @@ msgstr "复制 ssh 公钥\"{pubkey}\"到远程主机 \"{host}\""
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "请输入“{user}”的密码"
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "提示信息"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "错误"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "问题"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "还原"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "显示完整日志"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -631,6 +609,11 @@ msgstr "翻译"
 msgid "About"
 msgstr "关于"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "还原"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
@@ -704,6 +687,10 @@ msgstr "已完成，无需备份"
 #, fuzzy
 msgid "Working"
 msgstr "运行中"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "错误"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -844,15 +831,105 @@ msgstr "翻译"
 msgid "License"
 msgstr ""
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "翻译"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "翻译"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 #, fuzzy
 msgid "Profile"
 msgstr "配置"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "快照"
+
+#: qt/logviewdialog.py:85
+#, fuzzy
+msgid "Filter"
+msgstr "过滤器"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "所有的"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "变更"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "错误"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "提示信息"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] 错误，[I] 通知，[C] 变更"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "解码路径"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "复制"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "解码"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "你希望排除它吗？"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "问题"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -867,6 +944,35 @@ msgstr "启动 {appname}"
 #, fuzzy
 msgid "Working…"
 msgstr "运行中"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "今天"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "昨天"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "本周"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "上周"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr ""
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "显示完整日志"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1248,19 +1354,6 @@ msgstr "日志级别"
 msgid "None"
 msgstr "空"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "错误"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "变更"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "所有的"
-
 #: qt/settingsdialog.py:813
 #, fuzzy
 msgid "E&xpert Options"
@@ -1527,64 +1620,6 @@ msgstr ""
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "快照"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "今天"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "昨天"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "本周"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "上周"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr ""
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr ""
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr ""
-
-#: qt/logviewdialog.py:85
-#, fuzzy
-msgid "Filter"
-msgstr "过滤器"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] 错误，[I] 通知，[C] 变更"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "复制"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "解码"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "你希望排除它吗？"
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1656,53 +1691,18 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "你确定要删除 {count} 份快照中的 \"{file}\" 吗？"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "警告"
-
-#: qt/snapshotsdialog.py:378
 #, fuzzy
 msgid "This cannot be revoked!"
 msgstr "警告：该操作无法撤销！"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "警告"
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "在未来的快照中排除 \"{path}\"？"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "翻译"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "翻译"
 
 #~ msgid "Working..."
 #~ msgstr "正在进行..."

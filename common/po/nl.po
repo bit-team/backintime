@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/"
@@ -19,21 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, fuzzy, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr "Kon %(proc)s niet ontkoppelen van %(mountpoint)s"
-
-#: common/mount.py:687
-#, fuzzy
-msgid "{} not found. Please install e.g. {}"
-msgstr "%(proc)s niet gevonden. Installeer b.v. %(install_command)s"
-
-#: common/mount.py:708
-#, fuzzy
-msgid "mountpoint {} not empty."
-msgstr "koppelpunt-%s niet leeg."
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -205,6 +190,80 @@ msgstr "Planning udev werkt niet bij modus {mode}"
 msgid "Couldn't find UUID for {path}"
 msgstr "Kon de unieke identificatiecode voor \"{path}\" niet vinden"
 
+#: common/configfile.py:107
+#, fuzzy
+msgid "Failed to save config"
+msgstr "Kon volgende configuratie niet opslaan"
+
+#: common/configfile.py:143
+#, fuzzy
+msgid "Failed to load config"
+msgstr "Kon volgende configuratie niet laden"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, fuzzy, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Profiel \"{name}\" bestaat al!"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
+
+#: common/encfstools.py:87
+#, fuzzy, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "Kan '{command}' niet aankoppelen"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Configuratie voor versleutelde map niet gevonden."
+
+#: common/encfstools.py:142
+#, fuzzy
+msgid "Create a new encrypted folder?"
+msgstr "Nieuwe versleutelde map aanmaken?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Wachtwoord bevestigen"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr "Wachtwoord komt niet overeen"
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"encfs-versie 1.7.2 en daarvoor hebben een fout met de optie --reverse. Werk "
+"encfs a.u.b. bij"
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Reservekopie maken"
+
+#: common/mount.py:600
+#, fuzzy, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr "Kon %(proc)s niet ontkoppelen van %(mountpoint)s"
+
+#: common/mount.py:687
+#, fuzzy
+msgid "{} not found. Please install e.g. {}"
+msgstr "%(proc)s niet gevonden. Installeer b.v. %(install_command)s"
+
+#: common/mount.py:708
+#, fuzzy
+msgid "mountpoint {} not empty."
+msgstr "koppelpunt-%s niet leeg."
+
+#: common/password.py:240
+#, fuzzy, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Profiel '{profile}': Voer wachtwoord in voor {mode}: "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "MISLUKT"
@@ -247,10 +306,6 @@ msgstr "Kon reservekopie {snapshot_id} niet maken!!!"
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Voltooien"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "Reservekopie maken"
 
 #: common/snapshots.py:943
 #, fuzzy
@@ -337,61 +392,6 @@ msgstr "Probeer een minimum van {perc} vrije inodes te houden"
 #: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
 msgstr "Huidige schijfinhoud"
-
-#: common/encfstools.py:87
-#, fuzzy, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "Kan '{command}' niet aankoppelen"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "Configuratie voor versleutelde map niet gevonden."
-
-#: common/encfstools.py:142
-#, fuzzy
-msgid "Create a new encrypted folder?"
-msgstr "Nieuwe versleutelde map aanmaken?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "Wachtwoord bevestigen"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr "Wachtwoord komt niet overeen"
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-"encfs-versie 1.7.2 en daarvoor hebben een fout met de optie --reverse. Werk "
-"encfs a.u.b. bij"
-
-#: common/password.py:240
-#, fuzzy, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profiel '{profile}': Voer wachtwoord in voor {mode}: "
-
-#: common/configfile.py:107
-#, fuzzy
-msgid "Failed to save config"
-msgstr "Kon volgende configuratie niet opslaan"
-
-#: common/configfile.py:143
-#, fuzzy
-msgid "Failed to load config"
-msgstr "Kon volgende configuratie niet laden"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Profiel \"{name}\" bestaat al!"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
 
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
@@ -483,28 +483,6 @@ msgstr ""
 #, fuzzy, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Wachtwoord bevestigen voor \"{user}\""
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "Informatie"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "Fout"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "Vraag"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "Herstellen"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "Volledig logboek tonen"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -661,6 +639,11 @@ msgstr "Vertalingen"
 msgid "About"
 msgstr "Info"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Herstellen"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
@@ -741,6 +724,10 @@ msgstr "Klaar, geen reservekopie nodig"
 #, fuzzy
 msgid "Working"
 msgstr "Bezig met"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Fout"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 #, fuzzy
@@ -907,15 +894,105 @@ msgstr "Vertalingen"
 msgid "License"
 msgstr "Licentie"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "Vertalingen"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "Vertalingen"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Laatste logboekweergave"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Reservekopielogboekweergave"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 #, fuzzy
 msgid "Profile"
 msgstr "Profiel"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Reservekopieën"
+
+#: qt/logviewdialog.py:85
+#, fuzzy
+msgid "Filter"
+msgstr "Filter"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Alles"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Wijzigingen"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Fouten"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Informatie"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Fout, [I] Informatie, [C] Wijziging"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "decodeerpaden"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Kopiëren"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Decoderen"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr ""
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Vraag"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -930,6 +1007,36 @@ msgstr "{appname} starten"
 #, fuzzy
 msgid "Working…"
 msgstr "Bezig met"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Vandaag"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Gisteren"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Deze week"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Afgelopen week"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+"Dit is GEEN reservekopie maar een actuele weergave van uw lokale bestanden"
+
+#: qt/qttools.py:544
+#, fuzzy, python-brace-format
+msgid "Last check {time}"
+msgstr "Laatste controle {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Volledig logboek tonen"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1337,19 +1444,6 @@ msgstr "Logboekniveau"
 msgid "None"
 msgstr "Geen"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "Fouten"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "Wijzigingen"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "Alles"
-
 #: qt/settingsdialog.py:813
 #, fuzzy
 msgid "E&xpert Options"
@@ -1667,65 +1761,6 @@ msgstr "User-callback-script heeft geen shebang-regel (#!/bin/sh)."
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang in user-callback-script is niet uitvoerbaar."
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "Reservekopieën"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "Vandaag"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "Gisteren"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "Deze week"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "Afgelopen week"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
-"Dit is GEEN reservekopie maar een actuele weergave van uw lokale bestanden"
-
-#: qt/qttools.py:544
-#, fuzzy, python-brace-format
-msgid "Last check {time}"
-msgstr "Laatste controle {time}"
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "Laatste logboekweergave"
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "Reservekopielogboekweergave"
-
-#: qt/logviewdialog.py:85
-#, fuzzy
-msgid "Filter"
-msgstr "Filter"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Fout, [I] Informatie, [C] Wijziging"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "Kopiëren"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "Decoderen"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr ""
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1800,53 +1835,18 @@ msgstr ""
 "Weet u zeker dat u \"{file}\" uit {count} reservekopieën wilt verwijderen?"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr ""
-
-#: qt/snapshotsdialog.py:378
 #, fuzzy
 msgid "This cannot be revoked!"
 msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr ""
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "Vertalingen"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "Vertalingen"
 
 #~ msgid "Working..."
 #~ msgstr "Bezig met..."

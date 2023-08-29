@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-29 21:02+0200\n"
+"POT-Creation-Date: 2023-08-29 21:10+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/backintime/"
@@ -19,19 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-
-#: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
-msgstr ""
-
-#: common/mount.py:687
-msgid "{} not found. Please install e.g. {}"
-msgstr ""
-
-#: common/mount.py:708
-msgid "mountpoint {} not empty."
-msgstr ""
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
@@ -202,6 +189,73 @@ msgstr "ตารางงานของ udev ไม่ทำงานกับ
 msgid "Couldn't find UUID for {path}"
 msgstr "ไม่พบ UUID สำหรับ \"{path}\""
 
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "ไม่สามารถบันทึกการตั้งค่าได้"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "ไม่สามารถโหลดการตั้งค่าได้"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "โปรไฟล์ \"{name}\" มีอยู่แล้ว!"
+
+#: common/configfile.py:736
+#, fuzzy
+msgid "The last profile cannot be removed."
+msgstr "ไม่สามารถเพิกถอนสิ่งนี้ได้!"
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "ไม่สามารถเชื่อมต่อ '{command}'"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "ไม่พบการตั้งค่าสำหรับโฟลเดอร์ที่เข้ารหัส"
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "ต้องการสร้างโฟลเดอร์ที่เข้ารหัสใหม่หรือไม่?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "โปรดยืนยันรหัสผ่าน"
+
+#: common/encfstools.py:155
+msgid "Password doesn't match"
+msgstr ""
+
+#: common/encfstools.py:173
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "สร้างสแนปช็อต"
+
+#: common/mount.py:600
+#, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}"
+msgstr ""
+
+#: common/mount.py:687
+msgid "{} not found. Please install e.g. {}"
+msgstr ""
+
+#: common/mount.py:708
+msgid "mountpoint {} not empty."
+msgstr ""
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "โปรไฟล์ '{profile}': ป้อนรหัสผ่านสำหรับ {mode}: "
+
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "ล้มเหลว"
@@ -242,10 +296,6 @@ msgstr "ไม่สามารถสร้างสแนปช็อต {snap
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "กำลังประมวลผลล่าสุด"
-
-#: common/snapshots.py:908 common/encfstools.py:509
-msgid "Take snapshot"
-msgstr "สร้างสแนปช็อต"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -329,56 +379,6 @@ msgstr "พยายามรักษาเครื่องหมายเช
 msgid "Now"
 msgstr "เดี๋ยวนี้"
 
-#: common/encfstools.py:87
-#, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "ไม่สามารถเชื่อมต่อ '{command}'"
-
-#: common/encfstools.py:134
-msgid "Config for encrypted folder not found."
-msgstr "ไม่พบการตั้งค่าสำหรับโฟลเดอร์ที่เข้ารหัส"
-
-#: common/encfstools.py:142
-msgid "Create a new encrypted folder?"
-msgstr "ต้องการสร้างโฟลเดอร์ที่เข้ารหัสใหม่หรือไม่?"
-
-#: common/encfstools.py:151
-msgid "Please confirm password"
-msgstr "โปรดยืนยันรหัสผ่าน"
-
-#: common/encfstools.py:155
-msgid "Password doesn't match"
-msgstr ""
-
-#: common/encfstools.py:173
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-
-#: common/password.py:240
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "โปรไฟล์ '{profile}': ป้อนรหัสผ่านสำหรับ {mode}: "
-
-#: common/configfile.py:107
-msgid "Failed to save config"
-msgstr "ไม่สามารถบันทึกการตั้งค่าได้"
-
-#: common/configfile.py:143
-msgid "Failed to load config"
-msgstr "ไม่สามารถโหลดการตั้งค่าได้"
-
-#: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "โปรไฟล์ \"{name}\" มีอยู่แล้ว!"
-
-#: common/configfile.py:736
-#, fuzzy
-msgid "The last profile cannot be removed."
-msgstr "ไม่สามารถเพิกถอนสิ่งนี้ได้!"
-
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
@@ -444,28 +444,6 @@ msgstr "คัดลอก SSH public key \"{pubkey}\" ไปยังโฮส�
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "โปรดป้อนรหัสผ่านสำหรับ \"{user}\""
-
-#: qt/messagebox.py:55 qt/logviewdialog.py:96
-#, fuzzy
-msgid "Information"
-msgstr "ข้อมูล"
-
-#: qt/messagebox.py:73 qt/app.py:964
-msgid "Error"
-msgstr "ข้อผิดพลาด"
-
-#: qt/messagebox.py:79 qt/messagebox.py:85
-msgid "Question"
-msgstr "คำถาม"
-
-#: qt/restoredialog.py:47 qt/app.py:535 qt/settingsdialog.py:2229
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
-msgid "Restore"
-msgstr "คืน"
-
-#: qt/restoredialog.py:60
-msgid "Show full Log"
-msgstr "แสดงบันทึกทั้งหมด"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -620,6 +598,11 @@ msgstr "การแปล"
 msgid "About"
 msgstr "เกี่ยวกับ"
 
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "คืน"
+
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr "เรียกคืนไฟล์หรือโฟลเดอร์ที่เลือกไปยังตำแหน่งเดิม"
@@ -693,6 +676,10 @@ msgstr "ทำเสร็จ, ไม่จำเป็นต้องสำร�
 #: qt/app.py:958
 msgid "Working"
 msgstr "กำลังทำงาน"
+
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "ข้อผิดพลาด"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -846,14 +833,103 @@ msgstr "การแปล"
 msgid "License"
 msgstr "ใบอนุญาต"
 
-#: qt/qtsystrayicon.py:74 qt/settingsdialog.py:95 qt/settingsdialog.py:340
-#: qt/settingsdialog.py:2326 qt/logviewdialog.py:63
+#: qt/languagedialog.py:92
+msgid "Use operating systems language."
+msgstr ""
+
+#: qt/languagedialog.py:144
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr ""
+
+#: qt/languagedialog.py:184
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is "
+"{perc} complete. Regardless of your level of technical expertise, you can "
+"contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For "
+"further assistance and questions, please visit the "
+"{back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. "
+"This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team."
+msgstr ""
+
+#: qt/languagedialog.py:217
+#, fuzzy
+msgid "translation platform"
+msgstr "การแปล"
+
+#: qt/languagedialog.py:228
+#, fuzzy
+msgid "Your translation"
+msgstr "การแปล"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "มุมมองบันทึกล่าสุด"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "มุมมองบันทึกสแนปช็อต"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "โปรไฟล์"
 
-#: qt/qtsystrayicon.py:96 qt/logviewdialog.py:109
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "สแนปช็อต"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "ตัวกรอง"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "ทั้งหมด"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "การเปลี่ยนแปลง"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "ข้อผิดพลาด"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "ข้อมูล"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] ข้อผิดพลาด, [I] ข้อมูล, [C] การเปลี่ยนแปลง"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "ถอดรหัสเส้นทาง"
+
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "คัดลอก"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "ถอดรหัส"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "คุณต้องการยกเว้นสิ่งนี้หรือไม่?"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "คำถาม"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
@@ -868,6 +944,35 @@ msgstr ""
 #, fuzzy
 msgid "Working…"
 msgstr "กำลังทำงาน"
+
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "วันนี้"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "เมื่อวาน"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "สัดาห์นี้"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "สัปดาห์ที่แล้ว"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr "นี่ไม่ใช่สแนปช็อต แต่เป็นมุมมองสดของไฟล์ท้องถิ่นของคุณ"
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "ตรวจสอบล่าสุดเมื่อ {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "แสดงบันทึกทั้งหมด"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -1244,19 +1349,6 @@ msgstr "ระดับบันทึก"
 msgid "None"
 msgstr "ไม่มี"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:802 qt/logviewdialog.py:92
-#: qt/logviewdialog.py:94
-msgid "Errors"
-msgstr "ข้อผิดพลาด"
-
-#: qt/settingsdialog.py:802 qt/logviewdialog.py:92 qt/logviewdialog.py:95
-msgid "Changes"
-msgstr "การเปลี่ยนแปลง"
-
-#: qt/settingsdialog.py:803 qt/logviewdialog.py:91
-msgid "All"
-msgstr "ทั้งหมด"
-
 #: qt/settingsdialog.py:813
 msgid "E&xpert Options"
 msgstr "&ตัวเลือกขั้นสูง"
@@ -1527,63 +1619,6 @@ msgstr ""
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
-#: qt/qttools.py:347 qt/logviewdialog.py:71 qt/snapshotsdialog.py:99
-msgid "Snapshots"
-msgstr "สแนปช็อต"
-
-#: qt/qttools.py:370
-msgid "Today"
-msgstr "วันนี้"
-
-#: qt/qttools.py:377
-msgid "Yesterday"
-msgstr "เมื่อวาน"
-
-#: qt/qttools.py:386
-msgid "This week"
-msgstr "สัดาห์นี้"
-
-#: qt/qttools.py:393
-msgid "Last week"
-msgstr "สัปดาห์ที่แล้ว"
-
-#: qt/qttools.py:539
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "นี่ไม่ใช่สแนปช็อต แต่เป็นมุมมองสดของไฟล์ท้องถิ่นของคุณ"
-
-#: qt/qttools.py:544
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "ตรวจสอบล่าสุดเมื่อ {time}"
-
-#: qt/logviewdialog.py:53
-msgid "Last Log View"
-msgstr "มุมมองบันทึกล่าสุด"
-
-#: qt/logviewdialog.py:55
-msgid "Snapshot Log View"
-msgstr "มุมมองบันทึกสแนปช็อต"
-
-#: qt/logviewdialog.py:85
-msgid "Filter"
-msgstr "ตัวกรอง"
-
-#: qt/logviewdialog.py:106
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] ข้อผิดพลาด, [I] ข้อมูล, [C] การเปลี่ยนแปลง"
-
-#: qt/logviewdialog.py:167
-msgid "Copy"
-msgstr "คัดลอก"
-
-#: qt/logviewdialog.py:175
-msgid "Decode"
-msgstr "ถอดรหัส"
-
-#: qt/logviewdialog.py:197
-msgid "Do you want to exclude this?"
-msgstr "คุณต้องการยกเว้นสิ่งนี้หรือไม่?"
-
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr ""
@@ -1652,53 +1687,18 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "คุณต้องการลบ \"{file}\" ในสแนปช็อต {count} รายการ จริงหรือไม่?"
 
 #: qt/snapshotsdialog.py:378
-msgid "WARNING"
-msgstr "คำเตือน"
-
-#: qt/snapshotsdialog.py:378
 #, fuzzy
 msgid "This cannot be revoked!"
 msgstr "ไม่สามารถเพิกถอนสิ่งนี้ได้!"
+
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "คำเตือน"
 
 #: qt/snapshotsdialog.py:394
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "ยกเว้น \"{path}\" จากสแนปช็อตในอนาคตหรือไม่?"
-
-#: qt/languagedialog.py:92
-msgid "Use operating systems language."
-msgstr ""
-
-#: qt/languagedialog.py:144
-#, python-brace-format
-msgid "Translated: {percent}"
-msgstr ""
-
-#: qt/languagedialog.py:184
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team."
-msgstr ""
-
-#: qt/languagedialog.py:217
-#, fuzzy
-msgid "translation platform"
-msgstr "การแปล"
-
-#: qt/languagedialog.py:228
-#, fuzzy
-msgid "Your translation"
-msgstr "การแปล"
 
 #, python-brace-format
 #~ msgid "Every {n} hours"
