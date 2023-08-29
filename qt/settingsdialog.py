@@ -84,7 +84,7 @@ class SettingsDialog(QDialog):
         self.config.setErrorHandler(self.errorHandler)
 
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle(_('Settings'))
+        self.setWindowTitle(_('Manage profiles'))
 
         self.mainLayout = QVBoxLayout(self)
 

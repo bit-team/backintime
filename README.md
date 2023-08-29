@@ -51,7 +51,10 @@ and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%
  * [FAQ - Frequently Asked Questions](FAQ.md)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  * Use [Issues](https://github.com/bit-team/backintime/issues) to ask questions and report bugs.
- * [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
+ * [Mailing list
+   _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for
+   **every topic**, question and idea about _Back In Time_. Despite its name
+   it is not restricted to development topics only.
 
 ## Installation
 

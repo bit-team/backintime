@@ -185,6 +185,9 @@ def create_completeness_dict():
 
         pof.save()
 
+    # "en" is the source language
+    result['en'] = 100
+
     # info
     print(json.dumps(result, indent=4))
 
