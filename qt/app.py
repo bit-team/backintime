@@ -401,7 +401,8 @@ class MainWindow(QMainWindow):
         SetupCron(self).start()
 
         if 0 == self.config.manual_starts_countdown():
-            self._open_approach_translator_dialog(cutoff=97)
+            if self.config.language_used != 'en':
+                self._open_approach_translator_dialog(cutoff=97)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
