@@ -28,8 +28,11 @@ GitHub.
 1. Weblate: "Commit" and "Lock" the project.
 2. git: Start a new branch.
 3. Download and integrate Weblate into the git repository via `./update_language_files.py weblate`.
-4. Check via `git status` or `git diff`. The `po`-files in `common/po` and the file `common/languages.py` should be modified.
+4. Check via `git status` or `git diff`. The `po`-files (not `pot`!) in `common/po` and the file `common/languages.py` should be modified.
 5. Commit.
+6. Scan `py`-files for modified source strings via `./update_language_files.py source`.
+7. Check via `git status` or `git diff`. The file `messages.pot` and all `po`-files should be modified.
+8. Commit.
 
 # Introducing the localization process in the Back In Time project
 
