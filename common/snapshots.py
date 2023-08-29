@@ -1249,7 +1249,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             24: _("Partial transfer due to vanished source files (see 'man rsync')")
         }
 
-        rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}".format(exit_code=rsync_exit_code))
+        rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}").format(exit_code=rsync_exit_code)
 
         if rsync_exit_code in rsync_non_error_exit_codes:
             self.setTakeSnapshotMessage(0,
