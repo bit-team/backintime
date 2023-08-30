@@ -207,10 +207,7 @@ class ApproachTranslatorDialog(QDialog):
         if unicodedata.east_asian_width(txt[0]) == 'Na':
             wrap_width = 60
         else:
-            # We do not half the width because we still have the name of our
-            # project as latin letters in that string. Even if it is possible
-            # it is unusual to use double-width latin letters.
-            wrap_width = 35
+            wrap_width = 30
 
         # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
         # <p> tags.
