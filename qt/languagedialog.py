@@ -213,11 +213,12 @@ class ApproachTranslatorDialog(QDialog):
         # <p> tags.
         result = ''
         for t in txt.split('\n'):
-            result = '{}<p>{}</p>'.format(
-                result,
-                '<br>'.join(textwrap.wrap(t, width=wrap_width)))
+            # result = '{}<p>{}</p>'.format(
+            #     result,
+            #     '<br>'.join(textwrap.wrap(t, width=wrap_width)))
+            result = f'{result}<p>{t}</p>'
 
-        # Insert data in placeholder variables.
+       # Insert data in placeholder variables.
         result = result.format(
             language=f'<strong>{language}</strong>',
             perc=f'<strong>{percent} %</strong>',
