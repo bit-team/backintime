@@ -1639,8 +1639,10 @@ files that the receiver requests to be transferred.""")
 
         # show current path
         self.widget_current_path.setText(self.path)
-        self.act_restore_parent.setText(_(f'Restore {self.path}'))
-        self.act_restore_parent_to.setText(_(f'Restore {self.path} to …'))
+        self.act_restore_parent.setText(
+            _('Restore {path}').format(path=self.path))
+        self.act_restore_parent_to.setText(
+            _('Restore {path} to …').format(path=self.path))
 
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)

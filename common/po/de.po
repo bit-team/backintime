@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-30 09:21+0200\n"
+"POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-08-29 12:27+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/"
@@ -581,7 +581,7 @@ msgstr "Herunterfahren"
 msgid "Shut down system after snapshot has finished."
 msgstr "Rechner herunterfahren, nachdem der Schnappschuss erstellt wurde."
 
-#: qt/app.py:499 qt/languagedialog.py:28
+#: qt/app.py:499 qt/languagedialog.py:29
 msgid "Setup language"
 msgstr ""
 
@@ -598,7 +598,7 @@ msgstr "Hilfe"
 msgid "Profiles config file"
 msgstr "Konfigurationsdatei wird gespeichert …"
 
-#: qt/app.py:514 qt/languagedialog.py:220
+#: qt/app.py:514 qt/languagedialog.py:235
 msgid "Website"
 msgstr "Internetseite"
 
@@ -623,7 +623,7 @@ msgstr "Fehlerbericht einsenden"
 msgid "Translation"
 msgstr "Übersetzungen"
 
-#: qt/app.py:532 qt/app.py:1815
+#: qt/app.py:532 qt/app.py:1817
 msgid "About"
 msgstr "Über"
 
@@ -845,42 +845,42 @@ msgstr "Schnappschuss"
 msgid "View the snapshot made at {timestamp}"
 msgstr "Den Schnappschuss vom {name} anzeigen"
 
-#: qt/app.py:1642
-#, fuzzy, python-brace-format
-msgid "Restore {self.path}"
-msgstr "Stelle {path} wieder her"
-
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
-msgid "Restore {self.path} to …"
+msgid "Restore {path}"
+msgstr "Stelle {path} wieder her"
+
+#: qt/app.py:1645
+#, fuzzy, python-brace-format
+msgid "Restore {path} to …"
 msgstr "Stelle {path} wieder her nach …"
 
-#: qt/app.py:1800
+#: qt/app.py:1802
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1840 qt/app.py:1857
+#: qt/app.py:1842 qt/app.py:1859
 msgid "Authors"
 msgstr "Autoren"
 
-#: qt/app.py:1841 qt/app.py:1860
+#: qt/app.py:1843 qt/app.py:1862
 msgid "Translations"
 msgstr "Übersetzungen"
 
-#: qt/app.py:1842 qt/app.py:1863
+#: qt/app.py:1844 qt/app.py:1865
 msgid "License"
 msgstr "Lizenz"
 
-#: qt/languagedialog.py:92
+#: qt/languagedialog.py:93
 msgid "Use operating systems language."
 msgstr ""
 
-#: qt/languagedialog.py:144
+#: qt/languagedialog.py:145
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Übersetzt: {percent}"
 
-#: qt/languagedialog.py:184
+#: qt/languagedialog.py:185
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -908,12 +908,12 @@ msgstr ""
 "einmal angezeigt, ist aber jederzeit über das Hilfe-Menü verfügbar.\n"
 "Ihr Back In Time-Team."
 
-#: qt/languagedialog.py:217
+#: qt/languagedialog.py:232
 #, fuzzy
 msgid "translation platform"
 msgstr "Übersetzungsplattform"
 
-#: qt/languagedialog.py:228
+#: qt/languagedialog.py:243
 #, fuzzy
 msgid "Your translation"
 msgstr "Ihre Übersetzung"
