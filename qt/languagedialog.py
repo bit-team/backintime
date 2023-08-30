@@ -5,7 +5,6 @@ from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
-                             QTabWidget,
                              QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
@@ -256,4 +255,6 @@ class ApproachTranslatorDialog(QDialog):
         layout.addWidget(button)
 
     def slot_link_hovered(self, url):
+        url_label = url.strip('https://')
+        print(f'{url_label=}')
         QToolTip.showText(QCursor.pos(), url.strip('https://'))
