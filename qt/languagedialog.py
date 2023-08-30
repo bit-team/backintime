@@ -234,8 +234,12 @@ class ApproachTranslatorDialog(QDialog):
 
     def __init__(self, parent, language_name, completeness):
         super().__init__(parent)
-        self.setMinimumSize(250, 200)
-        self.setMaximumWidth(400)
+
+        self.setMinimumWidth(350)
+        screen_width = QApplication.primaryScreen().size().width()
+        # 25% of screen width but minimaly 800 pixel
+        max_width = min(int(screen_width / 4), 800)
+        self.setMaximumWidth(max_width)
 
         self.setWindowTitle(_('Your translation'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
