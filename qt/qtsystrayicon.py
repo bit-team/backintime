@@ -164,7 +164,7 @@ class QtSysTrayIcon:
 
         message = self.snapshots.takeSnapshotMessage()
         if message is None and self.last_message is None:
-            message = (0, _('Working...'))
+            message = (0, _('Working…'))
 
         if not message is None:
             if message != self.last_message:
