@@ -1,10 +1,10 @@
+import unicodedata
 import textwrap
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
-                             QTabWidget,
                              QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
@@ -202,11 +202,25 @@ class ApproachTranslatorDialog(QDialog):
             'Your Back In Time Team.'
         )
 
+        # Take languages into account using double-width/wide characters.
+        # e.g. Japanese
+        if unicodedata.east_asian_width(txt[0]) == 'Na':
+            wrap_width = 60
+        else:
+            wrap_width = 32
+
         # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
         # <p> tags.
         result = ''
         for t in txt.split('\n'):
-            result += '<p>' + '<br>'.join(textwrap.wrap(t, width=60)) + '</p>'
+            # # DEBUG
+            # lines_wrapped = textwrap.wrap(t, width=wrap_width)
+            # print(f'{wrap_width=}')
+            # for w in lines_wrapped:
+            #     print(f'{len(w)=} {w=}')
+            result = '{}<p>{}</p>'.format(
+                result,
+                '<br>'.join(textwrap.wrap(t, width=wrap_width)))
 
         # Insert data in placeholder variables.
         result = result.format(
@@ -241,4 +255,6 @@ class ApproachTranslatorDialog(QDialog):
         layout.addWidget(button)
 
     def slot_link_hovered(self, url):
+        url_label = url.strip('https://')
+        print(f'{url_label=}')
         QToolTip.showText(QCursor.pos(), url.strip('https://'))
