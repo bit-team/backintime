@@ -213,11 +213,6 @@ class ApproachTranslatorDialog(QDialog):
         # <p> tags.
         result = ''
         for t in txt.split('\n'):
-            # # DEBUG
-            # lines_wrapped = textwrap.wrap(t, width=wrap_width)
-            # print(f'{wrap_width=}')
-            # for w in lines_wrapped:
-            #     print(f'{len(w)=} {w=}')
             result = '{}<p>{}</p>'.format(
                 result,
                 '<br>'.join(textwrap.wrap(t, width=wrap_width)))
@@ -255,6 +250,4 @@ class ApproachTranslatorDialog(QDialog):
         layout.addWidget(button)
 
     def slot_link_hovered(self, url):
-        url_label = url.strip('https://')
-        print(f'{url_label=}')
-        QToolTip.showText(QCursor.pos(), url.strip('https://'))
+        QToolTip.showText(QCursor.pos(), url.replace('https://', ''))
