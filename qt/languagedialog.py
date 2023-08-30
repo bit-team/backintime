@@ -207,7 +207,7 @@ class ApproachTranslatorDialog(QDialog):
         if unicodedata.east_asian_width(txt[0]) == 'Na':
             wrap_width = 60
         else:
-            wrap_width = 30
+            wrap_width = 32
 
         # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
         # <p> tags.
