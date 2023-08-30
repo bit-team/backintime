@@ -242,6 +242,7 @@ class ApproachTranslatorDialog(QDialog):
 
         txt = __class__._complete_text(language_name, completeness)
         widget = QLabel(txt, self)
+        widget.setWordWrap(True)
         widget.setOpenExternalLinks(True)
         widget.linkHovered.connect(self.slot_link_hovered)
 
