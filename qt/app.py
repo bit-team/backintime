@@ -1338,7 +1338,7 @@ files that the receiver requests to be transferred.""")
                         'not in the snapshot.\n'
                         'This will delete files/folders which were '
                         'excluded during taking the snapshot!\n'
-                        'Be extremely careful!!!'))
+                        'Be extremely careful!'))
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
     def confirmRestore(self, paths, restoreTo = None):
@@ -1368,8 +1368,8 @@ files that the receiver requests to be transferred.""")
         if warnRoot:
             msg = '{}\n\n{}'.format(
                 msg,
-                _('WARNING: deleting files in filesystem root could break '
-                  'your whole system!!!'))
+                _('WARNING: Deleting files in filesystem root could break '
+                  'your whole system!'))
 
         return QMessageBox.Yes == messagebox.warningYesNo(self, msg)
 
@@ -1639,8 +1639,10 @@ files that the receiver requests to be transferred.""")
 
         # show current path
         self.widget_current_path.setText(self.path)
-        self.act_restore_parent.setText(_(f'Restore {self.path}'))
-        self.act_restore_parent_to.setText(_(f'Restore {self.path} to …'))
+        self.act_restore_parent.setText(
+            _('Restore {path}').format(path=self.path))
+        self.act_restore_parent_to.setText(
+            _('Restore {path} to …').format(path=self.path))
 
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)

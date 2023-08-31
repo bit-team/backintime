@@ -1,5 +1,5 @@
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
-[![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=master)](https://coveralls.io/github/bit-team/backintime?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=main)](https://coveralls.io/github/bit-team/backintime?branch=main)
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widgets/backintime/-/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 

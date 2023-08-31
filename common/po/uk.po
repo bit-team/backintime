@@ -7,679 +7,728 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-06-30 22:00+0200\n"
-"PO-Revision-Date: 2023-06-22 13:08+0000\n"
-"Last-Translator: SomeTr <yetan.othermail96@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/"
-"common/uk/>\n"
+"POT-Creation-Date: 2023-08-31 12:51+0200\n"
+"PO-Revision-Date: 2023-08-31 10:38+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.17\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:95
-msgid "Disabled"
-msgstr "Вимкнено"
+#: common/config.py:50 common/encfstools.py:146
+msgid "Cancel"
+msgstr "Скасувати"
 
-#: common/config.py:96
-msgid "At every boot/reboot"
-msgstr "При кожному запуску/перезапуску"
+#: common/config.py:99 common/config.py:106
+msgid "Day(s)"
+msgstr "днів"
 
-#: common/config.py:97 common/config.py:98 common/config.py:99
-#, python-brace-format
-msgid "Every {n} minutes"
-msgstr "Кожні {n} хвилин"
+#: common/config.py:100 common/config.py:107
+msgid "Week(s)"
+msgstr "тижнів"
 
-#: common/config.py:100
-msgid "Every hour"
-msgstr "Кожної години"
-
-#: common/config.py:101 common/config.py:102 common/config.py:103
-#: common/config.py:104
-#, python-brace-format
-msgid "Every {n} hours"
-msgstr "Кожні {n} годин"
+#: common/config.py:101
+msgid "Year(s)"
+msgstr "років"
 
 #: common/config.py:105
-msgid "Custom Hours"
-msgstr "Вказати години"
-
-#: common/config.py:106
-msgid "Every Day"
-msgstr "Щодня"
-
-#: common/config.py:107
-#, fuzzy
-msgid "Repeatedly (anacron)"
-msgstr "Повторно (anacron)"
+msgid "Hour(s)"
+msgstr "годин"
 
 #: common/config.py:108
-#, fuzzy
-msgid "When drive gets connected (udev)"
-msgstr "Коли диск приєднано (udev)"
-
-#: common/config.py:109
-msgid "Every Week"
-msgstr "Щотижня"
-
-#: common/config.py:110
-msgid "Every Month"
-msgstr "Щомісяця"
-
-#: common/config.py:111
-msgid "Every Year"
-msgstr "Щороку"
-
-#: common/config.py:115 common/config.py:122
-msgid "Day(s)"
-msgstr "День(ів)"
-
-#: common/config.py:116 common/config.py:123
-msgid "Week(s)"
-msgstr "Тиждень(нів)"
-
-#: common/config.py:117
-msgid "Year(s)"
-msgstr "Роки(ів)"
-
-#: common/config.py:121
-msgid "Hour(s)"
-msgstr "Година(и)"
-
-#: common/config.py:124
 msgid "Month(s)"
-msgstr "Місяць(і)"
+msgstr "місяців"
 
-#: common/config.py:174 common/config.py:179
-#, fuzzy
+#: common/config.py:158 common/config.py:163
 msgid "Local"
 msgstr "Локальний"
 
-#: common/config.py:176 common/config.py:186 qt/settingsdialog.py:1934
+#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1961
 msgid "SSH private key"
 msgstr "Приватний ключ SSH"
 
-#: common/config.py:179
-#, fuzzy
+#: common/config.py:163
 msgid "encrypted"
-msgstr "SSH зашифрований"
+msgstr "зашифрований"
 
-#: common/config.py:180 common/config.py:187
+#: common/config.py:164 common/config.py:171
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: common/config.py:185
-#, fuzzy
+#: common/config.py:169
 msgid "SSH encrypted"
 msgstr "SSH зашифрований"
 
-#: common/config.py:192
+#: common/config.py:176
 msgid "Default"
 msgstr "За замовчуванням"
 
-#: common/config.py:211
+#: common/config.py:198 common/config.py:341
 msgid "Main profile"
 msgstr "Основний профіль"
 
-#: common/config.py:361 common/config.py:373 common/config.py:390
-#: common/config.py:401
+#: common/config.py:359 common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "Профіль: \"{name}\""
+msgstr "Профіль: «{name}»"
 
-#: common/config.py:362
+#: common/config.py:360
 msgid "Snapshots folder is not valid!"
 msgstr "Неправильна тека!"
 
-#: common/config.py:374
-#, fuzzy
+#: common/config.py:372
 msgid "You must select at least one folder to back up!"
 msgstr "Потрібно обрати хоча б одну теку для резервування!"
 
-#: common/config.py:391
-msgid "You can't include backup folder!"
-msgstr "Ви не можете включити теку резервної копії!"
-
-#: common/config.py:403
-msgid "You can't include backup sub-folder!"
-msgstr "Ви не можете включити підтеку резервної копії!"
-
-#: common/config.py:461
+#: common/config.py:388 common/config.py:399
 #, python-brace-format
-msgid "{path} is not a folder !"
-msgstr "{path} не є текою!"
+msgid "Profile: {name}"
+msgstr "Профіль: {name}"
 
-#: common/config.py:470
-#, fuzzy
-msgid "Host/User/Profile-ID must not be empty!"
-msgstr "Host/User/Profile-ID не може бути порожнім!"
+#: common/config.py:389
+msgid "Backup folder cannot be included."
+msgstr "Не можна включати теку резервної копії."
 
-#: common/config.py:480 common/config.py:527
+#: common/config.py:401
+msgid "Backup sub-folder cannot be included."
+msgstr "Не можна включати підтеку резервної копії."
+
+#: common/config.py:459
+#, python-brace-format
+msgid "Invalid option. {path} is not a folder."
+msgstr "Неправильний параметр. {path} не є текою."
+
+#: common/config.py:468
+msgid "Host/User/Profile-ID must not be empty."
+msgstr "Поля «Сервер», «Користувач» і «Профіль» не можуть бути порожніми."
+
+#: common/config.py:478 common/config.py:525
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Неможливо записати у: {path}\n"
+"Неможливо записати в: {path}\n"
 "Ви впевнені, що маєте право на запис?"
 
-#: common/config.py:497
-#, fuzzy, python-brace-format
+#: common/config.py:495
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
 "Вказане розташування {path} має файлову систему FAT, яка не підтримує "
-"жорсткі посилання. Оберіть native Linux filesystem."
+"жорсткі посилання. Використовуйте файлові системи для Linux."
 
-#: common/config.py:506
-#, fuzzy, python-brace-format
+#: common/config.py:504
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"Вказане розташування {path} є SMB mounted share. Переконайтеся, що SMB-"
+"Вказане розташування {path} — спільний SMB-ресурс. Переконайтеся, що SMB-"
 "сервер підтримує символьні посилання, або активуйте {copyLinks} в "
 "{expertOptions}."
 
-#: common/config.py:510 qt/settingsdialog.py:967
-#, fuzzy
+#: common/config.py:508 qt/settingsdialog.py:992
 msgid "Copy links (dereference symbolic links)"
 msgstr "Копіювати посилання (слідувати за символьними посиланнями)"
 
-#: common/config.py:511
+#: common/config.py:509
 msgid "Expert Options"
-msgstr "Розширені параметри"
+msgstr "Розширені налаштування"
 
-#: common/config.py:515
-#, fuzzy, python-brace-format
+#: common/config.py:513
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Вказане розташування {path} є sshfs mounted share. sshfs не підтримує "
-"жорсткі посилання. Будь ласка, використовуйте режим 'SSH'."
+"Вказане розташування {path} — спільний sshfs-ресурс. sshfs не підтримує "
+"жорсткі посилання. Будь ласка, використовуйте режим «SSH»."
 
-#: common/config.py:1580
-#, fuzzy
+#: common/config.py:1609
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Не можу знайти crontab.\n"
+"Не вдається знайти crontab.\n"
 "Ви впевнені, що cron встановлено?\n"
 "Якщо ні, Вам варто вимкнути все автоматичне резервування."
 
-#: common/config.py:1586
-#, fuzzy
+#: common/config.py:1615
 msgid "Failed to write new crontab."
 msgstr "Не вдалося записати новий crontab."
 
-#: common/config.py:1688
-#, fuzzy, python-brace-format
+#: common/config.py:1718
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"Не можу встановити правило Udev для профілю {profile_id}. DBus Service "
-"'{dbus_interface}' недоступний"
+"Не вдалося встановити правило Udev для профілю {profile_id}. DBus Service "
+"«{dbus_interface}» недоступний"
 
-#: common/config.py:1703
-#, fuzzy, python-brace-format
+#: common/config.py:1733
+#, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Розклад udev не працює з режимом {mode}"
 
-#: common/config.py:1715
+#: common/config.py:1744
 #, python-brace-format
-msgid "Couldn't find UUID for \"{path}\"'"
-msgstr "Не можу знайти UUID для \"{path}\"'"
+msgid "Couldn't find UUID for {path}"
+msgstr "Не вдалося знайти UUID для {path}"
 
-#: common/snapshots.py:325 common/snapshots.py:576
+#: common/configfile.py:107
+msgid "Failed to save config"
+msgstr "Не вдалося зберегти конфігурацію"
+
+#: common/configfile.py:143
+msgid "Failed to load config"
+msgstr "Не вдалося завантажити конфігурацію"
+
+#: common/configfile.py:691 common/configfile.py:790
+#, python-brace-format
+msgid "Profile \"{name}\" already exists!"
+msgstr "Профіль «{name}» вже існує!"
+
+#: common/configfile.py:736
+msgid "The last profile cannot be removed."
+msgstr "Неможливо видалити останній профіль."
+
+#: common/encfstools.py:87
+#, python-brace-format
+msgid "Can't mount '{command}'"
+msgstr "Не вдається змонтувати «{command}»"
+
+#: common/encfstools.py:134
+msgid "Config for encrypted folder not found."
+msgstr "Конфігурацію для зашифрованої теки не знайдено."
+
+#: common/encfstools.py:142
+msgid "Create a new encrypted folder?"
+msgstr "Створити нову зашифровану теку?"
+
+#: common/encfstools.py:151
+msgid "Please confirm password"
+msgstr "Підтвердіть пароль"
+
+#: common/encfstools.py:155
+#, fuzzy
+msgid "Password doesn't match."
+msgstr "Пароль не збігається"
+
+#: common/encfstools.py:173
+#, fuzzy
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs."
+msgstr ""
+"encfs версії 1.7.2 і раніших містить помилку в параметрі --reverse. Будь "
+"ласка, оновіть encfs"
+
+#: common/encfstools.py:509 common/snapshots.py:908
+msgid "Take snapshot"
+msgstr "Зробити копію"
+
+#: common/mount.py:600
+#, fuzzy, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}."
+msgstr "Не вдається розмонтувати {mountprocess} з {mountpoint}"
+
+#: common/mount.py:687
+msgid "{} not found. Please install e.g. {}"
+msgstr "{} не знайдено. Встановіть, наприклад, {}"
+
+#: common/mount.py:708
+#, fuzzy
+msgid "Mountpoint {} not empty."
+msgstr "точка монтування {} не порожня."
+
+#: common/password.py:240
+#, python-brace-format
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Профіль «{profile}»: Введіть пароль для {mode}: "
+
+#: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "НЕВДАЧА"
 
-#: common/snapshots.py:522 common/snapshots.py:584
+#: common/snapshots.py:539 common/snapshots.py:601
 msgid "Restore permissions"
 msgstr "Відновлення дозволів"
 
-#: common/snapshots.py:579 qt/app.py:449 qt/app.py:710 qt/app.py:743
-#: qt/qtsystrayicon.py:74
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:912 qt/app.py:947
+#: qt/qtsystrayicon.py:78
 msgid "Done"
 msgstr "Виконано"
 
-#: common/snapshots.py:687
-#, fuzzy
+#: common/snapshots.py:704
 msgid "Deferring backup while on battery"
 msgstr "Вимкнення резервування при роботі від батареї"
 
-#: common/snapshots.py:749
-#, fuzzy
+#: common/snapshots.py:766
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"Не можу знайти теку копій.\n"
-"Якщо вона на знімному пристрої, будь ласка, приєднайте його."
+"Не вдається знайти теку резервних копій.\n"
+"Якщо вона знаходиться на знімному диску, підключіть його."
 
-#: common/snapshots.py:751
+#: common/snapshots.py:768
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Очікую %s секунду."
-msgstr[1] "Очікую %s секунд."
+msgstr[1] "Очікую %s секунди."
 msgstr[2] "Очікую %s секунд."
 
-#: common/snapshots.py:788
-#, fuzzy, python-brace-format
-msgid "Failed to take snapshot {snapshot_id} !!!"
-msgstr "Не вдалося зробити копію %s !!!"
+#: common/snapshots.py:805
+#, python-brace-format
+msgid "Failed to take snapshot {snapshot_id}."
+msgstr "Не вдалося зробити копію {snapshot_id}."
 
-#: common/snapshots.py:797
+#: common/snapshots.py:822
 msgid "Finalizing"
-msgstr "Завершення роботи"
+msgstr "Завершення"
 
-#: common/snapshots.py:881 common/encfstools.py:513 qt/app.py:87 qt/app.py:92
-msgid "Take snapshot"
-msgstr "Зробити копію"
-
-#: common/snapshots.py:912
+#: common/snapshots.py:943
 msgid "Can't create folder"
-msgstr "Не можу створити теку"
+msgstr "Не вдається створити теку"
 
-#: common/snapshots.py:929
+#: common/snapshots.py:960
 msgid "Saving config file..."
-msgstr "Зберігаю файл конфігурації..."
+msgstr "Збереження файлу конфігурації..."
 
-#: common/snapshots.py:1005
+#: common/snapshots.py:1036
 msgid "Saving permissions..."
-msgstr "Зберігаю дозволи..."
+msgstr "Збереження дозволів..."
 
-#: common/snapshots.py:1110
+#: common/snapshots.py:1144
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Незавершену копію {snapshot_id} можна продовжити."
 
-#: common/snapshots.py:1129
+#: common/snapshots.py:1163
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Видалення незавершеної копії {snapshot_id} від попереднього запуску"
 
-#: common/snapshots.py:1139
+#: common/snapshots.py:1173
 msgid "Can't remove folder"
-msgstr "Не можу видалити теку"
+msgstr "Не вдається видалити теку"
 
-#: common/snapshots.py:1177
+#: common/snapshots.py:1216
 msgid "Taking snapshot"
-msgstr "Резервування"
+msgstr "Створення резервної копії"
 
-#: common/snapshots.py:1212
+#: common/snapshots.py:1248
+#, fuzzy
+msgid "Success"
+msgstr "Успішно"
+
+#: common/snapshots.py:1249
+#, fuzzy
+msgid "Partial transfer due to vanished source files (see 'man rsync')"
+msgstr "Переміщено частково, оскільки вихідні файли зникли (див. «man rsync»)"
+
+#: common/snapshots.py:1252
+#, python-brace-format
+msgid "'rsync' ended with exit code {exit_code}"
+msgstr "«rsync» завершився з кодом виходу {exit_code}"
+
+#: common/snapshots.py:1261
+msgid "See 'man rsync' for more details"
+msgstr "Докладніше див. «man rsync»"
+
+#: common/snapshots.py:1265
+#, fuzzy
+msgid ""
+"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+msgstr ""
+"Від'ємні значення кодів виходу rsync є сигнальними номерами, див. «kill -l» "
+"і «man kill»"
+
+#: common/snapshots.py:1280
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Немає змін, резервування не потрібне"
 
-#: common/snapshots.py:1241
+#: common/snapshots.py:1311
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr "Не можу перейменувати {new_path} в {path}"
+msgstr "Не вдається перейменувати {new_path} в {path}"
 
-#: common/snapshots.py:1559 common/snapshots.py:1611 qt/settingsdialog.py:645
+#: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:672
 msgid "Smart remove"
 msgstr "Розумне видалення"
 
-#: common/snapshots.py:1586
+#: common/snapshots.py:1656
 msgid "Removing old snapshots"
 msgstr "Видалення старих копій"
 
-#: common/snapshots.py:1621
+#: common/snapshots.py:1691
 msgid "Trying to keep min free space"
-msgstr "Намагатися зберігати мінімум вільного місця"
+msgstr "Намагаюся зберегти мінімум вільного місця"
 
-#: common/snapshots.py:1660
-#, fuzzy, python-brace-format
+#: common/snapshots.py:1730
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Намагаюся зберігати мінімум {perc}% вільних айнодів"
+msgstr "Намагаюся зберегти мінімум {perc} вільних айнодів"
 
-#: common/snapshots.py:2742 qt/app.py:264 qt/app.py:1369
+#: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
 msgstr "Зараз"
 
-#: common/encfstools.py:89
+#: common/sshtools.py:204
+#, python-brace-format
+msgid "Can't mount {sshfs}"
+msgstr "Не вдається змонтувати {sshfs}"
+
+#: common/sshtools.py:264
+#, fuzzy
+msgid "ssh-agent not found. Please make sure it is installed."
+msgstr "ssh-agent не знайдено. Переконайтеся, що його встановлено."
+
+#: common/sshtools.py:407
+#, fuzzy
+msgid ""
+"Could not unlock ssh private key. Wrong password or password not available "
+"for cron."
+msgstr ""
+"Не вдалося розблокувати приватний ключ SSH. Пароль неправильний або не "
+"доступний для cron."
+
+#: common/sshtools.py:495
 #, fuzzy, python-brace-format
-msgid "Can't mount '{command}'"
-msgstr "Не можу змонтувати '{command}'"
+msgid "Cipher {cipher} failed for {host}."
+msgstr "Помилка шифру {cipher} для сервера {host}"
 
-#: common/encfstools.py:138
-msgid "Config for encrypted folder not found."
-msgstr "Конфігурація для зашифрованої теки не знайдена."
+#: common/sshtools.py:642
+#, fuzzy
+msgid "Remote path exists but is not a directory."
+msgstr "Віддалений шлях існує, але це не тека"
 
-#: common/encfstools.py:146
-msgid "Create a new encrypted folder?"
-msgstr "Створити нову зашифровану теку?"
+#: common/sshtools.py:647
+#, fuzzy
+msgid "Remote path is not writable."
+msgstr "Неможливо записати у віддалений шлях"
 
-#: common/encfstools.py:155
-msgid "Please confirm password"
-msgstr "Підтвердіть пароль"
+#: common/sshtools.py:652
+#, fuzzy
+msgid "Remote path is not executable."
+msgstr "Віддалений шлях неможливо виконати"
 
-#: common/password.py:243
+#: common/sshtools.py:657
+#, fuzzy
+msgid "Couldn't create remote path."
+msgstr "Не вдається створити віддалений шлях"
+
+#: common/sshtools.py:937
 #, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Профіль '{profile}': Введіть пароль для {mode}: "
+msgid "Remote host {host} doesn't support {command}"
+msgstr "Сервер {host} не підтримує {command}"
 
-#: common/configfile.py:111
-msgid "Failed to save config"
-msgstr "Не вдалося зберегти конфігурацію"
+#: common/sshtools.py:941 common/sshtools.py:950
+msgid "Look at 'man backintime' for further instructions"
+msgstr "Дивіться «man backintime» для подальших інструкцій"
 
-#: common/configfile.py:147
-msgid "Failed to load config"
-msgstr "Не вдалося завантажити конфігурацію"
-
-#: common/configfile.py:697 common/configfile.py:796
+#: common/sshtools.py:945
 #, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Профіль \"{name}\" вже існує!"
+msgid "Check commands on host {host} returned unknown error"
+msgstr "Перевірка команд на сервері {host} повернула невідому помилку"
 
-#: common/configfile.py:742
-msgid "You can't remove the last profile!"
-msgstr "Ви не можете видалити останній профіль!"
+#: common/sshtools.py:966
+#, python-brace-format
+msgid "Remote host {host} doesn't support hardlinks"
+msgstr "Сервер {host} не підтримує жорсткі посилання"
 
 #: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr "Копіювати публічний ssh-ключ \"{pubkey}\" на сервер \"{host}\""
+msgstr "Копіювати публічний ключ SSH «{pubkey}» на сервер «{host}»"
 
 #: common/sshtools.py:1051
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr "Будь ласка, введіть пароль для \"{user}\""
-
-#: qt/messagebox.py:58 qt/app.py:760
-msgid "Error"
-msgstr "Помилка"
-
-#: qt/messagebox.py:64 qt/messagebox.py:70
-msgid "Question"
-msgstr "Питання"
-
-#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2215
-#: qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
-msgid "Restore"
-msgstr "Відновити"
-
-#: qt/restoredialog.py:64
-msgid "Show full Log"
-msgstr "Показати повний журнал"
-
-#: qt/app.py:94
-msgid "Take snapshot with checksums"
-msgstr "Зробити копію з контрольними сумами"
-
-#: qt/app.py:95 qt/settingsdialog.py:756
-msgid "Use checksum to detect changes"
-msgstr "Виявляти зміни за контрольними сумами"
-
-#: qt/app.py:104 qt/qtsystrayicon.py:79
-msgid "Pause snapshot process"
-msgstr "Зупинити створення копії"
-
-#: qt/app.py:110 qt/qtsystrayicon.py:83
-msgid "Resume snapshot process"
-msgstr "Продовжити створення копії"
-
-#: qt/app.py:116 qt/qtsystrayicon.py:88
-msgid "Stop snapshot process"
-msgstr "Скасувати створення копії"
-
-#: qt/app.py:121
-msgid "Refresh snapshots list"
-msgstr "Оновити список копій"
-
-#: qt/app.py:125 qt/app.py:941
-msgid "Snapshot Name"
-msgstr "Назва копії"
-
-#: qt/app.py:129
-msgid "Remove Snapshot"
-msgstr "Видалити копію"
-
-#: qt/app.py:133
-msgid "View Snapshot Log"
-msgstr "Переглянути журнал"
-
-#: qt/app.py:136 qt/qtsystrayicon.py:97
-msgid "View Last Log"
-msgstr "Переглянути останній журнал"
-
-#: qt/app.py:141 qt/settingsdialog.py:91
-msgid "Settings"
-msgstr "Налаштування"
-
-#: qt/app.py:147
-msgid "Shutdown"
-msgstr "Вимкнення"
-
-#: qt/app.py:148
-#, fuzzy
-msgid "Shut down system after snapshot has finished."
-msgstr "Вимкнути систему після завершення резервування."
-
-#: qt/app.py:154
-msgid "&Snapshot"
-msgstr "&Копія"
-
-#: qt/app.py:155
-msgid "Exit"
-msgstr "Вийти"
-
-#: qt/app.py:164 qt/app.py:184
-msgid "Help"
-msgstr "Допомога"
+msgstr "Будь ласка, введіть пароль для «{user}»"
 
 #: qt/app.py:167
-msgid "Config File Help"
-msgstr "Допомога по файлу конфігурації"
-
-#: qt/app.py:170
-msgid "Website"
-msgstr "Вебсайт"
-
-#: qt/app.py:172 qt/app.py:1043
-msgid "Changelog"
-msgstr "Історія змін"
-
-#: qt/app.py:174
-msgid "FAQ"
-msgstr "Питання та відповіді"
-
-#: qt/app.py:176
-msgid "Ask a question"
-msgstr "Задати запитання"
-
-#: qt/app.py:178
-msgid "Report a bug"
-msgstr "Повідомити про помилку"
-
-#: qt/app.py:181 qt/app.py:1504
-msgid "About"
-msgstr "Про програму"
-
-#: qt/app.py:211
-msgid "Up"
-msgstr "Вгору"
-
-#: qt/app.py:221 qt/settingsdialog.py:2171
-msgid "Show hidden files"
-msgstr "Показати приховані файли"
-
-#: qt/app.py:234
-msgid "Restore the selected files or folders to the original destination."
-msgstr "Відновити обрані файли чи теки до їхнього початкового розташування."
-
-#: qt/app.py:238 qt/app.py:1194 qt/app.py:1226 qt/snapshotsdialog.py:144
-msgid "Restore to ..."
-msgstr "Відновлення до ..."
-
-#: qt/app.py:240
-msgid "Restore the selected files or folders to a new destination."
-msgstr "Відновити обрані файли чи теки до вказаного розташування."
-
-#: qt/app.py:244
-#, fuzzy
-msgid ""
-"Restore the currently shown folder and all its contents to the original "
-"destination."
-msgstr "Відновити поточну теку і весь її вміст до початкового розташування."
-
-#: qt/app.py:250
-#, fuzzy
-msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
-msgstr "Відновити поточну теку і весь її вміст до вказаного розташування."
-
-#: qt/app.py:262
-#, python-brace-format
-msgid ""
-"Restore selected file or folder.\n"
-"If this button is grayed out this is most likely because \"{now}\" is "
-"selected in left hand snapshots list."
-msgstr ""
-"Відновити обраний файл або теку.\n"
-"Ця кнопка неактивна, якщо обрано \"{now}\" у списку копій ліворуч."
-
-#: qt/app.py:268 qt/qttools.py:324 qt/logviewdialog.py:75
-#: qt/snapshotsdialog.py:101
-msgid "Snapshots"
-msgstr "Копії"
-
-#: qt/app.py:283
-msgid "&View"
-msgstr "Пере&гляд"
-
-#: qt/app.py:292
-msgid "&Restore"
-msgstr "&Відновити"
-
-#: qt/app.py:299
-msgid "&Help"
-msgstr "&Допомога"
-
-#: qt/app.py:333
 msgid "Shortcuts"
 msgstr "Скорочення"
 
-#: qt/app.py:352
+#: qt/app.py:187
 msgid ""
 "This folder doesn't exist\n"
-"in the current selected snapshot!"
+"in the current selected snapshot."
 msgstr ""
 "Такої теки немає\n"
-"в обраній копії!"
+"в обраній резервній копії."
 
-#: qt/app.py:415
+#: qt/app.py:252
 msgid "Add to Include"
 msgstr "Включити"
 
-#: qt/app.py:416 qt/logviewdialog.py:175
+#: qt/app.py:254 qt/logviewdialog.py:171
 msgid "Add to Exclude"
 msgstr "Виключити"
 
-#: qt/app.py:496
+#: qt/app.py:339
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr "{appName} не налаштовано. Відновити попередні налаштування?"
 
-#: qt/app.py:521
-#, fuzzy
+#: qt/app.py:368
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Не вдається знайти теку копій.\n"
+"Не вдається знайти теку резервних копій.\n"
 "Якщо вона знаходиться на знімному диску, підключіть його і натисніть OK."
 
-#: qt/app.py:557
-#, fuzzy
+#: qt/app.py:448
+msgid "Take a snapshot"
+msgstr "Зробити копію"
+
+#: qt/app.py:450
+msgid "Use modification time & size for file change detection."
+msgstr "Виявляти зміни за датою зміни і розміром."
+
+#: qt/app.py:453
+msgid "Take a snapshot (checksum mode)"
+msgstr "Зробити копію з контрольними сумами"
+
+#: qt/app.py:455
+msgid "Use checksums for file change detection."
+msgstr "Виявляти зміни за контрольними сумами."
+
+#: qt/app.py:458 qt/qtsystrayicon.py:83
+msgid "Pause snapshot process"
+msgstr "Зупинити створення копії"
+
+#: qt/app.py:463 qt/qtsystrayicon.py:87
+msgid "Resume snapshot process"
+msgstr "Продовжити створення копії"
+
+#: qt/app.py:467 qt/qtsystrayicon.py:92
+msgid "Stop snapshot process"
+msgstr "Скасувати створення копії"
+
+#: qt/app.py:471
+msgid "Refresh snapshot list"
+msgstr "Оновити список копій"
+
+#: qt/app.py:475
+msgid "Name snapshot"
+msgstr "Назвати копію"
+
+#: qt/app.py:479
+msgid "Remove snapshot"
+msgstr "Видалити копію"
+
+#: qt/app.py:483
+msgid "View snapshot log"
+msgstr "Переглянути журнал"
+
+#: qt/app.py:487
+msgid "View last log"
+msgstr "Переглянути останній журнал"
+
+#: qt/app.py:491 qt/settingsdialog.py:87
+msgid "Manage profiles"
+msgstr "Мої профілі"
+
+#: qt/app.py:495
+msgid "Shutdown"
+msgstr "Вимкнення"
+
+#: qt/app.py:497
+msgid "Shut down system after snapshot has finished."
+msgstr "Вимкнути систему після завершення резервування."
+
+#: qt/app.py:499 qt/languagedialog.py:29
+msgid "Setup language"
+msgstr ""
+
+#: qt/app.py:503
+msgid "Exit"
+msgstr "Вийти"
+
+#: qt/app.py:507
+msgid "Help"
+msgstr "Допомога"
+
+#: qt/app.py:511
+msgid "Profiles config file"
+msgstr "Збереження файлу конфігурації"
+
+#: qt/app.py:514 qt/languagedialog.py:216
+msgid "Website"
+msgstr "Вебсайт"
+
+#: qt/app.py:517 qt/app.py:1248
+msgid "Changelog"
+msgstr "Історія змін"
+
+#: qt/app.py:520
+msgid "FAQ"
+msgstr "Питання та відповіді"
+
+#: qt/app.py:523
+msgid "Ask a question"
+msgstr "Задати запитання"
+
+#: qt/app.py:526
+msgid "Report a bug"
+msgstr "Повідомити про помилку"
+
+#: qt/app.py:529
+msgid "Translation"
+msgstr "Переклад"
+
+#: qt/app.py:532 qt/app.py:1817
+msgid "About"
+msgstr "Про програму"
+
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2227
+#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+msgid "Restore"
+msgstr "Відновити"
+
+#: qt/app.py:537
+msgid "Restore the selected files or folders to the original destination."
+msgstr "Відновити обрані файли чи теки до їхнього початкового розташування."
+
+#: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
+msgid "Restore to …"
+msgstr "Відновити до …"
+
+#: qt/app.py:542
+msgid "Restore the selected files or folders to a new destination."
+msgstr "Відновити обрані файли чи теки до вказаного розташування."
+
+#: qt/app.py:547
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"Restore the currently shown folder and all its contents to the original "
+"destination."
+msgstr "Відновити поточну теку і весь її вміст до початкового розташування."
+
+#: qt/app.py:552
+msgid ""
+"Restore the currently shown folder and all its contents to a new "
+"destination."
+msgstr "Відновити поточну теку і весь її вміст до вказаного розташування."
+
+#: qt/app.py:555
+msgid "Up"
+msgstr "Вгору"
+
+#: qt/app.py:558 qt/settingsdialog.py:2183
+msgid "Show hidden files"
+msgstr "Показати приховані файли"
+
+#: qt/app.py:561
+msgid "Compare snapshots"
+msgstr "Порівняти копії"
+
+#: qt/app.py:622
+msgid "&Backup"
+msgstr "&Резервувати"
+
+#: qt/app.py:633
+msgid "&Restore"
+msgstr "&Відновити"
+
+#: qt/app.py:639
+msgid "&Help"
+msgstr "&Допомога"
+
+#: qt/app.py:756
+msgid ""
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Якщо закрити це вікно, Back In Time не зможе вимкнути Вашу систему після "
-"закінчення резервування.\n"
+"Якщо закрити це вікно, Back In Time не зможе вимкнути Вашу систему після закінчення резервування.\n"
 "Ви справді хочете закрити вікно?"
 
-#: qt/app.py:702
+#: qt/app.py:902
 msgid "Working:"
-msgstr "Працюю:"
+msgstr "Виконання:"
 
-#: qt/app.py:746
+#: qt/app.py:950
 msgid "Done, no backup needed"
 msgstr "Виконано, резервування не потрібне"
 
-#: qt/app.py:754
+#: qt/app.py:958
 msgid "Working"
-msgstr "Працюю"
+msgstr "Виконання"
 
-#: qt/app.py:781 qt/qtsystrayicon.py:194
+#: qt/app.py:964 qt/messagebox.py:73
+msgid "Error"
+msgstr "Помилка"
+
+#: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
 msgstr "Надіслано"
 
-#: qt/app.py:782 qt/qtsystrayicon.py:195
+#: qt/app.py:986 qt/qtsystrayicon.py:201
 msgid "Speed"
 msgstr "Швидкість"
 
-#: qt/app.py:783 qt/qtsystrayicon.py:196
-#, fuzzy
+#: qt/app.py:987 qt/qtsystrayicon.py:202
 msgid "ETA"
 msgstr "Залишилося"
 
-#: qt/app.py:837
+#: qt/app.py:1041
 msgid "Global"
 msgstr "Загальні"
 
-#: qt/app.py:838
+#: qt/app.py:1042
 msgid "Root"
 msgstr "Root"
 
-#: qt/app.py:839
+#: qt/app.py:1043
 msgid "Home"
 msgstr "Home"
 
-#: qt/app.py:854
+#: qt/app.py:1058
 msgid "Backup folders"
 msgstr "Теки резервування"
 
-#: qt/app.py:987
+#: qt/app.py:1146
+msgid "Snapshot Name"
+msgstr "Назва копії"
+
+#: qt/app.py:1192
 msgid "Are you sure you want to remove the snapshot"
 msgstr "Бажаєте видалити резервну копію"
 
-#: qt/app.py:1076
-#, fuzzy, python-brace-format
+#: qt/app.py:1281
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before\n"
 "overwriting or removing local files."
 msgstr ""
-"Робити копію файлів перед перезаписом\n"
+"Робити копію файлів перед їх перезаписом\n"
 "або видаленням, додаючи до назви {suffix}."
 
-#: qt/app.py:1082 qt/settingsdialog.py:741
+#: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"Після відновлення новіші версії файлів будуть названі з додаванням "
-"{suffix}.\n"
+"Після відновлення новіші версії файлів будуть названі з додаванням {suffix}.\n"
 "Якщо вони Вам не потрібні, можна видалити їх, використовуючи {cmd}"
 
-#: qt/app.py:1096
+#: qt/app.py:1301
 msgid ""
 "Only restore files which do not exist or\n"
 "are newer than those in destination.\n"
@@ -687,189 +736,312 @@ msgid ""
 msgstr ""
 "Відновити лише файли, які відсутні або\n"
 "новіші, ніж ті, що у вказаному розташуванні.\n"
-"Використовуйте \"rsync --update\"."
+"Використовується «rsync --update»."
 
-#: qt/app.py:1129
+#: qt/app.py:1334
 msgid "Remove newer files in original folder"
 msgstr "Видалити новіші файли у початковому розташуванні"
 
-#: qt/app.py:1130
-#, fuzzy
+#: qt/app.py:1335
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
-"Be extremely careful!!!"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
+"Be extremely careful!"
 msgstr ""
 "Відновити обрані файли чи теки до початкового розташування\n"
 "і видалити файли/теки, яких немає у резервній копії.\n"
 "Це видалить файли/теки, які були виключені під час резервування!\n"
-"Обережно!!!"
+"Будьте обережні!"
 
-#: qt/app.py:1142
-#, fuzzy, python-brace-format
+#: qt/app.py:1347
+#, python-brace-format
 msgid ""
 "Do you really want to restore the files(s)\n"
 "into new folder {path}"
 msgstr ""
-"Справді хочете відновити файл(и)\n"
+"Ви справді хочете відновити файл(и)\n"
 "до нової теки {path}"
 
-#: qt/app.py:1146
-#, fuzzy
+#: qt/app.py:1351
 msgid "Do you really want to restore the files(s)"
-msgstr "Ви впевнені, що хочете відновити файл(и)"
+msgstr "Ви справді хочете відновити файл(и)"
 
-#: qt/app.py:1158
+#: qt/app.py:1363
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Бажаєте видалити всі новіші файли в {path}?"
 
-#: qt/app.py:1161
+#: qt/app.py:1366
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr "Бажаєте видалити всі новіші файли в початковому розташуванні?"
 
-#: qt/app.py:1166
+#: qt/app.py:1371
 msgid ""
-"WARNING: deleting files in filesystem root could break your whole system!!!"
-msgstr "УВАГА: видалення файлів у root може зламати всю Вашу систему!!!"
+"WARNING: Deleting files in filesystem root could break your whole system!"
+msgstr "УВАГА: видалення файлів у root може зламати всю Вашу систему!"
 
-#: qt/app.py:1370
-msgid "View the current disk content"
-msgstr "Переглянути вміст диска"
+#: qt/app.py:1596
+msgid "View the current disk contents"
+msgstr "Перегляд вмісту поточного диска"
 
-#: qt/app.py:1373
+#: qt/app.py:1603
 msgid "Snapshot"
-msgstr "Копії"
+msgstr "Копія"
 
-#: qt/app.py:1374
+#: qt/app.py:1604
 #, python-brace-format
-msgid "View the snapshot made at {name}"
-msgstr "Переглянути копію, зроблену {name}"
+msgid "View the snapshot made at {timestamp}"
+msgstr "Перегляд копії, зробленої {timestamp}"
 
-#: qt/app.py:1413
+#: qt/app.py:1643
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Відновити {path}"
 
-#: qt/app.py:1415
+#: qt/app.py:1645
 #, python-brace-format
-msgid "Restore {path} to ..."
-msgstr "Відновити {path} до ..."
+msgid "Restore {path} to …"
+msgstr "Відновити {path} до …"
 
-#: qt/app.py:1529 qt/app.py:1546
+#: qt/app.py:1802
+msgid "The language settings take effect only after restarting Back In Time."
+msgstr ""
+"Налаштування мови набувають чинності лише після перезапуску Back In Time."
+
+#: qt/app.py:1842 qt/app.py:1859
 msgid "Authors"
 msgstr "Автори"
 
-#: qt/app.py:1530 qt/app.py:1549
+#: qt/app.py:1843 qt/app.py:1862
 msgid "Translations"
 msgstr "Переклади"
 
-#: qt/app.py:1531 qt/app.py:1552
+#: qt/app.py:1844 qt/app.py:1865
 msgid "License"
 msgstr "Ліцензія"
 
-#: qt/qtsystrayicon.py:70 qt/settingsdialog.py:99 qt/settingsdialog.py:344
-#: qt/settingsdialog.py:2312 qt/logviewdialog.py:67
+#: qt/languagedialog.py:91
+msgid "Use operating systems language."
+msgstr "Мова операційної системи."
+
+#: qt/languagedialog.py:143
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr "Перекладено: {percent}"
+
+#: qt/languagedialog.py:181
+#, fuzzy, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team"
+msgstr ""
+"Вітаємо\n"
+"Ви вже кілька разів користувалися Back In Time мовою {language}.\n"
+"Переклад встановленої версії Back In Time на {language} завершено на {perc}. Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у переклад і, таким чином, у розвиток Back In Time.\n"
+"Якщо бажаєте зробити внесок, відвідайте {translation_platform_url}. Додаткову допомогу та відповіді на запитання можна отримати на сайті проєкту {back_in_time_project_website}.\n"
+"Перепрошуємо за переривання, це повідомлення більше не виводитиметься. Це діалогове вікно доступне в будь-який час через меню «Допомога».\n"
+"Ваша команда Back In Time."
+
+#: qt/languagedialog.py:213
+msgid "translation platform"
+msgstr "платформу для перекладу"
+
+#: qt/languagedialog.py:229
+#, fuzzy
+msgid "Your translation"
+msgstr "Переклади"
+
+#: qt/logviewdialog.py:53
+msgid "Last Log View"
+msgstr "Останній журнал"
+
+#: qt/logviewdialog.py:55
+msgid "Snapshot Log View"
+msgstr "Журнал копій"
+
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
 msgid "Profile"
 msgstr "Профіль"
 
-#: qt/qtsystrayicon.py:92 qt/logviewdialog.py:113
+#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+msgid "Snapshots"
+msgstr "Резервні копії"
+
+#: qt/logviewdialog.py:85
+msgid "Filter"
+msgstr "Фільтр"
+
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+msgid "All"
+msgstr "Все"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+msgid "Changes"
+msgstr "Зміни"
+
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
+#: qt/settingsdialog.py:802
+msgid "Errors"
+msgstr "Помилки"
+
+#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#, fuzzy
+msgid "Information"
+msgstr "Відомості"
+
+#: qt/logviewdialog.py:106
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Помилка, [I] Інформація, [C] Зміна"
+
+#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "декодувати шляхи"
 
+#: qt/logviewdialog.py:167
+msgid "Copy"
+msgstr "Копіювати"
+
+#: qt/logviewdialog.py:175
+msgid "Decode"
+msgstr "Декодувати"
+
+#: qt/logviewdialog.py:197
+msgid "Do you want to exclude this?"
+msgstr "Бажаєте виключити це?"
+
+#: qt/messagebox.py:79 qt/messagebox.py:85
+msgid "Question"
+msgstr "Питання"
+
 #: qt/qtsystrayicon.py:101
-#, fuzzy, python-brace-format
+msgid "View Last Log"
+msgstr "Переглянути останній журнал"
+
+#: qt/qtsystrayicon.py:105
+#, python-brace-format
 msgid "Start {appname}"
-msgstr "Запуск BackInTime"
+msgstr "Запуск {appname}"
 
-#: qt/qtsystrayicon.py:161
-msgid "Working..."
-msgstr "У процесі..."
+#: qt/qtsystrayicon.py:167
+msgid "Working…"
+msgstr "Виконання…"
 
-#: qt/settingsdialog.py:108
+#: qt/qttools.py:370
+msgid "Today"
+msgstr "Сьогодні"
+
+#: qt/qttools.py:377
+msgid "Yesterday"
+msgstr "Вчора"
+
+#: qt/qttools.py:386
+msgid "This week"
+msgstr "Цього тижня"
+
+#: qt/qttools.py:393
+msgid "Last week"
+msgstr "Попереднього тижня"
+
+#: qt/qttools.py:539
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr "Це НЕ резервна копія, а Ваші файли на комп'ютері"
+
+#: qt/qttools.py:544
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Остання перевірка {time}"
+
+#: qt/restoredialog.py:60
+msgid "Show full Log"
+msgstr "Показати повний журнал"
+
+#: qt/settingsdialog.py:104
 msgid "Edit"
 msgstr "Редагувати"
 
-#: qt/settingsdialog.py:114
+#: qt/settingsdialog.py:110
 msgid "Modify for Full System Backup"
 msgstr "Змінити для повного резервування системи"
 
-#: qt/settingsdialog.py:122 qt/settingsdialog.py:543
+#: qt/settingsdialog.py:118 qt/settingsdialog.py:570
 msgid "Add"
 msgstr "Додати"
 
-#: qt/settingsdialog.py:126 qt/settingsdialog.py:493 qt/settingsdialog.py:561
+#: qt/settingsdialog.py:122 qt/settingsdialog.py:519 qt/settingsdialog.py:588
 msgid "Remove"
 msgstr "Видалити"
 
-#: qt/settingsdialog.py:141
+#: qt/settingsdialog.py:137
 msgid "&General"
 msgstr "&Загальне"
 
-#: qt/settingsdialog.py:151 qt/settingsdialog.py:2314
+#: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
 msgid "Mode"
 msgstr "Режим"
 
-#: qt/settingsdialog.py:165 qt/settingsdialog.py:504
+#: qt/settingsdialog.py:161 qt/settingsdialog.py:530
 msgid "Warning"
 msgstr "Попередження"
 
-#: qt/settingsdialog.py:166
-#, fuzzy, python-brace-format
+#: qt/settingsdialog.py:162
+#, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
-"{app} використовує для шифрування EncFS. Нещодавні перевірки безпеки виявили "
-"його вразливість до деяких видів атак. Будь ласка, перегляньте \"A NOTE ON "
-"SECURITY\" в \"man backintime\"."
+"{app} використовує для шифрування EncFS. Нещодавні перевірки безпеки виявили"
+" його вразливість до деяких видів атак. Будь ласка, перегляньте «A NOTE ON "
+"SECURITY» в «man backintime»."
 
-#: qt/settingsdialog.py:177 qt/settingsdialog.py:1910
+#: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
 msgid "Where to save snapshots"
 msgstr "Де зберігати резервні копії"
 
-#: qt/settingsdialog.py:193
+#: qt/settingsdialog.py:189
 msgid "Folder"
 msgstr "Тека"
 
-#: qt/settingsdialog.py:201
+#: qt/settingsdialog.py:197
 msgid "SSH Settings"
 msgstr "Налаштування SSH"
 
-#: qt/settingsdialog.py:213 qt/settingsdialog.py:332
+#: qt/settingsdialog.py:209 qt/settingsdialog.py:328
 msgid "Host"
 msgstr "Сервер"
 
-#: qt/settingsdialog.py:218
+#: qt/settingsdialog.py:214
 msgid "Port"
 msgstr "Порт"
 
-#: qt/settingsdialog.py:223 qt/settingsdialog.py:338
+#: qt/settingsdialog.py:219 qt/settingsdialog.py:334
 msgid "User"
 msgstr "Користувач"
 
-#: qt/settingsdialog.py:228
+#: qt/settingsdialog.py:224
 msgid "Path"
 msgstr "Шлях"
 
-#: qt/settingsdialog.py:234
-#, fuzzy
+#: qt/settingsdialog.py:230
 msgid "Cipher"
-msgstr "Шифрувати"
+msgstr "Шифр"
 
-#: qt/settingsdialog.py:240
+#: qt/settingsdialog.py:236
 msgid "Private Key"
 msgstr "Приватний ключ"
 
-#: qt/settingsdialog.py:250
+#: qt/settingsdialog.py:246
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
-msgstr "Оберіть файл приватного ключа (зазвичай має назву \"id_rsa\")"
+msgstr "Оберіть файл приватного ключа (зазвичай має назву «id_rsa»)"
 
-#: qt/settingsdialog.py:260
+#: qt/settingsdialog.py:256
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
@@ -877,120 +1049,162 @@ msgstr ""
 "Створити новий ключ SSH без пароля (недоступно, якщо Ви вже обрали файл "
 "приватного ключа)"
 
-#: qt/settingsdialog.py:280 qt/settingsdialog.py:289 qt/settingsdialog.py:295
+#: qt/settingsdialog.py:276 qt/settingsdialog.py:285 qt/settingsdialog.py:291
 msgid "Password"
 msgstr "Пароль"
 
-#: qt/settingsdialog.py:301
-#, fuzzy
+#: qt/settingsdialog.py:297
 msgid "Save Password to Keyring"
-msgstr "Зберегти пароль у Keyring"
+msgstr "Зберегти пароль у зв'язці ключів"
 
-#: qt/settingsdialog.py:305
+#: qt/settingsdialog.py:301
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr "Кешувати пароль для Cron (Увага: root може читати пароль)"
 
-#: qt/settingsdialog.py:320
+#: qt/settingsdialog.py:316
 msgid "Advanced"
 msgstr "Додатково"
 
-#: qt/settingsdialog.py:350
+#: qt/settingsdialog.py:346
 msgid "Full snapshot path"
 msgstr "Повний шлях до копії"
 
-#: qt/settingsdialog.py:357
+#: qt/settingsdialog.py:353
 msgid "Schedule"
 msgstr "Розклад"
 
-#: qt/settingsdialog.py:367
+#: qt/settingsdialog.py:365
+msgid "Disabled"
+msgstr "Вимкнено"
+
+#: qt/settingsdialog.py:366
+msgid "At every boot/reboot"
+msgstr "При кожному запуску/перезапуску"
+
+#: qt/settingsdialog.py:368 qt/settingsdialog.py:370 qt/settingsdialog.py:372
+#: qt/settingsdialog.py:375 qt/settingsdialog.py:377 qt/settingsdialog.py:379
+#: qt/settingsdialog.py:381
+#, python-brace-format
+msgid "Every {n} minute"
+msgid_plural "Every {n} minutes"
+msgstr[0] "Кожну {n} хвилину"
+msgstr[1] "Кожні {n} хвилини"
+msgstr[2] "Кожні {n} хвилин"
+
+#: qt/settingsdialog.py:373
+msgid "Every hour"
+msgstr "Щогодини"
+
+#: qt/settingsdialog.py:382
+msgid "Custom Hours"
+msgstr "Вказати години"
+
+#: qt/settingsdialog.py:383
+msgid "Every Day"
+msgstr "Щодня"
+
+#: qt/settingsdialog.py:384
+msgid "Repeatedly (anacron)"
+msgstr "Повторно (anacron)"
+
+#: qt/settingsdialog.py:385
+msgid "When drive gets connected (udev)"
+msgstr "Коли диск приєднано (udev)"
+
+#: qt/settingsdialog.py:386
+msgid "Every Week"
+msgstr "Щотижня"
+
+#: qt/settingsdialog.py:387
+msgid "Every Month"
+msgstr "Щомісяця"
+
+#: qt/settingsdialog.py:388
+msgid "Every Year"
+msgstr "Щороку"
+
+#: qt/settingsdialog.py:393
 msgid "Day"
 msgstr "День"
 
-#: qt/settingsdialog.py:378
+#: qt/settingsdialog.py:404
 msgid "Weekday"
-msgstr "Тиждень"
+msgstr "День"
 
-#: qt/settingsdialog.py:393
+#: qt/settingsdialog.py:419
 msgid "Hour"
 msgstr "Година"
 
-#: qt/settingsdialog.py:408
+#: qt/settingsdialog.py:434
 msgid "Hours"
 msgstr "Години"
 
-#: qt/settingsdialog.py:419
-#, fuzzy
+#: qt/settingsdialog.py:445
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
 "Запускати Back In Time повторно. Корисно, якщо комп'ютер не працює постійно."
 
-#: qt/settingsdialog.py:426
+#: qt/settingsdialog.py:452
 msgid "Every"
-msgstr "Кожного"
+msgstr "Кожні"
 
-#: qt/settingsdialog.py:447
-#, fuzzy
+#: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Запускати Back In Time щоразу, коли Ви приєднуєте диск (один раз на X "
-"днів).\n"
+"Запускати Back In Time, коли Ви підключаєте диск (один раз на X днів).\n"
 "Вам потрібно буде ввести пароль sudo."
 
-#: qt/settingsdialog.py:462
+#: qt/settingsdialog.py:488
 msgid "&Include"
 msgstr "В&ключити"
 
-#: qt/settingsdialog.py:469
+#: qt/settingsdialog.py:495
 msgid "Include files and folders"
 msgstr "Включити файли і теки"
 
-#: qt/settingsdialog.py:485 qt/settingsdialog.py:547
+#: qt/settingsdialog.py:511 qt/settingsdialog.py:574
 msgid "Add file"
 msgstr "Додати файл"
 
-#: qt/settingsdialog.py:489 qt/settingsdialog.py:551
+#: qt/settingsdialog.py:515 qt/settingsdialog.py:578
 msgid "Add folder"
 msgstr "Додати теку"
 
-#: qt/settingsdialog.py:499
+#: qt/settingsdialog.py:525
 msgid "&Exclude"
 msgstr "Вик&лючити"
 
-#: qt/settingsdialog.py:506
-#, fuzzy
+#: qt/settingsdialog.py:532
+#, python-brace-format
 msgid ""
-"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH "
-"encrypted'.\n"
-"Only single or double asterisks kare allowed ('foo/*', 'foo/**/bar')"
+"Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
+"Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"<b>Увага:</b> В режимі «SSH зашифрований» шаблони підстановки ('foo*', "
-"'[fF]oo', 'fo?') ігноруються.\n"
-"Дозволені лише окремі зірочки ('foo/*', 'foo/**/bar')"
+"У режимі «SSH зашифрований» символи підстановки ({example1}) ігноруються.\n"
+"Можна використовувати одну або дві зірочки ({example2})"
 
-#: qt/settingsdialog.py:520
+#: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
 msgstr "Виключити шаблони, файли або теки"
 
-#: qt/settingsdialog.py:533
-#, fuzzy
+#: qt/settingsdialog.py:560
 msgid "Highly recommended"
-msgstr "Важлива рекомендація:"
+msgstr "Настійно рекомендується"
 
-#: qt/settingsdialog.py:556
+#: qt/settingsdialog.py:583
 msgid "Add default"
 msgstr "Додати за замовчуванням"
 
-#: qt/settingsdialog.py:569
+#: qt/settingsdialog.py:596
 msgid "Exclude files bigger than: "
 msgstr "Виключити файли більші ніж: "
 
-#: qt/settingsdialog.py:571
-#, fuzzy, python-format
+#: qt/settingsdialog.py:598
+#, python-format
 msgid ""
 "Exclude files bigger than value in %(prefix)s.\n"
 "With 'Full rsync mode' disabled this will only affect new files\n"
@@ -998,96 +1212,94 @@ msgid ""
 "So big files that have been backed up before will remain in snapshots\n"
 "even if they have changed."
 msgstr ""
-"Виключити файли більші ніж %(prefix)s.\n"
-"Якщо 'Full rsync mode' вимкнено, це вплине лише на нові файли,\n"
+"Виключає файли більші ніж %(prefix)s.\n"
+"Якщо «Full rsync mode» вимкнено, це вплине лише на нові файли,\n"
 "оскільки для rsync це переміщення, а не виключення.\n"
 "Тому великі файли, зарезервовані раніше, залишаться в копіях,\n"
-"навіть якщо вони зміняться."
+"навіть якщо вони змінилися."
 
-#: qt/settingsdialog.py:593
+#: qt/settingsdialog.py:620
 msgid "&Auto-remove"
 msgstr "&Автоматичне видалення"
 
-#: qt/settingsdialog.py:599
+#: qt/settingsdialog.py:626
 msgid "Older than"
 msgstr "Старіше ніж"
 
-#: qt/settingsdialog.py:616
+#: qt/settingsdialog.py:643
 msgid "If free space is less than"
 msgstr "Якщо вільного місця менше ніж"
 
-#: qt/settingsdialog.py:631
+#: qt/settingsdialog.py:658
 msgid "If free inodes is less than"
 msgstr "Якщо вільних айнодів менше ніж"
 
-#: qt/settingsdialog.py:656
+#: qt/settingsdialog.py:683
 #, fuzzy
-msgid "Run in background on remote Host."
+msgid "Run in background on remote host."
 msgstr "Виконувати у фоні на сервері."
 
-#: qt/settingsdialog.py:657
-#, fuzzy
+#: qt/settingsdialog.py:684
 msgid "EXPERIMENTAL"
-msgstr " ЕКСПЕРИМЕНТАЛЬНО!"
+msgstr "ЕКСПЕРИМЕНТАЛЬНО"
 
-#: qt/settingsdialog.py:663
+#: qt/settingsdialog.py:690
 msgid "Keep all snapshots for the last"
 msgstr "Зберігати всі копії за останні"
 
-#: qt/settingsdialog.py:667 qt/settingsdialog.py:674
+#: qt/settingsdialog.py:694 qt/settingsdialog.py:701
 msgid "day(s)"
 msgstr "днів"
 
-#: qt/settingsdialog.py:670
+#: qt/settingsdialog.py:697
 msgid "Keep one snapshot per day for the last"
 msgstr "Зберігати одну копію за день за останні"
 
-#: qt/settingsdialog.py:677
+#: qt/settingsdialog.py:704
 msgid "Keep one snapshot per week for the last"
 msgstr "Зберігати одну копію за тиждень за останні"
 
-#: qt/settingsdialog.py:681
-msgid "weeks(s)"
+#: qt/settingsdialog.py:708
+msgid "week(s)"
 msgstr "тижнів"
 
-#: qt/settingsdialog.py:684
+#: qt/settingsdialog.py:711
 msgid "Keep one snapshot per month for the last"
 msgstr "Зберігати одну копію за місяць за останні"
 
-#: qt/settingsdialog.py:688
+#: qt/settingsdialog.py:715
 msgid "month(s)"
 msgstr "місяців"
 
-#: qt/settingsdialog.py:691
+#: qt/settingsdialog.py:718
 msgid "Keep one snapshot per year for all years"
 msgstr "Зберігати одну копію за рік за всі роки"
 
-#: qt/settingsdialog.py:700
+#: qt/settingsdialog.py:727
 msgid "Don't remove named snapshots"
 msgstr "Не видаляти названі резервні копії"
 
-#: qt/settingsdialog.py:712
+#: qt/settingsdialog.py:739
 msgid "&Options"
-msgstr "&Параметри"
+msgstr "&Налаштування"
 
-#: qt/settingsdialog.py:717
+#: qt/settingsdialog.py:744
 msgid "Enable notifications"
 msgstr "Увімкнути сповіщення"
 
-#: qt/settingsdialog.py:721
+#: qt/settingsdialog.py:748
 msgid "Disable snapshots when on battery"
 msgstr "Вимкнути резервування при роботі від батареї"
 
-#: qt/settingsdialog.py:725
+#: qt/settingsdialog.py:752
 msgid "Power status not available from system"
-msgstr "Статус живлення не доступний"
+msgstr "Статус живлення недоступний"
 
-#: qt/settingsdialog.py:728
+#: qt/settingsdialog.py:755
 msgid "Run only one snapshot at a time"
 msgstr "Створювати одну резервну копію за раз"
 
-#: qt/settingsdialog.py:730
-#, fuzzy
+#: qt/settingsdialog.py:757
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
 "This is a global option. So it will affect all profiles for this user.\n"
@@ -1097,125 +1309,108 @@ msgstr ""
 "Це глобальне налаштування, отже вплине на всі профілі цього користувача.\n"
 "Але для інших користувачів його потрібно вмикати окремо."
 
-#: qt/settingsdialog.py:739
+#: qt/settingsdialog.py:766
 msgid "Backup replaced files on restore"
 msgstr "Під час відновлення зберігати копії переміщених файлів"
 
-#: qt/settingsdialog.py:752
+#: qt/settingsdialog.py:779
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Ігнорувати помилки (зберігати незавершені копії)"
 
-#: qt/settingsdialog.py:760
-#, fuzzy
-msgid "Take a new snapshot wethere there were changes or not."
+#: qt/settingsdialog.py:783
+msgid "Use checksum to detect changes"
+msgstr "Виявляти зміни за контрольними сумами"
+
+#: qt/settingsdialog.py:787
+msgid "Take a new snapshot whether there were changes or not."
 msgstr "Резервувати незалежно від того, чи були зміни."
 
-#: qt/settingsdialog.py:767
+#: qt/settingsdialog.py:794
 msgid "Log Level"
 msgstr "Рівень ведення журналу"
 
-#: qt/settingsdialog.py:772
+#: qt/settingsdialog.py:799
 msgid "None"
 msgstr "Нічого"
 
-#: qt/settingsdialog.py:773 qt/settingsdialog.py:775 qt/logviewdialog.py:96
-#: qt/logviewdialog.py:98
-msgid "Errors"
-msgstr "Помилки"
-
-#: qt/settingsdialog.py:775 qt/logviewdialog.py:96 qt/logviewdialog.py:99
-msgid "Changes"
-msgstr "Змінено"
-
-#: qt/settingsdialog.py:776 qt/logviewdialog.py:95
-msgid "All"
-msgstr "Все"
-
-#: qt/settingsdialog.py:786
+#: qt/settingsdialog.py:813
 msgid "E&xpert Options"
-msgstr "&Розширені параметри"
+msgstr "Роз&ширені налаштування"
 
-#: qt/settingsdialog.py:792
+#: qt/settingsdialog.py:818
 #, fuzzy
-msgid "Change these options only if you really know what you are doing!"
+msgid ""
+"Caution: Change these options only if you really know what you are doing."
 msgstr "Змінюйте ці налаштування тільки якщо Ви знаєте що робите!"
 
-#: qt/settingsdialog.py:798 qt/settingsdialog.py:814 qt/settingsdialog.py:836
+#: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr "Запустити 'rsync' з '{cmd}':"
+msgstr "Запустити «rsync» з «{cmd}»:"
 
-#: qt/settingsdialog.py:805 qt/settingsdialog.py:821
+#: qt/settingsdialog.py:830 qt/settingsdialog.py:846
 msgid "as cron job"
 msgstr "як cron job"
 
-#: qt/settingsdialog.py:810 qt/settingsdialog.py:831 qt/settingsdialog.py:852
+#: qt/settingsdialog.py:835 qt/settingsdialog.py:856 qt/settingsdialog.py:877
 msgid "on remote host"
-msgstr "на сервері"
+msgstr "на віддаленому сервері"
 
-#: qt/settingsdialog.py:826
+#: qt/settingsdialog.py:851
 msgid "when taking a manual snapshot"
 msgstr "під час резервування вручну"
 
-#: qt/settingsdialog.py:839
-#, fuzzy
+#: qt/settingsdialog.py:864
 msgid "(Please install 'nocache' to enable this option)"
-msgstr "(Встановіть 'nocache', щоб увімкнути)"
+msgstr "(Встановіть «nocache», щоб увімкнути)"
 
-#: qt/settingsdialog.py:846
-#, fuzzy
+#: qt/settingsdialog.py:871
 msgid "on local machine"
-msgstr "на комп'ютері"
+msgstr "на локальному комп'ютері"
 
-#: qt/settingsdialog.py:857
-#, fuzzy
+#: qt/settingsdialog.py:882
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Перенаправити stdout на /dev/null в cronjobs."
 
-#: qt/settingsdialog.py:866
-#, fuzzy
+#: qt/settingsdialog.py:891
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Перенаправити stderr на /dev/null в cronjobs."
 
-#: qt/settingsdialog.py:878
-#, fuzzy
+#: qt/settingsdialog.py:903
 msgid "Limit rsync bandwidth usage"
-msgstr "Обмежити bandwidth usage"
+msgstr "Обмежити пропускну здатність"
 
-#: qt/settingsdialog.py:881
-#, fuzzy
+#: qt/settingsdialog.py:906
 msgid "KB/sec"
-msgstr " Кб/с"
+msgstr "Кб/с"
 
-#: qt/settingsdialog.py:919
+#: qt/settingsdialog.py:944
 msgid "Preserve ACL"
 msgstr "Зберігати ACL"
 
-#: qt/settingsdialog.py:934
+#: qt/settingsdialog.py:959
 msgid "Preserve extended attributes (xattr)"
 msgstr "Зберігати додаткові атрибути (xattr)"
 
-#: qt/settingsdialog.py:954
+#: qt/settingsdialog.py:979
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Копіювати ненадійні посилання (працює лише з абсолютними посиланнями)"
 
-#: qt/settingsdialog.py:988
+#: qt/settingsdialog.py:1013
 msgid "Paste additional options to rsync"
 msgstr "Додаткові параметри для rsync"
 
-#: qt/settingsdialog.py:992
-msgid ""
-"Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
-msgstr ""
-"Параметри необхідно брати в лапки, напр. --exclude-from=\"/path/to/my "
-"exclude file\"."
+#: qt/settingsdialog.py:1017
+#, python-brace-format
+msgid "Options must be quoted e.g. {example}."
+msgstr "Параметри необхідно брати в лапки, напр. {example}."
 
-#: qt/settingsdialog.py:1003
+#: qt/settingsdialog.py:1029
 msgid "Add prefix to SSH commands"
 msgstr "Додати префікс до команд SSH"
 
-#: qt/settingsdialog.py:1007
-#, fuzzy, python-format
+#: qt/settingsdialog.py:1033
+#, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
 "Variables need to be escaped with \\$FOO.\n"
@@ -1228,20 +1423,20 @@ msgstr ""
 "Префікс для виконання перед кожною командою на сервері.\n"
 "Екрануйте змінні за допомогою \\$FOO.\n"
 "Це не стосується rsync. Щоб додати префікс\n"
-"для rsync, використовуйте \"%(cbRsyncOptions)s\" з\n"
-"%(rsync_options_value)s\n"
+"для rsync, використовуйте «%(cbRsyncOptions)s»\n"
+"з %(rsync_options_value)s\n"
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1015 qt/settingsdialog.py:2057
+#: qt/settingsdialog.py:1041 qt/settingsdialog.py:2084
 msgid "default"
 msgstr "за замовчуванням"
 
-#: qt/settingsdialog.py:1026
+#: qt/settingsdialog.py:1052
 msgid "Check if remote host is online"
-msgstr "Перевірити, чи сервер онлайн"
+msgstr "Перевіряти, чи сервер онлайн"
 
-#: qt/settingsdialog.py:1028
+#: qt/settingsdialog.py:1054
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1251,12 +1446,11 @@ msgstr ""
 "недоступний, це може призвести\n"
 "до непередбачуваних помилок."
 
-#: qt/settingsdialog.py:1032
-#, fuzzy
+#: qt/settingsdialog.py:1058
 msgid "Check if remote host supports all necessary commands"
-msgstr "Перевірити підтримку сервером необхідних команд"
+msgstr "Перевіряти, чи підтримує сервер усі необхідні команди"
 
-#: qt/settingsdialog.py:1034
+#: qt/settingsdialog.py:1060
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1266,56 +1460,46 @@ msgstr ""
 "всіх необхідних команд, це може\n"
 "призвести до непередбачуваних помилок."
 
-#: qt/settingsdialog.py:1050
+#: qt/settingsdialog.py:1076
 msgid "Restore Config"
 msgstr "Відновити конфігурацію"
 
-#: qt/settingsdialog.py:1052
-#, fuzzy
+#: qt/settingsdialog.py:1078
 msgid "Edit user-callback"
-msgstr "Редагувати user-callback"
+msgstr "Редаг. скрипт"
 
-#: qt/settingsdialog.py:1072
-#, fuzzy
+#: qt/settingsdialog.py:1098
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
-"Повна копія системи створює резервну копію, яку можна відновлювати лише на "
-"тому ж фізичному диску (дисках) з тими ж розділами, з якого вона була "
-"зроблена; відновлення на інший диск або ж на той самий, але зі зміненими "
-"розділами призведе до збоїв у роботі системи.\n"
+"Повна копія системи створює резервну копію, яку можна відновлювати лише на тому ж фізичному диску (дисках) з тими ж розділами, з якого вона була зроблена; відновлення на інший диск або ж на той самий, але зі зміненими розділами призведе до збоїв у роботі системи.\n"
 "\n"
-"Повна копія системи скасує деякі налаштування, які могли бути змінені. "
-"Продовжити?"
+"Повна копія системи скасує деякі налаштування, які могли бути змінені. Продовжити?"
 
-#: qt/settingsdialog.py:1107
+#: qt/settingsdialog.py:1133
 msgid "New profile"
 msgstr "Новий профіль"
 
-#: qt/settingsdialog.py:1124
+#: qt/settingsdialog.py:1150
 msgid "Rename profile"
 msgstr "Перейменувати профіль"
 
-#: qt/settingsdialog.py:1140
-#, python-format
-msgid "Are you sure you want to delete the profile \"%s\" ?"
-msgstr "Ви впевнені, що хочете знищити профіль \"%s\"?"
+#: qt/settingsdialog.py:1166
+#, python-brace-format
+msgid "Are you sure you want to delete the profile \"{name}\"?"
+msgstr "Ви впевнені, що хочете видалити профіль «{name}»?"
 
-#: qt/settingsdialog.py:1413
+#: qt/settingsdialog.py:1440
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
-"Вказуйте години через кому (напр. 8,12,18,23) або */3 для резервування кожні "
-"3 години"
+"Вказуйте години через кому (напр. 8,12,18,23) або */3 для резервування кожні"
+" 3 години"
 
-#: qt/settingsdialog.py:1455
+#: qt/settingsdialog.py:1482
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1323,307 +1507,249 @@ msgstr ""
 "Ви не обрали приватний ключ SSH.\n"
 "Бажаєте згенерувати нову пару публічний/приватний ключ без пароля?"
 
-#: qt/settingsdialog.py:1466
-#, fuzzy, python-brace-format
+#: qt/settingsdialog.py:1493
+#, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "Приватний ключ \"%(file)s\" не існує."
+msgstr "Приватний ключ «{file}» не існує."
 
-#: qt/settingsdialog.py:1618
+#: qt/settingsdialog.py:1645
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
-"Бажаєте скопіювати свій публічний SSH-ключ\n"
+"Бажаєте скопіювати свій публічний ключ SSH\n"
 "на сервер, щоб увімкнути безпарольний доступ?"
 
-#: qt/settingsdialog.py:1646
-#, fuzzy, python-brace-format
+#: qt/settingsdialog.py:1673
+#, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
 "\n"
 "{keytype} key fingerprint is:"
 msgstr ""
-"Автентичність сервера \"%(host)s\" не вдалося встановити.\n"
+"Автентичність сервера {host} не вдалося встановити.\n"
 "\n"
-"Відбиток ключа %(keytype)s:"
+"Відбиток ключа {keytype}:"
 
-#: qt/settingsdialog.py:1656
-#, fuzzy
+#: qt/settingsdialog.py:1683
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
-"Підтвердіть цей відбиток! Бажаєте додати його до свого файлу 'known_hosts'?"
+"Перевірте цей відбиток! Бажаєте додати його до свого файлу «known_hosts»?"
 
-#: qt/settingsdialog.py:1819
+#: qt/settingsdialog.py:1846
 msgid "Exclude pattern"
-msgstr "Виключити по шаблону"
+msgstr "Виключити за шаблоном"
 
-#: qt/settingsdialog.py:1832
+#: qt/settingsdialog.py:1859
 msgid "Exclude file"
 msgstr "Виключити файл"
 
-#: qt/settingsdialog.py:1836
+#: qt/settingsdialog.py:1863
 msgid "Exclude folder"
 msgstr "Виключити теку"
 
-#: qt/settingsdialog.py:1855
+#: qt/settingsdialog.py:1882
 msgid "Include file"
 msgstr "Включити файл"
 
-#: qt/settingsdialog.py:1864 qt/settingsdialog.py:1890
-#, fuzzy, python-brace-format
+#: qt/settingsdialog.py:1891 qt/settingsdialog.py:1917
+#, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"\"{path}\" — посилання. Об'єкт, на який воно вказує, не буде зарезервовано, "
-"якщо його не включити.\n"
+"«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде зарезервовано, якщо його не включити.\n"
 "Включити цей об'єкт у резервну копію?"
 
-#: qt/settingsdialog.py:1881
+#: qt/settingsdialog.py:1908
 msgid "Include folder"
 msgstr "Включити теку"
 
-#: qt/settingsdialog.py:1918
-msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Ви впевнені, що бажаєте змінити теку для резервних копій?"
+#: qt/settingsdialog.py:1945
+msgid "Are you sure you want to change snapshots folder?"
+msgstr "Ви впевнені, що хочете змінити теку для резервних копій?"
 
-#: qt/settingsdialog.py:1943
+#: qt/settingsdialog.py:1970
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Не вдалося створити новий ключ SSH у {path}"
 
-#: qt/settingsdialog.py:2002
+#: qt/settingsdialog.py:2029
 msgid "Full snapshot path: "
 msgstr "Шлях до повної копії: "
 
-#: qt/settingsdialog.py:2052
+#: qt/settingsdialog.py:2079
 msgid "enabled"
 msgstr "увімкнено"
 
-#: qt/settingsdialog.py:2055
+#: qt/settingsdialog.py:2082
 msgid "disabled"
 msgstr "вимкнено"
 
-#: qt/settingsdialog.py:2100
-msgid "Restore Settings"
-msgstr "Відновити налаштування"
-
-#: qt/settingsdialog.py:2121
-#, fuzzy
-msgid " and add your user to group 'fuse'"
-msgstr " і додати свого користувача до групи 'fuse'"
-
 #: qt/settingsdialog.py:2127
-#, fuzzy, python-brace-format
+msgid "Restore Settings"
+msgstr "Налаштування відновлення"
+
+#: qt/settingsdialog.py:2140
+#, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host{addFuse}.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
-"Оберіть резервну копію, з якої Ви хочете відновити конфігурацію {appName}. "
-"Шлях може мати такий вигляд:\n"
+"Оберіть резервну копію, з якої Ви хочете відновити конфігурацію {appName}. Шлях може мати такий вигляд:\n"
 "{samplePath}\n"
 "\n"
-"Якщо резевні копії на віддаленому диску або зашифровані, Вам потрібно "
-"спочатку змонтувати їх вручну. В режимі SSH Вам також може знадобитися "
-"встановити доступ з публічним ключем до сервера{addFuse}.\n"
-"Докладніше в 'man backintime'."
+"Якщо резервні копії на віддаленому диску або зашифровані, Вам потрібно спочатку змонтувати їх вручну. В режимі «SSH» також може знадобитися налаштувати доступ із публічним ключем до віддаленого сервера.\n"
+"Докладніше в «man backintime»."
 
-#: qt/settingsdialog.py:2190 qt/settingsdialog.py:2255
+#: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
 msgid "No config found"
 msgstr "Не знайдено конфігурації"
 
-#: qt/settingsdialog.py:2462
-#, fuzzy
+#: qt/settingsdialog.py:2474
 msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr "скрипт user-callback не містить рядка shebang (#!/bin/sh)."
+msgstr "Скрипт user-callback не містить рядка shebang (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2469
-#, fuzzy
+#: qt/settingsdialog.py:2481
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang у скрипті user-callback неможливо виконати."
 
-#: qt/qttools.py:347
-msgid "Today"
-msgstr "Сьогодні"
+#: qt/snapshotsdialog.py:51
+msgid "Options about comparing snapshots"
+msgstr "Параметри порівняння резервних копій"
 
-#: qt/qttools.py:354
-msgid "Yesterday"
-msgstr "Вчора"
-
-#: qt/qttools.py:363
-msgid "This week"
-msgstr "Цього тижня"
-
-#: qt/qttools.py:370
-msgid "Last week"
-msgstr "Попереднього тижня"
-
-#: qt/qttools.py:516
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "Це НЕ резервна копія, а Ваші файли на комп'ютері"
-
-#: qt/qttools.py:521
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Остання перевірка {time}"
-
-#: qt/logviewdialog.py:57
-msgid "Last Log View"
-msgstr "Останній журнал"
-
-#: qt/logviewdialog.py:59
-msgid "Snapshot Log View"
-msgstr "Журнал копій"
-
-#: qt/logviewdialog.py:89
-msgid "Filter"
-msgstr "Фільтр"
-
-#: qt/logviewdialog.py:100
-msgid "Informations"
-msgstr "Відомості"
-
-#: qt/logviewdialog.py:110
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Помилка, [I] Інформація, [C] Зміна"
-
-#: qt/logviewdialog.py:171
-msgid "Copy"
-msgstr "Копіювати"
-
-#: qt/logviewdialog.py:179
-msgid "Decode"
-msgstr "Декодувати"
-
-#: qt/logviewdialog.py:201
-msgid "Do you want to exclude this?"
-msgstr "Бажаєте виключити це?"
-
-#: qt/snapshotsdialog.py:53 qt/snapshotsdialog.py:181
-msgid "Diff Options"
-msgstr "Параметри diff"
-
-#: qt/snapshotsdialog.py:60
+#: qt/snapshotsdialog.py:58
 msgid "Command"
 msgstr "Команда"
 
-#: qt/snapshotsdialog.py:64
+#: qt/snapshotsdialog.py:62
 msgid "Parameters"
 msgstr "Параметри"
 
-#: qt/snapshotsdialog.py:68
-#, fuzzy
+#: qt/snapshotsdialog.py:66
 msgid "Use %1 and %2 for path parameters"
-msgstr "Використовувати %1 та %2 до параметрів шляху"
+msgstr "Використовуйте %1 та %2 як параметри шляху"
 
-#: qt/snapshotsdialog.py:112
+#: qt/snapshotsdialog.py:110
 msgid "Differing snapshots only"
 msgstr "Тільки копії, що відрізняються"
 
-#: qt/snapshotsdialog.py:120
-#, fuzzy
+#: qt/snapshotsdialog.py:118
 msgid "List only equal snapshots to: "
 msgstr "Показати лише однакові копії: "
 
-#: qt/snapshotsdialog.py:131
+#: qt/snapshotsdialog.py:129
 msgid "Deep check (more accurate, but slow)"
 msgstr "Глибока перевірка (більш точна, але повільніша)"
 
-#: qt/snapshotsdialog.py:152
+#: qt/snapshotsdialog.py:150
 msgid "Delete"
 msgstr "Видалити"
 
-#: qt/snapshotsdialog.py:156
+#: qt/snapshotsdialog.py:154
 msgid "Select All"
 msgstr "Вибрати все"
 
-#: qt/snapshotsdialog.py:169
-msgid "Diff"
-msgstr "Відмінності"
+#: qt/snapshotsdialog.py:167
+msgid "Compare"
+msgstr "Порівняти"
 
-#: qt/snapshotsdialog.py:180
+#: qt/snapshotsdialog.py:178
 msgid "Go To"
 msgstr "Перейти до"
 
-#: qt/snapshotsdialog.py:330
-msgid "You can't compare a snapshot to itself"
+#: qt/snapshotsdialog.py:179
+msgid "Options"
+msgstr "Налаштування"
+
+#: qt/snapshotsdialog.py:328
+#, fuzzy
+msgid "You can't compare a snapshot to itself."
 msgstr "Не можна порівнювати резервну копію саму з собою"
 
-#: qt/snapshotsdialog.py:338
+#: qt/snapshotsdialog.py:336
 msgid "Command not found"
 msgstr "Команду не знайдено"
 
-#: qt/snapshotsdialog.py:369
+#: qt/snapshotsdialog.py:367
 #, python-brace-format
-msgid "Do you really want to delete \"{file}\" in snapshot \"{snapshot_id}\"?"
-msgstr "Ви справді хочете видалити \"{file}\" з копії \"{snapshot_id}\"?"
+msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
+msgstr "Ви справді хочете видалити {file} з резервної копії {snapshot_id}?"
 
-#: qt/snapshotsdialog.py:374
+#: qt/snapshotsdialog.py:373
 #, python-brace-format
-msgid "Do you really want to delete \"{file}\" in {count} snapshots?"
-msgstr "Ви справді хочете видалити \"{file}\" з {count} копій?"
+msgid "Do you really want to delete {file} in {count} snapshots?"
+msgstr "Ви справді хочете видалити {file} з {count} резервних копій?"
 
-#: qt/snapshotsdialog.py:379
-msgid "WARNING"
-msgstr "ПОПЕРЕДЖЕННЯ"
-
-#: qt/snapshotsdialog.py:379
-#, fuzzy
+#: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
 msgstr "Це не можна буде скасувати!"
 
-#: qt/snapshotsdialog.py:395
+#: qt/snapshotsdialog.py:378
+msgid "WARNING"
+msgstr "ПОПЕРЕДЖЕННЯ"
+
+#: qt/snapshotsdialog.py:394
 #, python-brace-format
-msgid "Exclude \"{path}\" from future snapshots?"
-msgstr "Виключити \"{path}\" з майбутніх копій?"
+msgid "Exclude {path} from future snapshots?"
+msgstr "Виключити {path} з майбутніх резервних копій?"
 
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#, fuzzy
-#~ msgid "Local encrypted"
-#~ msgstr "Локальний зашифрований"
+#~ msgid " and add your user to group 'fuse'"
+#~ msgstr " і додати свого користувача до групи «fuse»"
 
 #, fuzzy, python-format
 #~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
-#~ "include it, too.\n"
+#~ "\"%s\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 #~ "Would you like to include the symlinks target instead?"
 #~ msgstr ""
-#~ "\"%s\" — посилання. Об'єкт, на який воно вказує, не буде зарезервовано, "
-#~ "якщо його не включити.\n"
+#~ "\"%s\" — посилання. Об'єкт, на який воно вказує, не буде зарезервовано, якщо його не включити.\n"
 #~ "Включити цей об'єкт у резервну копію?"
 
-#~ msgid "Every 5 minutes"
-#~ msgstr "Кожні 5 хвилин"
+#~ msgid "&Snapshot"
+#~ msgstr "&Копія"
 
-#~ msgid "List only different snapshots"
-#~ msgstr "Список тільки знімків, що розрізняються"
+#~ msgid "&View"
+#~ msgstr "Пере&гляд"
 
 #~ msgid "..."
 #~ msgstr "…"
 
-#~ msgid "WITH ERRORS !"
-#~ msgstr "З ПОМИЛКАМИ!"
+#~ msgid "Changes & Errors"
+#~ msgstr "Зміни та помилки"
 
-#~ msgid "Every 10 minutes"
-#~ msgstr "Кожні 10 хвилин"
+#~ msgid "Config File Help"
+#~ msgstr "Допомога по файлу конфігурації"
+
+#~ msgid "Diff"
+#~ msgstr "Різн."
+
+#~ msgid "Diff Options"
+#~ msgstr "Параметри різн."
 
 #~ msgid "Error:"
 #~ msgstr "Помилка:"
 
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Знімок: %s"
+#~ msgid "Every 10 minutes"
+#~ msgstr "Кожні 10 хвилин"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Кожні 5 хвилин"
+
+#, python-brace-format
+#~ msgid "Every {n} hours"
+#~ msgstr "Кожні {n} годин"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Список тільки знімків, що розрізняються"
+
+#, fuzzy
+#~ msgid "Local encrypted"
+#~ msgstr "Локальний зашифрований"
 
 #, python-format
 #~ msgid "Restore '%s'"
@@ -1633,5 +1759,35 @@ msgstr "Виключити \"{path}\" з майбутніх копій?"
 #~ msgid "Restore '%s' to ..."
 #~ msgstr "Відновлення '%s' до ..."
 
-#~ msgid "Changes & Errors"
-#~ msgstr "Зміни та помилки"
+#, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Відновити обраний файл або теку.\n"
+#~ "Ця кнопка неактивна, якщо обрано «{now}» у списку резервних копій ліворуч."
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Налаштування"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Знімок: %s"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "З ПОМИЛКАМИ!"
+
+#~ msgid "Working..."
+#~ msgstr "Виконання..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Ви не можете включити теку резервної копії!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Ви не можете включити підтеку резервної копії!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Ви не можете видалити останній профіль!"

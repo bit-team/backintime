@@ -1,12 +1,13 @@
+import unicodedata
 import textwrap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
-                             QTabWidget,
                              QScrollArea,
                              QGridLayout,
+                             QLayout,
                              QVBoxLayout,
                              QDialogButtonBox,
                              QRadioButton,
@@ -29,8 +30,6 @@ class LanguageDialog(QDialog):
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
         scroll = QScrollArea(self)
-        # scroll.setWidgetResizable(True)
-        # scroll.setFrameStyle(QFrame.NoFrame)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setWidget(self._language_widget())
@@ -167,7 +166,7 @@ class LanguageDialog(QDialog):
 
 
 class ApproachTranslatorDialog(QDialog):
-    """Prestens a message to the users to motivate them contributing to the
+    """Present a message to the users to motivate them contributing to the
     translation of Back In Time.
     """
 
@@ -178,8 +177,6 @@ class ApproachTranslatorDialog(QDialog):
     @staticmethod
     def _complete_text(language, percent):
 
-        # Note: The length of the variable names in that string are on
-        # purpose. It is relevant when wrapping the text.
         txt = _(
             'Hello'
             '\n'
@@ -199,16 +196,15 @@ class ApproachTranslatorDialog(QDialog):
             'will not be shown again. This dialog is available at '
             'any time via the help menu.'
             '\n'
-            'Your Back In Time Team.'
+            'Your Back In Time Team'
         )
 
-        # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
-        # <p> tags.
+        # Wrap paragraphs in <p> tags.
         result = ''
         for t in txt.split('\n'):
-            result += '<p>' + '<br>'.join(textwrap.wrap(t, width=60)) + '</p>'
+            result = f'{result}<p>{t}</p>'
 
-        # Insert data in placeholder variables.
+       # Insert data in placeholder variables.
         result = result.format(
             language=f'<strong>{language}</strong>',
             perc=f'<strong>{percent} %</strong>',
@@ -225,11 +221,17 @@ class ApproachTranslatorDialog(QDialog):
     def __init__(self, parent, language_name, completeness):
         super().__init__(parent)
 
+        # screen_width = QApplication.primaryScreen().size().width()
+        # min_width = 300 if screen_width <= 1080 else 450
+        self.setMinimumWidth(400)
+
+        # Note: Take into account that not only the
         self.setWindowTitle(_('Your translation'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
         txt = __class__._complete_text(language_name, completeness)
         widget = QLabel(txt, self)
+        widget.setWordWrap(True)
         widget.setOpenExternalLinks(True)
         widget.linkHovered.connect(self.slot_link_hovered)
 
@@ -240,5 +242,28 @@ class ApproachTranslatorDialog(QDialog):
         layout.addWidget(widget)
         layout.addWidget(button)
 
+        self._fix_size()
+
+    def _fix_size(self):
+        """The dialog is resized so it fits the content of the QLabel.
+
+        Credits: https://stackoverflow.com/a/77012305/4865723
+        """
+        best = QLayout.closestAcceptableSize(self, QSize(self.width(), 1))
+
+        if self.height() < best.height():
+            self.resize(best)
+
+    def resizeEvent(self, event):
+        """ See `_fixSize()`  for details."""
+        super().resizeEvent(event)
+
+        if event.oldSize().width() != event.size().width():
+            QTimer.singleShot(0, self._fix_size)
+
+        elif event.spontaneous():
+            self._fix_size()
+
+
     def slot_link_hovered(self, url):
-        QToolTip.showText(QCursor.pos(), url.strip('https://'))
+        QToolTip.showText(QCursor.pos(), url.replace('https://', ''))

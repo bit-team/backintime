@@ -28,6 +28,7 @@ PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text().strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 
+
 def update_po_template():
     """The po template file is update via `xgettext`.
 
@@ -67,6 +68,8 @@ def update_po_template():
         f'--package-version="{PACKAGE_VERSION}"',
         f'--msgid-bugs-address={BUG_ADDRESS}',
         f'--output={TEMPLATE_PO}',
+        '--sort-by-file',
+        # '--sort-output',
     ]
     cmd.extend(py_files)
 
@@ -93,6 +96,7 @@ def update_po_language_files():
             '--verbose',
             f'--lang={lang}',
             '--update',
+            '--sort-by-file',
             '--backup=off',  # don't create *.po~ files
             f'{po_path}',
             f'{TEMPLATE_PO}'
@@ -305,6 +309,7 @@ if __name__ == '__main__':
     if 'source' in sys.argv:
         update_po_template()
         update_po_language_files()
+        create_languages_file()
         print(fin_msg)
         sys.exit()
 
