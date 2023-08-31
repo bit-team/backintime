@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 10:41+0200\n"
+"POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
@@ -47,7 +47,7 @@ msgstr "Mėnesį (-ius)"
 msgid "Local"
 msgstr "Vietinis"
 
-#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1961
+#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1963
 msgid "SSH private key"
 msgstr "SSH privatus raktas"
 
@@ -137,7 +137,7 @@ msgstr ""
 "serveris palaiko simbolines sąsajas, arba {expertOptions} įjunkite "
 "{copyLinks}."
 
-#: common/config.py:508 qt/settingsdialog.py:992
+#: common/config.py:508 qt/settingsdialog.py:994
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopijuoti nuorodas (atsieti simbolines nuorodas)"
 
@@ -395,25 +395,24 @@ msgstr ""
 
 #: common/sshtools.py:495
 #, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
+msgid "Cipher {cipher} failed for {host}"
 msgstr ""
 
 #: common/sshtools.py:642
-msgid "Remote path exists but is not a directory."
+msgid "Remote path exists but is not a directory"
 msgstr ""
 
 #: common/sshtools.py:647
-msgid "Remote path is not writable."
+msgid "Remote path is not writable"
 msgstr ""
 
 #: common/sshtools.py:652
-#, fuzzy
-msgid "Remote path is not executable."
-msgstr "„Shebang“ vartotojo atgalinio iškvietimo scenarijuje nėra vykdomas."
+msgid "Remote path is not executable"
+msgstr ""
 
 #: common/sshtools.py:657
 #, fuzzy
-msgid "Couldn't create remote path."
+msgid "Couldn't create remote path"
 msgstr "Nepavyko sukurti aplanko"
 
 #: common/sshtools.py:937
@@ -570,7 +569,7 @@ msgstr "Pagalba"
 msgid "Profiles config file"
 msgstr "Išsaugomas konfigūracijos failas..."
 
-#: qt/app.py:514 qt/languagedialog.py:232
+#: qt/app.py:514 qt/languagedialog.py:235
 msgid "Website"
 msgstr "Interneto svetainė"
 
@@ -599,7 +598,7 @@ msgstr "Vertimai"
 msgid "About"
 msgstr "Apie"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2227
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Atstatyti"
@@ -637,7 +636,7 @@ msgstr ""
 msgid "Up"
 msgstr "Aukštyn"
 
-#: qt/app.py:558 qt/settingsdialog.py:2183
+#: qt/app.py:558 qt/settingsdialog.py:2185
 msgid "Show hidden files"
 msgstr "Rodyti paslėptus failus"
 
@@ -852,15 +851,15 @@ msgid ""
 "The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
 "Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team"
+"Your Back In Time Team."
 msgstr ""
 
-#: qt/languagedialog.py:229
+#: qt/languagedialog.py:232
 #, fuzzy
 msgid "translation platform"
 msgstr "Vertimai"
 
-#: qt/languagedialog.py:246
+#: qt/languagedialog.py:243
 #, fuzzy
 msgid "Your translation"
 msgstr "Vertimai"
@@ -874,7 +873,7 @@ msgid "Snapshot Log View"
 msgstr "Momentinės kopijos žurnalo vaizdas"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Profilis"
 
@@ -991,7 +990,7 @@ msgstr "Ištrinti"
 msgid "&General"
 msgstr "&Bendri"
 
-#: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
+#: qt/settingsdialog.py:147 qt/settingsdialog.py:2328
 msgid "Mode"
 msgstr "Būsena"
 
@@ -1010,7 +1009,7 @@ msgstr ""
 "keletą galimų vekotrių tokio tipo puolimui. Prašome peržiūrėti \"ŽINUTĖ APIE"
 " SAUGUMĄ\" \"man backintime\" puslapyje\"."
 
-#: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
+#: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
 msgid "Where to save snapshots"
 msgstr "Kur išsaugoti momentines kopijas"
 
@@ -1354,81 +1353,79 @@ msgstr "Tuščia"
 msgid "E&xpert Options"
 msgstr "&Parinktys ekspertams"
 
-#: qt/settingsdialog.py:818
-#, fuzzy
-msgid ""
-"Caution: Change these options only if you really know what you are doing."
+#: qt/settingsdialog.py:819
+msgid "Change these options only if you really know what you are doing!"
 msgstr "Keiskite šias parinktis tik tuo atveju, jei tikrai žinote, ką darote!"
 
-#: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
+#: qt/settingsdialog.py:825 qt/settingsdialog.py:841 qt/settingsdialog.py:863
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Paleiskite „rsync“ su „{cmd}“:"
 
-#: qt/settingsdialog.py:830 qt/settingsdialog.py:846
+#: qt/settingsdialog.py:832 qt/settingsdialog.py:848
 msgid "as cron job"
 msgstr "kaip cron job"
 
-#: qt/settingsdialog.py:835 qt/settingsdialog.py:856 qt/settingsdialog.py:877
+#: qt/settingsdialog.py:837 qt/settingsdialog.py:858 qt/settingsdialog.py:879
 msgid "on remote host"
 msgstr "nuotoliniame pagrindiniame kompiuteryje"
 
-#: qt/settingsdialog.py:851
+#: qt/settingsdialog.py:853
 msgid "when taking a manual snapshot"
 msgstr "darant momentinę kopiją rankiniu būdu"
 
-#: qt/settingsdialog.py:864
+#: qt/settingsdialog.py:866
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Norėdami įjungti šią parinktį, įdiekite 'nocache')"
 
-#: qt/settingsdialog.py:871
+#: qt/settingsdialog.py:873
 msgid "on local machine"
 msgstr "vietiniame kompiuteryje"
 
-#: qt/settingsdialog.py:882
+#: qt/settingsdialog.py:884
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Nukreipkite stdout į /dev/null cronjobs."
 
-#: qt/settingsdialog.py:891
+#: qt/settingsdialog.py:893
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Nukreipkite stderr į /dev/null cronjobs."
 
-#: qt/settingsdialog.py:903
+#: qt/settingsdialog.py:905
 msgid "Limit rsync bandwidth usage"
 msgstr "Apriboti rsync pralaidumo naudojimą"
 
-#: qt/settingsdialog.py:906
+#: qt/settingsdialog.py:908
 msgid "KB/sec"
 msgstr "KB/s"
 
-#: qt/settingsdialog.py:944
+#: qt/settingsdialog.py:946
 msgid "Preserve ACL"
 msgstr "Išsaugoti ACL"
 
-#: qt/settingsdialog.py:959
+#: qt/settingsdialog.py:961
 msgid "Preserve extended attributes (xattr)"
 msgstr "Išsaugoti išplestinius atributus (xattr)"
 
-#: qt/settingsdialog.py:979
+#: qt/settingsdialog.py:981
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopijuoti nesaugias nuorodas (veikia tik su absoliučiomis nuorodomis)"
 
-#: qt/settingsdialog.py:1013
+#: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
 msgstr "Įklijuokite papildomas parinktis į rsync"
 
-#: qt/settingsdialog.py:1017
+#: qt/settingsdialog.py:1019
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "Įklijuoti papildomas parinktis į rsyncOptions turi būti cituojamos pvz. "
 "--exclude-from=\"/path/to/mano išskirti failą\"."
 
-#: qt/settingsdialog.py:1029
+#: qt/settingsdialog.py:1031
 msgid "Add prefix to SSH commands"
 msgstr "Pridėkite priešdėlį prie SSH komandų"
 
-#: qt/settingsdialog.py:1033
+#: qt/settingsdialog.py:1035
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1447,15 +1444,15 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1041 qt/settingsdialog.py:2084
+#: qt/settingsdialog.py:1043 qt/settingsdialog.py:2086
 msgid "default"
 msgstr "numatytasis"
 
-#: qt/settingsdialog.py:1052
+#: qt/settingsdialog.py:1054
 msgid "Check if remote host is online"
 msgstr "Patikrinkite, ar nuotolinis kompiuteris yra prisijungęs"
 
-#: qt/settingsdialog.py:1054
+#: qt/settingsdialog.py:1056
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1465,12 +1462,12 @@ msgstr ""
 "nepasiekiamas, tai gali sukelti \n"
 "keistas klaidas."
 
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1060
 msgid "Check if remote host supports all necessary commands"
 msgstr ""
 "Patikrinkite, ar nuotolinis kompiuteris palaiko visas reikalingas komandas"
 
-#: qt/settingsdialog.py:1060
+#: qt/settingsdialog.py:1062
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1480,15 +1477,15 @@ msgstr ""
 "nepalaiko visų reikalingų komandų,\n"
 "tai gali sukelti keistų klaidų."
 
-#: qt/settingsdialog.py:1076
+#: qt/settingsdialog.py:1078
 msgid "Restore Config"
 msgstr "Atkurti Config"
 
-#: qt/settingsdialog.py:1078
+#: qt/settingsdialog.py:1080
 msgid "Edit user-callback"
 msgstr "Redaguoti naudotojo-galinį iškvietimą"
 
-#: qt/settingsdialog.py:1098
+#: qt/settingsdialog.py:1100
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
@@ -1498,20 +1495,20 @@ msgstr ""
 "\n"
 "Visa sistemos atsarginė kopija nepaisys kai kurių nustatymų, kurie galėjo būti pritaikyti. Tęsti?"
 
-#: qt/settingsdialog.py:1133
+#: qt/settingsdialog.py:1135
 msgid "New profile"
 msgstr "Naujas profilis"
 
-#: qt/settingsdialog.py:1150
+#: qt/settingsdialog.py:1152
 msgid "Rename profile"
 msgstr "Pervadinti profilį"
 
-#: qt/settingsdialog.py:1166
+#: qt/settingsdialog.py:1168
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Ar jūs tikrai norite ištrinti profilį \"%s\" ?"
 
-#: qt/settingsdialog.py:1440
+#: qt/settingsdialog.py:1442
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
@@ -1519,7 +1516,7 @@ msgstr ""
 "Tinkintos valandos gali būti tik kableliais atskirtas valandų sąrašas (pvz.,"
 " 8,12,18,23) arba */3, kai atsarginės kopijos daromos kas 3 valandas"
 
-#: qt/settingsdialog.py:1482
+#: qt/settingsdialog.py:1484
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1527,12 +1524,12 @@ msgstr ""
 "Jūs nepasirinkote SSH privataus rakto failo.\n"
 "Ar norėtumėte sugeneruoti naują viešojo / privataus raktų porą be slaptažodžių?"
 
-#: qt/settingsdialog.py:1493
+#: qt/settingsdialog.py:1495
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Privataus rakto failas \"{file}\" neegzistuoja."
 
-#: qt/settingsdialog.py:1645
+#: qt/settingsdialog.py:1647
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1540,7 +1537,7 @@ msgstr ""
 "Ar norite nukopijuoti viešąjį SSH raktą į\n"
 "nuotolinio kompiuterio, kad įgalintumėte prisijungimą be slaptažodžio?"
 
-#: qt/settingsdialog.py:1673
+#: qt/settingsdialog.py:1675
 #, fuzzy, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1551,7 +1548,7 @@ msgstr ""
 "\n"
 "{keytype} rakto kontrolinis kodas yra:"
 
-#: qt/settingsdialog.py:1683
+#: qt/settingsdialog.py:1685
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
@@ -1559,23 +1556,23 @@ msgstr ""
 "Patvirtinkite šį piršto atspaudą! Ar norėtumėte pridėti jį prie failo "
 "\"known_hosts\"?"
 
-#: qt/settingsdialog.py:1846
+#: qt/settingsdialog.py:1848
 msgid "Exclude pattern"
 msgstr "Išskirti šabloną"
 
-#: qt/settingsdialog.py:1859
+#: qt/settingsdialog.py:1861
 msgid "Exclude file"
 msgstr "Išskirti failą"
 
-#: qt/settingsdialog.py:1863
+#: qt/settingsdialog.py:1865
 msgid "Exclude folder"
 msgstr "Išskirti aplanką"
 
-#: qt/settingsdialog.py:1882
+#: qt/settingsdialog.py:1884
 msgid "Include file"
 msgstr "Įtraukti failą"
 
-#: qt/settingsdialog.py:1891 qt/settingsdialog.py:1917
+#: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1584,37 +1581,37 @@ msgstr ""
 "„{path}“ yra simbolis. Susieto tikslo atsarginė kopija nebus sukurta, kol neįtrauksite ir jos.\n"
 "Ar vietoj to norėtumėte įtraukti simbolio nuorodą?"
 
-#: qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1910
 msgid "Include folder"
 msgstr "Įtraukti aplanką"
 
-#: qt/settingsdialog.py:1945
+#: qt/settingsdialog.py:1947
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Ar tikrai norite pakeisti momentinių kopijų aplanką?"
 
-#: qt/settingsdialog.py:1970
+#: qt/settingsdialog.py:1972
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Nepavyko sukurti naujo SSH rakto {path}"
 
-#: qt/settingsdialog.py:2029
+#: qt/settingsdialog.py:2031
 msgid "Full snapshot path: "
 msgstr "Visas momentinės kopijos kelias: "
 
-#: qt/settingsdialog.py:2079
+#: qt/settingsdialog.py:2081
 msgid "enabled"
 msgstr "įjungta"
 
-#: qt/settingsdialog.py:2082
+#: qt/settingsdialog.py:2084
 msgid "disabled"
 msgstr "išjungta"
 
-#: qt/settingsdialog.py:2127
+#: qt/settingsdialog.py:2129
 msgid "Restore Settings"
 msgstr "Atkurti nustatymus"
 
-#: qt/settingsdialog.py:2140
+#: qt/settingsdialog.py:2142
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1629,17 +1626,17 @@ msgstr ""
 "Jei momentinės kopijosyra nuotoliniame diske arba jos užšifruotos, pirmiausia turite jas prijungti rankiniu būdu. Jei naudojate Mode SSH, jums taip pat gali reikėti nustatyti viešojo rakto prisijungimą prie nuotolinio pagrindinio kompiuterio {addFuse}.\n"
 "Pažvelkite į 'man backintime'."
 
-#: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
+#: qt/settingsdialog.py:2204 qt/settingsdialog.py:2269
 msgid "No config found"
 msgstr "Konfigūracija nerasta"
 
-#: qt/settingsdialog.py:2474
+#: qt/settingsdialog.py:2476
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 "vartotojo atgalinio iškvietimo scenarijus neturi shebang (#!/bin/sh) "
 "eilutės."
 
-#: qt/settingsdialog.py:2481
+#: qt/settingsdialog.py:2483
 msgid "Shebang in user-callback script is not executable."
 msgstr "„Shebang“ vartotojo atgalinio iškvietimo scenarijuje nėra vykdomas."
 
@@ -1693,8 +1690,7 @@ msgid "Options"
 msgstr "&Parinktys"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
-msgid "You can't compare a snapshot to itself."
+msgid "You can't compare a snapshot to itself"
 msgstr "Jūs negalite palyginti momentinės kopijos su ja pačia"
 
 #: qt/snapshotsdialog.py:336

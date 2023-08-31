@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 10:41+0200\n"
+"POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-08-22 21:53+0000\n"
 "Last-Translator: alexgabi <alexgabi@disroot.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
@@ -47,7 +47,7 @@ msgstr "Hilabete"
 msgid "Local"
 msgstr "Lokala"
 
-#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1961
+#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1963
 msgid "SSH private key"
 msgstr "SSH gako pribatua"
 
@@ -136,7 +136,7 @@ msgstr ""
 "da. Egiaztatu urruneko SMB zerbitzariak esteka sinbolikoak onartzen dituela "
 "edo gaitu '{copyLinks}' '{expertOptions}'-en."
 
-#: common/config.py:508 qt/settingsdialog.py:992
+#: common/config.py:508 qt/settingsdialog.py:994
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopiatu estekak (erreferentzia kendu esteka sinbolikoei)"
 
@@ -399,35 +399,35 @@ msgstr ""
 
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
+msgid "Cipher {cipher} failed for {host}"
 msgstr ""
 "Huts egin du cipher %(cipher)s ostalari honetan: %(host)s\n"
 "%(err)s"
 
 #: common/sshtools.py:642
 #, fuzzy
-msgid "Remote path exists but is not a directory."
+msgid "Remote path exists but is not a directory"
 msgstr ""
 "Urrutiko bide-izena badago baina ez da direktorio bat:\n"
 " %s"
 
 #: common/sshtools.py:647
 #, fuzzy
-msgid "Remote path is not writable."
+msgid "Remote path is not writable"
 msgstr ""
 "Urrutiko bide-izena ez dauka idazteko baimenik:\n"
 " %s"
 
 #: common/sshtools.py:652
 #, fuzzy
-msgid "Remote path is not executable."
+msgid "Remote path is not executable"
 msgstr ""
 "Urrutiko bide-izena ez da exekutagarria:\n"
 " %s"
 
 #: common/sshtools.py:657
 #, fuzzy
-msgid "Couldn't create remote path."
+msgid "Couldn't create remote path"
 msgstr ""
 "Ezin da sortu urrutiko bide-izena:\n"
 " %s"
@@ -591,7 +591,7 @@ msgstr "Laguntza"
 msgid "Profiles config file"
 msgstr "Gorde ezarpenen fitxategia..."
 
-#: qt/app.py:514 qt/languagedialog.py:232
+#: qt/app.py:514 qt/languagedialog.py:235
 msgid "Website"
 msgstr "Webgunea"
 
@@ -620,7 +620,7 @@ msgstr "Itzulpenak"
 msgid "About"
 msgstr "Honi buruz"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2227
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2229
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Berreskuratu"
@@ -657,7 +657,7 @@ msgstr ""
 msgid "Up"
 msgstr "Gora"
 
-#: qt/app.py:558 qt/settingsdialog.py:2183
+#: qt/app.py:558 qt/settingsdialog.py:2185
 msgid "Show hidden files"
 msgstr "Erakutsi ezkututko fitxategiak"
 
@@ -873,15 +873,15 @@ msgid ""
 "The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
 "Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team"
+"Your Back In Time Team."
 msgstr ""
 
-#: qt/languagedialog.py:229
+#: qt/languagedialog.py:232
 #, fuzzy
 msgid "translation platform"
 msgstr "Itzulpenak"
 
-#: qt/languagedialog.py:246
+#: qt/languagedialog.py:243
 #, fuzzy
 msgid "Your translation"
 msgstr "Itzulpenak"
@@ -895,7 +895,7 @@ msgid "Snapshot Log View"
 msgstr "Babeskopiaren erregistro ikuspegia"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2326
 msgid "Profile"
 msgstr "Profila"
 
@@ -1012,7 +1012,7 @@ msgstr "Kendu"
 msgid "&General"
 msgstr "&Orokorra"
 
-#: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
+#: qt/settingsdialog.py:147 qt/settingsdialog.py:2328
 msgid "Mode"
 msgstr "Modua"
 
@@ -1031,7 +1031,7 @@ msgstr ""
 " batek hari egindako hainbat erasoen berri eman du. Eman begirada bat "
 "Backintime-ren man-eko 'A NOTE ON SECURITY' oharrari."
 
-#: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
+#: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
 msgid "Where to save snapshots"
 msgstr "Non gorde babeskopiak"
 
@@ -1373,81 +1373,79 @@ msgstr "Ezer Ez"
 msgid "E&xpert Options"
 msgstr "A&ukera aurreratuak"
 
-#: qt/settingsdialog.py:818
-#, fuzzy
-msgid ""
-"Caution: Change these options only if you really know what you are doing."
+#: qt/settingsdialog.py:819
+msgid "Change these options only if you really know what you are doing!"
 msgstr "Aldatu aukera hauek bakarrik zertan ari zaren badakizu!"
 
-#: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
+#: qt/settingsdialog.py:825 qt/settingsdialog.py:841 qt/settingsdialog.py:863
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Exekutatu 'rsync' '{cmd}'-rekin:"
 
-#: qt/settingsdialog.py:830 qt/settingsdialog.py:846
+#: qt/settingsdialog.py:832 qt/settingsdialog.py:848
 msgid "as cron job"
 msgstr "programatutako ataza bezala"
 
-#: qt/settingsdialog.py:835 qt/settingsdialog.py:856 qt/settingsdialog.py:877
+#: qt/settingsdialog.py:837 qt/settingsdialog.py:858 qt/settingsdialog.py:879
 msgid "on remote host"
 msgstr "urrutiko ostalarian"
 
-#: qt/settingsdialog.py:851
+#: qt/settingsdialog.py:853
 msgid "when taking a manual snapshot"
 msgstr "eskuzko babeskopia egitean"
 
-#: qt/settingsdialog.py:864
+#: qt/settingsdialog.py:866
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Mesedez, instalatu 'nocache' aukera hau gaitzeko)"
 
-#: qt/settingsdialog.py:871
+#: qt/settingsdialog.py:873
 msgid "on local machine"
 msgstr "ordenagailuan bertan"
 
-#: qt/settingsdialog.py:882
+#: qt/settingsdialog.py:884
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Birzuzendu stdout /dev/null-era cronjob-etan."
 
-#: qt/settingsdialog.py:891
+#: qt/settingsdialog.py:893
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Birzuzendu stderr /dev/null-era cronjob-etan."
 
-#: qt/settingsdialog.py:903
+#: qt/settingsdialog.py:905
 msgid "Limit rsync bandwidth usage"
 msgstr "Mugatu rsync-en banda-zabaleraren erabilera"
 
-#: qt/settingsdialog.py:906
+#: qt/settingsdialog.py:908
 msgid "KB/sec"
 msgstr "KB/seg"
 
-#: qt/settingsdialog.py:944
+#: qt/settingsdialog.py:946
 msgid "Preserve ACL"
 msgstr "Mantendu ACL"
 
-#: qt/settingsdialog.py:959
+#: qt/settingsdialog.py:961
 msgid "Preserve extended attributes (xattr)"
 msgstr "Mantendu atributu hedatuak (xattr)"
 
-#: qt/settingsdialog.py:979
+#: qt/settingsdialog.py:981
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopiatu esteka inseguruak (egin bakarrik esteka absolutuekin)"
 
-#: qt/settingsdialog.py:1013
+#: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
 msgstr "Itsatsi aukera gehigarriak rsync-eri"
 
-#: qt/settingsdialog.py:1017
+#: qt/settingsdialog.py:1019
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "Aukerak kakotxen artean idatzi, esate baterako --exclude-from=\"/path/to/my "
 "exclude file\"."
 
-#: qt/settingsdialog.py:1029
+#: qt/settingsdialog.py:1031
 msgid "Add prefix to SSH commands"
 msgstr "Gehitu aurrizkia SSH komandoei"
 
-#: qt/settingsdialog.py:1033
+#: qt/settingsdialog.py:1035
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1466,15 +1464,15 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1041 qt/settingsdialog.py:2084
+#: qt/settingsdialog.py:1043 qt/settingsdialog.py:2086
 msgid "default"
 msgstr "lehenetsia"
 
-#: qt/settingsdialog.py:1052
+#: qt/settingsdialog.py:1054
 msgid "Check if remote host is online"
 msgstr "Markatu urrutiko ostalaria linean badago"
 
-#: qt/settingsdialog.py:1054
+#: qt/settingsdialog.py:1056
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1484,12 +1482,12 @@ msgstr ""
 "ezin bada erabili, ustekabeko erroreak sor\n"
 "daitezke."
 
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1060
 msgid "Check if remote host supports all necessary commands"
 msgstr ""
 "Markatu urrutiko ostalariak behar diren komando guztiak onartzen baditu"
 
-#: qt/settingsdialog.py:1060
+#: qt/settingsdialog.py:1062
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1499,15 +1497,15 @@ msgstr ""
 "behar diren komando guztiak onartzen ez baditu,\n"
 "ustekabeko erroreak sor daitezke ."
 
-#: qt/settingsdialog.py:1076
+#: qt/settingsdialog.py:1078
 msgid "Restore Config"
 msgstr "Leheneratu konfigurazioa"
 
-#: qt/settingsdialog.py:1078
+#: qt/settingsdialog.py:1080
 msgid "Edit user-callback"
 msgstr "Editutatu erabiltzailearen atzeradeia"
 
-#: qt/settingsdialog.py:1098
+#: qt/settingsdialog.py:1100
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
@@ -1517,20 +1515,20 @@ msgstr ""
 "\n"
 "Sistemaren babeskopia osoak pertsonalizatutako hainbat ezarpen gainidatz dezake. Jarraitu nahi duzu?"
 
-#: qt/settingsdialog.py:1133
+#: qt/settingsdialog.py:1135
 msgid "New profile"
 msgstr "Profil berria"
 
-#: qt/settingsdialog.py:1150
+#: qt/settingsdialog.py:1152
 msgid "Rename profile"
 msgstr "Berrizendatu profila"
 
-#: qt/settingsdialog.py:1166
+#: qt/settingsdialog.py:1168
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Seguru zaude \"%s\" profila ezabatu nahi duzula?"
 
-#: qt/settingsdialog.py:1440
+#: qt/settingsdialog.py:1442
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
@@ -1538,7 +1536,7 @@ msgstr ""
 "Orduak pertsonalizatzeko komaz banatutako ordu-zerrenda erabili behar duzu "
 "(hala nola 8,12,18,23) edo */3 hiru ordutan behingo babeskopia egiteko"
 
-#: qt/settingsdialog.py:1482
+#: qt/settingsdialog.py:1484
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1546,12 +1544,12 @@ msgstr ""
 "Ez duzu aukeratu SSHrako gako fitxategi pribatua.\n"
 "Nahi al duzu pasahitzik gabeko gako publiko/pribatu parea sortzea?"
 
-#: qt/settingsdialog.py:1493
+#: qt/settingsdialog.py:1495
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "\"{file}\" gako pribatuko fitxategirik ez dago."
 
-#: qt/settingsdialog.py:1645
+#: qt/settingsdialog.py:1647
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1559,7 +1557,7 @@ msgstr ""
 "Nahi al duzu kopiatzea zure SSH gako publikoa\n"
 "urrutiko ostalarira pasahitzik gabe sartu ahal izateko?"
 
-#: qt/settingsdialog.py:1673
+#: qt/settingsdialog.py:1675
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1570,7 +1568,7 @@ msgstr ""
 "\n"
 "{keytype} hatz-marka gakoa da:"
 
-#: qt/settingsdialog.py:1683
+#: qt/settingsdialog.py:1685
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
@@ -1578,23 +1576,23 @@ msgstr ""
 "Egiaztatu hatz-marka! Nahi al duzu bera gehitzea zure 'known_hosts' "
 "fitxategira?"
 
-#: qt/settingsdialog.py:1846
+#: qt/settingsdialog.py:1848
 msgid "Exclude pattern"
 msgstr "Baztertu txantiloia"
 
-#: qt/settingsdialog.py:1859
+#: qt/settingsdialog.py:1861
 msgid "Exclude file"
 msgstr "Baztertu fitxategia"
 
-#: qt/settingsdialog.py:1863
+#: qt/settingsdialog.py:1865
 msgid "Exclude folder"
 msgstr "Baztertu karpeta"
 
-#: qt/settingsdialog.py:1882
+#: qt/settingsdialog.py:1884
 msgid "Include file"
 msgstr "Sartu fitxategia"
 
-#: qt/settingsdialog.py:1891 qt/settingsdialog.py:1917
+#: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1603,37 +1601,37 @@ msgstr ""
 "\"{path}\" esteka sinboliko bat da. Estekatutako objektuaren babeskopia ez da egingo are eta bera ere gehitu arte.\n"
 "Nahi duzu gehitu esteka sinbolikoen helburu-objektuak?"
 
-#: qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1910
 msgid "Include folder"
 msgstr "Sartu karpeta"
 
-#: qt/settingsdialog.py:1945
+#: qt/settingsdialog.py:1947
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Seguru zaude aldatu nahi duzula babeskopien karpeta?"
 
-#: qt/settingsdialog.py:1970
+#: qt/settingsdialog.py:1972
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Huts egin du {path} kokalekuan SSH gako berria sortzen"
 
-#: qt/settingsdialog.py:2029
+#: qt/settingsdialog.py:2031
 msgid "Full snapshot path: "
 msgstr "Babeskopiaren bide osoa: "
 
-#: qt/settingsdialog.py:2079
+#: qt/settingsdialog.py:2081
 msgid "enabled"
 msgstr "gaituta"
 
-#: qt/settingsdialog.py:2082
+#: qt/settingsdialog.py:2084
 msgid "disabled"
 msgstr "ezgaituta"
 
-#: qt/settingsdialog.py:2127
+#: qt/settingsdialog.py:2129
 msgid "Restore Settings"
 msgstr "Ezarpenak berreskuratu"
 
-#: qt/settingsdialog.py:2140
+#: qt/settingsdialog.py:2142
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1648,16 +1646,16 @@ msgstr ""
 "Zure babeskopiak urrutiko unitate batean badaude edo zifratuta badaude aldez aurretik eskuz muntatu behar dituzu. SSH modua erabiltzen baduzu gako publikoa ezarri beharko duzu urrutiko ostalarian {addFuse} sartzeko.\n"
 "Eman begirada bat 'man backintime' oharrei."
 
-#: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
+#: qt/settingsdialog.py:2204 qt/settingsdialog.py:2269
 msgid "No config found"
 msgstr "Ez da ezarpenik topatu"
 
-#: qt/settingsdialog.py:2474
+#: qt/settingsdialog.py:2476
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 "Erabiltzailearen atzeradeia-scriptak ez dauka shebang (#!/bin/sh) lerrorik."
 
-#: qt/settingsdialog.py:2481
+#: qt/settingsdialog.py:2483
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 "Erabiltzalearen atzera-deiaren scriptaren shebang ez da exekutagarria."
@@ -1712,8 +1710,7 @@ msgid "Options"
 msgstr "Aukerak"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
-msgid "You can't compare a snapshot to itself."
+msgid "You can't compare a snapshot to itself"
 msgstr "Ezin duzu alderatu babeskopia bat bere buruarekin"
 
 #: qt/snapshotsdialog.py:336
