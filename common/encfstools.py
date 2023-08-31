@@ -152,7 +152,7 @@ class EncFS_mount(MountControl):
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise MountException(_("Password doesn't match"))
+                        raise MountException(_("Password doesn't match."))
 
     def checkVersion(self):
         """
@@ -171,7 +171,7 @@ class EncFS_mount(MountControl):
                 logger.debug('Wrong encfs version %s' % m.group(1), self)
                 raise MountException(
                     _('encfs version 1.7.2 and before has a bug with '
-                      'option --reverse. Please update encfs'))
+                      'option --reverse. Please update encfs.'))
 
     def backupConfig(self):
         """

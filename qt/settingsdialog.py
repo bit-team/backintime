@@ -815,10 +815,8 @@ class SettingsDialog(QDialog):
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
 
-        label = QLabel(
-            _('Change these options only if you really know what '
-              'you are doing!'),
-            self)
+        label = QLabel(_('Caution: Change these options only if you really '
+                         'know what you are doing.'), self)
         qttools.setFontBold(label)
         layout.addWidget(label)
 

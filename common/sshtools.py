@@ -492,7 +492,7 @@ class SSH(MountControl):
                     'Ciper %s is not supported' %
                     self.config.SSH_CIPHERS[self.cipher], self)
 
-                msg = _('Cipher {cipher} failed for {host}').format(
+                msg = _('Cipher {cipher} failed for {host}.').format(
                     cipher=self.config.SSH_CIPHERS[self.cipher],
                     host=self.host)
                 raise MountException(f'{msg}:\n{err}')
@@ -639,22 +639,22 @@ class SSH(MountControl):
 
             elif proc.returncode == 11:
                 raise MountException('{}:\n{}'.format(
-                    _('Remote path exists but is not a directory'),
+                    _('Remote path exists but is not a directory.'),
                     self.path))
 
             elif proc.returncode == 12:
                 raise MountException('{}:\n{}'.format(
-                    _('Remote path is not writable'),
+                    _('Remote path is not writable.'),
                     self.path))
 
             elif proc.returncode == 13:
                 raise MountException('{}:\n{}'.format(
-                    _('Remote path is not executable'),
+                    _('Remote path is not executable.'),
                     self.path))
 
             else:
                 raise MountException('{}:\n{}'.format(
-                    _("Couldn't create remote path"),
+                    _("Couldn't create remote path."),
                     self.path))
         else:
 

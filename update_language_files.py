@@ -309,6 +309,7 @@ if __name__ == '__main__':
     if 'source' in sys.argv:
         update_po_template()
         update_po_language_files()
+        create_languages_file()
         print(fin_msg)
         sys.exit()
 
