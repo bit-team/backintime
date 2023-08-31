@@ -10,14 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-08-05 07:53+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
-"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/"
-"common/uk/>\n"
+"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
@@ -622,7 +620,8 @@ msgstr "Відновити поточну теку і весь її вміст �
 
 #: qt/app.py:552
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr "Відновити поточну теку і весь її вміст до вказаного розташування."
 
 #: qt/app.py:555
@@ -652,12 +651,10 @@ msgstr "&Допомога"
 
 #: qt/app.py:756
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Якщо закрити це вікно, Back In Time не зможе вимкнути Вашу систему після "
-"закінчення резервування.\n"
+"Якщо закрити це вікно, Back In Time не зможе вимкнути Вашу систему після закінчення резервування.\n"
 "Ви справді хочете закрити вікно?"
 
 #: qt/app.py:902
@@ -724,12 +721,10 @@ msgstr ""
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"Після відновлення новіші версії файлів будуть названі з додаванням "
-"{suffix}.\n"
+"Після відновлення новіші версії файлів будуть названі з додаванням {suffix}.\n"
 "Якщо вони Вам не потрібні, можна видалити їх, використовуючи {cmd}"
 
 #: qt/app.py:1301
@@ -751,8 +746,7 @@ msgstr "Видалити новіші файли у початковому ро�
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
 "Відновити обрані файли чи теки до початкового розташування\n"
@@ -843,14 +837,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team."
 msgstr ""
 
@@ -1002,11 +991,11 @@ msgstr "Попередження"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
-"{app} використовує для шифрування EncFS. Нещодавні перевірки безпеки виявили "
-"його вразливість до деяких видів атак. Будь ласка, перегляньте «A NOTE ON "
+"{app} використовує для шифрування EncFS. Нещодавні перевірки безпеки виявили"
+" його вразливість до деяких видів атак. Будь ласка, перегляньте «A NOTE ON "
 "SECURITY» в «man backintime»."
 
 #: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
@@ -1160,8 +1149,7 @@ msgstr "Кожні"
 
 #: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 "Запускати Back In Time, коли Ви підключаєте диск (один раз на X днів).\n"
@@ -1193,8 +1181,7 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"У режимі «SSH зашифрований» символи підстановки ('foo*', '[fF]oo', 'fo?') "
-"ігноруються.\n"
+"У режимі «SSH зашифрований» символи підстановки ('foo*', '[fF]oo', 'fo?') ігноруються.\n"
 "Можна використовувати одну або дві зірочки ('foo/*', 'foo/**/bar')"
 
 #: qt/settingsdialog.py:547
@@ -1482,21 +1469,13 @@ msgstr "Редаг. скрипт"
 
 #: qt/settingsdialog.py:1100
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
-"Повна копія системи створює резервну копію, яку можна відновлювати лише на "
-"тому ж фізичному диску (дисках) з тими ж розділами, з якого вона була "
-"зроблена; відновлення на інший диск або ж на той самий, але зі зміненими "
-"розділами призведе до збоїв у роботі системи.\n"
+"Повна копія системи створює резервну копію, яку можна відновлювати лише на тому ж фізичному диску (дисках) з тими ж розділами, з якого вона була зроблена; відновлення на інший диск або ж на той самий, але зі зміненими розділами призведе до збоїв у роботі системи.\n"
 "\n"
-"Повна копія системи скасує деякі налаштування, які могли бути змінені. "
-"Продовжити?"
+"Повна копія системи скасує деякі налаштування, які могли бути змінені. Продовжити?"
 
 #: qt/settingsdialog.py:1135
 msgid "New profile"
@@ -1516,8 +1495,8 @@ msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
-"Вказуйте години через кому (напр. 8,12,18,23) або */3 для резервування кожні "
-"3 години"
+"Вказуйте години через кому (напр. 8,12,18,23) або */3 для резервування кожні"
+" 3 години"
 
 #: qt/settingsdialog.py:1484
 msgid ""
@@ -1577,12 +1556,10 @@ msgstr "Включити файл"
 #: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде "
-"зарезервовано, якщо його не включити.\n"
+"«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде зарезервовано, якщо його не включити.\n"
 "Включити цей об'єкт у резервну копію?"
 
 #: qt/settingsdialog.py:1910
@@ -1618,22 +1595,16 @@ msgstr "Налаштування відновлення"
 #: qt/settingsdialog.py:2142
 #, fuzzy, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
-"Оберіть резервну копію, з якої Ви хочете відновити конфігурацію {appName}. "
-"Шлях може мати такий вигляд:\n"
+"Оберіть резервну копію, з якої Ви хочете відновити конфігурацію {appName}. Шлях може мати такий вигляд:\n"
 "{samplePath}\n"
 "\n"
-"Якщо резервні копії на віддаленому диску або зашифровані, Вам потрібно "
-"спочатку змонтувати їх вручну. В режимі «SSH» Вам також може знадобитися "
-"встановити доступ із публічним ключем до сервера{addFuse}.\n"
+"Якщо резервні копії на віддаленому диску або зашифровані, Вам потрібно спочатку змонтувати їх вручну. В режимі «SSH» Вам також може знадобитися встановити доступ із публічним ключем до сервера{addFuse}.\n"
 "Докладніше в «man backintime»."
 
 #: qt/settingsdialog.py:2204 qt/settingsdialog.py:2269
@@ -1708,7 +1679,8 @@ msgstr "Команду не знайдено"
 #: qt/snapshotsdialog.py:367
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr "Ви справді хочете видалити «{file}» з резервної копії «{snapshot_id}»?"
+msgstr ""
+"Ви справді хочете видалити «{file}» з резервної копії «{snapshot_id}»?"
 
 #: qt/snapshotsdialog.py:373
 #, fuzzy, python-brace-format
@@ -1733,12 +1705,10 @@ msgstr "Виключити «{path}» з майбутніх резервних �
 
 #, fuzzy, python-format
 #~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
-#~ "include it, too.\n"
+#~ "\"%s\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 #~ "Would you like to include the symlinks target instead?"
 #~ msgstr ""
-#~ "\"%s\" — посилання. Об'єкт, на який воно вказує, не буде зарезервовано, "
-#~ "якщо його не включити.\n"
+#~ "\"%s\" — посилання. Об'єкт, на який воно вказує, не буде зарезервовано, якщо його не включити.\n"
 #~ "Включити цей об'єкт у резервну копію?"
 
 #~ msgid "&Snapshot"
@@ -1793,8 +1763,7 @@ msgstr "Виключити «{path}» з майбутніх резервних �
 #, python-brace-format
 #~ msgid ""
 #~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 #~ msgstr ""
 #~ "Відновити обраний файл або теку.\n"
 #~ "Ця кнопка неактивна, якщо обрано «{now}» у списку резервних копій ліворуч."

@@ -214,6 +214,7 @@ class ApproachTranslatorDialog(QDialog):
         # <p> tags.
         result = ''
         for t in txt.split('\n'):
+            print(f'{t=}')
             # result = '{}<p>{}</p>'.format(
             #     result,
             #     '<br>'.join(textwrap.wrap(t, width=wrap_width)))

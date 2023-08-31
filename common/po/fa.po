@@ -10,8 +10,7 @@ msgstr ""
 "POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
-"Language-Team: Persian <https://translate.codeberg.org/projects/backintime/"
-"common/fa/>\n"
+"Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -134,8 +133,8 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"مقصد فایل سیستمی برای {path} یک سهم(share) مانت شده SMB است. لطفاً مطمئن شوید "
-"سرور SMB ریموت، سیملینک ها را پشتیبانی میکند یا {copyLinks} در "
+"مقصد فایل سیستمی برای {path} یک سهم(share) مانت شده SMB است. لطفاً مطمئن "
+"شوید سرور SMB ریموت، سیملینک ها را پشتیبانی میکند یا {copyLinks} در "
 "{expertOptions} فعال کنید."
 
 #: common/config.py:508 qt/settingsdialog.py:994
@@ -175,8 +174,8 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"نتوانست قوانین Udev را برای پروفایل {profile_id} نصب کند. سرویس دی‌باس(DBus) "
-"'{dbus_interface}' در دسترس نبود"
+"نتوانست قوانین Udev را برای پروفایل {profile_id} نصب کند. سرویس دی‌باس(DBus)"
+" '{dbus_interface}' در دسترس نبود"
 
 #: common/config.py:1733
 #, python-brace-format
@@ -439,7 +438,8 @@ msgstr ""
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
-"کلید عمومی اس‌اس‌اچ(ssh-key) \"{pubkey}\" را به هاست ریموت \"{host}\" کپی کنید"
+"کلید عمومی اس‌اس‌اچ(ssh-key) \"{pubkey}\" را به هاست ریموت \"{host}\" کپی "
+"کنید"
 
 #: common/sshtools.py:1051
 #, python-brace-format
@@ -473,8 +473,8 @@ msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
-"{appName} پیکربندی نشده. مایل به تمایلات هستید که پیکربندی قبلی را بازگردانی "
-"کنی؟"
+"{appName} پیکربندی نشده. مایل به تمایلات هستید که پیکربندی قبلی را بازگردانی"
+" کنی؟"
 
 #: qt/app.py:368
 #, fuzzy
@@ -629,7 +629,8 @@ msgstr "پوشه درحال نمایش را با تمام محتویات اش ر
 #: qt/app.py:552
 #, fuzzy
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr "پوشه درحال نمایش را با تمام محتویات اش را به مقصد جدید بازگردان."
 
 #: qt/app.py:555
@@ -660,12 +661,10 @@ msgstr "کمک"
 #: qt/app.py:756
 #, fuzzy
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"اگر شما این پنجره را ببندید، Back In Time دیگر قادر نیست که سیستم شما را بعد "
-"از تمام شدن اسنپ‌شات خاموش کند.\n"
+"اگر شما این پنجره را ببندید، Back In Time دیگر قادر نیست که سیستم شما را بعد از تمام شدن اسنپ‌شات خاموش کند.\n"
 "میخوای واقعاً ببندی؟"
 
 #: qt/app.py:902
@@ -732,12 +731,10 @@ msgstr ""
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"نسخه‌های جدیدتر از فایل‌ها با دنباله {suffix} قبل از بازگردانی تغییر نام داده "
-"خواهند شد.\n"
+"نسخه‌های جدیدتر از فایل‌ها با دنباله {suffix} قبل از بازگردانی تغییر نام داده خواهند شد.\n"
 "اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با {cmd} حذف کنید"
 
 #: qt/app.py:1301
@@ -759,14 +756,12 @@ msgstr "حذف کردن فایل های جدیدتر در پوشه اصلی"
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
 "فایل‌ها یا پوشه‌های انتخاب شده را به محل اصلی بازگردان و\n"
 "فایل‌هایی/پوشه‌هایی که در اسنپ‌شات نیستند را پاک کن.\n"
-"این فایل‌هایی/پوشه‌هایی را که در هنگام اسنپ‌شات گرفتن مورد استثنا قرار گرفته "
-"شده‌اند را پاک خواهد کرد!\n"
+"این فایل‌هایی/پوشه‌هایی را که در هنگام اسنپ‌شات گرفتن مورد استثنا قرار گرفته شده‌اند را پاک خواهد کرد!\n"
 "شدیداً مواظب باش، شدید!!!"
 
 #: qt/app.py:1347
@@ -801,8 +796,8 @@ msgstr ""
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
-"هشدار: پاک کردن فایل‌ها در فایل های سیستمی ریشه می‌تواند کل سیستم شما را خراب "
-"کند!!!"
+"هشدار: پاک کردن فایل‌ها در فایل های سیستمی ریشه می‌تواند کل سیستم شما را "
+"خراب کند!!!"
 
 #: qt/app.py:1596
 #, fuzzy
@@ -858,14 +853,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team."
 msgstr ""
 
@@ -1017,12 +1007,12 @@ msgstr "هشدار"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 "{app} از EncFS برای رمزنگاری استفاده میکند. یک حسابرسی امنیتی اخیر، چندتا "
-"مسیر‌ ممکن حمله برای این را افشا کرده است. لطفاً نگاهی به \"A NOTE ON SECURITY"
-"\" در \"man backintime\" بیندازید."
+"مسیر‌ ممکن حمله برای این را افشا کرده است. لطفاً نگاهی به \"A NOTE ON "
+"SECURITY\" در \"man backintime\" بیندازید."
 
 #: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
 msgid "Where to save snapshots"
@@ -1178,8 +1168,7 @@ msgstr "هر"
 
 #: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 "Back In Time را تا وقتی که درایو متصل است اجرا کن (فقط یکبار در هر X روز)\n"
@@ -1211,8 +1200,7 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"کارت های وحشی('foo*', '[fF]oo', 'fo?') مورد توجه قرار نخواهند گرفت با حالت "
-"'SSH رمزنگاری‌شده'.\n"
+"کارت های وحشی('foo*', '[fF]oo', 'fo?') مورد توجه قرار نخواهند گرفت با حالت 'SSH رمزنگاری‌شده'.\n"
 "فقط ستاره های جداگانه مجاز است ('foo/*', 'foo/**/bar')"
 
 #: qt/settingsdialog.py:547
@@ -1243,8 +1231,7 @@ msgstr ""
 "فایل‌های بزرگتر از مقدار در %(prefix)s را استثنا قرار بده.\n"
 "با 'حالت rsync کامل' غیرفعال، این فقط برروی فایل‌های جدید اثر می‌گذارد.\n"
 "به دلیل rsync، این یک گزینه منتقل‌کننده است، نه یک گزینه استثنا.\n"
-"به این خاطر فایل‌های بزرگی ک قبلاً پشتیبان‌گیری شده بودند در اسنپ‌شات‌ها باقی "
-"میمانند\n"
+"به این خاطر فایل‌های بزرگی ک قبلاً پشتیبان‌گیری شده بودند در اسنپ‌شات‌ها باقی میمانند\n"
 "حتی اگر تغییر کنند."
 
 #: qt/settingsdialog.py:620
@@ -1337,8 +1324,7 @@ msgid ""
 "But you need to activate this for all other users, too."
 msgstr ""
 "دیگر اسنپ‌شات ها تا وقتی که اسنپ‌شات فعلی تمام نشده است، مسدود می‌شوند.\n"
-"این یک گزینه جهانی است. به این خاطر برای تمامی پروفایل های کاربر اثر "
-"می‌گذارد.\n"
+"این یک گزینه جهانی است. به این خاطر برای تمامی پروفایل های کاربر اثر می‌گذارد.\n"
 "ولیکن که همچنین شما نیاز دارید که این را برای همه کاربرها فعال کنید."
 
 #: qt/settingsdialog.py:766
@@ -1504,21 +1490,13 @@ msgstr "ویرایش user-callback"
 
 #: qt/settingsdialog.py:1100
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
-"پشتیبان‌گیری کل سیستم فقط میتواند یک اسنپ‌شات بسازد که در همان لوح(های) فیزیکی "
-"با همان پارتیشن بندی لوح از منبع، بازگردانی شود؛ بازگردانی کردن به لوح های "
-"فیزیکی یا همان لوح‌ها با پارتیشن بندی متفاوت، یک سیستم بالقوه خراب و ناامن "
-"ایجاد میکند.\n"
+"پشتیبان‌گیری کل سیستم فقط میتواند یک اسنپ‌شات بسازد که در همان لوح(های) فیزیکی با همان پارتیشن بندی لوح از منبع، بازگردانی شود؛ بازگردانی کردن به لوح های فیزیکی یا همان لوح‌ها با پارتیشن بندی متفاوت، یک سیستم بالقوه خراب و ناامن ایجاد میکند.\n"
 "\n"
-"پشتیبان‌گیری کامل سیستم بعضی از تنظیمات را که سفارشی‌سازی شده‌اند را لغو خواهد "
-"کرد. ادامه میدهی؟"
+"پشتیبان‌گیری کامل سیستم بعضی از تنظیمات را که سفارشی‌سازی شده‌اند را لغو خواهد کرد. ادامه میدهی؟"
 
 #: qt/settingsdialog.py:1135
 msgid "New profile"
@@ -1547,8 +1525,7 @@ msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 "شما برای SSH یک فایل کلید خصوصی انتخاب نکرده‌اید.\n"
-"آیا مایل به تمایلات هستید که یک جفت کلید خصوصی/عمومی بدون رمز عبور جدید "
-"بسازیم؟"
+"آیا مایل به تمایلات هستید که یک جفت کلید خصوصی/عمومی بدون رمز عبور جدید بسازیم؟"
 
 #: qt/settingsdialog.py:1495
 #, python-brace-format
@@ -1601,12 +1578,10 @@ msgstr "شامل کردن فایل"
 #: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, fuzzy, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"\"{path}\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی "
-"که شما این را هم شامل کنید.\n"
+"\"{path}\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که شما این را هم شامل کنید.\n"
 "آیا مایل به تمایلات هستید که در عوض پیوندهای نمادین هدف را شامل کنید؟"
 
 #: qt/settingsdialog.py:1910
@@ -1642,22 +1617,16 @@ msgstr "بازگردانی تنظیمات"
 #: qt/settingsdialog.py:2142
 #, fuzzy, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
-"لطفاً به سمت اسنپ‌شات هدایت شوید از جایی که میخواید پیکربندی {appName} را "
-"بازگردانی کنید. مسیر شاید به این شکل باشد:\n"
+"لطفاً به سمت اسنپ‌شات هدایت شوید از جایی که میخواید پیکربندی {appName} را بازگردانی کنید. مسیر شاید به این شکل باشد:\n"
 "{samplePath}\n"
 "\n"
-"اگر اسنپ‌شات‌ها شما روی یک درایو ریموت است یا آنها رمزنگاری شده‌اند، شما اول "
-"باید آنها را دستی مانت کنید. اگر شما از حالت SSH استفاده میکنید شاید نیاز "
-"داشته باشید که ورود کلید عمومی راه اندازی کنید به هاست ریموت {addFuse}.\n"
+"اگر اسنپ‌شات‌ها شما روی یک درایو ریموت است یا آنها رمزنگاری شده‌اند، شما اول باید آنها را دستی مانت کنید. اگر شما از حالت SSH استفاده میکنید شاید نیاز داشته باشید که ورود کلید عمومی راه اندازی کنید به هاست ریموت {addFuse}.\n"
 "یه نگاه به 'man backintime' بنداز."
 
 #: qt/settingsdialog.py:2204 qt/settingsdialog.py:2269
@@ -1732,8 +1701,7 @@ msgstr "دستور پیدا نشده"
 #: qt/snapshotsdialog.py:367
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr ""
-"آیا شما جدی می‌خواین \"{file}\" را در اسنپ‌شات \"{snapshot_id}\" پاک کنید؟"
+msgstr "آیا شما جدی می‌خواین \"{file}\" را در اسنپ‌شات \"{snapshot_id}\" پاک کنید؟"
 
 #: qt/snapshotsdialog.py:373
 #, fuzzy, python-brace-format
@@ -1759,12 +1727,10 @@ msgstr "\"{path}\" را مورد استثنا قرار میدهی از اسنپ�
 
 #, python-format
 #~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you "
-#~ "include it, too.\n"
+#~ "\"%s\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 #~ "Would you like to include the symlinks target instead?"
 #~ msgstr ""
-#~ "\"%s\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که "
-#~ "شما این را هم شامل کنید.\n"
+#~ "\"%s\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که شما این را هم شامل کنید.\n"
 #~ "آیا مایل به تمایلات هستید که در عوض پیوندهای نمادین هدف را شامل کنید؟"
 
 #~ msgid "&Snapshot"
@@ -1792,12 +1758,10 @@ msgstr "\"{path}\" را مورد استثنا قرار میدهی از اسنپ�
 #, python-brace-format
 #~ msgid ""
 #~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 #~ msgstr ""
 #~ "فایل‌ها یا پوشه‌ها را بازگردان.\n"
-#~ "اگر این دکمه خاکستری شد، به نظر میاید که \"{now}\" در دست چپ لیست اسنپ‌شات‌ "
-#~ "انتخاب شده است."
+#~ "اگر این دکمه خاکستری شد، به نظر میاید که \"{now}\" در دست چپ لیست اسنپ‌شات‌ انتخاب شده است."
 
 #~ msgid "SSH"
 #~ msgstr "اس‌اس‌اچ(SSH)"

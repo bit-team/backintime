@@ -10,8 +10,7 @@ msgstr ""
 "POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-08-19 12:53+0000\n"
 "Last-Translator: psw1747 <informatiekantoor@gmail.com>\n"
-"Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/"
-"common/ja/>\n"
+"Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,8 +122,8 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"{path} のあるファイルシステムは 、ハードリンクをサポートしていないFAT で"
-"フォーマットされています 。Linux用のファイルシステムをお使いください。"
+"{path} のあるファイルシステムは 、ハードリンクをサポートしていないFAT でフォーマットされています "
+"。Linux用のファイルシステムをお使いください。"
 
 #: common/config.py:504
 #, python-brace-format
@@ -133,9 +132,8 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"{path} のある場所は SMB共有サーバーです リモートSMBサーバーがシンボリックリン"
-"クをサポートしているか確認してください、または {expertOptions} で "
-"{copyLinks} を有効化してください"
+"{path} のある場所は SMB共有サーバーです リモートSMBサーバーがシンボリックリンクをサポートしているか確認してください、または "
+"{expertOptions} で {copyLinks} を有効化してください"
 
 #: common/config.py:508 qt/settingsdialog.py:994
 msgid "Copy links (dereference symbolic links)"
@@ -151,8 +149,7 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"{path} のあるファイルシステムは sshfs共有サーバです sshfs はハードリンクをサ"
-"ポートしていません 'SSH' をお使いください"
+"{path} のあるファイルシステムは sshfs共有サーバです sshfs はハードリンクをサポートしていません 'SSH' をお使いください"
 
 #: common/config.py:1609
 msgid ""
@@ -174,8 +171,8 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"プロファイル {profile_id} の Udev ルールをインストールできませんでした DBus "
-"サービス {dbus_interface} が有効ではありません"
+"プロファイル {profile_id} の Udev ルールをインストールできませんでした DBus サービス {dbus_interface} "
+"が有効ではありません"
 
 #: common/config.py:1733
 #, python-brace-format
@@ -475,8 +472,7 @@ msgid ""
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "スナップショットフォルダが見つかりません。\n"
-"もしリムーバブルドライブ上にあるのなら、それを接続してからOKを押してくださ"
-"い。"
+"もしリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
 
 #: qt/app.py:448
 #, fuzzy
@@ -619,9 +615,9 @@ msgstr "現在表示されているフォルダとそれに含まれるファイ
 
 #: qt/app.py:552
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
-msgstr ""
-"現在表示されているフォルダとそれに含まれるファイルを新しい場所に復元する"
+"Restore the currently shown folder and all its contents to a new "
+"destination."
+msgstr "現在表示されているフォルダとそれに含まれるファイルを新しい場所に復元する"
 
 #: qt/app.py:555
 msgid "Up"
@@ -650,12 +646,10 @@ msgstr "ヘルプ"
 
 #: qt/app.py:756
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"このウインドウを閉じると Back In Time はスナップショットの作成終了時に電源を"
-"切ることができなくなります\n"
+"このウインドウを閉じると Back In Time はスナップショットの作成終了時に電源を切ることができなくなります\n"
 "閉じてよろしいでしょうか?"
 
 #: qt/app.py:902
@@ -722,12 +716,10 @@ msgstr ""
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更され"
-"ます\n"
+"復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更されます\n"
 "もし不要の場合は以下のコマンドで削除してください : {cmd}"
 
 #: qt/app.py:1301
@@ -749,8 +741,7 @@ msgstr "元のフォルダにあるより新しいファイルを削除"
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
 "選択されたファイルやフォルダを元の場所に復元し、\n"
@@ -785,9 +776,7 @@ msgstr "元のフォルダにあるより新しいファイルを削除しても
 #, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
-msgstr ""
-"警告: ルートディレクトリにあるファイルを削除するとシステムが作動しなくなる可"
-"能性があります!!!"
+msgstr "警告: ルートディレクトリにあるファイルを削除するとシステムが作動しなくなる可能性があります!!!"
 
 #: qt/app.py:1596
 #, fuzzy
@@ -843,14 +832,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team."
 msgstr ""
 "これまでに Back In Time {language} 版をご利用いただいた皆様へ。\n"
@@ -1005,12 +989,11 @@ msgstr "警告"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
-"{app} は EncFSを暗号化に使用します 最近のセキュリティ報告書によれば、この方式"
-"に対する攻撃方法が複数存在することが確認されているようです 詳しくは \"man "
-"backintime\"を参照してください"
+"{app} は EncFSを暗号化に使用します 最近のセキュリティ報告書によれば、この方式に対する攻撃方法が複数存在することが確認されているようです "
+"詳しくは \"man backintime\"を参照してください"
 
 #: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
 msgid "Where to save snapshots"
@@ -1056,9 +1039,7 @@ msgstr "すでにあるプライベート鍵を使用する (通常 \"id_rsa\"�
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
-msgstr ""
-"新しい SSH鍵をパスワードなしで作成する (すでにプライベート鍵を選択済みの場合"
-"は実行できません)"
+msgstr "新しい SSH鍵をパスワードなしで作成する (すでにプライベート鍵を選択済みの場合は実行できません)"
 
 #: qt/settingsdialog.py:276 qt/settingsdialog.py:285 qt/settingsdialog.py:291
 msgid "Password"
@@ -1070,9 +1051,7 @@ msgstr "パスワードを鍵束に保存"
 
 #: qt/settingsdialog.py:301
 msgid "Cache Password for Cron (Security issue: root can read password)"
-msgstr ""
-"パスワードを cron に渡す (セキュリティ上の問題: 管理者にパスワードを知られま"
-"す)"
+msgstr "パスワードを cron に渡す (セキュリティ上の問題: 管理者にパスワードを知られます)"
 
 #: qt/settingsdialog.py:316
 msgid "Advanced"
@@ -1154,9 +1133,7 @@ msgstr "時間"
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
-msgstr ""
-"Back In Time を一定間隔で実行 復元できるポイントが多数あれば不具合が発生した"
-"場合に有利です"
+msgstr "Back In Time を一定間隔で実行 復元できるポイントが多数あれば不具合が発生した場合に有利です"
 
 #: qt/settingsdialog.py:452
 msgid "Every"
@@ -1164,8 +1141,7 @@ msgstr "毎"
 
 #: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 "ドライブが接続されたら Back In Time を実行 (ただし X日に一回)\n"
@@ -1197,8 +1173,7 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"SSH暗号化においては、('foo*', '[fF]oo', 'fo?') などのワイルドカードは無視され"
-"ます\n"
+"SSH暗号化においては、('foo*', '[fF]oo', 'fo?') などのワイルドカードは無視されます\n"
 "('foo/*', 'foo/**/bar')のような単または連アスタリスクの使用のみが反映されます"
 
 #: qt/settingsdialog.py:547
@@ -1228,10 +1203,8 @@ msgid ""
 msgstr ""
 "%(prefix)s より大きいファイルを除外する\n"
 "'Full rsync mode' を選択しているときは\n"
-"既にバックアップされている大きなファイルについては実行されますが、新しい大き"
-"なファイルは除外されます\n"
-"これは、'rsync' の機能を利用したもので厳密にはここで除外対象を指定しているの"
-"ではないからです"
+"既にバックアップされている大きなファイルについては実行されますが、新しい大きなファイルは除外されます\n"
+"これは、'rsync' の機能を利用したもので厳密にはここで除外対象を指定しているのではないからです"
 
 #: qt/settingsdialog.py:620
 msgid "&Auto-remove"
@@ -1356,9 +1329,7 @@ msgstr "上級者向けオプション"
 
 #: qt/settingsdialog.py:819
 msgid "Change these options only if you really know what you are doing!"
-msgstr ""
-"何をしているか本当に理解している場合に限りこれらのオプションを変更してくださ"
-"い！"
+msgstr "何をしているか本当に理解している場合に限りこれらのオプションを変更してください！"
 
 #: qt/settingsdialog.py:825 qt/settingsdialog.py:841 qt/settingsdialog.py:863
 #, python-brace-format
@@ -1474,13 +1445,9 @@ msgstr ""
 
 #: qt/settingsdialog.py:1100
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
 #: qt/settingsdialog.py:1135
@@ -1552,12 +1519,10 @@ msgstr "含めるファイル"
 #: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"{path} はシンボリックリンクです このリンクにある本体は指定しない限りバック"
-"アップされません\n"
+"{path} はシンボリックリンクです このリンクにある本体は指定しない限りバックアップされません\n"
 "シンボリックリンクの代わりに本体を指定しますか?"
 
 #: qt/settingsdialog.py:1910
@@ -1593,13 +1558,10 @@ msgstr ""
 #: qt/settingsdialog.py:2142
 #, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
@@ -1738,12 +1700,10 @@ msgstr ""
 #, python-brace-format
 #~ msgid ""
 #~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 #~ msgstr ""
 #~ "選択されたファイルやフォルダを復元\n"
-#~ "このボタンが灰色になっているのは、左側のリストにある\"{now}\"が選択されて"
-#~ "いるからです"
+#~ "このボタンが灰色になっているのは、左側のリストにある\"{now}\"が選択されているからです"
 
 #~ msgid "Settings"
 #~ msgstr "設定"

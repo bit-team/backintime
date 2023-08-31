@@ -11,8 +11,7 @@ msgstr ""
 "POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
-"Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/"
-"common/hu/>\n"
+"Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -395,8 +394,8 @@ msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Nem tudtam feloldani az ssh privát kulcsát. Hibás jelszó vagy a cron nem éri "
-"el a jelszót."
+"Nem tudtam feloldani az ssh privát kulcsát. Hibás jelszó vagy a cron nem éri"
+" el a jelszót."
 
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
@@ -643,7 +642,8 @@ msgstr ""
 
 #: qt/app.py:552
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr ""
 
 #: qt/app.py:555
@@ -676,12 +676,10 @@ msgstr "Súgó"
 #: qt/app.py:756
 #, fuzzy
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Ha bezárod ezt az ablakot, a Back In Time nem tudja lekapcsolni a rendszert "
-"a biztonsági mentés elvégzése után.\n"
+"Ha bezárod ezt az ablakot, a Back In Time nem tudja lekapcsolni a rendszert a biztonsági mentés elvégzése után.\n"
 "Biztos bezárod?"
 
 #: qt/app.py:902
@@ -748,8 +746,7 @@ msgstr ""
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
@@ -768,8 +765,7 @@ msgstr ""
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
 
@@ -854,14 +850,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team."
 msgstr ""
 
@@ -1015,8 +1006,8 @@ msgstr ""
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 
 #: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
@@ -1181,8 +1172,7 @@ msgstr "Minden"
 
 #: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 "Futtassa a Back In Time-ot, amint csatolod a meghajtót (X naponta egyszer).\n"
@@ -1216,8 +1206,7 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"A helyettesítő karaktreket ('foo*', '[fF]oo', 'fo?') az 'SSH encrypted' mód "
-"nem veszi figyelembe.\n"
+"A helyettesítő karaktreket ('foo*', '[fF]oo', 'fo?') az 'SSH encrypted' mód nem veszi figyelembe.\n"
 "Csak az elválasztó csillag megengedett ('foo/*', 'foo/**/bar')"
 
 #: qt/settingsdialog.py:547
@@ -1499,13 +1488,9 @@ msgstr ""
 
 #: qt/settingsdialog.py:1100
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
 #: qt/settingsdialog.py:1135
@@ -1580,8 +1565,7 @@ msgstr "Felveendő fájl"
 #: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
@@ -1618,13 +1602,10 @@ msgstr ""
 #: qt/settingsdialog.py:2142
 #, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
@@ -1704,8 +1685,7 @@ msgstr "A következő parancs nem található"
 #: qt/snapshotsdialog.py:367
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr ""
-"Biztosan töröljem a \"{file}\" fájlt a \"{snapshot_id}\" pillanatképből?"
+msgstr "Biztosan töröljem a \"{file}\" fájlt a \"{snapshot_id}\" pillanatképből?"
 
 #: qt/snapshotsdialog.py:373
 #, fuzzy, python-brace-format
@@ -1731,19 +1711,16 @@ msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 #~ "### If some paths are not decoded you can manually decode them with:\n"
 #~ msgstr ""
 #~ "### Ezt a naplófájlt automatikus keresési mintával dekódolták\n"
-#~ "### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel "
-#~ "dekódolni:\n"
+#~ "### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel dekódolni:\n"
 
 #, python-format
 #~ msgid ""
 #~ "%(user)s is not member of group 'fuse'.\n"
-#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login "
-#~ "again.\n"
+#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
 #~ "Look at 'man backintime' for further instructions."
 #~ msgstr ""
 #~ "A(z) %(user)s nem tagja a 'fuse' csoportnak.\n"
-#~ " Futtasd le a 'sudo adduser %(user)s fuse' parancsot, majd jelentkezz ki "
-#~ "és vissza.\n"
+#~ " Futtasd le a 'sudo adduser %(user)s fuse' parancsot, majd jelentkezz ki és vissza.\n"
 #~ "Nézd meg a 'man backintime'-ot további részletekért."
 
 #, python-format
@@ -1849,8 +1826,8 @@ msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 #~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 #~ "backintime' for further instructions."
 #~ msgstr ""
-#~ "A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a "
-#~ "'man backintime'-ot további részletekért."
+#~ "A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a 'man"
+#~ " backintime'-ot további részletekért."
 
 #, python-format
 #~ msgid "Ping %s failed. Host is down or wrong address."

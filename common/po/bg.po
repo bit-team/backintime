@@ -10,8 +10,7 @@ msgstr ""
 "POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-07-17 09:25+0000\n"
 "Last-Translator: Dmitriy Q <krotesk@mail.ru>\n"
-"Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/"
-"common/bg/>\n"
+"Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -437,8 +436,7 @@ msgstr ""
 #: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr ""
-"Копирай публичния ssh ключ \"{pubkey}\" в дистанционният хост \"{host}\""
+msgstr "Копирай публичния ssh ключ \"{pubkey}\" в дистанционният хост \"{host}\""
 
 #: common/sshtools.py:1051
 #, python-brace-format
@@ -472,7 +470,8 @@ msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
-"{appName} не е зададен. Бихте ли искали да възстановите предишна конфиурация?"
+"{appName} не е зададен. Бихте ли искали да възстановите предишна "
+"конфиурация?"
 
 #: qt/app.py:368
 msgid ""
@@ -624,7 +623,8 @@ msgstr ""
 
 #: qt/app.py:552
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr "Възстановете показаната папка и нейното съдържание на ново място."
 
 #: qt/app.py:555
@@ -654,12 +654,10 @@ msgstr "&Помощ"
 
 #: qt/app.py:756
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Ако затворите този прозорец, Back in Time няма да може да изключи вашата "
-"система когато моментното копие е завършено.\n"
+"Ако затворите този прозорец, Back in Time няма да може да изключи вашата система когато моментното копие е завършено.\n"
 "Наистина ли искате да го затворите?"
 
 #: qt/app.py:902
@@ -726,12 +724,10 @@ msgstr ""
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"По-новите версии на файловете ще бъдат преименувани с последващ {suffix} при "
-"възстановяването.\n"
+"По-новите версии на файловете ще бъдат преименувани с последващ {suffix} при възстановяването.\n"
 "Ако не са необходими, могат да бъдат премахнати посредством {cmd}"
 
 #: qt/app.py:1301
@@ -753,14 +749,12 @@ msgstr "Премахнете по-новите файлове от първон�
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
 "Възстановете избраните файлове или папки на първоначалното място и\n"
 "изтрийте файловете и папките, които не са част от моментното копие.\n"
-"Това ще изтрие всички такива, които не са били включени по време на "
-"архивирането.\n"
+"Това ще изтрие всички такива, които не са били включени по време на архивирането.\n"
 "Бъдете изключително внимателни!!!"
 
 #: qt/app.py:1347
@@ -795,8 +789,8 @@ msgstr ""
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
-"ВНИМАНИЕ: изтриването на файлове в основната директория на файловата система "
-"може да унищожи цялата Ви система!!!"
+"ВНИМАНИЕ: изтриването на файлове в основната директория на файловата система"
+" може да унищожи цялата Ви система!!!"
 
 #: qt/app.py:1596
 #, fuzzy
@@ -852,14 +846,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team."
 msgstr ""
 
@@ -1011,8 +1000,8 @@ msgstr "Внимание"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 "{app} използва EncFS за криптиране. Скорошен одит на сигурността разкри "
 "възможни уязвимости. Моля погледнете \"A NOTE ON SECURITY\" в \"man "
@@ -1077,8 +1066,8 @@ msgstr "Запазете паролата в ключодържателя"
 #: qt/settingsdialog.py:301
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
-"Кеширайте паролата за периодичните задачи (Възможен проблем със сигурността: "
-"потребител root може да достъпва паролата)"
+"Кеширайте паролата за периодичните задачи (Възможен проблем със сигурността:"
+" потребител root може да достъпва паролата)"
 
 #: qt/settingsdialog.py:316
 msgid "Advanced"
@@ -1171,12 +1160,10 @@ msgstr "Всеки"
 
 #: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Изпълнявайте Back In Time веднага щом дискът бъде свързан (веднъж на X "
-"дни).\n"
+"Изпълнявайте Back In Time веднага щом дискът бъде свързан (веднъж на X дни).\n"
 "Ще бъдете помолени да въведете вашата sudo парола."
 
 #: qt/settingsdialog.py:488
@@ -1205,8 +1192,7 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Шаблоните ('foo*', '[fF]oo', 'fo?') ще бъдат игнорирани в режим 'SSH "
-"encrypted'.\n"
+"Шаблоните ('foo*', '[fF]oo', 'fo?') ще бъдат игнорирани в режим 'SSH encrypted'.\n"
 "Само единични или двойни звездички са позволени ('foo/*', 'foo/**/bar')"
 
 #: qt/settingsdialog.py:547
@@ -1328,8 +1314,7 @@ msgid ""
 "This is a global option. So it will affect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
-"Останалите моментни копия ще бъдат блокирани докато текущото такова не "
-"приключи.\n"
+"Останалите моментни копия ще бъдат блокирани докато текущото такова не приключи.\n"
 "Това е глобална опция и ще повлияе на всички профили на потребителя.\n"
 "Но трябва да я изберете също и за останалите потребители."
 
@@ -1429,8 +1414,8 @@ msgstr "Добавете допълнителни опции към rsync"
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
-"Опциите трябва да бъдат поставени в кавички, напр. --exclude-from=\"/path/to/"
-"my exclude file\"."
+"Опциите трябва да бъдат поставени в кавички, напр. --exclude-"
+"from=\"/path/to/my exclude file\"."
 
 #: qt/settingsdialog.py:1031
 msgid "Add prefix to SSH commands"
@@ -1496,21 +1481,13 @@ msgstr "Променете потребителския скрипт"
 
 #: qt/settingsdialog.py:1100
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
-"Пълният системен бекъп може да създаде само моментно копие, което да бъде "
-"възстановено на същият/те физически носител/и със същите дялове като "
-"оригинала. Възстановяването на нов диск или на различни дялове ще "
-"възпроизведе потенциално неизползваема система.\n"
+"Пълният системен бекъп може да създаде само моментно копие, което да бъде възстановено на същият/те физически носител/и със същите дялове като оригинала. Възстановяването на нов диск или на различни дялове ще възпроизведе потенциално неизползваема система.\n"
 "\n"
-"Пълният системен бекъп ще презапише някои опции, които може да са били "
-"променени. искате ли да продължите?"
+"Пълният системен бекъп ще презапише някои опции, които може да са били променени. искате ли да продължите?"
 
 #: qt/settingsdialog.py:1135
 msgid "New profile"
@@ -1592,12 +1569,10 @@ msgstr "Включване на файл"
 #: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"\"{path}\" е пряк път. Целта, към която сочи, няма да бъде архивирана докато "
-"не добавите и нея.\n"
+"\"{path}\" е пряк път. Целта, към която сочи, няма да бъде архивирана докато не добавите и нея.\n"
 "Бихте ли искали да добавите крайната цел вместо това?"
 
 #: qt/settingsdialog.py:1910
@@ -1633,23 +1608,16 @@ msgstr "Възстановете настройките"
 #: qt/settingsdialog.py:2142
 #, fuzzy, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
-"Моля, навигирайте до моментното копие, от което искате да възстановите "
-"конфигурацията на {appName}. Пътят може да изглежда по следния начин:\n"
+"Моля, навигирайте до моментното копие, от което искате да възстановите конфигурацията на {appName}. Пътят може да изглежда по следния начин:\n"
 "{samplePath}\n"
 "\n"
-"Ако вашите моментни копия се намират на отдалечен диск или са криптирани, е "
-"необходимо първо да ги монтирате ръчно. Ако използвате режим SSH, също така "
-"може да се наложи да използвате автентикация с публичен ключ до отдалечения "
-"хост {addFuse}.\n"
+"Ако вашите моментни копия се намират на отдалечен диск или са криптирани, е необходимо първо да ги монтирате ръчно. Ако използвате режим SSH, също така може да се наложи да използвате автентикация с публичен ключ до отдалечения хост {addFuse}.\n"
 "За информация 'man backintime'."
 
 #: qt/settingsdialog.py:2204 qt/settingsdialog.py:2269
@@ -1792,12 +1760,10 @@ msgstr "Изключете \"{path}\" от бъдещите моментни к�
 #, python-brace-format
 #~ msgid ""
 #~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 #~ msgstr ""
 #~ "Възстановете избраният файл или папка.\n"
-#~ "Ако този бутон не е активен, то най-вероятно \"{now}\" е избран в списъка "
-#~ "с моментни архивни копия отляво."
+#~ "Ако този бутон не е активен, то най-вероятно \"{now}\" е избран в списъка с моментни архивни копия отляво."
 
 #~ msgid "SSH"
 #~ msgstr "SSH"

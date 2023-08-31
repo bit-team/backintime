@@ -10,14 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2023-08-30 15:34+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
-"Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/"
-"common/ro/>\n"
+"Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
@@ -137,8 +135,8 @@ msgid ""
 "{expertOptions}."
 msgstr ""
 "Folderul destinatie pentru {path} este un fisier comunt SMB. Va rog sa va "
-"asigurati ca serverul SMB conectat suporta symlinks sau activati {copyLinks} "
-"in {expertOptions}."
+"asigurati ca serverul SMB conectat suporta symlinks sau activati {copyLinks}"
+" in {expertOptions}."
 
 #: common/config.py:508 qt/settingsdialog.py:994
 msgid "Copy links (dereference symbolic links)"
@@ -154,8 +152,8 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Folderul destinatie pentru {path} este un fisier partajabil sshfs. Linkurile "
-"fizice nu sunt suportate de sshfs. Va rugam sa folositi SSH."
+"Folderul destinatie pentru {path} este un fisier partajabil sshfs. Linkurile"
+" fizice nu sunt suportate de sshfs. Va rugam sa folositi SSH."
 
 #: common/config.py:1609
 msgid ""
@@ -619,7 +617,8 @@ msgstr "Restaurati la…"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to a new destination."
-msgstr "Restaureaza fisierele sau directoarele selectate la o noua destinatie."
+msgstr ""
+"Restaureaza fisierele sau directoarele selectate la o noua destinatie."
 
 #: qt/app.py:547
 #, fuzzy
@@ -633,7 +632,8 @@ msgstr ""
 #: qt/app.py:552
 #, fuzzy
 msgid ""
-"Restore the currently shown folder and all its contents to a new destination."
+"Restore the currently shown folder and all its contents to a new "
+"destination."
 msgstr ""
 "Restaureaza directoarele afisate si tot continutul acestora la o noua "
 "destinatie."
@@ -666,12 +666,10 @@ msgstr "&Ajutor"
 #: qt/app.py:756
 #, fuzzy
 msgid ""
-"If you close this window Back In Time will not be able to shut down your "
-"system when the snapshot has finished.\n"
+"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Daca inchideti aceasta fereastra, \"Back in Time\" nu va putea inchide "
-"sistemul atunci cand replica s-a terminat.\n"
+"Daca inchideti aceasta fereastra, \"Back in Time\" nu va putea inchide sistemul atunci cand replica s-a terminat.\n"
 "Sigur doriti sa inchideti fereastra?"
 
 #: qt/app.py:902
@@ -738,12 +736,10 @@ msgstr ""
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring.\n"
+"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"Noi versiuni ale fisiereleor vor fi redenumite cu sufixul {suffix} inainte "
-"de restaurare/\n"
+"Noi versiuni ale fisiereleor vor fi redenumite cu sufixul {suffix} inainte de restaurare/\n"
 "Daca nu mai aveti nevoie de ele, puteti sa le stergeti folosind comanda {cmd}"
 
 #: qt/app.py:1301
@@ -765,14 +761,12 @@ msgstr "Stergeti fisierele mai noi din folderul original"
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the "
-"snapshot!\n"
+"This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
 "Restaureaza fisierele sau folderele selectate la destinatia originala si\n"
 "sterge fisierele/folderele care nu se afla in snapshot.\n"
-"Asta va sterge fisierele/folderele care au fost excluse in timpul capturarii "
-"snapshot-ului!\n"
+"Asta va sterge fisierele/folderele care au fost excluse in timpul capturarii snapshot-ului!\n"
 "Aveti mare grija!!!"
 
 #: qt/app.py:1347
@@ -797,7 +791,8 @@ msgstr "Sigur doriti sa stergeti toate fisierele mai noi din {path}?"
 #: qt/app.py:1366
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
-msgstr "Sigur doresti sa stergi toate fisierele noi din folderul tau original?"
+msgstr ""
+"Sigur doresti sa stergi toate fisierele noi din folderul tau original?"
 
 #: qt/app.py:1371
 #, fuzzy
@@ -861,14 +856,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team."
 msgstr ""
 
@@ -1020,12 +1010,12 @@ msgstr "Atentie"
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON SECURITY"
-"\" in \"man backintime\"."
+"possible attack vectors for this. Please take a look at \"A NOTE ON "
+"SECURITY\" in \"man backintime\"."
 msgstr ""
 "{app} foloseste EncFS pentru criptare. Un audit de securitate recent a "
-"dezvaluit posibile cai de atac pentru acesta. Va rugam sa aruncati o privire "
-"la \"A NOTE ON SECURITY\" in \"man backintime\"."
+"dezvaluit posibile cai de atac pentru acesta. Va rugam sa aruncati o privire"
+" la \"A NOTE ON SECURITY\" in \"man backintime\"."
 
 #: qt/settingsdialog.py:173 qt/settingsdialog.py:1939
 msgid "Where to save snapshots"
@@ -1087,8 +1077,8 @@ msgstr "Salveaza Parola pe Keyring"
 #: qt/settingsdialog.py:301
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
-"Memoreaza Parola pentru Cron in Cache (Problema de securitate: root poate sa "
-"citeasca parola)"
+"Memoreaza Parola pentru Cron in Cache (Problema de securitate: root poate sa"
+" citeasca parola)"
 
 #: qt/settingsdialog.py:316
 msgid "Advanced"
@@ -1175,8 +1165,8 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
-"Ruleaza \"Back In Time\" in mod repetat. Util pentru cand computerul nu este "
-"pornit in mod regulat."
+"Ruleaza \"Back In Time\" in mod repetat. Util pentru cand computerul nu este"
+" pornit in mod regulat."
 
 #: qt/settingsdialog.py:452
 #, fuzzy
@@ -1185,12 +1175,10 @@ msgstr "La fiecare"
 
 #: qt/settingsdialog.py:473
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X "
-"days).\n"
+"Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Ruleaza \"Back In Time\" imediat dupa conectarea drive-ului (o data in "
-"fiecare X zile).\n"
+"Ruleaza \"Back In Time\" imediat dupa conectarea drive-ului (o data in fiecare X zile).\n"
 "Se va cere parola sudo."
 
 #: qt/settingsdialog.py:488
@@ -1219,8 +1207,7 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Wildcards-urile ('foo*', '[fF]oo', 'fo?') vor fi ignorate cu modul 'SSH "
-"encrypted'.\n"
+"Wildcards-urile ('foo*', '[fF]oo', 'fo?') vor fi ignorate cu modul 'SSH encrypted'.\n"
 "Doar asterisk-urile separate sunt permise ('foo/*', 'foo/**/bar')"
 
 #: qt/settingsdialog.py:547
@@ -1251,10 +1238,8 @@ msgid ""
 msgstr ""
 "Excludeti fisierele cu valoare mai mare decat cea din %(prefix)s.\n"
 "Cu modul “Full rsync mode” dezactivat, doar fisierele noi vor fi afectate,\n"
-"deoarece aceasta metoda este una de transfer, ci nu de excludere pentru "
-"rsync.\n"
-"In concluzie, fisierele mari pentru care au fost facute copii inainte vor "
-"ramane in instantanee\n"
+"deoarece aceasta metoda este una de transfer, ci nu de excludere pentru rsync.\n"
+"In concluzie, fisierele mari pentru care au fost facute copii inainte vor ramane in instantanee\n"
 "chiar daca s-au schimbat."
 
 #: qt/settingsdialog.py:620
@@ -1496,13 +1481,9 @@ msgstr ""
 
 #: qt/settingsdialog.py:1100
 msgid ""
-"Full system backup can only create a snapshot to be restored to the same "
-"physical disk(s) with the same disk partitioning as from the source; "
-"restoring to new physical disks or the same disks with different "
-"partitioning will yield a potentially broken and unusable system.\n"
+"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
-"Full system backup will override some settings that may have been "
-"customized. Continue?"
+"Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
 #: qt/settingsdialog.py:1135
@@ -1579,8 +1560,7 @@ msgstr "Include fisier"
 #: qt/settingsdialog.py:1893 qt/settingsdialog.py:1919
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
+"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
@@ -1617,13 +1597,10 @@ msgstr ""
 #: qt/settingsdialog.py:2142
 #, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s "
-"configuration. The path may look like:\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
-"manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host.\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
@@ -1754,12 +1731,10 @@ msgstr "Excludeti \"{path}\" din viitoarele replici?"
 #, python-brace-format
 #~ msgid ""
 #~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is "
-#~ "selected in left hand snapshots list."
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
 #~ msgstr ""
 #~ "Restaureaza fisierul sau directorul selectat.\n"
-#~ "In cazul in care acest buton este gri, cel mai probabil {now} este "
-#~ "selectat in lista din stanga."
+#~ "In cazul in care acest buton este gri, cel mai probabil {now} este selectat in lista din stanga."
 
 #~ msgid "SSH"
 #~ msgstr "SSH"
