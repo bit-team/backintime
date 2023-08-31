@@ -30,8 +30,6 @@ class LanguageDialog(QDialog):
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
         scroll = QScrollArea(self)
-        # scroll.setWidgetResizable(True)
-        # scroll.setFrameStyle(QFrame.NoFrame)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setWidget(self._language_widget())
@@ -168,7 +166,7 @@ class LanguageDialog(QDialog):
 
 
 class ApproachTranslatorDialog(QDialog):
-    """Prestens a message to the users to motivate them contributing to the
+    """Present a message to the users to motivate them contributing to the
     translation of Back In Time.
     """
 
@@ -179,8 +177,6 @@ class ApproachTranslatorDialog(QDialog):
     @staticmethod
     def _complete_text(language, percent):
 
-        # Note: The length of the variable names in that string are on
-        # purpose. It is relevant when wrapping the text.
         txt = _(
             'Hello'
             '\n'
@@ -203,21 +199,9 @@ class ApproachTranslatorDialog(QDialog):
             'Your Back In Time Team'
         )
 
-        # Take languages into account using double-width/wide characters.
-        # e.g. Japanese
-        if unicodedata.east_asian_width(txt[0]) == 'Na':
-            wrap_width = 60
-        else:
-            wrap_width = 32
-
-        # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
-        # <p> tags.
+        # Wrap paragraphs in <p> tags.
         result = ''
         for t in txt.split('\n'):
-            print(f'{t=}')
-            # result = '{}<p>{}</p>'.format(
-            #     result,
-            #     '<br>'.join(textwrap.wrap(t, width=wrap_width)))
             result = f'{result}<p>{t}</p>'
 
        # Insert data in placeholder variables.
@@ -237,12 +221,11 @@ class ApproachTranslatorDialog(QDialog):
     def __init__(self, parent, language_name, completeness):
         super().__init__(parent)
 
-        self.setMinimumWidth(350)
         # screen_width = QApplication.primaryScreen().size().width()
-        # # 25% of screen width but minimaly 800 pixel
-        # max_width = min(int(screen_width / 4), 800)
-        # self.setMaximumWidth(max_width)
+        # min_width = 300 if screen_width <= 1080 else 450
+        self.setMinimumWidth(400)
 
+        # Note: Take into account that not only the
         self.setWindowTitle(_('Your translation'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
