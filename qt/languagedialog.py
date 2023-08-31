@@ -1,12 +1,13 @@
 import unicodedata
 import textwrap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
                              QScrollArea,
                              QGridLayout,
+                             QLayout,
                              QVBoxLayout,
                              QDialogButtonBox,
                              QRadioButton,
@@ -236,10 +237,10 @@ class ApproachTranslatorDialog(QDialog):
         super().__init__(parent)
 
         self.setMinimumWidth(350)
-        screen_width = QApplication.primaryScreen().size().width()
-        # 25% of screen width but minimaly 800 pixel
-        max_width = min(int(screen_width / 4), 800)
-        self.setMaximumWidth(max_width)
+        # screen_width = QApplication.primaryScreen().size().width()
+        # # 25% of screen width but minimaly 800 pixel
+        # max_width = min(int(screen_width / 4), 800)
+        # self.setMaximumWidth(max_width)
 
         self.setWindowTitle(_('Your translation'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
@@ -256,6 +257,29 @@ class ApproachTranslatorDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addWidget(widget)
         layout.addWidget(button)
+
+        self._fix_size()
+
+    def _fix_size(self):
+        """The dialog is resized so it fits the content of the QLabel.
+
+        Credits: https://stackoverflow.com/a/77012305/4865723
+        """
+        best = QLayout.closestAcceptableSize(self, QSize(self.width(), 1))
+
+        if self.height() < best.height():
+            self.resize(best)
+
+    def resizeEvent(self, event):
+        """ See `_fixSize()`  for details."""
+        super().resizeEvent(event)
+
+        if event.oldSize().width() != event.size().width():
+            QTimer.singleShot(0, self._fix_size)
+
+        elif event.spontaneous():
+            self._fix_size()
+
 
     def slot_link_hovered(self, url):
         QToolTip.showText(QCursor.pos(), url.replace('https://', ''))
