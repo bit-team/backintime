@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 12:47+0200\n"
+"POT-Creation-Date: 2023-08-31 12:51+0200\n"
 "PO-Revision-Date: 2023-08-31 10:38+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
@@ -238,8 +238,8 @@ msgid "Take snapshot"
 msgstr "Зробити копію"
 
 #: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
+#, fuzzy, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Не вдається розмонтувати {mountprocess} з {mountpoint}"
 
 #: common/mount.py:687
@@ -247,7 +247,8 @@ msgid "{} not found. Please install e.g. {}"
 msgstr "{} не знайдено. Встановіть, наприклад, {}"
 
 #: common/mount.py:708
-msgid "mountpoint {} not empty."
+#, fuzzy
+msgid "Mountpoint {} not empty."
 msgstr "точка монтування {} не порожня."
 
 #: common/password.py:240

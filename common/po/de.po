@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 12:47+0200\n"
+"POT-Creation-Date: 2023-08-31 12:51+0200\n"
 "PO-Revision-Date: 2023-08-31 10:38+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
@@ -238,8 +238,8 @@ msgid "Take snapshot"
 msgstr "Schnappschuss erstellen"
 
 #: common/mount.py:600
-#, python-brace-format
-msgid "Can't unmount {mountprocess} from {mountpoint}"
+#, fuzzy, python-brace-format
+msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Kann {mountprocess} von {mountpoint} nicht aushängen"
 
 #: common/mount.py:687
@@ -247,7 +247,8 @@ msgid "{} not found. Please install e.g. {}"
 msgstr "{} nicht gefunden. Bitte installieren z.B. mit {}"
 
 #: common/mount.py:708
-msgid "mountpoint {} not empty."
+#, fuzzy
+msgid "Mountpoint {} not empty."
 msgstr "Einhängepunkt {} ist nicht leer."
 
 #: common/password.py:240

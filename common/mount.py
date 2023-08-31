@@ -555,10 +555,10 @@ class MountControl(object):
                 logger.info('Mountpoint %s does not exist.' % self.currentMountpoint, self)
             else:
                 if not self.mounted():
-                    logger.info('Mountpoint %s is not mounted' % self.currentMountpoint, self)
+                    logger.info('Mountpoint %s is not mounted.' % self.currentMountpoint, self)
                 else:
                     if self.mountLockCheck():
-                        logger.info('Mountpoint %s still in use. Keep mounted' % self.currentMountpoint, self)
+                        logger.info('Mountpoint %s still in use. Keep mounted.' % self.currentMountpoint, self)
                     else:
                         self.preUmountCheck()
                         self._umount()
@@ -597,7 +597,7 @@ class MountControl(object):
 
         except subprocess.CalledProcessError:
             raise MountException(
-                _("Can't unmount {mountprocess} from {mountpoint}")
+                _("Can't unmount {mountprocess} from {mountpoint}.")
                 .format(mountprocess=self.mountproc,
                         mountpoint=self.currentMountpoint))
 
@@ -705,7 +705,7 @@ class MountControl(object):
         else:
             try:
                 if os.listdir(self.currentMountpoint):
-                    raise MountException(_('mountpoint {} not empty.')
+                    raise MountException(_('Mountpoint {} not empty.')
                                          .format(self.currentMountpoint))
 
             except FileNotFoundError:

@@ -1,4 +1,4 @@
-# Generated at Thu Aug 31 12:47:51 2023 with help of package "babel" and "polib".
+# Generated at Thu Aug 31 12:51:15 2023 with help of package "babel" and "polib".
 # https://babel.pocoo.org
 # https://github.com/python-babel/babel
 
@@ -2082,7 +2082,7 @@ completeness = {
   'ca': 28,
   'cs': 71,
   'da': 20,
-  'de': 97,
+  'de': 96,
   'el': 10,
   'en': 100,
   'eo': 28,
@@ -2117,7 +2117,7 @@ completeness = {
   'sv': 50,
   'th': 62,
   'tr': 70,
-  'uk': 94,
+  'uk': 93,
   'vi': 77,
   'zh_CN': 42,
   'zh_TW': 16}
