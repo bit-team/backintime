@@ -199,7 +199,7 @@ class ApproachTranslatorDialog(QDialog):
             'will not be shown again. This dialog is available at '
             'any time via the help menu.'
             '\n'
-            'Your Back In Time Team.'
+            'Your Back In Time Team'
         )
 
         # Take languages into account using double-width/wide characters.
