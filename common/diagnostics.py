@@ -353,14 +353,9 @@ def _get_os_release():
         files where found.
     """
 
-    try:
-        # content of /etc/os-release
-        return platform.freedesktop_os_release()  # since Python 3.10
-    except AttributeError:  # refactor: when we drop Python 3.9 support
-        pass
-
     def _get_pretty_name_or_content(fp):
-        """Extract value of PRETTY_NAME variable of the text"""
+        """Return value of PRETTY_NAME from a release file or return the whole
+        file content."""
 
         # Read content from file
         try:
@@ -378,9 +373,8 @@ def _get_os_release():
             # Return full content when no PRETTY_NAME was found
             return content
 
-    # read and parse the os-release file ourself
+    # read and parse the os-release file (first)
     fp = Path('/etc') / 'os-release'
-
     osrelease = {
         'os-release': _get_pretty_name_or_content(fp)}
 
