@@ -375,26 +375,23 @@ def _get_os_release():
             return content
 
     etc_path = Path('/etc')
-    os_files = list(itertools.chain(
-        etc_path.glob('*release*'),
-        etc_path.glob('*version*')))
+    os_files = list(filter(lambda p: p.is_file(),
+                           itertools.chain(
+                               etc_path.glob('*release*'),
+                               etc_path.glob('*version*'))
+                           ))
 
-    # read and parse the os-release file (first)
+    # "os-release" is standard and should be on top of the list
     fp = etc_path / 'os-release'
-
-    osrelease = {'os-release': _get_pretty_name_or_content(fp)}
-
-    if fp in os_files:
+    try:
         os_files.remove(fp)
+    except ValueError:
+        pass
+    else:
+        os_files = [fp] + os_files
 
-    # alternative release files
-    for fp in os_files:
-
-        # This file was processed before
-        if fp.name == 'os-release':
-            continue
-
-        osrelease[str(fp)] = _get_pretty_name_or_content(fp)
+    # each release/version file found
+    osrelease = {str(fp): _get_pretty_name_or_content(fp) for fp in os_files}
 
     # No alternative release files found
     if len(osrelease) == 1:
