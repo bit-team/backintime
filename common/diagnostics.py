@@ -381,10 +381,11 @@ def _get_os_release():
 
     # read and parse the os-release file (first)
     fp = etc_path / 'os-release'
+
+    osrelease = {'os-release': _get_pretty_name_or_content(fp)}
+
     if fp in os_files:
         os_files.remove(fp)
-        osrelease = {
-            'os-release': _get_pretty_name_or_content(fp)}
 
     # alternative release files
     for fp in os_files:
