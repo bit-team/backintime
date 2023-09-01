@@ -7,6 +7,7 @@ and to enrich them with the necessary information as uncomplicated as possible.
 
 import sys
 import os
+import itertools
 from pathlib import Path
 import pwd
 import platform
@@ -373,13 +374,20 @@ def _get_os_release():
             # Return full content when no PRETTY_NAME was found
             return content
 
+    etc_path = Path('/etc')
+    os_files = list(itertools.chain(
+        etc_path.glob('*release*'),
+        etc_path.glob('*version*')))
+
     # read and parse the os-release file (first)
-    fp = Path('/etc') / 'os-release'
-    osrelease = {
-        'os-release': _get_pretty_name_or_content(fp)}
+    fp = etc_path / 'os-release'
+    if fp in os_files:
+        os_files.remove(fp)
+        osrelease = {
+            'os-release': _get_pretty_name_or_content(fp)}
 
     # alternative release files
-    for fp in Path('/etc').glob('*release'):
+    for fp in os_files:
 
         # This file was processed before
         if fp.name == 'os-release':
