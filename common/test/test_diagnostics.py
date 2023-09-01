@@ -96,7 +96,6 @@ class Diagnostics_FakeFS(pyfakefs_ut.TestCase):
     def setUp(self):
         self.setUpPyfakefs(allow_root_user=False)
 
-
     def test_git_repo_info(self):
 
         # not a git repo
