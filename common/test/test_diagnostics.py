@@ -9,8 +9,6 @@ import diagnostics  # testing target
 
 
 class Diagnostics(unittest.TestCase):
-    """
-    """
 
     def test_minimal(self):
         """Minimal set of elements."""
@@ -99,10 +97,7 @@ class Diagnostics_FakeFS(pyfakefs_ut.TestCase):
         self.setUpPyfakefs(allow_root_user=False)
 
 
-
     def test_git_repo_info(self):
-        """
-        """
 
         # not a git repo
         self.assertEqual(diagnostics.get_git_repository_info(), None)

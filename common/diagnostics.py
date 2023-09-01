@@ -340,10 +340,17 @@ def get_git_repository_info(path=None):
 
 
 def _get_os_release():
-    """Extract infos from the file ``/etc/os-release``.
+    """Try to get the name and version of the operating system used.
+
+    First it extract infos from the file ``/etc/os-release``. Because not all
+    GNU Linux distributions follow the standards it will also look for
+    alternative release files (pattern: /etc/*release).
+    See http://linuxmafia.com/faq/Admin/release-files.html for examples.
 
     Returns:
-        Name of the operating system, e.g. "Debian GNU/Linux 11 (bullseye)".
+        A string with the name of the operating system, e.g. "Debian
+        GNU/Linux 11 (bullseye)" or a dictionary if alternative release
+        files where found.
     """
 
     try:
@@ -352,16 +359,44 @@ def _get_os_release():
     except AttributeError:  # refactor: when we drop Python 3.9 support
         pass
 
+    def _get_pretty_name(text):
+        """Extract value of PRETTY_NAME variable of the text"""
+        return re.findall('PRETTY_NAME=\"(.*)\"', text)[0]
+
     # read and parse the os-release file ourself
     fp = Path('/etc') / 'os-release'
 
     try:
         with fp.open('r') as handle:
             osrelease = handle.read()
-    except FileNotFoundError:
-        return '(os-release file not found)'
 
-    return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
+    except FileNotFoundError:
+        osrelease = '(os-release file not found)'
+
+    else:
+        osrelease = _get_pretty_name(osrelease)
+
+    # look for alternative release files
+    alternative = {}
+    for fp in Path('/etc').glob('*release'):
+
+        # This file was processed before
+        if fp.name == 'os-release':
+            continue
+
+        with fp.open('r') as handle:
+            content = handle.read()
+            pretty = _get_pretty_name(content)
+
+        # If no pretty name was found use the whole file content
+        alternative[str(fp)] = pretty if pretty else content
+
+    # We found alternative release files
+    if alternative:
+        alternative['os-release'] = osrelease
+        return alternative
+
+    return osrelease
 
 
 def _replace_username_paths(result, username):
