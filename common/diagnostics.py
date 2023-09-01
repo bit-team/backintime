@@ -70,7 +70,7 @@ def collect_diagnostics():
         # OS Version (and maybe name)
         'system': '{} {}'.format(platform.system(), platform.version()),
         # OS Release name (prettier)
-        'os-release': _get_os_release()
+        'OS': _get_os_release()
 
     }
 
@@ -359,42 +359,43 @@ def _get_os_release():
     except AttributeError:  # refactor: when we drop Python 3.9 support
         pass
 
-    def _get_pretty_name(text):
+    def _get_pretty_name_or_content(fp):
         """Extract value of PRETTY_NAME variable of the text"""
-        return re.findall('PRETTY_NAME=\"(.*)\"', text)[0]
+
+        # Read content from file
+        try:
+            with fp.open('r') as handle:
+                content = handle.read()
+
+        except FileNotFoundError:
+            return f'({fp.name} file not found)'
+
+        # Try to extract the pretty name
+        try:
+            return re.findall('PRETTY_NAME=\"(.*)\"', content)[0]
+
+        except IndexError:
+            # Return full content when no PRETTY_NAME was found
+            return content
 
     # read and parse the os-release file ourself
     fp = Path('/etc') / 'os-release'
 
-    try:
-        with fp.open('r') as handle:
-            osrelease = handle.read()
+    osrelease = {
+        'os-release': _get_pretty_name_or_content(fp)}
 
-    except FileNotFoundError:
-        osrelease = '(os-release file not found)'
-
-    else:
-        osrelease = _get_pretty_name(osrelease)
-
-    # look for alternative release files
-    alternative = {}
+    # alternative release files
     for fp in Path('/etc').glob('*release'):
 
         # This file was processed before
         if fp.name == 'os-release':
             continue
 
-        with fp.open('r') as handle:
-            content = handle.read()
-            pretty = _get_pretty_name(content)
+        osrelease[str(fp)] = _get_pretty_name_or_content(fp)
 
-        # If no pretty name was found use the whole file content
-        alternative[str(fp)] = pretty if pretty else content
-
-    # We found alternative release files
-    if alternative:
-        alternative['os-release'] = osrelease
-        return alternative
+    # No alternative release files found
+    if len(osrelease) == 1:
+        return osrelease['os-release']
 
     return osrelease
 
