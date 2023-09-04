@@ -194,7 +194,7 @@ your package manager.
 See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
 and [#1364](https://github.com/bit-team/backintime/issues/1364).
 
-### Problems in versions older then the last stable release
+### Problems in versions older than the latest stable release
 #### Incompatibility with rsync 3.2.4 or newer
 
 The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
