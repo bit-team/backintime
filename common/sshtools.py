@@ -422,7 +422,7 @@ class SSH(MountControl):
 
         logger.debug('Check login', self)
 
-        ssh = self.config.sshCommand(cmd=['echo', '"Hello"'],
+        ssh = self.config.sshCommand(cmd=['exit'],
                                      custom_args=[
                                           '-o',
                                           'PreferredAuthentications=publickey',
@@ -794,7 +794,7 @@ class SSH(MountControl):
                 out, err = proc.communicate()
 
                 if err or proc.returncode:
-                    logger.debug('rsync command returned error: %s' % err, self)
+                    logger.debug(f'rsync command returned error: {err}', self)
 
                     raise MountException(
                         "Remote host {host} doesn't support '{command}:\n"
