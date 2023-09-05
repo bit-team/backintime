@@ -464,7 +464,7 @@ class SSH(MountControl):
 
             logger.debug('Check cipher', self)
 
-            ssh = self.config.sshCommand(cmd=['echo', '"Hello"'],
+            ssh = self.config.sshCommand(cmd=['exit'],
                                          custom_args=[
                                               '-o',
                                               'Ciphers=%s' % self.cipher,
