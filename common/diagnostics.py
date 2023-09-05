@@ -7,6 +7,7 @@ and to enrich them with the necessary information as uncomplicated as possible.
 
 import sys
 import os
+import itertools
 from pathlib import Path
 import pwd
 import platform
@@ -70,7 +71,7 @@ def collect_diagnostics():
         # OS Version (and maybe name)
         'system': '{} {}'.format(platform.system(), platform.version()),
         # OS Release name (prettier)
-        'os-release': _get_os_release()
+        'OS': _get_os_release()
 
     }
 
@@ -340,28 +341,63 @@ def get_git_repository_info(path=None):
 
 
 def _get_os_release():
-    """Extract infos from the file ``/etc/os-release``.
+    """Try to get the name and version of the operating system used.
+
+    First it extract infos from the file ``/etc/os-release``. Because not all
+    GNU Linux distributions follow the standards it will also look for
+    alternative release files (pattern: /etc/*release).
+    See http://linuxmafia.com/faq/Admin/release-files.html for examples.
 
     Returns:
-        Name of the operating system, e.g. "Debian GNU/Linux 11 (bullseye)".
+        A string with the name of the operating system, e.g. "Debian
+        GNU/Linux 11 (bullseye)" or a dictionary if alternative release
+        files where found.
     """
 
+    def _get_pretty_name_or_content(fp):
+        """Return value of PRETTY_NAME from a release file or return the whole
+        file content."""
+
+        # Read content from file
+        try:
+            with fp.open('r') as handle:
+                content = handle.read()
+
+        except FileNotFoundError:
+            return f'({fp.name} file not found)'
+
+        # Try to extract the pretty name
+        try:
+            return re.findall('PRETTY_NAME=\"(.*)\"', content)[0]
+
+        except IndexError:
+            # Return full content when no PRETTY_NAME was found
+            return content
+
+    etc_path = Path('/etc')
+    os_files = list(filter(lambda p: p.is_file(),
+                           itertools.chain(
+                               etc_path.glob('*release*'),
+                               etc_path.glob('*version*'))
+                           ))
+
+    # "os-release" is standard and should be on top of the list
+    fp = etc_path / 'os-release'
     try:
-        # content of /etc/os-release
-        return platform.freedesktop_os_release()  # since Python 3.10
-    except AttributeError:  # refactor: when we drop Python 3.9 support
+        os_files.remove(fp)
+    except ValueError:
         pass
+    else:
+        os_files = [fp] + os_files
 
-    # read and parse the os-release file ourself
-    fp = Path('/etc') / 'os-release'
+    # each release/version file found
+    osrelease = {str(fp): _get_pretty_name_or_content(fp) for fp in os_files}
 
-    try:
-        with fp.open('r') as handle:
-            osrelease = handle.read()
-    except FileNotFoundError:
-        return '(os-release file not found)'
+    # No alternative release files found
+    if len(osrelease) == 1:
+        return osrelease['os-release']
 
-    return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
+    return osrelease
 
 
 def _replace_username_paths(result, username):
