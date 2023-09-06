@@ -397,7 +397,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         self.notifyError(
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
-                                    name=f'"{self.currentProfile()}"'),
+                                    name=self.currentProfile()),
                                 _("Backup sub-folder cannot be included.")
                             )
                         )
