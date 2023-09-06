@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 12:51+0200\n"
+"POT-Creation-Date: 2023-09-06 21:40+0200\n"
 "PO-Revision-Date: 2023-07-28 07:22+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.18.1\n"
 
-#: common/config.py:50 common/encfstools.py:146
-msgid "Cancel"
-msgstr ""
+#: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
+msgid "Warning"
+msgstr "هشدار"
 
 #: common/config.py:99 common/config.py:106
 msgid "Day(s)"
@@ -46,7 +46,7 @@ msgstr "ماه"
 msgid "Local"
 msgstr "محلی"
 
-#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1961
+#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1962
 msgid "SSH private key"
 msgstr "کلید خصوصی SSH"
 
@@ -71,7 +71,8 @@ msgstr "پیش‌فرض"
 msgid "Main profile"
 msgstr "پروفایل اصلی"
 
-#: common/config.py:359 common/config.py:371
+#: common/config.py:359 common/config.py:371 common/config.py:388
+#: common/config.py:399
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "پروفایل:\"{name}\""
@@ -84,11 +85,6 @@ msgstr "پوشه اسنپ‌شات معتبر نیست!"
 #, fuzzy
 msgid "You must select at least one folder to back up!"
 msgstr "شما حداقل برای پشتیبان‌گیری باید یک پوشه را انتخاب کنید!"
-
-#: common/config.py:388 common/config.py:399
-#, fuzzy, python-brace-format
-msgid "Profile: {name}"
-msgstr "پروفایل:\"{name}\""
 
 #: common/config.py:389
 msgid "Backup folder cannot be included."
@@ -196,8 +192,8 @@ msgid "Failed to load config"
 msgstr "بارگذاری پیکربندی شکست خورد"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
+#, fuzzy, python-brace-format
+msgid "Profile \"{name}\" already exists."
 msgstr "پروفایل \"{name}\" همین الان هم وجود داره!"
 
 #: common/configfile.py:736
@@ -217,6 +213,10 @@ msgstr "پیکربندی برای پوشه رمزنگاری شده پیدا نش
 #: common/encfstools.py:142
 msgid "Create a new encrypted folder?"
 msgstr "میخوای یک پوشه رمزنگاری شده جدید بسازی؟ یا نه؟"
+
+#: common/encfstools.py:146
+msgid "Cancel"
+msgstr ""
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
@@ -602,7 +602,7 @@ msgstr "مترجم‌ها"
 msgid "About"
 msgstr "درباره"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2227
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2228
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "بازگردانی"
@@ -638,7 +638,7 @@ msgstr "پوشه درحال نمایش را با تمام محتویات اش ر
 msgid "Up"
 msgstr "بالا"
 
-#: qt/app.py:558 qt/settingsdialog.py:2183
+#: qt/app.py:558 qt/settingsdialog.py:2184
 msgid "Show hidden files"
 msgstr "نمایش فایل های مخفی"
 
@@ -840,6 +840,11 @@ msgstr "مترجم‌ها"
 msgid "License"
 msgstr "لایسنس"
 
+#: qt/languagedialog.py:87
+#, fuzzy
+msgid "System default"
+msgstr "پیش‌فرض"
+
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
 msgstr ""
@@ -879,7 +884,7 @@ msgid "Snapshot Log View"
 msgstr "نمای لاگ اسنپ‌شات"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2325
 msgid "Profile"
 msgstr "پروفایل"
 
@@ -996,13 +1001,9 @@ msgstr "حذف"
 msgid "&General"
 msgstr "کلی"
 
-#: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
+#: qt/settingsdialog.py:147 qt/settingsdialog.py:2327
 msgid "Mode"
 msgstr "حالت"
-
-#: qt/settingsdialog.py:161 qt/settingsdialog.py:530
-msgid "Warning"
-msgstr "هشدار"
 
 #: qt/settingsdialog.py:162
 #, python-brace-format
@@ -1015,7 +1016,7 @@ msgstr ""
 "مسیر‌ ممکن حمله برای این را افشا کرده است. لطفاً نگاهی به \"A NOTE ON "
 "SECURITY\" در \"man backintime\" بیندازید."
 
-#: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
+#: qt/settingsdialog.py:173 qt/settingsdialog.py:1938
 msgid "Where to save snapshots"
 msgstr "کجا اسنپ‌شات‌ها ذخیره شود"
 
@@ -1416,21 +1417,17 @@ msgstr "حفظ ویژگی‌های گسترده (xattr)"
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "کپی پیوندهای ناامن (فقط با پیوندهای مطلق کار میکند)"
 
-#: qt/settingsdialog.py:1013
-msgid "Paste additional options to rsync"
-msgstr "پیست گزینه های اضافه به rsync"
-
-#: qt/settingsdialog.py:1017
+#: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "گزینه‌ها باید نقل شده باشند مثل --exclude-from=\"/path/to/my exclude file\"."
 
-#: qt/settingsdialog.py:1029
-msgid "Add prefix to SSH commands"
-msgstr "اضافه کردن پیشوند به دستورات SSH"
+#: qt/settingsdialog.py:1015
+msgid "Paste additional options to rsync"
+msgstr "پیست گزینه های اضافه به rsync"
 
-#: qt/settingsdialog.py:1033
+#: qt/settingsdialog.py:1030
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1449,15 +1446,19 @@ msgstr ""
 "\n"
 "%(default)s:%(def_value)s"
 
-#: qt/settingsdialog.py:1041 qt/settingsdialog.py:2084
+#: qt/settingsdialog.py:1038 qt/settingsdialog.py:2085
 msgid "default"
 msgstr "پیش‌فرض"
 
-#: qt/settingsdialog.py:1052
+#: qt/settingsdialog.py:1040
+msgid "Add prefix to SSH commands"
+msgstr "اضافه کردن پیشوند به دستورات SSH"
+
+#: qt/settingsdialog.py:1053
 msgid "Check if remote host is online"
 msgstr "بررسی کن اگر هاست ریموت آنلاین هست"
 
-#: qt/settingsdialog.py:1054
+#: qt/settingsdialog.py:1055
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1467,12 +1468,12 @@ msgstr ""
 "در دسترس نیست، این میتواند باعث\n"
 "خطاهایی عجیب غریب شود."
 
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1059
 #, fuzzy
 msgid "Check if remote host supports all necessary commands"
 msgstr "بررسی کن که اگر هاست ریموت تمامی دستورات ضروری را پشتیبانی میکند"
 
-#: qt/settingsdialog.py:1060
+#: qt/settingsdialog.py:1061
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1482,15 +1483,15 @@ msgstr ""
 "تمام دستورات ضروری را پشتیبانی نمیکند،\n"
 "این میتواند باعث خطاهایی عجیب غریب شود."
 
-#: qt/settingsdialog.py:1076
+#: qt/settingsdialog.py:1077
 msgid "Restore Config"
 msgstr "بازگردانی پیکربندی"
 
-#: qt/settingsdialog.py:1078
+#: qt/settingsdialog.py:1079
 msgid "Edit user-callback"
 msgstr "ویرایش user-callback"
 
-#: qt/settingsdialog.py:1098
+#: qt/settingsdialog.py:1099
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
@@ -1500,20 +1501,20 @@ msgstr ""
 "\n"
 "پشتیبان‌گیری کامل سیستم بعضی از تنظیمات را که سفارشی‌سازی شده‌اند را لغو خواهد کرد. ادامه میدهی؟"
 
-#: qt/settingsdialog.py:1133
+#: qt/settingsdialog.py:1134
 msgid "New profile"
 msgstr "پروفایل جدید"
 
-#: qt/settingsdialog.py:1150
+#: qt/settingsdialog.py:1151
 msgid "Rename profile"
 msgstr "تغییر نام پروفایل"
 
-#: qt/settingsdialog.py:1166
+#: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "آیا شما واقعا مطمئن هستید که میخواهید پروفایل \"%s\" را پاک کنید؟"
 
-#: qt/settingsdialog.py:1440
+#: qt/settingsdialog.py:1441
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
@@ -1521,7 +1522,7 @@ msgstr ""
 "ساعت سفارشی فقط میتواند لیست ساعت‌هایی با جداسازی ویرگول باشد (مثل "
 "8,12,18,23) یا */3 برای پشتیبان‌گیری دوره‌ای هر سه ساعت"
 
-#: qt/settingsdialog.py:1482
+#: qt/settingsdialog.py:1483
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1529,12 +1530,12 @@ msgstr ""
 "شما برای SSH یک فایل کلید خصوصی انتخاب نکرده‌اید.\n"
 "آیا مایل به تمایلات هستید که یک جفت کلید خصوصی/عمومی بدون رمز عبور جدید بسازیم؟"
 
-#: qt/settingsdialog.py:1493
+#: qt/settingsdialog.py:1494
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "فایل کلید خصوصی \"{file}\" وجود ندارد."
 
-#: qt/settingsdialog.py:1645
+#: qt/settingsdialog.py:1646
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1542,7 +1543,7 @@ msgstr ""
 "آیا مایل به تمایلات هستید که کلید SSH عمومی خود را کپی کنید به\n"
 "هاست ریموت تا ورود بدون رمز عبور فعال شود؟"
 
-#: qt/settingsdialog.py:1673
+#: qt/settingsdialog.py:1674
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1553,7 +1554,7 @@ msgstr ""
 "\n"
 "کلید اثر انگشت {keytype} هست:"
 
-#: qt/settingsdialog.py:1683
+#: qt/settingsdialog.py:1684
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
@@ -1561,23 +1562,23 @@ msgstr ""
 "لطفاً این اثر انگشت را تایید کنید! آیا مایل به تمایلات هستید که این را به "
 "فایل 'known_hosts' خودتان اضافه کنید؟"
 
-#: qt/settingsdialog.py:1846
+#: qt/settingsdialog.py:1847
 msgid "Exclude pattern"
 msgstr "استثنا کردن الگو"
 
-#: qt/settingsdialog.py:1859
+#: qt/settingsdialog.py:1860
 msgid "Exclude file"
 msgstr "استثنا کردن فایل"
 
-#: qt/settingsdialog.py:1863
+#: qt/settingsdialog.py:1864
 msgid "Exclude folder"
 msgstr "استثنا کردن پوشه"
 
-#: qt/settingsdialog.py:1882
+#: qt/settingsdialog.py:1883
 msgid "Include file"
 msgstr "شامل کردن فایل"
 
-#: qt/settingsdialog.py:1891 qt/settingsdialog.py:1917
+#: qt/settingsdialog.py:1892 qt/settingsdialog.py:1918
 #, fuzzy, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1586,37 +1587,37 @@ msgstr ""
 "\"{path}\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که شما این را هم شامل کنید.\n"
 "آیا مایل به تمایلات هستید که در عوض پیوندهای نمادین هدف را شامل کنید؟"
 
-#: qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1909
 msgid "Include folder"
 msgstr "شامل کردن پوشه"
 
-#: qt/settingsdialog.py:1945
+#: qt/settingsdialog.py:1946
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "آیا شما میخواهید پوشه اسنپ‌شات را تغییر دهید؟"
 
-#: qt/settingsdialog.py:1970
+#: qt/settingsdialog.py:1971
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "ساختن کلید SSH جدید در {path} شکست خورد"
 
-#: qt/settingsdialog.py:2029
+#: qt/settingsdialog.py:2030
 msgid "Full snapshot path: "
 msgstr "مسیر کامل اسنپ‌شات: "
 
-#: qt/settingsdialog.py:2079
+#: qt/settingsdialog.py:2080
 msgid "enabled"
 msgstr "فعال"
 
-#: qt/settingsdialog.py:2082
+#: qt/settingsdialog.py:2083
 msgid "disabled"
 msgstr "غیرفعال"
 
-#: qt/settingsdialog.py:2127
+#: qt/settingsdialog.py:2128
 msgid "Restore Settings"
 msgstr "بازگردانی تنظیمات"
 
-#: qt/settingsdialog.py:2140
+#: qt/settingsdialog.py:2141
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1631,15 +1632,15 @@ msgstr ""
 "اگر اسنپ‌شات‌ها شما روی یک درایو ریموت است یا آنها رمزنگاری شده‌اند، شما اول باید آنها را دستی مانت کنید. اگر شما از حالت SSH استفاده میکنید شاید نیاز داشته باشید که ورود کلید عمومی راه اندازی کنید به هاست ریموت {addFuse}.\n"
 "یه نگاه به 'man backintime' بنداز."
 
-#: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
+#: qt/settingsdialog.py:2203 qt/settingsdialog.py:2268
 msgid "No config found"
 msgstr "هیچ پیکربندی‌ پیدا نشد"
 
-#: qt/settingsdialog.py:2474
+#: qt/settingsdialog.py:2475
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "اسکریپت user-callback هیچ خط shebang ندارد (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2481
+#: qt/settingsdialog.py:2482
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang در اسکریپت user-callback قابل اجرا نیست."
 
@@ -1757,6 +1758,10 @@ msgstr "\"{path}\" را مورد استثنا قرار میدهی از اسنپ�
 
 #~ msgid "Local encrypted"
 #~ msgstr "رمزنگاری شده محلی"
+
+#, fuzzy, python-brace-format
+#~ msgid "Profile: {name}"
+#~ msgstr "پروفایل:\"{name}\""
 
 #, python-brace-format
 #~ msgid ""
