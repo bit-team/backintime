@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 12:51+0200\n"
+"POT-Creation-Date: 2023-09-06 21:40+0200\n"
 "PO-Revision-Date: 2023-08-31 16:43+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:50 common/encfstools.py:146
-msgid "Cancel"
-msgstr ""
+#: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
+msgid "Warning"
+msgstr "אזהרה"
 
 #: common/config.py:99 common/config.py:106
 msgid "Day(s)"
@@ -47,7 +47,7 @@ msgstr "חודש/ים"
 msgid "Local"
 msgstr "מקומי"
 
-#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1961
+#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1962
 msgid "SSH private key"
 msgstr "מפתח SSH פרטי"
 
@@ -72,7 +72,8 @@ msgstr "ברירת מחדל"
 msgid "Main profile"
 msgstr "פרופיל ראשי"
 
-#: common/config.py:359 common/config.py:371
+#: common/config.py:359 common/config.py:371 common/config.py:388
+#: common/config.py:399
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "פרופיל: „{name}”"
@@ -85,11 +86,6 @@ msgstr "תיקיית תמונות מצב אינה תקנית!"
 #, fuzzy
 msgid "You must select at least one folder to back up!"
 msgstr "עליך לבחור לפחות תיקייה אחת לגיבוי!"
-
-#: common/config.py:388 common/config.py:399
-#, fuzzy, python-brace-format
-msgid "Profile: {name}"
-msgstr "פרופיל: „{name}”"
 
 #: common/config.py:389
 msgid "Backup folder cannot be included."
@@ -196,8 +192,8 @@ msgid "Failed to load config"
 msgstr "טעינת ההגדרות נכשלה"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
+#, fuzzy, python-brace-format
+msgid "Profile \"{name}\" already exists."
 msgstr "הפרופיל \"{name}\" כבר קיים!"
 
 #: common/configfile.py:736
@@ -217,6 +213,10 @@ msgstr "לא נמצאו הגדרות לתיקייה מוצפנת."
 #: common/encfstools.py:142
 msgid "Create a new encrypted folder?"
 msgstr "ליצור תיקייה מוצפנת חדשה?"
+
+#: common/encfstools.py:146
+msgid "Cancel"
+msgstr ""
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
@@ -598,7 +598,7 @@ msgstr "תרגומים"
 msgid "About"
 msgstr "על אודות"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2227
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2228
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "שחזור"
@@ -634,7 +634,7 @@ msgstr "שחזור התיקייה שמופיע ואת כל התוכן שלה ל�
 msgid "Up"
 msgstr "למעלה"
 
-#: qt/app.py:558 qt/settingsdialog.py:2183
+#: qt/app.py:558 qt/settingsdialog.py:2184
 msgid "Show hidden files"
 msgstr "הצגת קבצים נסתרים"
 
@@ -824,6 +824,11 @@ msgstr "תרגומים"
 msgid "License"
 msgstr "רישיון"
 
+#: qt/languagedialog.py:87
+#, fuzzy
+msgid "System default"
+msgstr "ברירת מחדל"
+
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
 msgstr ""
@@ -868,7 +873,7 @@ msgid "Snapshot Log View"
 msgstr "תצוגת יומן תמונות מצב"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2325
 msgid "Profile"
 msgstr "פרופיל"
 
@@ -985,13 +990,9 @@ msgstr "הסרה"
 msgid "&General"
 msgstr "&כללי"
 
-#: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
+#: qt/settingsdialog.py:147 qt/settingsdialog.py:2327
 msgid "Mode"
 msgstr "מצב"
-
-#: qt/settingsdialog.py:161 qt/settingsdialog.py:530
-msgid "Warning"
-msgstr "אזהרה"
 
 #: qt/settingsdialog.py:162
 #, python-brace-format
@@ -1001,7 +1002,7 @@ msgid ""
 "SECURITY\" in \"man backintime\"."
 msgstr ""
 
-#: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
+#: qt/settingsdialog.py:173 qt/settingsdialog.py:1938
 msgid "Where to save snapshots"
 msgstr "איפה לשמור גיבויים"
 
@@ -1385,22 +1386,18 @@ msgstr "שימור מאפיינים מורחבים (xattr)"
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "העתקת קישורים בלתי מהימנים (עובד רק עם קישורים מוחלטים)"
 
-#: qt/settingsdialog.py:1013
-msgid "Paste additional options to rsync"
-msgstr "הדבקת אפשרויות נוספות ל־rsync"
-
-#: qt/settingsdialog.py:1017
+#: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "חובה לשים אפשרויות במירכאות, למשל: ‎--exclude-from=\"/path/to/my exclude "
 "file\"‎."
 
-#: qt/settingsdialog.py:1029
-msgid "Add prefix to SSH commands"
-msgstr "הוספת קידומת לפקודות SSH"
+#: qt/settingsdialog.py:1015
+msgid "Paste additional options to rsync"
+msgstr "הדבקת אפשרויות נוספות ל־rsync"
 
-#: qt/settingsdialog.py:1033
+#: qt/settingsdialog.py:1030
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1412,68 +1409,72 @@ msgid ""
 "%(default)s: %(def_value)s"
 msgstr ""
 
-#: qt/settingsdialog.py:1041 qt/settingsdialog.py:2084
+#: qt/settingsdialog.py:1038 qt/settingsdialog.py:2085
 msgid "default"
 msgstr "ברירת מחדל"
 
-#: qt/settingsdialog.py:1052
+#: qt/settingsdialog.py:1040
+msgid "Add prefix to SSH commands"
+msgstr "הוספת קידומת לפקודות SSH"
+
+#: qt/settingsdialog.py:1053
 msgid "Check if remote host is online"
 msgstr "לבדוק אם המארח המרוחק מחובר"
 
-#: qt/settingsdialog.py:1054
+#: qt/settingsdialog.py:1055
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1059
 #, fuzzy
 msgid "Check if remote host supports all necessary commands"
 msgstr "לבדוק האם המארח המרוחק תומך בכל הפקודות הנחוצות"
 
-#: qt/settingsdialog.py:1060
+#: qt/settingsdialog.py:1061
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1076
+#: qt/settingsdialog.py:1077
 msgid "Restore Config"
 msgstr "שחזור הגדרות"
 
-#: qt/settingsdialog.py:1078
+#: qt/settingsdialog.py:1079
 msgid "Edit user-callback"
 msgstr "עריכת משוב משתמש"
 
-#: qt/settingsdialog.py:1098
+#: qt/settingsdialog.py:1099
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
 "Full system backup will override some settings that may have been customized. Continue?"
 msgstr ""
 
-#: qt/settingsdialog.py:1133
+#: qt/settingsdialog.py:1134
 msgid "New profile"
 msgstr "פרופיל חדש"
 
-#: qt/settingsdialog.py:1150
+#: qt/settingsdialog.py:1151
 msgid "Rename profile"
 msgstr "שינוי שם לפרופיל"
 
-#: qt/settingsdialog.py:1166
+#: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "האם אתה בטוח שברצונך למחוק את הפרופיל \"%s\" ?"
 
-#: qt/settingsdialog.py:1440
+#: qt/settingsdialog.py:1441
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
 
-#: qt/settingsdialog.py:1482
+#: qt/settingsdialog.py:1483
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1481,12 +1482,12 @@ msgstr ""
 "לא בחרת קובץ מפתח פרטי ל־SSH.\n"
 "לייצר צמד מפתחות ציבורי/פרטי ללא סיסמה?"
 
-#: qt/settingsdialog.py:1493
+#: qt/settingsdialog.py:1494
 #, fuzzy, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "קובץ המפתח הפרטי „{file}” לא קיים."
 
-#: qt/settingsdialog.py:1645
+#: qt/settingsdialog.py:1646
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1494,7 +1495,7 @@ msgstr ""
 "להעתיק את מפתח ה־SSH הציבורי שלך למארח\n"
 "המרוחק כדי לאפשר כניסה ללא סיסמה?"
 
-#: qt/settingsdialog.py:1673
+#: qt/settingsdialog.py:1674
 #, fuzzy, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1505,66 +1506,66 @@ msgstr ""
 "\n"
 "טביעת האצבע של המפתח {keytype} היא:"
 
-#: qt/settingsdialog.py:1683
+#: qt/settingsdialog.py:1684
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr "נא לאמת את טביעת האצבע הזאת! להוסיף אותה לקובץ ה־‚known_hosts’ שלך?"
 
-#: qt/settingsdialog.py:1846
+#: qt/settingsdialog.py:1847
 msgid "Exclude pattern"
 msgstr "הכללת תבנית"
 
-#: qt/settingsdialog.py:1859
+#: qt/settingsdialog.py:1860
 msgid "Exclude file"
 msgstr "הכללת קובץ"
 
-#: qt/settingsdialog.py:1863
+#: qt/settingsdialog.py:1864
 msgid "Exclude folder"
 msgstr "הכללת תיקיה"
 
-#: qt/settingsdialog.py:1882
+#: qt/settingsdialog.py:1883
 msgid "Include file"
 msgstr "לכלול קובץ"
 
-#: qt/settingsdialog.py:1891 qt/settingsdialog.py:1917
+#: qt/settingsdialog.py:1892 qt/settingsdialog.py:1918
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1909
 msgid "Include folder"
 msgstr "לכלול תיקיה"
 
-#: qt/settingsdialog.py:1945
+#: qt/settingsdialog.py:1946
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "האם לשנות את תיקיית הגיבויים?"
 
-#: qt/settingsdialog.py:1970
+#: qt/settingsdialog.py:1971
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "יצירת מפתח SSH חדש תחת {path} נכשלה"
 
-#: qt/settingsdialog.py:2029
+#: qt/settingsdialog.py:2030
 msgid "Full snapshot path: "
 msgstr "נתיב תמונת מצב מלא: "
 
-#: qt/settingsdialog.py:2079
+#: qt/settingsdialog.py:2080
 msgid "enabled"
 msgstr "מופעל"
 
-#: qt/settingsdialog.py:2082
+#: qt/settingsdialog.py:2083
 msgid "disabled"
 msgstr "מושבת"
 
-#: qt/settingsdialog.py:2127
+#: qt/settingsdialog.py:2128
 msgid "Restore Settings"
 msgstr "שחזור הגדרות"
 
-#: qt/settingsdialog.py:2140
+#: qt/settingsdialog.py:2141
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1574,15 +1575,15 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
+#: qt/settingsdialog.py:2203 qt/settingsdialog.py:2268
 msgid "No config found"
 msgstr "לא נמצאו הגדרות"
 
-#: qt/settingsdialog.py:2474
+#: qt/settingsdialog.py:2475
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "לסקריפט משוב משתמש אין שורת פיקוד - shebang‏ (‎#/bin/sh)."
 
-#: qt/settingsdialog.py:2481
+#: qt/settingsdialog.py:2482
 msgid "Shebang in user-callback script is not executable."
 msgstr "שורת הפיקוד - Shebang בסקריפט משוב משתמש אינה ניתנת להפעלה."
 
@@ -1759,6 +1760,10 @@ msgstr "האם להמנע מ-\"{path}\" בגיבויים עתידיים?"
 
 #~ msgid "Local encrypted"
 #~ msgstr "מוצפן מקומית"
+
+#, fuzzy, python-brace-format
+#~ msgid "Profile: {name}"
+#~ msgstr "פרופיל: „{name}”"
 
 #, python-format
 #~ msgid "Restore '%s'"
