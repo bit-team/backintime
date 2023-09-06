@@ -1009,14 +1009,14 @@ class SettingsDialog(QDialog):
         # additional rsync options
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
+        tooltip = _('Options must be quoted e.g. {example}.').format(
+            example='--exclude-from="/path/to/my exclude file"')
         self.cbRsyncOptions = QCheckBox(
             _('Paste additional options to rsync'), self)
+        self.cbRsyncOptions.setToolTip(tooltip)
         hlayout.addWidget(self.cbRsyncOptions)
         self.txtRsyncOptions = QLineEdit(self)
-        self.txtRsyncOptions.setToolTip(
-            _('Options must be quoted e.g. {example}.')
-            .format(example='--exclude-from="/path/to/my exclude file"')
-        )
+        self.txtRsyncOptions.setToolTip(tooltip)
         hlayout.addWidget(self.txtRsyncOptions)
 
         enabled = lambda state: self.txtRsyncOptions.setEnabled(state)
@@ -1026,21 +1026,22 @@ class SettingsDialog(QDialog):
         # ssh prefix
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
+        tooltip = _(
+            'Prefix to run before every command on remote host.\n'
+            'Variables need to be escaped with \\$FOO.\n'
+            'This doesn\'t touch rsync. So to add a prefix\n'
+            'for rsync use "%(cbRsyncOptions)s" with\n'
+            '%(rsync_options_value)s\n\n'
+            '%(default)s: %(def_value)s') % {
+                'cbRsyncOptions': self.cbRsyncOptions.text(),
+                'rsync_options_value': '--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"',
+                'default': _('default'),
+                'def_value': self.config.DEFAULT_SSH_PREFIX}
         self.cbSshPrefix = QCheckBox(_('Add prefix to SSH commands'), self)
+        self.cbSshPrefix.setToolTip(tooltip)
         hlayout.addWidget(self.cbSshPrefix)
         self.txtSshPrefix = QLineEdit(self)
-        self.txtSshPrefix.setToolTip(
-            _('Prefix to run before every command on remote host.\n'
-              'Variables need to be escaped with \\$FOO.\n'
-              'This doesn\'t touch rsync. So to add a prefix\n'
-              'for rsync use "%(cbRsyncOptions)s" with\n'
-              '%(rsync_options_value)s\n\n'
-              '%(default)s: %(def_value)s') % {
-                  'cbRsyncOptions': self.cbRsyncOptions.text(),
-                  'rsync_options_value': '--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"',
-                  'default': _('default'),
-                  'def_value': self.config.DEFAULT_SSH_PREFIX}
-        )
+        self.txtSshPrefix.setToolTip(tooltip)
         hlayout.addWidget(self.txtSshPrefix)
 
         enabled = lambda state: self.txtSshPrefix.setEnabled(state)

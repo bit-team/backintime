@@ -688,7 +688,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
             if self.profileName(profile_id) == name:
                 self.notifyError(_(
-                    'Profile "{name}" already exists!').format(name=name))
+                    'Profile "{name}" already exists.').format(name=name))
 
                 return None
 
@@ -787,7 +787,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
                 if profile[0] != profile_id:
                     self.notifyError(_(
-                        'Profile "{name}" already exists!').format(name=name))
+                        'Profile "{name}" already exists.').format(name=name))
 
                     return False
 
