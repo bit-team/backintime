@@ -385,7 +385,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 if path == snapshots_path:
                     self.notifyError(
                         '{}\n{}'.format(
-                            _('Profile: "{name}"').format(name=f'"{profile_name}"'),
+                            _('Profile: "{name}"').format(name=profile_name),
                             _("Backup folder cannot be included.")
                         )
                     )
