@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-08-05 07:53+0000\n"
-"Last-Translator: p-bo <pavel.borecki@gmail.com>\n"
+"POT-Creation-Date: 2023-09-06 21:40+0200\n"
+"PO-Revision-Date: 2023-09-06 12:45+0000\n"
+"Last-Translator: trendspotter <jirka.p@volny.cz>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -19,9 +19,9 @@ msgstr ""
 "X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:50 common/encfstools.py:146
-msgid "Cancel"
-msgstr "Storno"
+#: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
+msgid "Warning"
+msgstr "Varování"
 
 #: common/config.py:99 common/config.py:106
 msgid "Day(s)"
@@ -47,7 +47,7 @@ msgstr "Měsíců"
 msgid "Local"
 msgstr "Na tomto počítači"
 
-#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1961
+#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1962
 msgid "SSH private key"
 msgstr "Soukromou část SSH klíče"
 
@@ -72,7 +72,8 @@ msgstr "Výchozí"
 msgid "Main profile"
 msgstr "Hlavní profil"
 
-#: common/config.py:359 common/config.py:371
+#: common/config.py:359 common/config.py:371 common/config.py:388
+#: common/config.py:399
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}“"
@@ -84,11 +85,6 @@ msgstr "Složka zachycených stavů není platná!"
 #: common/config.py:372
 msgid "You must select at least one folder to back up!"
 msgstr "Vyberte alespoň jednu složku, kterou zálohovat!"
-
-#: common/config.py:388 common/config.py:399
-#, fuzzy, python-brace-format
-msgid "Profile: {name}"
-msgstr "Profil: „{name}“"
 
 #: common/config.py:389
 msgid "Backup folder cannot be included."
@@ -200,8 +196,8 @@ msgid "Failed to load config"
 msgstr "Nastavení se nepodařilo načíst"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
+#, fuzzy, python-brace-format
+msgid "Profile \"{name}\" already exists."
 msgstr "Profil „{name}“ už existuje!"
 
 #: common/configfile.py:736
@@ -221,6 +217,10 @@ msgstr "Nastavení pro šifrovanou složku nenalezeno."
 #: common/encfstools.py:142
 msgid "Create a new encrypted folder?"
 msgstr "Vytvořit novou šifrovanou složku?"
+
+#: common/encfstools.py:146
+msgid "Cancel"
+msgstr "Storno"
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
@@ -638,7 +638,7 @@ msgstr "Překladatelé"
 msgid "About"
 msgstr "O aplikaci"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2227
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2228
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Obnovit"
@@ -674,7 +674,7 @@ msgstr ""
 msgid "Up"
 msgstr "Přejít do nadřazené složky"
 
-#: qt/app.py:558 qt/settingsdialog.py:2183
+#: qt/app.py:558 qt/settingsdialog.py:2184
 msgid "Show hidden files"
 msgstr "Zobrazovat skryté soubory"
 
@@ -875,6 +875,11 @@ msgstr "Překladatelé"
 msgid "License"
 msgstr "Licence"
 
+#: qt/languagedialog.py:87
+#, fuzzy
+msgid "System default"
+msgstr "výchozí"
+
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
 msgstr ""
@@ -894,6 +899,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Dobrý den,\n"
+"již několikrát jste použili Back In Time v jazyce {language}.\n"
+"Překlad vámi nainstalované verze Back In Time do {language} je na {perc} dokončen. Bez ohledu na úroveň vašich technických znalostí můžete přispět k překladu a tím i k samotnému programu Back In Time.\n"
+"Pokud chcete přispět, navštivte prosím {translation_platform_url}. Pro další pomoc a dotazy navštivte prosím {back_in_time_project_website}.\n"
+"Omlouváme se za vyrušení a tato zpráva se již nebude zobrazovat. Tento dialog je kdykoli k dispozici prostřednictvím nabídky nápovědy.\n"
+"Váš tým Back In Time"
 
 #: qt/languagedialog.py:213
 #, fuzzy
@@ -914,7 +925,7 @@ msgid "Snapshot Log View"
 msgstr "Zobrazení událostí při pořizování zachyceného stavu"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
+#: qt/settingsdialog.py:340 qt/settingsdialog.py:2325
 msgid "Profile"
 msgstr "Profil"
 
@@ -1033,13 +1044,9 @@ msgstr "Odebrat"
 msgid "&General"
 msgstr "&Obecné"
 
-#: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
+#: qt/settingsdialog.py:147 qt/settingsdialog.py:2327
 msgid "Mode"
 msgstr "Ukládání záloh"
-
-#: qt/settingsdialog.py:161 qt/settingsdialog.py:530
-msgid "Warning"
-msgstr "Varování"
 
 #: qt/settingsdialog.py:162
 #, fuzzy, python-brace-format
@@ -1052,7 +1059,7 @@ msgstr ""
 "odhalila několik závažných nedostatků. Přečtěte si proto odstavec POZNÁMKA K"
 " ZABEZPEČENÍ v manuálové stránce backintime (man backintime)."
 
-#: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
+#: qt/settingsdialog.py:173 qt/settingsdialog.py:1938
 msgid "Where to save snapshots"
 msgstr "Kam ukládat zachycené stavy"
 
@@ -1469,22 +1476,18 @@ msgstr ""
 "V případě odkazů na soubory/složky, nacházející se mimo zálohovanou složku, "
 "zazálohovat přímo je a nikoli jen odkaz (funguje pouze s absolutními odkazy)"
 
-#: qt/settingsdialog.py:1013
-msgid "Paste additional options to rsync"
-msgstr "Dodatečné parametry, se kterými spouštět nástroj rsync"
-
-#: qt/settingsdialog.py:1017
+#: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "Je třeba, aby předvolby byly obklopeny uvozovkami, např. --exclude-"
 "from=\"/umisteni/vynechany_soubor\"."
 
-#: qt/settingsdialog.py:1029
-msgid "Add prefix to SSH commands"
-msgstr "Před příkazy přes SSH přidávat"
+#: qt/settingsdialog.py:1015
+msgid "Paste additional options to rsync"
+msgstr "Dodatečné parametry, se kterými spouštět nástroj rsync"
 
-#: qt/settingsdialog.py:1033
+#: qt/settingsdialog.py:1030
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1502,15 +1505,19 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1041 qt/settingsdialog.py:2084
+#: qt/settingsdialog.py:1038 qt/settingsdialog.py:2085
 msgid "default"
 msgstr "výchozí"
 
-#: qt/settingsdialog.py:1052
+#: qt/settingsdialog.py:1040
+msgid "Add prefix to SSH commands"
+msgstr "Před příkazy přes SSH přidávat"
+
+#: qt/settingsdialog.py:1053
 msgid "Check if remote host is online"
 msgstr "Zkontrolovat zda je stroj na protistraně dostupný na síti"
 
-#: qt/settingsdialog.py:1054
+#: qt/settingsdialog.py:1055
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1520,11 +1527,11 @@ msgstr ""
 "není dostupný, může toto vést k některým\n"
 "podivným chybám."
 
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1059
 msgid "Check if remote host supports all necessary commands"
 msgstr "Ověřit zda stroj na protistraně podporuje všechny nezbytné příkazy"
 
-#: qt/settingsdialog.py:1060
+#: qt/settingsdialog.py:1061
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1534,15 +1541,15 @@ msgstr ""
 "nepodporuje veškeré nezbytné příkazy,\n"
 "může toto vést k některým podivným chybám."
 
-#: qt/settingsdialog.py:1076
+#: qt/settingsdialog.py:1077
 msgid "Restore Config"
 msgstr "Obnovit nastavení"
 
-#: qt/settingsdialog.py:1078
+#: qt/settingsdialog.py:1079
 msgid "Edit user-callback"
 msgstr "Upravit uživatelsky definované akce"
 
-#: qt/settingsdialog.py:1098
+#: qt/settingsdialog.py:1099
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
 "\n"
@@ -1552,20 +1559,20 @@ msgstr ""
 "\n"
 "Úprava profilu pro účely kompletní zálohy systému může vést ke změně některých nastavení, které jste v něm mohli udělat. Přesto pokračovat?"
 
-#: qt/settingsdialog.py:1133
+#: qt/settingsdialog.py:1134
 msgid "New profile"
 msgstr "Nový profil"
 
-#: qt/settingsdialog.py:1150
+#: qt/settingsdialog.py:1151
 msgid "Rename profile"
 msgstr "Přejmenovat profil"
 
-#: qt/settingsdialog.py:1166
+#: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Opravdu chcete profil „%s“ smazat?"
 
-#: qt/settingsdialog.py:1440
+#: qt/settingsdialog.py:1441
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
@@ -1573,7 +1580,7 @@ msgstr ""
 "Uživatelsky určené doby mohou být pouze čárkou oddělovaný seznam hodin "
 "(například 8,12,18,23) nebo (např.) */3 pro pravidelné zálohy každé 3 hodiny"
 
-#: qt/settingsdialog.py:1482
+#: qt/settingsdialog.py:1483
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1581,12 +1588,12 @@ msgstr ""
 "Nezvolili jste soubor se soukromou částí klíče pro SSH.\n"
 "Přejete si vytvořit novou dvojici veřejná/soukromá část (přístupná bez hesla)?"
 
-#: qt/settingsdialog.py:1493
+#: qt/settingsdialog.py:1494
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Soubor „{file}“ se soukromou částí klíče neexistuje."
 
-#: qt/settingsdialog.py:1645
+#: qt/settingsdialog.py:1646
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1594,7 +1601,7 @@ msgstr ""
 "Přejete si zkopírovat veřejnou část vašeho SSH klíče\n"
 "na stroj na protějšku a umožnit tak přihlašování bez hesla?"
 
-#: qt/settingsdialog.py:1673
+#: qt/settingsdialog.py:1674
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1605,30 +1612,30 @@ msgstr ""
 "\n"
 "{keytype} otisk klíče je:"
 
-#: qt/settingsdialog.py:1683
+#: qt/settingsdialog.py:1684
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 "Zkontrolujte tento otisk! Přejete si ho přidat do souboru „known_hosts“?"
 
-#: qt/settingsdialog.py:1846
+#: qt/settingsdialog.py:1847
 msgid "Exclude pattern"
 msgstr "Zástupné vyjádření vynechaného"
 
-#: qt/settingsdialog.py:1859
+#: qt/settingsdialog.py:1860
 msgid "Exclude file"
 msgstr "Vynechat soubor"
 
-#: qt/settingsdialog.py:1863
+#: qt/settingsdialog.py:1864
 msgid "Exclude folder"
 msgstr "Vynechat složku"
 
-#: qt/settingsdialog.py:1882
+#: qt/settingsdialog.py:1883
 msgid "Include file"
 msgstr "Zahrnout soubor"
 
-#: qt/settingsdialog.py:1891 qt/settingsdialog.py:1917
+#: qt/settingsdialog.py:1892 qt/settingsdialog.py:1918
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1637,37 +1644,37 @@ msgstr ""
 "„{path}“ je symbolický odkaz. Odkazovaný cíl nebude zazálohován, dokud jeho umístění výslovně nezahrnete.\n"
 "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
 
-#: qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1909
 msgid "Include folder"
 msgstr "Zahrnout složku"
 
-#: qt/settingsdialog.py:1945
+#: qt/settingsdialog.py:1946
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Opravdu změnit složku se zachycenými stavy?"
 
-#: qt/settingsdialog.py:1970
+#: qt/settingsdialog.py:1971
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "V umístění {path} se nepodařilo vytvořit nový SSH klíč"
 
-#: qt/settingsdialog.py:2029
+#: qt/settingsdialog.py:2030
 msgid "Full snapshot path: "
 msgstr "Úplný popis umístění zachyceného stavu: "
 
-#: qt/settingsdialog.py:2079
+#: qt/settingsdialog.py:2080
 msgid "enabled"
 msgstr "zapnuto"
 
-#: qt/settingsdialog.py:2082
+#: qt/settingsdialog.py:2083
 msgid "disabled"
 msgstr "vypnuto"
 
-#: qt/settingsdialog.py:2127
+#: qt/settingsdialog.py:2128
 msgid "Restore Settings"
 msgstr "Obnovit dřívější nastavení"
 
-#: qt/settingsdialog.py:2140
+#: qt/settingsdialog.py:2141
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1682,17 +1689,17 @@ msgstr ""
 "Pokud se zachycené stavy nacházejí na síťovém úložišti nebo jsou šifrované, bude třeba toto umístění nejprve ručně připojit. V případě, že jsou zálohy ukládány na vzdálený stroj prostřednictvím SSH tunelu, je také třeba zajistit přihlašování k tomuto stroji {addFuse} pomocí klíče.\n"
 "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
 
-#: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
+#: qt/settingsdialog.py:2203 qt/settingsdialog.py:2268
 msgid "No config found"
 msgstr "Nebyla nalezena žádná nastavení"
 
-#: qt/settingsdialog.py:2474
+#: qt/settingsdialog.py:2475
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 "Skript s uživatelsky definovanými akcemi postrádá řádek určující jeho "
 "interpret (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2481
+#: qt/settingsdialog.py:2482
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 "Soubor se skriptem uživatelsky definovaných akcí nemá nastavený příznak "
@@ -1929,6 +1936,10 @@ msgstr "Vynechat „{path}“ z budoucích zachycených stavů?"
 #~ msgstr ""
 #~ "Ověření dostupnosti stroje (ping) %s nebylo úspěšné. Stroj je buď vypnutý, "
 #~ "nebo je zadaná nesprávná IP adresa."
+
+#, fuzzy, python-brace-format
+#~ msgid "Profile: {name}"
+#~ msgstr "Profil: „{name}“"
 
 #, python-format
 #~ msgid "Restore '%s'"
