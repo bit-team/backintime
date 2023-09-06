@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-07-28 07:22+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-09-01 07:36+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -831,22 +831,28 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Hej\n"
+"Du har nu brugt Back In Time på {language} et par gange nu.\n"
+"Oversættelsen af din version af Back In Time i {language} er {perc} færdig oversat. Ligegyldigt af niveau kan du hjælpe med oversættelsen og derved Back In Time.\n"
+"Besøg venligst {translation_platform_url} hvis du ønsker at kontribuere. For yderlige hjælp eller spørgsmål, besøg venligst {back_in_time_project_website}.\n"
+"Vi undskylder forstyrrelsen, denne besked vil ikke blive vist igen. Denne dialog box er tilgængelig til enhver tid i 'hjælp' menuen.\n"
+"Dit Back In Time Team"
 
 #: qt/languagedialog.py:213
 msgid "translation platform"
-msgstr ""
+msgstr "oversættelses platform"
 
 #: qt/languagedialog.py:229
 msgid "Your translation"
-msgstr ""
+msgstr "Din oversættelse"
 
 #: qt/logviewdialog.py:53
 msgid "Last Log View"
-msgstr ""
+msgstr "Se Sidste Log"
 
 #: qt/logviewdialog.py:55
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Se Snapshot Log"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:340 qt/settingsdialog.py:2324
@@ -856,19 +862,19 @@ msgstr "Profil"
 
 #: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
-msgstr "Tilstamds-billeder"
+msgstr "Tilstands-billeder"
 
 #: qt/logviewdialog.py:85
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: qt/logviewdialog.py:91 qt/settingsdialog.py:803
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
 msgid "Changes"
-msgstr ""
+msgstr "Ændringer"
 
 #: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
 #: qt/settingsdialog.py:802
@@ -877,45 +883,44 @@ msgstr "Fejl"
 
 #: qt/logviewdialog.py:96 qt/messagebox.py:55
 msgid "Information"
-msgstr ""
+msgstr "Information"
 
 #: qt/logviewdialog.py:106
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E] Fejl, [I] Information, [C] Ændre"
 
 #: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
-msgstr ""
+msgstr "afkod paths"
 
 #: qt/logviewdialog.py:167
 msgid "Copy"
-msgstr ""
+msgstr "Kopier"
 
 #: qt/logviewdialog.py:175
 msgid "Decode"
-msgstr ""
+msgstr "Afkode"
 
 #: qt/logviewdialog.py:197
 msgid "Do you want to exclude this?"
-msgstr ""
+msgstr "Ønsker du at udelukke dette?"
 
 #: qt/messagebox.py:79 qt/messagebox.py:85
 msgid "Question"
-msgstr ""
+msgstr "Spørgsmål"
 
 #: qt/qtsystrayicon.py:101
 msgid "View Last Log"
-msgstr ""
+msgstr "Se Sidste Log"
 
 #: qt/qtsystrayicon.py:105
 #, python-brace-format
 msgid "Start {appname}"
-msgstr ""
+msgstr "Kør {appname}"
 
 #: qt/qtsystrayicon.py:167
-#, fuzzy
 msgid "Working…"
-msgstr "Arbejder"
+msgstr "Arbejder…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -935,16 +940,16 @@ msgstr "Sidste uge"
 
 #: qt/qttools.py:539
 msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
+msgstr "Dette er IKKE et snapshot men et nutidigt syn af dine lokale filer"
 
 #: qt/qttools.py:544
 #, python-brace-format
 msgid "Last check {time}"
-msgstr ""
+msgstr "Sidste check {time}"
 
 #: qt/restoredialog.py:60
 msgid "Show full Log"
-msgstr ""
+msgstr "Vis Fulde Log"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -952,28 +957,27 @@ msgstr "Redigér"
 
 #: qt/settingsdialog.py:110
 msgid "Modify for Full System Backup"
-msgstr ""
+msgstr "Modificer til Fuld System Backup"
 
 #: qt/settingsdialog.py:118 qt/settingsdialog.py:570
 msgid "Add"
-msgstr ""
+msgstr "Tilføj"
 
 #: qt/settingsdialog.py:122 qt/settingsdialog.py:519 qt/settingsdialog.py:588
 msgid "Remove"
-msgstr ""
+msgstr "Fjern"
 
 #: qt/settingsdialog.py:137
-#, fuzzy
 msgid "&General"
-msgstr "Generelt"
+msgstr "&Generelt"
 
 #: qt/settingsdialog.py:147 qt/settingsdialog.py:2326
 msgid "Mode"
-msgstr ""
+msgstr "Tilstand"
 
 #: qt/settingsdialog.py:161 qt/settingsdialog.py:530
 msgid "Warning"
-msgstr ""
+msgstr "Advarsel"
 
 #: qt/settingsdialog.py:162
 #, python-brace-format
@@ -982,6 +986,9 @@ msgid ""
 "possible attack vectors for this. Please take a look at \"A NOTE ON "
 "SECURITY\" in \"man backintime\"."
 msgstr ""
+"{app} bruger EncFS til encryptering. Et sikkerhedstjek har vist at der er "
+"flere mulige angrebsvinkler til dette. Se venligst \"A NOTE ON SECURITY\" i "
+"\"man backintime\""
 
 #: qt/settingsdialog.py:173 qt/settingsdialog.py:1937
 msgid "Where to save snapshots"
@@ -989,31 +996,31 @@ msgstr "Hvor skal tilstands-billeder gemmes"
 
 #: qt/settingsdialog.py:189
 msgid "Folder"
-msgstr ""
+msgstr "Folder"
 
 #: qt/settingsdialog.py:197
 msgid "SSH Settings"
-msgstr ""
+msgstr "SSH Indstillinger"
 
 #: qt/settingsdialog.py:209 qt/settingsdialog.py:328
 msgid "Host"
-msgstr ""
+msgstr "Vært"
 
 #: qt/settingsdialog.py:214
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: qt/settingsdialog.py:219 qt/settingsdialog.py:334
 msgid "User"
-msgstr ""
+msgstr "Bruger"
 
 #: qt/settingsdialog.py:224
 msgid "Path"
-msgstr ""
+msgstr "Sti"
 
 #: qt/settingsdialog.py:230
 msgid "Cipher"
-msgstr ""
+msgstr "Cipher"
 
 #: qt/settingsdialog.py:236
 #, fuzzy
@@ -1022,7 +1029,7 @@ msgstr "SSH privat nøgle"
 
 #: qt/settingsdialog.py:246
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
-msgstr ""
+msgstr "Vælg en eksisterende private key fil (normalt navngivet \"id_rsa\")"
 
 #: qt/settingsdialog.py:256
 msgid ""

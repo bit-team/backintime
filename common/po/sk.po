@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-07-28 07:22+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-08-31 17:39+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -23,19 +23,19 @@ msgstr ""
 
 #: common/config.py:50 common/encfstools.py:146
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: common/config.py:99 common/config.py:106
 msgid "Day(s)"
-msgstr "Dni"
+msgstr "Počet dní"
 
 #: common/config.py:100 common/config.py:107
 msgid "Week(s)"
-msgstr "Týždne"
+msgstr "Počet týždňov"
 
 #: common/config.py:101
 msgid "Year(s)"
-msgstr "Roky"
+msgstr "Počet rokov"
 
 #: common/config.py:105
 msgid "Hour(s)"
@@ -213,11 +213,11 @@ msgstr ""
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
-msgstr ""
+msgstr "Potvrďte heslo"
 
 #: common/encfstools.py:155
 msgid "Password doesn't match."
-msgstr ""
+msgstr "Heslo sa nezhoduje."
 
 #: common/encfstools.py:173
 msgid ""
@@ -353,7 +353,7 @@ msgstr ""
 #: common/snapshots.py:1311
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr ""
+msgstr "Nie je možné premenovať {new_path} na {path}"
 
 #: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:672
 msgid "Smart remove"
@@ -571,7 +571,7 @@ msgstr ""
 
 #: qt/app.py:520
 msgid "FAQ"
-msgstr ""
+msgstr "Časté otázky (FAQ)"
 
 #: qt/app.py:523
 msgid "Ask a question"
@@ -667,7 +667,7 @@ msgstr "Prebieha"
 
 #: qt/app.py:964 qt/messagebox.py:73
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
 msgid "Sent"
@@ -793,6 +793,7 @@ msgstr "Obnoviť {path}"
 #: qt/app.py:1802
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
+"Zmeny v nastavení jazyka sa ukážu po reštartovaní aplikácie Back In Time."
 
 #: qt/app.py:1842 qt/app.py:1859
 msgid "Authors"
@@ -813,7 +814,7 @@ msgstr ""
 #: qt/languagedialog.py:143
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "Preložené na: {percent}"
 
 #: qt/languagedialog.py:181
 #, python-brace-format
@@ -825,6 +826,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Dobrý deň,\n"
+"aplikáciu Back In Time v jazyku: {language} ste otvorili už viackrát.\n"
+"Preklad nainštalovanej verzie aplikácie Back In Time do jazyka: {language} je hotový na {perc}. Bez ohľadu na úroveň vašich technických znalostí môžete pomôcť s prekladom aplikácie, čím podporíte aj samotný projekt Back In Time.\n"
+"Ak chcete pomôcť, navštívte webovú stránku {translation_platform_url}. Viac informácií nájdete na webovej stránke {back_in_time_project_website}.\n"
+"Za prerušenie sa ospravedlňujeme, táto správa sa už znovu nezobrazí. Toto dialógové okno nájdete kedykoľvek v Pomocníkovi.\n"
+"Back In Time tím"
 
 #: qt/languagedialog.py:213
 msgid "translation platform"
@@ -832,7 +839,7 @@ msgstr ""
 
 #: qt/languagedialog.py:229
 msgid "Your translation"
-msgstr ""
+msgstr "Váš preklad"
 
 #: qt/logviewdialog.py:53
 msgid "Last Log View"
@@ -906,7 +913,7 @@ msgstr "Zobraziť posledný log"
 #: qt/qtsystrayicon.py:105
 #, python-brace-format
 msgid "Start {appname}"
-msgstr ""
+msgstr "Spustiť {appname}"
 
 #: qt/qtsystrayicon.py:167
 #, fuzzy
@@ -936,7 +943,7 @@ msgstr ""
 #: qt/qttools.py:544
 #, python-brace-format
 msgid "Last check {time}"
-msgstr ""
+msgstr "Naposledy kontrolované {time}"
 
 #: qt/restoredialog.py:60
 msgid "Show full Log"
@@ -956,7 +963,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:122 qt/settingsdialog.py:519 qt/settingsdialog.py:588
 msgid "Remove"
-msgstr ""
+msgstr "Odstrániť"
 
 #: qt/settingsdialog.py:137
 #, fuzzy
@@ -1599,7 +1606,7 @@ msgstr "Hĺbková kontrola (presnejšia, ale pomalšia)"
 
 #: qt/snapshotsdialog.py:150
 msgid "Delete"
-msgstr ""
+msgstr "Vymazať"
 
 #: qt/snapshotsdialog.py:154
 msgid "Select All"
@@ -1607,7 +1614,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "Porovnať"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
@@ -1644,7 +1651,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:378
 msgid "WARNING"
-msgstr ""
+msgstr "UPOZORNENIE"
 
 #: qt/snapshotsdialog.py:394
 #, python-brace-format

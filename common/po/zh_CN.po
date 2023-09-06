@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-07-28 07:22+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-08-31 20:52+0000\n"
+"Last-Translator: hosiet <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -52,9 +52,8 @@ msgid "SSH private key"
 msgstr "SSH 私钥"
 
 #: common/config.py:163
-#, fuzzy
 msgid "encrypted"
-msgstr "SSH加密"
+msgstr "已加密"
 
 #: common/config.py:164 common/config.py:171
 msgid "Encryption"
@@ -69,55 +68,51 @@ msgid "Default"
 msgstr "默认"
 
 #: common/config.py:198 common/config.py:341
-#, fuzzy
 msgid "Main profile"
 msgstr "主要配置"
 
 #: common/config.py:359 common/config.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "配置：\"{name}\""
 
 #: common/config.py:360
-#, fuzzy
 msgid "Snapshots folder is not valid!"
 msgstr "快照文件夹无效！"
 
 #: common/config.py:372
-#, fuzzy
 msgid "You must select at least one folder to back up!"
-msgstr "请至少选择一个文件夹进行备份！"
+msgstr "您必须选择至少一个文件夹进行备份！"
 
 #: common/config.py:388 common/config.py:399
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {name}"
 msgstr "配置：\"{name}\""
 
 #: common/config.py:389
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "不能包含备份文件夹。"
 
 #: common/config.py:401
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "不能包含备份子文件夹。"
 
 #: common/config.py:459
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} 不是一个文件夹！"
+msgstr "无效的选项。{path} 不是一个文件夹。"
 
 #: common/config.py:468
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/User/Profile-ID 不能为空！"
+msgstr "Host/User/Profile-ID 不能为空。"
 
 #: common/config.py:478 common/config.py:525
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"不能写入：{path}\n"
+"无法写入：{path}\n"
 "您确定有写入权限吗？"
 
 #: common/config.py:495
@@ -151,7 +146,6 @@ msgid ""
 msgstr ""
 
 #: common/config.py:1609
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -183,14 +177,12 @@ msgid "Couldn't find UUID for {path}"
 msgstr "无法找到 \"{path}\" 的 UUID"
 
 #: common/configfile.py:107
-#, fuzzy
 msgid "Failed to save config"
 msgstr "保存配置失败"
 
 #: common/configfile.py:143
-#, fuzzy
 msgid "Failed to load config"
-msgstr "无法加载配置"
+msgstr "加载配置失败"
 
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
@@ -198,9 +190,8 @@ msgid "Profile \"{name}\" already exists!"
 msgstr "\"{name}\"配置已存在！"
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "警告：该操作无法撤销！"
+msgstr "最后一个配置无法被移除。"
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -213,7 +204,6 @@ msgid "Config for encrypted folder not found."
 msgstr "未找到加密文件夹的配置文件。"
 
 #: common/encfstools.py:142
-#, fuzzy
 msgid "Create a new encrypted folder?"
 msgstr "是否创建一个新的加密文件夹？"
 
@@ -222,16 +212,14 @@ msgid "Please confirm password"
 msgstr "确认密码"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "密码不一致"
+msgstr "密码不一致。"
 
 #: common/encfstools.py:173
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
-msgstr "encfs 1.7.2 及更早的版本中 --reverse 选项存在缺陷，请更新系统中安装的 encfs 版本"
+msgstr "encfs 1.7.2 及更早的版本中 --reverse 选项存在缺陷，请更新系统中安装的 encfs 版本。"
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -290,18 +278,17 @@ msgid_plural "Waiting %s seconds."
 msgstr[0] "等待 %s 秒。"
 
 #: common/snapshots.py:805
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "创建快照 {snapshot_id} 失败!!!"
+msgstr "创建快照 {snapshot_id} 失败。"
 
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "正在完成"
 
 #: common/snapshots.py:943
-#, fuzzy
 msgid "Can't create folder"
-msgstr "无法新建文件夹"
+msgstr "无法创建文件夹"
 
 #: common/snapshots.py:960
 msgid "Saving config file..."
@@ -345,7 +332,7 @@ msgstr ""
 
 #: common/snapshots.py:1261
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "请查看“man rsync”以了解更多细节"
 
 #: common/snapshots.py:1265
 msgid ""
@@ -374,22 +361,22 @@ msgid "Trying to keep min free space"
 msgstr "尝试保留最小可用空间"
 
 #: common/snapshots.py:1730
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "尝试保留最小可用空间"
+msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
 #: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
 msgstr "现在"
 
 #: common/sshtools.py:204
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "无法挂载 %s"
+msgstr "无法挂载 {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "ssh-agent 未找到。请确保已安装该工具。"
 
 #: common/sshtools.py:407
 msgid ""
@@ -403,37 +390,25 @@ msgid "Cipher {cipher} failed for {host}."
 msgstr ""
 
 #: common/sshtools.py:642
-#, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"远程路径存在但不是一个目录：\n"
-" %s"
+msgstr "远程路径存在但不是一个目录。"
 
 #: common/sshtools.py:647
-#, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"远程路径不可写：\n"
-" %s"
+msgstr "远程路径不可写。"
 
 #: common/sshtools.py:652
-#, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"远程路径不可被执行：\n"
-" %s"
+msgstr "远程路径不可被执行。"
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"无法创建远程路径：\n"
-" %s"
+msgstr "无法创建远程路径。"
 
 #: common/sshtools.py:937
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "远程主机 %s 不支持硬链接。"
+msgstr "远程主机 {host} 不支持 {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 msgid "Look at 'man backintime' for further instructions"
@@ -445,9 +420,9 @@ msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 
 #: common/sshtools.py:966
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "远程主机 %s 不支持硬链接。"
+msgstr "远程主机 {host} 不支持硬链接"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -507,9 +482,8 @@ msgid "Take a snapshot (checksum mode)"
 msgstr ""
 
 #: qt/app.py:455
-#, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "使用校验检测变更"
+msgstr "使用校验码探测文件变更。"
 
 #: qt/app.py:458 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -574,9 +548,8 @@ msgid "Help"
 msgstr "帮助"
 
 #: qt/app.py:511
-#, fuzzy
 msgid "Profiles config file"
-msgstr "保存配置文件 ..."
+msgstr "配置文件"
 
 #: qt/app.py:514 qt/languagedialog.py:216
 msgid "Website"
@@ -617,9 +590,8 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
 #: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
-msgstr "还原至："
+msgstr "还原至…"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to a new destination."
@@ -797,19 +769,19 @@ msgid "Snapshot"
 msgstr "快照"
 
 #: qt/app.py:1604
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "查看快照 {name}"
+msgstr "查看于 {timestamp} 创建的快照"
 
 #: qt/app.py:1643
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
-msgstr "还原"
+msgstr "还原 {path}"
 
 #: qt/app.py:1645
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "还原至："
+msgstr "还原 {path} 至…"
 
 #: qt/app.py:1802
 msgid "The language settings take effect only after restarting Back In Time."
@@ -846,6 +818,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"您好\n"
+"您已经以{language}语言使用了数次 Back In Time 程序。\n"
+"您所安装的 Back In Time 程序的当前版本对{language}的翻译完成了 {perc}。无论您技术水平如何，您都可以通过帮助翻译的方式为 Back In Time 程序做贡献。\n"
+"如您想要做出贡献，请访问 {translation_platform_url} 页面。如需更多帮助，请访问 {back_in_time_project_website}。\n"
+"我们为这次的突然提示感到抱歉，且该信息将不会再次显示。您可以随时通过帮助菜单重新打开本对话框。\n"
+"Back In Time 团队"
 
 #: qt/languagedialog.py:213
 #, fuzzy
@@ -932,9 +910,8 @@ msgid "Start {appname}"
 msgstr "启动 {appname}"
 
 #: qt/qtsystrayicon.py:167
-#, fuzzy
 msgid "Working…"
-msgstr "运行中"
+msgstr "运行中…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1288,9 +1265,8 @@ msgid "Don't remove named snapshots"
 msgstr "不要移除已命名的快照"
 
 #: qt/settingsdialog.py:739
-#, fuzzy
 msgid "&Options"
-msgstr "选项"
+msgstr "选项(_O)"
 
 #: qt/settingsdialog.py:744
 msgid "Enable notifications"
@@ -1350,10 +1326,9 @@ msgid "E&xpert Options"
 msgstr "专家选项"
 
 #: qt/settingsdialog.py:818
-#, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "除非您知道自己在干什么，否则不要变更这些选项！"
+msgstr "警告：除非您知道自己在干什么，否则不要变更这些选项。"
 
 #: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
 #, python-brace-format
@@ -1415,9 +1390,9 @@ msgid "Paste additional options to rsync"
 msgstr ""
 
 #: qt/settingsdialog.py:1017
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr "选项必须使用引号，例如：--exclude-from=\"/path/to/my exclude file\"。"
+msgstr "选项必须使用引号，例如：{example}。"
 
 #: qt/settingsdialog.py:1029
 msgid "Add prefix to SSH commands"
@@ -1485,9 +1460,9 @@ msgid "Rename profile"
 msgstr "重命名配置"
 
 #: qt/settingsdialog.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "是否确定删除配置“%s”？"
+msgstr "是否确定删除配置“{name}”？"
 
 #: qt/settingsdialog.py:1440
 msgid ""
@@ -1643,24 +1618,21 @@ msgstr "选择所有"
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "比较"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
 msgstr "转到"
 
 #: qt/snapshotsdialog.py:179
-#, fuzzy
 msgid "Options"
 msgstr "选项"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "不能将快照与其自身比较"
+msgstr "不能将快照与其自身比较。"
 
 #: qt/snapshotsdialog.py:336
-#, fuzzy
 msgid "Command not found"
 msgstr "命令未找到"
 
@@ -1675,16 +1647,15 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "你确定要删除 {count} 份快照中的 \"{file}\" 吗？"
 
 #: qt/snapshotsdialog.py:378
-#, fuzzy
 msgid "This cannot be revoked!"
-msgstr "警告：该操作无法撤销！"
+msgstr "该操作无法撤销！"
 
 #: qt/snapshotsdialog.py:378
 msgid "WARNING"
 msgstr "警告"
 
 #: qt/snapshotsdialog.py:394
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "在未来的快照中排除 \"{path}\"？"
 

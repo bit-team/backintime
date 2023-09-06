@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-08-31 10:38+0000\n"
+"PO-Revision-Date: 2023-09-05 15:05+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -220,34 +220,31 @@ msgid "Please confirm password"
 msgstr "Passwort bitte bestätigen"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Passwort stimmt nicht überein"
+msgstr "Passwort stimmt nicht überein."
 
 #: common/encfstools.py:173
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
 "encfs-Version 1.7.2 und davor haben einen Fehler mit der Option --reverse. "
-"Bitte encfs aktualisieren"
+"Bitte encfs aktualisieren."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
 msgstr "Schnappschuss erstellen"
 
 #: common/mount.py:600
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Kann {mountprocess} von {mountpoint} nicht aushängen"
+msgstr "Kann {mountprocess} von {mountpoint} nicht aushängen."
 
 #: common/mount.py:687
 msgid "{} not found. Please install e.g. {}"
 msgstr "{} nicht gefunden. Bitte installieren z.B. mit {}"
 
 #: common/mount.py:708
-#, fuzzy
 msgid "Mountpoint {} not empty."
 msgstr "Einhängepunkt {} ist nicht leer."
 
@@ -279,7 +276,7 @@ msgid ""
 "If it is on a removable drive please plug it in."
 msgstr ""
 "Schnappschussordner konnte nicht gefunden werden.\n"
-"Wenn es ein Wechsellaufwerk ist, bitte verbinden."
+"Wenn er auf einem Wechsellaufwerk ist, bitte dieses verbinden."
 
 #: common/snapshots.py:768
 #, python-format
@@ -392,7 +389,7 @@ msgstr "{sshfs} kann nicht eingebunden werden"
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr ""
-"ssh-agent nicht gefunden. Bitte sicherstellen dass es installiert ist."
+"ssh-agent nicht gefunden. Bitte sicherstellen dass er installiert ist."
 
 #: common/sshtools.py:407
 msgid ""
@@ -403,45 +400,41 @@ msgstr ""
 "für cron nicht verfügbar."
 
 #: common/sshtools.py:495
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr "Verschlüsselungsverfahren {cipher} für {host} fehlgeschlagen"
+msgstr "Verschlüsselungsverfahren {cipher} für {host} fehlgeschlagen."
 
 #: common/sshtools.py:642
-#, fuzzy
 msgid "Remote path exists but is not a directory."
 msgstr ""
-"Der Pfad existiert auf dem entfernten Rechner, ist aber kein Verzeichnis"
+"Der Pfad existiert auf dem entfernten Rechner, ist aber kein Verzeichnis."
 
 #: common/sshtools.py:647
-#, fuzzy
 msgid "Remote path is not writable."
-msgstr "Der Pfad auf dem entfernten Rechner ist nicht beschreibbar"
+msgstr "Der Pfad auf dem entfernten Rechner ist nicht beschreibbar."
 
 #: common/sshtools.py:652
-#, fuzzy
 msgid "Remote path is not executable."
-msgstr "Der Pfad auf dem entfernten Rechner ist nicht ausführbar"
+msgstr "Der Pfad auf dem entfernten Rechner ist nicht ausführbar."
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Erstellen des Pfades auf dem entfernten Rechner fehlgeschlagen"
+msgstr "Erstellen des Pfades auf dem entfernten Rechner ist fehlgeschlagen."
 
 #: common/sshtools.py:937
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Der entfernte Rechner {host} unterstützt {command}"
+msgstr "Der entfernte Rechner {host} unterstützt {command} nicht"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 msgid "Look at 'man backintime' for further instructions"
-msgstr "Weitere Informationen unter »man backintime«"
+msgstr "Weitere Anweisungen unter »man backintime«"
 
 #: common/sshtools.py:945
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
-"Überprüfen der Befehle auf dem Rechner {host} gab unbekanntem Fehler zurück"
+"Überprüfung der Befehle auf dem Rechner {host} gab unbekannten Fehler zurück"
 
 #: common/sshtools.py:966
 #, python-brace-format
@@ -495,7 +488,7 @@ msgid ""
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Schnappschussordner wurde nicht gefunden.\n"
-"Wenn es ein Wechsellaufwerk ist, bitte dieses verbinden und dann OK drücken."
+"Wenn er auf einem Wechsellaufwerk ist, bitte dieses verbinden und dann OK drücken."
 
 #: qt/app.py:448
 msgid "Take a snapshot"
@@ -587,7 +580,7 @@ msgstr "Häufige Fragen (FAQ)"
 
 #: qt/app.py:523
 msgid "Ask a question"
-msgstr "Frage stellen"
+msgstr "Eine Frage stellen"
 
 #: qt/app.py:526
 msgid "Report a bug"
@@ -608,7 +601,7 @@ msgstr "Wiederherstellen"
 
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
-msgstr "Ausgewählte Dateien oder Ordner zum Originalort wiederherstellen."
+msgstr "Ausgewählte Dateien oder Ordner am Originalort wiederherstellen."
 
 #: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
 msgid "Restore to …"
@@ -617,7 +610,7 @@ msgstr "Wiederherstellen zu …"
 #: qt/app.py:542
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
-"Ausgewählte Dateien oder Ordner zu einer neuen Position wiederherstellen."
+"Ausgewählte Dateien oder Ordner an einer neuen Position wiederherstellen."
 
 #: qt/app.py:547
 msgid ""
@@ -664,7 +657,7 @@ msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Wenn Sie das Fenster schließen, kann »Back In Time« den Rechner nicht herunterfahren, sobald die Sicherung beendet ist.\n"
+"Wenn Sie das Fenster schließen, kann »Back In Time« den Rechner nicht herunterfahren wenn die Sicherung beendet ist.\n"
 "Wirklich schließen?"
 
 #: qt/app.py:902
@@ -726,7 +719,7 @@ msgid ""
 "overwriting or removing local files."
 msgstr ""
 "Lokale Dateien vor dem Überschreiben oder\n"
-"Entfernen mit angehängtem {suffix} sichern."
+"Entfernen zur Sicherung mit angehängten {suffix} speichern."
 
 #: qt/app.py:1287 qt/settingsdialog.py:768
 #, python-brace-format
@@ -847,7 +840,7 @@ msgid "Translated: {percent}"
 msgstr "Übersetzt: {percent}"
 
 #: qt/languagedialog.py:181
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -859,9 +852,9 @@ msgstr ""
 "Hallo\n"
 "Sie haben Back In Time in der Sprache {language} nun schon einige Male genutzt.\n"
 "Die Übersetzung Ihrer installierten Version von Back In Time in {language} ist zu {perc} vollständig. Unabhängig von Ihren technischen Kenntnissen können Sie selbst zur Übersetzung und damit zu Back In Time beitragen.\n"
-"Bitte besuchen Sie die {translation_platform_url}, wenn Sie beitragen möchten. Für weitere Hilfe und Fragen, besuchen Sie bitte die {back_in_time_project_website}.\n"
+"Bitte besuchen Sie die {translation_platform_url}, wenn Sie dazu beitragen möchten. Für weitere Hilfe und Fragen, besuchen Sie bitte die {back_in_time_project_website}.\n"
 "Wir entschuldigen uns für die Unterbrechung. Diese Meldung wird nicht noch einmal angezeigt, ist aber jederzeit über das Hilfe-Menü verfügbar.\n"
-"Ihr Back In Time-Team."
+"Ihr Back In Time-Team"
 
 #: qt/languagedialog.py:213
 msgid "translation platform"
@@ -1055,8 +1048,8 @@ msgstr "Privater Schlüssel"
 #: qt/settingsdialog.py:246
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
-"Wählt eine existierenden private Schüsseldatei (normalerweise als \"id_rsa\""
-" benannt)"
+"Wählt eine existierende private Schüsseldatei (normalerweise als \"id_rsa\" "
+"benannt)"
 
 #: qt/settingsdialog.py:256
 msgid ""
@@ -1163,7 +1156,7 @@ msgid ""
 "regularly."
 msgstr ""
 "»Back In Time« wiederholt starten. Das ist nützlich, wenn der Rechner nicht "
-"immer an ist."
+"immer eingeschaltet ist."
 
 #: qt/settingsdialog.py:452
 msgid "Every"
@@ -1233,7 +1226,7 @@ msgid ""
 msgstr ""
 "Schließt Dateien aus, die größer als der Wert in %(prefix)s sind.\n"
 "Wenn »Voller rsync-Modus« deaktiviert ist, wird das nur neue Dateien betreffen,\n"
-"weil das für rsync eine Transfervorgang ist, keine Ausschlussoption.\n"
+"weil das für rsync eine Transferoption ist, keine Ausschlussoption.\n"
 "Das heißt, dass größere Dateien, die bereits zuvor gesichert wurden,\n"
 "auch in neuen Schnappschüssen gesichert werden, selbst wenn sie verändert wurden."
 
@@ -1251,7 +1244,7 @@ msgstr "Falls freier Speicher kleiner ist als"
 
 #: qt/settingsdialog.py:658
 msgid "If free inodes is less than"
-msgstr "Falls freie Inodes kleiner sind als"
+msgstr "Falls weniger Inodes frei sind als"
 
 #: qt/settingsdialog.py:683
 msgid "Run in background on remote host."
@@ -1356,11 +1349,11 @@ msgid "E&xpert Options"
 msgstr "E&xperten-Einstellungen"
 
 #: qt/settingsdialog.py:818
-#, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
-"Ändern Sie diese Optionen nur, wenn Sie wirklich wissen, was Sie da tun!"
+"Vorsicht: Ändern Sie diese Optionen nur, wenn Sie wirklich wissen, was Sie "
+"da tun."
 
 #: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
 #, python-brace-format
@@ -1381,7 +1374,7 @@ msgstr "wenn ein manueller Schnappschuss erstellt wird"
 
 #: qt/settingsdialog.py:864
 msgid "(Please install 'nocache' to enable this option)"
-msgstr "(Bitte 'nocache' installieren um diese Option freizuschalten)"
+msgstr "(Bitte 'nocache' installieren, um diese Option freizuschalten)"
 
 #: qt/settingsdialog.py:871
 msgid "on local machine"
@@ -1442,7 +1435,7 @@ msgid ""
 "%(default)s: %(def_value)s"
 msgstr ""
 "Präfix der vor jedem Befehl auf dem entfernten Rechner ausgeführt wird.\n"
-"Variablen müssen mit \\$FOO geschützt werden.\n"
+"Variablen müssen mit \\$FOO maskiert werden.\n"
 "Das betrifft nicht rsync. Um einen Präfix für rsync hinzuzufügen\n"
 "muss »%(cbRsyncOptions)s« mit\n"
 "%(rsync_options_value)s genutzt werden.\n"
@@ -1498,7 +1491,7 @@ msgid ""
 msgstr ""
 "Die vollständige Systemsicherung kann nur auf der selben physikalischen Platte, mit den selben Festplattenpartitionen, wie er von der Quelle, einen Schnappschuss erstellen. Das Wiederherstellen auf einer neuen physischen Festplatte oder der selben Platte mit anderen Partitionen, wird möglicherweise ein defektes und unbrauchbares System erstellen.\n"
 "\n"
-"Die vollständige Systemsicherung wird einige Einstellungen überschreiben, die angepasst wurden. Fortfahren?"
+"Die vollständige Systemsicherung wird einige Einstellungen überschreiben, die möglicherweise angepasst wurden. Fortfahren?"
 
 #: qt/settingsdialog.py:1133
 msgid "New profile"
@@ -1628,7 +1621,7 @@ msgstr ""
 "Bitte ein Schnappschuss auswählen, von dem Sie die Einstellungen für {appName} wiederherstellen möchten. Der Pfad kann so aussehen: \n"
 "{samplePath}\n"
 "\n"
-"Wenn sich der Schnappschuss auf einer externen Festplatte befindet, oder verschlüsselt ist, muss er vorher manuell eingehängt werden. Wenn Sie den SSH-Modus verwenden, müssen Sie außerdem die öffentliche Schlüsselanmeldung zum entfernten Rechner einrichten.\n"
+"Wenn sich der Schnappschuss auf einer externen Festplatte befindet oder verschlüsselt ist, muss er vorher manuell eingehängt werden. Wenn Sie den SSH-Modus verwenden, müssen Sie außerdem die öffentliche Schlüsselanmeldung zum entfernten Rechner einrichten.\n"
 "Weitere Informationen unter »man backintime«."
 
 #: qt/settingsdialog.py:2202 qt/settingsdialog.py:2267
@@ -1692,9 +1685,8 @@ msgid "Options"
 msgstr "Optionen"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Sie können einen Schnappschuss nicht mit sich selbst vergleichen"
+msgstr "Sie können einen Schnappschuss nicht mit sich selbst vergleichen."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

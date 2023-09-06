@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-08-31 10:38+0000\n"
+"PO-Revision-Date: 2023-09-06 07:02+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
@@ -74,7 +74,7 @@ msgstr "メインプロファイル"
 #: common/config.py:359 common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "プロファイル: \"{name}\""
+msgstr "プロファイル: 「{name}」"
 
 #: common/config.py:360
 msgid "Snapshots folder is not valid!"
@@ -85,9 +85,9 @@ msgid "You must select at least one folder to back up!"
 msgstr "バックアップするためには最低1つのフォルダを選択しなくてはなりません！"
 
 #: common/config.py:388 common/config.py:399
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {name}"
-msgstr "プロファイル: \"{name}\""
+msgstr "プロファイル: {name}"
 
 #: common/config.py:389
 msgid "Backup folder cannot be included."
@@ -171,7 +171,7 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"プロファイル {profile_id} の Udev ルールをインストールできませんでした DBus サービス {dbus_interface} "
+"プロファイル {profile_id} の Udev ルールをインストールできませんでした DBus サービス 「{dbus_interface}」 "
 "が有効ではありません"
 
 #: common/config.py:1733
@@ -248,7 +248,7 @@ msgstr ""
 #: common/password.py:240
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "プロファイル '{profile}': {mode} のパスワードを入力してください "
+msgstr "プロファイル 「{profile}」: {mode} のパスワードを入力してください "
 
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
@@ -556,9 +556,8 @@ msgid "Help"
 msgstr "ヘルプ"
 
 #: qt/app.py:511
-#, fuzzy
 msgid "Profiles config file"
-msgstr "設定ファイルを保存..."
+msgstr "設定ファイルを保存"
 
 #: qt/app.py:514 qt/languagedialog.py:216
 msgid "Website"
@@ -828,7 +827,7 @@ msgid "Translated: {percent}"
 msgstr ""
 
 #: qt/languagedialog.py:181
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -841,7 +840,7 @@ msgstr ""
 "インストールいただいた Back In Time {language} 版のバージョンでは、{perc} まで翻訳が完了しています。技術的な知見の有無に関わらず、翻訳にご協力いただくことで Back In Time に貢献いただくことが可能です。\n"
 "ご協力いただける場合は {translation_platform_url} をご覧ください。その他のヘルプやご質問は {back_in_time_project_website} をご覧ください。\n"
 "作業を中断しましたことお詫び申し上げます。このメッセージは今後表示されませんが、ヘルプメニューからいつでもご覧いただけます。\n"
-"Back In Time チーム一同。"
+"Back In Time チーム一同"
 
 #: qt/languagedialog.py:213
 msgid "translation platform"
@@ -1463,7 +1462,7 @@ msgstr "プロファイルをリネーム"
 #: qt/settingsdialog.py:1166
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "プロファイル \"%s\" を削除してよろしいですか？"
+msgstr "プロファイル 「{name}」 を削除してよろしいですか？"
 
 #: qt/settingsdialog.py:1440
 msgid ""

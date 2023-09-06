@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-08-31 10:38+0000\n"
+"PO-Revision-Date: 2023-09-06 11:32+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -220,36 +220,33 @@ msgid "Please confirm password"
 msgstr "Підтвердіть пароль"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Пароль не збігається"
+msgstr "Пароль не збігається."
 
 #: common/encfstools.py:173
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
 "encfs версії 1.7.2 і раніших містить помилку в параметрі --reverse. Будь "
-"ласка, оновіть encfs"
+"ласка, оновіть encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
 msgstr "Зробити копію"
 
 #: common/mount.py:600
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Не вдається розмонтувати {mountprocess} з {mountpoint}"
+msgstr "Не вдається розмонтувати {mountprocess} з {mountpoint}."
 
 #: common/mount.py:687
 msgid "{} not found. Please install e.g. {}"
 msgstr "{} не знайдено. Встановіть, наприклад, {}"
 
 #: common/mount.py:708
-#, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "точка монтування {} не порожня."
+msgstr "Точка монтування {} не порожня."
 
 #: common/password.py:240
 #, python-brace-format
@@ -285,9 +282,9 @@ msgstr ""
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "Очікую %s секунду."
-msgstr[1] "Очікую %s секунди."
-msgstr[2] "Очікую %s секунд."
+msgstr[0] "Очікування %s секунда."
+msgstr[1] "Очікування %s секунди."
+msgstr[2] "Очікування %s секунд."
 
 #: common/snapshots.py:805
 #, python-brace-format
@@ -396,38 +393,33 @@ msgid "ssh-agent not found. Please make sure it is installed."
 msgstr "ssh-agent не знайдено. Переконайтеся, що його встановлено."
 
 #: common/sshtools.py:407
-#, fuzzy
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Не вдалося розблокувати приватний ключ SSH. Пароль неправильний або не "
-"доступний для cron."
+"Не вдалося розблокувати приватний ключ SSH. Пароль неправильний або "
+"недоступний для cron."
 
 #: common/sshtools.py:495
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr "Помилка шифру {cipher} для сервера {host}"
+msgstr "Помилка шифру {cipher} для сервера {host}."
 
 #: common/sshtools.py:642
-#, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr "Віддалений шлях існує, але це не тека"
+msgstr "Віддалений шлях існує, але це не тека."
 
 #: common/sshtools.py:647
-#, fuzzy
 msgid "Remote path is not writable."
-msgstr "Неможливо записати у віддалений шлях"
+msgstr "Неможливо записати у віддалений шлях."
 
 #: common/sshtools.py:652
-#, fuzzy
 msgid "Remote path is not executable."
-msgstr "Віддалений шлях неможливо виконати"
+msgstr "Віддалений шлях неможливо виконати."
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Не вдається створити віддалений шлях"
+msgstr "Не вдається створити віддалений шлях."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -535,7 +527,7 @@ msgstr "Видалити копію"
 
 #: qt/app.py:483
 msgid "View snapshot log"
-msgstr "Переглянути журнал"
+msgstr "Переглянути журнал копій"
 
 #: qt/app.py:487
 msgid "View last log"
@@ -543,7 +535,7 @@ msgstr "Переглянути останній журнал"
 
 #: qt/app.py:491 qt/settingsdialog.py:87
 msgid "Manage profiles"
-msgstr "Мої профілі"
+msgstr "Керувати профілями"
 
 #: qt/app.py:495
 msgid "Shutdown"
@@ -555,7 +547,7 @@ msgstr "Вимкнути систему після завершення резе
 
 #: qt/app.py:499 qt/languagedialog.py:29
 msgid "Setup language"
-msgstr ""
+msgstr "Змінити мову"
 
 #: qt/app.py:503
 msgid "Exit"
@@ -640,11 +632,11 @@ msgstr "Порівняти копії"
 
 #: qt/app.py:622
 msgid "&Backup"
-msgstr "&Резервувати"
+msgstr "&Резервування"
 
 #: qt/app.py:633
 msgid "&Restore"
-msgstr "&Відновити"
+msgstr "&Відновлення"
 
 #: qt/app.py:639
 msgid "&Help"
@@ -832,7 +824,7 @@ msgid "Translated: {percent}"
 msgstr "Перекладено: {percent}"
 
 #: qt/languagedialog.py:181
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -842,11 +834,11 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 "Вітаємо\n"
-"Ви вже кілька разів користувалися Back In Time мовою {language}.\n"
-"Переклад встановленої версії Back In Time на {language} завершено на {perc}. Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у переклад і, таким чином, у розвиток Back In Time.\n"
+"Ви вже кілька разів користувалися Back In Time українською мовою.\n"
+"Переклад встановленої версії Back In Time на українську завершено на {perc}. Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у переклад і, таким чином, у розвиток Back In Time.\n"
 "Якщо бажаєте зробити внесок, відвідайте {translation_platform_url}. Додаткову допомогу та відповіді на запитання можна отримати на сайті проєкту {back_in_time_project_website}.\n"
 "Перепрошуємо за переривання, це повідомлення більше не виводитиметься. Це діалогове вікно доступне в будь-який час через меню «Допомога».\n"
-"Ваша команда Back In Time."
+"Ваша команда Back In Time"
 
 #: qt/languagedialog.py:213
 msgid "translation platform"
@@ -1235,7 +1227,6 @@ msgid "If free inodes is less than"
 msgstr "Якщо вільних айнодів менше ніж"
 
 #: qt/settingsdialog.py:683
-#, fuzzy
 msgid "Run in background on remote host."
 msgstr "Виконувати у фоні на сервері."
 
@@ -1338,10 +1329,9 @@ msgid "E&xpert Options"
 msgstr "Роз&ширені налаштування"
 
 #: qt/settingsdialog.py:818
-#, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Змінюйте ці налаштування тільки якщо Ви знаєте що робите!"
+msgstr "Обережно: Змінюйте ці налаштування, тільки якщо Ви знаєте, що робите."
 
 #: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
 #, python-brace-format
@@ -1668,9 +1658,8 @@ msgid "Options"
 msgstr "Налаштування"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Не можна порівнювати резервну копію саму з собою"
+msgstr "Не можна порівнювати резервну копію саму з собою."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

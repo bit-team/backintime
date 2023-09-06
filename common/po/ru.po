@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-08-31 12:51+0200\n"
-"PO-Revision-Date: 2023-08-15 11:53+0000\n"
-"Last-Translator: Dmitriy Q <krotesk@mail.ru>\n"
+"PO-Revision-Date: 2023-08-31 16:43+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgid "You must select at least one folder to back up!"
 msgstr "Вы должны выбрать хотя бы одну папку для резервного копирования!"
 
 #: common/config.py:388 common/config.py:399
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {name}"
 msgstr "Профиль: \"{name}\""
 
@@ -103,9 +103,8 @@ msgid "Invalid option. {path} is not a folder."
 msgstr "{path} - не папка !"
 
 #: common/config.py:468
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Сервер/Пользователь/Профиль-ID не должны быть пустыми!"
+msgstr "Сервер/Пользователь/Профиль-ID не должны быть пустыми."
 
 #: common/config.py:478 common/config.py:525
 #, python-brace-format
@@ -201,9 +200,8 @@ msgid "Profile \"{name}\" already exists!"
 msgstr "Профиль \"{name}\" уже существует!"
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Это не может быть отменено!"
+msgstr "Это не может быть отменено."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -223,9 +221,8 @@ msgid "Please confirm password"
 msgstr "Пожалуйста, подтвердите пароль"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Пароль не подходит"
+msgstr "Пароль не подходит."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -241,9 +238,9 @@ msgid "Take snapshot"
 msgstr "Сделать снимок"
 
 #: common/mount.py:600
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Не удалось размонтировать %(proc)s из %(mountpoint)s"
+msgstr "Не удалось размонтировать {mountprocess} из {mountpoint}."
 
 #: common/mount.py:687
 #, fuzzy
@@ -872,6 +869,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Здравствуйте!\n"
+"При работе с Back In Time вы используете {language} язык.\n"
+"Перевод установленной вами версии Back In Time на {language} завершён на {perc}. Каким бы ни был ваш уровень знаний, вы можете внести свой вклад в перевод и тем самым помочь Back In Time.\n"
+"Если вы хотите поучаствовать в переводе — пожалуйста, посетите {translation_platform_url}. Задать вопросы и получить помощь можно на {back_in_time_project_website}.\n"
+"Приносим извинения за неудобства — это сообщение больше не появится. Снова найти это диалоговое окно можно будет в меню помощи.\n"
+"Ваша команда Back In Time"
 
 #: qt/languagedialog.py:213
 #, fuzzy
