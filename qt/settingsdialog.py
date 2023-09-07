@@ -663,7 +663,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.comboFreeSpaceUnit, 1, 2)
         MIN_FREE_SPACE_UNITS = {
             config.Config.DISK_UNIT_MB: 'MiB',
-            config.Config.DISK_UNIT_GB : 'GiB'
+            config.Config.DISK_UNIT_GB: 'GiB'
         }
 
         self.fillCombo(self.comboFreeSpaceUnit,
