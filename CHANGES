@@ -15,7 +15,9 @@ Version 1.3.4-dev (development of upcoming release)
 * Fix bug: Taking a snapshot reports `rsync` errors now even if no snapshot was taken (#1491)
 * Fix bug: takeSnapshot() recognizes errors now by also evaluating the rsync exit code (#489)
            Fixes related problem: Killing `rsync` was not handled gracefully (by ignoring the rsync exit code)
-* Fix bug: The error user-callback is now always called if an error happened during taking a snapshot (#1491)
+* Fix bug: The error user-callback is now always called if an error happened while taking a snapshot (#1491)
+* Fix bug: D-Bus serviceHelper error "LimitExceeded: Maximum length of command line reached (100)":
+           Max command length is now 120 instead of 100 (#1027)
 * Feature: Introduce new error codes for the "error" user callback (as part of #1491):
            5: Error while taking a snapshot.
            6: New snapshot taken but with errors.
