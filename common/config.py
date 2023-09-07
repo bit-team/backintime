@@ -340,6 +340,9 @@ class Config(configfile.ConfigFileWithProfiles):
         # Workaround
         self.default_profile_name = _('Main profile')
 
+        # TODO
+        # --- INIT CONSTANTS HERE ---
+
     def save(self):
         self.setIntValue('config.version', self.CONFIG_VERSION)
         return super(Config, self).save(self._LOCAL_CONFIG_PATH)
@@ -397,7 +400,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         self.notifyError(
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
-                                    name=self.currentProfile()),
+                                    name=profile_name),
                                 _("Backup sub-folder cannot be included.")
                             )
                         )
