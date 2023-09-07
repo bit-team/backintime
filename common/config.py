@@ -95,24 +95,6 @@ class Config(configfile.ConfigFileWithProfiles):
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
-    REMOVE_OLD_BACKUP_UNITS = {
-                DAY: _('Day(s)'),
-                WEEK: _('Week(s)'),
-                YEAR: _('Year(s)')
-                }
-
-    REPEATEDLY_UNITS = {
-                HOUR: _('Hour(s)'),
-                DAY: _('Day(s)'),
-                WEEK: _('Week(s)'),
-                MONTH: _('Month(s)')
-                }
-
-    MIN_FREE_SPACE_UNITS = {
-        DISK_UNIT_MB: 'MiB',
-        DISK_UNIT_GB : 'GiB'
-    }
-
     # Used when new snapshot profile is created.
     DEFAULT_EXCLUDE = [
         '.gvfs',

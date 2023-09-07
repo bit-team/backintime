@@ -462,8 +462,14 @@ class SettingsDialog(QDialog):
         hlayout.addWidget(self.spbScheduleRepeatedPeriod)
 
         self.comboScheduleRepeatedUnit = QComboBox(self)
+        REPEATEDLY_UNITS = {
+            config.Config.HOUR: _('Hour(s)'),
+            config.Config.DAY: _('Day(s)'),
+            config.Config.WEEK: _('Week(s)'),
+            config.Config.MONTH: _('Month(s)')}
+
         self.fillCombo(self.comboScheduleRepeatedUnit,
-                       self.config.REPEATEDLY_UNITS)
+                       REPEATEDLY_UNITS)
         hlayout.addWidget(self.comboScheduleRepeatedUnit)
         hlayout.addStretch()
         glayout.addLayout(hlayout, 7, 1)
@@ -633,8 +639,13 @@ class SettingsDialog(QDialog):
 
         self.comboRemoveOlderUnit = QComboBox(self)
         layout.addWidget(self.comboRemoveOlderUnit, 0, 2)
-        self.fillCombo(self.comboRemoveOlderUnit,
-                       self.config.REMOVE_OLD_BACKUP_UNITS)
+
+        REMOVE_OLD_BACKUP_UNITS = {
+            config.Config.DAY: _('Day(s)'),
+            config.Config.WEEK: _('Week(s)'),
+            config.Config.YEAR: _('Year(s)')}
+
+        self.fillCombo(self.comboRemoveOlderUnit, REMOVE_OLD_BACKUP_UNITS)
 
         # min free space
         enabled, value, unit = self.config.minFreeSpace()
@@ -650,8 +661,13 @@ class SettingsDialog(QDialog):
 
         self.comboFreeSpaceUnit = QComboBox(self)
         layout.addWidget(self.comboFreeSpaceUnit, 1, 2)
+        MIN_FREE_SPACE_UNITS = {
+            config.Config.DISK_UNIT_MB: 'MiB',
+            config.Config.DISK_UNIT_GB : 'GiB'
+        }
+
         self.fillCombo(self.comboFreeSpaceUnit,
-                       self.config.MIN_FREE_SPACE_UNITS)
+                       MIN_FREE_SPACE_UNITS)
 
         # min free inodes
         self.cbFreeInodes = QCheckBox(
