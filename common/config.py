@@ -129,22 +129,6 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
 
-    SSH_CIPHERS = {
-        'default': _('Default'),
-        'aes128-ctr': 'AES128-CTR',
-        'aes192-ctr': 'AES192-CTR',
-        'aes256-ctr': 'AES256-CTR',
-        'arcfour256': 'ARCFOUR256',
-        'arcfour128': 'ARCFOUR128',
-        'aes128-cbc': 'AES128-CBC',
-        '3des-cbc': '3DES-CBC',
-        'blowfish-cbc': 'Blowfish-CBC',
-        'cast128-cbc': 'Cast128-CBC',
-        'aes192-cbc': 'AES192-CBC',
-        'aes256-cbc': 'AES256-CBC',
-        'arcfour': 'ARCFOUR'
-    }
-
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
@@ -320,6 +304,22 @@ class Config(configfile.ConfigFileWithProfiles):
                         _('SSH private key'),
                         _('Encryption')
                     )
+        }
+
+        self.SSH_CIPHERS = {
+            'default': _('Default'),
+            'aes128-ctr': 'AES128-CTR',
+            'aes192-ctr': 'AES192-CTR',
+            'aes256-ctr': 'AES256-CTR',
+            'arcfour256': 'ARCFOUR256',
+            'arcfour128': 'ARCFOUR128',
+            'aes128-cbc': 'AES128-CBC',
+            '3des-cbc': '3DES-CBC',
+            'blowfish-cbc': 'Blowfish-CBC',
+            'cast128-cbc': 'Cast128-CBC',
+            'aes192-cbc': 'AES192-CBC',
+            'aes256-cbc': 'AES256-CBC',
+            'arcfour': 'ARCFOUR'
         }
 
     def save(self):
