@@ -98,14 +98,14 @@ class UdevRules(dbus.service.Object):
 
         self.tmpDict = {}
 
-        #find su path
+        # find su path
         self.su = self._which('su', '/bin/su')
         self.backintime = self._which('backintime', '/usr/bin/backintime')
         self.nice = self._which('nice', '/usr/bin/nice')
         self.ionice = self._which('ionice', '/usr/bin/ionice')
         self.max_rules = 100
         self.max_users = 20
-        self.max_cmd_len = 100
+        self.max_cmd_len = 120  # was 100 before but was too small (see #1027)
 
     def _which(self, exe, fallback):
         proc = Popen(['which', exe], stdout = PIPE)
