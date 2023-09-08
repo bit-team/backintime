@@ -95,24 +95,6 @@ class Config(configfile.ConfigFileWithProfiles):
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
-    REMOVE_OLD_BACKUP_UNITS = {
-                DAY: _('Day(s)'),
-                WEEK: _('Week(s)'),
-                YEAR: _('Year(s)')
-                }
-
-    REPEATEDLY_UNITS = {
-                HOUR: _('Hour(s)'),
-                DAY: _('Day(s)'),
-                WEEK: _('Week(s)'),
-                MONTH: _('Month(s)')
-                }
-
-    MIN_FREE_SPACE_UNITS = {
-        DISK_UNIT_MB: 'MiB',
-        DISK_UNIT_GB : 'GiB'
-    }
-
     # Used when new snapshot profile is created.
     DEFAULT_EXCLUDE = [
         '.gvfs',
@@ -146,47 +128,6 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
-
-    SNAPSHOT_MODES = {
-                # mode: (
-                #     <mounttools>,
-                #     'ComboBox Text',
-                #     need_pw|lbl_pw_1,
-                #     need_2_pw|lbl_pw_2
-                # ),
-                'local': (
-                    None, _('Local'), False, False),
-                'ssh': (
-                    sshtools.SSH, 'SSH', _('SSH private key'), False),
-                'local_encfs': (
-                    encfstools.EncFS_mount,
-                    '{} {}'.format(_('Local'), _('encrypted')),
-                    _('Encryption'),
-                    False
-                ),
-                'ssh_encfs': (
-                    encfstools.EncFS_SSH,
-                    _('SSH encrypted'),
-                    _('SSH private key'),
-                    _('Encryption')
-                )
-    }
-
-    SSH_CIPHERS = {
-        'default': _('Default'),
-        'aes128-ctr': 'AES128-CTR',
-        'aes192-ctr': 'AES192-CTR',
-        'aes256-ctr': 'AES256-CTR',
-        'arcfour256': 'ARCFOUR256',
-        'arcfour128': 'ARCFOUR128',
-        'aes128-cbc': 'AES128-CBC',
-        '3des-cbc': '3DES-CBC',
-        'blowfish-cbc': 'Blowfish-CBC',
-        'cast128-cbc': 'Cast128-CBC',
-        'aes192-cbc': 'AES192-CBC',
-        'aes256-cbc': 'AES256-CBC',
-        'arcfour': 'ARCFOUR'
-    }
 
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
@@ -340,6 +281,47 @@ class Config(configfile.ConfigFileWithProfiles):
         # Workaround
         self.default_profile_name = _('Main profile')
 
+        self.SNAPSHOT_MODES = {
+                    # mode: (
+                    #     <mounttools>,
+                    #     'ComboBox Text',
+                    #     need_pw|lbl_pw_1,
+                    #     need_2_pw|lbl_pw_2
+                    # ),
+                    'local': (
+                        None, _('Local'), False, False),
+                    'ssh': (
+                        sshtools.SSH, 'SSH', _('SSH private key'), False),
+                    'local_encfs': (
+                        encfstools.EncFS_mount,
+                        '{} {}'.format(_('Local'), _('encrypted')),
+                        _('Encryption'),
+                        False
+                    ),
+                    'ssh_encfs': (
+                        encfstools.EncFS_SSH,
+                        _('SSH encrypted'),
+                        _('SSH private key'),
+                        _('Encryption')
+                    )
+        }
+
+        self.SSH_CIPHERS = {
+            'default': _('Default'),
+            'aes128-ctr': 'AES128-CTR',
+            'aes192-ctr': 'AES192-CTR',
+            'aes256-ctr': 'AES256-CTR',
+            'arcfour256': 'ARCFOUR256',
+            'arcfour128': 'ARCFOUR128',
+            'aes128-cbc': 'AES128-CBC',
+            '3des-cbc': '3DES-CBC',
+            'blowfish-cbc': 'Blowfish-CBC',
+            'cast128-cbc': 'Cast128-CBC',
+            'aes192-cbc': 'AES192-CBC',
+            'aes256-cbc': 'AES256-CBC',
+            'arcfour': 'ARCFOUR'
+        }
+
     def save(self):
         self.setIntValue('config.version', self.CONFIG_VERSION)
         return super(Config, self).save(self._LOCAL_CONFIG_PATH)
@@ -397,7 +379,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         self.notifyError(
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
-                                    name=self.currentProfile()),
+                                    name=profile_name),
                                 _("Backup sub-folder cannot be included.")
                             )
                         )
