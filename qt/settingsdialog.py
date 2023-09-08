@@ -105,16 +105,6 @@ class SettingsDialog(QDialog):
         self.btnEditProfile.clicked.connect(self.editProfile)
         layout.addWidget(self.btnEditProfile)
 
-        # update to full system backup button
-        self.btnModifyProfileForFullSystemBackup \
-            = QPushButton(icon.ADD, _('Modify for Full System Backup'), self)
-        self.btnModifyProfileForFullSystemBackup \
-            .clicked.connect(self.modifyProfileForFullSystemBackup)
-        layout.addWidget(self.btnModifyProfileForFullSystemBackup)
-
-        # hide 'full system backup button' until all dev regarding this is done
-        self.btnModifyProfileForFullSystemBackup.hide()
-
         self.btnAddProfile = QPushButton(icon.ADD, _('Add'), self)
         self.btnAddProfile.clicked.connect(self.addProfile)
         layout.addWidget(self.btnAddProfile)
@@ -1092,43 +1082,6 @@ class SettingsDialog(QDialog):
         self.resize(size)
 
         self.finished.connect(self.cleanup)
-
-    def modifyProfileForFullSystemBackup(self):
-        # verify to user that settings will change
-        message = _(
-            "Full system backup can only create a snapshot to be restored "
-            "to the same physical disk(s) with the same disk partitioning "
-            "as from the source; restoring to new physical disks or the "
-            "same disks with different partitioning will yield a potentially "
-            "broken and unusable system.\n\n"
-            "Full system backup will override some settings that may have "
-            "been customized. Continue?"
-        )
-        if QMessageBox.No == messagebox.warningYesNo(self, message):
-            return
-
-        # configure for full system backup
-        # don't want to create a backup with any errors and give user
-        # false sense that backup was ok
-        self.config.setContinueOnErrors(False)
-        # make sure all files are backed up
-        self.config.setExcludeBySize(False, 500)
-        # when we restore the full system, don't want to keep old
-        # files (since we back up everything)
-        self.config.setBackupOnRestore(False)
-        # no need for checksum mode
-        self.config.setUseChecksum(False)
-        # must preserve ACLs and xattrs
-        self.config.setPreserveAcl(True)
-        self.config.setPreserveXattr(True)
-        # don't want links
-        self.config.setCopyLinks(False)
-        self.config.setCopyUnsafeLinks(False)
-        # backup root
-        self.config.setInclude([("/", 0)])
-
-        # set UI
-        self.updateProfiles()
 
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
