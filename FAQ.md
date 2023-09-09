@@ -873,6 +873,8 @@ There are three different solutions:
    cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
    ```
 
+Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
+
 ### How to move large directory in source without duplicating backup?
 
 If you move a file/folder in source BiT will treat it like a new file/folder and
