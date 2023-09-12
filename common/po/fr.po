@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-06 12:53+0000\n"
-"Last-Translator: morphik <morphik@startmail.com>\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -846,7 +846,7 @@ msgstr "Instantané"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Voir le contenu de l'instantané fait à {name}"
+msgstr "Voir le contenu de l'instantané fait à {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -1245,8 +1245,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Les caractères génériques ('foo*', '[FF]oo', 'fo?') seront ignorés en mode 'SSH chiffré'.\n"
-"Seuls les astérisques séparés sont autorisés ('foo/*', 'foo/**/bar')"
+"Les caractères génériques ({example1}) seront ignorés en mode 'SSH chiffré'.\n"
+"Seuls les astérisques séparés sont autorisés ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1468,7 +1468,7 @@ msgstr ""
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "Les arguments doivent être entourés de double guillemets, par exemple : "
-"--exclude-from=\"/path/to/my exclude file\"."
+"{example}."
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
@@ -1558,7 +1558,7 @@ msgstr "Renommer le profil"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Êtes-vous sûr(e) de vouloir supprimer le profil \"%s\" ?"
+msgstr "Êtes-vous sûr(e) de vouloir supprimer le profil \"{name}\" ?"
 
 #: qt/settingsdialog.py:1441
 msgid ""

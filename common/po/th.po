@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-07-28 07:22+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-09-12 05:29+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/backintime/common/th/>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -381,7 +381,7 @@ msgstr "เดี๋ยวนี้"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "ไม่สามารถเชื่อมต่อ '{command}'"
+msgstr "ไม่สามารถเชื่อมต่อ {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -806,7 +806,7 @@ msgstr "สแนปช็อต"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "ดูสแนปช็อตที่ทำไว้ที่ {name}"
+msgstr "ดูสแนปช็อตที่ทำไว้ที่ {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -858,6 +858,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"สวัสดี\n"
+"คุณได้ใช้โปรแกรม Back In Time ในภาษา {language} มาแล้ว 2-3 ครั้ง\n"
+"การแปลภาษาของ Black In Time ในเวอร์ชั่นที่คุณติดตั้งเป็นภาษา {language} ได้ {perc} สำเร็จ ไม่ว่าคุณจะมีความสามารถในทางเทคนิคหรือไม่ คุณสามารถมีส่วนร่วมในการแปลภาษา และมีส่วนร่วมกับโปรแกรม Back In Time ได้\n"
+"ไปที่ {translation_platform_url} ถ้าคุณอยากจะมีส่วนร่วม สำหรับคำถามและการช่วยเหลือเพิ่มเติม ไปที่ {back_in_time_project_website}\n"
+"ทางเราต้องขออภัยสำหรับการรบกวน และข้อความนี้จะไม่แสดงบนหน้าจอของคุณอีก ข้อความนี้จะอยู่ที่เมนูความช่วยเหลือ\n"
+"ทีมงาน Back In Time"
 
 #: qt/languagedialog.py:213
 #, fuzzy
@@ -1195,8 +1201,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"ไวล์หลายรูปแบบ ('foo*', '[fF]oo', 'fo?') จะถูกละเว้นไปในโหมด 'SSH ที่เข้ารหัส' \n"
-"เฉพาะเครื่องหมายดอกจันที่แยกออกเท่านั้นที่อนุญาต ('foo/*', 'foo/**/bar')"
+"ไวล์หลายรูปแบบ ({example1}) จะถูกละเว้นไปในโหมด 'SSH ที่เข้ารหัส' \n"
+"เฉพาะเครื่องหมายดอกจันที่แยกออกเท่านั้นที่อนุญาต ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1416,9 +1422,7 @@ msgstr "คัดลอกลิงก์ที่ไม่ปลอดภัย
 #: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"ตัวเลือกจะต้องอยู่ในเครื่องหมายคำพูด เช่น --exclude-from=\"/path/to/my "
-"exclude file\""
+msgstr "ตัวเลือกจะต้องอยู่ในเครื่องหมายคำพูด เช่น {example}"
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"

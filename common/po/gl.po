@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-06 19:04+0000\n"
+"PO-Revision-Date: 2023-09-12 05:29+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -829,7 +829,7 @@ msgstr "Instantánea"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Ver a instantánea feita en {name}"
+msgstr "Ver a instantánea feita en {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -881,11 +881,11 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Ola\n"
-"Xa usaches Back In Time no idioma {language} algunhas veces.\n"
-"A tradución da túa versión instalada de Back In Time ó {language} está completada en {perc}. Independentemente do teu nivel de coñecementos técnicos, podes contribuír á tradución e, polo tanto, ó propio Back In Time.\n"
-"Visita a {translation_platform_url} se queres contribuír. Para obter máis axuda e preguntas, visita {back_in_time_project_website}.\n"
-"Pedímosche desculpas pola interrupción e esta mensaxe non se volverá a amosar. Este diálogo está dispoñible en calquera momento a través do menú de axuda.\n"
+"Ola!\n"
+"Levas uasado Back In Time en {language} xa varias veces.\n"
+"A tradución ao {language} da versión de Back In Time que tes instalada está completa só a {perc}. Independentemente dos teus coñecementos técnicos, podes colaborar na tradución e, polo tanto, co propio Back In Time.\n"
+"Se queres contribuír, visita {translation_platform_url}. Para obteres máis axuda ou resposta ás posíbeis preguntas, visita {back_in_time_project_website}.\n"
+"Descúlpanos a interrupción, esta mensaxe non se volverá a amosar. Podes abrir de novo este diálogo en calquera momento no menú de axuda.\n"
 "O equipo de Back In Time"
 
 #: qt/languagedialog.py:213
@@ -1226,8 +1226,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Os comodíns («foo», «[fF]oo», «fo?») ignoraranse no modo «SSH cifrado».\n"
-"Unicamente se permiten asteriscos («foo/*», «foo/**/bar»)"
+"Os comodíns ({example1}) ignoraranse no modo «SSH cifrado».\n"
+"Unicamente se permiten asteriscos ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1444,9 +1444,7 @@ msgstr ""
 #: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"As opcións deben levar comiñas p.e. --exclude-"
-"from=\"/ruta/ao/ficheiro_excluído\"."
+msgstr "As opcións deben levar comiñas p.e. {example}."
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
@@ -1536,7 +1534,7 @@ msgstr "Renomear o perfil"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Está certo de eliminar o perfil \"%s\" ?"
+msgstr "Está certo de eliminar o perfil \"{name}\" ?"
 
 #: qt/settingsdialog.py:1441
 msgid ""

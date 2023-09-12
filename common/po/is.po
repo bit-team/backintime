@@ -4,15 +4,15 @@ msgstr ""
 "Project-Id-Version: Icelandic (Back In Time)\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-06 15:24+0000\n"
-"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
-"Language-Team: Icelandic\n"
+"PO-Revision-Date: 2023-09-10 06:53+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Weblate 5.0\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
 msgid "Warning"
@@ -82,11 +82,11 @@ msgstr "Þú verður að velja a.m.k. eina möppu til að öryggisafrita!"
 
 #: common/config.py:389
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Aftrits mappa getur ekki verið innifalin."
 
 #: common/config.py:401
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Aftrits undirmappa getur ekki verið innifalin."
 
 #: common/config.py:459
 #, python-brace-format
@@ -95,7 +95,7 @@ msgstr "Ógildur valkostur: {path} er ekki mappa."
 
 #: common/config.py:468
 msgid "Host/User/Profile-ID must not be empty."
-msgstr ""
+msgstr "Host/User/Profile-ID getur ekki verið tómt."
 
 #: common/config.py:478 common/config.py:525
 #, python-brace-format
@@ -112,6 +112,8 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"Áfanga skrákerfi fyrir {path} er í FAT formi sem virkar ekki með hörðum-"
+"tenglum. Vinsamlegast notaðu upprunalegt Linux skráarkerfi"
 
 #: common/config.py:504
 #, python-brace-format
@@ -120,6 +122,9 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
+"Áfanga skráarkerfi fyrir {path} er í SMB-uppsetri stöðu. Vinsamlegast gakktu"
+" úr skugga um að Fjar SMB þjónn styður symlink-a eða virkjaðu {copyLinks} í "
+"{expertOptions}"
 
 #: common/config.py:508 qt/settingsdialog.py:992
 msgid "Copy links (dereference symbolic links)"
@@ -156,6 +161,8 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
+"Gat ekki installað Udev reglu fyrir prófíl {profile_id}. DBus þjónusta "
+"'{dbus_interface}' var ekki í boði"
 
 #: common/config.py:1733
 #, python-brace-format
@@ -176,9 +183,9 @@ msgid "Failed to load config"
 msgstr "Mistókst að hlaða inn stillingaskrá"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Sniðið \"{name}\" er þegar til staðar!"
+msgstr "Sniðið \"{name}\" er þegar til staðar."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -191,7 +198,7 @@ msgstr "Get ekki tengt '{command}'"
 
 #: common/encfstools.py:134
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "Stillingar fyrir dulritaða möppu fannst ekki."
 
 #: common/encfstools.py:142
 msgid "Create a new encrypted folder?"
@@ -771,9 +778,8 @@ msgid "License"
 msgstr "Notkunarleyfi"
 
 #: qt/languagedialog.py:87
-#, fuzzy
 msgid "System default"
-msgstr "sjálfgefið"
+msgstr "Sjálfgefið í kerfinu"
 
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
@@ -794,7 +800,7 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Hello\n"
+"Hæ\n"
 "Þú hefur núna notað Back In Time með {language}-viðmótinu nokkrum sinnum.\n"
 "Þýðingarnar á uppsettu útgáfunni á Back In Time fyrir {language} eru {perc} kláraðar. Sama á hvaða stigi þú ert varðandi tækniþekkingu, þá geturðu alveg lagt af mörkum við þýðingarnar og þannig einnig til Back In Time.\n"
 "Þú ættir að skoða {translation_platform_url} ef þig langar til að vera með. Til að fá frekari aðstoð og svör við spurningum ættirðu að heimsækja {back_in_time_project_website}.\n"

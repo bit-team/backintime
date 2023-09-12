@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-06 11:32+0000\n"
+"PO-Revision-Date: 2023-09-12 05:29+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -190,9 +190,9 @@ msgid "Failed to load config"
 msgstr "Не вдалося завантажити конфігурацію"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Профіль «{name}» вже існує!"
+msgstr "Профіль «{name}» вже існує."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -371,12 +371,12 @@ msgstr "Видалення старих копій"
 
 #: common/snapshots.py:1691
 msgid "Trying to keep min free space"
-msgstr "Намагаюся зберегти мінімум вільного місця"
+msgstr "Спроба зберегти мінімум вільного місця"
 
 #: common/snapshots.py:1730
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Намагаюся зберегти мінімум {perc} вільних айнодів"
+msgstr "Спроба зберегти мінімум {perc} вільних айнодів"
 
 #: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
@@ -559,7 +559,7 @@ msgstr "Допомога"
 
 #: qt/app.py:511
 msgid "Profiles config file"
-msgstr "Збереження файлу конфігурації"
+msgstr "Файл конфігурації профілів"
 
 #: qt/app.py:514 qt/languagedialog.py:216
 msgid "Website"
@@ -815,13 +815,12 @@ msgid "License"
 msgstr "Ліцензія"
 
 #: qt/languagedialog.py:87
-#, fuzzy
 msgid "System default"
-msgstr "за замовчуванням"
+msgstr "Як у системі"
 
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
-msgstr "Мова операційної системи."
+msgstr "Використовувати мову операційної системи."
 
 #: qt/languagedialog.py:143
 #, python-brace-format
@@ -889,9 +888,8 @@ msgid "Errors"
 msgstr "Помилки"
 
 #: qt/logviewdialog.py:96 qt/messagebox.py:55
-#, fuzzy
 msgid "Information"
-msgstr "Відомості"
+msgstr "Інформація"
 
 #: qt/logviewdialog.py:106
 msgid "[E] Error, [I] Information, [C] Change"

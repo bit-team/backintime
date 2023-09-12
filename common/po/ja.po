@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-06 07:02+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -373,9 +373,9 @@ msgid "Now"
 msgstr "現在"
 
 #: common/sshtools.py:204
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "{command} をマウントできません"
+msgstr "{sshfs} をマウントできません"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -789,7 +789,7 @@ msgstr "スナップショット"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "{name} に作成されたスナップショットを閲覧"
+msgstr "{timestamp} に作成されたスナップショットを閲覧"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -1173,8 +1173,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"SSH暗号化においては、('foo*', '[fF]oo', 'fo?') などのワイルドカードは無視されます\n"
-"('foo/*', 'foo/**/bar')のような単または連アスタリスクの使用のみが反映されます"
+"SSH暗号化においては、({example1}) などのワイルドカードは無視されます\n"
+"({example2})のような単または連アスタリスクの使用のみが反映されます"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"

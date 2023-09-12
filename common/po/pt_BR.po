@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-03 18:57+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2023-09-12 05:29+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -833,7 +833,7 @@ msgstr "Snapshot"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Ver o snapshot feito em {name}"
+msgstr "Ver o snapshot feito em {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -887,10 +887,10 @@ msgid ""
 msgstr ""
 "Olá!\n"
 "Notamos que você vem usando o Back In Time em {language}.\n"
-"A tradução para {language} da versão do Back In Time atualmente instalada no seu sistema está {perc} completa. Independentemente do seu nível de conhecimento técnico, você também pode contribuir para a tradução — e, assim, também para o próprio Back in Time.\n"
+"A tradução para {language} da versão do Back In Time atualmente instalada no seu sistema está {perc} completa. Independentemente do seu nível de conhecimento técnico, você também pode contribuir para a tradução — e, assim, também para o próprio Back In Time.\n"
 "Caso queira ajudar na tradução, visite {translation_platform_url}. Para obter mais informações, ou caso precise de ajuda, visite {back_in_time_project_website}.\n"
 "Pedimos desculpa pela interrupção, e esta mensagem não será exibida novamente. Se quiser voltar a vê-la, esta caixa dialogo estará sempre disponível no menu Ajuda.\n"
-"Atenciosamente, A Equipe do Back in Time"
+"Atenciosamente, A Equipe do Back In Time"
 
 #: qt/languagedialog.py:213
 #, fuzzy
@@ -1230,8 +1230,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Os wildcards ('foo*', '[fF]oo', 'fo?') serão ignorados no modo 'SSH criptografado'.\n"
-"Apenas asteriscos únicos ou duplos são permitidos ('foo/*', 'foo/**/bar')"
+"Os wildcards ({example1}) serão ignorados no modo 'SSH criptografado'.\n"
+"Apenas asteriscos únicos ou duplos são permitidos ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1448,9 +1448,7 @@ msgstr "Copiar links inseguros (funciona apenas com links absolutos)"
 #: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"As opções devem estar entre aspas, por exemplo: --exclude-from=\"/path/to/my"
-" exclude file\"."
+msgstr "As opções devem estar entre aspas, por exemplo: {example}."
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
@@ -1540,7 +1538,7 @@ msgstr "Renomear perfil"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Você tem certeza que deseja excluir este perfil \"%s\" ?"
+msgstr "Você tem certeza que deseja excluir este perfil \"{name}\" ?"
 
 #: qt/settingsdialog.py:1441
 msgid ""

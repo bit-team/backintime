@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-07-28 07:22+0000\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -810,7 +810,7 @@ msgstr "Pillanatképek"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "A {name} időpontban észült pillanatkép megtekintése"
+msgstr "A {timestamp} időpontban észült pillanatkép megtekintése"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -1208,8 +1208,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"A helyettesítő karaktreket ('foo*', '[fF]oo', 'fo?') az 'SSH encrypted' mód nem veszi figyelembe.\n"
-"Csak az elválasztó csillag megengedett ('foo/*', 'foo/**/bar')"
+"A helyettesítő karaktreket ({example1}) az 'SSH encrypted' mód nem veszi figyelembe.\n"
+"Csak az elválasztó csillag megengedett ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1507,7 +1507,7 @@ msgstr "Profil átnevezése"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Biztosan törlöd a(z) \"%s\" profilt?"
+msgstr "Biztosan törlöd a(z) \"{name}\" profilt?"
 
 #: qt/settingsdialog.py:1441
 #, fuzzy

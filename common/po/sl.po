@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-07-28 07:22+0000\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
 "Language: sl\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -378,7 +378,7 @@ msgstr "Zdaj"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Ni mogoče namestiti '{command}'"
+msgstr "Ni mogoče namestiti {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -797,7 +797,7 @@ msgstr "Posnetek"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Prikaži posnetek {name}"
+msgstr "Prikaži posnetek {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -1191,8 +1191,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"V načinu 'SSH šifrirano' bodo nadomestni znaki ('foo*', '[fF]oo', 'fo?') zanemarjeni.\n"
-"Dovoljene so le enojne ali dvojne zvezdice ('foo/*', 'foo/**/bar')"
+"V načinu 'SSH šifrirano' bodo nadomestni znaki ({example1}) zanemarjeni.\n"
+"Dovoljene so le enojne ali dvojne zvezdice ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1408,9 +1408,7 @@ msgstr "Kopiraj ne varne povezave (deluje samo z absolutnimi povezavami)"
 #: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"Možnosti morajo biti med navednicami npr. --exclude-"
-"from=\"/pot/do/izključitvene datoteke\"."
+msgstr "Možnosti morajo biti med navednicami npr. {example}."
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
@@ -1493,7 +1491,7 @@ msgstr "Preimenuj profil"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Ali ste prepričani, da želite izbrisati profil \"%s\"?"
+msgstr "Ali ste prepričani, da želite izbrisati profil \"{name}\"?"
 
 #: qt/settingsdialog.py:1441
 msgid ""

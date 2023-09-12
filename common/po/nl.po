@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-09-05 15:05+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
@@ -861,7 +861,7 @@ msgstr "Reservekopieën"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Reservekopie gemaakt op {name} bekijken"
+msgstr "Reservekopie gemaakt op {timestamp} bekijken"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -1273,8 +1273,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Wildcards ('foo*', '[fF]oo', 'fo?') zullen genegeerd worden in de modus 'SSH-encrypted'.\n"
-"Alleen ster-tekens (*) die gescheiden zijn zijn toegestaan ('foo/*', 'foo/**/bar')"
+"Wildcards ({example1}) zullen genegeerd worden in de modus 'SSH-encrypted'.\n"
+"Alleen ster-tekens (*) die gescheiden zijn zijn toegestaan ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1502,9 +1502,7 @@ msgstr "Onveilige links kopiëren (werkt alleen met absolute links)"
 #: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"Opties moeten tussen aanhalingstekens staan b.v. --exclude-"
-"from=\"/path/to/my exclude file\"."
+msgstr "Opties moeten tussen aanhalingstekens staan b.v. {example}."
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
@@ -1597,7 +1595,7 @@ msgstr "Profiel hernoemen"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Weet u zeker dat u het profiel \"%s\" wilt verwijderen ?"
+msgstr "Weet u zeker dat u het profiel \"{name}\" wilt verwijderen ?"
 
 #: qt/settingsdialog.py:1441
 msgid ""

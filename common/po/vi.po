@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-08-05 07:53+0000\n"
-"Last-Translator: Karma78 <06-outsets.issuer@icloud.com>\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 
 #: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
 msgid "Warning"
@@ -378,7 +378,7 @@ msgstr "Vừa mới đây"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Không thể gắn kết '{command}'"
+msgstr "Không thể gắn kết {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -803,7 +803,7 @@ msgstr "Snapshot"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Xem bản snapshot được tạo ra tại {name}"
+msgstr "Xem bản snapshot được tạo ra tại {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -1193,8 +1193,8 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Ký tự đại diện ('foo*', '[fF]oo', 'fo?') sẽ bị phớt lờ trong chế độ 'đã mã hóa SSH'.\n"
-"Chỉ có dấu sao đơn hoặc đôi là được phép ('foo/*', 'foo/**/bar')"
+"Ký tự đại diện ({example1}) sẽ bị phớt lờ trong chế độ 'đã mã hóa SSH'.\n"
+"Chỉ có dấu sao đơn hoặc đôi là được phép ({example2})"
 
 #: qt/settingsdialog.py:547
 msgid "Exclude patterns, files or folders"
@@ -1412,9 +1412,7 @@ msgstr ""
 #: qt/settingsdialog.py:1012
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"Tùy chọn phải nằm trong ngoặc kép. Ví dụ: --exclude-from=\"/path/to/my "
-"exclude file\"."
+msgstr "Tùy chọn phải nằm trong ngoặc kép. Ví dụ: {example}."
 
 #: qt/settingsdialog.py:1015
 msgid "Paste additional options to rsync"
@@ -1504,7 +1502,7 @@ msgstr "Đổi tên hồ sơ"
 #: qt/settingsdialog.py:1167
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Bạn có chắc chắn muốn xóa hồ sơ \"%s\" ?"
+msgstr "Bạn có chắc chắn muốn xóa hồ sơ \"{name}\" ?"
 
 #: qt/settingsdialog.py:1441
 msgid ""
