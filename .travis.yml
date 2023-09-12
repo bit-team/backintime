@@ -29,9 +29,9 @@ before_install:
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
 jobs:
-  exclude:
-    -  python: "3.9"
-    -  python: "3.10"
+  # exclude:
+  #  -  python: "3.9"
+  #  -  python: "3.10"
 
 install:
   - pip install coveralls pyfakefs
