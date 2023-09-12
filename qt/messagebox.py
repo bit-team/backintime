@@ -52,7 +52,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
 
     return(password)
 
-def info(text, title=_('Information'), widget_to_center_on=None):
+def info(text, title=None, widget_to_center_on=None):
     """Show a modal information message box.
 
     The message box is centered on the primary screen if
@@ -66,8 +66,10 @@ def info(text, title=_('Information'), widget_to_center_on=None):
     Returns:
         Nothing.
     """
-
-    QMessageBox.information(widget_to_center_on, title, text)
+    QMessageBox.information(
+        widget_to_center_on,
+        title if title else _('Information'),
+        text)
 
 def critical(parent, msg):
     return QMessageBox.critical(parent, _('Error'),

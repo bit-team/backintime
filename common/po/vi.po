@@ -7,102 +7,82 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-09-06 21:40+0200\n"
-"PO-Revision-Date: 2023-08-05 07:53+0000\n"
-"Last-Translator: Karma78 <06-outsets.issuer@icloud.com>\n"
+"POT-Creation-Date: 2023-09-12 07:37+0200\n"
+"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18.1\n"
+"X-Generator: Weblate 5.0\n"
 
-#: common/config.py:50 qt/settingsdialog.py:161 qt/settingsdialog.py:530
+#: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
 msgstr "Cảnh báo"
 
-#: common/config.py:99 common/config.py:106
-msgid "Day(s)"
-msgstr "Ngày"
-
-#: common/config.py:100 common/config.py:107
-msgid "Week(s)"
-msgstr "Tuần"
-
-#: common/config.py:101
-msgid "Year(s)"
-msgstr "Năm"
-
-#: common/config.py:105
-msgid "Hour(s)"
-msgstr "Giờ"
-
-#: common/config.py:108
-msgid "Month(s)"
-msgstr "Tháng"
-
-#: common/config.py:158 common/config.py:163
-msgid "Local"
-msgstr "Cục bộ"
-
-#: common/config.py:160 common/config.py:170 qt/settingsdialog.py:1962
-msgid "SSH private key"
-msgstr "Khóa SSH riêng"
-
-#: common/config.py:163
-msgid "encrypted"
-msgstr "đã mã hóa"
-
-#: common/config.py:164 common/config.py:171
-msgid "Encryption"
-msgstr "Mã hóa"
-
-#: common/config.py:169
-msgid "SSH encrypted"
-msgstr "Đã mã hóa SSH"
-
-#: common/config.py:176
-msgid "Default"
-msgstr "Mặc định"
-
-#: common/config.py:198 common/config.py:341
+#: common/config.py:139 common/config.py:282
 msgid "Main profile"
 msgstr "Hồ sơ chính"
 
-#: common/config.py:359 common/config.py:371 common/config.py:388
-#: common/config.py:399
+#: common/config.py:292 common/config.py:297
+msgid "Local"
+msgstr "Cục bộ"
+
+#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1931
+msgid "SSH private key"
+msgstr "Khóa SSH riêng"
+
+#: common/config.py:297
+msgid "encrypted"
+msgstr "đã mã hóa"
+
+#: common/config.py:298 common/config.py:305
+msgid "Encryption"
+msgstr "Mã hóa"
+
+#: common/config.py:303
+msgid "SSH encrypted"
+msgstr "Đã mã hóa SSH"
+
+#: common/config.py:310
+msgid "Default"
+msgstr "Mặc định"
+
+#: common/config.py:341 common/config.py:353 common/config.py:370
+#: common/config.py:381
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Hồ sơ: “{name}”"
 
-#: common/config.py:360
+#: common/config.py:342
 msgid "Snapshots folder is not valid!"
 msgstr "Thư mục snapshot không hợp lệ!"
 
-#: common/config.py:372
+#: common/config.py:354
 msgid "You must select at least one folder to back up!"
 msgstr "Bạn phải chọn ít nhất một thư mục để sao lưu!"
 
-#: common/config.py:389
+#: common/config.py:371
 msgid "Backup folder cannot be included."
 msgstr ""
 
-#: common/config.py:401
+#: common/config.py:383
 msgid "Backup sub-folder cannot be included."
 msgstr ""
 
-#: common/config.py:459
+#: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "“{path}” không phải là một thư mục!"
 
-#: common/config.py:468
+#: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Máy chủ/Người dùng/ ID-Hồ sơ không được để trống!"
 
-#: common/config.py:478 common/config.py:525
+#: common/config.py:460 common/config.py:507
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -111,7 +91,7 @@ msgstr ""
 "Không thể ghi vào “{path}”\n"
 "Có thể bạn không có đủ quyền hạn để ghi?"
 
-#: common/config.py:495
+#: common/config.py:477
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -121,7 +101,7 @@ msgstr ""
 "không hỗ trợ liên kết cứng. Vui lòng dùng một hệ thống tập tin được Linux hỗ"
 " trợ."
 
-#: common/config.py:504
+#: common/config.py:486
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -132,15 +112,15 @@ msgstr ""
 "máy chủ SMB từ xa hỗ trợ liên kết tượng trưng hoặc kích hoạt {copyLinks} "
 "trong {expertOptions}."
 
-#: common/config.py:508 qt/settingsdialog.py:992
+#: common/config.py:490 qt/settingsdialog.py:998
 msgid "Copy links (dereference symbolic links)"
 msgstr "Sao chép liên kết (truy cập liên kết tượng trưng)"
 
-#: common/config.py:509
+#: common/config.py:491
 msgid "Expert Options"
 msgstr "Tùy chọn dành cho chuyên gia"
 
-#: common/config.py:513
+#: common/config.py:495
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -149,7 +129,7 @@ msgstr ""
 "Hệ thống tập tin đích cho {path} là một phần gắn kết sshfs. sshfs không hỗ "
 "trợ liên kết cứng. Vui lòng sử dụng chế độ 'SSH'."
 
-#: common/config.py:1609
+#: common/config.py:1591
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -159,11 +139,11 @@ msgstr ""
 "Bạn có chắc là cron đã được cài đặt chưa?\n"
 "Nếu chưa cài đặt bạn nên tắt tất cả sao lưu tự động."
 
-#: common/config.py:1615
+#: common/config.py:1597
 msgid "Failed to write new crontab."
 msgstr "Ghi crontab mới thất bại."
 
-#: common/config.py:1718
+#: common/config.py:1700
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -172,12 +152,12 @@ msgstr ""
 "Không thể cài đặt lệnh Udev cho hồ sơ {profile_id} vì Dịch vụ DBus "
 "“{dbus_interface}” không khả dụng"
 
-#: common/config.py:1733
+#: common/config.py:1715
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Lịch trình theo udev không hoạt động trong chế độ {mode}"
 
-#: common/config.py:1744
+#: common/config.py:1726
 #, fuzzy, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Không tìm thấy UUID cho “{path}”"
@@ -354,7 +334,7 @@ msgstr "Không có gì thay đổi, không cần snapshot mới"
 msgid "Can't rename {new_path} to {path}"
 msgstr "Không thể đổi tên {new_path} thành {path}"
 
-#: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:672
+#: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:678
 msgid "Smart remove"
 msgstr "Xóa thông minh"
 
@@ -378,7 +358,7 @@ msgstr "Vừa mới đây"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Không thể gắn kết '{command}'"
+msgstr "Không thể gắn kết {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -594,7 +574,7 @@ msgstr "Phiên dịch"
 msgid "About"
 msgstr "Giới thiệu"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2228
+#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2197
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Khôi phục"
@@ -631,7 +611,7 @@ msgstr ""
 msgid "Up"
 msgstr "Lên"
 
-#: qt/app.py:558 qt/settingsdialog.py:2184
+#: qt/app.py:558 qt/settingsdialog.py:2153
 msgid "Show hidden files"
 msgstr "Hiện tập tin ẩn"
 
@@ -672,7 +652,7 @@ msgstr "Xong, không cần sao lưu"
 msgid "Working"
 msgstr "Đang chạy"
 
-#: qt/app.py:964 qt/messagebox.py:73
+#: qt/app.py:964 qt/messagebox.py:75
 msgid "Error"
 msgstr "Lỗi"
 
@@ -721,7 +701,7 @@ msgstr ""
 "Tạo thêm bản sao lưu với {suffix} ở cuối tên\n"
 "trước khi ghi đè hoặc xóa các tập tin cục bộ."
 
-#: qt/app.py:1287 qt/settingsdialog.py:768
+#: qt/app.py:1287 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -803,7 +783,7 @@ msgstr "Snapshot"
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Xem bản snapshot được tạo ra tại {name}"
+msgstr "Xem bản snapshot được tạo ra tại {timestamp}"
 
 #: qt/app.py:1643
 #, fuzzy, python-brace-format
@@ -875,7 +855,7 @@ msgid "Snapshot Log View"
 msgstr "Xem nhật ký snapshot"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:340 qt/settingsdialog.py:2325
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2294
 msgid "Profile"
 msgstr "Hồ sơ"
 
@@ -887,20 +867,20 @@ msgstr "Snapshot"
 msgid "Filter"
 msgstr "Bộ lọc"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:803
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:809
 msgid "All"
 msgstr "Tất cả"
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:802
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:808
 msgid "Changes"
 msgstr "Có thay đổi"
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:800
-#: qt/settingsdialog.py:802
+#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:806
+#: qt/settingsdialog.py:808
 msgid "Errors"
 msgstr "Có lỗi"
 
-#: qt/logviewdialog.py:96 qt/messagebox.py:55
+#: qt/logviewdialog.py:96 qt/messagebox.py:71
 #, fuzzy
 msgid "Information"
 msgstr "Thông tin"
@@ -925,7 +905,7 @@ msgstr "Giải mã"
 msgid "Do you want to exclude this?"
 msgstr "Bạn có muốn loại trừ mục này ra?"
 
-#: qt/messagebox.py:79 qt/messagebox.py:85
+#: qt/messagebox.py:81 qt/messagebox.py:87
 msgid "Question"
 msgstr "Thắc mắc"
 
@@ -978,27 +958,23 @@ msgstr "Hiện toàn bộ Nhật ký"
 msgid "Edit"
 msgstr "Sửa"
 
-#: qt/settingsdialog.py:110
-msgid "Modify for Full System Backup"
-msgstr "Sửa đổi cho Sao lưu toàn hệ thống"
-
-#: qt/settingsdialog.py:118 qt/settingsdialog.py:570
+#: qt/settingsdialog.py:108 qt/settingsdialog.py:566
 msgid "Add"
 msgstr "Thêm"
 
-#: qt/settingsdialog.py:122 qt/settingsdialog.py:519 qt/settingsdialog.py:588
+#: qt/settingsdialog.py:112 qt/settingsdialog.py:515 qt/settingsdialog.py:584
 msgid "Remove"
 msgstr "Gỡ bỏ"
 
-#: qt/settingsdialog.py:137
+#: qt/settingsdialog.py:127
 msgid "&General"
 msgstr "&Tổng quan"
 
-#: qt/settingsdialog.py:147 qt/settingsdialog.py:2327
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2296
 msgid "Mode"
 msgstr "Chế độ"
 
-#: qt/settingsdialog.py:162
+#: qt/settingsdialog.py:152
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
@@ -1009,47 +985,47 @@ msgstr ""
 " một số vectơ tấn công có thể xảy ra đối với hệ thống tập tin này. Vui lòng "
 "xem qua \"GHI CHÚ VỀ BẢO MẬT\" trong \"man backintime\"."
 
-#: qt/settingsdialog.py:173 qt/settingsdialog.py:1938
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1907
 msgid "Where to save snapshots"
 msgstr "Nơi lưu các snapshot"
 
-#: qt/settingsdialog.py:189
+#: qt/settingsdialog.py:179
 msgid "Folder"
 msgstr "Thư mục"
 
-#: qt/settingsdialog.py:197
+#: qt/settingsdialog.py:187
 msgid "SSH Settings"
 msgstr "Cài đặt SSH"
 
-#: qt/settingsdialog.py:209 qt/settingsdialog.py:328
+#: qt/settingsdialog.py:199 qt/settingsdialog.py:318
 msgid "Host"
 msgstr "Máy chủ"
 
-#: qt/settingsdialog.py:214
+#: qt/settingsdialog.py:204
 msgid "Port"
 msgstr "Cổng"
 
-#: qt/settingsdialog.py:219 qt/settingsdialog.py:334
+#: qt/settingsdialog.py:209 qt/settingsdialog.py:324
 msgid "User"
 msgstr "Người dùng"
 
-#: qt/settingsdialog.py:224
+#: qt/settingsdialog.py:214
 msgid "Path"
 msgstr "Đường dẫn"
 
-#: qt/settingsdialog.py:230
+#: qt/settingsdialog.py:220
 msgid "Cipher"
 msgstr "Mã Cipher"
 
-#: qt/settingsdialog.py:236
+#: qt/settingsdialog.py:226
 msgid "Private Key"
 msgstr "Khóa riêng"
 
-#: qt/settingsdialog.py:246
+#: qt/settingsdialog.py:236
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Chọn một tập tin khóa riêng đã tồn tại (thường được đặt tên \"id_rsa\")"
 
-#: qt/settingsdialog.py:256
+#: qt/settingsdialog.py:246
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
@@ -1057,97 +1033,97 @@ msgstr ""
 "Tạo một khóa SSH mới mà không cần mật khẩu (không được phép nếu một tập tin "
 "khóa riêng đã được chọn)"
 
-#: qt/settingsdialog.py:276 qt/settingsdialog.py:285 qt/settingsdialog.py:291
+#: qt/settingsdialog.py:266 qt/settingsdialog.py:275 qt/settingsdialog.py:281
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: qt/settingsdialog.py:297
+#: qt/settingsdialog.py:287
 msgid "Save Password to Keyring"
 msgstr "Lưu mật khẩu vào Keyring"
 
-#: qt/settingsdialog.py:301
+#: qt/settingsdialog.py:291
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Lưu mật khẩu cho Cron vào cache (Vấn đề bảo mật: tài khoản root có thể đọc "
 "mật khẩu)"
 
-#: qt/settingsdialog.py:316
+#: qt/settingsdialog.py:306
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: qt/settingsdialog.py:346
+#: qt/settingsdialog.py:336
 msgid "Full snapshot path"
 msgstr "Đường dẫn snapshot đầy đủ"
 
-#: qt/settingsdialog.py:353
+#: qt/settingsdialog.py:343
 msgid "Schedule"
 msgstr "Lịch trình"
 
-#: qt/settingsdialog.py:365
+#: qt/settingsdialog.py:355
 msgid "Disabled"
 msgstr "Đang tắt"
 
-#: qt/settingsdialog.py:366
+#: qt/settingsdialog.py:356
 msgid "At every boot/reboot"
 msgstr "Mỗi lần khởi động máy"
 
-#: qt/settingsdialog.py:368 qt/settingsdialog.py:370 qt/settingsdialog.py:372
-#: qt/settingsdialog.py:375 qt/settingsdialog.py:377 qt/settingsdialog.py:379
-#: qt/settingsdialog.py:381
+#: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
+#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
+#: qt/settingsdialog.py:371
 #, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Mỗi {n} phút"
 
-#: qt/settingsdialog.py:373
+#: qt/settingsdialog.py:363
 msgid "Every hour"
 msgstr "Mỗi giờ"
 
-#: qt/settingsdialog.py:382
+#: qt/settingsdialog.py:372
 msgid "Custom Hours"
 msgstr "Theo giờ tùy chỉnh"
 
-#: qt/settingsdialog.py:383
+#: qt/settingsdialog.py:373
 msgid "Every Day"
 msgstr "Hàng ngày"
 
-#: qt/settingsdialog.py:384
+#: qt/settingsdialog.py:374
 msgid "Repeatedly (anacron)"
 msgstr "Theo định kỳ (anacron)"
 
-#: qt/settingsdialog.py:385
+#: qt/settingsdialog.py:375
 msgid "When drive gets connected (udev)"
 msgstr "Khi ổ cứng kết nối thành công (udev)"
 
-#: qt/settingsdialog.py:386
+#: qt/settingsdialog.py:376
 msgid "Every Week"
 msgstr "Hàng tuần"
 
-#: qt/settingsdialog.py:387
+#: qt/settingsdialog.py:377
 msgid "Every Month"
 msgstr "Hàng tháng"
 
-#: qt/settingsdialog.py:388
+#: qt/settingsdialog.py:378
 msgid "Every Year"
 msgstr "Hàng năm"
 
-#: qt/settingsdialog.py:393
+#: qt/settingsdialog.py:383
 msgid "Day"
 msgstr "ngày"
 
-#: qt/settingsdialog.py:404
+#: qt/settingsdialog.py:394
 msgid "Weekday"
 msgstr "ngày thường"
 
-#: qt/settingsdialog.py:419
+#: qt/settingsdialog.py:409
 msgid "Hour"
 msgstr "giờ"
 
-#: qt/settingsdialog.py:434
+#: qt/settingsdialog.py:424
 msgid "Hours"
 msgstr "giờ"
 
-#: qt/settingsdialog.py:445
+#: qt/settingsdialog.py:435
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1155,11 +1131,27 @@ msgstr ""
 "Chạy Back In Time theo định kỳ. Lựa chọn này hữu ích khi máy tính không được"
 " mở thường xuyên."
 
-#: qt/settingsdialog.py:452
+#: qt/settingsdialog.py:442
 msgid "Every"
 msgstr "Mỗi"
 
-#: qt/settingsdialog.py:473
+#: qt/settingsdialog.py:456
+msgid "Hour(s)"
+msgstr "Giờ"
+
+#: qt/settingsdialog.py:457 qt/settingsdialog.py:634
+msgid "Day(s)"
+msgstr "Ngày"
+
+#: qt/settingsdialog.py:458 qt/settingsdialog.py:635
+msgid "Week(s)"
+msgstr "Tuần"
+
+#: qt/settingsdialog.py:459
+msgid "Month(s)"
+msgstr "Tháng"
+
+#: qt/settingsdialog.py:469
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
@@ -1167,52 +1159,52 @@ msgstr ""
 "Chạy Back In Time ngay khi ổ cứng được kết nối (chỉ một lần mỗi X ngày).\n"
 "Bạn sẽ bị yêu cầu nhập mật khẩu sudo."
 
-#: qt/settingsdialog.py:488
+#: qt/settingsdialog.py:484
 msgid "&Include"
 msgstr "&Bao gồm"
 
-#: qt/settingsdialog.py:495
+#: qt/settingsdialog.py:491
 msgid "Include files and folders"
 msgstr "Bao gồm các tập tin và thư mục"
 
-#: qt/settingsdialog.py:511 qt/settingsdialog.py:574
+#: qt/settingsdialog.py:507 qt/settingsdialog.py:570
 msgid "Add file"
 msgstr "Thêm tập tin"
 
-#: qt/settingsdialog.py:515 qt/settingsdialog.py:578
+#: qt/settingsdialog.py:511 qt/settingsdialog.py:574
 msgid "Add folder"
 msgstr "Thêm thư mục"
 
-#: qt/settingsdialog.py:525
+#: qt/settingsdialog.py:521
 msgid "&Exclude"
 msgstr "&Ngoại trừ"
 
-#: qt/settingsdialog.py:532
+#: qt/settingsdialog.py:528
 #, fuzzy, python-brace-format
 msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Ký tự đại diện ('foo*', '[fF]oo', 'fo?') sẽ bị phớt lờ trong chế độ 'đã mã hóa SSH'.\n"
-"Chỉ có dấu sao đơn hoặc đôi là được phép ('foo/*', 'foo/**/bar')"
+"Ký tự đại diện ({example1}) sẽ bị phớt lờ trong chế độ 'đã mã hóa SSH'.\n"
+"Chỉ có dấu sao đơn hoặc đôi là được phép ({example2})"
 
-#: qt/settingsdialog.py:547
+#: qt/settingsdialog.py:543
 msgid "Exclude patterns, files or folders"
 msgstr "Loại trừ các pattern, tập tin hoặc thư mục"
 
-#: qt/settingsdialog.py:560
+#: qt/settingsdialog.py:556
 msgid "Highly recommended"
 msgstr "Rất khuyến khích"
 
-#: qt/settingsdialog.py:583
+#: qt/settingsdialog.py:579
 msgid "Add default"
 msgstr "Thêm mặc định"
 
-#: qt/settingsdialog.py:596
+#: qt/settingsdialog.py:592
 msgid "Exclude files bigger than: "
 msgstr "Loại trừ các tập tin có kích thước lớn hơn : "
 
-#: qt/settingsdialog.py:598
+#: qt/settingsdialog.py:594
 #, python-format
 msgid ""
 "Exclude files bigger than value in %(prefix)s.\n"
@@ -1227,89 +1219,93 @@ msgstr ""
 "Nên những tập tin lớn đã được sao lưu trước đó sẽ được giữ nguyên trong snapshot\n"
 "ngay cả khi chúng có thay đổi."
 
-#: qt/settingsdialog.py:620
+#: qt/settingsdialog.py:616
 msgid "&Auto-remove"
 msgstr "&Tự động xóa"
 
-#: qt/settingsdialog.py:626
+#: qt/settingsdialog.py:622
 msgid "Older than"
 msgstr "Cũ hơn"
 
-#: qt/settingsdialog.py:643
+#: qt/settingsdialog.py:636
+msgid "Year(s)"
+msgstr "Năm"
+
+#: qt/settingsdialog.py:644
 msgid "If free space is less than"
 msgstr "Nếu dung lượng trống còn ít hơn"
 
-#: qt/settingsdialog.py:658
+#: qt/settingsdialog.py:664
 msgid "If free inodes is less than"
 msgstr "Nếu số inode trống còn ít hơn"
 
-#: qt/settingsdialog.py:683
+#: qt/settingsdialog.py:689
 #, fuzzy
 msgid "Run in background on remote host."
 msgstr "Chạy ngầm trên máy chủ từ xa."
 
-#: qt/settingsdialog.py:684
+#: qt/settingsdialog.py:690
 msgid "EXPERIMENTAL"
 msgstr "THỬ NGHIỆM"
 
-#: qt/settingsdialog.py:690
+#: qt/settingsdialog.py:696
 msgid "Keep all snapshots for the last"
 msgstr "Giữ tất cả snapshot trong"
 
-#: qt/settingsdialog.py:694 qt/settingsdialog.py:701
+#: qt/settingsdialog.py:700 qt/settingsdialog.py:707
 msgid "day(s)"
 msgstr "ngày vừa qua"
 
-#: qt/settingsdialog.py:697
+#: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
 msgstr "Giữ một bản snapshot từ mỗi ngày trong"
 
-#: qt/settingsdialog.py:704
+#: qt/settingsdialog.py:710
 msgid "Keep one snapshot per week for the last"
 msgstr "Giữ một bản snapshot từ mỗi tuần trong"
 
-#: qt/settingsdialog.py:708
+#: qt/settingsdialog.py:714
 #, fuzzy
 msgid "week(s)"
 msgstr "tuần vừa qua"
 
-#: qt/settingsdialog.py:711
+#: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
 msgstr "Giữ một bản snapshot từ mỗi tháng trong"
 
-#: qt/settingsdialog.py:715
+#: qt/settingsdialog.py:721
 msgid "month(s)"
 msgstr "tháng vừa qua"
 
-#: qt/settingsdialog.py:718
+#: qt/settingsdialog.py:724
 msgid "Keep one snapshot per year for all years"
 msgstr "Giữ một bản snapshot từ mỗi năm trong tất cả các năm"
 
-#: qt/settingsdialog.py:727
+#: qt/settingsdialog.py:733
 msgid "Don't remove named snapshots"
 msgstr "Đừng xóa các bản snapshot đã được đổi tên"
 
-#: qt/settingsdialog.py:739
+#: qt/settingsdialog.py:745
 msgid "&Options"
 msgstr "&Tùy chọn"
 
-#: qt/settingsdialog.py:744
+#: qt/settingsdialog.py:750
 msgid "Enable notifications"
 msgstr "Bật thông báo"
 
-#: qt/settingsdialog.py:748
+#: qt/settingsdialog.py:754
 msgid "Disable snapshots when on battery"
 msgstr "Tắt chụp snapshot khi đang dùng pin"
 
-#: qt/settingsdialog.py:752
+#: qt/settingsdialog.py:758
 msgid "Power status not available from system"
 msgstr "Trạng thái nguồn điện không khả dụng từ hệ thống"
 
-#: qt/settingsdialog.py:755
+#: qt/settingsdialog.py:761
 msgid "Run only one snapshot at a time"
 msgstr "Chỉ chạy từng snapshot một"
 
-#: qt/settingsdialog.py:757
+#: qt/settingsdialog.py:763
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
 "This is a global option. So it will affect all profiles for this user.\n"
@@ -1319,108 +1315,106 @@ msgstr ""
 "Đây là cài đặt toàn cục. Nên nó sẽ có hiệu lực với tất cả hồ sơ của người dùng này.\n"
 "Nhưng bạn sẽ cần kích hoạt tùy chọn này cho tất cả người dùng khác nữa."
 
-#: qt/settingsdialog.py:766
+#: qt/settingsdialog.py:772
 msgid "Backup replaced files on restore"
 msgstr "Sao lưu những tập tin bị thay thế trong quá trình khôi phục"
 
-#: qt/settingsdialog.py:779
+#: qt/settingsdialog.py:785
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Tiếp tục khi gặp lỗi (giữ các bản snapshot không hoàn thiện)"
 
-#: qt/settingsdialog.py:783
+#: qt/settingsdialog.py:789
 msgid "Use checksum to detect changes"
 msgstr "Dùng checksum để phát hiện có thay đổi"
 
-#: qt/settingsdialog.py:787
+#: qt/settingsdialog.py:793
 #, fuzzy
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "Chụp snapshot mới dù có thay đổi hay không."
 
-#: qt/settingsdialog.py:794
+#: qt/settingsdialog.py:800
 msgid "Log Level"
 msgstr "Ghi lại mức độ"
 
-#: qt/settingsdialog.py:799
+#: qt/settingsdialog.py:805
 msgid "None"
 msgstr "Không có gì"
 
-#: qt/settingsdialog.py:813
+#: qt/settingsdialog.py:819
 msgid "E&xpert Options"
 msgstr "&Tùy chọn chuyên gia"
 
-#: qt/settingsdialog.py:818
+#: qt/settingsdialog.py:824
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Chỉ thay đổi những tùy chọn này nếu bạn thật sự biết mình đang làm gì!"
 
-#: qt/settingsdialog.py:823 qt/settingsdialog.py:839 qt/settingsdialog.py:861
+#: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Chạy 'rsync' với '{cmd}':"
 
-#: qt/settingsdialog.py:830 qt/settingsdialog.py:846
+#: qt/settingsdialog.py:836 qt/settingsdialog.py:852
 msgid "as cron job"
 msgstr "bằng cron job"
 
-#: qt/settingsdialog.py:835 qt/settingsdialog.py:856 qt/settingsdialog.py:877
+#: qt/settingsdialog.py:841 qt/settingsdialog.py:862 qt/settingsdialog.py:883
 msgid "on remote host"
 msgstr "trên máy chủ từ xa"
 
-#: qt/settingsdialog.py:851
+#: qt/settingsdialog.py:857
 msgid "when taking a manual snapshot"
 msgstr "khi đang chụp snapshot thủ công"
 
-#: qt/settingsdialog.py:864
+#: qt/settingsdialog.py:870
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Vui lòng cài 'nocache' để bật tùy chọn này)"
 
-#: qt/settingsdialog.py:871
+#: qt/settingsdialog.py:877
 msgid "on local machine"
 msgstr "trên máy cục bộ"
 
-#: qt/settingsdialog.py:882
+#: qt/settingsdialog.py:888
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Chuyển hướng stdout vào /dev/null trong cronjob."
 
-#: qt/settingsdialog.py:891
+#: qt/settingsdialog.py:897
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Chuyển hướng stderr vào /dev/null trong cronjob."
 
-#: qt/settingsdialog.py:903
+#: qt/settingsdialog.py:909
 msgid "Limit rsync bandwidth usage"
 msgstr "Giới hạn sử dụng băng thông rsync"
 
-#: qt/settingsdialog.py:906
+#: qt/settingsdialog.py:912
 msgid "KB/sec"
 msgstr "KB/giây"
 
-#: qt/settingsdialog.py:944
+#: qt/settingsdialog.py:950
 msgid "Preserve ACL"
 msgstr "Giữ nguyên ACL"
 
-#: qt/settingsdialog.py:959
+#: qt/settingsdialog.py:965
 msgid "Preserve extended attributes (xattr)"
 msgstr "Giữ nguyên thuộc tính mở rộng (xattr)"
 
-#: qt/settingsdialog.py:979
+#: qt/settingsdialog.py:985
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 "Sao chép liên kết không an toàn (chỉ có tác dụng với liên kết tuyệt đối)"
 
-#: qt/settingsdialog.py:1012
+#: qt/settingsdialog.py:1018
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"Tùy chọn phải nằm trong ngoặc kép. Ví dụ: --exclude-from=\"/path/to/my "
-"exclude file\"."
+msgstr "Tùy chọn phải nằm trong ngoặc kép. Ví dụ: {example}."
 
-#: qt/settingsdialog.py:1015
+#: qt/settingsdialog.py:1021
 msgid "Paste additional options to rsync"
 msgstr "Dán các tùy chọn phụ vào rsync"
 
-#: qt/settingsdialog.py:1030
+#: qt/settingsdialog.py:1036
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1439,19 +1433,19 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1038 qt/settingsdialog.py:2085
+#: qt/settingsdialog.py:1044 qt/settingsdialog.py:2054
 msgid "default"
 msgstr "mặc định"
 
-#: qt/settingsdialog.py:1040
+#: qt/settingsdialog.py:1046
 msgid "Add prefix to SSH commands"
 msgstr "Thêm tiền tố vào các lệnh SSH"
 
-#: qt/settingsdialog.py:1053
+#: qt/settingsdialog.py:1059
 msgid "Check if remote host is online"
 msgstr "Kiểm tra liệu máy chủ từ xa có online"
 
-#: qt/settingsdialog.py:1055
+#: qt/settingsdialog.py:1061
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1461,11 +1455,11 @@ msgstr ""
 "hiện không khả dụng, tình trạng này có thể\n"
 "dẫn đến một vài lỗi kỳ lạ."
 
-#: qt/settingsdialog.py:1059
+#: qt/settingsdialog.py:1065
 msgid "Check if remote host supports all necessary commands"
 msgstr "Kiểm tra liệu máy chủ từ xa có hỗ trợ tất cả các lệnh cần thiết"
 
-#: qt/settingsdialog.py:1061
+#: qt/settingsdialog.py:1067
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1475,38 +1469,28 @@ msgstr ""
 "không hỗ trợ tất cả các lệnh cần thiết,\n"
 "tình trạng này có thể dẫn đến một vài lỗi kỳ lạ."
 
-#: qt/settingsdialog.py:1077
+#: qt/settingsdialog.py:1083
 msgid "Restore Config"
 msgstr "Khôi phục cấu hình"
 
-#: qt/settingsdialog.py:1079
+#: qt/settingsdialog.py:1085
 msgid "Edit user-callback"
 msgstr "Sửa user-callback"
 
-#: qt/settingsdialog.py:1099
-msgid ""
-"Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
-"\n"
-"Full system backup will override some settings that may have been customized. Continue?"
-msgstr ""
-"Sao lưu toàn hệ thống chỉ có thể tạo một bản snapshot để khôi phục vào cùng ổ cứng vật lý với cùng phân vùng ổ cứng y hệt từ nguồn; việc khôi phục vào ổ cứng vật lý mới hoặc cùng ổ cứng nhưng khác phân vùng sẽ sản sinh ra một hệ thống bị hư hỏng và không ổn định.\n"
-"\n"
-"Sao lưu toàn hệ thống sẽ ghi đè vài cài đặt đã được tùy chỉnh. Tiếp tục?"
-
-#: qt/settingsdialog.py:1134
+#: qt/settingsdialog.py:1103
 msgid "New profile"
 msgstr "Hồ sơ mới"
 
-#: qt/settingsdialog.py:1151
+#: qt/settingsdialog.py:1120
 msgid "Rename profile"
 msgstr "Đổi tên hồ sơ"
 
-#: qt/settingsdialog.py:1167
+#: qt/settingsdialog.py:1136
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Bạn có chắc chắn muốn xóa hồ sơ \"%s\" ?"
+msgstr "Bạn có chắc chắn muốn xóa hồ sơ \"{name}\" ?"
 
-#: qt/settingsdialog.py:1441
+#: qt/settingsdialog.py:1410
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
@@ -1514,7 +1498,7 @@ msgstr ""
 "Giờ tùy chỉnh phải là các số giờ được ngăn cách bởi dấu phẩy (vd: "
 "8,12,18,23) hoặc theo định dạng */3 để sao lưu sau mỗi 3 tiếng"
 
-#: qt/settingsdialog.py:1483
+#: qt/settingsdialog.py:1452
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1522,12 +1506,12 @@ msgstr ""
 "Bạn chưa chọn một tập tin khóa riêng cho SSH.\n"
 "Bạn có muốn tạo một cặp khóa riêng và khóa công khai không có mật khẩu?"
 
-#: qt/settingsdialog.py:1494
+#: qt/settingsdialog.py:1463
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Tập tin khóa riêng \"{file}\" không tồn tại."
 
-#: qt/settingsdialog.py:1646
+#: qt/settingsdialog.py:1615
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1535,7 +1519,7 @@ msgstr ""
 "Bạn có muốn sao chép khóa SSH công khai của bạn đến\n"
 "máy chủ từ xa để bật đăng nhập không cần mật khẩu?"
 
-#: qt/settingsdialog.py:1674
+#: qt/settingsdialog.py:1643
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1546,7 +1530,7 @@ msgstr ""
 "\n"
 "Vân tay khóa {keytype} là:"
 
-#: qt/settingsdialog.py:1684
+#: qt/settingsdialog.py:1653
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
@@ -1554,23 +1538,23 @@ msgstr ""
 "Vui lòng xác nhận vân tay này! Bạn có muốn thêm nó vào tập tin 'known_hosts'"
 " của bạn?"
 
-#: qt/settingsdialog.py:1847
+#: qt/settingsdialog.py:1816
 msgid "Exclude pattern"
 msgstr "Loại trừ pattern"
 
-#: qt/settingsdialog.py:1860
+#: qt/settingsdialog.py:1829
 msgid "Exclude file"
 msgstr "Loại trừ tập tin"
 
-#: qt/settingsdialog.py:1864
+#: qt/settingsdialog.py:1833
 msgid "Exclude folder"
 msgstr "Loại trừ thư mục"
 
-#: qt/settingsdialog.py:1883
+#: qt/settingsdialog.py:1852
 msgid "Include file"
 msgstr "Bao gồm tập tin"
 
-#: qt/settingsdialog.py:1892 qt/settingsdialog.py:1918
+#: qt/settingsdialog.py:1861 qt/settingsdialog.py:1887
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1579,37 +1563,37 @@ msgstr ""
 "\"{path}\" là một liên kết tượng trưng. Tập tin gốc sẽ không được sao lưu cho đến khi bạn bao gồm nó vào nữa.\n"
 "Bạn có muốn bao gồm tập tin gốc thay vào đó?"
 
-#: qt/settingsdialog.py:1909
+#: qt/settingsdialog.py:1878
 msgid "Include folder"
 msgstr "Bao gồm thư mục"
 
-#: qt/settingsdialog.py:1946
+#: qt/settingsdialog.py:1915
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Bạn có chắc chắn muốn thay đổi thư mục snapshot không?"
 
-#: qt/settingsdialog.py:1971
+#: qt/settingsdialog.py:1940
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Tạo khoá SSH trong đường dẫn {path} thất bại"
 
-#: qt/settingsdialog.py:2030
+#: qt/settingsdialog.py:1999
 msgid "Full snapshot path: "
 msgstr "Đường dẫn đầy đủ của snapshot: "
 
-#: qt/settingsdialog.py:2080
+#: qt/settingsdialog.py:2049
 msgid "enabled"
 msgstr "đang bật"
 
-#: qt/settingsdialog.py:2083
+#: qt/settingsdialog.py:2052
 msgid "disabled"
 msgstr "đang tắt"
 
-#: qt/settingsdialog.py:2128
+#: qt/settingsdialog.py:2097
 msgid "Restore Settings"
 msgstr "Cài đặt khôi phục"
 
-#: qt/settingsdialog.py:2141
+#: qt/settingsdialog.py:2110
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1624,15 +1608,15 @@ msgstr ""
 "Nếu bản snapshot của bạn ở trên ổ cứng từ xa hoặc nếu nó đã được mã hóa, bạn cần phải gắn kết nó trước tiên. Nếu bạn dùng chế độ SSH, bạn cũng có thể cần thiết lập khóa công khai đăng nhập vào máy chủ từ xa {addFuse}.\n"
 "Xem qua 'man backintime'."
 
-#: qt/settingsdialog.py:2203 qt/settingsdialog.py:2268
+#: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
 msgid "No config found"
 msgstr "Không tìm thấy cấu hình"
 
-#: qt/settingsdialog.py:2475
+#: qt/settingsdialog.py:2444
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "Đoạn script user-callback không có dòng shebang (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2482
+#: qt/settingsdialog.py:2451
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang trong đoạn script user-callback không được thực thi."
 
@@ -1735,6 +1719,18 @@ msgstr "Loại trừ “{path}” ra khỏi các snapshot trong tương lai?"
 #, python-brace-format
 #~ msgid "Every {n} hours"
 #~ msgstr "Mỗi {n} giờ"
+
+#~ msgid ""
+#~ "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
+#~ "\n"
+#~ "Full system backup will override some settings that may have been customized. Continue?"
+#~ msgstr ""
+#~ "Sao lưu toàn hệ thống chỉ có thể tạo một bản snapshot để khôi phục vào cùng ổ cứng vật lý với cùng phân vùng ổ cứng y hệt từ nguồn; việc khôi phục vào ổ cứng vật lý mới hoặc cùng ổ cứng nhưng khác phân vùng sẽ sản sinh ra một hệ thống bị hư hỏng và không ổn định.\n"
+#~ "\n"
+#~ "Sao lưu toàn hệ thống sẽ ghi đè vài cài đặt đã được tùy chỉnh. Tiếp tục?"
+
+#~ msgid "Modify for Full System Backup"
+#~ msgstr "Sửa đổi cho Sao lưu toàn hệ thống"
 
 #, fuzzy, python-brace-format
 #~ msgid "Profile: {name}"
