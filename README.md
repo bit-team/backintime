@@ -4,7 +4,7 @@
 [![Translation status](https://translate.codeberg.org/widgets/backintime/-/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 
 # Back In Time
-<sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+<sub>Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, Richard Bailey,
 Germar Reitze, Taylor Raack<sub>
  
 It is an easy-to-use backup tool for files and folders.
@@ -35,7 +35,7 @@ instead of implementing new
 If you are interested in the development, please
 see [CONTRIBUTING](CONTRIBUTING.md) and have a look on
 [open issues](https://github.com/bit-team/backintime/issues) especially
-those labeld as [good first](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
+those labeled as [good first](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 ## Index
@@ -136,6 +136,8 @@ files.
 
 ### Non-working password safe and BiT forgets passwords (keyring backend issues)
 
+**Status: Fixed in v1.3.3 (mostly) and v1.4.0**
+
 _Back in Time_ does only support selected "known-good" backends
 to set and query passwords from a user-session password safe by
 using the [`keyring`](https://github.com/jaraco/keyring) library.
@@ -182,6 +184,8 @@ to support all Ubuntu distros (older and newer ones).
 This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
 
 ### Tray icon or other icons not shown correctly
+
+**Status: Fixed in v1.4.0**
 
 Missing installations of Qt5-supported themes and icons can cause this effect.
 _Back In Time_ may activate the wrong theme in this
