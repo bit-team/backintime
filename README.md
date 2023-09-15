@@ -5,7 +5,7 @@
 
 # Back In Time
 <sub>Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, Richard Bailey,
-Germar Reitze, Taylor Raack<sub>
+Germar Reitze, Taylor Raack, Christian Buhtz, Michael Büker, Jürgen Altfeld<sub>
  
 It is an easy-to-use backup tool for files and folders.
 It runs on GNU Linux and provides a command line tool `backintime` and a
@@ -24,7 +24,8 @@ You only need to specify 3 things:
 
 ## Maintenance status
 
-A small team has started in summer 2022 to get things moving again after the
+A small team (Christian Buhtz, Michael Büker and Jürgen Altfeld)
+has started in summer 2022 to get things moving again after the
 development of this project has been dormant for a while.
 Stick with us, we all ♥️ _Back In Time_. 😁
 
@@ -112,15 +113,22 @@ to be prepared to build an updated version of the package:
     makepkg -si
 
 ## Known Problems and Workarounds
- - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
- - [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
- - [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
- - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
- - [Problems in versions older then the last stable release](#problems-in-versions-older-then-the-last-stable-release)
-   - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
-   - [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
 
-### File permissions handling and therefore possible non-differential backups
+In the latest stable release:
+- [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
+- [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
+
+In older releases:
+- [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
+- [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
+- [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
+- [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
+
+### Problems in the latest stable release
+
+All releases can be found in the [list of releases](https://github.com/bit-team/backintime/releases).
+
+#### File permissions handling and therefore possible non-differential backups
 
 In version 1.2.0, the handling of file permissions changed.
 In versions <= 1.1.24 (until 2017) all file permissions were set to `-rw-r--r--` in the backup target.
@@ -134,7 +142,37 @@ to add `--no-perms --no-group --no-owner` to it.
 Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
 files.
 
-### Non-working password safe and BiT forgets passwords (keyring backend issues)
+#### Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+
+In newer Ubuntu-based distros you may get this warning if you manually install _Back In Time_
+as described in the [Installation](#installation) section here.
+
+The reason is that public keys of signed packages shall be stored in a new folder now
+(for details see https://itsfoss.com/apt-key-deprecated/).
+
+You can currently ignore this warning until we have found a reliable way
+to support all Ubuntu distros (older and newer ones).
+
+This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
+
+### Problems in versions older than the latest stable release
+
+#### Tray icon or other icons not shown correctly
+
+**Status: Fixed in v1.4.0**
+
+Missing installations of Qt5-supported themes and icons can cause this effect.
+_Back In Time_ may activate the wrong theme in this
+case leading to some missing icons. A fix for the next release is in preparation.
+
+As clean solution, please check your Linux settings (Appearance, Styles, Icons)
+and install all themes and icons packages for your preferred style via
+your package manager.
+
+See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
+and [#1364](https://github.com/bit-team/backintime/issues/1364).
+
+#### Non-working password safe and BiT forgets passwords (keyring backend issues)
 
 **Status: Fixed in v1.3.3 (mostly) and v1.4.0**
 
@@ -170,35 +208,6 @@ default-keyring=keyring.backends.kwallet.DBusKeyring
 
 See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
 
-### Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
-
-In newer Ubuntu-based distros you may get this warning if you manually install _Back In Time_
-as described in the [Installation](#installation) section here.
-
-The reason is that public keys of signed packages shall be stored in a new folder now
-(for details see https://itsfoss.com/apt-key-deprecated/).
-
-You can currently ignore this warning until we have found a reliable way
-to support all Ubuntu distros (older and newer ones).
-
-This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
-
-### Tray icon or other icons not shown correctly
-
-**Status: Fixed in v1.4.0**
-
-Missing installations of Qt5-supported themes and icons can cause this effect.
-_Back In Time_ may activate the wrong theme in this
-case leading to some missing icons. A fix for the next release is in preparation.
-
-As clean solution, please check your Linux settings (Appearance, Styles, Icons)
-and install all themes and icons packages for your preferred style via
-your package manager.
-
-See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
-and [#1364](https://github.com/bit-team/backintime/issues/1364).
-
-### Problems in versions older than the latest stable release
 #### Incompatibility with rsync 3.2.4 or newer
 
 The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
