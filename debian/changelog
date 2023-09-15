@@ -1,4 +1,42 @@
-backintime (1.3.4-dev) unstable; urgency=low
-  Nothing yet.
+backintime (1.4.0) unstable; urgency=low
+  * Project: Renamed branch "master" to "main" and started "gitflow" branching model.
+  * Refactor: Renamed qt4plugin.py to systrayiconplugin.py (we are using Qt5 for years now ;-)
+  * Refactor: Removed unfinished feature "Full system backup" (#1526)
+  * Fix bug: Check SSH login works on machines with limited commands (#1442)
+  * Fix bug: Missing icon in SSH private key button (#1364)
+  * Fix bug: Master issue for missing or empty system-tray icon (#1306)
+  * Fix bug: System-tray icon missing or empty (GUI and cron) (#1236)
+  * Fix bug: Improve KDE plasma icon compatibility (#1159)
+  * GUI Change: View last (snapshot) log button in GUI uses "document-open-recent" icon now instead of "document-new" (#1386)
+  * Fix bug: Unit test fails on some machines due to warning "Ignoring XDG_SESSION_TYPE=wayland on Gnome..." (#1429)
+  * Fix bug: Generation of config-manpage caused an error with Debian's Lintian (#1398).
+  * Fix bug: Return empty list in smartRemove (#1392, Debian Bug Report 973760)
+  * Fix bug: Taking a snapshot reports `rsync` errors now even if no snapshot was taken (#1491)
+  * Fix bug: takeSnapshot() recognizes errors now by also evaluating the rsync exit code (#489)
+             Fixes related problem: Killing `rsync` was not handled gracefully (by ignoring the rsync exit code)
+  * Fix bug: The error user-callback is now always called if an error happened while taking a snapshot (#1491)
+  * Fix bug: D-Bus serviceHelper error "LimitExceeded: Maximum length of command line reached (100)":
+             Max command length is now 120 instead of 100 (#1027)
+  * Feature: Introduce new error codes for the "error" user callback (as part of #1491):
+             5: Error while taking a snapshot.
+             6: New snapshot taken but with errors.
+  * Feature: The `rsync` exit code is now contained in the snapshot log (part of #489). Example:
+             [E] Error: 'rsync' ended with exit code -9 (negative values are signal numbers, see 'kill -l')
+  * Fix bug: Treat rsync exit code 24 as INFO instead of ERROR (#1506)
+  * Breaking change: Minimal Python version 3.8 required (#1358).
+  * Removed: Handling and checking of user group "fuse" (#1472).
+  * Feature: Exclude /swapfile by default (#1053)
+  * Feature: Rearranged menu bar and its entries in the main window (#1487, #1478).
+  * Feature: Configure user interface language via config file and GUI.
+  * Documentation: Removed outdated docbook (#1345).
+  * Build: Introduced .readthedocs.yaml as asked by ReadTheDocs.org (#1443).
+  * Dependency: The oxygen icons should be installed with the BiT Qt GUI since they are used as fallback in case of missing icons
+  * Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
+  * Translation: Strings to translate now easier to understand for translators (#1448, #1457, #1462, #1465).
+  * Translation: Improved completeness of translations and additional modifications of source strings (#1454, #1512)
+  * Translation: Plural forms support (#1488).
+  * Removed: Translation in Canadian English, British English and Javanese (#1455).
+  * Added: Translation in Persian and Vietnamese (#1460).
+  * Added: Message to users (after 10 starts of BIT Gui) to motivate them contributing translations (#1473).
   
- -- BIT Team <dan@le-web.org>  Mon, 16 Jan 2023 10:13:20 +0100
+ -- Germar Reitze <germar.reitze@gmail.com>  Thu, 14 Sep 2023 21:16:22 +0200

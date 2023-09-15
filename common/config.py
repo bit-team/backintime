@@ -66,12 +66,12 @@ from exceptions import PermissionDeniedByPolicy, \
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.3.4-dev'
+    VERSION = '1.4.0'
     COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze'
 
     CONFIG_VERSION = 6
-    """Latest or highest possible version of Backin Time's config file."""
+    """Latest or highest possible version of Back in Time's config file."""
 
     NONE = 0
     AT_EVERY_BOOT = 1
