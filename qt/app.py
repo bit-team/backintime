@@ -412,12 +412,17 @@ class MainWindow(QMainWindow):
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
-        # BIT is prestented to the users.
+        # BIT is presented to the users.
         self.config.decrement_manual_starts_countdown()
 
     @property
     def showHiddenFiles(self):
         return self.config.boolValue('qt.show_hidden_files', False)
+
+    # TODO The qt.show_hidden_files key should be a constant instead of a duplicated string
+    @showHiddenFiles.setter
+    def showHiddenFiles(self, value):
+        self.config.setBoolValue('qt.show_hidden_files', value)
 
     def _create_actions(self):
         """Create all action objects used by this main window.
@@ -785,8 +790,6 @@ class MainWindow(QMainWindow):
         self.config.setIntValue('qt.main_window.files_view.name_width', self.filesView.header().sectionSize(0))
         self.config.setIntValue('qt.main_window.files_view.size_width', self.filesView.header().sectionSize(1))
         self.config.setIntValue('qt.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
-
-        self.config.setBoolValue('qt.show_hidden_files', self.showHiddenFiles)
 
         self.config.setIntValue('qt.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
         self.config.setBoolValue('qt.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.AscendingOrder)
