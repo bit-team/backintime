@@ -52,7 +52,7 @@ Please take the following best practices into account if possible (to reduce
 
 This section describes how to build and install _Back In Time_ in preparation
 of your own contributions. It is assumed that you `git clone` this repository
-fist.
+first.
 
 ### Dependencies
 
@@ -145,4 +145,4 @@ Keep in mind as you contribute, that code, docs and other material submitted
 to the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
 
-<sub>June 2023</sub>
+<sub>Sept 2023</sub>
