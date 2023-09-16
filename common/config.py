@@ -66,7 +66,7 @@ from exceptions import PermissionDeniedByPolicy, \
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.4.0'
+    VERSION = '1.4.1-dev'
     COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze'
 
