@@ -145,7 +145,8 @@ under certain conditions; type `backintime --license' for details.
             "WARNING: D-Bus message:",
             "WARNING: Udev-based profiles cannot be changed or checked",
             "WARNING: Inhibit Suspend failed",
-            "Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway"
+            "Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway",
+            "WARNING: PyQt was not able to install a translator for language code",
         ]
 
         line_contains_to_exclude = [
