@@ -596,9 +596,9 @@ class MainWindow(QMainWindow):
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
-        self.act_show_hidden.toggled.connect(self.btnShowHiddenFilesToggled)
         self.act_show_hidden.setCheckable(True)
         self.act_show_hidden.setChecked(self.showHiddenFiles)
+        self.act_show_hidden.toggled.connect(self.btnShowHiddenFilesToggled)
 
     def _create_shortcuts_without_actions(self):
         """Create shortcuts that are not related to a visual element in the
