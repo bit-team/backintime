@@ -82,7 +82,7 @@ replaced with PyPi packages.
   - `python3-dbus.mainloop.pyqt5`
   - `libnotify-bin`
   - `policykit-1`
-  - qttranslations5-l10n
+  - `qttranslations5-l10n`
   - `qtwayland5` (if Wayland is used as display server instead of X11)
   - Recommended
       - For SSH key storage **one** of these packages
