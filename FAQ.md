@@ -909,7 +909,8 @@ Plese see
 ## Setup SSH Server to run unit tests
 The goal is to log into the SSH server via `ssh localhost` without using
 a password.
-- Generate an RSA keypair executing `ssh-keygen`.
+- Generate an RSA keypair executing `ssh-keygen`. Use the default file name
+  and don't use a passphrase for the key.
 - Populate the public key to the server executing `ssh-copy-id`.
 - Make the `ssh` instance run.
 - The port `22` (SSH default) should be avaialbe.
