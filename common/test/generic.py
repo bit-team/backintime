@@ -23,6 +23,7 @@ config files and things like set.
 """
 
 import os
+import pathlib
 import sys
 import unittest
 import socket
@@ -42,18 +43,16 @@ import snapshots
 tools.registerBackintimePath('qt', 'plugins')
 
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
-PRIV_KEY_FILE = os.path.expanduser(
-    os.path.join("~", ".ssh", "id_rsa"))
-AUTHORIZED_KEYS_FILE = os.path.expanduser(
-    os.path.join("~", ".ssh", "authorized_keys"))
+# A simple (local) RSA keypair via "ssh-keygen" and activate it
+# via "ssh-copy-id localhost".
+PRIV_KEY_FILE = pathlib.Path.home() / '.ssh' / 'id_rsa'
+PUBLIC_KEY_FILE = PRIV_KEY_FILE.with_suffix('.pub')
+AUTHORIZED_KEYS_FILE = pathlib.Path.home() / '.ssh' / 'authorized_keys'
 DUMMY = 'dummy_test_process.sh'
 
-if os.path.exists(PRIV_KEY_FILE + '.pub') \
-   and os.path.exists(AUTHORIZED_KEYS_FILE):
-
-    with open(PRIV_KEY_FILE + '.pub', 'rb') as pub:
-
-        with open(AUTHORIZED_KEYS_FILE, 'rb') as auth:
+if all([PUBLIC_KEY_FILE.exists(), AUTHORIZED_KEYS_FILE.exists()]):
+    with PUBLIC_KEY_FILE.open('rb') as pub:
+        with AUTHORIZED_KEYS_FILE.open('rb') as auth:
             KEY_IN_AUTH = pub.read() in auth.readlines()
 else:
     KEY_IN_AUTH = False
@@ -68,15 +67,25 @@ except ConnectionRefusedError:
 
 SKIP_SSH_TEST_MESSAGE = 'Skip as this test requires a local ssh server, ' \
                         'public and private keys installed'
-LOCAL_SSH = all((tools.processExists('sshd'),
-                 os.path.isfile(PRIV_KEY_FILE),
-                 KEY_IN_AUTH,
-                 sshdPortAvailable))
+LOCAL_SSH = all([
+    # Server process running?
+    tools.processExists('sshd'),
+    # Privat keyfile (id_rsa)
+    PRIV_KEY_FILE.is_file(),
+    # Key known (copied via "ssh-copy-id")
+    KEY_IN_AUTH,
+    # SSH port (22) available at the server
+    sshdPortAvailable
+])
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
-
+# Temporary workaround (buhtz: 2023-09)
+# Not all components of the code are able to handle Path objects
+PRIV_KEY_FILE = str(PRIV_KEY_FILE)
+PUBLIC_KEY_FILE = str(PUBLIC_KEY_FILE)
+AUTHORIZED_KEYS_FILE = str(AUTHORIZED_KEYS_FILE)
 
 class TestCase(unittest.TestCase):
     """Base class for Back In Time unit- and integration testing.

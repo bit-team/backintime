@@ -30,6 +30,9 @@
   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
   * [How to move large directory in source without duplicating backup?](#how-to-move-large-directory-in-source-without-duplicating-backup)
+- [Testing & Building](#testing--building)
+  * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
+  * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
 <!-- TOC end -->
 ## Restore
 
@@ -893,3 +896,24 @@ moving the file/folder in the last snapshot, too.
 
 1. remove the overlast snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
+
+
+# Testing & Building
+
+## SSH related tests are skipped
+Some of the tests need an available SSH server.
+They get skipped if this is not the case.
+Plese see
+[Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests).
+
+## Setup SSH Server to run unit tests
+The goal is to log into the SSH server via `ssh localhost` without using
+a password.
+- Generate an RSA keypair executing `ssh-keygen`. Use the default file name
+  and don't use a passphrase for the key.
+- Populate the public key to the server executing `ssh-copy-id`.
+- Make the `ssh` instance run.
+- The port `22` (SSH default) should be avaialbe.
+To test the connection just execute `ssh localhost` and you should see an
+SSH shell without being asked for a password.
+
