@@ -62,7 +62,7 @@ is missing. If you use another GNU/Linux distribution, please install the
 corresponding packages. Be aware that some of the named packages can be
 replaced with PyPi packages.
 
-* Runtime dependencies
+* Runtime dependencies for the CLI
 
   - `python3` (>= 3.8)
   - `rsync`
@@ -71,11 +71,9 @@ replaced with PyPi packages.
   - `python3-keyring`
   - `python3-dbus`
   - `python3-packaging`
-
-* Recommended
-
-  - `sshfs`
-  - `encfs`
+  -  Recommended
+     - `sshfs`
+     - `encfs`
 
 * Runtime dependencies for the GUI
 
@@ -84,25 +82,24 @@ replaced with PyPi packages.
   - `python3-dbus.mainloop.pyqt5`
   - `libnotify-bin`
   - `policykit-1`
+  - qttranslations5-l10n
   - `qtwayland5` (if Wayland is used as display server instead of X11)
+  - Recommended
+      - For SSH key storage **one** of these packages
+        - `python3-secretstorage`
+        - `python3-keyring-kwallet`
+        - `python3-gnomekeyring`
+      - For diff-like comparing files between backup snapshots **one** of these
+        packages
+        - `kompare`
+        - or `meld`
+      - Optional: Default icons
+        - The `oxygen` icons should be offered as optional dependency
+          since they are used as fallback in case of missing icons
+          (mainly app and system-tray icons)
 
-* Recommended for the GUI
-
-  - For SSH key storage **one** of these packages
-    - `python3-secretstorage`
-    - `python3-keyring-kwallet`
-    - `python3-gnomekeyring`
-  - For diff-like comparing files between backup snapshots **one** of these
-    packages
-    - `kompare`
-    - or `meld`
-  - Optional: Default icons
-    - The `oxygen` icons should be offered as optional dependency
-      since they are used as fallback in case of missing icons
-      (mainly app and system-tray icons)
-
-* Build dependencies
-
+* Build and testing dependencies
+  - All runtime dependencies for CLI and GUI including the recommended
   - `build-essential`
   - `gzip`
   - `gettext`
