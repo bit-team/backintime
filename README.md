@@ -1,7 +1,7 @@
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
 [![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=main)](https://coveralls.io/github/bit-team/backintime?branch=main)
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
-[![Translation status](https://translate.codeberg.org/widgets/backintime/-/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
+[![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 
 # Back In Time
 <sub>Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, Richard Bailey,
