@@ -247,6 +247,18 @@ class TestApplicationInstance(generic.TestCase):
 
     @patch('builtins.open')
     def test_flock_exclusive_fail(self, mock_open):
+        """Dev note (buhtz: 2023-09)
+        Nothing is tested here.
+        Looking into flockExclusive() there is only the opportunity to
+        test for ERROR log output. Log output shouldn't be tested.
+
+        The behavior to test is unclear.
+
+        Proposal:
+          - Remove the test.
+          - Refactor flockExclusive() and related code to make its behavior
+            clear.
+        """
         mock_open.side_effect = OSError()
         self.app_instance.flockExclusiv()
 

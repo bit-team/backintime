@@ -134,6 +134,10 @@ class ApplicationInstance:
         """
         Create an exclusive lock to block a second instance while
         the first instance is starting.
+
+        Dev note (buhtz: 2023-09)
+        Not sure but just log an ERROR without doing anything else is
+        IMHO not enough.
         """
         try:
             self.flock = open(self.pidFile + '.flock', 'w')
