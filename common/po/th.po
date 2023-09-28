@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-09-12 07:37+0200\n"
+"POT-Creation-Date: 2023-09-28 21:17+0200\n"
 "PO-Revision-Date: 2023-09-25 14:54+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/backintime/common/th/>\n"
@@ -243,7 +243,7 @@ msgstr "ล้มเหลว"
 msgid "Restore permissions"
 msgstr "เรียกคืนสิทธิ์"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:912 qt/app.py:947
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:78
 msgid "Done"
 msgstr "ทำเสร็จ"
@@ -354,7 +354,7 @@ msgstr "พยายามรักษาพื้นที่ว่างขั
 msgid "Trying to keep min {perc} free inodes"
 msgstr "พยายามรักษาเครื่องหมายเชิงว่างขั้นต่ำที่ {perc}"
 
-#: common/snapshots.py:2812 qt/app.py:1595
+#: common/snapshots.py:2812 qt/app.py:1598
 msgid "Now"
 msgstr "เดี๋ยวนี้"
 
@@ -462,141 +462,141 @@ msgstr ""
 "ไม่พบโฟลเดอร์สแนปช็อต\n"
 "หากอยู่บนไดรฟ์ที่เปลี่ยนได้ โปรดเสียบเข้าแล้วกด OK"
 
-#: qt/app.py:448
+#: qt/app.py:453
 #, fuzzy
 msgid "Take a snapshot"
 msgstr "สร้างสแนปช็อต"
 
-#: qt/app.py:450
+#: qt/app.py:455
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:453
+#: qt/app.py:458
 #, fuzzy
 msgid "Take a snapshot (checksum mode)"
 msgstr "ทำสแนปช็อตพร้อมแสดงผลการตรวจสอบสำหรับ checksum"
 
-#: qt/app.py:455
+#: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
 msgstr "ใช้ checksum เพื่อตรวจจับการเปลี่ยนแปลง"
 
-#: qt/app.py:458 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
 msgstr "หยุดกระบวนการสร้างสแนปช็อตชั่วคราว"
 
-#: qt/app.py:463 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:87
 msgid "Resume snapshot process"
 msgstr "ดำเนินกระบวนการสร้างสแนปช็อตต่อ"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:92
 msgid "Stop snapshot process"
 msgstr "หยุดกระบวนการสร้างสแนปช็อต"
 
-#: qt/app.py:471
+#: qt/app.py:476
 #, fuzzy
 msgid "Refresh snapshot list"
 msgstr "รีเฟรชรายการสแนปช็อต"
 
-#: qt/app.py:475
+#: qt/app.py:480
 #, fuzzy
 msgid "Name snapshot"
 msgstr "สร้างสแนปช็อต"
 
-#: qt/app.py:479
+#: qt/app.py:484
 #, fuzzy
 msgid "Remove snapshot"
 msgstr "ลบสแนปช็อต"
 
-#: qt/app.py:483
+#: qt/app.py:488
 #, fuzzy
 msgid "View snapshot log"
 msgstr "ดูบันทึกสแนปช็อต"
 
-#: qt/app.py:487
+#: qt/app.py:492
 #, fuzzy
 msgid "View last log"
 msgstr "ดูบันทึกล่าสุด"
 
-#: qt/app.py:491 qt/settingsdialog.py:87
+#: qt/app.py:496 qt/settingsdialog.py:87
 #, fuzzy
 msgid "Manage profiles"
 msgstr "โปรไฟล์หลัก"
 
-#: qt/app.py:495
+#: qt/app.py:500
 msgid "Shutdown"
 msgstr "ปิดเครื่อง"
 
-#: qt/app.py:497
+#: qt/app.py:502
 #, fuzzy
 msgid "Shut down system after snapshot has finished."
 msgstr "ปิดเครื่องหลังสแนปช็อตเสร็จสิ้น"
 
-#: qt/app.py:499 qt/languagedialog.py:29
+#: qt/app.py:504 qt/languagedialog.py:29
 msgid "Setup language"
 msgstr ""
 
-#: qt/app.py:503
+#: qt/app.py:508
 msgid "Exit"
 msgstr "ออก"
 
-#: qt/app.py:507
+#: qt/app.py:512
 msgid "Help"
 msgstr "ช่วยเหลือ"
 
-#: qt/app.py:511
+#: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
 msgstr "กำลังบันทึกไฟล์กำหนดค่า..."
 
-#: qt/app.py:514 qt/languagedialog.py:216
+#: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
 msgstr "เว็บไซต์"
 
-#: qt/app.py:517 qt/app.py:1248
+#: qt/app.py:522 qt/app.py:1251
 msgid "Changelog"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:523
+#: qt/app.py:528
 msgid "Ask a question"
 msgstr "แปลว่า \"ถามคำถาม"
 
-#: qt/app.py:526
+#: qt/app.py:531
 msgid "Report a bug"
 msgstr "รายงานข้อบกพร่อง"
 
-#: qt/app.py:529
+#: qt/app.py:534
 #, fuzzy
 msgid "Translation"
 msgstr "การแปล"
 
-#: qt/app.py:532 qt/app.py:1817
+#: qt/app.py:537 qt/app.py:1820
 msgid "About"
 msgstr "เกี่ยวกับ"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2197
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2197
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "คืน"
 
-#: qt/app.py:537
+#: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
 msgstr "เรียกคืนไฟล์หรือโฟลเดอร์ที่เลือกไปยังตำแหน่งเดิม"
 
-#: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
 msgstr "กู้คืนไปยัง ..."
 
-#: qt/app.py:542
+#: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
 msgstr "เรียกคืนไฟล์หรือโฟลเดอร์ที่เลือกไปยังตำแหน่งใหม่"
 
-#: qt/app.py:547
+#: qt/app.py:552
 #, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
@@ -604,7 +604,7 @@ msgid ""
 msgstr ""
 "คืนค่าโฟลเดอร์ที่แสดงอยู่ในปัจจุบันพร้อมทั้งเนื้อหาทั้งหมดไปยังตำแหน่งเดิม"
 
-#: qt/app.py:552
+#: qt/app.py:557
 #, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
@@ -612,32 +612,32 @@ msgid ""
 msgstr ""
 "คืนค่าโฟลเดอร์ที่แสดงอยู่ในปัจจุบันพร้อมทั้งเนื้อหาทั้งหมดไปยังตำแหน่งใหม่"
 
-#: qt/app.py:555
+#: qt/app.py:560
 msgid "Up"
 msgstr "ขึ้น"
 
-#: qt/app.py:558 qt/settingsdialog.py:2153
+#: qt/app.py:563 qt/settingsdialog.py:2153
 msgid "Show hidden files"
 msgstr "แสดงแฟ้มที่ซ่อน"
 
-#: qt/app.py:561
+#: qt/app.py:566
 #, fuzzy
 msgid "Compare snapshots"
 msgstr "สร้างสแนปช็อต"
 
-#: qt/app.py:622
+#: qt/app.py:627
 msgid "&Backup"
 msgstr ""
 
-#: qt/app.py:633
+#: qt/app.py:638
 msgid "&Restore"
 msgstr "&คืนค่า"
 
-#: qt/app.py:639
+#: qt/app.py:644
 msgid "&Help"
 msgstr "&ช่วยเหลือ"
 
-#: qt/app.py:756
+#: qt/app.py:761
 #, fuzzy
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
@@ -646,59 +646,59 @@ msgstr ""
 "หากคุณปิดหน้าต่างนี้ โปรแกรม Back In Time จะไม่สามารถปิดเครื่องของคุณเมื่อสแนปช็อตเสร็จสิ้นแล้วได้\n"
 "คุณต้องการปิดหรือไม่?"
 
-#: qt/app.py:902
+#: qt/app.py:905
 msgid "Working:"
 msgstr "กำลังทำงาน中:"
 
-#: qt/app.py:950
+#: qt/app.py:953
 msgid "Done, no backup needed"
 msgstr "ทำเสร็จ, ไม่จำเป็นต้องสำรอง"
 
-#: qt/app.py:958
+#: qt/app.py:961
 msgid "Working"
 msgstr "กำลังทำงาน"
 
-#: qt/app.py:964 qt/messagebox.py:75
+#: qt/app.py:967 qt/messagebox.py:75
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
-#: qt/app.py:985 qt/qtsystrayicon.py:200
+#: qt/app.py:988 qt/qtsystrayicon.py:200
 msgid "Sent"
 msgstr "ได้ส่งแล้ว"
 
-#: qt/app.py:986 qt/qtsystrayicon.py:201
+#: qt/app.py:989 qt/qtsystrayicon.py:201
 msgid "Speed"
 msgstr "ความเร็ว"
 
-#: qt/app.py:987 qt/qtsystrayicon.py:202
+#: qt/app.py:990 qt/qtsystrayicon.py:202
 msgid "ETA"
 msgstr "ETA"
 
-#: qt/app.py:1041
+#: qt/app.py:1044
 msgid "Global"
 msgstr "ทั่วโลก"
 
-#: qt/app.py:1042
+#: qt/app.py:1045
 msgid "Root"
 msgstr "รูท"
 
-#: qt/app.py:1043
+#: qt/app.py:1046
 msgid "Home"
 msgstr "โฮม"
 
-#: qt/app.py:1058
+#: qt/app.py:1061
 msgid "Backup folders"
 msgstr "โฟลเดอร์สำรองข้อมูล"
 
-#: qt/app.py:1146
+#: qt/app.py:1149
 msgid "Snapshot Name"
 msgstr "ชื่อสแนปช็อต"
 
-#: qt/app.py:1192
+#: qt/app.py:1195
 msgid "Are you sure you want to remove the snapshot"
 msgstr "คุณแน่ใจว่าต้องการลบสแนปช็อตหรือไม่"
 
-#: qt/app.py:1281
+#: qt/app.py:1284
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before\n"
@@ -707,7 +707,7 @@ msgstr ""
 "สำรองข้อมูลไฟล์ท้องถิ่นก่อนเขียนทับหรือลบ\n"
 "ลบพร้อมคำติดท้าย {suffix}."
 
-#: qt/app.py:1287 qt/settingsdialog.py:774
+#: qt/app.py:1290 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -716,7 +716,7 @@ msgstr ""
 "เวอร์ชันใหม่ของไฟล์จะถูกเปลี่ยนชื่อด้วยคำติดท้าย {suffix} ก่อนที่จะถูกคืนค่า\n"
 "หากคุณไม่ต้องการใช้งานอีกต่อไป คุณสามารถลบไฟล์เหล่านี้ด้วย {cmd}"
 
-#: qt/app.py:1301
+#: qt/app.py:1304
 msgid ""
 "Only restore files which do not exist or\n"
 "are newer than those in destination.\n"
@@ -726,11 +726,11 @@ msgstr ""
 "เป็นไฟล์เวอร์ชันใหม่กว่าที่อยู่ในตำแหน่งปลายทาง\n"
 "ใช้ตัวเลือก \"rsync --update\""
 
-#: qt/app.py:1334
+#: qt/app.py:1337
 msgid "Remove newer files in original folder"
 msgstr "ลบไฟล์ที่เป็นเวอร์ชันใหม่กว่าในโฟลเดอร์เดิม"
 
-#: qt/app.py:1335
+#: qt/app.py:1338
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
@@ -743,7 +743,7 @@ msgstr ""
 "การดำเนินการนี้จะลบไฟล์/โฟลเดอร์ที่ถูกยกเว้นในขณะที่สแนปช็อตถูกสร้างขึ้น!\n"
 "โปรดระมัดระวังอย่างยิ่ง!!!"
 
-#: qt/app.py:1347
+#: qt/app.py:1350
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore the files(s)\n"
@@ -752,65 +752,65 @@ msgstr ""
 "คุณต้องการคืนค่าไฟล์เหล่านี้ใช่หรือไม่\n"
 "ไปยังโฟลเดอร์ใหม่ {path}"
 
-#: qt/app.py:1351
+#: qt/app.py:1354
 #, fuzzy
 msgid "Do you really want to restore the files(s)"
 msgstr "คุณต้องการคืนค่าไฟล์เหล่านี้ใช่หรือไม่"
 
-#: qt/app.py:1363
+#: qt/app.py:1366
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดใน {path} หรือไม่?"
 
-#: qt/app.py:1366
+#: qt/app.py:1369
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดในโฟลเดอร์เดิมของคุณหรือไม่?"
 
-#: qt/app.py:1371
+#: qt/app.py:1374
 #, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr "คำเตือน: การลบไฟล์ในระบบไฟล์รูทอาจทำให้ระบบของคุณเสียหายได้ทั้งหมด!!!"
 
-#: qt/app.py:1596
+#: qt/app.py:1599
 #, fuzzy
 msgid "View the current disk contents"
 msgstr "ดูเนื้อหาของดิสก์ปัจจุบัน"
 
-#: qt/app.py:1603
+#: qt/app.py:1606
 msgid "Snapshot"
 msgstr "สแนปช็อต"
 
-#: qt/app.py:1604
+#: qt/app.py:1607
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
 msgstr "ดูสแนปช็อตที่ทำไว้ที่ {timestamp}"
 
-#: qt/app.py:1643
+#: qt/app.py:1646
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "คืนค่า {path}"
 
-#: qt/app.py:1645
+#: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "คืนค่า {path} ไปยัง..."
 
-#: qt/app.py:1802
+#: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1842 qt/app.py:1859
+#: qt/app.py:1845 qt/app.py:1862
 msgid "Authors"
 msgstr "ผู้เขียน"
 
-#: qt/app.py:1843 qt/app.py:1862
+#: qt/app.py:1846 qt/app.py:1865
 msgid "Translations"
 msgstr "การแปล"
 
-#: qt/app.py:1844 qt/app.py:1865
+#: qt/app.py:1847 qt/app.py:1868
 msgid "License"
 msgstr "ใบอนุญาต"
 

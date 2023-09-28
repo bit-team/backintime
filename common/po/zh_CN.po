@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-09-12 07:37+0200\n"
+"POT-Creation-Date: 2023-09-28 21:17+0200\n"
 "PO-Revision-Date: 2023-09-25 14:54+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
@@ -233,7 +233,7 @@ msgstr "失败"
 msgid "Restore permissions"
 msgstr "恢复权限"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:912 qt/app.py:947
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:78
 msgid "Done"
 msgstr "已完成"
@@ -345,7 +345,7 @@ msgstr "尝试保留最小可用空间"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
-#: common/snapshots.py:2812 qt/app.py:1595
+#: common/snapshots.py:2812 qt/app.py:1598
 msgid "Now"
 msgstr "现在"
 
@@ -448,175 +448,175 @@ msgstr ""
 "找不到快照文件夹。\n"
 "如果使用的是可移动磁盘，请连接到电脑，然后按 “确定”。"
 
-#: qt/app.py:448
+#: qt/app.py:453
 #, fuzzy
 msgid "Take a snapshot"
 msgstr "创建快照"
 
-#: qt/app.py:450
+#: qt/app.py:455
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:453
+#: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
 msgstr ""
 
-#: qt/app.py:455
+#: qt/app.py:460
 msgid "Use checksums for file change detection."
 msgstr "使用校验码探测文件变更。"
 
-#: qt/app.py:458 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
 msgstr ""
 
-#: qt/app.py:463 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:87
 msgid "Resume snapshot process"
 msgstr ""
 
-#: qt/app.py:467 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:92
 msgid "Stop snapshot process"
 msgstr ""
 
-#: qt/app.py:471
+#: qt/app.py:476
 #, fuzzy
 msgid "Refresh snapshot list"
 msgstr "刷新快照列表"
 
-#: qt/app.py:475
+#: qt/app.py:480
 #, fuzzy
 msgid "Name snapshot"
 msgstr "创建快照"
 
-#: qt/app.py:479
+#: qt/app.py:484
 #, fuzzy
 msgid "Remove snapshot"
 msgstr "移除快照"
 
-#: qt/app.py:483
+#: qt/app.py:488
 #, fuzzy
 msgid "View snapshot log"
 msgstr "查看快照日志"
 
-#: qt/app.py:487
+#: qt/app.py:492
 #, fuzzy
 msgid "View last log"
 msgstr "查看最近的日志"
 
-#: qt/app.py:491 qt/settingsdialog.py:87
+#: qt/app.py:496 qt/settingsdialog.py:87
 #, fuzzy
 msgid "Manage profiles"
 msgstr "主要配置"
 
-#: qt/app.py:495
+#: qt/app.py:500
 msgid "Shutdown"
 msgstr "关机"
 
-#: qt/app.py:497
+#: qt/app.py:502
 msgid "Shut down system after snapshot has finished."
 msgstr "快照完成后关闭系统。"
 
-#: qt/app.py:499 qt/languagedialog.py:29
+#: qt/app.py:504 qt/languagedialog.py:29
 msgid "Setup language"
 msgstr ""
 
-#: qt/app.py:503
+#: qt/app.py:508
 msgid "Exit"
 msgstr "退出"
 
-#: qt/app.py:507
+#: qt/app.py:512
 msgid "Help"
 msgstr "帮助"
 
-#: qt/app.py:511
+#: qt/app.py:516
 msgid "Profiles config file"
 msgstr "配置文件"
 
-#: qt/app.py:514 qt/languagedialog.py:216
+#: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
 msgstr "网站"
 
-#: qt/app.py:517 qt/app.py:1248
+#: qt/app.py:522 qt/app.py:1251
 msgid "Changelog"
 msgstr ""
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "FAQ"
 msgstr "常见问题"
 
-#: qt/app.py:523
+#: qt/app.py:528
 msgid "Ask a question"
 msgstr "提出问题"
 
-#: qt/app.py:526
+#: qt/app.py:531
 msgid "Report a bug"
 msgstr "报告 BUG"
 
-#: qt/app.py:529
+#: qt/app.py:534
 #, fuzzy
 msgid "Translation"
 msgstr "翻译"
 
-#: qt/app.py:532 qt/app.py:1817
+#: qt/app.py:537 qt/app.py:1820
 msgid "About"
 msgstr "关于"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2197
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2197
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "还原"
 
-#: qt/app.py:537
+#: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
-#: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "还原至…"
 
-#: qt/app.py:542
+#: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
 
-#: qt/app.py:547
+#: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 
-#: qt/app.py:552
+#: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
 
-#: qt/app.py:555
+#: qt/app.py:560
 msgid "Up"
 msgstr "上移"
 
-#: qt/app.py:558 qt/settingsdialog.py:2153
+#: qt/app.py:563 qt/settingsdialog.py:2153
 msgid "Show hidden files"
 msgstr "显示隐藏文件"
 
-#: qt/app.py:561
+#: qt/app.py:566
 #, fuzzy
 msgid "Compare snapshots"
 msgstr "创建快照"
 
-#: qt/app.py:622
+#: qt/app.py:627
 msgid "&Backup"
 msgstr ""
 
-#: qt/app.py:633
+#: qt/app.py:638
 #, fuzzy
 msgid "&Restore"
 msgstr "还原"
 
-#: qt/app.py:639
+#: qt/app.py:644
 #, fuzzy
 msgid "&Help"
 msgstr "帮助"
 
-#: qt/app.py:756
+#: qt/app.py:761
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -624,87 +624,87 @@ msgstr ""
 "如果关闭此窗口，则快照完成后 Back In Time 无法关闭你的系统。\n"
 "是否真的要关闭？"
 
-#: qt/app.py:902
+#: qt/app.py:905
 msgid "Working:"
 msgstr "运行中："
 
-#: qt/app.py:950
+#: qt/app.py:953
 #, fuzzy
 msgid "Done, no backup needed"
 msgstr "已完成，无需备份"
 
-#: qt/app.py:958
+#: qt/app.py:961
 #, fuzzy
 msgid "Working"
 msgstr "运行中"
 
-#: qt/app.py:964 qt/messagebox.py:75
+#: qt/app.py:967 qt/messagebox.py:75
 msgid "Error"
 msgstr "错误"
 
-#: qt/app.py:985 qt/qtsystrayicon.py:200
+#: qt/app.py:988 qt/qtsystrayicon.py:200
 msgid "Sent"
 msgstr "已发送"
 
-#: qt/app.py:986 qt/qtsystrayicon.py:201
+#: qt/app.py:989 qt/qtsystrayicon.py:201
 msgid "Speed"
 msgstr "速度"
 
-#: qt/app.py:987 qt/qtsystrayicon.py:202
+#: qt/app.py:990 qt/qtsystrayicon.py:202
 msgid "ETA"
 msgstr "预计完成时间"
 
-#: qt/app.py:1041
+#: qt/app.py:1044
 msgid "Global"
 msgstr "全局"
 
-#: qt/app.py:1042
+#: qt/app.py:1045
 msgid "Root"
 msgstr "根目录"
 
-#: qt/app.py:1043
+#: qt/app.py:1046
 msgid "Home"
 msgstr "主目录"
 
-#: qt/app.py:1058
+#: qt/app.py:1061
 msgid "Backup folders"
 msgstr "备份文件夹"
 
-#: qt/app.py:1146
+#: qt/app.py:1149
 msgid "Snapshot Name"
 msgstr "快照名"
 
-#: qt/app.py:1192
+#: qt/app.py:1195
 #, fuzzy
 msgid "Are you sure you want to remove the snapshot"
 msgstr "您确定要移除快照"
 
-#: qt/app.py:1281
+#: qt/app.py:1284
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before\n"
 "overwriting or removing local files."
 msgstr "在覆盖或移除本地文件前创建带有后缀 {suffix}的备份副本。"
 
-#: qt/app.py:1287 qt/settingsdialog.py:774
+#: qt/app.py:1290 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
-#: qt/app.py:1301
+#: qt/app.py:1304
 msgid ""
 "Only restore files which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: qt/app.py:1334
+#: qt/app.py:1337
 msgid "Remove newer files in original folder"
 msgstr ""
 
-#: qt/app.py:1335
+#: qt/app.py:1338
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
@@ -712,70 +712,70 @@ msgid ""
 "Be extremely careful!"
 msgstr ""
 
-#: qt/app.py:1347
+#: qt/app.py:1350
 #, python-brace-format
 msgid ""
 "Do you really want to restore the files(s)\n"
 "into new folder {path}"
 msgstr "是否确定将文件还原至新文件夹 {path}"
 
-#: qt/app.py:1351
+#: qt/app.py:1354
 msgid "Do you really want to restore the files(s)"
 msgstr "是否确定还原文件"
 
-#: qt/app.py:1363
+#: qt/app.py:1366
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "您确定要移除 {path} 的所有新文件吗？"
 
-#: qt/app.py:1366
+#: qt/app.py:1369
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: qt/app.py:1371
+#: qt/app.py:1374
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 
-#: qt/app.py:1596
+#: qt/app.py:1599
 #, fuzzy
 msgid "View the current disk contents"
 msgstr "查看当前磁盘内容"
 
-#: qt/app.py:1603
+#: qt/app.py:1606
 #, fuzzy
 msgid "Snapshot"
 msgstr "快照"
 
-#: qt/app.py:1604
+#: qt/app.py:1607
 #, python-brace-format
 msgid "View the snapshot made at {timestamp}"
 msgstr "查看于 {timestamp} 创建的快照"
 
-#: qt/app.py:1643
+#: qt/app.py:1646
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "还原 {path}"
 
-#: qt/app.py:1645
+#: qt/app.py:1648
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "还原 {path} 至…"
 
-#: qt/app.py:1802
+#: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1842 qt/app.py:1859
+#: qt/app.py:1845 qt/app.py:1862
 msgid "Authors"
 msgstr "作者"
 
-#: qt/app.py:1843 qt/app.py:1862
+#: qt/app.py:1846 qt/app.py:1865
 msgid "Translations"
 msgstr "翻译"
 
-#: qt/app.py:1844 qt/app.py:1865
+#: qt/app.py:1847 qt/app.py:1868
 msgid "License"
 msgstr ""
 
