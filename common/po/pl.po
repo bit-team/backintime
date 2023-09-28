@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-12 07:37+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-09-18 19:32+0000\n"
+"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
@@ -58,12 +58,10 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
 msgstr "Katalog migawek jest nieprawidłowy!"
 
 #: common/config.py:354
-#, fuzzy
 msgid "You must select at least one folder to back up!"
 msgstr "Musisz wybrać co najmniej jeden katalog do wykonania kopii zapasowej!"
 
@@ -162,9 +160,9 @@ msgid "Schedule udev doesn't work with mode {mode}"
 msgstr ""
 
 #: common/config.py:1726
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Nie udało się odnaleźć UUID dla \"{path}\""
+msgstr "Nie udało się odnaleźć UUID dla {path}"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
@@ -175,9 +173,9 @@ msgid "Failed to load config"
 msgstr "Nie udało się wczytać konfiguracji"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil \"{name}\" już istnieje!"
+msgstr "Profil \"{name}\" już istnieje."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -205,9 +203,8 @@ msgid "Please confirm password"
 msgstr "Potwierdź hasło"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Hasło niezgodne"
+msgstr "Hasło nie pasuje."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -233,7 +230,7 @@ msgstr ""
 
 #: common/mount.py:708
 msgid "Mountpoint {} not empty."
-msgstr ""
+msgstr "Punkt montowania {} nie jest pusty."
 
 #: common/password.py:240
 #, fuzzy, python-brace-format
@@ -275,18 +272,17 @@ msgstr[1] "Pozostały %s sekundy."
 msgstr[2] "Pozostało %s sekund."
 
 #: common/snapshots.py:805
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Nie udało się wykonać migawki {snapshot_id}!!!"
+msgstr "Nie udało się wykonać migawki {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Finalizuję"
 
 #: common/snapshots.py:943
-#, fuzzy
 msgid "Can't create folder"
-msgstr "Nie mogę stworzyć katalogu"
+msgstr "Nie można utworzyć katalogu"
 
 #: common/snapshots.py:960
 msgid "Saving config file..."
@@ -316,7 +312,7 @@ msgstr "Utwórz migawkę"
 
 #: common/snapshots.py:1248
 msgid "Success"
-msgstr ""
+msgstr "Sukces"
 
 #: common/snapshots.py:1249
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -367,7 +363,7 @@ msgid "Now"
 msgstr "Teraz"
 
 #: common/sshtools.py:204
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Nie można zamontować {sshfs}"
 
@@ -399,9 +395,8 @@ msgid "Remote path is not executable."
 msgstr ""
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Nie mogę stworzyć katalogu"
+msgstr "Nie można utworzyć zdalnej ścieżki."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -428,9 +423,9 @@ msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
 #: common/sshtools.py:1051
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr "Potwierdź hasło do \"{user}\""
+msgstr "Wprowadź hasło dla \"{user}\""
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -448,7 +443,7 @@ msgstr ""
 
 #: qt/app.py:254 qt/logviewdialog.py:171
 msgid "Add to Exclude"
-msgstr ""
+msgstr "Dodaj do wykluczonych"
 
 #: qt/app.py:339
 #, python-brace-format
@@ -467,7 +462,6 @@ msgstr ""
 "Jeżeli katalog znajduje się na dysku wymiennym proszę go podłączyć i wcisnąć OK."
 
 #: qt/app.py:448
-#, fuzzy
 msgid "Take a snapshot"
 msgstr "Utwórz migawkę"
 
@@ -476,9 +470,8 @@ msgid "Use modification time & size for file change detection."
 msgstr ""
 
 #: qt/app.py:453
-#, fuzzy
 msgid "Take a snapshot (checksum mode)"
-msgstr "Migawka z sumami kontrolnymi"
+msgstr "Wykonaj migawkę (sprawdzanie sumy kontrolnej)"
 
 #: qt/app.py:455
 #, fuzzy
@@ -498,24 +491,20 @@ msgid "Stop snapshot process"
 msgstr "Zakończ wykonywanie migawki"
 
 #: qt/app.py:471
-#, fuzzy
 msgid "Refresh snapshot list"
 msgstr "Odśwież listę migawek"
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Name snapshot"
-msgstr "Utwórz migawkę"
+msgstr "Nazwa migawki"
 
 #: qt/app.py:479
-#, fuzzy
 msgid "Remove snapshot"
 msgstr "Usuń migawkę"
 
 #: qt/app.py:483
-#, fuzzy
 msgid "View snapshot log"
-msgstr "Podgląd dziennika migawki"
+msgstr "Zobacz dziennik migawki"
 
 #: qt/app.py:487
 #, fuzzy
@@ -523,9 +512,8 @@ msgid "View last log"
 msgstr "Podgląd ostatniego dziennika"
 
 #: qt/app.py:491 qt/settingsdialog.py:87
-#, fuzzy
 msgid "Manage profiles"
-msgstr "Profil główny"
+msgstr "Zarządzaj profilami"
 
 #: qt/app.py:495
 msgid "Shutdown"
@@ -538,7 +526,7 @@ msgstr "Zamknij system po wykonaniu migawki."
 
 #: qt/app.py:499 qt/languagedialog.py:29
 msgid "Setup language"
-msgstr ""
+msgstr "Ustaw język"
 
 #: qt/app.py:503
 msgid "Exit"
@@ -549,9 +537,8 @@ msgid "Help"
 msgstr "Pomoc"
 
 #: qt/app.py:511
-#, fuzzy
 msgid "Profiles config file"
-msgstr "Zapisz plik konfiguracyjny ..."
+msgstr "Plik konfiguracyjny profili"
 
 #: qt/app.py:514 qt/languagedialog.py:216
 msgid "Website"
@@ -574,9 +561,8 @@ msgid "Report a bug"
 msgstr "Zgłoś błąd"
 
 #: qt/app.py:529
-#, fuzzy
 msgid "Translation"
-msgstr "Tłumaczenia"
+msgstr "Tłumaczenie"
 
 #: qt/app.py:532 qt/app.py:1817
 msgid "About"
@@ -592,9 +578,8 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
 #: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
-msgstr "Przywróć do ..."
+msgstr "Przywróć do…"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to a new destination."
@@ -621,13 +606,12 @@ msgid "Show hidden files"
 msgstr "Pokaż ukryte pliki"
 
 #: qt/app.py:561
-#, fuzzy
 msgid "Compare snapshots"
-msgstr "Utwórz migawkę"
+msgstr "Porównaj migawki"
 
 #: qt/app.py:622
 msgid "&Backup"
-msgstr ""
+msgstr "&Kopia zapasowa"
 
 #: qt/app.py:633
 msgid "&Restore"
@@ -661,17 +645,14 @@ msgid "Error"
 msgstr "Błąd"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
-#, fuzzy
 msgid "Sent"
 msgstr "Wysłane"
 
 #: qt/app.py:986 qt/qtsystrayicon.py:201
-#, fuzzy
 msgid "Speed"
 msgstr "Prędkość"
 
 #: qt/app.py:987 qt/qtsystrayicon.py:202
-#, fuzzy
 msgid "ETA"
 msgstr "Do końca"
 
@@ -760,14 +741,12 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1596
-#, fuzzy
 msgid "View the current disk contents"
 msgstr "Pokaż obecną zawartość dysku"
 
 #: qt/app.py:1603
-#, fuzzy
 msgid "Snapshot"
-msgstr "Migawki"
+msgstr "Migawka"
 
 #: qt/app.py:1604
 #, fuzzy, python-brace-format
@@ -775,14 +754,14 @@ msgid "View the snapshot made at {timestamp}"
 msgstr "Zobacz migawkę wykonaną {timestamp}"
 
 #: qt/app.py:1643
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Przywróć {path}"
 
 #: qt/app.py:1645
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Przywróć {path} do ..."
+msgstr "Przywróć {path} do…"
 
 #: qt/app.py:1802
 msgid "The language settings take effect only after restarting Back In Time."
@@ -801,18 +780,17 @@ msgid "License"
 msgstr "Licencja"
 
 #: qt/languagedialog.py:87
-#, fuzzy
 msgid "System default"
-msgstr "domyślnie"
+msgstr "Domyślne systemowe"
 
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
-msgstr ""
+msgstr "Użyj języka systemu operacyjnego."
 
 #: qt/languagedialog.py:143
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "Przetłumaczono: {percent}"
 
 #: qt/languagedialog.py:181
 #, python-brace-format
@@ -832,14 +810,12 @@ msgstr ""
 "Zespół Back In Time"
 
 #: qt/languagedialog.py:213
-#, fuzzy
 msgid "translation platform"
-msgstr "Tłumaczenia"
+msgstr "platformę do tłumaczenia"
 
 #: qt/languagedialog.py:229
-#, fuzzy
 msgid "Your translation"
-msgstr "Tłumaczenia"
+msgstr "Twoje tłumaczenia"
 
 #: qt/logviewdialog.py:53
 msgid "Last Log View"
@@ -847,7 +823,7 @@ msgstr ""
 
 #: qt/logviewdialog.py:55
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Widok dziennika migawki"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2294
@@ -876,7 +852,6 @@ msgid "Errors"
 msgstr "błędy"
 
 #: qt/logviewdialog.py:96 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "informacje"
 
@@ -914,9 +889,8 @@ msgid "Start {appname}"
 msgstr "Uruchom{appname}"
 
 #: qt/qtsystrayicon.py:167
-#, fuzzy
 msgid "Working…"
-msgstr "Pracuje"
+msgstr "Pracuje…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -941,11 +915,11 @@ msgstr ""
 #: qt/qttools.py:544
 #, python-brace-format
 msgid "Last check {time}"
-msgstr ""
+msgstr "Ostatnie sprawdzenie {time}"
 
 #: qt/restoredialog.py:60
 msgid "Show full Log"
-msgstr ""
+msgstr "Pokaż pełny dziennik"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -964,7 +938,6 @@ msgid "&General"
 msgstr "&Ogólne"
 
 #: qt/settingsdialog.py:137 qt/settingsdialog.py:2296
-#, fuzzy
 msgid "Mode"
 msgstr "Tryb"
 
@@ -989,27 +962,22 @@ msgid "SSH Settings"
 msgstr "Ustawienia SSH"
 
 #: qt/settingsdialog.py:199 qt/settingsdialog.py:318
-#, fuzzy
 msgid "Host"
 msgstr "Host"
 
 #: qt/settingsdialog.py:204
-#, fuzzy
 msgid "Port"
 msgstr "Port"
 
 #: qt/settingsdialog.py:209 qt/settingsdialog.py:324
-#, fuzzy
 msgid "User"
 msgstr "Użytkownik"
 
 #: qt/settingsdialog.py:214
-#, fuzzy
 msgid "Path"
 msgstr "Ścieżka"
 
 #: qt/settingsdialog.py:220
-#, fuzzy
 msgid "Cipher"
 msgstr "Szyfr"
 
@@ -1044,9 +1012,8 @@ msgid "Advanced"
 msgstr "Zaawansowane"
 
 #: qt/settingsdialog.py:336
-#, fuzzy
 msgid "Full snapshot path"
-msgstr "Wstrzymaj wykonywanie migawki"
+msgstr "Pełna ścieżka migawki"
 
 #: qt/settingsdialog.py:343
 msgid "Schedule"
@@ -1087,7 +1054,6 @@ msgid "Repeatedly (anacron)"
 msgstr "Wielokrotnie (anacron)"
 
 #: qt/settingsdialog.py:375
-#, fuzzy
 msgid "When drive gets connected (udev)"
 msgstr "Po podłączeniu dysku (udev)"
 
@@ -1104,17 +1070,14 @@ msgid "Every Year"
 msgstr "Co rok"
 
 #: qt/settingsdialog.py:383
-#, fuzzy
 msgid "Day"
 msgstr "Dzień"
 
 #: qt/settingsdialog.py:394
-#, fuzzy
 msgid "Weekday"
-msgstr "Dzień"
+msgstr "Dzień powszedni"
 
 #: qt/settingsdialog.py:409
-#, fuzzy
 msgid "Hour"
 msgstr "Godzina"
 
@@ -1195,7 +1158,7 @@ msgstr "Dodaj domyślne"
 
 #: qt/settingsdialog.py:592
 msgid "Exclude files bigger than: "
-msgstr ""
+msgstr "Wyklucz pliki większe niż: "
 
 #: qt/settingsdialog.py:594
 #, python-format
@@ -1255,9 +1218,8 @@ msgid "Keep one snapshot per week for the last"
 msgstr "Przechowaj jedną migawkę na tydzień"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)"
-msgstr "tygodni"
+msgstr "tygodni(e)"
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
@@ -1327,9 +1289,8 @@ msgid "None"
 msgstr "Brak"
 
 #: qt/settingsdialog.py:819
-#, fuzzy
 msgid "E&xpert Options"
-msgstr "Opcje zaawansowane"
+msgstr "Opcje eksportu (&x)"
 
 #: qt/settingsdialog.py:824
 #, fuzzy
@@ -1338,7 +1299,7 @@ msgid ""
 msgstr "Zmień te ustawienia tylko jeżeli dobrze wiesz co robisz!"
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Uruchamiaj 'rsync' z '{cmd}':"
 
@@ -1371,7 +1332,6 @@ msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Przekieruj stderr z zadań crona do /dev/null."
 
 #: qt/settingsdialog.py:909
-#, fuzzy
 msgid "Limit rsync bandwidth usage"
 msgstr "Ograniczenie przepustowości rsync"
 
@@ -1419,7 +1379,7 @@ msgstr "domyślnie"
 
 #: qt/settingsdialog.py:1046
 msgid "Add prefix to SSH commands"
-msgstr ""
+msgstr "Dodaj prefiks do komend SSH"
 
 #: qt/settingsdialog.py:1059
 msgid "Check if remote host is online"
@@ -1541,7 +1501,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:1999
 msgid "Full snapshot path: "
-msgstr ""
+msgstr "Pełna ścieżka migawki: "
 
 #: qt/settingsdialog.py:2049
 msgid "enabled"
@@ -1579,7 +1539,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
-msgstr ""
+msgstr "Opcje porównywania migawek"
 
 #: qt/snapshotsdialog.py:58
 msgid "Command"
@@ -1615,16 +1575,15 @@ msgstr "Wybierz wszystko"
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "Porównaj"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
 msgstr "Idź do"
 
 #: qt/snapshotsdialog.py:179
-#, fuzzy
 msgid "Options"
-msgstr "&Ustawienia"
+msgstr "Opcje"
 
 #: qt/snapshotsdialog.py:328
 #, fuzzy
@@ -1632,9 +1591,8 @@ msgid "You can't compare a snapshot to itself."
 msgstr "Nie możesz porównywać migawki samej ze sobą"
 
 #: qt/snapshotsdialog.py:336
-#, fuzzy
 msgid "Command not found"
-msgstr "Polecenie nie znalezione"
+msgstr "Nie znaleziono polecenia"
 
 #: qt/snapshotsdialog.py:367
 #, fuzzy, python-brace-format
@@ -1648,16 +1606,16 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
-msgstr ""
+msgstr "Nie można tego cofnąć!"
 
 #: qt/snapshotsdialog.py:378
 msgid "WARNING"
 msgstr "OSTRZEŻENIE"
 
 #: qt/snapshotsdialog.py:394
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr "Wykluczyć \"{path}\" z przyszłych migawek?"
+msgstr "Wykluczyć {path} z przyszłych migawek?"
 
 #~ msgid "&Snapshot"
 #~ msgstr "&Migawka"

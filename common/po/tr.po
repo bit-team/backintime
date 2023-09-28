@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-12 07:37+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-09-24 21:58+0000\n"
+"Last-Translator: sabriunal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -36,9 +36,8 @@ msgid "SSH private key"
 msgstr "SSH gizli anahtarı"
 
 #: common/config.py:297
-#, fuzzy
 msgid "encrypted"
-msgstr "SSH şifrelenmiş"
+msgstr "şifrelenmiş"
 
 #: common/config.py:298 common/config.py:305
 msgid "Encryption"
@@ -69,21 +68,20 @@ msgstr "Yedekleme için en az bir klasör seçmelisiniz!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Yedekleme klasörü dahil edilemez."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Yedekleme alt klasörü dahil edilemez."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} bir klasör değil!"
+msgstr "Hatalı seçenek. {path} bir klasör değil."
 
 #: common/config.py:450
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Sunucu/Kullanıcı/Profil Kimliği boş bırakılmamalı!"
+msgstr "Sunucu/Kullanıcı/Profil Kimliği boş olamaz."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -160,9 +158,9 @@ msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Udev zamanlama kipi {mode} ile çalışmıyor"
 
 #: common/config.py:1726
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "\"{path}\" için UUID bulunamadı"
+msgstr "{path} için UUID bulunamadı"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
@@ -173,14 +171,13 @@ msgid "Failed to load config"
 msgstr "Yapılandırma yüklenemedi"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "\"{name}\" profili zaten var!"
+msgstr "\"{name}\" profili zaten var."
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Bu işlem geri alınamaz!"
+msgstr "Son profil kaldırılamaz."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -201,12 +198,11 @@ msgstr "İptal Et"
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
-msgstr "Lütfen şifreyi onaylayın"
+msgstr "Lütfen parolayı onaylayın"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Şifre eşleşmiyor"
+msgstr "Parola eşleşmiyor."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -377,6 +373,8 @@ msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"ssh özel anahtarının kilidi açılamadı. Parola yanlış ya da Cron için parola "
+"yok."
 
 #: common/sshtools.py:495
 #, python-brace-format
@@ -1175,7 +1173,7 @@ msgid ""
 "You will be prompted for your sudo password."
 msgstr ""
 "Sürücü bağlanır bağlanmaz Back In Time'ı çalıştır (yalnızca X günde bir).\n"
-"Sizden sudo şifresi istenecektir."
+"Sizden sudo parolası istenecektir."
 
 #: qt/settingsdialog.py:484
 msgid "&Include"

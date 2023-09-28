@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-12 07:37+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-09-21 14:21+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -58,13 +58,12 @@ msgid "Profile: \"{name}\""
 msgstr "Profilo: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
-msgstr "Cartella delle istantanee non valida !"
+msgstr "Cartella delle istantanee non valida!"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
-msgstr "Scegliere almeno una cartella per il backup !"
+msgstr "Scegliere almeno una cartella per il backup!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
@@ -84,12 +83,12 @@ msgid "Host/User/Profile-ID must not be empty."
 msgstr "Host/Utente/Profilo non può essere vuoto."
 
 #: common/config.py:460 common/config.py:507
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Impossibile scrivere a: {path}\n"
+"Impossibile scrivere su: {path}\n"
 "Sei sicuro di avere i permessi in scrittura?"
 
 #: common/config.py:477
@@ -174,9 +173,9 @@ msgid "Failed to load config"
 msgstr "Fallimento nel caricamento della configurazione"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Il profilo \"{name}\" esiste già!"
+msgstr "Il profilo \"{name}\" esiste già."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -428,17 +427,16 @@ msgstr ""
 "Guarda il 'man backintime' per ulteriori istruzioni"
 
 #: common/sshtools.py:945
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
-"Il controllo dei comandi sull'host %(host)s ha restituito un errore sconosciuto:\n"
-"%(err)s\n"
-"Guarda il 'man backintime' per ulteriori istruzioni"
+"Il controllo dei comandi sull'host {host} ha restituito un errore "
+"sconosciuto"
 
 #: common/sshtools.py:966
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "L'host remoto %s non supporta gli hard link"
+msgstr "L'host remoto {host} non supporta gli hard link"
 
 #: common/sshtools.py:1049
 #, fuzzy, python-brace-format
@@ -455,13 +453,12 @@ msgid "Shortcuts"
 msgstr "Collegamenti"
 
 #: qt/app.py:187
-#, fuzzy
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "Questa cartella non esiste\n"
-"nello snapshot selezionato al momento!"
+"nell'istantanea selezionata al momento."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -506,9 +503,8 @@ msgid "Take a snapshot (checksum mode)"
 msgstr "Prendi istantanea usando i checksums"
 
 #: qt/app.py:455
-#, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Usa il checksum per scoprire i cambiamenti"
+msgstr "Usa il checksum per rilevare i cambiamenti."
 
 #: qt/app.py:458 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -532,7 +528,7 @@ msgstr "Aggiorna lista istantanee"
 #: qt/app.py:475
 #, fuzzy
 msgid "Name snapshot"
-msgstr "Prendi istantanea"
+msgstr "Nome istantanea"
 
 #: qt/app.py:479
 #, fuzzy
@@ -1140,10 +1136,10 @@ msgstr "Ad ogni avvio/riavvio"
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Ogni {n} minuti"
+msgstr[0] "Ogni minuto"
 msgstr[1] "Ogni {n} minuti"
 
 #: qt/settingsdialog.py:363
@@ -1692,7 +1688,7 @@ msgid "Restore Settings"
 msgstr "Ripristina impostazioni"
 
 #: qt/settingsdialog.py:2110
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
@@ -1703,7 +1699,7 @@ msgstr ""
 "Per favore localizza l'istantanea dalla quale vuoi ripristinare la configurazione di {appName}. Il percorso potrebbe assomigliare a:\n"
 "{samplePath}\n"
 "\n"
-"Se le tue istantanee sono su un'unità remota o se sono cifrate, devi prima montarle manualmente. Se usi la modalità SSH, potresti anche aver bisogno di configurare l'accesso all'host remoto {addFuse} mediante chiave pubblica.\n"
+"Se le tue istantanee sono su un'unità remota o se sono cifrate, devi prima montarle manualmente. Se usi la modalità SSH, potresti anche aver bisogno di configurare l'accesso all'host remoto  mediante chiave pubblica.\n"
 "Dai un'occhiata a: 'man backintime'."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237

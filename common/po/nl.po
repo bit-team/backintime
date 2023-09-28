@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-12 07:37+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-09-22 20:53+0000\n"
+"Last-Translator: Frans_Spiesschaert <frans.spiesschaert@gmail.com>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "Let op"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
@@ -33,7 +33,7 @@ msgstr "Lokaal"
 
 #: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1931
 msgid "SSH private key"
-msgstr "Ssh-privésleutel"
+msgstr "SSH-privésleutel"
 
 #: common/config.py:297
 msgid "encrypted"
@@ -45,7 +45,7 @@ msgstr "Versleuteling"
 
 #: common/config.py:303
 msgid "SSH encrypted"
-msgstr "Ssh-versleuteling"
+msgstr "SSH-versleuteld"
 
 #: common/config.py:310
 msgid "Default"
@@ -59,29 +59,28 @@ msgstr "Profiel: “{name}”"
 
 #: common/config.py:342
 msgid "Snapshots folder is not valid!"
-msgstr "De reservekopiemap is ongeldig!"
+msgstr "Momentopname-map is ongeldig!"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
-msgstr "Selecteer tenminste één map om een reservekopie te kunnen maken!"
+msgstr "Selecteer tenminste één map om een back-up te kunnen maken!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Back-upmap kan niet worden opgenomen."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Back-up-submap kan niet worden opgenomen."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} is geen map!"
+msgstr "Ongeldige optie. {path} is geen map."
 
 #: common/config.py:450
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Voer de velden ‘Host’, ‘Gebruiker’ en ‘Profiel-id’ in!"
+msgstr "Host/Gebruiker/Profiel-ID mag niet leeg zijn."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -89,7 +88,7 @@ msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Het wegschrĳven naar ‘{path}’ is mislukt.\n"
+"Kan niet schrijven naar: {path}\n"
 "Beschikt u over schrijfrechten?"
 
 #: common/config.py:477
@@ -99,7 +98,7 @@ msgid ""
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
 "Het doelbestandssysteem van ‘{path}’ is geformatteerd als FAT, dat geen "
-"harde snelkoppeling ondersteunt. Gebruik in plaats daarvan een Linux-"
+"harde koppeling ondersteunt. Gebruik in plaats daarvan een Linux-"
 "bestandssysteem."
 
 #: common/config.py:486
@@ -109,30 +108,29 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"Het doelbestandssysteem van ‘{path}’ is een aangekoppeld SMB-netwerk. Zorg "
-"er voor dat de SMB-server op afstand snelkoppelingen ondersteunt of schakel "
-"‘{copyLinks}’ in ‘{expertOptions}’ in."
+"Het doelbestandssysteem van ‘{path}’ is met SMB aangekoppelde netwerkopslag."
+" Zorg er voor dat de externe SMB-server symbolische koppelingen ondersteunt "
+"of activeer ‘{copyLinks}’ in ‘{expertOptions}’."
 
 #: common/config.py:490 qt/settingsdialog.py:998
 msgid "Copy links (dereference symbolic links)"
-msgstr "Snelkoppelingen kopiëren (symbolische links-dereferentie)"
+msgstr "Koppelingen kopiëren (symbolische koppelingen-dereferentie)"
 
 #: common/config.py:491
 msgid "Expert Options"
 msgstr "Geavanceerde opties"
 
 #: common/config.py:495
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Doelbestandssysteem voor '{path}' is een aangekoppeld sshfs-netwerk dat geen"
-" harde links ondersteunt. Gebruik hiervoor in de plaats a.u.b. de 'SSH-"
-"modus'."
+"Doelbestandssysteem voor '{path}' is met sshfs aangekoppelde netwerkopslag. "
+"sshfs ondersteunt geen harde koppelingen. Gebruik hiervoor in de plaats "
+"a.u.b. de 'SSH-modus'."
 
 #: common/config.py:1591
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -147,7 +145,7 @@ msgid "Failed to write new crontab."
 msgstr "Kon geen nieuwe crontab schrijven."
 
 #: common/config.py:1700
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
@@ -156,37 +154,34 @@ msgstr ""
 "'{dbus_interface}' was niet beschikbaar"
 
 #: common/config.py:1715
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr "Planning udev werkt niet bij modus {mode}"
+msgstr "udev plannen werkt niet bij modus {mode}"
 
 #: common/config.py:1726
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Kon de unieke identificatiecode voor \"{path}\" niet vinden"
+msgstr "Kon UUID (unieke identificatiecode) voor \"{path}\" niet vinden"
 
 #: common/configfile.py:107
-#, fuzzy
 msgid "Failed to save config"
-msgstr "Kon volgende configuratie niet opslaan"
+msgstr "Kon configuratie niet opslaan"
 
 #: common/configfile.py:143
-#, fuzzy
 msgid "Failed to load config"
-msgstr "Kon volgende configuratie niet laden"
+msgstr "Kon configuratie niet laden"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profiel \"{name}\" bestaat al!"
+msgstr "Profiel \"{name}\" bestaat al."
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
+msgstr "Het laatste profiel kan niet worden verwijderd."
 
 #: common/encfstools.py:87
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "Kan '{command}' niet aankoppelen"
 
@@ -195,9 +190,8 @@ msgid "Config for encrypted folder not found."
 msgstr "Configuratie voor versleutelde map niet gevonden."
 
 #: common/encfstools.py:142
-#, fuzzy
 msgid "Create a new encrypted folder?"
-msgstr "Nieuwe versleutelde map aanmaken?"
+msgstr "Een nieuwe versleutelde map aanmaken?"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -205,43 +199,39 @@ msgstr "Annuleren"
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
-msgstr "Wachtwoord bevestigen"
+msgstr "Bevestig wachtwoord"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Wachtwoord komt niet overeen"
+msgstr "Wachtwoord komt niet overeen."
 
 #: common/encfstools.py:173
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
 "encfs-versie 1.7.2 en daarvoor hebben een fout met de optie --reverse. Werk "
-"encfs a.u.b. bij"
+"encfs a.u.b. bij."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
-msgstr "Reservekopie maken"
+msgstr "Momentopname maken"
 
 #: common/mount.py:600
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Kon %(proc)s niet ontkoppelen van %(mountpoint)s"
+msgstr "Kan {mountprocess} niet ontkoppelen van {mountpoint}."
 
 #: common/mount.py:687
-#, fuzzy
 msgid "{} not found. Please install e.g. {}"
-msgstr "%(proc)s niet gevonden. Installeer b.v. %(install_command)s"
+msgstr "{} niet gevonden. Installeer b.v. {}"
 
 #: common/mount.py:708
-#, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "koppelpunt-%s niet leeg."
+msgstr "Koppelpunt {} niet leeg."
 
 #: common/password.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Profiel '{profile}': Voer wachtwoord in voor {mode}: "
 
@@ -250,7 +240,6 @@ msgid "FAILED"
 msgstr "MISLUKT"
 
 #: common/snapshots.py:539 common/snapshots.py:601
-#, fuzzy
 msgid "Restore permissions"
 msgstr "Rechten herstellen"
 
@@ -261,15 +250,14 @@ msgstr "Voltooid"
 
 #: common/snapshots.py:704
 msgid "Deferring backup while on battery"
-msgstr "Maken van reservekopieën uitstellen indien op accu"
+msgstr "Back-up uitstellen indien op batterij"
 
 #: common/snapshots.py:766
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"Kan reservekopiemap niet vinden.\n"
+"Kan momentopnamemap niet vinden.\n"
 "Als deze op een extern medium staat, gelieve dit aan te sluiten."
 
 #: common/snapshots.py:768
@@ -280,18 +268,17 @@ msgstr[0] "Wacht %s seconde."
 msgstr[1] "Wacht %s seconden."
 
 #: common/snapshots.py:805
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Kon reservekopie {snapshot_id} niet maken!!!"
+msgstr "Kon momentopname {snapshot_id} niet maken."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Voltooien"
 
 #: common/snapshots.py:943
-#, fuzzy
 msgid "Can't create folder"
-msgstr "Kan deze map niet aanmaken"
+msgstr "Kan map niet aanmaken"
 
 #: common/snapshots.py:960
 msgid "Saving config file..."
@@ -302,54 +289,53 @@ msgid "Saving permissions..."
 msgstr "Rechten opslaan..."
 
 #: common/snapshots.py:1144
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
-msgstr "Restant '{snapshot_id}' gevonden waarmee u verder kunt gaan."
+msgstr "Restant van '{snapshot_id}' gevonden waarmee u verder kunt gaan."
 
 #: common/snapshots.py:1163
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr "De van de laatste keer overgebleven map '{snapshot_id}' verwijderen"
+msgstr "Resterende map '{snapshot_id}' van de laatste keer verwijderen"
 
 #: common/snapshots.py:1173
-#, fuzzy
 msgid "Can't remove folder"
-msgstr "Kan deze map niet verwijderen"
+msgstr "Kan map niet verwijderen"
 
 #: common/snapshots.py:1216
 msgid "Taking snapshot"
-msgstr "Reservekopie maken"
+msgstr "Momentopname wordt gemaakt"
 
 #: common/snapshots.py:1248
 msgid "Success"
-msgstr ""
+msgstr "Succes"
 
 #: common/snapshots.py:1249
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
+"Gedeeltelijke overdracht vanwege verdwenen bronbestanden (zie 'man rsync')"
 
 #: common/snapshots.py:1252
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' eindigde met exitcode {exit_code}"
 
 #: common/snapshots.py:1261
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Zie 'man rsync' voor meer informatie"
 
 #: common/snapshots.py:1265
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
+"Negatieve rsync-exitcodes zijn signaalnummers, zie 'kill -l' en 'man kill'"
 
 #: common/snapshots.py:1280
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
-"Er is niets gewijzigd, dus hoeft er geen nieuwe reservekopie gemaakt te "
-"worden"
+msgstr "Er is niets veranderd, geen nieuwe momentopname nodig"
 
 #: common/snapshots.py:1311
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Kan {new_path} niet hernoemen naar {path}"
 
@@ -359,29 +345,29 @@ msgstr "Slim verwijderen"
 
 #: common/snapshots.py:1656
 msgid "Removing old snapshots"
-msgstr "Oude reservekopieën verwijderen"
+msgstr "Oude momentopnames verwijderen"
 
 #: common/snapshots.py:1691
 msgid "Trying to keep min free space"
-msgstr "Probeer een minimum aan vrije ruimte te houden"
+msgstr "Een minimum aan vrije ruimte proberen te houden"
 
 #: common/snapshots.py:1730
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Probeer een minimum van {perc} vrije inodes te houden"
+msgstr "Een minimum van {perc} vrije inodes proberen te houden"
 
 #: common/snapshots.py:2812 qt/app.py:1595
 msgid "Now"
-msgstr "Huidige schijfinhoud"
+msgstr "Nu"
 
 #: common/sshtools.py:204
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Kan %s niet aankoppelen"
+msgstr "Kan {sshfs} niet aankoppelen"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "ssh-agent niet gevonden. Zorg ervoor dat het is geïnstalleerd."
 
 #: common/sshtools.py:407
 msgid ""
@@ -392,101 +378,77 @@ msgstr ""
 "niet beschikbaar voor cron."
 
 #: common/sshtools.py:495
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-"Codering %(cipher)s mislukt voor %(host)s:\n"
-"%(err)s"
+msgstr "Codering {cipher} mislukt voor {host}."
 
 #: common/sshtools.py:642
-#, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"Pad op afstand bestaat maar is geen map:\n"
-" %s"
+msgstr "Extern pad bestaat maar is geen map."
 
 #: common/sshtools.py:647
-#, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"Pad op afstand is niet beschrijfbaar:\n"
-" %s"
+msgstr "Extern pad is niet beschrijfbaar."
 
 #: common/sshtools.py:652
-#, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"Pad op afstand is niet uitvoerbaar:\n"
-" %s"
+msgstr "Extern pad is niet uitvoerbaar."
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Kon geen pad op afstand aanmaken:\n"
-" %s"
+msgstr "Kon extern pad niet aanmaken."
 
 #: common/sshtools.py:937
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Gastcomputer op afstand %s ondersteunt geen harde links"
+msgstr "Externe host {host} ondersteunt {command} niet"
 
 #: common/sshtools.py:941 common/sshtools.py:950
-#, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Gastcomputer op afstand %(host)s ondersteunt geen '%(command)s':\n"
-"%(err)s\n"
-"Bekijk de 'Back In Time-handleiding' voor verdere instructies"
+msgstr "Raadpleeg 'man backintime' voor verdere instructies"
 
 #: common/sshtools.py:945
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
-"Controleer de opdrachten op de gastcomputer. %(host)s gaf een onbekende fout aan:\n"
-"%(err)s\n"
-"Bekijk de 'Back In Time-handleiding' voor verdere instructies"
+msgstr "Controlecommando's op host {host} gaven onbekende foutmelding"
 
 #: common/sshtools.py:966
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Gastcomputer op afstand %s ondersteunt geen harde links"
+msgstr "Externe host {host} ondersteunt geen harde koppelingen"
 
 #: common/sshtools.py:1049
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr ""
-"Kopieer de openbare SSH-sleutel \"{pubkey}\" naar gastcomputer op afstand "
-"\"{host}\""
+msgstr "Kopieer de openbare SSH-sleutel \"{pubkey}\" naar externe host \"{host}\""
 
 #: common/sshtools.py:1051
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr "Wachtwoord bevestigen voor \"{user}\""
+msgstr "Voer het wachtwoord in voor \"{user}\""
 
 #: qt/app.py:167
 msgid "Shortcuts"
 msgstr "Snelkoppelingen"
 
 #: qt/app.py:187
-#, fuzzy
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "Deze map bestaat niet\n"
-"in de huidige geselecteerde reservekopie!"
+"in de huidige geselecteerde momentopname."
 
 #: qt/app.py:252
 msgid "Add to Include"
-msgstr "Toevoegen om op te nemen"
+msgstr "Toevoegen aan Opnemen"
 
 #: qt/app.py:254 qt/logviewdialog.py:171
 msgid "Add to Exclude"
-msgstr "Toevoegen om uit te sluiten"
+msgstr "Toevoegen aan Uitsluiten"
 
 #: qt/app.py:339
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
@@ -495,87 +457,77 @@ msgstr ""
 "herstellen?"
 
 #: qt/app.py:368
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Kan reservekopiemap niet vinden.\n"
-"Als deze op een extern medium staat, gelieve dit aan te sluiten en op OK te drukken."
+"Kan momentopnamemap niet vinden.\n"
+"Als deze op een verwijderbaar medium staat, gelieve dit aan te sluiten en op OK te drukken."
 
 #: qt/app.py:448
-#, fuzzy
 msgid "Take a snapshot"
-msgstr "Reservekopie maken"
+msgstr "Een momentopname maken"
 
 #: qt/app.py:450
 msgid "Use modification time & size for file change detection."
 msgstr ""
+"Modificatietijd en grootte gebruiken voor detectie van bestandswijzigingen."
 
 #: qt/app.py:453
-#, fuzzy
 msgid "Take a snapshot (checksum mode)"
-msgstr "Reservekopie maken met controlesom"
+msgstr "Momentopname maken (modus controlegetal)"
 
 #: qt/app.py:455
-#, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Controlesom gebruiken om wijzigingen op te sporen"
+msgstr "Controlegetallen gebruiken voor het opsporen van bestandswijzigingen."
 
 #: qt/app.py:458 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
-msgstr "Maken van reservekopie pauzeren"
+msgstr "Maken van momentopname pauzeren"
 
 #: qt/app.py:463 qt/qtsystrayicon.py:87
 msgid "Resume snapshot process"
-msgstr "Maken van reservekopie hervatten"
+msgstr "Maken van momentopname hervatten"
 
 #: qt/app.py:467 qt/qtsystrayicon.py:92
 msgid "Stop snapshot process"
-msgstr "Maken van reservekopie stoppen"
+msgstr "Maken van momentopname stoppen"
 
 #: qt/app.py:471
-#, fuzzy
 msgid "Refresh snapshot list"
-msgstr "Reservekopielijst vernieuwen"
+msgstr "Momentopnamelijst vernieuwen"
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Name snapshot"
-msgstr "Reservekopie maken"
+msgstr "Momentopname benoemen"
 
 #: qt/app.py:479
-#, fuzzy
 msgid "Remove snapshot"
-msgstr "Reservekopie verwijderen"
+msgstr "Momentopname verwijderen"
 
 #: qt/app.py:483
-#, fuzzy
 msgid "View snapshot log"
-msgstr "Reservekopielogboek bekijken"
+msgstr "Momentopnamelogboek bekijken"
 
 #: qt/app.py:487
-#, fuzzy
 msgid "View last log"
 msgstr "Laatste logboek bekijken"
 
 #: qt/app.py:491 qt/settingsdialog.py:87
-#, fuzzy
 msgid "Manage profiles"
-msgstr "Hoofdprofiel"
+msgstr "Profielen beheren"
 
 #: qt/app.py:495
 msgid "Shutdown"
 msgstr "Uitschakelen"
 
 #: qt/app.py:497
-#, fuzzy
 msgid "Shut down system after snapshot has finished."
-msgstr "Computer uitschakelen wanneer de reservekopie voltooid is."
+msgstr "Computer uitschakelen wanneer de momentopname voltooid is."
 
 #: qt/app.py:499 qt/languagedialog.py:29
 msgid "Setup language"
-msgstr ""
+msgstr "Taal instellen"
 
 #: qt/app.py:503
 msgid "Exit"
@@ -586,9 +538,8 @@ msgid "Help"
 msgstr "Hulp"
 
 #: qt/app.py:511
-#, fuzzy
 msgid "Profiles config file"
-msgstr "Configuratiebestand opslaan..."
+msgstr "Profielconfiguratiebestand"
 
 #: qt/app.py:514 qt/languagedialog.py:216
 msgid "Website"
@@ -611,9 +562,8 @@ msgid "Report a bug"
 msgstr "Een fout melden"
 
 #: qt/app.py:529
-#, fuzzy
 msgid "Translation"
-msgstr "Vertalingen"
+msgstr "Vertaling"
 
 #: qt/app.py:532 qt/app.py:1817
 msgid "About"
@@ -627,33 +577,33 @@ msgstr "Herstellen"
 #: qt/app.py:537
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
-"Herstel de geselecteerde bestanden of mappen naar het oorspronkelijke doel."
+"De geselecteerde bestanden of mappen naar de oorspronkelijke bestemming "
+"herstellen."
 
 #: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
-msgstr "Herstellen naar..."
+msgstr "Herstellen naar …"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to a new destination."
-msgstr "Herstel de geselecteerde bestanden of mappen naar een nieuw doel."
+msgstr ""
+"De geselecteerde bestanden of mappen naar een nieuw bestemming herstellen."
 
 #: qt/app.py:547
-#, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
-"Herstel de momenteel getoonde map en al zijn inhoud naar het oorspronkelijke"
-" doel."
+"De momenteel weergegeven map en alle inhoud ervan naar de oorspronkelijke "
+"bestemming herstellen."
 
 #: qt/app.py:552
-#, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
-"Herstel de momenteel getoonde map en al zijn inhoud naar een nieuw doel."
+"De momenteel weergegeven map en alle inhoud ervan naar een nieuwe bestemming"
+" herstellen."
 
 #: qt/app.py:555
 msgid "Up"
@@ -664,64 +614,56 @@ msgid "Show hidden files"
 msgstr "Verborgen bestanden tonen"
 
 #: qt/app.py:561
-#, fuzzy
 msgid "Compare snapshots"
-msgstr "Reservekopie maken"
+msgstr "Momentopnames vergelijken"
 
 #: qt/app.py:622
 msgid "&Backup"
-msgstr ""
+msgstr "&Back-up maken"
 
 #: qt/app.py:633
-#, fuzzy
 msgid "&Restore"
-msgstr "Herstellen"
+msgstr "&Herstellen"
 
 #: qt/app.py:639
-#, fuzzy
 msgid "&Help"
-msgstr "Hulp"
+msgstr "&Hulp"
 
 #: qt/app.py:756
-#, fuzzy
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Als u dit venster sluit, zal Back In Time de computer niet uit kunnen schakelen wanneer de reservekopie voltooid is.\n"
+"Als u dit venster sluit, zal Back In Time de computer niet uit kunnen schakelen wanneer de momentopname voltooid is.\n"
 "Weet u zeker dat u het wilt sluiten?"
 
 #: qt/app.py:902
 msgid "Working:"
-msgstr "Bezig met:"
+msgstr "Bezig:"
 
 #: qt/app.py:950
 msgid "Done, no backup needed"
-msgstr "Klaar, geen reservekopie nodig"
+msgstr "Klaar, geen back-up nodig"
 
 #: qt/app.py:958
-#, fuzzy
 msgid "Working"
-msgstr "Bezig met"
+msgstr "Bezig"
 
 #: qt/app.py:964 qt/messagebox.py:75
 msgid "Error"
 msgstr "Fout"
 
 #: qt/app.py:985 qt/qtsystrayicon.py:200
-#, fuzzy
 msgid "Sent"
 msgstr "Verzonden"
 
 #: qt/app.py:986 qt/qtsystrayicon.py:201
-#, fuzzy
 msgid "Speed"
 msgstr "Snelheid"
 
 #: qt/app.py:987 qt/qtsystrayicon.py:202
-#, fuzzy
 msgid "ETA"
-msgstr "Geschatte aankomsttijd"
+msgstr "Geschatte afhandelingstijd"
 
 #: qt/app.py:1041
 msgid "Global"
@@ -737,34 +679,33 @@ msgstr "Persoonlijke map"
 
 #: qt/app.py:1058
 msgid "Backup folders"
-msgstr "Mappen om reservekopie van te maken"
+msgstr "Back-upmappen"
 
 #: qt/app.py:1146
 msgid "Snapshot Name"
-msgstr "Naam reservekopie"
+msgstr "Naam momentopname"
 
 #: qt/app.py:1192
-#, fuzzy
 msgid "Are you sure you want to remove the snapshot"
-msgstr "Weet u zeker dat u de volgende reservekopie wilt verwijderen"
+msgstr "Weet u zeker dat u de momentopname wilt verwijderen"
 
 #: qt/app.py:1281
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before\n"
 "overwriting or removing local files."
 msgstr ""
-"Maak reservekopie van lokale bestanden voordat u ze overschrijft of\n"
-"verwijdert d.m.v. het plaatsen van '{suffix}' erachter."
+"Back-ups met achtervoegsel {suffix} maken, voordat\n"
+"u lokale bestanden overschrijft of verwijdert."
 
 #: qt/app.py:1287 qt/settingsdialog.py:774
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"Nieuwere versies van bestanden zullen hernoemd worden met een '{suffix}' erachter voordat deze hersteld worden.\n"
-"Indien u deze niet meer nodig heeft kunt u ze verwijderen d.m.v. '{cmd}'"
+"Nieuwere versies van bestanden worden hernoemd met achtervoegsel {suffix} voordat ze worden teruggezet.\n"
+"Als u ze niet meer nodig heeft kunt u ze verwijderen met {cmd}"
 
 #: qt/app.py:1301
 msgid ""
@@ -772,94 +713,91 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Herstel alleen bestanden die nog niet bestaan\n"
-"of die nieuwer zijn dan die in het doel.\n"
-"Er wordt gebruik gemaakt van de optie \"rsync --update\"."
+"Alleen bestanden terugzetten die niet bestaan of\n"
+"nieuwer zijn dan die in de bestemming.\n"
+"De optie \"rsync --update\" wordt gebruikt."
 
 #: qt/app.py:1334
 msgid "Remove newer files in original folder"
 msgstr "Nieuwere bestanden in oorspronkelijke map verwijderen"
 
 #: qt/app.py:1335
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
 "This will delete files/folders which were excluded during taking the snapshot!\n"
 "Be extremely careful!"
 msgstr ""
-"Herstel de geselecteerde bestanden of mappen naar het oorspronkelijke doel\n"
-"en verwijder de bestanden/mappen die niet opgenomen waren in de reservekopie. Pas op:\n"
-"Hierbij zullen dus de bestanden/mappen verwijderd worden die niet opgenomen waren in de reservekopie!\n"
-"Wees hier uiterst voorzichtig mee!!!"
+"Geselecteerde bestanden of mappen naar de oorspronkelijke bestemming herstellen\n"
+"en bestanden/mappen die niet in de momentopname voorkomen, verwijderen.\n"
+"Hierdoor worden bestanden/mappen verwijderd die werden uitgesloten tijdens het maken van de momentopname!\n"
+"Wees hier uiterst voorzichtig mee!"
 
 #: qt/app.py:1347
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore the files(s)\n"
 "into new folder {path}"
 msgstr ""
-"Weet u zeker dat u het volgende bestand(en) wilt herstellen\n"
-"naar de nieuwe map '{path}'"
+"Weet u zeker dat u de bestand(en) wilt herstellen\n"
+"naar de nieuwe map {path}"
 
 #: qt/app.py:1351
-#, fuzzy
 msgid "Do you really want to restore the files(s)"
-msgstr "Weet u zeker dat u het volgende bestand(en) wilt herstellen"
+msgstr "Weet u zeker dat u het/de bestand(en) wilt herstellen"
 
 #: qt/app.py:1363
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
-"Weet u zeker dat u alle nieuwere bestanden in '{path}' wilt verwijderen?"
+"Weet u zeker dat u alle nieuwere bestanden in {path} wilt verwijderen?"
 
 #: qt/app.py:1366
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
-"Weet u zeker dat u alle nieuwere bestanden in de oorspronkelijke map wilt "
+"Weet u zeker dat u alle nieuwere bestanden in uw oorspronkelijke map wilt "
 "verwijderen?"
 
 #: qt/app.py:1371
-#, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
-"WAARSCHUWING: het verwijderen van systeembestanden uit de hoofdmap kan uw "
-"hele systeem ruïneren!!!"
+"WAARSCHUWING: bestanden verwijderen uit de hoofdmap van het bestandssysteem "
+"kan uw hele systeem ruïneren!"
 
 #: qt/app.py:1596
-#, fuzzy
 msgid "View the current disk contents"
-msgstr "Overzicht huidige schijfinhoud"
+msgstr "De huidige schijfinhoud bekijken"
 
 #: qt/app.py:1603
-#, fuzzy
 msgid "Snapshot"
-msgstr "Reservekopieën"
+msgstr "Momentopname"
 
 #: qt/app.py:1604
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "View the snapshot made at {timestamp}"
-msgstr "Reservekopie gemaakt op {timestamp} bekijken"
+msgstr "De momentopname gemaakt op {timestamp} bekijken"
 
 #: qt/app.py:1643
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
-msgstr "Herstellen {path}"
+msgstr "{path} herstellen"
 
 #: qt/app.py:1645
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Herstellen {path} naar..."
+msgstr "{path} herstellen naar …"
 
 #: qt/app.py:1802
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
+"De taalinstellingen worden pas van kracht na het herstarten van Back In "
+"Time."
 
 #: qt/app.py:1842 qt/app.py:1859
 msgid "Authors"
-msgstr "Schrijvers"
+msgstr "Auteurs"
 
 #: qt/app.py:1843 qt/app.py:1862
 msgid "Translations"
@@ -870,18 +808,17 @@ msgid "License"
 msgstr "Licentie"
 
 #: qt/languagedialog.py:87
-#, fuzzy
 msgid "System default"
-msgstr "standaardwaarde"
+msgstr "Systeemstandaard"
 
 #: qt/languagedialog.py:91
 msgid "Use operating systems language."
-msgstr ""
+msgstr "De taal van het besturingssysteem gebruiken."
 
 #: qt/languagedialog.py:143
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "Vertaald: {percent}"
 
 #: qt/languagedialog.py:181
 #, python-brace-format
@@ -893,22 +830,20 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Hoi!\n"
-"Jij hebt Back In Time meerdere keren in het {language} gebruikt.\n"
-"De vertaling van jouw geïnstalleerde versie van Back In Time naar het {language} is {perc} nog niet volledig. Onafhankelijk van jouw technisch niveau kun jij bijdragen aan de vertaling en dus aan Back In Time zelf.\n"
-"Heb jij daar zin in? Ga dan naar {translation_platform_url}. Voor verdere hulp en vragen ga naar {back_in_time_project_website}.\n"
-"Wij zeggen sorry voor deze storing, dit bericht zal niet meer verschijnen. Deze dialoog is altijd via de hulp te vinden.\n"
-"Groetjes van het Back In Time Team"
+"Hallo\n"
+"U heeft Back In Time nu al een paar keer gebruikt in het {language}.\n"
+"De vertaling van de geïnstalleerde versie van Back In Time in het {language} is {perc} voltooid. Ongeacht uw niveau van technische expertise kunt u een bijdrage leveren aan de vertaling en daarmee aan Back In Time zelf.\n"
+"Bezoek {translation_platform_url} als u een bijdrage wilt leveren. Voor verdere hulp en vragen kunt u de {back_in_time_project_website} bezoeken.\n"
+"Onze excuses voor de onderbreking. Dit bericht zal niet opnieuw worden weergegeven. Dit dialoogvenster is op elk moment beschikbaar via het hulpmenu.\n"
+"Uw Back In Time-team"
 
 #: qt/languagedialog.py:213
-#, fuzzy
 msgid "translation platform"
-msgstr "Vertalingen"
+msgstr "vertaalplatform"
 
 #: qt/languagedialog.py:229
-#, fuzzy
 msgid "Your translation"
-msgstr "Vertalingen"
+msgstr "Uw vertaling"
 
 #: qt/logviewdialog.py:53
 msgid "Last Log View"
@@ -916,20 +851,18 @@ msgstr "Laatste logboekweergave"
 
 #: qt/logviewdialog.py:55
 msgid "Snapshot Log View"
-msgstr "Reservekopielogboekweergave"
+msgstr "Weergave momentopnamelogboek"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2294
-#, fuzzy
 msgid "Profile"
 msgstr "Profiel"
 
 #: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
-msgstr "Reservekopieën"
+msgstr "Momentopnames"
 
 #: qt/logviewdialog.py:85
-#, fuzzy
 msgid "Filter"
 msgstr "Filter"
 
@@ -947,7 +880,6 @@ msgid "Errors"
 msgstr "Fouten"
 
 #: qt/logviewdialog.py:96 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "Informatie"
 
@@ -957,7 +889,7 @@ msgstr "[E] Fout, [I] Informatie, [C] Wijziging"
 
 #: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
 msgid "decode paths"
-msgstr "decodeerpaden"
+msgstr "paden decoderen"
 
 #: qt/logviewdialog.py:167
 msgid "Copy"
@@ -969,7 +901,7 @@ msgstr "Decoderen"
 
 #: qt/logviewdialog.py:197
 msgid "Do you want to exclude this?"
-msgstr ""
+msgstr "Wilt u dit uitsluiten?"
 
 #: qt/messagebox.py:81 qt/messagebox.py:87
 msgid "Question"
@@ -980,14 +912,13 @@ msgid "View Last Log"
 msgstr "Laatste logboek bekijken"
 
 #: qt/qtsystrayicon.py:105
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Start {appname}"
 msgstr "{appname} starten"
 
 #: qt/qtsystrayicon.py:167
-#, fuzzy
 msgid "Working…"
-msgstr "Bezig met"
+msgstr "Bezig…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1003,15 +934,15 @@ msgstr "Deze week"
 
 #: qt/qttools.py:393
 msgid "Last week"
-msgstr "Afgelopen week"
+msgstr "Vorige week"
 
 #: qt/qttools.py:539
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
-"Dit is GEEN reservekopie maar een actuele weergave van uw lokale bestanden"
+"Dit is GEEN momentopname maar een actuele weergave van uw lokale bestanden"
 
 #: qt/qttools.py:544
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Last check {time}"
 msgstr "Laatste controle {time}"
 
@@ -1032,29 +963,27 @@ msgid "Remove"
 msgstr "Verwijderen"
 
 #: qt/settingsdialog.py:127
-#, fuzzy
 msgid "&General"
-msgstr "Algemeen"
+msgstr "&Algemeen"
 
 #: qt/settingsdialog.py:137 qt/settingsdialog.py:2296
-#, fuzzy
 msgid "Mode"
 msgstr "Modus"
 
 #: qt/settingsdialog.py:152
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
 "possible attack vectors for this. Please take a look at \"A NOTE ON "
 "SECURITY\" in \"man backintime\"."
 msgstr ""
-"{app} gebruikt EncFS voor versleuteling. Na een recente veiligheidscontrole "
-"is gebleken dat er diverse kwetsbaarheden in EncFS zitten. Bekijk a.u.b. de "
-"'Back In Time-handleiding' over 'A NOTE ON SECURITY'."
+"{app} gebruikt EncFS voor versleuteling. Een recente veiligheidscontrole "
+"bracht in dit verband verschillende mogelijke aanvalsmethodes aan het licht."
+" Bekijk eens \"A NOTE ON SECURITY\" in \"man backintime\"."
 
 #: qt/settingsdialog.py:163 qt/settingsdialog.py:1907
 msgid "Where to save snapshots"
-msgstr "Waar wilt u de reservekopieën opslaan"
+msgstr "Waar wilt u de momentopnames opslaan"
 
 #: qt/settingsdialog.py:179
 msgid "Folder"
@@ -1065,44 +994,40 @@ msgid "SSH Settings"
 msgstr "SSH-instellingen"
 
 #: qt/settingsdialog.py:199 qt/settingsdialog.py:318
-#, fuzzy
 msgid "Host"
-msgstr "Gastcomputer"
+msgstr "Host"
 
 #: qt/settingsdialog.py:204
-#, fuzzy
 msgid "Port"
 msgstr "Poort"
 
 #: qt/settingsdialog.py:209 qt/settingsdialog.py:324
-#, fuzzy
 msgid "User"
 msgstr "Gebruiker"
 
 #: qt/settingsdialog.py:214
-#, fuzzy
 msgid "Path"
 msgstr "Pad"
 
 #: qt/settingsdialog.py:220
-#, fuzzy
 msgid "Cipher"
-msgstr "Codering"
+msgstr "Versleutelingstype"
 
 #: qt/settingsdialog.py:226
-#, fuzzy
 msgid "Private Key"
 msgstr "Privésleutel"
 
 #: qt/settingsdialog.py:236
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
-msgstr ""
+msgstr "Kies een bestaand privésleutelbestand (normaal met de naam \"id_rsa\")"
 
 #: qt/settingsdialog.py:246
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
 msgstr ""
+"Een nieuwe SSH-sleutel zonder wachtwoord aanmaken (niet toegestaan als er al"
+" een privésleutelbestand is geselecteerd)"
 
 #: qt/settingsdialog.py:266 qt/settingsdialog.py:275 qt/settingsdialog.py:281
 msgid "Password"
@@ -1115,7 +1040,7 @@ msgstr "Wachtwoord toevoegen aan sleutelbos"
 #: qt/settingsdialog.py:291
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
-"Wachtwoordbuffergeheugen voor Cron (Veiligheidskwestie: beheerder kan "
+"Wachtwoord in cache opslaan voor Cron (Beveiligingsprobleem: beheerder kan "
 "wachtwoord lezen)"
 
 #: qt/settingsdialog.py:306
@@ -1123,9 +1048,8 @@ msgid "Advanced"
 msgstr "Geavanceerd"
 
 #: qt/settingsdialog.py:336
-#, fuzzy
 msgid "Full snapshot path"
-msgstr "Volledige reservekopiepad"
+msgstr "Volledig momentopnamepad"
 
 #: qt/settingsdialog.py:343
 msgid "Schedule"
@@ -1137,15 +1061,15 @@ msgstr "Uitgeschakeld"
 
 #: qt/settingsdialog.py:356
 msgid "At every boot/reboot"
-msgstr "Bĳ elke start/herstart"
+msgstr "Bĳ elke opstart/herstart"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Iedere {n} minuten"
+msgstr[0] "Iedere minuut"
 msgstr[1] "Iedere {n} minuten"
 
 #: qt/settingsdialog.py:363
@@ -1166,7 +1090,7 @@ msgstr "Herhaaldelijk (anacron)"
 
 #: qt/settingsdialog.py:375
 msgid "When drive gets connected (udev)"
-msgstr "Zodra een extern medium aangesloten wordt (udev)"
+msgstr "Zodra de schijf is aangesloten (udev)"
 
 #: qt/settingsdialog.py:376
 msgid "Every Week"
@@ -1181,22 +1105,18 @@ msgid "Every Year"
 msgstr "Ieder jaar"
 
 #: qt/settingsdialog.py:383
-#, fuzzy
 msgid "Day"
 msgstr "Dag"
 
 #: qt/settingsdialog.py:394
-#, fuzzy
 msgid "Weekday"
 msgstr "Dag van de week"
 
 #: qt/settingsdialog.py:409
-#, fuzzy
 msgid "Hour"
 msgstr "Uur"
 
 #: qt/settingsdialog.py:424
-#, fuzzy
 msgid "Hours"
 msgstr "Uren"
 
@@ -1205,42 +1125,40 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
-"Laat Back In Time herhaaldelijk een reservekopie maken. Dit is vooral "
-"bruikbaar wanneer de computer niet regelmatig wordt gebruikt."
+"Back In Time herhaaldelijk uitvoeren. Dit is handig wanneer de computer niet"
+" regelmatig wordt gebruikt."
 
 #: qt/settingsdialog.py:442
-#, fuzzy
 msgid "Every"
-msgstr "Elke"
+msgstr "Elk(e)"
 
 #: qt/settingsdialog.py:456
 msgid "Hour(s)"
-msgstr "uur"
+msgstr "Uur/Uren"
 
 #: qt/settingsdialog.py:457 qt/settingsdialog.py:634
 msgid "Day(s)"
-msgstr "dag(en)"
+msgstr "Dag(en)"
 
 #: qt/settingsdialog.py:458 qt/settingsdialog.py:635
 msgid "Week(s)"
-msgstr "week/weken"
+msgstr "Week/Weken"
 
 #: qt/settingsdialog.py:459
 msgid "Month(s)"
-msgstr "maand(en)"
+msgstr "Maand(en)"
 
 #: qt/settingsdialog.py:469
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Laat Back In Time een reservekopie maken zodra er een extern medium aangesloten wordt (alleen om de X dagen).\n"
+"Back In Time uitvoeren zodra de schijf is aangesloten (slechts één keer per X dagen).\n"
 "Er zal om uw beheerderswachtwoord gevraagd worden."
 
 #: qt/settingsdialog.py:484
-#, fuzzy
 msgid "&Include"
-msgstr "Opnemen"
+msgstr "&Opnemen"
 
 #: qt/settingsdialog.py:491
 msgid "Include files and folders"
@@ -1255,38 +1173,36 @@ msgid "Add folder"
 msgstr "Map toevoegen"
 
 #: qt/settingsdialog.py:521
-#, fuzzy
 msgid "&Exclude"
-msgstr "Uitsluiten"
+msgstr "&Uitsluiten"
 
 #: qt/settingsdialog.py:528
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
-"Wildcards ({example1}) zullen genegeerd worden in de modus 'SSH-encrypted'.\n"
-"Alleen ster-tekens (*) die gescheiden zijn zijn toegestaan ({example2})"
+"Jokertekens ({example1}) worden genegeerd in de modus 'SSH-versleuteld'.\n"
+"Er zijn alleen enkele of dubbele sterretjes toegestaan ({example2})"
 
 #: qt/settingsdialog.py:543
 msgid "Exclude patterns, files or folders"
-msgstr "Patronen, bestanden en mappen uitsluiten"
+msgstr "Patronen, bestanden of mappen uitsluiten"
 
 #: qt/settingsdialog.py:556
-#, fuzzy
 msgid "Highly recommended"
-msgstr "Zeer aanbevolen"
+msgstr "Sterk aanbevolen"
 
 #: qt/settingsdialog.py:579
 msgid "Add default"
-msgstr "Standaardwaarde toevoegen"
+msgstr "Standaard toevoegen"
 
 #: qt/settingsdialog.py:592
 msgid "Exclude files bigger than: "
 msgstr "Bestanden uitsluiten die groter zijn dan: "
 
 #: qt/settingsdialog.py:594
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Exclude files bigger than value in %(prefix)s.\n"
 "With 'Full rsync mode' disabled this will only affect new files\n"
@@ -1294,49 +1210,43 @@ msgid ""
 "So big files that have been backed up before will remain in snapshots\n"
 "even if they have changed."
 msgstr ""
-"Sluit bestanden uit die groter zijn dan de waarde in %(prefix)s.\n"
-"Indien de 'Volledige rsync-modus' uitgeschakeld wordt zal dit alleen gelden voor nieuwe bestanden\n"
-"omdat voor rsync dit een optie is voor verplaatsen en niet voor uitsluiten.\n"
-"Dus grote bestanden waar reeds een reservekopie van bestond zullen behouden blijven\n"
-"zelfs bij een eventuele wijziging."
+"Bestanden uitsluiten die groter zijn dan de waarde in %(prefix)s.\n"
+"Als 'Volledige rsync-modus' is uitgeschakeld, heeft dit alleen invloed op nieuwe bestanden,\n"
+"omdat dit voor rsync een overdrachtsoptie is en geen uitsluitingsoptie.\n"
+"Grote bestanden waarvan al eerder een back-up is gemaakt, blijven dus in momentopnames,\n"
+"zelfs als ze zijn gewijzigd."
 
 #: qt/settingsdialog.py:616
-#, fuzzy
 msgid "&Auto-remove"
-msgstr "Automatisch verwijderen"
+msgstr "&Automatisch verwijderen"
 
 #: qt/settingsdialog.py:622
-#, fuzzy
 msgid "Older than"
 msgstr "Ouder dan"
 
 #: qt/settingsdialog.py:636
 msgid "Year(s)"
-msgstr "jaar"
+msgstr "Jaar"
 
 #: qt/settingsdialog.py:644
-#, fuzzy
 msgid "If free space is less than"
-msgstr "Indien de vrije ruimte kleiner is dan"
+msgstr "Als de vrije ruimte kleiner is dan"
 
 #: qt/settingsdialog.py:664
-#, fuzzy
 msgid "If free inodes is less than"
-msgstr "Indien de vrije inodes kleiner zijn dan"
+msgstr "Als er minder inodes vrij zijn dan"
 
 #: qt/settingsdialog.py:689
-#, fuzzy
 msgid "Run in background on remote host."
-msgstr "Op de achtergrond uitvoeren op gastcomputer op afstand."
+msgstr "Op de achtergrond uitvoeren op externe host."
 
 #: qt/settingsdialog.py:690
-#, fuzzy
 msgid "EXPERIMENTAL"
 msgstr "EXPERIMENTEEL"
 
 #: qt/settingsdialog.py:696
 msgid "Keep all snapshots for the last"
-msgstr "Behoud alle reservekopieën van de afgelopen"
+msgstr "Alle momentopnames bewaren van de laatste"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
 msgid "day(s)"
@@ -1344,20 +1254,19 @@ msgstr "dag(en)"
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
-msgstr "Behoud één reservekopie per dag van de afgelopen"
+msgstr "Eén momentopname per dag bewaren van de laatste"
 
 #: qt/settingsdialog.py:710
 msgid "Keep one snapshot per week for the last"
-msgstr "Behoud één reservekopie per week van de afgelopen"
+msgstr "Eén momentopname per week bewaren van de laatste"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)"
 msgstr "week/weken"
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
-msgstr "Behoud één reservekopie per maand van de afgelopen"
+msgstr "Eén momentopname per maand bewaren van de laatste"
 
 #: qt/settingsdialog.py:721
 msgid "month(s)"
@@ -1365,16 +1274,15 @@ msgstr "maand(en)"
 
 #: qt/settingsdialog.py:724
 msgid "Keep one snapshot per year for all years"
-msgstr "Behoud één reservekopie per jaar van alle jaren"
+msgstr "Eén momentopname per jaar bewaren van alle jaren"
 
 #: qt/settingsdialog.py:733
 msgid "Don't remove named snapshots"
-msgstr "Geen hernoemde reservekopieën verwijderen"
+msgstr "Genoemde momentopnames niet verwijderen"
 
 #: qt/settingsdialog.py:745
-#, fuzzy
 msgid "&Options"
-msgstr "Opties"
+msgstr "&Opties"
 
 #: qt/settingsdialog.py:750
 msgid "Enable notifications"
@@ -1382,46 +1290,43 @@ msgstr "Meldingen activeren"
 
 #: qt/settingsdialog.py:754
 msgid "Disable snapshots when on battery"
-msgstr "Maken van reservekopieën uitschakelen indien op accu"
+msgstr "Momentopnames uitschakelen bij batterijgebruik"
 
 #: qt/settingsdialog.py:758
 msgid "Power status not available from system"
-msgstr "Status stroomvoorziening niet beschikbaar vanuit systeem"
+msgstr "Voedingsstatus niet beschikbaar via systeem"
 
 #: qt/settingsdialog.py:761
 msgid "Run only one snapshot at a time"
-msgstr "Alleen maar één reservekopie tegelijk maken"
+msgstr "Slechts één momentopname tegelijk uitvoeren"
 
 #: qt/settingsdialog.py:763
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
 "This is a global option. So it will affect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
-"Andere reservekopieën zullen geblokkeerd worden totdat de huidige is voltooid.\n"
-"Dit is een algemene optie en zal daarom effect hebben op alle profielen van deze gebruiker.\n"
-"U moet dit echter wel nog instellen voor alle andere gebruikers."
+"Andere momentopnames worden geblokkeerd totdat de huidige momentopname is voltooid.\n"
+"Dit is een globale optie. Ze heeft dus invloed op alle profielen van deze gebruiker.\n"
+"Maar u moet dit ook voor alle andere gebruikers activeren."
 
 #: qt/settingsdialog.py:772
 msgid "Backup replaced files on restore"
-msgstr "Reservekopie maken van vervangen bestanden bij het herstellen"
+msgstr "Back-up maken van vervangen bestanden bij herstel"
 
 #: qt/settingsdialog.py:785
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr "Doorgaan op fouten (incomplete reservekopieën behouden)"
+msgstr "Doorgaan bij fouten (onvolledige momentopnames bewaren)"
 
 #: qt/settingsdialog.py:789
 msgid "Use checksum to detect changes"
-msgstr "Controlesom gebruiken om wijzigingen op te sporen"
+msgstr "Controlegetal gebruiken om wijzigingen te detecteren"
 
 #: qt/settingsdialog.py:793
-#, fuzzy
 msgid "Take a new snapshot whether there were changes or not."
-msgstr "Maak ook een nieuwe reservekopie als er niets gewijzigd is."
+msgstr "Een nieuwe momentopname maken, of er nu wijzigingen waren of niet."
 
 #: qt/settingsdialog.py:800
-#, fuzzy
 msgid "Log Level"
 msgstr "Logboekniveau"
 
@@ -1430,79 +1335,76 @@ msgid "None"
 msgstr "Geen"
 
 #: qt/settingsdialog.py:819
-#, fuzzy
 msgid "E&xpert Options"
-msgstr "Geavanceerde opties"
+msgstr "&Geavanceerde opties"
 
 #: qt/settingsdialog.py:824
-#, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Wijzig deze opties alleen als u zeker weet wat u doet!"
+msgstr "Let op: wijzig deze opties alleen als u echt weet wat u doet."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "'rsync' uitvoeren met '{cmd}':"
 
 #: qt/settingsdialog.py:836 qt/settingsdialog.py:852
 msgid "as cron job"
-msgstr "als cron job"
+msgstr "als crontaak"
 
 #: qt/settingsdialog.py:841 qt/settingsdialog.py:862 qt/settingsdialog.py:883
 msgid "on remote host"
-msgstr "op gastcomputer op afstand"
+msgstr "op externe host"
 
 #: qt/settingsdialog.py:857
 msgid "when taking a manual snapshot"
-msgstr "bij het maken van een handmatige reservekopie"
+msgstr "bij het maken van een handmatige momentopname"
 
 #: qt/settingsdialog.py:870
 msgid "(Please install 'nocache' to enable this option)"
-msgstr ""
+msgstr "(Installeer 'nocache' om deze optie in te schakelen)"
 
 #: qt/settingsdialog.py:877
 msgid "on local machine"
-msgstr "op lokale machine"
+msgstr "op de lokale machine"
 
 #: qt/settingsdialog.py:888
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr "stdout omleiden naar /dev/null in cronjobs."
+msgstr "stdout omleiden naar /dev/null in crontaken."
 
 #: qt/settingsdialog.py:897
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr "stderr omleiden naar /dev/null in cronjobs."
+msgstr "stderr omleiden naar /dev/null in crontaken."
 
 #: qt/settingsdialog.py:909
-#, fuzzy
 msgid "Limit rsync bandwidth usage"
-msgstr "rsync-bandbreedteverbruik limiteren"
+msgstr "Het bandbreedtegebruik van rsync beperken"
 
 #: qt/settingsdialog.py:912
-#, fuzzy
 msgid "KB/sec"
-msgstr "KB/sec"
+msgstr "KB/s"
 
 #: qt/settingsdialog.py:950
 msgid "Preserve ACL"
-msgstr "ACL bewaren"
+msgstr "ACL behouden"
 
 #: qt/settingsdialog.py:965
 msgid "Preserve extended attributes (xattr)"
-msgstr "Uitgebreide attributen (xattr) bewaren"
+msgstr "Uitgebreide attributen (xattr) behouden"
 
 #: qt/settingsdialog.py:985
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr "Onveilige links kopiëren (werkt alleen met absolute links)"
+msgstr ""
+"Onveilige koppelingen kopiëren (werkt alleen met absolute koppelingen)"
 
 #: qt/settingsdialog.py:1018
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr "Opties moeten tussen aanhalingstekens staan b.v. {example}."
+msgstr "Opties moeten tussen aanhalingstekens staan, bijvoorbeeld {example}."
 
 #: qt/settingsdialog.py:1021
 msgid "Paste additional options to rsync"
-msgstr "Extra opties aan rsync plakken"
+msgstr "Extra opties aan rsync toevoegen"
 
 #: qt/settingsdialog.py:1036
 #, python-format
@@ -1515,25 +1417,25 @@ msgid ""
 "\n"
 "%(default)s: %(def_value)s"
 msgstr ""
-"Voorvoegsel om vooraf uit te voeren bij elke opdracht op gastcomputer op afstand.\n"
-"Variabelen dienen te worden afgesloten met \\$FOO.\n"
-"Dit heeft geen consequenties voor rsync. Dus om een voorvoegsel\n"
-"voor rsync in te stellen gebruik dan \"%(cbRsyncOptions)s\" met\n"
+"Voorvoegsel dat vóór elke opdracht op de externe host moet worden uitgevoerd.\n"
+"Variabelen moeten worden gemaskeerd met \\$FOO\n"
+"Dit heeft geen betrekking op rsync. Dus om een voorvoegsel\n"
+"voor rsync toe te voegen gebruikt u \"%(cbRsyncOptions)s\" met\n"
 "%(rsync_options_value)s\n"
 "\n"
 "%(default)s: %(def_value)s"
 
 #: qt/settingsdialog.py:1044 qt/settingsdialog.py:2054
 msgid "default"
-msgstr "standaardwaarde"
+msgstr "standaard"
 
 #: qt/settingsdialog.py:1046
 msgid "Add prefix to SSH commands"
-msgstr "Voorvoegsel aan SSH-opdrachten toevoegen"
+msgstr "Voorvoegsel aan SSH-commando's toevoegen"
 
 #: qt/settingsdialog.py:1059
 msgid "Check if remote host is online"
-msgstr "Controleer of de gastcomputer op afstand online is"
+msgstr "Controleren of de externe host online is"
 
 #: qt/settingsdialog.py:1061
 msgid ""
@@ -1541,16 +1443,13 @@ msgid ""
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
-"Waarschuwing: indien uitgeschakeld en wanneer de gastcomputer\n"
-"op afstand niet beschikbaar is, kan dit mogelijk leiden tot\n"
-"enige vreemde fouten."
+"Waarschuwing: als dit is uitgeschakeld en de\n"
+"externe host niet beschikbaar is,\n"
+"kan dit leiden tot rare fouten."
 
 #: qt/settingsdialog.py:1065
-#, fuzzy
 msgid "Check if remote host supports all necessary commands"
-msgstr ""
-"Controleer of de gastcomputer op afstand alle noodzakelijke opdrachten "
-"ondersteunt"
+msgstr "Controleren of de externe host alle benodigde commando's ondersteunt"
 
 #: qt/settingsdialog.py:1067
 msgid ""
@@ -1558,9 +1457,9 @@ msgid ""
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
-"Waarschuwing: indien uitgeschakeld en wanneer de gastcomputer\n"
-"op afstand niet alle noodzakelijke opdrachten ondersteunt, kan dit mogelijk\n"
-"leiden tot enige vreemde fouten."
+"Waarschuwing: als dit is uitgeschakeld en de\n"
+"externe host niet alle benodigde commando's\n"
+"ondersteunt, kan dit leiden tot rare fouten."
 
 #: qt/settingsdialog.py:1083
 msgid "Restore Config"
@@ -1568,7 +1467,7 @@ msgstr "Configuratie herstellen"
 
 #: qt/settingsdialog.py:1085
 msgid "Edit user-callback"
-msgstr "User-callback bewerken"
+msgstr "user-callback bewerken"
 
 #: qt/settingsdialog.py:1103
 msgid "New profile"
@@ -1579,7 +1478,7 @@ msgid "Rename profile"
 msgstr "Profiel hernoemen"
 
 #: qt/settingsdialog.py:1136
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Weet u zeker dat u het profiel \"{name}\" wilt verwijderen ?"
 
@@ -1588,39 +1487,38 @@ msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
-"Aangepaste uren kunnen alleen een door een komma gescheiden lijst met uren "
-"zijn (b.v. 8,12,18,23) of */3 om elke 3 uren een periodieke reservekopie te "
-"maken"
+"Aangepaste uren kunnen alleen een door komma's gescheiden lijst met uren "
+"zijn (bijv. 8,12,18,23) of */3 voor periodieke back-ups om de 3 uur"
 
 #: qt/settingsdialog.py:1452
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
-"U heeft geen privésleutel voor SSH geselecteerd.\n"
-"Wilt u een nieuwe openbare en privésleutel aanmaken voor het aanmelden zonder wachtwoord?"
+"U heeft geen privésleutelbestand voor SSH gekozen.\n"
+"Wilt u een nieuw wachtwoordloos publiek/privé sleutelpaar genereren?"
 
 #: qt/settingsdialog.py:1463
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "Privésleutel \"{file}\" bestaat niet."
+msgstr "Privésleutelbestand \"{file}\" bestaat niet."
 
 #: qt/settingsdialog.py:1615
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
-"Wilt u uw openbare SSH-sleutel kopiëren naar de gastcomputer op afstand\n"
-"zodat u zich in het vervolg zonder wachtwoord kunt aanmelden?"
+"Wilt u uw openbare SSH-sleutel naar de externe host kopiëren\n"
+"om inloggen zonder wachtwoord mogelijk te maken?"
 
 #: qt/settingsdialog.py:1643
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
 "\n"
 "{keytype} key fingerprint is:"
 msgstr ""
-"De authenticatie van gastcomputer \"{host}\" kon niet geverifieerd worden.\n"
+"De authenticiteit van host {host} kan niet worden vastgesteld.\n"
 "\n"
 "{keytype}-sleutelvingerafdruk is:"
 
@@ -1629,51 +1527,50 @@ msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
-"Verifieer a.u.b. deze vingerafdruk! Wilt u deze toevoegen aan uw "
-"'bekende_gastcomputers'?"
+"Controleer deze vingerafdruk! Wilt u deze toevoegen aan uw bestand "
+"'known_hosts'?"
 
 #: qt/settingsdialog.py:1816
 msgid "Exclude pattern"
-msgstr "Uit te sluiten patroon"
+msgstr "Patroon uitsluiten"
 
 #: qt/settingsdialog.py:1829
 msgid "Exclude file"
-msgstr "Selecteer een bestand om uit te sluiten van de reservekopie"
+msgstr "Bestand uitsluiten"
 
 #: qt/settingsdialog.py:1833
 msgid "Exclude folder"
-msgstr "Selecteer een map om uit te sluiten van de reservekopie"
+msgstr "Map uitsluiten"
 
 #: qt/settingsdialog.py:1852
 msgid "Include file"
 msgstr "Bestand opnemen"
 
 #: qt/settingsdialog.py:1861 qt/settingsdialog.py:1887
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"\"{path}\" is een symbolische link. Er zal geen reservekopie gemaakt worden van het gekoppelde doel totdat u het doel zelf ook opneemt.\n"
-"Wilt u i.p.v. de symbolische link het doel zelf opnemen in de reservekopie?"
+"\"{path}\" is een symbolische koppeling. Van het gekoppelde doel wordt geen back-up gemaakt totdat u het ook opneemt.\n"
+"Wilt u eerder het doel van de symbolische koppeling opnemen?"
 
 #: qt/settingsdialog.py:1878
 msgid "Include folder"
-msgstr "Volgende map opnemen"
+msgstr "Map opnemen"
 
 #: qt/settingsdialog.py:1915
-#, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
-msgstr "Weet u zeker dat u de reservekopiemap wilt wijzigen?"
+msgstr "Weet u zeker dat u de momentopnamemap wilt wijzigen?"
 
 #: qt/settingsdialog.py:1940
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}"
-msgstr "Kon geen nieuwe SSH-sleutel aanmaken in {path}"
+msgstr "Kan geen nieuwe SSH-sleutel aanmaken in {path}"
 
 #: qt/settingsdialog.py:1999
 msgid "Full snapshot path: "
-msgstr "Volledige reservekopiepad: "
+msgstr "Volledig momentopnamepad: "
 
 #: qt/settingsdialog.py:2049
 msgid "enabled"
@@ -1688,7 +1585,7 @@ msgid "Restore Settings"
 msgstr "Instellingen herstellen"
 
 #: qt/settingsdialog.py:2110
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
@@ -1696,11 +1593,11 @@ msgid ""
 "If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
-"Navigeer a.u.b. naar de reservekopie waarvan u de {appName}'s configuratie wilt herstellen. Het pad kan er mogelijk zo uitzien: \n"
+"Navigeer naar de momentopname van waaruit u de configuratie van {appName} wilt herstellen. Het pad kan er als volgt uitzien:\n"
 "{samplePath}\n"
 "\n"
-"Als deze reservekopieën op een extern medium staan of versleuteld zijn dient u deze eerst handmatig aan te koppelen. Wanneer u SSH-versleuteling gebruikt dient u het aanmelden met een openbare sleutel op de gastcomputer op afstand in te stellen {addFuse}.\n"
-"Bekijk de 'Back In Time-handleiding'."
+"Als uw momentopnames op een externe schijf staan of als ze versleuteld zijn, moet u ze eerst handmatig aankoppelen. Als u Mode SSH gebruikt, moet u mogelijk ook een publieke sleutel instellen om in te loggen op de externe host.\n"
+"Bekijk eens 'man backintime'."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
 msgid "No config found"
@@ -1708,7 +1605,7 @@ msgstr "Geen configuratie gevonden"
 
 #: qt/settingsdialog.py:2444
 msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr "User-callback-script heeft geen shebang-regel (#!/bin/sh)."
+msgstr "user-callback-script heeft geen shebang-regel (#!/bin/sh)."
 
 #: qt/settingsdialog.py:2451
 msgid "Shebang in user-callback script is not executable."
@@ -1716,15 +1613,13 @@ msgstr "Shebang in user-callback-script is niet uitvoerbaar."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
-msgstr ""
+msgstr "Opties voor het vergelijken van momentopnames"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command"
-msgstr "Opdracht"
+msgstr "Commando"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters"
 msgstr "Parameters"
 
@@ -1734,11 +1629,11 @@ msgstr "%1 en %2 voor padparameters gebruiken"
 
 #: qt/snapshotsdialog.py:110
 msgid "Differing snapshots only"
-msgstr ""
+msgstr "Alleen verschillende momentopnames"
 
 #: qt/snapshotsdialog.py:118
 msgid "List only equal snapshots to: "
-msgstr "Alleen soorgelijke reservekopieën tonen als: "
+msgstr "Alleen momentopnames tonen identiek aan: "
 
 #: qt/snapshotsdialog.py:129
 msgid "Deep check (more accurate, but slow)"
@@ -1746,7 +1641,7 @@ msgstr "Diepe controle (nauwkeuriger, maar langzaam)"
 
 #: qt/snapshotsdialog.py:150
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "Wissen"
 
 #: qt/snapshotsdialog.py:154
 msgid "Select All"
@@ -1754,53 +1649,46 @@ msgstr "Alles selecteren"
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "Vergelijken"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
 msgstr "Gaan naar"
 
 #: qt/snapshotsdialog.py:179
-#, fuzzy
 msgid "Options"
 msgstr "Opties"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "U kunt een reservekopie niet met zichzelf vergelijken"
+msgstr "U kunt een momentopname niet met zichzelf vergelijken."
 
 #: qt/snapshotsdialog.py:336
-#, fuzzy
 msgid "Command not found"
-msgstr "Opdracht niet gevonden"
+msgstr "Commando niet gevonden"
 
 #: qt/snapshotsdialog.py:367
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr ""
-"Weet u zeker dat u \"{file}\" uit reservekopie \"{snapshot_id}\" wilt "
-"verwijderen?"
+msgstr "Wilt u {file} in momentopname {snapshot_id} echt verwijderen?"
 
 #: qt/snapshotsdialog.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
-msgstr ""
-"Weet u zeker dat u \"{file}\" uit {count} reservekopieën wilt verwijderen?"
+msgstr "Wilt u {file} in {count} momentopnames echt verwijderen?"
 
 #: qt/snapshotsdialog.py:378
-#, fuzzy
 msgid "This cannot be revoked!"
-msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
+msgstr "Dit kan niet worden teruggedraaid!"
 
 #: qt/snapshotsdialog.py:378
 msgid "WARNING"
-msgstr ""
+msgstr "WAARSCHUWING"
 
 #: qt/snapshotsdialog.py:394
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr "\"{path}\" uitsluiten van toekomstige reservekopieën?"
+msgstr "{path} uitsluiten van toekomstige momentopnames?"
 
 #~ msgid " and add your user to group 'fuse'"
 #~ msgstr " en uw gebruiker toe te voegen aan de groep 'fuse'"
