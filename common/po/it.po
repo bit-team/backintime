@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-09-12 07:37+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2023-09-28 21:17+0200\n"
+"PO-Revision-Date: 2023-09-21 14:21+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.0.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -58,13 +58,12 @@ msgid "Profile: \"{name}\""
 msgstr "Profilo: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
-msgstr "Cartella delle istantanee non valida !"
+msgstr "Cartella delle istantanee non valida!"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
-msgstr "Scegliere almeno una cartella per il backup !"
+msgstr "Scegliere almeno una cartella per il backup!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
@@ -84,12 +83,12 @@ msgid "Host/User/Profile-ID must not be empty."
 msgstr "Host/Utente/Profilo non può essere vuoto."
 
 #: common/config.py:460 common/config.py:507
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Impossibile scrivere a: {path}\n"
+"Impossibile scrivere su: {path}\n"
 "Sei sicuro di avere i permessi in scrittura?"
 
 #: common/config.py:477
@@ -174,9 +173,9 @@ msgid "Failed to load config"
 msgstr "Fallimento nel caricamento della configurazione"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Il profilo \"{name}\" esiste già!"
+msgstr "Il profilo \"{name}\" esiste già."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -253,7 +252,7 @@ msgstr "FALLITO"
 msgid "Restore permissions"
 msgstr "Ripristina permessi"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:912 qt/app.py:947
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:78
 msgid "Done"
 msgstr "Fatto"
@@ -372,7 +371,7 @@ msgstr "Prova a tenere il minor spazio libero"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prova a mantenere almeno il {perc} di inode liberi"
 
-#: common/snapshots.py:2812 qt/app.py:1595
+#: common/snapshots.py:2812 qt/app.py:1598
 msgid "Now"
 msgstr "Adesso"
 
@@ -428,17 +427,16 @@ msgstr ""
 "Guarda il 'man backintime' per ulteriori istruzioni"
 
 #: common/sshtools.py:945
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
-"Il controllo dei comandi sull'host %(host)s ha restituito un errore sconosciuto:\n"
-"%(err)s\n"
-"Guarda il 'man backintime' per ulteriori istruzioni"
+"Il controllo dei comandi sull'host {host} ha restituito un errore "
+"sconosciuto"
 
 #: common/sshtools.py:966
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "L'host remoto %s non supporta gli hard link"
+msgstr "L'host remoto {host} non supporta gli hard link"
 
 #: common/sshtools.py:1049
 #, fuzzy, python-brace-format
@@ -455,13 +453,12 @@ msgid "Shortcuts"
 msgstr "Collegamenti"
 
 #: qt/app.py:187
-#, fuzzy
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "Questa cartella non esiste\n"
-"nello snapshot selezionato al momento!"
+"nell'istantanea selezionata al momento."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -489,148 +486,147 @@ msgstr ""
 "Impossibile trovare la cartella delle istantanee.\n"
 "Se si tratta di un disco rimovibile, collegarlo e premere OK."
 
-#: qt/app.py:448
+#: qt/app.py:453
 #, fuzzy
 msgid "Take a snapshot"
 msgstr "Prendi istantanea"
 
-#: qt/app.py:450
+#: qt/app.py:455
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Usa la dimensione e l'ora di modifica dei file per riconoscere i file "
 "cambiati."
 
-#: qt/app.py:453
+#: qt/app.py:458
 #, fuzzy
 msgid "Take a snapshot (checksum mode)"
 msgstr "Prendi istantanea usando i checksums"
 
-#: qt/app.py:455
-#, fuzzy
+#: qt/app.py:460
 msgid "Use checksums for file change detection."
-msgstr "Usa il checksum per scoprire i cambiamenti"
+msgstr "Usa il checksum per rilevare i cambiamenti."
 
-#: qt/app.py:458 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
 msgstr "Metti in pausa il processo di istantanea"
 
-#: qt/app.py:463 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:87
 #, fuzzy
 msgid "Resume snapshot process"
 msgstr "Riprendi il processo di istantanea"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:92
 #, fuzzy
 msgid "Stop snapshot process"
 msgstr "Interrompere il processo di istantanea"
 
-#: qt/app.py:471
+#: qt/app.py:476
 #, fuzzy
 msgid "Refresh snapshot list"
 msgstr "Aggiorna lista istantanee"
 
-#: qt/app.py:475
+#: qt/app.py:480
 #, fuzzy
 msgid "Name snapshot"
-msgstr "Prendi istantanea"
+msgstr "Nome istantanea"
 
-#: qt/app.py:479
+#: qt/app.py:484
 #, fuzzy
 msgid "Remove snapshot"
 msgstr "Rimuovi istantanea"
 
-#: qt/app.py:483
+#: qt/app.py:488
 #, fuzzy
 msgid "View snapshot log"
 msgstr "Visualizza log istantanea"
 
-#: qt/app.py:487
+#: qt/app.py:492
 #, fuzzy
 msgid "View last log"
 msgstr "Visualizza ultimo log"
 
-#: qt/app.py:491 qt/settingsdialog.py:87
+#: qt/app.py:496 qt/settingsdialog.py:87
 #, fuzzy
 msgid "Manage profiles"
 msgstr "Profilo principale"
 
-#: qt/app.py:495
+#: qt/app.py:500
 msgid "Shutdown"
 msgstr "Arresto"
 
-#: qt/app.py:497
+#: qt/app.py:502
 #, fuzzy
 msgid "Shut down system after snapshot has finished."
 msgstr "Arresta il sistema quando l'istantanea è terminata."
 
-#: qt/app.py:499 qt/languagedialog.py:29
+#: qt/app.py:504 qt/languagedialog.py:29
 msgid "Setup language"
 msgstr "Imposta lingua"
 
-#: qt/app.py:503
+#: qt/app.py:508
 msgid "Exit"
 msgstr "Esci"
 
-#: qt/app.py:507
+#: qt/app.py:512
 msgid "Help"
 msgstr "Aiuto"
 
-#: qt/app.py:511
+#: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
 msgstr "Salva il file di configurazione ..."
 
-#: qt/app.py:514 qt/languagedialog.py:216
+#: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
 msgstr "Sito web"
 
-#: qt/app.py:517 qt/app.py:1248
+#: qt/app.py:522 qt/app.py:1251
 msgid "Changelog"
 msgstr "Registro dei cambiamenti"
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "FAQ"
 msgstr "Domande frequenti"
 
-#: qt/app.py:523
+#: qt/app.py:528
 msgid "Ask a question"
 msgstr "Fai una domanda"
 
-#: qt/app.py:526
+#: qt/app.py:531
 msgid "Report a bug"
 msgstr "Segnala un bug"
 
-#: qt/app.py:529
+#: qt/app.py:534
 #, fuzzy
 msgid "Translation"
 msgstr "Traduzioni"
 
-#: qt/app.py:532 qt/app.py:1817
+#: qt/app.py:537 qt/app.py:1820
 msgid "About"
 msgstr "Informazioni"
 
-#: qt/app.py:535 qt/restoredialog.py:47 qt/settingsdialog.py:2197
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2197
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Ripristina"
 
-#: qt/app.py:537
+#: qt/app.py:542
 #, fuzzy
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 "Ripristina i file o le cartelle selezionati nella destinazione originale."
 
-#: qt/app.py:540 qt/app.py:1399 qt/app.py:1431 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
 msgstr "Ripristina a..."
 
-#: qt/app.py:542
+#: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
 "Ripristina i file o le cartelle selezionati in una nuova destinazione."
 
-#: qt/app.py:547
+#: qt/app.py:552
 #, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
@@ -639,7 +635,7 @@ msgstr ""
 "Ripristina la cartella attualmente mostrata e tutto il suo contenuto "
 "nell'originaledestinazione."
 
-#: qt/app.py:552
+#: qt/app.py:557
 #, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
@@ -648,35 +644,35 @@ msgstr ""
 "Ripristina la cartella attualmente mostrata e tutto il suo contenuto in una "
 "nuova destinazione."
 
-#: qt/app.py:555
+#: qt/app.py:560
 msgid "Up"
 msgstr "Su"
 
-#: qt/app.py:558 qt/settingsdialog.py:2153
+#: qt/app.py:563 qt/settingsdialog.py:2153
 msgid "Show hidden files"
 msgstr "Mostra i file nascosti"
 
-#: qt/app.py:561
+#: qt/app.py:566
 #, fuzzy
 msgid "Compare snapshots"
 msgstr "Prendi istantanea"
 
-#: qt/app.py:622
+#: qt/app.py:627
 #, fuzzy
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:633
+#: qt/app.py:638
 #, fuzzy
 msgid "&Restore"
 msgstr "Ripristina"
 
-#: qt/app.py:639
+#: qt/app.py:644
 #, fuzzy
 msgid "&Help"
 msgstr "Aiuto"
 
-#: qt/app.py:756
+#: qt/app.py:761
 #, fuzzy
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
@@ -685,64 +681,64 @@ msgstr ""
 "Se chiudi questa finestra Back In Time non sarà in grado di arrestare il sistema al termine dell'istantanea.\n"
 "Vuoi veramente chiuderla?"
 
-#: qt/app.py:902
+#: qt/app.py:905
 msgid "Working:"
 msgstr "Lavoro in corso:"
 
-#: qt/app.py:950
+#: qt/app.py:953
 msgid "Done, no backup needed"
 msgstr "Fatto, nessun backup necessario"
 
-#: qt/app.py:958
+#: qt/app.py:961
 #, fuzzy
 msgid "Working"
 msgstr "Lavoro in corso"
 
-#: qt/app.py:964 qt/messagebox.py:75
+#: qt/app.py:967 qt/messagebox.py:75
 msgid "Error"
 msgstr "Errore"
 
-#: qt/app.py:985 qt/qtsystrayicon.py:200
+#: qt/app.py:988 qt/qtsystrayicon.py:200
 #, fuzzy
 msgid "Sent"
 msgstr "Inviati"
 
-#: qt/app.py:986 qt/qtsystrayicon.py:201
+#: qt/app.py:989 qt/qtsystrayicon.py:201
 #, fuzzy
 msgid "Speed"
 msgstr "Velocità"
 
-#: qt/app.py:987 qt/qtsystrayicon.py:202
+#: qt/app.py:990 qt/qtsystrayicon.py:202
 #, fuzzy
 msgid "ETA"
 msgstr "Tempo rimanente stimato"
 
-#: qt/app.py:1041
+#: qt/app.py:1044
 msgid "Global"
 msgstr "Globale"
 
-#: qt/app.py:1042
+#: qt/app.py:1045
 msgid "Root"
 msgstr "Root"
 
-#: qt/app.py:1043
+#: qt/app.py:1046
 msgid "Home"
 msgstr "Home"
 
-#: qt/app.py:1058
+#: qt/app.py:1061
 msgid "Backup folders"
 msgstr "Cartelle di backup"
 
-#: qt/app.py:1146
+#: qt/app.py:1149
 msgid "Snapshot Name"
 msgstr "Nome istantanea"
 
-#: qt/app.py:1192
+#: qt/app.py:1195
 #, fuzzy
 msgid "Are you sure you want to remove the snapshot"
 msgstr "Sei sicuro di voler rimuovere l'istantanea"
 
-#: qt/app.py:1281
+#: qt/app.py:1284
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before\n"
@@ -751,7 +747,7 @@ msgstr ""
 "Fai il backup dei file locali prima di sovrascriverli o\n"
 "di rimuoverli aggiungendo '{suffix}'."
 
-#: qt/app.py:1287 qt/settingsdialog.py:774
+#: qt/app.py:1290 qt/settingsdialog.py:774
 #, fuzzy, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -760,7 +756,7 @@ msgstr ""
 "Le versioni nuove dei file verranno rinominate con il suffisso '{suffix}' prima di effettuare il ripristino.\n"
 "Se non ne hai più bisogno, puoi rimuoverle con '{cmd}'"
 
-#: qt/app.py:1301
+#: qt/app.py:1304
 msgid ""
 "Only restore files which do not exist or\n"
 "are newer than those in destination.\n"
@@ -770,11 +766,11 @@ msgstr ""
 "sono più recenti di quelli di destinazione.\n"
 "Utilizza l'opzione \"rsync --update\"."
 
-#: qt/app.py:1334
+#: qt/app.py:1337
 msgid "Remove newer files in original folder"
 msgstr "Rimuovi i file più recenti nella cartella originale"
 
-#: qt/app.py:1335
+#: qt/app.py:1338
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
@@ -786,7 +782,7 @@ msgstr ""
 "elimina i file / le cartelle che non sono nello snapshot.\n"
 "Questo cancellerà i file / le cartelle che sono stati esclusi durante l'acquisizione dell' Istantanea!"
 
-#: qt/app.py:1347
+#: qt/app.py:1350
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore the files(s)\n"
@@ -795,24 +791,24 @@ msgstr ""
 "Vuoi veramente ripristinare questi file\n"
 "nella nuova cartella '{path}'"
 
-#: qt/app.py:1351
+#: qt/app.py:1354
 #, fuzzy
 msgid "Do you really want to restore the files(s)"
 msgstr "Vuoi veramente ripristinare il/i file seguente/i"
 
-#: qt/app.py:1363
+#: qt/app.py:1366
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Sei sicuro di voler rimuovere tutti i file più recenti in '{path}'?"
 
-#: qt/app.py:1366
+#: qt/app.py:1369
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Sei sicuro di voler rimuovere tutti i file più nuovi nella tua cartella "
 "originale?"
 
-#: qt/app.py:1371
+#: qt/app.py:1374
 #, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
@@ -820,46 +816,46 @@ msgstr ""
 "ATTENZIONE: cancellare i file nella radice del filesystem potrebbe "
 "danneggiare l'intero sistema!"
 
-#: qt/app.py:1596
+#: qt/app.py:1599
 #, fuzzy
 msgid "View the current disk contents"
 msgstr "Visualizza il contenuto corrente del disco"
 
-#: qt/app.py:1603
+#: qt/app.py:1606
 #, fuzzy
 msgid "Snapshot"
 msgstr "Istantanee"
 
-#: qt/app.py:1604
+#: qt/app.py:1607
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
 msgstr "Visualizza l'istantanea fatta il {timestamp}"
 
-#: qt/app.py:1643
+#: qt/app.py:1646
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "Ripristina {path}"
 
-#: qt/app.py:1645
+#: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Ripristina {path} a..."
 
-#: qt/app.py:1802
+#: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Le impostazioni della lingua avranno effetto solo dopo aver riavviato Back "
 "In Time."
 
-#: qt/app.py:1842 qt/app.py:1859
+#: qt/app.py:1845 qt/app.py:1862
 msgid "Authors"
 msgstr "Autori"
 
-#: qt/app.py:1843 qt/app.py:1862
+#: qt/app.py:1846 qt/app.py:1865
 msgid "Translations"
 msgstr "Traduzioni"
 
-#: qt/app.py:1844 qt/app.py:1865
+#: qt/app.py:1847 qt/app.py:1868
 msgid "License"
 msgstr "Licenza"
 
@@ -1140,10 +1136,10 @@ msgstr "Ad ogni avvio/riavvio"
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Ogni {n} minuti"
+msgstr[0] "Ogni minuto"
 msgstr[1] "Ogni {n} minuti"
 
 #: qt/settingsdialog.py:363
@@ -1692,7 +1688,7 @@ msgid "Restore Settings"
 msgstr "Ripristina impostazioni"
 
 #: qt/settingsdialog.py:2110
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
@@ -1703,7 +1699,7 @@ msgstr ""
 "Per favore localizza l'istantanea dalla quale vuoi ripristinare la configurazione di {appName}. Il percorso potrebbe assomigliare a:\n"
 "{samplePath}\n"
 "\n"
-"Se le tue istantanee sono su un'unità remota o se sono cifrate, devi prima montarle manualmente. Se usi la modalità SSH, potresti anche aver bisogno di configurare l'accesso all'host remoto {addFuse} mediante chiave pubblica.\n"
+"Se le tue istantanee sono su un'unità remota o se sono cifrate, devi prima montarle manualmente. Se usi la modalità SSH, potresti anche aver bisogno di configurare l'accesso all'host remoto  mediante chiave pubblica.\n"
 "Dai un'occhiata a: 'man backintime'."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
