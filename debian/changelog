@@ -1,4 +1,7 @@
-backintime (1.4.1-dev) unstable; urgency=low
-  * wip
+backintime (1.4.1) unstable; urgency=low
+  * Dependency: Add "qt translations" to GUI runtime dependencies (#1538)
+  * Build: Unit tests do generically ignore all instead of well-known warnings now (#1539).
+  * Build: Warnings about missing Qt translation now are ignored while testing (#1537).
+  * Fix bug: GUI didn't start when "show hidden files" button was on (#1535).
   
- -- Germar Reitze <germar.reitze@gmail.com>  Sat, 16 Sep 2023 02:34:23 +0200
+ -- Germar Reitze <germar.reitze@gmail.com>  Sun, 01 Oct 2023 11:14:59 +0200
