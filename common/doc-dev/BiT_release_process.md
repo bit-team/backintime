@@ -41,8 +41,7 @@ When the PR is merged:
 
 - Announce code freeze on `dev` branch to all active developers via email
 
-- Check that Travis CI did successfully build the latest `dev` branch commit
-  for the complete build matrix (Python version * arch[icture]):
+- Check that Travis CI did successfully build the latest `dev` branch commit:
  
   https://app.travis-ci.com/github/bit-team/backintime
 
@@ -57,6 +56,16 @@ When the PR is merged:
   git checkout -b rc/v1.4.0
   ```
 
+- Enable the full build matrix in Travis CI (Python version * arch[icture])
+  by commenting the excluded architectures:
+
+    ```
+    jobs:
+      # exclude:
+      #   -  python: "3.9"
+      #   -  python: "3.10"
+    ```
+  
 - Build the still unchanged release candidate and execute the unit tests:
 
   ```
@@ -71,13 +80,18 @@ When the PR is merged:
 
 - Update the `CHANGES` text file in the project's root folder:
 
-  Rename the top-most line with the collected `dev` changes from
+  - Check `git log` to find and add forgotten but relevant entries for `CHANGES`, eg.
+    using the tag of the previous release:
   
-  `Version 1.3.4-dev (development of upcoming release)`
+    `git log v1.4.0..HEAD`
+
+  - Rename the top-most line with the collected `dev` changes from eg.
   
-  into
+    `Version 1.3.4-dev (development of upcoming release)`
   
-  `Version 1.4.0 (2023-09-14)`
+    into
+  
+    `Version 1.4.0 (2023-09-14)`
   
   using the new version number and release date.
 
@@ -128,7 +142,6 @@ When the PR is merged:
       to stay visible for users of older versions.
     - Remove old known problems if you are sure old BiT versions with this issue
       are unlikely to be used "in the wild" anymore.
-    - 
 
 - Build the prepared release candidate and execute the unit tests:
 
