@@ -7,7 +7,7 @@ will be rejected just because it doesn't fit to our quality standards,
 guidelines or rules. Every contribution is reviewed and if needed will be
 improved together with the maintainers.
 
-Please always make a new branch when preparing a Pull Request or a patch.
+Please always make a new branch when preparing a Pull Request ("PR") or a patch.
 Baseline that feature or bug fix branch on `dev` (the latest development
 state). When open a pull request please make sure that it targets
 `bit-team:dev`.

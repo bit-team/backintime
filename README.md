@@ -27,7 +27,8 @@ You only need to specify 3 things:
 A small team (Christian Buhtz, Michael Büker and Jürgen Altfeld)
 has started in summer 2022 to get things moving again after the
 development of this project has been dormant for a while.
-Stick with us, we all ♥️ _Back In Time_. 😁
+We do the development in our spare time and have to prioritise so
+stick with us, we all ♥️ _Back In Time_. 😁
 
 We are currently focusing on fixing
 [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
