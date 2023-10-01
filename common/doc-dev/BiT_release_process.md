@@ -184,8 +184,10 @@ When the PR is merged:
 
 - Finally check the Travis CI status of the pull request (everything must be green)
 
-- Once all the PR is ready do a squash-merge (= all changes are "squashed" into one commit)
-  into the `dev` branch
+- Once all the PR reviewer approved the PR do a squash-merge (= all changes are "squashed" into one commit)
+  into the `dev` branch using a commit message like
+
+  `Release candidate for v1.4.1 (Oct. 1, 2023) `
 
 - Wait for the final Travis CI build on the `dev` branch and check
   if everything is OK to proceed with the release
@@ -207,13 +209,22 @@ When the PR is merged:
   - Release title eg.: Back in Time 1.4.0 (Sept. 14, 2023)
   - Description: `# Changelog` + the relevant part of the CHANGES file
   - Check `Set as the latest release`
-  - Attach binaries: Upload the generated tar archive (eg. `backintime-1.4.0.tar.gz).
+  - Attach binaries: Upload the generated tar archive (eg. `backintime-1.4.0.tar.gz`).
     In releases < 1.4.0 also the public key of Germar was attached (`*.asc` file)
     since it can be used to validate signed debian packages files (`backintime*.deb`).
     Since we neither have the private key of Germar nor do publish any `deb`
     packages via Ubuntu PPA anymore this is not required or helpful anymore.
+  - Click on the "Publish release" button
 
-- Finally increment the version number for the new dev version:
+- Start a new dev version by preparing a new PR
+
+  ```
+  git switch dev
+  git pull upstream
+  git checkout -b PR/v1.4.1-dev  # use a new minor version number
+  ```
+
+-  Increment the version number for the new dev version:
 
   - Update the `VERSION` text file in the project's root folder:
 
@@ -241,9 +252,14 @@ When the PR is merged:
         -  python: "3.10"
     ```
 
+- Check the "Known Problems and Workarounds" section of the `README.md`
+  and make sure it is up-to-date
+
 - Commit and push the changes and create a new pull request
 
-  Commit and PR message: `Start of new dev version v.x.y.z`
+  Commit and PR message, eg.: `Start of new dev version v1.4.1-dev`
+
+- Optional: Request PR approval
 
 - Squash-merge the PR into the `dev` branch
 
@@ -251,6 +267,9 @@ When the PR is merged:
   - to announce "end of code freeze"
   - send a link to the github release
   - inform about unexpected (open) problems (if any)
+
+- (Out of scope here): Update the Github milestones and the assigned issues
+
 
 
 ## Other noteworthy things
