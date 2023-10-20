@@ -117,6 +117,7 @@ to be prepared to build an updated version of the package:
 
 In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
+- RTE "module 'qttools' has no attribute 'initate_translator'" with encFS when prompting the user for a password (#1553)
 - [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
 
 In older releases:
