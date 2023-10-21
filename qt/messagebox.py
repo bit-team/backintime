@@ -23,7 +23,7 @@ import qttools
 def askPasswordDialog(parent, title, prompt, language_code, timeout):
     if parent is None:
         app = qttools.createQApplication()
-        translator = qttools.initate_translator(language_code)
+        translator = qttools.initiate_translator(language_code)
         app.installTranslator(translator)
 
     import icon
