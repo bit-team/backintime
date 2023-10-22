@@ -78,6 +78,9 @@ When the PR is merged:
   make
   ```
 
+- Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
+  may be found only (too late) at run-time, eg. object name typos (see eg. #1553).
+
 - Update the `CHANGES` text file in the project's root folder:
 
   - Check `git log` to find and add forgotten but relevant entries for `CHANGES`, eg.
