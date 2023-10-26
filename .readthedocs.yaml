@@ -12,7 +12,7 @@ build:
     python: "3"
   jobs:
     post_create_environment:
-      - pip install sphinx_rtd_theme
+      - python -m pip install sphinx_rtd_theme
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
   configuration: common/doc-dev/conf.py
