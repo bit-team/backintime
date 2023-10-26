@@ -69,6 +69,7 @@ There you will also find the dependencies.
 Besides the repositories of the official GNU/Linux distributions, there are other alternative
 installation options provided and maintained by third parties.
 
+A Personal Package Archive (PPA) provided by @jean-christophe-manciot
 
 **PPA for Ubuntu and Debian-based distributions**
 
