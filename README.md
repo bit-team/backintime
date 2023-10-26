@@ -60,17 +60,15 @@ and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%
 
 ## Installation
 
-_Back In Time_ is included in many distributions. Use their repositories to
-install it. If you want to contribute or using the latest development version
-of _Back In Time_ please see [Build & Install in our
-`CONTRIBUTING.md`](CONTRIBUTING.md#build--install). There you will also find the
-dependencies.
-
-If your GNU/Linux distribution don't offer an official package for _Back In
-Time_ please open an issue there and let us know about it. Until then you can
-use the following alternative options.
+_Back In Time_ is included in [many GNU/Linux distributions](https://repology.org/project/backintime/badges).
+Use their repositories to install it. If you want to contribute or using the latest development version
+of _Back In Time_ please see [Build & Install in our `CONTRIBUTING.md`](CONTRIBUTING.md#build--install).
+There you will also find the dependencies.
 
 ### Alternative installation options
+Besides the repositories of the official GNU/Linux distributions, there are other alternative
+installation options provided and maintained by third parties.
+
 
 **PPA for Ubuntu and Debian-based distributions**
 
@@ -223,4 +221,4 @@ Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
 to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
-<sub>August 2023</sub>
+<sub>November 2023</sub>
