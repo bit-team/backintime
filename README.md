@@ -69,11 +69,11 @@ There you will also find the dependencies.
 Besides the repositories of the official GNU/Linux distributions, there are other alternative
 installation options provided and maintained by third parties.
 
-A Personal Package Archive (PPA) hosted at Launchpad provided by [@Germar](https://github.com/germar) offering a [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
+- A Personal Package Archive (PPA) hosted at Launchpad provided by [@Germar](https://github.com/germar) offering a [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
 
-Another self-hosted PPA provided by [@jean-christophe-manciot](https://github.com/jean-christophe-manciot). See [git.sdxlive.com/PPA/plain/Ubuntu](https://git.sdxlive.com/PPA/plain/Ubuntu) and the PPA's own [install instructions](https://git.sdxlive.com/PPA/about/#installing).
+- Another self-hosted PPA provided by [@jean-christophe-manciot](https://github.com/jean-christophe-manciot). See [git.sdxlive.com/PPA/plain/Ubuntu](https://git.sdxlive.com/PPA/plain/Ubuntu) and the PPA's own [install instructions](https://git.sdxlive.com/PPA/about/#installing).
 
-The Arch User Repository (AUR) do offer [some packages](https://aur.archlinux.org/packages?K=backintime).
+- The Arch User Repository (AUR) do offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 ## Known Problems and Workarounds
 
