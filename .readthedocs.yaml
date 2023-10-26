@@ -11,6 +11,10 @@ build:
   tools:
     python: "3"
   jobs:
+    # Workaround: See PR #1554 for details.
+    # When migrating to use a pyprojects.toml file switch from this
+    # workaround to the use of "python: install: extra_requirements..."
+    # See also: https://docs.readthedocs.io/en/stable/config-file/v2.html#packages
     post_create_environment:
       - python -m pip install sphinx_rtd_theme
 # Build documentation in the docs/ directory with Sphinx
