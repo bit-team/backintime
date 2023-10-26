@@ -69,48 +69,11 @@ There you will also find the dependencies.
 Besides the repositories of the official GNU/Linux distributions, there are other alternative
 installation options provided and maintained by third parties.
 
-A Personal Package Archive (PPA) provided by @jean-christophe-manciot
+A Personal Package Archive (PPA) hosted at Launchpad provided by [@Germar](https://github.com/germar) offering a [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
 
-**PPA for Ubuntu and Debian-based distributions**
+Another self-hosted PPA provided by [@jean-christophe-manciot](https://github.com/jean-christophe-manciot). See [git.sdxlive.com/PPA/plain/Ubuntu](https://git.sdxlive.com/PPA/plain/Ubuntu) and the PPA's own [install instructions](https://git.sdxlive.com/PPA/about/#installing).
 
-There is a PPA (Private Package Archive) with current stable version
-(`ppa:bit-team/stable`) and a testing PPA (`ppa:bit-team/testing`).
-
-    # You can ignore "Warning: apt-key is deprecated..." for now (see issue #1338)
-    sudo add-apt-repository ppa:bit-team/stable
-    sudo apt-get update
-    sudo apt-get install backintime-qt
-
-or
-
-    sudo add-apt-repository ppa:bit-team/testing
-    sudo apt-get update
-    sudo apt-get install backintime-qt
-
-**ArchLinux**
-
-There is an AUR package
-[`backintime`](https://aur.archlinux.org/packages/backintime) that also
-includes the GUI (`backintime-qt`).
-
-    # You need to import a public key once before installing
-    gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
-    # Fingerprint: 3E70 692E E3DB 8BDD A599  1C90 615F 366D 944B 4826
-
-    wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
-    tar xvzf backintime.tar.gz
-    cd backintime
-    makepkg -srci
-
-An alternative way of installation [clones the AUR
-package](https://averagelinuxuser.com/install-aur-manually-helpers/) which has
-the advantage to use `git pull` instead of downloading `backintime.tar.gz`
-to be prepared to build an updated version of the package:
-
-    git clone https://aur.archlinux.org/backintime.git
-    # Optional: Edit PKGBUILD to comment the `make test` line for the first-time installation of version 1.3.2 or less
-    cd backintime
-    makepkg -si
+The Arch User Repository (AUR) do offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 ## Known Problems and Workarounds
 
