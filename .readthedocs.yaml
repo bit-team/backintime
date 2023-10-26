@@ -10,7 +10,9 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3"
-
+  jobs:
+    post_create_environment:
+      - pip install sphinx_rtd_theme
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
   configuration: common/doc-dev/conf.py
@@ -18,9 +20,9 @@ sphinx:
 
 # We recommend specifying your dependencies to enable reproducible builds:
 # https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
-python:
-  install:
-  - method: pip
-    path: .
-    extra_requirements:
-    - sphinx_rtd_theme
+# python:
+#  install:
+#  - method: pip
+#    path: .
+#    extra_requirements:
+#    - foo
