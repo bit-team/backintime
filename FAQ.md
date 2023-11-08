@@ -904,7 +904,7 @@ moving the file/folder in the last snapshot, too.
 
 Some of the tests need an available SSH server.
 They get skipped if this is not the case.
-Plese see
+Please see
 [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests).
 
 ## Setup SSH Server to run unit tests
@@ -919,7 +919,7 @@ a password:
 - Populate the public key to the server executing `ssh-copy-id`.
 - Make the `ssh` instance run.
 - The port `22` (SSH default) should be available.
-- 
+
 To test the connection just execute `ssh localhost` and you should see an
 SSH shell without being asked for a password.
 
