@@ -504,8 +504,10 @@ class Decode(object):
         if not self.remote_path[-1] == os.sep:
             self.remote_path += os.sep
 
-        # german translation changed from Snapshot to Schnappschuss.
-        # catch both variants otherwise old logs wouldn't get decoded.
+        # German translation changed from Snapshot to Schnappschuss.
+        # Catch both variants otherwise old logs wouldn't get decoded.
+        # Warning (2023-11): Do not modify the source string.
+        # See #1559 for details.
         takeSnapshot = _('Take snapshot') \
             .replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
 

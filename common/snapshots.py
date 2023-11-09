@@ -904,6 +904,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if not line:
             return
 
+        # Warning (2023-11): Do not modify the source string.
+        # See #1559 for details.
         self.setTakeSnapshotMessage(
             0, _('Take snapshot') + " (rsync: %s)" % line)
 
