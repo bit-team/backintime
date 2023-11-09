@@ -675,7 +675,7 @@ class SettingsDialog(QDialog):
         self.cbFreeInodes.stateChanged.connect(enabled)
 
         # smart remove
-        self.cbSmartRemove = QCheckBox(_('Smart remove'), self)
+        self.cbSmartRemove = QCheckBox(_('Smart remove:'), self)
         layout.addWidget(self.cbSmartRemove, 3, 0)
 
         widget = QWidget(self)
@@ -697,31 +697,31 @@ class SettingsDialog(QDialog):
         self.spbKeepAll = QSpinBox(self)
         self.spbKeepAll.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepAll, 1, 1)
-        smlayout.addWidget(QLabel(_('day(s)'), self), 1, 2)
+        smlayout.addWidget(QLabel(_('day(s).'), self), 1, 2)
 
         smlayout.addWidget(
             QLabel(_('Keep one snapshot per day for the last'), self), 2, 0)
         self.spbKeepOnePerDay = QSpinBox(self)
         self.spbKeepOnePerDay.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepOnePerDay, 2, 1)
-        smlayout.addWidget(QLabel(_('day(s)'), self), 2, 2)
+        smlayout.addWidget(QLabel(_('day(s).'), self), 2, 2)
 
         smlayout.addWidget(
             QLabel(_('Keep one snapshot per week for the last'), self), 3, 0)
         self.spbKeepOnePerWeek = QSpinBox(self)
         self.spbKeepOnePerWeek.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepOnePerWeek, 3, 1)
-        smlayout.addWidget(QLabel(_('week(s)'), self), 3, 2)
+        smlayout.addWidget(QLabel(_('week(s).'), self), 3, 2)
 
         smlayout.addWidget(
             QLabel(_('Keep one snapshot per month for the last'), self), 4, 0)
         self.spbKeepOnePerMonth = QSpinBox(self)
         self.spbKeepOnePerMonth.setRange(1, 1000)
         smlayout.addWidget(self.spbKeepOnePerMonth, 4, 1)
-        smlayout.addWidget(QLabel(_('month(s)'), self), 4, 2)
+        smlayout.addWidget(QLabel(_('month(s).'), self), 4, 2)
 
         smlayout.addWidget(
-            QLabel(_('Keep one snapshot per year for all years'), self),
+            QLabel(_('Keep one snapshot per year for all years.'), self),
             5, 0, 1, 3)
 
         enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
@@ -730,7 +730,7 @@ class SettingsDialog(QDialog):
 
         # don't remove named snapshots
         self.cbDontRemoveNamedSnapshots \
-            = QCheckBox(_("Don't remove named snapshots"), self)
+            = QCheckBox(_("Don't remove named snapshots."), self)
         layout.addWidget(self.cbDontRemoveNamedSnapshots, 5, 0, 1, 3)
 
         #
