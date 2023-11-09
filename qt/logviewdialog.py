@@ -89,11 +89,14 @@ class LogViewDialog(QDialog):
         self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
 
         self.comboFilter.addItem(_('All'), 0)
+
+        # Note about ngettext plural forms: n>=100 means "Other" (e.g. Arabic
+        # or Polish) and fits best to the meaning of "all".
         self.comboFilter.addItem(
-            ' + '.join((ngettext('Error', 'Errors', 2), _('Changes'))),
+            ' + '.join((ngettext('Error', 'Errors', 100), _('Changes'))),
             4)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.addItem(ngettext('Error', 'Errors', 2), 1)
+        self.comboFilter.addItem(ngettext('Error', 'Errors', 100), 1)
         self.comboFilter.addItem(_('Changes'), 2)
         self.comboFilter.addItem(_('Information'), 3)
 
