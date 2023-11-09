@@ -901,19 +901,25 @@ moving the file/folder in the last snapshot, too.
 # Testing & Building
 
 ## SSH related tests are skipped
+
 Some of the tests need an available SSH server.
 They get skipped if this is not the case.
-Plese see
+Please see
 [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests).
 
 ## Setup SSH Server to run unit tests
-The goal is to log into the SSH server via `ssh localhost` without using
-a password.
+
+For detailed setup instructions see the [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md)
+
+The goal is to log into the SSH server on your local computer via `ssh localhost` without using
+a password:
+
 - Generate an RSA keypair executing `ssh-keygen`. Use the default file name
   and don't use a passphrase for the key.
 - Populate the public key to the server executing `ssh-copy-id`.
 - Make the `ssh` instance run.
-- The port `22` (SSH default) should be avaialbe.
+- The port `22` (SSH default) should be available.
+
 To test the connection just execute `ssh localhost` and you should see an
 SSH shell without being asked for a password.
 
