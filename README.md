@@ -69,8 +69,8 @@ Also the dependencies are described there.
 Besides the repositories of the official GNU/Linux distributions, there are other alternative
 installation options provided and maintained by third parties.
 
-- A Personal Package Archive (PPA) hosted at Launchpad provided by [@Germar](https://github.com/germar) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
-- A [PPA distributing _Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about) provided by [@jean-christophe-manciot](https://github.com/jean-christophe-manciot). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing).
+- A Personal Package Archive (PPA) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA. Hosted at Launchpad and provided by [@Germar](https://github.com/germar).
+- A PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing). The PPA is self-hosted and provided by [@jean-christophe-manciot](https://github.com/jean-christophe-manciot).
 - The Arch User Repository (AUR) do offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 ## Known Problems and Workarounds
