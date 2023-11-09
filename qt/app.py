@@ -958,13 +958,19 @@ class MainWindow(QMainWindow):
             self.lastTakeSnapshotMessage = takeSnapshotMessage
 
             if fake_busy:
-                message = _('Working') + ': ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                message = '{}: {}'.format(
+                    _('Working'),
+                    self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                )
 
             elif takeSnapshotMessage[0] == 0:
                 message = self.lastTakeSnapshotMessage[1].replace('\n', ' ')
 
             else:
-                message = _('Error') + ': ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                message = '{}: {}'.format(
+                    ngettext('Error', 'Errors', 1),
+                    self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                )
 
             self.status.setText(message)
 

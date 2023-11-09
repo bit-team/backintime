@@ -803,9 +803,10 @@ class SettingsDialog(QDialog):
         hlayout.addWidget(self.comboLogLevel, 1)
 
         self.comboLogLevel.addItem(QIcon(), _('None'), 0)
-        self.comboLogLevel.addItem(QIcon(), _('Errors'), 1)
-        self.comboLogLevel.addItem(QIcon(),
-                                   _('Changes') + ' & ' + _('Errors'), 2)
+        self.comboLogLevel.addItem(QIcon(), ngettext('Error', 'Errors', 2), 1)
+        self.comboLogLevel.addItem(
+            QIcon(),
+            _('Changes') + ' & ' + ngettext('Error', 'Errors', 2), 2)
         self.comboLogLevel.addItem(QIcon(), _('All'), 3)
 
         #

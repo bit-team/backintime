@@ -89,13 +89,15 @@ class LogViewDialog(QDialog):
         self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
 
         self.comboFilter.addItem(_('All'), 0)
-        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
+        self.comboFilter.addItem(
+            ' + '.join((ngettext('Error', 'Errors', 2), _('Changes'))),
+            4)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.addItem(_('Errors'), 1)
+        self.comboFilter.addItem(ngettext('Error', 'Errors', 2), 1)
         self.comboFilter.addItem(_('Changes'), 2)
         self.comboFilter.addItem(_('Information'), 3)
 
-        #text view
+        # text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setFont(QFont('Monospace'))
         self.txtLogView.setReadOnly(True)
