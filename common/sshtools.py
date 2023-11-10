@@ -97,6 +97,17 @@ class SSH(MountControl):
         # init MountControl
         super(SSH, self).__init__(*args, **kwargs)
 
+        # Workaround for linters
+        self.user = None
+        self.host = None
+        self.port = None
+        self.cipher = None
+        self.nice = None
+        self.ionice = None
+        self.nocache = None
+        self.private_key_file = None
+        self.password = None
+
         self.setattrKwargs(
             'user', self.config.sshUser(self.profile_id), **kwargs)
         self.setattrKwargs(

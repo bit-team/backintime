@@ -429,6 +429,13 @@ class MountControl(object):
                  symlink = True,
                  *args,
                  **kwargs):
+        # The following members should get valid values from the inheriting
+        # class.
+        self.mode = None
+        self.log_command = None
+        self.mountproc = None
+        self.symlink_subfolder = None
+
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -466,16 +473,17 @@ class MountControl(object):
         for arg in args:
             self.destination += ' %s' % self.all_kwargs[arg]
 
-        #unique id for every different mount settings. Similar settings even in
-        #different profiles will generate the same hash_id and so share the same
-        #mountpoint
+        # Unique id for every different mount settings. Similar settings even
+        # in different profiles will generate the same hash_id and so share
+        # the same mountpoint.
         if self.hash_id is None:
             self.hash_id = self.hash(self.destination)
 
         self.mount_root = self.config._LOCAL_MOUNT_ROOT
-        self.snapshots_path = self.config.snapshotsPath(profile_id = self.profile_id,
-                                                             mode = self.mode,
-                                                             tmp_mount = self.tmp_mount)
+        self.snapshots_path = self.config.snapshotsPath(
+            profile_id = self.profile_id,
+            mode = self.mode,
+            tmp_mount = self.tmp_mount)
 
         self.hash_id_path = self.hashIdPath()
         self.currentMountpoint = self.mountpoint()
