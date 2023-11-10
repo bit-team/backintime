@@ -38,8 +38,13 @@ class EncFS_mount(MountControl):
     Mount encrypted paths with encfs.
     """
     def __init__(self, *args, **kwargs):
-        #init MountControl
+        # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
+
+        # Workaround for some linters.
+        self.path = None
+        self.reverse = None
+        self.config_path = None
 
         self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
         self.setattrKwargs('reverse', False, **kwargs)
