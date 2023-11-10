@@ -62,4 +62,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         cmd.append('--enable=' + ','.join(err_codes))
 
         for fp in self._collect_py_files():
+            print('T'*40)
+            print(fp)
             subprocess.run(cmd + [fp], check=True)
