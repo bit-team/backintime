@@ -94,11 +94,9 @@ class LogViewDialog(QDialog):
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboFilter.addItem(
-            ' + '.join((ngettext('Error', 'Errors', 102), _('Changes'))),
-            4)
+        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.addItem(ngettext('Error', 'Errors', 102), 1)
+        self.comboFilter.addItem(_('Errors'))
         self.comboFilter.addItem(_('Changes'), 2)
         self.comboFilter.addItem(_('Information'), 3)
 

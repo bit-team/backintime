@@ -73,7 +73,7 @@ def info(text, title=None, widget_to_center_on=None):
 
 def critical(parent, msg):
     return QMessageBox.critical(parent,
-                                ngettext('Error', 'Errors', 1),
+                                _('Error'),
                                 msg,
                                 buttons = QMessageBox.Ok,
                                 defaultButton = QMessageBox.Ok)

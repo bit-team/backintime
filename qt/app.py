@@ -968,7 +968,7 @@ class MainWindow(QMainWindow):
 
             else:
                 message = '{}: {}'.format(
-                    ngettext('Error', 'Errors', 1),
+                    _('Error'),
                     self.lastTakeSnapshotMessage[1].replace('\n', ' ')
                 )
 

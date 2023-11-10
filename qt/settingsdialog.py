@@ -808,10 +808,10 @@ class SettingsDialog(QDialog):
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboLogLevel.addItem(QIcon(), ngettext('Error', 'Errors', 102), 1)
+        self.comboLogLevel.addItem(QIcon(), _('Errors'), 1)
         self.comboLogLevel.addItem(
             QIcon(),
-            _('Changes') + ' & ' + ngettext('Error', 'Errors', 102), 2)
+            _('Changes') + ' & ' + _('Errors'), 2)
         self.comboLogLevel.addItem(QIcon(), _('All'), 3)
 
         #
