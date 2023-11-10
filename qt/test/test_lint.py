@@ -21,6 +21,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         p = pathlib.Path.cwd()
 
         # Make sure we are inside the test folder
+        if p.name in ['qt', 'common']:  # happens e.g. on TravisCI
+            p = p / 'test'
+
         if not p.name.startswith('test'):
             raise Exception('Something went wrong. The test should run inside'
                             f' the test folder but current folder is {p}.')
