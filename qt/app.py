@@ -406,7 +406,7 @@ class MainWindow(QMainWindow):
             # Do nothing if English is the current used language
             if self.config.language_used != 'en':
 
-                # Show the message only if teh current used language is
+                # Show the message only if the current used language is
                 # translated equal or less then 97%
                 self._open_approach_translator_dialog(cutoff=97)
 
@@ -1655,9 +1655,9 @@ files that the receiver requests to be transferred.""")
         restore feature.
 
         Args:
-            enable(bool): Enable or diasable.
+            enable(bool): Enable or disable.
 
-        If a sepcific snapshot is selected in the timeline widget then all
+        If a specific snapshot is selected in the timeline widget then all
         restore UI elements are enabled. If "Now" (the first/root) is selected
         in the timeline all UI elements related to restoring should be
         disabled.
@@ -1668,7 +1668,7 @@ files that the receiver requests to be transferred.""")
         # the files-view toolbar.
         self.act_restore_menu.setEnabled(enable)
 
-        # This two entries do appear, independed from the sub-menu above, in
+        # This two entries do appear, independent from the sub-menu above, in
         # the context menu of the files view.
         self.act_restore.setEnabled(enable)
         self.act_restore_to.setEnabled(enable)
@@ -1713,7 +1713,7 @@ files that the receiver requests to be transferred.""")
             self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
 
     def fileSelected(self, fullPath=False):
-        """Return path and index of the currently in Files View highligted
+        """Return path and index of the currently in Files View highlighted
         (selected) file.
 
         Args:

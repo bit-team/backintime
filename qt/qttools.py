@@ -24,7 +24,7 @@
     - MyTreeView (used RestoreConfigDialog)
     - TimeLine (might be the snapshot list in the left part of the GUI)
         - TimeLineItem, SnapshotItem, HeaderItem
-    - SotedcomoBox, SnapshotComba, ProfilCombo
+    - SortedcomboBox, SnapshotCombo, ProfileCombo
     - Menu (tooltips in menus)
 
 """
@@ -82,7 +82,7 @@ def can_render(string, widget):
 
     for c in string:
         # Convert the unicode character to its integer representation
-        # becuase fm.inFont() is not able to handle 2-byte characters
+        # because fm.inFont() is not able to handle 2-byte characters
         if not fm.inFontUcs4(ord(c)):
             return False
 
