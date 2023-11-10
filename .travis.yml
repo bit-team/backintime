@@ -20,7 +20,6 @@ python:
   - "3.9"
   - "3.10"
   - "3.11"
-  - "3.12"
 
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
@@ -34,6 +33,7 @@ jobs:
     - python: "3.9"
     - python: "3.10"
     - arch: "ppc64le"
+    - python: "3.8"
 
 install:
   - pip install pylint coveralls pyfakefs
