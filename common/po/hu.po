@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -80,7 +80,7 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "A(z) {path} nem könyvtár!"
+msgstr "A(z) {path} nem könyvtár."
 
 #: common/config.py:450
 msgid "Host/User/Profile-ID must not be empty."
@@ -168,12 +168,12 @@ msgstr ""
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "A \"{name}\" már létezik!"
+msgstr "A \"{name}\" már létezik."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Nem lehet visszavonni!"
+msgstr "Nem lehet visszavonni."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -201,7 +201,7 @@ msgstr "Erősítsd meg a jelszót"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "A jelszavakat nem egyeznek"
+msgstr "A jelszavakat nem egyeznek."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -210,7 +210,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "Az encfs az 1.7.2-es és korábbi verzióknál hibás, ha a --reverse opciót "
-"használod. Frissítsd az encfs-t"
+"használod. Frissítsd az encfs-t."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -228,7 +228,7 @@ msgstr ""
 #: common/mount.py:708
 #, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "A %s csatolási pont foglalt"
+msgstr "A {} csatolási pont foglalt."
 
 #: common/password.py:240
 #, fuzzy, python-brace-format
@@ -272,7 +272,7 @@ msgstr[1] "%s másodperc várakozás."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "A {snapshot_id} pillanatkép készítése meghiúsult!!!"
+msgstr "A {snapshot_id} pillanatkép készítése meghiúsult."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -382,63 +382,48 @@ msgstr ""
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-"A(z) %(cipher)s nem sikerült a %(host)s esetében:\n"
-"%(err)s"
+msgstr "A(z) {cipher} nem sikerült a {host} esetében."
 
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"A távoli útvonal létezik, de nem könyvtár:\n"
-" %s"
+msgstr "A távoli útvonal létezik, de nem könyvtár."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"A távoli útvonal nem írható:\n"
-" %s"
+msgstr "A távoli útvonal nem írható."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"A távoli útvonal nem futtatható:\n"
-" %s"
+msgstr "A távoli útvonal nem futtatható."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Nem tudom távoli útvonalat elkészíteni:\n"
-" %s"
+msgstr "Nem tudom távoli útvonalat elkészíteni."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "A(z) %s kiszolgáló nem támogatja a hardlinkeket."
+msgstr "A(z) {host} távoli kiszolgáló nem támogatja a következőt {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"A(z) %(host)s távoli kiszolgáló nem támogatja a következőt: '%(command)s':\n"
-"%(err)s\n"
-"Nézd meg a 'man backintime'-ot további részletekért"
+msgstr "Nézd meg a 'man backintime'-ot további részletekért"
 
 #: common/sshtools.py:945
 #, fuzzy, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
-"A parancsok ellenőzése a(z) %(host)s kiszolgálón ismeretlen hibát okozott:\n"
-"%(err)s\n"
-"Nézd meg a 'man backintime'-ot további részletekért"
+"A parancsok ellenőzése a(z) {host} kiszolgálón ismeretlen hibát okozott"
 
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "A(z) %s kiszolgáló nem támogatja a hardlinkeket."
+msgstr "A(z) {host} kiszolgáló nem támogatja a hardlinkeket"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -500,7 +485,7 @@ msgstr ""
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Checksum használata hibák felfedezéséhez"
+msgstr "Checksum használata hibák felfedezéséhez."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -568,7 +553,7 @@ msgstr "Súgó"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Konfigurációs fájl mentése..."
+msgstr "Konfigurációs fájl mentése"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -610,7 +595,7 @@ msgstr ""
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Visszaállítás ide..."
+msgstr "Visszaállítás ide…"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -800,7 +785,7 @@ msgstr "Visszaállítás {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Visszaállítás {path} ide..."
+msgstr "Visszaállítás {path} ide…"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -841,6 +826,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Üdvözlöm!\n"
+"Ön már többször használta a Back In Time programot a(z) {language} nyelven.\n"
+"A Back In Time telepített verziójának {language} nyelvre történő fordítása {perc} befejeződött. Függetlenül attól, hogy milyen szintű műszaki ismeretekkel rendelkezik, hozzájárulhat a fordításhoz, és így magához a Back In Time-hoz is.\n"
+"Kérjük, látogasson el a {translation_platform_url} oldalra, ha ebben szeretne segíteni. A további segítségért és az esetleges kérdésekért kérjük, látogasson el a {back_in_time_project_website} weboldalra.\n"
+"Elnézést kérünk a zavarásért. Ez az üzenet nem fog többé megjelenni. Ez a párbeszédpanel később is bármikor elérhető a súgó menüben.\n"
+"A Back In Time csapata"
 
 #: qt/languagedialog.py:213
 msgid "translation platform"
@@ -927,7 +918,7 @@ msgstr ""
 #: qt/qtsystrayicon.py:167
 #, fuzzy
 msgid "Working…"
-msgstr "Dolgozik"
+msgstr "Dolgozik…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1369,7 +1360,7 @@ msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Ezeket a beállításokat csak akkor változtasd meg, ha biztosan tudod, mit "
-"csinálsz!"
+"csinálsz."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1668,7 +1659,7 @@ msgstr "Beállítások"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Egy pillanatkép nem hasonlítható össze önmagával"
+msgstr "Egy pillanatkép nem hasonlítható össze önmagával."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

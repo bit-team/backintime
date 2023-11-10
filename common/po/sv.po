@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -79,12 +79,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} är inte en mapp!"
+msgstr "{path} är inte en mapp."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Värd/användare/profil-ID får inte vara tomt!"
+msgstr "Värd/användare/profil-ID får inte vara tomt."
 
 #: common/config.py:460 common/config.py:507
 #, fuzzy, python-brace-format
@@ -179,12 +179,12 @@ msgstr "Misslyckades med att ladda konfiguration"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil \"{name}\" finns redan!"
+msgstr "Profil \"{name}\" finns redan."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "VARNING: Det här kan inte återkallas!"
+msgstr "VARNING: Det här kan inte återkallas."
 
 #: common/encfstools.py:87
 #, fuzzy, python-brace-format
@@ -211,7 +211,7 @@ msgstr "Bekräfta lösenord"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "Lösenord matchar inte"
+msgstr "Lösenord matchar inte."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -220,7 +220,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "encfs version 1.7.2 och tidigare har ett fel med alternativet --reverse. "
-"Vänligen uppdatera encfs"
+"Vänligen uppdatera encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -229,7 +229,7 @@ msgstr "Ta ögonblicksbild"
 #: common/mount.py:600
 #, fuzzy, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Kan inte avmontera %(proc)s från %(mountpoint)s"
+msgstr "Kan inte avmontera {mountprocess} från {mountpoint}."
 
 #: common/mount.py:687
 #, fuzzy
@@ -283,7 +283,7 @@ msgstr[1] "Väntar %s sekunder."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Misslyckades att skapa ögonblicksbild {snapshot_id}!!!"
+msgstr "Misslyckades att skapa ögonblicksbild {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -376,7 +376,7 @@ msgstr "Nu"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Kan inte montera %s"
+msgstr "Kan inte montera {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -393,63 +393,47 @@ msgstr ""
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-"Chiffer %(cipher)s misslyckades för %(host)s:\n"
-"%(err)s"
+msgstr "Chiffer {cipher} misslyckades för {host}."
 
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"Fjärrsökväg finns men är inte en katalog:\n"
-" %s"
+msgstr "Fjärrsökväg finns men är inte en katalog."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"Fjärrsökväg är inte skrivbar:\n"
-" %s"
+msgstr "Fjärrsökväg är inte skrivbar."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"Fjärrsökväg är inte körbar:\n"
-" %s"
+msgstr "Fjärrsökväg är inte körbar."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Kunde inte skapa fjärrsökväg:\n"
-" %s"
+msgstr "Kunde inte skapa fjärrsökväg."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Fjärrvärd %s stöder inte hardlinks"
+msgstr "Fjärrvärd {host} stöder inte {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Fjärrvärd %(host)s stöder inte \"%(command)s\":\n"
-"%(err)s\n"
-"Se \"man backintime\" för ytterligare instruktioner"
+msgstr "Se \"man backintime\" för ytterligare instruktioner"
 
 #: common/sshtools.py:945
 #, fuzzy, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
-"Kontrollera kommandon på värd %(host)s gav okänt fel:\n"
-"%(err)s\n"
-"Se \"man backintime\" för ytterligare instruktioner"
+msgstr "Kontrollera kommandon på värd {host} gav okänt fel"
 
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Fjärrvärd %s stöder inte hardlinks"
+msgstr "Fjärrvärd {host} stöder inte hardlinks"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -472,7 +456,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Denna mapp finns inte\n"
-"i den aktuellt valda ögonblicksbilden!"
+"i den aktuellt valda ögonblicksbilden."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -517,7 +501,7 @@ msgstr "Ta ögonblicksbild med checksums"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Använd checksum för att detektera ändringar"
+msgstr "Använd checksum för att detektera ändringar."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -585,7 +569,7 @@ msgstr "Hjälp"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Spara konfigurationsfil..."
+msgstr "Spara konfigurationsfil"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -629,7 +613,7 @@ msgstr ""
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Återskapa till..."
+msgstr "Återskapa till…"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -845,7 +829,7 @@ msgstr "Återskapa {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Återskapa {path} till..."
+msgstr "Återskapa {path} till…"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -979,7 +963,7 @@ msgstr "Starta {appname}"
 #: qt/qtsystrayicon.py:167
 #, fuzzy
 msgid "Working…"
-msgstr "Arbetar"
+msgstr "Arbetar…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1430,7 +1414,7 @@ msgstr "Expertinställningar"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Ändra dessa inställningar endast om du vet vad du gör!"
+msgstr "Ändra dessa inställningar endast om du vet vad du gör."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, fuzzy, python-brace-format
@@ -1688,7 +1672,7 @@ msgstr ""
 "Navigera till ögonblicksbilden från vilken du vill återställa {appName}s konfiguration. Sökvägen kan se ut som: \n"
 "{samplePath}\n"
 "\n"
-"Om dina ögonblicksbilder finns på en fjärrdisk eller om de är krypterade måste du manuellt montera dem först. Om du använder Mode SSH kan du också behöva ställa in inloggningen för offentlig nyckel till fjärrvärden {addFuse}.\n"
+"Om dina ögonblicksbilder finns på en fjärrdisk eller om de är krypterade måste du manuellt montera dem först. Om du använder Mode SSH kan du också behöva ställa in inloggningen för offentlig nyckel till fjärrvärden.\n"
 "Ta en titt på \"man backintime\"."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1757,7 +1741,7 @@ msgstr "Inställningar"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Du kan inte jämföra en ögonblicksbild med sig själv"
+msgstr "Du kan inte jämföra en ögonblicksbild med sig själv."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

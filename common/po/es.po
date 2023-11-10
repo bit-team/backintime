@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-25 14:54+0000\n"
-"Last-Translator: micosil <mico@micodev.es>\n"
+"PO-Revision-Date: 2023-11-01 09:13+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -62,27 +62,25 @@ msgid "Snapshots folder is not valid!"
 msgstr "¡La carpeta de instantáneas no es válida!"
 
 #: common/config.py:354
-#, fuzzy
 msgid "You must select at least one folder to back up!"
-msgstr "¡Debe seleccionar al menos una carpeta para copiar!"
+msgstr "¡Se debe seleccionar al menos una carpeta para la copia de seguridad!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "No se puede incluir la carpeta para la copia de seguridad."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "No se puede incluir la subcarpeta para la copia de seguridad."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "¡{path} no es una carpeta!"
+msgstr "Opción inválida. {path} no es una carpeta válida."
 
 #: common/config.py:450
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Servidor/Usuario/ID-Perfil no pueden estar vacíos."
+msgstr "El ID para el host/usuario/perfil no puede estar vacío."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -176,12 +174,12 @@ msgstr "Se produjo un fallo al cargar la configuración"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "¡El perfil \"{name}\" ya existe!"
+msgstr "El perfil \"{name}\" ya existe."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "¡Esto no se puede revocar!"
+msgstr "Esto no se puede revocar."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -207,7 +205,7 @@ msgstr "Por favor, confirme la contraseña"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "La contraseña no coincide"
+msgstr "La contraseña no coincide."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -216,7 +214,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "encfs version 1.7.2 y anteriores tienen un error al usar la opcion "
-"--reverse. Por favor actualice encfs"
+"--reverse. Por favor actualice encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -225,7 +223,7 @@ msgstr "Tomar instantánea"
 #: common/mount.py:600
 #, fuzzy, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "No se pudo desmontar %(proc)s de %(mountpoint)s"
+msgstr "No se pudo desmontar {mountprocess} de {mountpoint}."
 
 #: common/mount.py:687
 msgid "{} not found. Please install e.g. {}"
@@ -234,7 +232,7 @@ msgstr ""
 #: common/mount.py:708
 #, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "El punto de montaje %s está en uso"
+msgstr "El punto de montaje {} está en uso."
 
 #: common/password.py:240
 #, python-brace-format
@@ -277,7 +275,7 @@ msgstr[1] "Esperando %s segundos."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "¡¡¡Fallo al crear la instantánea {snapshot_id}!!!"
+msgstr "Fallo al crear la instantánea {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -368,7 +366,7 @@ msgstr "Ahora"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "No se puede montar %s"
+msgstr "No se puede montar {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -388,30 +386,22 @@ msgstr ""
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"La ruta remota existe, pero no es un directorio:\n"
-" %s"
+msgstr "La ruta remota existe, pero no es un directorio."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"No tiene permisos de escritura en la ruta remota:\n"
-" %s"
+msgstr "No tiene permisos de escritura en la ruta remota."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"No tiene permisos de ejecución en la ruta remota:\n"
-" %s"
+msgstr "No tiene permisos de ejecución en la ruta remota."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"No se puede crear la ruta remota:\n"
-" %s"
+msgstr "No se puede crear la ruta remota."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -493,7 +483,7 @@ msgstr "Tomar instantánea con sumas de comprobación"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Utilizar la suma de verificación (checksum) para detectar cambios"
+msgstr "Utilizar la suma de verificación (checksum) para detectar cambios."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -561,7 +551,7 @@ msgstr "Ayuda"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Guardando el archivo de configuración..."
+msgstr "Guardando el archivo de configuración"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -603,7 +593,7 @@ msgstr ""
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Recuperar en ..."
+msgstr "Recuperar en …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -801,7 +791,7 @@ msgstr "Restaurar {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Recuperar {path} en ..."
+msgstr "Recuperar {path} en …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1359,7 +1349,7 @@ msgstr "Opciones avanzadas"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "¡Cambie estas opciones sólo si realmente sabe lo que está haciendo!"
+msgstr "Cambie estas opciones sólo si realmente sabe lo que está haciendo."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1650,7 +1640,7 @@ msgstr "Opciones"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "No es posible comparar una instantánea consigo misma"
+msgstr "No es posible comparar una instantánea consigo misma."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

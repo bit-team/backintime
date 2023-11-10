@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -375,35 +375,27 @@ msgstr ""
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"원격 패스가 있지만 디텍토리가 아닙니다.\n"
-" %s"
+msgstr "원격 패스가 있지만 디텍토리가 아닙니다."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"다음 원격 패스에 쓸 수 없습니다.\n"
-" %s"
+msgstr "다음 원격 패스에 쓸 수 없습니다."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"다음 원격 패스를 실행 할 수 없습니다.\n"
-" %s"
+msgstr "다음 원격 패스를 실행 할 수 없습니다."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"다음 원격 패스를 만들 수 없습니다.\n"
-" %s"
+msgstr "다음 원격 패스를 만들 수 없습니다."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "원격호스트 %s가 하드링크를 지원하지 않습니다."
+msgstr "원격호스트 %s가 하드링크를 지원하지 않습니다"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 msgid "Look at 'man backintime' for further instructions"
@@ -417,7 +409,7 @@ msgstr ""
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "원격호스트 %s가 하드링크를 지원하지 않습니다."
+msgstr "원격호스트 %s가 하드링크를 지원하지 않습니다"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -548,7 +540,7 @@ msgstr "도움말"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "설정 파일 저장 ..."
+msgstr "설정 파일 저장"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -591,7 +583,7 @@ msgstr "선택한 파일 또는 폴더를 원래 위치로 복원합니다."
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "다음 위치에 복원 ..."
+msgstr "다음 위치에 복원 …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -783,7 +775,7 @@ msgstr "{path} 복원"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "\"{path}\"를 다음 위치에 복원 ..."
+msgstr "\"{path}\"를 다음 위치에 복원 …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."

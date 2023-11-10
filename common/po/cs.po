@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -77,13 +77,13 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} není složka!"
+msgstr "{path} není složka."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
 msgstr ""
-"Kolonka Stroj/Uživatel/Identifikátor-profilu nemůže zůstat nevyplněná!"
+"Kolonka Stroj/Uživatel/Identifikátor-profilu nemůže zůstat nevyplněná."
 
 #: common/config.py:460 common/config.py:507
 #, fuzzy, python-brace-format
@@ -178,12 +178,12 @@ msgstr "Nastavení se nepodařilo načíst"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil „{name}“ už existuje!"
+msgstr "Profil „{name}“ už existuje."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Toto nelze vzít zpět!"
+msgstr "Toto nelze vzít zpět."
 
 #: common/encfstools.py:87
 #, fuzzy, python-brace-format
@@ -209,7 +209,7 @@ msgstr "Potvrďte heslo"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "Zadání hesla se neshodují"
+msgstr "Zadání hesla se neshodují."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -218,7 +218,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "Implementace encfs verze 1.7.2 a starší obsahují chybu v předvolbě --reverse"
-" . Přejděte na novější verzi encfs"
+" . Přejděte na novější verzi encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -227,7 +227,7 @@ msgstr "Pořídit zachycený stav"
 #: common/mount.py:600
 #, fuzzy, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Nedaří se odpojit (umount) %(proc)s z %(mountpoint)s"
+msgstr "Nedaří se odpojit (umount) {mountprocess} z {mountpoint}."
 
 #: common/mount.py:687
 #, fuzzy
@@ -283,7 +283,7 @@ msgstr[2] "Čekání %s sekund."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Pořízení zachyceného stavu {snapshot_id} se nezdařilo!!!"
+msgstr "Pořízení zachyceného stavu {snapshot_id} se nezdařilo."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -377,7 +377,7 @@ msgstr "Nyní"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "%s se nedaří připojit (mount)"
+msgstr "{sshfs} se nedaří připojit (mount)"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -394,63 +394,50 @@ msgstr ""
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-"Použití šifry %(cipher)s se na stroji %(host)s nezdařilo:\n"
-"%(err)s"
+msgstr "Použití šifry {cipher} se na stroji {host}."
 
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"Umístění na protistraně existuje, ale není to složka:\n"
-" %s"
+msgstr "Umístění na protistraně existuje, ale není to složka."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"Do vzdáleného umístění nelze zapisovat:\n"
-" %s"
+msgstr "Do vzdáleného umístění nelze zapisovat."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
 msgstr ""
-"Umístění na protistraně nemá nastaveno oprávnění ke spouštění (tj. nelze do něho vstoupit):\n"
-" %s"
+"Umístění na protistraně nemá nastaveno oprávnění ke spouštění (tj. nelze do "
+"něho vstoupit)."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Umístění na protistraně se nedaří vytvořit:\n"
-" %s"
+msgstr "Umístění na protistraně se nedaří vytvořit."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Na protějšku, stroji %s nejsou podporovány pevné odkazy (hardlink)"
+msgstr "Protějšek, stroj {host} nepodporuje {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Protějšek, stroj %(host)s nepodporuje „%(command)s“:\n"
-"%(err)s\n"
-"Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
+msgstr "Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
 
 #: common/sshtools.py:945
 #, fuzzy, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
-"Kontrolní příkazy na stroji %(host)s vrátily neznámou chybu:\n"
-"%(err)s\n"
-"Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
+msgstr "Kontrolní příkazy na stroji {host} vrátily neznámou chybu"
 
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Na protějšku, stroji %s nejsou podporovány pevné odkazy (hardlink)"
+msgstr ""
+"Na protějšku, stroji {host} nejsou podporovány pevné odkazy (hardlink)"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -475,7 +462,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Tato složka v aktuálně označeném\n"
-"zachyceném stavu neexistuje!"
+"zachyceném stavu neexistuje."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -520,7 +507,7 @@ msgstr "Pořídit zachycený stav a opatřit ho kontrolními součty"
 msgid "Use checksums for file change detection."
 msgstr ""
 "Zda se soubory, určené k zálohování změnily zjišťovat pomocí jejich "
-"kontrolního součtu (přesnější)"
+"kontrolního součtu (přesnější)."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -587,7 +574,7 @@ msgstr "Nápověda"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Ukládání souboru s nastaveními…"
+msgstr "Ukládání souboru s nastaveními"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -741,10 +728,8 @@ msgid ""
 "Create backup copies with trailing {suffix} before\n"
 "overwriting or removing local files."
 msgstr ""
-"Stávající soubory, které by jinak byly\n"
-"odebrány nebo přepsány těmi ze zálohy,\n"
-"zachovat a jen připojit za jejich název\n"
-"„{suffix}“."
+"Stávající soubory, které by jinak byly odebrány nebo přepsány těmi ze zálohy,\n"
+"zachovat a jen připojit za jejich název „{suffix}“."
 
 #: qt/app.py:1290 qt/settingsdialog.py:774
 #, fuzzy, python-brace-format
@@ -1411,7 +1396,7 @@ msgstr "&Pokročilé předvolby"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Tyto předvolby měňte pouze v případě, že opravdu víte co děláte!"
+msgstr "Tyto předvolby měňte pouze v případě, že opravdu víte co děláte."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1670,7 +1655,7 @@ msgstr ""
 "Přejděte k zachycenému stavu, ze kterého chcete obnovit nastavení pro {appName}. Popis umístění může vypadat nějak takto: \n"
 "{samplePath}\n"
 "\n"
-"Pokud se zachycené stavy nacházejí na síťovém úložišti nebo jsou šifrované, bude třeba toto umístění nejprve ručně připojit. V případě, že jsou zálohy ukládány na vzdálený stroj prostřednictvím SSH tunelu, je také třeba zajistit přihlašování k tomuto stroji {addFuse} pomocí klíče.\n"
+"Pokud se zachycené stavy nacházejí na síťovém úložišti nebo jsou šifrované, bude třeba toto umístění nejprve ručně připojit. V případě, že jsou zálohy ukládány na vzdálený stroj prostřednictvím SSH tunelu, je také třeba zajistit přihlašování k tomuto stroji pomocí klíče.\n"
 "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1741,7 +1726,7 @@ msgstr "Předv&olby"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Porovnávat zachycený stav s ním samotným nedává smysl"
+msgstr "Porovnávat zachycený stav s ním samotným nedává smysl."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

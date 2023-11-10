@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
 "Language: vi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
@@ -75,12 +75,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "“{path}” không phải là một thư mục!"
+msgstr "“{path}” không phải là một thư mục."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Máy chủ/Người dùng/ ID-Hồ sơ không được để trống!"
+msgstr "Máy chủ/Người dùng/ ID-Hồ sơ không được để trống."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -173,12 +173,12 @@ msgstr "Nạp cấu hình thất bại"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Hồ sơ \"{name}\" đã tồn tại!"
+msgstr "Hồ sơ \"{name}\" đã tồn tại."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Lệnh này không thể thu hồi!"
+msgstr "Lệnh này không thể thu hồi."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -267,7 +267,7 @@ msgstr[0] "Đang chờ %s giây."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Chụp snapshot {snapshot_id} thất bại !!!"
+msgstr "Chụp snapshot {snapshot_id} thất bại."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -391,7 +391,7 @@ msgstr "Shebang trong đoạn script user-callback không được thực thi."
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Không tạo được thư mục"
+msgstr "Không tạo được thư mục."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -433,7 +433,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Thư mục này không tồn tại\n"
-"trong bản snapshot đang được chọn!"
+"trong bản snapshot đang được chọn."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -476,7 +476,7 @@ msgstr "Chụp snapshot với checksum"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Dùng checksum để phát hiện có thay đổi"
+msgstr "Dùng checksum để phát hiện có thay đổi."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -543,7 +543,7 @@ msgstr "Trợ giúp"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Đang lưu tập tin cấu hình..."
+msgstr "Đang lưu tập tin cấu hình"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -586,7 +586,7 @@ msgstr "Khôi phục các tập tin và thư mục được chọn về vị tr�
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Khôi phục đến ..."
+msgstr "Khôi phục đến …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -793,7 +793,7 @@ msgstr "Khôi phục {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Khôi phục {path} đến ..."
+msgstr "Khôi phục {path} đến …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -835,6 +835,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Xin chào\n"
+"Bạn cũng đã sử dụng Back In Time bằng {language} được vài lần rồi.\n"
+"Bản dịch sang {language} của phiên bản Back In Time mà bạn cài đặt đã {perc} hoàn thành. Dù với bất cứ trình độ hiểu biết công nghệ nào, bạn cũng có thể đóng góp bản dịch và cũng là đóng góp cho chính Back In Time.\n"
+"Xin hãy ghé thăm {translation_platform_url} nếu bạn muốn đóng góp. Về trợ giúp và giải đáp thắc mặc, xin hãy truy cập {back_in_time_project_website}.\n"
+"Chúng tôi xin thứ lỗi về sự gián đoạn này, và thông báo này sẽ không xuất hiện nữa. Hộp thoại này lúc nào cũng có thể được tìm thấy trong menu trợ giúp.\n"
+"Nhóm phát triển Back In Time"
 
 #: qt/languagedialog.py:213
 #, fuzzy
@@ -1349,7 +1355,7 @@ msgstr "&Tùy chọn chuyên gia"
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
-"Chỉ thay đổi những tùy chọn này nếu bạn thật sự biết mình đang làm gì!"
+"Chỉ thay đổi những tùy chọn này nếu bạn thật sự biết mình đang làm gì."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1605,7 +1611,7 @@ msgstr ""
 "Vui lòng điều hướng đến bản snapshot mà bạn muốn khôi phục cấu hình của {appName}. Đường dẫn có thể trông như thế này:\n"
 "{samplePath}\n"
 "\n"
-"Nếu bản snapshot của bạn ở trên ổ cứng từ xa hoặc nếu nó đã được mã hóa, bạn cần phải gắn kết nó trước tiên. Nếu bạn dùng chế độ SSH, bạn cũng có thể cần thiết lập khóa công khai đăng nhập vào máy chủ từ xa {addFuse}.\n"
+"Nếu bản snapshot của bạn ở trên ổ cứng từ xa hoặc nếu nó đã được mã hóa, bạn cần phải gắn kết nó trước tiên. Nếu bạn dùng chế độ SSH, bạn cũng có thể cần thiết lập khóa công khai đăng nhập vào máy chủ từ xa.\n"
 "Xem qua 'man backintime'."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1672,7 +1678,7 @@ msgstr "&Tùy chọn"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Không thể so sánh một snapshot với chính nó"
+msgstr "Không thể so sánh một snapshot với chính nó."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

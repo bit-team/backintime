@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2023-10-24 13:13+0000\n"
+"Last-Translator: turbotopia <thomasalarsen10@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "Advarsel"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
@@ -36,9 +36,8 @@ msgid "SSH private key"
 msgstr "Privat SSH nøkkel"
 
 #: common/config.py:297
-#, fuzzy
 msgid "encrypted"
-msgstr "SSH kryptert"
+msgstr "kryptert"
 
 #: common/config.py:298 common/config.py:305
 msgid "Encryption"
@@ -54,7 +53,7 @@ msgstr "Standard"
 
 #: common/config.py:341 common/config.py:353 common/config.py:370
 #: common/config.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
@@ -77,9 +76,9 @@ msgid "Backup sub-folder cannot be included."
 msgstr ""
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} er ikke en mappe !"
+msgstr "Ugyldig valg. {path} er ikke en mappe."
 
 #: common/config.py:450
 msgid "Host/User/Profile-ID must not be empty."
@@ -167,9 +166,9 @@ msgid "Failed to load config"
 msgstr "Kunne ikke laste konfigurasjonsfil"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil \"{name}\" eksisterer allerede!"
+msgstr "Profil \"{name}\" finnes allerede."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -247,12 +246,11 @@ msgid "Deferring backup while on battery"
 msgstr "Batteridrift utsetter backup"
 
 #: common/snapshots.py:766
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"Kan ikke finne øyeblikksbilde mappe.\n"
+"Kan ikke finne øyeblikksbildemappen.\n"
 "Hvis den er på en ekstern disk, vennligst plugg den i."
 
 #: common/snapshots.py:768
@@ -265,11 +263,11 @@ msgstr[1] "Venter %s sekunder."
 #: common/snapshots.py:805
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr ""
+msgstr "Øyeblikksbilde feilet {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
-msgstr "Avslutter"
+msgstr "Fullfører"
 
 #: common/snapshots.py:943
 msgid "Can't create folder"
@@ -294,30 +292,29 @@ msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 
 #: common/snapshots.py:1173
-#, fuzzy
 msgid "Can't remove folder"
-msgstr "Kan ikke fjerne mappe"
+msgstr "Mappen kan ikke slettes"
 
 #: common/snapshots.py:1216
 msgid "Taking snapshot"
-msgstr "Ta øyeblikksbilde"
+msgstr "Tar øyeblikksbilde"
 
 #: common/snapshots.py:1248
 msgid "Success"
-msgstr ""
+msgstr "Suksess"
 
 #: common/snapshots.py:1249
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
-msgstr ""
+msgstr "Ufullstendig overføring grunnet tap av kildefiler (se 'man rsync')"
 
 #: common/snapshots.py:1252
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' avsluttet med kode {exit_code}"
 
 #: common/snapshots.py:1261
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Se 'man rsync' for flere detaljer"
 
 #: common/snapshots.py:1265
 msgid ""
@@ -346,9 +343,9 @@ msgid "Trying to keep min free space"
 msgstr "Forsøk å bevare min ledig plass"
 
 #: common/snapshots.py:1730
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Forsøk å bevare min ledig plass"
+msgstr "Forsøker å bevare minst {perc} ledige inodes"
 
 #: common/snapshots.py:2812 qt/app.py:1598
 msgid "Now"
@@ -387,9 +384,8 @@ msgid "Remote path is not executable."
 msgstr ""
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Kan ikke opprette mappe"
+msgstr "Kan ikke opprette ekstern bane."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -533,9 +529,8 @@ msgid "Help"
 msgstr "Hjelp"
 
 #: qt/app.py:516
-#, fuzzy
 msgid "Profiles config file"
-msgstr "Lagrer konfigurasjonsfil..."
+msgstr "Profilens konfigurasjonsfil"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -575,9 +570,8 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
-msgstr "Gjennopprett"
+msgstr "Gjennopprett til …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -762,9 +756,9 @@ msgid "Restore {path}"
 msgstr "Gjennopprett {path}"
 
 #: qt/app.py:1648
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Gjennopprett {path}"
+msgstr "Gjennopprett {path} til …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -893,9 +887,8 @@ msgid "Start {appname}"
 msgstr ""
 
 #: qt/qtsystrayicon.py:167
-#, fuzzy
 msgid "Working…"
-msgstr "Arbeider"
+msgstr "Arbeider…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1037,7 +1030,7 @@ msgstr "For hver start/omstart"
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Hvert {n}. minutt"
@@ -1602,9 +1595,8 @@ msgid "Options"
 msgstr "Alternativer"
 
 #: qt/snapshotsdialog.py:328
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Du kan ikke sammenlikne et øyeblikksbilde med seg selv"
+msgstr "Du kan ikke sammenlikne et øyeblikksbilde med seg selv."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

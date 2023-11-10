@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-12 05:29+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
 "Language: pt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -79,7 +79,7 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} não é uma directoria !"
+msgstr "{path} não é uma directoria."
 
 #: common/config.py:450
 msgid "Host/User/Profile-ID must not be empty."
@@ -167,7 +167,7 @@ msgstr "Falha no carregamento da configuração"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "O perfil \"{name}\" já existe!"
+msgstr "O perfil \"{name}\" já existe."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -197,7 +197,7 @@ msgstr "Por favor confirmar password"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "Password não coincide"
+msgstr "Password não coincide."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -206,7 +206,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "A versão 1.7.2 de encfs tem um erro com a opção --reverse. Por favor, "
-"actualize encfs"
+"actualize encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -224,7 +224,7 @@ msgstr ""
 #: common/mount.py:708
 #, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "Ponto de montagem %s não está vazio"
+msgstr "Ponto de montagem {} não está vazio."
 
 #: common/password.py:240
 #, python-brace-format
@@ -267,7 +267,7 @@ msgstr[1] "Aguardar %s segundos."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Falhou a criação da snapshot {snapshot_id} !!!"
+msgstr "Falhou a criação da snapshot {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -358,7 +358,7 @@ msgstr "Agora"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Não foi possível montar %s"
+msgstr "Não foi possível montar {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -390,7 +390,7 @@ msgstr ""
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Impossível criar pasta"
+msgstr "Impossível criar pasta."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -471,7 +471,7 @@ msgstr ""
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Use a soma de verificação para detectar mudanças"
+msgstr "Use a soma de verificação para detectar mudanças."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -537,7 +537,7 @@ msgstr "Ajuda"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Gravar ficheiro de configuração ..."
+msgstr "Gravar ficheiro de configuração"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-21 14:21+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -419,12 +419,8 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "L'host remoto {host} non supporta gli {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
-#, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"L'host remoto %(host)s non supporta '%(command)s':\n"
-"%(err)s\n"
-"Guarda il 'man backintime' per ulteriori istruzioni"
+msgstr "Guarda il 'man backintime' per ulteriori istruzioni"
 
 #: common/sshtools.py:945
 #, python-brace-format
@@ -574,7 +570,7 @@ msgstr "Aiuto"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Salva il file di configurazione ..."
+msgstr "Salva il file di configurazione"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -619,7 +615,7 @@ msgstr ""
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Ripristina a..."
+msgstr "Ripristina a…"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -839,7 +835,7 @@ msgstr "Ripristina {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Ripristina {path} a..."
+msgstr "Ripristina {path} a…"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -977,7 +973,7 @@ msgstr "Avvia {appname}"
 #: qt/qtsystrayicon.py:167
 #, fuzzy
 msgid "Working…"
-msgstr "Lavoro in corso"
+msgstr "Lavoro in corso…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1437,7 +1433,7 @@ msgstr "Opzioni per esperti"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Cambiare questo opzioni solo se si sa cosa si sta facendo !"
+msgstr "Cambiare questo opzioni solo se si sa cosa si sta facendo."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, fuzzy, python-brace-format
@@ -1699,7 +1695,7 @@ msgstr ""
 "Per favore localizza l'istantanea dalla quale vuoi ripristinare la configurazione di {appName}. Il percorso potrebbe assomigliare a:\n"
 "{samplePath}\n"
 "\n"
-"Se le tue istantanee sono su un'unità remota o se sono cifrate, devi prima montarle manualmente. Se usi la modalità SSH, potresti anche aver bisogno di configurare l'accesso all'host remoto  mediante chiave pubblica.\n"
+"Se le tue istantanee sono su un'unità remota o se sono cifrate, devi prima montarle manualmente. Se usi la modalità SSH, potresti anche aver bisogno di configurare l'accesso all'host remoto mediante chiave pubblica.\n"
 "Dai un'occhiata a: 'man backintime'."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1768,7 +1764,7 @@ msgstr "Opzioni"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Non è possibile confrontare un'istantanea con se stessa"
+msgstr "Non è possibile confrontare un'istantanea con se stessa."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

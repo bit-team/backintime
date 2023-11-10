@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-13 16:53+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
 "Language: sr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -79,12 +79,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} nije direktorijum!"
+msgstr "{path} nije direktorijum."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/Корисник/ИД-Профила морају бити попуњени!"
+msgstr "Host/Корисник/ИД-Профила морају бити попуњени."
 
 #: common/config.py:460 common/config.py:507
 #, fuzzy, python-brace-format
@@ -168,7 +168,7 @@ msgstr "Неуспешно учитавање конфигурације"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Профил \"{name}\" већ постоји!"
+msgstr "Профил \"{name}\" већ постоји."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -264,7 +264,7 @@ msgstr[2] "Чекамо %s секунди."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Неуспешно чување снимка {snapshot_id} !!!"
+msgstr "Неуспешно чување снимка {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -387,7 +387,7 @@ msgstr ""
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Неуспешно креирање фолдера"
+msgstr "Неуспешно креирање фолдера."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -429,7 +429,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Овај фолдер не постоји\n"
-"у тренутно изабраном снимку!"
+"у тренутно изабраном снимку."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -472,7 +472,7 @@ msgstr "Направи снимак са контролним бројем"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Користи контролни број за примећивање промена"
+msgstr "Користи контролни број за примећивање промена."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -540,7 +540,7 @@ msgstr "Помоћ"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Чување конфигурационог фајла..."
+msgstr "Чување конфигурационог фајла"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -582,7 +582,7 @@ msgstr "Повратак одабраних фајлова или фолдера
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Поврати на..."
+msgstr "Поврати на…"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -908,7 +908,7 @@ msgstr ""
 #: qt/qtsystrayicon.py:167
 #, fuzzy
 msgid "Working…"
-msgstr "Radim"
+msgstr "Radim…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1331,7 +1331,7 @@ msgstr "Napredne opcije"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Izmeni ove opcije samo ako znaš šta radiš!"
+msgstr "Izmeni ove opcije samo ako znaš šta radiš."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1624,7 +1624,7 @@ msgstr "Opcije"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Није могуће упоредити снимак са самим собом"
+msgstr "Није могуће упоредити снимак са самим собом."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-25 14:54+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
 "Language: sl\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -74,12 +74,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ni mapa!"
+msgstr "{path} ni mapa."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/User/Profile-ID ne sme biti prazen!"
+msgstr "Host/User/Profile-ID ne sme biti prazen."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -171,7 +171,7 @@ msgstr "Konfiguracije ni bilo mogoče naložiti"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil \"{name}\" že obstaja!"
+msgstr "Profil \"{name}\" že obstaja."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -267,7 +267,7 @@ msgstr[3] "Čakanje %s sekunde."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Posnetek {snapshot_id} ni uspel !!!"
+msgstr "Posnetek {snapshot_id} ni uspel."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -390,7 +390,7 @@ msgstr ""
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Mape ni mogoče ustvariti"
+msgstr "Mape ni mogoče ustvariti."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -432,7 +432,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Ta mapa ne obstaja\n"
-"v trenutno izbranem posnetku!"
+"v trenutno izbranem posnetku."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -475,7 +475,7 @@ msgstr "Naredi posnetek s kontrolnimi vsotami"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Za zaznavanje sprememb uporabite kontrolno vsoto"
+msgstr "Za zaznavanje sprememb uporabite kontrolno vsoto."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -542,7 +542,7 @@ msgstr "Pomoč"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Shranjevanje konfiguracijske datoteke ..."
+msgstr "Shranjevanje konfiguracijske datoteke"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -585,7 +585,7 @@ msgstr "Obnovi izbrane datoteke ali mape v prvotni cilj."
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Obnovi v ..."
+msgstr "Obnovi v …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -787,7 +787,7 @@ msgstr "Obnovi {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Obnovi {path} v ..."
+msgstr "Obnovi {path} v …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1346,7 +1346,7 @@ msgstr "Napredno"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Spremenite te nastavitve samo, če res veste, kaj počnete!"
+msgstr "Spremenite te nastavitve samo, če res veste, kaj počnete."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1643,7 +1643,7 @@ msgstr "M&ožnosti"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Posnetka ni mogoče primerjati s samim sabo"
+msgstr "Posnetka ni mogoče primerjati s samim sabo."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

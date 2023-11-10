@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -79,12 +79,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ei ole kansio!"
+msgstr "{path} ei ole kansio."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Kone/käyttäjätunnus/profiilin tunnus ei voi olla tyhjä!"
+msgstr "Kone/käyttäjätunnus/profiilin tunnus ei voi olla tyhjä."
 
 #: common/config.py:460 common/config.py:507
 #, fuzzy, python-brace-format
@@ -179,12 +179,12 @@ msgstr "Määrityksen lataaminen epäonnistui"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profiili ”{name}” on jo olemassa!"
+msgstr "Profiili ”{name}” on jo olemassa."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "VAROITUS: Tätä ei voi kumota!"
+msgstr "Tätä ei voi kumota."
 
 #: common/encfstools.py:87
 #, fuzzy, python-brace-format
@@ -211,7 +211,7 @@ msgstr "Vahvista salasana"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "Salasanat eivät täsmää"
+msgstr "Salasanat eivät täsmää."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -220,7 +220,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "encfs 1.7.2:n ja vanhempien versioiden --reverse-valitsimessa on "
-"ohjelmavirhe. Päivitä encfs"
+"ohjelmavirhe. Päivitä encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -283,7 +283,7 @@ msgstr[1] "Odotetaan %s sekuntia."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Otoksen {snapshot_id} luominen epäonnistui!!!"
+msgstr "Otoksen {snapshot_id} luominen epäonnistui."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -376,7 +376,7 @@ msgstr "Nyt"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Ei voida liittää: %s"
+msgstr "Ei voida liittää {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -398,43 +398,32 @@ msgstr ""
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"Etäsijainti on olemassa muttei kansio\n"
-" %s"
+msgstr "Etäsijainti on olemassa muttei kansio."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"Etäsijaintiin ei voi kirjoittaa\n"
-" %s"
+msgstr "Etäsijaintiin ei voi kirjoittaa."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"Etäsijainti ei ole ohjelmatiedosto\n"
-" %s"
+msgstr "Etäsijainti ei ole ohjelmatiedosto."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Etäsijaintia ei voitu luoda:\n"
-" %s"
+msgstr "Etäsijaintia ei voitu luoda."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Etäkone %s ei tue kovia linkkejä"
+msgstr "Etäkone {host} ei tue komentoa {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Etäkone %(host)s ei tue komentoa ”%(command)s”:\n"
-"%(err)s\n"
-"Lisätietoa: ”man backintime”"
+msgstr "Lisätietoa: ”man backintime”"
 
 #: common/sshtools.py:945
 #, python-brace-format
@@ -444,7 +433,7 @@ msgstr ""
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Etäkone %s ei tue kovia linkkejä"
+msgstr "Etäkone {host} ei tue kovia linkkejä"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -467,7 +456,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Tätä kansiota ei ole\n"
-"valitussa otoksessa!"
+"valitussa otoksessa."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -510,7 +499,7 @@ msgstr "Ota otos tarkistussummin"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Havaitse muutokset tarkistussummista"
+msgstr "Havaitse muutokset tarkistussummista."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -578,7 +567,7 @@ msgstr "Ohje"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Tallennetaan määritystiedostoa…"
+msgstr "Tallennetaan määritystiedostoa"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -1413,7 +1402,7 @@ msgstr "Asiantuntija-asetukset"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Muuta näitä asetuksia vain, jos tiedät, mitä teet!"
+msgstr "Muuta näitä asetuksia vain, jos tiedät, mitä teet."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, fuzzy, python-brace-format
@@ -1663,7 +1652,7 @@ msgstr ""
 "Siirry otokseen, josta haluat palauttaa {appName}-määrityksen. Sijainti näyttää tälllaiselta:\n"
 "{samplePath}\n"
 "\n"
-"Jos otos on etäasemalla tai salattu, ne on ensin käyttäjän itse liitettävä. SSH-tilassa sinun on myös asetettava julkisen avaimen kirjautuminen etäkoneeseen {addFuse}.\n"
+"Jos otos on etäasemalla tai salattu, ne on ensin käyttäjän itse liitettävä. SSH-tilassa sinun on myös asetettava julkisen avaimen kirjautuminen etäkoneeseen.\n"
 "Katso lisätietoa: ”man backintime”."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1731,7 +1720,7 @@ msgstr "Valinnat"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Otosta ei voi verrata itseensä"
+msgstr "Otosta ei voi verrata itseensä."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

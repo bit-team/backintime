@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -79,7 +79,7 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} er ikke en mappe !"
+msgstr "{path} er ikke en mappe."
 
 #: common/config.py:450
 msgid "Host/User/Profile-ID must not be empty."
@@ -167,7 +167,7 @@ msgstr ""
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil \"{name}\" findes allerede !"
+msgstr "Profil \"{name}\" findes allerede."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
@@ -198,7 +198,7 @@ msgstr "Bekræft venligst kodeord"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "Kodeord passer ikke"
+msgstr "Kodeord passer ikke."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -207,7 +207,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "encfs version 1.7.2 og tidligere har en fejl ved brug af option --reverse. "
-"Opdatér venligst encfs"
+"Opdatér venligst encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -269,7 +269,7 @@ msgstr[1] "Venter %s sekunder."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Kunne ikke tage tilstands-billede {snapshot_id} !!!"
+msgstr "Kunne ikke tage tilstands-billede {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -362,7 +362,7 @@ msgstr "Nu"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Kan ikke tilslutte %s"
+msgstr "Kan ikke tilslutte {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -396,7 +396,7 @@ msgstr ""
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Kan ikke oprette mappen"
+msgstr "Kan ikke oprette mappen."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -406,9 +406,7 @@ msgstr ""
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Kodeløs login for %(user)s@%(host)s fejlede. Se'man backintime' for yderlig "
-"informationer."
+msgstr "Se 'man backintime' for yderlig informationer"
 
 #: common/sshtools.py:945
 #, python-brace-format
@@ -545,7 +543,7 @@ msgstr "Hjælp"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Gem config fil ..."
+msgstr "Gem config fil"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -964,7 +962,7 @@ msgid ""
 msgstr ""
 "{app} bruger EncFS til encryptering. Et sikkerhedstjek har vist at der er "
 "flere mulige angrebsvinkler til dette. Se venligst \"A NOTE ON SECURITY\" i "
-"\"man backintime\""
+"\"man backintime\"."
 
 #: qt/settingsdialog.py:163 qt/settingsdialog.py:1907
 msgid "Where to save snapshots"
@@ -1616,7 +1614,7 @@ msgstr "Indstillinger"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Du kan ikke sammenligne et tilstands-billede med sig selv"
+msgstr "Du kan ikke sammenligne et tilstands-billede med sig selv."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy

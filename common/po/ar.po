@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-12 05:29+0000\n"
+"PO-Revision-Date: 2023-10-19 19:53+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
 "Language: ar\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.0.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "تحذير"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
@@ -54,45 +54,43 @@ msgstr "إفتراضيّ"
 
 #: common/config.py:341 common/config.py:353 common/config.py:370
 #: common/config.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "الملف الشخصي: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
-msgstr "مُجلد اللقطات غير صالح !"
+msgstr "مُجلد اللقطات غير صالح!"
 
 #: common/config.py:354
-#, fuzzy
 msgid "You must select at least one folder to back up!"
-msgstr "يجب أن تُحدد على الأقل مُجلداً واحداً للنسخ الأحتياطي !"
+msgstr "يجب أن تُحدد على الأقل مُجلداً واحداً للنسخ الأحتياطي!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "لا يمكن تضمين مجلد النسخ الاحتياطي."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "لا يمكن تضمين المجلد الفرعي للنسخ الاحتياطي."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ليس مُجلداً !"
+msgstr "اختيار غير صالح. {path} ليس مُجلداً."
 
 #: common/config.py:450
 msgid "Host/User/Profile-ID must not be empty."
-msgstr ""
+msgstr "يجب ألا يكون حقول Host/User/Profile-ID فارغًا."
 
 #: common/config.py:460 common/config.py:507
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"لا يستطيع الكتابة على {path}\n"
-"هل انت مُتأكد بأن لديك حق الكتابة ؟"
+"لا يستطيع الكتابة إلى {path}\n"
+"هل انت مُتأكد بأن لديك حق الكتابة؟"
 
 #: common/config.py:477
 #, python-brace-format
@@ -100,6 +98,8 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"نظام الملفات الوجهة لـ{path} مهيأ بواصتة FAT الذي لا يدعم الروابط الصلبة. "
+"الرجاء استخدام نظام ملفات اصلي للينكس (Linux)."
 
 #: common/config.py:486
 #, python-brace-format
@@ -108,6 +108,9 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
+"نظام الملفات الوجهة لـ{path} هو مشاركة ملف مركب مع SMB. الرجاء التأكد ان "
+"خادوم الـSMB البعيد يدعم الروابط اللينة او تنشط {copyLinks} في "
+"{expertOptions}."
 
 #: common/config.py:490 qt/settingsdialog.py:998
 msgid "Copy links (dereference symbolic links)"
@@ -123,22 +126,22 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"نظام الملفات الوجهة لـ{path} هو مشاركة ملف مركب مع sshfs, الذي لا يدعم "
+"الروابط الصلبة. الرجاء استخدام طريقة 'SSH' بدلاً منه."
 
 #: common/config.py:1591
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 "لا يستطيع إيجاد crontab.\n"
-"ِِِِِِِِِِهل أنت مُتأكد بأن cron مثبت فعلاً ؟\n"
-"أن لم يكن كذلك فعليك بإظهار جميع نُسخ الإحتياطية التلّقائية."
+"هل أنت مُتأكد بأن cron مثبت فعلاً ؟\n"
+"أن لم يكن كذلك فعليك تعطيل جميع النسخ الإحتياطية الأوتوماتيكي."
 
 #: common/config.py:1597
-#, fuzzy
 msgid "Failed to write new crontab."
-msgstr "فشك كتابة crontab جديد."
+msgstr "فشل كتابة crontab جديد."
 
 #: common/config.py:1700
 #, python-brace-format
@@ -146,69 +149,68 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
+"لا يستطيع تثبيت قاعدة Udev ماف الشخصي {profile_id}. خدمة DBus "
+"'{dbus_interface}' ليس كانت موفره"
 
 #: common/config.py:1715
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr ""
+msgstr "جدول udev لا يعمل مع طريقة {mode}"
 
 #: common/config.py:1726
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "تعذر العثور على UUID لـ \"{path}\""
+msgstr "لا يستطيع العثور على UUID لـ{path}"
 
 #: common/configfile.py:107
-#, fuzzy
 msgid "Failed to save config"
-msgstr "فشل في حفظ الإعداد"
+msgstr "فشل في حفظ التكوين"
 
 #: common/configfile.py:143
-#, fuzzy
 msgid "Failed to load config"
-msgstr "فشل في جلب الإعداد"
+msgstr "فشل في جلب التكوين"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "الملف الشخصي \"{name}\" موجود بالفعل !"
+msgstr "الملف الشخصي \"{name}\" موجود أصلاً."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
-msgstr ""
+msgstr "لا يستطيع إزالة الملف الشخصي الآخر."
 
 #: common/encfstools.py:87
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr "تعذر ضم {command}"
+msgstr "لا يستطيع ركب '{command}'"
 
 #: common/encfstools.py:134
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "لم يوجد التكوين لالمجاد المشفر."
 
 #: common/encfstools.py:142
-#, fuzzy
 msgid "Create a new encrypted folder?"
-msgstr "أأنشئ مجلدا مشفرا جديدا؟"
+msgstr "انشاء مجلداً مشفرا جديدا؟"
 
 #: common/encfstools.py:146
 msgid "Cancel"
-msgstr "ألغِ"
+msgstr "إلغاء"
 
 #: common/encfstools.py:151
 msgid "Please confirm password"
-msgstr "رجاء أكد كلمة السر"
+msgstr "يرجى تأكيد كلمة السر"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "الكلمتان مختلفتان"
+msgstr "كلمة السر ليس مطابق."
 
 #: common/encfstools.py:173
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
-msgstr "تحوي النسخة 1.7.2 من encfs  على علة مع خيار --reverse، رجاء حدث encfs"
+msgstr ""
+"تحتوي الإصدار 1.7.2 او اقدم من encfs على علة مع خيار --reverse. الرجاء تحديث"
+" encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -217,30 +219,28 @@ msgstr "خذ لقطة"
 #: common/mount.py:600
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "لا يستطيع تفكيك {mountprocess} من {mountpoint}."
 
 #: common/mount.py:687
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "لا يوجد {}. الرجاء تثبيت مثلا {}"
 
 #: common/mount.py:708
-#, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "نقطة الضم %s ليست فارغة"
+msgstr "نقطة التركيب {} ليست فارغة."
 
 #: common/password.py:240
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr ""
+msgstr "الملف الشخصي '{profile}': الرجاء دخول كلمة السر لـ{mode}: "
 
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
 msgstr "فشل"
 
 #: common/snapshots.py:539 common/snapshots.py:601
-#, fuzzy
 msgid "Restore permissions"
-msgstr "إستعادة التراخيص"
+msgstr "إستعادة الأذونات"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:78
@@ -249,16 +249,15 @@ msgstr "تم"
 
 #: common/snapshots.py:704
 msgid "Deferring backup while on battery"
-msgstr ""
+msgstr "تأجيل النسخ الاحتياطي أثناء وجوده على البطارية"
 
 #: common/snapshots.py:766
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
 "لا يستطيع إيجاد مُجلد اللقطات.\n"
-"إذا كان في قرص قابل للإزالة من فضلك وَصْلّهُ."
+"إذا كان في قرص قابل للإزالة فيرجى توصيله."
 
 #: common/snapshots.py:768
 #, python-format
@@ -272,53 +271,51 @@ msgstr[4] "ينتظر %s ثانية."
 msgstr[5] "ينتظر %s ثواني."
 
 #: common/snapshots.py:805
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "فشل بأخذ لقطة {snapshot_id} !!!"
+msgstr "فشل بأخذ لقطة {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "يُنْهيّ"
 
 #: common/snapshots.py:943
-#, fuzzy
 msgid "Can't create folder"
-msgstr "لا يُمكن إنشاء مُجلد"
+msgstr "لا يمكن إنشاء مجلد"
 
 #: common/snapshots.py:960
 msgid "Saving config file..."
-msgstr "أحفظ ملف التعديل ..."
+msgstr "يتم حفظ ملف التكوين..."
 
 #: common/snapshots.py:1036
 msgid "Saving permissions..."
-msgstr "أحفظ ترخيص ..."
+msgstr "أحفظ الأذونات..."
 
 #: common/snapshots.py:1144
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
-msgstr ""
+msgstr "وجد بقايا {snapshot_id} ويمكن الاستمرار فيه."
 
 #: common/snapshots.py:1163
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr ""
+msgstr "يتم إزالة مجلد بقايا {snapshot_id} من العملية الاخيرة"
 
 #: common/snapshots.py:1173
-#, fuzzy
 msgid "Can't remove folder"
-msgstr "لا يُمكن إزالة مُجلد"
+msgstr "لا يُمكن إزالة المُجلد"
 
 #: common/snapshots.py:1216
 msgid "Taking snapshot"
-msgstr "خذ لقطة"
+msgstr "يتم اخذ لقطة"
 
 #: common/snapshots.py:1248
 msgid "Success"
-msgstr ""
+msgstr "ناجح"
 
 #: common/snapshots.py:1249
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
-msgstr ""
+msgstr "نقل جزئي بسبب اختفاء ملفات المصدر (انظر لـ'man rsync')"
 
 #: common/snapshots.py:1252
 #, python-brace-format
@@ -400,7 +397,7 @@ msgstr ""
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "لا يُمكن إنشاء مُجلد"
+msgstr "لا يُمكن إنشاء مُجلد."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -481,7 +478,7 @@ msgstr ""
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "أستخدم تدقيق المجموع لِكشف التغيُّرات"
+msgstr "أستخدم تدقيق المجموع لِكشف التغيُّرات."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -549,7 +546,7 @@ msgstr "مُساعدة"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "أحفظ ملف التعديل ..."
+msgstr "أحفظ ملف التعديل"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -592,7 +589,7 @@ msgstr ""
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "إسترجع إلى ..."
+msgstr "إسترجع إلى …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -781,7 +778,7 @@ msgstr "إسترجع"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "إسترجع إلى ..."
+msgstr "إسترجع إلى …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -823,8 +820,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"العَرَبِيَّةُ\n"
-"مرحبا. لقد استخدمت تطبيق Back In Time في اللغة العربية عدة مرات من قبل. لقد تم فقط {perc} من ترجمة البرنامج إلى هذه اللغة. بلا أي خبرة بالتكنولوجيا أو في مجال البرمجة، يمكنك المساهمة بالترجمة وبالتالي التحسين العام لـ Back In Time. إن أردت المساهمة، يرجى زيارة صفحة الترجمة. للمساعدة والأسئلة، يرجى زيارة صفحة Back In Time العامة. نحن آسفون لمقاطعتك، وهذه الرسالة لن تراها بعد الآن. مع ذلك، يمكنك رؤيتها في أي وقت عن طريق قائمة المساعدة."
+"مرحبا.\n"
+"لقد استخدمت تطبيق Back In Time في اللغة العربية عدة مرات من قبل.\n"
+"لقد تم فقط {perc} من ترجمة البرنامج إلى هذه اللغة. بلا أي خبرة بالتكنولوجيا أو في مجال البرمجة، يمكنك المساهمة بالترجمة وبالتالي التحسين العام لـ Back In Time.\n"
+"إن أردت المساهمة، يرجى زيارة صفحة الترجمة. للمساعدة والأسئلة، يرجى زيارة صفحة Back In Time العامة.\n"
+"نحن آسفون لمقاطعتك، وهذه الرسالة لن تراها بعد الآن. مع ذلك، يمكنك رؤيتها في أي وقت عن طريق قائمة المساعدة.\n"
+"فريقك Back In Time"
 
 #: qt/languagedialog.py:213
 #, fuzzy
@@ -913,7 +914,7 @@ msgstr ""
 #: qt/qtsystrayicon.py:167
 #, fuzzy
 msgid "Working…"
-msgstr "يعمل"
+msgstr "يعمل…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1061,12 +1062,12 @@ msgstr "في كل اقلاع/اعادة اقلاع"
 #, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "كل ٥ دقائق"
-msgstr[1] "كل ٥ دقائق"
-msgstr[2] "كل ٥ دقائق"
-msgstr[3] "كل ٥ دقائق"
-msgstr[4] "كل ٥ دقائق"
-msgstr[5] "كل ٥ دقائق"
+msgstr[0] "كل {n} دقيقة"
+msgstr[1] "كل {n} دقيقة"
+msgstr[2] "كل {n} دقيقتين"
+msgstr[3] "كل {n} دقائق"
+msgstr[4] "كل {n} دقائق"
+msgstr[5] "كل {n} دقائق"
 
 #: qt/settingsdialog.py:363
 msgid "Every hour"
@@ -1343,7 +1344,7 @@ msgstr "خيارات الخبراء"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "غيّر هذه الخيارات فقط عندما تكون واثق مما تفعله !"
+msgstr "غيّر هذه الخيارات فقط عندما تكون واثق مما تفعله."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1637,7 +1638,7 @@ msgstr "خيارات"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "لا تستطيع مُقارنة اللقطة بنفسها"
+msgstr "لا تستطيع مُقارنة اللقطة بنفسها."
 
 #: qt/snapshotsdialog.py:336
 #, fuzzy
@@ -1660,7 +1661,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:378
 msgid "WARNING"
-msgstr ""
+msgstr "تحذير"
 
 #: qt/snapshotsdialog.py:394
 #, python-brace-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -78,12 +78,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} bukan sebuah folder !"
+msgstr "{path} bukan sebuah folder."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/User/Profile-ID tidak boleh kosong!"
+msgstr "Host/User/Profile-ID tidak boleh kosong."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -176,12 +176,12 @@ msgstr "Gagal memuat konfigurasi"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profil \"{name}\" sudah digunakan!"
+msgstr "Profil \"{name}\" sudah digunakan."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Ini tidak dapat dibatalkan!"
+msgstr "Ini tidak dapat dibatalkan."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -207,7 +207,7 @@ msgstr "Mohon konfirmasi kata sandi"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "Kata sandi tidak cocok"
+msgstr "Kata sandi tidak cocok."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -216,7 +216,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "versi encfs 1.7.2 dan setelahnya mempunyai bug ketika menggunakan opsi "
-"--reverse. Silahkan perbaharui encfs"
+"--reverse. Silahkan perbaharui encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -276,7 +276,7 @@ msgstr[0] "Menunggu %s detik."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Gagal untuk mengambil snapshot {snapshot_id} !!!"
+msgstr "Gagal untuk mengambil snapshot {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -367,7 +367,7 @@ msgstr "Sekarang"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Tidak dapat mengkaitkan %s"
+msgstr "Tidak dapat mengkaitkan {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -384,63 +384,47 @@ msgstr ""
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-"Cipher %(cipher)s gagal untuk %(host)s:\n"
-"%(err)s"
+msgstr "Cipher {cipher} gagal untuk {host}."
 
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"Jalur yang dipantau tersedia tapi sayangnya bukan sebuah direktori:\n"
-" %s"
+msgstr "Jalur yang dipantau tersedia tapi sayangnya bukan sebuah direktori."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"Jalur yang dipantau tidak dapat ditulisi:\n"
-" %s"
+msgstr "Jalur yang dipantau tidak dapat ditulisi."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"Jalur yang dipantau tidak dapat dieksekusi:\n"
-" %s"
+msgstr "Jalur yang dipantau tidak dapat dieksekusi."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Tidak mampu membuat jalur pemantau:\n"
-" %s"
+msgstr "Tidak mampu membuat jalur pemantau."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Host %s yang dipantau tidak mendukung hardlink"
+msgstr "Host {host} yang dipantau tidak mendukung {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"Host yang dipantau %(host)s tidak mendukung '%(command)s':\n"
-"%(err)s\n"
-"Lihat pada 'man backintime' untuk instruksi lebih lanjut"
+msgstr "Lihat pada 'man backintime' untuk instruksi lebih lanjut"
 
 #: common/sshtools.py:945
 #, fuzzy, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
-"Periksa perintah-perintah pada host %(host)s yang menyebabkan kesalahan:\n"
-"%(err)s\n"
-"Lihat pada 'man backintime' untuk penjelasan lebih lanjut"
+msgstr "Periksa perintah-perintah pada host {host} yang menyebabkan kesalahan"
 
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Host %s yang dipantau tidak mendukung hardlink"
+msgstr "Host {host} yang dipantau tidak mendukung hardlink"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -463,7 +447,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Folder ini tidak ada\n"
-"dalam snapshot yang sedang dipilih!"
+"dalam snapshot yang sedang dipilih."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -508,7 +492,7 @@ msgstr "Ambil snapshot dengan checksums"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Gunakan checksum untuk mendeteksi perubahan"
+msgstr "Gunakan checksum untuk mendeteksi perubahan."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -576,7 +560,7 @@ msgstr "Bantuan"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Simpan berkas konfigurasi ..."
+msgstr "Simpan berkas konfigurasi"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -619,7 +603,7 @@ msgstr "Kembalikan file atau folder yang dipilih ke tujuan asal."
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Pulihkan ke ..."
+msgstr "Pulihkan ke …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -826,9 +810,9 @@ msgid "Restore {path}"
 msgstr "Pulihkan {path}"
 
 #: qt/app.py:1648
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Pulihkan {path} ke ..."
+msgstr "Pulihkan {path} ke …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1396,7 +1380,7 @@ msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Ganti pilihan-pilihan ini hanya jika anda benar-benar tahu apa yang anda "
-"lakukan!"
+"lakukan."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1653,7 +1637,7 @@ msgstr ""
 "Mohon arahkan ke snapshot yang ingin anda gunakan untuk memulihkan konfigurasi dari {appName}. Jalurnya bisa berbentuk sebagai berikut:\n"
 "{samplePath}\n"
 "\n"
-"Jika snapshot anda ada pada drive jarak jauh atau bila mereka terenkipsi anda harus memasang mereka secara manual dahulu. Jika anda menggunakan Mode SSH anda mungkin juga butuh untuk mengatur kunci umum untuk login ke host jarak jauh{addFuse}.\n"
+"Jika snapshot anda ada pada drive jarak jauh atau bila mereka terenkipsi anda harus memasang mereka secara manual dahulu. Jika anda menggunakan Mode SSH anda mungkin juga butuh untuk mengatur kunci umum untuk login ke host jarak jauh.\n"
 "Lihat pada 'man backintime'."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1720,7 +1704,8 @@ msgstr "&Pilihan"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Anda tidak boleh membandingkan sebuah snapshot dengan dirinya sendiri"
+msgstr ""
+"Anda tidak boleh membandingkan sebuah snapshot dengan dirinya sendiri."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

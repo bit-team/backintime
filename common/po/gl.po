@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-12 05:29+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -76,12 +76,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} non é un cartafol !"
+msgstr "Оpción non válido. {path} non é un cartafol."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "O servidor/usuario/ID do perfil non poden estar baleiros!"
+msgstr "O servidor/usuario/ID do perfil non poden estar baleiros."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -173,12 +173,12 @@ msgstr "Produciuse un erro ao cargar a configuración"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "O perfil «{name}» xa existe!"
+msgstr "O perfil «{name}» xa existe."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Isto non se pode revogar!"
+msgstr "Isto non se pode revogar."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -204,7 +204,7 @@ msgstr "Confirme o contrasinal"
 #: common/encfstools.py:155
 #, fuzzy
 msgid "Password doesn't match."
-msgstr "O contrasinal non coincide"
+msgstr "O contrasinal non coincide."
 
 #: common/encfstools.py:173
 #, fuzzy
@@ -213,7 +213,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "A versión de encfs 1.7.2 e anteriores teñen un fallo coa opción --reverse. "
-"Actualice encfs"
+"Actualice encfs."
 
 #: common/encfstools.py:509 common/snapshots.py:908
 msgid "Take snapshot"
@@ -222,7 +222,7 @@ msgstr "Facer copia"
 #: common/mount.py:600
 #, fuzzy, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Non é posíbel desmontar %(proc)s de %(mountpoint)s"
+msgstr "Non é posíbel desmontar {mountprocess} de {mountpoint}."
 
 #: common/mount.py:687
 #, fuzzy
@@ -274,7 +274,7 @@ msgstr[1] "Agardando %s segundos."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Produciuse un fallo ao realizar a copia {snapshot_id}!!!"
+msgstr "Produciuse un fallo ao realizar a copia {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -365,7 +365,7 @@ msgstr "Agora"
 #: common/sshtools.py:204
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Non é posible montar %s"
+msgstr "Non é posible montar {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -380,63 +380,48 @@ msgstr "Non foi posible"
 #: common/sshtools.py:495
 #, fuzzy, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-"Fallou o cifrado %(cipher)s para %(host)s:\n"
-"%(err)s"
+msgstr "Fallou o cifrado {cipher} para {host}."
 
 #: common/sshtools.py:642
 #, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
-"A ruta remota existe pero non é un cartafol:\n"
-" %s"
+msgstr "A ruta remota existe pero non é un cartafol."
 
 #: common/sshtools.py:647
 #, fuzzy
 msgid "Remote path is not writable."
-msgstr ""
-"A ruta remota non permite a escritura:\n"
-" %s"
+msgstr "A ruta remota non permite a escritura."
 
 #: common/sshtools.py:652
 #, fuzzy
 msgid "Remote path is not executable."
-msgstr ""
-"A ruta remota non é executable:\n"
-" %s"
+msgstr "A ruta remota non é executable."
 
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr ""
-"Non foi posible crear a ruta remota:\n"
-" %s"
+msgstr "Non foi posible crear a ruta remota."
 
 #: common/sshtools.py:937
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "O servidor remoto %s non admite hardlinks"
+msgstr "O servidor remoto {host} non permite utilizar {command}"
 
 #: common/sshtools.py:941 common/sshtools.py:950
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
-"O servidor remoto %(host)s non permite utilizar '%(command)s':\n"
-"%(err)s\n"
-"Mire 'man backintime' para máis instrucións"
+msgstr "Mire 'man backintime' para máis instrucións"
 
 #: common/sshtools.py:945
 #, fuzzy, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
-"As ordes de comprobación no servidor %(host)s devolveron un erro descoñecido:\n"
-"%(err)s\n"
-"Mire 'man backintime' para máis instrucións"
+"As ordes de comprobación no servidor {host} devolveron un erro descoñecido"
 
 #: common/sshtools.py:966
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "O servidor remoto %s non admite hardlinks"
+msgstr "O servidor remoto {host} non admite hardlinks"
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -459,7 +444,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Este cartafol non existe\n"
-"na actual imaxe seleccionada!"
+"na actual imaxe seleccionada."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -503,7 +488,7 @@ msgstr "Facer unha copia con sumas de comprobación (checksums)"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Usar a suma de comprobación para detectar cambios"
+msgstr "Usar a suma de comprobación para detectar cambios."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -570,7 +555,7 @@ msgstr "Axuda"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "gardando o ficheiro de configuración..."
+msgstr "gardando o ficheiro de configuración"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -615,7 +600,7 @@ msgstr ""
 #: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "Restablecer como ..."
+msgstr "Restablecer como …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -812,14 +797,14 @@ msgid "View the snapshot made at {timestamp}"
 msgstr "Ver a instantánea feita en {timestamp}"
 
 #: qt/app.py:1646
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurar {path}"
 
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Restablecer {path} en..."
+msgstr "Restablecer {path} en…"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -953,7 +938,7 @@ msgstr "Iniciar {appname}"
 #: qt/qtsystrayicon.py:167
 #, fuzzy
 msgid "Working…"
-msgstr "En proceso"
+msgstr "En proceso…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1381,7 +1366,7 @@ msgstr "O&pcións avanzadas"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Cambie estas opcións unicamente se sabe ben o que está a facer!"
+msgstr "Cambie estas opcións unicamente se sabe ben o que está a facer."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1636,7 +1621,7 @@ msgstr ""
 "Vaia á instantánea da que desexa restaurar a configuración de {appName}. A ruta será como esta: \n"
 "{samplePath}\n"
 "\n"
-"Se as instantáneas están nunha unidade remota ou están cifradas debe montalas primeiro. Se usa o modo SSH pode necesitar configurar o acceso coa chave pública ao servidor remoto {addFuse}.\n"
+"Se as instantáneas están nunha unidade remota ou están cifradas debe montalas primeiro. Se usa o modo SSH pode necesitar configurar o acceso coa chave pública ao servidor remoto.\n"
 "Consulte o manual do backintime."
 
 #: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
@@ -1703,7 +1688,7 @@ msgstr "&Opcións"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Non pode comparar unha instantánea con ela mesma"
+msgstr "Non pode comparar unha instantánea con ela mesma."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-25 14:54+0000\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
 "Language: ro\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -36,9 +36,8 @@ msgid "SSH private key"
 msgstr "Cheie privata SSH"
 
 #: common/config.py:297
-#, fuzzy
 msgid "encrypted"
-msgstr "Criptare SSH"
+msgstr "Criptat"
 
 #: common/config.py:298 common/config.py:305
 msgid "Encryption"
@@ -78,12 +77,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} nu este un director !"
+msgstr "{path} nu este un director."
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/Utilizator/ID-Profil nu poate fi necompletat!"
+msgstr "Host/Utilizator/ID-Profil nu poate fi necompletat."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -175,12 +174,12 @@ msgstr "Incarcarea configuratiei a esuat"
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Profilul \"{name}\" există deja !"
+msgstr "Profilul \"{name}\" există deja."
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Acesta nu poate fi revocat!"
+msgstr "Acesta nu poate fi revocat."
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -272,7 +271,7 @@ msgstr[2] "Asteapta %s de secunde."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Replicarea a esuat {snapshot_id} !!!"
+msgstr "Replicarea a esuat {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
@@ -395,7 +394,7 @@ msgstr ""
 #: common/sshtools.py:657
 #, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Directorul nu poate fi creeat"
+msgstr "Directorul nu poate fi creeat."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -437,7 +436,7 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "Acest folder nu exista\n"
-"in replica selectata!"
+"in replica selectata."
 
 #: qt/app.py:252
 msgid "Add to Include"
@@ -481,7 +480,7 @@ msgstr "Efectueaza replica cu verificare checksums"
 #: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Foloseste chesum pentru detectarea schimbarilor"
+msgstr "Foloseste chesum pentru detectarea schimbarilor."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:83
 msgid "Pause snapshot process"
@@ -549,7 +548,7 @@ msgstr "Ajutor"
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Se salveaza configuratia..."
+msgstr "Se salveaza configuratia"
 
 #: qt/app.py:519 qt/languagedialog.py:216
 msgid "Website"
@@ -804,7 +803,7 @@ msgstr "Restaureaza {path}"
 #: qt/app.py:1648
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Restaureaza {path} la ..."
+msgstr "Restaureaza {path} la …"
 
 #: qt/app.py:1805
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1363,7 +1362,7 @@ msgstr "Opțiuni expert"
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "Modifica aceste optiuni doar daca stii ce faci !"
+msgstr "Modifica aceste optiuni doar daca stii ce faci."
 
 #: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
 #, python-brace-format
@@ -1659,7 +1658,7 @@ msgstr "Opțiuni"
 #: qt/snapshotsdialog.py:328
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
-msgstr "Nu se poate compara replica cu sine insusi"
+msgstr "Nu se poate compara replica cu sine insusi."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"
