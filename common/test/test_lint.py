@@ -22,7 +22,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         p = pathlib.Path.cwd()
 
         # Make sure we are inside the test folder
-        if p.name is in ['qt', 'common']:  # happens e.g. on TravisCI
+        if p.name in ['qt', 'common']:  # happens e.g. on TravisCI
             p = p / 'test'
 
         if not p.name.startswith('test'):
