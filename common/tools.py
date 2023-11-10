@@ -1159,16 +1159,22 @@ def keyringSupported():
         result = backend_package  # e.g. keyring.backends
 
         try:
+            # Load the backend step-by-step.
+            # e.g. When the target is "keyring.backends.Gnome.Keyring" then in
+            # a first step "Gnome" part is loaded first and if successfull the
+            # "Keyring" part.
             for b in backends:
                 result = getattr(result, b)
 
         except AttributeError as err:
+            # Debug message if backend is not available.
             logger.debug('Metaclass {}.{} not found: {}'
                          .format(backend_package.__name__,
                                  '.'.join(backends),
                                  repr(err)))
 
         else:
+            # Remember the backend class (not an instance) as available.
             available_backends.append(result)
 
     logger.debug("Available supported backends: " + repr(available_backends))
