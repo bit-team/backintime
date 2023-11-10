@@ -21,10 +21,10 @@ https://github.com/bit-team/backintime/blob/f801b14a98f9a442008a5f514eec98e1b2d7
 The code implements the following logic:
 
 1. Check if a `sshd` process is running on the local machine
-2. Check if a private key file `~/.ssh/id_rsa` exists
-3. Check if the file `~/.ssh/authorized_keys` exists
-4. Check if the private key from `id_rsa` is contained in `authorized_keys`
-5. Check that the ssh port 22 at localhost is available
+2. Check if a public key file `~/.ssh/id_rsa.pub` exists for the local user
+3. Check if the file `~/.ssh/authorized_keys` exists (contains all public keys that are authorized to log in to the local ssh server)
+4. Check if `authorized_keys` contains the public key of the local user (file `id_rsa.pub`)
+5. Check that the ssh port 22 at localhost is available (= ssh server running at the standard IP port)
 
 If all checks succeed the global variable `LOCAL_SSH` is set to `True`
 (and this variable us used then to skip ssh-based unit tests).
