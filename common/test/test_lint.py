@@ -16,11 +16,15 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """All py-files related to that distribution package.
 
         Dev note (2023-11): Use package metadata after migration to
-        pyproject.toml.
+        pyproject.toml. This will prevent the dirty folder-jumping-hack
+        currently done in this code.
         """
         p = pathlib.Path.cwd()
 
         # Make sure we are inside the test folder
+        if p.name is in ['qt', 'common']:  # happens e.g. on TravisCI
+            p = p / 'test'
+
         if not p.name.startswith('test'):
             raise Exception('Something went wrong. The test should run inside'
                             f' the test folder but current folder is {p}.')
