@@ -1136,29 +1136,46 @@ def keyringSupported():
     # This is done by trying to put the meta classes ("class definitions",
     # NOT instances of the class itself!) of the supported backends
     # into the "backends" list
-    try: available_backends.append(keyring.backends.SecretService.Keyring)
-    except Exception as e: logger.debug("Metaclass keyring.backends.SecretService.Keyring not found: " + repr(e))
-    try: available_backends.append(keyring.backends.Gnome.Keyring)
-    except Exception as e: logger.debug("Metaclass keyring.backends.Gnome.Keyring not found: " + repr(e))
-    try: available_backends.append(keyring.backends.kwallet.Keyring)
-    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.Keyring not found: " + repr(e))
-    try: available_backends.append(keyring.backends.kwallet.DBusKeyring)
-    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.DBusKeyring not found: " + repr(e))
-    try: available_backends.append(keyring.backend.SecretServiceKeyring)
-    except Exception as e: logger.debug("Metaclass keyring.backend.SecretServiceKeyring not found: " + repr(e))
-    try: available_backends.append(keyring.backend.GnomeKeyring)
-    except Exception as e: logger.debug("Metaclass keyring.backend.GnomeKeyring not found: " + repr(e))
-    try: available_backends.append(keyring.backend.KDEKWallet)
-    except Exception as e: logger.debug("Metaclass keyring.backend.KDEKWallet not found: " + repr(e))
-    # See issue #1410: ChainerBackend is now supported
-    #                  to solve the problem of configuring the
-    #                  used backend since it iterates over all of them
-    #                  and is to be the default backend now.
-    #                  Please read the issue details to understand the
-    #                  unwanted side-effects the chainer could bring with it.
-    # See also: https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11
-    try: available_backends.append(keyring.backends.chainer.ChainerBackend)
-    except Exception as e: logger.debug("Metaclass keyring.backends.chainer.ChainerBackend not found:" + repr(e))
+
+    backends_to_check = [
+        (keyring.backends, ['SecretService', 'Keyring']),
+        (keyring.backends, ['Gnome', 'Keyring']),
+        (keyring.backends, ['kwallet', 'Keyring']),
+        (keyring.backends, ['kwallet', 'DBusKeyring']),
+        (keyring.backend, ['SecretServiceKeyring']),
+        (keyring.backend, ['GnomeKeyring']),
+        (keyring.backend, ['KDEWallet']),
+        # See issue #1410: ChainerBackend is now supported to solve the
+        # problem of configuring the used backend since it iterates over all
+        # of them and is to be the default backend now. Please read the issue
+        # details to understand the unwanted side-effects the chainer could
+        # bring with it.
+        # See also:
+        # https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11  # noqa
+        (keyring.backends, ('chainer', 'ChainerBackend')),
+    ]
+
+    for backend_package, backends in backends_to_check:
+        result = backend_package  # e.g. keyring.backends
+
+        try:
+            # Load the backend step-by-step.
+            # e.g. When the target is "keyring.backends.Gnome.Keyring" then in
+            # a first step "Gnome" part is loaded first and if successful the
+            # "Keyring" part.
+            for b in backends:
+                result = getattr(result, b)
+
+        except AttributeError as err:
+            # Debug message if backend is not available.
+            logger.debug('Metaclass {}.{} not found: {}'
+                         .format(backend_package.__name__,
+                                 '.'.join(backends),
+                                 repr(err)))
+
+        else:
+            # Remember the backend class (not an instance) as available.
+            available_backends.append(result)
 
     logger.debug("Available supported backends: " + repr(available_backends))
 
@@ -1166,9 +1183,13 @@ def keyringSupported():
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
 
-    logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
-    logger.debug("See https://github.com/bit-team/backintime on how to fix this by creating a keyring config file.")
+    logger.debug(f"No appropriate keyring found. '{displayName}' can't be "
+                 "used with BackInTime.")
+    logger.debug("See https://github.com/bit-team/backintime on how to fix "
+                 "this by creating a keyring config file.")
+
     return False
+
 
 def password(*args):
     if not keyring is None:
