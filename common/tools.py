@@ -1161,7 +1161,7 @@ def keyringSupported():
         try:
             # Load the backend step-by-step.
             # e.g. When the target is "keyring.backends.Gnome.Keyring" then in
-            # a first step "Gnome" part is loaded first and if successfull the
+            # a first step "Gnome" part is loaded first and if successful the
             # "Keyring" part.
             for b in backends:
                 result = getattr(result, b)
