@@ -65,7 +65,7 @@ SORT = True  # True = sort by alphabet; False = sort by line numbering
 c_list = re.compile(r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
 c = re.compile(r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
 
-HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
+HEADER = r'''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -88,7 +88,7 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 .SH POSSIBLE KEYWORDS
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
-FOOTER = '''.SH SEE ALSO
+FOOTER = r'''.SH SEE ALSO
 backintime, backintime-qt.
 .PP
 Back In Time also has a website: https://github.com/bit-team/backintime
@@ -293,7 +293,7 @@ def main():
                             'int',
                             '%s.size' % name,
                             var,
-                            '\-1',
+                            r'\-1',
                             'Quantity of %s.<I> entries.' % name,
                             values,
                             force_var,
