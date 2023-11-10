@@ -93,7 +93,7 @@ backintime, backintime-qt.
 .PP
 Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
-This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
+This manual page was written by BIT Team(<bit-dev@python.org>).
 '''
 
 INSTANCE = 'instance'
@@ -268,6 +268,10 @@ def main():
                 # becomes
                 # ('profile', 'Bool', 'snapshots.use_checksum', '', 'False')
                 m = c.match(line)
+
+            # Ignore undocumented (without "#?" comments) variables.
+            if m and not commentline:
+                continue
 
             if m:
                 profile, instance, name, var, default = m.groups()
