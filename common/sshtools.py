@@ -97,6 +97,8 @@ class SSH(MountControl):
         # init MountControl
         super(SSH, self).__init__(*args, **kwargs)
 
+        self.mytypo
+
         # Workaround for linters
         self.user = None
         self.host = None
