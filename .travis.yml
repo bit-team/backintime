@@ -46,6 +46,7 @@ script:
   - python -m compileall common common/test common/plugins qt qt/plugins
   # run unit tests - ensure that functionality is correct
   - cd common && ./configure && make unittest-v
+  - cd qt/test && pytest
 
 after_success:
   - coverage combine
