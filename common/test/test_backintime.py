@@ -48,7 +48,7 @@ class TestBackInTime(generic.TestCase):
         Development notes (by Buhtz):
         Multiple tests do compare return codes and output on stdout. The
         intention might be an integration tests. But the asserts not qualified
-        to answer the important questions and observe the intended behaviour.
+        to answer the important questions and observe the intended behavior.
         Heavy refactoring is needed. But because of the "level" of that tests
         it won't happen in the near future.
         """

@@ -1,0 +1,12 @@
+[codespell]
+# Folders and files to skip
+skip = *.po,Makefile,*.desktop,.git,__pycache__,*.pyc,languages.py
+# Print N lines of surrounding context
+context = 1
+# Print number of errors as last line on stderr
+count = True
+# Dictionaries to use (default: "clear,rare"). Current: all.
+builtin = clear,rare,informal,usage,code,names,en-GB_to_en-US
+# Allowed (ignored) words 
+ignore-words-list=master,whitelist,manuel,dum
+# check-hidden = True

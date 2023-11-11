@@ -657,7 +657,7 @@ permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms`
 option which tells rsync to preserve the source file permission. 
 That's why so many files seem to be changed.
 
-If you don't like the new behaviour, you can use "Expert Options" 
+If you don't like the new behavior, you can use "Expert Options" 
 -> "Paste additional options to rsync" to add the value
 `--no-perms --no-group --no-owner` in that field.
 
@@ -914,7 +914,7 @@ For detailed setup instructions see the [how to setup openssh for unit tests](co
 The goal is to log into the SSH server on your local computer via `ssh localhost` without using
 a password:
 
-- Generate an RSA keypair executing `ssh-keygen`. Use the default file name
+- Generate an RSA key pair executing `ssh-keygen`. Use the default file name
   and don't use a passphrase for the key.
 - Populate the public key to the server executing `ssh-copy-id`.
 - Make the `ssh` instance run.
