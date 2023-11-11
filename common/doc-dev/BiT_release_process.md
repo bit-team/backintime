@@ -26,7 +26,8 @@ using a "feature" branch and sending a pull request asking for a review.
 - Update `VERSION` file
 - Update `CHANGES` file
 - Execute the script `./updateversion.sh`
-- Update the "as at" date in the man page files
+- Update the "as at" date in the man page files `backintime.1` and `backintime-askpass.1`.
+- Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
 - Update `README.md` file
 - Commit
 - Open a new pull request (PR)
