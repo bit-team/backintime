@@ -96,7 +96,7 @@ class LogViewDialog(QDialog):
         # the meaning of "all".
         self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.addItem(_('Errors'))
+        self.comboFilter.addItem(_('Errors'), 1)
         self.comboFilter.addItem(_('Changes'), 2)
         self.comboFilter.addItem(_('Information'), 3)
 
