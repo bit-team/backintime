@@ -190,7 +190,7 @@ Finally run the unit tests again to make sure the firewall is working correctly
 Just kill the sshd process (works until you restart your computer):
 
 ```commandline
-# Find the process nubmer of the sshd daemon
+# Find the process number of the sshd daemon
 $ ps aux | grep -i sshd
 root      202345  0.0  0.0  12184  7076 ?        Ss   23:25   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
 

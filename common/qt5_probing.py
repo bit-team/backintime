@@ -24,7 +24,7 @@ import logger
 # non-python low-level signal sent via C/C++.
 #
 # Even though the coredump message cannot be prevent there is
-# workaround to prevent the cordump **file** creation which
+# workaround to prevent the coredump **file** creation which
 # would take too much time just to probe Qt5's availability:
 #
 #    Use resource.setrlimit() to set resource.RLIMIT_CORE’s soft limit to 0

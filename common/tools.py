@@ -72,7 +72,7 @@ import languages
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
 # |-----------------|
-# | Handling pathes |
+# | Handling paths  |
 # |-----------------|
 
 
@@ -201,7 +201,7 @@ def get_available_language_codes():
     if mo:
         mo = pathlib.Path(mo)
     else:
-        # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
+        # Workaround. This happens if LC_ALL=C and BIT don't use an explicit
         # language. Should be re-design.
         mo = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.mo'
 
