@@ -9,4 +9,11 @@ count = True
 builtin = clear,rare,informal,usage,code,names,en-GB_to_en-US
 # Allowed (ignored) words 
 ignore-words-list=master,whitelist,manuel,dum
+# Allowed (ignored) words in URLs and URIs
+uri-ignore-words-list=mitre
+
+# Simulate "# noqa" and ignore all lines with "# codespell-ignore" at the end.
+# Credits: https://github.com/codespell-project/codespell/issues/1212#issuecomment-1721152455
+ignore-regex=.*# codespell-ignore$
+
 # check-hidden = True
