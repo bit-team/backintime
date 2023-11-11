@@ -83,7 +83,7 @@ def update_po_language_files():
 
     The GNU gettext utility ``msgmerge`` is used for that.
 
-    The function `update_po_tempalte()` should be called before.
+    The function `update_po_template()` should be called before.
     """
 
     # Recursive all po-files
@@ -141,7 +141,7 @@ def update_from_weblate():
     tmp_dir = tempfile.mkdtemp()
 
     # "Clone" weblate repo into a temporary folder.
-    # The folder is kept (nearly) empty. No files are transfered except
+    # The folder is kept (nearly) empty. No files are transferred except
     # the hidden ".git" folder.
     cmd = [
         'git',
@@ -303,7 +303,7 @@ if __name__ == '__main__':
 
     check_existence()
 
-    fin_msg = 'Please check the result via "git diff" before commiting.'
+    fin_msg = 'Please check the result via "git diff" before committing.'
 
     # Scan python source files for translatable strings
     if 'source' in sys.argv:

@@ -617,7 +617,7 @@ class Snapshots:
         Remove snapshot ``sid``.
 
         BUHTZ 2022-10-11: From my understanding rsync is used here to sync the
-        directory of a concret snapshot (``sid```) against an empty temporary
+        directory of a concrete snapshot (``sid```) against an empty temporary
         directory. In the consequence the sid directory is empty but not
         deleted.
         To delete that directory simple `rm` call (via `shutil` package) is
@@ -632,7 +632,7 @@ class Snapshots:
             sid (SID):              snapshot to remove
 
         Returns:
-            (bool): ``True`` if succedeed otherwise ``False``.
+            (bool): ``True`` if succeeded otherwise ``False``.
         """
 
         if isinstance(sid, RootSnapshot):
@@ -814,7 +814,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                 logger.error('New snapshot taken but errors detected', self)
                                 self.config.PLUGIN_MANAGER.error(6, sid.displayID)  # Fixes #1491
                             ret_error = False  # Why ignore errors now?
-                                               # Probably because a new snapshot has been created (= changes transfered)
+                                               # Probably because a new snapshot has been created (= changes transferred)
                                                # and "continue on errors" is enabled
 
                         if not ret_error:
@@ -904,6 +904,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if not line:
             return
 
+        # Warning (2023-11): Do not modify the source string.
+        # See #1559 for details.
         self.setTakeSnapshotMessage(
             0, _('Take snapshot') + " (rsync: %s)" % line)
 
@@ -957,7 +959,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             sid (SID):  snapshot in which the config should be stored
         """
         logger.info('Save config file', self)
-        self.setTakeSnapshotMessage(0, _('Saving config file...'))
+        self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
 
@@ -979,7 +981,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 cmd.append(self.config._LOCAL_CONFIG_PATH)
                 remote_path = self.rsyncRemotePath(
                         self.config.sshSnapshotsPath(),
-                        # no quoting becausse of rsyncs modern argument
+                        # no quoting because of rsync modern argument
                         # protection (argument -s)
                         quote=''
                 )
@@ -1033,7 +1035,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             int: Return code of rsync.
         """
         logger.info('Save permissions', self)
-        self.setTakeSnapshotMessage(0, _('Saving permissions...'))
+        self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
 

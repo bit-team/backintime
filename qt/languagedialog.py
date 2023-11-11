@@ -85,8 +85,11 @@ class LanguageDialog(QDialog):
         # Entry: System default language
         label = 'System default'
         translated_label = _('System default')
+
+        # If translation for that term exists...
         if label != translated_label:
-            label = f'| {translated_label}'
+            # ...combine source and translated version.
+            label = f'{label}\n{translated_label}'
 
         tooltip = _('Use operating systems language.')
         code = None

@@ -159,7 +159,7 @@ def collect_diagnostics():
         )
     elif isinstance(result['external-programs']['rsync'], dict):
         # Rsync (>= 3.2.7)provided its information in JSON format.
-        # Remove some irrelevant informaton.
+        # Remove some irrelevant information.
         for key in ['program', 'copyright', 'url', 'license', 'caveat']:
             try:
                 del result['external-programs']['rsync'][key]

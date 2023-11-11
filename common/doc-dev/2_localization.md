@@ -1,5 +1,5 @@
 # Translation and localization (l10n) of Back In Time using Weblate
-<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenace team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
+<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
 
 ## Index
 
@@ -34,8 +34,8 @@ GitHub.
 7. Check via `git status` or `git diff`. The file `messages.pot` and all `po`-files should be modified.
 8. Commit.
 9. Create PR and merge into "dev".
-10. Weblate "Respository maintenance": Go to "Danger zone" and click on "Reset".
-11. Weblate "Respository maintenance": "Unlock" the project.
+10. Weblate "Repository maintenance": Go to "Danger zone" and click on "Reset".
+11. Weblate "Repository maintenance": "Unlock" the project.
 
 # Introducing the localization process in the Back In Time project
 
@@ -54,7 +54,7 @@ GitHub.
 1. Scan all python files (in `common` and `qt` excluding `test_*.py`) for translatable strings and store them into the _message template file_ `common/po/message.pot`.
 2. Synchronize that _message template file_ with the existing translations (`common/po/*.po`).
 3. Commit and push the modifications into the development branch (e.g. `dev`).
-4. The Weblate plattform do pull that changes from our upstream repository into its own internal repository (manual triggerd by maintainers or automatically).
+4. The Weblate platform do pull that changes from our upstream repository into its own internal repository (manual triggered by maintainers or automatically).
 5. Now the contributors can translate using our [Weblate "Back In Time" project](https://translate.codeberg.org/projects/backintime/). There is also a [translation landing page](https://translate.codeberg.org/engage/backintime).
 6. The translations on Weblate (as `po` files) need to be committed (manual or automatically) into the Weblate repository.
 7. The `po` files with fresh translations are downloaded (via `git clone`) from the Weblate repository and copied into the BIT upstream repository.
@@ -127,7 +127,7 @@ index 68dc7795..b6e07b50 100644
  msgstr "Deaktiviert"
 ```
 
-In the end those changes need to arrive in the `dev` branch to get recognized by the Weblate translation plattform. Create a Pull Request or commit/merge and push.
+In the end those changes need to arrive in the `dev` branch to get recognized by the Weblate translation platform. Create a Pull Request or commit/merge and push.
 
 If the project at Weblate is correctly setup it does recognize the new commit automatically and update its internal git repository. See this in _Manage_ / _Repository maintenance_ section:
 
@@ -147,7 +147,7 @@ Go to the next section to see how to integrate the translation back to the upstr
 
 The starting situation is that some strings are translated by contributors on the Weblate platform. Go to _Manage_ / _Repository maintenance_ section. The counter for _Pending changes not yet committed to the Weblate repository_ should be 1 or more. Click on _Commit_ that counter goes back to 0 but now the _Outgoing commits in the Weblate repository_ are increased. There is also a difference between the _Last remote commit_ and _Last commit in Weblate_:
 
-![Download from Weblate: Commited translation](2_from_weblate_01.png)
+![Download from Weblate: Committed translation](2_from_weblate_01.png)
 
 Go back to your local repository and run the known `update_language_files.py` script with `weblate` as argument:
 

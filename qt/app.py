@@ -406,7 +406,7 @@ class MainWindow(QMainWindow):
             # Do nothing if English is the current used language
             if self.config.language_used != 'en':
 
-                # Show the message only if teh current used language is
+                # Show the message only if the current used language is
                 # translated equal or less then 97%
                 self._open_approach_translator_dialog(cutoff=97)
 
@@ -958,13 +958,19 @@ class MainWindow(QMainWindow):
             self.lastTakeSnapshotMessage = takeSnapshotMessage
 
             if fake_busy:
-                message = _('Working') + ': ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                message = '{}: {}'.format(
+                    _('Working'),
+                    self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                )
 
             elif takeSnapshotMessage[0] == 0:
                 message = self.lastTakeSnapshotMessage[1].replace('\n', ' ')
 
             else:
-                message = _('Error') + ': ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                message = '{}: {}'.format(
+                    _('Error'),
+                    self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                )
 
             self.status.setText(message)
 
@@ -1281,8 +1287,8 @@ class MainWindow(QMainWindow):
 
     def backupOnRestore(self):
         cb = QCheckBox(_(
-            'Create backup copies with trailing {suffix} before\n'
-            'overwriting or removing local files.').format(
+            'Create backup copies with trailing {suffix}\n'
+            'before overwriting or removing local elements.').format(
                 suffix=self.snapshots.backupSuffix()))
 
         cb.setChecked(self.config.backupOnRestore())
@@ -1301,7 +1307,7 @@ class MainWindow(QMainWindow):
         }
 
     def restoreOnlyNew(self):
-        cb = QCheckBox(_('Only restore files which do not exist or\n'
+        cb = QCheckBox(_('Only restore elements which do not exist or\n'
                          'are newer than those in destination.\n'
                          'Using "rsync --update" option.'))
         cb.setToolTip("""From 'man rsync':
@@ -1334,24 +1340,33 @@ files that the receiver requests to be transferred.""")
         return {'widget': fileList, 'retFunc': None}
 
     def deleteOnRestore(self):
-        cb = QCheckBox(_('Remove newer files in original folder'))
+        cb = QCheckBox(_('Remove newer elements in original folder.'))
         cb.setToolTip(_('Restore selected files or folders '
                         'to the original destination and\n'
-                        'delete files/folders which are '
+                        'delete files or folders which are '
                         'not in the snapshot.\n'
-                        'This will delete files/folders which were '
-                        'excluded during taking the snapshot!\n'
-                        'Be extremely careful!'))
+                        'Be extremely careful because this will\n'
+                        'delete files and folders which were\n'
+                        'excluded during taking the snapshot.'))
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
     def confirmRestore(self, paths, restoreTo = None):
         if restoreTo:
-            msg = '{}:'.format(
-                _('Do you really want to restore the files(s)\ninto '
-                  'new folder {path}').format(path=restoreTo))
+            msg = ngettext(
+                # singular
+                'Do you really want to restore this element into the '
+                'new folder\n{path}?',
+                # plural
+                'Do you really want to restore these elements into the '
+                'new folder\n{path}?',
+                len(paths)).format(path=restoreTo)
         else:
-            msg = '{}:'.format(
-                _('Do you really want to restore the files(s)'))
+            msg = ngettext(
+                # singular
+                'Do you really want to restore this element?',
+                # plural
+                'Do you really want to restore these elements?',
+                len(paths))
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
@@ -1655,9 +1670,9 @@ files that the receiver requests to be transferred.""")
         restore feature.
 
         Args:
-            enable(bool): Enable or diasable.
+            enable(bool): Enable or disable.
 
-        If a sepcific snapshot is selected in the timeline widget then all
+        If a specific snapshot is selected in the timeline widget then all
         restore UI elements are enabled. If "Now" (the first/root) is selected
         in the timeline all UI elements related to restoring should be
         disabled.
@@ -1668,7 +1683,7 @@ files that the receiver requests to be transferred.""")
         # the files-view toolbar.
         self.act_restore_menu.setEnabled(enable)
 
-        # This two entries do appear, independed from the sub-menu above, in
+        # This two entries do appear, independent from the sub-menu above, in
         # the context menu of the files view.
         self.act_restore.setEnabled(enable)
         self.act_restore_to.setEnabled(enable)
@@ -1713,7 +1728,7 @@ files that the receiver requests to be transferred.""")
             self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
 
     def fileSelected(self, fullPath=False):
-        """Return path and index of the currently in Files View highligted
+        """Return path and index of the currently in Files View highlighted
         (selected) file.
 
         Args:
