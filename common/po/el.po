@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-27 20:53+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"POT-Creation-Date: 2023-11-10 21:20+0100\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.2\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -31,13 +31,13 @@ msgstr "Κύριο Προφίλ"
 msgid "Local"
 msgstr "Τοπικό"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1931
+#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
 msgid "SSH private key"
 msgstr "SSH ιδιωτικό κλειδί"
 
 #: common/config.py:297
 msgid "encrypted"
-msgstr "κρυπτογραφημένο"
+msgstr "κρυπτογραφημένο(ς)"
 
 #: common/config.py:298 common/config.py:305
 msgid "Encryption"
@@ -58,9 +58,8 @@ msgid "Profile: \"{name}\""
 msgstr "Προφίλ: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
-msgstr "Ο φάκελος στιγμιοτύπων δεν είναι έγκυρος !"
+msgstr "Ο φάκελος στιγμιοτύπων δεν είναι έγκυρος!"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
@@ -68,21 +67,20 @@ msgstr "Πρέπει να επιλέξετε τουλάχιστον ένα φά�
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Ο φάκελος του Backup δεν μπορεί να συμπεριληφθεί."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Ο υποφάκελος του backup δεν εμπεριέχεται."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "Το {path} δεν είναι φάκελος !"
+msgstr "Μην έγκυρη επιλογή. Το {path} δεν είναι φάκελος."
 
 #: common/config.py:450
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Το Host/User/Profile-ID δεν πρέπει να είναι κενό!"
+msgstr "Το Host/User/Profile-ID δεν πρέπει να είναι κενό."
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -94,13 +92,14 @@ msgstr ""
 "Είστε σίγουροι ότι έχετε δικαίωμα εγγραφής;"
 
 #: common/config.py:477
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"Το filesystem προορισμού για το {path} είναι μορφοποιημένο με FAT που δεν "
-"υποστηρίζει hard-links. Παρακαλώ χρησιμοποιήστε ένα Linux filesystem."
+"Το σύστημα αρχείων προορισμού για το {path} είναι μορφοποιημένο με FAT που "
+"δεν υποστηρίζει hard-links. Παρακαλώ χρησιμοποιήστε ένα εγγενές σύστημα "
+"αρχείων Linux."
 
 #: common/config.py:486
 #, python-brace-format
@@ -109,14 +108,17 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
+"Το σύστημα αρχείων προορισμού για το {path} είναι ένα προσαρτημένο τμήμα "
+"δίσκου SMB. Παρακαλώ σιγουρευτείτε ότι ο απομακρυσμένος SMB διακομιστής "
+"υποστηρίζει symlinks ή ενεργοποιήστε {copyLinks} στις {expertOptions}."
 
-#: common/config.py:490 qt/settingsdialog.py:998
+#: common/config.py:490 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "Αντιγραφή συνδέσμων (συμβολικοί σύνδεσμοι)"
 
 #: common/config.py:491
 msgid "Expert Options"
-msgstr ""
+msgstr "Προχωρημένες Ρυθμίσεις"
 
 #: common/config.py:495
 #, python-brace-format
@@ -124,17 +126,19 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"Το σύστημα αρχείων προορισμού για το {path} είναι ένα προσαρτημένο τμήμα "
+"δίσκου sshfs. Το sshfs δεν υποστηρίζει τα hard-links. Παρακαλώ "
+"χρησιμοποιήστε τη λειτουργία 'SSH'."
 
 #: common/config.py:1591
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Δε βρέθηκε crontab.\n"
-"Είστε σίγουροι ότι το cron είναι εγκατεστημένο ;\n"
-"Αν όχι, θα πρέπει να απενεργοποιήσετε όλα τα αυτοματοποιημένα back up."
+"Δε βρέθηκε το crontab.\n"
+"Είστε σίγουροι ότι το cron είναι εγκατεστημένο;\n"
+"Αν όχι, θα πρέπει να απενεργοποιήσετε όλα τα αυτοματοποιημένα backup."
 
 #: common/config.py:1597
 msgid "Failed to write new crontab."
@@ -146,45 +150,46 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
+"Αποτυχία εγκατάστασης κανόνα Udev για το προφίλ {profile_id}. Η υπηρεσία "
+"DBus '{dbus_interface}' δεν ήταν διαθέσιμη"
 
 #: common/config.py:1715
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr ""
+msgstr "Ο χρονοπρογραμματισμός με udev δεν δουλεύει με τη λειτουργία {mode}"
 
 #: common/config.py:1726
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Δεν βρέθηκε UUID για \"{path}\""
+msgstr "Δεν βρέθηκε το UUID για το {path}"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
-msgstr ""
+msgstr "Αποτυχία αποθήκευσης της παραμετροποίησης"
 
 #: common/configfile.py:143
 msgid "Failed to load config"
-msgstr ""
+msgstr "Αποτυχία φόρτωσης της παραμετροποίησης"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Το προφίλ \"{name}\" υπάρχει ήδη !"
+msgstr "Το προφίλ \"{name}\" υπάρχει ήδη."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
-msgstr ""
+msgstr "Το τελευταίο προφίλ δεν μπορεί να αφαιρεθεί."
 
 #: common/encfstools.py:87
 #, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr ""
+msgstr "Αδυναμία προσάρτησης '{command}'"
 
 #: common/encfstools.py:134
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "Η παραμετροποίηση για κρυπτογραφημένο φάκελο δεν βρέθηκε."
 
 #: common/encfstools.py:142
-#, fuzzy
 msgid "Create a new encrypted folder?"
 msgstr "Δημιουργία νέου κρυπτογραφημένου φακέλου;"
 
@@ -197,37 +202,38 @@ msgid "Please confirm password"
 msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό"
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "Password doesn't match."
-msgstr "Ο κωδικός δεν ταιριάζει"
+msgstr "Ο κωδικός δεν ταιριάζει."
 
 #: common/encfstools.py:173
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
+"Οι εκδόσεις 1.7.2 και παλαιότερες του encfs, περιέχουν ένα σφάλμα στην "
+"επιλογή --reverse. Παρακαλώ αναβαθμίστε το encfs."
 
-#: common/encfstools.py:509 common/snapshots.py:908
+#: common/encfstools.py:511 common/snapshots.py:910
 msgid "Take snapshot"
-msgstr "Λήψη στιγμιοτύπου"
+msgstr "Λήψη στιγμιότυπου"
 
 #: common/mount.py:600
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "Αδυναμία αποπροσάρτησης {mountprocess} από το {mountpoint}."
 
 #: common/mount.py:687
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "Δεν βρέθηκε το {}. Παρακαλώ εγκαταστήστε, π.χ. {}"
 
 #: common/mount.py:708
 msgid "Mountpoint {} not empty."
-msgstr ""
+msgstr "Το σημείο προσάρτησης {} δεν είναι κενό."
 
 #: common/password.py:240
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr ""
+msgstr "Προφίλ '{profile}': Εισαγωγή κωδικού για {mode}: "
 
 #: common/snapshots.py:342 common/snapshots.py:593
 msgid "FAILED"
@@ -235,12 +241,12 @@ msgstr "ΑΠΟΤΥΧΙΑ"
 
 #: common/snapshots.py:539 common/snapshots.py:601
 msgid "Restore permissions"
-msgstr "Επαναφορά αδειών"
+msgstr "Επαναφορά δικαιωμάτων"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:78
 msgid "Done"
-msgstr ""
+msgstr "Ολοκληρώθηκε"
 
 #: common/snapshots.py:704
 msgid "Deferring backup while on battery"
@@ -263,102 +269,102 @@ msgstr[0] "Αναμονή %s δευτερόλεπτο."
 msgstr[1] "Αναμονή %s δευτερόλεπτα."
 
 #: common/snapshots.py:805
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Αποτυχία λήψης στιγμιοτύπου {snapshot_id} !!!"
+msgstr "Αποτυχία λήψης στιγμιότυπου {snapshot_id}."
 
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "Οριστικοποίηση"
 
-#: common/snapshots.py:943
-#, fuzzy
+#: common/snapshots.py:945
 msgid "Can't create folder"
-msgstr "Αδύνατη η δημιουργία του φακέλου"
+msgstr "Αδυναμία δημιουργίας φακέλου"
 
-#: common/snapshots.py:960
-msgid "Saving config file..."
-msgstr "Αποθήκευση αρχείου ρυθμίσεων..."
+#: common/snapshots.py:962
+#, fuzzy
+msgid "Saving config file…"
+msgstr "Αποθήκευση αρχείου παραμετροποίησης..."
 
-#: common/snapshots.py:1036
-msgid "Saving permissions..."
-msgstr "Αποθήκευση αδειών..."
+#: common/snapshots.py:1038
+#, fuzzy
+msgid "Saving permissions…"
+msgstr "Αποθήκευση δικαιωμάτων..."
 
-#: common/snapshots.py:1144
+#: common/snapshots.py:1146
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr ""
 
-#: common/snapshots.py:1163
+#: common/snapshots.py:1165
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 
-#: common/snapshots.py:1173
-#, fuzzy
+#: common/snapshots.py:1175
 msgid "Can't remove folder"
-msgstr "Αδύνατη η κατάργηση του φακέλου"
+msgstr "Αδυναμία αφαίρεσης φακέλου"
 
-#: common/snapshots.py:1216
+#: common/snapshots.py:1218
 msgid "Taking snapshot"
-msgstr "Λήψη στιγμιοτύπου"
+msgstr "Λήψη στιγμιότυπου"
 
-#: common/snapshots.py:1248
+#: common/snapshots.py:1250
 msgid "Success"
-msgstr ""
+msgstr "Επιτυχία"
 
-#: common/snapshots.py:1249
+#: common/snapshots.py:1251
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1252
+#: common/snapshots.py:1254
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1263
 msgid "See 'man rsync' for more details"
 msgstr ""
 
-#: common/snapshots.py:1265
+#: common/snapshots.py:1267
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1280
+#: common/snapshots.py:1282
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Δεν άλλαξε τίποτα, δεν είναι απαραίτητη η λήψη νέου στιγμιότυπου"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1313
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr ""
+msgstr "Αδυναμία μετονομασίας {new_path} σε {path}"
 
-#: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:678
+#: common/snapshots.py:1631 common/snapshots.py:1683
 msgid "Smart remove"
 msgstr ""
 
-#: common/snapshots.py:1656
+#: common/snapshots.py:1658
 msgid "Removing old snapshots"
-msgstr ""
+msgstr "Αφαίρεση παλαιών στιγμιοτύπων"
 
-#: common/snapshots.py:1691
+#: common/snapshots.py:1693
 msgid "Trying to keep min free space"
-msgstr ""
+msgstr "Προσπάθεια διατήρησης ελάχιστου ελεύθερου χώρου"
 
-#: common/snapshots.py:1730
+#: common/snapshots.py:1732
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 
-#: common/snapshots.py:2812 qt/app.py:1598
+#: common/snapshots.py:2814 qt/app.py:1613
 msgid "Now"
 msgstr "Τώρα"
 
 #: common/sshtools.py:204
 #, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr ""
+msgstr "Αδυναμία προσάρτησης {sshfs}"
 
 #: common/sshtools.py:264
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -385,12 +391,11 @@ msgstr ""
 
 #: common/sshtools.py:652
 msgid "Remote path is not executable."
-msgstr ""
+msgstr "Η απομακρυσμένη διαδρομή δεν είναι εκτελέσιμη."
 
 #: common/sshtools.py:657
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Αδύνατη η δημιουργία του φακέλου"
+msgstr "Αδυναμία δημιουργίας απομακρυσμένης διαδρομής."
 
 #: common/sshtools.py:937
 #, python-brace-format
@@ -417,9 +422,9 @@ msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
 #: common/sshtools.py:1051
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό"
+msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό του {user}"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -435,7 +440,7 @@ msgstr ""
 msgid "Add to Include"
 msgstr ""
 
-#: qt/app.py:254 qt/logviewdialog.py:171
+#: qt/app.py:254 qt/logviewdialog.py:176
 msgid "Add to Exclude"
 msgstr ""
 
@@ -535,13 +540,13 @@ msgstr ""
 #: qt/app.py:516
 #, fuzzy
 msgid "Profiles config file"
-msgstr "Αποθήκευση αρχείου ρυθμίσεων..."
+msgstr "Αποθήκευση αρχείου ρυθμίσεων"
 
-#: qt/app.py:519 qt/languagedialog.py:216
+#: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
 msgstr ""
 
-#: qt/app.py:522 qt/app.py:1251
+#: qt/app.py:522 qt/app.py:1257
 msgid "Changelog"
 msgstr ""
 
@@ -561,11 +566,11 @@ msgstr ""
 msgid "Translation"
 msgstr ""
 
-#: qt/app.py:537 qt/app.py:1820
+#: qt/app.py:537 qt/app.py:1835
 msgid "About"
 msgstr ""
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2197
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr ""
@@ -574,7 +579,7 @@ msgstr ""
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
-#: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1417 qt/app.py:1449 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr ""
 
@@ -598,7 +603,7 @@ msgstr ""
 msgid "Up"
 msgstr ""
 
-#: qt/app.py:563 qt/settingsdialog.py:2153
+#: qt/app.py:563 qt/settingsdialog.py:2159
 msgid "Show hidden files"
 msgstr ""
 
@@ -633,146 +638,158 @@ msgstr ""
 msgid "Done, no backup needed"
 msgstr ""
 
-#: qt/app.py:961
+#: qt/app.py:962
 msgid "Working"
 msgstr ""
 
-#: qt/app.py:967 qt/messagebox.py:75
+#: qt/app.py:971 qt/messagebox.py:76
 msgid "Error"
 msgstr ""
 
-#: qt/app.py:988 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:200
 msgid "Sent"
 msgstr ""
 
-#: qt/app.py:989 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:201
 msgid "Speed"
 msgstr ""
 
-#: qt/app.py:990 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:202
 msgid "ETA"
 msgstr ""
 
-#: qt/app.py:1044
+#: qt/app.py:1050
 msgid "Global"
 msgstr ""
 
-#: qt/app.py:1045
+#: qt/app.py:1051
 msgid "Root"
 msgstr ""
 
-#: qt/app.py:1046
+#: qt/app.py:1052
 msgid "Home"
 msgstr ""
 
-#: qt/app.py:1061
+#: qt/app.py:1067
 msgid "Backup folders"
 msgstr ""
 
-#: qt/app.py:1149
+#: qt/app.py:1155
 msgid "Snapshot Name"
 msgstr ""
 
-#: qt/app.py:1195
+#: qt/app.py:1201
 msgid "Are you sure you want to remove the snapshot"
 msgstr ""
 
-#: qt/app.py:1284
+#: qt/app.py:1290
 #, python-brace-format
 msgid ""
-"Create backup copies with trailing {suffix} before\n"
-"overwriting or removing local files."
+"Create backup copies with trailing {suffix}\n"
+"before overwriting or removing local elements."
 msgstr ""
 
-#: qt/app.py:1290 qt/settingsdialog.py:774
+#: qt/app.py:1296 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
-#: qt/app.py:1304
+#: qt/app.py:1310
 msgid ""
-"Only restore files which do not exist or\n"
+"Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: qt/app.py:1337
-msgid "Remove newer files in original folder"
+#: qt/app.py:1343
+msgid "Remove newer elements in original folder."
 msgstr ""
 
-#: qt/app.py:1338
+#: qt/app.py:1344
 msgid ""
 "Restore selected files or folders to the original destination and\n"
-"delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the snapshot!\n"
-"Be extremely careful!"
+"delete files or folders which are not in the snapshot.\n"
+"Be extremely careful because this will\n"
+"delete files and folders which were\n"
+"excluded during taking the snapshot."
 msgstr ""
 
-#: qt/app.py:1350
-#, python-brace-format
+#: qt/app.py:1357
+#, fuzzy, python-brace-format
 msgid ""
-"Do you really want to restore the files(s)\n"
-"into new folder {path}"
-msgstr ""
-
-#: qt/app.py:1354
-msgid "Do you really want to restore the files(s)"
-msgstr ""
+"Do you really want to restore this element into the new folder\n"
+"{path}?"
+msgid_plural ""
+"Do you really want to restore these elements into the new folder\n"
+"{path}?"
+msgstr[0] ""
+"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
+msgstr[1] ""
+"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
 
 #: qt/app.py:1366
+#, fuzzy
+msgid "Do you really want to restore this element?"
+msgid_plural "Do you really want to restore these elements?"
+msgstr[0] ""
+"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
+msgstr[1] ""
+"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
+
+#: qt/app.py:1381
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 
-#: qt/app.py:1369
+#: qt/app.py:1384
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: qt/app.py:1374
+#: qt/app.py:1389
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 
-#: qt/app.py:1599
+#: qt/app.py:1614
 msgid "View the current disk contents"
 msgstr ""
 
-#: qt/app.py:1606
+#: qt/app.py:1621
 #, fuzzy
 msgid "Snapshot"
 msgstr "Λήψη στιγμιοτύπου"
 
-#: qt/app.py:1607
+#: qt/app.py:1622
 #, python-brace-format
 msgid "View the snapshot made at {timestamp}"
 msgstr ""
 
-#: qt/app.py:1646
+#: qt/app.py:1661
 #, python-brace-format
 msgid "Restore {path}"
 msgstr ""
 
-#: qt/app.py:1648
+#: qt/app.py:1663
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr ""
 
-#: qt/app.py:1805
+#: qt/app.py:1820
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1845 qt/app.py:1862
+#: qt/app.py:1860 qt/app.py:1877
 msgid "Authors"
 msgstr ""
 
-#: qt/app.py:1846 qt/app.py:1865
+#: qt/app.py:1861 qt/app.py:1880
 msgid "Translations"
 msgstr ""
 
-#: qt/app.py:1847 qt/app.py:1868
+#: qt/app.py:1862 qt/app.py:1883
 msgid "License"
 msgstr ""
 
@@ -780,16 +797,16 @@ msgstr ""
 msgid "System default"
 msgstr ""
 
-#: qt/languagedialog.py:91
+#: qt/languagedialog.py:94
 msgid "Use operating systems language."
 msgstr ""
 
-#: qt/languagedialog.py:143
+#: qt/languagedialog.py:146
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr ""
 
-#: qt/languagedialog.py:181
+#: qt/languagedialog.py:184
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -806,11 +823,11 @@ msgstr ""
 "Μας συγχωρείς για την διακοπή, και αυτό το μήνυμα δεν θα εμφανιστεί ξανά. Αυτή η ενημέρωση είναι διαθέσιμη οπότε θελήσεις μέσα απο το μενού help.\n"
 "H ομάδα του Back In Time"
 
-#: qt/languagedialog.py:213
+#: qt/languagedialog.py:216
 msgid "translation platform"
 msgstr ""
 
-#: qt/languagedialog.py:229
+#: qt/languagedialog.py:232
 msgid "Your translation"
 msgstr ""
 
@@ -823,7 +840,7 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2294
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
 #, fuzzy
 msgid "Profile"
 msgstr "Προφίλ"
@@ -836,44 +853,44 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:809
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
 msgid "All"
 msgstr ""
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:808
+#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr ""
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:806
-#: qt/settingsdialog.py:808
+#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr ""
 
-#: qt/logviewdialog.py:96 qt/messagebox.py:71
+#: qt/logviewdialog.py:101 qt/messagebox.py:71
 msgid "Information"
 msgstr ""
 
-#: qt/logviewdialog.py:106
+#: qt/logviewdialog.py:111
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr ""
 
-#: qt/logviewdialog.py:167
+#: qt/logviewdialog.py:172
 msgid "Copy"
 msgstr ""
 
-#: qt/logviewdialog.py:175
+#: qt/logviewdialog.py:180
 msgid "Decode"
 msgstr ""
 
-#: qt/logviewdialog.py:197
+#: qt/logviewdialog.py:202
 msgid "Do you want to exclude this?"
 msgstr ""
 
-#: qt/messagebox.py:81 qt/messagebox.py:87
+#: qt/messagebox.py:82 qt/messagebox.py:90
 msgid "Question"
 msgstr ""
 
@@ -935,9 +952,9 @@ msgstr ""
 msgid "&General"
 msgstr ""
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2296
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
 msgid "Mode"
-msgstr ""
+msgstr "Λειτουργία"
 
 #: qt/settingsdialog.py:152
 #, python-brace-format
@@ -947,7 +964,7 @@ msgid ""
 "SECURITY\" in \"man backintime\"."
 msgstr ""
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1907
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
 msgid "Where to save snapshots"
 msgstr ""
 
@@ -969,7 +986,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:209 qt/settingsdialog.py:324
 msgid "User"
-msgstr ""
+msgstr "Χρήστης"
 
 #: qt/settingsdialog.py:214
 msgid "Path"
@@ -1015,7 +1032,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:343
 msgid "Schedule"
-msgstr ""
+msgstr "Χρονοπρογραμματισμός"
 
 #: qt/settingsdialog.py:355
 msgid "Disabled"
@@ -1051,9 +1068,8 @@ msgid "Repeatedly (anacron)"
 msgstr "Επανειλημμένως"
 
 #: qt/settingsdialog.py:375
-#, fuzzy
 msgid "When drive gets connected (udev)"
-msgstr "Όταν συνδέεται δίσκος"
+msgstr "Όταν συνδέεται δίσκος (udev)"
 
 #: qt/settingsdialog.py:376
 msgid "Every Week"
@@ -1190,6 +1206,10 @@ msgstr ""
 msgid "If free inodes is less than"
 msgstr ""
 
+#: qt/settingsdialog.py:678
+msgid "Smart remove:"
+msgstr ""
+
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
 msgstr ""
@@ -1203,8 +1223,9 @@ msgid "Keep all snapshots for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-msgid "day(s)"
-msgstr ""
+#, fuzzy
+msgid "day(s)."
+msgstr "Ημέρα(ες)"
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
@@ -1216,7 +1237,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:714
 #, fuzzy
-msgid "week(s)"
+msgid "week(s)."
 msgstr "Εβδομάδα(ες)"
 
 #: qt/settingsdialog.py:717
@@ -1224,16 +1245,18 @@ msgid "Keep one snapshot per month for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:721
-msgid "month(s)"
-msgstr ""
+#, fuzzy
+msgid "month(s)."
+msgstr "Μήνας(ες)"
 
 #: qt/settingsdialog.py:724
-msgid "Keep one snapshot per year for all years"
+msgid "Keep one snapshot per year for all years."
 msgstr ""
 
 #: qt/settingsdialog.py:733
-msgid "Don't remove named snapshots"
-msgstr ""
+#, fuzzy
+msgid "Don't remove named snapshots."
+msgstr "Λήψη στιγμιοτύπου"
 
 #: qt/settingsdialog.py:745
 msgid "&Options"
@@ -1286,78 +1309,78 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: qt/settingsdialog.py:819
+#: qt/settingsdialog.py:825
 msgid "E&xpert Options"
 msgstr ""
 
-#: qt/settingsdialog.py:824
+#: qt/settingsdialog.py:830
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 
-#: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
+#: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr ""
 
-#: qt/settingsdialog.py:836 qt/settingsdialog.py:852
+#: qt/settingsdialog.py:842 qt/settingsdialog.py:858
 msgid "as cron job"
 msgstr ""
 
-#: qt/settingsdialog.py:841 qt/settingsdialog.py:862 qt/settingsdialog.py:883
+#: qt/settingsdialog.py:847 qt/settingsdialog.py:868 qt/settingsdialog.py:889
 msgid "on remote host"
 msgstr ""
 
-#: qt/settingsdialog.py:857
+#: qt/settingsdialog.py:863
 msgid "when taking a manual snapshot"
 msgstr ""
 
-#: qt/settingsdialog.py:870
+#: qt/settingsdialog.py:876
 msgid "(Please install 'nocache' to enable this option)"
 msgstr ""
 
-#: qt/settingsdialog.py:877
+#: qt/settingsdialog.py:883
 msgid "on local machine"
 msgstr ""
 
-#: qt/settingsdialog.py:888
+#: qt/settingsdialog.py:894
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr ""
 
-#: qt/settingsdialog.py:897
+#: qt/settingsdialog.py:903
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 
-#: qt/settingsdialog.py:909
+#: qt/settingsdialog.py:915
 msgid "Limit rsync bandwidth usage"
 msgstr ""
 
-#: qt/settingsdialog.py:912
+#: qt/settingsdialog.py:918
 msgid "KB/sec"
-msgstr ""
+msgstr "KB/sec"
 
-#: qt/settingsdialog.py:950
+#: qt/settingsdialog.py:956
 msgid "Preserve ACL"
 msgstr ""
 
-#: qt/settingsdialog.py:965
+#: qt/settingsdialog.py:971
 msgid "Preserve extended attributes (xattr)"
 msgstr ""
 
-#: qt/settingsdialog.py:985
+#: qt/settingsdialog.py:991
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: qt/settingsdialog.py:1018
+#: qt/settingsdialog.py:1024
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 
-#: qt/settingsdialog.py:1021
+#: qt/settingsdialog.py:1027
 msgid "Paste additional options to rsync"
 msgstr ""
 
-#: qt/settingsdialog.py:1036
+#: qt/settingsdialog.py:1042
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1369,81 +1392,81 @@ msgid ""
 "%(default)s: %(def_value)s"
 msgstr ""
 
-#: qt/settingsdialog.py:1044 qt/settingsdialog.py:2054
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
 msgid "default"
 msgstr ""
 
-#: qt/settingsdialog.py:1046
+#: qt/settingsdialog.py:1052
 msgid "Add prefix to SSH commands"
 msgstr ""
 
-#: qt/settingsdialog.py:1059
+#: qt/settingsdialog.py:1065
 msgid "Check if remote host is online"
 msgstr ""
 
-#: qt/settingsdialog.py:1061
+#: qt/settingsdialog.py:1067
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1065
+#: qt/settingsdialog.py:1071
 msgid "Check if remote host supports all necessary commands"
 msgstr ""
 
-#: qt/settingsdialog.py:1067
+#: qt/settingsdialog.py:1073
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1083
+#: qt/settingsdialog.py:1089
 msgid "Restore Config"
-msgstr ""
+msgstr "Επαναφορά παραμετροποίησης"
 
-#: qt/settingsdialog.py:1085
+#: qt/settingsdialog.py:1091
 msgid "Edit user-callback"
 msgstr ""
 
-#: qt/settingsdialog.py:1103
+#: qt/settingsdialog.py:1109
 msgid "New profile"
-msgstr ""
+msgstr "Νέο προφίλ"
 
-#: qt/settingsdialog.py:1120
+#: qt/settingsdialog.py:1126
 msgid "Rename profile"
-msgstr ""
+msgstr "Μετονομασία προφίλ"
 
-#: qt/settingsdialog.py:1136
+#: qt/settingsdialog.py:1142
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr ""
 
-#: qt/settingsdialog.py:1410
+#: qt/settingsdialog.py:1416
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
 
-#: qt/settingsdialog.py:1452
+#: qt/settingsdialog.py:1458
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 
-#: qt/settingsdialog.py:1463
+#: qt/settingsdialog.py:1469
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr ""
 
-#: qt/settingsdialog.py:1615
+#: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
 
-#: qt/settingsdialog.py:1643
+#: qt/settingsdialog.py:1649
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1451,65 +1474,65 @@ msgid ""
 "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/settingsdialog.py:1653
+#: qt/settingsdialog.py:1659
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 
-#: qt/settingsdialog.py:1816
+#: qt/settingsdialog.py:1822
 msgid "Exclude pattern"
 msgstr ""
 
-#: qt/settingsdialog.py:1829
+#: qt/settingsdialog.py:1835
 msgid "Exclude file"
-msgstr ""
+msgstr "Εξαίρεση αρχείου"
 
-#: qt/settingsdialog.py:1833
+#: qt/settingsdialog.py:1839
 msgid "Exclude folder"
 msgstr ""
 
-#: qt/settingsdialog.py:1852
+#: qt/settingsdialog.py:1858
 msgid "Include file"
-msgstr ""
+msgstr "Συμπερίληψη αρχείου"
 
-#: qt/settingsdialog.py:1861 qt/settingsdialog.py:1887
+#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/settingsdialog.py:1878
+#: qt/settingsdialog.py:1884
 msgid "Include folder"
 msgstr ""
 
-#: qt/settingsdialog.py:1915
+#: qt/settingsdialog.py:1921
 msgid "Are you sure you want to change snapshots folder?"
 msgstr ""
 
-#: qt/settingsdialog.py:1940
+#: qt/settingsdialog.py:1946
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr ""
 
-#: qt/settingsdialog.py:1999
+#: qt/settingsdialog.py:2005
 msgid "Full snapshot path: "
 msgstr ""
 
-#: qt/settingsdialog.py:2049
+#: qt/settingsdialog.py:2055
 msgid "enabled"
-msgstr ""
+msgstr "ενεργό"
 
-#: qt/settingsdialog.py:2052
+#: qt/settingsdialog.py:2058
 msgid "disabled"
-msgstr ""
+msgstr "ανενεργό"
 
-#: qt/settingsdialog.py:2097
+#: qt/settingsdialog.py:2103
 msgid "Restore Settings"
-msgstr ""
+msgstr "Επαναφορά ρυθμίσεων"
 
-#: qt/settingsdialog.py:2110
+#: qt/settingsdialog.py:2116
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1519,15 +1542,15 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
+#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
 msgid "No config found"
 msgstr ""
 
-#: qt/settingsdialog.py:2444
+#: qt/settingsdialog.py:2450
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 
-#: qt/settingsdialog.py:2451
+#: qt/settingsdialog.py:2457
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
@@ -1537,11 +1560,11 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:58
 msgid "Command"
-msgstr ""
+msgstr "Εντολή"
 
 #: qt/snapshotsdialog.py:62
 msgid "Parameters"
-msgstr ""
+msgstr "Παράμετροι"
 
 #: qt/snapshotsdialog.py:66
 msgid "Use %1 and %2 for path parameters"
@@ -1561,7 +1584,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:150
 msgid "Delete"
-msgstr ""
+msgstr "Διαγραφή"
 
 #: qt/snapshotsdialog.py:154
 msgid "Select All"
@@ -1581,11 +1604,11 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:328
 msgid "You can't compare a snapshot to itself."
-msgstr ""
+msgstr "Δεν μπορείτε να συγκρίνετε ένα στιγμιότυπο με τον εαυτό του."
 
 #: qt/snapshotsdialog.py:336
 msgid "Command not found"
-msgstr ""
+msgstr "Η εντολή δεν βρέθηκε"
 
 #: qt/snapshotsdialog.py:367
 #, fuzzy, python-brace-format
@@ -1596,14 +1619,15 @@ msgstr "Αποτυχία λήψης στιγμιοτύπου {snapshot_id} !!!"
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr ""
+"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
 
 #: qt/snapshotsdialog.py:378
 msgid "This cannot be revoked!"
-msgstr ""
+msgstr "Αυτό δεν μπορεί να αναιρεθεί!"
 
 #: qt/snapshotsdialog.py:378
 msgid "WARNING"
-msgstr ""
+msgstr "ΠΡΟΣΟΧΗ"
 
 #: qt/snapshotsdialog.py:394
 #, python-brace-format

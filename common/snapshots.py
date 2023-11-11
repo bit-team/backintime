@@ -904,6 +904,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if not line:
             return
 
+        # Warning (2023-11): Do not modify the source string.
+        # See #1559 for details.
         self.setTakeSnapshotMessage(
             0, _('Take snapshot') + " (rsync: %s)" % line)
 
@@ -957,7 +959,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             sid (SID):  snapshot in which the config should be stored
         """
         logger.info('Save config file', self)
-        self.setTakeSnapshotMessage(0, _('Saving config file...'))
+        self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
 
@@ -1033,7 +1035,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             int: Return code of rsync.
         """
         logger.info('Save permissions', self)
-        self.setTakeSnapshotMessage(0, _('Saving permissions...'))
+        self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
 

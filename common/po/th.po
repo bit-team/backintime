@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-09-28 21:17+0200\n"
-"PO-Revision-Date: 2023-09-25 14:54+0000\n"
+"POT-Creation-Date: 2023-11-10 21:20+0100\n"
+"PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/backintime/common/th/>\n"
 "Language: th\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -31,7 +31,7 @@ msgstr "โปรไฟล์หลัก"
 msgid "Local"
 msgstr "ท้องถิ่น"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1931
+#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
 msgid "SSH private key"
 msgstr "คีย์ส่วนตัว SSH"
 
@@ -78,12 +78,12 @@ msgstr ""
 #: common/config.py:441
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ไม่ใช่โฟลเดอร์!"
+msgstr "{path} ไม่ใช่โฟลเดอร์"
 
 #: common/config.py:450
 #, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/User/Profile-ID ต้องไม่เป็นค่าว่าง!"
+msgstr "Host/User/Profile-ID ต้องไม่เป็นค่าว่าง"
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -114,7 +114,7 @@ msgstr ""
 "โปรดตรวจสอบให้แน่ใจว่าเซิร์ฟเวอร์ SMB ระยะไกลรองรับ symlink หรือเปิดใช้งาน "
 "{copyLinks} ใน {expertOptions}."
 
-#: common/config.py:490 qt/settingsdialog.py:998
+#: common/config.py:490 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
 msgstr "คัดลอกลิงก์ (เคลียร์ลิงก์สัญลักษณ์)"
 
@@ -175,12 +175,12 @@ msgstr "ไม่สามารถโหลดการตั้งค่าไ
 #: common/configfile.py:691 common/configfile.py:790
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "โปรไฟล์ \"{name}\" มีอยู่แล้ว!"
+msgstr "โปรไฟล์ \"{name}\" มีอยู่แล้ว"
 
 #: common/configfile.py:736
 #, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "ไม่สามารถเพิกถอนสิ่งนี้ได้!"
+msgstr "ไม่สามารถเพิกถอนสิ่งนี้ได้"
 
 #: common/encfstools.py:87
 #, python-brace-format
@@ -213,7 +213,7 @@ msgid ""
 "update encfs."
 msgstr ""
 
-#: common/encfstools.py:509 common/snapshots.py:908
+#: common/encfstools.py:511 common/snapshots.py:910
 msgid "Take snapshot"
 msgstr "สร้างสแนปช็อต"
 
@@ -270,91 +270,93 @@ msgstr[0] "รอ %s วินาที."
 #: common/snapshots.py:805
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "ไม่สามารถสร้างสแนปช็อต {snapshot_id} ได้ !!!"
+msgstr "ไม่สามารถสร้างสแนปช็อต {snapshot_id} ได้"
 
 #: common/snapshots.py:822
 msgid "Finalizing"
 msgstr "กำลังประมวลผลล่าสุด"
 
-#: common/snapshots.py:943
+#: common/snapshots.py:945
 msgid "Can't create folder"
 msgstr "ไม่สามารถสร้างโฟลเดอร์ได้"
 
-#: common/snapshots.py:960
-msgid "Saving config file..."
+#: common/snapshots.py:962
+#, fuzzy
+msgid "Saving config file…"
 msgstr "กำลังบันทึกไฟล์กำหนดค่า..."
 
-#: common/snapshots.py:1036
-msgid "Saving permissions..."
+#: common/snapshots.py:1038
+#, fuzzy
+msgid "Saving permissions…"
 msgstr "กำลังบันทึกสิทธิ์การเข้าถึง"
 
-#: common/snapshots.py:1144
+#: common/snapshots.py:1146
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "พบส่วนที่เหลืออยู่ {snapshot_id} ซึ่งสามารถดำเนินการต่อได้"
 
-#: common/snapshots.py:1163
+#: common/snapshots.py:1165
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "พบส่วนที่เหลืออยู่ {snapshot_id} ซึ่งสามารถทำต่อได้"
 
-#: common/snapshots.py:1173
+#: common/snapshots.py:1175
 msgid "Can't remove folder"
 msgstr "ไม่สามารถลบโฟลเดอร์ได้"
 
-#: common/snapshots.py:1216
+#: common/snapshots.py:1218
 msgid "Taking snapshot"
 msgstr "กำลังสร้างสแนปช็อต"
 
-#: common/snapshots.py:1248
+#: common/snapshots.py:1250
 msgid "Success"
 msgstr ""
 
-#: common/snapshots.py:1249
+#: common/snapshots.py:1251
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1252
+#: common/snapshots.py:1254
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1263
 msgid "See 'man rsync' for more details"
 msgstr ""
 
-#: common/snapshots.py:1265
+#: common/snapshots.py:1267
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1280
+#: common/snapshots.py:1282
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "ไม่มีการเปลี่ยนแปลงใด ๆ ไม่จำเป็นต้องสร้างสแนปช็อตใหม่"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1313
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "ไม่สามารถเปลี่ยนชื่อ {new_path} เป็น {path}"
 
-#: common/snapshots.py:1629 common/snapshots.py:1681 qt/settingsdialog.py:678
+#: common/snapshots.py:1631 common/snapshots.py:1683
 msgid "Smart remove"
 msgstr "การลบอย่างฉลาด"
 
-#: common/snapshots.py:1656
+#: common/snapshots.py:1658
 msgid "Removing old snapshots"
 msgstr "กำลังลบสแนปช็อตเก่า"
 
-#: common/snapshots.py:1691
+#: common/snapshots.py:1693
 msgid "Trying to keep min free space"
 msgstr "พยายามรักษาพื้นที่ว่างขั้นต่ำ"
 
-#: common/snapshots.py:1730
+#: common/snapshots.py:1732
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "พยายามรักษาเครื่องหมายเชิงว่างขั้นต่ำที่ {perc}"
 
-#: common/snapshots.py:2812 qt/app.py:1598
+#: common/snapshots.py:2814 qt/app.py:1613
 msgid "Now"
 msgstr "เดี๋ยวนี้"
 
@@ -435,13 +437,13 @@ msgid ""
 "in the current selected snapshot."
 msgstr ""
 "โฟลเดอร์นี้ไม่มีอยู่\n"
-"ในสแนปช็อตที่เลือกในปัจจุบัน!"
+"ในสแนปช็อตที่เลือกในปัจจุบัน"
 
 #: qt/app.py:252
 msgid "Add to Include"
 msgstr "เพิ่มในรายการรว"
 
-#: qt/app.py:254 qt/logviewdialog.py:171
+#: qt/app.py:254 qt/logviewdialog.py:176
 msgid "Add to Exclude"
 msgstr "เพิ่มไปยังรายการยกเว้น"
 
@@ -549,11 +551,11 @@ msgstr "ช่วยเหลือ"
 msgid "Profiles config file"
 msgstr "กำลังบันทึกไฟล์กำหนดค่า..."
 
-#: qt/app.py:519 qt/languagedialog.py:216
+#: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
 msgstr "เว็บไซต์"
 
-#: qt/app.py:522 qt/app.py:1251
+#: qt/app.py:522 qt/app.py:1257
 msgid "Changelog"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
@@ -574,11 +576,11 @@ msgstr "รายงานข้อบกพร่อง"
 msgid "Translation"
 msgstr "การแปล"
 
-#: qt/app.py:537 qt/app.py:1820
+#: qt/app.py:537 qt/app.py:1835
 msgid "About"
 msgstr "เกี่ยวกับ"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2197
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "คืน"
@@ -587,10 +589,10 @@ msgstr "คืน"
 msgid "Restore the selected files or folders to the original destination."
 msgstr "เรียกคืนไฟล์หรือโฟลเดอร์ที่เลือกไปยังตำแหน่งเดิม"
 
-#: qt/app.py:545 qt/app.py:1402 qt/app.py:1434 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1417 qt/app.py:1449 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
-msgstr "กู้คืนไปยัง ..."
+msgstr "กู้คืนไปยัง …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -616,7 +618,7 @@ msgstr ""
 msgid "Up"
 msgstr "ขึ้น"
 
-#: qt/app.py:563 qt/settingsdialog.py:2153
+#: qt/app.py:563 qt/settingsdialog.py:2159
 msgid "Show hidden files"
 msgstr "แสดงแฟ้มที่ซ่อน"
 
@@ -654,60 +656,60 @@ msgstr "กำลังทำงาน中:"
 msgid "Done, no backup needed"
 msgstr "ทำเสร็จ, ไม่จำเป็นต้องสำรอง"
 
-#: qt/app.py:961
+#: qt/app.py:962
 msgid "Working"
 msgstr "กำลังทำงาน"
 
-#: qt/app.py:967 qt/messagebox.py:75
+#: qt/app.py:971 qt/messagebox.py:76
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
-#: qt/app.py:988 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:200
 msgid "Sent"
 msgstr "ได้ส่งแล้ว"
 
-#: qt/app.py:989 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:201
 msgid "Speed"
 msgstr "ความเร็ว"
 
-#: qt/app.py:990 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:202
 msgid "ETA"
 msgstr "ETA"
 
-#: qt/app.py:1044
+#: qt/app.py:1050
 msgid "Global"
 msgstr "ทั่วโลก"
 
-#: qt/app.py:1045
+#: qt/app.py:1051
 msgid "Root"
 msgstr "รูท"
 
-#: qt/app.py:1046
+#: qt/app.py:1052
 msgid "Home"
 msgstr "โฮม"
 
-#: qt/app.py:1061
+#: qt/app.py:1067
 msgid "Backup folders"
 msgstr "โฟลเดอร์สำรองข้อมูล"
 
-#: qt/app.py:1149
+#: qt/app.py:1155
 msgid "Snapshot Name"
 msgstr "ชื่อสแนปช็อต"
 
-#: qt/app.py:1195
+#: qt/app.py:1201
 msgid "Are you sure you want to remove the snapshot"
 msgstr "คุณแน่ใจว่าต้องการลบสแนปช็อตหรือไม่"
 
-#: qt/app.py:1284
+#: qt/app.py:1290
 #, fuzzy, python-brace-format
 msgid ""
-"Create backup copies with trailing {suffix} before\n"
-"overwriting or removing local files."
+"Create backup copies with trailing {suffix}\n"
+"before overwriting or removing local elements."
 msgstr ""
 "สำรองข้อมูลไฟล์ท้องถิ่นก่อนเขียนทับหรือลบ\n"
 "ลบพร้อมคำติดท้าย {suffix}."
 
-#: qt/app.py:1290 qt/settingsdialog.py:774
+#: qt/app.py:1296 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -716,9 +718,10 @@ msgstr ""
 "เวอร์ชันใหม่ของไฟล์จะถูกเปลี่ยนชื่อด้วยคำติดท้าย {suffix} ก่อนที่จะถูกคืนค่า\n"
 "หากคุณไม่ต้องการใช้งานอีกต่อไป คุณสามารถลบไฟล์เหล่านี้ด้วย {cmd}"
 
-#: qt/app.py:1304
+#: qt/app.py:1310
+#, fuzzy
 msgid ""
-"Only restore files which do not exist or\n"
+"Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
@@ -726,91 +729,97 @@ msgstr ""
 "เป็นไฟล์เวอร์ชันใหม่กว่าที่อยู่ในตำแหน่งปลายทาง\n"
 "ใช้ตัวเลือก \"rsync --update\""
 
-#: qt/app.py:1337
-msgid "Remove newer files in original folder"
+#: qt/app.py:1343
+#, fuzzy
+msgid "Remove newer elements in original folder."
 msgstr "ลบไฟล์ที่เป็นเวอร์ชันใหม่กว่าในโฟลเดอร์เดิม"
 
-#: qt/app.py:1338
+#: qt/app.py:1344
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
-"delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which were excluded during taking the snapshot!\n"
-"Be extremely careful!"
+"delete files or folders which are not in the snapshot.\n"
+"Be extremely careful because this will\n"
+"delete files and folders which were\n"
+"excluded during taking the snapshot."
 msgstr ""
 "คืนค่าไฟล์หรือโฟลเดอร์ที่เลือกไปยังตำแหน่งเดิมและ\n"
 "ลบไฟล์/โฟลเดอร์ที่ไม่อยู่ในสแนปช็อต\n"
 "การดำเนินการนี้จะลบไฟล์/โฟลเดอร์ที่ถูกยกเว้นในขณะที่สแนปช็อตถูกสร้างขึ้น!\n"
 "โปรดระมัดระวังอย่างยิ่ง!!!"
 
-#: qt/app.py:1350
+#: qt/app.py:1357
 #, fuzzy, python-brace-format
 msgid ""
-"Do you really want to restore the files(s)\n"
-"into new folder {path}"
-msgstr ""
+"Do you really want to restore this element into the new folder\n"
+"{path}?"
+msgid_plural ""
+"Do you really want to restore these elements into the new folder\n"
+"{path}?"
+msgstr[0] ""
 "คุณต้องการคืนค่าไฟล์เหล่านี้ใช่หรือไม่\n"
 "ไปยังโฟลเดอร์ใหม่ {path}"
 
-#: qt/app.py:1354
-#, fuzzy
-msgid "Do you really want to restore the files(s)"
-msgstr "คุณต้องการคืนค่าไฟล์เหล่านี้ใช่หรือไม่"
-
 #: qt/app.py:1366
+#, fuzzy
+msgid "Do you really want to restore this element?"
+msgid_plural "Do you really want to restore these elements?"
+msgstr[0] "คุณต้องการคืนค่าไฟล์เหล่านี้ใช่หรือไม่"
+
+#: qt/app.py:1381
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดใน {path} หรือไม่?"
 
-#: qt/app.py:1369
+#: qt/app.py:1384
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดในโฟลเดอร์เดิมของคุณหรือไม่?"
 
-#: qt/app.py:1374
+#: qt/app.py:1389
 #, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr "คำเตือน: การลบไฟล์ในระบบไฟล์รูทอาจทำให้ระบบของคุณเสียหายได้ทั้งหมด!!!"
 
-#: qt/app.py:1599
+#: qt/app.py:1614
 #, fuzzy
 msgid "View the current disk contents"
 msgstr "ดูเนื้อหาของดิสก์ปัจจุบัน"
 
-#: qt/app.py:1606
+#: qt/app.py:1621
 msgid "Snapshot"
 msgstr "สแนปช็อต"
 
-#: qt/app.py:1607
+#: qt/app.py:1622
 #, fuzzy, python-brace-format
 msgid "View the snapshot made at {timestamp}"
 msgstr "ดูสแนปช็อตที่ทำไว้ที่ {timestamp}"
 
-#: qt/app.py:1646
+#: qt/app.py:1661
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "คืนค่า {path}"
 
-#: qt/app.py:1648
+#: qt/app.py:1663
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "คืนค่า {path} ไปยัง..."
+msgstr "คืนค่า {path} ไปยัง…"
 
-#: qt/app.py:1805
+#: qt/app.py:1820
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1845 qt/app.py:1862
+#: qt/app.py:1860 qt/app.py:1877
 msgid "Authors"
 msgstr "ผู้เขียน"
 
-#: qt/app.py:1846 qt/app.py:1865
+#: qt/app.py:1861 qt/app.py:1880
 msgid "Translations"
 msgstr "การแปล"
 
-#: qt/app.py:1847 qt/app.py:1868
+#: qt/app.py:1862 qt/app.py:1883
 msgid "License"
 msgstr "ใบอนุญาต"
 
@@ -819,16 +828,16 @@ msgstr "ใบอนุญาต"
 msgid "System default"
 msgstr "เพิ่มค่าเริ่มต้น"
 
-#: qt/languagedialog.py:91
+#: qt/languagedialog.py:94
 msgid "Use operating systems language."
 msgstr ""
 
-#: qt/languagedialog.py:143
+#: qt/languagedialog.py:146
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr ""
 
-#: qt/languagedialog.py:181
+#: qt/languagedialog.py:184
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -845,12 +854,12 @@ msgstr ""
 "ทางเราต้องขออภัยสำหรับการรบกวน และข้อความนี้จะไม่แสดงบนหน้าจอของคุณอีก ข้อความนี้จะอยู่ที่เมนูความช่วยเหลือ\n"
 "ทีมงาน Back In Time"
 
-#: qt/languagedialog.py:213
+#: qt/languagedialog.py:216
 #, fuzzy
 msgid "translation platform"
 msgstr "การแปล"
 
-#: qt/languagedialog.py:229
+#: qt/languagedialog.py:232
 #, fuzzy
 msgid "Your translation"
 msgstr "การแปล"
@@ -864,7 +873,7 @@ msgid "Snapshot Log View"
 msgstr "มุมมองบันทึกสแนปช็อต"
 
 #: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2294
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
 msgid "Profile"
 msgstr "โปรไฟล์"
 
@@ -876,45 +885,45 @@ msgstr "สแนปช็อต"
 msgid "Filter"
 msgstr "ตัวกรอง"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:809
+#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
 msgid "All"
 msgstr "ทั้งหมด"
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:95 qt/settingsdialog.py:808
+#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "การเปลี่ยนแปลง"
 
-#: qt/logviewdialog.py:92 qt/logviewdialog.py:94 qt/settingsdialog.py:806
-#: qt/settingsdialog.py:808
+#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "ข้อผิดพลาด"
 
-#: qt/logviewdialog.py:96 qt/messagebox.py:71
+#: qt/logviewdialog.py:101 qt/messagebox.py:71
 #, fuzzy
 msgid "Information"
 msgstr "ข้อมูล"
 
-#: qt/logviewdialog.py:106
+#: qt/logviewdialog.py:111
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] ข้อผิดพลาด, [I] ข้อมูล, [C] การเปลี่ยนแปลง"
 
-#: qt/logviewdialog.py:109 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
 msgid "decode paths"
 msgstr "ถอดรหัสเส้นทาง"
 
-#: qt/logviewdialog.py:167
+#: qt/logviewdialog.py:172
 msgid "Copy"
 msgstr "คัดลอก"
 
-#: qt/logviewdialog.py:175
+#: qt/logviewdialog.py:180
 msgid "Decode"
 msgstr "ถอดรหัส"
 
-#: qt/logviewdialog.py:197
+#: qt/logviewdialog.py:202
 msgid "Do you want to exclude this?"
 msgstr "คุณต้องการยกเว้นสิ่งนี้หรือไม่?"
 
-#: qt/messagebox.py:81 qt/messagebox.py:87
+#: qt/messagebox.py:82 qt/messagebox.py:90
 msgid "Question"
 msgstr "คำถาม"
 
@@ -977,7 +986,7 @@ msgstr "ลบ"
 msgid "&General"
 msgstr "&ทั่วไป"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2296
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
 msgid "Mode"
 msgstr "โหมด"
 
@@ -992,7 +1001,7 @@ msgstr ""
 "การตรวจสอบความปลอดภัยล่าสุดพบว่ามีเวกเตอร์การโจมตีหลายรูปแบบสำหรับ EncFS "
 "โปรดดู \"A NOTE ON SECURITY\" ใน \"man backintime\""
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1907
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
 msgid "Where to save snapshots"
 msgstr "สถานที่ที่จะบันทึกสแนปช็อต"
 
@@ -1248,6 +1257,11 @@ msgstr "หากพื้นที่ว่างน้อยกว่า"
 msgid "If free inodes is less than"
 msgstr "หากพื้นที่ว่างของไอโนด์น้อยกว่า"
 
+#: qt/settingsdialog.py:678
+#, fuzzy
+msgid "Smart remove:"
+msgstr "การลบอย่างฉลาด"
+
 #: qt/settingsdialog.py:689
 #, fuzzy
 msgid "Run in background on remote host."
@@ -1263,7 +1277,8 @@ msgid "Keep all snapshots for the last"
 msgstr "เก็บรักษาสแนปช็อตทั้งหมดสำหรับช่วงเวลาล่าสุด"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-msgid "day(s)"
+#, fuzzy
+msgid "day(s)."
 msgstr "วัน"
 
 #: qt/settingsdialog.py:703
@@ -1276,7 +1291,7 @@ msgstr "เก็บรักษาสแนปช็อตหนึ่งต่
 
 #: qt/settingsdialog.py:714
 #, fuzzy
-msgid "week(s)"
+msgid "week(s)."
 msgstr "สัปดาห์"
 
 #: qt/settingsdialog.py:717
@@ -1284,15 +1299,18 @@ msgid "Keep one snapshot per month for the last"
 msgstr "เก็บรักษาสแนปช็อตหนึ่งต่อเดือนสำหรับช่วงเวลาล่าสุด"
 
 #: qt/settingsdialog.py:721
-msgid "month(s)"
+#, fuzzy
+msgid "month(s)."
 msgstr "เดือน"
 
 #: qt/settingsdialog.py:724
-msgid "Keep one snapshot per year for all years"
+#, fuzzy
+msgid "Keep one snapshot per year for all years."
 msgstr "เก็บรักษาสแนปช็อตหนึ่งต่อปีสำหรับทุกปี"
 
 #: qt/settingsdialog.py:733
-msgid "Don't remove named snapshots"
+#, fuzzy
+msgid "Don't remove named snapshots."
 msgstr "ไม่ลบสแนปช็อตที่มีชื่อ"
 
 #: qt/settingsdialog.py:745
@@ -1351,80 +1369,80 @@ msgstr "ระดับบันทึก"
 msgid "None"
 msgstr "ไม่มี"
 
-#: qt/settingsdialog.py:819
+#: qt/settingsdialog.py:825
 msgid "E&xpert Options"
 msgstr "&ตัวเลือกขั้นสูง"
 
-#: qt/settingsdialog.py:824
+#: qt/settingsdialog.py:830
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr "เปลี่ยนตัวเลือกเหล่านี้เท่านั้นหากคุณรู้ว่าต้องการทำอะไรจริงๆ!"
+msgstr "เปลี่ยนตัวเลือกเหล่านี้เท่านั้นหากคุณรู้ว่าต้องการทำอะไรจริงๆ"
 
-#: qt/settingsdialog.py:829 qt/settingsdialog.py:845 qt/settingsdialog.py:867
+#: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "รัน 'rsync' ด้วย '{cmd}':"
 
-#: qt/settingsdialog.py:836 qt/settingsdialog.py:852
+#: qt/settingsdialog.py:842 qt/settingsdialog.py:858
 msgid "as cron job"
 msgstr "เป็นงาน cron"
 
-#: qt/settingsdialog.py:841 qt/settingsdialog.py:862 qt/settingsdialog.py:883
+#: qt/settingsdialog.py:847 qt/settingsdialog.py:868 qt/settingsdialog.py:889
 msgid "on remote host"
 msgstr "บนโฮสต์ระยะไกล"
 
-#: qt/settingsdialog.py:857
+#: qt/settingsdialog.py:863
 msgid "when taking a manual snapshot"
 msgstr "เมื่อสร้างสแนปช็อตด้วยตนเอง"
 
-#: qt/settingsdialog.py:870
+#: qt/settingsdialog.py:876
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(โปรดติดตั้ง 'nocache' เพื่อเปิดใช้งานตัวเลือกนี้)"
 
-#: qt/settingsdialog.py:877
+#: qt/settingsdialog.py:883
 msgid "on local machine"
 msgstr "บนเครื่องใช้งานท้องถิ่น"
 
-#: qt/settingsdialog.py:888
+#: qt/settingsdialog.py:894
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "เปลี่ยนเส้นทาง stdout เป็น /dev/null ใน cronjobs"
 
-#: qt/settingsdialog.py:897
+#: qt/settingsdialog.py:903
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "เปลี่ยนเส้นทาง stderr เป็น /dev/null ใน cronjobs"
 
-#: qt/settingsdialog.py:909
+#: qt/settingsdialog.py:915
 msgid "Limit rsync bandwidth usage"
 msgstr "จำกัดการใช้แบนด์วิดธ์ของ rsync"
 
-#: qt/settingsdialog.py:912
+#: qt/settingsdialog.py:918
 #, fuzzy
 msgid "KB/sec"
 msgstr "KB/sec"
 
-#: qt/settingsdialog.py:950
+#: qt/settingsdialog.py:956
 msgid "Preserve ACL"
 msgstr "สงวน ACL"
 
-#: qt/settingsdialog.py:965
+#: qt/settingsdialog.py:971
 msgid "Preserve extended attributes (xattr)"
 msgstr "สงวนแอตทริบิวต์ขยาย(xattr)"
 
-#: qt/settingsdialog.py:985
+#: qt/settingsdialog.py:991
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "คัดลอกลิงก์ที่ไม่ปลอดภัย (ทำงานเฉพาะลิงก์ที่เป็นแบบสมบูรณ์)"
 
-#: qt/settingsdialog.py:1018
+#: qt/settingsdialog.py:1024
 #, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "ตัวเลือกจะต้องอยู่ในเครื่องหมายคำพูด เช่น {example}"
 
-#: qt/settingsdialog.py:1021
+#: qt/settingsdialog.py:1027
 msgid "Paste additional options to rsync"
 msgstr "วางตัวเลือกเพิ่มเติมให้กับ rsync"
 
-#: qt/settingsdialog.py:1036
+#: qt/settingsdialog.py:1042
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1442,81 +1460,81 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1044 qt/settingsdialog.py:2054
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
 msgid "default"
 msgstr ""
 
-#: qt/settingsdialog.py:1046
+#: qt/settingsdialog.py:1052
 msgid "Add prefix to SSH commands"
 msgstr "เพิ่มคำนำหน้าให้กับคำสั่ง SSH"
 
-#: qt/settingsdialog.py:1059
+#: qt/settingsdialog.py:1065
 msgid "Check if remote host is online"
 msgstr ""
 
-#: qt/settingsdialog.py:1061
+#: qt/settingsdialog.py:1067
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1065
+#: qt/settingsdialog.py:1071
 msgid "Check if remote host supports all necessary commands"
 msgstr ""
 
-#: qt/settingsdialog.py:1067
+#: qt/settingsdialog.py:1073
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1083
+#: qt/settingsdialog.py:1089
 msgid "Restore Config"
 msgstr ""
 
-#: qt/settingsdialog.py:1085
+#: qt/settingsdialog.py:1091
 msgid "Edit user-callback"
 msgstr ""
 
-#: qt/settingsdialog.py:1103
+#: qt/settingsdialog.py:1109
 msgid "New profile"
 msgstr ""
 
-#: qt/settingsdialog.py:1120
+#: qt/settingsdialog.py:1126
 msgid "Rename profile"
 msgstr ""
 
-#: qt/settingsdialog.py:1136
+#: qt/settingsdialog.py:1142
 #, fuzzy, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดใน {path} หรือไม่?"
+msgstr "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดใน {name} หรือไม่?"
 
-#: qt/settingsdialog.py:1410
+#: qt/settingsdialog.py:1416
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
 
-#: qt/settingsdialog.py:1452
+#: qt/settingsdialog.py:1458
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 
-#: qt/settingsdialog.py:1463
+#: qt/settingsdialog.py:1469
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr ""
 
-#: qt/settingsdialog.py:1615
+#: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
 
-#: qt/settingsdialog.py:1643
+#: qt/settingsdialog.py:1649
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1524,66 +1542,66 @@ msgid ""
 "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/settingsdialog.py:1653
+#: qt/settingsdialog.py:1659
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 
-#: qt/settingsdialog.py:1816
+#: qt/settingsdialog.py:1822
 msgid "Exclude pattern"
 msgstr ""
 
-#: qt/settingsdialog.py:1829
+#: qt/settingsdialog.py:1835
 msgid "Exclude file"
 msgstr ""
 
-#: qt/settingsdialog.py:1833
+#: qt/settingsdialog.py:1839
 msgid "Exclude folder"
 msgstr ""
 
-#: qt/settingsdialog.py:1852
+#: qt/settingsdialog.py:1858
 msgid "Include file"
 msgstr ""
 
-#: qt/settingsdialog.py:1861 qt/settingsdialog.py:1887
+#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/settingsdialog.py:1878
+#: qt/settingsdialog.py:1884
 msgid "Include folder"
 msgstr ""
 
-#: qt/settingsdialog.py:1915
+#: qt/settingsdialog.py:1921
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "คุณแน่ใจว่าต้องการลบสแนปช็อตหรือไม่"
 
-#: qt/settingsdialog.py:1940
+#: qt/settingsdialog.py:1946
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr ""
 
-#: qt/settingsdialog.py:1999
+#: qt/settingsdialog.py:2005
 msgid "Full snapshot path: "
 msgstr "เส้นทางสแนปช็อตทั้งหมด: "
 
-#: qt/settingsdialog.py:2049
+#: qt/settingsdialog.py:2055
 msgid "enabled"
 msgstr ""
 
-#: qt/settingsdialog.py:2052
+#: qt/settingsdialog.py:2058
 msgid "disabled"
 msgstr ""
 
-#: qt/settingsdialog.py:2097
+#: qt/settingsdialog.py:2103
 msgid "Restore Settings"
 msgstr ""
 
-#: qt/settingsdialog.py:2110
+#: qt/settingsdialog.py:2116
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1593,15 +1611,15 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: qt/settingsdialog.py:2172 qt/settingsdialog.py:2237
+#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
 msgid "No config found"
 msgstr ""
 
-#: qt/settingsdialog.py:2444
+#: qt/settingsdialog.py:2450
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 
-#: qt/settingsdialog.py:2451
+#: qt/settingsdialog.py:2457
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 

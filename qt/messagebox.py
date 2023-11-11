@@ -72,7 +72,8 @@ def info(text, title=None, widget_to_center_on=None):
         text)
 
 def critical(parent, msg):
-    return QMessageBox.critical(parent, _('Error'),
+    return QMessageBox.critical(parent,
+                                _('Error'),
                                 msg,
                                 buttons = QMessageBox.Ok,
                                 defaultButton = QMessageBox.Ok)
@@ -83,23 +84,39 @@ def warningYesNo(parent, msg):
                                 defaultButton = QMessageBox.No)
 
 def warningYesNoOptions(parent, msg, options = ()):
+
+    # Create a dialog
     dlg = QDialog(parent)
     dlg.setWindowTitle(_('Question'))
     layout = QVBoxLayout()
     dlg.setLayout(layout)
+
+    # Initial message
     label = QLabel(msg)
     layout.addWidget(label)
 
+    # Add optional elements
     for opt in options:
         layout.addWidget(opt['widget'])
 
+    # Button box
     buttonBox = QDialogButtonBox(QDialogButtonBox.Yes | QDialogButtonBox.No)
     buttonBox.button(QDialogButtonBox.No).setDefault(True)
     layout.addWidget(buttonBox)
     buttonBox.accepted.connect(dlg.accept)
     buttonBox.rejected.connect(dlg.reject)
+
+    # Show and ask user for the answer
     ret = dlg.exec_()
-    return (ret, {opt['id']:opt['retFunc']() for opt in options if opt['retFunc'] is not None})
+
+    return (
+        ret,
+        {
+            opt['id']:opt['retFunc']()
+            for opt in options
+            if opt['retFunc'] is not None
+        }
+    )
 
 def showInfo(parent, title, msg):
     """Show extended information dialog with framed and scrollable text area.
