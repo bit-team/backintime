@@ -41,10 +41,10 @@ except ImportError:
     import getpass
     pwd = None
 
-# Workaround: Mostly relevant on TravisCI but not exclusivley.
+# Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
-# The bigger problem with config.py is that it do use translatebale strings.
+# The bigger problem with config.py is that it do use translatable strings.
 # Strings like this do not belong into a config file or its context.
 try:
     _('Warning')
@@ -551,7 +551,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setStrValue('global.language', language if language else '')
 
     def manual_starts_countdown(self) -> int:
-        """Countdown value about how often the users startet the Back In Time
+        """Countdown value about how often the users started the Back In Time
         GUI.
 
         It is an internal variable not meant to be used or manipulated be the

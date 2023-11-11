@@ -18,7 +18,7 @@
     The high-level mount API is :py:class:`Mount` and handles mount,
     umount, remount and checks for *Back In Time*. The low-level mount API
     is :py:class:`MountControl`. The latter can be used to create own
-    mounting serivces via subclassing it. See the following example.
+    mounting services via subclassing it. See the following example.
 
     Example:
 

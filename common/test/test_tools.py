@@ -475,7 +475,7 @@ class TestTools(generic.TestCase):
         """Extract UUID from /dev filesystem.
 
         That test using a faked filesystem via pyfakefs. 16 devices and
-        corrosponding uuids are generated."""
+        corresponding uuids are generated."""
 
         # dev-disk folder
         path_dev = pathlib.Path('/dev')

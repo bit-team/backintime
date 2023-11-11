@@ -292,7 +292,7 @@ for v in "" "-v"; do
         done
     else
         #else just call py.test-3 which will find test/test_*.py by itself
-        #py.test-3 has a nicer output so this is prefered over simple python3
+        #py.test-3 has a nicer output so this is preferred over simple python3
         printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
     fi
     printf "\n" >> ${MAKEFILE}

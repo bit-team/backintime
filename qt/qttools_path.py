@@ -18,9 +18,9 @@
 
 """Helper functions extracted from qt/qttools.py file.
 
-Extraction happend of problems with import dependencies. The whole path
+Extraction happened of problems with import dependencies. The whole path
 manipulation will become obsolete when migrating to state of the art Python
-packaging standards. This module is a workround and will get refactored in
+packaging standards. This module is a workaround and will get refactored in
 the future.
 """
 import os
