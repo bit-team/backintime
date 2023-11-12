@@ -282,14 +282,16 @@ class SnapshotsDialog(QDialog):
         self.btnDelete.setEnabled(enable_delete)
 
     def restoreThis(self):
+        # See #1485 as related bug report
         sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
-            restoredialog.restore(self, sid, self.path)
+            restoredialog.restore(self, sid, self.path)  # pylint: disable=E1101
 
     def restoreThisTo(self):
+        # See #1485 as related bug report
         sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
-            restoredialog.restore(self, sid, self.path, None)
+            restoredialog.restore(self, sid, self.path, None)  # pylint: disable=E1101
 
     def timeLineChanged(self):
         self.updateToolbar()
