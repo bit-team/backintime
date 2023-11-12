@@ -104,6 +104,7 @@ replaced with PyPi packages.
   - `gzip`
   - `gettext`
   - `python3-pyfakefs`
+  - `pylint`
 
 ### Build and install via `make` system (recommended)
 
