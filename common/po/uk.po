@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-11-10 21:20+0100\n"
-"PO-Revision-Date: 2023-09-25 14:54+0000\n"
+"PO-Revision-Date: 2023-11-13 00:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -280,14 +280,12 @@ msgid "Can't create folder"
 msgstr "Не вдається створити теку"
 
 #: common/snapshots.py:962
-#, fuzzy
 msgid "Saving config file…"
-msgstr "Збереження файлу конфігурації..."
+msgstr "Збереження файлу конфігурації…"
 
 #: common/snapshots.py:1038
-#, fuzzy
 msgid "Saving permissions…"
-msgstr "Збереження дозволів..."
+msgstr "Збереження дозволів…"
 
 #: common/snapshots.py:1146
 #, python-brace-format
@@ -681,12 +679,12 @@ msgid "Are you sure you want to remove the snapshot"
 msgstr "Бажаєте видалити резервну копію"
 
 #: qt/app.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
-"Робити копію файлів перед їх перезаписом\n"
+"Робити копію елементів перед їх перезаписом\n"
 "або видаленням, додаючи до назви {suffix}."
 
 #: qt/app.py:1296 qt/settingsdialog.py:774
@@ -699,23 +697,20 @@ msgstr ""
 "Якщо вони Вам не потрібні, можна видалити їх, використовуючи {cmd}"
 
 #: qt/app.py:1310
-#, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Відновити лише файли, які відсутні або\n"
+"Відновити лише елементи, які відсутні або\n"
 "новіші, ніж ті, що у вказаному розташуванні.\n"
 "Використовується «rsync --update»."
 
 #: qt/app.py:1343
-#, fuzzy
 msgid "Remove newer elements in original folder."
-msgstr "Видалити новіші файли у початковому розташуванні"
+msgstr "Видалити новіші елементи у початковому розташуванні."
 
 #: qt/app.py:1344
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -725,11 +720,12 @@ msgid ""
 msgstr ""
 "Відновити обрані файли чи теки до початкового розташування\n"
 "і видалити файли/теки, яких немає у резервній копії.\n"
-"Це видалить файли/теки, які були виключені під час резервування!\n"
-"Будьте обережні!"
+"Будьте обережні!\n"
+"Це видалить файли і теки, які були\n"
+"виключені під час резервування."
 
 #: qt/app.py:1357
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -737,22 +733,21 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Ви справді хочете відновити файл(и)\n"
-"до нової теки {path}"
+"Ви справді хочете відновити цей елемент до нової теки\n"
+"{path}?"
 msgstr[1] ""
-"Ви справді хочете відновити файл(и)\n"
-"до нової теки {path}"
+"Ви справді хочете відновити ці елементи до нової теки\n"
+"{path}?"
 msgstr[2] ""
-"Ви справді хочете відновити файл(и)\n"
-"до нової теки {path}"
+"Ви справді хочете відновити ці елементи до нової теки\n"
+"{path}?"
 
 #: qt/app.py:1366
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Ви справді хочете відновити файл(и)"
-msgstr[1] "Ви справді хочете відновити файл(и)"
-msgstr[2] "Ви справді хочете відновити файл(и)"
+msgstr[0] "Ви справді хочете відновити цей елемент?"
+msgstr[1] "Ви справді хочете відновити ці елементи?"
+msgstr[2] "Ви справді хочете відновити ці елементи?"
 
 #: qt/app.py:1381
 #, python-brace-format
@@ -1236,9 +1231,8 @@ msgid "If free inodes is less than"
 msgstr "Якщо вільних айнодів менше ніж"
 
 #: qt/settingsdialog.py:678
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Розумне видалення"
+msgstr "Розумне видалення:"
 
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
@@ -1253,9 +1247,8 @@ msgid "Keep all snapshots for the last"
 msgstr "Зберігати всі копії за останні"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-#, fuzzy
 msgid "day(s)."
-msgstr "днів"
+msgstr "днів."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
@@ -1266,28 +1259,24 @@ msgid "Keep one snapshot per week for the last"
 msgstr "Зберігати одну копію за тиждень за останні"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "тижнів"
+msgstr "тижнів."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
 msgstr "Зберігати одну копію за місяць за останні"
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "місяців"
+msgstr "місяців."
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "Keep one snapshot per year for all years."
-msgstr "Зберігати одну копію за рік за всі роки"
+msgstr "Зберігати одну копію за рік за всі роки."
 
 #: qt/settingsdialog.py:733
-#, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "Не видаляти названі резервні копії"
+msgstr "Не видаляти названі резервні копії."
 
 #: qt/settingsdialog.py:745
 msgid "&Options"

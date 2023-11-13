@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-11-10 21:20+0100\n"
-"PO-Revision-Date: 2023-11-09 11:13+0000\n"
+"PO-Revision-Date: 2023-11-13 00:13+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -279,12 +279,10 @@ msgid "Can't create folder"
 msgstr "Verzeichnis kann nicht erstellt werden"
 
 #: common/snapshots.py:962
-#, fuzzy
 msgid "Saving config file…"
 msgstr "Konfigurationsdatei wird gespeichert …"
 
 #: common/snapshots.py:1038
-#, fuzzy
 msgid "Saving permissions…"
 msgstr "Zugriffsrechte werden gespeichert …"
 
@@ -695,12 +693,12 @@ msgid "Are you sure you want to remove the snapshot"
 msgstr "Sind Sie sicher, dass Sie den Schnappschuss löschen wollen"
 
 #: qt/app.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
-"Lokale Dateien vor dem Überschreiben oder\n"
+"Lokale Elemente vor dem Überschreiben oder\n"
 "Entfernen zur Sicherung mit angehängten {suffix} speichern."
 
 #: qt/app.py:1296 qt/settingsdialog.py:774
@@ -713,23 +711,20 @@ msgstr ""
 "Wenn sie nicht mehr benötigt werden, können Sie sie mit {cmd} entfernen"
 
 #: qt/app.py:1310
-#, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Nur Dateien wiederherstellen, die im Zielordner nicht existieren\n"
+"Nur Elemente wiederherstellen, die im Zielordner nicht existieren\n"
 "oder in der Sicherung neuer sind als im Zielordner.\n"
 "Das nutzt die Option »rsync --update«."
 
 #: qt/app.py:1343
-#, fuzzy
 msgid "Remove newer elements in original folder."
-msgstr "Neuere Dateien im Originalordner entfernen"
+msgstr "Neuere Elemente im Originalordner entfernen."
 
 #: qt/app.py:1344
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -739,11 +734,12 @@ msgid ""
 msgstr ""
 "Ausgewählte Dateien oder Ordner am ursprünglichen Ort wiederherstellen und\n"
 "Dateien/Ordner löschen, die nicht in dem Schnappschuss enthalten sind.\n"
-"Damit werden Dateien/Ordner gelöscht, die während des Erstellen des Schnappschusses ausgeschlossen waren!\n"
-"Seien Sie sehr vorsichtig!"
+"Seien Sie sehr vorsichtig,\n"
+"den damit werden Dateien und Ordner gelöscht,\n"
+"die während des Erstellen des Schnappschusses ausgeschlossen waren."
 
 #: qt/app.py:1357
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -751,18 +747,17 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Wollen Sie diese Datei(en) wirklich\n"
-"in dem neuen Ordner {path} wiederherstellen"
+"Wollen Sie dieses Element wirklich\n"
+"in dem neuen Ordner {path} wiederherstellen?"
 msgstr[1] ""
-"Wollen Sie diese Datei(en) wirklich\n"
-"in dem neuen Ordner {path} wiederherstellen"
+"Wollen Sie diese Elemente wirklich\n"
+"in dem neuen Ordner {path} wiederherstellen?"
 
 #: qt/app.py:1366
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Möchten Sie wirklich diese Datei(en) wiederherstellen"
-msgstr[1] "Möchten Sie wirklich diese Datei(en) wiederherstellen"
+msgstr[0] "Möchten Sie wirklich dieses Element wiederherstellen?"
+msgstr[1] "Möchten Sie wirklich diese Elemente wiederherstellen?"
 
 #: qt/app.py:1381
 #, python-brace-format
@@ -1258,9 +1253,8 @@ msgid "If free inodes is less than"
 msgstr "Falls weniger Inodes frei sind als"
 
 #: qt/settingsdialog.py:678
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Intelligentes Löschen"
+msgstr "Intelligentes Löschen:"
 
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
@@ -1275,9 +1269,8 @@ msgid "Keep all snapshots for the last"
 msgstr "Alle Schnappschüsse behalten, der letzten"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-#, fuzzy
 msgid "day(s)."
-msgstr "Tag(e)"
+msgstr "Tag(e)."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
@@ -1288,28 +1281,24 @@ msgid "Keep one snapshot per week for the last"
 msgstr "Einen Schnappschuss pro Woche behalten, der letzten"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "Woche(n)"
+msgstr "Woche(n)."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
 msgstr "Einen Schnappschuss pro Monat behalten, der letzten"
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "Monat(e)"
+msgstr "Monat(e)."
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "Keep one snapshot per year for all years."
-msgstr "Einen Schnappschuss pro Jahr behalten, für alle Jahre"
+msgstr "Einen Schnappschuss pro Jahr behalten, für alle Jahre."
 
 #: qt/settingsdialog.py:733
-#, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "Benannte Schnappschüsse nicht entfernen"
+msgstr "Benannte Schnappschüsse nicht entfernen."
 
 #: qt/settingsdialog.py:745
 msgid "&Options"
