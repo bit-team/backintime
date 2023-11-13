@@ -57,7 +57,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Explicite activate checks
         err_codes = [
             'E1101',  # no-member
-            # 'W0613',  # unused-argument
+            'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
         ]
         cmd.append('--enable=' + ','.join(err_codes))
 
