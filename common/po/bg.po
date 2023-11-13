@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-10 21:20+0100\n"
+"POT-Creation-Date: 2023-11-13 11:40+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
@@ -178,32 +178,32 @@ msgstr "Профилът \"{name}\" вече съществува."
 msgid "The last profile cannot be removed."
 msgstr "Последният профил не може да бъде премахнат."
 
-#: common/encfstools.py:87
+#: common/encfstools.py:92
 #, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "Неуспех в монтирането '{command}'"
 
-#: common/encfstools.py:134
+#: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
 msgstr "Конфигурацията за криптираната папка не е намерена."
 
-#: common/encfstools.py:142
+#: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
 msgstr "Създаване на нова криптирана папка?"
 
-#: common/encfstools.py:146
+#: common/encfstools.py:151
 msgid "Cancel"
 msgstr "Откажи"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:156
 msgid "Please confirm password"
 msgstr "Моля потвърдете паролата"
 
-#: common/encfstools.py:155
+#: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Паролата не съвпада."
 
-#: common/encfstools.py:173
+#: common/encfstools.py:178
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
@@ -211,20 +211,20 @@ msgstr ""
 "Във версия 1.7.2 и по-ранни версии на encfs има грешка с опцията --reverse. "
 "Моля, актуализирайте encfs."
 
-#: common/encfstools.py:511 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:910
 msgid "Take snapshot"
 msgstr "Създайте моментен архив"
 
-#: common/mount.py:600
+#: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Не мога да демонтирам {mountprocess} от {mountpoint}."
 
-#: common/mount.py:687
+#: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
 msgstr "{} не е намерен. Моля, инсталирайте например {}"
 
-#: common/mount.py:708
+#: common/mount.py:716
 msgid "Mountpoint {} not empty."
 msgstr "Mountpoint {} не е празна."
 
@@ -357,20 +357,20 @@ msgstr "Опит за запазване на минимално свободн�
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Опит за запазване на минимум {perc} свободни inode"
 
-#: common/snapshots.py:2814 qt/app.py:1613
+#: common/snapshots.py:2814 qt/app.py:1617
 msgid "Now"
 msgstr "Сега"
 
-#: common/sshtools.py:204
+#: common/sshtools.py:215
 #, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Неуспех в монтирането на {sshfs}"
 
-#: common/sshtools.py:264
+#: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr "ssh-агентът не е намерен. Моля, уверете се, че е инсталиран."
 
-#: common/sshtools.py:407
+#: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -378,52 +378,52 @@ msgstr ""
 "Не можа да отключи частния ключ на ssh. Грешна парола или паролата не е "
 "налична за cron."
 
-#: common/sshtools.py:495
+#: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "Шифърът {cipher} е неуспешен за {host}."
 
-#: common/sshtools.py:642
+#: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
 msgstr "Отдалеченият път съществува, но не е директория."
 
-#: common/sshtools.py:647
+#: common/sshtools.py:658
 msgid "Remote path is not writable."
 msgstr "Отдалеченият път не може да се записва."
 
-#: common/sshtools.py:652
+#: common/sshtools.py:663
 msgid "Remote path is not executable."
 msgstr "Отдалеченият път не е изпълним."
 
-#: common/sshtools.py:657
+#: common/sshtools.py:668
 msgid "Couldn't create remote path."
 msgstr "Не може да се създаде отдалечен път."
 
-#: common/sshtools.py:937
+#: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Отдалеченият хост {host} не поддържа {command}"
 
-#: common/sshtools.py:941 common/sshtools.py:950
+#: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Вижте 'man backintime' за допълнителни инструкции"
 
-#: common/sshtools.py:945
+#: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr "Проверката на командите на хоста {host} върна непозната грешка"
 
-#: common/sshtools.py:966
+#: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Отдалеченият хост {host} не поддържа твърди връзки"
 
-#: common/sshtools.py:1049
+#: common/sshtools.py:1060
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr "Копирай публичния ssh ключ \"{pubkey}\" в дистанционният хост \"{host}\""
 
-#: common/sshtools.py:1051
+#: common/sshtools.py:1062
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Моля въведете паролата за \"{user}\""
@@ -547,7 +547,7 @@ msgstr "Файл за конфигуриране на профили"
 msgid "Website"
 msgstr "Уебсайт"
 
-#: qt/app.py:522 qt/app.py:1257
+#: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
 msgstr "История на промените"
 
@@ -567,7 +567,7 @@ msgstr "Докладвайте неизправност"
 msgid "Translation"
 msgstr "Превод"
 
-#: qt/app.py:537 qt/app.py:1835
+#: qt/app.py:537 qt/app.py:1839
 msgid "About"
 msgstr "Относно"
 
@@ -580,7 +580,7 @@ msgstr "Възстановяване"
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Възстановете избраните файлове или папки на първоначалното място."
 
-#: qt/app.py:545 qt/app.py:1417 qt/app.py:1449 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "Възстановяване в …"
 
@@ -681,11 +681,16 @@ msgstr "Резевни папки"
 msgid "Snapshot Name"
 msgstr "Име на моментния архив"
 
-#: qt/app.py:1201
-msgid "Are you sure you want to remove the snapshot"
-msgstr "Сигурни ли сте, че желаете окончателно да премахнете моментния архив"
+#: qt/app.py:1202
+#, fuzzy
+msgid "Are you sure you want to remove this snapshot?"
+msgid_plural "Are you sure you want to remove these snapshots?"
+msgstr[0] ""
+"Сигурни ли сте, че желаете окончателно да премахнете моментния архив"
+msgstr[1] ""
+"Сигурни ли сте, че желаете окончателно да премахнете моментния архив"
 
-#: qt/app.py:1290
+#: qt/app.py:1294
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -694,7 +699,7 @@ msgstr ""
 "Създайте резервни копия, завършващи със {suffix} преди\n"
 "да бъдат презаписани или премахнати локални файлове."
 
-#: qt/app.py:1296 qt/settingsdialog.py:774
+#: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -703,7 +708,7 @@ msgstr ""
 "По-новите версии на файловете ще бъдат преименувани с последващ {suffix} при възстановяването.\n"
 "Ако не са необходими, могат да бъдат премахнати посредством {cmd}"
 
-#: qt/app.py:1310
+#: qt/app.py:1314
 #, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
@@ -714,12 +719,12 @@ msgstr ""
 "или са по-нови от тези в крайната папка.\n"
 "Използвайте опцията \"rsync --update\"."
 
-#: qt/app.py:1343
+#: qt/app.py:1347
 #, fuzzy
 msgid "Remove newer elements in original folder."
 msgstr "Премахнете по-новите файлове от първоначалната директория"
 
-#: qt/app.py:1344
+#: qt/app.py:1348
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
@@ -733,7 +738,7 @@ msgstr ""
 "Това ще доведе до изтриване на файлове/папки, които са били изключени по време на създаването на архива!\n"
 "Бъдете изключително внимателни!"
 
-#: qt/app.py:1357
+#: qt/app.py:1361
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -748,71 +753,71 @@ msgstr[1] ""
 "Наистина ли искате да възстановите тези файлове\n"
 "в новата директория {path}"
 
-#: qt/app.py:1366
+#: qt/app.py:1370
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Наистина ли искате да възстановите файловете"
 msgstr[1] "Наистина ли искате да възстановите файловете"
 
-#: qt/app.py:1381
+#: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 "Сигурни ли сте, че желаете окончателно да премахнете всички по-нови файлове "
 "в {path}?"
 
-#: qt/app.py:1384
+#: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Сигурни ли сте, че искате да премахнете всички по-нови файлове в "
 "първоначалната директория?"
 
-#: qt/app.py:1389
+#: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 "ПРЕДУПРЕЖДЕНИЕ: Изтриването на файлове в коренната част на файловата система"
 " може да разруши цялата ви система!"
 
-#: qt/app.py:1614
+#: qt/app.py:1618
 msgid "View the current disk contents"
 msgstr "Преглед на текущото съдържание на диска"
 
-#: qt/app.py:1621
+#: qt/app.py:1625
 msgid "Snapshot"
 msgstr "Моментно архивно копие"
 
-#: qt/app.py:1622
+#: qt/app.py:1626
 #, python-brace-format
 msgid "View the snapshot made at {timestamp}"
 msgstr "Преглеждане на моментния архив, създаден на {timestamp}"
 
-#: qt/app.py:1661
+#: qt/app.py:1665
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Възстановете {path}"
 
-#: qt/app.py:1663
+#: qt/app.py:1667
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Възстановете {path} в …"
 
-#: qt/app.py:1820
+#: qt/app.py:1824
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Езиковите настройки влизат в сила само след рестартиране на Back In Time."
 
-#: qt/app.py:1860 qt/app.py:1877
+#: qt/app.py:1864 qt/app.py:1881
 msgid "Authors"
 msgstr "Създатели"
 
-#: qt/app.py:1861 qt/app.py:1880
+#: qt/app.py:1865 qt/app.py:1884
 msgid "Translations"
 msgstr "Преводачи"
 
-#: qt/app.py:1862 qt/app.py:1883
+#: qt/app.py:1866 qt/app.py:1887
 msgid "License"
 msgstr "Лизенз за изходния код"
 
@@ -1678,34 +1683,34 @@ msgstr "Отиване до"
 msgid "Options"
 msgstr "Настройки"
 
-#: qt/snapshotsdialog.py:328
+#: qt/snapshotsdialog.py:330
 msgid "You can't compare a snapshot to itself."
 msgstr "Не можете да сравнявате моментен архив със самия него."
 
-#: qt/snapshotsdialog.py:336
+#: qt/snapshotsdialog.py:338
 msgid "Command not found"
 msgstr "Командата не е открита"
 
-#: qt/snapshotsdialog.py:367
+#: qt/snapshotsdialog.py:369
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr ""
 "Наистина ли искате да изтриете {file} от моментния архив {snapshot_id}?"
 
-#: qt/snapshotsdialog.py:373
+#: qt/snapshotsdialog.py:375
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Наистина ли искате да изтриете {file} от {count} моментни архиви?"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
 msgstr "Това действие не може да бъде отменено!"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "WARNING"
 msgstr "ВНИМАНИЕ"
 
-#: qt/snapshotsdialog.py:394
+#: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Изключете {path} от бъдещите моментни архиви?"
