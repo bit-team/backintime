@@ -1197,8 +1197,12 @@ class MainWindow(QMainWindow):
         if not items:
             return
 
-        question_msg = '{}:\n{}'.format(
-            _('Are you sure you want to remove the snapshot'),
+        question_msg = '{}\n{}'.format(
+            ngettext(
+                'Are you sure you want to remove this snapshot?',
+                'Are you sure you want to remove these snapshots?',
+                len(items)
+            ),
             '\n'.join([item.snapshotID().displayName for item in items]))
 
         if QMessageBox.Yes != messagebox.warningYesNo(self, question_msg):
