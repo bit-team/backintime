@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 14:00+0100\n"
+"POT-Creation-Date: 2023-11-14 14:02+0100\n"
 "PO-Revision-Date: 2023-09-18 21:13+0000\n"
 "Last-Translator: tootai <devel@tootai.net>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
@@ -534,8 +534,9 @@ msgstr "Arrêt"
 msgid "Shut down system after snapshot has finished."
 msgstr "Éteindre le système après la fin de l'instantané."
 
-#: qt/app.py:504 qt/languagedialog.py:29
-msgid "Setup language"
+#: qt/app.py:504
+#, fuzzy
+msgid "Setup language…"
 msgstr "Configurer la langue"
 
 #: qt/app.py:508
@@ -825,6 +826,10 @@ msgstr "Traductions"
 #: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Licence"
+
+#: qt/languagedialog.py:29
+msgid "Setup language"
+msgstr "Configurer la langue"
 
 #: qt/languagedialog.py:87
 msgid "System default"
