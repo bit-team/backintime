@@ -493,7 +493,7 @@ class MainWindow(QMainWindow):
                 self.btnLastLogViewClicked, None,
                 None),
             'act_settings': (
-                icon.SETTINGS, '{}…'.format(_('Manage profiles')),
+                icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
             'act_shutdown': (
@@ -563,7 +563,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, '{}…'.format(_('Compare snapshots')),
+                icon.SNAPSHOTS, _('Compare snapshots…'),
                 self.btnSnapshotsClicked, None, None),
         }
 
