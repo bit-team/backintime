@@ -501,7 +501,7 @@ class MainWindow(QMainWindow):
                 None, None,
                 _('Shut down system after snapshot has finished.')),
             'act_setup_language': (
-                None, '{}…'.format(_('Setup language')),
+                None, _('Setup language…'),
                 self.slot_setup_language, None,
                 None),
             'act_quit': (
