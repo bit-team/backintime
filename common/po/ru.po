@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-09-18 19:32+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
@@ -360,7 +360,7 @@ msgstr "Стараться сохранять минимальное свобо�
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Попытка сохранить минимум {perc} свободных инодов"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Сейчас"
 
@@ -568,7 +568,7 @@ msgstr "Сообщить об ошибке"
 msgid "Translation"
 msgstr "Перевод"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "О программе"
 
@@ -786,42 +786,33 @@ msgstr ""
 "ВНИМАНИЕ: удаление файлов в корне файловой системы может привести к поломке "
 "всей системы!"
 
-#: qt/app.py:1618
-msgid "View the current disk contents"
-msgstr "Просмотр текущего диска"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Снимок"
 
-#: qt/app.py:1626
-#, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Просмотреть снимок, созданный на {timestamp}"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Восстановить {path}"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Восстановить {path} в…"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Смена языка произойдет только после перезапуска Back In Time."
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Разработчики"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Переводы"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Лицензия"
 
@@ -1897,6 +1888,13 @@ msgstr "Исключить {path} из будущих снимков?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Резервная копия: %s"
+
+#~ msgid "View the current disk contents"
+#~ msgstr "Просмотр текущего диска"
+
+#, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Просмотреть снимок, созданный на {timestamp}"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "С ОШИБКАМИ!"

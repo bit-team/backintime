@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-09-26 10:59+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -360,7 +360,7 @@ msgstr "Proveu de mantenir un minim d'espai lliure"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proveu de mantenir un mínim {perc} inodes lliures"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Ara"
 
@@ -571,7 +571,7 @@ msgstr "Informar d'un error"
 msgid "Translation"
 msgstr "Traducció"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Quant a"
 
@@ -785,44 +785,35 @@ msgstr ""
 "AVÍS: Esborrar fitxers a l'arrel del sistema de fitxers podria trencar tot "
 "el sistema!"
 
-#: qt/app.py:1618
-msgid "View the current disk contents"
-msgstr "Mostra el contingut actual del disc"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Instantàna"
 
-#: qt/app.py:1626
-#, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Visualitza la instantània creada a {timestamp}"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaura {path}"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaura {path} a …"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "La configuració de la llengua només tindrà efecte després de reiniciar Back "
 "In Time."
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Autors"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Traduccions"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Llicència"
 
@@ -1852,6 +1843,13 @@ msgstr "Exclou {path} de les instantànies futures?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Instantània: %s"
+
+#~ msgid "View the current disk contents"
+#~ msgstr "Mostra el contingut actual del disc"
+
+#, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Visualitza la instantània creada a {timestamp}"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "AMB ERRORS !"

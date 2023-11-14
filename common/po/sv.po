@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
@@ -371,7 +371,7 @@ msgstr "Försöker att behålla minimum ledigt utrymme"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Försöker behålla minst {perc} fria inoder"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Nu"
 
@@ -598,7 +598,7 @@ msgstr "Rapportera ett fel"
 msgid "Translation"
 msgstr "Översättningar"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Om"
 
@@ -821,44 +821,34 @@ msgid ""
 msgstr ""
 "VARNING: Att ta bort filer i root filsystemet kan bryta hela ditt system!!!"
 
-#: qt/app.py:1618
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "Visa det aktuella diskinnehållet"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 #, fuzzy
 msgid "Snapshot"
 msgstr "Ögonblicksbilder"
 
-#: qt/app.py:1626
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Visa ögonblicksbilden skapad {timestamp}"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "Återskapa {path}"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Återskapa {path} till…"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Utvecklare"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Översättningar"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Licens"
 
@@ -2006,6 +1996,14 @@ msgstr "Exkludera \"{path}\" från framtida ögonblicksbilder?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Ögonblicksbild: %s"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "Visa det aktuella diskinnehållet"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Visa ögonblicksbilden skapad {timestamp}"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "MED FEL!"

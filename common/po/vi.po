@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
@@ -353,7 +353,7 @@ msgstr "Đang cố gắng giữ dung lượng trống tối thiểu"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Đang cố gắng giữ tổi thiểu {perc} inode trống"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Vừa mới đây"
 
@@ -572,7 +572,7 @@ msgstr "Báo lỗi"
 msgid "Translation"
 msgstr "Phiên dịch"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Giới thiệu"
 
@@ -783,43 +783,33 @@ msgstr ""
 "CẢNH BÁO: xóa các tập tin trong thư mục root của hệ thống tập tin có thể làm"
 " hỏng hệ thống của bạn!!!"
 
-#: qt/app.py:1618
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "Xem nội dung của ổ cứng hiện tại"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: qt/app.py:1626
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Xem bản snapshot được tạo ra tại {timestamp}"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "Khôi phục {path}"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Khôi phục {path} đến …"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Tác giả"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Phiên dịch"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Giấy phép"
 
@@ -1779,6 +1769,14 @@ msgstr "Loại trừ “{path}” ra khỏi các snapshot trong tương lai?"
 
 #~ msgid "Settings"
 #~ msgstr "Cài đặt"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "Xem nội dung của ổ cứng hiện tại"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Xem bản snapshot được tạo ra tại {timestamp}"
 
 #~ msgid "Working..."
 #~ msgstr "Đang chạy..."

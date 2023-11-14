@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -350,7 +350,7 @@ msgstr "최소 여유 공간을 유지합니다"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "최소 {perc} 의 여유 공간을 유지합니다"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "현재"
 
@@ -569,7 +569,7 @@ msgstr "버그 리포트"
 msgid "Translation"
 msgstr "번역"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "정보"
 
@@ -766,43 +766,33 @@ msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr "경고: 루트파일시스템의 파일을 삭제하면 전체 시스템이 망가집니다!!!"
 
-#: qt/app.py:1618
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "현재 디스크의 내용을 봅니다"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "스냅샷"
 
-#: qt/app.py:1626
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "{timestamp}에 만들어진 스냅샷을 확인하세요"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} 복원"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "\"{path}\"를 다음 위치에 복원 …"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "저자"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "번역"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "라이센스"
 
@@ -1771,6 +1761,14 @@ msgstr "다음 스냅샷부터 \"{path}\"를 제외하시겠습니까?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "스냅샷: %s"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "현재 디스크의 내용을 봅니다"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "{timestamp}에 만들어진 스냅샷을 확인하세요"
 
 #~ msgid "Working..."
 #~ msgstr "동작 중..."

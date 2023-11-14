@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-10-16 18:53+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
@@ -349,7 +349,7 @@ msgstr "最小限のフリースペースの確保を試みる"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "最小限の{perc}フリースイノードの確保を試みる"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "現在"
 
@@ -562,7 +562,7 @@ msgstr "バグを報告する"
 msgid "Translation"
 msgstr "翻訳"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "情報"
 
@@ -764,43 +764,33 @@ msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr "警告: ルートディレクトリにあるファイルを削除するとシステムが作動しなくなる可能性があります!!!"
 
-#: qt/app.py:1618
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "現在のディスクの内容を閲覧"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "スナップショット"
 
-#: qt/app.py:1626
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "{timestamp} に作成されたスナップショットを閲覧"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} を復元"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} を … に復元"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "著作者"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "翻訳"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "ライセンス"
 
@@ -1725,6 +1715,14 @@ msgstr ""
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "スナップショット：%s"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "現在のディスクの内容を閲覧"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "{timestamp} に作成されたスナップショットを閲覧"
 
 #~ msgid "Working..."
 #~ msgstr "作業中..."

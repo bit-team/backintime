@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-11-13 00:13+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
@@ -357,7 +357,7 @@ msgstr "Das Minimum an freiem Speicher wird freigehalten"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Es wird versucht mindestens {perc} freie Inodes zu behalten"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Jetzt"
 
@@ -570,7 +570,7 @@ msgstr "Fehlerbericht einsenden"
 msgid "Translation"
 msgstr "Übersetzung"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Über"
 
@@ -782,44 +782,35 @@ msgstr ""
 "WARNUNG: Das Löschen von Dateien im Wurzelverzeichnis kann das komplette "
 "System zerstören!"
 
-#: qt/app.py:1618
-msgid "View the current disk contents"
-msgstr "Den aktuellen Festplatteninhalt anzeigen"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Schnappschuss"
 
-#: qt/app.py:1626
-#, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Den Schnappschuss vom {timestamp} anzeigen"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Stelle {path} wieder her"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Stelle {path} wieder her nach …"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Die Spracheinstellungen wirken erst, nach dem Back In Time erneut gestartet "
 "wurde."
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Autoren"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Übersetzungen"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Lizenz"
 
@@ -1929,6 +1920,13 @@ msgstr "»{path}« von zukünftigen Schnappschüssen ausschließen?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Schnappschuss: %s"
+
+#~ msgid "View the current disk contents"
+#~ msgstr "Den aktuellen Festplatteninhalt anzeigen"
+
+#, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Den Schnappschuss vom {timestamp} anzeigen"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "MIT FEHLERN!"

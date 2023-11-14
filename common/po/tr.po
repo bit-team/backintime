@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
@@ -356,7 +356,7 @@ msgstr "En az boş alan korunmaya çalışılıyor"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "En az {perc} boş düğümü korumaya çalış"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Şimdi"
 
@@ -580,7 +580,7 @@ msgstr "Hata Bildir"
 msgid "Translation"
 msgstr "Çeviriler"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Hakkında"
 
@@ -794,43 +794,33 @@ msgid ""
 msgstr ""
 "UYARI: dosya sistemi kökündeki dosyaları silmek tüm sisteminizi bozabilir!!!"
 
-#: qt/app.py:1618
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "Şu andaki disk içeriğini görüntüle"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Anlık görüntü"
 
-#: qt/app.py:1626
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "{timestamp} oluşturulan anlık görüntüyü görüntüle"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} geri yükle"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} geri yükle, hedef …"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Yazanlar"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Çeviriler"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Lisans"
 
@@ -1879,6 +1869,14 @@ msgstr "\"{path}\" yolu gelecek anlık görüntülerden dışlansın mı?"
 
 #~ msgid "Settings"
 #~ msgstr "Ayarlar"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "Şu andaki disk içeriğini görüntüle"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "{timestamp} oluşturulan anlık görüntüyü görüntüle"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "HATALARLA!"

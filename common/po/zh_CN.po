@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 10:40+0100\n"
+"POT-Creation-Date: 2023-11-14 13:50+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
@@ -347,7 +347,7 @@ msgstr "尝试保留最小可用空间"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
-#: common/snapshots.py:2814 qt/app.py:1617
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "现在"
 
@@ -558,7 +558,7 @@ msgstr "报告 BUG"
 msgid "Translation"
 msgstr "翻译"
 
-#: qt/app.py:537 qt/app.py:1839
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "关于"
 
@@ -747,44 +747,34 @@ msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 
-#: qt/app.py:1618
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "查看当前磁盘内容"
-
-#: qt/app.py:1625
+#: qt/app.py:1623
 #, fuzzy
 msgid "Snapshot"
 msgstr "快照"
 
-#: qt/app.py:1626
-#, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "查看于 {timestamp} 创建的快照"
-
-#: qt/app.py:1665
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "还原 {path}"
 
-#: qt/app.py:1667
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "还原 {path} 至…"
 
-#: qt/app.py:1824
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1864 qt/app.py:1881
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "作者"
 
-#: qt/app.py:1865 qt/app.py:1884
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "翻译"
 
-#: qt/app.py:1866 qt/app.py:1887
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr ""
 
@@ -1796,6 +1786,14 @@ msgstr "在未来的快照中排除 \"{path}\"？"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "快照：%s"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "查看当前磁盘内容"
+
+#, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "查看于 {timestamp} 创建的快照"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "发生错误！"
