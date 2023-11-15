@@ -53,7 +53,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             '--disable=all'
         ]
 
-        # Explicite activate checks
+        # Explicit activate checks
         err_codes = [
             'E1101',  # no-member
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
