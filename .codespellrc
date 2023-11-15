@@ -16,6 +16,14 @@ ignore-words-list=master,whitelist,manuel,dum
 # Allowed (ignored) words in URLs and URIs
 uri-ignore-words-list=mitre
 
+# Good to know about allowed/ignored words:
+# Codespell acts a bit unusual when it comes to case-sensitivity.
+# By default the word "Manuel" is an error and codespell recommends to
+# modify it into "Manual". Tu allow this German name "Manuel" we have to
+# add "manual" (lower case!) to the "ignore-words-list". The upper-case
+# version do not work.
+# See: https://github.com/codespell-project/codespell/issues/3210
+
 # Simulate "# noqa" and ignore all lines with "# codespell-ignore" at the end.
 # Credits: https://github.com/codespell-project/codespell/issues/1212#issuecomment-1721152455
 ignore-regex=.*# codespell-ignore$
