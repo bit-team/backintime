@@ -493,7 +493,7 @@ class MainWindow(QMainWindow):
                 self.btnLastLogViewClicked, None,
                 None),
             'act_settings': (
-                icon.SETTINGS, '{}…'.format(_('Manage profiles')),
+                icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
             'act_shutdown': (
@@ -501,7 +501,7 @@ class MainWindow(QMainWindow):
                 None, None,
                 _('Shut down system after snapshot has finished.')),
             'act_setup_language': (
-                None, '{}…'.format(_('Setup language')),
+                None, _('Setup language…'),
                 self.slot_setup_language, None,
                 None),
             'act_quit': (
@@ -563,7 +563,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, '{}…'.format(_('Compare snapshots')),
+                icon.SNAPSHOTS, _('Compare snapshots…'),
                 self.btnSnapshotsClicked, None, None),
         }
 
@@ -1197,8 +1197,12 @@ class MainWindow(QMainWindow):
         if not items:
             return
 
-        question_msg = '{}:\n{}'.format(
-            _('Are you sure you want to remove the snapshot'),
+        question_msg = '{}\n{}'.format(
+            ngettext(
+                'Are you sure you want to remove this snapshot?',
+                'Are you sure you want to remove these snapshots?',
+                len(items)
+            ),
             '\n'.join([item.snapshotID().displayName for item in items]))
 
         if QMessageBox.Yes != messagebox.warningYesNo(self, question_msg):
@@ -1607,11 +1611,9 @@ files that the receiver requests to be transferred.""")
                     self.places.setCurrentItem(item)
                     break
 
-        tooltip = ''
         text = ''
         if self.sid.isRoot:
             text = _('Now')
-            tooltip = _('View the current disk contents')
         else:
             name = self.sid.displayName
             # buhtz (2023-07)3 blanks at the end of that string as a
@@ -1619,11 +1621,8 @@ files that the receiver requests to be transferred.""")
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
             text = '{}: {}   '.format(_('Snapshot'), name)
-            tooltip = _('View the snapshot made at {timestamp}') \
-                .format(timestamp=name)
 
         self.filesWidget.setTitle(text)
-        self.filesWidget.setToolTip(tooltip)
 
         # try to keep old selected file
         if selected_file is None:

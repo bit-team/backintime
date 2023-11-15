@@ -369,13 +369,13 @@ class SettingsDialog(QDialog):
                 'Every {n} minute', 'Every {n} minutes', 6).format(n=6),
             config.Config._12_HOURS: ngettext(
                 'Every {n} minute', 'Every {n} minutes', 12).format(n=12),
-            config.Config.CUSTOM_HOUR: _('Custom Hours'),
-            config.Config.DAY: _('Every Day'),
+            config.Config.CUSTOM_HOUR: _('Custom hours'),
+            config.Config.DAY: _('Every day'),
             config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
             config.Config.UDEV: _('When drive gets connected (udev)'),
-            config.Config.WEEK: _('Every Week'),
-            config.Config.MONTH: _('Every Month'),
-            config.Config.YEAR: _('Every Year')
+            config.Config.WEEK: _('Every week'),
+            config.Config.MONTH: _('Every month'),
+            config.Config.YEAR: _('Every year')
         }
 
         self.fillCombo(self.comboSchedule, schedule_modes_dict)
@@ -1413,9 +1413,9 @@ class SettingsDialog(QDialog):
             if not tools.checkCronPattern(self.txtScheduleCronPatern.text()):
 
                 self.errorHandler(
-                    _('Custom Hours can only be a comma separated list of '
+                    _('Custom hours can only be a comma separated list of '
                       'hours (e.g. 8,12,18,23) or */3 for periodic '
-                      'backups every 3 hours')
+                      'backups every 3 hours.')
                 )
 
                 return False

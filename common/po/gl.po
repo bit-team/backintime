@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-10 21:20+0100\n"
+"POT-Creation-Date: 2023-11-14 14:02+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
@@ -180,33 +180,33 @@ msgstr "O perfil «{name}» xa existe."
 msgid "The last profile cannot be removed."
 msgstr "Isto non se pode revogar."
 
-#: common/encfstools.py:87
+#: common/encfstools.py:92
 #, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "Non é posible montar «{command}»"
 
-#: common/encfstools.py:134
+#: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
 msgstr "Non se atopou a configuración do cartafol cifrado."
 
-#: common/encfstools.py:142
+#: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
 msgstr "Desexa crear un novo cartafol cifrado?"
 
-#: common/encfstools.py:146
+#: common/encfstools.py:151
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:156
 msgid "Please confirm password"
 msgstr "Confirme o contrasinal"
 
-#: common/encfstools.py:155
+#: common/encfstools.py:160
 #, fuzzy
 msgid "Password doesn't match."
 msgstr "O contrasinal non coincide."
 
-#: common/encfstools.py:173
+#: common/encfstools.py:178
 #, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
@@ -215,21 +215,21 @@ msgstr ""
 "A versión de encfs 1.7.2 e anteriores teñen un fallo coa opción --reverse. "
 "Actualice encfs."
 
-#: common/encfstools.py:511 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:910
 msgid "Take snapshot"
 msgstr "Facer copia"
 
-#: common/mount.py:600
+#: common/mount.py:608
 #, fuzzy, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Non é posíbel desmontar {mountprocess} de {mountpoint}."
 
-#: common/mount.py:687
+#: common/mount.py:695
 #, fuzzy
 msgid "{} not found. Please install e.g. {}"
 msgstr "Non foi posíbel atopar %(proc)s. Instalar p.e. %(install_command)s"
 
-#: common/mount.py:708
+#: common/mount.py:716
 #, fuzzy
 msgid "Mountpoint {} not empty."
 msgstr "o punto de montaxe %s non está libre."
@@ -360,77 +360,77 @@ msgstr "Tentar preservar o espazo libre mínimo"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentando manter un mínimo de {perc} inodos libres"
 
-#: common/snapshots.py:2814 qt/app.py:1613
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Agora"
 
-#: common/sshtools.py:204
+#: common/sshtools.py:215
 #, fuzzy, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Non é posible montar {sshfs}"
 
-#: common/sshtools.py:264
+#: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr ""
 
-#: common/sshtools.py:407
+#: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr "Non foi posible"
 
-#: common/sshtools.py:495
+#: common/sshtools.py:506
 #, fuzzy, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "Fallou o cifrado {cipher} para {host}."
 
-#: common/sshtools.py:642
+#: common/sshtools.py:653
 #, fuzzy
 msgid "Remote path exists but is not a directory."
 msgstr "A ruta remota existe pero non é un cartafol."
 
-#: common/sshtools.py:647
+#: common/sshtools.py:658
 #, fuzzy
 msgid "Remote path is not writable."
 msgstr "A ruta remota non permite a escritura."
 
-#: common/sshtools.py:652
+#: common/sshtools.py:663
 #, fuzzy
 msgid "Remote path is not executable."
 msgstr "A ruta remota non é executable."
 
-#: common/sshtools.py:657
+#: common/sshtools.py:668
 #, fuzzy
 msgid "Couldn't create remote path."
 msgstr "Non foi posible crear a ruta remota."
 
-#: common/sshtools.py:937
+#: common/sshtools.py:948
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "O servidor remoto {host} non permite utilizar {command}"
 
-#: common/sshtools.py:941 common/sshtools.py:950
+#: common/sshtools.py:952 common/sshtools.py:961
 #, fuzzy
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Mire 'man backintime' para máis instrucións"
 
-#: common/sshtools.py:945
+#: common/sshtools.py:956
 #, fuzzy, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "As ordes de comprobación no servidor {host} devolveron un erro descoñecido"
 
-#: common/sshtools.py:966
+#: common/sshtools.py:977
 #, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "O servidor remoto {host} non admite hardlinks"
 
-#: common/sshtools.py:1049
+#: common/sshtools.py:1060
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr "Copiar a chave ssh pública «{pubkey}» ao servidor remoto «{host}»"
 
-#: common/sshtools.py:1051
+#: common/sshtools.py:1062
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Introduza o contrasinal de «{user}»"
@@ -529,9 +529,9 @@ msgstr "Ver o rexistro de instantáneas"
 msgid "View last log"
 msgstr "Ver o último rexistro"
 
-#: qt/app.py:496 qt/settingsdialog.py:87
+#: qt/app.py:496
 #, fuzzy
-msgid "Manage profiles"
+msgid "Manage profiles…"
 msgstr "Perfil principal"
 
 #: qt/app.py:500
@@ -542,8 +542,8 @@ msgstr "Apagar"
 msgid "Shut down system after snapshot has finished."
 msgstr "Apagar o sistema ao rematar a instantánea."
 
-#: qt/app.py:504 qt/languagedialog.py:29
-msgid "Setup language"
+#: qt/app.py:504
+msgid "Setup language…"
 msgstr ""
 
 #: qt/app.py:508
@@ -563,7 +563,7 @@ msgstr "gardando o ficheiro de configuración"
 msgid "Website"
 msgstr "Sitio web"
 
-#: qt/app.py:522 qt/app.py:1257
+#: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
 msgstr "Rexistro de cambios"
 
@@ -584,7 +584,7 @@ msgstr "Informar dun erro"
 msgid "Translation"
 msgstr "Traducións"
 
-#: qt/app.py:537 qt/app.py:1835
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Sobre"
 
@@ -599,7 +599,7 @@ msgstr ""
 "Restabelecer os ficheiros ou cartafoles seleccionados no seu destino "
 "orixinal."
 
-#: qt/app.py:545 qt/app.py:1417 qt/app.py:1449 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
 msgstr "Restablecer como …"
@@ -632,7 +632,7 @@ msgstr "Mostrar os ficheiros ocultos"
 
 #: qt/app.py:566
 #, fuzzy
-msgid "Compare snapshots"
+msgid "Compare snapshots…"
 msgstr "Facer copia"
 
 #: qt/app.py:627
@@ -703,11 +703,14 @@ msgstr "Cartafoles para copiar"
 msgid "Snapshot Name"
 msgstr "Nome da instantánea"
 
-#: qt/app.py:1201
-msgid "Are you sure you want to remove the snapshot"
-msgstr "Confirma que quere eliminar a instantánea"
+#: qt/app.py:1202
+#, fuzzy
+msgid "Are you sure you want to remove this snapshot?"
+msgid_plural "Are you sure you want to remove these snapshots?"
+msgstr[0] "Confirma que quere eliminar a instantánea"
+msgstr[1] "Confirma que quere eliminar a instantánea"
 
-#: qt/app.py:1290
+#: qt/app.py:1294
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -716,7 +719,7 @@ msgstr ""
 "Crear copias de seguranza cun {suffix} ao final antes\n"
 "de substituír ou retirar ficheiros locais."
 
-#: qt/app.py:1296 qt/settingsdialog.py:774
+#: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -725,7 +728,7 @@ msgstr ""
 "As versións máis novas dos ficheiros renomearanse cun {suffix} antes da restauración.\n"
 "Se xa non os precisa pode eliminalos con {cmd}"
 
-#: qt/app.py:1310
+#: qt/app.py:1314
 #, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
@@ -736,12 +739,12 @@ msgstr ""
 "que sexan máis recentes que os do destino.\n"
 "Emprégase a opción «rsync --update»."
 
-#: qt/app.py:1343
+#: qt/app.py:1347
 #, fuzzy
 msgid "Remove newer elements in original folder."
 msgstr "Eliminar os ficheiros máis novos do cartafol orixe"
 
-#: qt/app.py:1344
+#: qt/app.py:1348
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
@@ -755,7 +758,7 @@ msgstr ""
 "Isto eliminará os ficheiros/cartafoles excluídos ao tirar a instantánea.\n"
 "Teña moito coidado!!!"
 
-#: qt/app.py:1357
+#: qt/app.py:1361
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -770,25 +773,25 @@ msgstr[1] ""
 "Confirma que quere restaurar o(s) ficheiro(s)\n"
 "no novo cartafol {path}"
 
-#: qt/app.py:1366
+#: qt/app.py:1370
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Confirma o restabelecemento deste(s) ficheiro(s)"
 msgstr[1] "Confirma o restabelecemento deste(s) ficheiro(s)"
 
-#: qt/app.py:1381
+#: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Confirma que desexa eliminar os ficheiros máis novos de {path}?"
 
-#: qt/app.py:1384
+#: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Seguro que desexa eliminar todos os ficheiros novos do cartafol orixinal?"
 
-#: qt/app.py:1389
+#: qt/app.py:1393
 #, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
@@ -796,45 +799,39 @@ msgstr ""
 "AVISO: a eliminación de ficheiros no sistema raíz pode estragar todo o "
 "sistema!!"
 
-#: qt/app.py:1614
-#, fuzzy
-msgid "View the current disk contents"
-msgstr "Ver o contido do disco actual"
-
-#: qt/app.py:1621
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Instantánea"
 
-#: qt/app.py:1622
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Ver a instantánea feita en {timestamp}"
-
-#: qt/app.py:1661
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurar {path}"
 
-#: qt/app.py:1663
+#: qt/app.py:1662
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restablecer {path} en…"
 
-#: qt/app.py:1820
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1860 qt/app.py:1877
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Autores"
 
-#: qt/app.py:1861 qt/app.py:1880
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Traducións"
 
-#: qt/app.py:1862 qt/app.py:1883
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Licenza"
+
+#: qt/languagedialog.py:29
+msgid "Setup language"
+msgstr ""
 
 #: qt/languagedialog.py:87
 #, fuzzy
@@ -983,6 +980,11 @@ msgstr "Última comprobación {time}"
 msgid "Show full Log"
 msgstr "Mostrar o rexistro completo"
 
+#: qt/settingsdialog.py:87
+#, fuzzy
+msgid "Manage profiles"
+msgstr "Perfil principal"
+
 #: qt/settingsdialog.py:104
 msgid "Edit"
 msgstr "Editar"
@@ -1112,11 +1114,13 @@ msgid "Every hour"
 msgstr "Cada hora"
 
 #: qt/settingsdialog.py:372
-msgid "Custom Hours"
+#, fuzzy
+msgid "Custom hours"
 msgstr "Horas personalizadas"
 
 #: qt/settingsdialog.py:373
-msgid "Every Day"
+#, fuzzy
+msgid "Every day"
 msgstr "Todos os días"
 
 #: qt/settingsdialog.py:374
@@ -1128,15 +1132,18 @@ msgid "When drive gets connected (udev)"
 msgstr "Cando a unidade se conecte (udev)"
 
 #: qt/settingsdialog.py:376
-msgid "Every Week"
+#, fuzzy
+msgid "Every week"
 msgstr "Todas as semanas"
 
 #: qt/settingsdialog.py:377
-msgid "Every Month"
+#, fuzzy
+msgid "Every month"
 msgstr "Todos os meses"
 
 #: qt/settingsdialog.py:378
-msgid "Every Year"
+#, fuzzy
+msgid "Every year"
 msgstr "Cada Ano"
 
 #: qt/settingsdialog.py:383
@@ -1531,9 +1538,10 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Está certo de eliminar o perfil \"{name}\" ?"
 
 #: qt/settingsdialog.py:1416
+#, fuzzy
 msgid ""
-"Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
-"or */3 for periodic backups every 3 hours"
+"Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
+"or */3 for periodic backups every 3 hours."
 msgstr ""
 "As horas personalizadas só poden ser unha lista de horas separadas por comas"
 " (p.e: 8,12,18,23) ou */3 para copias periódicas cada 3 horas"
@@ -1708,34 +1716,34 @@ msgstr "Ir a"
 msgid "Options"
 msgstr "&Opcións"
 
-#: qt/snapshotsdialog.py:328
+#: qt/snapshotsdialog.py:330
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
 msgstr "Non pode comparar unha instantánea con ela mesma."
 
-#: qt/snapshotsdialog.py:336
+#: qt/snapshotsdialog.py:338
 msgid "Command not found"
 msgstr "Non se atopou a orde"
 
-#: qt/snapshotsdialog.py:367
+#: qt/snapshotsdialog.py:369
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr "Confirma que desexa eliminar «{file}» na instantánea «{snapshot_id}»?"
 
-#: qt/snapshotsdialog.py:373
+#: qt/snapshotsdialog.py:375
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Confirma que desexa eliminar «{file}» de {count} instantáneas?"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
 msgstr "Isto non se pode revogar!"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "WARNING"
 msgstr "ADVERTENCIA"
 
-#: qt/snapshotsdialog.py:394
+#: qt/snapshotsdialog.py:396
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Excluír «{path}» de instantáneas futuras?"
@@ -1943,6 +1951,14 @@ msgstr "Excluír «{path}» de instantáneas futuras?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Copia de seguranza: %s"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "Ver o contido do disco actual"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Ver a instantánea feita en {timestamp}"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "HAI ERROS"
