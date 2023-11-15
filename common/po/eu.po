@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-10 21:20+0100\n"
+"POT-Creation-Date: 2023-11-14 14:02+0100\n"
 "PO-Revision-Date: 2023-09-26 10:59+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
@@ -178,32 +178,32 @@ msgstr "\"{name}\" profila badago honezkero."
 msgid "The last profile cannot be removed."
 msgstr "Ezin da azken profila kendu."
 
-#: common/encfstools.py:87
+#: common/encfstools.py:92
 #, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "'{command}' ezin da muntatu"
 
-#: common/encfstools.py:134
+#: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
 msgstr "Ez dira aurkitu zifratutako karpetaren ezarpenak."
 
-#: common/encfstools.py:142
+#: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
 msgstr "Sortu karpeta zifratu berri bat?"
 
-#: common/encfstools.py:146
+#: common/encfstools.py:151
 msgid "Cancel"
 msgstr "Utzi"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:156
 msgid "Please confirm password"
 msgstr "Egiaztatu pasahitza mesedez"
 
-#: common/encfstools.py:155
+#: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Pasahitzak ez datoz bat."
 
-#: common/encfstools.py:173
+#: common/encfstools.py:178
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
@@ -211,20 +211,20 @@ msgstr ""
 "encfs-ren 1.7.2 bertsioak eta honen aurrekoek badute akats bat --reverse "
 "aukeran. Eguneratu encfs."
 
-#: common/encfstools.py:511 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:910
 msgid "Take snapshot"
 msgstr "Egin babeskopia"
 
-#: common/mount.py:600
+#: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Ezin da {mountprocess} desmuntatu {mountpoint}-tik."
 
-#: common/mount.py:687
+#: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
 msgstr "{} ez da aurkitu. Mesedez instalatu adibidez {}"
 
-#: common/mount.py:708
+#: common/mount.py:716
 msgid "Mountpoint {} not empty."
 msgstr "{} muntatze-puntua ez dago hutsik."
 
@@ -358,20 +358,20 @@ msgstr "Saiatu espazio minimoa mantentzen"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Saiatu gutxienez {perc} nodo libre mantentzen"
 
-#: common/snapshots.py:2814 qt/app.py:1613
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Orain"
 
-#: common/sshtools.py:204
+#: common/sshtools.py:215
 #, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Ezin da {sshfs} muntatu"
 
-#: common/sshtools.py:264
+#: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr "ssh-agent ez da aurkitu. Ziurtatu instalatuta dagoela."
 
-#: common/sshtools.py:407
+#: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -379,53 +379,53 @@ msgstr ""
 "Ezin da SSH-ren gako pribatua desblokeatu. Okerreko pasahitza edo cron-"
 "entzat baliozkoa ez den pasahitza."
 
-#: common/sshtools.py:495
+#: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "{cipher} zifraketak huts egin du {host}rentzat."
 
-#: common/sshtools.py:642
+#: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
 msgstr "Urrutiko bide-izena badago baina ez da direktorio bat."
 
-#: common/sshtools.py:647
+#: common/sshtools.py:658
 msgid "Remote path is not writable."
 msgstr "Urrutiko bide-izenak ez dauka idazteko baimenik."
 
-#: common/sshtools.py:652
+#: common/sshtools.py:663
 msgid "Remote path is not executable."
 msgstr "Urrutiko bide-izena ez da exekutagarria."
 
-#: common/sshtools.py:657
+#: common/sshtools.py:668
 msgid "Couldn't create remote path."
 msgstr "Ezin da sortu urrutiko bide-izena."
 
-#: common/sshtools.py:937
+#: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Urruneko {host} ostalariak ez du {command} onartzen"
 
-#: common/sshtools.py:941 common/sshtools.py:950
+#: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Begiratu 'man backintime' azalpenak ikusteko"
 
-#: common/sshtools.py:945
+#: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "{host} ostalariaren egiaztatzeko komandoek errore ezezaguna itzuli dute"
 
-#: common/sshtools.py:966
+#: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "{host} urrutiko ostalariak ez ditu esteka gogorrak onartzen"
 
-#: common/sshtools.py:1049
+#: common/sshtools.py:1060
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr "Kopiatu \"{pubkey}\" ssh-gako publikoa \"{host}\" urrutiko ostalarira"
 
-#: common/sshtools.py:1051
+#: common/sshtools.py:1062
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Egiaztatu \"{user}\"-en pasahitza, mesedez"
@@ -515,8 +515,9 @@ msgstr "Ikusi babeskopiaren erregistroa"
 msgid "View last log"
 msgstr "Ikusi azken erregistroa"
 
-#: qt/app.py:496 qt/settingsdialog.py:87
-msgid "Manage profiles"
+#: qt/app.py:496
+#, fuzzy
+msgid "Manage profiles…"
 msgstr "Kudeatu profilak"
 
 #: qt/app.py:500
@@ -527,8 +528,9 @@ msgstr "Itzali"
 msgid "Shut down system after snapshot has finished."
 msgstr "Itzali sistema babeskopia bukatu ondoren."
 
-#: qt/app.py:504 qt/languagedialog.py:29
-msgid "Setup language"
+#: qt/app.py:504
+#, fuzzy
+msgid "Setup language…"
 msgstr "Konfiguratu hizkuntza"
 
 #: qt/app.py:508
@@ -547,7 +549,7 @@ msgstr "Profilen konfigurazio fitxategia"
 msgid "Website"
 msgstr "Webgunea"
 
-#: qt/app.py:522 qt/app.py:1257
+#: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
 msgstr "Aldaketen egunkaria"
 
@@ -567,7 +569,7 @@ msgstr "Akats baten berri eman"
 msgid "Translation"
 msgstr "Itzulpena"
 
-#: qt/app.py:537 qt/app.py:1835
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Honi buruz"
 
@@ -581,7 +583,7 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 "Leheneratu hautatutako fitxategiak eta karpetak jatorrizko kokalekura."
 
-#: qt/app.py:545 qt/app.py:1417 qt/app.py:1449 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "Leheneratu hona …"
 
@@ -612,7 +614,8 @@ msgid "Show hidden files"
 msgstr "Erakutsi ezkututko fitxategiak"
 
 #: qt/app.py:566
-msgid "Compare snapshots"
+#, fuzzy
+msgid "Compare snapshots…"
 msgstr "Konparatu babeskopiak"
 
 #: qt/app.py:627
@@ -683,11 +686,14 @@ msgstr "Babeskopia-karpetak"
 msgid "Snapshot Name"
 msgstr "Babeskopiaren izena"
 
-#: qt/app.py:1201
-msgid "Are you sure you want to remove the snapshot"
-msgstr "Seguru zaude babeskopia ezabatu nahi duzula"
+#: qt/app.py:1202
+#, fuzzy
+msgid "Are you sure you want to remove this snapshot?"
+msgid_plural "Are you sure you want to remove these snapshots?"
+msgstr[0] "Seguru zaude babeskopia ezabatu nahi duzula"
+msgstr[1] "Seguru zaude babeskopia ezabatu nahi duzula"
 
-#: qt/app.py:1290
+#: qt/app.py:1294
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -696,7 +702,7 @@ msgstr ""
 "Egin fitxategi lokalen babeskopia\n"
 "bukaerako '{suffix}'-en bidez gainidatzi edo ezabatu aurretik."
 
-#: qt/app.py:1296 qt/settingsdialog.py:774
+#: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -705,7 +711,7 @@ msgstr ""
 "Berriagoak diren fitxategiak berrizendatuko dira '{suffix}' kokapenarekin leheneratu baino lehen.\n"
 "Ez badituzu gehiago behar ezabatu ditzakezu '{cmd}'-rekin"
 
-#: qt/app.py:1310
+#: qt/app.py:1314
 #, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
@@ -716,12 +722,12 @@ msgstr ""
 "helburuko tokikoak baino berriagoak direnak.\n"
 "\"rsync --update\" aukera erabiltzen."
 
-#: qt/app.py:1343
+#: qt/app.py:1347
 #, fuzzy
 msgid "Remove newer elements in original folder."
 msgstr "Ezabatu jatorrizko karpetako fitxategirik berrienak"
 
-#: qt/app.py:1344
+#: qt/app.py:1348
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
@@ -735,7 +741,7 @@ msgstr ""
 "Honek babeskopia egitean baztertutako fitxategi/karpetak ezabatuko ditu!\n"
 "Argi ibili!!!"
 
-#: qt/app.py:1357
+#: qt/app.py:1361
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -750,72 +756,67 @@ msgstr[1] ""
 "Seguru zaude fitxategi hau(ek) leheneratu\n"
 "nahi d(it)uzula '{path}' karpetan"
 
-#: qt/app.py:1366
+#: qt/app.py:1370
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Ziur zaude fitxategi hori(ek) berreskuratu nahi d(it)uzula"
 msgstr[1] "Ziur zaude fitxategi hori(ek) berreskuratu nahi d(it)uzula"
 
-#: qt/app.py:1381
+#: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Ziur {path}-ko fitxategi berri guztiak kendu nahi dituzula?"
 
-#: qt/app.py:1384
+#: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Seguru zaude ezabatu nahi duzula jatorrizko karpetatik berriagoak diren "
 "fitxategi guztiak?"
 
-#: qt/app.py:1389
+#: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 "KONTUZ: fitxategi-sistemaren erroko fitxategiak ezabatzeak sistema osoa "
 "hondatu dezake!"
 
-#: qt/app.py:1614
-msgid "View the current disk contents"
-msgstr "Ikusi diskoaren uneko edukia"
-
-#: qt/app.py:1621
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Babeskopia"
 
-#: qt/app.py:1622
-#, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Ikusi {timestamp}-an egindako babeskopia"
-
-#: qt/app.py:1661
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Berreskuratu {path}"
 
-#: qt/app.py:1663
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Leheneratu {path} hona…"
 
-#: qt/app.py:1820
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Hizkuntza-ezarpenek Back In Time berrabiarazi ondoren bakarrik izango dute "
 "eragina."
 
-#: qt/app.py:1860 qt/app.py:1877
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Egileak"
 
-#: qt/app.py:1861 qt/app.py:1880
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Itzulpenak"
 
-#: qt/app.py:1862 qt/app.py:1883
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Lizentzia"
+
+#: qt/languagedialog.py:29
+msgid "Setup language"
+msgstr "Konfiguratu hizkuntza"
 
 #: qt/languagedialog.py:87
 msgid "System default"
@@ -959,6 +960,10 @@ msgstr "Azken kontrola {time}"
 msgid "Show full Log"
 msgstr "Erakutsi erregistro osoa"
 
+#: qt/settingsdialog.py:87
+msgid "Manage profiles"
+msgstr "Kudeatu profilak"
+
 #: qt/settingsdialog.py:104
 msgid "Edit"
 msgstr "Editatu"
@@ -1088,11 +1093,13 @@ msgid "Every hour"
 msgstr "Orduro"
 
 #: qt/settingsdialog.py:372
-msgid "Custom Hours"
+#, fuzzy
+msgid "Custom hours"
 msgstr "ordu pertsonalizatuetan"
 
 #: qt/settingsdialog.py:373
-msgid "Every Day"
+#, fuzzy
+msgid "Every day"
 msgstr "Egunero"
 
 #: qt/settingsdialog.py:374
@@ -1104,15 +1111,18 @@ msgid "When drive gets connected (udev)"
 msgstr "Unitatea konektatzean (udev)"
 
 #: qt/settingsdialog.py:376
-msgid "Every Week"
+#, fuzzy
+msgid "Every week"
 msgstr "Astero"
 
 #: qt/settingsdialog.py:377
-msgid "Every Month"
+#, fuzzy
+msgid "Every month"
 msgstr "Hilero"
 
 #: qt/settingsdialog.py:378
-msgid "Every Year"
+#, fuzzy
+msgid "Every year"
 msgstr "Urtero"
 
 #: qt/settingsdialog.py:383
@@ -1504,9 +1514,10 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Seguru zaude \"{name}\" profila ezabatu nahi duzula?"
 
 #: qt/settingsdialog.py:1416
+#, fuzzy
 msgid ""
-"Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
-"or */3 for periodic backups every 3 hours"
+"Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
+"or */3 for periodic backups every 3 hours."
 msgstr ""
 "Orduak pertsonalizatzeko komaz banatutako ordu-zerrenda erabili behar duzu "
 "(hala nola 8,12,18,23) edo */3 hiru ordutan behingo babeskopia egiteko"
@@ -1682,36 +1693,36 @@ msgstr "Joan hona"
 msgid "Options"
 msgstr "Aukera"
 
-#: qt/snapshotsdialog.py:328
+#: qt/snapshotsdialog.py:330
 msgid "You can't compare a snapshot to itself."
 msgstr "Ezin duzu alderatu babeskopia bat bere buruarekin."
 
-#: qt/snapshotsdialog.py:336
+#: qt/snapshotsdialog.py:338
 msgid "Command not found"
 msgstr "Ez da komandoa aurkitu"
 
-#: qt/snapshotsdialog.py:367
+#: qt/snapshotsdialog.py:369
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr ""
 "Ziur zaude \"{snapshot_id}\" babeskopiako \"{file}\" fitxategia ezabatu nahi"
 " duzula?"
 
-#: qt/snapshotsdialog.py:373
+#: qt/snapshotsdialog.py:375
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr ""
 "Ziur zaude {count} babeskopiako \"{file}\" fitxategia ezabatu nahi duzula?"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
 msgstr "Honek ez dauka atzera bueltarik!"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "WARNING"
 msgstr "ABISUA"
 
-#: qt/snapshotsdialog.py:394
+#: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Baztertu {path} hurrengo babeskopietan?"
@@ -1919,6 +1930,13 @@ msgstr "Baztertu {path} hurrengo babeskopietan?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Babeskopia: %s"
+
+#~ msgid "View the current disk contents"
+#~ msgstr "Ikusi diskoaren uneko edukia"
+
+#, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Ikusi {timestamp}-an egindako babeskopia"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "ERROREAK DAUDE!"
