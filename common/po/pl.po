@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-10 21:20+0100\n"
+"POT-Creation-Date: 2023-11-14 14:02+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
@@ -181,32 +181,32 @@ msgstr "Profil \"{name}\" już istnieje."
 msgid "The last profile cannot be removed."
 msgstr ""
 
-#: common/encfstools.py:87
+#: common/encfstools.py:92
 #, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "Nie można zamontować '{command}'"
 
-#: common/encfstools.py:134
+#: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
 msgstr "Nie znaleziono konfiguracji dla zaszyfrowanego katalogu."
 
-#: common/encfstools.py:142
+#: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
 msgstr "Czy stworzyć nowy zaszyfrowany katalog?"
 
-#: common/encfstools.py:146
+#: common/encfstools.py:151
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:156
 msgid "Please confirm password"
 msgstr "Potwierdź hasło"
 
-#: common/encfstools.py:155
+#: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Hasło nie pasuje."
 
-#: common/encfstools.py:173
+#: common/encfstools.py:178
 #, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
@@ -215,20 +215,20 @@ msgstr ""
 "encfs w wersji 1.7.2 i wcześniejsze miały bład z opcją --reverse. "
 "Zaktualizuj encfs."
 
-#: common/encfstools.py:511 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:910
 msgid "Take snapshot"
 msgstr "Utwórz migawkę"
 
-#: common/mount.py:600
+#: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr ""
 
-#: common/mount.py:687
+#: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
 msgstr ""
 
-#: common/mount.py:708
+#: common/mount.py:716
 msgid "Mountpoint {} not empty."
 msgstr "Punkt montowania {} nie jest pusty."
 
@@ -360,71 +360,71 @@ msgstr "Spróbuj utrzymać minimalną ilość wolnego miejsca"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Spróbuj utrzymać minimalną {perc} wolnych i-węzłów"
 
-#: common/snapshots.py:2814 qt/app.py:1613
+#: common/snapshots.py:2814 qt/app.py:1616
 msgid "Now"
 msgstr "Teraz"
 
-#: common/sshtools.py:204
+#: common/sshtools.py:215
 #, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Nie można zamontować {sshfs}"
 
-#: common/sshtools.py:264
+#: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr ""
 
-#: common/sshtools.py:407
+#: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
 
-#: common/sshtools.py:495
+#: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr ""
 
-#: common/sshtools.py:642
+#: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
 msgstr ""
 
-#: common/sshtools.py:647
+#: common/sshtools.py:658
 msgid "Remote path is not writable."
 msgstr ""
 
-#: common/sshtools.py:652
+#: common/sshtools.py:663
 msgid "Remote path is not executable."
 msgstr ""
 
-#: common/sshtools.py:657
+#: common/sshtools.py:668
 msgid "Couldn't create remote path."
 msgstr "Nie można utworzyć zdalnej ścieżki."
 
-#: common/sshtools.py:937
+#: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr ""
 
-#: common/sshtools.py:941 common/sshtools.py:950
+#: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: common/sshtools.py:945
+#: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 
-#: common/sshtools.py:966
+#: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr ""
 
-#: common/sshtools.py:1049
+#: common/sshtools.py:1060
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
-#: common/sshtools.py:1051
+#: common/sshtools.py:1062
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Wprowadź hasło dla \"{user}\""
@@ -513,8 +513,9 @@ msgstr "Zobacz dziennik migawki"
 msgid "View last log"
 msgstr "Podgląd ostatniego dziennika"
 
-#: qt/app.py:496 qt/settingsdialog.py:87
-msgid "Manage profiles"
+#: qt/app.py:496
+#, fuzzy
+msgid "Manage profiles…"
 msgstr "Zarządzaj profilami"
 
 #: qt/app.py:500
@@ -526,8 +527,9 @@ msgstr "Zamykanie"
 msgid "Shut down system after snapshot has finished."
 msgstr "Zamknij system po wykonaniu migawki."
 
-#: qt/app.py:504 qt/languagedialog.py:29
-msgid "Setup language"
+#: qt/app.py:504
+#, fuzzy
+msgid "Setup language…"
 msgstr "Ustaw język"
 
 #: qt/app.py:508
@@ -546,7 +548,7 @@ msgstr "Plik konfiguracyjny profili"
 msgid "Website"
 msgstr "Strona WWW"
 
-#: qt/app.py:522 qt/app.py:1257
+#: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
 msgstr "Lista zmian"
 
@@ -566,7 +568,7 @@ msgstr "Zgłoś błąd"
 msgid "Translation"
 msgstr "Tłumaczenie"
 
-#: qt/app.py:537 qt/app.py:1835
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "O programie"
 
@@ -579,7 +581,7 @@ msgstr "Przywróć"
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
-#: qt/app.py:545 qt/app.py:1417 qt/app.py:1449 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "Przywróć do…"
 
@@ -608,7 +610,8 @@ msgid "Show hidden files"
 msgstr "Pokaż ukryte pliki"
 
 #: qt/app.py:566
-msgid "Compare snapshots"
+#, fuzzy
+msgid "Compare snapshots…"
 msgstr "Porównaj migawki"
 
 #: qt/app.py:627
@@ -678,37 +681,40 @@ msgstr "Katalogi kopii zapasowej"
 msgid "Snapshot Name"
 msgstr "Nazwa migawki"
 
-#: qt/app.py:1201
+#: qt/app.py:1202
 #, fuzzy
-msgid "Are you sure you want to remove the snapshot"
-msgstr "Czy na pewno usunąć migawkę"
+msgid "Are you sure you want to remove this snapshot?"
+msgid_plural "Are you sure you want to remove these snapshots?"
+msgstr[0] "Czy na pewno usunąć migawkę"
+msgstr[1] "Czy na pewno usunąć migawkę"
+msgstr[2] "Czy na pewno usunąć migawkę"
 
-#: qt/app.py:1290
+#: qt/app.py:1294
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
 
-#: qt/app.py:1296 qt/settingsdialog.py:774
+#: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
-#: qt/app.py:1310
+#: qt/app.py:1314
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: qt/app.py:1343
+#: qt/app.py:1347
 msgid "Remove newer elements in original folder."
 msgstr ""
 
-#: qt/app.py:1344
+#: qt/app.py:1348
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -717,7 +723,7 @@ msgid ""
 "excluded during taking the snapshot."
 msgstr ""
 
-#: qt/app.py:1357
+#: qt/app.py:1361
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -729,7 +735,7 @@ msgstr[0] "Nie udało się wykonać migawki {snapshot_id}!!!"
 msgstr[1] "Nie udało się wykonać migawki {snapshot_id}!!!"
 msgstr[2] "Nie udało się wykonać migawki {snapshot_id}!!!"
 
-#: qt/app.py:1366
+#: qt/app.py:1370
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
@@ -737,59 +743,54 @@ msgstr[0] "Czy na pewno usunąć migawkę"
 msgstr[1] "Czy na pewno usunąć migawkę"
 msgstr[2] "Czy na pewno usunąć migawkę"
 
-#: qt/app.py:1381
+#: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 
-#: qt/app.py:1384
+#: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: qt/app.py:1389
+#: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 
-#: qt/app.py:1614
-msgid "View the current disk contents"
-msgstr "Pokaż obecną zawartość dysku"
-
-#: qt/app.py:1621
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Migawka"
 
-#: qt/app.py:1622
-#, fuzzy, python-brace-format
-msgid "View the snapshot made at {timestamp}"
-msgstr "Zobacz migawkę wykonaną {timestamp}"
-
-#: qt/app.py:1661
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Przywróć {path}"
 
-#: qt/app.py:1663
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Przywróć {path} do…"
 
-#: qt/app.py:1820
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1860 qt/app.py:1877
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Autorzy"
 
-#: qt/app.py:1861 qt/app.py:1880
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Tłumaczenia"
 
-#: qt/app.py:1862 qt/app.py:1883
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Licencja"
+
+#: qt/languagedialog.py:29
+msgid "Setup language"
+msgstr "Ustaw język"
 
 #: qt/languagedialog.py:87
 msgid "System default"
@@ -933,6 +934,10 @@ msgstr "Ostatnie sprawdzenie {time}"
 msgid "Show full Log"
 msgstr "Pokaż pełny dziennik"
 
+#: qt/settingsdialog.py:87
+msgid "Manage profiles"
+msgstr "Zarządzaj profilami"
+
 #: qt/settingsdialog.py:104
 msgid "Edit"
 msgstr "Edycja"
@@ -1054,11 +1059,13 @@ msgid "Every hour"
 msgstr "Co godzinę"
 
 #: qt/settingsdialog.py:372
-msgid "Custom Hours"
+#, fuzzy
+msgid "Custom hours"
 msgstr "Własny harmonogram"
 
 #: qt/settingsdialog.py:373
-msgid "Every Day"
+#, fuzzy
+msgid "Every day"
 msgstr "Codziennie"
 
 #: qt/settingsdialog.py:374
@@ -1070,15 +1077,18 @@ msgid "When drive gets connected (udev)"
 msgstr "Po podłączeniu dysku (udev)"
 
 #: qt/settingsdialog.py:376
-msgid "Every Week"
+#, fuzzy
+msgid "Every week"
 msgstr "Co tydzień"
 
 #: qt/settingsdialog.py:377
-msgid "Every Month"
+#, fuzzy
+msgid "Every month"
 msgstr "Co miesiąc"
 
 #: qt/settingsdialog.py:378
-msgid "Every Year"
+#, fuzzy
+msgid "Every year"
 msgstr "Co rok"
 
 #: qt/settingsdialog.py:383
@@ -1449,8 +1459,8 @@ msgstr "Na pewno usunąć profil \"{name}\"?"
 
 #: qt/settingsdialog.py:1416
 msgid ""
-"Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
-"or */3 for periodic backups every 3 hours"
+"Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
+"or */3 for periodic backups every 3 hours."
 msgstr ""
 
 #: qt/settingsdialog.py:1458
@@ -1607,34 +1617,34 @@ msgstr "Idź do"
 msgid "Options"
 msgstr "Opcje"
 
-#: qt/snapshotsdialog.py:328
+#: qt/snapshotsdialog.py:330
 #, fuzzy
 msgid "You can't compare a snapshot to itself."
 msgstr "Nie możesz porównywać migawki samej ze sobą."
 
-#: qt/snapshotsdialog.py:336
+#: qt/snapshotsdialog.py:338
 msgid "Command not found"
 msgstr "Nie znaleziono polecenia"
 
-#: qt/snapshotsdialog.py:367
+#: qt/snapshotsdialog.py:369
 #, fuzzy, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr "Nie udało się wykonać migawki {snapshot_id}!!!"
 
-#: qt/snapshotsdialog.py:373
+#: qt/snapshotsdialog.py:375
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr ""
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
 msgstr "Nie można tego cofnąć!"
 
-#: qt/snapshotsdialog.py:378
+#: qt/snapshotsdialog.py:380
 msgid "WARNING"
 msgstr "OSTRZEŻENIE"
 
-#: qt/snapshotsdialog.py:394
+#: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Wykluczyć {path} z przyszłych migawek?"
@@ -1770,6 +1780,13 @@ msgstr "Wykluczyć {path} z przyszłych migawek?"
 #, python-format
 #~ msgid "Snapshot: %s"
 #~ msgstr "Migawka: %s"
+
+#~ msgid "View the current disk contents"
+#~ msgstr "Pokaż obecną zawartość dysku"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Zobacz migawkę wykonaną {timestamp}"
 
 #~ msgid "WITH ERRORS !"
 #~ msgstr "Z BŁĘDAMI!"
