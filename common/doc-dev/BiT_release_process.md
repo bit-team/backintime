@@ -14,8 +14,8 @@ using a "feature" branch and sending a pull request asking for a review.
 ## Preconditions for a new release
 
 - Developers agreed on the new version number.
-- Most-recent translations were merged into `dev` branch. See [localization docu](2_localization.md).
-- Full CI build pipeline matrix is activate (see #1529).
+- Most-recent translations were merged into `dev` branch. See the [localization docu](2_localization.md).
+- Full CI build pipeline matrix is activate (see [#1529](https://github.com/bit-team/backintime/issues/1529)).
 - `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released".
 
 
@@ -80,7 +80,7 @@ When the PR is merged:
   ```
 
 - Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
-  may be found only (too late) at run-time, eg. object name typos (see eg. #1553).
+  may be found only (too late) at run-time, eg. object name typos (see e.g. [#1553](https://github.com/bit-team/backintime/issues/1553)).
 
 - Update the `CHANGES` text file in the project's root folder:
 
@@ -159,7 +159,7 @@ When the PR is merged:
   make
   ```
 
-- Exectute [`codespell`](https://pypi.org/project/codespell) in the repositories root folder to check for common spelling errors.
+- Execute [`codespell`](https://pypi.org/project/codespell) in the repositories root folder to check for common spelling errors.
 
 - Do a manual smoke and UAT ("user acceptance test") of the GUI.
 
