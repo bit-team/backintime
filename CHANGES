@@ -1,13 +1,15 @@
 Back In Time
 
 Version 1.4.2-dev (development of upcoming release)
-* Fix bug: RTE: module 'qttools' has no attribute 'initate_translator' with encFS when prompting the user for a password (#1553)
+* Fix bug: RTE: module 'qttools' has no attribute 'initate_translator' with encFS when prompting the user for a password (#1553).
 * Fix bug: Schedule dropdown menu used "minutes" instead of "hours".
 * Build: Use PyLint in unit testing to catch E1101 (no-member) errors.
+* Build: Activate PyLint warning W1401 (anomalous-backslash-in-string).
+* Build: Add codespell config.
 * Translation: Minor modifications in source strings and updating language files.
 
 Version 1.4.1 (2023-10-01)
-* Dependency: Add "qt translations" to GUI runtime dependencies (#1538)
+* Dependency: Add "qt translations" to GUI runtime dependencies (#1538).
 * Build: Unit tests do generically ignore all instead of well-known warnings now (#1539).
 * Build: Warnings about missing Qt translation now are ignored while testing (#1537).
 * Fix bug: GUI didn't start when "show hidden files" button was on (#1535).
@@ -114,7 +116,7 @@ Version 1.2.0 (2019-04-27)
 * Fix bug: 23:00 is missing in the list of every day hours (https://github.com/bit-team/backintime/issues/736)
 * Fix bug: ssh-agent output changed (https://github.com/bit-team/backintime/issues/840)
 * remove unused and undocumented userscript plugin
-* Fix bug: exception on making backintime folder world writeable (https://github.com/bit-team/backintime/issues/812)
+* Fix bug: exception on making backintime folder world writable (https://github.com/bit-team/backintime/issues/812)
 * Fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/733)
 * add contextmenu for logview dialog which can copy, exclude and decode lines
 * move progressbar under statusbar
@@ -251,7 +253,7 @@ Version 1.1.10 (2016-01-09)
 * Fix bug: FileNotFoundError while starting pw-cache from source
 * continue an unfinished new_snapshot if possible (https://github.com/bit-team/backintime/issues/400)
 * Fix bug: suppress warning about failed inhibit suspend if run as root (https://github.com/bit-team/backintime/issues/500)
-* Fix bug: UI blocked/greyed out while removing snapshot (https://github.com/bit-team/backintime/issues/487)
+* Fix bug: UI blocked/grayed out while removing snapshot (https://github.com/bit-team/backintime/issues/487)
 * Fix bug: pw-cache failed on leftover PID file, using ApplicationInstance now (https://github.com/bit-team/backintime/issues/468)
 * Fix bug: failed to parse some arguments (https://github.com/bit-team/backintime/issues/492)
 * Fix bug: failed to start GUI if launched from systray icon
@@ -269,7 +271,7 @@ Version 1.1.8 (2015-09-28)
 * show current app name and profile ID in syslog (https://launchpad.net/bugs/906213)
 * Fix bug: BiT freeze when activate 'Decode path' in 'Snapshot Log View'
 * Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https://launchpad.net/bugs/1478219)
-* Fix bug: empty grey window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
+* Fix bug: empty gray window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
 * do not restore permission if they are identical with current permissions
 * Fix bug: gnu_find_suffix_support doesn't set back to True (https://launchpad.net/bugs/1487781)
 * security issue: do not run user-callback in a shell
@@ -336,7 +338,7 @@ Version 1.1.4 (2015-03-22)
 * Fix bug: OSError in free_space; add alternate method to get free space
 * add bash-completion
 * Fix bug: ugly theme while running as root on Gnome based DEs (https://launchpad.net/bugs/1418447)
-* Fix bug: filename with broken charset throwed UnicodeError exception (https://launchpad.net/bugs/1419694)
+* Fix bug: UnicodeError thrown if filename has broken charset (https://launchpad.net/bugs/1419694)
 * use 'crontab' instead of 'crontab -' to read from stdin (https://launchpad.net/bugs/1419466)
 
 Version 1.1.2 (2015-02-04)
