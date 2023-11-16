@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 14:02+0100\n"
+"POT-Creation-Date: 2023-11-15 10:12+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -1077,8 +1077,6 @@ msgid "At every boot/reboot"
 msgstr "Minden (újra)indításkor"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
-#: qt/settingsdialog.py:371
 #, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1088,6 +1086,14 @@ msgstr[1] "{n} percenként"
 #: qt/settingsdialog.py:363
 msgid "Every hour"
 msgstr "Óránként"
+
+#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
+#: qt/settingsdialog.py:371
+#, fuzzy, python-brace-format
+msgid "Every {n} hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "{n} óránként"
+msgstr[1] "{n} óránként"
 
 #: qt/settingsdialog.py:372
 #, fuzzy
@@ -1806,10 +1812,6 @@ msgstr "Kizárjam a \"{path}\"-t a jövőbeli pillanatképekből?"
 
 #~ msgid "Every 6 hours"
 #~ msgstr "Hatóránként"
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "{n} óránként"
 
 #, python-format
 #~ msgid ""

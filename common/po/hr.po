@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 14:02+0100\n"
+"POT-Creation-Date: 2023-11-15 10:12+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Croatian <https://translate.codeberg.org/projects/backintime/common/hr/>\n"
@@ -1044,8 +1044,6 @@ msgid "At every boot/reboot"
 msgstr "Pri svakom paljenju/podizanju"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
-#: qt/settingsdialog.py:371
 #, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1056,6 +1054,15 @@ msgstr[2] "Svakih {n} minuta"
 #: qt/settingsdialog.py:363
 msgid "Every hour"
 msgstr ""
+
+#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
+#: qt/settingsdialog.py:371
+#, fuzzy, python-brace-format
+msgid "Every {n} hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "Svakih {n} sati"
+msgstr[1] "Svakih {n} sati"
+msgstr[2] "Svakih {n} sati"
 
 #: qt/settingsdialog.py:372
 msgid "Custom hours"
@@ -1679,10 +1686,6 @@ msgstr ""
 
 #~ msgid "Every 5 minutes"
 #~ msgstr "Svakih 5 minuta"
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Svakih {n} sati"
 
 #~ msgid "List only different snapshots"
 #~ msgstr "Prikaži samo različite snimke"
