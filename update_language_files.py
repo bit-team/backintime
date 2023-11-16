@@ -241,7 +241,7 @@ def create_languages_file():
 
 
 def create_language_names_dict(language_codes: list) -> dict:
-    """Create dict of language names in different flavours.
+    """Create dict of language names in different flavors.
     The dict is used in the LanguageDialog to display the name of
     each language in the UI's current language and the language's own native
     representation.

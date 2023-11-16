@@ -23,7 +23,7 @@ The file `common/config.py` is parsed for variable names, default values and
 other information. The founder of that script @Germar gave a detailed
 description about that script in #1354.
 
-The script reads every line and tries to analyse it:
+The script reads every line and tries to analyze it:
   - It searches for `DEFAULT` and puts those into a `dict` for later replacing
     the variable with the value.
   - If that didn't match it will look for lines starting with `#?` which is

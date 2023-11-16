@@ -217,7 +217,7 @@ def get_available_language_codes():
 
 
 def get_language_names(language_code):
-    """Return a list with language names in three different flavours.
+    """Return a list with language names in three different flavors.
 
     Language codes from `get_available_language_codes()` are combined with
     `languages.language_names` to prepare the list.
@@ -264,7 +264,7 @@ def get_language_names(language_code):
 
 
 def get_native_language_and_completeness(language_code):
-    """Return the language name in its native flavour and the completeness of
+    """Return the language name in its native flavor and the completeness of
     its translation in percent.
 
     Args:

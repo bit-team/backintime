@@ -13,34 +13,34 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## Preconditions for a new release
 
-- Developers agreed on the new version number
-- Most-recent translations were merged into `dev` branch
-- `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released"
-- Full CI build pipeline matrix was activated, see:
-  https://github.com/bit-team/backintime/pull/1529
+- Developers agreed on the new version number.
+- Most-recent translations were merged into `dev` branch. See the [localization docu](2_localization.md).
+- Full CI build pipeline matrix is activate (see [#1529](https://github.com/bit-team/backintime/issues/1529)).
+- `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released".
 
 
 ## TLDR ;-)
 
-- Create a new branch in your clone for the new release candidate
-- Update `VERSION` file
-- Update `CHANGES` file
-- Execute the script `./updateversion.sh`
+- Create a new branch in your clone for the new release candidate.
+- Update `VERSION` file.
+- Update `CHANGES` file.
+- Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
 - Update the "as at" date in the man page files `backintime.1` and `backintime-askpass.1`.
 - Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
-- Update `README.md` file
-- Commit
-- Open a new pull request (PR)
+- Update `README.md` file.
+- Run `codespell` to check for common spelling errors.
+- Commit the changes.
+- Open a new pull request (PR) for review by other developers.
 
 When the PR is merged:
-- Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`
-- Create a new release in Github (attaching above tar archive)
-- Update `VERSION` and `CHANGES` for the `dev` branch
+- Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`.
+- Create a new release in Github (attaching above tar archive).
+- Update `VERSION` and `CHANGES` for the `dev` branch.
 
 
 ## Step by step
 
-- Announce code freeze on `dev` branch to all active developers via email
+- Announce code freeze on `dev` branch to all active developers via email.
 
 - Check that Travis CI did successfully build the latest `dev` branch commit:
  
@@ -80,7 +80,7 @@ When the PR is merged:
   ```
 
 - Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
-  may be found only (too late) at run-time, eg. object name typos (see eg. #1553).
+  may be found only (too late) at run-time, eg. object name typos (see e.g. [#1553](https://github.com/bit-team/backintime/issues/1553)).
 
 - Update the `CHANGES` text file in the project's root folder:
 
@@ -106,7 +106,7 @@ When the PR is merged:
 - Execute the script `./updateversion.sh` in the project's root folder
   to automatically update the version number in multiple files
   using the version number from the `VERSION` file
-  (so you do not forget to update one file ;-)
+  (so you do not forget to update one file ;-).
 
   - BiT CLI config in `common/config.py`
   - Sphinx config in `common/doc-dev/conf.py`
@@ -114,7 +114,7 @@ When the PR is merged:
   - changelog to build a debian package in `debian/changelog`
     (this will be deprecated once we give up or separate the packaging for distros)
 
-- Check that the version numbers have been update by opening some of the above files
+- Check that the version numbers have been update by opening some of the above files.
 
 - Update the "as at" date in the man page files (in `common/man/C/backintime*.1` and `qt/man/C/backintime*.1`) manually by changing
   the month and year in the first line that looks like this:
@@ -159,19 +159,21 @@ When the PR is merged:
   make
   ```
 
-- Do a manual smoke and UAT ("user acceptance test") of the GUI
+- Execute [`codespell`](https://pypi.org/project/codespell) in the repositories root folder to check for common spelling errors.
+
+- Do a manual smoke and UAT ("user acceptance test") of the GUI.
 
 - If you find bugs:
 
-  - Open an issue
-  - Decide if you want to fix this in the release candidate
-  - If you fix it in the release candidate: Update the CHANGES file (add the issue number + description)
+  - Open an issue.
+  - Decide if you want to fix this in the release candidate.
+  - If you fix it in the release candidate: Update the CHANGES file (add the issue number + description).
   - If you don't fix it (eg. too risky) and it is a HIGH bug:
     - Add the bug to the [Known Problems and Workarounds](https://github.com/bit-team/backintime#known-problems-and-workarounds)
       section of `README.md` (of the release candidate branch) and describe
-      a workaround (if any)
+      a workaround (if any).
 
-- Commit and push, if no "show-stopping" bug exists
+- Commit and push, if no "show-stopping" bug exists.
 
   Note: To push your release candidate branch into a new remote branch use:
   ```
@@ -180,21 +182,21 @@ When the PR is merged:
 
 - Open a new pull request for your pushed release candidate branch:
 
-  - Add all developers as reviewers
+  - Add all developers as reviewers.
   - Mention bugs (and status) discovered during preparation of the release candidate
-    in the description
+    in the description.
 
-- Fix review findings and push the changes again to update the pull request
+- Fix review findings and push the changes again to update the pull request.
 
-- Finally check the Travis CI status of the pull request (everything must be green)
+- Finally check the Travis CI status of the pull request (everything must be green).
 
 - Once all the PR reviewer approved the PR do a squash-merge (= all changes are "squashed" into one commit)
   into the `dev` branch using a commit message like
 
-  `Release candidate for v1.4.1 (Oct. 1, 2023) `
+  `Release candidate for v1.4.1 (Oct. 1, 2023)`
 
 - Wait for the final Travis CI build on the `dev` branch and check
-  if everything is OK to proceed with the release
+  if everything is OK to proceed with the release.
 
 - Create the tarball archive files to be attached as "binaries" to the release:
   - Update the `dev` branch
@@ -280,12 +282,7 @@ When the PR is merged:
 
 ### "Read the docs" code documentation
 
-The "Read the docs" site is automatically updated with every commit on the `dev` branch:
-
-https://github.com/bit-team/backintime/pull/1533#issuecomment-1720897669
-
-https://readthedocs.org/projects/backintime-dev/
-
+The "Read the docs" site is automatically updated with every commit on the `dev` branch. See [Issue #1533](https://github.com/bit-team/backintime/pull/1533#issuecomment-1720897669) and the [_backintime-dev_ project](https://readthedocs.org/projects/backintime-dev) at Read the docs.
 
 
 ### Building `deb` package files
@@ -294,3 +291,5 @@ We do no longer maintain and publish `deb` package files.
 To build your own `deb` file see:
 
 https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md#build-own-deb-file
+
+<sub>November 2023</sub>

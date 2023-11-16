@@ -29,11 +29,11 @@ import logger
 from exceptions import StopException
 
 class Plugin:
-    """ Interface methods to customize behaviour for different backup steps
+    """ Interface methods to customize behavior for different backup steps
 
     Back In Time allows to inform plugins (implemented in Python
     files) about different steps ("events") in the backup process.
-    Plugins may implement special behaviour to predefined
+    Plugins may implement special behavior to predefined
     "events" that are declared in this interface class
     as methods.
 

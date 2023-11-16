@@ -60,11 +60,7 @@ project = 'BackInTime'
 copyright = '2016, Germar Reitze'
 author = 'Germar Reitze'
 
-# The version info for the project you're documenting, acts as replacement for
-# |version| and |release|, also used in various other places throughout the
-# built documents.
-#
-# The short X.Y version.
+# Don't edit this variable. It is updated automatically by "updateversion.sh".
 version = '1.4.2-dev'
 # The full version, including alpha/beta/rc tags.
 release = version  # '1.3.3-dev'

@@ -1609,7 +1609,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if not self.SYSTEM_ENTRY_MESSAGE in crontab:
             #Then the system entry message has not yet been used in this crontab
             #therefore we assume all entries are system entries and clear them all.
-            #This is the old behaviour
+            #This is the old behavior
             logger.debug("Clearing all Back In Time entries", self)
             return [x for x in crontab if not 'backintime' in x]
         else:

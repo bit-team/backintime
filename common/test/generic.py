@@ -43,7 +43,7 @@ import snapshots
 tools.registerBackintimePath('qt', 'plugins')
 
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
-# A simple (local) RSA keypair via "ssh-keygen" and activate it
+# A simple (local) RSA key pair via "ssh-keygen" and activate it
 # via "ssh-copy-id localhost".
 PRIV_KEY_FILE = pathlib.Path.home() / '.ssh' / 'id_rsa'
 PUBLIC_KEY_FILE = PRIV_KEY_FILE.with_suffix('.pub')
