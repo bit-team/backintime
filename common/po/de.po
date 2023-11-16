@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 14:02+0100\n"
-"PO-Revision-Date: 2023-11-13 00:13+0000\n"
+"POT-Creation-Date: 2023-11-15 10:12+0100\n"
+"PO-Revision-Date: 2023-11-15 09:11+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -519,9 +519,8 @@ msgid "View last log"
 msgstr "Letztes Protokoll ansehen"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Profile verwalten"
+msgstr "Profile verwalten…"
 
 #: qt/app.py:500
 msgid "Shutdown"
@@ -532,9 +531,8 @@ msgid "Shut down system after snapshot has finished."
 msgstr "Rechner herunterfahren, nachdem der Schnappschuss erstellt wurde."
 
 #: qt/app.py:504
-#, fuzzy
 msgid "Setup language…"
-msgstr "Sprache einstellen"
+msgstr "Sprache einstellen…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -619,9 +617,8 @@ msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
 #: qt/app.py:566
-#, fuzzy
 msgid "Compare snapshots…"
-msgstr "Schnappschüsse vergleichen"
+msgstr "Schnappschüsse vergleichen…"
 
 #: qt/app.py:627
 msgid "&Backup"
@@ -692,11 +689,10 @@ msgid "Snapshot Name"
 msgstr "Schnappschussname"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Sind Sie sicher, dass Sie den Schnappschuss löschen wollen"
-msgstr[1] "Sind Sie sicher, dass Sie den Schnappschuss löschen wollen"
+msgstr[0] "Sind Sie sicher, dass Sie den Schnappschuss löschen wollen?"
+msgstr[1] "Sind Sie sicher, dass Sie diese Schnappschüsse löschen wollen?"
 
 #: qt/app.py:1294
 #, python-brace-format
@@ -1085,8 +1081,6 @@ msgid "At every boot/reboot"
 msgstr "Bei jedem Hochfahren/Neustart"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
-#: qt/settingsdialog.py:371
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1097,8 +1091,15 @@ msgstr[1] "Alle {n} Minuten"
 msgid "Every hour"
 msgstr "Jede Stunde"
 
+#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
+#: qt/settingsdialog.py:371
+#, fuzzy, python-brace-format
+msgid "Every {n} hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "Alle {n} Stunden"
+msgstr[1] "Alle {n} Stunden"
+
 #: qt/settingsdialog.py:372
-#, fuzzy
 msgid "Custom hours"
 msgstr "Benutzerdefinierte Stunden"
 
@@ -1839,10 +1840,6 @@ msgstr "»{path}« von zukünftigen Schnappschüssen ausschließen?"
 
 #~ msgid "Every 6 hours"
 #~ msgstr "Alle 6 Stunden"
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Alle {n} Stunden"
 
 #~ msgid ""
 #~ "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"

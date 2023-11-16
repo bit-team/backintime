@@ -362,13 +362,13 @@ class SettingsDialog(QDialog):
                 'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
             config.Config._1_HOUR: _('Every hour'),
             config.Config._2_HOURS: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 2).format(n=2),
+                'Every {n} hour', 'Every {n} hours', 2).format(n=2),
             config.Config._4_HOURS: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 4).format(n=4),
+                'Every {n} hour', 'Every {n} hours', 4).format(n=4),
             config.Config._6_HOURS: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 6).format(n=6),
+                'Every {n} hour', 'Every {n} hours', 6).format(n=6),
             config.Config._12_HOURS: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 12).format(n=12),
+                'Every {n} hour', 'Every {n} hours', 12).format(n=12),
             config.Config.CUSTOM_HOUR: _('Custom hours'),
             config.Config.DAY: _('Every day'),
             config.Config.REPEATEDLY: _('Repeatedly (anacron)'),

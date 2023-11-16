@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 14:02+0100\n"
+"POT-Creation-Date: 2023-11-15 10:12+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
@@ -1051,8 +1051,6 @@ msgid "At every boot/reboot"
 msgstr "A cada arranque/reinício"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
-#: qt/settingsdialog.py:371
 #, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1062,6 +1060,14 @@ msgstr[1] "A cada {n} minutos"
 #: qt/settingsdialog.py:363
 msgid "Every hour"
 msgstr "A cada hora"
+
+#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
+#: qt/settingsdialog.py:371
+#, fuzzy, python-brace-format
+msgid "Every {n} hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "A cada {n} horas"
+msgstr[1] "A cada {n} horas"
 
 #: qt/settingsdialog.py:372
 #, fuzzy
@@ -1749,10 +1755,6 @@ msgstr ""
 
 #~ msgid "Every 6 hours"
 #~ msgstr "A cada 6 horas"
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "A cada {n} horas"
 
 #~ msgid "Local encrypted"
 #~ msgstr "Local encriptado"

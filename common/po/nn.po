@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-14 14:02+0100\n"
+"POT-Creation-Date: 2023-11-15 10:12+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
@@ -1042,8 +1042,6 @@ msgid "At every boot/reboot"
 msgstr "Ved kvar start/omstart"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
-#: qt/settingsdialog.py:371
 #, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1053,6 +1051,14 @@ msgstr[1] "Kvart {n}. minutt"
 #: qt/settingsdialog.py:363
 msgid "Every hour"
 msgstr "Kvar time"
+
+#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
+#: qt/settingsdialog.py:371
+#, fuzzy, python-brace-format
+msgid "Every {n} hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "Kvar {n}. time"
+msgstr[1] "Kvar {n}. time"
 
 #: qt/settingsdialog.py:372
 #, fuzzy
@@ -1657,10 +1663,6 @@ msgstr ""
 
 #~ msgid "Every 5 minutes"
 #~ msgstr "Kvart 5. minutt"
-
-#, python-brace-format
-#~ msgid "Every {n} hours"
-#~ msgstr "Kvar {n}. time"
 
 #, fuzzy, python-brace-format
 #~ msgid "Profile: {name}"
