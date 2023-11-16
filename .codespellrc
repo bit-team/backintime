@@ -1,0 +1,29 @@
+[codespell]
+# Folders and files to skip
+skip = .codespellrc,*.po,Makefile,*.desktop,.git,__pycache__,*.pyc,languages.py
+# Print N lines of surrounding context
+context = 1
+# Check hidden files also (empty means True)
+check-hidden=
+# Print number of errors as last line on stderr (empty means True)
+count=
+
+# Dictionaries to use (default: "clear,rare"). Current: all.
+builtin = clear,rare,informal,usage,code,names,en-GB_to_en-US
+
+# Allowed (ignored) words 
+ignore-words-list=master,whitelist,manuel,dum
+# Allowed (ignored) words in URLs and URIs
+uri-ignore-words-list=mitre
+
+# Good to know about allowed/ignored words:
+# Codespell acts a bit unusual when it comes to case-sensitivity.
+# By default the word "Manuel" is an error and codespell recommends to
+# modify it into "Manual". Tu allow this German name "Manuel" we have to
+# add "manual" (lower case!) to the "ignore-words-list". The upper-case
+# version do not work.
+# See: https://github.com/codespell-project/codespell/issues/3210
+
+# Simulate "# noqa" and ignore all lines with "# codespell-ignore" at the end.
+# Credits: https://github.com/codespell-project/codespell/issues/1212#issuecomment-1721152455
+ignore-regex=.*# codespell-ignore$

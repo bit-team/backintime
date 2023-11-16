@@ -519,7 +519,8 @@ class Decode(object):
         #precompile some regular expressions
         host, port, user, path, cipher = cfg.sshHostUserPortPathCipher()
         #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
-        self.re_include_exclude = re.compile(r'(--(?:ex|in)clude=")(.*?)(")')
+        self.re_include_exclude = re.compile(
+            r'(--(?:ex|in)clude=")(.*?)(")')  # codespell-ignore
 
         #replace: 'USER@HOST:"PATH<crypted_path>"'
         self.re_remote_path =     re.compile(r'(\'%s@%s:"%s)(.*?)("\')' %(user, host, path))
