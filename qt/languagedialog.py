@@ -27,11 +27,13 @@ class LanguageDialog(QDialog):
         self.configured_language_code = configured_language_code
 
         self.setWindowTitle(_('Setup language'))
-        self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+        self.setWindowFlag(Qt.WindowType.WindowMaximizeButtonHint, True)
 
         scroll = QScrollArea(self)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setWidget(self._language_widget())
         self._scroll = scroll
 
@@ -230,7 +232,7 @@ class ApproachTranslatorDialog(QDialog):
 
         # Note: Take into account that not only the
         self.setWindowTitle(_('Your translation'))
-        self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+        self.setWindowFlag(Qt.WindowType.WindowMaximizeButtonHint, True)
 
         txt = __class__._complete_text(language_name, completeness)
         widget = QLabel(txt, self)
