@@ -141,7 +141,7 @@ class MainWindow(QMainWindow):
         filesLayout.setContentsMargins(0, 0, right, 0)
 
         # main splitter
-        self.mainSplitter = QSplitter(Qt.Horizontal, self)
+        self.mainSplitter = QSplitter(Qt.Orientation.Horizontal, self)
         self.mainSplitter.addWidget(self.timeLine)
         self.mainSplitter.addWidget(self.filesWidget)
 
@@ -156,7 +156,7 @@ class MainWindow(QMainWindow):
         # second splitter:
         # part of files-layout
         self.secondSplitter = QSplitter(self)
-        self.secondSplitter.setOrientation(Qt.Horizontal)
+        self.secondSplitter.setOrientation(Qt.Orientation.Horizontal)
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
         filesLayout.addWidget(self.secondSplitter)
 
