@@ -524,7 +524,7 @@ class TimeLineItem(QTreeWidgetItem):
         return self.snapshotID() < other.snapshotID()
 
     def snapshotID(self):
-        return self.data(0, Qt.UserRole)
+        return self.data(0, Qt.ItemDataRole.UserRole)
 
 
 class SnapshotItem(TimeLineItem):
@@ -533,7 +533,7 @@ class SnapshotItem(TimeLineItem):
         self.setText(0, sid.displayName)
         self.setFont(0, fontNormal(self.font(0)))
 
-        self.setData(0, Qt.UserRole, sid)
+        self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
         if sid.isRoot:
             self.setToolTip(0, _('This is NOT a snapshot but a live '
@@ -557,7 +557,7 @@ class HeaderItem(TimeLineItem):
         self.setForeground(0, QColor(60, 60, 60))
         self.setFlags(Qt.NoItemFlags)
 
-        self.setData(0, Qt.UserRole, sid)
+        self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
 
 class SortedComboBox(QComboBox):
@@ -577,7 +577,7 @@ class SortedComboBox(QComboBox):
         items in sorted order.
         """
 
-        if self.sortRole == Qt.UserRole:
+        if self.sortRole == Qt.ItemDataRole.UserRole:
             sortObject = userData
         else:
             sortObject = text
@@ -599,7 +599,7 @@ class SnapshotCombo(SortedComboBox):
     def __init__(self, parent=None):
         super(SnapshotCombo, self).__init__(parent)
         self.sortOrder = Qt.SortOrder.DescendingOrder
-        self.sortRole = Qt.UserRole
+        self.sortRole = Qt.ItemDataRole.UserRole
 
     def addSnapshotID(self, sid):
         assert isinstance(sid, snapshots.SID), \

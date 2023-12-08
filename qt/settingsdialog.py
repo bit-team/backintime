@@ -1494,7 +1494,7 @@ class SettingsDialog(QDialog):
         include_list = []
         for index in range(self.listInclude.topLevelItemCount()):
             item = self.listInclude.topLevelItem(index)
-            include_list.append((item.text(0), item.data(0, Qt.UserRole)))
+            include_list.append((item.text(0), item.data(0, Qt.ItemDataRole.UserRole)))
 
         self.config.setInclude(include_list)
 
@@ -1742,10 +1742,10 @@ class SettingsDialog(QDialog):
             item.setIcon(0, self.icon.FILE)
 
         item.setText(0, data[0])
-        item.setData(0, Qt.UserRole, data[1])
+        item.setData(0, Qt.ItemDataRole.UserRole, data[1])
         self.listIncludeCount += 1
         item.setText(1, str(self.listIncludeCount).zfill(6))
-        item.setData(1, Qt.UserRole, self.listIncludeCount)
+        item.setData(1, Qt.ItemDataRole.UserRole, self.listIncludeCount)
         self.listInclude.addTopLevelItem(item)
 
         if self.listInclude.currentItem() is None:
@@ -1756,10 +1756,10 @@ class SettingsDialog(QDialog):
     def addExclude(self, pattern):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
-        item.setData(0, Qt.UserRole, pattern)
+        item.setData(0, Qt.ItemDataRole.UserRole, pattern)
         self.listExcludeCount += 1
         item.setText(1, str(self.listExcludeCount).zfill(6))
-        item.setData(1, Qt.UserRole, self.listExcludeCount)
+        item.setData(1, Qt.ItemDataRole.UserRole, self.listExcludeCount)
         self.formatExcludeItem(item)
         self.listExclude.addTopLevelItem(item)
 

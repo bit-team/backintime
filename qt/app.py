@@ -1017,7 +1017,7 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        path = str(item.data(0, Qt.UserRole))
+        path = str(item.data(0, Qt.ItemDataRole.UserRole))
         if not path:
             return
 
@@ -1036,7 +1036,7 @@ class MainWindow(QMainWindow):
         if icon:
             item.setIcon(0, QIcon.fromTheme(icon))
 
-        item.setData(0, Qt.UserRole, path)
+        item.setData(0, Qt.ItemDataRole.UserRole, path)
 
         if not path:
             item.setFont(0, qttools.fontBold(item.font(0)))
@@ -1613,7 +1613,7 @@ files that the receiver requests to be transferred.""")
             self.places.setCurrentItem(None)
             for place_index in range(self.places.topLevelItemCount()):
                 item = self.places.topLevelItem(place_index)
-                if self.path == str(item.data(0, Qt.UserRole)):
+                if self.path == str(item.data(0, Qt.ItemDataRole.UserRole)):
                     self.places.setCurrentItem(item)
                     break
 
