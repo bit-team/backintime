@@ -171,7 +171,7 @@ class MainWindow(QMainWindow):
         self.places.header().setSortIndicator(
             int(self.config.profileIntValue('qt.places.SortColumn', 1)),
             int(self.config.profileIntValue(
-                'qt.places.SortOrder', Qt.AscendingOrder))
+                'qt.places.SortOrder', Qt.SortOrder.AscendingOrder))
         )
         self.placesSortLoop = {self.config.currentProfile(): False}
         self.secondSplitter.addWidget(self.places)
@@ -225,7 +225,7 @@ class MainWindow(QMainWindow):
             'qt.main_window.files_view.sort.column', 0)
         sortOrder = self.config.boolValue(
             'qt.main_window.files_view.sort.ascending', True)
-        sortOrder = Qt.AscendingOrder if sortOrder else Qt.DescendingOrder
+        sortOrder = Qt.SortOrder.AscendingOrder if sortOrder else Qt.SortOrder.DescendingOrder
 
         self.filesView.header().setSortIndicator(sortColumn, sortOrder)
         self.filesViewModel.sort(
@@ -792,7 +792,7 @@ class MainWindow(QMainWindow):
         self.config.setIntValue('qt.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
 
         self.config.setIntValue('qt.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
-        self.config.setBoolValue('qt.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.AscendingOrder)
+        self.config.setBoolValue('qt.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.SortOrder.AscendingOrder)
 
         self.filesViewModel.deleteLater()
 
@@ -857,7 +857,7 @@ class MainWindow(QMainWindow):
                                               old_profile_id)
             self.placesSortLoop[old_profile_id] = False
             self.places.header().setSortIndicator(int(self.config.profileIntValue('qt.places.SortColumn', 1, profile_id)),
-                                                       int(self.config.profileIntValue('qt.places.SortOrder', Qt.AscendingOrder, profile_id)))
+                                                       int(self.config.profileIntValue('qt.places.SortOrder', Qt.SortOrder.AscendingOrder, profile_id)))
 
             self.config.setProfileStrValue('qt.last_path', self.path, old_profile_id)
             path = self.config.profileStrValue('qt.last_path', self.path, profile_id)
@@ -1070,9 +1070,9 @@ class MainWindow(QMainWindow):
 
     def sortPlaces(self, newColumn, newOrder, force = False):
         profile_id = self.config.currentProfile()
-        if newColumn == 0 and newOrder == Qt.AscendingOrder:
+        if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
             if profile_id in self.placesSortLoop and self.placesSortLoop[profile_id]:
-                newColumn, newOrder = 1, Qt.AscendingOrder
+                newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
                 self.places.header().setSortIndicator(newColumn, newOrder)
                 self.placesSortLoop[profile_id] = False
             else:

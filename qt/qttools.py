@@ -346,7 +346,7 @@ class TimeLine(QTreeWidget):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setHeaderLabels([_('Snapshots'), 'foo'])
         self.setSortingEnabled(True)
-        self.sortByColumn(1, Qt.DescendingOrder)
+        self.sortByColumn(1, Qt.SortOrder.DescendingOrder)
         self.hideColumn(1)
         self.header().setSectionsClickable(False)
 
@@ -567,7 +567,7 @@ class SortedComboBox(QComboBox):
 
     def __init__(self, parent=None):
         super(SortedComboBox, self).__init__(parent)
-        self.sortOrder = Qt.AscendingOrder
+        self.sortOrder = Qt.SortOrder.AscendingOrder
         self.sortRole = Qt.DisplayRole
 
     def addItem(self, text, userData=None):
@@ -598,7 +598,7 @@ class SortedComboBox(QComboBox):
 class SnapshotCombo(SortedComboBox):
     def __init__(self, parent=None):
         super(SnapshotCombo, self).__init__(parent)
-        self.sortOrder = Qt.DescendingOrder
+        self.sortOrder = Qt.SortOrder.DescendingOrder
         self.sortRole = Qt.UserRole
 
     def addSnapshotID(self, sid):
