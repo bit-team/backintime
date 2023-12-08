@@ -1830,7 +1830,7 @@ class SettingsDialog(QDialog):
 
     def btnExcludeAddClicked(self):
         dlg = QInputDialog(self)
-        dlg.setInputMode(QInputDialog.TextInput)
+        dlg.setInputMode(QInputDialog.InputMode.TextInput)
         dlg.setWindowTitle(_('Exclude pattern'))
         dlg.setLabelText('')
         dlg.resize(400, 0)
