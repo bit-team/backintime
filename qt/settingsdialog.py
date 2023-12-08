@@ -485,7 +485,7 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(tabWidget)
 
         self.listInclude = QTreeWidget(self)
-        self.listInclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.listInclude.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listInclude.setRootIsDecorated(False)
         self.listInclude.setHeaderLabels(
             [_('Include files and folders'), 'Count'])
@@ -537,7 +537,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.lblSshEncfsExcludeWarning)
 
         self.listExclude = QTreeWidget(self)
-        self.listExclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.listExclude.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listExclude.setRootIsDecorated(False)
         self.listExclude.setHeaderLabels(
             [_('Exclude patterns, files or folders'), 'Count'])

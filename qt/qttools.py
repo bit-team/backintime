@@ -139,7 +139,7 @@ def getExistingDirectories(parent, *args, **kwargs):
     dlg.setFileMode(dlg.Directory)
     dlg.setOption(dlg.ShowDirsOnly, True)
 
-    mode = QAbstractItemView.ExtendedSelection
+    mode = QAbstractItemView.SelectionMode.ExtendedSelection
     dlg.findChildren(QListView)[0].setSelectionMode(mode)
     dlg.findChildren(QTreeView)[0].setSelectionMode(mode)
 
@@ -342,8 +342,8 @@ class TimeLine(QTreeWidget):
     def __init__(self, parent):
         super(TimeLine, self).__init__(parent)
         self.setRootIsDecorated(False)
-        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setHeaderLabels([_('Snapshots'), 'foo'])
         self.setSortingEnabled(True)
         self.sortByColumn(1, Qt.SortOrder.DescendingOrder)

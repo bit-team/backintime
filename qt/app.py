@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
         # places
         self.places = QTreeWidget(self)
         self.places.setRootIsDecorated(False)
-        self.places.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.places.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.places.setHeaderLabel(_('Shortcuts'))
         self.places.header().setSectionsClickable(True)
         self.places.header().setSortIndicatorShown(True)
@@ -197,10 +197,10 @@ class MainWindow(QMainWindow):
         self.stackFilesView.addWidget(self.filesView)
         self.filesView.setRootIsDecorated(False)
         self.filesView.setAlternatingRowColors(True)
-        self.filesView.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.filesView.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.filesView.setItemsExpandable(False)
         self.filesView.setDragEnabled(False)
-        self.filesView.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.filesView.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
 
         self.filesView.header().setSectionsClickable(True)
         self.filesView.header().setSectionsMovable(False)
