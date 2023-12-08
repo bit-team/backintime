@@ -2137,8 +2137,9 @@ class RestoreConfigDialog(QDialog):
         self.treeViewModel = QFileSystemModel(self)
         self.treeViewModel.setRootPath(QDir().rootPath())
         self.treeViewModel.setReadOnly(True)
-        self.treeViewModel.setFilter(QDir.AllDirs |
-                                     QDir.NoDotAndDotDot | QDir.Hidden)
+        self.treeViewModel.setFilter(QDir.Filter.AllDirs |
+                                     QDir.Filter.NoDotAndDotDot |
+                                     QDir.Filter.Hidden)
 
         self.treeViewFilterProxy = QSortFilterProxyModel(self)
         self.treeViewFilterProxy.setDynamicSortFilter(True)

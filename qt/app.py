@@ -211,8 +211,10 @@ class MainWindow(QMainWindow):
         self.filesViewModel = QFileSystemModel(self)
         self.filesViewModel.setRootPath(QDir().rootPath())
         self.filesViewModel.setReadOnly(True)
-        self.filesViewModel.setFilter(
-            QDir.AllDirs | QDir.AllEntries | QDir.NoDotAndDotDot | QDir.Hidden)
+        self.filesViewModel.setFilter(QDir.Filter.AllDirs |
+                                      QDir.Filter.AllEntries |
+                                      QDir.Filter.NoDotAndDotDot |
+                                      QDir.Filter.Hidden)
 
         self.filesViewProxyModel = QSortFilterProxyModel(self)
         self.filesViewProxyModel.setDynamicSortFilter(True)
