@@ -31,14 +31,14 @@
 import os
 import sys
 
-from PyQt6.QtGui import (QFont, QColor, QIcon)
+from PyQt6.QtGui import (QAction, QFont, QColor, QIcon)
 from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox,
-                             QAction, QSystemTrayIcon, QWidget)
+                             QSystemTrayIcon, QWidget)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version

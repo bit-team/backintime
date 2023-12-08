@@ -22,7 +22,12 @@ import datetime
 import copy
 import re
 
-from PyQt6.QtGui import QIcon, QFont, QPalette, QBrush, QColor
+from PyQt6.QtGui import (QIcon,
+                         QFont,
+                         QPalette,
+                         QBrush,
+                         QColor,
+                         QFileSystemModel)
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -46,7 +51,6 @@ from PyQt6.QtWidgets import (QDialog,
                              QAbstractItemView,
                              QHeaderView,
                              QCheckBox,
-                             QFileSystemModel,
                              QMenu,
                              QProgressBar,
                              QPlainTextEdit)
@@ -2337,7 +2341,7 @@ class RestoreConfigDialog(QDialog):
             self.config.dict = self.restoreConfig.dict
         super(RestoreConfigDialog, self).accept()
 
-    def.exec(self):
+    def exec(self):
         """
         stop the scan thread if it is still running after dialog was closed.
         """

@@ -47,9 +47,13 @@ import mount
 import progress
 from exceptions import MountException
 
-from PyQt6.QtGui import QDesktopServices, QColor, QIcon
+from PyQt6.QtGui import (QAction,
+                         QShortcut,
+                         QDesktopServices,
+                         QColor,
+                         QIcon,
+                         QFileSystemModel)
 from PyQt6.QtWidgets import (QWidget,
-                             QAction,
                              QFrame,
                              QMainWindow,
                              QToolButton,
@@ -74,8 +78,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QInputDialog,
                              QDialog,
                              QDialogButtonBox,
-                             QShortcut,
-                             QFileSystemModel,
                              )
 from PyQt6.QtCore import (Qt,
                           QObject,
