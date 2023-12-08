@@ -1044,7 +1044,7 @@ class MainWindow(QMainWindow):
 
         if not path:
             item.setFont(0, qttools.fontBold(item.font(0)))
-            item.setFlags(Qt.ItemIsEnabled)
+            item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             item.setBackground(0, QColor(196, 196, 196))
             item.setForeground(0, QColor(60, 60, 60))
 
