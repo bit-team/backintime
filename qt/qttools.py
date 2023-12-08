@@ -107,8 +107,8 @@ class FileDialogShowHidden(QFileDialog):
     def __init__(self, parent, *args, **kwargs):
         super(FileDialogShowHidden, self).__init__(parent, *args, **kwargs)
 
-        self.setOption(self.DontUseNativeDialog, True)
-        self.setOption(self.HideNameFilterDetails, True)
+        self.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        self.setOption(QFileDialog.Option.HideNameFilterDetails, True)
 
         showHiddenAction = QAction(self)
         showHiddenAction.setShortcut('Ctrl+H')
@@ -555,7 +555,7 @@ class HeaderItem(TimeLineItem):
         self.setFont(0, fontBold(self.font(0)))
         self.setBackground(0, QColor(196, 196, 196))
         self.setForeground(0, QColor(60, 60, 60))
-        self.setFlags(Qt.NoItemFlags)
+        self.setFlags(Qt.ItemFlag.NoItemFlags)
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 

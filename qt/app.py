@@ -1354,7 +1354,7 @@ files that the receiver requests to be transferred.""")
     def listRestorePaths(self, paths):
         fileList = QListWidget()
         fileList.addItems(paths)
-        fileList.setSelectionMode(QAbstractItemView.NoSelection)
+        fileList.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
         return {'widget': fileList, 'retFunc': None}
 
     def deleteOnRestore(self):

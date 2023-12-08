@@ -381,7 +381,7 @@ class SnapshotsDialog(QDialog):
 
         if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
             for item in items:
-                item.setFlags(Qt.NoItemFlags)
+                item.setFlags(Qt.ItemFlag.NoItemFlags)
 
             thread = RemoveFileThread(self, items)
             thread.started.connect(lambda: self.btnGoto.setDisabled(True))
