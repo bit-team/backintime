@@ -715,7 +715,8 @@ class MainWindow(QMainWindow):
         button_take_snapshot = toolbar.widgetForAction(self.act_take_snapshot)
         # ...and add the menu to it
         button_take_snapshot.setMenu(submenu_take_snapshot)
-        button_take_snapshot.setPopupMode(QToolButton.MenuButtonPopup)
+        button_take_snapshot.setPopupMode(
+            QToolButton.ToolButtonPopupMode.MenuButtonPopup)
 
         # separators and stretchers
         toolbar.insertSeparator(self.act_settings)
@@ -751,7 +752,8 @@ class MainWindow(QMainWindow):
         button_restore = toolbar.widgetForAction(self.act_restore)
         # ...and add the menu to it
         button_restore.setMenu(restore_sub_menu)
-        button_restore.setPopupMode(QToolButton.MenuButtonPopup)
+        button_restore.setPopupMode(
+            QToolButton.ToolButtonPopupMode.MenuButtonPopup)
 
         # Fine tuning
         toolbar.insertSeparator(self.act_restore)
