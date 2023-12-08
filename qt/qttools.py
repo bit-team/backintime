@@ -51,7 +51,7 @@ import logger  # noqa: E402
 
 
 def fontBold(font):
-    font.setWeight(QFont.Bold)
+    font.setWeight(QFont.Weight.Bold)
     return font
 
 
@@ -60,7 +60,7 @@ def setFontBold(widget):
 
 
 def fontNormal(font):
-    font.setWeight(QFont.Normal)
+    font.setWeight(QFont.Weight.Normal)
     return font
 
 

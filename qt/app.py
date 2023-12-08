@@ -172,7 +172,7 @@ class MainWindow(QMainWindow):
         self.places.header().setSectionHidden(1, True)
         self.places.header().setSortIndicator(
             int(self.config.profileIntValue('qt.places.SortColumn', 1)),
-            int(self.config.profileIntValue(
+            Qt.SortOrder(self.config.profileIntValue(
                 'qt.places.SortOrder', Qt.SortOrder.AscendingOrder))
         )
         self.placesSortLoop = {self.config.currentProfile(): False}
