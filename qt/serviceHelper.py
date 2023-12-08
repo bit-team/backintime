@@ -72,7 +72,7 @@ except ImportError:
 import dbus
 import dbus.service
 import dbus.mainloop.pyqt5
-from PyQt5.QtCore import QCoreApplication
+from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 

@@ -31,11 +31,11 @@
 import os
 import sys
 
-from PyQt5.QtGui import (QFont, QColor, QKeySequence, QIcon)
-from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
+from PyQt6.QtGui import (QFont, QColor, QKeySequence, QIcon)
+from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
-from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
+from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox,
                              QAction, QSystemTrayIcon, QWidget)

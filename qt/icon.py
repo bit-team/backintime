@@ -14,7 +14,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from PyQt5.QtGui import QIcon
+from PyQt6.QtGui import QIcon
 import logger
 
 logger.debug("Checking if the current theme contains the BiT icon...")

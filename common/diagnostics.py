@@ -202,27 +202,27 @@ def _get_qt_information():
     is created.
     """
     try:
-        import PyQt5.QtCore
-        import PyQt5.QtGui
-        import PyQt5.QtWidgets
+        import PyQt6.QtCore
+        import PyQt6.QtGui
+        import PyQt6.QtWidgets
     except ImportError:
-        return '(Cannot import PyQt5)'
+        return '(Cannot import PyQt6)'
 
     # Themes
     theme_info = {}
     if tools.checkXServer():  # TODO use tools.is_Qt5_working() when stable
-        qapp = PyQt5.QtWidgets.QApplication([])
+        qapp = PyQt6.QtWidgets.QApplication([])
         theme_info = {
-            'Theme': PyQt5.QtGui.QIcon.themeName(),
-            'Theme Search Paths': PyQt5.QtGui.QIcon.themeSearchPaths(),
-            'Fallback Theme': PyQt5.QtGui.QIcon.fallbackThemeName(),
-            'Fallback Search Paths': PyQt5.QtGui.QIcon.fallbackSearchPaths()
+            'Theme': PyQt6.QtGui.QIcon.themeName(),
+            'Theme Search Paths': PyQt6.QtGui.QIcon.themeSearchPaths(),
+            'Fallback Theme': PyQt6.QtGui.QIcon.fallbackThemeName(),
+            'Fallback Search Paths': PyQt6.QtGui.QIcon.fallbackSearchPaths()
         }
         qapp.quit()
 
     return {
-        'Version': 'PyQt {} / Qt {}'.format(PyQt5.QtCore.PYQT_VERSION_STR,
-                                            PyQt5.QtCore.QT_VERSION_STR),
+        'Version': 'PyQt {} / Qt {}'.format(PyQt6.QtCore.PYQT_VERSION_STR,
+                                            PyQt6.QtCore.QT_VERSION_STR),
         **theme_info
     }
 

@@ -47,7 +47,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         cmd = [
             'pylint',
             # prevent false-positive no-module-member errors
-            '--extension-pkg-whitelist=PyQt5',
+            '--extension-pkg-whitelist=PyQt6',
             # Because of globally installed GNU gettext functions
             '--additional-builtins=_,ngettext',
             # Deactivate all checks by default

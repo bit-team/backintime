@@ -22,8 +22,8 @@ import datetime
 import copy
 import re
 
-from PyQt5.QtGui import QIcon, QFont, QPalette, QBrush, QColor
-from PyQt5.QtWidgets import (QDialog,
+from PyQt6.QtGui import QIcon, QFont, QPalette, QBrush, QColor
+from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
                              QGridLayout,
@@ -50,7 +50,7 @@ from PyQt5.QtWidgets import (QDialog,
                              QMenu,
                              QProgressBar,
                              QPlainTextEdit)
-from PyQt5.QtCore import (Qt,
+from PyQt6.QtCore import (Qt,
                           QDir,
                           QSortFilterProxyModel,
                           QThread,
