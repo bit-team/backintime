@@ -856,14 +856,18 @@ class MainWindow(QMainWindow):
             self.config.setCurrentProfile(profile_id)
 
             self.config.setProfileIntValue('qt.places.SortColumn',
-                                              self.places.header().sortIndicatorSection(),
-                                              old_profile_id)
+                                           self.places.header().sortIndicatorSection(),
+                                           old_profile_id)
             self.config.setProfileIntValue('qt.places.SortOrder',
-                                              self.places.header().sortIndicatorOrder(),
-                                              old_profile_id)
+                                           self.places.header().sortIndicatorOrder(),
+                                           old_profile_id)
             self.placesSortLoop[old_profile_id] = False
-            self.places.header().setSortIndicator(int(self.config.profileIntValue('qt.places.SortColumn', 1, profile_id)),
-                                                       int(self.config.profileIntValue('qt.places.SortOrder', Qt.SortOrder.AscendingOrder, profile_id)))
+            self.places.header().setSortIndicator(
+                int(self.config.profileIntValue('qt.places.SortColumn', 1, profile_id)),
+                Qt.SortOrder(self.config.profileIntValue('qt.places.SortOrder',
+                                                         Qt.SortOrder.AscendingOrder,
+                                                         profile_id))
+            )
 
             self.config.setProfileStrValue('qt.last_path', self.path, old_profile_id)
             path = self.config.profileStrValue('qt.last_path', self.path, profile_id)
@@ -1076,13 +1080,17 @@ class MainWindow(QMainWindow):
 
     def sortPlaces(self, newColumn, newOrder, force = False):
         profile_id = self.config.currentProfile()
+
         if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
+
             if profile_id in self.placesSortLoop and self.placesSortLoop[profile_id]:
                 newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
                 self.places.header().setSortIndicator(newColumn, newOrder)
                 self.placesSortLoop[profile_id] = False
+
             else:
                 self.placesSortLoop[profile_id] = True
+
         self.updatePlaces()
 
     def updateSnapshotActions(self, item = None):

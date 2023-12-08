@@ -585,7 +585,9 @@ class SortedComboBox(QComboBox):
         the_list = [
             self.itemData(i, self.sortRole) for i in range(self.count())]
         the_list.append(sortObject)
-        the_list.sort(reverse=self.sortOrder)
+
+        reverse_sort = self.sortOrder == Qt.SortOrder.DescendingOrder
+        the_list.sort(reverse=reverse_sort)
         index = the_list.index(sortObject)
 
         super(SortedComboBox, self).insertItem(index, text, userData)

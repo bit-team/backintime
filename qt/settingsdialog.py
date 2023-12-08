@@ -1313,10 +1313,14 @@ class SettingsDialog(QDialog):
         for include in self.config.include():
             self.addInclude(include)
 
-        includeSortColumn = int(self.config.profileIntValue(
-            'qt.settingsdialog.include.SortColumn', 1))
-        includeSortOrder = int(self.config.profileIntValue(
-            'qt.settingsdialog.include.SortOrder', Qt.SortOrder.AscendingOrder))
+        includeSortColumn = int(
+            self.config.profileIntValue('qt.settingsdialog.include.SortColumn',
+                                        1)
+        )
+        includeSortOrder = Qt.SortOrder(
+            self.config.profileIntValue('qt.settingsdialog.include.SortOrder',
+                                        Qt.SortOrder.AscendingOrder)
+        )
         self.listInclude.sortItems(includeSortColumn, includeSortOrder)
 
         # TAB: Exclude
@@ -1329,8 +1333,10 @@ class SettingsDialog(QDialog):
 
         excludeSortColumn = int(self.config.profileIntValue(
             'qt.settingsdialog.exclude.SortColumn', 1))
-        excludeSortOrder = int(self.config.profileIntValue(
-            'qt.settingsdialog.exclude.SortOrder', Qt.SortOrder.AscendingOrder))
+        excludeSortOrder = Qt.SortOrder(
+            self.config.profileIntValue('qt.settingsdialog.exclude.SortOrder',
+                                        Qt.SortOrder.AscendingOrder)
+        )
         self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
 
         # TAB: Auto-remove
@@ -2036,14 +2042,19 @@ class SettingsDialog(QDialog):
             item.setBackground(0, QBrush())
 
     def customSortOrder(self, header, loop, newColumn, newOrder):
+
         if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
+
             if loop:
                 newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
                 header.setSortIndicator(newColumn, newOrder)
                 loop = False
+
             else:
                 loop = True
+
         header.model().sort(newColumn, newOrder)
+
         return loop
 
     def includeCustomSortOrder(self, *args):
