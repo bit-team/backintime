@@ -121,7 +121,7 @@ class FileDialogShowHidden(QFileDialog):
 
         if enable:
             self.setFilter(self.filter() | QDir.Filter.Hidden)
-        elif int(self.filter() & QDir.Filter.Hidden):
+        elif self.filter() & QDir.Filter.Hidden:
             self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 
     def toggleShowHidden(self):
@@ -136,14 +136,14 @@ def getExistingDirectories(parent, *args, **kwargs):
 
     dlg = FileDialogShowHidden(parent, *args, **kwargs)
 
-    dlg.setFileMode(dlg.Directory)
-    dlg.setOption(dlg.ShowDirsOnly, True)
+    dlg.setFileMode(dlg.FileMode.Directory)
+    dlg.setOption(dlg.Option.ShowDirsOnly, True)
 
     mode = QAbstractItemView.SelectionMode.ExtendedSelection
     dlg.findChildren(QListView)[0].setSelectionMode(mode)
     dlg.findChildren(QTreeView)[0].setSelectionMode(mode)
 
-    if dlg.exec() == QDialog.Accepted:
+    if dlg.exec() == QDialog.DialogCode.Accepted:
         return dlg.selectedFiles()
 
     return [str(), ]
@@ -154,10 +154,10 @@ def getExistingDirectory(parent, *args, **kwargs):
 
     dlg = FileDialogShowHidden(parent, *args, **kwargs)
 
-    dlg.setFileMode(dlg.Directory)
-    dlg.setOption(dlg.ShowDirsOnly, True)
+    dlg.setFileMode(dlg.FileMode.Directory)
+    dlg.setOption(dlg.Option.ShowDirsOnly, True)
 
-    if dlg.exec() == QDialog.Accepted:
+    if dlg.exec() == QDialog.DialogCode.Accepted:
         return dlg.selectedFiles()[0]
 
     return str()
@@ -168,9 +168,9 @@ def getOpenFileNames(parent, *args, **kwargs):
     Workaround to give control about hidden files
     """
     dlg = FileDialogShowHidden(parent, *args, **kwargs)
-    dlg.setFileMode(dlg.ExistingFiles)
+    dlg.setFileMode(dlg.FileMode.ExistingFiles)
 
-    if dlg.exec() == QDialog.Accepted:
+    if dlg.exec() == QDialog.DialogCode.Accepted:
         return dlg.selectedFiles()
     return [str(), ]
 
@@ -179,9 +179,9 @@ def getOpenFileName(parent, *args, **kwargs):
     """Workaround to give control about hidden files"""
 
     dlg = FileDialogShowHidden(parent, *args, **kwargs)
-    dlg.setFileMode(dlg.ExistingFile)
+    dlg.setFileMode(dlg.FileMode.ExistingFile)
 
-    if dlg.exec() == QDialog.Accepted:
+    if dlg.exec() == QDialog.DialogCode.Accepted:
         return dlg.selectedFiles()[0]
 
     return str()

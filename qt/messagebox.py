@@ -38,7 +38,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog.setWindowIcon(icon.BIT_LOGO)
     dialog.setWindowTitle(title)
     dialog.setLabelText(prompt)
-    dialog.setTextEchoMode(QLineEdit.Password)
+    dialog.setTextEchoMode(QLineEdit.EchoMode.Password)
     QApplication.processEvents()
 
     ret = dialog.exec()

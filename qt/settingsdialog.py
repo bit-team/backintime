@@ -178,7 +178,7 @@ class SettingsDialog(QDialog):
         hlayout.addWidget(self.editSnapshotsPath)
 
         self.btnSnapshotsPath = QToolButton(self)
-        self.btnSnapshotsPath.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSnapshotsPath.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSnapshotsPath.setIcon(icon.FOLDER)
         self.btnSnapshotsPath.setText(_('Folder'))
         self.btnSnapshotsPath.setMinimumSize(32, 28)
@@ -234,7 +234,7 @@ class SettingsDialog(QDialog):
         hlayout3.addWidget(self.txtSshPrivateKeyFile)
 
         self.btnSshPrivateKeyFile = QToolButton(self)
-        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSshPrivateKeyFile.setIcon(icon.FOLDER)
         self.btnSshPrivateKeyFile.setToolTip(
             _('Choose an existing private key file (normally named "id_rsa")'))
@@ -244,7 +244,7 @@ class SettingsDialog(QDialog):
             .connect(self.btnSshPrivateKeyFileClicked)
 
         self.btnSshKeyGen = QToolButton(self)
-        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSshKeyGen.setIcon(icon.ADD)
         self.btnSshKeyGen.setToolTip(
             _('Create a new SSH key without password (not allowed if a '
@@ -279,13 +279,13 @@ class SettingsDialog(QDialog):
         self.lblPassword1 = QLabel(_('Password'), self)
         hlayout1.addWidget(self.lblPassword1)
         self.txtPassword1 = QLineEdit(self)
-        self.txtPassword1.setEchoMode(QLineEdit.Password)
+        self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
         hlayout1.addWidget(self.txtPassword1)
 
         self.lblPassword2 = QLabel(_('Password'), self)
         hlayout2.addWidget(self.lblPassword2)
         self.txtPassword2 = QLineEdit(self)
-        self.txtPassword2.setEchoMode(QLineEdit.Password)
+        self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
         hlayout2.addWidget(self.txtPassword2)
 
         self.cbPasswordSave = QCheckBox(_('Save Password to Keyring'), self)
@@ -494,7 +494,8 @@ class SettingsDialog(QDialog):
         self.listInclude.setHeaderLabels(
             [_('Include files and folders'), 'Count'])
 
-        self.listInclude.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.listInclude.header().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch)
         self.listInclude.header().setSectionsClickable(True)
         self.listInclude.header().setSortIndicatorShown(True)
         self.listInclude.header().setSectionHidden(1, True)
@@ -546,7 +547,8 @@ class SettingsDialog(QDialog):
         self.listExclude.setHeaderLabels(
             [_('Exclude patterns, files or folders'), 'Count'])
 
-        self.listExclude.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.listExclude.header().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch)
         self.listExclude.header().setSectionsClickable(True)
         self.listExclude.header().setSortIndicatorShown(True)
         self.listExclude.header().setSectionHidden(1, True)
