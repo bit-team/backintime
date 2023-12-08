@@ -190,8 +190,8 @@ class MainWindow(QMainWindow):
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
-        self.lblFolderDontExists.setFrameShape(QFrame.Panel)
-        self.lblFolderDontExists.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
+        self.lblFolderDontExists.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.stackFilesView.addWidget(self.lblFolderDontExists)
 
         # list files view
@@ -1844,7 +1844,7 @@ class About(QDialog):
         if ref:
             git_version = " git branch '{}' hash '{}'".format(ref, hashid)
         name = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>' + git_version)
-        name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
+        name.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         homepage = QLabel(self.mkurl('<https://github.com/bit-team/backintime>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)

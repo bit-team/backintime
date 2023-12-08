@@ -386,7 +386,7 @@ class SettingsDialog(QDialog):
 
         self.lblScheduleDay = QLabel(_('Day') + ':', self)
         self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleDay.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lblScheduleDay.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleDay, 1, 0)
 
         self.comboScheduleDay = QComboBox(self)
@@ -397,7 +397,7 @@ class SettingsDialog(QDialog):
 
         self.lblScheduleWeekday = QLabel(_('Weekday') + ':', self)
         self.lblScheduleWeekday.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleWeekday.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lblScheduleWeekday.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleWeekday, 2, 0)
 
         self.comboScheduleWeekday = QComboBox(self)
@@ -412,7 +412,7 @@ class SettingsDialog(QDialog):
 
         self.lblScheduleTime = QLabel(_('Hour') + ':', self)
         self.lblScheduleTime.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleTime.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lblScheduleTime.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleTime, 3, 0)
 
         self.comboScheduleTime = QComboBox(self)
@@ -428,7 +428,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleCronPatern = QLabel(_('Hours') + ':', self)
         self.lblScheduleCronPatern.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleCronPatern.setAlignment(
-            Qt.AlignRight | Qt.AlignVCenter)
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleCronPatern, 4, 0)
 
         self.txtScheduleCronPatern = QLineEdit(self)
@@ -446,7 +446,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleRepeatedPeriod = QLabel(_('Every') + ':')
         self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleRepeatedPeriod.setAlignment(
-            Qt.AlignRight | Qt.AlignVCenter)
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleRepeatedPeriod, 7, 0)
 
         hlayout = QHBoxLayout()
