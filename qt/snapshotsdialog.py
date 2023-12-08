@@ -354,7 +354,7 @@ class SnapshotsDialog(QDialog):
         subprocess.Popen(shlex.split(cmd))
 
     def btnDiffOptionsClicked(self):
-        DiffOptionsDialog(self).exec_()
+        DiffOptionsDialog(self).exec()
 
     def comboEqualToChanged(self, index):
         self.updateSnapshots()

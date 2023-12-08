@@ -143,7 +143,7 @@ def getExistingDirectories(parent, *args, **kwargs):
     dlg.findChildren(QListView)[0].setSelectionMode(mode)
     dlg.findChildren(QTreeView)[0].setSelectionMode(mode)
 
-    if dlg.exec_() == QDialog.Accepted:
+    if dlg.exec() == QDialog.Accepted:
         return dlg.selectedFiles()
 
     return [str(), ]
@@ -157,7 +157,7 @@ def getExistingDirectory(parent, *args, **kwargs):
     dlg.setFileMode(dlg.Directory)
     dlg.setOption(dlg.ShowDirsOnly, True)
 
-    if dlg.exec_() == QDialog.Accepted:
+    if dlg.exec() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
 
     return str()
@@ -170,7 +170,7 @@ def getOpenFileNames(parent, *args, **kwargs):
     dlg = FileDialogShowHidden(parent, *args, **kwargs)
     dlg.setFileMode(dlg.ExistingFiles)
 
-    if dlg.exec_() == QDialog.Accepted:
+    if dlg.exec() == QDialog.Accepted:
         return dlg.selectedFiles()
     return [str(), ]
 
@@ -181,7 +181,7 @@ def getOpenFileName(parent, *args, **kwargs):
     dlg = FileDialogShowHidden(parent, *args, **kwargs)
     dlg.setFileMode(dlg.ExistingFile)
 
-    if dlg.exec_() == QDialog.Accepted:
+    if dlg.exec() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
 
     return str()

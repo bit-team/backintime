@@ -144,7 +144,7 @@ class QtSysTrayIcon:
 
         # logger.debug("begin loop", self)
 
-        self.qapp.exec_()
+        self.qapp.exec()
 
         # logger.debug("end loop", self)
 
@@ -221,7 +221,7 @@ class QtSysTrayIcon:
         dlg = logviewdialog.LogViewDialog(self, systray = True)
         dlg.decode = self.decode
         dlg.cbDecode.setChecked(self.btnDecode.isChecked())
-        dlg.exec_()
+        dlg.exec()
 
     def onBtnDecode(self, checked):
         if checked:

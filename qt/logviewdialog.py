@@ -132,7 +132,7 @@ class LogViewDialog(QDialog):
             self.watcher.addPath(log)
         self.watcher.fileChanged.connect(self.updateLog)
 
-        self.txtLogView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.txtLogView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.txtLogView.customContextMenuRequested.connect(self.contextMenuClicked)
 
     def cbDecodeChanged(self):
@@ -182,7 +182,7 @@ class LogViewDialog(QDialog):
         btnDecode.setEnabled(cursor.hasSelection())
         btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
 
-        menu.exec_(self.txtLogView.mapToGlobal(point))
+        menu.exec(self.txtLogView.mapToGlobal(point))
 
     def btnAddExcludeClicked(self):
         exclude = self.config.exclude()

@@ -391,7 +391,7 @@ class SSH(MountControl):
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         env=env,
-                                        preexec_fn=os.setsid,
+                                        prexec_fn=os.setsid,
                                         universal_newlines=True)
 
                 output, error = proc.communicate()
@@ -1074,7 +1074,7 @@ def sshCopyId(pubkey, user, host, port='22',
     proc = subprocess.Popen(cmd, env=env,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.PIPE,
-                            preexec_fn=os.setsid,  # cut of ssh from current
+                            prexec_fn=os.setsid,  # cut of ssh from current
                                                    # terminal to make it use
                                                    # backintime-askpass
                             universal_newlines=True)

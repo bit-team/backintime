@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
             _("This folder doesn't exist\nin the current selected snapshot."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
-        self.lblFolderDontExists.setFrameShadow(QFrame.Sunken)
+        self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Panel)
         self.lblFolderDontExists.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.stackFilesView.addWidget(self.lblFolderDontExists)
@@ -240,7 +240,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainSplitter)
 
         # context menu for Files View
-        self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.filesView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.filesView.customContextMenuRequested \
                       .connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
@@ -341,9 +341,9 @@ class MainWindow(QMainWindow):
                 .format(appName=self.config.APP_NAME)
 
             if QMessageBox.Yes == messagebox.warningYesNo(self, message):
-                settingsdialog.RestoreConfigDialog(self).exec_()
+                settingsdialog.RestoreConfigDialog(self).exec()
 
-            settingsdialog.SettingsDialog(self).exec_()
+            settingsdialog.SettingsDialog(self).exec()
 
         if not config.isConfigured():
             return
@@ -1228,12 +1228,12 @@ class MainWindow(QMainWindow):
         self.shutdown.activate_shutdown = checked
 
     def contextMenuClicked(self, point):
-        self.contextMenu.exec_(self.filesView.mapToGlobal(point))
+        self.contextMenu.exec(self.filesView.mapToGlobal(point))
 
     def btnAboutClicked(self):
         with self.suspendMouseButtonNavigation():
             dlg = About(self)
-            dlg.exec_()
+            dlg.exec()
 
     def btnHelpClicked(self):
         self.openManPage('backintime')
@@ -1469,7 +1469,7 @@ files that the receiver requests to be transferred.""")
         with self.suspendMouseButtonNavigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
 
-            if QDialog.Accepted == dlg.exec_():
+            if QDialog.Accepted == dlg.exec():
 
                 if dlg.sid != self.sid:
                     self.timeLine.setCurrentSnapshotID(dlg.sid)
@@ -2004,7 +2004,7 @@ if __name__ == '__main__':
     if cfg.isConfigured():
         cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
-        qapp.exec_()
+        qapp.exec()
 
     logger.closelog()
 

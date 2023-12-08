@@ -41,7 +41,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog.setTextEchoMode(QLineEdit.Password)
     QApplication.processEvents()
 
-    ret = dialog.exec_()
+    ret = dialog.exec()
 
     timer.stop()
     if ret:
@@ -107,7 +107,7 @@ def warningYesNoOptions(parent, msg, options = ()):
     buttonBox.rejected.connect(dlg.reject)
 
     # Show and ask user for the answer
-    ret = dlg.exec_()
+    ret = dlg.exec()
 
     return (
         ret,
@@ -136,4 +136,4 @@ def showInfo(parent, title, msg):
 
     vlayout.addWidget(scroll_area)
     vlayout.addWidget(buttonBox)
-    return dlg.exec_()
+    return dlg.exec()

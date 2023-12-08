@@ -2060,11 +2060,11 @@ class SettingsDialog(QDialog):
         return ' (%s: %s)' % (_('default'), value_)
 
     def restoreConfig(self, *args):
-        RestoreConfigDialog(self).exec_()
+        RestoreConfigDialog(self).exec()
         self.updateProfiles()
 
     def editUserCallback(self, *args):
-        EditUserCallback(self).exec_()
+        EditUserCallback(self).exec()
 
     def accept(self):
         if self.validate():
@@ -2152,7 +2152,7 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(self.treeView)
 
         # context menu
-        self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.treeView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.onContextMenu)
         self.contextMenu = QMenu(self)
         self.btnShowHidden = self.contextMenu.addAction(
@@ -2320,7 +2320,7 @@ class RestoreConfigDialog(QDialog):
         self.wait.deleteLater()
 
     def onContextMenu(self, point):
-        self.contextMenu.exec_(self.treeView.mapToGlobal(point))
+        self.contextMenu.exec(self.treeView.mapToGlobal(point))
 
     def onBtnShowHidden(self, checked):
         if checked:
@@ -2337,11 +2337,11 @@ class RestoreConfigDialog(QDialog):
             self.config.dict = self.restoreConfig.dict
         super(RestoreConfigDialog, self).accept()
 
-    def exec_(self):
+    def.exec(self):
         """
         stop the scan thread if it is still running after dialog was closed.
         """
-        ret = super(RestoreConfigDialog, self).exec_()
+        ret = super(RestoreConfigDialog, self).exec()
         self.scan.stop()
         return ret
 

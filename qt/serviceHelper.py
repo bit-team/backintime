@@ -332,4 +332,4 @@ if __name__ == '__main__':
     object = UdevRules(bus, '/UdevRules')
 
     print("Running BIT service.")
-    app.exec_()
+    app.exec()
