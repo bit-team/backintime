@@ -568,7 +568,7 @@ class SortedComboBox(QComboBox):
     def __init__(self, parent=None):
         super(SortedComboBox, self).__init__(parent)
         self.sortOrder = Qt.SortOrder.AscendingOrder
-        self.sortRole = Qt.DisplayRole
+        self.sortRole = Qt.ItemDataRole.DisplayRole
 
     def addItem(self, text, userData=None):
         """
