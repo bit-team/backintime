@@ -31,7 +31,7 @@
 import os
 import sys
 
-from PyQt6.QtGui import (QFont, QColor, QKeySequence, QIcon)
+from PyQt6.QtGui import (QFont, QColor, QIcon)
 from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
@@ -111,7 +111,7 @@ class FileDialogShowHidden(QFileDialog):
         self.setOption(self.HideNameFilterDetails, True)
 
         showHiddenAction = QAction(self)
-        showHiddenAction.setShortcuts([QKeySequence(Qt.CTRL + Qt.Key_H),])
+        showHiddenAction.setShortcut('Ctrl+H')
         showHiddenAction.triggered.connect(self.toggleShowHidden)
         self.addAction(showHiddenAction)
 
