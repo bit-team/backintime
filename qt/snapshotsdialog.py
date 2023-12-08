@@ -65,7 +65,7 @@ class DiffOptionsDialog(QDialog):
 
         self.mainLayout.addWidget(QLabel(_('Use %1 and %2 for path parameters')), 2, 1)
 
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
@@ -172,11 +172,11 @@ class SnapshotsDialog(QDialog):
         layout.addWidget(self.comboDiff, 2)
 
         #buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.btnGoto =   buttonBox.button(QDialogButtonBox.Ok)
-        self.btnCancel = buttonBox.button(QDialogButtonBox.Cancel)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        self.btnGoto =   buttonBox.button(QDialogButtonBox.StandardButton.Ok)
+        self.btnCancel = buttonBox.button(QDialogButtonBox.StandardButton.Cancel)
         self.btnGoto.setText(_('Go To'))
-        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.HelpRole)
+        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.ButtonRole.HelpRole)
         btnDiffOptions.setIcon(icon.DIFF_OPTIONS)
 
         self.mainLayout.addWidget(buttonBox)

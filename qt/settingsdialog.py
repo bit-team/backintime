@@ -1087,12 +1087,12 @@ class SettingsDialog(QDialog):
 
         # buttons
         buttonBox = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
         btnRestore = buttonBox.addButton(
-            _('Restore Config'), QDialogButtonBox.ResetRole)
+            _('Restore Config'), QDialogButtonBox.ButtonRole.ResetRole)
         btnUserCallback = buttonBox.addButton(
-            _('Edit user-callback'), QDialogButtonBox.ResetRole)
+            _('Edit user-callback'), QDialogButtonBox.ButtonRole.ResetRole)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         btnRestore.clicked.connect(self.restoreConfig)
@@ -2216,9 +2216,9 @@ class RestoreConfigDialog(QDialog):
 
         buttonBox = QDialogButtonBox(self)
         self.restoreButton = buttonBox.addButton(
-            _('Restore'), QDialogButtonBox.AcceptRole)
+            _('Restore'), QDialogButtonBox.ButtonRole.AcceptRole)
         self.restoreButton.setEnabled(False)
-        buttonBox.addButton(QDialogButtonBox.Cancel)
+        buttonBox.addButton(QDialogButtonBox.StandardButton.Cancel)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         layout.addWidget(buttonBox)
@@ -2449,7 +2449,7 @@ class EditUserCallback(QDialog):
         layout.addWidget(self.edit)
 
         btnBox = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
 
         btnBox.accepted.connect(self.accept)

@@ -100,8 +100,8 @@ def warningYesNoOptions(parent, msg, options = ()):
         layout.addWidget(opt['widget'])
 
     # Button box
-    buttonBox = QDialogButtonBox(QDialogButtonBox.Yes | QDialogButtonBox.No)
-    buttonBox.button(QDialogButtonBox.No).setDefault(True)
+    buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Yes | QDialogButtonBox.StandardButton.No)
+    buttonBox.button(QDialogButtonBox.StandardButton.No).setDefault(True)
     layout.addWidget(buttonBox)
     buttonBox.accepted.connect(dlg.accept)
     buttonBox.rejected.connect(dlg.reject)
@@ -132,7 +132,7 @@ def showInfo(parent, title, msg):
     scroll_area = QScrollArea()
     scroll_area.setWidget(label)
 
-    buttonBox = QDialogButtonBox(QDialogButtonBox.Ok)
+    buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
     buttonBox.accepted.connect(dlg.accept)
 
     vlayout.addWidget(scroll_area)

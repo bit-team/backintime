@@ -56,10 +56,10 @@ class RestoreDialog(QDialog):
         self.mainLayout.addWidget(self.txtLogView)
 
         #buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
-        showLog = buttonBox.addButton(_('Show full Log'), QDialogButtonBox.ActionRole)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
+        showLog = buttonBox.addButton(_('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
         self.mainLayout.addWidget(buttonBox)
-        self.btnClose = buttonBox.button(QDialogButtonBox.Close)
+        self.btnClose = buttonBox.button(QDialogButtonBox.StandardButton.Close)
         self.btnClose.setEnabled(False)
         buttonBox.rejected.connect(self.close)
         showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.logFile)))

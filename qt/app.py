@@ -1871,11 +1871,11 @@ class About(QDialog):
         vlayout.addWidget(bit_copyright)
 
         buttonBoxLeft  = QDialogButtonBox(self)
-        btn_authors      = buttonBoxLeft.addButton(_('Authors'), QDialogButtonBox.ActionRole)
-        btn_translations = buttonBoxLeft.addButton(_('Translations'), QDialogButtonBox.ActionRole)
-        btn_license      = buttonBoxLeft.addButton(_('License'), QDialogButtonBox.ActionRole)
+        btn_authors      = buttonBoxLeft.addButton(_('Authors'), QDialogButtonBox.ButtonRole.ActionRole)
+        btn_translations = buttonBoxLeft.addButton(_('Translations'), QDialogButtonBox.ButtonRole.ActionRole)
+        btn_license      = buttonBoxLeft.addButton(_('License'), QDialogButtonBox.ButtonRole.ActionRole)
 
-        buttonBoxRight = QDialogButtonBox(QDialogButtonBox.Ok)
+        buttonBoxRight = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
 
         hlayout = QHBoxLayout()
         hlayout.addWidget(buttonBoxLeft)

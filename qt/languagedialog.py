@@ -40,7 +40,7 @@ class LanguageDialog(QDialog):
         self._scroll.setMinimumWidth(new_width)
 
         buttonbox = QDialogButtonBox(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Ok, self)
+            QDialogButtonBox.StandardButton.Cancel | QDialogButtonBox.StandardButton.Ok, self)
 
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
@@ -238,7 +238,7 @@ class ApproachTranslatorDialog(QDialog):
         widget.setOpenExternalLinks(True)
         widget.linkHovered.connect(self.slot_link_hovered)
 
-        button = QDialogButtonBox(QDialogButtonBox.Ok, self)
+        button = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, self)
         button.clicked.connect(self.accept)
 
         layout = QVBoxLayout(self)

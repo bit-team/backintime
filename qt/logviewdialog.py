@@ -116,7 +116,7 @@ class LogViewDialog(QDialog):
         self.mainLayout.addWidget(self.cbDecode)
 
         #buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         self.mainLayout.addWidget(buttonBox)
         buttonBox.rejected.connect(self.close)
 
