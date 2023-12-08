@@ -120,12 +120,12 @@ class FileDialogShowHidden(QFileDialog):
     def showHidden(self, enable):
 
         if enable:
-            self.setFilter(self.filter() | QDir.Hidden)
-        elif int(self.filter() & QDir.Hidden):
-            self.setFilter(self.filter() ^ QDir.Hidden)
+            self.setFilter(self.filter() | QDir.Filter.Hidden)
+        elif int(self.filter() & QDir.Filter.Hidden):
+            self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 
     def toggleShowHidden(self):
-        self.showHidden(not int(self.filter() & QDir.Hidden))
+        self.showHidden(not QDir.Filter(self.filter() & QDir.Filter.Hidden))
 
 
 def getExistingDirectories(parent, *args, **kwargs):

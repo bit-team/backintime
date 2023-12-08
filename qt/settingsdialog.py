@@ -127,7 +127,7 @@ class SettingsDialog(QDialog):
 
         # TAB: General
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&General'))
 
         layoutWidget = QWidget(self)
@@ -616,7 +616,7 @@ class SettingsDialog(QDialog):
 
         # TAB: Auto-remove
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&Auto-remove'))
 
         layoutWidget = QWidget(self)
@@ -745,7 +745,7 @@ class SettingsDialog(QDialog):
 
         # TAB: Options
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&Options'))
 
         layoutWidget = QWidget(self)
@@ -825,7 +825,7 @@ class SettingsDialog(QDialog):
 
         # TAB: Expert Options
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('E&xpert Options'))
 
         layoutWidget = QWidget(self)
