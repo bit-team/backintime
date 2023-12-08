@@ -71,17 +71,24 @@ def info(text, title=None, widget_to_center_on=None):
         title if title else _('Information'),
         text)
 
+
 def critical(parent, msg):
-    return QMessageBox.critical(parent,
-                                _('Error'),
-                                msg,
-                                buttons = QMessageBox.Ok,
-                                defaultButton = QMessageBox.Ok)
+    return QMessageBox.critical(
+        parent,
+        _('Error'),
+        msg,
+        buttons=QMessageBox.StandardButton.Ok,
+        defaultButton=QMessageBox.StandardButton.Ok)
+
 
 def warningYesNo(parent, msg):
-    return QMessageBox.question(parent, _('Question'), msg,
-                                buttons = QMessageBox.Yes | QMessageBox.No,
-                                defaultButton = QMessageBox.No)
+    return QMessageBox.question(
+        parent,
+        _('Question'),
+        msg,
+        buttons=QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+        defaultButton=QMessageBox.StandardButton.No)
+
 
 def warningYesNoOptions(parent, msg, options = ()):
 

@@ -1729,7 +1729,9 @@ class SettingsDialog(QDialog):
         messagebox.critical(self, message)
 
     def questionHandler(self, message):
-        return QMessageBox.Yes == messagebox.warningYesNo(self, message)
+        answer = messagebox.warningYesNo(self, message)
+
+        return answer == QMessageBox.StandardButton.Yes
 
     def updateRemoveOlder(self):
         enabled = self.cbRemoveOlder.isChecked()

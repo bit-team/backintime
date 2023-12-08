@@ -379,7 +379,9 @@ class SnapshotsDialog(QDialog):
         msg = '{}\n{}: {}'.format(
             msg, _('WARNING'), _('This cannot be revoked!'))
 
-        if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
+        answer = messagebox.warningYesNo(self, msg)
+        if answer == QMessageBox.StandardButton.Yes:
+
             for item in items:
                 item.setFlags(Qt.ItemFlag.NoItemFlags)
 
@@ -396,9 +398,12 @@ class SnapshotsDialog(QDialog):
             msg = _('Exclude {path} from future snapshots?').format(
                 path=f'"{self.path}"')
 
-            if self.path not in exclude and QMessageBox.Yes == messagebox.warningYesNo(self, msg):
-                exclude.append(self.path)
-                self.config.setExclude(exclude)
+            if self.path not in exclude:
+                answer = messagebox.warningYesNo(self, msg)
+
+                if answer == QMessageBox.StandardButton.Yes:
+                    exclude.append(self.path)
+                    self.config.setExclude(exclude)
 
     def btnSelectAllClicked(self):
         """

@@ -114,7 +114,11 @@ class QtSysTrayIcon:
         self.progressBar.setValue(0)
         self.progressBar.setTextVisible(False)
         self.progressBar.resize(24, 6)
-        self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
+        self.progressBar.render(
+            self.pixmap,
+            sourceRegion=QRegion(0, -14, 24, 6),
+            flags=QWidget.RenderFlag.DrawChildren
+        )
 
         self.first_error = self.config.notify()
         self.popup = None

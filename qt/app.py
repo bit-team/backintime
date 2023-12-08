@@ -344,7 +344,8 @@ class MainWindow(QMainWindow):
                 'to restore a previous configuration?') \
                 .format(appName=self.config.APP_NAME)
 
-            if QMessageBox.Yes == messagebox.warningYesNo(self, message):
+            answer = messagebox.warningYesNo(self, message)
+            if answer == QMessageBox.StandardButton.Yes:
                 settingsdialog.RestoreConfigDialog(self).exec()
 
             settingsdialog.SettingsDialog(self).exec()
@@ -767,7 +768,8 @@ class MainWindow(QMainWindow):
             msg = _('If you close this window Back In Time will not be able '
                     'to shut down your system when the snapshot has finished.'
                     '\nDo you really want to close?')
-            if QMessageBox.Yes != messagebox.warningYesNo(self, msg):
+            answer = messagebox.warningYesNo(self, msg)
+            if answer != QMessageBox.Yes:
                 return event.ignore()
 
         self.config.setStrValue('qt.last_path', self.path)
@@ -1219,7 +1221,9 @@ class MainWindow(QMainWindow):
             ),
             '\n'.join([item.snapshotID().displayName for item in items]))
 
-        if QMessageBox.Yes != messagebox.warningYesNo(self, question_msg):
+        answer = messagebox.warningYesNo(self, question_msg)
+
+        if answer != QMessageBox.StandardButton.Yes:
             return
 
         for item in items:
@@ -1407,7 +1411,9 @@ files that the receiver requests to be transferred.""")
                 _('WARNING: Deleting files in filesystem root could break '
                   'your whole system!'))
 
-        return QMessageBox.Yes == messagebox.warningYesNo(self, msg)
+        answer = messagebox.warningYesNo(self, msg)
+
+        return answer == QMessageBox.Yes
 
     def restoreThis(self):
         if self.sid.isRoot:
