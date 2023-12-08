@@ -1907,14 +1907,21 @@ class ExtraMouseButtonEventFilter(QObject):
         super(ExtraMouseButtonEventFilter, self).__init__()
 
     def eventFilter(self, receiver, event):
-        if event.type() == QEvent.MouseButtonPress and event.button() in (Qt.XButton1, Qt.XButton2):
+        if (event.type() == QEvent.Type.MouseButtonPress
+            and event.button() in (Qt.XButton1, Qt.XButton2)):
+
             if event.button() == Qt.XButton1:
                 self.mainWindow.btnFolderHistoryPreviousClicked()
+
             if event.button() == Qt.XButton2:
                 self.mainWindow.btnFolderHistoryNextClicked()
+
             return True
+
         else:
-            return super(ExtraMouseButtonEventFilter, self).eventFilter(receiver, event)
+
+            return super(ExtraMouseButtonEventFilter, self) \
+                .eventFilter(receiver, event)
 
 class RemoveSnapshotThread(QThread):
     """
