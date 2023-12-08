@@ -306,7 +306,7 @@ def initiate_translator(language_code: str) -> QTranslator:
 
     rc = translator.load(
         f'qt_{language_code}',
-        QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+        QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath))
 
     if rc == False:
         logger.warning(
