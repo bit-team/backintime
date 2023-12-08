@@ -1856,7 +1856,8 @@ class About(QDialog):
         name = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>' + git_version)
         name.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         homepage = QLabel(self.mkurl('<https://github.com/bit-team/backintime>'))
-        homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+        homepage.setTextInteractionFlags(
+            Qt.TextInteractionFlag.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
         bit_copyright = QLabel(self.config.COPYRIGHT + '\n')
 

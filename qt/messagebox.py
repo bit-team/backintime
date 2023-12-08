@@ -125,7 +125,8 @@ def showInfo(parent, title, msg):
     dlg.setWindowTitle(title)
     vlayout = QVBoxLayout(dlg)
     label = QLabel(msg)
-    label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+    label.setTextInteractionFlags(
+        Qt.TextInteractionFlag.LinksAccessibleByMouse)
     label.setOpenExternalLinks(True)
 
     scroll_area = QScrollArea()
