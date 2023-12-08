@@ -1489,7 +1489,7 @@ files that the receiver requests to be transferred.""")
         with self.suspendMouseButtonNavigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
 
-            if QDialog.Accepted == dlg.exec():
+            if dlg.exec() == QDialog.DialogCode.Accepted:
 
                 if dlg.sid != self.sid:
                     self.timeLine.setCurrentSnapshotID(dlg.sid)
