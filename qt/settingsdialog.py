@@ -2156,7 +2156,7 @@ class RestoreConfigDialog(QDialog):
         self.treeViewFilterProxy.setDynamicSortFilter(True)
         self.treeViewFilterProxy.setSourceModel(self.treeViewModel)
 
-        self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
+        self.treeViewFilterProxy.setFilterRegularExpression(r'^[^\.]')
 
         self.treeView.setModel(self.treeViewFilterProxy)
         for col in range(self.treeView.header().count()):
@@ -2340,9 +2340,9 @@ class RestoreConfigDialog(QDialog):
 
     def onBtnShowHidden(self, checked):
         if checked:
-            self.treeViewFilterProxy.setFilterRegExp(r'')
+            self.treeViewFilterProxy.setFilterRegularExpression(r'')
         else:
-            self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
+            self.treeViewFilterProxy.setFilterRegularExpression(r'^[^\.]')
 
     def accept(self):
         """

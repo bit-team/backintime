@@ -1649,9 +1649,9 @@ files that the receiver requests to be transferred.""")
 
         if os.path.isdir(full_path):
             if self.showHiddenFiles:
-                self.filesViewProxyModel.setFilterRegExp(r'')
+                self.filesViewProxyModel.setFilterRegularExpression(r'')
             else:
-                self.filesViewProxyModel.setFilterRegExp(r'^[^\.]')
+                self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
 
             model_index = self.filesViewModel.setRootPath(full_path)
             proxy_model_index = self.filesViewProxyModel.mapFromSource(model_index)
@@ -1918,12 +1918,12 @@ class ExtraMouseButtonEventFilter(QObject):
 
     def eventFilter(self, receiver, event):
         if (event.type() == QEvent.Type.MouseButtonPress
-            and event.button() in (Qt.XButton1, Qt.XButton2)):
+            and event.button() in (Qt.MouseButton.XButton1, Qt.MouseButton.XButton2)):
 
-            if event.button() == Qt.XButton1:
+            if event.button() == Qt.MouseButton.XButton1:
                 self.mainWindow.btnFolderHistoryPreviousClicked()
 
-            if event.button() == Qt.XButton2:
+            if event.button() == Qt.MouseButton.XButton2:
                 self.mainWindow.btnFolderHistoryNextClicked()
 
             return True
