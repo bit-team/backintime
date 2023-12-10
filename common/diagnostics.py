@@ -382,20 +382,20 @@ def _get_os_release():
                            ))
 
     # "os-release" is standard and should be on top of the list
-    fp = etc_path / 'os-release'
+    fp_osrelease = etc_path / 'os-release'
     try:
-        os_files.remove(fp)
+        os_files.remove(fp_osrelease)
     except ValueError:
         pass
     else:
-        os_files = [fp] + os_files
+        os_files = [fp_osrelease] + os_files
 
     # each release/version file found
     osrelease = {str(fp): _get_pretty_name_or_content(fp) for fp in os_files}
 
     # No alternative release files found
     if len(osrelease) == 1:
-        return osrelease['os-release']
+        return osrelease[str(fp_osrelease)]
 
     return osrelease
 
