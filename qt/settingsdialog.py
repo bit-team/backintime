@@ -1855,6 +1855,11 @@ class SettingsDialog(QDialog):
             self.listInclude.setCurrentItem(self.listInclude.topLevelItem(0))
 
     def btnIncludeFileClicked(self):
+        """Development Note (buhtz 2023-12):
+        This is a candidate for refactoring. See btnIncludeAddClicked() with
+        much duplicated code.
+        """
+
         for path in qttools.getOpenFileNames(self, _('Include file')):
             if not path:
                 continue
@@ -1881,6 +1886,10 @@ class SettingsDialog(QDialog):
             self.addInclude((path, 1))
 
     def btnIncludeAddClicked(self):
+        """Development Note (buhtz 2023-12):
+        This is a candidate for refactoring. See btnIncludeFileClicked() with
+        much duplicated code.
+        """
         for path in qttools.getExistingDirectories(self, _('Include folder')):
             if not path:
                 continue
