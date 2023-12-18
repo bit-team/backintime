@@ -2,8 +2,8 @@
 
 Table of contents:
 
-* [TLDR ;-)](#tldr-)
-* [_Back In Time_ commands that use lock files](#_back-in-time_-commands-that-use-lock-files)
+* [TLDR ;-)](#tldr--)
+* [_Back In Time_ commands that use lock files](#back-in-time-commands-that-use-lock-files)
    + [`backup`](#backup)
    + [`restore`](#restore)
    + [`shutdown`](#shutdown)
