@@ -18,7 +18,7 @@ Table of contents:
    + [`save_to_continue` flag file in new snapshots](#save_to_continue-flag-file-in-new-snapshots)
    + [Restore lock file (`restore<Profile ID>.lock`)](#restore-lock-file-restoreprofile-idlock)
 * [See also](#see-also)
-   + [_Back in Time_ FAQ](#_back-in-time_-faq)
+   + [_Back in Time_ FAQ](#back-in-time-faq)
    + [Linux advisory locks](#linux-advisory-locks)
 
 Notes:
