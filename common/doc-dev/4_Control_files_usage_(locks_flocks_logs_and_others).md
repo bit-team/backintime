@@ -56,12 +56,9 @@ of _Back In Time_.
 _Back In Time_ does only start a new backup job (for the same profile)
 if the control file does not exist.
 
-Lock files are stored by default in the folder
-
-`~/.local/share/backintime`
-
-and contain the process id (also known as PID - see `man ps`) and process name
-of the running backup process.
+Lock files are stored by default in the folder `~/.local/share/backintime` and
+contain the process id (also known as PID - see `man ps`) and process name of
+the running backup process.
 
 The PID is used [to check if the process that created the
 lock file is still running](https://github.com/bit-team/backintime/blob/25c2115b42904ec4a4aee5ba1d73bd97cb5d8b31/common/applicationinstance.py#L78-L79) and delete or overwrite the lock file
