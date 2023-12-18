@@ -1,12 +1,12 @@
-# Usage of lock files in _Back In Time_ (developer documentation?
+# Usage of control files in _Back In Time_ (developer documentation)
 
 Table of contents:
 
 * [TLDR ;-)](#tldr-)
 * [_Back In Time_ commands that use lock files](#_back-in-time_-commands-that-use-lock-files)
-   + [`backup()`](#backup)
-   + [`restore()`](#restore)
-   + [`shutdown()`](#shutdown)
+   + [`backup`](#backup)
+   + [`restore`](#restore)
+   + [`shutdown`](#shutdown)
 * [List of known control files](#list-of-known-control-files)
    + [GUI (application) lock files (`app.lock.pid`)](#gui-application-lock-files-applockpid)
    + [Global flock file `/tmp/backintime.lock`](#global-flock-file-tmpbackintimelock)
@@ -19,7 +19,7 @@ Table of contents:
    + [Restore lock file (`restore<Profile ID>.lock`)](#restore-lock-file-restoreprofile-idlock)
 * [See also](#see-also)
    + [_Back in Time_ FAQ](#_back-in-time_-faq)
-   + [Linux advisory locking](#linux-advisory-locking)
+   + [Linux advisory locks](#linux-advisory-locks)
 
 Notes:
 
@@ -71,7 +71,7 @@ with a new instance.
 
 ## _Back In Time_ commands that use lock files
 
-### `backup()`
+### `backup`
 
 Takes a snapshot after checking that no other snapshot or restore is running at the same time:
 
@@ -104,7 +104,7 @@ This table shows the control file focused execution sequence of the [`snapshots.
 
 
 
-### `restore()`
+### `restore`
 
 Before restoring one or more files from a snapshot _Back In Time_ checks
 if a restore is already running (using the restore lock file `restore<Profile ID>.lock`)
@@ -124,7 +124,7 @@ This table shows the control file focused execution sequence of the [`snapshots.
 
 
 
-### `shutdown()`
+### `shutdown`
 
 This command shuts down the computer after the current snapshot has finished.
 It polls the worker lock file to recognize running backups.
@@ -264,7 +264,7 @@ for some problems caused by lock files.
 
 
 
-### Linux advisory locking
+### Linux advisory locks
 
 See `man 2 fcntl` and https://linuxhandbook.com/file-locking/
 
