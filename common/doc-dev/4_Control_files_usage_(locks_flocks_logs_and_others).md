@@ -1,5 +1,26 @@
 # Usage of lock files in _Back In Time_ (developer documentation?
 
+Table of contents:
+
+* [TLDR ;-)](#tldr-)
+* [_Back In Time_ commands that use lock files](#_back-in-time_-commands-that-use-lock-files)
+   + [`backup()`](#backup)
+   + [`restore()`](#restore)
+   + [`shutdown()`](#shutdown)
+* [List of known control files](#list-of-known-control-files)
+   + [GUI (application) lock files (`app.lock.pid`)](#gui-application-lock-files-applockpid)
+   + [Global flock file `/tmp/backintime.lock`](#global-flock-file-tmpbackintimelock)
+   + [Backup lock files (`worker<Profile ID>.lock.flock`)](#backup-lock-files-workerprofile-idlockflock)
+   + [Backup progress file (`worker<PID>.progress`)](#backup-progress-file-workerpidprogress)
+   + [`takesnapshot_<profile ID>.log`](#takesnapshot_profile-idlog)
+   + [`restore_<profile ID>.log`](#restore_profile-idlog)
+   + [Raise file (`app.lock.raise`)](#raise-file-applockraise)
+   + [`save_to_continue` flag file in new snapshots](#save_to_continue-flag-file-in-new-snapshots)
+   + [Restore lock file (`restore<Profile ID>.lock`)](#restore-lock-file-restoreprofile-idlock)
+* [See also](#see-also)
+   + [_Back in Time_ FAQ](#_back-in-time_-faq)
+   + [Linux advisory locking](#linux-advisory-locking)
+
 Notes:
 
 - The logic is based on the the source code of
@@ -168,7 +189,7 @@ https://github.com/bit-team/backintime/blob/25c2115b42904ec4a4aee5ba1d73bd97cb5d
 
 
 
-### Backup progress file (`worker<PID>.progress')
+### Backup progress file (`worker<PID>.progress`)
 
 _Back In Time_ starts `rsync` as separate process.
 To read the progress, errors and results of `rsync` a `worker<PID>.progress' file
