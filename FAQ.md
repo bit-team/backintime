@@ -1,5 +1,11 @@
 # FAQ - Frequently Asked Questions
 <!-- TOC start - via https://derlin.github.io/bitdowntoc/-->
+- [General](#general)
+  * [Does Back In Time create incremental backups?](#does-back-in-time-create-incremental-backups)
+  * [How does snapshots with hard-links work?](#how-does-snapshots-with-hard-links-work)
+  * [How can I check if my snapshots are using hard-links?](#how-can-i-check-if-my-snapshots-are-using-hard-links)
+  * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
+  * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
 - [Restore](#restore)
   * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
   * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
@@ -24,9 +30,6 @@
   * [How to use WesterDigital MyBook World Edition with BIT over ssh?](#how-to-use-westerdigital-mybook-world-edition-with-bit-over-ssh)
 - [Uncategorised questions](#uncategorised-questions)
   * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
-  * [How does snapshots with hard-links work?](#how-does-snapshots-with-hard-links-work)
-  * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
-  * [How can I check if my snapshots are incremental (using hard-links)?](#how-can-i-check-if-my-snapshots-are-incremental-using-hard-links)
   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
   * [How to move large directory in source without duplicating backup?](#how-to-move-large-directory-in-source-without-duplicating-backup)
@@ -34,6 +37,192 @@
   * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
   * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
 <!-- TOC end -->
+## General
+### Does Back In Time create incremental backups?
+Back In Time do use `rsync` and its `--hard-links` feature. Because of that
+each snapshot is technically a full backup but the physical storage used is
+similar to an incremental backup.
+In technical terms it is not an
+[incremental backups](https://en.wikipedia.org/wiki/Incremental_backup).
+
+### How does snapshots with hard-links work?
+
+From the answer on Launchpad to the question
+[_Does auto remove smart mode merge incremental backups?_](https://answers.launchpad.net/backintime/+question/123486)
+
+If you create a new file on a Linux filesystem (e.g. ext3) the data will have a
+unique number that is called inode. The path of the file is a link to this inode
+(there is a database which stores which file point to which inode). Also every
+inode has a counter for how many links point to this inode. After you created a
+new file the counter is 1.
+
+Now you make a new hardlink. The filesystem now just has to store the new path
+pointing to the existing inode into the database and increase the counter of our
+inode by 1.
+
+If you remove a file than only the link from the path to that inode is removed
+and the counter is decreased by 1. If you have removed all links to that inode
+so the counter is zero the filesystem knows that it can override that block next
+time you save a new file.
+
+First time you create a new backup with BIT all files will have an inode
+counter = 1.
+
+#### snapshot0
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         1 |
+| fileB  |       2 |         1 |
+| fileC  |       3 |         1 |
+
+Lets say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
+BIT first makes hardlinks of all files. ``rsync`` than delete all hardlinks of
+files that has changed and copy the new files.
+
+#### snapshot0
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         2 |
+| fileB  |       2 |         1 |
+| fileC  |       3 |         1 |
+
+
+#### snapshot1
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         2 |
+| fileB  |       4 |         1 |
+| fileD  |       5 |         1 |
+
+Now change ``fileB`` again and make a new snapshot
+
+#### snapshot0
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         3 |
+| fileB  |       2 |         1 |
+| fileC  |       3 |         1 |
+
+#### snapshot1
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         3 |
+| fileB  |       4 |         1 |
+| fileC  |       5 |         2 |
+
+#### snapshot2
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         3 |
+| fileB  |       6 |         1 |
+| fileD  |       5 |         2 |
+
+
+Finally smart-remove is going to remove **snapshot0**. All that is done by
+smart-remove is to ``rm -rf`` (force delete everything) the whole directory
+of **snapshot0**.
+
+#### snapshot0 (no longer exist)
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| (empty)  |       1 |         2 |
+| (empty)  |       2 |         0 |
+| (empty)  |       3 |         0 |
+
+#### snapshot1
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         2 |
+| fileB  |       4 |         1 |
+| fileD  |       5 |         2 |
+
+#### snapshot2
+| path   |   inode |   counter |
+|:-------|--------:|----------:|
+| fileA  |       1 |         2 |
+| fileB  |       6 |         1 |
+| fileD  |       5 |         2 |
+
+``fileA`` is still untouched, ``fileB`` is still available in two different
+versions and ``fileC`` is gone for good. The blocks on your hdd that stored the
+data for inode 2 and 3 can now get overridden.
+
+I hope this will shed a light on the "magic" behind BIT. If it's even more
+confusing don't hesitate to ask ;)
+
+
+### How can I check if my snapshots are using hard-links?
+
+Please compare the inodes of a file that definitely didn't change between two
+snapshots. For this open two Terminals and ``cd`` into both snapshot folder.
+``ls -lai`` will print a list where the first column is the inode which should
+be equal for the same file in both snapshots if the file didn't change and the
+snapshots are incremental.
+The third column is a counter (if the file is no directory) on how many
+hard-links exist for this inode. It should be >1. So if you took e.g. 3
+snapshots it should be 3.
+
+Don't be confused on the size of each snapshot. If you right click on
+preferences for a snapshot in a file manager and look for its size, it will
+look like they are all full snapshots (not incremental). But that's not
+(necessary) the case.
+
+To get the correct size of each snapshot with respect on the hard-links you
+can run:
+
+```bash
+du -chd0 /media/<USER>/backintime/<HOST>/<USER>/1/*
+```
+
+Compare with option `-l` to count hardlinks multiple times:
+
+```bash
+du -chld0 /media/<USER>/backintime/<HOST>/<USER>/1/*
+```
+
+(``ncdu`` isn't installed by default so I won't recommend using it)
+
+### What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
+This are from `rsync` and indicating what changed and why.
+Please see the section `--itemize-changes` in the
+[manpage](https://download.samba.org/pub/rsync/rsync.1#opt--itemize-changes)
+of `rsync`. See also some
+[rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
+
+### How to use checksum to find corrupt files periodically?
+
+Starting with BIT Version 1.0.28 there is a new command line option
+``--checksum`` which will do the same as *Use checksum to detect changes* in
+Options. It will calculate checksums for both the source and the last snapshots
+files and will only use this checksum to decide whether a file has change or
+not (normal mode is to compare files modification time and size which is
+lot faster).
+
+Because this takes ages you may want to use this only on Sundays or only the
+first Sunday per month. Please deactivate the schedule for your profile in
+that case. Then run ``crontab -e``
+
+For daily snapshots on 2AM and ``--checksum`` every Sunday add:
+
+
+```
+# min hour day month dayOfWeek command
+0 2 * * 1-6 nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
+0 2 * * Sun nice -n 19 ionice -c2 -n7 /usr/bin/backintime --checksum --backup-job >/dev/null 2>&1
+```
+
+For ``--checksum`` only at first Sunday per month add:
+
+```
+# min hour day month dayOfWeek command
+0 2 * * 1-6 nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
+0 2 * * Sun [ "$(date '+\%d')" -gt 7 ] && nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
+0 2 * * Sun [ "$(date '+\%d')" -le 7 ] && nice -n 19 ionice -c2 -n7 /usr/bin/backintime --checksum --backup-job >/dev/null 2>&1
+```
+
+Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> to exit
+(if you editor is `nano`. Maybe different depending on your default text editor).
+
 ## Restore
 
 ### After Restore I have duplicates with extension ".backup.20131121"
@@ -664,177 +853,6 @@ That's why so many files seem to be changed.
 If you don't like the new behavior, you can use "Expert Options" 
 -> "Paste additional options to rsync" to add the value
 `--no-perms --no-group --no-owner` in that field.
-
-### How does snapshots with hard-links work?
-
-From the answer on Launchpad to the question
-[_Does auto remove smart mode merge incremental backups?_](https://answers.launchpad.net/backintime/+question/123486)
-
-If you create a new file on a Linux filesystem (e.g. ext3) the data will have a
-unique number that is called inode. The path of the file is a link to this inode
-(there is a database which stores which file point to which inode). Also every
-inode has a counter for how many links point to this inode. After you created a
-new file the counter is 1.
-
-Now you make a new hardlink. The filesystem now just has to store the new path
-pointing to the existing inode into the database and increase the counter of our
-inode by 1.
-
-If you remove a file than only the link from the path to that inode is removed
-and the counter is decreased by 1. If you have removed all links to that inode
-so the counter is zero the filesystem knows that it can override that block next
-time you save a new file.
-
-First time you create a new backup with BIT all files will have an inode
-counter = 1.
-
-#### snapshot0
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         1 |
-| fileB  |       2 |         1 |
-| fileC  |       3 |         1 |
-
-Lets say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
-BIT first makes hardlinks of all files. ``rsync`` than delete all hardlinks of
-files that has changed and copy the new files.
-
-#### snapshot0
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         2 |
-| fileB  |       2 |         1 |
-| fileC  |       3 |         1 |
-
-
-#### snapshot1
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         2 |
-| fileB  |       4 |         1 |
-| fileD  |       5 |         1 |
-
-Now change ``fileB`` again and make a new snapshot
-
-#### snapshot0
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         3 |
-| fileB  |       2 |         1 |
-| fileC  |       3 |         1 |
-
-#### snapshot1
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         3 |
-| fileB  |       4 |         1 |
-| fileC  |       5 |         2 |
-
-#### snapshot2
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         3 |
-| fileB  |       6 |         1 |
-| fileD  |       5 |         2 |
-
-
-Finally smart-remove is going to remove **snapshot0**. All that is done by
-smart-remove is to ``rm -rf`` (force delete everything) the whole directory
-of **snapshot0**.
-
-#### snapshot0 (no longer exist)
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| (empty)  |       1 |         2 |
-| (empty)  |       2 |         0 |
-| (empty)  |       3 |         0 |
-
-#### snapshot1
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         2 |
-| fileB  |       4 |         1 |
-| fileD  |       5 |         2 |
-
-#### snapshot2
-| path   |   inode |   counter |
-|:-------|--------:|----------:|
-| fileA  |       1 |         2 |
-| fileB  |       6 |         1 |
-| fileD  |       5 |         2 |
-
-``fileA`` is still untouched, ``fileB`` is still available in two different
-versions and ``fileC`` is gone for good. The blocks on your hdd that stored the
-data for inode 2 and 3 can now get overridden.
-
-I hope this will shed a light on the "magic" behind BIT. If it's even more
-confusing don't hesitate to ask ;)
-
-
-### How to use checksum to find corrupt files periodically?
-
-Starting with BIT Version 1.0.28 there is a new command line option
-``--checksum`` which will do the same as *Use checksum to detect changes* in
-Options. It will calculate checksums for both the source and the last snapshots
-files and will only use this checksum to decide whether a file has change or
-not (normal mode is to compare files modification time and size which is
-lot faster).
-
-Because this takes ages you may want to use this only on Sundays or only the
-first Sunday per month. Please deactivate the schedule for your profile in
-that case. Then run ``crontab -e``
-
-For daily snapshots on 2AM and ``--checksum`` every Sunday add:
-
-
-```
-# min hour day month dayOfWeek command
-0 2 * * 1-6 nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
-0 2 * * Sun nice -n 19 ionice -c2 -n7 /usr/bin/backintime --checksum --backup-job >/dev/null 2>&1
-```
-
-For ``--checksum`` only at first Sunday per month add:
-
-```
-# min hour day month dayOfWeek command
-0 2 * * 1-6 nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
-0 2 * * Sun [ "$(date '+\%d')" -gt 7 ] && nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
-0 2 * * Sun [ "$(date '+\%d')" -le 7 ] && nice -n 19 ionice -c2 -n7 /usr/bin/backintime --checksum --backup-job >/dev/null 2>&1
-```
-
-Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> to exit
-(if you editor is `nano`. Maybe different depending on your default text editor).
-
-### How can I check if my snapshots are incremental (using hard-links)?
-
-Please compare the inodes of a file that definitely didn't change between two
-snapshots. For this open two Terminals and ``cd`` into both snapshot folder.
-``ls -lai`` will print a list where the first column is the inode which should
-be equal for the same file in both snapshots if the file didn't change and the
-snapshots are incremental.
-The third column is a counter (if the file is no directory) on how many
-hard-links exist for this inode. It should be >1. So if you took e.g. 3
-snapshots it should be 3.
-
-Don't be confused on the size of each snapshot. If you right click on
-preferences for a snapshot in a file manager and look for its size, it will
-look like they are all full snapshots (not incremental). But that's not
-(necessary) the case.
-
-To get the correct size of each snapshot with respect on the hard-links you
-can run:
-
-```bash
-du -chd0 /media/<USER>/backintime/<HOST>/<USER>/1/*
-```
-
-Compare with option `-l` to count hardlinks multiple times:
-
-```bash
-du -chld0 /media/<USER>/backintime/<HOST>/<USER>/1/*
-```
-
-(``ncdu`` isn't installed by default so I won't recommend using it)
 
 ### Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
 
