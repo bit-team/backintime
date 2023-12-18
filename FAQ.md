@@ -320,7 +320,7 @@ schedules.
 
 ## Known Errors and Warnings
 ### WARNING: A backup is already running
-_Back In Time_ uses signal files like `worker.lock` to avoid starting the same backup twice.
+_Back In Time_ uses signal files like `worker<PID>.lock` to avoid starting the same backup twice.
 Normally it is deleted as soon as the backup finishes. In some case something went wrong
 so that _Back In Time_ was forcefully stopped without having the chance to delete
 this signal file.
@@ -336,12 +336,16 @@ ps aux | grep -i backintime
 If the output shows a running instance of _Back In Time_ it must be waited until it finishes
 or killed via `kill <process id>`.
 
+For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
+
 ### The application is already running! (pid: 1234567)
 This message occurs when _Back In Time_ did not finish regularly and wasn't able
 to delete its application lock file. Before deleting that file make sure
 no backintime process is running via `ps aux | grep -i backintime`. Otherwise
 kill the process. After that look into the folder
-`~/.local/share/backintime` for the file `app.loc.pid` and delete it.
+`~/.local/share/backintime` for the file `app.lock.pid` and delete it.
+
+For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
 ## Error Handling
 
