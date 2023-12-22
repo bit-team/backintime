@@ -2378,7 +2378,7 @@ class SID(object):
                                 the path.
             use_mode (list):    list of modes that should alter this path.
                                 If the current mode is in this list, the path
-                                will automatically altered for the
+                                will automatically be altered for the
                                 remote/encrypted version of this path.
 
         Returns:
@@ -2408,7 +2408,7 @@ class SID(object):
                                 the path.
             use_mode (list):    list of modes that should alter this path.
                                 If the current mode is in this list, the path
-                                will automatically altered for the
+                                will automatically be altered for the
                                 remote/encrypted version of this path.
 
         Returns:

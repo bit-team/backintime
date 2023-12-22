@@ -1,51 +1,100 @@
 # FAQ - Frequently Asked Questions
-<!-- TOC start - via https://derlin.github.io/bitdowntoc/-->
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
 - [General](#general)
-  * [Does Back In Time create incremental backups?](#does-back-in-time-create-incremental-backups)
-  * [How does snapshots with hard-links work?](#how-does-snapshots-with-hard-links-work)
-  * [How can I check if my snapshots are using hard-links?](#how-can-i-check-if-my-snapshots-are-using-hard-links)
-  * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
-  * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
+   * [Does _Back in Time_ support full system backups?](#does-_back-in-time_-support-full-system-backups)
+   * [Does _Back in Time_ support backups one cloud storage like OneDrive or Google Drive?](#does-_back-in-time_-support-backups-one-cloud-storage-like-onedrive-or-google-drive)
+- [Backups (snapshots)](#backups-snapshots)
+   * [Does Back In Time create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
+   * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
+   * [How can I check if my snapshots are using hard-links?](#how-can-i-check-if-my-snapshots-are-using-hard-links)
+   * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
+   * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
+   * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
 - [Restore](#restore)
-  * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
-  * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
+   * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
+   * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
 - [Schedule](#schedule)
-  * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
-  * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
-  * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
-- [Known Errors and Warnings](#known-errors-and-warnings)
-  * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
-  * [The application is already running!](#the-application-is-already-running-pid-1234567)
+   * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
+   * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
+   * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
+- [Common problems and solutions](#common-problems-and-solutions)
+   * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
+   * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#_back-in-time_-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
 - [Error Handling](#error-handling)
-  * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
-  * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
-  * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
+   * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
+   * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
+   * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
 - [user-callback and other PlugIns](#user-callback-and-other-plugins)
-  * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
-  * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
+   * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
+   * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
 - [Hardware-specific Setup](#hardware-specific-setup)
-  * [How to use QNAP QTS with BIT over SSH](#how-to-use-qnap-qts-with-bit-over-ssh)
-  * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
-  * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
-  * [How to use WesterDigital MyBook World Edition with BIT over ssh?](#how-to-use-westerdigital-mybook-world-edition-with-bit-over-ssh)
-- [Uncategorised questions](#uncategorised-questions)
-  * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
-  * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
-  * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
-  * [How to move large directory in source without duplicating backup?](#how-to-move-large-directory-in-source-without-duplicating-backup)
+   * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
+   * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
+   * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
+   * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
+- [Uncategorized questions](#uncategorized-questions)
+   * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
+   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great-are-there-additional-benefits)
+   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
+   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
 - [Testing & Building](#testing--building)
-  * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
-  * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
+   * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
+   * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
+
 <!-- TOC end -->
+
 ## General
-### Does Back In Time create incremental backups?
-Back In Time do use `rsync` and its `--hard-links` feature. Because of that
-each snapshot is technically a full backup but the physical storage used is
-similar to an incremental backup.
+
+### Does _Back in Time_ support full system backups?
+
+_Back in Time_ is suited for file-based backups.
+
+A full system backup is neither supported nor recommended
+(even though you could use _Back in Time (root)_ and include your
+root folder `\`) because
+- Mounted file systems (even remote locations)
+- the backup needed to be done from within the running system
+- Linux kernel special files (eg. /proc) must be excluded
+- locked or open files (in an inconsistent state) must be handled
+- backups of additional disk partitions (bootloader, EFI...) are required to be able to boot
+- a restore cannot overwrite the running system (where the backups software is running)
+  without the risk of crashes or loosing data (for that a restore must be done from a separate boot device normally)
+- ...
+
+For full system backups look for
+- a disk imaging ("cloning") solution (eg. [Clonezilla](https://clonezilla.org/))
+- file-based backup tools that are designed for this (eg. [`Timeshift`](https://github.com/linuxmint/timeshift))
+
+### Does _Back in Time_ support backups one cloud storage like OneDrive or Google Drive?
+
+Cloud storage as backup source or target is not support because _Back in Time_
+uses `rsync` as backend for file transfer and therefor a locally mounted file system
+or a `ssh` connection is required. Neither is supported by cloud storage.
+
+Even with native support for mounting a cloud storage, most of the time
+it won't work because of limited support for 'special' file access
+which is used by BiT (eg. Linux hardlinks, atime).
+
+Typically "locally mounted" cloud storage uses a web-based API (REST-API)
+which does not support `rsync`.
+
+For a discussion about this topic see [Backup on OneDrive or Google Drive](https://github.com/bit-team/backintime/issues/1166).
+
+## Backups (snapshots)
+
+### Does Back In Time create incremental or full backups?
+
+Back In Time does use `rsync` and its `--hard-links` feature.
+Because of that each snapshot is technically a full backup (contains each file)
+but copies only the really changed files (to save disk space) and "reuses" unchanged
+files by setting a so-called "hard-link".
+
 In technical terms it is not an
 [incremental backups](https://en.wikipedia.org/wiki/Incremental_backup).
 
-### How does snapshots with hard-links work?
+### How do snapshots with hard-links work?
 
 From the answer on Launchpad to the question
 [_Does auto remove smart mode merge incremental backups?_](https://answers.launchpad.net/backintime/+question/123486)
@@ -182,23 +231,16 @@ du -chld0 /media/<USER>/backintime/<HOST>/<USER>/1/*
 
 (``ncdu`` isn't installed by default so I won't recommend using it)
 
-### What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
-This are from `rsync` and indicating what changed and why.
-Please see the section `--itemize-changes` in the
-[manpage](https://download.samba.org/pub/rsync/rsync.1#opt--itemize-changes)
-of `rsync`. See also some
-[rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
-
 ### How to use checksum to find corrupt files periodically?
 
 Starting with BIT Version 1.0.28 there is a new command line option
 ``--checksum`` which will do the same as *Use checksum to detect changes* in
 Options. It will calculate checksums for both the source and the last snapshots
-files and will only use this checksum to decide whether a file has change or
-not (normal mode is to compare files modification time and size which is
-lot faster).
+files and will only use this checksum to decide whether a file has changed or
+not. The normal mode (without checksums) is to compare modification times and sizes
+of the files which is much faster to detect changed files.
 
-Because this takes ages you may want to use this only on Sundays or only the
+Because this takes ages, you may want to use this only on Sundays or only the
 first Sunday per month. Please deactivate the schedule for your profile in
 that case. Then run ``crontab -e``
 
@@ -223,12 +265,40 @@ For ``--checksum`` only at first Sunday per month add:
 Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> to exit
 (if you editor is `nano`. Maybe different depending on your default text editor).
 
+### What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
+
+This are from `rsync` and indicating what changed and why.
+Please see the section `--itemize-changes` in the
+[manpage](https://download.samba.org/pub/rsync/rsync.1#opt--itemize-changes)
+of `rsync`. See also some
+[rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
+
+### Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
+
+[BiT Version 1.4.0 (2023-09-14)](https://github.com/bit-team/backintime/releases/tag/v1.4.0)
+introduced the **evaluation of `rsync` exit codes for better error recognition**:
+
+Before this release `rsync` exit codes were ignored and only the snapshot
+files parsed for errors (which does not find each error, eg. dead symbolic links
+logged as `symlink has no referent`).
+
+This "exit code 23" message may occur at the end of snapshot logs and BiT logs when
+`rsync` was not able to transfer some (or even all) files
+See [this comment in issue 1587](https://github.com/bit-team/backintime/issues/1587#issuecomment-1856490208)
+for a list all known reasons for `rsync`'s exit code 23.
+
+Currently you can ignore this error after checking the full snapshot log
+which error is hidden behind "exit code 23" (and possibly fix it - eg. delete or update dead symbolic links).
+
+We plan to implement an improved handling of exit code 23 in the future
+(presumably by introducing warnings into the snapshot log).
+
 ## Restore
 
 ### After Restore I have duplicates with extension ".backup.20131121"
 
 This is because *Backup files on restore* in Options was enabled. This is
-default setting to prevent overriding files on restore.
+the default setting to prevent overriding files on restore.
 
 If you don't need them any more you can delete those files. Open a terminal
 and run:
@@ -248,7 +318,7 @@ find /path/to/files -regextype posix-basic -regex ".*\.backup\.[[:digit:]]\{8\}"
 Back In Time prior to version 1.1.0 had an option called
 *Auto Host/User/Profile ID* (hidden under *General* > *Advanced*) which will
 always use the current host- and username for the full snapshot path.
-While (re-)installing your Computer you probably chose a different host- or
+When (re-)installing your computer you probably chose a different host name or
 username than on your old machine. With *Auto Host/User/Profile ID* activated
 Back In Time now try to find your Snapshots under the new host- and username
 underneath the ``/path/to/backintime/`` path.
@@ -310,7 +380,7 @@ Depends on which schedule you choose:
 ### If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
 
 You can add your own crontab entries as you like. *Back In Time* will not touch them.
-It will identify it's own entries by the comment line ``#Back In Time system
+It will identify its own entries by the comment line ``#Back In Time system
 entry, this will be edited by the gui:`` and the following command. You should
 not remove/change that line. If there are no automatic schedules defined
 *Back In Time* will add an extra comment line ``#Please don't delete these two
@@ -318,7 +388,7 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
-## Known Errors and Warnings
+## Common problems and solutions
 ### WARNING: A backup is already running
 _Back In Time_ uses signal files like `worker<PID>.lock` to avoid starting the same backup twice.
 Normally it is deleted as soon as the backup finishes. In some case something went wrong
@@ -338,11 +408,13 @@ or killed via `kill <process id>`.
 
 For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
-### The application is already running! (pid: 1234567)
-This message occurs when _Back In Time_ did not finish regularly and wasn't able
-to delete its application lock file. Before deleting that file make sure
-no backintime process is running via `ps aux | grep -i backintime`. Otherwise
-kill the process. After that look into the folder
+### _Back in Time_ does not start and shows: The application is already running! (pid: 1234567)
+This message occurs when _Back In Time_ is either already running or did not finish regularly (e.g. due to a crash)
+and wasn't able to delete its application lock file.
+
+Before deleting that file manually make sure no backintime process is running
+via `ps aux | grep -i backintime`.
+Otherwise, kill the process. After that look into the folder
 `~/.local/share/backintime` for the file `app.lock.pid` and delete it.
 
 For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
@@ -367,7 +439,7 @@ it first and start a new one.
 *Back In Time* will try to create a new snapshot but rsync will fail when there is
 not enough space. Depending on ``Continue on errors`` setting the failed
 snapshot will be kept and marked ``With Errors`` or it will be removed.
-By default *Back In Time* will finally remove the oldest snapshots until there is
+By default, *Back In Time* will finally remove the oldest snapshots until there is
 more than 1 GiB free space again.
 
 ## user-callback and other PlugIns
@@ -421,13 +493,13 @@ your system after a disaster/on a new machine.
     sudo cp ~/.apt-backup/sources.list.d/* /etc/apt/sources.list.d/
    ```
 
-1. restore apt-keys for your PPA's with
+1. restore apt-keys for your PPAs with
 
    ```bash
     sudo apt-key add ~/.apt-backup/repo.keys
    ```
 
-1. install and update dselect with
+1. install and update `dselect` with
 
    ```bash
     sudo apt-get install dselect
@@ -435,7 +507,7 @@ your system after a disaster/on a new machine.
    ```
 
 1. Make some *housecleaning* in ``~/.apt-backup/package.list``.
-   For example you don't want to install the old kernel again.
+   For example, you don't want to install the old kernel again.
    So run
 
    ```bash
@@ -453,7 +525,7 @@ your system after a disaster/on a new machine.
 1. If you used the new script which uses apt-mark to backup
    package selection proceed with next step. (there should be
    files ``~/.apt-backup/pkg_auto.list`` and ``~/.apt-backup
-   /pkg_manual.list``). Otherwise you can stop here.
+   /pkg_manual.list``). Otherwise, you can stop here.
    Restore package selection with
 
    ```bash
@@ -463,10 +535,10 @@ your system after a disaster/on a new machine.
 
 ## Hardware-specific Setup
 
-### How to use QNAP QTS with BIT over SSH
+### How to use QNAP QTS NAS with BIT over SSH
 
 To use *BackInTime* over SSH with a QNAP NAS there is still some work to be done
-in terminal.
+ in the terminal.
 
 **WARNING**:
 DON'T use the changes for ``sh`` suggested in ``man backintime``. This will
@@ -493,7 +565,7 @@ Please test this Tutorial and give some feedback!
 
 To fix the message about not supported ``find PATH -type f -exec`` you need to
 install ``Entware-ng``. QNAPs QTS is based on Linux but some of its packages
-have limited functionalities. And so does some of the necessary ones for
+have limited functionalities. And so do some of the necessary ones for
 *BackInTime*.
 
 Please follow [this install instruction](https://github.com/Entware-ng/Entware-ng/wiki/Install-on-QNAP-NAS)
@@ -739,7 +811,7 @@ establish the connection. As a test, one can run the command
 
 in a terminal (on the client PC).
 
-### How to use WesterDigital MyBook World Edition with BIT over ssh?
+### How to use Western Digital MyBook World Edition with BIT over ssh?
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
 The BusyBox that is used by WD in MBWE for serving basic commands like ``cp``
@@ -748,12 +820,12 @@ BackInTime's way of creating incremental backups. As a work-around you can
 install Optware on the MBWE.
 
 Before proceeding please make a backup of your MBWE. There is a significant
-chance to break your device and loose all your data. There is a good
+chance to break your device and lose all your data. There is good
 documentation about Optware on http://mybookworld.wikidot.com/optware.
 
-1. You have to login to MBWE's webadmin and change to *Advanced Mode*.
+1. You have to login to MBWE's web admin and change to *Advanced Mode*.
    Under *System | Advanced* you have to enable *SSH Access*. Now you can
-   login as root over ssh and install Optware (assuming ``<MBWE>`` is the
+   log in as root over ssh and install Optware (assuming ``<MBWE>`` is the
    address of your MyBook).
 
    Type in terminal:
@@ -770,7 +842,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	exit
    ```
 	
-1. Back in MBWE's webadmin go to *Users* and add a new user (``<REMOTE_USER>``
+1. Back in MBWE's web admin go to *Users* and add a new user (``<REMOTE_USER>``
    in this How-to) with *Create User Private Share* set to *Yes*.
 
    In terminal:
@@ -789,7 +861,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
    ```
 	
 1. Next create the ssh-key for your local user.
-   In terminal
+   In the terminal
 
    ```bash
 	ssh <REMOTE_USER>@<MBWE>
@@ -840,7 +912,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	Usage: cp [OPTION]... SOURCE DEST
    ```
 
-## Uncategorised questions
+## Uncategorized questions
 
 ### Version >= 1.2.0 works very slow / Unchanged files are backed up
 
@@ -858,7 +930,7 @@ If you don't like the new behavior, you can use "Expert Options"
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
 which will make it possible to restore permissions correctly even if UID/GID
-changed. Additional it will store the current User -> UID and Group -> GID map
+changed. Additionally it will store the current User -> UID and Group -> GID map
 so if the User/Group doesn't exist on the system during restore it will restore
 to the old UID/GID.
 
@@ -884,7 +956,7 @@ There are three different solutions:
    where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
 
    Finally use ``gparted`` to resize the partition. Take a look at the
-   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more infos on that.
+   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
 
 1. copy all files using ``rsync -H``
 
@@ -900,36 +972,37 @@ There are three different solutions:
 
 Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
 
-### How to move large directory in source without duplicating backup?
+### How to move a large directory in the backup source without duplicating the files in the backup?
 
-If you move a file/folder in source BiT will treat it like a new file/folder and
+If you move a file/folder in the source ("include") location that is backed-up by BiT
+it will treat this like a new file/folder and
 create a new backup file for it (not hard-linked to the old one). With large
-directories this can fill up your backup drive quite fast. You can avoid this by
-moving the file/folder in the last snapshot, too.
+directories this can fill up your backup drive quite fast.
 
-1. create a new snapshot
+You can avoid this by moving the file/folder in the last snapshot too:
 
-1. move the original folder
+1. Create a new snapshot
 
-1. manually move the same folder inside BiTs last snapshot in the same way you
-   did with the original folder
+2. Move the original folder
 
-1. create a new snapshot
+3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
 
-1. remove the overlast snapshot (the one where you moved the folder manually)
+4. Create a new snapshot
+
+5. Remove the next to last snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
 
 
-# Testing & Building
+## Testing & Building
 
-## SSH related tests are skipped
+### SSH related tests are skipped
 
-Some of the tests need an available SSH server.
+Some tests require an available SSH server.
 They get skipped if this is not the case.
 Please see
 [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests).
 
-## Setup SSH Server to run unit tests
+### Setup SSH Server to run unit tests
 
 For detailed setup instructions see the [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md)
 
