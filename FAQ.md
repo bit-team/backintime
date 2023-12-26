@@ -3,8 +3,8 @@
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
 - [General](#general)
-   * [Does _Back in Time_ support full system backups?](#does-_back-in-time_-support-full-system-backups)
-   * [Does _Back in Time_ support backups one cloud storage like OneDrive or Google Drive?](#does-_back-in-time_-support-backups-one-cloud-storage-like-onedrive-or-google-drive)
+   * [Does _Back in Time_ support full system backups?](#does-back-in-time-support-full-system-backups)
+   * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does Back In Time create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
@@ -36,7 +36,7 @@
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Uncategorized questions](#uncategorized-questions)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great-are-there-additional-benefits)
+   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
    * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
 - [Testing & Building](#testing--building)
@@ -67,7 +67,7 @@ For full system backups look for
 - a disk imaging ("cloning") solution (eg. [Clonezilla](https://clonezilla.org/))
 - file-based backup tools that are designed for this (eg. [`Timeshift`](https://github.com/linuxmint/timeshift))
 
-### Does _Back in Time_ support backups one cloud storage like OneDrive or Google Drive?
+### Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?
 
 Cloud storage as backup source or target is not support because _Back in Time_
 uses `rsync` as backend for file transfer and therefor a locally mounted file system
