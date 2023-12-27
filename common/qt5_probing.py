@@ -23,7 +23,7 @@ import logger
 # and the signal handler cannot be disabled since it reacts to a
 # non-python low-level signal sent via C/C++.
 #
-# Even though the coredump message cannot be prevent there is
+# Even though the coredump message cannot be prevented there is
 # workaround to prevent the coredump **file** creation which
 # would take too much time just to probe Qt5's availability:
 #
