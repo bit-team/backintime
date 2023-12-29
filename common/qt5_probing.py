@@ -2,6 +2,8 @@ import sys
 import resource
 import logger
 
+logger.openlog()
+
 # This mini python script is used to determine if a Qt5 GUI application
 # can be created without an error.
 #
@@ -77,6 +79,9 @@ resource.setrlimit(resource.RLIMIT_CORE, (0, old_limits[1]))
 exit_code = 0
 
 try:
+
+    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+        logger.DEBUG = True
 
     logger.debug(f"{__file__} started... Call args: {str(sys.argv)}")
 

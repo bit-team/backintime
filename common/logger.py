@@ -37,6 +37,14 @@ _level_names = {
 
 
 def openlog():
+    """
+    Initializes the logger
+
+    Esp. sets the app name for the log output so that the system log
+    can be queried with with grep.
+
+    Don't forget to call it in each sub process that uses logging.
+    """
     syslog.openlog(SYSLOG_IDENTIFIER)
     atexit.register(closelog)
 
