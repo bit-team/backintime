@@ -162,10 +162,10 @@ addUninstallDir                                     "/share/dbus-1"
 addNewline
 
 addComment "dbus conf"
-addInstallDir                                    "/../etc/dbus-1/system.d"
-addInstallFiles "net.launchpad.backintime*.conf" "/../etc/dbus-1/system.d"
-addUninstallDir                                  "/../etc/dbus-1"
-addUninstallDir                                  "/../etc"
+addInstallDir                                    "/share/dbus-1/system.d"
+addInstallFiles "net.launchpad.backintime*.conf" "/share/dbus-1/system.d"
+addUninstallDir                                  "/share/dbus-1"
+addUninstallDir                                  "/share"
 addNewline
 
 addComment "polkit action"
