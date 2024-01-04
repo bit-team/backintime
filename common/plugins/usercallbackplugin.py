@@ -61,6 +61,7 @@ class UserCallbackPlugin(pluginmanager.Plugin):
         in the first line of the script file.
     """
     def __init__(self):
+        logger.openlog()
         return
 
     def init(self, snapshots):

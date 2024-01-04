@@ -246,6 +246,7 @@ class PluginManager:
                 tools.registerBackintimePath(path)
                 for f in os.listdir(fullPath):
                     if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
+                        logger.debug('Probing plugin %s' % f, self)
                         try:
                             module = __import__(f[: -3])
                             module_dict = module.__dict__
@@ -265,7 +266,6 @@ class PluginManager:
                                                 self.plugins.insert(0, plugin)
                                             else:
                                                 self.plugins.append(plugin)
-                                # TODO 09/28/2022 Ignored files in plugin folders should be logged
                             loadedPlugins.append(f)
                         except BaseException as e:
                             logger.error('Failed to load plugin %s: %s' %(f, str(e)), self)

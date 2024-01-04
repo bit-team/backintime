@@ -48,6 +48,7 @@ from PyQt5.QtGui import QIcon, QRegion
 
 class QtSysTrayIcon:
     def __init__(self):
+
         self.snapshots = snapshots.Snapshots()
         self.config = self.snapshots.config
         self.decode = None
@@ -239,6 +240,8 @@ class QtSysTrayIcon:
         self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
 if __name__ == '__main__':
+
+    logger.openlog()
 
     if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
         logger.DEBUG = True
