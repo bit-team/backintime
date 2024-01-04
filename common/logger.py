@@ -38,12 +38,11 @@ _level_names = {
 
 def openlog():
     """
-    Initializes the logger
+    Initialize the BiT logger system (which uses syslog)
 
-    Esp. sets the app name for the log output so that the system log
-    can be queried with with grep.
+    Esp. sets the app name as identifier for the log entries in the syslog.
 
-    Don't forget to call it in each sub process that uses logging.
+    Attention: Call it in each sub process that uses logging.
     """
     syslog.openlog(SYSLOG_IDENTIFIER)
     atexit.register(closelog)
