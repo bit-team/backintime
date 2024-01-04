@@ -1,6 +1,9 @@
+import os
 import sys
 import resource
 import logger
+
+logger.openlog()
 
 # This mini python script is used to determine if a Qt5 GUI application
 # can be created without an error.
@@ -78,7 +81,14 @@ exit_code = 0
 
 try:
 
+    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+        logger.DEBUG = True
+
     logger.debug(f"{__file__} started... Call args: {str(sys.argv)}")
+    logger.debug(f"Display system: {os.environ.get('XDG_SESSION_TYPE', '($XDG_SESSION_TYPE is not set)')}")
+    logger.debug(f"XDG_RUNTIME_DIR={os.environ.get('XDG_RUNTIME_DIR', '($XDG_RUNTIME_DIR is not set)')}")
+    logger.debug(f"XAUTHORITY={os.environ.get('XAUTHORITY', '($XAUTHORITY is not set)')}")
+    logger.debug(f"QT_QPA_PLATFORM={os.environ.get('QT_QPA_PLATFORM', '($QT_QPA_PLATFORM is not set)')}")
 
     from PyQt5 import QtCore
     from PyQt5.QtWidgets import QApplication

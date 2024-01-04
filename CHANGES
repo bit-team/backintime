@@ -1,12 +1,19 @@
 Back In Time
 
 Version 1.4.2-dev (development of upcoming release)
+* Fix bug: `qt5_probing.py` hangs when BiT is run as root and no user is logged into a desktop environment (#1592 and #1580)
+* Fix bug: Launching BiT GUI (root) hangs on Wayland without showing the GUI (#836)
+* Improve: Launcher for BiT GUI (root) does not enforce Wayland anymore but uses same settings as for BiT GUI (userland) (#1350)
+* Fix bug: Disabling suspend during taking a backup ("inhibit suspend") hangs when BiT is run as root and no user is logged into a desktop environment (#1592)
+* Change of semantics: BiT running as root never disables suspend during taking a backup ("inhibit suspend") even though this may have worked before in BiT <= v1.4.1 sometimes (required to fix #1592)
 * Fix bug: RTE: module 'qttools' has no attribute 'initate_translator' with encFS when prompting the user for a password (#1553).
 * Fix bug: Schedule dropdown menu used "minutes" instead of "hours".
 * Build: Use PyLint in unit testing to catch E1101 (no-member) errors.
 * Build: Activate PyLint warning W1401 (anomalous-backslash-in-string).
 * Build: Add codespell config.
 * Translation: Minor modifications in source strings and updating language files.
+* Improved: qtsystrayicon.py, qt5_probing.py, usercallbackplugin.py and all parts of app.py
+            do now also use "backintime" as logging namespace in the syslog to ensure complete log output with `journalctl | grep -i backintime`
 
 Version 1.4.1 (2023-10-01)
 * Dependency: Add "qt translations" to GUI runtime dependencies (#1538).
