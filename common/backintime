@@ -17,11 +17,21 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+# Location of this script
 CUR_PATH="$(dirname $(readlink -m $0))"
+
+# Was this script started in the source code folder (normally during development)?
 if [ -f "${CUR_PATH}/backintime.py" ]; then
 	APP_PATH=$CUR_PATH
 else
+  # CUR_PATH must be /usr/bin (the default installation path of this script)
+  # or another sibling folder of "share" (in case of an alternative installation
+  # folder like "/var/bin" where BiT must be installed into /var/share/backintime then)
 	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/common")
 fi
 
+# -E ignores env vars like PYTHONPATH and PYTHONHOME that may modify
+#    the behaviour of the interpreter
+# -s Don't add user site directory to sys.path
+# TODO Should we use "$APP_PATH" (quoted) to prevent globbing and word splitting?
 python3 -Es $APP_PATH/backintime.py "$@"
