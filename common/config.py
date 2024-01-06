@@ -1266,6 +1266,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def setCopyLinks(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.copy_links', value, profile_id)
 
+    def oneFileSystem(self, profile_id = None): 
+        return self.profileBoolValue('snapshots.one_file_system', False, profile_id)
+    
+    def setOneFileSystem(self, value, profile_id = None):
+        return self.setProfileBoolValue('snapshots.one_file_system', value, profile_id)
+
     def rsyncOptionsEnabled(self, profile_id = None):
         #?Past additional options to rsync
         return self.profileBoolValue('snapshots.rsync_options.enabled', False, profile_id)

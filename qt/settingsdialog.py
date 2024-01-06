@@ -1018,6 +1018,11 @@ class SettingsDialog(QDialog):
         )
         layout.addWidget(self.cbCopyLinks)
 
+        # one file system option
+        self.cbOneFileSystem = QCheckBox( 
+            _('Restrict to one file system'), self)
+        layout.addWidget(self.cbOneFileSystem)
+        
         # additional rsync options
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
@@ -1393,6 +1398,7 @@ class SettingsDialog(QDialog):
         self.cbPreserveXattr.setChecked(self.config.preserveXattr())
         self.cbCopyUnsafeLinks.setChecked(self.config.copyUnsafeLinks())
         self.cbCopyLinks.setChecked(self.config.copyLinks())
+        self.cbOneFileSystem.setChecked(self.config.oneFileSystem())
         self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled())
         self.txtRsyncOptions.setText(self.config.rsyncOptions())
         self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
@@ -1587,6 +1593,7 @@ class SettingsDialog(QDialog):
         self.config.setPreserveXattr(self.cbPreserveXattr.isChecked())
         self.config.setCopyUnsafeLinks(self.cbCopyUnsafeLinks.isChecked())
         self.config.setCopyLinks(self.cbCopyLinks.isChecked())
+        self.config.setOneFileSystem(self.cbOneFileSystem.isChecked())
         self.config.setRsyncOptions(self.cbRsyncOptions.isChecked(),
                                     self.txtRsyncOptions.text())
         self.config.setSshPrefix(self.cbSshPrefix.isChecked(),
