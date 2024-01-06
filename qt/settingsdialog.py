@@ -1456,7 +1456,7 @@ class SettingsDialog(QDialog):
         self.config.setHostUserProfile(
             self.txtHost.text(),
             self.txtUser.text(),
-            self.txt_profile.text() #1598
+            self.txt_profile.text()
         )
 
         # save ssh
