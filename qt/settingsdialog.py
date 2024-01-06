@@ -1021,6 +1021,16 @@ class SettingsDialog(QDialog):
         # one file system option
         self.cbOneFileSystem = QCheckBox( 
             _('Restrict to one file system'), self)
+        self.cbOneFileSystem.setToolTip(
+            'uses \'rsync --one-file-system\'\n'
+            'From \'man rsync\':\n'
+            'This tells rsync to avoid crossing a filesystem boundary when  recursing.\n'
+            'This  does  not  limit the user\'s  ability  to specify items to copy from\n'
+            'multiple filesystems, just rsync\'s recursion through the hierarchy of each\n'
+            'directory that the user specified, and also the analogous recursion on the\n'
+            'receiving side  during  deletion.  Also keep in mind that rsync treats a \n'
+            '"bind" mount to the same device as being on the same filesystem.'
+        )
         layout.addWidget(self.cbOneFileSystem)
         
         # additional rsync options
@@ -1446,7 +1456,7 @@ class SettingsDialog(QDialog):
         self.config.setHostUserProfile(
             self.txtHost.text(),
             self.txtUser.text(),
-            self.txt_profile.text()
+            self.txt_profile.text() #1598
         )
 
         # save ssh
