@@ -104,7 +104,7 @@ class LogViewDialog(QDialog):
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setFont(QFont('Monospace'))
         self.txtLogView.setReadOnly(True)
-        self.txtLogView.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         self.mainLayout.addWidget(self.txtLogView)
 
         #

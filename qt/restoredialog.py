@@ -51,7 +51,7 @@ class RestoreDialog(QDialog):
         #text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setReadOnly(True)
-        self.txtLogView.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         self.txtLogView.setMaximumBlockCount(100000)
         self.mainLayout.addWidget(self.txtLogView)
 
