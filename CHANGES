@@ -1,6 +1,6 @@
 Back In Time
 Version 1.5.0-dev (development of release after upcoming release)
-* Improve: Support rsync '--one-file-system' in Expoert Options (#1600, #1598).
+* Improve: Support rsync '--one-file-system' in Expert Options (#1600, #1598).
 
 Version 1.4.2-dev (development of upcoming release)
 * Fix bug: `qt5_probing.py` hangs when BiT is run as root and no user is logged into a desktop environment (#1592 and #1580)
@@ -14,8 +14,8 @@ Version 1.4.2-dev (development of upcoming release)
 * Build: Activate PyLint warning W1401 (anomalous-backslash-in-string).
 * Build: Add codespell config.
 * Translation: Minor modifications in source strings and updating language files.
-* Improved: qtsystrayicon.py, qt5_probing.py, usercallbackplugin.py and all parts of app.py
-            do now also use "backintime" as logging namespace in the syslog to ensure complete log output with `journalctl | grep -i backintime`
+* Improve: qtsystrayicon.py, qt5_probing.py, usercallbackplugin.py and all parts of app.py
+           do now also use "backintime" as logging namespace in the syslog to ensure complete log output with `journalctl | grep -i backintime`
 
 Version 1.4.1 (2023-10-01)
 * Dependency: Add "qt translations" to GUI runtime dependencies (#1538).
