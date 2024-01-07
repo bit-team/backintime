@@ -36,7 +36,7 @@ jobs:
     - python: "3.11"
     # Excluding this temporarilly because of an Issue on Travis. Support contact established.
     - arch: ppc64le
-      - python: "3.12"
+      python: "3.12"
 
 install:
   - pip install pylint coveralls pyfakefs
