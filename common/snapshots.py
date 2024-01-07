@@ -442,7 +442,7 @@ class Snapshots:
                                         snapshot
             backup (bool):              create backup files (``*.backup.YYYYMMDD``)
                                         before changing or deleting local files.
-            only_new (bool):            Only restore files which does not exist
+            only_new (bool):            Only restore files which do not exist
                                         or are newer than those in destination.
                                         Using ``rsync --update`` option.
         """
@@ -677,6 +677,10 @@ class Snapshots:
 
             return True
 
+    # TODO Refactor: This functions is extremely difficult to understand:
+    #  - Nested "if"s
+    #  - Fuzzy names of classes, attributes and methods
+    # - unclear variable names (at least for the return values)
     def backup(self, force = False):
         """
         Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
@@ -725,7 +729,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     logger.warning('Backups disabled on battery but power status is not available', self)
 
                 instance.startApplication()
-                self.flockExclusive()
+                self.flockExclusive()  # global flock to block backups from other profiles or users (and run them serialized)
                 logger.info('Lock', self)
 
                 now = datetime.datetime.today()
@@ -2012,6 +2016,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
             return False
 
+    # TODO Rename to make the purpose obvious, eg: Serialize_[backup|execution]_via_exclusive_global_flock()
     def flockExclusive(self):
         """
         Block :py:func:`backup` from other profiles or users
@@ -2020,8 +2025,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if self.config.globalFlock():
             logger.debug('Set flock %s' %self.GLOBAL_FLOCK, self)
             self.flock = open(self.GLOBAL_FLOCK, 'w')
-            fcntl.flock(self.flock, fcntl.LOCK_EX)
-            #make it rw by all if that's not already done.
+            fcntl.flock(self.flock, fcntl.LOCK_EX)  # blocks (waits) until an existing flock is released
+            # make it rw by all if that's not already done.
             perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | \
                     stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH
             s = os.fstat(self.flock.fileno())
@@ -2373,7 +2378,7 @@ class SID(object):
                                 the path.
             use_mode (list):    list of modes that should alter this path.
                                 If the current mode is in this list, the path
-                                will automatically altered for the
+                                will automatically be altered for the
                                 remote/encrypted version of this path.
 
         Returns:
@@ -2403,7 +2408,7 @@ class SID(object):
                                 the path.
             use_mode (list):    list of modes that should alter this path.
                                 If the current mode is in this list, the path
-                                will automatically altered for the
+                                will automatically be altered for the
                                 remote/encrypted version of this path.
 
         Returns:

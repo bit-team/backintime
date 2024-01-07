@@ -2034,7 +2034,7 @@ if __name__ == '__main__':
         mainWindow.show()
         qapp.exec()
 
-    logger.closelog()
-
     cfg.PLUGIN_MANAGER.appExit()
     appInstance.exitApplication()
+
+    logger.closelog()  # must be last line (log until BiT "dies" ;-)

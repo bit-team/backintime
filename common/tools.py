@@ -305,7 +305,7 @@ def registerBackintimePath(*path):
     can discover them.
 
     Args:
-        *path (str):    paths that should be joind to 'backintime'
+        *path (str):    paths that should be joined to 'backintime'
 
     Note:
         Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
@@ -709,24 +709,36 @@ def is_Qt5_working(systray_required=False):
     try:
         path = os.path.join(backintimePath("common"), "qt5_probing.py")
         cmd = [sys.executable, path]
+        if logger.DEBUG:
+            cmd.append('--debug')
+
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               universal_newlines=True) as proc:
 
-            std_output, error_output = proc.communicate()  # to get the exit code
+            std_output, error_output = proc.communicate(timeout=30)  # to get the exit code
+            # "timeout" fixes #1592 (qt5_probing.py may hang as root): Kill after timeout
 
             logger.debug(f"Qt5 probing result: exit code {proc.returncode}")
 
-            if proc.returncode != 2:  # if some Qt5 parts are missing: Show details
-                logger.debug(f"Qt5 probing stdout: {std_output}")
-                logger.debug(f"Qt5 probing errout: {error_output}")
+            if proc.returncode != 2 or logger.DEBUG:  # if some Qt5 parts are missing: Show details
+                logger.debug(f"Qt5 probing stdout:\n{std_output}")
+                logger.debug(f"Qt5 probing errout:\n{error_output}")
 
             return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
 
     except FileNotFoundError:
         logger.error(f"Qt5 probing script not found: {cmd[0]}")
         raise
+
+    # Fix for #1592 (qt5_probing.py may hang as root): Kill after timeout
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        outs, errs = proc.communicate()
+        logger.info("Qt5 probing sub process killed after timeout without response")
+        logger.debug(f"Qt5 probing stdout:\n{outs}")
+        logger.debug(f"Qt5 probing errout:\n{errs}")
 
     except Exception as e:
         logger.error(f"Error: {repr(e)}")
@@ -1621,6 +1633,15 @@ def inhibitSuspend(app_id = sys.argv[0],
     if ON_TRAVIS or dbus is None:
         # no suspend on travis (no dbus either)
         return
+
+    # Fixes #1592 (BiT hangs as root when trying to establish a dbus user session connection)
+    # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus user session
+    #              and it may have worked sometimes (without logging we don't know)
+    #              so as root suspend can no longer inhibited.
+    if isRoot():
+        logger.debug("Inhibit Suspend failed because BIT was started as root.")
+        return
+
     if not app_id:
         app_id = 'backintime'
     try:
@@ -1637,7 +1658,7 @@ def inhibitSuspend(app_id = sys.argv[0],
             if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
                 bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
             else:
-                bus = dbus.SessionBus()
+                bus = dbus.SessionBus()  # This code may hang forever (if BiT is run as root via cron job and no user is logged in). See #1592
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
             cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
@@ -1645,9 +1666,6 @@ def inhibitSuspend(app_id = sys.argv[0],
             return (cookie, bus, dbus_props)
         except dbus.exceptions.DBusException:
             pass
-    if isRoot():
-        logger.debug("Inhibit Suspend failed because BIT was started as root.")
-        return
     logger.warning('Inhibit Suspend failed.')
 
 def unInhibitSuspend(cookie, bus, dbus_props):
