@@ -1259,17 +1259,19 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.setProfileBoolValue('snapshots.copy_unsafe_links', value, profile_id)
 
     def copyLinks(self, profile_id = None):
-        #?When  symlinks  are  encountered, the item that they point to
+        #?When symlinks are encountered, the item that they point to
         #?(the reference) is copied, rather than the symlink.
         return self.profileBoolValue('snapshots.copy_links', False, profile_id)
 
     def setCopyLinks(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.copy_links', value, profile_id)
 
-    def oneFileSystem(self, profile_id = None): 
+    def one_file_system(self, profile_id = None):
+        #?Use rsync's "--one-file-system" to avoid crossing filesystem
+        #?boundaries when recursing.
         return self.profileBoolValue('snapshots.one_file_system', False, profile_id)
-    
-    def setOneFileSystem(self, value, profile_id = None):
+
+    def set_one_file_system(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.one_file_system', value, profile_id)
 
     def rsyncOptionsEnabled(self, profile_id = None):

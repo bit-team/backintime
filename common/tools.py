@@ -892,7 +892,7 @@ def rsyncPrefix(config,
     else:
         cmd.append('--links')
 
-    if config.oneFileSystem():
+    if config.one_file_system():
         cmd.append('--one-file-system')
 
     if config.preserveAcl() and "ACLs" in caps:
@@ -1265,7 +1265,7 @@ def mountArgs(path):
         list:       mount args
     """
     mp = mountpoint(path)
-    
+
     with open('/etc/mtab', 'r') as mounts:
 
         for line in mounts:
