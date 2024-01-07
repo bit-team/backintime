@@ -1,34 +1,87 @@
 Back In Time
 
-Version 1.3.4-dev (development of upcoming release)
+Version 1.4.2-dev (development of upcoming release)
+* Fix bug: `qt5_probing.py` hangs when BiT is run as root and no user is logged into a desktop environment (#1592 and #1580)
+* Fix bug: Launching BiT GUI (root) hangs on Wayland without showing the GUI (#836)
+* Improve: Launcher for BiT GUI (root) does not enforce Wayland anymore but uses same settings as for BiT GUI (userland) (#1350)
+* Fix bug: Disabling suspend during taking a backup ("inhibit suspend") hangs when BiT is run as root and no user is logged into a desktop environment (#1592)
+* Change of semantics: BiT running as root never disables suspend during taking a backup ("inhibit suspend") even though this may have worked before in BiT <= v1.4.1 sometimes (required to fix #1592)
+* Fix bug: RTE: module 'qttools' has no attribute 'initate_translator' with encFS when prompting the user for a password (#1553).
+* Fix bug: Schedule dropdown menu used "minutes" instead of "hours".
+* Build: Use PyLint in unit testing to catch E1101 (no-member) errors.
+* Build: Activate PyLint warning W1401 (anomalous-backslash-in-string).
+* Build: Add codespell config.
+* Translation: Minor modifications in source strings and updating language files.
+* Improved: qtsystrayicon.py, qt5_probing.py, usercallbackplugin.py and all parts of app.py
+            do now also use "backintime" as logging namespace in the syslog to ensure complete log output with `journalctl | grep -i backintime`
+
+Version 1.4.1 (2023-10-01)
+* Dependency: Add "qt translations" to GUI runtime dependencies (#1538).
+* Build: Unit tests do generically ignore all instead of well-known warnings now (#1539).
+* Build: Warnings about missing Qt translation now are ignored while testing (#1537).
+* Fix bug: GUI didn't start when "show hidden files" button was on (#1535).
+
+Version 1.4.0 (2023-09-14)
 * Project: Renamed branch "master" to "main" and started "gitflow" branching model.
-* Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
+* Refactor: Renamed qt4plugin.py to systrayiconplugin.py (we are using Qt5 for years now ;-)
+* Refactor: Removed unfinished feature "Full system backup" (#1526)
+* Fix bug: AttributeError: can't set attribute 'showHiddenFiles' in app.py (#1532)
+* Fix bug: Check SSH login works on machines with limited commands (#1442)
+* Fix bug: Missing icon in SSH private key button (#1364)
+* Fix bug: Master issue for missing or empty system-tray icon (#1306)
+* Fix bug: System-tray icon missing or empty (GUI and cron) (#1236)
+* Fix bug: Improve KDE plasma icon compatibility (#1159)
+* GUI Change: View last (snapshot) log button in GUI uses "document-open-recent" icon now instead of "document-new" (#1386)
 * Fix bug: Unit test fails on some machines due to warning "Ignoring XDG_SESSION_TYPE=wayland on Gnome..." (#1429)
 * Fix bug: Generation of config-manpage caused an error with Debian's Lintian (#1398).
+* Fix bug: Return empty list in smartRemove (#1392, Debian Bug Report 973760)
+* Fix bug: Taking a snapshot reports `rsync` errors now even if no snapshot was taken (#1491)
+* Fix bug: takeSnapshot() recognizes errors now by also evaluating the rsync exit code (#489)
+           Fixes related problem: Killing `rsync` was not handled gracefully (by ignoring the rsync exit code)
+* Fix bug: The error user-callback is now always called if an error happened while taking a snapshot (#1491)
+* Fix bug: D-Bus serviceHelper error "LimitExceeded: Maximum length of command line reached (100)":
+           Max command length is now 120 instead of 100 (#1027)
+* Feature: Introduce new error codes for the "error" user callback (as part of #1491):
+           5: Error while taking a snapshot.
+           6: New snapshot taken but with errors.
+* Feature: The `rsync` exit code is now contained in the snapshot log (part of #489). Example:
+           [E] Error: 'rsync' ended with exit code -9 (negative values are signal numbers, see 'kill -l')
+* Fix bug: Treat rsync exit code 24 as INFO instead of ERROR (#1506)
 * Breaking change: Minimal Python version 3.8 required (#1358).
+* Removed: Handling and checking of user group "fuse" (#1472).
 * Feature: Exclude /swapfile by default (#1053)
+* Feature: Rearranged menu bar and its entries in the main window (#1487, #1478).
+* Feature: Configure user interface language via config file and GUI.
 * Documentation: Removed outdated docbook (#1345).
 * Testing: TravisCI now can use dbus (#1156).
 * Build: Introduced .readthedocs.yaml as asked by ReadTheDocs.org (#1443).
+* Dependency: The oxygen icons should be installed with the BiT Qt GUI since they are used as fallback in case of missing icons
+* Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
+* Translation: Strings to translate now easier to understand for translators (#1448, #1457, #1462, #1465).
+* Translation: Improved completeness of translations and additional modifications of source strings (#1454, #1512)
+* Translation: Plural forms support (#1488).
+* Removed: Translation in Canadian English, British English and Javanese (#1455).
+* Added: Translation in Persian and Vietnamese (#1460).
+* Added: Message to users (after 10 starts of BIT Gui) to motivate them contributing translations (#1473).
 
 Version 1.3.3 (2023-01-04)
-* New feature: Command line argument "--diagnostics" to show helpful info for better issue support (#1100)
+* Feature: New command line argument "--diagnostics" to show helpful info for better issue support (#1100)
 * GUI change: Remove Exit button from the toolbar (#172)
 * GUI change: Define accelerator keys for menu bar and tabs, as well as toolbar shortcuts (#1104)
 * Desktop integration: Update .desktop file to mark Back In Time as a single main window program (#1258)
-* Improvement: Write all log output to stderr; do not pollute stdout with INFO and WARNING messages anymore (#1337)
-* Bugfix: RTE "reentrant call inside io.BufferedWriter" in logFile.flush() during backup (#1003)
-* Bugfix: Incompatibility with rsync 3.2.4 or later because of rsync's "new argument protection" (#1247). Deactivate "--old-args" rsync argument earlier recommaned to users as a workaround.
-* Bugfix: DeprecationWarnings about invalid escape sequences.
-* Bugfix: AttributeError in "Diff Options" dialog (#898)
-* Bugfix: Settings GUI: "Save password to Keyring" was disabled due to "no appropriate keyring found" (#1321)
-* Bugfix: Back in Time did not start with D-Bus error
-          "dbus.exceptions.DBusException: org.freedesktop.DBus.Error.NameHasNoOwner:
-           Could not get owner of name 'net.launchpad.backintime.serviceHelper': no such name"
-           (fixes client-side part of #921 - system D-Bus part of the Udev serviceHelper is still under investigation).
-* Bugfix: Avoid logging errors while waiting for a target drive to be mounted (#1142, #1143, #1328)
-* Bugfix: [Arch Linux] AUR pkg "backintime-git": Build tests fails and installation is aborted (#1233, fixed with #921)
-* Bugfix: Wrong systray icon showing in Wayland (#1244)
+* Feature: Write all log output to stderr; do not pollute stdout with INFO and WARNING messages anymore (#1337)
+* Fix bug: RTE "reentrant call inside io.BufferedWriter" in logFile.flush() during backup (#1003)
+* Fix bug: Incompatibility with rsync 3.2.4 or later because of rsync's "new argument protection" (#1247). Deactivate "--old-args" rsync argument earlier recommaned to users as a workaround.
+* Fix bug: DeprecationWarnings about invalid escape sequences.
+* Fix bug: AttributeError in "Diff Options" dialog (#898)
+* Fix bug: Settings GUI: "Save password to Keyring" was disabled due to "no appropriate keyring found" (#1321)
+* Fix bug: Back in Time did not start with D-Bus error
+           "dbus.exceptions.DBusException: org.freedesktop.DBus.Error.NameHasNoOwner:
+            Could not get owner of name 'net.launchpad.backintime.serviceHelper': no such name"
+            (fixes client-side part of #921 - system D-Bus part of the Udev serviceHelper is still under investigation).
+* Fix bug: Avoid logging errors while waiting for a target drive to be mounted (#1142, #1143, #1328)
+* Fix bug: [Arch Linux] AUR pkg "backintime-git": Build tests fails and installation is aborted (#1233, fixed with #921)
+* Fix bug: Wrong systray icon showing in Wayland (#1244)
 * Documentation update: Correct description of profile<N>.schedule.time in backintime-config manpage (#1270)
 * Translation update: Brazilian Portuguese (#1267)
 * Translation update: Italian (#1110, #1123)
@@ -54,7 +107,7 @@ Version 1.3.0 (2021-07-04)
 * Merge PR: 'TempPasswordThread' object has no attribute 'isAlive', Thanks FMeinicke (https://github.com/bit-team/backintime/pull/1135)
 * Merge PR: Keep permissions of an existing mountpoint from being overridden, Thanks bentolor (https://github.com/bit-team/backintime/pull/1058)
 * Fix bug: YEAR missing in config (https://github.com/bit-team/backintime/issues/1023)
-* Fix bug: SSH module didn't send identification string while checking if remote host is avilable (https://github.com/bit-team/backintime/issues/1030)
+* Fix bug: SSH module didn't send identification string while checking if remote host is available (https://github.com/bit-team/backintime/issues/1030)
 
 Version 1.2.1 (2019-08-25)
 * Fix bug: TypeError in backintime.py if mount failed while running a snapshot (https://github.com/bit-team/backintime/issues/1005)
@@ -66,16 +119,16 @@ Version 1.2.0 (2019-04-27)
 * Fix bug: configured cipher is not used with all ssh-commands (https://github.com/bit-team/backintime/issues/934)
 * remove progressbar on systray icon until BiT has it's own icon (https://github.com/bit-team/backintime/issues/902)
 * Fix bug: 'make test' fails because local SSH server is running on non-standard port (https://github.com/bit-team/backintime/issues/945)
-* clearify 'nocache' option (https://github.com/bit-team/backintime/issues/857)
+* clarify 'nocache' option (https://github.com/bit-team/backintime/issues/857)
 * create a config-backup in root dir if backup is encrypted (https://github.com/bit-team/backintime/issues/556)
 * Fix bug: 23:00 is missing in the list of every day hours (https://github.com/bit-team/backintime/issues/736)
 * Fix bug: ssh-agent output changed (https://github.com/bit-team/backintime/issues/840)
 * remove unused and undocumented userscript plugin
-* Fix bug: exception on making backintime folder world writeable (https://github.com/bit-team/backintime/issues/812)
+* Fix bug: exception on making backintime folder world writable (https://github.com/bit-team/backintime/issues/812)
 * Fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/733)
 * add contextmenu for logview dialog which can copy, exclude and decode lines
 * move progressbar under statusbar
-* Fix bug: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
+* Fix bug: backintime root crontab doesn't run; missing line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
 * Fix bug: IndexError in inhibitSuspend (https://github.com/bit-team/backintime/issues/772)
 * alleviate default exclude [Tt]rash* (https://github.com/bit-team/backintime/issues/759)
 * enable high DPI scaling (https://github.com/bit-team/backintime/issues/732)
@@ -88,7 +141,7 @@ Version 1.2.0 (2019-04-27)
 * Fix bug: Exception in FileInfo
 * ask for restore-to path before confirm (https://github.com/bit-team/backintime/issues/678)
 * fix 'Back in Time (root)' on wayland (https://github.com/bit-team/backintime/issues/640)
-* sort int values in config nummerical instead if alphabetical (https://github.com/bit-team/backintime/issues/175#issuecomment-272941811)
+* sort int values in config numerical instead if alphabetical (https://github.com/bit-team/backintime/issues/175#issuecomment-272941811)
 * set timestamp directly after new snapshot (https://github.com/bit-team/backintime/issues/584)
 * add shortcut CTRL+H for toggle show hidden files to fileselect dialog (https://github.com/bit-team/backintime/issues/378)
 * add 'Edit user-callback' dialog
@@ -146,7 +199,7 @@ Version 1.2.0 (2019-04-27)
 * Fix bug: BIT-root won't start from .desktop file (https://github.com/bit-team/backintime/issues/549)
 * Fix bug: Keyring doesn't work with KDE Plasma5 (https://github.com/bit-team/backintime/issues/545)
 * Fix bug: Qt4 built-in phrases where not translated (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=816197)
-* Fix bug: configure ingnore unknown args (https://github.com/bit-team/backintime/issues/547)
+* Fix bug: configure ignore unknown args (https://github.com/bit-team/backintime/issues/547)
 * Fix bug: snapshots-list on command-line was not sorted
 * Fix bug: SHA256 ssh-key fingerprint was not detected
 * change default configure option to --no-fuse-group as Ubuntu >= 12.04 don't need fuse group-membership anymore
@@ -170,7 +223,7 @@ Version 1.1.24 (2017-11-07)
 
 Version 1.1.22 (2017-10-28)
 * fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/552733)
-* backport bug fix: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/552781)
+* backport bug fix: backintime root crontab doesn't run; missing line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/552781)
 * backport bug fix: can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552552)
 
 Version 1.1.20 (2017-04-09)
@@ -208,7 +261,7 @@ Version 1.1.10 (2016-01-09)
 * Fix bug: FileNotFoundError while starting pw-cache from source
 * continue an unfinished new_snapshot if possible (https://github.com/bit-team/backintime/issues/400)
 * Fix bug: suppress warning about failed inhibit suspend if run as root (https://github.com/bit-team/backintime/issues/500)
-* Fix bug: UI blocked/greyed out while removing snapshot (https://github.com/bit-team/backintime/issues/487)
+* Fix bug: UI blocked/grayed out while removing snapshot (https://github.com/bit-team/backintime/issues/487)
 * Fix bug: pw-cache failed on leftover PID file, using ApplicationInstance now (https://github.com/bit-team/backintime/issues/468)
 * Fix bug: failed to parse some arguments (https://github.com/bit-team/backintime/issues/492)
 * Fix bug: failed to start GUI if launched from systray icon
@@ -216,7 +269,7 @@ Version 1.1.10 (2016-01-09)
 * Fix bug: PermissionError while deleting readonly files on sshfs mounted share (https://github.com/bit-team/backintime/issues/490)
 * Add Nautilus-like shortcuts for navigating in file browser (https://github.com/bit-team/backintime/issues/483)
 * speed up mounting of SSH+encrypted profiles
-* Fix bug: creat new encrypted profiles with encfs >= 1.8.0 failed (https://github.com/bit-team/backintime/issues/477)
+* Fix bug: create new encrypted profiles with encfs >= 1.8.0 failed (https://github.com/bit-team/backintime/issues/477)
 * Fix bug: AttributeError in common/tools.py if keyring is missing (https://github.com/bit-team/backintime/issues/473)
 * Fix bug: remote rename of 'new_snapshot' folder sometimes isn't recognized locally; rename local now (https://answers.launchpad.net/questions/271792)
 * Move source code and bug tracking to GitHub
@@ -226,7 +279,7 @@ Version 1.1.8 (2015-09-28)
 * show current app name and profile ID in syslog (https://launchpad.net/bugs/906213)
 * Fix bug: BiT freeze when activate 'Decode path' in 'Snapshot Log View'
 * Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https://launchpad.net/bugs/1478219)
-* Fix bug: empty grey window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
+* Fix bug: empty gray window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
 * do not restore permission if they are identical with current permissions
 * Fix bug: gnu_find_suffix_support doesn't set back to True (https://launchpad.net/bugs/1487781)
 * security issue: do not run user-callback in a shell
@@ -236,7 +289,7 @@ Version 1.1.8 (2015-09-28)
 * run multiple smart-remove jobs in one screen session (https://launchpad.net/bugs/1487781)
 * add error messages if PID file creation fail
 * Fix bug: dbus exception if dbus systembus is not running
-* Fix bug: depend on virtual package cron-daemon instead of cron for compatiblity with other cron implementations (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=776856)
+* Fix bug: depend on virtual package cron-daemon instead of cron for compatibility with other cron implementations (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=776856)
 * Fix bug: wasn't able to start from alternate install dir (https://launchpad.net/bugs/478689)
 * Fix bug: wasn't able to start from source dir
 * Add Warning about unsupported filesystems
@@ -285,15 +338,15 @@ Version 1.1.4 (2015-03-22)
 * add confirm dialog before restoring (https://launchpad.net/bugs/438079)
 * Fix bug: Wrong status text in the tray icon (https://launchpad.net/bugs/1429400)
 * add option to run only one snapshot at a time
-* Fix bug: restore permissions of lots of files made BackInTime unresposive (https://launchpad.net/bugs/1428423)
+* Fix bug: restore permissions of lots of files made BackInTime unresponsive (https://launchpad.net/bugs/1428423)
 * Fix bug: failed to restore file owner and group
-* cache uuid in config so it doesn't fail if the device isn't pluged in (https://launchpad.net/bugs/1426881)
+* cache uuid in config so it doesn't fail if the device isn't plugged in (https://launchpad.net/bugs/1426881)
 * add warning about wrong Python version in configure
 * prevent snapshots from being removed with restore and delete; show warning if restore and delete filesystem root (https://answers.launchpad.net/questions/262837)
 * Fix bug: OSError in free_space; add alternate method to get free space
 * add bash-completion
 * Fix bug: ugly theme while running as root on Gnome based DEs (https://launchpad.net/bugs/1418447)
-* Fix bug: filename with broken charset throwed UnicodeError exception (https://launchpad.net/bugs/1419694)
+* Fix bug: UnicodeError thrown if filename has broken charset (https://launchpad.net/bugs/1419694)
 * use 'crontab' instead of 'crontab -' to read from stdin (https://launchpad.net/bugs/1419466)
 
 Version 1.1.2 (2015-02-04)
@@ -319,7 +372,7 @@ Version 1.1.0 (2015-01-15)
 * automatically run in background if started with 'backintime --backup-job'
 * fix typos and style warnings in manpages reported by Lintian (https://lintian.debian.org/full/jmw@debian.org.html#backintime_1.0.34-0.1)
 * add exclude files by size (https://launchpad.net/bugs/823719)
-* remove 'Auto Host/User/Profile-ID' as this is more confiusing than helping
+* remove 'Auto Host/User/Profile-ID' as this is more confusing than helping
 * Fix bug: check procname of pid-locks (https://launchpad.net/bugs/1341414)
 * optional run 'rsync' with 'nocache' (https://launchpad.net/bugs/1344528)
 * mark invalid exclude pattern with mode ssh-encrypted
@@ -391,11 +444,11 @@ Version 1.0.30 (2013-12-12)
 * Fix bug: udev rule doesn't finish (https://bugs.launchpad.net/backintime/+bug/1249466)
 * add symlink last_snapshot (https://bugs.launchpad.net/backintime/+bug/787118)
 * add virtual package backintime-kde for PPA
-* Fix multiple errors in PPA build process; reorganise updateversion.sh
+* Fix multiple errors in PPA build process; reorganize updateversion.sh
 * Fix bug: Mate and xfce desktop didn't show systray icon (https://bugs.launchpad.net/backintime/+bug/658424/comments/31)
 * add option to run rsync with 'nice' or 'ionice' on remote host (https://bugs.launchpad.net/backintime/+bug/1240301)
 * add Shutdown button to shutdown system after snapshot has finished (https://bugs.launchpad.net/backintime/+bug/838742)
-* Fix bug: Ubuntu Lucid dosn't provide SecretServiceKeyring (https://bugs.launchpad.net/backintime/+bug/1243911)
+* Fix bug: Ubuntu Lucid doesn't provide SecretServiceKeyring (https://bugs.launchpad.net/backintime/+bug/1243911)
 * wrap long lines for syslog
 * Fix bug: 'gksu backintime-gnome' failed with dbus.exceptions.DBusException
 
@@ -434,7 +487,7 @@ Version 1.0.26 (2013-09-07)
 * deactivate 'Save Password' if no keyring is available
 * use Password-cache for user-input too
 * handle two Passwords
-* add 'SSH encrypted': mount / with encfs reverse and sync encrypted with rsync. EXPERIMENTEL!
+* add 'SSH encrypted': mount / with encfs reverse and sync encrypted with rsync. EXPERIMENTAL!
 * add 'Local encrypted': mount encfs
 
 Version 1.0.24 (2013-05-08)
@@ -445,7 +498,7 @@ Version 1.0.24 (2013-05-08)
 * Fix bug: quote rsync remote path with spaces
 * 'Save Password' default off to avoid problems with existing profiles
 * if restore uid/gid failed try to restore at least gid
-* SSH need to store permissions in seperate file with "Full rsync mode" because remote user might not be able to store ownership
+* SSH need to store permissions in separate file with "Full rsync mode" because remote user might not be able to store ownership
 * Fix bug: restore permission failed on "Full rsync mode"
 * Fix bug: glib.GError: Unknown internal child: selection
 * Fix bug: GtkWarning: Unknown property: GtkLabel.margin-top
@@ -472,12 +525,12 @@ Version 1.0.18 (2012-11-17)
 * Map multiple arguments for gettext so they can be rearranged by translators
 
 Version 1.0.16 (2012-11-15)
-* Fix a package dependecy problem ... this time for good (https://bugs.launchpad.net/backintime/+bug/1077446)
+* Fix a package dependency problem ... this time for good (https://bugs.launchpad.net/backintime/+bug/1077446)
 
 Version 1.0.14 (2012-11-09)
-* Fix a package dependecy problem
+* Fix a package dependency problem
 
-Versoin 1.0.12 (2012-11-08)
+Version 1.0.12 (2012-11-08)
 * Add links to: website, documentation, report a bug, answers, faq
 * Use libnotify for gnome/kde4 notifications instead of gnome specific libraries
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1059247
@@ -519,7 +572,7 @@ Version 1.0 (2010-10-16)
 * fix xattr
 * add continue on errors (https://bugs.launchpad.net/backintime/+bug/616299)
 * add expert options: copy unsafe links & copy links
-* "user-callback" replace "user.callback" and receive profile informations
+* "user-callback" replace "user.callback" and receive profile information
 * documentation: on-line only (easier to maintain)
 * add error log and error log view dialog (Gnome & KDE4)
 * merge with: lp:~dave2010/backintime/minor-edits
@@ -695,7 +748,7 @@ Version 0.9.8 (2009-02-20)
 * unsafe links are ignored (that means that a link to a file/directory outside of include directories are ignored)
 * KDE4: add copy to clipboard
 * KDE4: sort files by name, size or date
-* cron 5/10 minutes: replace mutiple lines with a single crontab line using divide (*/5 or */10)
+* cron 5/10 minutes: replace multiple lines with a single crontab line using divide (*/5 or */10)
 * cron: when called from cron redirect output (stdout & stderr) to /dev/null
 
 Version 0.9.6 (2009-02-09)
@@ -759,7 +812,7 @@ Version 0.8.12 (2008-12-01)
 * add German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * add SnapshotNameDialog
 * add Name/Remove snapshot in main toolbar
-* change the way it detects if the mainwindow is the ative window (no dialogs)
+* change the way it detects if the mainwindow is the active window (no dialogs)
 * toolbars: show icons only
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
@@ -794,7 +847,7 @@ Version 0.8 (2008-11-07)
 * add English help (docbook)
 * add help button in main toolbar
 * the application can be started with a 'path' to a folder or file as command line parameter
-* when the application start, if it is already runnig pass its command line to the first instance (this allow a basic integration with file-managers - see README)
+* when the application start, if it is already running pass its command line to the first instance (this allow a basic integration with file-managers - see README)
 * bug fix: when the application was started a second time it raise the first application's window but not always focused
 
 Version 0.7.4 (2008-11-03)

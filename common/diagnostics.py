@@ -1,10 +1,13 @@
-"""short doc
+"""Provides the ability to collect diagnostic information on Back In Time.
 
-long doc
-
+These are version numbers of the dependent tools, environment variables,
+paths, operating system and the like. This is used to enhance error reports
+and to enrich them with the necessary information as uncomplicated as possible.
 """
+
 import sys
 import os
+import itertools
 from pathlib import Path
 import pwd
 import platform
@@ -17,7 +20,7 @@ import tools
 
 
 def collect_diagnostics():
-    """Collect information about environment and versions of tools and
+    """Collect information about environment, versions of tools and
     packages used by Back In Time.
 
     The information can be used e.g. for debugging and bug reports.
@@ -68,7 +71,7 @@ def collect_diagnostics():
         # OS Version (and maybe name)
         'system': '{} {}'.format(platform.system(), platform.version()),
         # OS Release name (prettier)
-        'os-release': _get_os_release()
+        'OS': _get_os_release()
 
     }
 
@@ -80,7 +83,8 @@ def collect_diagnostics():
 
     # locale (system language etc)
     #
-    # Implementation note: With env var "LC_ALL=C" getlocale() will return (None, None).
+    # Implementation note: With env var "LC_ALL=C" getlocale() will return
+    # (None, None).
     # This throws an error in "join()":
     #   TypeError: sequence item 0: expected str instance, NoneType found
     my_locale = locale.getlocale()
@@ -127,23 +131,14 @@ def collect_diagnostics():
 
     result['python-setup']['sys.path'] = sys.path
 
-    # Qt
-    try:
-        import PyQt5.QtCore
-    except ImportError:
-        qt = '(Can not import PyQt5)'
-    else:
-        qt = 'PyQt {} / Qt {}'.format(PyQt5.QtCore.PYQT_VERSION_STR,
-                                      PyQt5.QtCore.QT_VERSION_STR)
-    finally:
-        result['python-setup']['qt'] = qt
+    result['python-setup']['qt'] = _get_qt_information()
 
     # === EXTERN TOOL ===
     result['external-programs'] = {}
 
     # rsync
-    # rsync >= 3.2.6: -VV return a json
-    # rsync <= 3.2.5 and > (somewhere near) 3.1.3: -VV return the same as -V
+    # rsync >= 3.2.7: -VV return a json
+    # rsync <= 3.2.6 and > (somewhere near) 3.1.3: -VV return the same as -V
     # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
 
@@ -162,6 +157,14 @@ def collect_diagnostics():
             ['rsync', '--version'],
             r'rsync  version (.*)  protocol version'
         )
+    elif isinstance(result['external-programs']['rsync'], dict):
+        # Rsync (>= 3.2.7)provided its information in JSON format.
+        # Remove some irrelevant information.
+        for key in ['program', 'copyright', 'url', 'license', 'caveat']:
+            try:
+                del result['external-programs']['rsync'][key]
+            except KeyError:
+                pass
 
     # ssh
     result['external-programs']['ssh'] = _get_extern_versions(['ssh', '-V'])
@@ -192,29 +195,66 @@ def collect_diagnostics():
     return result
 
 
+def _get_qt_information():
+    """Collect Version and Theme information from Qt.
+
+    If environment variable DISPLAY is set a temporary QApplication instances
+    is created.
+    """
+    try:
+        import PyQt5.QtCore
+        import PyQt5.QtGui
+        import PyQt5.QtWidgets
+    except ImportError:
+        return '(Cannot import PyQt5)'
+
+    # Themes
+    theme_info = {}
+    if tools.checkXServer():  # TODO use tools.is_Qt5_working() when stable
+        qapp = PyQt5.QtWidgets.QApplication([])
+        theme_info = {
+            'Theme': PyQt5.QtGui.QIcon.themeName(),
+            'Theme Search Paths': PyQt5.QtGui.QIcon.themeSearchPaths(),
+            'Fallback Theme': PyQt5.QtGui.QIcon.fallbackThemeName(),
+            'Fallback Search Paths': PyQt5.QtGui.QIcon.fallbackSearchPaths()
+        }
+        qapp.quit()
+
+    return {
+        'Version': 'PyQt {} / Qt {}'.format(PyQt5.QtCore.PYQT_VERSION_STR,
+                                            PyQt5.QtCore.QT_VERSION_STR),
+        **theme_info
+    }
+
+
 def _get_extern_versions(cmd,
                          pattern=None,
                          try_json=False,
                          error_pattern=None):
-    """Get the version of an external tools using ``subprocess.Popen()``.
+    """Get the version of an external tools using :class:`subprocess.Popen`.
 
-     Args:
-         cmd (list): Commandline arguments that will be passed to `Popen()`.
-         pattern (str): A regex pattern to extract the version string from the
-                        commands output.
-         try_json (bool): Interpret the output as json first (default: False).
-                          If it could be parsed the result is a dict
-         error_pattern (str): Regex pattern to identify a message in the output
-                              that indicates an error.
+    Args:
+        cmd (list[str]): Commandline arguments that will be passed
+            to ``Popen()``.
+        pattern (str) : A regex pattern to extract the version string from the
+            commands output.
+        try_json (bool): Interpret the output as json first
+            (default: ``False``).
+            If it could be parsed the result is a dict
+        error_pattern (str): Regex pattern to identify a message in the output
+            that indicates an error.
 
-     Returns:
-         Version information as string (or dict if was JSON and parsed successfully).
-         `None` if the error_pattern did match (to indicate an error)
-     """
+    Returns:
+        Version information as :obj:`str` or :obj:`dict`.
+        The latter is used if the
+        ``cmd`` requested offer its information in JSON format.
+        ``None`` if the error_pattern did match (to indicate an error).
+    """
 
     try:
         # as context manager to prevent ResourceWarning's
         with subprocess.Popen(cmd,
+                              env={'LC_ALL': 'C'},
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               universal_newlines=True) as proc:
@@ -227,16 +267,13 @@ def _get_extern_versions(cmd,
     else:
         # Check for errors
         if error_pattern:
-            match = re.findall(error_pattern, error_output)
+            match_result = re.findall(error_pattern, error_output)
 
-            if match:
+            if match_result:
                 return None
 
         # some tools use "stderr" for version info
-        if not std_output:
-            result = error_output
-        else:
-            result = std_output
+        result = std_output if std_output else error_output
 
         # Expect JSON string
         if try_json:
@@ -304,42 +341,77 @@ def get_git_repository_info(path=None):
 
 
 def _get_os_release():
-    """Extract infos from os-release file.
+    """Try to get the name and version of the operating system used.
+
+    First it extract infos from the file ``/etc/os-release``. Because not all
+    GNU Linux distributions follow the standards it will also look for
+    alternative release files (pattern: /etc/*release).
+    See http://linuxmafia.com/faq/Admin/release-files.html for examples.
 
     Returns:
-        (str): OS name e.g. "Debian GNU/Linux 11 (bullseye)"
+        A string with the name of the operating system, e.g. "Debian
+        GNU/Linux 11 (bullseye)" or a dictionary if alternative release
+        files where found.
     """
 
+    def _get_pretty_name_or_content(fp):
+        """Return value of PRETTY_NAME from a release file or return the whole
+        file content."""
+
+        # Read content from file
+        try:
+            with fp.open('r') as handle:
+                content = handle.read()
+
+        except FileNotFoundError:
+            return f'({fp.name} file not found)'
+
+        # Try to extract the pretty name
+        try:
+            return re.findall('PRETTY_NAME=\"(.*)\"', content)[0]
+
+        except IndexError:
+            # Return full content when no PRETTY_NAME was found
+            return content
+
+    etc_path = Path('/etc')
+    os_files = list(filter(lambda p: p.is_file(),
+                           itertools.chain(
+                               etc_path.glob('*release*'),
+                               etc_path.glob('*version*'))
+                           ))
+
+    # "os-release" is standard and should be on top of the list
+    fp_osrelease = etc_path / 'os-release'
     try:
-        # content of /etc/os-release
-        return platform.freedesktop_os_release()  # since Python 3.10
-    except AttributeError:  # refactor: when we drop Python 3.9 support
+        os_files.remove(fp_osrelease)
+    except ValueError:
         pass
+    else:
+        os_files = [fp_osrelease] + os_files
 
-    # read and parse the os-release file ourself
-    fp = Path('/etc') / 'os-release'
+    # each release/version file found
+    osrelease = {str(fp): _get_pretty_name_or_content(fp) for fp in os_files}
 
-    try:
-        with fp.open('r') as handle:
-            osrelease = handle.read()
-    except FileNotFoundError:
-        return '(os-release file not found)'
+    # No alternative release files found
+    if len(osrelease) == 1:
+        return osrelease[str(fp_osrelease)]
 
-    return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
-
+    return osrelease
 
 
 def _replace_username_paths(result, username):
-    """User's homepath and the username is replaced because of security
-    reasons.
+    """User's real ``HOME`` path and login name are replaced with surrogtes.
+
+    This is because of security reasons.
 
     Args:
         result (dict): Dict possibly containing the username and its home
-                       path.
-        username (str). The user login name to look for.
+            path.
+        username (str): The user's real login name to look for.
 
     Returns:
-        (str): String with replacements.
+        A dictionary with replacements.
     """
 
     # Replace home folder user names with this dummy name

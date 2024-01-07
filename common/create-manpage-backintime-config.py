@@ -23,7 +23,7 @@ The file `common/config.py` is parsed for variable names, default values and
 other information. The founder of that script @Germar gave a detailed
 description about that script in #1354.
 
-The script reads every line and tries to analyse it:
+The script reads every line and tries to analyze it:
   - It searches for `DEFAULT` and puts those into a `dict` for later replacing
     the variable with the value.
   - If that didn't match it will look for lines starting with `#?` which is
@@ -65,7 +65,7 @@ SORT = True  # True = sort by alphabet; False = sort by line numbering
 c_list = re.compile(r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
 c = re.compile(r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
 
-HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
+HEADER = r'''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -88,12 +88,12 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 .SH POSSIBLE KEYWORDS
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
-FOOTER = '''.SH SEE ALSO
+FOOTER = r'''.SH SEE ALSO
 backintime, backintime-qt.
 .PP
 Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
-This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
+This manual page was written by BIT Team(<bit-dev@python.org>).
 '''
 
 INSTANCE = 'instance'
@@ -269,6 +269,10 @@ def main():
                 # ('profile', 'Bool', 'snapshots.use_checksum', '', 'False')
                 m = c.match(line)
 
+            # Ignore undocumented (without "#?" comments) variables.
+            if m and not commentline:
+                continue
+
             if m:
                 profile, instance, name, var, default = m.groups()
 
@@ -293,7 +297,7 @@ def main():
                             'int',
                             '%s.size' % name,
                             var,
-                            '\-1',
+                            r'\-1',
                             'Quantity of %s.<I> entries.' % name,
                             values,
                             force_var,

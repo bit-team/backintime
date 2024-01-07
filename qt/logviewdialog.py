@@ -16,8 +16,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import gettext
-
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -28,8 +26,6 @@ import encfstools
 import snapshotlog
 import tools
 import messagebox
-
-_=gettext.gettext
 
 
 class LogViewDialog(QDialog):
@@ -63,15 +59,15 @@ class LogViewDialog(QDialog):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
 
-        #profiles
-        self.lblProfile = QLabel(_('Profile:'), self)
+        # profiles
+        self.lblProfile = QLabel(_('Profile') + ':', self)
         layout.addWidget(self.lblProfile)
 
         self.comboProfiles = qttools.ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
-        #snapshots
+        # snapshots
         self.lblSnapshots = QLabel(_('Snapshots') + ':', self)
         layout.addWidget(self.lblSnapshots)
         self.comboSnapshots = qttools.SnapshotCombo(self)
@@ -85,21 +81,26 @@ class LogViewDialog(QDialog):
             self.lblProfile.hide()
             self.comboProfiles.hide()
 
-        #filter
-        layout.addWidget(QLabel(_('Filter:')))
+        # filter
+        layout.addWidget(QLabel(_('Filter') + ':'))
 
         self.comboFilter = QComboBox(self)
         layout.addWidget(self.comboFilter, 1)
         self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
 
         self.comboFilter.addItem(_('All'), 0)
+
+        # Note about ngettext plural forms: n=102 means "Other" in Arabic and
+        # "Few" in Polish.
+        # Research in translation community indicate this as the best fit to
+        # the meaning of "all".
         self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
         self.comboFilter.addItem(_('Errors'), 1)
         self.comboFilter.addItem(_('Changes'), 2)
-        self.comboFilter.addItem(_('Informations'), 3)
+        self.comboFilter.addItem(_('Information'), 3)
 
-        #text view
+        # text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setFont(QFont('Monospace'))
         self.txtLogView.setReadOnly(True)
@@ -191,10 +192,20 @@ class LogViewDialog(QDialog):
         edit = QLineEdit(self)
         edit.setText(path)
         edit.setMinimumWidth(600)
-        options = {'widget': edit, 'retFunc': edit.text, 'id': 'path'}
-        confirm, opt = messagebox.warningYesNoOptions(self, _("Do you want to exclude this?"), (options, ))
+        options = {
+            'widget': edit,
+            'retFunc': edit.text,
+            'id': 'path'
+        }
+        confirm, opt = messagebox.warningYesNoOptions(
+            self,
+            _('Do you want to exclude this?'),
+            (options, )
+        )
+
         if not confirm:
             return
+
         exclude.append(opt['path'])
         self.config.setExclude(exclude)
 

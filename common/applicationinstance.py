@@ -26,6 +26,10 @@ import logger
 import tools
 
 
+# TODO This class name is a misnomer (there may be more than
+#      one app instance eg. if a restore is running and another
+#      backup starts).
+#      Rename it to eg. LockFileManager
 class ApplicationInstance:
     """
     Class used to handle one application instance mechanism.
@@ -54,12 +58,13 @@ class ApplicationInstance:
     def __del__(self):
         self.flockUnlock()
 
+    # TODO Rename to is_single_instance() to make the purpose more obvious
     def check(self, autoExit=False):
         """
         Check if the current application is already running
 
         Args:
-            autoExit (bool): automatically call sys.exit if there is an other
+            autoExit (bool): automatically call sys.exit if there is another
                              instance running
 
         Returns:
@@ -71,7 +76,7 @@ class ApplicationInstance:
 
         self.pid, self.procname = self.readPidFile()
 
-        # check if the process with specified by pid exists
+        # check if the process (PID) that created the pid file still exists
         if 0 == self.pid:
             return True
 
@@ -119,6 +124,9 @@ class ApplicationInstance:
                 'Failed to write PID file %s: [%s] %s'
                 % (e.filename, e.errno, e.strerror))
 
+        # The flock is removed here because it shall only ensure serialized access to the "pidFile" (lock file):
+        # Without setting flock in __init__ another process could also check for the existences of the "pidFile"
+        # in parallel and also create a new one (overwriting the one created here).
         self.flockUnlock()
 
     def exitApplication(self):
@@ -132,11 +140,52 @@ class ApplicationInstance:
 
     def flockExclusiv(self):
         """
-        Create an exclusive lock to block a second instance while
-        the first instance is starting.
+        Create an exclusive advisory file lock named <PID file>.flock
+        to block the creation of a second instance while the first instance
+        is still in the process of starting (but has not yet completely
+        started).
+
+        The purpose is to make
+        1. the check if the PID lock file already exists
+        2. and the subsequent creation of the PID lock file
+        an atomic operation by using a blocking "flock" file lock
+        on a second file to avoid that two or more processes check for
+        an existing PID lock file, find none and create a new one
+        (so that only the last creator wins).
+
+        Dev notes:
+        ---------
+        buhtz (2023-09):
+        Not sure but just log an ERROR without doing anything else is
+        IMHO not enough.
+        aryoda (2023-12):
+        It seems the purpose of this additional lock file using an exclusive lock
+        is to block the other process to continue until this exclusive lock
+        is released (= serialize execution).
+        Therefor advisory locks are used via fcntl.flock (see: man 2 fcntl)
         """
+
+        flock_file_URI = self.pidFile + '.flock'
+        logger.debug(f"Trying to put an advisory lock on the flock file {flock_file_URI}")
+
         try:
-            self.flock = open(self.pidFile + '.flock', 'w')
+            self.flock = open(flock_file_URI, 'w')
+            # This opens an advisory lock which which is considered only
+            # if other processes cooperate by explicitly acquiring locks
+            # (which BiT does IMHO).
+            # TODO Does this lock request really block if another processes
+            #      already holds a lock (until the lock is released)?
+            #      = Is the execution serialized?
+            # Provisional answer:
+            #      Yes, fcntl.flock seems to wait until the lock is removed
+            #      from the file.
+            #      Tested by starting one process in the console via
+            #         python3 applicationinstance.py
+            #      and then (while the first process is still running)
+            #      the same command in a 2nd terminal.
+            #      The ApplicationInstance constructor call needs
+            #      to be changed for this by adding "False, True"
+            #      to trigger an exclusive lock.
             fcntl.flock(self.flock, fcntl.LOCK_EX)
 
         except OSError as e:
@@ -149,6 +198,7 @@ class ApplicationInstance:
         but should find it self to be obsolete.
         """
         if self.flock:
+            logger.debug(f"Trying to remove the advisory lock from the flock file {self.flock.name}")
             fcntl.fcntl(self.flock, fcntl.LOCK_UN)
             self.flock.close()
 

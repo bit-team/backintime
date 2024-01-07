@@ -29,11 +29,11 @@ import logger
 from exceptions import StopException
 
 class Plugin:
-    """ Interface methods to customize behaviour for different backup steps
+    """ Interface methods to customize behavior for different backup steps
 
     Back In Time allows to inform plugins (implemented in Python
     files) about different steps ("events") in the backup process.
-    Plugins may implement special behaviour to predefined
+    Plugins may implement special behavior to predefined
     "events" that are declared in this interface class
     as methods.
 
@@ -91,14 +91,19 @@ class Plugin:
 
                 Known error codes:
 
-                1. No or no valid configuration
+                1: No or no valid configuration
                    (check the configuration file)
-                2. A backup process is already running.
+                2: A backup process is already running.
                    Make sure that automatic and manual backups
                    do not run at once.
-                3. Snapshots directory not found
+                3: Snapshots directory not found
                    (eg. when a removable drive is not mounted)
-                4. The requested snapshot for "now" already exists
+                4: The requested snapshot for "now" already exists.
+                   ``message`` contains the SID (snapshot ID) then.
+                5: Error while taking a snapshot.
+                   ``message`` contains more information (as string).
+                6: New snapshot taken but with errors.
+                   ``message`` contains the SID (snapshot ID) then.
 
             message: The error message for the code
                 (mostly an empty string by default)
@@ -241,6 +246,7 @@ class PluginManager:
                 tools.registerBackintimePath(path)
                 for f in os.listdir(fullPath):
                     if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
+                        logger.debug('Probing plugin %s' % f, self)
                         try:
                             module = __import__(f[: -3])
                             module_dict = module.__dict__
@@ -260,7 +266,6 @@ class PluginManager:
                                                 self.plugins.insert(0, plugin)
                                             else:
                                                 self.plugins.append(plugin)
-                                # TODO 09/28/2022 Ignored files in plugin folders should be logged
                             loadedPlugins.append(f)
                         except BaseException as e:
                             logger.error('Failed to load plugin %s: %s' %(f, str(e)), self)

@@ -1,5 +1,5 @@
 # Using Sphinx to write and build documentation
-<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenace team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
+<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
 
 This file describes briefly how to
 - build and view the source code "API" documentation of _Back In Time_
@@ -112,14 +112,13 @@ b) The new module files are in a folder that already contains other modules cont
 
 
 
-# How to write docstrings for Back In Time
+# How to write docstrings for _Back In Time_
 
-"Back In Time" uses the Google style for docstrings:
-
-    https://google.github.io/styleguide/pyguide.html
-
-Please stick to this convention
-
+_Back In Time_ uses the [Google style for
+docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings).
+Please stick to this convention. Look into documentation of
+[`sphinx.ext.napoleon` for an extended
+example](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google).
 
 
 # Commonly used rst markups in the docstring

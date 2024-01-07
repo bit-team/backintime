@@ -60,12 +60,8 @@ project = 'BackInTime'
 copyright = '2016, Germar Reitze'
 author = 'Germar Reitze'
 
-# The version info for the project you're documenting, acts as replacement for
-# |version| and |release|, also used in various other places throughout the
-# built documents.
-#
-# The short X.Y version.
-version = '1.3.4-dev'
+# Don't edit this variable. It is updated automatically by "updateversion.sh".
+version = '1.4.2-dev'
 # The full version, including alpha/beta/rc tags.
 release = version  # '1.3.3-dev'
 
@@ -160,7 +156,7 @@ html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y, %H:%M (%Z)'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -280,3 +276,5 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+# If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
+# using the given strftime format.

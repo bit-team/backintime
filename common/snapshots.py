@@ -43,8 +43,6 @@ import snapshotlog
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 
-_ = gettext.gettext
-
 
 class Snapshots:
     """
@@ -120,7 +118,7 @@ class Snapshots:
         try:
             mid = int(items[0])
         except Exception as e:
-            logger.debug('Failed extract message ID from %s: %s'
+            logger.debug('Failed to extract message ID from %s: %s'
                          %(items[0], str(e)),
                          self)
 
@@ -129,8 +127,27 @@ class Snapshots:
 
         return(mid, message)
 
-    #TODO: make own class for takeSnapshotMessage
+    # TODO: make own class for takeSnapshotMessage
     def setTakeSnapshotMessage(self, type_id, message, timeout = -1):
+        """Update the status message of the active snapshot creation job
+
+        Write the status message into a message file to allow async
+        processing for the GUI, plug-ins (like user-callback)
+        and desktop notifications.
+
+        Args:
+            type_id: Simplified severity level of the status message:
+                     0: INFO
+                     1: ERROR
+                     other values: defaults to INFO (may change in the future)
+            message: status message string
+            timeout: Requested maximum processing duration in plug-ins.
+                     Default: -1 (no limit)
+                     Called plug-ins must try to keep the timeout itself
+                     (it is not enforced by the ``PluginManager``.
+                     In fact currently all known plug-ins do
+                     ignore the timeout value!
+        """
         data = str(type_id) + '\n' + message
 
         try:
@@ -322,7 +339,7 @@ class Snapshots:
         """
         if not callback is None:
             if not ok:
-                msg = msg + " : " + _("FAILED")
+                msg = msg + ' : ' + _('FAILED')
                 self.restorePermissionFailed = True
             callback(msg)
 
@@ -423,11 +440,11 @@ class Snapshots:
                                         restore to original destination
             delete (bool):              delete newer files which are not in the
                                         snapshot
-            backup (bool):              create backup files (*.backup.YYYYMMDD)
+            backup (bool):              create backup files (``*.backup.YYYYMMDD``)
                                         before changing or deleting local files.
-            only_new (bool):            Only restore files which does not exist
+            only_new (bool):            Only restore files which do not exist
                                         or are newer than those in destination.
-                                        Using "rsync --update" option.
+                                        Using ``rsync --update`` option.
         """
         instance = ApplicationInstance(
             pidFile=self.config.restoreInstanceFile(),
@@ -518,7 +535,8 @@ class Snapshots:
         #restore permissions
         logger.info('Restore permissions', self)
         self.restoreCallback(callback, True, ' ')
-        self.restoreCallback(callback, True, _("Restore permissions:"))
+        self.restoreCallback(
+            callback, True, '{}:'.format(_('Restore permissions')))
         self.restorePermissionFailed = False
         fileInfoDict = sid.fileInfo
 
@@ -570,11 +588,18 @@ class Snapshots:
                 self.restorePermission(item_path, real_path, fileInfoDict, callback)
 
             self.restoreCallback(callback, True, '')
+
             if self.restorePermissionFailed:
                 status = _('FAILED')
+
             else:
                 status = _('Done')
-            self.restoreCallback(callback, True, _("Restore permissions:") + ' ' + status)
+
+            self.restoreCallback(
+                callback,
+                True,
+                '{}: {}'.format(_('Restore permissions'), status)
+            )
 
         instance.exitApplication()
 
@@ -592,7 +617,7 @@ class Snapshots:
         Remove snapshot ``sid``.
 
         BUHTZ 2022-10-11: From my understanding rsync is used here to sync the
-        directory of a concret snapshot (``sid```) against an empty temporary
+        directory of a concrete snapshot (``sid```) against an empty temporary
         directory. In the consequence the sid directory is empty but not
         deleted.
         To delete that directory simple `rm` call (via `shutil` package) is
@@ -607,7 +632,7 @@ class Snapshots:
             sid (SID):              snapshot to remove
 
         Returns:
-            (bool): ``True`` if succedeed otherwise ``False``.
+            (bool): ``True`` if succeeded otherwise ``False``.
         """
 
         if isinstance(sid, RootSnapshot):
@@ -652,12 +677,16 @@ class Snapshots:
 
             return True
 
+    # TODO Refactor: This functions is extremely difficult to understand:
+    #  - Nested "if"s
+    #  - Fuzzy names of classes, attributes and methods
+    # - unclear variable names (at least for the return values)
     def backup(self, force = False):
         """
         Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method. This will check
         that no other snapshots are running at the same time, there is nothing
-        prohibing a new snapshot (e.g. on battery) and the profile is configured
+        prohibiting a new snapshot (e.g. on battery) and the profile is configured
         correctly. This will also mount and unmount remote destinations.
 
         Args:
@@ -674,7 +703,7 @@ class Snapshots:
 
         if not self.config.isConfigured():
             logger.warning('Not configured', self)
-            self.config.PLUGIN_MANAGER.error(1) #not configured
+            self.config.PLUGIN_MANAGER.error(1) # not configured
         elif not force and self.config.noSnapshotOnBattery() and tools.onBattery():
             self.setTakeSnapshotMessage(0, _('Deferring backup while on battery'))
             logger.info('Deferring backup while on battery', self)
@@ -690,7 +719,7 @@ class Snapshots:
             if not instance.check():
                 logger.warning('A backup is already running.  The pid of the \
 already running backup is in file %s.  Maybe delete it' % instance.pidFile , self )
-                self.config.PLUGIN_MANAGER.error(2) #a backup is already running
+                self.config.PLUGIN_MANAGER.error(2) # a backup is already running
             elif not restore_instance.check():
                 logger.warning('Restore is still running. Stop backup until \
 restore is done. The pid of the already running restore is in %s.  Maybe delete it'\
@@ -700,15 +729,15 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     logger.warning('Backups disabled on battery but power status is not available', self)
 
                 instance.startApplication()
-                self.flockExclusive()
+                self.flockExclusive()  # global flock to block backups from other profiles or users (and run them serialized)
                 logger.info('Lock', self)
 
                 now = datetime.datetime.today()
 
-                #inhibit suspend/hibernate during snapshot is running
+                # inhibit suspend/hibernate during snapshot is running
                 self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId)
 
-                #mount
+                # mount
                 try:
                     hash_id = mount.Mount(cfg = self.config).mount()
                 except MountException as ex:
@@ -727,7 +756,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 elif not self.config.PLUGIN_MANAGER.processBegin():
                     logger.info('A plugin prevented the backup', self)
                 else:
-                    #take snapshot process begin
+                    # take snapshot process begin
                     self.setTakeSnapshotMessage(0, '...')
                     self.snapshotLog.new(now)
                     profile_id = self.config.currentProfile()
@@ -738,7 +767,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     if not self.config.canBackup(profile_id):
                         if self.config.PLUGIN_MANAGER.hasGuiPlugins and self.config.notify():
                             self.setTakeSnapshotMessage(1,
-                                    _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.') +
+                                    _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it in.') +
                                     '\n' +
                                     gettext.ngettext('Waiting %s second.', 'Waiting %s seconds.', 30) % 30,
                                     30)
@@ -751,19 +780,19 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                         if counter != 0:
                             logger.info("Waited %d seconds for target directory to be available", counter)
 
-
                     if not self.config.canBackup(profile_id):
                         logger.warning('Can\'t find snapshots folder!', self)
-                        self.config.PLUGIN_MANAGER.error(3) #Can't find snapshots directory (is it on a removable drive ?)
+                        self.config.PLUGIN_MANAGER.error(3)  # Can't find snapshots directory (is it on a removable drive ?)
                     else:
                         ret_error = False
                         sid = SID(now, self.config)
 
                         if sid.exists():
                             logger.warning("Snapshot path \"%s\" already exists" %sid.path(), self)
-                            self.config.PLUGIN_MANAGER.error(4, sid) #This snapshots already exists
+                            self.config.PLUGIN_MANAGER.error(4, sid)  # This snapshot already exists
                         else:
                             try:
+                                # TODO rename ret_val to new_snapshot_created and ret_error to has_error for clearer code
                                 ret_val, ret_error = self.takeSnapshot(sid, now, include_folders)
                             except:
                                 new = NewSnapshot(self.config)
@@ -776,13 +805,21 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                             self.remove(sid)
 
                             if ret_error:
-                                logger.error('Failed to take snapshot !!!', self)
-                                self.setTakeSnapshotMessage(1, _('Failed to take snapshot %s !!!') % sid.displayID)
+                                logger.error('Failed to take snapshot.', self)
+                                msg = _('Failed to take snapshot {snapshot_id}.').format(snapshot_id=sid.displayID)
+                                self.setTakeSnapshotMessage(1, msg)
+                                self.config.PLUGIN_MANAGER.error(5, msg)  # Fixes #1491
+
                                 time.sleep(2)
                             else:
                                 logger.warning("No new snapshot", self)
-                        else:
-                            ret_error = False
+                        else:  # new snapshot taken...
+                            if ret_error:
+                                logger.error('New snapshot taken but errors detected', self)
+                                self.config.PLUGIN_MANAGER.error(6, sid.displayID)  # Fixes #1491
+                            ret_error = False  # Why ignore errors now?
+                                               # Probably because a new snapshot has been created (= changes transferred)
+                                               # and "continue on errors" is enabled
 
                         if not ret_error:
                             self.freeSpace(now)
@@ -803,7 +840,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 if not ret_error:
                     self.clearTakeSnapshotMessage()
 
-                #unmount
+                # unmount
                 try:
                     mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
                 except MountException as ex:
@@ -860,24 +897,33 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         Args:
             line (str):     stdout line from rsync
-            params (list):  list of two bool '[error, changes]'. Using siteefect
-                            on changing list items will change original
-                            list, too. If rsync reported an error ``params[0]``
+            params (list):  list of two bool '[error, changes]'.
+                            Uses a side effect by changing list items here
+                            to change the original list of the caller, too
+                            (lists are passed as reference in Python).
+                            If rsync reported an error ``params[0]``
                             will be set to ``True``. If rsync reported a changed
                             file ``params[1]`` will be set to ``True``
         """
         if not line:
             return
 
-        self.setTakeSnapshotMessage(0, _('Take snapshot') + " (rsync: %s)" % line)
+        # Warning (2023-11): Do not modify the source string.
+        # See #1559 for details.
+        self.setTakeSnapshotMessage(
+            0, _('Take snapshot') + " (rsync: %s)" % line)
 
+        # Did rsync report an error?
         if line.endswith(')'):
             if line.startswith('rsync:'):
                 if not line.startswith('rsync: chgrp ') and not line.startswith('rsync: chown '):
+                    # matches rsync error lines like:
+                    # rsync: [generator] link [...] failed: Invalid cross-device link (18)
                     params[0] = True
                     self.setTakeSnapshotMessage(1, 'Error: ' + line)
 
         if len(line) >= 13:
+            # The prefix is created by rsync via the argument "--out-format=BACKINTIME: %i %n%L"
             if line.startswith('BACKINTIME: '):
                 if line[12] != '.' and line[12:14] != 'cd':
                     params[1] = True
@@ -896,10 +942,16 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             bool:       ``True`` if successful
         """
         if not tools.makeDirs(path):
-            logger.error("Can't create folder: %s" % path, self)
-            self.setTakeSnapshotMessage(1, _('Can\'t create folder: %s') % path)
-            time.sleep(2) #max 1 backup / second
+            logger.error(f"Can't create folder: {path}", self)
+            self.setTakeSnapshotMessage(
+                1,
+                '{}: {}'.format(
+                    _("Can't create folder"),
+                    path)
+            )
+            time.sleep(2)  # max 1 backup / second
             return False
+
         return True
 
     def backupConfig(self, sid):
@@ -911,7 +963,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             sid (SID):  snapshot in which the config should be stored
         """
         logger.info('Save config file', self)
-        self.setTakeSnapshotMessage(0, _('Saving config file...'))
+        self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
 
@@ -933,7 +985,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 cmd.append(self.config._LOCAL_CONFIG_PATH)
                 remote_path = self.rsyncRemotePath(
                         self.config.sshSnapshotsPath(),
-                        # no quoting becausse of rsyncs modern argument
+                        # no quoting because of rsync modern argument
                         # protection (argument -s)
                         quote=''
                 )
@@ -947,7 +999,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 # But we need a real ERROR here.
                 if rc != 0:
                     logger.error(
-                        f'Backup the config in "{self.config.snapshotsMode()}"'
+                        f'Backing up the config in "{self.config.snapshotsMode()}"'
                         f' mode failed! The return code was {rc} and the'
                         f' command was {cmd}. Also see the previous '
                         'WARNING message for a more details.', parent=self)
@@ -987,7 +1039,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             int: Return code of rsync.
         """
         logger.info('Save permissions', self)
-        self.setTakeSnapshotMessage(0, _('Saving permissions...'))
+        self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
 
@@ -1082,15 +1134,22 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                         ``ret_error`` is ``True`` if there was
                                         an error during taking the snapshot
         """
-        self.setTakeSnapshotMessage(0, _('...'))
+        self.setTakeSnapshotMessage(0, '...')
 
         new_snapshot = NewSnapshot(self.config)
         encode = self.config.ENCODE
-        params = [False, False] # [error, changes]
+        params = [False, False]  # [error, changes]  # "return" values set during async rsync execution (as user data "by ref")
+        # TODO docstring of return value for this function swaps the meaning of the elements,
+        #      this is confusing  (``ret_val``, ``ret_error``) and error-prone.
+        #      Use a mutable data structure with named elements instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
             logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
-            self.setTakeSnapshotMessage(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID)
+            self.setTakeSnapshotMessage(
+                0,
+                _('Found leftover {snapshot_id} which can be continued.')
+                .format(snapshot_id=new_snapshot.displayID)
+            )
             # fix permissions
             for file in os.listdir(new_snapshot.path()):
                 file = os.path.join(new_snapshot.path(), file)
@@ -1101,15 +1160,26 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     pass
             # search previous log for changes and set params
             params[1] = new_snapshot.hasChanges
+
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
-            logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID)
-            self.setTakeSnapshotMessage(0, _("Removing leftover '%s' folder from last run") %new_snapshot.displayID)
+            logger.info('Remove leftover {} folder from last run'
+                        .format(new_snapshot.displayID))
+            self.setTakeSnapshotMessage(
+                0,
+                _('Removing leftover {snapshot_id} folder from last run')
+                .format(snapshot_id=new_snapshot.displayID)
+            )
             self.remove(new_snapshot)
 
             if os.path.exists(new_snapshot.path()):
                 logger.error("Can't remove folder: %s" % new_snapshot.path(), self)
-                self.setTakeSnapshotMessage(1, _('Can\'t remove folder: %s') % new_snapshot.path())
-                time.sleep(2) #max 1 backup / second
+                self.setTakeSnapshotMessage(
+                    1,
+                    '{}: {}'.format(
+                        _("Can't remove folder"),
+                        new_snapshot.path()))
+                time.sleep(2)  # max 1 backup / second
+
                 return [False, True]
 
         if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
@@ -1130,6 +1200,11 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         # It should delete the excluded folders then
         rsync_prefix.extend(('--delete', '--delete-excluded'))
         rsync_prefix.append('-v')
+        # Use a fixed logging format for the rsync "changed files" list to make it parsable e.g. in rsyncCallback()
+        # %i = itemized list (11 characters) of what is being updated (see "--itemize-changes" in "man rsync")
+        # %n = the filename (short form; trailing "/" on dir)
+        # %L = the string " -> SYMLINK", " => HARDLINK", or "" (where SYMLINK or HARDLINK is a filename)
+        # (see log format section in "man rsyncd.conf")
         rsync_prefix.extend(('-i', '--out-format=BACKINTIME: %i %n%L'))
         if prev_sid:
             link_dest = encode.path(os.path.join(prev_sid.sid, 'backup'))
@@ -1148,12 +1223,18 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         # run rsync
         proc = tools.Execute(cmd,
-                             callback = self.rsyncCallback,
+                             callback = self.rsyncCallback,  # TODO interprets the user_data in params as: list of two bool [error, changes] but params is reused as return value of this function with [changes, error]. Use a separate variable to avoid confusion!
                              user_data = params,
                              filters = (self.filterRsyncProgress,),
                              parent = self)
-        self.snapshotLog.append('[I] ' + proc.printable_cmd, 3)
-        proc.run()
+        self.snapshotLog.append('[I] ' + proc.printable_cmd, 3)  # TODO introduce centralized log msg builder to avoid spread severity level indicators like "[I]" here?
+        # TODO Process return value with rsync exit code to recognize errors that cannot be recognized by parsing the rsync output currently
+        rsync_exit_code = proc.run()
+                    # Fix for #1491 and #489
+                    # Note that the return value (containing the exit code) of the rsync child process
+                    # is not the only way to detect errors (and sometimes not reliably delivers <> 0  in case of an error):
+                    # Errors are also indicated via the pass-by-ref argument user_data="params" list
+                    # (updated by the callback function that parses the rsync output for error message patterns).
 
         # cleanup
         try:
@@ -1164,9 +1245,32 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                          self)
 
         # handle errors
-        has_errors = False
+        has_errors = False  # TODO Fix inconsistent usage: Collects return value,
+                            #      but errors are also checked via params[0]
 
-        # params[0] -> error
+        # dict of exit codes (as keys) that are treated as INFO only by BiT
+        # (not as ERROR). The values are message strings for the snapshot log.
+        rsync_non_error_exit_codes = {
+            0: _("Success"),
+            24: _("Partial transfer due to vanished source files (see 'man rsync')")
+        }
+
+        rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}").format(exit_code=rsync_exit_code)
+
+        if rsync_exit_code in rsync_non_error_exit_codes:
+            self.setTakeSnapshotMessage(0,
+                                        rsync_exit_code_msg + ": {msg}".format(
+                                            msg=rsync_non_error_exit_codes[rsync_exit_code]))
+        elif rsync_exit_code > 0:  # indicates a rsync error
+            params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
+            self.setTakeSnapshotMessage(1,
+                                        rsync_exit_code_msg + ": " + _("See 'man rsync' for more details"))
+        elif rsync_exit_code < 0:  # indicates a rsync error caused by a signal
+            params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
+            self.setTakeSnapshotMessage(1,
+                                        rsync_exit_code_msg + ": " + _("Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"))
+
+        # params[0] -> error?
         if params[0]:
             if not self.config.continueOnErrors():
                 self.remove(new_snapshot)
@@ -1175,7 +1279,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             has_errors = True
             new_snapshot.failed = True
 
-        # params[1] -> changes
+        # params[1] -> changes?
         if not params[1] and not self.config.takeSnapshotRegardlessOfChanges():
             self.remove(new_snapshot)
             logger.info("Nothing changed, no new snapshot necessary", self)
@@ -1184,7 +1288,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 prev_sid.setLastChecked()
             if not has_errors and not list(self.config.anacrontabFiles()):
                 tools.writeTimeStamp(self.config.anacronSpoolFile())
-            return [False, False]
+            return [False, has_errors]  # Part of fix for #1491: Returns "has_errors" instead of False now
+                                        # to signal rsync errors (which may have prevented processing any changes)
 
         self.backupConfig(new_snapshot)
         self.backupPermissions(new_snapshot)
@@ -1198,17 +1303,22 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             logger.debug('Failed to write takeSnapshot log %s into compressed file %s: %s'
                          %(self.config.takeSnapshotLogFile(), new_snapshot.path(SID.LOG), str(e)),
                          self)
+            # TODO How is this error handled? Currently it looks like it is ignored (just logged)!
 
         new_snapshot.saveToContinue = False
-        #rename snapshot
+
+        # rename snapshot
         os.rename(new_snapshot.path(), sid.path())
 
         if not sid.exists():
             logger.error("Can't rename %s to %s" % (new_snapshot.path(), sid.path()), self)
-            self.setTakeSnapshotMessage(1, _('Can\'t rename %(new_path)s to %(path)s')
-                                                 %{'new_path': new_snapshot.path(),
-                                                   'path': sid.path()})
-            time.sleep(2) #max 1 backup / second
+            self.setTakeSnapshotMessage(
+                1,
+                _("Can't rename {new_path} to {path}")
+                .format(new_path=new_snapshot.path(), path=sid.path())
+            )
+            time.sleep(2)  # max 1 backup / second
+
             return [False, True]
 
         self.backupInfo(sid)
@@ -1216,7 +1326,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if not has_errors and not list(self.config.anacrontabFiles()):
             tools.writeTimeStamp(self.config.anacronSpoolFile())
 
-        #create last_snapshot symlink
+        # create last_snapshot symlink
         self.createLastSnapshotSymlink(sid)
 
         return [True, has_errors]
@@ -1348,76 +1458,86 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             list:                           snapshots that should be removed
         """
         snapshots = listSnapshots(self.config)
-        logger.debug("Considered: %s" %snapshots, self)
+        logger.debug(f'Considered: {snapshots}', self)
+
         if len(snapshots) <= 1:
-            logger.debug("There is only one snapshots, so keep it", self)
-            return
+            logger.debug('There is only one snapshot, so keep it', self)
+            return []
 
         if now_full is None:
             now_full = datetime.datetime.today()
 
         now = now_full.date()
 
-        #keep the last snapshot
+        # keep the last snapshot
         keep = set([snapshots[0]])
 
-        #keep all for the last keep_all days
+        # keep all for the last keep_all days
         if keep_all > 0:
-            keep |= self.smartRemoveKeepAll(snapshots,
-                                            now - datetime.timedelta(days=keep_all-1),
-                                            now + datetime.timedelta(days=1))
+            keep |= self.smartRemoveKeepAll(
+                snapshots,
+                now - datetime.timedelta(days=keep_all-1),
+                now + datetime.timedelta(days=1))
 
-        #keep one per day for the last keep_one_per_day days
+        # keep one per day for the last keep_one_per_day days
         if keep_one_per_day > 0:
             d = now
             for i in range(0, keep_one_per_day):
-                keep |= self.smartRemoveKeepFirst(snapshots,
-                                                  d,
-                                                  d + datetime.timedelta(days=1),
-                                                  keep_healthy = True)
+                keep |= self.smartRemoveKeepFirst(
+                    snapshots,
+                    d,
+                    d + datetime.timedelta(days=1),
+                    keep_healthy=True)
                 d -= datetime.timedelta(days=1)
 
-        #keep one per week for the last keep_one_per_week weeks
+        # keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            d = now - datetime.timedelta(days = now.weekday() + 1)
+            d = now - datetime.timedelta(days=now.weekday() + 1)
+
             for i in range(0, keep_one_per_week):
-                keep |= self.smartRemoveKeepFirst(snapshots,
-                                                  d,
-                                                  d + datetime.timedelta(days=8),
-                                                  keep_healthy = True)
+                keep |= self.smartRemoveKeepFirst(
+                    snapshots,
+                    d,
+                    d + datetime.timedelta(days=8),
+                    keep_healthy=True)
                 d -= datetime.timedelta(days=7)
 
-        #keep one per month for the last keep_one_per_month months
+        # keep one per month for the last keep_one_per_month months
         if keep_one_per_month > 0:
             d1 = datetime.date(now.year, now.month, 1)
             d2 = self.incMonth(d1)
+
             for i in range(0, keep_one_per_month):
-                keep |= self.smartRemoveKeepFirst(snapshots, d1, d2,
-                                                  keep_healthy = True)
+                keep |= self.smartRemoveKeepFirst(
+                    snapshots, d1, d2, keep_healthy=True)
                 d2 = d1
                 d1 = self.decMonth(d1)
 
-        #keep one per year for all years
-        first_year = int(snapshots[-1].sid[ : 4])
+        # keep one per year for all years
+        first_year = int(snapshots[-1].sid[:4])
+
         for i in range(first_year, now.year+1):
             keep |= self.smartRemoveKeepFirst(snapshots,
-                                              datetime.date(i,1,1),
-                                              datetime.date(i+1,1,1),
-                                              keep_healthy = True)
+                                              datetime.date(i, 1, 1),
+                                              datetime.date(i+1, 1, 1),
+                                              keep_healthy=True)
 
-        logger.debug("Keep snapshots: %s" %keep, self)
+        logger.debug(f'Keep snapshots: {keep}', self)
 
         del_snapshots = []
+
         for sid in snapshots:
             if sid in keep:
                 continue
 
             if self.config.dontRemoveNamedSnapshots():
                 if sid.name:
-                    logger.debug("Keep snapshot: %s, it has a name" %sid, self)
+                    logger.debug(
+                        f'Keep snapshot: {sid}, because it has a name', self)
                     continue
 
             del_snapshots.append(sid)
+
         return del_snapshots
 
     def smartRemove(self, del_snapshots, log = None):
@@ -1560,8 +1680,9 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 self.remove(snapshots[0])
                 del snapshots[0]
 
-        #smart remove
+        # smart remove
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
+
         if enabled:
             self.setTakeSnapshotMessage(0, _('Smart remove'))
             del_snapshots = self.smartRemoveList(now,
@@ -1571,7 +1692,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                                  keep_one_per_month)
             self.smartRemove(del_snapshots)
 
-        #try to keep min free space
+        # try to keep min free space
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
@@ -1610,8 +1731,14 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         #try to keep free inodes
         if self.config.minFreeInodesEnabled():
             minFreeInodes = self.config.minFreeInodes()
-            self.setTakeSnapshotMessage(0, _('Trying to keep min %d%% free inodes') % minFreeInodes)
-            logger.debug("Keep min {}%% free inodes".format(minFreeInodes), self)
+            self.setTakeSnapshotMessage(
+                0,
+                _('Trying to keep min {perc} free inodes')
+                .format(perc=f'{minFreeInodes}%')
+            )
+            logger.debug(
+                "Keep min {perc}% free inodes".format(perc=minFreeInodes),
+                self)
 
             snapshots = listSnapshots(self.config, reverse = False)
 
@@ -1625,7 +1752,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     max_inodes  = info.f_files
                 except Exception as e:
                     logger.debug('Failed to get free inodes for snapshot path %s: %s'
-                                 %(self.config.snapshotsPath(), str(e)),
+                                 % (self.config.snapshotsPath(), str(e)),
                                  self)
                     break
 
@@ -1889,6 +2016,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
             return False
 
+    # TODO Rename to make the purpose obvious, eg: Serialize_[backup|execution]_via_exclusive_global_flock()
     def flockExclusive(self):
         """
         Block :py:func:`backup` from other profiles or users
@@ -1897,8 +2025,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if self.config.globalFlock():
             logger.debug('Set flock %s' %self.GLOBAL_FLOCK, self)
             self.flock = open(self.GLOBAL_FLOCK, 'w')
-            fcntl.flock(self.flock, fcntl.LOCK_EX)
-            #make it rw by all if that's not already done.
+            fcntl.flock(self.flock, fcntl.LOCK_EX)  # blocks (waits) until an existing flock is released
+            # make it rw by all if that's not already done.
             perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | \
                     stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH
             s = os.fstat(self.flock.fileno())
@@ -2216,7 +2344,8 @@ class SID(object):
             ret += ' - {}'.format(name)
 
         if self.failed:
-            ret += ' ({})'.format(_('WITH ERRORS !'))
+            ret += ' ({})'.format('WITH ERRORS !')
+
         return ret
 
     @property
@@ -2249,7 +2378,7 @@ class SID(object):
                                 the path.
             use_mode (list):    list of modes that should alter this path.
                                 If the current mode is in this list, the path
-                                will automatically altered for the
+                                will automatically be altered for the
                                 remote/encrypted version of this path.
 
         Returns:
@@ -2279,7 +2408,7 @@ class SID(object):
                                 the path.
             use_mode (list):    list of modes that should alter this path.
                                 If the current mode is in this list, the path
-                                will automatically altered for the
+                                will automatically be altered for the
                                 remote/encrypted version of this path.
 
         Returns:
@@ -2632,12 +2761,12 @@ class NewSnapshot(GenericNonSnapshot):
                 with open(flag, 'wt') as f:
                     pass
             except Exception as e:
-                logger.error("Failed to set 'save_to_continue' flag: %s" %str(e))
+                logger.error("Failed to set 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
         elif os.path.exists(flag):
             try:
                 os.remove(flag)
             except Exception as e:
-                logger.error("Failed to remove 'save_to_continue' flag: %s" %str(e))
+                logger.error("Failed to remove 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
 
     @property
     def hasChanges(self):
@@ -2742,7 +2871,7 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
                 yield sid
         except Exception as e:
             if not isinstance(e, LastSnapshotSymlink):
-                logger.debug("'{}' is no snapshot ID: {}".format(item, str(e)))
+                logger.debug("'{}' is not a snapshot ID: {}".format(item, str(e)))
 
 
 def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):

@@ -27,7 +27,7 @@ _=gettext.gettext
 
 
 class UserCallbackPlugin(pluginmanager.Plugin):
-    """ Executes a script file at different backup steps to customize behaviour
+    """ Executes a script file at different backup steps to customize behavior
 
     Back In Time allows to inform plugins (implemented in Python
     files) about different steps ("events") in the backup process
@@ -61,6 +61,7 @@ class UserCallbackPlugin(pluginmanager.Plugin):
         in the first line of the script file.
     """
     def __init__(self):
+        logger.openlog()
         return
 
     def init(self, snapshots):

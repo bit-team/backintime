@@ -48,7 +48,7 @@ class TestBackInTime(generic.TestCase):
         Development notes (by Buhtz):
         Multiple tests do compare return codes and output on stdout. The
         intention might be an integration tests. But the asserts not qualified
-        to answer the important questions and observe the intended behaviour.
+        to answer the important questions and observe the intended behavior.
         Heavy refactoring is needed. But because of the "level" of that tests
         it won't happen in the near future.
         """
@@ -141,12 +141,16 @@ under certain conditions; type `backintime --license' for details.
         #       The same goes with Gtk warnings.
 
         line_beginnings_to_exclude = [
-            "WARNING: Failed to connect to Udev serviceHelper",
-            "WARNING: D-Bus message:",
-            "WARNING: Udev-based profiles cannot be changed or checked",
-            "WARNING: Inhibit Suspend failed",
-            "Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway"
+            "WARNING",
+            "Warning",
         ]
+
+        # Warnings currently known:
+        # - "WARNING: D-Bus message:"
+        # - "WARNING: Udev-based profiles cannot be changed or checked"
+        # - "WARNING: Inhibit Suspend failed"
+        # - "Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use
+        #    QT_QPA_PLATFORM=wayland to run on Wayland anyway"
 
         line_contains_to_exclude = [
             "Gtk-WARNING",

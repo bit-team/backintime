@@ -16,7 +16,6 @@
 
 import os
 import grp
-import gettext
 import subprocess
 import re
 import shutil
@@ -33,15 +32,19 @@ import logger
 from mount import MountControl
 from exceptions import MountException, EncodeValueError
 
-_ = gettext.gettext
 
 class EncFS_mount(MountControl):
     """
     Mount encrypted paths with encfs.
     """
     def __init__(self, *args, **kwargs):
-        #init MountControl
+        # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
+
+        # Workaround for some linters.
+        self.path = None
+        self.reverse = None
+        self.config_path = None
 
         self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
         self.setattrKwargs('reverse', False, **kwargs)
@@ -84,8 +87,11 @@ class EncFS_mount(MountControl):
             output = proc.communicate()[0]
             self.backupConfig()
             if proc.returncode:
-                raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                        % {'command': ' '.join(encfs), 'error': output})
+                raise MountException(
+                    '{}:\n\n{}'.format(
+                        _("Can't mount '{command}'")
+                        .format(command=' '.join(encfs)),
+                        output))
 
     def preMountCheck(self, first_run = False):
         """
@@ -123,26 +129,35 @@ class EncFS_mount(MountControl):
         ask for password confirmation. _mount will then create a new config
         """
         cfg = self.configFile()
+
         if os.path.isfile(cfg):
-            logger.debug('Found encfs config in %s'
-                         %cfg, self)
+            logger.debug(f'Found encfs config in {cfg}', self)
             return True
+
         else:
-            logger.debug('No encfs config in %s'
-                         %cfg, self)
+            logger.debug(f'No encfs config in {cfg}', self)
             msg = _('Config for encrypted folder not found.')
+
             if not self.tmp_mount:
                 raise MountException(msg)
+
             else:
-                if not self.config.askQuestion(msg + _('\nCreate a new encrypted folder?')):
+                question = '{}\n{}'.format(
+                    msg,
+                    _('Create a new encrypted folder?')
+                )
+
+                if not self.config.askQuestion(question):
                     raise MountException(_('Cancel'))
+
                 else:
                     pw = password.Password(self.config)
-                    password_confirm = pw.passwordFromUser(self.parent, prompt = _('Please confirm password'))
+                    password_confirm = pw.passwordFromUser(
+                        self.parent, prompt=_('Please confirm password'))
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise MountException(_('Password doesn\'t match'))
+                        raise MountException(_("Password doesn't match."))
 
     def checkVersion(self):
         """
@@ -158,8 +173,10 @@ class EncFS_mount(MountControl):
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
             if m and Version(m.group(1)) <= Version('1.7.2'):
-                logger.debug('Wrong encfs version %s' %m.group(1), self)
-                raise MountException(_('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
+                logger.debug('Wrong encfs version %s' % m.group(1), self)
+                raise MountException(
+                    _('encfs version 1.7.2 and before has a bug with '
+                      'option --reverse. Please update encfs.'))
 
     def backupConfig(self):
         """
@@ -476,25 +493,34 @@ class Decode(object):
     def __init__(self, cfg, string = True):
         self.config = cfg
         self.mode = cfg.snapshotsMode()
+
         if self.mode == 'local_encfs':
             self.password = cfg.password(pw_id = 1)
+
         elif self.mode == 'ssh_encfs':
             self.password = cfg.password(pw_id = 2)
+
         self.encfs = cfg.SNAPSHOT_MODES[self.mode][0](cfg)
         self.remote_path = cfg.sshSnapshotsPath()
+
         if not self.remote_path:
             self.remote_path = './'
+
         if not self.remote_path[-1] == os.sep:
             self.remote_path += os.sep
 
-        #german translation changed from Snapshot to Schnappschuss.
-        #catch both variants otherwise old logs wouldn't get decoded.
-        takeSnapshot = _('Take snapshot').replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
+        # German translation changed from Snapshot to Schnappschuss.
+        # Catch both variants otherwise old logs wouldn't get decoded.
+        # Warning (2023-11): Do not modify the source string.
+        # See #1559 for details.
+        takeSnapshot = _('Take snapshot') \
+            .replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
 
         #precompile some regular expressions
         host, port, user, path, cipher = cfg.sshHostUserPortPathCipher()
         #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
-        self.re_include_exclude = re.compile(r'(--(?:ex|in)clude=")(.*?)(")')
+        self.re_include_exclude = re.compile(
+            r'(--(?:ex|in)clude=")(.*?)(")')  # codespell-ignore
 
         #replace: 'USER@HOST:"PATH<crypted_path>"'
         self.re_remote_path =     re.compile(r'(\'%s@%s:"%s)(.*?)("\')' %(user, host, path))

@@ -7,7 +7,7 @@ will be rejected just because it doesn't fit to our quality standards,
 guidelines or rules. Every contribution is reviewed and if needed will be
 improved together with the maintainers.
 
-Please always make a new branch when preparing a Pull Request or a patch.
+Please always make a new branch when preparing a Pull Request ("PR") or a patch.
 Baseline that feature or bug fix branch on `dev` (the latest development
 state). When open a pull request please make sure that it targets
 `bit-team:dev`.
@@ -45,14 +45,14 @@ Please take the following best practices into account if possible (to reduce
 
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
- - [Translations](https://translate.codeberg.org/projects/backintime/common/) are done on a separate platform
+ - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform
  - [HowTo's and maintenance documents](common/doc-dev/README.md)
 
 ## Build & Install
 
 This section describes how to build and install _Back In Time_ in preparation
 of your own contributions. It is assumed that you `git clone` this repository
-fist.
+first.
 
 ### Dependencies
 
@@ -62,7 +62,7 @@ is missing. If you use another GNU/Linux distribution, please install the
 corresponding packages. Be aware that some of the named packages can be
 replaced with PyPi packages.
 
-* Runtime dependencies
+* Runtime dependencies for the CLI
 
   - `python3` (>= 3.8)
   - `rsync`
@@ -71,11 +71,9 @@ replaced with PyPi packages.
   - `python3-keyring`
   - `python3-dbus`
   - `python3-packaging`
-
-* Recommended
-
-  - `sshfs`
-  - `encfs`
+  -  Recommended
+     - `sshfs`
+     - `encfs`
 
 * Runtime dependencies for the GUI
 
@@ -84,25 +82,29 @@ replaced with PyPi packages.
   - `python3-dbus.mainloop.pyqt5`
   - `libnotify-bin`
   - `policykit-1`
+  - `qttranslations5-l10n`
   - `qtwayland5` (if Wayland is used as display server instead of X11)
+  - Recommended
+      - For SSH key storage **one** of these packages
+        - `python3-secretstorage`
+        - `python3-keyring-kwallet`
+        - `python3-gnomekeyring`
+      - For diff-like comparing files between backup snapshots **one** of these
+        packages
+        - `kompare`
+        - or `meld`
+      - Optional: Default icons
+        - The `oxygen` icons should be offered as optional dependency
+          since they are used as fallback in case of missing icons
+          (mainly app and system-tray icons)
 
-* Recommended for the GUI
-
-  - For SSH key storage **one** of these packages
-    - `python3-secretstorage`
-    - `python3-keyring-kwallet`
-    - `python3-gnomekeyring`
-  - For diff-like comparing files between backup snapshots **one** of these
-    packages
-    - `kompare`
-    - or `meld`
-
-* Build dependencies
-
+* Build and testing dependencies
+  - All runtime dependencies for CLI and GUI including the recommended
   - `build-essential`
   - `gzip`
   - `gettext`
   - `python3-pyfakefs`
+  - `pylint`
 
 ### Build and install via `make` system (recommended)
 
@@ -141,4 +143,4 @@ Keep in mind as you contribute, that code, docs and other material submitted
 to the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
 
-<sub>June 2023</sub>
+<sub>Sept 2023</sub>

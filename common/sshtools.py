@@ -16,7 +16,6 @@
 
 import os
 import subprocess
-import gettext
 import string
 import random
 import tempfile
@@ -31,8 +30,6 @@ import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bcolors
-
-_ = gettext.gettext
 
 
 class SSH(MountControl):
@@ -99,6 +96,17 @@ class SSH(MountControl):
 
         # init MountControl
         super(SSH, self).__init__(*args, **kwargs)
+
+        # Workaround for linters
+        self.user = None
+        self.host = None
+        self.port = None
+        self.cipher = None
+        self.nice = None
+        self.ionice = None
+        self.nocache = None
+        self.private_key_file = None
+        self.password = None
 
         self.setattrKwargs(
             'user', self.config.sshUser(self.profile_id), **kwargs)
@@ -200,9 +208,12 @@ class SSH(MountControl):
 
         err = proc.communicate()[1]
 
-        if proc.returncode:
-            raise MountException(
-                _('Can\'t mount %s') % ' '.join(sshfs) + '\n\n' + err)
+        if proc.returncode == 0:
+            return
+
+        raise MountException("{}\n\n{}".format(
+            _("Can't mount {sshfs}").format(sshfs=" ".join(sshfs)),
+            err))
 
     def preMountCheck(self, first_run=False):
         """
@@ -261,7 +272,7 @@ class SSH(MountControl):
 
         if not sshAgent:
             raise MountException(
-                'ssh-agent not found. Please make sure it is installed.')
+                _('ssh-agent not found. Please make sure it is installed.'))
 
         if isinstance(sshAgent, str):
             sshAgent = [sshAgent, ]
@@ -422,7 +433,7 @@ class SSH(MountControl):
 
         logger.debug('Check login', self)
 
-        ssh = self.config.sshCommand(cmd=['echo', '"Hello"'],
+        ssh = self.config.sshCommand(cmd=['exit'],
                                      custom_args=[
                                           '-o',
                                           'PreferredAuthentications=publickey',
@@ -444,9 +455,11 @@ class SSH(MountControl):
 
         if proc.returncode:
             raise NoPubKeyLogin(
-                _('Password-less authentication for %(user)s@%(host)s '
-                  'failed. Look at \'man backintime\' for further '
-                  'instructions.') % {'user': self.user, 'host': self.host}
+                'Password-less authentication for %(user)s@%(host)s '
+                'failed. Look at \'man backintime\' for further '
+                'instructions.' % {
+                    'user': self.user,
+                    'host': self.host}
                 + '\n\n' + err)
 
     def checkCipher(self):
@@ -462,7 +475,7 @@ class SSH(MountControl):
 
             logger.debug('Check cipher', self)
 
-            ssh = self.config.sshCommand(cmd=['echo', '"Hello"'],
+            ssh = self.config.sshCommand(cmd=['exit'],
                                          custom_args=[
                                               '-o',
                                               'Ciphers=%s' % self.cipher,
@@ -490,14 +503,10 @@ class SSH(MountControl):
                     'Ciper %s is not supported' %
                     self.config.SSH_CIPHERS[self.cipher], self)
 
-                raise MountException(
-                    _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
-                    % {
-                        'cipher': self.config.SSH_CIPHERS[self.cipher],
-                        'host': self.host,
-                        'err': err
-                      }
-                )
+                msg = _('Cipher {cipher} failed for {host}.').format(
+                    cipher=self.config.SSH_CIPHERS[self.cipher],
+                    host=self.host)
+                raise MountException(f'{msg}:\n{err}')
 
     def benchmarkCipher(self, size=40):
         """
@@ -583,7 +592,7 @@ class SSH(MountControl):
 
         logger.debug('Host %s is not in known hosts file' % self.host, self)
 
-        raise KnownHost(_('%s not found in ssh_known_hosts.') % self.host)
+        raise KnownHost('%s not found in ssh_known_hosts.' % self.host)
 
     def checkRemoteFolder(self):
         """
@@ -640,21 +649,24 @@ class SSH(MountControl):
                 pass
 
             elif proc.returncode == 11:
-                raise MountException(
-                    _('Remote path exists but is not a directory:\n %s') %
-                    self.path)
+                raise MountException('{}:\n{}'.format(
+                    _('Remote path exists but is not a directory.'),
+                    self.path))
 
             elif proc.returncode == 12:
-                raise MountException(
-                    _('Remote path is not writable:\n %s') % self.path)
+                raise MountException('{}:\n{}'.format(
+                    _('Remote path is not writable.'),
+                    self.path))
 
             elif proc.returncode == 13:
-                raise MountException(
-                    _('Remote path is not executable:\n %s') % self.path)
+                raise MountException('{}:\n{}'.format(
+                    _('Remote path is not executable.'),
+                    self.path))
 
             else:
-                raise MountException(
-                    _('Couldn\'t create remote path:\n %s') % self.path)
+                raise MountException('{}:\n{}'.format(
+                    _("Couldn't create remote path."),
+                    self.path))
         else:
 
             # returncode is 0
@@ -709,8 +721,7 @@ class SSH(MountControl):
             logger.debug('Failed pinging host %s' % self.host, self)
 
             raise MountException(
-                _('Ping %s failed. Host is down or wrong address.')
-                % self.host)
+                f'Ping {self.host} failed. Host is down or wrong address.')
 
     def checkRemoteCommands(self, retry=False):
         """
@@ -739,7 +750,7 @@ class SSH(MountControl):
                 raise MountException(
                     "Checking commands on remote host didn't return any "
                     "output. We already checked the maximum argument length "
-                    "but it seem like there is an other problem")
+                    "but it seems like there is another problem")
 
             logger.warning(
                 'Looks like the command was to long for remote SSHd. '
@@ -794,16 +805,17 @@ class SSH(MountControl):
                 out, err = proc.communicate()
 
                 if err or proc.returncode:
-                    logger.debug('rsync command returned error: %s' % err, self)
+                    logger.debug(f'rsync command returned error: {err}', self)
 
-                    raise MountException(_(
-                        'Remote host %(host)s doesn\'t support'
-                        ' \'%(command)s\':\n'
-                        '%(err)s\nLook at \'man backintime\' for further '
-                        'instructions') % {
-                            'host': self.host,
-                            'command': cmd,
-                            'err': err})
+                    raise MountException(
+                        "Remote host {host} doesn't support '{command}:\n"
+                        "{err}\n"
+                        "Look at 'man backintime' for further instructions."
+                        .format(
+                            host=self.host,
+                            command=cmd,
+                            err=err)
+                    )
 
         # check cp chmod find and rm
         head = 'tmp1="%s"; tmp2="%s"; ' % (remote_tmp_dir_1, remote_tmp_dir_2)
@@ -895,7 +907,7 @@ class SSH(MountControl):
                 # Argument list too long
                 if e.errno == 7:
                     logger.debug(
-                        'Argument list too log (Python exception)', self)
+                        'Argument list too long (Python exception)', self)
 
                     return maxArg()
 
@@ -932,21 +944,21 @@ class SSH(MountControl):
                             'nocache', 'screen', '(flock'):
 
                 if output_split[-1].startswith(command):
-                    raise MountException(
-                        _('Remote host %(host)s doesn\'t support'
-                          ' \'%(command)s\':\n%(err)s\nLook at \'man '
-                          'backintime\' for further instructions')
-                        % {
-                            'host': self.host,
-                            'command': output_split[-1],
-                            'err': err
-                        }
+                    command = f"'{output_split[-1]}':\n{err}"
+                    msg = _("Remote host {host} doesn't support {command}") \
+                        .format(host=self.host, command=command)
+                    raise MountException('{}\n{}'.format(
+                        msg,
+                        _("Look at 'man backintime' for further instructions")
+                        )
                     )
 
-            raise MountException(
-                _('Check commands on host %(host)s returned unknown error:\n'
-                  '%(err)s\nLook at \'man backintime\' for further '
-                  'instructions') % {'host': self.host, 'err': err})
+            msg = _('Check commands on host {host} returned unknown error') \
+                .format(host=self.host)
+            raise MountException('{}:\n{}n{}'.format(
+                msg,
+                err,
+                _("Look at 'man backintime' for further instructions")))
 
         inodes = []
 
@@ -962,7 +974,8 @@ class SSH(MountControl):
 
         if len(inodes) == 2 and inodes[0] != inodes[1]:
             raise MountException(
-                _('Remote host %s doesn\'t support hardlinks') % self.host)
+                _("Remote host {host} doesn't support hardlinks")
+                .format(host=self.host))
 
     def randomId(self, size=6, chars=string.ascii_uppercase + string.digits):
         """
@@ -1011,7 +1024,7 @@ def sshKeyGen(keyfile):
     if proc.returncode:
         logger.error('Failed to create a new ssh-key: {}'.format(err))
     else:
-        logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
+        logger.info('Successfully created new ssh-key "{}"'.format(keyfile))
 
     return not proc.returncode
 
@@ -1043,11 +1056,11 @@ def sshCopyId(pubkey, user, host, port='22',
     env = os.environ.copy()
     env['SSH_ASKPASS'] = askPass
     env['ASKPASS_MODE'] = 'USER'
-    env['ASKPASS_PROMPT'] \
-        = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\n'
-            'Please enter password for "%(user)s":') % {'pubkey': pubkey,
-                                                        'host': host,
-                                                        'user': user}
+    env['ASKPASS_PROMPT'] = '{}\n{}:'.format(
+        _('Copy public ssh-key "{pubkey}" to remote host "{host}"').format(
+            pubkey=pubkey, host=host),
+        _('Please enter password for "{user}"').format(user=user)
+    )
 
     cmd = ['ssh-copy-id', '-i', pubkey, '-p', port]
 

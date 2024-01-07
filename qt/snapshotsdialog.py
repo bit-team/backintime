@@ -17,7 +17,6 @@
 
 
 import os
-import gettext
 import subprocess
 import shlex
 
@@ -31,7 +30,6 @@ import messagebox
 import qttools
 import snapshots
 
-_=gettext.gettext
 
 if tools.checkCommand('meld'):
     DIFF_CMD = 'meld'
@@ -50,18 +48,18 @@ class DiffOptionsDialog(QDialog):
 
         import icon
         self.setWindowIcon(icon.DIFF_OPTIONS)
-        self.setWindowTitle(_('Diff Options'))
+        self.setWindowTitle(_('Options about comparing snapshots'))
 
         self.mainLayout = QGridLayout(self)
 
         self.diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
         self.diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
-        self.mainLayout.addWidget(QLabel(_('Command:')), 0, 0)
+        self.mainLayout.addWidget(QLabel(_('Command') + ':'), 0, 0)
         self.editCmd = QLineEdit(self.diffCmd, self)
         self.mainLayout.addWidget(self.editCmd, 0, 1)
 
-        self.mainLayout.addWidget(QLabel(_('Parameters:')), 1, 0)
+        self.mainLayout.addWidget(QLabel(_('Parameters') + ':'), 1, 0)
         self.editParams = QLineEdit(self.diffParams, self)
         self.mainLayout.addWidget(self.editParams, 1, 1)
 
@@ -108,15 +106,18 @@ class SnapshotsDialog(QDialog):
         self.mainLayout.addWidget(self.editPath)
 
         #list different snapshots only
-        self.cbOnlyDifferentSnapshots = QCheckBox(_('List only different snapshots'), self)
+        self.cbOnlyDifferentSnapshots = QCheckBox(
+            _('Differing snapshots only'), self)
         self.mainLayout.addWidget(self.cbOnlyDifferentSnapshots)
         self.cbOnlyDifferentSnapshots.stateChanged.connect(self.cbOnlyDifferentSnapshotsChanged)
 
         #list equal snapshots only
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
-        self.cbOnlyEqualSnapshots = QCheckBox(_('List only equal snapshots to: '), self)
-        self.cbOnlyEqualSnapshots.stateChanged.connect(self.cbOnlyEqualSnapshotsChanged)
+        self.cbOnlyEqualSnapshots = QCheckBox(
+            _('List only equal snapshots to: '), self)
+        self.cbOnlyEqualSnapshots.stateChanged.connect(
+            self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)
 
         self.comboEqualTo = qttools.SnapshotCombo(self)
@@ -124,7 +125,7 @@ class SnapshotsDialog(QDialog):
         self.comboEqualTo.setEnabled(False)
         layout.addWidget(self.comboEqualTo)
 
-        #deep check
+        # deep check
         self.cbDeepCheck = QCheckBox(_('Deep check (more accurate, but slow)'), self)
         self.mainLayout.addWidget(self.cbDeepCheck)
         self.cbDeepCheck.stateChanged.connect(self.cbDeepCheckChanged)
@@ -138,7 +139,7 @@ class SnapshotsDialog(QDialog):
         menuRestore = QMenu(self)
         action = menuRestore.addAction(icon.RESTORE, _('Restore'))
         action.triggered.connect(self.restoreThis)
-        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...'))
+        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to …'))
         action.triggered.connect(self.restoreThisTo)
 
         self.btnRestore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
@@ -163,7 +164,7 @@ class SnapshotsDialog(QDialog):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
 
-        self.btnDiff = QPushButton(_('Diff'), self)
+        self.btnDiff = QPushButton(_('Compare'), self)
         layout.addWidget(self.btnDiff)
         self.btnDiff.clicked.connect(self.btnDiffClicked)
 
@@ -175,7 +176,7 @@ class SnapshotsDialog(QDialog):
         self.btnGoto =   buttonBox.button(QDialogButtonBox.Ok)
         self.btnCancel = buttonBox.button(QDialogButtonBox.Cancel)
         self.btnGoto.setText(_('Go To'))
-        btnDiffOptions = buttonBox.addButton(_('Diff Options'), QDialogButtonBox.HelpRole)
+        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.HelpRole)
         btnDiffOptions.setIcon(icon.DIFF_OPTIONS)
 
         self.mainLayout.addWidget(buttonBox)
@@ -281,14 +282,16 @@ class SnapshotsDialog(QDialog):
         self.btnDelete.setEnabled(enable_delete)
 
     def restoreThis(self):
+        # See #1485 as related bug report
         sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
-            restoredialog.restore(self, sid, self.path)
+            restoredialog.restore(self, sid, self.path)  # pylint: disable=E1101
 
     def restoreThisTo(self):
+        # See #1485 as related bug report
         sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
-            restoredialog.restore(self, sid, self.path, None)
+            restoredialog.restore(self, sid, self.path, None)  # pylint: disable=E1101
 
     def timeLineChanged(self):
         self.updateToolbar()
@@ -321,16 +324,19 @@ class SnapshotsDialog(QDialog):
         path1 = sid1.pathBackup(self.path)
         path2 = sid2.pathBackup(self.path)
 
-        #check if the 2 paths are different
+        # check if the 2 paths are different
         if path1 == path2:
-            messagebox.critical(self, _('You can\'t compare a snapshot to itself'))
+            messagebox.critical(
+                self, _("You can't compare a snapshot to itself."))
             return
 
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
         diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
         if not tools.checkCommand(diffCmd):
-            messagebox.critical(self, _('Command not found: %s') % diffCmd)
+            messagebox.critical(
+                self, '{}: {}'.format(_('Command not found'), diffCmd)
+            )
             return
 
         # prevent backup data from being accidentally overwritten
@@ -355,15 +361,24 @@ class SnapshotsDialog(QDialog):
 
     def btnDeleteClicked(self):
         items = self.timeLine.selectedItems()
+
         if not items:
             return
+
         elif len(items) == 1:
-            msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
-                    % {'file' : self.path, 'snapshot_id' : items[0].snapshotID()}
+            msg = _('Do you really want to delete {file} in snapshot '
+                    '{snapshot_id}?').format(
+                        file=f'"{self.path}"',
+                        snapshot_id=f'"{items[0].snapshotID()}"')
+
         else:
-            msg = _('Do you really want to delete "%(file)s" in %(count)d snapshots?\n') \
-                    % {'file' : self.path, 'count' : len(items)}
-        msg += _('WARNING: This can not be revoked!')
+            msg = _('Do you really want to delete {file} in {count} '
+                    'snapshots?').format(
+                        file=f'"{self.path}"', count=len(items))
+
+        msg = '{}\n{}: {}'.format(
+            msg, _('WARNING'), _('This cannot be revoked!'))
+
         if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
             for item in items:
                 item.setFlags(Qt.NoItemFlags)
@@ -378,7 +393,9 @@ class SnapshotsDialog(QDialog):
             thread.start()
 
             exclude = self.config.exclude()
-            msg = _('Exclude "%s" from future snapshots?' % self.path)
+            msg = _('Exclude {path} from future snapshots?').format(
+                path=f'"{self.path}"')
+
             if self.path not in exclude and QMessageBox.Yes == messagebox.warningYesNo(self, msg):
                 exclude.append(self.path)
                 self.config.setExclude(exclude)
