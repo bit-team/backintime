@@ -1030,7 +1030,7 @@ class SettingsDialog(QDialog):
             'From \'man rsync\':\n'
             + '\n'.join(textwrap.wrap(
                 'This tells rsync to avoid crossing a filesystem boundary '
-                'when  recursing. This does not limit the user\'s ability '
+                'when recursing. This does not limit the user\'s ability '
                 'to specify items to copy from multiple filesystems, just '
                 'rsync\'s recursion through the hierarchy of each directory '
                 'that the user specified, and also the analogous recursion '
