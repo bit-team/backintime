@@ -11,7 +11,7 @@ UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
-PYTHON="--python3"
+PYTHON="python3"
 
 USR_BIN_FILES="backintime-qt backintime-qt_polkit"
 DBUS_SERVICE_FILES="net.launchpad.backintime.serviceHelper.service"
