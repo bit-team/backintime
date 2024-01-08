@@ -133,8 +133,8 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
-sed -e "s/^python3\? /${PYTHON} /g" \
-    -e "s/^ssh-agent python3\? /ssh-agent ${PYTHON} /g" \
+sed -e "s#^python3 #${PYTHON} #g" \
+    -e "s#^ssh-agent python3 #ssh-agent ${PYTHON} #g" \
     -i $USR_BIN_FILES
 
 #check languages
