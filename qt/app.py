@@ -769,7 +769,7 @@ class MainWindow(QMainWindow):
                     'to shut down your system when the snapshot has finished.'
                     '\nDo you really want to close?')
             answer = messagebox.warningYesNo(self, msg)
-            if answer != QMessageBox.Yes:
+            if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
         self.config.setStrValue('qt.last_path', self.path)
@@ -1413,7 +1413,7 @@ files that the receiver requests to be transferred.""")
 
         answer = messagebox.warningYesNo(self, msg)
 
-        return answer == QMessageBox.Yes
+        return answer == QMessageBox.StandardButton.Yes
 
     def restoreThis(self):
         if self.sid.isRoot:
