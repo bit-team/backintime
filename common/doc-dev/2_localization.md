@@ -34,8 +34,9 @@ GitHub.
 7. Check via `git status` or `git diff`. The file `messages.pot` and all `po`-files should be modified.
 8. Commit.
 9. Create PR and merge into "dev".
-10. Weblate "Repository maintenance": Go to "Danger zone" and click on "Reset".
-11. Weblate "Repository maintenance": "Unlock" the project.
+10. Weblate ["Repository maintenance"]:
+  1. Go to "Danger zone" and click on "Reset".
+  2. "Unlock" the project.
 
 # Introducing the localization process in the Back In Time project
 
