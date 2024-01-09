@@ -35,8 +35,8 @@ GitHub.
 8. Commit.
 9. Create PR and merge into "dev".
 10. Weblate ["Repository maintenance"]:
-  1. Go to "Danger zone" and click on "Reset".
-  2. "Unlock" the project.
+    1. Go to "Danger zone" and click on "Reset".
+    2. "Unlock" the project.
 
 # Introducing the localization process in the Back In Time project
 
