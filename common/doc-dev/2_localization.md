@@ -25,7 +25,7 @@ Time_. The goal is to synchronize the state of the ongoing translation at
 Weblate and the modified py-files in the upstream repository at Microsoft
 GitHub.
 
-1. Weblate "Repository maintenance": "Commit" and "Lock" the project.
+1. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository): "Commit" and "Lock" the project.
 2. git: Start a new branch.
 3. Download and integrate Weblate into the git repository via `./update_language_files.py weblate`.
 4. Check via `git status` or `git diff`. The `po`-files (not `pot`!) in `common/po` and the file `common/languages.py` should be modified.
@@ -236,4 +236,4 @@ Finally a Webhook need to be setup. This enables Weblate to be automatically inf
 
 ![Weblate setup: Webhook](2_weblate_setup_09.png)
 
-<sub>May 2023</sub>
+<sub>January 2024</sub>

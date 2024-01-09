@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-11-13 00:13+0000\n"
+"PO-Revision-Date: 2023-12-05 15:54+0000\n"
 "Last-Translator: ctrlaltca <ctrlaltca@gmail.com>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.2.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -519,9 +519,8 @@ msgid "View last log"
 msgstr "Visualizza ultimo registro"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Gestione profili"
+msgstr "Gestione profili…"
 
 #: qt/app.py:500
 msgid "Shutdown"
@@ -532,9 +531,8 @@ msgid "Shut down system after snapshot has finished."
 msgstr "Arresta il sistema quando l'istantanea è terminata."
 
 #: qt/app.py:504
-#, fuzzy
 msgid "Setup language…"
-msgstr "Imposta lingua"
+msgstr "Imposta lingua…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -620,9 +618,8 @@ msgid "Show hidden files"
 msgstr "Mostra i file nascosti"
 
 #: qt/app.py:566
-#, fuzzy
 msgid "Compare snapshots…"
-msgstr "Confronta istantanee"
+msgstr "Confronta istantanee…"
 
 #: qt/app.py:627
 msgid "&Backup"
@@ -693,11 +690,10 @@ msgid "Snapshot Name"
 msgstr "Nome istantanea"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Sei sicuro di voler rimuovere l'istantanea"
-msgstr[1] "Sei sicuro di voler rimuovere l'istantanea"
+msgstr[0] "Sei sicuro di voler rimuovere questa istantanea?"
+msgstr[1] "Sei sicuro di voler rimuovere queste istantanee?"
 
 #: qt/app.py:1294
 #, python-brace-format
@@ -1096,19 +1092,17 @@ msgstr "Ogni ora"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Ogni {n} ore"
+msgstr[0] "Ogni {n} ora"
 msgstr[1] "Ogni {n} ore"
 
 #: qt/settingsdialog.py:372
-#, fuzzy
 msgid "Custom hours"
 msgstr "Orario personalizzato"
 
 #: qt/settingsdialog.py:373
-#, fuzzy
 msgid "Every day"
 msgstr "Ogni giorno"
 
@@ -1121,17 +1115,14 @@ msgid "When drive gets connected (udev)"
 msgstr "Quando il drive viene connesso (udev)"
 
 #: qt/settingsdialog.py:376
-#, fuzzy
 msgid "Every week"
 msgstr "Ogni settimana"
 
 #: qt/settingsdialog.py:377
-#, fuzzy
 msgid "Every month"
 msgstr "Ogni mese"
 
 #: qt/settingsdialog.py:378
-#, fuzzy
 msgid "Every year"
 msgstr "Ogni anno"
 
@@ -1521,13 +1512,12 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Sei sicuro di voler eliminare il profilo \"{name}\" ?"
 
 #: qt/settingsdialog.py:1416
-#, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
-"Le ore personalizzate possono essere solo un elenco di ore separate da "
-"virgola (es. 8,12,18,23) oppure */3 per backup periodici ogni 3 ore"
+"L'orario personalizzato può essere solo un elenco di ore separate da virgola"
+" (es. 8,12,18,23) oppure */3 per backup periodici ogni 3 ore."
 
 #: qt/settingsdialog.py:1458
 msgid ""

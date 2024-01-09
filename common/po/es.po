@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-11-01 09:13+0000\n"
+"PO-Revision-Date: 2023-12-15 08:56+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.2.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -102,15 +102,15 @@ msgstr ""
 " nativo de Linux."
 
 #: common/config.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"El sistema de ficheros de destino para la ruta {path} es un recurso "
-"compartido SMB. Por favor, asegúrese de que el servidor remoto soporta "
-"enlaces simbólicos o active {copyLinks} en {expertOptions}."
+"El sistema de archivos de destino para {path} es un recurso compartido "
+"montado en SMB. Asegúrese de que el servidor SMB remoto admite enlaces "
+"simbólicos o active {copyLinks} en {expertOptions}."
 
 #: common/config.py:490 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
@@ -288,12 +288,11 @@ msgstr "No se puede crear carpeta"
 #: common/snapshots.py:962
 #, fuzzy
 msgid "Saving config file…"
-msgstr "Guardando el archivo de configuración..."
+msgstr "Guardando el archivo de configuración…"
 
 #: common/snapshots.py:1038
-#, fuzzy
 msgid "Saving permissions…"
-msgstr "Salvando permisos..."
+msgstr "Salvando permisos…"
 
 #: common/snapshots.py:1146
 #, python-brace-format
@@ -525,9 +524,8 @@ msgid "View last log"
 msgstr "Ver último registro"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Perfil principal"
+msgstr "Perfil principal…"
 
 #: qt/app.py:500
 msgid "Shutdown"
@@ -624,7 +622,7 @@ msgstr "Mostrar archivos ocultos"
 #: qt/app.py:566
 #, fuzzy
 msgid "Compare snapshots…"
-msgstr "Tomar instantánea"
+msgstr "Tomar instantánea…"
 
 #: qt/app.py:627
 msgid "&Backup"
@@ -702,8 +700,8 @@ msgstr "Nombre de la instantánea"
 #, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "¿Está seguro de que desea eliminar la instantánea"
-msgstr[1] "¿Está seguro de que desea eliminar la instantánea"
+msgstr[0] "¿Está seguro de que desea eliminar la instantánea?"
+msgstr[1] "¿Está seguro de que desea eliminar la instantánea?"
 
 #: qt/app.py:1294
 #, python-brace-format
@@ -930,9 +928,8 @@ msgid "Start {appname}"
 msgstr ""
 
 #: qt/qtsystrayicon.py:167
-#, fuzzy
 msgid "Working…"
-msgstr "Trabajando"
+msgstr "Trabajando…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1268,9 +1265,8 @@ msgid "If free inodes is less than"
 msgstr "Si el espacio libre es menor que"
 
 #: qt/settingsdialog.py:678
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Borrado inteligente"
+msgstr "Borrado inteligente:"
 
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
@@ -1286,9 +1282,8 @@ msgid "Keep all snapshots for the last"
 msgstr "Mantener todas las instantáneas hasta la última"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-#, fuzzy
 msgid "day(s)."
-msgstr "día(s)"
+msgstr "día(s)."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
@@ -1299,28 +1294,26 @@ msgid "Keep one snapshot per week for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "semana(s)"
+msgstr "semana(s)."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "mes(es)"
+msgstr "mes(es)."
 
 #: qt/settingsdialog.py:724
 #, fuzzy
 msgid "Keep one snapshot per year for all years."
-msgstr "Mantener una instantánea por año para todos los años"
+msgstr "Mantener una instantánea por año para todos los años."
 
 #: qt/settingsdialog.py:733
 #, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "No eliminar las instantáneas con nombre"
+msgstr "No eliminar las instantáneas con nombre."
 
 #: qt/settingsdialog.py:745
 #, fuzzy

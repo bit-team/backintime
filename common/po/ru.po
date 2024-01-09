@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-09-18 19:32+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2023-11-18 17:13+0000\n"
+"Last-Translator: 0que <0que@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -281,14 +281,12 @@ msgid "Can't create folder"
 msgstr "Невозможно создать каталог"
 
 #: common/snapshots.py:962
-#, fuzzy
 msgid "Saving config file…"
-msgstr "Сохранить конфигурационный файл..."
+msgstr "Сохранение файла конфигурации…"
 
 #: common/snapshots.py:1038
-#, fuzzy
 msgid "Saving permissions…"
-msgstr "Сохранить разрешение ..."
+msgstr "Сохранение разрешений…"
 
 #: common/snapshots.py:1146
 #, python-brace-format
@@ -517,9 +515,8 @@ msgid "View last log"
 msgstr "Смотреть последний log"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Управление профилями"
+msgstr "Управление профилями…"
 
 #: qt/app.py:500
 msgid "Shutdown"
@@ -532,7 +529,7 @@ msgstr "Выключить систему после завершения соз
 #: qt/app.py:504
 #, fuzzy
 msgid "Setup language…"
-msgstr "Изменить язык"
+msgstr "Изменить язык…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -620,7 +617,7 @@ msgstr "Показать скрытые файлы"
 #: qt/app.py:566
 #, fuzzy
 msgid "Compare snapshots…"
-msgstr "Сравнить снимки"
+msgstr "Сравнить снимки…"
 
 #: qt/app.py:627
 msgid "&Backup"
@@ -691,12 +688,11 @@ msgid "Snapshot Name"
 msgstr "Название резервной копии"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Вы уверены что вы хотите удалить снимок"
-msgstr[1] "Вы уверены что вы хотите удалить снимок"
-msgstr[2] "Вы уверены что вы хотите удалить снимок"
+msgstr[0] "Вы точно хотите удалить этот снимок?"
+msgstr[1] "Вы точно хотите удалить эти снимки?"
+msgstr[2] "Вы точно хотите удалить эти снимки?"
 
 #: qt/app.py:1294
 #, fuzzy, python-brace-format
@@ -704,7 +700,7 @@ msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
-"Создавать резервные копии с последующим {suffix} перед\n"
+"Создать резервные копии с последующим {suffix} перед\n"
 "перезаписью или удалением локальных файлов."
 
 #: qt/app.py:1300 qt/settingsdialog.py:774
@@ -723,14 +719,14 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Восстанавливать только несуществующие или\n"
-"более новые, чем файлы в месте назначения.\n"
-"Использование опции \"rsync --update\"."
+"Восстанавливать только несуществующие элементы\n"
+"или элементы новее, чем имеющиеся.\n"
+"Использует опцию \"rsync --update\"."
 
 #: qt/app.py:1347
 #, fuzzy
 msgid "Remove newer elements in original folder."
-msgstr "Удаление более новых файлов в исходной папке"
+msgstr "Удалять более новые файлы в исходной папке."
 
 #: qt/app.py:1348
 #, fuzzy
@@ -747,7 +743,7 @@ msgstr ""
 "Будьте предельно осторожны!!!"
 
 #: qt/app.py:1361
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -755,22 +751,22 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Вы действительно хотите восстановить файл(ы)\n"
-"в новую папку {path}"
+"Вы действительно хотите восстановить этот файл в новую папку\n"
+"{path}?"
 msgstr[1] ""
-"Вы действительно хотите восстановить файл(ы)\n"
-"в новую папку {path}"
+"Вы действительно хотите восстановить эти файлы в новую папку\n"
+"{path}?"
 msgstr[2] ""
-"Вы действительно хотите восстановить файл(ы)\n"
-"в новую папку {path}"
+"Вы действительно хотите восстановить эти файлы в новую папку\n"
+"{path}?"
 
 #: qt/app.py:1370
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Вы действительно хотите восстановить этот файл(ы)"
-msgstr[1] "Вы действительно хотите восстановить этот файл(ы)"
-msgstr[2] "Вы действительно хотите восстановить этот файл(ы)"
+msgstr[0] "Вы действительно хотите восстановить этот файл?"
+msgstr[1] "Вы действительно хотите восстановить эти файлы?"
+msgstr[2] "Вы действительно хотите восстановить эти файлы?"
 
 #: qt/app.py:1385
 #, python-brace-format

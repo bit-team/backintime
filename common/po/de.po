@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-11-15 09:11+0000\n"
+"PO-Revision-Date: 2023-12-27 15:56+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -1093,10 +1093,10 @@ msgstr "Jede Stunde"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Alle {n} Stunden"
+msgstr[0] "Jede Stunde"
 msgstr[1] "Alle {n} Stunden"
 
 #: qt/settingsdialog.py:372
@@ -1104,7 +1104,6 @@ msgid "Custom hours"
 msgstr "Benutzerdefinierte Stunden"
 
 #: qt/settingsdialog.py:373
-#, fuzzy
 msgid "Every day"
 msgstr "Täglich"
 
@@ -1117,17 +1116,14 @@ msgid "When drive gets connected (udev)"
 msgstr "Sobald das Laufwerk angeschlossen wird (udev)"
 
 #: qt/settingsdialog.py:376
-#, fuzzy
 msgid "Every week"
 msgstr "Wöchentlich"
 
 #: qt/settingsdialog.py:377
-#, fuzzy
 msgid "Every month"
 msgstr "Monatlich"
 
 #: qt/settingsdialog.py:378
-#, fuzzy
 msgid "Every year"
 msgstr "Jährlich"
 
@@ -1502,7 +1498,7 @@ msgstr "Konfiguration wiederherstellen"
 
 #: qt/settingsdialog.py:1091
 msgid "Edit user-callback"
-msgstr "Benutzerrückruf bearbeiten"
+msgstr "User-callback bearbeiten"
 
 #: qt/settingsdialog.py:1109
 msgid "New profile"
@@ -1518,14 +1514,13 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Sind Sie sicher, dass Sie das Profil »{name}« löschen wollen?"
 
 #: qt/settingsdialog.py:1416
-#, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
 "Benutzerdefinierte Stunden, bitte als Kommata getrennte Stundenliste "
 "schreiben (z.B. 8,12,18,23) oder */3 für wiederholte Sicherungen alle 3 "
-"Stunden"
+"Stunden."
 
 #: qt/settingsdialog.py:1458
 msgid ""
@@ -1615,7 +1610,7 @@ msgstr "Aktiviert"
 
 #: qt/settingsdialog.py:2058
 msgid "disabled"
-msgstr "Deaktiviert"
+msgstr "deaktiviert"
 
 #: qt/settingsdialog.py:2103
 msgid "Restore Settings"
@@ -1642,11 +1637,11 @@ msgstr "Keine Konfiguration gefunden"
 
 #: qt/settingsdialog.py:2450
 msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr "Benutzerrückrufskript hat keine Shebang-Zeile (#!/bin/sh)."
+msgstr "User-callback Skript hat keine Shebang-Zeile (#!/bin/sh)."
 
 #: qt/settingsdialog.py:2457
 msgid "Shebang in user-callback script is not executable."
-msgstr "Shebang im Benutzerrückrufskript ist nicht ausführbar."
+msgstr "Shebang im user-callback ist nicht ausführbar."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
