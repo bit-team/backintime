@@ -36,17 +36,30 @@ import atexit
 from datetime import datetime
 from packaging.version import Version
 from time import sleep
-keyring = None
-keyring_warn = False
+
+import logger
+
+# Try to import keyring
+is_keyring_available = False
 try:
+    # Jan 4, 2024 aryoda: The env var BIT_USE_KEYRING is neither documented
+    #                     anywhere nor used at all in the code.
+    #                     Via "git blame" I have found a commit message saying:
+    #                     "block subsequent 'import keyring' if it failed once"
+    #                     So I assume it is an internal temporary env var only.
+    # Note: os.geteuid() is used instead of tools.isRoot() here
+    #       because the latter is still not available here in the global
+    #       module code.
     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
         import keyring
         from keyring import backend
         import keyring.util.platform_
-except:
-    keyring = None
+        is_keyring_available = True
+except Exception as e:
+    is_keyring_available = False
+    # block subsequent 'import keyring' if it failed once before
     os.putenv('BIT_USE_KEYRING', 'false')
-    keyring_warn = True
+    logger.warning(f"'import keyring' failed with: {repr(e)}")
 
 # getting dbus imports to work in Travis CI is a huge pain
 # use conditional dbus import
@@ -57,13 +70,12 @@ try:
     import dbus
 except ImportError:
     if ON_TRAVIS or ON_RTD:
-        #python-dbus doesn't work on Travis yet.
+        # python-dbus doesn't work on Travis yet.
         dbus = None
     else:
         raise
 
 import configfile
-import logger
 import bcolors
 from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
@@ -1111,7 +1123,14 @@ def envSave(f):
     env_file.save(f)
 
 def keyringSupported():
-    if keyring is None:
+    """
+    Checks if a keyring (supported by BiT) is available
+
+    Returns:
+         bool: ``True`` if a supported keyring could be loaded
+    """
+
+    if not is_keyring_available:
         logger.debug('No keyring due to import error.')
         return False
 
@@ -1174,7 +1193,7 @@ def keyringSupported():
             # Load the backend step-by-step.
             # e.g. When the target is "keyring.backends.Gnome.Keyring" then in
             # a first step "Gnome" part is loaded first and if successful the
-            # "Keyring" part.
+            # "keyring" part.
             for b in backends:
                 result = getattr(result, b)
 
@@ -1204,12 +1223,14 @@ def keyringSupported():
 
 
 def password(*args):
-    if not keyring is None:
+
+    if is_keyring_available:
         return keyring.get_password(*args)
     return None
 
 def setPassword(*args):
-    if not keyring is None:
+
+    if is_keyring_available:
         return keyring.set_password(*args)
     return False
 
@@ -1467,36 +1488,6 @@ def filesystemMountInfo():
                 [mount_line.strip('\n').split(' ')[:2] for mount_line in mounts]
                 if uuidFromDev(items[0]) != None}
 
-def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
-    """
-    Wrap line ``msg`` into multiple lines with each shorter than ``size``. Try
-    to break the line on ``delimiters``. New lines will start with
-    ``new_line_indicator``.
-
-    Args:
-        msg (str):                  string that should get wrapped
-        size (int):                 maximum length of returned strings
-        delimiters (str):           try to break ``msg`` on these characters
-        new_line_indicator (str):   start new lines with this string
-
-    Yields:
-        str:                        lines with max ``size`` length
-    """
-    if len(new_line_indicator) >= size - 1:
-        new_line_indicator = ''
-    while msg:
-        if len(msg) <= size:
-            yield(msg)
-            break
-        else:
-            line = ''
-            for look in range(size-1, size//2, -1):
-                if msg[look] in delimiters:
-                    line, msg = msg[:look+1], new_line_indicator + msg[look+1:]
-                    break
-            if not line:
-                line, msg = msg[:size], new_line_indicator + msg[size:]
-            yield(line)
 
 def syncfs():
     """
@@ -1515,6 +1506,10 @@ def isRoot():
     Returns:
         bool:   ``True`` if we are root
     """
+
+    # The EUID (Effective UID) may be different from the UID (user ID)
+    # in case of SetUID or using "sudo" (where EUID is "root" and UID
+    # is the original user who executed "sudo").
     return os.geteuid() == 0
 
 def usingSudo():
@@ -1522,7 +1517,7 @@ def usingSudo():
     Check if 'sudo' was used to start this process.
 
     Returns:
-        bool:   ``True`` if process was started with sudo
+        bool:   ``True`` if the process was started with sudo
     """
     return isRoot() and os.getenv('HOME', '/root') != '/root'
 
@@ -2759,13 +2754,33 @@ class Daemon:
         """
         pass
 
-def __logKeyringWarning():
-    from time import sleep
-    sleep(0.1)
-    logger.warning('import keyring failed')
-
-if keyring is None and keyring_warn:
-    #delay warning to give logger some time to import
-    from threading import Thread
-    thread = Thread(target = __logKeyringWarning, args = ())
-    thread.start()
+# def __logKeyringWarning():
+#
+#     from time import sleep
+#     sleep(0.1)
+#     # TODO This function may not be thread-safe
+#     logger.warning('import keyring failed')
+#
+#
+#
+# if is_keyring_available:
+#
+#     # delay warning to give logger some time to import
+#
+#     # Jan 4, 2024 aryoda:
+#     # This is an assumed work-around for #820 (unhandled exception: NoneType)
+#     # but does not seem to fix the problem.
+#     # So I have refactored the possible name shadowing of "keyring"
+#     # as described in
+#     # https://github.com/bit-team/backintime/issues/820#issuecomment-1472971734
+#     # and left this code unchanged to wait for user feed-back if it works now.
+#     # If the error still occurs I would move the log output call
+#     # to the client of this module so that it is certain to assume it is
+#     # correctly initialized.
+#     # Maybe use backintime.py and app.py for logging...
+#     # (don't call tools.keyringSupported() for that because
+#     # it produces too much debug logging output whenever it is called
+#     # but just query tools.is_keyring_available.
+#     from threading import Thread
+#     thread = Thread(target=__logKeyringWarning, args=())
+#     thread.start()

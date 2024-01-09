@@ -31,11 +31,12 @@ if not os.getenv('DISPLAY', ''):
 import qttools
 qttools.registerBackintimePath('common')
 
+import logger
+
 # Workaround until the codebase allows a single place to init all translations
 import tools
 tools.initiate_translation(None)
 
-import logger
 import snapshots
 import progress
 import logviewdialog
@@ -172,11 +173,11 @@ class QtSysTrayIcon:
                 self.last_message = message
                 if self.decode:
                     message = (message[0], self.decode.log(message[1]))
-                self.menuStatusMessage.setText('\n'.join(tools.wrapLine(message[1],\
-                                                                         size = 80,\
-                                                                         delimiters = '',\
-                                                                         new_line_indicator = '') \
-                                                                       ))
+                self.menuStatusMessage.setText('\n'.join(logger.wrapLine(message[1], \
+                                                                                size = 80, \
+                                                                                delimiters = '', \
+                                                                                new_line_indicator = '') \
+                                                         ))
                 self.status_icon.setToolTip(message[1])
 
         pg = progress.ProgressFile(self.config)
