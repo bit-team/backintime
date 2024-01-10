@@ -120,11 +120,13 @@ fi
 
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
-sed -e "s#^python3\? #${PYTHON} #g" \
-    -e "s#^ssh-agent python3\? #ssh-agent ${PYTHON} #g" \
-    -i $USR_BIN_FILES
-sed -e "s#^Exec=/usr/bin/python3\? #Exec=${PYTHON} #g" \
-    -i $DBUS_SERVICE_FILES
+if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ] \
+    && [ -n "$(sed -e "s#^Exec=/usr/bin/python3\? #Exec=${PYTHON} #gw /dev/stdout" -i $DBUS_SERVICE_FILES)" ]
+then
+    echo "Replacement of python path with \"${PYTHON}\" successful."
+else
+    echo "WARNING: Replacement of python path with \"${PYTHON}\" FAILED. Maybe you ran configure more than once?"
+fi
 
 #start Makefile
 printf "PREFIX=/usr\n" >> ${MAKEFILE}

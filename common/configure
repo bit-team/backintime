@@ -133,9 +133,12 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
-sed -e "s#^python3 #${PYTHON} #g" \
-    -e "s#^ssh-agent python3 #ssh-agent ${PYTHON} #g" \
-    -i $USR_BIN_FILES
+if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ]
+then
+    echo "Replacement of python path with \"${PYTHON}\" successful."
+else
+    echo "WARNING: Replacement of python path with \"${PYTHON}\" FAILED. Maybe you ran configure more than once?"
+fi
 
 #check languages
 mos=""
