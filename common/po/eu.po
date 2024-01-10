@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-15 10:12+0100\n"
+"POT-Creation-Date: 2024-01-09 11:59+0100\n"
 "PO-Revision-Date: 2023-09-26 10:59+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
@@ -31,7 +31,7 @@ msgstr "Profil nagusia"
 msgid "Local"
 msgstr "Lokala"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
+#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
 msgid "SSH private key"
 msgstr "SSH gako pribatua"
 
@@ -211,7 +211,7 @@ msgstr ""
 "encfs-ren 1.7.2 bertsioak eta honen aurrekoek badute akats bat --reverse "
 "aukeran. Eguneratu encfs."
 
-#: common/encfstools.py:516 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
 msgstr "Egin babeskopia"
 
@@ -242,15 +242,15 @@ msgid "Restore permissions"
 msgstr "Leheneratu baimenak"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:79
 msgid "Done"
 msgstr "Eginda"
 
-#: common/snapshots.py:704
+#: common/snapshots.py:708
 msgid "Deferring backup while on battery"
 msgstr "Atzeratu babeskopia bateriaz dabilen bitartean"
 
-#: common/snapshots.py:766
+#: common/snapshots.py:770
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -258,107 +258,107 @@ msgstr ""
 "Ezin du aurkitu babeskopien karpeta.\n"
 "Karpeta unitate eramangarri batean badago konekta ezazu, mesedez."
 
-#: common/snapshots.py:768
+#: common/snapshots.py:772
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Itxaroten segundo %s ."
 msgstr[1] "Itxaroten %s segundo."
 
-#: common/snapshots.py:805
+#: common/snapshots.py:809
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Huts egin du {snapshot_id} babeskopia egiten."
 
-#: common/snapshots.py:822
+#: common/snapshots.py:826
 msgid "Finalizing"
 msgstr "Amaitzen"
 
-#: common/snapshots.py:945
+#: common/snapshots.py:949
 msgid "Can't create folder"
 msgstr "Ezin da karpeta sortu"
 
-#: common/snapshots.py:962
+#: common/snapshots.py:966
 #, fuzzy
 msgid "Saving config file…"
 msgstr "Gorde ezarpenen fitxategia..."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1042
 #, fuzzy
 msgid "Saving permissions…"
 msgstr "Baimenak gordetzen ..."
 
-#: common/snapshots.py:1146
+#: common/snapshots.py:1150
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "'{snapshot_id}' jarraitu daitekeen soberakina aurkitu du."
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Azken exekuziotik '{snapshot_id}' karpeta soberakina kentzen"
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1179
 msgid "Can't remove folder"
 msgstr "Ezin da karpeta ezabatu"
 
-#: common/snapshots.py:1218
+#: common/snapshots.py:1222
 msgid "Taking snapshot"
 msgstr "Babeskopia egiten"
 
-#: common/snapshots.py:1250
+#: common/snapshots.py:1254
 msgid "Success"
 msgstr "Ongi"
 
-#: common/snapshots.py:1251
+#: common/snapshots.py:1255
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transferentzia partziala desagertutako iturburu-fitxategiengatik (ikus 'man "
 "rsync')"
 
-#: common/snapshots.py:1254
+#: common/snapshots.py:1258
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "\"rsync\" amaitu da irteera-kode honekin {exit_code}"
 
-#: common/snapshots.py:1263
+#: common/snapshots.py:1267
 msgid "See 'man rsync' for more details"
 msgstr "Ikus 'man rsync' xehetasun gehiagorako"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1271
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Rsync irteera kode negatiboak seinale zenbakiak dira, ikusi 'kill -l' eta "
 "'man kill'"
 
-#: common/snapshots.py:1282
+#: common/snapshots.py:1286
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Ez dago aldaketarik. Ez da babeskopia berririk egin behar"
 
-#: common/snapshots.py:1313
+#: common/snapshots.py:1317
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Ezin jarri {new_path} izena honi {path}"
 
-#: common/snapshots.py:1631 common/snapshots.py:1683
+#: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
 msgstr "Ezabatze automatikoa"
 
-#: common/snapshots.py:1658
+#: common/snapshots.py:1662
 msgid "Removing old snapshots"
 msgstr "Babeskopia zaharrak ezabatzen"
 
-#: common/snapshots.py:1693
+#: common/snapshots.py:1697
 msgid "Trying to keep min free space"
 msgstr "Saiatu espazio minimoa mantentzen"
 
-#: common/snapshots.py:1732
+#: common/snapshots.py:1736
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Saiatu gutxienez {perc} nodo libre mantentzen"
 
-#: common/snapshots.py:2814 qt/app.py:1616
+#: common/snapshots.py:2819 qt/app.py:1616
 msgid "Now"
 msgstr "Orain"
 
@@ -483,15 +483,15 @@ msgstr "Egin babeskopia (kontrol baturarekin)"
 msgid "Use checksums for file change detection."
 msgstr "Erabili kontrol-batura aldaketak detektatzeko."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:84
 msgid "Pause snapshot process"
 msgstr "Pausatu babeskopia prozesua"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:88
 msgid "Resume snapshot process"
 msgstr "Laburtu babeskopia prozesua"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:93
 msgid "Stop snapshot process"
 msgstr "Gelditu babeskopia prozesua"
 
@@ -573,7 +573,7 @@ msgstr "Itzulpena"
 msgid "About"
 msgstr "Honi buruz"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Berreskuratu"
@@ -609,7 +609,7 @@ msgstr ""
 msgid "Up"
 msgstr "Gora"
 
-#: qt/app.py:563 qt/settingsdialog.py:2159
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Erakutsi ezkututko fitxategiak"
 
@@ -654,15 +654,15 @@ msgstr "Lanean"
 msgid "Error"
 msgstr "Errorea"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:201
 msgid "Sent"
 msgstr "Bidalita"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:202
 msgid "Speed"
 msgstr "Abiadura"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:203
 msgid "ETA"
 msgstr "ETA"
 
@@ -864,8 +864,8 @@ msgstr "Azken erregistroaren ikuspegia"
 msgid "Snapshot Log View"
 msgstr "Babeskopiaren erregistro ikuspegia"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:75 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Profila"
 
@@ -898,7 +898,7 @@ msgstr "Informazioa"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Errorea, [I] Informazioa, [C] Aldaketa"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:97
 msgid "decode paths"
 msgstr "dekodetu bide-izenak"
 
@@ -918,16 +918,16 @@ msgstr "Nahi duzu hau kanpoan utzi?"
 msgid "Question"
 msgstr "Galdera"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:102
 msgid "View Last Log"
 msgstr "Ikusi azken erregistroa"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:106
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Hasi {appname}"
 
-#: qt/qtsystrayicon.py:167
+#: qt/qtsystrayicon.py:168
 msgid "Working…"
 msgstr "Lanean…"
 
@@ -980,7 +980,7 @@ msgstr "Kendu"
 msgid "&General"
 msgstr "&Orokorra"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
 msgid "Mode"
 msgstr "Modua"
 
@@ -995,7 +995,7 @@ msgstr ""
 " batek hari egindako hainbat erasoen berri eman du. Eman begirada bat "
 "Backintime-ren man-eko 'A NOTE ON SECURITY' oharrari."
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
 msgid "Where to save snapshots"
 msgstr "Non gorde babeskopiak"
 
@@ -1461,7 +1461,7 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
 msgid "default"
 msgstr "lehenetsia"
 
@@ -1580,11 +1580,11 @@ msgstr "Baztertu fitxategia"
 msgid "Exclude folder"
 msgstr "Baztertu karpeta"
 
-#: qt/settingsdialog.py:1858
+#: qt/settingsdialog.py:1863
 msgid "Include file"
 msgstr "Sartu fitxategia"
 
-#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
+#: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1593,36 +1593,36 @@ msgstr ""
 "\"{path}\" esteka sinboliko bat da. Estekatutako objektuaren babeskopia ez da egingo are eta bera ere gehitu arte.\n"
 "Nahi duzu gehitu esteka sinbolikoen helburu-objektuak?"
 
-#: qt/settingsdialog.py:1884
+#: qt/settingsdialog.py:1893
 msgid "Include folder"
 msgstr "Sartu karpeta"
 
-#: qt/settingsdialog.py:1921
+#: qt/settingsdialog.py:1930
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Ziur zaude aldatu nahi duzula babeskopien karpeta?"
 
-#: qt/settingsdialog.py:1946
+#: qt/settingsdialog.py:1955
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Huts egin du {path} kokalekuan SSH gako berria sortzen"
 
-#: qt/settingsdialog.py:2005
+#: qt/settingsdialog.py:2014
 msgid "Full snapshot path: "
 msgstr "Babeskopiaren bide osoa: "
 
-#: qt/settingsdialog.py:2055
+#: qt/settingsdialog.py:2064
 msgid "enabled"
 msgstr "gaituta"
 
-#: qt/settingsdialog.py:2058
+#: qt/settingsdialog.py:2067
 msgid "disabled"
 msgstr "ezgaituta"
 
-#: qt/settingsdialog.py:2103
+#: qt/settingsdialog.py:2112
 msgid "Restore Settings"
 msgstr "Ezarpenak berreskuratu"
 
-#: qt/settingsdialog.py:2116
+#: qt/settingsdialog.py:2125
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1637,16 +1637,16 @@ msgstr ""
 "Zure babeskopiak urrutiko unitate batean badaude edo zifratuta badaude aldez aurretik eskuz muntatu behar dituzu. SSH modua erabiltzen baduzu gako publikoa ezarri beharko duzu urrutiko ostalarian sartzeko.\n"
 "Eman begirada bat 'man backintime' oharrei."
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
 msgid "No config found"
 msgstr "Ez da ezarpenik topatu"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2459
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 "Erabiltzailearen atzeradeia-scriptak ez dauka shebang (#!/bin/sh) lerrorik."
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2466
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 "Erabiltzalearen atzera-deiaren scriptaren shebang ez da exekutagarria."
