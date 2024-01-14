@@ -31,9 +31,9 @@
 import os
 import sys
 
-from PyQt6.QtGui import (QAction, QFont, QColor, QPalette, QIcon)
+from PyQt6.QtGui import (QAction, QFont, QPalette, QIcon)
 from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo, QSettings,
+                          QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
@@ -555,7 +555,7 @@ class HeaderItem(TimeLineItem):
         app.py::MainWindow::addPlace().
         """
         super(HeaderItem, self).__init__()
-        self.setText(0, f'{name} HeaderItem')
+        self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
 
         palette = QApplication.instance().palette()
