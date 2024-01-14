@@ -33,7 +33,7 @@ import sys
 
 from PyQt6.QtGui import (QAction, QFont, QColor, QPalette, QIcon)
 from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo,
+                          QTranslator, QLocale, QLibraryInfo, QSettings,
                           QT_VERSION_STR)
 from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
@@ -553,10 +553,11 @@ class HeaderItem(TimeLineItem):
         super(HeaderItem, self).__init__()
         self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
+        palette = QSettings().palette()
         self.setBackground(
-            0, self.palette().color(QPalette.ColorRole.WindowText))
+            0, palette.color(QPalette.ColorRole.WindowText))
         self.setForeground(
-            0, self.palette().color(QPalette.ColorRole.Window))
+            0, palette.color(QPalette.ColorRole.Window))
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
