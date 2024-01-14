@@ -555,7 +555,7 @@ class HeaderItem(TimeLineItem):
         app.py::MainWindow::addPlace().
         """
         super(HeaderItem, self).__init__()
-        self.setText(0, name)
+        self.setText(0, f'{name} HeaderItem')
         self.setFont(0, fontBold(self.font(0)))
 
         palette = QApplication.instance().palette()
