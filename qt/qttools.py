@@ -31,14 +31,14 @@
 import os
 import sys
 
-from PyQt6.QtGui import (QAction, QFont, QColor, QIcon)
+from PyQt6.QtGui import (QAction, QFont, QColor, QPalette, QIcon)
 from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox,
-                             QSystemTrayIcon, QWidget)
+                             QSystemTrayIcon)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
@@ -553,8 +553,10 @@ class HeaderItem(TimeLineItem):
         super(HeaderItem, self).__init__()
         self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
-        self.setBackground(0, QColor(196, 196, 196))
-        self.setForeground(0, QColor(60, 60, 60))
+        self.setBackground(
+            0, self.palette.color(QPalette.ColorRole.WindowText))
+        self.setForeground(
+            0, self.palette.color(QPalette.ColorRole.Window))
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)

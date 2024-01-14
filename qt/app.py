@@ -50,6 +50,7 @@ from exceptions import MountException
 from PyQt6.QtGui import (QAction,
                          QShortcut,
                          QDesktopServices,
+                         QPalette,
                          QColor,
                          QIcon,
                          QFileSystemModel)
@@ -1047,8 +1048,10 @@ class MainWindow(QMainWindow):
         if not path:
             item.setFont(0, qttools.fontBold(item.font(0)))
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            item.setBackground(0, QColor(196, 196, 196))
-            item.setForeground(0, QColor(60, 60, 60))
+            item.setBackground(
+                0, self.palette.color(QPalette.ColorRole.WindowText))
+            item.setForeground(
+                0, self.palette.color(QPalette.ColorRole.Window))
 
         self.places.addTopLevelItem(item)
 
