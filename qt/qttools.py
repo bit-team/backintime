@@ -554,9 +554,9 @@ class HeaderItem(TimeLineItem):
         self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
         self.setBackground(
-            0, self.palette.color(QPalette.ColorRole.WindowText))
+            0, self.palette().color(QPalette.ColorRole.WindowText))
         self.setForeground(
-            0, self.palette.color(QPalette.ColorRole.Window))
+            0, self.palette().color(QPalette.ColorRole.Window))
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)

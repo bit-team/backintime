@@ -1049,9 +1049,9 @@ class MainWindow(QMainWindow):
             item.setFont(0, qttools.fontBold(item.font(0)))
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             item.setBackground(
-                0, self.palette.color(QPalette.ColorRole.WindowText))
+                0, self.palette().color(QPalette.ColorRole.WindowText))
             item.setForeground(
-                0, self.palette.color(QPalette.ColorRole.Window))
+                0, self.palette().color(QPalette.ColorRole.Window))
 
         self.places.addTopLevelItem(item)
 
