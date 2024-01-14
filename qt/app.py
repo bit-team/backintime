@@ -1063,7 +1063,7 @@ class MainWindow(QMainWindow):
         self.addPlace(_('Root'), '/', 'computer')
         self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
 
-        #add backup folders
+        # add backup folders
         include_folders = self.config.include()
         if include_folders:
             folders = []
@@ -1073,9 +1073,13 @@ class MainWindow(QMainWindow):
 
             if folders:
                 sortColumn = self.places.header().sortIndicatorSection()
-                sortOrder  = self.places.header().sortIndicatorOrder()
+                sortOrder = self.places.header().sortIndicatorOrder()
+
                 if not sortColumn:
-                    folders.sort(key = lambda v: (v.upper(), v[0].islower()), reverse = sortOrder)
+                    folders.sort(
+                        key=lambda v: (v.upper(), v[0].islower()),
+                        reverse=sortOrder == Qt.SortOrder.DescendingOrder)
+
                 self.addPlace(_('Backup folders'), '', '')
                 for folder in folders:
                     self.addPlace(folder, folder, 'document-save')
