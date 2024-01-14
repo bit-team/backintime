@@ -550,14 +550,20 @@ class SnapshotItem(TimeLineItem):
 
 class HeaderItem(TimeLineItem):
     def __init__(self, name, sid):
+        """
+        Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
+        app.py::MainWindow::addPlace().
+        """
         super(HeaderItem, self).__init__()
         self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
-        palette = QSettings().palette()
-        self.setBackground(
-            0, palette.color(QPalette.ColorRole.WindowText))
+
+        palette = QApplication.instance().palette()
         self.setForeground(
+            0, palette.color(QPalette.ColorRole.WindowText))
+        self.setBackground(
             0, palette.color(QPalette.ColorRole.Window))
+
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)

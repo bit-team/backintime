@@ -1036,6 +1036,10 @@ class MainWindow(QMainWindow):
         self.updateFilesView(3)
 
     def addPlace(self, name, path, icon):
+        """
+        Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
+        qttools.py::HeaderItem::__init__().
+        """
         item = QTreeWidgetItem()
 
         item.setText(0, name)
@@ -1048,9 +1052,9 @@ class MainWindow(QMainWindow):
         if not path:
             item.setFont(0, qttools.fontBold(item.font(0)))
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            item.setBackground(
-                0, self.palette().color(QPalette.ColorRole.WindowText))
             item.setForeground(
+                0, self.palette().color(QPalette.ColorRole.WindowText))
+            item.setBackground(
                 0, self.palette().color(QPalette.ColorRole.Window))
 
         self.places.addTopLevelItem(item)
