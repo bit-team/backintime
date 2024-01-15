@@ -11,19 +11,21 @@ UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
-PYTHON="--python3"
+PYTHON="python3"
 
 USR_BIN_FILES="backintime-qt backintime-qt_polkit"
 DBUS_SERVICE_FILES="net.launchpad.backintime.serviceHelper.service"
 
 usage () {
     echo "Usage:"
-    echo "$0 [--python | --python3]"
+    echo "$0 [--python | --python3 | --python=PYTHON_BINARY]"
     echo ""
     echo "--python"
     echo "\tuse 'python' to start Python3"
     echo "--python3"
     echo "\tuse 'python3' to start Python3"
+    echo "--python=PYTHON_BINARY"
+    echo "\tuse PYTHON_BINARY to start Python3"
 }
 
 addInstallFiles () {
@@ -98,9 +100,17 @@ addNewline () {
 unknown_args=""
 for arg in $*; do
 	case $arg in
-		--python | --python3) PYTHON=$arg;;
-		--help | -h) usage; exit 0;;
-		*) unknown_args="$unknown_args $arg";;
+        --python=*)
+            PYTHON=$(echo $arg | cut -f2 -d'=')
+            ;;
+        --python3)
+            PYTHON="/usr/bin/python3"
+            ;;
+        --python)
+            PYTHON="/usr/bin/python"
+            ;;
+        --help | -h) usage; exit 0;;
+        *) unknown_args="$unknown_args $arg";;
 	esac
 done
 
@@ -110,15 +120,13 @@ fi
 
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
-case $PYTHON in
-	--python)   PYVERSION="" ;;
-	--python3)  PYVERSION="3";;
-esac
-sed -e "s#^python3\? #python${PYVERSION} #g" \
-    -e "s#^ssh-agent python3\? #ssh-agent python${PYVERSION} #g" \
-    -i $USR_BIN_FILES
-sed -e "s#^Exec=/usr/bin/python3\? #Exec=/usr/bin/python${PYVERSION} #g" \
-    -i $DBUS_SERVICE_FILES
+if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ] \
+    && [ -n "$(sed -e "s#^Exec=/usr/bin/python3\? #Exec=${PYTHON} #gw /dev/stdout" -i $DBUS_SERVICE_FILES)" ]
+then
+    echo "Replacement of python path with \"${PYTHON}\" successful."
+else
+    echo "WARNING: Replacement of python path with \"${PYTHON}\" FAILED. Maybe you ran configure more than once?"
+fi
 
 #start Makefile
 printf "PREFIX=/usr\n" >> ${MAKEFILE}
@@ -233,7 +241,7 @@ done
 
 # check python version
 PYTHON_VERSION_REQUIRED="3.8"
-PYTHON_VERSION_CURRENT=$(python${PYVERSION} --version | tr --delete 'Python ')
+PYTHON_VERSION_CURRENT=$(${PYTHON} --version | tr --delete 'Python ')
 
 # Credits: https://unix.stackexchange.com/a/285928/136851
 if [ "$(printf '%s\n' "$PYTHON_VERSION_REQUIRED" "$PYTHON_VERSION_CURRENT" | sort -V | head -n1)" != "$PYTHON_VERSION_REQUIRED" ]; then
