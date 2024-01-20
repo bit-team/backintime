@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-11-18 17:13+0000\n"
-"Last-Translator: 0que <0que@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"PO-Revision-Date: 2024-01-20 07:26+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -243,7 +243,7 @@ msgid "Restore permissions"
 msgstr "Восстановить права"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:79
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Готово"
 
@@ -482,15 +482,15 @@ msgstr "Сделать снимок (режим контрольной сумм�
 msgid "Use checksums for file change detection."
 msgstr "Использовать контрольную сумму для обнаружения изменений."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Приостановить процесс создания снимка"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:88
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Продолжить процесс создания снимка"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:93
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Остановить процесс создания снимка"
 
@@ -655,15 +655,15 @@ msgstr "Работаю"
 msgid "Error"
 msgstr "Ошибка"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:201
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Отправлено"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:202
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Скорость"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:203
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Приблизительно оставшееся время"
 
@@ -865,7 +865,7 @@ msgstr "Просмотр последнего лога"
 msgid "Snapshot Log View"
 msgstr "Просмотр журнала снимка"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:75 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Профиль"
@@ -899,7 +899,7 @@ msgstr "Информация"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Ошибка, [I] Информация, [C] Изменение"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:97
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "декодирование путей"
 
@@ -919,16 +919,16 @@ msgstr "Хотите ли Вы исключить это?"
 msgid "Question"
 msgstr "Вопрос"
 
-#: qt/qtsystrayicon.py:102
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr "Просмотреть последний журнал"
 
-#: qt/qtsystrayicon.py:106
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Запустить {appname}"
 
-#: qt/qtsystrayicon.py:168
+#: qt/qtsystrayicon.py:169
 msgid "Working…"
 msgstr "Работаю…"
 
@@ -1435,7 +1435,7 @@ msgstr ""
 "Копировать небезопасные ссылки (работает только с абсолютными ссылками)"
 
 #: qt/settingsdialog.py:1024
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "Параметры должны быть заключены в кавычки, например, {--exclude-"
@@ -1522,14 +1522,13 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Вы действительно хотите удалить профиль \"{name}\"?"
 
 #: qt/settingsdialog.py:1416
-#, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
 "Настроенные часы могут быть только списком часов, разделенных запятыми "
 "(например, 8,12,18,23) или */3 для периодического резервного копирования "
-"каждые 3 часа"
+"каждые 3 часа."
 
 #: qt/settingsdialog.py:1458
 msgid ""
@@ -1626,7 +1625,7 @@ msgid "Restore Settings"
 msgstr "Восстановить настройки"
 
 #: qt/settingsdialog.py:2125
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
@@ -1663,6 +1662,7 @@ msgid "Command"
 msgstr "Комманда"
 
 #: qt/snapshotsdialog.py:62
+#, fuzzy
 msgid "Parameters"
 msgstr "Параметры"
 
@@ -1699,6 +1699,7 @@ msgid "Go To"
 msgstr "Перейти к"
 
 #: qt/snapshotsdialog.py:179
+#, fuzzy
 msgid "Options"
 msgstr "Параметры"
 

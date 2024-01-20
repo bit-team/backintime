@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-10-19 19:53+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"PO-Revision-Date: 2024-01-12 13:56+0000\n"
+"Last-Translator: Maytha8 <maytha8thedev@gmail.com>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.0.2\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -36,9 +36,8 @@ msgid "SSH private key"
 msgstr "مفتاح SSH خاص"
 
 #: common/config.py:297
-#, fuzzy
 msgid "encrypted"
-msgstr "تشفير SSH"
+msgstr "مشفرة"
 
 #: common/config.py:298 common/config.py:305
 msgid "Encryption"
@@ -243,7 +242,7 @@ msgid "Restore permissions"
 msgstr "إستعادة الأذونات"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:79
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "تم"
 
@@ -284,14 +283,12 @@ msgid "Can't create folder"
 msgstr "لا يمكن إنشاء مجلد"
 
 #: common/snapshots.py:966
-#, fuzzy
 msgid "Saving config file…"
-msgstr "يتم حفظ ملف التكوين..."
+msgstr "يتم حفظ ملف التكوين…"
 
 #: common/snapshots.py:1042
-#, fuzzy
 msgid "Saving permissions…"
-msgstr "أحفظ الأذونات..."
+msgstr "يتم حفظ الأذونات…"
 
 #: common/snapshots.py:1150
 #, python-brace-format
@@ -322,25 +319,26 @@ msgstr "نقل جزئي بسبب اختفاء ملفات المصدر (انظر 
 #: common/snapshots.py:1258
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "انتهى 'rsync' مع رمز الخروج {exit_code}"
 
 #: common/snapshots.py:1267
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "اطلع على 'man rsync' للمزيد من التفاصيل"
 
 #: common/snapshots.py:1271
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
+"رموز الخروج السلبية لrsync هم ارقام إشارة, اطلع على 'kill -l' و'man kill'"
 
 #: common/snapshots.py:1286
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "لا شييء تغير, لقطة جديدة ليست ضرورية"
 
 #: common/snapshots.py:1317
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr "تعذرت إعادة تسمية {new_path} إلى {path}"
+msgstr "لا يمكن إعادة تسمية {new_path} إلى {path}"
 
 #: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
@@ -482,15 +480,15 @@ msgstr ""
 msgid "Use checksums for file change detection."
 msgstr "أستخدم تدقيق المجموع لِكشف التغيُّرات."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr ""
 
-#: qt/app.py:468 qt/qtsystrayicon.py:88
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr ""
 
-#: qt/app.py:472 qt/qtsystrayicon.py:93
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr ""
 
@@ -659,16 +657,16 @@ msgstr "يعمل"
 msgid "Error"
 msgstr "خطأ"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:201
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr ""
 
-#: qt/app.py:995 qt/qtsystrayicon.py:202
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 #, fuzzy
 msgid "Speed"
 msgstr "السرعة"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:203
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr ""
 
@@ -828,7 +826,7 @@ msgid "Translated: {percent}"
 msgstr ""
 
 #: qt/languagedialog.py:184
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -837,12 +835,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"مرحبا.\n"
-"لقد استخدمت تطبيق Back In Time في اللغة العربية عدة مرات من قبل.\n"
-"لقد تم فقط {perc} من ترجمة البرنامج إلى هذه اللغة. بلا أي خبرة بالتكنولوجيا أو في مجال البرمجة، يمكنك المساهمة بالترجمة وبالتالي التحسين العام لـ Back In Time.\n"
-"إن أردت المساهمة، يرجى زيارة صفحة الترجمة. للمساعدة والأسئلة، يرجى زيارة صفحة Back In Time العامة.\n"
-"نحن آسفون لمقاطعتك، وهذه الرسالة لن تراها بعد الآن. مع ذلك، يمكنك رؤيتها في أي وقت عن طريق قائمة المساعدة.\n"
-"فريقك Back In Time"
+"مرحبا\n"
+"لقد استخدمت تطبيق العودة في الزمن باللغة العربية عدة مرات من قبل.\n"
+"لقد تم ترجمة {perc} من برنامج العودة في الزمن إلى اللغة العربية. بغض النظر إلى خبرتك التقنية, بإمكانك المساهمة في الترجمة ومن ثم برنامج العودة في الزمن نفسه.\n"
+"الرجاء زيارة موقع {translation_platform_url} إذا رغبت في المشاركة. للمزيد من الإستفسارات او المساعدة, الرجاء زيارة {back_in_time_project_website}.\n"
+"نعتذر للمقاطعة, هذه الرسالة لن تعرض مرة أخرى. بإمكانك الإطلاع على هذه الرسالة في أي وقت عبر قائمة المساعدة.\n"
+"فريق العودة في الزمن"
 
 #: qt/languagedialog.py:216
 #, fuzzy
@@ -862,7 +860,7 @@ msgstr ""
 msgid "Snapshot Log View"
 msgstr ""
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:75 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 #, fuzzy
 msgid "Profile"
@@ -899,7 +897,7 @@ msgstr "معلومات"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] خطأ، [I] معلومات، [C] غيّر"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:97
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr ""
 
@@ -917,18 +915,18 @@ msgstr ""
 
 #: qt/messagebox.py:82 qt/messagebox.py:90
 msgid "Question"
-msgstr ""
+msgstr "سؤال"
 
-#: qt/qtsystrayicon.py:102
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr "عرض اخر سجل"
 
-#: qt/qtsystrayicon.py:106
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
-msgstr ""
+msgstr "تشغيل {appname}"
 
-#: qt/qtsystrayicon.py:168
+#: qt/qtsystrayicon.py:169
 #, fuzzy
 msgid "Working…"
 msgstr "يعمل…"
@@ -956,7 +954,7 @@ msgstr "هذه ليست لقطة بلا عرض حي لملفاتك المحلي�
 #: qt/qttools.py:544
 #, python-brace-format
 msgid "Last check {time}"
-msgstr ""
+msgstr "آخر فحص {time}"
 
 #: qt/restoredialog.py:60
 msgid "Show full Log"
@@ -986,7 +984,7 @@ msgstr "عام"
 
 #: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
 msgid "Mode"
-msgstr ""
+msgstr "الوضع"
 
 #: qt/settingsdialog.py:152
 #, python-brace-format
@@ -1025,7 +1023,7 @@ msgstr "مستخدم"
 
 #: qt/settingsdialog.py:214
 msgid "Path"
-msgstr ""
+msgstr "المسار"
 
 #: qt/settingsdialog.py:220
 msgid "Cipher"
@@ -1048,7 +1046,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:266 qt/settingsdialog.py:275 qt/settingsdialog.py:281
 msgid "Password"
-msgstr ""
+msgstr "الكلمة السرية"
 
 #: qt/settingsdialog.py:287
 msgid "Save Password to Keyring"
@@ -1172,7 +1170,7 @@ msgstr "كل"
 
 #: qt/settingsdialog.py:456
 msgid "Hour(s)"
-msgstr ""
+msgstr "ساعات"
 
 #: qt/settingsdialog.py:457 qt/settingsdialog.py:634
 msgid "Day(s)"
@@ -1596,15 +1594,15 @@ msgstr ""
 
 #: qt/settingsdialog.py:2064
 msgid "enabled"
-msgstr ""
+msgstr "مفعَّل"
 
 #: qt/settingsdialog.py:2067
 msgid "disabled"
-msgstr ""
+msgstr "مُعطَّل"
 
 #: qt/settingsdialog.py:2112
 msgid "Restore Settings"
-msgstr ""
+msgstr "استرجاع الإعدادات"
 
 #: qt/settingsdialog.py:2125
 #, python-brace-format
@@ -1669,7 +1667,7 @@ msgstr "تحديد الكل"
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "مقارنة"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
@@ -1702,7 +1700,7 @@ msgstr "هل أنت متأكد من إستعادة هذه الملفات؟"
 
 #: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
-msgstr ""
+msgstr "لا يمكن إلغاء ذلك!"
 
 #: qt/snapshotsdialog.py:380
 msgid "WARNING"
