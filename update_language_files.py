@@ -3,6 +3,7 @@ import sys
 import io
 import datetime
 import json
+import re
 import pprint
 from pathlib import Path
 from subprocess import run, check_output
@@ -299,6 +300,51 @@ def update_language_names() -> dict:
     return languages.names
 
 
+def check_shortcuts():
+    """Keyboard shortcuts are indicated via the & in front of a character
+    in an GUI string (e.g. a button or tab). As an example '&Exclude' and
+    '&Export' do not work because both of them indicate the 'E' as a
+    shortcut.
+
+    These situation can happen in translated strings and is not easy to
+    review or control. This function tries to find such redundancies in
+    the po-files.
+    """
+
+    # RegEx pattern: & followed by a word character (as group)
+    rex = re.compile(r'&(\w)')
+
+    # each po file in the repository
+    for po_path in list(LOCAL_DIR.rglob('**/*.po')):
+        print(f'\nProcessing {po_path}...')
+        # Remember shortcut relevant entries.
+        msgs = {}
+        shortcuts = ''
+
+        # each entry in po-file
+        for entry in polib.pofile(po_path):
+
+            # Source string contain "&"
+            if rex.search(entry.msgid):
+                # Collect the source string and its translation
+                msgs[entry.msgid] = entry.msgstr
+
+                # Get shortcut character from translated string
+                try:
+                    shortcuts = shortcuts + rex.search(entry.msgstr).groups()[0]
+                except AttributeError:
+                    print('ATTENTION: Maybe missing shortcut in translated '
+                          f'string.\nmsgid={entry.msgid}\n'
+                          f'msgstr={entry.msgstr}')
+
+        # redundant shorcuts?
+        if len(shortcuts) > len(set(shortcuts)):
+            print(f'ATTENTION: Found redundant shortcuts in "{po_path}". '
+                  'Please take a look.')
+            for key in msgs:
+                print(f'{key}: {msgs[key]}')
+
+
 if __name__ == '__main__':
 
     check_existence()
@@ -321,10 +367,17 @@ if __name__ == '__main__':
         print(fin_msg)
         sys.exit()
 
+    # Check for redundant &-shortcuts
+    if 'shortcuts' in sys.argv:
+        check_shortcuts()
+        sys.exit()
+
     print('Use one of the following argument keywords:\n'
           '  source  - Update the pot and po files with translatable '
           'strings extracted from py files. (Prepare upload to Weblate)\n'
           '  weblate - Update the po files with translations from '
-          'external translation service Weblate. (Download from Weblate)')
+          'external translation service Weblate. (Download from Weblate)\n'
+          '  shortcut - Check po files for redundant keyboard shortcuts '
+          'using "&"')
 
     sys.exit(1)
