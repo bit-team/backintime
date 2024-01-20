@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-12-27 15:56+0000\n"
+"PO-Revision-Date: 2024-01-12 13:56+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -58,7 +58,7 @@ msgstr "Profil: »{name}«"
 
 #: common/config.py:342
 msgid "Snapshots folder is not valid!"
-msgstr "Schnappschussordner ist nicht gültig!"
+msgstr "Schnappschussordner ist ungültig!"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
@@ -185,7 +185,7 @@ msgstr "»{command}« kann nicht eingehängt werden"
 
 #: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
-msgstr "Einstellungen für den verschlüsselten Ordner nicht gefunden."
+msgstr "Einstellungen für den verschlüsselten Ordner wurde nicht gefunden."
 
 #: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
@@ -218,7 +218,7 @@ msgstr "Schnappschuss erstellen"
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Kann {mountprocess} von {mountpoint} nicht aushängen."
+msgstr "Kann {mountprocess} nicht von {mountpoint} aushängen."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
@@ -272,7 +272,7 @@ msgstr "Schnappschuss {snapshot_id} konnte nicht erstellt werden."
 
 #: common/snapshots.py:826
 msgid "Finalizing"
-msgstr "Finalisierung läuft"
+msgstr "Finalisiere"
 
 #: common/snapshots.py:949
 msgid "Can't create folder"
@@ -295,7 +295,7 @@ msgstr ""
 #: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr "Schnappschuss »{snapshot_id}« vom letzten Vorgang wird entfernt"
+msgstr "Schnappschuss »{snapshot_id}« vom letzten Durchgang wird entfernt"
 
 #: common/snapshots.py:1179
 msgid "Can't remove folder"
@@ -342,7 +342,7 @@ msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen"
 
 #: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
-msgstr "Intelligentes Löschen"
+msgstr "Cleveres Löschen"
 
 #: common/snapshots.py:1662
 msgid "Removing old snapshots"

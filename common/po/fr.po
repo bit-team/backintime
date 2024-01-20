@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-09-18 21:13+0000\n"
-"Last-Translator: tootai <devel@tootai.net>\n"
+"PO-Revision-Date: 2024-01-18 16:24+0000\n"
+"Last-Translator: leyouki <mathieu.payn@gmail.com>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -698,11 +698,10 @@ msgid "Snapshot Name"
 msgstr "Nommer l'instantané"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Êtes-vous sûr(e) de vouloir supprimer l'instantané"
-msgstr[1] "Êtes-vous sûr(e) de vouloir supprimer l'instantané"
+msgstr[0] "Êtes-vous sûr(e) de vouloir supprimer cet instantané?"
+msgstr[1] "Êtes-vous sûr(e) de vouloir supprimer ces instantanés?"
 
 #: qt/app.py:1294
 #, fuzzy, python-brace-format
@@ -723,14 +722,13 @@ msgstr ""
 "Si vous n'avez pas besoin de ces fichiers, vous pouvez les supprimer avec '{cmd}'"
 
 #: qt/app.py:1314
-#, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Restaurer seulement les fichiers qui n'existent\n"
-"pas ou qui sont plus récents que ceux de la destination.\n"
+"Restaurer seulement les fichiers qui n'existent pas\n"
+" ou qui sont plus récents que ceux de la destination.\n"
 "Utilise l'option \"rsync --update\"."
 
 #: qt/app.py:1347

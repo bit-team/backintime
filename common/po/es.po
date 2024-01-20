@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-12-15 08:56+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2024-01-19 16:30+0000\n"
+"Last-Translator: MikeAlfa2007 <mike.alfa.2007@gmail.com>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -121,14 +121,14 @@ msgid "Expert Options"
 msgstr "Opciones avanzadas"
 
 #: common/config.py:495
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"El sistema de ficheros de destino para {path} es un recurso compartido "
-"montado en sshfs. Sshfs no soporta enlaces duros. Por favor, utilice el modo"
-" 'SSH' en su lugar."
+"El sistema de archivos de destino para {path} es un recurso montado mediante"
+" sshfs. sshfs no admite enlaces duros. Por favor, utilice el modo 'SSH' en "
+"su lugar."
 
 #: common/config.py:1591
 msgid ""
@@ -159,9 +159,9 @@ msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Programar udev no funciona con el modo {mode}"
 
 #: common/config.py:1726
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "No se pudo encontrar UUID para \"{path}\""
+msgstr "No se pudo encontrar el UUID para \"{path}\""
 
 #: common/configfile.py:107
 msgid "Failed to save config"
@@ -172,14 +172,13 @@ msgid "Failed to load config"
 msgstr "Se produjo un fallo al cargar la configuración"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "El perfil \"{name}\" ya existe."
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "Esto no se puede revocar."
+msgstr "No puede eliminar el último perfil."
 
 #: common/encfstools.py:92
 #, python-brace-format
@@ -203,36 +202,33 @@ msgid "Please confirm password"
 msgstr "Por favor, confirme la contraseña"
 
 #: common/encfstools.py:160
-#, fuzzy
 msgid "Password doesn't match."
 msgstr "La contraseña no coincide."
 
 #: common/encfstools.py:178
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
-"encfs version 1.7.2 y anteriores tienen un error al usar la opcion "
-"--reverse. Por favor actualice encfs."
+"La versión 1.7.2 de encfs y anteriores presentan un error con option "
+"--reverse. Por favor, actualice encfs."
 
 #: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
 msgstr "Tomar instantánea"
 
 #: common/mount.py:608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "No se pudo desmontar {mountprocess} de {mountpoint}."
+msgstr "No se puede desmontar {mountprocess} de {mountpoint}."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "{} no encontrado. Por favor, instale por ejemplo {}"
 
 #: common/mount.py:716
-#, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "El punto de montaje {} está en uso."
+msgstr "Punto de montaje {} no disponible."
 
 #: common/password.py:240
 #, python-brace-format
@@ -257,13 +253,12 @@ msgid "Deferring backup while on battery"
 msgstr "Aplazando la copia de seguridad mientras se usa la batería"
 
 #: common/snapshots.py:770
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"No se pudo encontrar la carpeta de instantáneas.\n"
-"Si está en una unidad extraíble, por favor, conéctela."
+"No puedo encontrar el directorio de instantáneas.\n"
+"Si se halla en una unidad extraíble, por favor conéctela."
 
 #: common/snapshots.py:772
 #, python-format

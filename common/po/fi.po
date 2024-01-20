@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-10-28 19:13+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-01-14 11:56+0000\n"
+"Last-Translator: tsilari <email.jokinen@gmail.com>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "Varoitus"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
@@ -46,7 +46,7 @@ msgstr "Salaus"
 
 #: common/config.py:303
 msgid "SSH encrypted"
-msgstr ""
+msgstr "SSH salattu"
 
 #: common/config.py:310
 msgid "Default"
@@ -70,16 +70,16 @@ msgstr "Valitse varmuuskopioitavaksi vähintään yksi kansio!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Backup -kansiota ei voi sisällyttää."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Backup -alikansiota ei voi sisällyttää."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ei ole kansio."
+msgstr "Väärä arvo. {path} ei ole kansio."
 
 #: common/config.py:450
 #, fuzzy
@@ -229,7 +229,7 @@ msgstr "Ota otos"
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "Ei voi vapauttaa {mountprocess} kohteesta {mountpoint}."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
@@ -325,20 +325,21 @@ msgstr "Otetaan otosta"
 
 #: common/snapshots.py:1254
 msgid "Success"
-msgstr ""
+msgstr "Onnistui"
 
 #: common/snapshots.py:1255
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
+"Osittain siirretty johtuen puuttuvista lähdetiedostoista ( kts. 'man rsync')"
 
 #: common/snapshots.py:1258
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' päättyi paluukoodilla {exit_code}"
 
 #: common/snapshots.py:1267
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Katso lisätietoja: 'man rsync'"
 
 #: common/snapshots.py:1271
 msgid ""
@@ -352,7 +353,7 @@ msgstr "Mikään ei ole muuttunut: uusi otos ei ole tarpeen"
 #: common/snapshots.py:1317
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr ""
+msgstr "Ei voi uudelleennimetä {new_path} nimelle {path}"
 
 #: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
@@ -443,9 +444,9 @@ msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
 #: common/sshtools.py:1062
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr "Vahvista salasana"
+msgstr "Vahvista käyttäjän \"{user}\" salasana"
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -541,9 +542,8 @@ msgid "View last log"
 msgstr "Näytä viimeisin loki"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Pääprofiili"
+msgstr "Hallinnoi profiileja…"
 
 #: qt/app.py:500
 msgid "Shutdown"
@@ -556,7 +556,7 @@ msgstr "Sammuta järjestelmän otoksen valmistuttua."
 
 #: qt/app.py:504
 msgid "Setup language…"
-msgstr ""
+msgstr "Asennuskieli…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -641,13 +641,12 @@ msgid "Show hidden files"
 msgstr "Näytä piilotiedostot"
 
 #: qt/app.py:566
-#, fuzzy
 msgid "Compare snapshots…"
-msgstr "Ota otos"
+msgstr "Vertaa otoksia…"
 
 #: qt/app.py:627
 msgid "&Backup"
-msgstr ""
+msgstr "&Varmuuskopio"
 
 #: qt/app.py:638
 #, fuzzy
@@ -692,7 +691,7 @@ msgstr "Lähetetty"
 
 #: qt/app.py:995 qt/qtsystrayicon.py:202
 msgid "Speed"
-msgstr ""
+msgstr "Nopeus"
 
 #: qt/app.py:996 qt/qtsystrayicon.py:203
 #, fuzzy
@@ -720,11 +719,10 @@ msgid "Snapshot Name"
 msgstr "Otoksen nimi"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Oletko varma että haluat poistaa otoksen"
-msgstr[1] "Oletko varma että haluat poistaa otoksen"
+msgstr[0] "Oletko varma että haluat poistaa nämä otokset?"
+msgstr[1] "Oletko varma että haluat poistaa nämä otokset?"
 
 #: qt/app.py:1294
 #, fuzzy, python-brace-format
@@ -756,9 +754,8 @@ msgstr ""
 "Käytetään ”rsync --update” -asetusta."
 
 #: qt/app.py:1347
-#, fuzzy
 msgid "Remove newer elements in original folder."
-msgstr "Poista alkuperäiskansiosta uudemmat tiedostot"
+msgstr "Poista alkuperäiskansiosta uudemmat elementit."
 
 #: qt/app.py:1348
 #, fuzzy
@@ -775,7 +772,7 @@ msgstr ""
 "Ole hyvin varovainen!"
 
 #: qt/app.py:1361
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -783,18 +780,17 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Haluatko varmasti palauttaa nämä tiedostot\n"
-"uuteen kansioon ”{path}”"
+"Haluatko varmasti palauttaa nämä tiedostot uuteen kansioon\n"
+"{path}?"
 msgstr[1] ""
-"Haluatko varmasti palauttaa nämä tiedostot\n"
-"uuteen kansioon ”{path}”"
+"Haluatko varmasti palauttaa nämä tiedostot uuteen kansioon\n"
+"{path}?"
 
 #: qt/app.py:1370
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Haluatko varmasti palauttaa nämä tiedostot"
-msgstr[1] "Haluatko varmasti palauttaa nämä tiedostot"
+msgstr[0] "Haluatko varmasti palauttaa tämän tiedoston?"
+msgstr[1] "Haluatko varmasti palauttaa nämä tiedostot?"
 
 #: qt/app.py:1385
 #, fuzzy, python-brace-format
@@ -808,12 +804,11 @@ msgstr ""
 "Haluatko varmasti poistaa alkuperäisen kansion kaikki uudemmat tiedostot?"
 
 #: qt/app.py:1393
-#, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 "VAROITUS: tiedostojen poistaminen tiedostojärjestelmän juuresta voi rikkoa "
-"järjestlemän!!!"
+"järjestelmän!!!"
 
 #: qt/app.py:1623
 #, fuzzy
@@ -832,7 +827,7 @@ msgstr "Palauta {path} kohteeseen…"
 
 #: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
-msgstr ""
+msgstr "Kielivalinta astuu voimaan uudelleenkäynnistyksen jälkeen."
 
 #: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
@@ -848,21 +843,20 @@ msgstr "Lisenssi"
 
 #: qt/languagedialog.py:29
 msgid "Setup language"
-msgstr ""
+msgstr "Asennuskieli"
 
 #: qt/languagedialog.py:87
-#, fuzzy
 msgid "System default"
-msgstr "oletus"
+msgstr "Järjestelmän oletus"
 
 #: qt/languagedialog.py:94
 msgid "Use operating systems language."
-msgstr ""
+msgstr "Käytä järjestelmän kielivalintaa."
 
 #: qt/languagedialog.py:146
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "Käännetty: {percent}"
 
 #: qt/languagedialog.py:184
 #, python-brace-format
@@ -874,6 +868,12 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
+"Hei,\n"
+"Olet käyttänyt Back In Time -sovellusta kielellä: {language} jo jonkin aikaa.\n"
+"Ohjelmaversiosi käännös kielelle {language} on {perc} valmis. Riippumatta teknisestä osaamisestasi voit osallistua käännöksen ja sitä kautta myös Back In Time -ohjelman kehitykseen itsekin.\n"
+"Siirry osoitteeseen {translation_platform_url} jos haluat osallistua. Lisätietoja saat myös osoitteesta: {back_in_time_project_website}.\n"
+"Pyydämme anteeksi keskeytystä eikä tätä ilmoitusta näytetä uudestaan. Tämä viesti on saatavilla koska tahansa help -menun kautta.\n"
+"Sinun Back In Time Team"
 
 #: qt/languagedialog.py:216
 #, fuzzy
@@ -960,9 +960,8 @@ msgid "Start {appname}"
 msgstr "Käynnistä {appname}"
 
 #: qt/qtsystrayicon.py:168
-#, fuzzy
 msgid "Working…"
-msgstr "Käsitellään"
+msgstr "Käsitellään…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -1130,7 +1129,7 @@ msgstr "Tunnin välein"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "{n} tunnin välein"
@@ -1313,9 +1312,8 @@ msgid "If free inodes is less than"
 msgstr "Kun vapaita inodeja on alle"
 
 #: qt/settingsdialog.py:678
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Älykäs poisto"
+msgstr "Älykäs poisto:"
 
 #: qt/settingsdialog.py:689
 #, fuzzy
@@ -1332,9 +1330,8 @@ msgid "Keep all snapshots for the last"
 msgstr "Säilytä kaikki otokset"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-#, fuzzy
 msgid "day(s)."
-msgstr "viime päivältä"
+msgstr "viime päivältä (/päiviltä)."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
@@ -1345,28 +1342,24 @@ msgid "Keep one snapshot per week for the last"
 msgstr "Säilytä yksi otos kultakin viikolta"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "viime viikolta"
+msgstr "viime viikolta (/viikoilta)."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
 msgstr "Säilytä yksi otos kultakin kuulta"
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "viime kuulta"
+msgstr "viime kuulta (/kuukausilta)."
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "Keep one snapshot per year for all years."
-msgstr "Säilytä yksi otos kultakin vuodelta"
+msgstr "Säilytä yksi otos kultakin vuodelta."
 
 #: qt/settingsdialog.py:733
-#, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "Älä poista nimettyjä otoksia"
+msgstr "Älä poista nimettyjä otoksia."
 
 #: qt/settingsdialog.py:745
 #, fuzzy
@@ -1438,9 +1431,9 @@ msgid ""
 msgstr "Muuta näitä asetuksia vain, jos tiedät, mitä teet."
 
 #: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr "Suorita rsync nocachellä:"
+msgstr "Suorita rsync komennolla  '{cmd}':"
 
 #: qt/settingsdialog.py:842 qt/settingsdialog.py:858
 msgid "as cron job"
@@ -1572,13 +1565,12 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Haluatko varmasti poistaa profiilin ”{name}”?"
 
 #: qt/settingsdialog.py:1416
-#, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
 "Mukautettujen tuntien on oltava pilkuin erotettu tuntiluettelo (esim. "
-"8,12,18,23) tai */3 varmuuskopioille kolmen tunnin välein"
+"8,12,18,23) tai */3 varmuuskopioille kolmen tunnin välein."
 
 #: qt/settingsdialog.py:1458
 msgid ""

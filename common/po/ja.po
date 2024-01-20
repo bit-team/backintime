@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-10-16 18:53+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-01-18 16:24+0000\n"
+"Last-Translator: kazuo <kazu.nito@gmail.com>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0.2\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -45,7 +45,7 @@ msgstr "暗号"
 
 #: common/config.py:303
 msgid "SSH encrypted"
-msgstr "暗号化SSH"
+msgstr "SSH暗号化"
 
 #: common/config.py:310
 msgid "Default"
@@ -59,28 +59,28 @@ msgstr "プロファイル: 「{name}」"
 
 #: common/config.py:342
 msgid "Snapshots folder is not valid!"
-msgstr "スナップショットのフォルダは有効ではありません！"
+msgstr "スナップショットフォルダが無効です！"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
-msgstr "バックアップするためには最低1つのフォルダを選択しなくてはなりません！"
+msgstr "バックアップするフォルダを少なくとも1つ選択する必要があります！"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "バックアップフォルダを含めることはできません。"
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "バックアップのサブフォルダを含めることはできません。"
 
 #: common/config.py:441
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} はフォルダではありません"
+msgstr "無効なオプションです。{path} はフォルダではありません。"
 
 #: common/config.py:450
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "ホスト/ユーザ/プロファイルID を記入してください"
+msgstr "ホスト/ユーザ/プロファイルID を入力してください。"
 
 #: common/config.py:460 common/config.py:507
 #, python-brace-format
@@ -88,8 +88,8 @@ msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"{path} に書き込めません。\n"
-"書き込み権限を持っていますか？"
+"書き込めません： {path}\n"
+"本当に書き込み権限がありますか？"
 
 #: common/config.py:477
 #, python-brace-format
@@ -97,8 +97,8 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"{path} のあるファイルシステムは 、ハードリンクをサポートしていないFAT でフォーマットされています "
-"。Linux用のファイルシステムをお使いください。"
+"{path} "
+"の保存先ファイルシステムは、ハードリンクをサポートしないFATでフォーマットされています。ネイティブのLinuxファイルシステムを使用してください。"
 
 #: common/config.py:486
 #, python-brace-format
@@ -107,12 +107,13 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"{path} のある場所は SMB共有サーバーです リモートSMBサーバーがシンボリックリンクをサポートしているか確認してください、または "
-"{expertOptions} で {copyLinks} を有効化してください"
+"{path} の保存先ファイルシステム は SMB マウントされた共有です。 "
+"リモートSMBサーバーがシンボリックリンクをサポートしているか確認してください、または {expertOptions} で {copyLinks} "
+"を有効化してください。"
 
 #: common/config.py:490 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
-msgstr "リンクをコピー（シンボリックリンクを参照）"
+msgstr "リンクをコピーする（シンボリックリンクの参照解除）"
 
 #: common/config.py:491
 msgid "Expert Options"
@@ -124,7 +125,8 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"{path} のあるファイルシステムは sshfs共有サーバです sshfs はハードリンクをサポートしていません 'SSH' をお使いください"
+"{path} の保存先ファイルシステムは sshfs マウントされた共有です。 sshfs はハードリンクをサポートしていません 。代わりにモード "
+"'SSH' を使用してください。"
 
 #: common/config.py:1591
 msgid ""
@@ -134,7 +136,7 @@ msgid ""
 msgstr ""
 "crontabが見つかりません。\n"
 "cronがインストールされていることを確認しましたか？\n"
-"そうでない場合、全ての自動バックアップを無効にすべきです。"
+"そうでない場合、自動バックアップをすべて無効にしてください。"
 
 #: common/config.py:1597
 msgid "Failed to write new crontab."
@@ -146,7 +148,7 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"プロファイル {profile_id} の Udev ルールをインストールできませんでした DBus サービス 「{dbus_interface}」 "
+"プロファイル {profile_id} の Udev ルールをインストールできませんでした。 DBus サービス 「{dbus_interface}」 "
 "が有効ではありません"
 
 #: common/config.py:1715
@@ -170,11 +172,11 @@ msgstr "設定を読み込めませんでした"
 #: common/configfile.py:691 common/configfile.py:790
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "プロファイル 「{name}」 はすでに存在しています"
+msgstr "プロファイル 「{name}」 はすでに存在しています。"
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
-msgstr ""
+msgstr "最後のプロファイルを削除することはできません。"
 
 #: common/encfstools.py:92
 #, python-brace-format
@@ -183,7 +185,7 @@ msgstr "{command} をマウントできません"
 
 #: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
-msgstr "暗号化されたフォルダの設定がみつかりません"
+msgstr "暗号化されたフォルダの設定がみつかりません。"
 
 #: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
@@ -191,7 +193,7 @@ msgstr "新しい暗号化フォルダを作成しますか?"
 
 #: common/encfstools.py:151
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: common/encfstools.py:156
 msgid "Please confirm password"
@@ -199,13 +201,13 @@ msgstr "パスワード確認"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
-msgstr ""
+msgstr "パスワードが一致しません。"
 
 #: common/encfstools.py:178
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
-msgstr ""
+msgstr "encfsのバージョン1.7.2と 以前は --reverse オプションにバグがあった。encfsをアップデートしてください。"
 
 #: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
@@ -214,15 +216,15 @@ msgstr "スナップショット取得"
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "{mountprocess} を {mountpoint} からアンマウントできない。"
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "{} が見つかりません。インストールしてください。例 {}"
 
 #: common/mount.py:716
 msgid "Mountpoint {} not empty."
-msgstr ""
+msgstr "マウントポイント {} が空ではありません。"
 
 #: common/password.py:240
 #, python-brace-format
@@ -274,9 +276,8 @@ msgid "Can't create folder"
 msgstr "フォルダを作成できません"
 
 #: common/snapshots.py:966
-#, fuzzy
 msgid "Saving config file…"
-msgstr "設定ファイルを保存..."
+msgstr "設定ファイルの保存…"
 
 #: common/snapshots.py:1042
 #, fuzzy
@@ -303,20 +304,20 @@ msgstr "スナップショットの取得"
 
 #: common/snapshots.py:1254
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 #: common/snapshots.py:1255
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
-msgstr ""
+msgstr "ソースファイルの消失による部分的な転送 (man rsync' を参照)"
 
 #: common/snapshots.py:1258
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' は終了コード {exit_code} で終了しました"
 
 #: common/snapshots.py:1267
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "詳細は'man rsync'を参照"
 
 #: common/snapshots.py:1271
 msgid ""

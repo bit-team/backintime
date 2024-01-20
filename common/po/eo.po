@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-10-28 19:13+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-01-18 22:31+0000\n"
+"Last-Translator: zvavybir <m.kaak@protonmail.ch>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -67,19 +67,18 @@ msgstr "Vi devas elekti almenaŭ unun dosierujon por sekurkopio!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Savkopi-dosierujon ne eblis inkluzivi."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Savkopi-subdosierujon ne eblis inkluzivi."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ne estas dosierujo."
+msgstr "Nevalida opcio. {path} ne estas dosierujo."
 
 #: common/config.py:450
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
 msgstr ""
 "Gastiga komputilo/Uzanto/Identigilo de profilo ne devas esti malplena."
@@ -136,10 +135,13 @@ msgid ""
 "Are you sure cron is installed?\n"
 "If not you should disable all automatic backups."
 msgstr ""
+"Ne povas trovi crontab-o.\n"
+"Ĉu vi certas, ke cron estas instalita?\n"
+"Se ne, vi devus malvalidigi ĉiujn aŭtomatajn savkopiojn."
 
 #: common/config.py:1597
 msgid "Failed to write new crontab."
-msgstr ""
+msgstr "Malsukcesis skribi novan crontab-on."
 
 #: common/config.py:1700
 #, python-brace-format
@@ -147,39 +149,40 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
+"Ne povis instali udev-regulo por profilo {profile_id}. DBus-servo "
+"{dbus_interface} ne estis havebla"
 
 #: common/config.py:1715
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr ""
+msgstr "udev-planado ne funkcias je reĝimo {mode}"
 
 #: common/config.py:1726
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr ""
+msgstr "Ne povas trovi UUID por {path}"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
-msgstr ""
+msgstr "Malsukcesis savi agordon"
 
 #: common/configfile.py:143
 msgid "Failed to load config"
-msgstr ""
+msgstr "Malsukcesis meti agordo"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profilo \"{name}\" jam ekzistas."
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
 msgstr "Ĉi tio ne povas esti nuligita."
 
 #: common/encfstools.py:92
 #, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr ""
+msgstr "Ne povas surmeti '{command}'"
 
 #: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
@@ -297,15 +300,15 @@ msgstr "Ne povas forigi dosieron"
 
 #: common/snapshots.py:1222
 msgid "Taking snapshot"
-msgstr ""
+msgstr "Faras ekrankopion"
 
 #: common/snapshots.py:1254
 msgid "Success"
-msgstr ""
+msgstr "Sukceso"
 
 #: common/snapshots.py:1255
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
-msgstr ""
+msgstr "Parta transmeto, ĉar la fontaj dosieroj malaperis (vidu 'man rsync')"
 
 #: common/snapshots.py:1258
 #, python-brace-format
@@ -323,7 +326,7 @@ msgstr ""
 
 #: common/snapshots.py:1286
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Nenio estas ŝanĝita, nova momentaĵo ne estas necesa"
 
 #: common/snapshots.py:1317
 #, python-brace-format
@@ -332,15 +335,15 @@ msgstr "Ne povas renomi {new_path} al {path}"
 
 #: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
-msgstr ""
+msgstr "Inteligenta forigo"
 
 #: common/snapshots.py:1662
 msgid "Removing old snapshots"
-msgstr ""
+msgstr "Malnovaj momentaĵoj estas forigitaj"
 
 #: common/snapshots.py:1697
 msgid "Trying to keep min free space"
-msgstr ""
+msgstr "Provas konservi la minimumo da neokupita diskospaco"
 
 #: common/snapshots.py:1736
 #, python-brace-format
@@ -369,24 +372,23 @@ msgstr ""
 #: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "Ĉifro {cipher} malsukcesas por {host}."
 
 #: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
-msgstr ""
+msgstr "Fora vojo ekzistas, sed ne estas dosierujo."
 
 #: common/sshtools.py:658
 msgid "Remote path is not writable."
-msgstr ""
+msgstr "Fora vojo ne estas skribebla."
 
 #: common/sshtools.py:663
 msgid "Remote path is not executable."
-msgstr ""
+msgstr "Fora vojo ne estas plenumebla."
 
 #: common/sshtools.py:668
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Ne povas krei dosieron."
+msgstr "Ne povis krei foran vojon."
 
 #: common/sshtools.py:948
 #, python-brace-format

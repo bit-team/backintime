@@ -8,86 +8,83 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-10-28 19:13+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-01-18 04:06+0000\n"
+"Last-Translator: Lucky-2411 <laki71@gmail.com>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "Upozorenje"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
-msgstr "Главни профил"
+msgstr "Glavni profil"
 
 #: common/config.py:292 common/config.py:297
 msgid "Local"
-msgstr "Локално"
+msgstr "Lokalno"
 
 #: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
 msgid "SSH private key"
-msgstr "SSH приватни кључ"
+msgstr "SSH privatan ključ"
 
 #: common/config.py:297
-#, fuzzy
 msgid "encrypted"
-msgstr "SSH енкриптован"
+msgstr "enkriptovano"
 
 #: common/config.py:298 common/config.py:305
 msgid "Encryption"
-msgstr "Енкрипција"
+msgstr "Enkripcija"
 
 #: common/config.py:303
 msgid "SSH encrypted"
-msgstr "SSH енкриптован"
+msgstr "SSH enkriptovano"
 
 #: common/config.py:310
 msgid "Default"
-msgstr "Подразумевано"
+msgstr "Podrazumevano"
 
 #: common/config.py:341 common/config.py:353 common/config.py:370
 #: common/config.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
-msgstr "Direktorijum za snimak nije ispravan!"
+msgstr "Direktorijum za snimak nije važeći!"
 
 #: common/config.py:354
-#, fuzzy
 msgid "You must select at least one folder to back up!"
-msgstr "Morate odabrati bar jedan direktorijum za rezervne kopije!"
+msgstr ""
+"Morate odabrati bar jedan direktorijum da bi napravili rezervnu kopiju!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Direktorijum za rezervne kopije ne moze biti uključen."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Pod-direktorijum za rezervne kopije ne moze biti uključen."
 
 #: common/config.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} nije direktorijum."
+msgstr "Nevažeća postavka. {path} nije direktorijum."
 
 #: common/config.py:450
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Host/Корисник/ИД-Профила морају бити попуњени."
+msgstr "Host/Korisnik/ID-Profila moraju biti popunjeni."
 
 #: common/config.py:460 common/config.py:507
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
@@ -101,6 +98,9 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"Odredište sistema datoteka za {path} je formatiran sa FAT koji ne podržava "
+"čvrste veze. Molim Vas da koristite sistemske datoteke koje Linuks izvorno "
+"podržava."
 
 #: common/config.py:486
 #, python-brace-format
@@ -109,14 +109,17 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
+"Destinacija sistema datoteke za {path} je SMB-montirano deljeno mesto. Molim"
+" Vas da potvrdite da udaljeni SMB server podržava symlinks ili uključite "
+"{copyLinks} u {expertOptions}."
 
 #: common/config.py:490 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
-msgstr "Копирај линкове (прати симболичне линкове)"
+msgstr "Kopiraj linkove (prati simbolične linkove)"
 
 #: common/config.py:491
 msgid "Expert Options"
-msgstr "Напредне Опције"
+msgstr "Napredne Postavke"
 
 #: common/config.py:495
 #, python-brace-format
@@ -124,6 +127,8 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"Odredište sistema datoteka za {path} je sshfs-montirano deljeno mesto. sshfs"
+" ne podržava čvrste veze. Molimo vas da koristite 'SSH' umesto toga."
 
 #: common/config.py:1591
 #, fuzzy
@@ -146,6 +151,8 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
+"Neuspešno instaliranje Udev pravila za profil {profile_id}. DBus Service "
+"'{dbus_interface}' nije dostupan"
 
 #: common/config.py:1715
 #, python-brace-format
