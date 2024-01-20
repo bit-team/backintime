@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-12-27 15:56+0000\n"
+"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"PO-Revision-Date: 2024-01-12 13:56+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -58,7 +58,7 @@ msgstr "Profil: »{name}«"
 
 #: common/config.py:342
 msgid "Snapshots folder is not valid!"
-msgstr "Schnappschussordner ist nicht gültig!"
+msgstr "Schnappschussordner ist ungültig!"
 
 #: common/config.py:354
 msgid "You must select at least one folder to back up!"
@@ -185,7 +185,7 @@ msgstr "»{command}« kann nicht eingehängt werden"
 
 #: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
-msgstr "Einstellungen für den verschlüsselten Ordner nicht gefunden."
+msgstr "Einstellungen für den verschlüsselten Ordner wurde nicht gefunden."
 
 #: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
@@ -218,7 +218,7 @@ msgstr "Schnappschuss erstellen"
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Kann {mountprocess} von {mountpoint} nicht aushängen."
+msgstr "Kann {mountprocess} nicht von {mountpoint} aushängen."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
@@ -242,7 +242,7 @@ msgid "Restore permissions"
 msgstr "Berechtigungen wiederherstellen"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:79
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Fertig"
 
@@ -272,7 +272,7 @@ msgstr "Schnappschuss {snapshot_id} konnte nicht erstellt werden."
 
 #: common/snapshots.py:826
 msgid "Finalizing"
-msgstr "Finalisierung läuft"
+msgstr "Finalisiere"
 
 #: common/snapshots.py:949
 msgid "Can't create folder"
@@ -295,7 +295,7 @@ msgstr ""
 #: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr "Schnappschuss »{snapshot_id}« vom letzten Vorgang wird entfernt"
+msgstr "Schnappschuss »{snapshot_id}« vom letzten Durchgang wird entfernt"
 
 #: common/snapshots.py:1179
 msgid "Can't remove folder"
@@ -342,7 +342,7 @@ msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen"
 
 #: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
-msgstr "Intelligentes Löschen"
+msgstr "Cleveres Löschen"
 
 #: common/snapshots.py:1662
 msgid "Removing old snapshots"
@@ -486,15 +486,15 @@ msgstr "Schnappschuss erstellen (Prüfsummen Modus)"
 msgid "Use checksums for file change detection."
 msgstr "Prüfsumme benutzen, um Änderungen von Dateien zu erkennen."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Schnappschuss anhalten"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:88
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Schnappschuss fortsetzen"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:93
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Schnappschuss stoppen"
 
@@ -656,15 +656,15 @@ msgstr "In Bearbeitung"
 msgid "Error"
 msgstr "Fehler"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:201
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Gesendet"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:202
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Geschwindigkeit"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:203
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Verbleibend"
 
@@ -863,7 +863,7 @@ msgstr "Letzte Protokollansicht"
 msgid "Snapshot Log View"
 msgstr "Schnappschussprotokollansicht"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:75 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Profil"
@@ -897,7 +897,7 @@ msgstr "Informationen"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Fehler, [I] Information, [C] Änderung"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:97
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "Pfade entschlüsseln"
 
@@ -917,16 +917,16 @@ msgstr "Wollen Sie das ausschließen?"
 msgid "Question"
 msgstr "Frage"
 
-#: qt/qtsystrayicon.py:102
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr "Letztes Protokoll ansehen"
 
-#: qt/qtsystrayicon.py:106
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Starte {appname}"
 
-#: qt/qtsystrayicon.py:168
+#: qt/qtsystrayicon.py:169
 msgid "Working…"
 msgstr "In Bearbeitung…"
 
@@ -1197,7 +1197,7 @@ msgstr "Verzeichnis hinzufügen"
 
 #: qt/settingsdialog.py:521
 msgid "&Exclude"
-msgstr "Ausschließen"
+msgstr "Aus&schließen"
 
 #: qt/settingsdialog.py:528
 #, python-brace-format

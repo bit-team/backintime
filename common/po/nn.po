@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-09 11:59+0100\n"
-"PO-Revision-Date: 2023-10-28 19:13+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"PO-Revision-Date: 2024-01-20 18:28+0000\n"
+"Last-Translator: hansfn <hansfn@gmail.com>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
-msgstr ""
+msgstr "Åtvaring"
 
 #: common/config.py:139 common/config.py:282
 msgid "Main profile"
@@ -29,11 +29,11 @@ msgstr "Hovudprofil"
 
 #: common/config.py:292 common/config.py:297
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 #: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
 msgid "SSH private key"
-msgstr ""
+msgstr "Privat SSH-nøkkel"
 
 #: common/config.py:297
 msgid "encrypted"
@@ -53,19 +53,17 @@ msgstr "Standardverdi"
 
 #: common/config.py:341 common/config.py:353 common/config.py:370
 #: common/config.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:342
-#, fuzzy
 msgid "Snapshots folder is not valid!"
 msgstr "Mappa for augneblinksbileta er ugyldig!"
 
 #: common/config.py:354
-#, fuzzy
 msgid "You must select at least one folder to back up!"
-msgstr "Du må velja minst éi mappe for kopiering!"
+msgstr "Du må velja minst éi mappe for sikkerheitskopiering!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
@@ -235,7 +233,7 @@ msgid "Restore permissions"
 msgstr "Lagra løyve"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:79
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Fullført"
 
@@ -471,15 +469,15 @@ msgstr ""
 msgid "Use checksums for file change detection."
 msgstr ""
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr ""
 
-#: qt/app.py:468 qt/qtsystrayicon.py:88
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr ""
 
-#: qt/app.py:472 qt/qtsystrayicon.py:93
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr ""
 
@@ -615,12 +613,12 @@ msgstr ""
 #: qt/app.py:638
 #, fuzzy
 msgid "&Restore"
-msgstr "Før tilbake"
+msgstr "Før &tilbake"
 
 #: qt/app.py:644
 #, fuzzy
 msgid "&Help"
-msgstr "Hjelp"
+msgstr "&Hjelp"
 
 #: qt/app.py:761
 msgid ""
@@ -645,15 +643,15 @@ msgstr "Arbeider"
 msgid "Error"
 msgstr ""
 
-#: qt/app.py:994 qt/qtsystrayicon.py:201
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr ""
 
-#: qt/app.py:995 qt/qtsystrayicon.py:202
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr ""
 
-#: qt/app.py:996 qt/qtsystrayicon.py:203
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr ""
 
@@ -832,7 +830,7 @@ msgstr ""
 msgid "Snapshot Log View"
 msgstr ""
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:75 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 #, fuzzy
 msgid "Profile"
@@ -867,7 +865,7 @@ msgstr ""
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:97
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr ""
 
@@ -887,16 +885,16 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-#: qt/qtsystrayicon.py:102
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr ""
 
-#: qt/qtsystrayicon.py:106
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
 msgstr ""
 
-#: qt/qtsystrayicon.py:168
+#: qt/qtsystrayicon.py:169
 #, fuzzy
 msgid "Working…"
 msgstr "Arbeider…"
@@ -1146,7 +1144,7 @@ msgstr ""
 #: qt/settingsdialog.py:484
 #, fuzzy
 msgid "&Include"
-msgstr "Inkluder mappe"
+msgstr "&Inkluder mappe"
 
 #: qt/settingsdialog.py:491
 msgid "Include files and folders"
@@ -1163,7 +1161,7 @@ msgstr ""
 #: qt/settingsdialog.py:521
 #, fuzzy
 msgid "&Exclude"
-msgstr "Ekskluder fil"
+msgstr "&Ekskluder fil"
 
 #: qt/settingsdialog.py:528
 #, python-brace-format
