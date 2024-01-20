@@ -309,6 +309,9 @@ def check_shortcuts():
     These situation can happen in translated strings and is not easy to
     review or control. This function tries to find such redundancies in
     the po-files.
+
+    Review the output with care because it there is a high risk of false
+    positive warnings.
     """
 
     # RegEx pattern: & followed by a word character (as group)
@@ -319,10 +322,17 @@ def check_shortcuts():
         print(f'\nProcessing {po_path}...')
         # Remember shortcut relevant entries.
         msgs = {}
-        shortcuts = ''
+
+        # All characters used as shortcuts. 'T' is used in "Back In &Time"
+        # which is an untranslated string.
+        shortcuts = 'T'
 
         # each entry in po-file
         for entry in polib.pofile(po_path):
+
+            # Ignore untranslated or obsolete strings
+            if not entry.msgstr or entry.obsolete:
+                continue
 
             # Source string contain "&"
             if rex.search(entry.msgid):
@@ -339,7 +349,7 @@ def check_shortcuts():
 
         # redundant shorcuts?
         if len(shortcuts) > len(set(shortcuts)):
-            print(f'ATTENTION: Found redundant shortcuts in "{po_path}". '
+            print(f'ATTENTION: Maybe redundant shortcuts in "{po_path}". '
                   'Please take a look.')
             for key in msgs:
                 print(f'{key}: {msgs[key]}')
