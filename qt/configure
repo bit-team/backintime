@@ -134,6 +134,13 @@ printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 
 #create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
+
+# Migration
+printf "\t#clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
+printf "\trm -f /etc/dbus-1/system.d/net.launchpad.backintime.serviceHelper.conf\n" >> ${MAKEFILE}
+printf "\trm -f $(DEST)/share/backintime/plugins/qt4plugin.py\n" >> ${MAKEFILE}
+addNewline
+
 addComment "python"
 addUninstallDir          "/share/backintime/qt/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/qt/__pycache__"
