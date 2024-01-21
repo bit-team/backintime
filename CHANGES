@@ -14,6 +14,8 @@ Version 1.4.2-dev (development of upcoming release)
 * Build: Activate PyLint warning W1401 (anomalous-backslash-in-string).
 * Build: Add codespell config.
 * Build: Allow manual specification of python executable (--python=PYTHON_PATH) in common/configure and qt/configure
+* Build: Install dbus configuration file to /usr/share not /etc (#1596)
+* Build: `configure` does delete old installed files (`qt4plugin.py` and `net.launchpad.backintime.serviceHelper.conf`) that were renamed or moved in a previous release (#1596)
 * Translation: Minor modifications in source strings and updating language files.
 * Refactor: Solved circular dependency between tools.py and logger.py to fix #820
 * Improved: qtsystrayicon.py, qt5_probing.py, usercallbackplugin.py and all parts of app.py
