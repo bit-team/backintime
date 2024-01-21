@@ -108,7 +108,7 @@ replaced with PyPi packages.
 
 ### Build and install via `make` system (recommended)
 
-Remember that _Back In Time_ do consists of two packages, which must be build
+Remember that _Back In Time_ does consists of two packages, which must be build
 and installed separately accordingly.
 
 * Command line tool
