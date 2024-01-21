@@ -108,7 +108,7 @@ replaced with PyPi packages.
 
 ### Build and install via `make` system (recommended)
 
-Remember that _Back In Time_ does consists of two packages, which must be build
+Remember that _Back In Time_ does consist of two packages, which must be built
 and installed separately accordingly.
 
 * Command line tool
@@ -129,7 +129,7 @@ See `common/configure --help` and `qt/configure --help` for details.
 ### Build own `deb` file
 
 1. Run `./makedeb.sh` in the repositories root directory.
-2. Two `deb` files are build and places in the repositories parent directory.
+2. Two `deb` files are built and places in the repositories parent directory.
 3. Install the packages
   - `sudo dpkg -i ../backintime-common-<version>.deb`
   - `sudo dpkg -i ../backintime-qt-<version>.deb`
