@@ -142,6 +142,13 @@ printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 
 #create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
+
+# Migration
+printf "\t#clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
+printf "\trm -f /etc/dbus-1/system.d/net.launchpad.backintime.serviceHelper.conf\n" >> ${MAKEFILE}
+printf "\trm -f $(DEST)/share/backintime/plugins/qt4plugin.py\n" >> ${MAKEFILE}
+addNewline
+
 addComment "python"
 addUninstallDir          "/share/backintime/qt/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/qt/__pycache__"
@@ -170,10 +177,10 @@ addUninstallDir                                     "/share/dbus-1"
 addNewline
 
 addComment "dbus conf"
-addInstallDir                                    "/../etc/dbus-1/system.d"
-addInstallFiles "net.launchpad.backintime*.conf" "/../etc/dbus-1/system.d"
-addUninstallDir                                  "/../etc/dbus-1"
-addUninstallDir                                  "/../etc"
+addInstallDir                                    "/share/dbus-1/system.d"
+addInstallFiles "net.launchpad.backintime*.conf" "/share/dbus-1/system.d"
+addUninstallDir                                  "/share/dbus-1"
+addUninstallDir                                  "/share"
 addNewline
 
 addComment "polkit action"
