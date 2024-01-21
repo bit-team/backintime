@@ -452,7 +452,7 @@ class MainWindow(QMainWindow):
             'act_take_snapshot': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
-                _('Use modification time & size for file change detection.')),
+                _('Take a snapshot: Use modification time & size for file change detection.')),
 
             'act_take_snapshot_checksum': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot (checksum mode)'),
