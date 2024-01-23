@@ -11,7 +11,7 @@ UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
-PYTHON="python3"
+PYTHON="/usr/bin/python3"
 
 USR_BIN_FILES="backintime-qt backintime-qt_polkit"
 DBUS_SERVICE_FILES="net.launchpad.backintime.serviceHelper.service"
@@ -118,9 +118,13 @@ if [ -n "$unknown_args" ]; then
 	echo "Unknown Arguments: $unknown_args"
 fi
 
+if [ ! -f "$PYTHON" ]; then
+    echo "Warning: \"${PYTHON}\" not found on this computer"
+fi
+
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
-if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ] \
+if [ -n "$(sed -e "s#^/usr/bin/python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ] \
     && [ -n "$(sed -e "s#^Exec=/usr/bin/python3\? #Exec=${PYTHON} #gw /dev/stdout" -i $DBUS_SERVICE_FILES)" ]
 then
     echo "Replacement of python path with \"${PYTHON}\" successful."
