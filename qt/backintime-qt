@@ -28,4 +28,4 @@ else
 	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/qt")
 fi
 
-python3 -Es ${APP_PATH}/app.py "$@"
+/usr/bin/python3 -Es ${APP_PATH}/app.py "$@"

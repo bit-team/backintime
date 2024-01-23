@@ -11,7 +11,7 @@ UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
-PYTHON="python3"
+PYTHON="/usr/bin/python3"
 
 USR_BIN_FILES="backintime backintime-askpass"
 
@@ -133,7 +133,11 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
-if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ]
+if [ ! -f "$PYTHON" ]; then
+    echo "Warning: \"${PYTHON}\" not found on this computer"
+fi
+
+if [ -n "$(sed -e "s#^/usr/bin/python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ]
 then
     echo "Replacement of python path with \"${PYTHON}\" successful."
 else
