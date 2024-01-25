@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-15 10:12+0100\n"
+"POT-Creation-Date: 2024-01-20 21:34+0100\n"
 "PO-Revision-Date: 2023-11-07 09:13+0000\n"
 "Last-Translator: jpb <jpbeltman@live.nl>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
@@ -31,7 +31,7 @@ msgstr "Hoofdprofiel"
 msgid "Local"
 msgstr "Lokaal"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
+#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
 msgid "SSH private key"
 msgstr "SSH-privésleutel"
 
@@ -213,7 +213,7 @@ msgstr ""
 "encfs-versie 1.7.2 en daarvoor hebben een fout met de optie --reverse. Werk "
 "encfs a.u.b. bij."
 
-#: common/encfstools.py:516 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
 msgstr "Momentopname maken"
 
@@ -244,15 +244,15 @@ msgid "Restore permissions"
 msgstr "Rechten herstellen"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Voltooid"
 
-#: common/snapshots.py:704
+#: common/snapshots.py:708
 msgid "Deferring backup while on battery"
 msgstr "Back-up uitstellen indien op batterij"
 
-#: common/snapshots.py:766
+#: common/snapshots.py:770
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -260,105 +260,105 @@ msgstr ""
 "Kan momentopnamemap niet vinden.\n"
 "Als deze op een extern medium staat, gelieve dit aan te sluiten."
 
-#: common/snapshots.py:768
+#: common/snapshots.py:772
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Wacht %s seconde."
 msgstr[1] "Wacht %s seconden."
 
-#: common/snapshots.py:805
+#: common/snapshots.py:809
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Kon momentopname {snapshot_id} niet maken."
 
-#: common/snapshots.py:822
+#: common/snapshots.py:826
 msgid "Finalizing"
 msgstr "Voltooien"
 
-#: common/snapshots.py:945
+#: common/snapshots.py:949
 msgid "Can't create folder"
 msgstr "Kan map niet aanmaken"
 
-#: common/snapshots.py:962
+#: common/snapshots.py:966
 #, fuzzy
 msgid "Saving config file…"
 msgstr "Configuratiebestand opslaan..."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1042
 #, fuzzy
 msgid "Saving permissions…"
 msgstr "Rechten opslaan..."
 
-#: common/snapshots.py:1146
+#: common/snapshots.py:1150
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Restant van '{snapshot_id}' gevonden waarmee u verder kunt gaan."
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Resterende map '{snapshot_id}' van de laatste keer verwijderen"
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1179
 msgid "Can't remove folder"
 msgstr "Kan map niet verwijderen"
 
-#: common/snapshots.py:1218
+#: common/snapshots.py:1222
 msgid "Taking snapshot"
 msgstr "Momentopname wordt gemaakt"
 
-#: common/snapshots.py:1250
+#: common/snapshots.py:1254
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1251
+#: common/snapshots.py:1255
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Gedeeltelijke overdracht vanwege verdwenen bronbestanden (zie 'man rsync')"
 
-#: common/snapshots.py:1254
+#: common/snapshots.py:1258
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' eindigde met exitcode {exit_code}"
 
-#: common/snapshots.py:1263
+#: common/snapshots.py:1267
 msgid "See 'man rsync' for more details"
 msgstr "Zie 'man rsync' voor meer informatie"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1271
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatieve rsync-exitcodes zijn signaalnummers, zie 'kill -l' en 'man kill'"
 
-#: common/snapshots.py:1282
+#: common/snapshots.py:1286
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Er is niets veranderd, geen nieuwe momentopname nodig"
 
-#: common/snapshots.py:1313
+#: common/snapshots.py:1317
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Kan {new_path} niet hernoemen naar {path}"
 
-#: common/snapshots.py:1631 common/snapshots.py:1683
+#: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
 msgstr "Slim verwijderen"
 
-#: common/snapshots.py:1658
+#: common/snapshots.py:1662
 msgid "Removing old snapshots"
 msgstr "Oude momentopnames verwijderen"
 
-#: common/snapshots.py:1693
+#: common/snapshots.py:1697
 msgid "Trying to keep min free space"
 msgstr "Een minimum aan vrije ruimte proberen te houden"
 
-#: common/snapshots.py:1732
+#: common/snapshots.py:1736
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Een minimum van {perc} vrije inodes proberen te houden"
 
-#: common/snapshots.py:2814 qt/app.py:1616
+#: common/snapshots.py:2819 qt/app.py:1616
 msgid "Now"
 msgstr "Nu"
 
@@ -483,15 +483,15 @@ msgstr "Momentopname maken (modus controlegetal)"
 msgid "Use checksums for file change detection."
 msgstr "Controlegetallen gebruiken voor het opsporen van bestandswijzigingen."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Maken van momentopname pauzeren"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Maken van momentopname hervatten"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Maken van momentopname stoppen"
 
@@ -573,7 +573,7 @@ msgstr "Vertaling"
 msgid "About"
 msgstr "Info"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Herstellen"
@@ -613,7 +613,7 @@ msgstr ""
 msgid "Up"
 msgstr "Omhoog"
 
-#: qt/app.py:563 qt/settingsdialog.py:2159
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Verborgen bestanden tonen"
 
@@ -658,15 +658,15 @@ msgstr "Bezig"
 msgid "Error"
 msgstr "Fout"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Verzonden"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Snelheid"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Geschatte afhandelingstijd"
 
@@ -869,8 +869,8 @@ msgstr "Laatste logboekweergave"
 msgid "Snapshot Log View"
 msgstr "Weergave momentopnamelogboek"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Profiel"
 
@@ -903,7 +903,7 @@ msgstr "Informatie"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Fout, [I] Informatie, [C] Wijziging"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "paden decoderen"
 
@@ -923,16 +923,16 @@ msgstr "Wilt u dit uitsluiten?"
 msgid "Question"
 msgstr "Vraag"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr "Laatste logboek bekijken"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "{appname} starten"
 
-#: qt/qtsystrayicon.py:167
+#: qt/qtsystrayicon.py:169
 msgid "Working…"
 msgstr "Bezig…"
 
@@ -986,7 +986,7 @@ msgstr "Verwijderen"
 msgid "&General"
 msgstr "&Algemeen"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
 msgid "Mode"
 msgstr "Modus"
 
@@ -1001,7 +1001,7 @@ msgstr ""
 "bracht in dit verband verschillende mogelijke aanvalsmethodes aan het licht."
 " Bekijk eens \"A NOTE ON SECURITY\" in \"man backintime\"."
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
 msgid "Where to save snapshots"
 msgstr "Waar wilt u de momentopnames opslaan"
 
@@ -1249,7 +1249,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:616
 msgid "&Auto-remove"
-msgstr "&Automatisch verwijderen"
+msgstr "Automatisch &verwijderen"
 
 #: qt/settingsdialog.py:622
 msgid "Older than"
@@ -1323,7 +1323,7 @@ msgstr "Genoemde momentopnames niet verwijderen"
 
 #: qt/settingsdialog.py:745
 msgid "&Options"
-msgstr "&Opties"
+msgstr "O&pties"
 
 #: qt/settingsdialog.py:750
 msgid "Enable notifications"
@@ -1466,7 +1466,7 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
 msgid "default"
 msgstr "standaard"
 
@@ -1584,11 +1584,11 @@ msgstr "Bestand uitsluiten"
 msgid "Exclude folder"
 msgstr "Map uitsluiten"
 
-#: qt/settingsdialog.py:1858
+#: qt/settingsdialog.py:1863
 msgid "Include file"
 msgstr "Bestand opnemen"
 
-#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
+#: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1597,36 +1597,36 @@ msgstr ""
 "\"{path}\" is een symbolische koppeling. Van het gekoppelde doel wordt geen back-up gemaakt totdat u het ook opneemt.\n"
 "Wilt u eerder het doel van de symbolische koppeling opnemen?"
 
-#: qt/settingsdialog.py:1884
+#: qt/settingsdialog.py:1893
 msgid "Include folder"
 msgstr "Map opnemen"
 
-#: qt/settingsdialog.py:1921
+#: qt/settingsdialog.py:1930
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Weet u zeker dat u de momentopnamemap wilt wijzigen?"
 
-#: qt/settingsdialog.py:1946
+#: qt/settingsdialog.py:1955
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Kan geen nieuwe SSH-sleutel aanmaken in {path}"
 
-#: qt/settingsdialog.py:2005
+#: qt/settingsdialog.py:2014
 msgid "Full snapshot path: "
 msgstr "Volledig momentopnamepad: "
 
-#: qt/settingsdialog.py:2055
+#: qt/settingsdialog.py:2064
 msgid "enabled"
 msgstr "ingeschakeld"
 
-#: qt/settingsdialog.py:2058
+#: qt/settingsdialog.py:2067
 msgid "disabled"
 msgstr "uitgeschakeld"
 
-#: qt/settingsdialog.py:2103
+#: qt/settingsdialog.py:2112
 msgid "Restore Settings"
 msgstr "Instellingen herstellen"
 
-#: qt/settingsdialog.py:2116
+#: qt/settingsdialog.py:2125
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1641,15 +1641,15 @@ msgstr ""
 "Als uw momentopnames op een externe schijf staan of als ze versleuteld zijn, moet u ze eerst handmatig aankoppelen. Als u Mode SSH gebruikt, moet u mogelijk ook een publieke sleutel instellen om in te loggen op de externe host.\n"
 "Bekijk eens 'man backintime'."
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
 msgid "No config found"
 msgstr "Geen configuratie gevonden"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2459
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "user-callback-script heeft geen shebang-regel (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2466
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang in user-callback-script is niet uitvoerbaar."
 

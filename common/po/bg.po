@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-10-28 19:13+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"PO-Revision-Date: 2023-12-09 16:56+0000\n"
+"Last-Translator: Salif Mehmed <mail@salif.eu>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.2.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -31,7 +31,7 @@ msgstr "Основен профил"
 msgid "Local"
 msgstr "Местен"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
+#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
 msgid "SSH private key"
 msgstr "Частен SSH ключ"
 
@@ -211,7 +211,7 @@ msgstr ""
 "Във версия 1.7.2 и по-ранни версии на encfs има грешка с опцията --reverse. "
 "Моля, актуализирайте encfs."
 
-#: common/encfstools.py:516 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
 msgstr "Създайте моментен архив"
 
@@ -242,15 +242,15 @@ msgid "Restore permissions"
 msgstr "Възстановете разрешенията"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Готово"
 
-#: common/snapshots.py:704
+#: common/snapshots.py:708
 msgid "Deferring backup while on battery"
 msgstr "Отлагане на архивирането, докато устройството работи на батерия"
 
-#: common/snapshots.py:766
+#: common/snapshots.py:770
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -258,106 +258,104 @@ msgstr ""
 "Папката за моментни архиви не може да бъде открита.\n"
 "Ако е на преносим драйв, моля включете го."
 
-#: common/snapshots.py:768
+#: common/snapshots.py:772
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Изчакване %s секунда."
 msgstr[1] "Изчакване %s секунди."
 
-#: common/snapshots.py:805
+#: common/snapshots.py:809
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Неуспех при създаването на моментен архив {snapshot_id} ."
 
-#: common/snapshots.py:822
+#: common/snapshots.py:826
 msgid "Finalizing"
 msgstr "Приключване"
 
-#: common/snapshots.py:945
+#: common/snapshots.py:949
 msgid "Can't create folder"
 msgstr "Папката не може да бъде създадена"
 
-#: common/snapshots.py:962
-#, fuzzy
+#: common/snapshots.py:966
 msgid "Saving config file…"
-msgstr "Запазване на конфигурационен файл..."
+msgstr "Запазване на конфигурационен файл…"
 
-#: common/snapshots.py:1038
-#, fuzzy
+#: common/snapshots.py:1042
 msgid "Saving permissions…"
-msgstr "Запазване на правата..."
+msgstr "Запазване на правата…"
 
-#: common/snapshots.py:1146
+#: common/snapshots.py:1150
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Намерен е {snapshot_id}, който може да бъде продължен."
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Премахване на остатъчна {snapshot_id} папка от последния курс"
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1179
 msgid "Can't remove folder"
 msgstr "Папката не може да бъде премахната"
 
-#: common/snapshots.py:1218
+#: common/snapshots.py:1222
 msgid "Taking snapshot"
 msgstr "Създаване на моментен архив"
 
-#: common/snapshots.py:1250
+#: common/snapshots.py:1254
 msgid "Success"
 msgstr "Успешно"
 
-#: common/snapshots.py:1251
+#: common/snapshots.py:1255
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Частично прехвърляне поради изчезнали изходни файлове (вж. 'man rsync')"
 
-#: common/snapshots.py:1254
+#: common/snapshots.py:1258
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' завърши с код за изход {exit_code}"
 
-#: common/snapshots.py:1263
+#: common/snapshots.py:1267
 msgid "See 'man rsync' for more details"
 msgstr "За повече информация вижте 'man rsync'"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1271
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Отрицателните изходни кодове на rsync са номера на сигнали, вижте 'kill -l' "
 "и 'man kill'"
 
-#: common/snapshots.py:1282
+#: common/snapshots.py:1286
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Няма промени, не е нужен нов моментен архив"
 
-#: common/snapshots.py:1313
+#: common/snapshots.py:1317
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "{new_path} не може да бъде преименуван на {path}"
 
-#: common/snapshots.py:1631 common/snapshots.py:1683
+#: common/snapshots.py:1635 common/snapshots.py:1687
 msgid "Smart remove"
 msgstr "Умно премахване"
 
-#: common/snapshots.py:1658
+#: common/snapshots.py:1662
 msgid "Removing old snapshots"
 msgstr "Премахване на старите моментни архиви"
 
-#: common/snapshots.py:1693
+#: common/snapshots.py:1697
 msgid "Trying to keep min free space"
 msgstr "Опит за запазване на минимално свободно пространство"
 
-#: common/snapshots.py:1732
+#: common/snapshots.py:1736
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Опит за запазване на минимум {perc} свободни inode"
 
-#: common/snapshots.py:2814 qt/app.py:1616
+#: common/snapshots.py:2819 qt/app.py:1616
 msgid "Now"
 msgstr "Сега"
 
@@ -483,15 +481,15 @@ msgstr "Създаване на моментен архив (режим на к�
 msgid "Use checksums for file change detection."
 msgstr "Използване на контролни суми за откриване на промени във файловете."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Пауза на моментното копие"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Продължаване на моментното копие"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Спиране на моментното копие"
 
@@ -573,7 +571,7 @@ msgstr "Превод"
 msgid "About"
 msgstr "Относно"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Възстановяване"
@@ -607,7 +605,7 @@ msgstr "Възстановете показаната папка и нейнот
 msgid "Up"
 msgstr "Нагоре"
 
-#: qt/app.py:563 qt/settingsdialog.py:2159
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Показване на скритите файлове"
 
@@ -652,15 +650,15 @@ msgstr "Изпълняване"
 msgid "Error"
 msgstr "Грешка"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Изпратено"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Скорост"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Приблизително оставащо време"
 
@@ -865,8 +863,8 @@ msgstr "Последно преглеждане на записа със съб�
 msgid "Snapshot Log View"
 msgstr "Преглеждане на записа със сибития относно моментните копия"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
+#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Профил"
 
@@ -899,7 +897,7 @@ msgstr "Информация"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[Г] Грешка, [И] Информация, [П] Промяна"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "декодиране на пътищата"
 
@@ -919,16 +917,16 @@ msgstr "Искате ли да изключите това?"
 msgid "Question"
 msgstr "Въпрос"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr "Преглед на последния запис"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Стартиране на {appname}"
 
-#: qt/qtsystrayicon.py:167
+#: qt/qtsystrayicon.py:169
 msgid "Working…"
 msgstr "Изпълняване…"
 
@@ -981,7 +979,7 @@ msgstr "Премахване"
 msgid "&General"
 msgstr "&Общи"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
 msgid "Mode"
 msgstr "Режим"
 
@@ -996,7 +994,7 @@ msgstr ""
 "възможни уязвимости. Моля погледнете \"A NOTE ON SECURITY\" в \"man "
 "backintime\"."
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
 msgid "Where to save snapshots"
 msgstr "Къде да се запазват моментните архиви"
 
@@ -1462,7 +1460,7 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
 msgid "default"
 msgstr "по подразбиране"
 
@@ -1580,11 +1578,11 @@ msgstr "Изключване на файл"
 msgid "Exclude folder"
 msgstr "Изключване на папка"
 
-#: qt/settingsdialog.py:1858
+#: qt/settingsdialog.py:1863
 msgid "Include file"
 msgstr "Включване на файл"
 
-#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
+#: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1593,36 +1591,36 @@ msgstr ""
 "\"{path}\" е пряк път. Целта, към която сочи, няма да бъде архивирана докато не добавите и нея.\n"
 "Бихте ли искали да добавите крайната цел вместо това?"
 
-#: qt/settingsdialog.py:1884
+#: qt/settingsdialog.py:1893
 msgid "Include folder"
 msgstr "Включване на папка"
 
-#: qt/settingsdialog.py:1921
+#: qt/settingsdialog.py:1930
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Сигурни ли сте, че желаете да промените папката за моментни архиви ?"
 
-#: qt/settingsdialog.py:1946
+#: qt/settingsdialog.py:1955
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Неуспех при създаване на нов SSH ключ в {path}"
 
-#: qt/settingsdialog.py:2005
+#: qt/settingsdialog.py:2014
 msgid "Full snapshot path: "
 msgstr "Пълен път за моментни архивни копия: "
 
-#: qt/settingsdialog.py:2055
+#: qt/settingsdialog.py:2064
 msgid "enabled"
 msgstr "активирано"
 
-#: qt/settingsdialog.py:2058
+#: qt/settingsdialog.py:2067
 msgid "disabled"
 msgstr "деактивирано"
 
-#: qt/settingsdialog.py:2103
+#: qt/settingsdialog.py:2112
 msgid "Restore Settings"
 msgstr "Възстановете настройките"
 
-#: qt/settingsdialog.py:2116
+#: qt/settingsdialog.py:2125
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1637,15 +1635,15 @@ msgstr ""
 "Ако вашите моментни архиви се намират на отдалечен диск или са криптирани, е необходимо първо да ги монтирате ръчно. Ако използвате режим SSH, също така може да се наложи да използвате автентикация с публичен ключ до отдалечения хост.\n"
 "Обърнете внимание на \"man backintime\"."
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
 msgid "No config found"
 msgstr "Не е намерена конфигурация"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2459
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "Потребителският скрипт няма шебанг (#!/bin/sh) на първия ред."
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2466
 msgid "Shebang in user-callback script is not executable."
 msgstr "Шебангът в потребителският скрипт не е изпълним."
 
