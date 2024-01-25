@@ -1970,33 +1970,52 @@ class SettingsDialog(QDialog):
                               .format(path=key))
 
     def comboModesChanged(self, *params):
+        """Hide/show widget elements related to one of
+        the four snapshot modes.
+        """
+
         if not params:
             index = self.comboModes.currentIndex()
         else:
             index = params[0]
+
         active_mode = str(self.comboModes.itemData(index))
+
         if active_mode != self.mode:
+
+            # DevNote (buhtz): Widgets of the GUI related to the four
+            # snapshot modes are acccesed via "getattr(self, ...)".
+            # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
             for mode in list(self.config.SNAPSHOT_MODES.keys()):
+                # Hide all widgets
                 getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
+
             for mode in list(self.config.SNAPSHOT_MODES.keys()):
+                # Show up the widget related to the selected mode.
                 if active_mode == mode:
                     getattr(self, 'mode%s' % tools.camelCase(mode)).show()
+
             self.mode = active_mode
 
         if self.config.modeNeedPassword(active_mode):
+
             self.lblPassword1.setText(
                 self.config.SNAPSHOT_MODES[active_mode][2] + ':')
+
             self.groupPassword1.show()
+
             if self.config.modeNeedPassword(active_mode, 2):
                 self.lblPassword2.setText(
                     self.config.SNAPSHOT_MODES[active_mode][3] + ':')
                 self.lblPassword2.show()
                 self.txtPassword2.show()
                 qttools.equalIndent(self.lblPassword1, self.lblPassword2)
+
             else:
                 self.lblPassword2.hide()
                 self.txtPassword2.hide()
                 qttools.equalIndent(self.lblPassword1)
+
         else:
             self.groupPassword1.hide()
 
@@ -2004,9 +2023,11 @@ class SettingsDialog(QDialog):
             self.lblSshEncfsExcludeWarning.show()
         else:
             self.lblSshEncfsExcludeWarning.hide()
+
         self.updateExcludeItems()
 
         enabled = active_mode in ('ssh', 'ssh_encfs')
+
         self.cbNiceOnRemote.setEnabled(enabled)
         self.cbIoniceOnRemote.setEnabled(enabled)
         self.cbNocacheOnRemote.setEnabled(enabled)
@@ -2040,11 +2061,13 @@ class SettingsDialog(QDialog):
             self.formatExcludeItem(item)
 
     def formatExcludeItem(self, item):
-        no_encr_wildcard = tools.patternHasNotEncryptableWildcard(item.text(0))
+        no_encr_wildcard \
+            = tools.patternHasNotEncryptableWildcard(item.text(0))
+
         if self.mode == 'ssh_encfs' and no_encr_wildcard:
             item.setIcon(0, self.icon.INVALID_EXCLUDE)
-            item.setBackground(0, QPalette().brush(QPalette.Active,
-                                                   QPalette.Link))
+            item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Active,
+                                                   QPalette.ColorRole.Link))
 
         elif item.text(0) in self.config.DEFAULT_EXCLUDE:
             item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
