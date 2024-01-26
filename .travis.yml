@@ -50,6 +50,8 @@ script:
   # compile all files - ensure that syntax is correct
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
   # run unit tests - ensure that functionality is correct
+  - whereis python3
+  - ls -l /usr/bin/python3
   - cd common
   - ./configure
   - make unittest-v
