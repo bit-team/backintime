@@ -38,18 +38,65 @@ class LogFilter(object):
                                     :py:data:`ERROR_AND_CHANGES`
         decode (encfstools.Decode): instance used for decoding lines or ``None``
     """
+
+    # TODO Better use an enumeration
     NO_FILTER =         0
     ERROR =             1
     CHANGES =           2
     INFORMATION =       3
     ERROR_AND_CHANGES = 4
+    RSYNC_TRANSFER_FAILURES = 5
 
+    # Regular expressions used for filtering log file lines.
+    # RegExp syntax see: https://docs.python.org/3.10/library/re.html#regular-expression-syntax
+    # (?:...) = the matched substring cannot be retrieved in a group (non-capturing)
     REGEX = {None:              None,
              NO_FILTER:         None,
              ERROR:             re.compile(r'^(?:\[E\]|[^\[])'),
              CHANGES:           re.compile(r'^(?:\[C\]|[^\[])'),
              INFORMATION:       re.compile(r'^(?:\[I\]|[^\[])'),
-             ERROR_AND_CHANGES: re.compile(r'^(?:\[E\]|\[C\]|[^\[])')}
+             ERROR_AND_CHANGES: re.compile(r'^(?:\[E\]|\[C\]|[^\[])'),
+             RSYNC_TRANSFER_FAILURES: re.compile(
+                 r'.*(?:'
+                 r'Invalid cross-device link'
+                 r'|symlink has no referent'
+                 r'|readlink_stat\(.?\) failed'
+                 r'|link_stat .* failed'
+                 r'|receive_sums failed'
+                 r'|send_files failed to open'
+                 r'|fstat failed'
+                 r'|read errors mapping'
+                 r'|change_dir .* failed'
+                 r'|skipping overly long name'
+                 r'|skipping file with bogus \(zero\) st_mode'
+                 r'|skipping symlink with 0-length value'
+                 r'|cannot convert filename'
+                 r'|cannot convert symlink data for'
+                 r'|opendir .* failed'
+                 r'|filename overflows max-path len by'
+                 r'|cannot send file with empty name in'
+                 r'|readdir\(.*\)'
+                 r'|cannot add local filter rules in long-named directory'
+                 r'|failed to re-read xattr'
+                 r'|Skipping sender remove of destination file'
+                 r'|Skipping sender remove for changed file'
+                 r'|could not make way for'
+                 r'|system says the ACL I packed is invalid'
+                 r'|recv_acl_access: value out of range'
+                 r'|recv_acl_index: .* ACL index'
+                 r'|Create time value of .* truncated on receiver'
+                 r'|FATAL I/O ERROR: dying to avoid a \-\-delete'
+                 r'|IO error encountered'  # TODO reported in an issue but is this string really contained in the rsync source code?
+                 r'|some files/attrs were not transferred'  # TODO reported in an issue but is this string really contained in the rsync source code?
+                 r'|temporary filename too long'
+                 r'|No batched update for'
+                 r'|recv_files: .* is a directory'
+                 r'|no ftruncate for over-long pre-alloc'
+                 r'|daemon refused to receive'
+                 r'|get_xattr_data: lgetxattr'
+                 # r').*'  # no need to match the remainder of the line
+                 r')'
+             )}
 
     def __init__(self, mode = 0, decode = None):
         self.regex = self.REGEX[mode]
