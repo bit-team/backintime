@@ -8,7 +8,6 @@ arch :
  - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
-sudo: true
 dist: focal
 
 addons:
@@ -29,6 +28,7 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
+
 jobs:
   exclude:
     - python: "3.9"
@@ -37,6 +37,7 @@ jobs:
     # Excluding this temporarily because of an Issue on Travis. Support contact established.
     - arch: ppc64le
       python: "3.12"
+
 install:
   - pip install pylint coveralls pyfakefs
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
