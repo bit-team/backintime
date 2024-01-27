@@ -283,7 +283,7 @@ done
 COVERAGE=$(which coverage 2>/dev/null)
 # Use "coverage run" only on travis-ci.org and if it is available
 # this will pass information to coveralls.io.
-# Otherwise use "python", "python3" or if available "py.test-3"
+# Otherwise use "python", "python3" or if available "py.test-3" 
 if onTravis && [ -n "${COVERAGE}" ]; then
     CMD="${PYTHON} -m coverage run -p"
 else
