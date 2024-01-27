@@ -56,6 +56,7 @@ script:
   # - ./configure --python=python3
   - ./configure
   - cat Makefile
+  - coverage debug sys
   - make -d unittest-v
   - cd ..
   - cd qt
