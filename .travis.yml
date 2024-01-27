@@ -53,13 +53,11 @@ script:
   - cd common
   # - ./configure --python=python3
   - ./configure
-  - whereis python3
-  - ls -l /usr/bin/python3
-  - cat Makefile
   - make -v unittest-v
   - cd ..
   - cd qt
-  - ./configure --python=python3
+  # - ./configure --python=python3
+  - ./configure
   - make
   - pytest
 
