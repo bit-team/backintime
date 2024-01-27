@@ -57,11 +57,8 @@ script:
   - cat Makefile
   - make unittest-v
   - cd ..
-  - whereis pytest
-  - whereis py.test
-  - whereis py.test-3
-  - whereis pytest-3
-  - cd qt && py.test-3
+  - cd qt
+  - py.test
 
 after_success:
   - coverage combine
