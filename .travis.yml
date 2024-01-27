@@ -55,7 +55,6 @@ script:
   # run unit tests - ensure that functionality is correct
   - cd common
   - ./configure
-  - cat Makefile
   - make unittest-v
   - cd ..
   - cd qt
