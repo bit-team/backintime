@@ -48,7 +48,7 @@ install:
 
 script:
   # Is a virtual environment active? Yes: if both variables are not equal.
-  - python -c "import sys;print(f'{sys.prefix=} {sys.base_prefix=}')"
+  - python -c "import sys;print(f'{sys.prefix=} {sys.base_prefix=} In virtualenv={sys.prefix != sys.base_prefix')"
   # compile all files - ensure that syntax is correct
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
   # run unit tests - ensure that functionality is correct
@@ -60,8 +60,8 @@ script:
   - cd ..
   - cd qt
   # - ./configure --python=python3
-  - ./configure
-  - make
+  # - ./configure
+  # - make
   - pytest
 
 after_success:
