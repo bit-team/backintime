@@ -57,43 +57,50 @@ class LogFilter(object):
              INFORMATION:       re.compile(r'^(?:\[I\]|[^\[])'),
              ERROR_AND_CHANGES: re.compile(r'^(?:\[E\]|\[C\]|[^\[])'),
              RSYNC_TRANSFER_FAILURES: re.compile(
+                 # All links to rsync's source reference the commit 2f9b963 from Jun 27, 2023 (most-recent commit on "master" as at Jan 28, 2024)
                  r'.*(?:'
-                 r'Invalid cross-device link'
-                 r'|symlink has no referent'
-                 r'|readlink_stat\(.?\) failed'
-                 r'|link_stat .* failed'
-                 r'|receive_sums failed'
-                 r'|send_files failed to open'
-                 r'|fstat failed'
-                 r'|read errors mapping'
-                 r'|change_dir .* failed'
-                 r'|skipping overly long name'
-                 r'|skipping file with bogus \(zero\) st_mode'
-                 r'|skipping symlink with 0-length value'
-                 r'|cannot convert filename'
-                 r'|cannot convert symlink data for'
-                 r'|opendir .* failed'
-                 r'|filename overflows max-path len by'
-                 r'|cannot send file with empty name in'
-                 r'|readdir\(.*\)'
-                 r'|cannot add local filter rules in long-named directory'
-                 r'|failed to re-read xattr'
-                 r'|Skipping sender remove of destination file'
-                 r'|Skipping sender remove for changed file'
-                 r'|could not make way for'
-                 r'|system says the ACL I packed is invalid'
-                 r'|recv_acl_access: value out of range'
-                 r'|recv_acl_index: .* ACL index'
-                 r'|Create time value of .* truncated on receiver'
-                 r'|FATAL I/O ERROR: dying to avoid a \-\-delete'
-                 r'|IO error encountered'  # TODO reported in an issue but is this string really contained in the rsync source code?
-                 r'|some files/attrs were not transferred'  # TODO reported in an issue but is this string really contained in the rsync source code?
-                 r'|temporary filename too long'
-                 r'|No batched update for'
-                 r'|recv_files: .* is a directory'
-                 r'|no ftruncate for over-long pre-alloc'
-                 r'|daemon refused to receive'
-                 r'|get_xattr_data: lgetxattr'
+                 r'Invalid cross-device link'     # not directly contained in rsync's source code but may be catched and passed through as-is
+                 r'|symlink has no referent'      # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1281
+                 r'|readlink_stat\(.?\) failed'   # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1294
+                 r'|link_stat .* failed'          # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1810
+                 r'|receive_sums failed'          # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/sender.c#L347
+                 r'|send_files failed to open'    # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/sender.c#L361
+                 r'|fstat failed'                 # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/sender.c#L373
+                 r'|read errors mapping'          # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/sender.c#L435
+                 r'|change_dir .* failed'         # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/main.c#L749
+                                                  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/main.c#L807
+                                                  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/main.c#L827
+                                                  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/main.c#L1161
+                 r'|skipping overly long name'    # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1247
+                 r'|skipping file with bogus \(zero\) st_mode'  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1300
+                 r'|skipping symlink with 0-length value'       # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1569
+                 r'|cannot convert filename'      # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L748
+                                                  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1599
+                 r'|cannot convert symlink data for'  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1144
+                                                      # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1613
+                 r'|opendir .* failed'            # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1842
+                 r'|filename overflows max-path len by'   # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1868
+                 r'|cannot send file with empty name in'  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1876
+                 r'|readdir\(.*\)'                        # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1888
+                 r'|cannot add local filter rules in long-named directory'  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/exclude.c#L817
+                 r'|failed to re-read xattr'                                # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/xattrs.c#L662
+                 r'|Skipping sender remove of destination file'     # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/sender.c#L152
+                 r'|Skipping sender remove for changed file'        # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/sender.c#L161
+                 r'|could not make way for'                         # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/delete.c#L220
+                 r'|system says the ACL I packed is invalid'        # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/acls.c#L435
+                 r'|recv_acl_access: value out of range'            # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/acls.c#L689
+                 r'|recv_acl_index: .* ACL index'                   # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/acls.c#L739
+                 r'|Create time value of .* truncated on receiver'  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L858
+                 r'|FATAL I/O ERROR: dying to avoid a \-\-delete'   # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L2005
+                 r'|IO error encountered'                           # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/generator.c#L295
+                 r'|some files/attrs were not transferred'  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/log.c#L97
+                 r'|temporary filename too long'            # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/receiver.c#L138
+                 r'|No batched update for'                  # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/receiver.c#L456
+                 r'|recv_files: .* is a directory'          # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/receiver.c#L805
+                 r'|no ftruncate for over-long pre-alloc'   # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/util1.c#L438
+                 r'|daemon refused to receive'              # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/generator.c#L1270
+                 r'|get_xattr_data: lgetxattr'              # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/xattrs.c#L199
+                                                            # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/xattrs.c#L215
                  # r').*'  # no need to match the remainder of the line
                  r')'
              )}
