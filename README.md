@@ -8,7 +8,7 @@
 Germar Reitze, Taylor Raack, Christian Buhtz, Michael Büker, Jürgen Altfeld<sub>
  
 It is an easy-to-use backup tool for files and folders.
-It runs on GNU Linux and provides a command line tool `backintime` and a
+It runs on GNU Linux (sorry - not on Windows or OS X/macOS) and provides a command line tool `backintime` and a
 Qt5 GUI `backintime-qt` both written in Python3. It uses 
 [`rsync`](https://rsync.samba.org/) to take manual or scheduled snapshots and
 stores them locally or remotely through SSH. Each snapshot is its own folder
