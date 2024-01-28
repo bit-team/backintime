@@ -5,7 +5,7 @@ import logger
 
 logger.openlog()
 
-from tools import isRoot
+# from tools import isRoot
 
 # This mini python script is used to determine if a Qt5 GUI application
 # can be created without an error.
