@@ -8,7 +8,6 @@ arch :
  - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
-sudo: true
 dist: focal
 
 addons:
@@ -29,11 +28,15 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
+
 jobs:
   exclude:
     - python: "3.9"
     - python: "3.10"
     - python: "3.11"
+    # Excluding this temporarily because of an Issue on Travis. Support contact established.
+    - arch: ppc64le
+      python: "3.12"
 
 install:
   - pip install pylint coveralls pyfakefs
@@ -44,12 +47,20 @@ install:
   - eval `ssh-agent -s`
 
 script:
+  # Is a virtual environment active? Yes: if both variables are not equal.
+  # - python -c "import sys;print(f'{sys.prefix=} {sys.base_prefix=} In virtualenv={sys.prefix != sys.base_prefix}')"
+  # - coverage debug sys
   # compile all files - ensure that syntax is correct
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
   # run unit tests - ensure that functionality is correct
-  - cd common && ./configure && make unittest-v
+  - cd common
+  - ./configure  --python=python3
+  - make unittest-v
   - cd ..
-  - cd qt && pytest
+  - cd qt
+  - ./configure  --python=python3
+  - make
+  - pytest
 
 after_success:
   - coverage combine
