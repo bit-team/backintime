@@ -5,6 +5,8 @@ import logger
 
 logger.openlog()
 
+# from tools import isRoot
+
 # This mini python script is used to determine if a Qt5 GUI application
 # can be created without an error.
 #
@@ -89,6 +91,15 @@ try:
     logger.debug(f"XDG_RUNTIME_DIR={os.environ.get('XDG_RUNTIME_DIR', '($XDG_RUNTIME_DIR is not set)')}")
     logger.debug(f"XAUTHORITY={os.environ.get('XAUTHORITY', '($XAUTHORITY is not set)')}")
     logger.debug(f"QT_QPA_PLATFORM={os.environ.get('QT_QPA_PLATFORM', '($QT_QPA_PLATFORM is not set)')}")
+
+    logger.debug(f"Current euid: {os.geteuid()}")
+    # Jan 25, 2024 Not enabled but just documented here since this "fix" is a hack (assumes hard-coded UID 1000 to be always correct). But it works in 99 % of installations
+    # if isRoot():
+    #     logger.debug("Changing euid from root to user as work-around for #1592 (qt5_probing hangs in root cron job)")
+    #     # Fix inspired by
+    #     # https://stackoverflow.com/questions/71425861/connecting-to-user-dbus-as-root
+    #     os.seteuid(1000)
+    #     logger.debug(f"New euid: {os.geteuid()}")
 
     from PyQt5 import QtCore
     from PyQt5.QtWidgets import QApplication
