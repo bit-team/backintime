@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This helper script do manage transferring translations to and from the
+"""This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
 """
 import sys
@@ -252,7 +252,6 @@ def create_languages_file():
         'lt50': len(list(filter(lambda val: val < 50, compl)))
     }
 
-    print(statistic)
     print('STATISTICS')
     print(f'\tTotal completeness: {statistic["compl"]}%')
     print(f'\tNumber of languages (excl. English): {statistic["n"]}')
