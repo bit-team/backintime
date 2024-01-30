@@ -246,17 +246,18 @@ def create_languages_file():
     statistic = {
         'compl': round(sum(compl) / len(compl)),
         'n': len(compl),
-        '100': len(list(filter(lambda val: val > 99, compl))),
-        '90_99': len(list(filter(lambda val: 90 >= val <= 99, compl))),
-        '50_89': len(list(filter(lambda val: 50 >= val <= 89, compl))),
+        '99_100': len(list(filter(lambda val: val >= 99, compl))),
+        '90_98': len(list(filter(lambda val: 90 <= val < 99, compl))),
+        '50_89': len(list(filter(lambda val: 50 <= val <= 89, compl))),
         'lt50': len(list(filter(lambda val: val < 50, compl)))
     }
 
+    print(statistic)
     print('STATISTICS')
     print(f'\tTotal completeness: {statistic["compl"]}%')
     print(f'\tNumber of languages (excl. English): {statistic["n"]}')
-    print(f'\t100% complete: {statistic["100"]} languages')
-    print(f'\t90-99% complete: {statistic["90_99"]} languages')
+    print(f'\t100-99% complete: {statistic["99_100"]} languages')
+    print(f'\t90-98% complete: {statistic["90_98"]} languages')
     print(f'\t50-89% complete: {statistic["50_89"]} languages')
     print(f'\tless than 50% complete: {statistic["lt50"]} languages')
 
