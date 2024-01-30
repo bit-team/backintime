@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-20 21:34+0100\n"
-"PO-Revision-Date: 2024-01-20 07:26+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2024-01-23 09:10+0000\n"
+"Last-Translator: Brazi <alexander@linux.com>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Lokal"
 
 #: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
 msgid "SSH private key"
-msgstr "Privat SSH nøkkel"
+msgstr "privat SSH-nøkkel"
 
 #: common/config.py:297
 msgid "encrypted"
@@ -49,7 +49,7 @@ msgstr "SSH kryptert"
 
 #: common/config.py:310
 msgid "Default"
-msgstr "Standard"
+msgstr "Standardverdi"
 
 #: common/config.py:341 common/config.py:353 common/config.py:370
 #: common/config.py:381
@@ -97,7 +97,7 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"Målfilsystem for {path} er formattert med FAT som ikke støtter hardlenker. "
+"Målfilsystem for {path} er formatert med FAT som ikke støtter hardlenker. "
 "Bruk heller et filsystem tilpasset Linux."
 
 #: common/config.py:486
@@ -107,8 +107,8 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"Mål-filsystemet for {path} er et delt nettverksområde av typen SMB. Se til "
-"at mål-filsystemet støtter symbolske lenker (symlinks), eller aktivér "
+"Målfilsystemet for {path} er et delt nettverksområde av typen SMB. Se til at"
+" målfilsystemet støtter symbolske lenker (symlinks), eller aktivér "
 "{copyLinks} i {expertOptions}."
 
 #: common/config.py:490 qt/settingsdialog.py:1004
@@ -125,7 +125,7 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Mål-filsystemet for {path} er delt nettverksområde montert med sshfs, men "
+"Målfilsystemet for {path} er delt nettverksområde montert med sshfs, men "
 "sshfs støtter ikke harde lenker. Vennligst bruk modus 'SSH' istedenfor."
 
 #: common/config.py:1591
@@ -163,11 +163,11 @@ msgstr "Kunne ikke finne UUID for {path}"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
-msgstr "Kunne ikke skrive konfigurasjonsfil"
+msgstr "Kunne ikke skrive konfigurasjons-fil"
 
 #: common/configfile.py:143
 msgid "Failed to load config"
-msgstr "Kunne ikke laste konfigurasjonsfil"
+msgstr "Kunne ikke laste konfigurasjon-sfil"
 
 #: common/configfile.py:691 common/configfile.py:790
 #, python-brace-format
@@ -1064,7 +1064,7 @@ msgstr "For hver start/omstart"
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Hvert {n}. minutt"
+msgstr[0] "Hvert minutt"
 msgstr[1] "Hvert {n}. minutt"
 
 #: qt/settingsdialog.py:363
@@ -1076,7 +1076,7 @@ msgstr "Hver time"
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Hver {n}. time"
+msgstr[0] "Hver time"
 msgstr[1] "Hver {n}. time"
 
 #: qt/settingsdialog.py:372

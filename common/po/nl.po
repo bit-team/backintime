@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-20 21:34+0100\n"
-"PO-Revision-Date: 2023-11-07 09:13+0000\n"
-"Last-Translator: jpb <jpbeltman@live.nl>\n"
+"PO-Revision-Date: 2024-01-24 11:34+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -67,7 +67,7 @@ msgstr "Selecteer tenminste één map om een back-up te kunnen maken!"
 
 #: common/config.py:371
 msgid "Backup folder cannot be included."
-msgstr "Back-upmap kan niet worden opgenomen."
+msgstr "Backup-map kan niet worden opgenomen."
 
 #: common/config.py:383
 msgid "Backup sub-folder cannot be included."
@@ -98,8 +98,8 @@ msgid ""
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
 "Het doelbestandssysteem van ‘{path}’ is geformatteerd als FAT, dat geen "
-"harde koppeling ondersteunt. Gebruik in plaats daarvan een Linux-"
-"bestandssysteem."
+"harde koppeling, hard-links, ondersteunt. Gebruik in plaats daarvan een "
+"Linux-bestandssysteem."
 
 #: common/config.py:486
 #, python-brace-format
@@ -156,12 +156,13 @@ msgstr ""
 #: common/config.py:1715
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr "udev plannen werkt niet bij modus {mode}"
+msgstr "Methode udev werkt niet bij modus {mode}"
 
 #: common/config.py:1726
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Kon UUID (unieke identificatiecode) voor \"{path}\" niet vinden"
+msgstr ""
+"Kon UUID (Universeel Unieke IDentificatiecode) voor \"{path}\" niet vinden"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
@@ -199,7 +200,7 @@ msgstr "Annuleren"
 
 #: common/encfstools.py:156
 msgid "Please confirm password"
-msgstr "Bevestig wachtwoord"
+msgstr "Bevestig a.u.b. wachtwoord"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -211,7 +212,7 @@ msgid ""
 "update encfs."
 msgstr ""
 "encfs-versie 1.7.2 en daarvoor hebben een fout met de optie --reverse. Werk "
-"encfs a.u.b. bij."
+"encfs versie a.u.b. bij."
 
 #: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
@@ -283,12 +284,12 @@ msgstr "Kan map niet aanmaken"
 #: common/snapshots.py:966
 #, fuzzy
 msgid "Saving config file…"
-msgstr "Configuratiebestand opslaan..."
+msgstr "Configuratiebestand opslaan…"
 
 #: common/snapshots.py:1042
 #, fuzzy
 msgid "Saving permissions…"
-msgstr "Rechten opslaan..."
+msgstr "Rechten opslaan…"
 
 #: common/snapshots.py:1150
 #, python-brace-format
@@ -529,9 +530,8 @@ msgid "Shut down system after snapshot has finished."
 msgstr "Computer uitschakelen wanneer de momentopname voltooid is."
 
 #: qt/app.py:504
-#, fuzzy
 msgid "Setup language…"
-msgstr "Taal instellen"
+msgstr "Taal instellen…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -691,11 +691,10 @@ msgid "Snapshot Name"
 msgstr "Naam momentopname"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Weet u zeker dat u de momentopname wilt verwijderen"
-msgstr[1] "Weet u zeker dat u de momentopname wilt verwijderen"
+msgstr[0] "Weet u zeker dat u de momentopname wilt verwijderen?"
+msgstr[1] "Weet u zeker dat u de momentopnames wilt verwijderen?"
 
 #: qt/app.py:1294
 #, fuzzy, python-brace-format
@@ -716,7 +715,6 @@ msgstr ""
 "Als u ze niet meer nodig heeft kunt u ze verwijderen met {cmd}"
 
 #: qt/app.py:1314
-#, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -727,9 +725,8 @@ msgstr ""
 "De optie \"rsync --update\" wordt gebruikt."
 
 #: qt/app.py:1347
-#, fuzzy
 msgid "Remove newer elements in original folder."
-msgstr "Nieuwere bestanden in oorspronkelijke map verwijderen"
+msgstr "Nieuwere bestanden in oorspronkelijke map verwijderen."
 
 #: qt/app.py:1348
 #, fuzzy
@@ -742,11 +739,11 @@ msgid ""
 msgstr ""
 "Geselecteerde bestanden of mappen naar de oorspronkelijke bestemming herstellen\n"
 "en bestanden/mappen die niet in de momentopname voorkomen, verwijderen.\n"
-"Hierdoor worden bestanden/mappen verwijderd die werden uitgesloten tijdens het maken van de momentopname!\n"
-"Wees hier uiterst voorzichtig mee!"
+"Wees hier uiterst voorzichtig mee!\n"
+"Hierdoor worden bestanden/mappen verwijderd die waren uitgesloten tijdens het maken van de momentopname!"
 
 #: qt/app.py:1361
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -754,11 +751,11 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Weet u zeker dat u de bestand(en) wilt herstellen\n"
-"naar de nieuwe map {path}"
+"Weet u zeker dat u het bestand wilt herstellen\n"
+"naar de nieuwe map {path}?"
 msgstr[1] ""
-"Weet u zeker dat u de bestand(en) wilt herstellen\n"
-"naar de nieuwe map {path}"
+"Weet u zeker dat u de bestanden wilt herstellen\n"
+"naar de nieuwe map {path}?"
 
 #: qt/app.py:1370
 #, fuzzy

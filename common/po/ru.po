@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-20 21:34+0100\n"
-"PO-Revision-Date: 2024-01-20 07:26+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2024-01-21 15:15+0000\n"
+"Last-Translator: Application-Maker <application-maker.uinwad@erine.email>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -729,7 +729,6 @@ msgid "Remove newer elements in original folder."
 msgstr "Удалять более новые файлы в исходной папке."
 
 #: qt/app.py:1348
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -739,8 +738,9 @@ msgid ""
 msgstr ""
 "Восстановление выбранных файлов/папок в исходное место назначения и\n"
 "удаление файлов/папок, которых нет в снимке.\n"
-"При этом будут удалены файлы/папки, исключенные при создании снимка!\n"
-"Будьте предельно осторожны!!!"
+"Будьте предельно осторожны, потому что при этом\n"
+"будут удалены файлы/папки,\n"
+"исключенные при создании снимка."
 
 #: qt/app.py:1361
 #, python-brace-format
@@ -1090,12 +1090,12 @@ msgstr "Каждый час"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Каждые {n} часа"
+msgstr[0] "Каждый {n} час"
 msgstr[1] "Каждые {n} часа"
-msgstr[2] "Каждые {n} часа"
+msgstr[2] "Каждые {n} часов"
 
 #: qt/settingsdialog.py:372
 #, fuzzy
@@ -1263,9 +1263,8 @@ msgid "If free inodes is less than"
 msgstr "Если inode меньше, чем"
 
 #: qt/settingsdialog.py:678
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Умное удаление"
+msgstr "Умное удаление:"
 
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
@@ -1282,7 +1281,7 @@ msgstr "Хранить все копии за последние"
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
 #, fuzzy
 msgid "day(s)."
-msgstr "дней"
+msgstr "дней."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
@@ -1293,28 +1292,26 @@ msgid "Keep one snapshot per week for the last"
 msgstr "Хранить недельную копию за последние"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "неделя(ль)"
+msgstr "неделя(ль)."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
 msgstr "Хранить месячную копию за последние"
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "месяцев"
+msgstr "месяц(ев)."
 
 #: qt/settingsdialog.py:724
 #, fuzzy
 msgid "Keep one snapshot per year for all years."
-msgstr "Хранить годовую копию за все время"
+msgstr "Хранить один снимок в год за все время."
 
 #: qt/settingsdialog.py:733
 #, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "Не удалять переименованные резервные копии"
+msgstr "Не удалять переименованные снимки."
 
 #: qt/settingsdialog.py:745
 msgid "&Options"
@@ -1435,11 +1432,9 @@ msgstr ""
 "Копировать небезопасные ссылки (работает только с абсолютными ссылками)"
 
 #: qt/settingsdialog.py:1024
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
-"Параметры должны быть заключены в кавычки, например, {--exclude-"
-"from=\"/path/to/my exclude file\"}."
+msgstr "Параметры должны быть заключены в кавычки, например: {example}."
 
 #: qt/settingsdialog.py:1027
 msgid "Paste additional options to rsync"
@@ -1625,7 +1620,7 @@ msgid "Restore Settings"
 msgstr "Восстановить настройки"
 
 #: qt/settingsdialog.py:2125
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
 "{samplePath}\n"
@@ -1636,7 +1631,7 @@ msgstr ""
 "Перейдите к снимку, из которого необходимо восстановить конфигурацию {appName}. Путь может иметь вид:\n"
 "{samplePath}\n"
 "\n"
-"Если снимки находятся на удаленном диске или зашифрованы - их необходимо сначала смонтировать вручную. Если вы используете режим SSH, то также может потребоваться настройка входа с открытым ключом на удаленный хост {addFuse}.\n"
+"Если снимки находятся на удаленном диске или зашифрованы - их необходимо сначала смонтировать вручную. Если вы используете режим SSH, то также может потребоваться настройка входа с открытым ключом на удаленный хост.\n"
 "Посмотрите 'man backintime'."
 
 #: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
