@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-20 21:34+0100\n"
-"PO-Revision-Date: 2024-01-18 22:31+0000\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
+"PO-Revision-Date: 2024-01-27 19:46+0000\n"
 "Last-Translator: zvavybir <m.kaak@protonmail.ch>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
 "Language: eo\n"
@@ -23,67 +23,67 @@ msgstr ""
 msgid "Warning"
 msgstr "Averto"
 
-#: common/config.py:139 common/config.py:282
+#: common/config.py:146 common/config.py:289
 msgid "Main profile"
 msgstr "Ĉefa profilo"
 
-#: common/config.py:292 common/config.py:297
+#: common/config.py:299 common/config.py:304
 msgid "Local"
 msgstr "Loka"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
 msgid "SSH private key"
-msgstr "Privata ŝlosilo de SSH"
+msgstr "privata ŝlosilo de ssh"
 
-#: common/config.py:297
+#: common/config.py:304
 msgid "encrypted"
 msgstr "kripta"
 
-#: common/config.py:298 common/config.py:305
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "kriptante"
 
-#: common/config.py:303
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "kriptita SSH"
 
-#: common/config.py:310
+#: common/config.py:317
 msgid "Default"
 msgstr "defaŭlto"
 
-#: common/config.py:341 common/config.py:353 common/config.py:370
-#: common/config.py:381
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profilo: \"{name}\""
 
-#: common/config.py:342
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
 msgstr "Dosiero por ekrankopio ne estas valida!"
 
-#: common/config.py:354
+#: common/config.py:361
 msgid "You must select at least one folder to back up!"
 msgstr "Vi devas elekti almenaŭ unun dosierujon por sekurkopio!"
 
-#: common/config.py:371
+#: common/config.py:378
 msgid "Backup folder cannot be included."
 msgstr "Savkopi-dosierujon ne eblis inkluzivi."
 
-#: common/config.py:383
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
 msgstr "Savkopi-subdosierujon ne eblis inkluzivi."
 
-#: common/config.py:441
+#: common/config.py:448
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Nevalida opcio. {path} ne estas dosierujo."
 
-#: common/config.py:450
+#: common/config.py:457
 msgid "Host/User/Profile-ID must not be empty."
 msgstr ""
 "Gastiga komputilo/Uzanto/Identigilo de profilo ne devas esti malplena."
 
-#: common/config.py:460 common/config.py:507
+#: common/config.py:467 common/config.py:514
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Ne povas skribi al: {path}\n"
 "Ĉu vi certas ke vi havas permeson por skribi?"
 
-#: common/config.py:477
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -101,7 +101,7 @@ msgstr ""
 "Celdosiersistemo por {path} estas formita kun FAT, kio ne subtenas senperajn"
 " ligilojn. Bonvolu uzi indiĝenan Linuksan dosiersistemo."
 
-#: common/config.py:486
+#: common/config.py:493
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -112,15 +112,15 @@ msgstr ""
 "certiĝi, ke la fora SMB servilo subtenas simbolajn ligilojn, aŭ aktivigi "
 "{copyLinks} en {expertOptions}."
 
-#: common/config.py:490 qt/settingsdialog.py:1004
+#: common/config.py:497 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopii lingilojn (forigi simbolajn lingilojn)"
 
-#: common/config.py:491
+#: common/config.py:498
 msgid "Expert Options"
 msgstr "Spertaj Agordoj"
 
-#: common/config.py:495
+#: common/config.py:502
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -129,7 +129,7 @@ msgstr ""
 "Celdosiersistemo por {path} estas muntita retdividejo je sshfs. sshfs ne "
 "subtenas senperajn ligilojn. Bonvolu uzi la 'SSH' reĝimo anstataŭe."
 
-#: common/config.py:1591
+#: common/config.py:1598
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -139,11 +139,11 @@ msgstr ""
 "Ĉu vi certas, ke cron estas instalita?\n"
 "Se ne, vi devus malvalidigi ĉiujn aŭtomatajn savkopiojn."
 
-#: common/config.py:1597
+#: common/config.py:1604
 msgid "Failed to write new crontab."
 msgstr "Malsukcesis skribi novan crontab-on."
 
-#: common/config.py:1700
+#: common/config.py:1707
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -152,12 +152,12 @@ msgstr ""
 "Ne povis instali udev-regulo por profilo {profile_id}. DBus-servo "
 "{dbus_interface} ne estis havebla"
 
-#: common/config.py:1715
+#: common/config.py:1722
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "udev-planado ne funkcias je reĝimo {mode}"
 
-#: common/config.py:1726
+#: common/config.py:1733
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Ne povas trovi UUID por {path}"
@@ -186,7 +186,7 @@ msgstr "Ne povas surmeti '{command}'"
 
 #: common/encfstools.py:139
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "Agordo por ĉifritaj dosierujoj ne trovis."
 
 #: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
@@ -194,7 +194,7 @@ msgstr "Krei novan kriptan dosieron?"
 
 #: common/encfstools.py:151
 msgid "Cancel"
-msgstr ""
+msgstr "Ĉesi"
 
 #: common/encfstools.py:156
 msgid "Please confirm password"
@@ -202,30 +202,32 @@ msgstr "Bonvolu konfirmi pasvorton"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
-msgstr ""
+msgstr "Pasvorto ne kongruas."
 
 #: common/encfstools.py:178
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
+"Estas cimo kun opcio --reverse en encfs de la versio 1.7.2 kaj plu fruaj "
+"versioj. Bonvolu ĝisdatigi encfs."
 
 #: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
-msgstr ""
+msgstr "Krei momentaĵon"
 
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "Ne povas demeti {mountprocess} disde {mountpoint}."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "{} ne estas trovita. Bonvolu instali ekz. {}"
 
 #: common/mount.py:716
 msgid "Mountpoint {} not empty."
-msgstr ""
+msgstr "Surmetingo {} ne estas malplena."
 
 #: common/password.py:240
 #, python-brace-format
@@ -247,7 +249,7 @@ msgstr "Farite"
 
 #: common/snapshots.py:708
 msgid "Deferring backup while on battery"
-msgstr ""
+msgstr "Atendas baterion antaŭ komenci savkopii"
 
 #: common/snapshots.py:770
 msgid ""
@@ -307,50 +309,54 @@ msgid "Success"
 msgstr "Sukceso"
 
 #: common/snapshots.py:1255
+msgid "Partial transfer due to error"
+msgstr ""
+
+#: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Parta transmeto, ĉar la fontaj dosieroj malaperis (vidu 'man rsync')"
 
-#: common/snapshots.py:1258
+#: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
 msgstr ""
 
-#: common/snapshots.py:1271
+#: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1286
+#: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nenio estas ŝanĝita, nova momentaĵo ne estas necesa"
 
-#: common/snapshots.py:1317
+#: common/snapshots.py:1318
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Ne povas renomi {new_path} al {path}"
 
-#: common/snapshots.py:1635 common/snapshots.py:1687
+#: common/snapshots.py:1636 common/snapshots.py:1688
 msgid "Smart remove"
 msgstr "Inteligenta forigo"
 
-#: common/snapshots.py:1662
+#: common/snapshots.py:1663
 msgid "Removing old snapshots"
 msgstr "Malnovaj momentaĵoj estas forigitaj"
 
-#: common/snapshots.py:1697
+#: common/snapshots.py:1698
 msgid "Trying to keep min free space"
 msgstr "Provas konservi la minimumo da neokupita diskospaco"
 
-#: common/snapshots.py:1736
+#: common/snapshots.py:1737
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 
-#: common/snapshots.py:2819 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Nun"
 
@@ -361,13 +367,15 @@ msgstr ""
 
 #: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "Ne trovas ssh-agent. Bonvolu certiĝi, ke ĝin estas instalita."
 
 #: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"Ne povas malŝlosi privata ŝlosilo de ssh. Neĝusta pasvorto aŭ pasvorto ne "
+"ricevebla por cron."
 
 #: common/sshtools.py:506
 #, python-brace-format
@@ -402,12 +410,12 @@ msgstr ""
 #: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
+msgstr "Kontrolkomando en gastiganto {host} revenigis nekonatan eraron"
 
 #: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr ""
+msgstr "Fora gastiganto {host} ne subtenas senperan ligilon"
 
 #: common/sshtools.py:1060
 #, python-brace-format
@@ -417,7 +425,7 @@ msgstr "Kopii publika ssh-ŝloliso \"{pubkey}\" al la fora gastiganto \"{host}\"
 #: common/sshtools.py:1062
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr ""
+msgstr "Bonvolu enigi pasvorton por uzanto \"{user}\""
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -428,31 +436,35 @@ msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
+"Tio dosierujo ne ekzistas\n"
+"en la nuntempe selektita momentaĵo."
 
 #: qt/app.py:252
 msgid "Add to Include"
-msgstr ""
+msgstr "Aldoni al la inkluzivitoj"
 
-#: qt/app.py:254 qt/logviewdialog.py:176
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
-msgstr ""
+msgstr "Aldoni al la ekskluzivitoj"
 
 #: qt/app.py:339
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
-msgstr ""
+msgstr "{appName} ne estas agordita. Ĉu vi volas restaŭri antaŭan agordon?"
 
 #: qt/app.py:368
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
+"Ne povas trovi momentaĵdosierujon.\n"
+"Se ĝi estas je demetebla disko, bonvolu konekti ĝin kaj post tio premi OK."
 
 #: qt/app.py:453
 msgid "Take a snapshot"
-msgstr ""
+msgstr "Fari momentaĵon"
 
 #: qt/app.py:455
 msgid "Use modification time & size for file change detection."
@@ -492,11 +504,11 @@ msgstr ""
 
 #: qt/app.py:488
 msgid "View snapshot log"
-msgstr ""
+msgstr "Vidi momentaĵprotokolon"
 
 #: qt/app.py:492
 msgid "View last log"
-msgstr ""
+msgstr "Vidi lastan protokolon"
 
 #: qt/app.py:496
 #, fuzzy
@@ -505,7 +517,7 @@ msgstr "Ĉefa profilo"
 
 #: qt/app.py:500
 msgid "Shutdown"
-msgstr ""
+msgstr "Sistemfermo"
 
 #: qt/app.py:502
 msgid "Shut down system after snapshot has finished."
@@ -538,19 +550,19 @@ msgstr ""
 
 #: qt/app.py:525
 msgid "FAQ"
-msgstr ""
+msgstr "Oftaj demandoj"
 
 #: qt/app.py:528
 msgid "Ask a question"
-msgstr ""
+msgstr "Demandi"
 
 #: qt/app.py:531
 msgid "Report a bug"
-msgstr ""
+msgstr "Raporti cimon"
 
 #: qt/app.py:534
 msgid "Translation"
-msgstr ""
+msgstr "Traduko"
 
 #: qt/app.py:537 qt/app.py:1834
 msgid "About"
@@ -563,7 +575,7 @@ msgstr "Restaŭri"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
-msgstr ""
+msgstr "Restaŭri la selektitajn dosierojn aŭ dosierujojn al originala celo."
 
 #: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 #, fuzzy
@@ -572,19 +584,23 @@ msgstr "Restaŭri al…"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
-msgstr ""
+msgstr "Restaŭri la selektitajn dosierojn aŭ dosierujojn al nova celo."
 
 #: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
+"Restaŭri la nuntempe vidigitajn dosierujojn kaj ĉiojn de ilia enhavo al "
+"originala celo."
 
 #: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
+"Restaŭri la nuntempe vidigitajn dosierujojn kaj ĉiojn de ilia enhavo al nova"
+" celo."
 
 #: qt/app.py:560
 msgid "Up"
@@ -596,11 +612,11 @@ msgstr "Montri kaŝitajn dosierojn"
 
 #: qt/app.py:566
 msgid "Compare snapshots…"
-msgstr ""
+msgstr "Kompari momentaĵojn…"
 
 #: qt/app.py:627
 msgid "&Backup"
-msgstr ""
+msgstr "&Savkopio"
 
 #: qt/app.py:638
 #, fuzzy
@@ -616,14 +632,16 @@ msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
+"Se vi fermi tiun fenestron, Back in Time ne eblos malŝalti vian sistemon.\n"
+"Ĉu vi vere volas fermi ĝin?"
 
 #: qt/app.py:905
 msgid "Working:"
-msgstr ""
+msgstr "Faranta:"
 
 #: qt/app.py:953
 msgid "Done, no backup needed"
-msgstr ""
+msgstr "Farita, savkopio ne estas bezonata"
 
 #: qt/app.py:962
 msgid "Working"
@@ -651,7 +669,7 @@ msgstr "Tutmonda"
 
 #: qt/app.py:1051
 msgid "Root"
-msgstr ""
+msgstr "Ĉefuzanto"
 
 #: qt/app.py:1052
 msgid "Home"
@@ -659,11 +677,11 @@ msgstr "Hejmo"
 
 #: qt/app.py:1067
 msgid "Backup folders"
-msgstr ""
+msgstr "Savkopiodosierujoj"
 
 #: qt/app.py:1155
 msgid "Snapshot Name"
-msgstr ""
+msgstr "Nomo de momentaĵo"
 
 #: qt/app.py:1202
 #, fuzzy
@@ -680,6 +698,8 @@ msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
+"Krei kopioj de savkopioj kun vosta {suffix}\n"
+"antaŭ anstataŭigi aŭ forigi lokajn elementojn."
 
 #: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
@@ -687,6 +707,8 @@ msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
+"Pli novaj versioj de dosieroj estos renomata je vosta {suffix} antaŭ restaŭri.\n"
+"Se vi ne plu bezonas ilin, vi povas forigi ilin je {cmd}"
 
 #: qt/app.py:1314
 msgid ""
@@ -694,6 +716,9 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
+"Sole restaŭri elementojn, kiuj ne ekzistas aŭ\n"
+"estas pli novaj ol tiuj, kiuj estas je la celon.\n"
+"Tio uzas la \"rsync --update\" opcion."
 
 #: qt/app.py:1347
 msgid "Remove newer elements in original folder."
@@ -817,64 +842,68 @@ msgstr ""
 msgid "Your translation"
 msgstr ""
 
-#: qt/logviewdialog.py:53
+#: qt/logviewdialog.py:62
 msgid "Last Log View"
 msgstr ""
 
-#: qt/logviewdialog.py:55
+#: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
 msgstr ""
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Profilo"
 
-#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
 msgstr ""
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:94
 msgid "Filter"
 msgstr "Filtrilo"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
 msgid "All"
 msgstr "Ĉiuj"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "Ŝanĝoj"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
 #: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "Eraroj"
 
-#: qt/logviewdialog.py:101 qt/messagebox.py:71
+#: qt/logviewdialog.py:110 qt/messagebox.py:71
 #, fuzzy
 msgid "Information"
 msgstr "Informoj"
 
 #: qt/logviewdialog.py:111
+msgid "rsync transfer failures (experimental)"
+msgstr ""
+
+#: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
+#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
-msgstr ""
+msgstr "Malĉifri vojojn"
 
-#: qt/logviewdialog.py:172
+#: qt/logviewdialog.py:182
 msgid "Copy"
 msgstr "Kopii"
 
-#: qt/logviewdialog.py:180
+#: qt/logviewdialog.py:190
 msgid "Decode"
-msgstr ""
+msgstr "Malĉifri"
 
-#: qt/logviewdialog.py:202
+#: qt/logviewdialog.py:212
 msgid "Do you want to exclude this?"
-msgstr ""
+msgstr "Ĉu vi volas ekskludi tion?"
 
 #: qt/messagebox.py:82 qt/messagebox.py:90
 msgid "Question"
@@ -882,7 +911,7 @@ msgstr "Demando"
 
 #: qt/qtsystrayicon.py:103
 msgid "View Last Log"
-msgstr ""
+msgstr "Vidi lastan protokolon"
 
 #: qt/qtsystrayicon.py:107
 #, python-brace-format
@@ -938,7 +967,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:112 qt/settingsdialog.py:515 qt/settingsdialog.py:584
 msgid "Remove"
-msgstr ""
+msgstr "Forigi"
 
 #: qt/settingsdialog.py:127
 msgid "&General"
@@ -955,26 +984,28 @@ msgid ""
 "possible attack vectors for this. Please take a look at \"A NOTE ON "
 "SECURITY\" in \"man backintime\"."
 msgstr ""
+"{app} uzas EncFS por ĉifrado. Freŝa sekurekzameno vidigas kelkaj da atakoj "
+"contraŭ tio. Bonvolu rigardi \"A NOTE ON SECURITY\" en \"man backintime\"."
 
 #: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
 msgid "Where to save snapshots"
-msgstr ""
+msgstr "Kien savi la momentaĵojn"
 
 #: qt/settingsdialog.py:179
 msgid "Folder"
-msgstr ""
+msgstr "Dosierujo"
 
 #: qt/settingsdialog.py:187
 msgid "SSH Settings"
-msgstr ""
+msgstr "Agordo de SSH"
 
 #: qt/settingsdialog.py:199 qt/settingsdialog.py:318
 msgid "Host"
-msgstr ""
+msgstr "Gastiganto"
 
 #: qt/settingsdialog.py:204
 msgid "Port"
-msgstr ""
+msgstr "Pordo"
 
 #: qt/settingsdialog.py:209 qt/settingsdialog.py:324
 msgid "User"
@@ -990,29 +1021,34 @@ msgstr "Ĉifro"
 
 #: qt/settingsdialog.py:226
 msgid "Private Key"
-msgstr ""
+msgstr "Privata Ŝlosilo"
 
 #: qt/settingsdialog.py:236
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
+"Elekti ekzistantan dosieron je privata ŝlosilo (normale nomita \"id_rsa\")"
 
 #: qt/settingsdialog.py:246
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
 msgstr ""
+"Krei novan SSH-ŝlosilon sen pasvorto (ne permesita se privata ŝlosilo estas "
+"jam elektita)"
 
 #: qt/settingsdialog.py:266 qt/settingsdialog.py:275 qt/settingsdialog.py:281
 msgid "Password"
-msgstr ""
+msgstr "Pasvorto"
 
 #: qt/settingsdialog.py:287
 msgid "Save Password to Keyring"
-msgstr ""
+msgstr "Savi pasvorton je ŝlosilaro"
 
 #: qt/settingsdialog.py:291
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
+"Kaŝmemorigi pasvorton por cron (Sekureca problemo: ĉefuzanto eblas legi "
+"pasvorton)"
 
 #: qt/settingsdialog.py:306
 msgid "Advanced"
@@ -1322,55 +1358,55 @@ msgstr ""
 #: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr ""
+msgstr "Startas 'rsync' je '{cmd}':"
 
 #: qt/settingsdialog.py:842 qt/settingsdialog.py:858
 msgid "as cron job"
-msgstr ""
+msgstr "kiel cron laboro"
 
 #: qt/settingsdialog.py:847 qt/settingsdialog.py:868 qt/settingsdialog.py:889
 msgid "on remote host"
-msgstr ""
+msgstr "je la fora gastiganto"
 
 #: qt/settingsdialog.py:863
 msgid "when taking a manual snapshot"
-msgstr ""
+msgstr "kiam fari manan momentaĵon"
 
 #: qt/settingsdialog.py:876
 msgid "(Please install 'nocache' to enable this option)"
-msgstr ""
+msgstr "(Bonvolu instali 'nocache' por ŝalti tion opcion)"
 
 #: qt/settingsdialog.py:883
 msgid "on local machine"
-msgstr ""
+msgstr "je loka komputilo"
 
 #: qt/settingsdialog.py:894
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr ""
+msgstr "Alidirekti stdout al /dev/null en cron laboro."
 
 #: qt/settingsdialog.py:903
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr ""
+msgstr "Alidirekti stderr al /dev/null en cron laboro."
 
 #: qt/settingsdialog.py:915
 msgid "Limit rsync bandwidth usage"
-msgstr ""
+msgstr "Trafiklimigi rsync-on"
 
 #: qt/settingsdialog.py:918
 msgid "KB/sec"
-msgstr ""
+msgstr "KB/s"
 
 #: qt/settingsdialog.py:956
 msgid "Preserve ACL"
-msgstr ""
+msgstr "Konservi ACL-ojn"
 
 #: qt/settingsdialog.py:971
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "Konservi etenditajn atributojn (xattr)"
 
 #: qt/settingsdialog.py:991
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "Kopii danĝerajn ligilojn (sole funkcias je absolutaj ligiloj)"
 
 #: qt/settingsdialog.py:1024
 #, python-brace-format
@@ -1455,17 +1491,21 @@ msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
+"Vi ne elektis private ŝlosilan dosieron por SSH.\n"
+"Ĉu vi volas generi novan paron de publika/privatan ŝlosilojn sen pasvorto?"
 
 #: qt/settingsdialog.py:1469
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr ""
+msgstr "Private ŝlosila dosiero {file} ne ekzistas."
 
 #: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
+"Ĉu vi volas kopii vian publikan SSH-ŝlosilon al la\n"
+"fora gastiganto por ebligi ensaluton sen pasvorto?"
 
 #: qt/settingsdialog.py:1649
 #, python-brace-format
@@ -1483,19 +1523,19 @@ msgstr ""
 
 #: qt/settingsdialog.py:1822
 msgid "Exclude pattern"
-msgstr ""
+msgstr "Ekskludi ŝablonon"
 
 #: qt/settingsdialog.py:1835
 msgid "Exclude file"
-msgstr ""
+msgstr "Ekskludi dosieron"
 
 #: qt/settingsdialog.py:1839
 msgid "Exclude folder"
-msgstr ""
+msgstr "Ekskludi dosierujon"
 
 #: qt/settingsdialog.py:1863
 msgid "Include file"
-msgstr ""
+msgstr "Inkludi dosieron"
 
 #: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
 #, python-brace-format
@@ -1503,10 +1543,12 @@ msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
+"\"{path}\" estas simbola ligilo. La ligita celo ne estos savkopiata ĝis vi inkludi ĝin ankaŭ.\n"
+"Ĉu vi volas inkludi la simbole ligitan celon anstataŭ?"
 
 #: qt/settingsdialog.py:1893
 msgid "Include folder"
-msgstr ""
+msgstr "Inkludi dosierujon"
 
 #: qt/settingsdialog.py:1930
 #, fuzzy
@@ -1516,23 +1558,23 @@ msgstr "Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
 #: qt/settingsdialog.py:1955
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
-msgstr ""
+msgstr "Malsukcesi krei novan SSH-ŝlosilon en {path}"
 
 #: qt/settingsdialog.py:2014
 msgid "Full snapshot path: "
-msgstr ""
+msgstr "Plena momentaĵvojo: "
 
 #: qt/settingsdialog.py:2064
 msgid "enabled"
-msgstr ""
+msgstr "ŝaltita"
 
 #: qt/settingsdialog.py:2067
 msgid "disabled"
-msgstr ""
+msgstr "malŝaltita"
 
 #: qt/settingsdialog.py:2112
 msgid "Restore Settings"
-msgstr ""
+msgstr "Restaŭri agordon"
 
 #: qt/settingsdialog.py:2125
 #, python-brace-format
