@@ -73,6 +73,22 @@ class TestLogFilter(generic.TestCase):
         for line in (self.i,):
             self.assertIsNone(logFilter.filter(line))
 
+        # New filter (#1587): rsync transfer failures (experimental)
+        logFilter = snapshotlog.LogFilter(mode=snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
+        log_lines = (
+            '[I] Take snapshot (rsync: symlink has no referent: "/home/user/Documents/dead-link")',
+            '[E] Error: rsync: [sender] send_files failed to open "/home/user/Documents/root_only_file.txt": Permission denied (13)',
+            '[I] Schnappschuss erstellen (rsync: IO error encountered -- skipping file deletion)',
+            '[I] Schnappschuss erstellen (rsync: rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1333) [sender=3.2.3])',
+            '[I] Take snapshot (rsync: rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1333) [sender=3.2.3])',
+        )
+        for line in log_lines:
+            self.assertEqual(line, logFilter.filter(line))
+        for line in (self.e, self.c, self.i, self.h):
+            self.assertIsNone(logFilter.filter(line))
+        for line in (self.n):
+            self.assertEqual(line, logFilter.filter(line))  # empty line stays empty line
+
 class TestSnapshotLog(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestSnapshotLog, self).setUp()
