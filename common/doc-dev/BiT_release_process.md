@@ -14,7 +14,7 @@ using a "feature" branch and sending a pull request asking for a review.
 ## Preconditions for a new release
 
 - Developers agreed on the new version number.
-- Most-recent translations were merged into `dev` branch. See the [localization docu](2_localization.md).
+- Most-recent translations were merged into `dev` branch. See the [localization documentation](2_localization.md).
 - Full CI build pipeline matrix is activate (see [#1529](https://github.com/bit-team/backintime/issues/1529)).
 - `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released".
 
@@ -49,7 +49,7 @@ When the PR is merged:
 - Pull latest `dev` branch changes into your BiT repo clone's `dev` branch:
   ```
   git switch dev
-  git pull upstream
+  git pull upstream dev
   ```
 
 - Create a release candidate branch in your clone using the new version number:
@@ -79,8 +79,11 @@ When the PR is merged:
   make
   ```
 
-- Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
+- **Recommended:** Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
   may be found only (too late) at run-time, eg. object name typos (see e.g. [#1553](https://github.com/bit-team/backintime/issues/1553)).
+  
+  *Note:* Since v1.4.x there is a unit test `test_lint.py` which performs
+          a minimal check for severe problems via `make test`.
 
 - Update the `CHANGES` text file in the project's root folder:
 
@@ -123,7 +126,10 @@ When the PR is merged:
   .TH backintime-config 1 "Aug 2023" "version 1.4.0" "USER COMMANDS"
   ```
 
-- Optional: Search for all "copyright" strings an add missing major contributors
+- Optional: Search for all "copyright" strings in the code to update the year and add missing major contributors
+
+  Eg.:
+  - common/config.py
 
   There is also script `updatecopyright.sh` in the project's root folder
   which updates the copyright dates in all files but this script

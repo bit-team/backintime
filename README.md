@@ -4,7 +4,7 @@
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 
 # Back In Time
-<sub>Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, Richard Bailey,
+<sub>Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
 Germar Reitze, Taylor Raack, Christian Buhtz, Michael Büker, Jürgen Altfeld<sub>
  
 It is an easy-to-use backup tool for files and folders.
@@ -117,6 +117,17 @@ to support all Ubuntu distros (older and newer ones).
 
 This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
 
+#### `qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
+
+See the related issue #1592
+
+The only reliable work-around is to delete (or move into another folder)
+the file `/usr/share/backintime/common/qt5_probing.py`:
+
+`mv /usr/share/backintime/common/qt5_probing.py /usr/share/backintime/`
+
+Renaming does *not* work!
+
 ### Problems in versions older than the latest stable release
 
 #### Tray icon or other icons not shown correctly
@@ -183,4 +194,4 @@ Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
 to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
-<sub>November 2023</sub>
+<sub>Jan 2024</sub>
