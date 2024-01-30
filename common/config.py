@@ -116,6 +116,13 @@ class Config(configfile.ConfigFileWithProfiles):
         '/var/backups/*',
         '.Private',
         '/swapfile',
+        # Discord files
+        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
+        'SingletonLock',
+        'SingletonCookie',
+        # Mozilla files
+        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
+        'lock'
     ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True

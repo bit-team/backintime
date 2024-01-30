@@ -1185,7 +1185,7 @@ class MainWindow(QMainWindow):
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).show()
+            logviewdialog.LogViewDialog(self).show()  # no SID argument in constructor means "show last log"
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()
