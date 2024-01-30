@@ -216,9 +216,9 @@ def create_languages_file():
     names = stream.read()
 
     # the same with completeness dict
-    completeness = create_completeness_dict()
+    compl_dict = create_completeness_dict()
     stream = io.StringIO()
-    pprint.pprint(completeness, indent=2, stream=stream, sort_dicts=True)
+    pprint.pprint(compl_dict, indent=2, stream=stream, sort_dicts=True)
     stream.seek(0)
     completeness = stream.read()
 
@@ -239,6 +239,26 @@ def create_languages_file():
         handle.write(completeness[1:])
 
     print(f'Result written to {LANGUAGE_NAMES_PY}.')
+
+    # Completeness statistics (English is excluded)
+    compl = list(compl_dict.values())
+    compl.remove(100)  # exclude English
+    statistic = {
+        'compl': round(sum(compl) / len(compl)),
+        'n': len(compl),
+        '100': len(list(filter(lambda val: val > 99, compl))),
+        '90_99': len(list(filter(lambda val: val >= 90 and val <= 99, compl))),
+        '50_89': len(list(filter(lambda val: val >= 50 and val <= 89, compl))),
+        'lt50': len(list(filter(lambda val: val < 50, compl)))
+    }
+
+    print('STATISTICS')
+    print(f'\tTotal completeness: {statistic["compl"]}%')
+    print(f'\tNumber of languages (excl. English): {statistic["n"]}')
+    print(f'\t100% complete: {statistic["100"]} languages')
+    print(f'\t90-99% complete: {statistic["90_99"]} languages')
+    print(f'\t50-89% complete: {statistic["50_89"]} languages')
+    print(f'\tless than 50% complete: {statistic["lt50"]} languages')
 
 
 def create_language_names_dict(language_codes: list) -> dict:
@@ -347,7 +367,7 @@ def check_shortcuts():
                           f'string.\nmsgid={entry.msgid}\n'
                           f'msgstr={entry.msgstr}')
 
-        # redundant shorcuts?
+        # redundant shortcuts?
         if len(shortcuts) > len(set(shortcuts)):
             print(f'ATTENTION: Maybe redundant shortcuts in "{po_path}". '
                   'Please take a look.')
