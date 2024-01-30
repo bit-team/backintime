@@ -60,7 +60,7 @@ root folder `\`) because
 - locked or open files (in an inconsistent state) must be handled
 - backups of additional disk partitions (bootloader, EFI...) are required to be able to boot
 - a restore cannot overwrite the running system (where the backups software is running)
-  without the risk of crashes or loosing data (for that a restore must be done from a separate boot device normally)
+  without the risk of crashes or losing data (for that a restore must be done from a separate boot device normally)
 - ...
 
 For full system backups look for
@@ -70,7 +70,7 @@ For full system backups look for
 ### Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?
 
 Cloud storage as backup source or target is not support because _Back in Time_
-uses `rsync` as backend for file transfer and therefor a locally mounted file system
+uses `rsync` as backend for file transfer and therefore a locally mounted file system
 or a `ssh` connection is required. Neither is supported by cloud storage.
 
 Even with native support for mounting a cloud storage, most of the time

@@ -162,7 +162,7 @@ class ApplicationInstance:
         It seems the purpose of this additional lock file using an exclusive lock
         is to block the other process to continue until this exclusive lock
         is released (= serialize execution).
-        Therefor advisory locks are used via fcntl.flock (see: man 2 fcntl)
+        Therefore advisory locks are used via fcntl.flock (see: man 2 fcntl)
         """
 
         flock_file_URI = self.pidFile + '.flock'

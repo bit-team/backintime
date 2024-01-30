@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
 "PO-Revision-Date: 2024-01-19 10:47+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -23,67 +23,67 @@ msgstr ""
 msgid "Warning"
 msgstr "Avís"
 
-#: common/config.py:139 common/config.py:282
+#: common/config.py:146 common/config.py:289
 msgid "Main profile"
 msgstr "Perfil principal"
 
-#: common/config.py:292 common/config.py:297
+#: common/config.py:299 common/config.py:304
 msgid "Local"
 msgstr "Local"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
 msgid "SSH private key"
 msgstr "Clau privada SSH"
 
-#: common/config.py:297
+#: common/config.py:304
 msgid "encrypted"
 msgstr "xifrat"
 
-#: common/config.py:298 common/config.py:305
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "Xifrat"
 
-#: common/config.py:303
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "Xifrat amb SSH"
 
-#: common/config.py:310
+#: common/config.py:317
 msgid "Default"
 msgstr "Predeterminat"
 
-#: common/config.py:341 common/config.py:353 common/config.py:370
-#: common/config.py:381
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Perfil: \"{name}\""
 
-#: common/config.py:342
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
 msgstr "La carpeta d'instantànies no es vàlida!"
 
-#: common/config.py:354
+#: common/config.py:361
 msgid "You must select at least one folder to back up!"
 msgstr ""
 "Heu de seleccionar almenys una carpeta per fer una còpia de seguretat!"
 
-#: common/config.py:371
+#: common/config.py:378
 msgid "Backup folder cannot be included."
 msgstr "No s'hi pot incloure la carpeta de còpia de seguretat."
 
-#: common/config.py:383
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
 msgstr "No s'hi pot incloure la subcarpeta de la còpia de seguretat."
 
-#: common/config.py:441
+#: common/config.py:448
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "L'opció no vàlida. {path} no és una carpeta."
 
-#: common/config.py:450
+#: common/config.py:457
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Host/User/Profile-ID no pot estar buit."
 
-#: common/config.py:460 common/config.py:507
+#: common/config.py:467 common/config.py:514
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -92,7 +92,7 @@ msgstr ""
 "No es pot escriure a: {path}\n"
 "Segur que teniu permisos d'escriptura?"
 
-#: common/config.py:477
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -101,7 +101,7 @@ msgstr ""
 "El sistema de fitxers de destí per a {path} està formatat amb FAT que no "
 "admet hard-links. Utilitzeu un sistema de fitxers Linux natiu."
 
-#: common/config.py:486
+#: common/config.py:493
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -112,15 +112,15 @@ msgstr ""
 "SMB. Assegureu-vos que el servidor remot SMB admet enllaços simbòlics o "
 "activeu {copyLinks} a {expertOptions}."
 
-#: common/config.py:490 qt/settingsdialog.py:1004
+#: common/config.py:497 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copia enllaços (dereferencia els enllaços simbòlics)"
 
-#: common/config.py:491
+#: common/config.py:498
 msgid "Expert Options"
 msgstr "Opcions avançades"
 
-#: common/config.py:495
+#: common/config.py:502
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -129,7 +129,7 @@ msgstr ""
 "El sistema de fitxers de destí per a {path} és una compartició muntada amb "
 "sshfs. Sshfs no admet hard-links. Utilitzeu el mode 'SSH' en el seu lloc."
 
-#: common/config.py:1591
+#: common/config.py:1598
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -139,11 +139,11 @@ msgstr ""
 "Segur que el 'cron' està instal·lat ?\n"
 "Si no, hauríeu de desactivar totes les còpies de seguretat automàtiques."
 
-#: common/config.py:1597
+#: common/config.py:1604
 msgid "Failed to write new crontab."
 msgstr "No s'ha pogut escriure el nou crontab ."
 
-#: common/config.py:1700
+#: common/config.py:1707
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -152,12 +152,12 @@ msgstr ""
 "No s'ha pogut instal·lar la regla d'Udev per al perfil {profile_id}. El "
 "servei de DBus Service {dbus_interface} no estava disponible"
 
-#: common/config.py:1715
+#: common/config.py:1722
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "El planificador udev no funciona amb el mode {mode}"
 
-#: common/config.py:1726
+#: common/config.py:1733
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "No s'ha pogut trobar l'UUID per a {path}"
@@ -311,54 +311,58 @@ msgid "Success"
 msgstr "Èxit"
 
 #: common/snapshots.py:1255
+msgid "Partial transfer due to error"
+msgstr ""
+
+#: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transferència parcial a causa de la desaparició dels fitxers d'origen (mireu"
 " 'man rsync')"
 
-#: common/snapshots.py:1258
+#: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' ha finalitzat amb el codi de sortida {exit_code}"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
 msgstr "Consulteu 'man rsync' per a més detalls"
 
-#: common/snapshots.py:1271
+#: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Els codis de sortida negatius de l'rsync són números de senyal, vegeu 'kill "
 "-l' i 'man kill'"
 
-#: common/snapshots.py:1286
+#: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "No hi ha canvis, no cal una instantània nova"
 
-#: common/snapshots.py:1317
+#: common/snapshots.py:1318
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "No es pot canviar el nom de {new_path} a {path}"
 
-#: common/snapshots.py:1635 common/snapshots.py:1687
+#: common/snapshots.py:1636 common/snapshots.py:1688
 msgid "Smart remove"
 msgstr "Esborrat intel·ligent"
 
-#: common/snapshots.py:1662
+#: common/snapshots.py:1663
 msgid "Removing old snapshots"
 msgstr "Elimina les instantànies antigues"
 
-#: common/snapshots.py:1697
+#: common/snapshots.py:1698
 msgid "Trying to keep min free space"
 msgstr "Proveu de mantenir un minim d'espai lliure"
 
-#: common/snapshots.py:1736
+#: common/snapshots.py:1737
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proveu de mantenir mínim un {perc} d'inodes lliures"
 
-#: common/snapshots.py:2819 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Ara"
 
@@ -446,7 +450,7 @@ msgstr ""
 msgid "Add to Include"
 msgstr "Afegeix a la inclusió"
 
-#: qt/app.py:254 qt/logviewdialog.py:176
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Afegeix a l'exclusió"
 
@@ -852,61 +856,65 @@ msgstr "plataforma de traducció"
 msgid "Your translation"
 msgstr "la teva traducció"
 
-#: qt/logviewdialog.py:53
+#: qt/logviewdialog.py:62
 msgid "Last Log View"
 msgstr "Última visualització dels registres"
 
-#: qt/logviewdialog.py:55
+#: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
 msgstr "Visualitza el registre d'instantànies"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Perfil"
 
-#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
 msgstr "Instantànies"
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:94
 msgid "Filter"
 msgstr "Filtre"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
 msgid "All"
 msgstr "Tots"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "Canvis"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
 #: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "Errors"
 
-#: qt/logviewdialog.py:101 qt/messagebox.py:71
+#: qt/logviewdialog.py:110 qt/messagebox.py:71
 msgid "Information"
 msgstr "Informació"
 
 #: qt/logviewdialog.py:111
+msgid "rsync transfer failures (experimental)"
+msgstr ""
+
+#: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E]Error, [I]Informació, [C]Canvia"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
+#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "descodifica rutes"
 
-#: qt/logviewdialog.py:172
+#: qt/logviewdialog.py:182
 msgid "Copy"
 msgstr "Copia"
 
-#: qt/logviewdialog.py:180
+#: qt/logviewdialog.py:190
 msgid "Decode"
 msgstr "Descodifica"
 
-#: qt/logviewdialog.py:202
+#: qt/logviewdialog.py:212
 msgid "Do you want to exclude this?"
 msgstr "Voleu excloure això?"
 

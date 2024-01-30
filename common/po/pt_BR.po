@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
 "PO-Revision-Date: 2024-01-19 10:47+0000\n"
 "Last-Translator: ymusachio <yuri.musachio@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
@@ -23,66 +23,66 @@ msgstr ""
 msgid "Warning"
 msgstr "Aviso"
 
-#: common/config.py:139 common/config.py:282
+#: common/config.py:146 common/config.py:289
 msgid "Main profile"
 msgstr "Perfil principal"
 
-#: common/config.py:292 common/config.py:297
+#: common/config.py:299 common/config.py:304
 msgid "Local"
 msgstr "Local"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
 msgid "SSH private key"
 msgstr "Chave privada SSH"
 
-#: common/config.py:297
+#: common/config.py:304
 msgid "encrypted"
 msgstr "criptografado"
 
-#: common/config.py:298 common/config.py:305
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "Criptografia"
 
-#: common/config.py:303
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "SSH criptografado"
 
-#: common/config.py:310
+#: common/config.py:317
 msgid "Default"
 msgstr "Padrão"
 
-#: common/config.py:341 common/config.py:353 common/config.py:370
-#: common/config.py:381
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Perfil: \"{name}\""
 
-#: common/config.py:342
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
 msgstr "Pasta para Snapshots não é válida!"
 
-#: common/config.py:354
+#: common/config.py:361
 msgid "You must select at least one folder to back up!"
 msgstr "Você deve selecionar pelo menos uma pasta para backup!"
 
-#: common/config.py:371
+#: common/config.py:378
 msgid "Backup folder cannot be included."
 msgstr "Pasta backup não pode ser incluída."
 
-#: common/config.py:383
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
 msgstr "Sub-pasta backup não pode ser incluída."
 
-#: common/config.py:441
+#: common/config.py:448
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Opção inválida. {path} não é uma pasta."
 
-#: common/config.py:450
+#: common/config.py:457
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Host/Usuário/Perfil não devem estar vazios."
 
-#: common/config.py:460 common/config.py:507
+#: common/config.py:467 common/config.py:514
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -91,7 +91,7 @@ msgstr ""
 "Não é possível escrever em: {path}\n"
 "Você tem certeza de que possui permissão de escrita?"
 
-#: common/config.py:477
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -101,7 +101,7 @@ msgstr ""
 " suporta hard-links. Por favor, utilize um sistema de arquivos nativo do "
 "Linux."
 
-#: common/config.py:486
+#: common/config.py:493
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -112,15 +112,15 @@ msgstr ""
 "montado. Por favor, tenha certeza que o servidor SMB remoto suporta symlinks"
 " ou ative a opção '{copyLinks}' em '{expertOptions}'."
 
-#: common/config.py:490 qt/settingsdialog.py:1004
+#: common/config.py:497 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copiar links (desreferenciar links simbólicos)"
 
-#: common/config.py:491
+#: common/config.py:498
 msgid "Expert Options"
 msgstr "Opções avançadas"
 
-#: common/config.py:495
+#: common/config.py:502
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -130,7 +130,7 @@ msgstr ""
 "montado. O sshfs não suporta hard-links. Por favor, utilize o modo 'SSH' "
 "como alternativa."
 
-#: common/config.py:1591
+#: common/config.py:1598
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -140,11 +140,11 @@ msgstr ""
 "Você tem certeza se o cron está instalado?\n"
 "Se não você deve desabilitar todos os backups automáticos."
 
-#: common/config.py:1597
+#: common/config.py:1604
 msgid "Failed to write new crontab."
 msgstr "Falha ao escrever um novo crontab."
 
-#: common/config.py:1700
+#: common/config.py:1707
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -153,12 +153,12 @@ msgstr ""
 "Não foi possível instalar a regra Udev para o perfil {profile_id}. O serviço"
 " DBus '{dbus_interface}' não está disponível"
 
-#: common/config.py:1715
+#: common/config.py:1722
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Agendamento udev não funciona com o modo {mode}"
 
-#: common/config.py:1726
+#: common/config.py:1733
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Não foi possível encontrar UUID para {path}"
@@ -311,54 +311,58 @@ msgid "Success"
 msgstr "Sucesso"
 
 #: common/snapshots.py:1255
+msgid "Partial transfer due to error"
+msgstr ""
+
+#: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transferência parcial devido a arquivos de origem ausentes (consulte 'man "
 "rsync')"
 
-#: common/snapshots.py:1258
+#: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "O 'rsync' finalizou com o código de saída {exit_code}"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
 msgstr "Veja 'man rsync' para mais detalhes"
 
-#: common/snapshots.py:1271
+#: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Códigos de saída negativos rsync são números de sinal, veja 'kill -l' e 'man"
 " kill'"
 
-#: common/snapshots.py:1286
+#: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nada mudou, nenhum snapshot novo necessário"
 
-#: common/snapshots.py:1317
+#: common/snapshots.py:1318
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Não é possível renomear {new_path} para {path}"
 
-#: common/snapshots.py:1635 common/snapshots.py:1687
+#: common/snapshots.py:1636 common/snapshots.py:1688
 msgid "Smart remove"
 msgstr "Remoção Inteligente"
 
-#: common/snapshots.py:1662
+#: common/snapshots.py:1663
 msgid "Removing old snapshots"
 msgstr "Removendo snapshots antigos"
 
-#: common/snapshots.py:1697
+#: common/snapshots.py:1698
 msgid "Trying to keep min free space"
 msgstr "Tentando manter o mínimo de espaço livre"
 
-#: common/snapshots.py:1736
+#: common/snapshots.py:1737
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentando manter o mínimo de inodes {perc} livres"
 
-#: common/snapshots.py:2819 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Agora"
 
@@ -447,7 +451,7 @@ msgstr ""
 msgid "Add to Include"
 msgstr "Adicione à Lista de Inclusões"
 
-#: qt/app.py:254 qt/logviewdialog.py:176
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Adicione à Lista de Exclusões"
 
@@ -855,61 +859,65 @@ msgstr "plataforma de tradução"
 msgid "Your translation"
 msgstr "Sua tradução"
 
-#: qt/logviewdialog.py:53
+#: qt/logviewdialog.py:62
 msgid "Last Log View"
 msgstr "Visualização do Último Log"
 
-#: qt/logviewdialog.py:55
+#: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
 msgstr "Visualização do Log do Snapshot"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Perfil"
 
-#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
 msgstr "Snapshots"
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:94
 msgid "Filter"
 msgstr "Filtrar"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
 msgid "All"
 msgstr "Tudo"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "Alterações"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
 #: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "Erros"
 
-#: qt/logviewdialog.py:101 qt/messagebox.py:71
+#: qt/logviewdialog.py:110 qt/messagebox.py:71
 msgid "Information"
 msgstr "Informação"
 
 #: qt/logviewdialog.py:111
+msgid "rsync transfer failures (experimental)"
+msgstr ""
+
+#: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Erro, [I] Informação, [C] Alteração"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
+#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "decodificar caminhos"
 
-#: qt/logviewdialog.py:172
+#: qt/logviewdialog.py:182
 msgid "Copy"
 msgstr "Copiar"
 
-#: qt/logviewdialog.py:180
+#: qt/logviewdialog.py:190
 msgid "Decode"
 msgstr "Decodificar"
 
-#: qt/logviewdialog.py:202
+#: qt/logviewdialog.py:212
 msgid "Do you want to exclude this?"
 msgstr "Você deseja excluir isto?"
 

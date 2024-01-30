@@ -59,7 +59,7 @@ class LogFilter(object):
              RSYNC_TRANSFER_FAILURES: re.compile(
                  # All links to rsync's source reference the commit 2f9b963 from Jun 27, 2023 (most-recent commit on "master" as at Jan 28, 2024)
                  r'.*(?:'
-                 r'Invalid cross-device link'     # not directly contained in rsync's source code but may be catched and passed through as-is
+                 r'Invalid cross-device link'     # not directly contained in rsync's source code but may be caught and passed through as-is
                  r'|symlink has no referent'      # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1281
                  r'|readlink_stat\(.?\) failed'   # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1294
                  r'|link_stat .* failed'          # https://github.com/WayneD/rsync/blob/2f9b963abaa52e44891180fe6c0d1c2219f6686d/flist.c#L1810
