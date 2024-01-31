@@ -88,7 +88,8 @@ from PyQt5.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QSize,
-                          QUrl
+                          QUrl,
+                          pyqtRemoveInputHook,
                           )
 import settingsdialog
 import snapshotsdialog
@@ -443,6 +444,7 @@ class MainWindow(QMainWindow):
         """
 
         action_dict = {
+            # pylint: disable=undefined-variable
             # 'Name of action attribute in "self"': (
             #     ICON, Label text,
             #     trigger_handler_function,
@@ -710,6 +712,7 @@ class MainWindow(QMainWindow):
         # Add actions to toolbar and get the toolbar buttons widget...
         for act in actions_for_toolbar:
             toolbar.addActions(actions_for_toolbar)
+            print(f'{act=} {act.toolTip()=} {act.text()=}')
             # If action has both tip and text, then change the format for the button tip
             if act.toolTip() and act.text():
                 button_tip = f'{act.text()}: {act.toolTip()}'
@@ -749,9 +752,8 @@ class MainWindow(QMainWindow):
         # Add actions to toolbar and get the toolbar buttons widget...
         for act in actions_for_toolbar:
             toolbar.addActions(actions_for_toolbar)
-            # If action has both tip and text, then change the format for the button tip
             print(f'{act=} {act.toolTip()=} {act.text()=}')
-
+            # If action has both tip and text, then change the format for the button tip
             if act.toolTip() and act.text():
                 button_tip = f'{act.text()}: {act.toolTip()}'
             button_restore = toollbar.widgetForAction(act)

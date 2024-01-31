@@ -56,6 +56,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            'E0602',  # undefined-variable
             'E1101',  # no-member
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
         ]
