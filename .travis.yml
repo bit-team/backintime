@@ -28,7 +28,7 @@ before_install:
   - sudo rm -f /etc/apt/sources.list.d/mongodb.list
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
-  - sudo apt-get install -y sshfs screen util-linux
+  - sudo apt-get install -y sshfs screen util-linux python3-pyqt5
 jobs:
   exclude:
     - python: "3.9"
