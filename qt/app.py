@@ -452,7 +452,7 @@ class MainWindow(QMainWindow):
             'act_take_snapshot': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
-                _('Take a snapshot: Use modification time & size for file change detection.')),
+                _('Use modification time & size for file change detection.')),
 
             'act_take_snapshot_checksum': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot (checksum mode)'),
@@ -702,15 +702,19 @@ class MainWindow(QMainWindow):
             self.act_shutdown,
         ]
 
-        toolbar.addActions(actions_for_toolbar)
-
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
         submenu_take_snapshot.addAction(self.act_take_snapshot)
         submenu_take_snapshot.addAction(self.act_take_snapshot_checksum)
         submenu_take_snapshot.setToolTipsVisible(True)
-        # get the toolbar buttons widget...
-        button_take_snapshot = toolbar.widgetForAction(self.act_take_snapshot)
+        # Add actions to toolbar and get the toolbar buttons widget...
+        for act in actions_for_toolbar:
+            toolbar.addActions(actions_for_toolbar)
+            # If action has both tip and text, then change the format for the button tip
+            if act.toolTip() and act.text():
+                button_tip = f'{act.text()}: {act.toolTip()}'
+            button_take_snapshot = toolbar.widgetForAction(act)
+            button_take_snapshot.setToolTip(button_tip)
         # ...and add the menu to it
         button_take_snapshot.setMenu(submenu_take_snapshot)
         button_take_snapshot.setPopupMode(QToolButton.MenuButtonPopup)
@@ -736,17 +740,20 @@ class MainWindow(QMainWindow):
             self.act_snapshots_dialog,
         ]
 
-        toolbar.addActions(actions_for_toolbar)
-
         # LineEdit widget to display the current path
         self.widget_current_path = QLineEdit(self)
         self.widget_current_path.setReadOnly(True)
         toolbar.insertWidget(self.act_show_hidden, self.widget_current_path)
-
+        # Add actions to toolbar and get the toolbar buttons widget...
+        for act in actions_for_toolbar:
+            toolbar.addActions(actions_for_toolbar)
+            # If action has both tip and text, then change the format for the button tip
+            if act.toolTip() and act.text():
+                button_tip = f'{act.text()}: {act.toolTip()}'
+            button_restore = toollbar.widgetForAction(act)
+            button_restore.setToolTip(button_tip)
         # Restore sub menu
         restore_sub_menu = self.act_restore_menu.menu()
-        # get the toolbar buttons widget...
-        button_restore = toolbar.widgetForAction(self.act_restore)
         # ...and add the menu to it
         button_restore.setMenu(restore_sub_menu)
         button_restore.setPopupMode(QToolButton.MenuButtonPopup)
