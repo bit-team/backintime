@@ -16,7 +16,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-# pylint: disable=undefinied-variable  Remove this as soon as possible
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -30,6 +29,9 @@ import messagebox
 
 
 class LogViewDialog(QDialog):
+    # Workaround because of *-imports of Qt elements.
+    # Remove as soon as possible.
+    # pylint: disable=undefined-variable
     def __init__(self, parent, sid = None, systray = False):
         if systray:
             super(LogViewDialog, self).__init__()
