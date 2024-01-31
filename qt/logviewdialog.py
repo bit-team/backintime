@@ -15,7 +15,8 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-# Remove this as soon as possible -> pylint: disable=undefinied-variable
+
+# pylint: disable=undefinied-variable  Remove this as soon as possible
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
