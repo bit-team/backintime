@@ -750,6 +750,8 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addActions(actions_for_toolbar)
             # If action has both tip and text, then change the format for the button tip
+            print(f'{act=} {act.toolTip()=} {act.text()=}')
+
             if act.toolTip() and act.text():
                 button_tip = f'{act.text()}: {act.toolTip()}'
             button_restore = toollbar.widgetForAction(act)
