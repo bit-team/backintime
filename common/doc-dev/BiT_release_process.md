@@ -211,7 +211,7 @@ When the PR is merged:
   - Update the `dev` branch
     ```
     git switch dev
-    git pull upstream
+    git pull upstream dev
     ```
   - Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`:
     The script will actually `git clone` the current branch
