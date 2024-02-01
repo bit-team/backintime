@@ -152,6 +152,9 @@ When the PR is merged:
       to stay visible for users of older versions.
     - Remove old known problems if you are sure old BiT versions with this issue
       are unlikely to be used "in the wild" anymore.
+    - Update table of contents (TOC) for the changed parts.
+      You can eg. use https://github.com/derlin/bitdowntoc to generate a TOC and
+      copy the changed parts into the `README.md`.
 
 - Build the prepared release candidate and execute the unit tests:
 
