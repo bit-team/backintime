@@ -14,6 +14,10 @@ addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
+env:
+    # TravisCI support said this could prevent errors from "make".
+    PYTHONUNBUFFERED=1
+
 python:
   - "3.8"
   - "3.9"
