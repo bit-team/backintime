@@ -14,9 +14,9 @@ addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
-# env:
-#     # TravisCI support said this could prevent errors from "make".
-#     PYTHONUNBUFFERED=1
+env:
+    # TravisCI support said this could prevent errors from "make".
+    PYTHONUNBUFFERED=1
 
 python:
   - "3.8"
@@ -31,7 +31,7 @@ before_install:
   - sudo rm -f /etc/apt/sources.list.d/mongodb.list
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
-  - sudo apt-get install -y sshfs screen util-linux
+  - sudo apt-get install -y sshfs screen util-linux python3-pyqt5
 
 jobs:
   exclude:
@@ -43,7 +43,7 @@ jobs:
       python: "3.12"
 
 install:
-  - pip install pylint coveralls pyfakefs pyqt5
+  - pip install pylint coveralls pyfakefs
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
