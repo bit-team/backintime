@@ -10,13 +10,13 @@ arch :
 # ensures that we have UUID filesystem mounts for proper testing
 dist: focal
 
-addons:
-  # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
-  ssh_known_hosts: localhost
-
 env:
     # TravisCI support said this could prevent errors from "make".
     PYTHONUNBUFFERED=1
+
+addons:
+  # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
+  ssh_known_hosts: localhost
 
 python:
   - "3.8"
@@ -25,6 +25,12 @@ python:
   - "3.11"
   - "3.12"
 
+virtualenv:
+  # Packages installed via "apt" are available to Pythons virtenv.
+  # Necessary because PyQt is installed via "apt". Install via "pip" is
+  # not possible because PyPi do not offer a build for "ppc64le" architecture.
+  system_site_packages: true
+  
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
   # https://github.com/travis-ci/travis-ci/issues/4937#issuecomment-149289729
