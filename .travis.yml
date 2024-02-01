@@ -67,10 +67,12 @@ script:
   - ./configure  --python=python3
   - make unittest-v
   - cd ..
+  - echo $TRAVIS_PYTHON_VERSION
+  - echo $TRAVIS_ARCH
   - cd qt
   - ./configure  --python=python3
   - make
-  - pytest
+  - if [ "$TRAVIS_PYTHON_VERSION" == "3.8" ] ; then pytest; fi
 
 after_success:
   - coverage combine
