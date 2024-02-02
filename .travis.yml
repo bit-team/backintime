@@ -25,18 +25,19 @@ dist: focal
 env:
     # TravisCI support said this could prevent errors from "make".
     PYTHONUNBUFFERED=1
+    - python: "3.8"
+      env: SYSTEM_SITE_PACKAGES=true
 
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
-python:
-  - "3.8"
-  - "3.9"
-  - "3.10"
-  - "3.11"
-#   - "3.12"
-
+# python:
+#   - "3.8"
+#   - "3.9"
+#   - "3.10"
+#   - "3.11"
+# #   - "3.12"
    
 
 # virtualenv:
