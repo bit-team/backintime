@@ -1,5 +1,5 @@
-import unicodedata
-import textwrap
+"""Dialog window to choose GUI display language.
+"""
 from PyQt6.QtCore import Qt, QSize, QTimer
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QApplication,
@@ -20,6 +20,7 @@ import languages
 
 
 class LanguageDialog(QDialog):
+    """Dialog to choose GUI language."""
     def __init__(self, used_language_code: str, configured_language_code: str):
         super().__init__()
 
@@ -42,7 +43,9 @@ class LanguageDialog(QDialog):
         self._scroll.setMinimumWidth(new_width)
 
         buttonbox = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Cancel | QDialogButtonBox.StandardButton.Ok, self)
+            QDialogButtonBox.StandardButton.Cancel |
+            QDialogButtonBox.StandardButton.Ok,
+            self)
 
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
@@ -143,11 +146,9 @@ class LanguageDialog(QDialog):
                 except KeyError:
                     pass
                 else:
-                    tooltip = '{}\n{}'.format(
-                        tooltip,
-                        _('Translated: {percent}').format(
+                    tooltip = tooltip + '\n' \
+                        + _('Translated: {percent}').format(
                             percent=f'{complete}%')
-                    )
 
             # Create button
             r = self._create_radio_button(code, label, tooltip)
@@ -163,10 +164,12 @@ class LanguageDialog(QDialog):
 
         return widget
 
-    def slot_radio(self, val):
+    def slot_radio(self, _):
+        """Radio button state toggled."""
         btn = self.sender()
 
         if btn.isChecked():
+            # pylint: disable-next=attribute-defined-outside-init
             self.language_code = btn.lang_code
 
 
@@ -179,8 +182,8 @@ class ApproachTranslatorDialog(QDialog):
     _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
     _URL_PROJECT = 'https://github.com/bit-team/backintime'
 
-    @staticmethod
-    def _complete_text(language, percent):
+    @classmethod
+    def _complete_text(cls, language, percent):
 
         txt = _(
             'Hello'
@@ -209,16 +212,22 @@ class ApproachTranslatorDialog(QDialog):
         for t in txt.split('\n'):
             result = f'{result}<p>{t}</p>'
 
-       # Insert data in placeholder variables.
+        # Insert data in placeholder variables.
+        platform_url \
+            = f'<a href="{cls._URL_PLATFORM}">' \
+            + _('translation platform') \
+            + '</a>'
+
+        project_url \
+            = f'<a href="{cls._URL_PROJECT}">Back In Time ' \
+            + _('Website') \
+            + ' </a>'
+
         result = result.format(
             language=f'<strong>{language}</strong>',
             perc=f'<strong>{percent} %</strong>',
-            translation_platform_url='<a href="{}">{}</a>'.format(
-                __class__._URL_PLATFORM,
-                _('translation platform')),
-            back_in_time_project_website='<a href="{}">Back In Time {}</a>'.format(
-                __class__._URL_PROJECT,
-                _('Website'))
+            translation_platform_url=platform_url,
+            back_in_time_project_website=project_url
         )
 
         return result
@@ -234,7 +243,7 @@ class ApproachTranslatorDialog(QDialog):
         self.setWindowTitle(_('Your translation'))
         self.setWindowFlag(Qt.WindowType.WindowMaximizeButtonHint, True)
 
-        txt = __class__._complete_text(language_name, completeness)
+        txt = self._complete_text(language_name, completeness)
         widget = QLabel(txt, self)
         widget.setWordWrap(True)
         widget.setOpenExternalLinks(True)
@@ -259,8 +268,8 @@ class ApproachTranslatorDialog(QDialog):
         if self.height() < best.height():
             self.resize(best)
 
-    def resizeEvent(self, event):
-        """ See `_fixSize()`  for details."""
+    def resizeEvent(self, event):  # pylint: disable=invalid-name
+        """See `_fixSize()`  for details."""
         super().resizeEvent(event)
 
         if event.oldSize().width() != event.size().width():
@@ -271,4 +280,5 @@ class ApproachTranslatorDialog(QDialog):
 
 
     def slot_link_hovered(self, url):
+        """Show URL in tooltip without anoing http-protocol prefixf."""
         QToolTip.showText(QCursor.pos(), url.replace('https://', ''))
