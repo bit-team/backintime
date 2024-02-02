@@ -13,16 +13,15 @@
 
 language: python
 
-matrix:
-  arch: [amd64, ppc64le]
-  python: [3.8, 3.9, 3.10, 3.11]
+# matrix:
+#   arch: [amd64, ppc64le]
+#   python: [3.8, 3.9, 3.10, 3.11]
 
 os: linux
  
-os: linux
-# arch :
-#  - amd64
-#  - ppc64le
+arch :
+ - amd64
+ - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
 dist: focal
@@ -35,14 +34,13 @@ addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
-# python:
-#   - "3.8"
-#     virtualenv:
-#         system_site_packages: true
-#   - "3.9"
-#   - "3.10"
-#   - "3.11"
-# #   - "3.12"
+python:
+  - "3.8"
+    env: SYSTEM_SITE_PACKAGES=true
+  - "3.9"
+  - "3.10"
+  - "3.11"
+#   - "3.12"
 
    
 
