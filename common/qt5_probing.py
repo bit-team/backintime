@@ -101,8 +101,8 @@ try:
     #     os.seteuid(1000)
     #     logger.debug(f"New euid: {os.geteuid()}")
 
-    from PyQt5 import QtCore
-    from PyQt5.QtWidgets import QApplication
+    from PyQt6 import QtCore
+    from PyQt6.QtWidgets import QApplication
 
     app = QApplication([''])
 

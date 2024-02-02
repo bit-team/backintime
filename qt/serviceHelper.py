@@ -71,7 +71,9 @@ except ImportError:
 
 import dbus
 import dbus.service
-import dbus.mainloop.pyqt5
+import dbus.mainloop
+import dbus.mainloop.pyqt6
+from dbus.mainloop.pyqt6 import DBusQtMainLoop
 from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
@@ -323,7 +325,7 @@ class SenderInfo(object):
         return self.dbus_info.GetConnectionUnixProcessID(self.sender)
 
 if __name__ == '__main__':
-    dbus.mainloop.pyqt5.DBusQtMainLoop(set_as_default=True)
+    DBusQtMainLoop(set_as_default=True)
 
     app = QCoreApplication([])
 
