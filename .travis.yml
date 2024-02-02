@@ -34,6 +34,9 @@ addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
+env:
+  # TravisCI support said this could prevent errors from "make".
+  PYTHONUNBUFFERED=1
   
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
@@ -75,7 +78,6 @@ script:
   - make
   # PyQt5 is not installed on "ppc64le"
   - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
-  - pytest
 
 after_success:
   - coverage combine
