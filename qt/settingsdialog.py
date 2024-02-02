@@ -1416,7 +1416,7 @@ class SettingsDialog(QDialog):
         self.cbPreserveXattr.setChecked(self.config.preserveXattr())
         self.cbCopyUnsafeLinks.setChecked(self.config.copyUnsafeLinks())
         self.cbCopyLinks.setChecked(self.config.copyLinks())
-        self.cbOneFileSystem.setChecked(self.config.one_file_system())
+        self.cbOneFileSystem.setChecked(self.config.oneFileSystem())
         self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled())
         self.txtRsyncOptions.setText(self.config.rsyncOptions())
         self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
@@ -1611,7 +1611,7 @@ class SettingsDialog(QDialog):
         self.config.setPreserveXattr(self.cbPreserveXattr.isChecked())
         self.config.setCopyUnsafeLinks(self.cbCopyUnsafeLinks.isChecked())
         self.config.setCopyLinks(self.cbCopyLinks.isChecked())
-        self.config.set_one_file_system(self.cbOneFileSystem.isChecked())
+        self.config.setOneFileSystem(self.cbOneFileSystem.isChecked())
         self.config.setRsyncOptions(self.cbRsyncOptions.isChecked(),
                                     self.txtRsyncOptions.text())
         self.config.setSshPrefix(self.cbSshPrefix.isChecked(),

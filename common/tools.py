@@ -904,7 +904,7 @@ def rsyncPrefix(config,
     else:
         cmd.append('--links')
 
-    if config.one_file_system():
+    if config.oneFileSystem():
         cmd.append('--one-file-system')
 
     if config.preserveAcl() and "ACLs" in caps:

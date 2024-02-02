@@ -1273,12 +1273,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def setCopyLinks(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.copy_links', value, profile_id)
 
-    def one_file_system(self, profile_id = None):
+    def oneFileSystem(self, profile_id = None):
         #?Use rsync's "--one-file-system" to avoid crossing filesystem
         #?boundaries when recursing.
         return self.profileBoolValue('snapshots.one_file_system', False, profile_id)
 
-    def set_one_file_system(self, value, profile_id = None):
+    def setOneFileSystem(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.one_file_system', value, profile_id)
 
     def rsyncOptionsEnabled(self, profile_id = None):
