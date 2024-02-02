@@ -53,7 +53,7 @@ addInstallFile () {
 addSymlink () {
     dst=$1
     src=$2
-    printf "\tln -s $dst \$(DEST)$src\n" >> ${MAKEFILE}
+    printf "\tln --symbolic --force $dst \$(DEST)$src\n" >> ${MAKEFILE}
     addUninstallFile "$src"
 }
 
