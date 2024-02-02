@@ -13,10 +13,6 @@
 
 language: python
 
-# matrix:
-#   arch: [amd64, ppc64le]
-#   python: [3.8, 3.9, 3.10, 3.11]
-
 os: linux
  
 arch :
@@ -57,7 +53,10 @@ before_install:
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
 
-# jobs:
+jobs:
+  include:
+    - python: "3.8"
+      env: SYSTEM_SITE_PACKAGES=true
 #   exclude:
 #     - python: "3.9"
 #     - python: "3.10"
