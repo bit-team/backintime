@@ -68,7 +68,7 @@ import sshtools
 import logger
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 
-# That value is used to wrap tooltip strings (inerting newline characters).
+# That value is used to wrap tooltip strings (inserting newline characters).
 _TOOLTIP_WRAP_LENGTH = 72
 
 
