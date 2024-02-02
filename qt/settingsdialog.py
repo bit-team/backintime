@@ -556,7 +556,10 @@ class SettingsDialog(QDialog):
         label = QLabel(_('Highly recommended') + ':', self)
         qttools.setFontBold(label)
         layout.addWidget(label)
-        label = QLabel(', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self)
+        setExclude = set(self.listExclude)
+        label = QLabel(', '.join(sorted([item for item in self.config.DEFAULT_EXCLUDE if item not in setExclude ])), self)
+        label.setWordWrap(True)
+
         label.setWordWrap(True)
         layout.addWidget(label)
 
