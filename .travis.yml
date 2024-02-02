@@ -12,10 +12,16 @@
 # not allowed to use packages installed via "apt".
 
 language: python
+
+matrix:
+  python: [3.8, 3.9, 3.10, 3.11]
+  arch: [amd64, ppc64le]
+  os: linux
+ 
 os: linux
-arch :
- - amd64
- - ppc64le
+# arch :
+#  - amd64
+#  - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
 dist: focal
@@ -28,14 +34,16 @@ addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
-python:
-  - "3.8"
-    virtualenv:
-        system_site_packages: true
-  - "3.9"
-  - "3.10"
-  - "3.11"
-  - "3.12"
+# python:
+#   - "3.8"
+#     virtualenv:
+#         system_site_packages: true
+#   - "3.9"
+#   - "3.10"
+#   - "3.11"
+# #   - "3.12"
+
+   
 
 # virtualenv:
 #   # Packages installed via "apt" are available to Pythons virtenv.
@@ -51,14 +59,14 @@ before_install:
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
 
-jobs:
-  exclude:
-    - python: "3.9"
-    - python: "3.10"
-    - python: "3.11"
-    # Excluding this temporarily because of an Issue on Travis. Support contact established.
-    - arch: ppc64le
-      python: "3.12"
+# jobs:
+#   exclude:
+#     - python: "3.9"
+#     - python: "3.10"
+#     - python: "3.11"
+#     # Excluding this temporarily because of an Issue on Travis. Support contact established.
+#     - arch: ppc64le
+#       python: "3.12"
 
 install:
   - pip install pylint coveralls pyfakefs
