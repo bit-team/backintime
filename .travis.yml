@@ -1,6 +1,16 @@
 # TravisCI (https://travis-ci.org) configuration file
 # https://docs.travis-ci.com/user/languages/python
 
+# Note about PyQt related unit tests:
+# They are not executed on architecture "ppc64le". For this architecture
+# PyQt is not available from PyPi and not installable via pip.
+# The alternative to use "system-site-packages" option and installing PyQt5
+# from Ubuntu repository via "apt" is not working as expected. TravisCI
+# allow "system-site-packages" only for those Python interpreteres that are
+# offered by Ubuntu itself; Python 3.8 in case of Ubuntu Focal. Other Python
+# versions are installed from other sources into a virtual environment and
+# not allowed to use packages installed via "apt".
+
 language: python
 os: linux
 arch :
@@ -50,6 +60,7 @@ jobs:
 
 install:
   - pip install pylint coveralls pyfakefs
+  # PyQt5 is not available for "ppc64le" architecture on PyPi
   - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pip install pyqt5; fi
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
@@ -58,8 +69,6 @@ install:
   - eval `ssh-agent -s`
 
 script:
-  # Is a virtual environment active? Yes: if both variables are not equal.
-  # - python -c "import sys;print(f'{sys.prefix=} {sys.base_prefix=} In virtualenv={sys.prefix != sys.base_prefix}')"
   # - coverage debug sys
   # compile all files - ensure that syntax is correct
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
@@ -68,12 +77,10 @@ script:
   - ./configure  --python=python3
   - make unittest-v
   - cd ..
-  - echo $TRAVIS_PYTHON_VERSION
-  - echo $TRAVIS_ARCH
-  - python3 -c "import sys;print(f'{sys.executable=}')"
   - cd qt
-  - ./configure  --python=python3
+  - ./configure --python=python3
   - make
+  # PyQt5 is not installed on "ppc64le"
   - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
 
 after_success:
