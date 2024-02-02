@@ -30,6 +30,8 @@ addons:
 
 python:
   - "3.8"
+    virtualenv:
+        system_site_packages: true
   - "3.9"
   - "3.10"
   - "3.11"
@@ -62,6 +64,7 @@ install:
   - pip install pylint coveralls pyfakefs
   # PyQt5 is not available for "ppc64le" architecture on PyPi
   - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pip install pyqt5; fi
+  - if [ "$TRAVIS_ARCH" == "ppc64le" ] ; then sudo apt install -y python3-pyqt5; fi
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
@@ -81,7 +84,8 @@ script:
   - ./configure --python=python3
   - make
   # PyQt5 is not installed on "ppc64le"
-  - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
+  # - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
+  - pytest
 
 after_success:
   - coverage combine
