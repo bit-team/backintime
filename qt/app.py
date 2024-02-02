@@ -88,7 +88,8 @@ from PyQt5.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QSize,
-                          QUrl
+                          QUrl,
+                          pyqtRemoveInputHook,
                           )
 import settingsdialog
 import snapshotsdialog
@@ -443,6 +444,9 @@ class MainWindow(QMainWindow):
         """
 
         action_dict = {
+            # because of "icon"
+            # pylint: disable=undefined-variable
+
             # 'Name of action attribute in "self"': (
             #     ICON, Label text,
             #     trigger_handler_function,
@@ -1165,7 +1169,7 @@ class MainWindow(QMainWindow):
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).show()
+            logviewdialog.LogViewDialog(self).show()  # no SID argument in constructor means "show last log"
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()

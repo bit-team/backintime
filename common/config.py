@@ -66,8 +66,8 @@ from exceptions import PermissionDeniedByPolicy, \
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.4.2-dev'
-    COPYRIGHT = 'Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, ' \
+    VERSION = '1.4.4-dev'
+    COPYRIGHT = 'Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze, Christian Buhtz, Michael Büker, Jürgen Altfeld et al.'
 
     CONFIG_VERSION = 6
@@ -116,6 +116,13 @@ class Config(configfile.ConfigFileWithProfiles):
         '/var/backups/*',
         '.Private',
         '/swapfile',
+        # Discord files
+        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
+        'SingletonLock',
+        'SingletonCookie',
+        # Mozilla files
+        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
+        'lock'
     ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True

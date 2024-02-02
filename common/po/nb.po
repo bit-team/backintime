@@ -7,85 +7,83 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-10-24 13:13+0000\n"
-"Last-Translator: turbotopia <thomasalarsen10@gmail.com>\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
+"PO-Revision-Date: 2024-01-23 09:10+0000\n"
+"Last-Translator: Brazi <alexander@linux.com>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
 msgstr "Advarsel"
 
-#: common/config.py:139 common/config.py:282
+#: common/config.py:146 common/config.py:289
 msgid "Main profile"
 msgstr "Hovedprofil"
 
-#: common/config.py:292 common/config.py:297
+#: common/config.py:299 common/config.py:304
 msgid "Local"
 msgstr "Lokal"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
 msgid "SSH private key"
-msgstr "Privat SSH nøkkel"
+msgstr "privat SSH-nøkkel"
 
-#: common/config.py:297
+#: common/config.py:304
 msgid "encrypted"
 msgstr "kryptert"
 
-#: common/config.py:298 common/config.py:305
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: common/config.py:303
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "SSH kryptert"
 
-#: common/config.py:310
+#: common/config.py:317
 msgid "Default"
-msgstr "Standard"
+msgstr "Standardverdi"
 
-#: common/config.py:341 common/config.py:353 common/config.py:370
-#: common/config.py:381
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:342
-#, fuzzy
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
-msgstr "Øyeblikksbilde mappen er ikke gyldig !"
+msgstr "Øyeblikksbildemappe er ugyldig!"
 
-#: common/config.py:354
-#, fuzzy
+#: common/config.py:361
 msgid "You must select at least one folder to back up!"
-msgstr "Du velge minst en mappe å sikkerhetskopiere !"
+msgstr "Du må velge minst en mappe å sikkerhetskopiere!"
 
-#: common/config.py:371
+#: common/config.py:378
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Du kan ikke inkludere sikkerhetskopi-mappen."
 
-#: common/config.py:383
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Du kan ikke inkludere undermapper av sikkerhetskopi-mappen."
 
-#: common/config.py:441
+#: common/config.py:448
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Ugyldig valg. {path} er ikke en mappe."
 
-#: common/config.py:450
+#: common/config.py:457
 msgid "Host/User/Profile-ID must not be empty."
-msgstr ""
+msgstr "Vert/Bruker/Profil-ID kan ikke være tom."
 
-#: common/config.py:460 common/config.py:507
-#, fuzzy, python-brace-format
+#: common/config.py:467 common/config.py:514
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
@@ -93,38 +91,44 @@ msgstr ""
 "Kan ikke skrive til: {path}\n"
 "Er du sikker på at du har skrivetilgang?"
 
-#: common/config.py:477
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"Målfilsystem for {path} er formatert med FAT som ikke støtter hardlenker. "
+"Bruk heller et filsystem tilpasset Linux."
 
-#: common/config.py:486
+#: common/config.py:493
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
+"Målfilsystemet for {path} er et delt nettverksområde av typen SMB. Se til at"
+" målfilsystemet støtter symbolske lenker (symlinks), eller aktivér "
+"{copyLinks} i {expertOptions}."
 
-#: common/config.py:490 qt/settingsdialog.py:1004
+#: common/config.py:497 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "Kopier symbolske lenker som filer (og fjern lenkereferansen)"
 
-#: common/config.py:491
+#: common/config.py:498
 msgid "Expert Options"
 msgstr "Avanserte innstillinger"
 
-#: common/config.py:495
+#: common/config.py:502
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"Målfilsystemet for {path} er delt nettverksområde montert med sshfs, men "
+"sshfs støtter ikke harde lenker. Vennligst bruk modus 'SSH' istedenfor."
 
-#: common/config.py:1591
-#, fuzzy
+#: common/config.py:1598
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -134,36 +138,36 @@ msgstr ""
 "Er du sikker på at cron er installert?\n"
 "Hvis ikke bør du skru av alle automatiske sikkerhetskopier."
 
-#: common/config.py:1597
+#: common/config.py:1604
 msgid "Failed to write new crontab."
-msgstr ""
+msgstr "Klarte ikke å skrive ny crontab."
 
-#: common/config.py:1700
+#: common/config.py:1707
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
+"Klarte ikke å installere regel for Udev for profilen {profile_id}. DBus-"
+"tjenesten '{dbus_interface}' var ikke tilgjengelig"
 
-#: common/config.py:1715
+#: common/config.py:1722
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr ""
+msgstr "Timeplan udev virker ikke med modusen {mode}"
 
-#: common/config.py:1726
-#, fuzzy, python-brace-format
+#: common/config.py:1733
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Kunne ikke finne UUID for \"{path}\""
+msgstr "Kunne ikke finne UUID for {path}"
 
 #: common/configfile.py:107
-#, fuzzy
 msgid "Failed to save config"
-msgstr "Kunne ikke lagre konfigurasjonsfil"
+msgstr "Kunne ikke skrive konfigurasjons-fil"
 
 #: common/configfile.py:143
-#, fuzzy
 msgid "Failed to load config"
-msgstr "Kunne ikke laste konfigurasjonsfil"
+msgstr "Kunne ikke laste konfigurasjon-sfil"
 
 #: common/configfile.py:691 common/configfile.py:790
 #, python-brace-format
@@ -172,56 +176,57 @@ msgstr "Profil \"{name}\" finnes allerede."
 
 #: common/configfile.py:736
 msgid "The last profile cannot be removed."
-msgstr ""
+msgstr "Den siste eksistererende profilen kan ikke fjernes."
 
 #: common/encfstools.py:92
 #, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr ""
+msgstr "Kan ikke montere '{command}'"
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Config for encrypted folder not found."
-msgstr "Konfigurasjon for kryptert mappe finnes ikke."
+msgstr "Fant ikke konfigurasjon for kryptert mappe."
 
 #: common/encfstools.py:147
 msgid "Create a new encrypted folder?"
-msgstr ""
+msgstr "Lage en ny kryptert mappe?"
 
 #: common/encfstools.py:151
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: common/encfstools.py:156
 msgid "Please confirm password"
-msgstr ""
+msgstr "Vennligst bekreft passord"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
-msgstr ""
+msgstr "Passordene stemmer ikke overens."
 
 #: common/encfstools.py:178
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
 msgstr ""
+"encfs versjon 1.7.2 og eldre har en feil med valget --reverse. Vennligst "
+"oppdater encfs."
 
-#: common/encfstools.py:516 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
 msgstr "Ta øyeblikksbilde"
 
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "Kan ikke avmontere {mountprocess} fra {mountpoint}."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "Finner ikke {}. Vennligst installer for eksempel {}"
 
 #: common/mount.py:716
 msgid "Mountpoint {} not empty."
-msgstr ""
+msgstr "Monteringspunket {} er ikke tomt."
 
 #: common/password.py:240
 #, python-brace-format
@@ -237,15 +242,15 @@ msgid "Restore permissions"
 msgstr "Gjenopprett tillatelser"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Ferdig"
 
-#: common/snapshots.py:704
+#: common/snapshots.py:708
 msgid "Deferring backup while on battery"
 msgstr "Batteridrift utsetter backup"
 
-#: common/snapshots.py:766
+#: common/snapshots.py:770
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -253,137 +258,141 @@ msgstr ""
 "Kan ikke finne øyeblikksbildemappen.\n"
 "Hvis den er på en ekstern disk, vennligst plugg den i."
 
-#: common/snapshots.py:768
+#: common/snapshots.py:772
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Venter %s sekund."
 msgstr[1] "Venter %s sekunder."
 
-#: common/snapshots.py:805
+#: common/snapshots.py:809
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Øyeblikksbilde feilet {snapshot_id}."
 
-#: common/snapshots.py:822
+#: common/snapshots.py:826
 msgid "Finalizing"
 msgstr "Fullfører"
 
-#: common/snapshots.py:945
+#: common/snapshots.py:949
 msgid "Can't create folder"
 msgstr "Kan ikke opprette mappe"
 
-#: common/snapshots.py:962
-#, fuzzy
+#: common/snapshots.py:966
 msgid "Saving config file…"
-msgstr "Lagrer konfigurasjonsfil..."
+msgstr "Lagrer konfigurasjonsfil…"
 
-#: common/snapshots.py:1038
-#, fuzzy
+#: common/snapshots.py:1042
 msgid "Saving permissions…"
-msgstr "Lagrer tillatelser..."
+msgstr "Lagrer tillatelser…"
 
-#: common/snapshots.py:1146
+#: common/snapshots.py:1150
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
-msgstr ""
+msgstr "Fant resten {snapshot_id} som kan fortsettes."
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr ""
+msgstr "Fjerner reste-mappen {snapshot_id} fra forrige kjøring"
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1179
 msgid "Can't remove folder"
 msgstr "Mappen kan ikke slettes"
 
-#: common/snapshots.py:1218
+#: common/snapshots.py:1222
 msgid "Taking snapshot"
 msgstr "Tar øyeblikksbilde"
 
-#: common/snapshots.py:1250
+#: common/snapshots.py:1254
 msgid "Success"
 msgstr "Suksess"
 
-#: common/snapshots.py:1251
+#: common/snapshots.py:1255
+msgid "Partial transfer due to error"
+msgstr ""
+
+#: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Ufullstendig overføring grunnet tap av kildefiler (se 'man rsync')"
 
-#: common/snapshots.py:1254
+#: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' avsluttet med kode {exit_code}"
 
-#: common/snapshots.py:1263
+#: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
 msgstr "Se 'man rsync' for flere detaljer"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
-msgstr ""
+msgstr "Negative rsync-returkoder er signalnumre. Se 'kill -l' og 'man kill'"
 
-#: common/snapshots.py:1282
+#: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Ingenting er endret, så nytt øyeblikksbilde er ikke nødvendig"
 
-#: common/snapshots.py:1313
+#: common/snapshots.py:1318
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr ""
+msgstr "Kan ikke endre navn fra {new_path} til {path}"
 
-#: common/snapshots.py:1631 common/snapshots.py:1683
+#: common/snapshots.py:1636 common/snapshots.py:1688
 msgid "Smart remove"
 msgstr "Smart sletting"
 
-#: common/snapshots.py:1658
+#: common/snapshots.py:1663
 msgid "Removing old snapshots"
 msgstr "Slett gamle øyeblikksbilder"
 
-#: common/snapshots.py:1693
+#: common/snapshots.py:1698
 msgid "Trying to keep min free space"
 msgstr "Forsøk å bevare min ledig plass"
 
-#: common/snapshots.py:1732
+#: common/snapshots.py:1737
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Forsøker å bevare minst {perc} ledige inodes"
 
-#: common/snapshots.py:2814 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Nå"
 
 #: common/sshtools.py:215
 #, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr ""
+msgstr "Kan ikke montere {sshfs}"
 
 #: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "Fant ingen SSH-agent. Vennligst se til at den er installert."
 
 #: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"Klarte ikke å låse opp den private SSH-nøkkelen. Enten er passordet feil, "
+"eller så er ikke passordet tilgjengelig for cron."
 
 #: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "Chiffer {cipher} feilet for {host}."
 
 #: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
-msgstr ""
+msgstr "Fjern-katalogbanen finnes, men er ikke en mappe."
 
 #: common/sshtools.py:658
 msgid "Remote path is not writable."
-msgstr ""
+msgstr "Fjern-katalogbanen er ikke skrivbar."
 
 #: common/sshtools.py:663
 msgid "Remote path is not executable."
-msgstr ""
+msgstr "Fjern-katalogbanen er ikke kjørbar."
 
 #: common/sshtools.py:668
 msgid "Couldn't create remote path."
@@ -392,21 +401,21 @@ msgstr "Kan ikke opprette ekstern bane."
 #: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr ""
+msgstr "Ekstern vert {host} støtter ikke {command}"
 
 #: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "Slå opp 'man backintime' for videre instruksjoner"
 
 #: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
+msgstr "Kommandosjekk på verten {host} returnerte en ukjent feil"
 
 #: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr ""
+msgstr "Fjern-verten {host} støtter ikke harde lenker"
 
 #: common/sshtools.py:1060
 #, python-brace-format
@@ -416,7 +425,7 @@ msgstr "Kopier offentlig ssh nøkkel \"{pubkey}\" til den andre verten \"{host}\
 #: common/sshtools.py:1062
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr ""
+msgstr "Vennligst skriv inn passord for \"{user}\""
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -427,14 +436,16 @@ msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
+"Mappen finnes ikke\n"
+"i det valgte øyeblikksbildet."
 
 #: qt/app.py:252
 msgid "Add to Include"
-msgstr ""
+msgstr "Legg til for å inkludere"
 
-#: qt/app.py:254 qt/logviewdialog.py:176
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
-msgstr ""
+msgstr "Legg til for å ekskludere"
 
 #: qt/app.py:339
 #, python-brace-format
@@ -442,85 +453,80 @@ msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
+"{appName} er ikke konfigurerert. Vil du legge tilbake en tidligere "
+"konfigurasjon?"
 
 #: qt/app.py:368
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Kan ikke finne øyeblikksbilde mappe.\n"
-"Hvis den er på en ekstern disk vennligst plugg den i, deretter trykk OK."
+"Kan ikke finne øyeblikksbilde-mappe.\n"
+"Hvis den er på en ekstern disk må du koble denne til, og deretter trykke OK."
 
 #: qt/app.py:453
-#, fuzzy
 msgid "Take a snapshot"
-msgstr "Ta øyeblikksbilde"
+msgstr "Ta et øyeblikksbilde"
 
 #: qt/app.py:455
 msgid "Use modification time & size for file change detection."
-msgstr ""
+msgstr "Bruk endringstid og størrelse for å spore fil-endringer."
 
 #: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
-msgstr ""
+msgstr "Ta et øyeblikksbilde (sjekksum-modus)"
 
 #: qt/app.py:460
 msgid "Use checksums for file change detection."
-msgstr ""
+msgstr "Bruk sjekksummer for å spore filendringer."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
-msgstr ""
+msgstr "Sett øyeblikksbilde-prosessen på pause"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
-msgstr ""
+msgstr "Fortsett øyeblikksbilde-prosessen"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
-msgstr ""
+msgstr "Stopp øyeblikksbilde-prosessen"
 
 #: qt/app.py:476
-#, fuzzy
 msgid "Refresh snapshot list"
-msgstr "Hvor lagre øyeblikksbilder"
+msgstr "Oppdaterer listen over øyeblikksbilder"
 
 #: qt/app.py:480
-#, fuzzy
 msgid "Name snapshot"
-msgstr "Ta øyeblikksbilde"
+msgstr "Gi navn til øyeblikksbilde"
 
 #: qt/app.py:484
-#, fuzzy
 msgid "Remove snapshot"
-msgstr "Fjern Øyeblikksbilde"
+msgstr "Fjern øyeblikksbilde"
 
 #: qt/app.py:488
-#, fuzzy
 msgid "View snapshot log"
-msgstr "Ta øyeblikksbilde"
+msgstr "Vis logg for øyeblikksbilde"
 
 #: qt/app.py:492
 msgid "View last log"
-msgstr ""
+msgstr "Vis siste logg"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Hovedprofil"
+msgstr "Administrer profiler…"
 
 #: qt/app.py:500
 msgid "Shutdown"
-msgstr ""
+msgstr "Skru av"
 
 #: qt/app.py:502
 msgid "Shut down system after snapshot has finished."
-msgstr ""
+msgstr "Skrur av systemet etter at øyeblikksbildet er ferdig."
 
 #: qt/app.py:504
 msgid "Setup language…"
-msgstr ""
+msgstr "Velg språk…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -540,36 +546,36 @@ msgstr "Nettside"
 
 #: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
-msgstr ""
+msgstr "Endringslogg"
 
 #: qt/app.py:525
 msgid "FAQ"
-msgstr ""
+msgstr "Ofte stilte spørsmål"
 
 #: qt/app.py:528
 msgid "Ask a question"
-msgstr ""
+msgstr "Still et spørsmål"
 
 #: qt/app.py:531
 msgid "Report a bug"
-msgstr ""
+msgstr "Rapporter en feil"
 
 #: qt/app.py:534
 msgid "Translation"
-msgstr ""
+msgstr "Oversettelse"
 
 #: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "Om"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Gjennopprett"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
-msgstr ""
+msgstr "Gjenopprett valgte filer og mapper til opprinnelig sted."
 
 #: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
@@ -577,52 +583,53 @@ msgstr "Gjennopprett til …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
-msgstr ""
+msgstr "Gjenopprett valgte filer og mapper til et nytt sted."
 
 #: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
+"Gjenopprett de viste mappene og alt deres innhold til det opprinnelige "
+"stedet."
 
 #: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
-msgstr ""
+msgstr "Gjenopprett de viste mappene og alt deres innhold til et nytt sted."
 
 #: qt/app.py:560
 msgid "Up"
 msgstr "Opp"
 
-#: qt/app.py:563 qt/settingsdialog.py:2159
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
 #: qt/app.py:566
-#, fuzzy
 msgid "Compare snapshots…"
-msgstr "Ta øyeblikksbilde"
+msgstr "Sammenlign øyeblikksbilder…"
 
 #: qt/app.py:627
 msgid "&Backup"
-msgstr ""
+msgstr "&Sikkerhetskopi"
 
 #: qt/app.py:638
-#, fuzzy
 msgid "&Restore"
-msgstr "Gjennopprett"
+msgstr "&Gjennopprett"
 
 #: qt/app.py:644
-#, fuzzy
 msgid "&Help"
-msgstr "Hjelp"
+msgstr "&Hjelp"
 
 #: qt/app.py:761
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
+"Hvis du lukker dette vinduet vil ikke Back In Time være i stand til å skru av systemet når øyeblikksbildet er ferdig.\n"
+"Er du sikker på at du vil lukke?"
 
 #: qt/app.py:905
 msgid "Working:"
@@ -633,25 +640,24 @@ msgid "Done, no backup needed"
 msgstr "Ferdig, sikkerhetskopiering trengs ikke"
 
 #: qt/app.py:962
-#, fuzzy
 msgid "Working"
 msgstr "Arbeider"
 
 #: qt/app.py:971 qt/messagebox.py:76
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
-msgstr ""
+msgstr "Sendt"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
-msgstr ""
+msgstr "Forventet ferdig"
 
 #: qt/app.py:1050
 msgid "Global"
@@ -674,11 +680,10 @@ msgid "Snapshot Name"
 msgstr "Navn på øyeblikksbilde"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Er du sikker på at du vil fjerne øyeblikksbilde"
-msgstr[1] "Er du sikker på at du vil fjerne øyeblikksbilde"
+msgstr[0] "Er du sikker på at du vil fjerne dette øyeblikksbildet?"
+msgstr[1] "Er du sikker på at du vil fjerne disse øyeblikksbildene?"
 
 #: qt/app.py:1294
 #, python-brace-format
@@ -686,6 +691,8 @@ msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
+"Lag en sikkerhetskopi med endelse {suffix}\n"
+"før lokale elementer blir fjernet eller overskrevet."
 
 #: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
@@ -693,6 +700,8 @@ msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
+"Nyere versjoner av filer vil få nytt navn med endelsen {suffix} før de blir gjenopprettet.\n"
+"Hvis du ikke trenger dem lengre kan du fjerne dem med {cmd}"
 
 #: qt/app.py:1314
 msgid ""
@@ -700,10 +709,13 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
+"Gjenopprett kun elementer som enten ikke eksisterer\n"
+"eller er nyere enn de eksisterende elementene.\n"
+"Bruker \"rsync --update\"-opsjonen."
 
 #: qt/app.py:1347
 msgid "Remove newer elements in original folder."
-msgstr ""
+msgstr "Fjern elementer som er nyere i den originale mappen."
 
 #: qt/app.py:1348
 msgid ""
@@ -713,6 +725,11 @@ msgid ""
 "delete files and folders which were\n"
 "excluded during taking the snapshot."
 msgstr ""
+"Gjenopprett valgte filer og mapper til det originale stedet og\n"
+"slett filer og mapper som ikke er inkuldert i øyeblikksbildet.\n"
+"Vær veldig forsiktig, fordi dette vil\n"
+"slette alle filene og mappene som var\n"
+"ekskludert da øyeblikksbildet ble tatt."
 
 #: qt/app.py:1361
 #, python-brace-format
@@ -723,39 +740,43 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
+"Er du sikker på at du vil gjenopprette dette elementet til den nye mappen\n"
+"{path}?"
 msgstr[1] ""
+"Er du sikker på at du vil gjenopprette disse elementene til den nye mappen\n"
+"{path}?"
 
 #: qt/app.py:1370
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Er du sikker på at du vil fjerne øyeblikksbilde"
-msgstr[1] "Er du sikker på at du vil fjerne øyeblikksbilde"
+msgstr[0] "Er du sikker på at du vil gjenopprette dette elementet?"
+msgstr[1] "Er du sikker på at du vil gjenopprette disse elementene?"
 
 #: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
-msgstr ""
+msgstr "Er du sikker på at du vil fjerne alle nyere filer i {path}?"
 
 #: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
+"Er du sikker på at du vil fjerne alle nyere filer i den originale mappen?"
 
 #: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
+"ADVARSEL: Å slette filer i root-filsystemet kan ødelegge hele systemet ditt!"
 
 #: qt/app.py:1623
-#, fuzzy
 msgid "Snapshot"
-msgstr "Øyeblikksbilder"
+msgstr "Øyeblikksbilde"
 
 #: qt/app.py:1660
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
-msgstr "Gjennopprett {path}"
+msgstr "Gjenopprett {path}"
 
 #: qt/app.py:1662
 #, python-brace-format
@@ -765,35 +786,36 @@ msgstr "Gjennopprett {path} til …"
 #: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
+"Språkinnstillingene trer først i kraft etter en omstart av Back In Time."
 
 #: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
-msgstr ""
+msgstr "Forfattere"
 
 #: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
-msgstr ""
+msgstr "Oversettelser"
 
 #: qt/app.py:1861 qt/app.py:1882
 msgid "License"
-msgstr ""
+msgstr "Lisens"
 
 #: qt/languagedialog.py:29
 msgid "Setup language"
-msgstr ""
+msgstr "Innstalleringsspråk"
 
 #: qt/languagedialog.py:87
 msgid "System default"
-msgstr ""
+msgstr "Standardverdi for systemet"
 
 #: qt/languagedialog.py:94
 msgid "Use operating systems language."
-msgstr ""
+msgstr "Bruk samme språk som operativsystemet."
 
 #: qt/languagedialog.py:146
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "Oversatt: {percent}"
 
 #: qt/languagedialog.py:184
 #, python-brace-format
@@ -805,94 +827,97 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Hallo\n"
-"Du har brukt Back In Time med {language}-språkdrakt noen ganger allerede.\n"
-"Oversettelsen for {language} for din installerte versjon av Back In Time er {perc} ferdig. Uavhengig av din tekniske kompetanse så kan du bidra med oversettelsen og dermed også til Back In Time.\n"
+"Hei!\n"
+"Du har brukt Back In Time med {language} språkdrakt noen ganger allerede.\n"
+"Oversettelsen til {language} for din installerte versjon av Back In Time er {perc} ferdig. Uavhengig av din tekniske kompetanse kan du bidra med oversettelse og dermed også til Back In Time.\n"
 "Det er fint om du besøker {translation_platform_url} hvis du har lyst til å bidra. For mer hjelp og spørsmål, besøk {back_in_time_project_website}.\n"
-"Vi beklager for forstyrrelsen, og denne meldingen vil ikke dukke opp igjen. Denne dialogen er tilgjengelig når som helst via hjelpemenyen.\n"
-"Back In Time-laget ditt"
+"Vi beklager forstyrrelsen, og denne meldingen vil ikke dukke opp igjen. Denne dialogen er tilgjengelig når som helst via hjelpemenyen.\n"
+"Hilsen Back In Time-laget ditt"
 
 #: qt/languagedialog.py:216
 msgid "translation platform"
-msgstr ""
+msgstr "oversettelses-plattform"
 
 #: qt/languagedialog.py:232
 msgid "Your translation"
-msgstr ""
+msgstr "Din oversettelse"
 
-#: qt/logviewdialog.py:53
+#: qt/logviewdialog.py:62
 msgid "Last Log View"
-msgstr ""
+msgstr "Se seneste logg"
 
-#: qt/logviewdialog.py:55
+#: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Se logg for øyeblikksbilde"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
-#, fuzzy
+#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Profil"
 
-#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
 msgstr "Øyeblikksbilder"
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:94
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
 msgid "All"
-msgstr ""
+msgstr "Alt"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "Endringer"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
 #: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "Feil"
 
-#: qt/logviewdialog.py:101 qt/messagebox.py:71
+#: qt/logviewdialog.py:110 qt/messagebox.py:71
 msgid "Information"
-msgstr ""
+msgstr "Informasjon"
 
 #: qt/logviewdialog.py:111
+msgid "rsync transfer failures (experimental)"
+msgstr ""
+
+#: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E] Feil, [I] Informasjon, [C] Endring"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
-msgstr ""
+msgstr "dokode stier"
 
-#: qt/logviewdialog.py:172
+#: qt/logviewdialog.py:182
 msgid "Copy"
-msgstr ""
+msgstr "Kopi"
 
-#: qt/logviewdialog.py:180
+#: qt/logviewdialog.py:190
 msgid "Decode"
-msgstr ""
+msgstr "Dekode"
 
-#: qt/logviewdialog.py:202
+#: qt/logviewdialog.py:212
 msgid "Do you want to exclude this?"
-msgstr ""
+msgstr "Vil du ekskludere dette?"
 
 #: qt/messagebox.py:82 qt/messagebox.py:90
 msgid "Question"
-msgstr ""
+msgstr "Spørsmål"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
-msgstr ""
+msgstr "Vis siste logg"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
-msgstr ""
+msgstr "Start {appname}"
 
-#: qt/qtsystrayicon.py:167
+#: qt/qtsystrayicon.py:169
 msgid "Working…"
 msgstr "Arbeider…"
 
@@ -915,20 +940,20 @@ msgstr "Forrige uke"
 #: qt/qttools.py:539
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
+"Dette er IKKE et øyeblikksbilde, men en sanntidsvisning av dine lokale filer"
 
 #: qt/qttools.py:544
 #, python-brace-format
 msgid "Last check {time}"
-msgstr ""
+msgstr "Sist sjekket {time}"
 
 #: qt/restoredialog.py:60
 msgid "Show full Log"
-msgstr ""
+msgstr "Vis hele loggen"
 
 #: qt/settingsdialog.py:87
-#, fuzzy
 msgid "Manage profiles"
-msgstr "Hovedprofil"
+msgstr "Administrer profiler"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -936,20 +961,19 @@ msgstr "Rediger"
 
 #: qt/settingsdialog.py:108 qt/settingsdialog.py:566
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 #: qt/settingsdialog.py:112 qt/settingsdialog.py:515 qt/settingsdialog.py:584
 msgid "Remove"
-msgstr ""
+msgstr "Fjern"
 
 #: qt/settingsdialog.py:127
-#, fuzzy
 msgid "&General"
-msgstr "Generelt"
+msgstr "&Generelt"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 #: qt/settingsdialog.py:152
 #, python-brace-format
@@ -958,73 +982,79 @@ msgid ""
 "possible attack vectors for this. Please take a look at \"A NOTE ON "
 "SECURITY\" in \"man backintime\"."
 msgstr ""
+"{app} bruker EncFS for kryptering. En nylig sikkerhetsrevisjon avdekket "
+"flere mulige angrepsvektorer mot EncFS. Vennligst ta en titt på \"A NOTE ON "
+"SECURITY\" i \"man backintime\"."
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
 msgid "Where to save snapshots"
 msgstr "Hvor lagre øyeblikksbilder"
 
 #: qt/settingsdialog.py:179
 msgid "Folder"
-msgstr ""
+msgstr "Mappe"
 
 #: qt/settingsdialog.py:187
 msgid "SSH Settings"
-msgstr ""
+msgstr "SSH-innstillinger"
 
 #: qt/settingsdialog.py:199 qt/settingsdialog.py:318
 msgid "Host"
-msgstr ""
+msgstr "Tjener"
 
 #: qt/settingsdialog.py:204
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: qt/settingsdialog.py:209 qt/settingsdialog.py:324
 msgid "User"
-msgstr ""
+msgstr "Bruker"
 
 #: qt/settingsdialog.py:214
 msgid "Path"
-msgstr ""
+msgstr "Sti"
 
 #: qt/settingsdialog.py:220
 msgid "Cipher"
-msgstr ""
+msgstr "Chiffer"
 
 #: qt/settingsdialog.py:226
-#, fuzzy
 msgid "Private Key"
-msgstr "Privat SSH nøkkel"
+msgstr "Privat SSH-nøkkel"
 
 #: qt/settingsdialog.py:236
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
-msgstr ""
+msgstr "Velg en eksisterende privat nøkkel (normalt kalt \"id_rsa\")"
 
 #: qt/settingsdialog.py:246
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
 msgstr ""
+"Lag en ny SSH-nøkkel uten passord (ikke tillatt hvis en privat nøkkel "
+"allerede er valgt)"
 
 #: qt/settingsdialog.py:266 qt/settingsdialog.py:275 qt/settingsdialog.py:281
 msgid "Password"
-msgstr ""
+msgstr "Passord"
 
 #: qt/settingsdialog.py:287
 msgid "Save Password to Keyring"
-msgstr ""
+msgstr "Lagre passord til nøkkelringen"
 
 #: qt/settingsdialog.py:291
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
+"Legg passordet i hurtigminne for cron (sikkerhetsutfordring: root-bruker kan"
+" lese passordet)"
 
 #: qt/settingsdialog.py:306
 msgid "Advanced"
-msgstr ""
+msgstr "Avansert"
 
 #: qt/settingsdialog.py:336
 msgid "Full snapshot path"
-msgstr ""
+msgstr "Fullstendig sti til øyeblikksbilde"
 
 #: qt/settingsdialog.py:343
 msgid "Schedule"
@@ -1042,7 +1072,7 @@ msgstr "For hver start/omstart"
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Hvert {n}. minutt"
+msgstr[0] "Hvert minutt"
 msgstr[1] "Hvert {n}. minutt"
 
 #: qt/settingsdialog.py:363
@@ -1051,71 +1081,65 @@ msgstr "Hver time"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Hver {n}. time"
+msgstr[0] "Hver time"
 msgstr[1] "Hver {n}. time"
 
 #: qt/settingsdialog.py:372
-#, fuzzy
 msgid "Custom hours"
 msgstr "Velg timer"
 
 #: qt/settingsdialog.py:373
-#, fuzzy
 msgid "Every day"
-msgstr "Hver Dag"
+msgstr "Hver dag"
 
 #: qt/settingsdialog.py:374
 msgid "Repeatedly (anacron)"
-msgstr ""
+msgstr "Gjentakende (anacron)"
 
 #: qt/settingsdialog.py:375
-#, fuzzy
 msgid "When drive gets connected (udev)"
-msgstr "Når disken kobles til (udev)"
+msgstr "Når lagringsenheten kobles til (udev)"
 
 #: qt/settingsdialog.py:376
-#, fuzzy
 msgid "Every week"
 msgstr "Hver uke"
 
 #: qt/settingsdialog.py:377
-#, fuzzy
 msgid "Every month"
 msgstr "Hver måned"
 
 #: qt/settingsdialog.py:378
-#, fuzzy
 msgid "Every year"
 msgstr "Hvert år"
 
 #: qt/settingsdialog.py:383
-#, fuzzy
 msgid "Day"
-msgstr "Dag(er)"
+msgstr "Dag"
 
 #: qt/settingsdialog.py:394
 msgid "Weekday"
-msgstr ""
+msgstr "Ukedag"
 
 #: qt/settingsdialog.py:409
 msgid "Hour"
-msgstr ""
+msgstr "Time"
 
 #: qt/settingsdialog.py:424
 msgid "Hours"
-msgstr ""
+msgstr "Timer"
 
 #: qt/settingsdialog.py:435
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
+"Kjør Back In Time gjentakende. Dette er nyttig hvis datamaskinen ikke kjører"
+" hele tiden."
 
 #: qt/settingsdialog.py:442
-#, fuzzy
 msgid "Every"
 msgstr "Hver"
 
@@ -1140,11 +1164,12 @@ msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
+"Kjør Back In Time så snart lagringsenheten koble til (kun en gang hver X dager)).\n"
+"Du vil bli spurt om ditt sudo-passord."
 
 #: qt/settingsdialog.py:484
-#, fuzzy
 msgid "&Include"
-msgstr "Inkluder"
+msgstr "&Inkluder"
 
 #: qt/settingsdialog.py:491
 msgid "Include files and folders"
@@ -1159,9 +1184,8 @@ msgid "Add folder"
 msgstr "Legg til katalog"
 
 #: qt/settingsdialog.py:521
-#, fuzzy
 msgid "&Exclude"
-msgstr "Ekskludér"
+msgstr "&Ekskludér"
 
 #: qt/settingsdialog.py:528
 #, python-brace-format
@@ -1169,22 +1193,24 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
+"Wildcards ({example1}) vil bli ignorert i modus 'SSH encrypted'\n"
+"Kun enkel eller dobbel asterisk er lov ({example2})"
 
 #: qt/settingsdialog.py:543
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Ekskluderingsmønstre, filer og mapper"
 
 #: qt/settingsdialog.py:556
 msgid "Highly recommended"
-msgstr ""
+msgstr "Svært anbefalt"
 
 #: qt/settingsdialog.py:579
 msgid "Add default"
-msgstr ""
+msgstr "Legg til standardmønstre"
 
 #: qt/settingsdialog.py:592
 msgid "Exclude files bigger than: "
-msgstr ""
+msgstr "Ekskluder filer som er større enn: "
 
 #: qt/settingsdialog.py:594
 #, python-format
@@ -1195,14 +1221,17 @@ msgid ""
 "So big files that have been backed up before will remain in snapshots\n"
 "even if they have changed."
 msgstr ""
+"Ekskluder filer som er større enn verdien i %(prefix)s.\n"
+"Med 'Full rsync mode' avslått vil dette bare gjelde nye filer\n"
+"siden dette for rsync er en overførings-opsjon, ikke en ekskluderings-opsjon.\n"
+"Det betyr at store filer som har blitt sikkerhetskopiert forblir i øyeblikksbildet\n"
+"selv om de har endret seg."
 
 #: qt/settingsdialog.py:616
-#, fuzzy
 msgid "&Auto-remove"
-msgstr "Fjern automatisk"
+msgstr "Automatisk &fjerning"
 
 #: qt/settingsdialog.py:622
-#, fuzzy
 msgid "Older than"
 msgstr "Eldre enn"
 
@@ -1211,73 +1240,64 @@ msgid "Year(s)"
 msgstr "År"
 
 #: qt/settingsdialog.py:644
-#, fuzzy
 msgid "If free space is less than"
-msgstr "Hvis ledig plass er mindre enn"
+msgstr "Hvis det er mindre ledig plass enn"
 
 #: qt/settingsdialog.py:664
-#, fuzzy
 msgid "If free inodes is less than"
-msgstr "Hvis ledig plass er mindre enn"
+msgstr "Hvis ledige inoder er færre enn"
 
 #: qt/settingsdialog.py:678
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Smart sletting"
+msgstr "Smart sletting:"
 
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
-msgstr ""
+msgstr "Kjør i bakgrunnen på den eksterne verten."
 
 #: qt/settingsdialog.py:690
-#, fuzzy
 msgid "EXPERIMENTAL"
-msgstr "USTABIL"
+msgstr "EKSPERIMENTELT"
 
 #: qt/settingsdialog.py:696
 msgid "Keep all snapshots for the last"
-msgstr ""
+msgstr "Behold alle øyeblikksbilder tatt de siste"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-#, fuzzy
 msgid "day(s)."
-msgstr "Dag(er)"
+msgstr "dag(ene)."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
-msgstr ""
+msgstr "Behold ett øyeblikksbilde pr dag for de siste"
 
 #: qt/settingsdialog.py:710
 msgid "Keep one snapshot per week for the last"
-msgstr ""
+msgstr "Behold ett øyeblikksbilde pr uke for de siste"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "Uke(r)"
+msgstr "uke(ene)."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
-msgstr ""
+msgstr "Behold ett øyeblikksbilde pr måned for de siste"
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "Måned(er)"
+msgstr "måned(ene)."
 
 #: qt/settingsdialog.py:724
 msgid "Keep one snapshot per year for all years."
-msgstr ""
+msgstr "Behold ett øyeblikksbilde pr år for alle år."
 
 #: qt/settingsdialog.py:733
-#, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "Ikke fjern navngitte øyeblikksbilder"
+msgstr "Ikke fjern navngitte øyeblikksbilder."
 
 #: qt/settingsdialog.py:745
-#, fuzzy
 msgid "&Options"
-msgstr "Alternativer"
+msgstr "&Alternativer"
 
 #: qt/settingsdialog.py:750
 msgid "Enable notifications"
@@ -1289,11 +1309,11 @@ msgstr "Slå av funksjonen snapshot ved bateridrift"
 
 #: qt/settingsdialog.py:758
 msgid "Power status not available from system"
-msgstr ""
+msgstr "Batteristatus er ikke tilgjengelig fra systemet"
 
 #: qt/settingsdialog.py:761
 msgid "Run only one snapshot at a time"
-msgstr ""
+msgstr "Ta kun ett øyeblikksbilde om gangen"
 
 #: qt/settingsdialog.py:763
 msgid ""
@@ -1301,102 +1321,106 @@ msgid ""
 "This is a global option. So it will affect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
+"Andre øyeblikksbilder vil bli blokkert inntil det nåværende er ferdig.\n"
+"Dette er en global opsjon, så det vil gjelde for alle profiler til denne brukeren.\n"
+"Opsjonen må fortsatt aktiveres for andre brukere."
 
 #: qt/settingsdialog.py:772
 msgid "Backup replaced files on restore"
-msgstr ""
+msgstr "Ta sikkerhetskopi av filer som blir overskrevet av gjenoppretting"
 
 #: qt/settingsdialog.py:785
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
+"Fortsett når feil oppstår (behold øyeblikksbilder som ikke er komplette)"
 
 #: qt/settingsdialog.py:789
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Bruk sjekksum for å oppdage endringer"
 
 #: qt/settingsdialog.py:793
 msgid "Take a new snapshot whether there were changes or not."
-msgstr ""
+msgstr "Ta et nytt øyeblikksbilde enten det har vært endringer eller ikke."
 
 #: qt/settingsdialog.py:800
 msgid "Log Level"
-msgstr ""
+msgstr "Logg-nivå"
 
 #: qt/settingsdialog.py:805
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: qt/settingsdialog.py:825
-#, fuzzy
 msgid "E&xpert Options"
-msgstr "Avanserte innstillinger"
+msgstr "E&kspert-innstillinger"
 
 #: qt/settingsdialog.py:830
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
+"Advarsel: ikke endre disse innstillingene med mindre du vet hva du gjør."
 
 #: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr ""
+msgstr "Kjør 'rsync' med '{cmd}':"
 
 #: qt/settingsdialog.py:842 qt/settingsdialog.py:858
 msgid "as cron job"
-msgstr ""
+msgstr "som cron-jobb"
 
 #: qt/settingsdialog.py:847 qt/settingsdialog.py:868 qt/settingsdialog.py:889
 msgid "on remote host"
-msgstr ""
+msgstr "på ekstern vert"
 
 #: qt/settingsdialog.py:863
 msgid "when taking a manual snapshot"
-msgstr ""
+msgstr "når en lager et øyeblikksbilde manuelt"
 
 #: qt/settingsdialog.py:876
 msgid "(Please install 'nocache' to enable this option)"
-msgstr ""
+msgstr "(Vennligst installer 'nocache' for å slå på denne opsjonen)"
 
 #: qt/settingsdialog.py:883
 msgid "on local machine"
-msgstr ""
+msgstr "på lokal maskin"
 
 #: qt/settingsdialog.py:894
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr ""
+msgstr "Rediriger stdout til /dev/null i cron-jobber."
 
 #: qt/settingsdialog.py:903
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr ""
+msgstr "Rediriger stderr til /dev/null i cron-jobber."
 
 #: qt/settingsdialog.py:915
 msgid "Limit rsync bandwidth usage"
-msgstr ""
+msgstr "Begrens båndbredden for rsync til"
 
 #: qt/settingsdialog.py:918
 msgid "KB/sec"
-msgstr ""
+msgstr "KB/sek"
 
 #: qt/settingsdialog.py:956
 msgid "Preserve ACL"
-msgstr ""
+msgstr "Behold ACL"
 
 #: qt/settingsdialog.py:971
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "Behold utvidede attributter (xattr)"
 
 #: qt/settingsdialog.py:991
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "Kopier usikre lenker (virker kun på absolutte lenker)"
 
 #: qt/settingsdialog.py:1024
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
+msgstr "Opsjoner må settes i gåseøyne, for eksempel {example}."
 
 #: qt/settingsdialog.py:1027
 msgid "Paste additional options to rsync"
-msgstr ""
+msgstr "Lim inn tilleggsopsjoner til rsync"
 
 #: qt/settingsdialog.py:1042
 #, python-format
@@ -1409,18 +1433,25 @@ msgid ""
 "\n"
 "%(default)s: %(def_value)s"
 msgstr ""
+"Prefiks å kjøre før hver kommando på ekstern vert.\n"
+"Variabler må starte med en \"rømningskarakter\", en bakoverstrek, for eksempel \\$FOO.\n"
+"Dette berører ikke rsync. For å legge til en et prefiks for\n"
+"rsync bruker du \"%(cbRsyncOptions)s\" med\n"
+"%(rsync_options_value)s\n"
+"\n"
+"%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
 msgid "default"
-msgstr ""
+msgstr "standard"
 
 #: qt/settingsdialog.py:1052
 msgid "Add prefix to SSH commands"
-msgstr ""
+msgstr "Legg til et prefiks for SSH-kommandoer"
 
 #: qt/settingsdialog.py:1065
 msgid "Check if remote host is online"
-msgstr ""
+msgstr "Sjekk om ekstern vert er oppe"
 
 #: qt/settingsdialog.py:1067
 msgid ""
@@ -1428,10 +1459,13 @@ msgid ""
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
+"Advarsel: Hvis denne opsjonen er avslått samtidig som ekstern vert\n"
+"ikke er tilgjengelig kan det oppstå en del\n"
+"merkelige feil."
 
 #: qt/settingsdialog.py:1071
 msgid "Check if remote host supports all necessary commands"
-msgstr ""
+msgstr "Sjekk om ekstern vert har støtte for alle nødvendige kommandoer"
 
 #: qt/settingsdialog.py:1073
 msgid ""
@@ -1439,25 +1473,28 @@ msgid ""
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
+"Advarsel: hvis opsjonen er avslått og den eksterne verten\n"
+"ikke støtter alle de nødvendige kommandoene\n"
+"kan det oppstå en del merkelige feil."
 
 #: qt/settingsdialog.py:1089
 msgid "Restore Config"
-msgstr ""
+msgstr "Gjenopprett konfigurasjon"
 
 #: qt/settingsdialog.py:1091
 msgid "Edit user-callback"
-msgstr ""
+msgstr "Endre user-callback"
 
 #: qt/settingsdialog.py:1109
 msgid "New profile"
-msgstr ""
+msgstr "Ny profil"
 
 #: qt/settingsdialog.py:1126
 msgid "Rename profile"
 msgstr "Omdøp profil"
 
 #: qt/settingsdialog.py:1142
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Er du sikker på at du vil slette profilen \"{name}\"?"
 
@@ -1466,23 +1503,30 @@ msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
+"Egendefinerte timer kan kun være en kommaseparert liste med timer (for "
+"eksempel 2,4,6,18,22) eller */3 for periodisk sikkerhetskopiering hver 3. "
+"time."
 
 #: qt/settingsdialog.py:1458
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
+"Du valgte ikke en privat SSH-nøkkel.\n"
+"Ønsker du å lage et nytt passord-løst nøkkelpar (offentlig/privat nøkkelpar)?"
 
 #: qt/settingsdialog.py:1469
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr ""
+msgstr "Privatnøkkel-fil \"{file}\" finnes ikke."
 
 #: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
+"Ønsker du å kopiere din offentlige SSH-nøkkel til den\n"
+"eksterne verten slik at du kan bruke passordløs innlogging?"
 
 #: qt/settingsdialog.py:1649
 #, python-brace-format
@@ -1491,12 +1535,17 @@ msgid ""
 "\n"
 "{keytype} key fingerprint is:"
 msgstr ""
+"Ektheten til den eksterne verten {host} kan ikke slås fast.\n"
+"\n"
+"{keytype}-nøkkelen sitt fingeravtrykk er:"
 
 #: qt/settingsdialog.py:1659
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
+"Vennligst verifiser dette fingeravtrykket! Ønsker du å legge det til i din "
+"'known_hosts'-fil?"
 
 #: qt/settingsdialog.py:1822
 msgid "Exclude pattern"
@@ -1510,48 +1559,49 @@ msgstr "Ekskluder fil"
 msgid "Exclude folder"
 msgstr "Ekskludér katalog"
 
-#: qt/settingsdialog.py:1858
+#: qt/settingsdialog.py:1863
 msgid "Include file"
-msgstr ""
+msgstr "Inkluder fil"
 
-#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
+#: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
+"\"{path}\" er en symbolsk lenke. Det vil ikke bli tatt sikkerhetskopi av målet for lenken inntil du inkluderer dette også.\n"
+"Ønsker du å inkludere målet for den symbolske lenken istedenfor?"
 
-#: qt/settingsdialog.py:1884
+#: qt/settingsdialog.py:1893
 msgid "Include folder"
 msgstr "Inkludér katalog"
 
-#: qt/settingsdialog.py:1921
-#, fuzzy
+#: qt/settingsdialog.py:1930
 msgid "Are you sure you want to change snapshots folder?"
-msgstr "Er du sikker på at vil bytte øyeblikksbilder mappen ?"
+msgstr "Er du sikker på at vil bytte mappe for øyeblikksbilder?"
 
-#: qt/settingsdialog.py:1946
+#: qt/settingsdialog.py:1955
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
-msgstr ""
+msgstr "Fikk ikke til å lage nye SSH-nøkler i {path}"
 
-#: qt/settingsdialog.py:2005
+#: qt/settingsdialog.py:2014
 msgid "Full snapshot path: "
-msgstr ""
+msgstr "Fullstendig øyeblikksbilde-bane: "
 
-#: qt/settingsdialog.py:2055
+#: qt/settingsdialog.py:2064
 msgid "enabled"
-msgstr ""
+msgstr "påslått"
 
-#: qt/settingsdialog.py:2058
+#: qt/settingsdialog.py:2067
 msgid "disabled"
-msgstr ""
+msgstr "avslått"
 
-#: qt/settingsdialog.py:2103
+#: qt/settingsdialog.py:2112
 msgid "Restore Settings"
-msgstr ""
+msgstr "Gjenopprett innstillinger"
 
-#: qt/settingsdialog.py:2116
+#: qt/settingsdialog.py:2125
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1560,32 +1610,35 @@ msgid ""
 "If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
+"Vennligst naviger til øyeblikksbildet du ønsker å gjenopprette konfigurasjone til {appName} fra. Stien kan se ut som:\n"
+"{samplePath}\n"
+"\n"
+"Hvis øyeblikksbildene befinner seg opp en ekstern lagringsenhet eller er kryptert må du montere dem manuelt først. Hvis du bruker SSH-modus er det mulig at du også må sette opp nøkkelinnlogging til den eksterne verten.\n"
+"Ta en titt på 'man backintime'."
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
 msgid "No config found"
-msgstr ""
+msgstr "Fant ingen konfigurasjon"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2459
 msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr ""
+msgstr "user-callback-skriptet har ingen shebang (#!/bin/sh)-linje."
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2466
 msgid "Shebang in user-callback script is not executable."
-msgstr ""
+msgstr "Shebang i user-callback-skriptet er ikke eksekverbart."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
-msgstr ""
+msgstr "Opsjoner for å sammenligne øyeblikksbilder"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command"
 msgstr "Kommando"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters"
-msgstr "Parametere"
+msgstr "Parametre"
 
 #: qt/snapshotsdialog.py:66
 msgid "Use %1 and %2 for path parameters"
@@ -1593,34 +1646,33 @@ msgstr "Bruk %1 and %2 for path parameters"
 
 #: qt/snapshotsdialog.py:110
 msgid "Differing snapshots only"
-msgstr ""
+msgstr "Kun øyeblikksbilder med forskjeller"
 
 #: qt/snapshotsdialog.py:118
 msgid "List only equal snapshots to: "
-msgstr ""
+msgstr "Liste med kun like øyeblikksbilder til: "
 
 #: qt/snapshotsdialog.py:129
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Dypsjekk (mer nøyktig, men tregt)"
 
 #: qt/snapshotsdialog.py:150
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: qt/snapshotsdialog.py:154
 msgid "Select All"
-msgstr ""
+msgstr "Velg alle"
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "Sammenlign"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
 msgstr "Gå Til"
 
 #: qt/snapshotsdialog.py:179
-#, fuzzy
 msgid "Options"
 msgstr "Alternativer"
 
@@ -1629,36 +1681,35 @@ msgid "You can't compare a snapshot to itself."
 msgstr "Du kan ikke sammenlikne et øyeblikksbilde med seg selv."
 
 #: qt/snapshotsdialog.py:338
-#, fuzzy
 msgid "Command not found"
-msgstr "Kommando ikke funnet"
+msgstr "Fant ikke kommando"
 
 #: qt/snapshotsdialog.py:369
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr ""
+msgstr "Ønsker du virkelig å slette {file} i øyeblikksbildet {snapshot_id}?"
 
 #: qt/snapshotsdialog.py:375
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
-msgstr ""
+msgstr "Ønsker du virkelig å slette {file} i {count} øyeblikksbilder?"
 
 #: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
-msgstr ""
+msgstr "Dette kan ikke gjøres om!"
 
 #: qt/snapshotsdialog.py:380
 msgid "WARNING"
-msgstr ""
+msgstr "ADVARSEL"
 
 #: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr ""
+msgstr "Utelukk {path} fra fremtidige øyeblikksbilder?"
 
 #, fuzzy
 #~ msgid "&Snapshot"
-#~ msgstr "Øyeblikksbilder"
+#~ msgstr "Ø&yeblikksbilder"
 
 #~ msgid "..."
 #~ msgstr "…"

@@ -4,11 +4,11 @@
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 
 # Back In Time
-<sub>Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, Richard Bailey,
+<sub>Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
 Germar Reitze, Taylor Raack, Christian Buhtz, Michael Büker, Jürgen Altfeld<sub>
  
 It is an easy-to-use backup tool for files and folders.
-It runs on GNU Linux and provides a command line tool `backintime` and a
+It runs on GNU Linux (sorry - not on Windows or OS X/macOS) and provides a command line tool `backintime` and a
 Qt5 GUI `backintime-qt` both written in Python3. It uses 
 [`rsync`](https://rsync.samba.org/) to take manual or scheduled snapshots and
 stores them locally or remotely through SSH. Each snapshot is its own folder
@@ -69,8 +69,8 @@ Also the dependencies are described there.
 Besides the repositories of the official GNU/Linux distributions, there are other alternative
 installation options provided and maintained by third parties.
 
-- A Personal Package Archive ([PPA](https://launchpad.net/ubuntu/+ppas)) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA. Hosted at Launchpad and provided by [@Germar](https://github.com/germar).
-- A PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing). The PPA is self-hosted and provided by [@jean-christophe-manciot](https://github.com/jean-christophe-manciot).
+- [@Germar](https://github.com/germar)'s Personal Package Archive ([PPA](https://launchpad.net/ubuntu/+ppas)) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
+- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
 - The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 ## Known Problems and Workarounds
@@ -79,6 +79,7 @@ In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - RTE "module 'qttools' has no attribute 'initate_translator'" with encFS when prompting the user for a password (#1553)
 - [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
+- [`qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt5_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 In older releases:
 - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
@@ -116,6 +117,17 @@ You can currently ignore this warning until we have found a reliable way
 to support all Ubuntu distros (older and newer ones).
 
 This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
+
+#### `qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
+
+See the related issue #1592
+
+The only reliable work-around is to delete (or move into another folder)
+the file `/usr/share/backintime/common/qt5_probing.py`:
+
+`mv /usr/share/backintime/common/qt5_probing.py /usr/share/backintime/`
+
+Renaming does *not* work!
 
 ### Problems in versions older than the latest stable release
 
@@ -183,4 +195,4 @@ Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
 to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
-<sub>November 2023</sub>
+<sub>Jan 2024</sub>

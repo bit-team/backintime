@@ -10,19 +10,21 @@ MAKEFILE="$(mktemp)"
 UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
-#set default options
-PYTHON="--python3"
+# set default options
+PYTHON="/usr/bin/python3"
 
 USR_BIN_FILES="backintime backintime-askpass"
 
 usage () {
     echo "Usage:"
-    echo "$0 [--python | --python3]"
+    echo "$0 [--python | --python3 | --python=PYTHON_BINARY]"
     echo ""
     echo "--python"
     echo "\tuse 'python' to start Python3"
     echo "--python3"
     echo "\tuse 'python3' to start Python3"
+    echo "--python=PYTHON_BINARY"
+    echo "\tuse PYTHON_BINARY to start Python3"
 }
 
 addInstallFiles () {
@@ -51,7 +53,7 @@ addInstallFile () {
 addSymlink () {
     dst=$1
     src=$2
-    printf "\tln -s $dst \$(DEST)$src\n" >> ${MAKEFILE}
+    printf "\tln --symbolic --force $dst \$(DEST)$src\n" >> ${MAKEFILE}
     addUninstallFile "$src"
 }
 
@@ -113,7 +115,15 @@ onTravis () {
 unknown_args=""
 for arg in $*; do
     case $arg in
-        --python | --python3) PYTHON=$arg;;
+        --python=*)
+            PYTHON=$(echo $arg | cut -f2 -d'=')
+            ;;
+        --python3)
+            PYTHON="/usr/bin/python3"
+            ;;
+        --python)
+            PYTHON="/usr/bin/python"
+            ;;
         --help | -h) usage; exit 0;;
         *) unknown_args="$unknown_args $arg";;
     esac
@@ -123,15 +133,16 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
-#patch python command
-#use 'python' or 'python3' to start Python Version 3.x
-case $PYTHON in
-    --python)   PYVERSION="" ;;
-    --python3)  PYVERSION="3";;
-esac
-sed -e "s/^python3\? /python${PYVERSION} /g" \
-    -e "s/^ssh-agent python3\? /ssh-agent python${PYVERSION} /g" \
-    -i $USR_BIN_FILES
+if [ ! -f "$PYTHON" ]; then
+    echo "Warning: \"${PYTHON}\" not found on this computer"
+fi
+
+if [ -n "$(sed -e "s#^/usr/bin/python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ]
+then
+    echo "Replacement of python path with \"${PYTHON}\" successful."
+else
+    echo "WARNING: Replacement of python path with \"${PYTHON}\" FAILED. Maybe you ran configure more than once?"
+fi
 
 #check languages
 mos=""
@@ -270,13 +281,13 @@ for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
     fi
 done
 COVERAGE=$(which coverage 2>/dev/null)
-#use "coverage run" only on travis-ci.org and if it is available
-#this will pass information to coveralls.io.
-#otherwise use "python", "python3" or if available "py.test-3"
+# Use "coverage run" only on travis-ci.org and if it is available
+# this will pass information to coveralls.io.
+# Otherwise use "python", "python3" or if available "py.test-3"
 if onTravis && [ -n "${COVERAGE}" ]; then
     CMD="coverage run -p"
 else
-    CMD="python${PYVERSION}"
+    CMD="${PYTHON}"
 fi
 
 printf "test:\tunittest\n\n" >> ${MAKEFILE}
@@ -324,7 +335,7 @@ done
 
 # check python version
 PYTHON_VERSION_REQUIRED="3.8"
-PYTHON_VERSION_CURRENT=$(python${PYVERSION} --version | tr --delete 'Python ')
+PYTHON_VERSION_CURRENT=$(${PYTHON} --version | tr --delete 'Python ')
 
 # Credits: https://unix.stackexchange.com/a/285928/136851
 if [ "$(printf '%s\n' "$PYTHON_VERSION_REQUIRED" "$PYTHON_VERSION_CURRENT" | sort -V | head -n1)" != "$PYTHON_VERSION_REQUIRED" ]; then

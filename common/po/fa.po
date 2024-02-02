@@ -7,84 +7,82 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-11-15 10:12+0100\n"
-"PO-Revision-Date: 2023-09-11 07:08+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
+"PO-Revision-Date: 2024-01-27 20:01+0000\n"
+"Last-Translator: alialmasi <a710almasi@gmail.com>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.0\n"
+"X-Generator: Weblate 5.3.1\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
 msgid "Warning"
 msgstr "هشدار"
 
-#: common/config.py:139 common/config.py:282
+#: common/config.py:146 common/config.py:289
 msgid "Main profile"
 msgstr "پروفایل اصلی"
 
-#: common/config.py:292 common/config.py:297
+#: common/config.py:299 common/config.py:304
 msgid "Local"
 msgstr "محلی"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1937
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
 msgid "SSH private key"
-msgstr "کلید خصوصی SSH"
+msgstr "کلید خصوصی اس‌اس‌اچ"
 
-#: common/config.py:297
-#, fuzzy
+#: common/config.py:304
 msgid "encrypted"
-msgstr "SSH رمزنگاری شده"
+msgstr "رمزگذاری شده"
 
-#: common/config.py:298 common/config.py:305
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "رمزنگاری"
 
-#: common/config.py:303
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "SSH رمزنگاری شده"
 
-#: common/config.py:310
+#: common/config.py:317
 msgid "Default"
 msgstr "پیش‌فرض"
 
-#: common/config.py:341 common/config.py:353 common/config.py:370
-#: common/config.py:381
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "پروفایل:\"{name}\""
+msgstr "پروفایل: \"{name}\""
 
-#: common/config.py:342
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
 msgstr "پوشه اسنپ‌شات معتبر نیست!"
 
-#: common/config.py:354
+#: common/config.py:361
 #, fuzzy
 msgid "You must select at least one folder to back up!"
 msgstr "شما حداقل برای پشتیبان‌گیری باید یک پوشه را انتخاب کنید!"
 
-#: common/config.py:371
+#: common/config.py:378
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "پوشه پشتیبان نمی‌تواند گنجانده شود"
 
-#: common/config.py:383
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "زیر پوشه پشتیبان نمی‌تواند گنجانده شود"
 
-#: common/config.py:441
-#, fuzzy, python-brace-format
+#: common/config.py:448
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} یک پوشه نیست!"
+msgstr "گزینه نادرست. {path} یک پوشه نیست."
 
-#: common/config.py:450
-#, fuzzy
+#: common/config.py:457
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "هاست/کاربر/آی‌دی پروفایل باید خالی نباشد!"
+msgstr "آی‌دی هاست/کاربر/پروفایل نباید خالی باشد!"
 
-#: common/config.py:460 common/config.py:507
+#: common/config.py:467 common/config.py:514
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -93,7 +91,7 @@ msgstr ""
 "نمی‌توان نوشت در: {path}\n"
 "آیا اطمینان دارید که دسترسی به نوشتن دارید؟"
 
-#: common/config.py:477
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -102,26 +100,26 @@ msgstr ""
 "مقصد فایل سیستمی برای {path} با FAT فرمت شده که هاردلینک ها را پشتیبانی "
 "نمیکند. لطفاً از یک فایل سیستمی بومی لینوکس استفاده کنید."
 
-#: common/config.py:486
-#, fuzzy, python-brace-format
+#: common/config.py:493
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"مقصد فایل سیستمی برای {path} یک سهم(share) مانت شده SMB است. لطفاً مطمئن "
-"شوید سرور SMB ریموت، سیملینک ها را پشتیبانی میکند یا {copyLinks} در "
-"{expertOptions} فعال کنید."
+"فایل سیستم مقصد {path} یک share مانت شده SMB است. لطفاً مطمئن شوید سرور SMB "
+"ریموت، سیم‌لینک ها را پشتیبانی میکند یا {copyLinks} را در {expertOptions} "
+"فعال کنید."
 
-#: common/config.py:490 qt/settingsdialog.py:1004
+#: common/config.py:497 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
 msgstr "کپی کردن لینک ها(لینک‌های نمادین متفاوت)"
 
-#: common/config.py:491
+#: common/config.py:498
 msgid "Expert Options"
 msgstr "گزینه های حرفه‌ای"
 
-#: common/config.py:495
+#: common/config.py:502
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -130,7 +128,7 @@ msgstr ""
 "مقصد فایل سیستمی برای {path} سهم(share) مانت شده sshfs هست. sshfs از "
 "هاردلینک ها پشتیبانی نمیکند. لطفاً از حالت 'SSH' به جای آن استفاده کنید."
 
-#: common/config.py:1591
+#: common/config.py:1598
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -140,11 +138,11 @@ msgstr ""
 "آیا اطمینان دارید که کرون نصب شده است؟\n"
 "اگر نه، شما بایستی همه پشتیبان های خودکار را غیرفعال کنید."
 
-#: common/config.py:1597
+#: common/config.py:1604
 msgid "Failed to write new crontab."
 msgstr "نوشتن کرونتب جدید شکست خورد."
 
-#: common/config.py:1700
+#: common/config.py:1707
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -153,15 +151,15 @@ msgstr ""
 "نتوانست قوانین Udev را برای پروفایل {profile_id} نصب کند. سرویس دی‌باس(DBus)"
 " '{dbus_interface}' در دسترس نبود"
 
-#: common/config.py:1715
+#: common/config.py:1722
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "برنامه‌ریزی udev با حالت {mode} کار نمی‌کند"
 
-#: common/config.py:1726
-#, fuzzy, python-brace-format
+#: common/config.py:1733
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "نتوانست UUID برای \"{path}\" پیدا کند"
+msgstr "UUID برای \"{path}\" پیدا نشد"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
@@ -172,14 +170,13 @@ msgid "Failed to load config"
 msgstr "بارگذاری پیکربندی شکست خورد"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "پروفایل \"{name}\" همین الان هم وجود داره!"
+msgstr "پروفایل \"{name}\" از قبل وجود دارد."
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
-msgstr "این نمی‌تواند لغو بشود!"
+msgstr "آخرین پروفایل قابل حذف نیست."
 
 #: common/encfstools.py:92
 #, python-brace-format
@@ -196,7 +193,7 @@ msgstr "میخوای یک پوشه رمزنگاری شده جدید بسازی؟
 
 #: common/encfstools.py:151
 msgid "Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: common/encfstools.py:156
 msgid "Please confirm password"
@@ -204,7 +201,7 @@ msgstr "لطفاً رمز عبور را تایید کنید"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
-msgstr ""
+msgstr "کلمه‌عبور مطابقت ندارد."
 
 #: common/encfstools.py:178
 msgid ""
@@ -212,22 +209,22 @@ msgid ""
 "update encfs."
 msgstr ""
 
-#: common/encfstools.py:516 common/snapshots.py:910
+#: common/encfstools.py:516 common/snapshots.py:914
 msgid "Take snapshot"
 msgstr "گرفتن اسنپ‌شات"
 
 #: common/mount.py:608
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "نمی‌توان {mountprocess} را از {mountpoint} جدا کرد."
 
 #: common/mount.py:695
 msgid "{} not found. Please install e.g. {}"
-msgstr ""
+msgstr "{} پیدا نشد. لطفا به‌عنوان مثال {} را نصب کنید."
 
 #: common/mount.py:716
 msgid "Mountpoint {} not empty."
-msgstr ""
+msgstr "مونت‌پوینت {} خالی نیست."
 
 #: common/password.py:240
 #, python-brace-format
@@ -243,179 +240,183 @@ msgid "Restore permissions"
 msgstr "بازگردانی دسترسی ها"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "تمام"
 
-#: common/snapshots.py:704
+#: common/snapshots.py:708
 msgid "Deferring backup while on battery"
 msgstr "به تعویق انداختن پشتیبان گیری در هنگام باتری"
 
-#: common/snapshots.py:766
-#, fuzzy
+#: common/snapshots.py:770
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
 "نمیتوان پوشه اسنپ‌شات را پیدا کرد.\n"
-"اگر آن در یک درایو جداشدنی هست، لطفاً آن را وصل کنید."
+"اگر در یک درایو جداشدنی قرار دارد، لطفاً آن را وصل کنید."
 
-#: common/snapshots.py:768
+#: common/snapshots.py:772
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "در حال صبر کردن %s ثانیه."
-msgstr[1] "در حال صبر کردن %s ثانیه‌."
+msgstr[0] "صبر برای %s ثانیه."
+msgstr[1] "صبر برای %s ثانیه."
 
-#: common/snapshots.py:805
-#, fuzzy, python-brace-format
+#: common/snapshots.py:809
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "گرفتن اسنپ‌شات شکست خورد {snapshot_id} !!!"
+msgstr "گرفتن اسنپ‌شات {snapshot_id} شکست خورد."
 
-#: common/snapshots.py:822
+#: common/snapshots.py:826
 msgid "Finalizing"
 msgstr "درحال نهایی کردن"
 
-#: common/snapshots.py:945
+#: common/snapshots.py:949
 msgid "Can't create folder"
 msgstr "نمی‌توان پوشه ساخت"
 
-#: common/snapshots.py:962
-#, fuzzy
+#: common/snapshots.py:966
 msgid "Saving config file…"
-msgstr "درحال ذخیره فایل پیکربندی..."
+msgstr "درحال ذخیره فایل کانفیگ…"
 
-#: common/snapshots.py:1038
-#, fuzzy
+#: common/snapshots.py:1042
 msgid "Saving permissions…"
-msgstr "در حال ذخیره دسترسی‌ها..."
+msgstr "در حال ذخیره دسترسی‌ها…"
 
-#: common/snapshots.py:1146
+#: common/snapshots.py:1150
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "{snapshot_id} رها شده‌ای پیدا شد که میتوان ادامه داد."
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "حذف کردن پوشه {snapshot_id} رها شده‌ای از آخرین اجرا"
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1179
 msgid "Can't remove folder"
 msgstr "نمیتوان پوشه را حذف کرد"
 
-#: common/snapshots.py:1218
+#: common/snapshots.py:1222
 msgid "Taking snapshot"
 msgstr "در حال گرفتن اسنپ‌شات"
 
-#: common/snapshots.py:1250
+#: common/snapshots.py:1254
 msgid "Success"
+msgstr "موفق"
+
+#: common/snapshots.py:1255
+msgid "Partial transfer due to error"
 msgstr ""
 
-#: common/snapshots.py:1251
+#: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
+"انتقال جزئی به دلیل فایل‌های منبع ناپدید شده (به \"man rsync\" مراجعه کنید)"
 
-#: common/snapshots.py:1254
+#: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' با کد خروج {exit_code} به پایان رسید"
 
-#: common/snapshots.py:1263
+#: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "برای جزئیات بیشتر به \"man rsync\" مراجعه کنید"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
+"کدهای خروجی منفی rsync شماره سیگنال هستند، به \"kill -l\" و \"man kill\" "
+"مراجعه کنید"
 
-#: common/snapshots.py:1282
+#: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "چیزی تغییر نیافت، اسنپ‌شات ضروری جدیدی نیست"
 
-#: common/snapshots.py:1313
+#: common/snapshots.py:1318
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "نمی‌توان {new_path} را به {path} تغییر نام داد"
 
-#: common/snapshots.py:1631 common/snapshots.py:1683
+#: common/snapshots.py:1636 common/snapshots.py:1688
 msgid "Smart remove"
 msgstr "حذف هوشمند"
 
-#: common/snapshots.py:1658
+#: common/snapshots.py:1663
 msgid "Removing old snapshots"
 msgstr "درحال پاک کردن اسنپ‌شات های قدیمی"
 
-#: common/snapshots.py:1693
+#: common/snapshots.py:1698
 msgid "Trying to keep min free space"
 msgstr "درحال تلاش برای نگهداری حداقل فضای آزاد"
 
-#: common/snapshots.py:1732
+#: common/snapshots.py:1737
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "درحال تلاش برای نگهداری حداقل {perc} آزاد آی‌نودها"
 
-#: common/snapshots.py:2814 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "الان"
 
 #: common/sshtools.py:215
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "نمی‌توان {sshfs} را مانت کرد"
 
 #: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "ssh-agent پیدا نشد. لطفا از نصب بودن آن مطمئن شوید."
 
 #: common/sshtools.py:418
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"کلید خصوصی اس‌اس‌اچ باز نشد. رمز عبور یا رمز عبور اشتباه برای cron موجود "
+"نیست."
 
 #: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "متن رمز {cipher} برای {host} شکست خورد."
 
 #: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
-msgstr ""
+msgstr "مسیر ریموت وجود دارد اما یک دایرکتوری نیست."
 
 #: common/sshtools.py:658
 msgid "Remote path is not writable."
-msgstr ""
+msgstr "مسیر ریموت قابل نوشتن نیست."
 
 #: common/sshtools.py:663
-#, fuzzy
 msgid "Remote path is not executable."
-msgstr "Shebang در اسکریپت user-callback قابل اجرا نیست."
+msgstr "مسیر ریموت قایل اجرا نیست."
 
 #: common/sshtools.py:668
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "نمی‌توان پوشه ساخت"
+msgstr "نمی‌توان پوشه ریموت ساخت."
 
 #: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr ""
+msgstr "مسیر ریموت {host} دستور {command} را پشتیبانی نمیکند"
 
 #: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "برای دستورالعمل های بیشتر به \"man backintime\" مراجعه کنید"
 
 #: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
+msgstr "بررسی دستورات روی میزبان {host} خطای ناشناخته ای را نشان داد"
 
 #: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr ""
+msgstr "میزبان ریموت {host} از هاردلینک‌ها پشتیبانی نمی کند"
 
 #: common/sshtools.py:1060
 #, python-brace-format
@@ -434,19 +435,16 @@ msgid "Shortcuts"
 msgstr "میانبرها"
 
 #: qt/app.py:187
-#, fuzzy
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
-msgstr ""
-"این پوشه در اسنپ‌شات انتخاب شده فعلی وجود نداره\n"
-"عشقی!"
+msgstr "این پوشه در اسنپ‌شات انتخاب شده فعلی وجود ندارد."
 
 #: qt/app.py:252
 msgid "Add to Include"
 msgstr "اضافه کردن به شامل‌ها"
 
-#: qt/app.py:254 qt/logviewdialog.py:176
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "اضافه کردن به استثناها"
 
@@ -475,27 +473,25 @@ msgstr "گرفتن اسنپ‌شات"
 
 #: qt/app.py:455
 msgid "Use modification time & size for file change detection."
-msgstr ""
+msgstr "از زمان و اندازه اصلاح برای تشخیص تغییر فایل استفاده کنید."
 
 #: qt/app.py:458
-#, fuzzy
 msgid "Take a snapshot (checksum mode)"
-msgstr "اسنپ‌شات بگیر با سرجمع"
+msgstr "گرفتن اسنپ‌شات (حالت چک‌سام)"
 
 #: qt/app.py:460
-#, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "از سرجمع برای شناسایی تغییرات استفاده کن"
+msgstr "از چک‌سام برای شناسایی تغییرات استفاده کن."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:83
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "توقف پروسه اسنپ‌شات"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:87
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "ادامه پروسه اسنپ‌شات"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:92
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "لغو پروسه اسنپ‌شات"
 
@@ -505,42 +501,36 @@ msgid "Refresh snapshot list"
 msgstr "تازه سازی لیست اسنپ‌شات"
 
 #: qt/app.py:480
-#, fuzzy
 msgid "Name snapshot"
-msgstr "گرفتن اسنپ‌شات"
+msgstr "نام‌بردن اسنپ‌شات"
 
 #: qt/app.py:484
-#, fuzzy
 msgid "Remove snapshot"
 msgstr "حذف اسنپ‌شات"
 
 #: qt/app.py:488
-#, fuzzy
 msgid "View snapshot log"
-msgstr "لاگ اسنپ‌شات را ببین"
+msgstr "مشاهده لاگ اسنپ‌شات"
 
 #: qt/app.py:492
-#, fuzzy
 msgid "View last log"
-msgstr "آخرین لاگ را ببین"
+msgstr "مشاهده آخرین لاگ"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "پروفایل اصلی"
+msgstr "مدیریت پروفایل‌ها…"
 
 #: qt/app.py:500
 msgid "Shutdown"
 msgstr "خاموش"
 
 #: qt/app.py:502
-#, fuzzy
 msgid "Shut down system after snapshot has finished."
-msgstr "سیستم را خاموش کن بعد از تمام شدن اسنپ‌شات."
+msgstr "بعد از تمام شدن اسنپ‌شات سیستم را خاموش کن."
 
 #: qt/app.py:504
 msgid "Setup language…"
-msgstr ""
+msgstr "زبان راه‌اندازی…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -551,9 +541,8 @@ msgid "Help"
 msgstr "کمک"
 
 #: qt/app.py:516
-#, fuzzy
 msgid "Profiles config file"
-msgstr "درحال ذخیره فایل پیکربندی..."
+msgstr "فایل پیکربندی پروفایل ها"
 
 #: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
@@ -561,7 +550,7 @@ msgstr "وبسایت"
 
 #: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
-msgstr "لاگنامه"
+msgstr "لاگ تغییرات"
 
 #: qt/app.py:525
 msgid "FAQ"
@@ -584,7 +573,7 @@ msgstr "مترجم‌ها"
 msgid "About"
 msgstr "درباره"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2203
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "بازگردانی"
@@ -594,9 +583,8 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr "فایل ها یا پوشه های انتخاب شده را به مقصد اصلی بازگردان."
 
 #: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
-msgstr "بازگردانی به..."
+msgstr "بازگردانی به …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -620,7 +608,7 @@ msgstr "پوشه درحال نمایش را با تمام محتویات اش ر
 msgid "Up"
 msgstr "بالا"
 
-#: qt/app.py:563 qt/settingsdialog.py:2159
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "نمایش فایل های مخفی"
 
@@ -666,15 +654,15 @@ msgstr "درحال کار"
 msgid "Error"
 msgstr "خطا"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:200
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "فرستاده‌شده"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:201
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "سرعت"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:202
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "ETA"
 
@@ -801,9 +789,9 @@ msgid "Snapshot"
 msgstr "اسنپ‌شات"
 
 #: qt/app.py:1660
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
-msgstr "{path} را بازگردان"
+msgstr "بازگرداندن {path}"
 
 #: qt/app.py:1662
 #, fuzzy, python-brace-format
@@ -837,12 +825,12 @@ msgstr "پیش‌فرض"
 
 #: qt/languagedialog.py:94
 msgid "Use operating systems language."
-msgstr ""
+msgstr "استفاده از زبان سیستم عامل."
 
 #: qt/languagedialog.py:146
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "ترجمه شده: {percent}"
 
 #: qt/languagedialog.py:184
 #, python-brace-format
@@ -856,71 +844,72 @@ msgid ""
 msgstr ""
 
 #: qt/languagedialog.py:216
-#, fuzzy
 msgid "translation platform"
-msgstr "مترجم‌ها"
+msgstr "پلتفرم ترجمه"
 
 #: qt/languagedialog.py:232
-#, fuzzy
 msgid "Your translation"
-msgstr "مترجم‌ها"
+msgstr "ترجمه شما"
 
-#: qt/logviewdialog.py:53
+#: qt/logviewdialog.py:62
 msgid "Last Log View"
 msgstr "آخرین نمای لاگ"
 
-#: qt/logviewdialog.py:55
+#: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
 msgstr "نمای لاگ اسنپ‌شات"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:74 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2300
+#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "پروفایل"
 
-#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
 msgstr "اسنپ‌شات‌ها"
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:94
 msgid "Filter"
 msgstr "فیلتر"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
 msgid "All"
 msgstr "همه"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "تغییرات"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
 #: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "خطاها"
 
-#: qt/logviewdialog.py:101 qt/messagebox.py:71
-#, fuzzy
+#: qt/logviewdialog.py:110 qt/messagebox.py:71
 msgid "Information"
 msgstr "اطلاعات"
 
 #: qt/logviewdialog.py:111
+msgid "rsync transfer failures (experimental)"
+msgstr ""
+
+#: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] خطا، [I] اطلاعات، [C] تغییرات"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:96
+#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "رمزگشایی مسیرها"
 
-#: qt/logviewdialog.py:172
+#: qt/logviewdialog.py:182
 msgid "Copy"
 msgstr "کپی"
 
-#: qt/logviewdialog.py:180
+#: qt/logviewdialog.py:190
 msgid "Decode"
 msgstr "رمزگشایی"
 
-#: qt/logviewdialog.py:202
+#: qt/logviewdialog.py:212
 msgid "Do you want to exclude this?"
 msgstr "آیا می‌خواهید این را استثنا قرار بدهید؟"
 
@@ -928,19 +917,18 @@ msgstr "آیا می‌خواهید این را استثنا قرار بدهید�
 msgid "Question"
 msgstr "سوال"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:103
 msgid "View Last Log"
 msgstr "آخرین لاگ را ببین"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:107
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "اجرای {appname}"
 
-#: qt/qtsystrayicon.py:167
-#, fuzzy
+#: qt/qtsystrayicon.py:169
 msgid "Working…"
-msgstr "درحال کار"
+msgstr "درحال کار…"
 
 #: qt/qttools.py:370
 msgid "Today"
@@ -972,9 +960,8 @@ msgid "Show full Log"
 msgstr "لاگ را کامل نشان بده"
 
 #: qt/settingsdialog.py:87
-#, fuzzy
 msgid "Manage profiles"
-msgstr "پروفایل اصلی"
+msgstr "مدیریت پروفایل‌ها"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -992,7 +979,7 @@ msgstr "حذف"
 msgid "&General"
 msgstr "کلی"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
 msgid "Mode"
 msgstr "حالت"
 
@@ -1007,7 +994,7 @@ msgstr ""
 "مسیر‌ ممکن حمله برای این را افشا کرده است. لطفاً نگاهی به \"A NOTE ON "
 "SECURITY\" در \"man backintime\" بیندازید."
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1913
+#: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
 msgid "Where to save snapshots"
 msgstr "کجا اسنپ‌شات‌ها ذخیره شود"
 
@@ -1037,7 +1024,7 @@ msgstr "مسیر"
 
 #: qt/settingsdialog.py:220
 msgid "Cipher"
-msgstr "رمزنگاری"
+msgstr "متن رمز"
 
 #: qt/settingsdialog.py:226
 msgid "Private Key"
@@ -1090,7 +1077,7 @@ msgid "At every boot/reboot"
 msgstr "در هر بوت/ریبوت"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "هر {n} دقیقه"
@@ -1102,7 +1089,7 @@ msgstr "هر ساعت"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "هر {n} ساعت"
@@ -1114,7 +1101,6 @@ msgid "Custom hours"
 msgstr "ساعت سفارشی"
 
 #: qt/settingsdialog.py:373
-#, fuzzy
 msgid "Every day"
 msgstr "هر روز"
 
@@ -1476,7 +1462,7 @@ msgstr ""
 "\n"
 "%(default)s:%(def_value)s"
 
-#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2060
+#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
 msgid "default"
 msgstr "پیش‌فرض"
 
@@ -1595,11 +1581,11 @@ msgstr "استثنا کردن فایل"
 msgid "Exclude folder"
 msgstr "استثنا کردن پوشه"
 
-#: qt/settingsdialog.py:1858
+#: qt/settingsdialog.py:1863
 msgid "Include file"
 msgstr "شامل کردن فایل"
 
-#: qt/settingsdialog.py:1867 qt/settingsdialog.py:1893
+#: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
 #, fuzzy, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1608,37 +1594,37 @@ msgstr ""
 "\"{path}\" یک پیوند نمادین است. هدف پیوند خورده پشتیبان‌گیری نمیشود تا وقتی که شما این را هم شامل کنید.\n"
 "آیا مایل به تمایلات هستید که در عوض پیوندهای نمادین هدف را شامل کنید؟"
 
-#: qt/settingsdialog.py:1884
+#: qt/settingsdialog.py:1893
 msgid "Include folder"
 msgstr "شامل کردن پوشه"
 
-#: qt/settingsdialog.py:1921
+#: qt/settingsdialog.py:1930
 #, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "آیا شما میخواهید پوشه اسنپ‌شات را تغییر دهید؟"
 
-#: qt/settingsdialog.py:1946
+#: qt/settingsdialog.py:1955
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "ساختن کلید SSH جدید در {path} شکست خورد"
 
-#: qt/settingsdialog.py:2005
+#: qt/settingsdialog.py:2014
 msgid "Full snapshot path: "
 msgstr "مسیر کامل اسنپ‌شات: "
 
-#: qt/settingsdialog.py:2055
+#: qt/settingsdialog.py:2064
 msgid "enabled"
 msgstr "فعال"
 
-#: qt/settingsdialog.py:2058
+#: qt/settingsdialog.py:2067
 msgid "disabled"
 msgstr "غیرفعال"
 
-#: qt/settingsdialog.py:2103
+#: qt/settingsdialog.py:2112
 msgid "Restore Settings"
 msgstr "بازگردانی تنظیمات"
 
-#: qt/settingsdialog.py:2116
+#: qt/settingsdialog.py:2125
 #, fuzzy, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
@@ -1653,15 +1639,15 @@ msgstr ""
 "اگر اسنپ‌شات‌ها شما روی یک درایو ریموت است یا آنها رمزنگاری شده‌اند، شما اول باید آنها را دستی مانت کنید. اگر شما از حالت SSH استفاده میکنید شاید نیاز داشته باشید که ورود کلید عمومی راه اندازی کنید به هاست ریموت {addFuse}.\n"
 "یه نگاه به 'man backintime' بنداز."
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
 msgid "No config found"
 msgstr "هیچ پیکربندی‌ پیدا نشد"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2459
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "اسکریپت user-callback هیچ خط shebang ندارد (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2466
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang در اسکریپت user-callback قابل اجرا نیست."
 
@@ -1675,7 +1661,7 @@ msgstr "دستور"
 
 #: qt/snapshotsdialog.py:62
 msgid "Parameters"
-msgstr "پارامترها"
+msgstr "پارامتر ها"
 
 #: qt/snapshotsdialog.py:66
 msgid "Use %1 and %2 for path parameters"
