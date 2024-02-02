@@ -78,8 +78,8 @@ replaced with PyPi packages.
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt5`
-  - `python3-dbus.mainloop.pyqt5`
+  - `python3-pyqt6`
+  - `python3-dbus.mainloop.pyqt6`
   - `libnotify-bin`
   - `policykit-1`
   - `qttranslations5-l10n`
