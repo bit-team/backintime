@@ -15,20 +15,24 @@ language: python
 
 os: linux
  
-arch :
+arch:
  - amd64
  - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
 dist: focal
 
-matrix:
+python:
+  - "3.8"
+  - "3.9"
+  - "3.10"
+  - "3.11"
+#   - "3.12"
+ 
+jobs:
   include:
     - python: 3.8
       env: SYSTEM_SITE_PACKAGES=true
-    - python: 3.9
-    - python: 3.10
-    - python: 3.11
 
 # env:
 #     # TravisCI support said this could prevent errors from "make".
@@ -40,13 +44,7 @@ addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
-# python:
-#   - "3.8"
-#   - "3.9"
-#   - "3.10"
-#   - "3.11"
-# #   - "3.12"
-   
+  
 
 # virtualenv:
 #   # Packages installed via "apt" are available to Pythons virtenv.
