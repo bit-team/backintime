@@ -1,4 +1,4 @@
-#extract profile and config arguments
+# extract profile and config arguments
 _bit_extr_opts()
 {
     local c=0 last="" opts=""
@@ -15,7 +15,7 @@ _bit_extr_opts()
     echo "${opts}"
 }
 
-#return a list of all snapshots
+# return a list of all snapshots
 _bit_snapshots_list()
 {
     backintime$(_bit_extr_opts) --quiet snapshots-list | awk '{print $2}'
@@ -30,14 +30,15 @@ _backintime()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts="--profile --profile-id --quiet --config --version --license       \
           --help --debug --checksum --no-crontab --keep-mount --delete      \
-          --local-backup --no-local-backup --only-new --share-path"
+          --local-backup --no-local-backup --only-new --share-path          \
+	  --diagnostics"
     actions="backup backup-job snapshots-path snapshots-list                \
              snapshots-list-path last-snapshot last-snapshot-path unmount   \
              benchmark-cipher pw-cache decode remove restore check-config   \
              smart-remove shutdown"
     pw_cache_commands="start stop restart reload status"
 
-    #extract the current action
+    # extract the current action
     while [[ $c -le $[${COMP_CWORD} - 1] ]]; do
         case ${actions} in
             *"${COMP_WORDS[$c]}"*)
@@ -103,3 +104,4 @@ _backintime()
 }
 complete -F _backintime backintime
 complete -F _backintime backintime-qt
+
