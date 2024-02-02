@@ -90,7 +90,8 @@ from PyQt6.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QSize,
-                          QUrl
+                          QUrl,
+                          pyqtRemoveInputHook,
                           )
 import settingsdialog
 import snapshotsdialog
@@ -448,6 +449,9 @@ class MainWindow(QMainWindow):
         """
 
         action_dict = {
+            # because of "icon"
+            # pylint: disable=undefined-variable
+
             # 'Name of action attribute in "self"': (
             #     ICON, Label text,
             #     trigger_handler_function,

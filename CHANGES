@@ -1,6 +1,11 @@
 Back In Time
 
-Version 1.4.2-dev (development of upcoming release)
+Version 1.4.4-dev (development of upcoming release)
+* Build: Fix bash-completion symlink creation while installing & adding --diagnostics (#1615)
+* Build: Activate PyLint error E602 (undefined-variable)
+* Build: TravisCI use PyQt (except arch "ppc64le")
+
+Version 1.4.3 (2024-01-30)
 * Feature: Exclude 'SingletonLock' and 'SingletonCookie' (Discord) and 'lock' (Mozilla Firefox) files by default (part of #1555)
 * Work around: Relax `rsync` exit code 23: Ignore instead of error now (part of #1587)
 * Feature (experimental): Add new snapshot log filter `rsync transfer failures (experimental)` to find them easier (they are normally not shown as "error").
@@ -82,7 +87,7 @@ Version 1.3.3 (2023-01-04)
 * Desktop integration: Update .desktop file to mark Back In Time as a single main window program (#1258)
 * Feature: Write all log output to stderr; do not pollute stdout with INFO and WARNING messages anymore (#1337)
 * Fix bug: RTE "reentrant call inside io.BufferedWriter" in logFile.flush() during backup (#1003)
-* Fix bug: Incompatibility with rsync 3.2.4 or later because of rsync's "new argument protection" (#1247). Deactivate "--old-args" rsync argument earlier recommanded to users as a workaround.
+* Fix bug: Incompatibility with rsync 3.2.4 or later because of rsync's "new argument protection" (#1247). Deactivate "--old-args" rsync argument earlier recommended to users as a workaround.
 * Fix bug: DeprecationWarnings about invalid escape sequences.
 * Fix bug: AttributeError in "Diff Options" dialog (#898)
 * Fix bug: Settings GUI: "Save password to Keyring" was disabled due to "no appropriate keyring found" (#1321)
