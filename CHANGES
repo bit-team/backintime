@@ -4,6 +4,7 @@ Version 1.4.4-dev (development of upcoming release)
 * Build: Fix bash-completion symlink creation while installing & adding --diagnostics (#1615)
 * Build: Activate PyLint error E602 (undefined-variable)
 * Build: TravisCI use PyQt (except arch "ppc64le")
+* Fix bug: `make install` ignored $(DEST) in file migration part (#1630)
 
 Version 1.4.3 (2024-01-30)
 * Feature: Exclude 'SingletonLock' and 'SingletonCookie' (Discord) and 'lock' (Mozilla Firefox) files by default (part of #1555)
