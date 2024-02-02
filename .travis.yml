@@ -74,7 +74,7 @@ script:
   - ./configure --python=python3
   - make
   # PyQt5 is not installed on "ppc64le"
-  # - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
+  - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
   - pytest
 
 after_success:
