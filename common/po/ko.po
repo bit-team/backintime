@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-30 10:08+0100\n"
+"POT-Creation-Date: 2024-02-03 18:26+0100\n"
 "PO-Revision-Date: 2024-01-24 11:34+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -237,7 +237,7 @@ msgstr "실패"
 msgid "Restore permissions"
 msgstr "권한 복원"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
+#: common/snapshots.py:596 qt/app.py:288 qt/app.py:919 qt/app.py:954
 #: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "완료"
@@ -351,7 +351,7 @@ msgstr "최소 여유 공간을 유지하려고 합니다"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "최소 {perc}개의 사용 가능한 아이노드를 유지하려고 합니다"
 
-#: common/snapshots.py:2821 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1620
 msgid "Now"
 msgstr "현재"
 
@@ -420,11 +420,11 @@ msgstr "공개 SSH 키 \"{pubkey}\"를 원격 호스트 \"{host}\"에 복사합�
 msgid "Please enter password for \"{user}\""
 msgstr "\"{user}\" 암호를 입력하세요"
 
-#: qt/app.py:167
+#: qt/app.py:168
 msgid "Shortcuts"
 msgstr "바로 가기"
 
-#: qt/app.py:187
+#: qt/app.py:188
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
@@ -432,22 +432,22 @@ msgstr ""
 "이 폴더가 존재하지 않습니다.\n"
 "폴더가 없습니다."
 
-#: qt/app.py:252
+#: qt/app.py:253
 msgid "Add to Include"
 msgstr "포함할 항목 추가"
 
-#: qt/app.py:254 qt/logviewdialog.py:186
+#: qt/app.py:255 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "제외할 항목 추가"
 
-#: qt/app.py:339
+#: qt/app.py:340
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr "{appName}이(가) 구성되지 않았습니다. 이전 구성을 복원하시겠습니까?"
 
-#: qt/app.py:368
+#: qt/app.py:369
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -455,164 +455,164 @@ msgstr ""
 "스냅샷 폴더를 찾을 수 없습니다.\n"
 "이동식 드라이브에 있는 경우 연결한 다음 확인을 누르세요."
 
-#: qt/app.py:453
+#: qt/app.py:457
 msgid "Take a snapshot"
 msgstr "스냅샷 생성"
 
-#: qt/app.py:455
+#: qt/app.py:459
 msgid "Use modification time & size for file change detection."
 msgstr "파일 변경 감지를 위해 수정 시간 및 크기를 사용합니다."
 
-#: qt/app.py:458
+#: qt/app.py:462
 msgid "Take a snapshot (checksum mode)"
 msgstr "체크섬을 포함한 스냅샷 생성하기"
 
-#: qt/app.py:460
+#: qt/app.py:464
 msgid "Use checksums for file change detection."
 msgstr "파일 변경 감지에 체크섬을 사용합니다."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:85
+#: qt/app.py:467 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "스냅샷 생성 일시 중지"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:89
+#: qt/app.py:472 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "스냅샷 생성 재시작"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:94
+#: qt/app.py:476 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "스냅샷 생성 중지"
 
-#: qt/app.py:476
+#: qt/app.py:480
 msgid "Refresh snapshot list"
 msgstr "스냅샷 목록 새로 고침"
 
-#: qt/app.py:480
+#: qt/app.py:484
 msgid "Name snapshot"
 msgstr "스냅샷 이름 변경"
 
-#: qt/app.py:484
+#: qt/app.py:488
 msgid "Remove snapshot"
 msgstr "스냅샷 제거"
 
-#: qt/app.py:488
+#: qt/app.py:492
 msgid "View snapshot log"
 msgstr "스냅샷 로그 보기"
 
-#: qt/app.py:492
+#: qt/app.py:496
 msgid "View last log"
 msgstr "마지막 로그 보기"
 
-#: qt/app.py:496
+#: qt/app.py:500
 msgid "Manage profiles…"
 msgstr "프로필 관리…"
 
-#: qt/app.py:500
+#: qt/app.py:504
 msgid "Shutdown"
 msgstr "끄기"
 
-#: qt/app.py:502
+#: qt/app.py:506
 msgid "Shut down system after snapshot has finished."
 msgstr "스냅샷이 끝난 후 시스템 종료하기."
 
-#: qt/app.py:504
+#: qt/app.py:508
 msgid "Setup language…"
 msgstr "언어 설정…"
 
-#: qt/app.py:508
+#: qt/app.py:512
 msgid "Exit"
 msgstr "끝내기"
 
-#: qt/app.py:512
+#: qt/app.py:516
 msgid "Help"
 msgstr "도움말"
 
-#: qt/app.py:516
+#: qt/app.py:520
 msgid "Profiles config file"
 msgstr "프로필 구성 파일"
 
-#: qt/app.py:519 qt/languagedialog.py:219
+#: qt/app.py:523 qt/languagedialog.py:219
 msgid "Website"
 msgstr "웹사이트"
 
-#: qt/app.py:522 qt/app.py:1261
+#: qt/app.py:526 qt/app.py:1265
 msgid "Changelog"
 msgstr "변경 내역"
 
-#: qt/app.py:525
+#: qt/app.py:529
 msgid "FAQ"
 msgstr "자주 묻는 질문"
 
-#: qt/app.py:528
+#: qt/app.py:532
 msgid "Ask a question"
 msgstr "질문하기"
 
-#: qt/app.py:531
+#: qt/app.py:535
 msgid "Report a bug"
 msgstr "버그 신고"
 
-#: qt/app.py:534
+#: qt/app.py:538
 msgid "Translation"
 msgstr "번역"
 
-#: qt/app.py:537 qt/app.py:1834
+#: qt/app.py:541 qt/app.py:1838
 msgid "About"
 msgstr "정보"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
+#: qt/app.py:544 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "복원"
 
-#: qt/app.py:542
+#: qt/app.py:546
 msgid "Restore the selected files or folders to the original destination."
 msgstr "선택한 파일이나 폴더를 원래 대상으로 복원합니다."
 
-#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
+#: qt/app.py:549 qt/app.py:1425 qt/app.py:1457 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "다음 위치에 복원 …"
 
-#: qt/app.py:547
+#: qt/app.py:551
 msgid "Restore the selected files or folders to a new destination."
 msgstr "선택한 파일 또는 폴더를 새로운 대상으로 복원합니다."
 
-#: qt/app.py:552
+#: qt/app.py:556
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr "현재 표시된 폴더와 해당 폴더의 모든 내용을 원래 대상으로 복원합니다."
 
-#: qt/app.py:557
+#: qt/app.py:561
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr "현재 표시된 폴더와 해당 폴더의 모든 내용을 새 대상으로 복원합니다."
 
-#: qt/app.py:560
+#: qt/app.py:564
 msgid "Up"
 msgstr "위로"
 
-#: qt/app.py:563 qt/settingsdialog.py:2168
+#: qt/app.py:567 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "숨겨진 파일 표시"
 
-#: qt/app.py:566
+#: qt/app.py:570
 msgid "Compare snapshots…"
 msgstr "스냅샷 비교…"
 
-#: qt/app.py:627
+#: qt/app.py:631
 msgid "&Backup"
 msgstr "백업"
 
-#: qt/app.py:638
+#: qt/app.py:642
 msgid "&Restore"
 msgstr "복원"
 
-#: qt/app.py:644
+#: qt/app.py:648
 msgid "&Help"
 msgstr "도움말"
 
-#: qt/app.py:761
+#: qt/app.py:765
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -620,60 +620,60 @@ msgstr ""
 "이 창을 닫으면 스냅샷이 완료되었을 때 Back In Time이 시스템을 종료할 수 없습니다.\n"
 "정말로 닫으시겠습니까?"
 
-#: qt/app.py:905
+#: qt/app.py:909
 msgid "Working:"
 msgstr "진행 중:"
 
-#: qt/app.py:953
+#: qt/app.py:957
 msgid "Done, no backup needed"
 msgstr "완료되었습니다. 백업이 필요하지 않습니다"
 
-#: qt/app.py:962
+#: qt/app.py:966
 msgid "Working"
 msgstr "진행 중"
 
-#: qt/app.py:971 qt/messagebox.py:76
+#: qt/app.py:975 qt/messagebox.py:76
 msgid "Error"
 msgstr "오류"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:202
+#: qt/app.py:998 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "전송"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:203
+#: qt/app.py:999 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "속도"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:204
+#: qt/app.py:1000 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "예상 소요 시간"
 
-#: qt/app.py:1050
+#: qt/app.py:1054
 msgid "Global"
 msgstr "전역"
 
-#: qt/app.py:1051
+#: qt/app.py:1055
 msgid "Root"
 msgstr "루트"
 
-#: qt/app.py:1052
+#: qt/app.py:1056
 msgid "Home"
 msgstr "홈"
 
-#: qt/app.py:1067
+#: qt/app.py:1071
 msgid "Backup folders"
 msgstr "백업 폴더"
 
-#: qt/app.py:1155
+#: qt/app.py:1159
 msgid "Snapshot Name"
 msgstr "스냅샷 이름"
 
-#: qt/app.py:1202
+#: qt/app.py:1206
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "정말 이 스냅샷(들)을 제거하시겠습니까?"
 
-#: qt/app.py:1294
+#: qt/app.py:1298
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -682,7 +682,7 @@ msgstr ""
 "로컬 요소를 덮어쓰거나 제거하기 전에\n"
 "뒤에 오는 {suffix}를 사용하여 백업 복사본을 만듭니다."
 
-#: qt/app.py:1300 qt/settingsdialog.py:774
+#: qt/app.py:1304 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -691,7 +691,7 @@ msgstr ""
 "최신 버전의 파일은 복원하기 전에 뒤에 오는 {suffix}로 이름이 변경됩니다.\n"
 "더 이상 필요하지 않으면 {cmd}을(를) 사용하여 제거할 수 있습니다"
 
-#: qt/app.py:1314
+#: qt/app.py:1318
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -701,11 +701,11 @@ msgstr ""
 "대상에 있는 요소보다 최신인 요소만 복원합니다.\n"
 "\"rsync --update\" 옵션을 사용합니다."
 
-#: qt/app.py:1347
+#: qt/app.py:1351
 msgid "Remove newer elements in original folder."
 msgstr "원본 폴더에서 최신 요소를 제거합니다."
 
-#: qt/app.py:1348
+#: qt/app.py:1352
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -719,7 +719,7 @@ msgstr ""
 "제외되었던 파일과 폴더가 삭제되므로\n"
 "각별히 주의하세요."
 
-#: qt/app.py:1361
+#: qt/app.py:1365
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -731,53 +731,53 @@ msgstr[0] ""
 "이러한 요소(들)을 새 폴더 {path}\n"
 "에 복원하시겠습니까?"
 
-#: qt/app.py:1370
+#: qt/app.py:1374
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "정말로 이러한 요소(들)을 복원하시겠습니까?"
 
-#: qt/app.py:1385
+#: qt/app.py:1389
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "{path}에 있는 모든 최신 파일을 제거하시겠습니까?"
 
-#: qt/app.py:1388
+#: qt/app.py:1392
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr "원본 폴더에서 최신 파일을 모두 제거하시겠습니까?"
 
-#: qt/app.py:1393
+#: qt/app.py:1397
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr "경고: 파일 시스템 루트에서 파일을 삭제하면 전체 시스템이 손상될 수 있습니다!"
 
-#: qt/app.py:1623
+#: qt/app.py:1627
 msgid "Snapshot"
 msgstr "스냅샷"
 
-#: qt/app.py:1660
+#: qt/app.py:1664
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} 복원"
 
-#: qt/app.py:1662
+#: qt/app.py:1666
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path}를 다음 위치에 복원 …"
 
-#: qt/app.py:1819
+#: qt/app.py:1823
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "언어 설정은 Back In Time을 다시 시작한 후에만 적용됩니다."
 
-#: qt/app.py:1859 qt/app.py:1876
+#: qt/app.py:1863 qt/app.py:1880
 msgid "Authors"
 msgstr "저자"
 
-#: qt/app.py:1860 qt/app.py:1879
+#: qt/app.py:1864 qt/app.py:1883
 msgid "Translations"
 msgstr "번역"
 
-#: qt/app.py:1861 qt/app.py:1882
+#: qt/app.py:1865 qt/app.py:1886
 msgid "License"
 msgstr "라이센스"
 
@@ -1673,121 +1673,3 @@ msgstr "경고"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "앞으로의 스냅샷에서 {path} 경로를 제외하시겠습니까?"
-
-#~ msgid "&Snapshot"
-#~ msgstr "스냅샷"
-
-#~ msgid "&View"
-#~ msgstr "보기"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "Diff"
-#~ msgstr "차이점"
-
-#~ msgid "Diff Options"
-#~ msgstr "차이점 옵션"
-
-#~ msgid "Error:"
-#~ msgstr "오류:"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "매 10분"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "12시간마다"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "30분마다"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "4시간마다"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "매 5분"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "6시간마다"
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr "호스트가 다운 되었거나 잘못된 주소입니다. %s ping 실패"
-
-#, fuzzy, python-brace-format
-#~ msgid "Profile: {name}"
-#~ msgstr "프로파일: \"{name}\""
-
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "%s 을/를 복원"
-
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "다음 위치에 %s 을/를 복원"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Settings"
-#~ msgstr "설정"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "스냅샷: %s"
-
-#, fuzzy
-#~ msgid "View the current disk contents"
-#~ msgstr "현재 디스크의 내용을 봅니다"
-
-#, fuzzy, python-brace-format
-#~ msgid "View the snapshot made at {timestamp}"
-#~ msgstr "{timestamp}에 만들어진 스냅샷을 확인하세요"
-
-#~ msgid "Working..."
-#~ msgstr "동작 중..."
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "백업 폴더를 포함할 수는 없습니다!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "백업 하위폴더를 포함할 수 없습니다!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "마지막 프로파일은 제거할 수 없습니다!"

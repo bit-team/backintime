@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-30 10:08+0100\n"
+"POT-Creation-Date: 2024-02-03 18:26+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
@@ -255,7 +255,7 @@ msgstr "NEZDAŘILO SE"
 msgid "Restore permissions"
 msgstr "Obnovit přístupová práva"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
+#: common/snapshots.py:596 qt/app.py:288 qt/app.py:919 qt/app.py:954
 #: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Dokončeno"
@@ -376,7 +376,7 @@ msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 "Pokus o zachování alespoň {perc} volných pozic pro soubory a složky (inode)"
 
-#: common/snapshots.py:2821 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1620
 msgid "Now"
 msgstr "Nyní"
 
@@ -457,11 +457,11 @@ msgstr ""
 msgid "Please enter password for \"{user}\""
 msgstr "Vyplňte heslo pro „{user}“"
 
-#: qt/app.py:167
+#: qt/app.py:168
 msgid "Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: qt/app.py:187
+#: qt/app.py:188
 #, fuzzy
 msgid ""
 "This folder doesn't exist\n"
@@ -470,22 +470,22 @@ msgstr ""
 "Tato složka v aktuálně označeném\n"
 "zachyceném stavu neexistuje."
 
-#: qt/app.py:252
+#: qt/app.py:253
 msgid "Add to Include"
 msgstr "Přidat do seznamu zálohovaných"
 
-#: qt/app.py:254 qt/logviewdialog.py:186
+#: qt/app.py:255 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Přidat do seznamu vynechaných"
 
-#: qt/app.py:339
+#: qt/app.py:340
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr "Aplikace {appName} postrádá nastavení. Chcete obnovit ta dřívější?"
 
-#: qt/app.py:368
+#: qt/app.py:369
 #, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
@@ -494,181 +494,181 @@ msgstr ""
 "Složka se zachycenými stavy nebyla nalezena.\n"
 "Pokud se nachází na vyjímatelném médiu, připojte ho a klikněte na OK."
 
-#: qt/app.py:453
+#: qt/app.py:457
 #, fuzzy
 msgid "Take a snapshot"
 msgstr "Pořídit zachycený stav"
 
-#: qt/app.py:455
+#: qt/app.py:459
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:458
+#: qt/app.py:462
 #, fuzzy
 msgid "Take a snapshot (checksum mode)"
 msgstr "Pořídit zachycený stav a opatřit ho kontrolními součty"
 
-#: qt/app.py:460
+#: qt/app.py:464
 #, fuzzy
 msgid "Use checksums for file change detection."
 msgstr ""
 "Zda se soubory, určené k zálohování změnily zjišťovat pomocí jejich "
 "kontrolního součtu (přesnější)."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:85
+#: qt/app.py:467 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Pozastavit pořizování zachyceného stavu"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:89
+#: qt/app.py:472 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Pokračovat v pořizování zachyceného stavu"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:94
+#: qt/app.py:476 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Ukončit toto pořizování zachyceného stavu"
 
-#: qt/app.py:476
+#: qt/app.py:480
 #, fuzzy
 msgid "Refresh snapshot list"
 msgstr "Znovu načíst seznam zachycených stavů"
 
-#: qt/app.py:480
+#: qt/app.py:484
 #, fuzzy
 msgid "Name snapshot"
 msgstr "Pořídit zachycený stav"
 
-#: qt/app.py:484
+#: qt/app.py:488
 #, fuzzy
 msgid "Remove snapshot"
 msgstr "Odstranit zachycený stav"
 
-#: qt/app.py:488
+#: qt/app.py:492
 #, fuzzy
 msgid "View snapshot log"
 msgstr "Zobrazit záznam událostí při pořizování zachyceného stavu"
 
-#: qt/app.py:492
+#: qt/app.py:496
 #, fuzzy
 msgid "View last log"
 msgstr "Zobrazit záznam nedávných událostí"
 
-#: qt/app.py:496
+#: qt/app.py:500
 #, fuzzy
 msgid "Manage profiles…"
 msgstr "Hlavní profil"
 
-#: qt/app.py:500
+#: qt/app.py:504
 msgid "Shutdown"
 msgstr "Vypnout počítač po dokončení úlohy"
 
-#: qt/app.py:502
+#: qt/app.py:506
 msgid "Shut down system after snapshot has finished."
 msgstr "Po pořízení zachyceného stavu vypnout počítač."
 
-#: qt/app.py:504
+#: qt/app.py:508
 msgid "Setup language…"
 msgstr ""
 
-#: qt/app.py:508
+#: qt/app.py:512
 msgid "Exit"
 msgstr "Ukončit aplikaci"
 
-#: qt/app.py:512
+#: qt/app.py:516
 msgid "Help"
 msgstr "Nápověda"
 
-#: qt/app.py:516
+#: qt/app.py:520
 #, fuzzy
 msgid "Profiles config file"
 msgstr "Ukládání souboru s nastaveními"
 
-#: qt/app.py:519 qt/languagedialog.py:219
+#: qt/app.py:523 qt/languagedialog.py:219
 msgid "Website"
 msgstr "Webové stránky projektu"
 
-#: qt/app.py:522 qt/app.py:1261
+#: qt/app.py:526 qt/app.py:1265
 msgid "Changelog"
 msgstr "Co je v aplikaci nového"
 
-#: qt/app.py:525
+#: qt/app.py:529
 msgid "FAQ"
 msgstr "Často kladené dotazy (FAQ)"
 
-#: qt/app.py:528
+#: qt/app.py:532
 msgid "Ask a question"
 msgstr "Položit dotaz"
 
-#: qt/app.py:531
+#: qt/app.py:535
 msgid "Report a bug"
 msgstr "Nahlásit chybu / dát podnět"
 
-#: qt/app.py:534
+#: qt/app.py:538
 #, fuzzy
 msgid "Translation"
 msgstr "Překladatelé"
 
-#: qt/app.py:537 qt/app.py:1834
+#: qt/app.py:541 qt/app.py:1838
 msgid "About"
 msgstr "O aplikaci"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
+#: qt/app.py:544 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Obnovit"
 
-#: qt/app.py:542
+#: qt/app.py:546
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Obnovit označené soubory či složky do jejich původních umístění."
 
-#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
+#: qt/app.py:549 qt/app.py:1425 qt/app.py:1457 qt/snapshotsdialog.py:142
 #, fuzzy
 msgid "Restore to …"
 msgstr "Obnovit do…"
 
-#: qt/app.py:547
+#: qt/app.py:551
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Obnovit označené soubory či složky do nového umístění."
 
-#: qt/app.py:552
+#: qt/app.py:556
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 "Obnovit právě zobrazenou složku a veškerý její obsah do původního umístění."
 
-#: qt/app.py:557
+#: qt/app.py:561
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
 "Obnovit právě zobrazenou složku a veškerý její obsah do nového umístění."
 
-#: qt/app.py:560
+#: qt/app.py:564
 msgid "Up"
 msgstr "Přejít do nadřazené složky"
 
-#: qt/app.py:563 qt/settingsdialog.py:2168
+#: qt/app.py:567 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Zobrazovat skryté soubory"
 
-#: qt/app.py:566
+#: qt/app.py:570
 #, fuzzy
 msgid "Compare snapshots…"
 msgstr "Pořídit zachycený stav"
 
-#: qt/app.py:627
+#: qt/app.py:631
 msgid "&Backup"
 msgstr ""
 
-#: qt/app.py:638
+#: qt/app.py:642
 msgid "&Restore"
 msgstr "&Obnovit"
 
-#: qt/app.py:644
+#: qt/app.py:648
 msgid "&Help"
 msgstr "&Nápověda"
 
-#: qt/app.py:761
+#: qt/app.py:765
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -676,55 +676,55 @@ msgstr ""
 "Pokud toto okno zavřete, pak aplikace Back In Time nebude moci po dokončení pořízení zachyceného stavu vypnout počítač.\n"
 "Opravdu chcete okno zavřít?"
 
-#: qt/app.py:905
+#: qt/app.py:909
 msgid "Working:"
 msgstr "Zpracovává se:"
 
-#: qt/app.py:953
+#: qt/app.py:957
 msgid "Done, no backup needed"
 msgstr "Dokončeno, záloha není potřebná"
 
-#: qt/app.py:962
+#: qt/app.py:966
 msgid "Working"
 msgstr "Zpracovává se"
 
-#: qt/app.py:971 qt/messagebox.py:76
+#: qt/app.py:975 qt/messagebox.py:76
 msgid "Error"
 msgstr "Chyba"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:202
+#: qt/app.py:998 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Odesláno"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:203
+#: qt/app.py:999 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Rychlost"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:204
+#: qt/app.py:1000 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Odhad. zbývající čas"
 
-#: qt/app.py:1050
+#: qt/app.py:1054
 msgid "Global"
 msgstr "Celkové"
 
-#: qt/app.py:1051
+#: qt/app.py:1055
 msgid "Root"
 msgstr "Kořen"
 
-#: qt/app.py:1052
+#: qt/app.py:1056
 msgid "Home"
 msgstr "Domovská složka"
 
-#: qt/app.py:1067
+#: qt/app.py:1071
 msgid "Backup folders"
 msgstr "Složky pro zálohu"
 
-#: qt/app.py:1155
+#: qt/app.py:1159
 msgid "Snapshot Name"
 msgstr "Nazvat zachycený stav"
 
-#: qt/app.py:1202
+#: qt/app.py:1206
 #, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
@@ -732,7 +732,7 @@ msgstr[0] "Opravdu chcete odstranit zachycený stav"
 msgstr[1] "Opravdu chcete odstranit zachycený stav"
 msgstr[2] "Opravdu chcete odstranit zachycený stav"
 
-#: qt/app.py:1294
+#: qt/app.py:1298
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -741,7 +741,7 @@ msgstr ""
 "Stávající soubory, které by jinak byly odebrány nebo přepsány těmi ze zálohy,\n"
 "zachovat a jen připojit za jejich název „{suffix}“."
 
-#: qt/app.py:1300 qt/settingsdialog.py:774
+#: qt/app.py:1304 qt/settingsdialog.py:774
 #, fuzzy, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -750,7 +750,7 @@ msgstr ""
 "Novější verze souborů budou před zahájením obnovy přejmenovány přidáním předpony {suffix}.\n"
 "Až je už nebudete potřebovat, můžete je odstranit pomocí příkazu {cmd}"
 
-#: qt/app.py:1314
+#: qt/app.py:1318
 #, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
@@ -761,12 +761,12 @@ msgstr ""
 "nebo jsou novější, než ty v cíli.\n"
 "Využívá volbu „rsync --update“."
 
-#: qt/app.py:1347
+#: qt/app.py:1351
 #, fuzzy
 msgid "Remove newer elements in original folder."
 msgstr "Odebrat novější soubory v původní složce"
 
-#: qt/app.py:1348
+#: qt/app.py:1352
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and\n"
@@ -781,7 +781,7 @@ msgstr ""
 "zachyceného stavu!\n"
 "Buďte velmi opatrní!!!"
 
-#: qt/app.py:1361
+#: qt/app.py:1365
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -799,7 +799,7 @@ msgstr[2] ""
 "Opravdu chcete obnovit tyto soubory\n"
 "do nové složky „{path}“"
 
-#: qt/app.py:1370
+#: qt/app.py:1374
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
@@ -807,17 +807,17 @@ msgstr[0] "Opravdu chcete obnovit tyto soubory"
 msgstr[1] "Opravdu chcete obnovit tyto soubory"
 msgstr[2] "Opravdu chcete obnovit tyto soubory"
 
-#: qt/app.py:1385
+#: qt/app.py:1389
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Opravdu chcete veškeré novější soubory v „{path}“ odebrat?"
 
-#: qt/app.py:1388
+#: qt/app.py:1392
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
 
-#: qt/app.py:1393
+#: qt/app.py:1397
 #, fuzzy
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
@@ -825,33 +825,33 @@ msgstr ""
 "VAROVÁNÍ: smazání souborů v kořenové složce souborového systému může "
 "způsobit nefunkčnost celého operačního systému!!!"
 
-#: qt/app.py:1623
+#: qt/app.py:1627
 msgid "Snapshot"
 msgstr "Zachycený stav"
 
-#: qt/app.py:1660
+#: qt/app.py:1664
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnovit {path}"
 
-#: qt/app.py:1662
+#: qt/app.py:1666
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Obnovit {path} do…"
 
-#: qt/app.py:1819
+#: qt/app.py:1823
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1859 qt/app.py:1876
+#: qt/app.py:1863 qt/app.py:1880
 msgid "Authors"
 msgstr "Vývojáři"
 
-#: qt/app.py:1860 qt/app.py:1879
+#: qt/app.py:1864 qt/app.py:1883
 msgid "Translations"
 msgstr "Překladatelé"
 
-#: qt/app.py:1861 qt/app.py:1882
+#: qt/app.py:1865 qt/app.py:1886
 msgid "License"
 msgstr "Licence"
 
@@ -1804,233 +1804,3 @@ msgstr "VAROVÁNÍ"
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Vynechat „{path}“ z budoucích zachycených stavů?"
-
-#~ msgid " and add your user to group 'fuse'"
-#~ msgstr " a přidejte svůj uživatelský účet do systémové skupiny „fuse“"
-
-#, python-format
-#~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you include it, too.\n"
-#~ "Would you like to include the symlinks target instead?"
-#~ msgstr ""
-#~ "„%s“ je symbolický odkaz. Odkazovaný cíl nebude zazálohován, pokud jeho umístění výslovně nezahrnete.\n"
-#~ "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
-
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Tento záznam událostí byl dekódován pomocí automatického vyhledávacího vzorce\n"
-#~ "### Pokud některá umístění nejsou dekódována, můžete je dekódovat ručně, pomocí:\n"
-
-#, python-format
-#~ msgid ""
-#~ "%(user)s is not member of group 'fuse'.\n"
-#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
-#~ "Look at 'man backintime' for further instructions."
-#~ msgstr ""
-#~ "%(user)s není členem skupiny fuse.\n"
-#~ " Spusťte příkaz: sudo adduser %(user)s fuse . Aby se změny projevily, bude nutné se odhlásit a znovu přihlásit.\n"
-#~ "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s nebyl nalezen v souboru ssh_known_hosts."
-
-#~ msgid "&Snapshot"
-#~ msgstr "Zachycený &stav"
-
-#~ msgid "&View"
-#~ msgstr "&Zobrazit"
-
-#~ msgid "..."
-#~ msgstr "…"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "Changes & Errors"
-#~ msgstr "Změny a chyby"
-
-#~ msgid "Config File Help"
-#~ msgstr "Nápověda k souboru s nastaveními"
-
-#~ msgid "Create a new SSH key without Password."
-#~ msgstr "Vytvořte nový SSH klíč, nechráněný heslem."
-
-#~ msgid "Diff"
-#~ msgstr "Porovnat"
-
-#~ msgid "Diff Options"
-#~ msgstr "Předvolby porovnávání (diff)"
-
-#~ msgid "Error:"
-#~ msgstr "Chyba:"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Každých 10 minut"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Každých 12 hodin"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Každých 30 minut"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Každé 4 hodiny"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Každých 5 minut"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Každých 6 hodin"
-
-#~ msgid ""
-#~ "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
-#~ "\n"
-#~ "Full system backup will override some settings that may have been customized. Continue?"
-#~ msgstr ""
-#~ "Zachycený stav, pořízený pomocí funkce kompletní záloha systému, je s jistotou možné obnovit pouze na stejnou jednotku datového úložiště, ze které byl pořízen a to ještě za předpokladu, že rozvržení oddílů na ní bude stejné, jaké je v zachyceném stavu. Pokus o obnovení na jednotku lišící se kapacitou a/nebo rozvržením oddílů může vyústit v rozbitý a tím nepoužitelný systém.\n"
-#~ "\n"
-#~ "Úprava profilu pro účely kompletní zálohy systému může vést ke změně některých nastavení, které jste v něm mohli udělat. Přesto pokračovat?"
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Vyskytly se dva stejné otisky v hash_id %s. Zvyšte celkovou hodnotu "
-#~ "parametru hash_collision a zkuste to znovu."
-
-#~ msgid "Key File"
-#~ msgstr "Soubor s klíčem"
-
-#~ msgid "List only different snapshots"
-#~ msgstr "Vypsat pouze odlišné zachycené stavy"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Na tomto počítači – v šifrované podobě"
-
-#~ msgid "Modify for Full System Backup"
-#~ msgstr "Upravit pro účely kompletní zálohy systému"
-
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Časový limit zámku procesu připojování (mount)"
-
-#, python-format
-#~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
-#~ msgstr ""
-#~ "Ověření uživatele %(user)s na stroji %(host)s pomocí ssh klíče se nezdařilo."
-#~ " Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr ""
-#~ "Ověření dostupnosti stroje (ping) %s nebylo úspěšné. Stroj je buď vypnutý, "
-#~ "nebo je zadaná nesprávná IP adresa."
-
-#, fuzzy, python-brace-format
-#~ msgid "Profile: {name}"
-#~ msgstr "Profil: „{name}“"
-
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "Obnovit „%s“"
-
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "Obnovit „%s“ na…"
-
-#, fuzzy, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Obnovit označený soubor či složku.\n"
-#~ "Pokud je toto tlačítko nedostupné (vyšedlé), je to nejspíš tím, že v seznamu zachycených stavů (vlevo) je označena položka „{now}“."
-
-#~ msgid "Run 'ionice':"
-#~ msgstr "Spustit s nižší prioritou na vst./výst. (ionice):"
-
-#~ msgid "Run 'nice':"
-#~ msgstr "Spustit s nižší prioritou (nice):"
-
-#, fuzzy
-#~ msgid "Run 'rsync' with 'ionice':"
-#~ msgstr "Spustit nástroj rsync s parametrem nocache:"
-
-#~ msgid "Run 'rsync' with 'nocache':"
-#~ msgstr "Spustit nástroj rsync s parametrem nocache:"
-
-#~ msgid "SSH"
-#~ msgstr "Na jiném stroji (skrze SSH tunel)"
-
-#~ msgid "Settings"
-#~ msgstr "Nastavení"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Zachycený stav: %s"
-
-#, fuzzy
-#~ msgid "View the current disk contents"
-#~ msgstr "Zobrazit stávající data"
-
-#, fuzzy, python-brace-format
-#~ msgid "View the snapshot made at {timestamp}"
-#~ msgstr "Zobrazit zachycený stav pořízený k {timestamp}"
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "S CHYBAMI!"
-
-#~ msgid "Working..."
-#~ msgstr "Zpracování…"
-
-#, fuzzy
-#~ msgid "You can't include backup folder!"
-#~ msgstr ""
-#~ "Složku se zálohami nelze zahrnout mezi zálohované položky (zacyklení)!"
-
-#, fuzzy
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr ""
-#~ "Podsložku složky se zálohami nelze zahrnout mezi zálohované položky "
-#~ "(zacyklení)!"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Nelze odebrat poslední zbývající profil!"

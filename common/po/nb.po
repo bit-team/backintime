@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-30 10:08+0100\n"
+"POT-Creation-Date: 2024-02-03 18:26+0100\n"
 "PO-Revision-Date: 2024-01-23 09:10+0000\n"
 "Last-Translator: Brazi <alexander@linux.com>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
@@ -241,7 +241,7 @@ msgstr "FEILET"
 msgid "Restore permissions"
 msgstr "Gjenopprett tillatelser"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
+#: common/snapshots.py:596 qt/app.py:288 qt/app.py:919 qt/app.py:954
 #: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Ferdig"
@@ -356,7 +356,7 @@ msgstr "Forsøk å bevare min ledig plass"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Forsøker å bevare minst {perc} ledige inodes"
 
-#: common/snapshots.py:2821 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1620
 msgid "Now"
 msgstr "Nå"
 
@@ -427,11 +427,11 @@ msgstr "Kopier offentlig ssh nøkkel \"{pubkey}\" til den andre verten \"{host}\
 msgid "Please enter password for \"{user}\""
 msgstr "Vennligst skriv inn passord for \"{user}\""
 
-#: qt/app.py:167
+#: qt/app.py:168
 msgid "Shortcuts"
 msgstr "Snarveier"
 
-#: qt/app.py:187
+#: qt/app.py:188
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
@@ -439,15 +439,15 @@ msgstr ""
 "Mappen finnes ikke\n"
 "i det valgte øyeblikksbildet."
 
-#: qt/app.py:252
+#: qt/app.py:253
 msgid "Add to Include"
 msgstr "Legg til for å inkludere"
 
-#: qt/app.py:254 qt/logviewdialog.py:186
+#: qt/app.py:255 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Legg til for å ekskludere"
 
-#: qt/app.py:339
+#: qt/app.py:340
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
@@ -456,7 +456,7 @@ msgstr ""
 "{appName} er ikke konfigurerert. Vil du legge tilbake en tidligere "
 "konfigurasjon?"
 
-#: qt/app.py:368
+#: qt/app.py:369
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -464,128 +464,128 @@ msgstr ""
 "Kan ikke finne øyeblikksbilde-mappe.\n"
 "Hvis den er på en ekstern disk må du koble denne til, og deretter trykke OK."
 
-#: qt/app.py:453
+#: qt/app.py:457
 msgid "Take a snapshot"
 msgstr "Ta et øyeblikksbilde"
 
-#: qt/app.py:455
+#: qt/app.py:459
 msgid "Use modification time & size for file change detection."
 msgstr "Bruk endringstid og størrelse for å spore fil-endringer."
 
-#: qt/app.py:458
+#: qt/app.py:462
 msgid "Take a snapshot (checksum mode)"
 msgstr "Ta et øyeblikksbilde (sjekksum-modus)"
 
-#: qt/app.py:460
+#: qt/app.py:464
 msgid "Use checksums for file change detection."
 msgstr "Bruk sjekksummer for å spore filendringer."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:85
+#: qt/app.py:467 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Sett øyeblikksbilde-prosessen på pause"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:89
+#: qt/app.py:472 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Fortsett øyeblikksbilde-prosessen"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:94
+#: qt/app.py:476 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Stopp øyeblikksbilde-prosessen"
 
-#: qt/app.py:476
+#: qt/app.py:480
 msgid "Refresh snapshot list"
 msgstr "Oppdaterer listen over øyeblikksbilder"
 
-#: qt/app.py:480
+#: qt/app.py:484
 msgid "Name snapshot"
 msgstr "Gi navn til øyeblikksbilde"
 
-#: qt/app.py:484
+#: qt/app.py:488
 msgid "Remove snapshot"
 msgstr "Fjern øyeblikksbilde"
 
-#: qt/app.py:488
+#: qt/app.py:492
 msgid "View snapshot log"
 msgstr "Vis logg for øyeblikksbilde"
 
-#: qt/app.py:492
+#: qt/app.py:496
 msgid "View last log"
 msgstr "Vis siste logg"
 
-#: qt/app.py:496
+#: qt/app.py:500
 msgid "Manage profiles…"
 msgstr "Administrer profiler…"
 
-#: qt/app.py:500
+#: qt/app.py:504
 msgid "Shutdown"
 msgstr "Skru av"
 
-#: qt/app.py:502
+#: qt/app.py:506
 msgid "Shut down system after snapshot has finished."
 msgstr "Skrur av systemet etter at øyeblikksbildet er ferdig."
 
-#: qt/app.py:504
+#: qt/app.py:508
 msgid "Setup language…"
 msgstr "Velg språk…"
 
-#: qt/app.py:508
+#: qt/app.py:512
 msgid "Exit"
 msgstr "Avslutt"
 
-#: qt/app.py:512
+#: qt/app.py:516
 msgid "Help"
 msgstr "Hjelp"
 
-#: qt/app.py:516
+#: qt/app.py:520
 msgid "Profiles config file"
 msgstr "Profilens konfigurasjonsfil"
 
-#: qt/app.py:519 qt/languagedialog.py:219
+#: qt/app.py:523 qt/languagedialog.py:219
 msgid "Website"
 msgstr "Nettside"
 
-#: qt/app.py:522 qt/app.py:1261
+#: qt/app.py:526 qt/app.py:1265
 msgid "Changelog"
 msgstr "Endringslogg"
 
-#: qt/app.py:525
+#: qt/app.py:529
 msgid "FAQ"
 msgstr "Ofte stilte spørsmål"
 
-#: qt/app.py:528
+#: qt/app.py:532
 msgid "Ask a question"
 msgstr "Still et spørsmål"
 
-#: qt/app.py:531
+#: qt/app.py:535
 msgid "Report a bug"
 msgstr "Rapporter en feil"
 
-#: qt/app.py:534
+#: qt/app.py:538
 msgid "Translation"
 msgstr "Oversettelse"
 
-#: qt/app.py:537 qt/app.py:1834
+#: qt/app.py:541 qt/app.py:1838
 msgid "About"
 msgstr "Om"
 
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
+#: qt/app.py:544 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Gjennopprett"
 
-#: qt/app.py:542
+#: qt/app.py:546
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Gjenopprett valgte filer og mapper til opprinnelig sted."
 
-#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
+#: qt/app.py:549 qt/app.py:1425 qt/app.py:1457 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "Gjennopprett til …"
 
-#: qt/app.py:547
+#: qt/app.py:551
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Gjenopprett valgte filer og mapper til et nytt sted."
 
-#: qt/app.py:552
+#: qt/app.py:556
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
@@ -593,37 +593,37 @@ msgstr ""
 "Gjenopprett de viste mappene og alt deres innhold til det opprinnelige "
 "stedet."
 
-#: qt/app.py:557
+#: qt/app.py:561
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr "Gjenopprett de viste mappene og alt deres innhold til et nytt sted."
 
-#: qt/app.py:560
+#: qt/app.py:564
 msgid "Up"
 msgstr "Opp"
 
-#: qt/app.py:563 qt/settingsdialog.py:2168
+#: qt/app.py:567 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
-#: qt/app.py:566
+#: qt/app.py:570
 msgid "Compare snapshots…"
 msgstr "Sammenlign øyeblikksbilder…"
 
-#: qt/app.py:627
+#: qt/app.py:631
 msgid "&Backup"
 msgstr "&Sikkerhetskopi"
 
-#: qt/app.py:638
+#: qt/app.py:642
 msgid "&Restore"
 msgstr "&Gjennopprett"
 
-#: qt/app.py:644
+#: qt/app.py:648
 msgid "&Help"
 msgstr "&Hjelp"
 
-#: qt/app.py:761
+#: qt/app.py:765
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -631,61 +631,61 @@ msgstr ""
 "Hvis du lukker dette vinduet vil ikke Back In Time være i stand til å skru av systemet når øyeblikksbildet er ferdig.\n"
 "Er du sikker på at du vil lukke?"
 
-#: qt/app.py:905
+#: qt/app.py:909
 msgid "Working:"
 msgstr "Arbeider:"
 
-#: qt/app.py:953
+#: qt/app.py:957
 msgid "Done, no backup needed"
 msgstr "Ferdig, sikkerhetskopiering trengs ikke"
 
-#: qt/app.py:962
+#: qt/app.py:966
 msgid "Working"
 msgstr "Arbeider"
 
-#: qt/app.py:971 qt/messagebox.py:76
+#: qt/app.py:975 qt/messagebox.py:76
 msgid "Error"
 msgstr "Feil"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:202
+#: qt/app.py:998 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Sendt"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:203
+#: qt/app.py:999 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Hastighet"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:204
+#: qt/app.py:1000 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Forventet ferdig"
 
-#: qt/app.py:1050
+#: qt/app.py:1054
 msgid "Global"
 msgstr "Global"
 
-#: qt/app.py:1051
+#: qt/app.py:1055
 msgid "Root"
 msgstr "Rot"
 
-#: qt/app.py:1052
+#: qt/app.py:1056
 msgid "Home"
 msgstr "Hjem"
 
-#: qt/app.py:1067
+#: qt/app.py:1071
 msgid "Backup folders"
 msgstr "Øyeblikksbilde mapper"
 
-#: qt/app.py:1155
+#: qt/app.py:1159
 msgid "Snapshot Name"
 msgstr "Navn på øyeblikksbilde"
 
-#: qt/app.py:1202
+#: qt/app.py:1206
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Er du sikker på at du vil fjerne dette øyeblikksbildet?"
 msgstr[1] "Er du sikker på at du vil fjerne disse øyeblikksbildene?"
 
-#: qt/app.py:1294
+#: qt/app.py:1298
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -694,7 +694,7 @@ msgstr ""
 "Lag en sikkerhetskopi med endelse {suffix}\n"
 "før lokale elementer blir fjernet eller overskrevet."
 
-#: qt/app.py:1300 qt/settingsdialog.py:774
+#: qt/app.py:1304 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -703,7 +703,7 @@ msgstr ""
 "Nyere versjoner av filer vil få nytt navn med endelsen {suffix} før de blir gjenopprettet.\n"
 "Hvis du ikke trenger dem lengre kan du fjerne dem med {cmd}"
 
-#: qt/app.py:1314
+#: qt/app.py:1318
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -713,11 +713,11 @@ msgstr ""
 "eller er nyere enn de eksisterende elementene.\n"
 "Bruker \"rsync --update\"-opsjonen."
 
-#: qt/app.py:1347
+#: qt/app.py:1351
 msgid "Remove newer elements in original folder."
 msgstr "Fjern elementer som er nyere i den originale mappen."
 
-#: qt/app.py:1348
+#: qt/app.py:1352
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -731,7 +731,7 @@ msgstr ""
 "slette alle filene og mappene som var\n"
 "ekskludert da øyeblikksbildet ble tatt."
 
-#: qt/app.py:1361
+#: qt/app.py:1365
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -746,57 +746,57 @@ msgstr[1] ""
 "Er du sikker på at du vil gjenopprette disse elementene til den nye mappen\n"
 "{path}?"
 
-#: qt/app.py:1370
+#: qt/app.py:1374
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Er du sikker på at du vil gjenopprette dette elementet?"
 msgstr[1] "Er du sikker på at du vil gjenopprette disse elementene?"
 
-#: qt/app.py:1385
+#: qt/app.py:1389
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Er du sikker på at du vil fjerne alle nyere filer i {path}?"
 
-#: qt/app.py:1388
+#: qt/app.py:1392
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Er du sikker på at du vil fjerne alle nyere filer i den originale mappen?"
 
-#: qt/app.py:1393
+#: qt/app.py:1397
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 "ADVARSEL: Å slette filer i root-filsystemet kan ødelegge hele systemet ditt!"
 
-#: qt/app.py:1623
+#: qt/app.py:1627
 msgid "Snapshot"
 msgstr "Øyeblikksbilde"
 
-#: qt/app.py:1660
+#: qt/app.py:1664
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Gjenopprett {path}"
 
-#: qt/app.py:1662
+#: qt/app.py:1666
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Gjennopprett {path} til …"
 
-#: qt/app.py:1819
+#: qt/app.py:1823
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Språkinnstillingene trer først i kraft etter en omstart av Back In Time."
 
-#: qt/app.py:1859 qt/app.py:1876
+#: qt/app.py:1863 qt/app.py:1880
 msgid "Authors"
 msgstr "Forfattere"
 
-#: qt/app.py:1860 qt/app.py:1879
+#: qt/app.py:1864 qt/app.py:1883
 msgid "Translations"
 msgstr "Oversettelser"
 
-#: qt/app.py:1861 qt/app.py:1882
+#: qt/app.py:1865 qt/app.py:1886
 msgid "License"
 msgstr "Lisens"
 
@@ -1706,113 +1706,3 @@ msgstr "ADVARSEL"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Utelukk {path} fra fremtidige øyeblikksbilder?"
-
-#, fuzzy
-#~ msgid "&Snapshot"
-#~ msgstr "Ø&yeblikksbilder"
-
-#~ msgid "..."
-#~ msgstr "…"
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "Diff"
-#~ msgstr "Diff"
-
-#~ msgid "Diff Options"
-#~ msgstr "Diff Valg"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Hvert 10. minutt"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Hver tolvte time"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Hvert 30. minutt"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Hver fjerde time"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Hvert 5. minutt"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Hver sjette time"
-
-#~ msgid "Local encrypted"
-#~ msgstr "Lokal kryptert"
-
-#, fuzzy, python-brace-format
-#~ msgid "Profile: {name}"
-#~ msgstr "Profil: \"{name}\""
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Settings"
-#~ msgstr "Innstillinger"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Øyeblikksbilde: %s"
-
-#, fuzzy
-#~ msgid "View the current disk contents"
-#~ msgstr "Se nåværende stasjons innhold"
-
-#, fuzzy, python-brace-format
-#~ msgid "View the snapshot made at {timestamp}"
-#~ msgstr "Se øyeblikksbilde laget den {timestamp}"
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "MED FEIL !"
-
-#~ msgid "Working..."
-#~ msgstr "Arbeider …"
-
-#, fuzzy
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Du kan ikke inkludere sikkerhetskopi mappen !"
-
-#, fuzzy
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Du kan ikke inkludere en sikkerhetskopi under-mappe !"
-
-#, fuzzy
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Du kan ikke fjerne den siste profilen!"

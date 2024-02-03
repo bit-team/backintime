@@ -104,7 +104,15 @@ def update_po_language_files():
             f'{po_path}',
             f'{TEMPLATE_PO}'
         ]
+        run(cmd, check=True)
 
+        # remove obsolete entries ("#~ msgid)
+        cmd = [
+            'msgattrib',
+            '--no-obsolete',
+            f'--output-file={po_path}',
+            f'{po_path}'
+        ]
         run(cmd, check=True)
 
 
