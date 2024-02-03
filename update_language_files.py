@@ -33,6 +33,7 @@ BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: & followed by a word character (as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
 
+
 def update_po_template():
     """The po template file is update via `xgettext`.
 
@@ -350,7 +351,7 @@ def _get_shortcut_groups():
     # Difference between messages.pot and expected strings indicated
     # modifications in the GUI and in the shortcut groups.
 
-    real = get_shortcut_entries(polib.pofile(LOCAL_DIR / TEMPLATE_PO))
+    real = get_shortcut_entries(polib.pofile(TEMPLATE_PO))
     real = [entry.msgid for entry in real]
 
     expect = [
@@ -401,11 +402,18 @@ def check_shortcuts():
 
     groups = _get_shortcut_groups()
 
+    # ignore = ['ko.po', 'ZH_cn.po'
+
     # each po file in the repository
     for po_path in list(LOCAL_DIR.rglob('**/*.po')):
-        print(f'\nProcessing {po_path}...')
+
+        print(f'******* {po_path} *******')
+
         # Remember shortcut relevant entries.
         msgs = {key: [] for key in groups}
+
+        # WORKAROUND
+        msgs['mainwindow'].append('Back In &Time')
 
         #
         shortcut_entries = filter(
@@ -423,22 +431,29 @@ def check_shortcuts():
         for groupname in msgs:
 
             # Collect shortcut letters
-            letters = []
+            letters = ''
             for trans in msgs[groupname]:
 
                 try:
                     letters = letters \
                         + REX_SHORTCUT_LETTER.search(trans).groups()[0]
                 except AttributeError:
-                    print('ATTENTION: Maybe missing shortcut in translated '
-                          f'string "{trans}" of group "{groupname}".\n'
-                          f'\n{msgs[groupname]}\n\t{groups[groupname]}')
+                    pass
 
             # Redundant shortcuts?
             if len(letters) > len(set(letters)):
-                print(f'ATTENTION: Maybe redundant shortcuts in "{po_path}". '
-                      f'Please take a look.\nGroup: "{groupname}"\n'
-                      f'\n{msgs[groupname]}\n\t{groups[groupname]}')
+                err_msg = f'Maybe redundant shortcuts in "{po_path}".'
+
+                # missing shortcuts?
+                if len(letters) < len(msgs[groupname]):
+                    err_msg = err_msg + ' Maybe missing ones.'
+
+                err_msg = f'{err_msg} Please take a look.\n' \
+                    f'        Group: {groupname}\n' \
+                    f'       Source: {groups[groupname]}\n' \
+                    f'  Translation: {msgs[groupname]}'
+
+                print(err_msg)
 
 
 if __name__ == '__main__':
@@ -447,6 +462,8 @@ if __name__ == '__main__':
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
+    check_shortcuts()
+    sys.exit()
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
