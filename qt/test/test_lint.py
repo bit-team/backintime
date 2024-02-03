@@ -10,6 +10,7 @@ PYLINT_AVIALBE = not shutil.which('pylint') is None
 PYLINT_REASON = ('Using PyLint is mandatory on TravisCI and otherwise '
                  'optional to systems where PyLint is available.')
 
+
 class MirrorMirrorOnTheWall(unittest.TestCase):
     """Check all py-files in the package (incl. test files) for lints and
     potential bugs and if they are compliant to the coding styles (e.g. PEP8).
