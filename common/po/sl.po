@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-02-03 18:26+0100\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
 "PO-Revision-Date: 2024-01-20 19:14+0000\n"
 "Last-Translator: ravijol1 <liamstaric@gmail.com>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
@@ -239,7 +239,7 @@ msgstr "SPODLETELO"
 msgid "Restore permissions"
 msgstr "Obnovi dovoljenja"
 
-#: common/snapshots.py:596 qt/app.py:288 qt/app.py:919 qt/app.py:954
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Končano"
@@ -358,7 +358,7 @@ msgstr "Poskus ohranjanja minimalnega prostora"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Poskus ohranjanja najmanj {perc} prostih inodov"
 
-#: common/snapshots.py:2821 qt/app.py:1620
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Zdaj"
 
@@ -429,11 +429,11 @@ msgstr "Kopiraj javni ssh-ključ \"{pubkey}\" na oddaljenega gostitelja \"{host}
 msgid "Please enter password for \"{user}\""
 msgstr "Prosim vnesite geslo za \"{user}\""
 
-#: qt/app.py:168
+#: qt/app.py:167
 msgid "Shortcuts"
 msgstr "Bližnjice"
 
-#: qt/app.py:188
+#: qt/app.py:187
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
@@ -441,15 +441,15 @@ msgstr ""
 "Ta mapa ne obstaja\n"
 "v trenutno izbranem posnetku."
 
-#: qt/app.py:253
+#: qt/app.py:252
 msgid "Add to Include"
 msgstr "Dodaj v Vključi"
 
-#: qt/app.py:255 qt/logviewdialog.py:186
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Dodaj v Izključi"
 
-#: qt/app.py:340
+#: qt/app.py:339
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
@@ -457,7 +457,7 @@ msgid ""
 msgstr ""
 "{appName} ni konfiguriran. Ali želite obnoviti prejšnjo konfiguracijo?"
 
-#: qt/app.py:369
+#: qt/app.py:368
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -465,164 +465,164 @@ msgstr ""
 "Mapa s posnetki ni na razpolago.\n"
 "Če je na izmenljivem pogonu, ga priključite in pritisnite OK."
 
-#: qt/app.py:457
+#: qt/app.py:453
 msgid "Take a snapshot"
 msgstr "Ustvari posnetek"
 
-#: qt/app.py:459
+#: qt/app.py:455
 msgid "Use modification time & size for file change detection."
 msgstr "Za zaznavanje datotečnih sprememb uporabite čas in velikost."
 
-#: qt/app.py:462
+#: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
 msgstr "Ustvari posnetek (način checksum)"
 
-#: qt/app.py:464
+#: qt/app.py:460
 msgid "Use checksums for file change detection."
 msgstr "Za zaznavanje datotečnih sprememb uporabite checksum."
 
-#: qt/app.py:467 qt/qtsystrayicon.py:85
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Začasno ustavi postopek posnetka"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:89
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Nadaljuj postopek posnetka"
 
-#: qt/app.py:476 qt/qtsystrayicon.py:94
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Ustavi postopek posnetka"
 
-#: qt/app.py:480
+#: qt/app.py:476
 msgid "Refresh snapshot list"
 msgstr "Osveži seznam posnetkov"
 
-#: qt/app.py:484
+#: qt/app.py:480
 msgid "Name snapshot"
 msgstr "Imenuj posnetek"
 
-#: qt/app.py:488
+#: qt/app.py:484
 msgid "Remove snapshot"
 msgstr "Odstrani posnetek"
 
-#: qt/app.py:492
+#: qt/app.py:488
 msgid "View snapshot log"
 msgstr "Ogled dnevnika posnetkov"
 
-#: qt/app.py:496
+#: qt/app.py:492
 msgid "View last log"
 msgstr "Ogled zadnjega dnevnika"
 
-#: qt/app.py:500
+#: qt/app.py:496
 msgid "Manage profiles…"
 msgstr "Upravljanje profilov…"
 
-#: qt/app.py:504
+#: qt/app.py:500
 msgid "Shutdown"
 msgstr "Zaustavi"
 
-#: qt/app.py:506
+#: qt/app.py:502
 msgid "Shut down system after snapshot has finished."
 msgstr "Zaustavite sistem, ko je posnetek končan."
 
-#: qt/app.py:508
+#: qt/app.py:504
 msgid "Setup language…"
 msgstr "Nastavitev jezika…"
 
-#: qt/app.py:512
+#: qt/app.py:508
 msgid "Exit"
 msgstr "Izhod"
 
-#: qt/app.py:516
+#: qt/app.py:512
 msgid "Help"
 msgstr "Pomoč"
 
-#: qt/app.py:520
+#: qt/app.py:516
 msgid "Profiles config file"
 msgstr "Konfiguracijska datoteka profilov"
 
-#: qt/app.py:523 qt/languagedialog.py:219
+#: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
 msgstr "Spletna stran"
 
-#: qt/app.py:526 qt/app.py:1265
+#: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
 msgstr "Dnevnik sprememb"
 
-#: qt/app.py:529
+#: qt/app.py:525
 msgid "FAQ"
 msgstr "Pogosta vprašanja"
 
-#: qt/app.py:532
+#: qt/app.py:528
 msgid "Ask a question"
 msgstr "Postavite vprašanje"
 
-#: qt/app.py:535
+#: qt/app.py:531
 msgid "Report a bug"
 msgstr "Prijavite napako"
 
-#: qt/app.py:538
+#: qt/app.py:534
 msgid "Translation"
 msgstr "Prevod"
 
-#: qt/app.py:541 qt/app.py:1838
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "O programu"
 
-#: qt/app.py:544 qt/restoredialog.py:47 qt/settingsdialog.py:2212
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Obnovi"
 
-#: qt/app.py:546
+#: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Obnovi izbrane datoteke ali mape v prvotni cilj."
 
-#: qt/app.py:549 qt/app.py:1425 qt/app.py:1457 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "Obnovi v …"
 
-#: qt/app.py:551
+#: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Obnovi izbrane datoteke ali mape v nov cilj."
 
-#: qt/app.py:556
+#: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr "Obnovi trenutno prikazano mapo in vso njeno vsebino v prvotni cilj."
 
-#: qt/app.py:561
+#: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr "Obnovi trenutno prikazano mapo in vso njeno vsebino v nov cilj."
 
-#: qt/app.py:564
+#: qt/app.py:560
 msgid "Up"
 msgstr "Gor"
 
-#: qt/app.py:567 qt/settingsdialog.py:2168
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Pokaži skrite datoteke"
 
-#: qt/app.py:570
+#: qt/app.py:566
 msgid "Compare snapshots…"
 msgstr "Primerjava posnetkov…"
 
-#: qt/app.py:631
+#: qt/app.py:627
 msgid "&Backup"
 msgstr "&VarnostnaKopija"
 
-#: qt/app.py:642
+#: qt/app.py:638
 msgid "&Restore"
 msgstr "&Obnovi"
 
-#: qt/app.py:648
+#: qt/app.py:644
 msgid "&Help"
 msgstr "&Pomoč"
 
-#: qt/app.py:765
+#: qt/app.py:761
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -630,55 +630,55 @@ msgstr ""
 "Če zaprete to okno, Back In Time ne bo mogel ugasniti vašega sistema, ko se posnetek stanja zaključi.\n"
 "Ali res želite zapreti okno?"
 
-#: qt/app.py:909
+#: qt/app.py:905
 msgid "Working:"
 msgstr "V obdelavi:"
 
-#: qt/app.py:957
+#: qt/app.py:953
 msgid "Done, no backup needed"
 msgstr "Narejeno, varnostna kopija ni potrebna"
 
-#: qt/app.py:966
+#: qt/app.py:962
 msgid "Working"
 msgstr "V obdelavi"
 
-#: qt/app.py:975 qt/messagebox.py:76
+#: qt/app.py:971 qt/messagebox.py:76
 msgid "Error"
 msgstr "Napaka"
 
-#: qt/app.py:998 qt/qtsystrayicon.py:202
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Poslano"
 
-#: qt/app.py:999 qt/qtsystrayicon.py:203
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Hitrost"
 
-#: qt/app.py:1000 qt/qtsystrayicon.py:204
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Predvideni čas"
 
-#: qt/app.py:1054
+#: qt/app.py:1050
 msgid "Global"
 msgstr "Splošno"
 
-#: qt/app.py:1055
+#: qt/app.py:1051
 msgid "Root"
 msgstr "Koren"
 
-#: qt/app.py:1056
+#: qt/app.py:1052
 msgid "Home"
 msgstr "Domov"
 
-#: qt/app.py:1071
+#: qt/app.py:1067
 msgid "Backup folders"
 msgstr "Mape za varnostno kopijo"
 
-#: qt/app.py:1159
+#: qt/app.py:1155
 msgid "Snapshot Name"
 msgstr "Ime posnetka"
 
-#: qt/app.py:1206
+#: qt/app.py:1202
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Ali res želite odstraniti te posneteke?"
@@ -686,7 +686,7 @@ msgstr[1] "Ali res želite odstraniti ta posnetek?"
 msgstr[2] "Ali res želite odstraniti ta posnetka?"
 msgstr[3] "Ali res želite odstraniti te posnetke?"
 
-#: qt/app.py:1298
+#: qt/app.py:1294
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -695,7 +695,7 @@ msgstr ""
 "Preden prepišete ali odstranite lokalne datoteke,\n"
 "ustvarite varnostne kopije s pripono {suffix}."
 
-#: qt/app.py:1304 qt/settingsdialog.py:774
+#: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
@@ -704,7 +704,7 @@ msgstr ""
 "Imenom novejših različic datotek bo pred obnovitvijo dodana pripona {suffix}.\n"
 "Če jih ne potrebujete več, jih lahko odstranite z ukazom {cmd}"
 
-#: qt/app.py:1318
+#: qt/app.py:1314
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -714,11 +714,11 @@ msgstr ""
 "so novejše od tistih na ciljni lokaciji.\n"
 "Uporablja možnost \"rsync --update\"."
 
-#: qt/app.py:1351
+#: qt/app.py:1347
 msgid "Remove newer elements in original folder."
 msgstr "Odstrani novejše datoteke v prvotni mapi."
 
-#: qt/app.py:1352
+#: qt/app.py:1348
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -732,7 +732,7 @@ msgstr ""
 "odstranilo datoteke in mape, ki so bile\n"
 "izključene med ustvarjanjem posnetka."
 
-#: qt/app.py:1365
+#: qt/app.py:1361
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -753,7 +753,7 @@ msgstr[3] ""
 "Ali res želite obnoviti te elemente v novo mapo\n"
 "{path}?"
 
-#: qt/app.py:1374
+#: qt/app.py:1370
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Ali res želite obnoviti te elemente?"
@@ -761,51 +761,51 @@ msgstr[1] "Ali res želite obnoviti ta element?"
 msgstr[2] "Ali res želite obnoviti ta elementa?"
 msgstr[3] "Ali res želite obnoviti te elemente?"
 
-#: qt/app.py:1389
+#: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Ali res želite zbrisati vse novejše datoteke v {path}?"
 
-#: qt/app.py:1392
+#: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Ali res želite odstraniti vse novejše datoteke v svoji originalni mapi?"
 
-#: qt/app.py:1397
+#: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 "POZOR: Brisanje datotek v korenu datotečnega sistema lahko pokvari ves "
 "sistem!!!"
 
-#: qt/app.py:1627
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Posnetek"
 
-#: qt/app.py:1664
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnovi {path}"
 
-#: qt/app.py:1666
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Obnovi {path} v …"
 
-#: qt/app.py:1823
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Nastavitve jezika se uveljavijo po ponovnem zagonu Back In Time."
 
-#: qt/app.py:1863 qt/app.py:1880
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Avtorji"
 
-#: qt/app.py:1864 qt/app.py:1883
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Prevodi"
 
-#: qt/app.py:1865 qt/app.py:1886
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Licenca"
 
@@ -1717,3 +1717,128 @@ msgstr "POZOR"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Želite izključiti {path} iz prihodnjih posnetkov?"
+
+#~ msgid "&Snapshot"
+#~ msgstr "Po&snetek"
+
+#~ msgid "&View"
+#~ msgstr "Ogled"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Config File Help"
+#~ msgstr "Pomoč za konfiguracijsko datoteko"
+
+#~ msgid "Diff"
+#~ msgstr "Primerjava"
+
+#~ msgid "Diff Options"
+#~ msgstr "Možnosti za primerjavo"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "Vsakih 10 minut"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Vsakih 12 ur"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Vsakih 30 minut"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Vsake 4 ure"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Vsakih 5 minut"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Vsakih 6 ur"
+
+#~ msgid ""
+#~ "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
+#~ "\n"
+#~ "Full system backup will override some settings that may have been customized. Continue?"
+#~ msgstr ""
+#~ "Vsesistemsko varnostno kopiranje lahko zajame posnetek stanja, ki ga je mogoče obnoviti zgolj na istem fizičnem disku oz. diskih, z enakimi particijami kot izvor. Obnavljanje na drugačnih diskih ali istih diskih z drugače deljenimi particijami lahko privede do okvarjenega in neuporabnega sistema.\n"
+#~ "\n"
+#~ "Vsesistemsko varnostno kopiranje bo prepisalo nekatere prilagojene nastavitve. Nadaljujem?"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Lokalno šifrirano"
+
+#~ msgid "Modify for Full System Backup"
+#~ msgstr "Spremeni vsesistemsko varnostno kopijo"
+
+#, fuzzy, python-brace-format
+#~ msgid "Profile: {name}"
+#~ msgstr "Profil: \"{name}\""
+
+#, python-brace-format
+#~ msgid ""
+#~ "Restore selected file or folder.\n"
+#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
+#~ msgstr ""
+#~ "Obnovi izbrano datoteko ali mapo.\n"
+#~ "Če je ta gumb zatemnjen, je to najverjetneje zato, ker je na levem seznamu posnetkov izbrano »{now}«."
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Nastavitve"
+
+#, fuzzy
+#~ msgid "View the current disk contents"
+#~ msgstr "Prikaži trenutno vsebino diska"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Prikaži posnetek {timestamp}"
+
+#~ msgid "Working..."
+#~ msgstr "Počakajte ..."
+
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Ne morete vključiti mape v kateri je varnostna kopija!"
+
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Ne morete vključiti podmape v kateri je varnostna kopija!"
+
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Zadnjega profila ne morete odstraniti!"

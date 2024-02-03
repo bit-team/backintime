@@ -30,7 +30,8 @@ WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text('utf-8').strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
-
+# RegEx pattern: & followed by a word character (as group)
+REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
 
 def update_po_template():
     """The po template file is update via `xgettext`.
@@ -332,6 +333,57 @@ def update_language_names() -> dict:
     return languages.names
 
 
+def get_shortcut_entries(po_file: polib.POFile) -> list[polib.POEntry]:
+    """
+    """
+    result = filter(lambda entry: entry.obsolete == 0 and
+                    REX_SHORTCUT_LETTER.search(entry.msgid), po_file)
+
+    return list(result)
+
+
+def _get_shortcut_groups():
+    """
+    """
+
+    # Plausibility check:
+    # Difference between messages.pot and expected strings indicated
+    # modifications in the GUI and in the shortcut groups.
+
+    real = get_shortcut_entries(polib.pofile(LOCAL_DIR / TEMPLATE_PO))
+    real = [entry.msgid for entry in real]
+
+    expect = [
+        # Main window (menu bar)
+        '&Backup',
+        '&Restore',
+        '&Help',
+        # Manage profiles dialog (tabs)
+        '&General',
+        '&Include',
+        '&Exclude',
+        '&Auto-remove',
+        '&Options',
+        'E&xpert Options',
+    ]
+
+    if not sorted(real) == sorted(expect):
+        # This will happen when the source strings are somehow modified or
+        # some strings add or removed.
+        # The solution is to look again into the GUI and decide about which
+        # strings belong to which shortcut group.
+        raise ValueError(
+            f'Source strings with GUI shortcuts in {TEMPLATE_PO} are not as '
+            f'expected.\nExpected: {expect}\nReal: {real}')
+
+    # WORKAROUND
+    # This source string is not part of the translation but has a shortcut
+    # letter.
+    expect = ['Back In &Time'] + expect
+
+    return {'mainwindow': expect[:4], 'manageprofile': expect[4:]}
+
+
 def check_shortcuts():
     """Keyboard shortcuts are indicated via the & in front of a character
     in an GUI string (e.g. a button or tab). As an example '&Exclude' and
@@ -340,51 +392,53 @@ def check_shortcuts():
 
     These situation can happen in translated strings and is not easy to
     review or control. This function tries to find such redundancies in
+    CAL
     the po-files.
 
     Review the output with care because it there is a high risk of false
     positive warnings.
     """
 
-    # RegEx pattern: & followed by a word character (as group)
-    rex = re.compile(r'&(\w)')
+    groups = _get_shortcut_groups()
 
     # each po file in the repository
     for po_path in list(LOCAL_DIR.rglob('**/*.po')):
         print(f'\nProcessing {po_path}...')
         # Remember shortcut relevant entries.
-        msgs = {}
+        msgs = {key: [] for key in groups}
 
-        # All characters used as shortcuts. 'T' is used in "Back In &Time"
-        # which is an untranslated string.
-        shortcuts = 'T'
+        #
+        shortcut_entries = filter(
+            lambda entry: entry.msgstr,
+            get_shortcut_entries(polib.pofile(po_path))
+        )
 
-        # each entry in po-file
-        for entry in polib.pofile(po_path):
+        # Collect and group the translated strings
+        for entry in shortcut_entries:
+            for groupname in msgs:
+                if entry.msgid in groups[groupname]:
+                    msgs[groupname].append(entry.msgstr)
 
-            # Ignore untranslated or obsolete strings
-            if not entry.msgstr or entry.obsolete:
-                continue
+        # Each shortcut group...
+        for groupname in msgs:
 
-            # Source string contain "&"
-            if rex.search(entry.msgid):
-                # Collect the source string and its translation
-                msgs[entry.msgid] = entry.msgstr
+            # Collect shortcut letters
+            letters = []
+            for trans in msgs[groupname]:
 
-                # Get shortcut character from translated string
                 try:
-                    shortcuts = shortcuts + rex.search(entry.msgstr).groups()[0]
+                    letters = letters \
+                        + REX_SHORTCUT_LETTER.search(trans).groups()[0]
                 except AttributeError:
                     print('ATTENTION: Maybe missing shortcut in translated '
-                          f'string.\nmsgid={entry.msgid}\n'
-                          f'msgstr={entry.msgstr}')
+                          f'string "{trans}" of group "{groupname}".\n'
+                          f'\n{msgs[groupname]}\n\t{groups[groupname]}')
 
-        # redundant shortcuts?
-        if len(shortcuts) > len(set(shortcuts)):
-            print(f'ATTENTION: Maybe redundant shortcuts in "{po_path}". '
-                  'Please take a look.')
-            for key, msgs in msgs.items():
-                print(f'{key}: {msgs}')
+            # Redundant shortcuts?
+            if len(letters) > len(set(letters)):
+                print(f'ATTENTION: Maybe redundant shortcuts in "{po_path}". '
+                      f'Please take a look.\nGroup: "{groupname}"\n'
+                      f'\n{msgs[groupname]}\n\t{groups[groupname]}')
 
 
 if __name__ == '__main__':

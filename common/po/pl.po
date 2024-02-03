@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-02-03 18:26+0100\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
 "PO-Revision-Date: 2023-10-28 19:13+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
@@ -245,7 +245,7 @@ msgstr "NIEPOWODZENIE"
 msgid "Restore permissions"
 msgstr "Przywracanie uprawnień"
 
-#: common/snapshots.py:596 qt/app.py:288 qt/app.py:919 qt/app.py:954
+#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:80
 msgid "Done"
 msgstr "Gotowe"
@@ -364,7 +364,7 @@ msgstr "Spróbuj utrzymać minimalną ilość wolnego miejsca"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Spróbuj utrzymać minimalną {perc} wolnych i-węzłów"
 
-#: common/snapshots.py:2821 qt/app.py:1620
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Teraz"
 
@@ -433,32 +433,32 @@ msgstr ""
 msgid "Please enter password for \"{user}\""
 msgstr "Wprowadź hasło dla \"{user}\""
 
-#: qt/app.py:168
+#: qt/app.py:167
 msgid "Shortcuts"
 msgstr "Skróty"
 
-#: qt/app.py:188
+#: qt/app.py:187
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 
-#: qt/app.py:253
+#: qt/app.py:252
 msgid "Add to Include"
 msgstr ""
 
-#: qt/app.py:255 qt/logviewdialog.py:186
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Dodaj do wykluczonych"
 
-#: qt/app.py:340
+#: qt/app.py:339
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
 
-#: qt/app.py:369
+#: qt/app.py:368
 #, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
@@ -467,225 +467,225 @@ msgstr ""
 "Nie można odnaleźć katalogu migawek.\n"
 "Jeżeli katalog znajduje się na dysku wymiennym proszę go podłączyć i wcisnąć OK."
 
-#: qt/app.py:457
+#: qt/app.py:453
 msgid "Take a snapshot"
 msgstr "Utwórz migawkę"
 
-#: qt/app.py:459
+#: qt/app.py:455
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:462
+#: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
 msgstr "Wykonaj migawkę (sprawdzanie sumy kontrolnej)"
 
-#: qt/app.py:464
+#: qt/app.py:460
 #, fuzzy
 msgid "Use checksums for file change detection."
 msgstr "Używaj sum kontrolnych do wykrywania zmian."
 
-#: qt/app.py:467 qt/qtsystrayicon.py:85
+#: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
 msgstr "Wstrzymaj wykonywanie migawki"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:89
+#: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
 msgstr "Wznów wykonywanie migawki"
 
-#: qt/app.py:476 qt/qtsystrayicon.py:94
+#: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
 msgstr "Zakończ wykonywanie migawki"
 
-#: qt/app.py:480
+#: qt/app.py:476
 msgid "Refresh snapshot list"
 msgstr "Odśwież listę migawek"
 
-#: qt/app.py:484
+#: qt/app.py:480
 msgid "Name snapshot"
 msgstr "Nazwa migawki"
 
-#: qt/app.py:488
+#: qt/app.py:484
 msgid "Remove snapshot"
 msgstr "Usuń migawkę"
 
-#: qt/app.py:492
+#: qt/app.py:488
 msgid "View snapshot log"
 msgstr "Zobacz dziennik migawki"
 
-#: qt/app.py:496
+#: qt/app.py:492
 #, fuzzy
 msgid "View last log"
 msgstr "Podgląd ostatniego dziennika"
 
-#: qt/app.py:500
+#: qt/app.py:496
 #, fuzzy
 msgid "Manage profiles…"
 msgstr "Zarządzaj profilami"
 
-#: qt/app.py:504
+#: qt/app.py:500
 msgid "Shutdown"
 msgstr "Zamykanie"
 
-#: qt/app.py:506
+#: qt/app.py:502
 #, fuzzy
 msgid "Shut down system after snapshot has finished."
 msgstr "Zamknij system po wykonaniu migawki."
 
-#: qt/app.py:508
+#: qt/app.py:504
 #, fuzzy
 msgid "Setup language…"
 msgstr "Ustaw język"
 
-#: qt/app.py:512
+#: qt/app.py:508
 msgid "Exit"
 msgstr "Wyjście"
 
-#: qt/app.py:516
+#: qt/app.py:512
 msgid "Help"
 msgstr "Pomoc"
 
-#: qt/app.py:520
+#: qt/app.py:516
 msgid "Profiles config file"
 msgstr "Plik konfiguracyjny profili"
 
-#: qt/app.py:523 qt/languagedialog.py:219
+#: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
 msgstr "Strona WWW"
 
-#: qt/app.py:526 qt/app.py:1265
+#: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
 msgstr "Lista zmian"
 
-#: qt/app.py:529
+#: qt/app.py:525
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:532
+#: qt/app.py:528
 msgid "Ask a question"
 msgstr "Zadaj pytanie"
 
-#: qt/app.py:535
+#: qt/app.py:531
 msgid "Report a bug"
 msgstr "Zgłoś błąd"
 
-#: qt/app.py:538
+#: qt/app.py:534
 msgid "Translation"
 msgstr "Tłumaczenie"
 
-#: qt/app.py:541 qt/app.py:1838
+#: qt/app.py:537 qt/app.py:1834
 msgid "About"
 msgstr "O programie"
 
-#: qt/app.py:544 qt/restoredialog.py:47 qt/settingsdialog.py:2212
+#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
 #: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
 msgid "Restore"
 msgstr "Przywróć"
 
-#: qt/app.py:546
+#: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
-#: qt/app.py:549 qt/app.py:1425 qt/app.py:1457 qt/snapshotsdialog.py:142
+#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
 msgstr "Przywróć do…"
 
-#: qt/app.py:551
+#: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
 
-#: qt/app.py:556
+#: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 
-#: qt/app.py:561
+#: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
 
-#: qt/app.py:564
+#: qt/app.py:560
 msgid "Up"
 msgstr "Do góry"
 
-#: qt/app.py:567 qt/settingsdialog.py:2168
+#: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
 msgstr "Pokaż ukryte pliki"
 
-#: qt/app.py:570
+#: qt/app.py:566
 #, fuzzy
 msgid "Compare snapshots…"
 msgstr "Porównaj migawki"
 
-#: qt/app.py:631
+#: qt/app.py:627
 msgid "&Backup"
 msgstr "&Kopia zapasowa"
 
-#: qt/app.py:642
+#: qt/app.py:638
 msgid "&Restore"
 msgstr "&Przywróć"
 
-#: qt/app.py:648
+#: qt/app.py:644
 msgid "&Help"
 msgstr "P&omoc"
 
-#: qt/app.py:765
+#: qt/app.py:761
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
 
-#: qt/app.py:909
+#: qt/app.py:905
 msgid "Working:"
 msgstr "Pracuje:"
 
-#: qt/app.py:957
+#: qt/app.py:953
 msgid "Done, no backup needed"
 msgstr "Gotowe, archiwizacja niepotrzebna"
 
-#: qt/app.py:966
+#: qt/app.py:962
 #, fuzzy
 msgid "Working"
 msgstr "Pracuje"
 
-#: qt/app.py:975 qt/messagebox.py:76
+#: qt/app.py:971 qt/messagebox.py:76
 msgid "Error"
 msgstr "Błąd"
 
-#: qt/app.py:998 qt/qtsystrayicon.py:202
+#: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
 msgstr "Wysłane"
 
-#: qt/app.py:999 qt/qtsystrayicon.py:203
+#: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
 msgstr "Prędkość"
 
-#: qt/app.py:1000 qt/qtsystrayicon.py:204
+#: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
 msgstr "Do końca"
 
-#: qt/app.py:1054
+#: qt/app.py:1050
 msgid "Global"
 msgstr "Globalne"
 
-#: qt/app.py:1055
+#: qt/app.py:1051
 msgid "Root"
 msgstr "Root"
 
-#: qt/app.py:1056
+#: qt/app.py:1052
 msgid "Home"
 msgstr "Start"
 
-#: qt/app.py:1071
+#: qt/app.py:1067
 msgid "Backup folders"
 msgstr "Katalogi kopii zapasowej"
 
-#: qt/app.py:1159
+#: qt/app.py:1155
 msgid "Snapshot Name"
 msgstr "Nazwa migawki"
 
-#: qt/app.py:1206
+#: qt/app.py:1202
 #, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
@@ -693,32 +693,32 @@ msgstr[0] "Czy na pewno usunąć migawkę"
 msgstr[1] "Czy na pewno usunąć migawkę"
 msgstr[2] "Czy na pewno usunąć migawkę"
 
-#: qt/app.py:1298
+#: qt/app.py:1294
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
 
-#: qt/app.py:1304 qt/settingsdialog.py:774
+#: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
-#: qt/app.py:1318
+#: qt/app.py:1314
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: qt/app.py:1351
+#: qt/app.py:1347
 msgid "Remove newer elements in original folder."
 msgstr ""
 
-#: qt/app.py:1352
+#: qt/app.py:1348
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files or folders which are not in the snapshot.\n"
@@ -727,7 +727,7 @@ msgid ""
 "excluded during taking the snapshot."
 msgstr ""
 
-#: qt/app.py:1365
+#: qt/app.py:1361
 #, fuzzy, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -739,7 +739,7 @@ msgstr[0] "Nie udało się wykonać migawki {snapshot_id}!!!"
 msgstr[1] "Nie udało się wykonać migawki {snapshot_id}!!!"
 msgstr[2] "Nie udało się wykonać migawki {snapshot_id}!!!"
 
-#: qt/app.py:1374
+#: qt/app.py:1370
 #, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
@@ -747,48 +747,48 @@ msgstr[0] "Czy na pewno usunąć migawkę"
 msgstr[1] "Czy na pewno usunąć migawkę"
 msgstr[2] "Czy na pewno usunąć migawkę"
 
-#: qt/app.py:1389
+#: qt/app.py:1385
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 
-#: qt/app.py:1392
+#: qt/app.py:1388
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: qt/app.py:1397
+#: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 
-#: qt/app.py:1627
+#: qt/app.py:1623
 msgid "Snapshot"
 msgstr "Migawka"
 
-#: qt/app.py:1664
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Przywróć {path}"
 
-#: qt/app.py:1666
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Przywróć {path} do…"
 
-#: qt/app.py:1823
+#: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
-#: qt/app.py:1863 qt/app.py:1880
+#: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
 msgstr "Autorzy"
 
-#: qt/app.py:1864 qt/app.py:1883
+#: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
 msgstr "Tłumaczenia"
 
-#: qt/app.py:1865 qt/app.py:1886
+#: qt/app.py:1861 qt/app.py:1882
 msgid "License"
 msgstr "Licencja"
 
@@ -1663,3 +1663,156 @@ msgstr "OSTRZEŻENIE"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Wykluczyć {path} z przyszłych migawek?"
+
+#~ msgid "&Snapshot"
+#~ msgstr "&Migawka"
+
+#~ msgid "&View"
+#~ msgstr "&Widok"
+
+#~ msgid "..."
+#~ msgstr "…"
+
+#~ msgid "3DES-CBC"
+#~ msgstr "3DES-CBC"
+
+#~ msgid "AES128-CBC"
+#~ msgstr "AES128-CBC"
+
+#~ msgid "AES128-CTR"
+#~ msgstr "AES128-CTR"
+
+#~ msgid "AES192-CBC"
+#~ msgstr "AES192-CBC"
+
+#~ msgid "AES192-CTR"
+#~ msgstr "AES192-CTR"
+
+#~ msgid "AES256-CBC"
+#~ msgstr "AES256-CBC"
+
+#~ msgid "AES256-CTR"
+#~ msgstr "AES256-CTR"
+
+#~ msgid "ARCFOUR"
+#~ msgstr "ARCFOUR"
+
+#~ msgid "ARCFOUR128"
+#~ msgstr "ARCFOUR128"
+
+#~ msgid "ARCFOUR256"
+#~ msgstr "ARCFOUR256"
+
+#~ msgid "Blowfish-CBC"
+#~ msgstr "Blowfish-CBC"
+
+#~ msgid "Cast128-CBC"
+#~ msgstr "Cast128-CBC"
+
+#~ msgid "Changes & Errors"
+#~ msgstr "Zmiany i błędy"
+
+#~ msgid "Config File Help"
+#~ msgstr "Podręcznik pliku konfiguracji"
+
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Utwórz nowy klucz SSH bez hasła"
+
+#~ msgid "Diff"
+#~ msgstr "Różnice"
+
+#~ msgid "Diff Options"
+#~ msgstr "Opcje diff"
+
+#~ msgid "Error:"
+#~ msgstr "Błąd:"
+
+#~ msgid "Every 10 minutes"
+#~ msgstr "Co 10 minut"
+
+#~ msgid "Every 12 hours"
+#~ msgstr "Co 12 godzin"
+
+#~ msgid "Every 30 minutes"
+#~ msgstr "Co 30 minut"
+
+#~ msgid "Every 4 hours"
+#~ msgstr "Co 4 godziny"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Co 5 minut"
+
+#~ msgid "Every 6 hours"
+#~ msgstr "Co 6 godzin"
+
+#~ msgid "Key File"
+#~ msgstr "Plik klucza"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Wyświetl tylko różne migawki"
+
+#~ msgid "Local encrypted"
+#~ msgstr "lokalnie z szyfrowaniem"
+
+#~ msgid "Modify for Full System Backup"
+#~ msgstr "Ustaw pełną kopię systemu"
+
+#, fuzzy, python-brace-format
+#~ msgid "Profile: {name}"
+#~ msgstr "Profil: \"{name}\""
+
+#, python-format
+#~ msgid "Restore '%s'"
+#~ msgstr "Przywróć '%s'"
+
+#, python-format
+#~ msgid "Restore '%s' to ..."
+#~ msgstr "Przywróć '%s' do ..."
+
+#~ msgid "Run 'ionice':"
+#~ msgstr "Uruchamiaj 'ionice':"
+
+#~ msgid "Run 'nice':"
+#~ msgstr "Uruchamiaj 'nice':"
+
+#, fuzzy
+#~ msgid "Run 'rsync' with 'ionice':"
+#~ msgstr "Uruchamiaj 'rsync' z 'nocache':"
+
+#~ msgid "Run 'rsync' with 'nocache':"
+#~ msgstr "Uruchamiaj 'rsync' z 'nocache':"
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Settings"
+#~ msgstr "Ustawienia"
+
+#, python-format
+#~ msgid "Snapshot: %s"
+#~ msgstr "Migawka: %s"
+
+#~ msgid "View the current disk contents"
+#~ msgstr "Pokaż obecną zawartość dysku"
+
+#, fuzzy, python-brace-format
+#~ msgid "View the snapshot made at {timestamp}"
+#~ msgstr "Zobacz migawkę wykonaną {timestamp}"
+
+#~ msgid "WITH ERRORS !"
+#~ msgstr "Z BŁĘDAMI!"
+
+#~ msgid "Working..."
+#~ msgstr "Pracuję..."
+
+#, fuzzy
+#~ msgid "You can't include backup folder!"
+#~ msgstr "Nie możesz dołączyć katalogu z kopią zapasową!"
+
+#, fuzzy
+#~ msgid "You can't include backup sub-folder!"
+#~ msgstr "Nie można dołączyć podkatalogu backup!"
+
+#, fuzzy
+#~ msgid "You can't remove the last profile!"
+#~ msgstr "Nie możesz usunąć ostatniego profilu!"
