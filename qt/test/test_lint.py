@@ -7,8 +7,8 @@ from typing import Iterable
 
 ON_TRAVIS = os.environ.get('TRAVIS', '') == 'true'
 PYLINT_AVIALBE = not shutil.which('pylint') is None
-PYLINT_REASON = ('Using PyLint is mandatory on TravisCI and otherwise '
-                 'optional to systems where PyLint is available.')
+PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
+                 'it runs only if `pylint` is available.')
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
