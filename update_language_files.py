@@ -361,7 +361,7 @@ def get_shortcut_groups() -> dict[str, list]:
     # Reduce to their source strings
     real = [entry.msgid for entry in real]
 
-    # Later this list is sliced into mutliple groups
+    # Later this list is sliced into multiple groups
     expect = [
         # Main window (menu bar)
         '&Backup',
@@ -408,7 +408,7 @@ def check_shortcuts():
     Keyboard shortcuts are indicated via the & in front of a character
     in a GUI string (e.g. a button or tab). For example "B&ackup" can be
     activated with presing ALT+A. As another example the strings '&Exclude'
-    and '&Export' used in the same area of the GUI wont work because both of
+    and '&Export' used in the same area of the GUI won't work because both of
     them indicate the 'E' as a shortcut. They need to be unique.
 
     These situation can happen in translated strings in most cases translators
