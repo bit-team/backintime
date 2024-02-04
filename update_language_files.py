@@ -288,7 +288,7 @@ def create_language_names_dict(language_codes: list) -> dict:
             'Can not import package "babel". Please install it.') from exc
 
     # Source language (English) should be included
-    if not 'en' in language_codes:
+    if 'en' not in language_codes:
         language_codes.append('en')
 
     # Don't use defaultdict because pprint can't handle it
@@ -335,7 +335,8 @@ def update_language_names() -> dict:
 
 
 def get_shortcut_entries(po_file: polib.POFile) -> list[polib.POEntry]:
-    """
+    """Return list of po-file entries using a shortcut indicator ("&")
+    and are not obsolete.
     """
     result = filter(lambda entry: entry.obsolete == 0 and
                     REX_SHORTCUT_LETTER.search(entry.msgid), po_file)
@@ -343,17 +344,24 @@ def get_shortcut_entries(po_file: polib.POFile) -> list[polib.POEntry]:
     return list(result)
 
 
-def _get_shortcut_groups():
-    """
+def get_shortcut_groups() -> dict[str, list]:
+    """Return the currently used "shortcut groups" and validate if they are
+    up to date with the source strings in "messages.pot".
+
+    Returns:
+        A dictionarie indexed by group names with list of source strings.
+
+    Raises:
+        ValueError: If the shortcut indicator using source strings are
+            modified.
     """
 
-    # Plausibility check:
-    # Difference between messages.pot and expected strings indicated
-    # modifications in the GUI and in the shortcut groups.
-
+    # Get all entries using a shortcut indicator
     real = get_shortcut_entries(polib.pofile(TEMPLATE_PO))
+    # Reduce to their source strings
     real = [entry.msgid for entry in real]
 
+    # Later this list is sliced into mutliple groups
     expect = [
         # Main window (menu bar)
         '&Backup',
@@ -368,41 +376,47 @@ def _get_shortcut_groups():
         'E&xpert Options',
     ]
 
+    # Plausibility check:
+    # Difference between the real and expected strings indicate
+    # modifications in the GUI and in the shortcut groups.
     if not sorted(real) == sorted(expect):
         # This will happen when the source strings are somehow modified or
         # some strings add or removed.
-        # The solution is to look again into the GUI and decide about which
-        # strings belong to which shortcut group.
+        # SOLUTION: Look again into the GUI and its commit history what was
+        # modified. Update the "expect" list to it.
         raise ValueError(
             f'Source strings with GUI shortcuts in {TEMPLATE_PO} are not as '
-            f'expected.\nExpected: {expect}\nReal: {real}')
+            'expected.\n'
+            f'  Expected: {expect}\n'
+            f'      Real: {real}')
 
     # WORKAROUND
-    # This source string is not part of the translation but has a shortcut
+    # This source string is not a translateble string but has a shortcut
     # letter.
+    # Dev note: From point of view of the translators it might make sense
+    # make that string translatable also. But then we risk that our projects
+    # name is translated for real.
     expect = ['Back In &Time'] + expect
 
     return {'mainwindow': expect[:4], 'manageprofile': expect[4:]}
 
 
 def check_shortcuts():
-    """Keyboard shortcuts are indicated via the & in front of a character
-    in an GUI string (e.g. a button or tab). As an example '&Exclude' and
-    '&Export' do not work because both of them indicate the 'E' as a
-    shortcut.
+    """Check for redundant used letters as shortcut indicators in translated
+    GUI strings.
 
-    These situation can happen in translated strings and is not easy to
-    review or control. This function tries to find such redundancies in
-    CAL
-    the po-files.
+    Keyboard shortcuts are indicated via the & in front of a character
+    in a GUI string (e.g. a button or tab). For example "B&ackup" can be
+    activated with presing ALT+A. As another example the strings '&Exclude'
+    and '&Export' used in the same area of the GUI wont work because both of
+    them indicate the 'E' as a shortcut. They need to be unique.
 
-    Review the output with care because it there is a high risk of false
-    positive warnings.
+    These situation can happen in translated strings in most cases translators
+    are not aware of that feature or problem. It is nearly impossible to
+    control this on the level of the translation platform.
     """
 
-    groups = _get_shortcut_groups()
-
-    # ignore = ['ko.po', 'ZH_cn.po'
+    groups = get_shortcut_groups()
 
     # each po file in the repository
     for po_path in list(LOCAL_DIR.rglob('**/*.po')):
@@ -410,48 +424,49 @@ def check_shortcuts():
         print(f'******* {po_path} *******')
 
         # Remember shortcut relevant entries.
-        msgs = {key: [] for key in groups}
+        real = {key: [] for key in groups}
 
-        # WORKAROUND
-        msgs['mainwindow'].append('Back In &Time')
+        # WORKAROUND. See get_shortcut_groups() for details.
+        real['mainwindow'].append('Back In &Time')
 
-        #
+        # Entries using shortcut indicators
         shortcut_entries = filter(
             lambda entry: entry.msgstr,
             get_shortcut_entries(polib.pofile(po_path))
         )
 
-        # Collect and group the translated strings
+        # Group the entries to their shortcut groups
         for entry in shortcut_entries:
-            for groupname in msgs:
+            for groupname in real:
                 if entry.msgid in groups[groupname]:
-                    msgs[groupname].append(entry.msgstr)
+                    real[groupname].append(entry.msgstr)
 
         # Each shortcut group...
-        for groupname in msgs:
+        for groupname in real:
 
-            # Collect shortcut letters
+            # All shortcut letters used in that group
             letters = ''
-            for trans in msgs[groupname]:
 
+            # Collect letters
+            for trans in real[groupname]:
                 try:
                     letters = letters \
                         + REX_SHORTCUT_LETTER.search(trans).groups()[0]
                 except AttributeError:
                     pass
 
-            # Redundant shortcuts?
+            # Redundant shortcuts? set() do remove duplicates
             if len(letters) > len(set(letters)):
                 err_msg = f'Maybe redundant shortcuts in "{po_path}".'
 
-                # missing shortcuts?
-                if len(letters) < len(msgs[groupname]):
+                # Missing shortcuts in translated strings?
+                if len(letters) < len(real[groupname]):
                     err_msg = err_msg + ' Maybe missing ones.'
 
                 err_msg = f'{err_msg} Please take a look.\n' \
                     f'        Group: {groupname}\n' \
                     f'       Source: {groups[groupname]}\n' \
-                    f'  Translation: {msgs[groupname]}'
+                    f'  Translation: {real[groupname]}'
 
                 print(err_msg)
 
@@ -462,8 +477,6 @@ if __name__ == '__main__':
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
-    check_shortcuts()
-    sys.exit()
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
