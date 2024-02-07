@@ -35,8 +35,9 @@ GitHub.
 6. Scan `py`-files for modified source strings via `./update_language_files.py source`.
 7. Check via `git status` or `git diff`. The file `messages.pot` and all `po`-files should be modified.
 8. Commit.
-9. Create PR and merge into "dev".
-10. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
+9. Optional: Check for redundant letters in "shortcut groups" via `./update_language_files.py shortcuts`.
+10. Create PR and merge into "dev".
+11. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
     1. Go to "Danger zone" and click on "Reset".
     2. "Unlock" the project.
 
