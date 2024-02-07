@@ -387,14 +387,14 @@ def get_shortcut_groups() -> dict[str, list]:
         raise ValueError(
             f'Source strings with GUI shortcuts in {TEMPLATE_PO} are not as '
             'expected.\n'
-            f'  Expected: {expect}\n'
-            f'      Real: {real}')
+            f'  Expected: {sorted(expect)}\n'
+            f'      Real: {sorted(real)}')
 
     # WORKAROUND
     # This source string is not a translateble string but has a shortcut
     # letter.
     # Dev note: From point of view of the translators it might make sense
-    # make that string translatable also. But then we risk that our projects
+    # making that string translatable also. But then we risk that our projects
     # name is translated for real.
     expect = ['Back In &Time'] + expect
 
@@ -407,7 +407,7 @@ def check_shortcuts():
 
     Keyboard shortcuts are indicated via the & in front of a character
     in a GUI string (e.g. a button or tab). For example "B&ackup" can be
-    activated with presing ALT+A. As another example the strings '&Exclude'
+    activated with pressing ALT+A. As another example the strings '&Exclude'
     and '&Export' used in the same area of the GUI won't work because both of
     them indicate the 'E' as a shortcut. They need to be unique.
 
@@ -430,10 +430,7 @@ def check_shortcuts():
         real['mainwindow'].append('Back In &Time')
 
         # Entries using shortcut indicators
-        shortcut_entries = filter(
-            lambda entry: entry.msgstr,
-            get_shortcut_entries(polib.pofile(po_path))
-        )
+        shortcut_entries = get_shortcut_entries(polib.pofile(po_path))
 
         # Group the entries to their shortcut groups
         for entry in shortcut_entries:
