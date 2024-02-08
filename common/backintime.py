@@ -203,7 +203,7 @@ def createParsers(app_name = 'backintime'):
     parsers['main'] = parser
     parser.add_argument('--version', '-v',
                         action = 'version',
-                        version = '%(prog)s ' + str(config.Config.VERSION),
+                        version = '%(prog)s ' + config.Config.VERSION,
                         help = "show %(prog)s's version number.")
     parser.add_argument('--license',
                         action = printLicense,

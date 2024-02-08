@@ -1,7 +1,6 @@
 import sys
 import pathlib
 import unittest
-import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 
 # This workaround will become obsolet when migrating to src-layout
 sys.path.append(str(pathlib.Path(__file__).parent))
