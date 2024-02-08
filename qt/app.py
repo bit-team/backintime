@@ -1838,7 +1838,7 @@ class About(QDialog):
         self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
         logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
-        version = self.config.VERSION
+        version = backintime.__version__
 
         gitinfo = tools.get_git_repository_info()
         if gitinfo:

@@ -15,7 +15,7 @@ import locale
 import subprocess
 import json
 import re
-import config  # config.Config.VERSION  Refactor after src-layout migration
+import config
 import tools
 import version
 
