@@ -40,6 +40,7 @@ import cli
 from diagnostics import collect_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
+from version import __version__
 
 RETURN_OK = 0
 RETURN_ERR = 1
@@ -203,7 +204,7 @@ def createParsers(app_name = 'backintime'):
     parsers['main'] = parser
     parser.add_argument('--version', '-v',
                         action = 'version',
-                        version = '%(prog)s ' + config.Config.VERSION,
+                        version = '%(prog)s ' + __version__,
                         help = "show %(prog)s's version number.")
     parser.add_argument('--license',
                         action = printLicense,
@@ -600,10 +601,9 @@ def printHeader():
     """
     Print application name, version and legal notes.
     """
-    version = config.Config.VERSION
     print('')
     print('Back In Time')
-    print('Version: ' + version)
+    print('Version: ' + __version__)
     print('')
     print('Back In Time comes with ABSOLUTELY NO WARRANTY.')
     print('This is free software, and you are welcome to redistribute it')

@@ -17,6 +17,7 @@ import json
 import re
 import config  # config.Config.VERSION  Refactor after src-layout migration
 import tools
+import version
 
 
 def collect_diagnostics():
@@ -40,7 +41,7 @@ def collect_diagnostics():
 
     result['backintime'] = {
         'name': config.Config.APP_NAME,
-        'version': config.Config.VERSION,
+        'version': version.__version__,
         'latest-config-version': config.Config.CONFIG_VERSION,
         'local-config-file': cfg._LOCAL_CONFIG_PATH,
         'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
