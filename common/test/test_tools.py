@@ -32,7 +32,7 @@ from tempfile import NamedTemporaryFile, TemporaryDirectory
 from datetime import datetime
 from test import generic
 from time import sleep
-from pyfakefs.fake_filesystem_unittest import patchfs
+import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
@@ -458,7 +458,7 @@ class TestTools(generic.TestCase):
         self.assertRegex(uuid.lower(), r'^[a-f0-9\-]+$')
         self.assertEqual(len(uuid.replace('-', '')), 32)
 
-    @patchfs
+    @pyfakefs_ut.patchfs
     def test_uuid_via_filesystem(self, fake_fs):
         """Extract UUID from /dev filesystem.
 
@@ -1021,3 +1021,42 @@ class TestToolsExecuteOsSystem(generic.TestCase):
     def test_pausable(self):
         proc = tools.Execute('true')
         self.assertFalse(proc.pausable)
+
+
+class Tools_FakeFS(pyfakefs_ut.TestCase):
+    """Tests using a fake filesystem.
+    """
+
+    def setUp(self):
+        self.setUpPyfakefs(allow_root_user=False)
+
+    def test_git_repo_info(self):
+
+        # not a git repo
+        self.assertEqual(tools.get_git_repository_info(), None)
+
+        # simulate a git repo
+        path = pathlib.Path('.git')
+        path.mkdir()
+
+        # Branch folders and hash containing file
+        foobar = path / 'refs' / 'heads' / 'fix' / 'foobar'
+        foobar.parent.mkdir(parents=True)
+
+        with foobar.open('w') as handle:
+            handle.write('01234')
+
+        # HEAD file
+        head = path / 'HEAD'
+
+        with head.open('w') as handle:
+            handle.write('ref: refs/heads/fix/foobar')
+
+        # Test
+        self.assertEqual(
+            tools.get_git_repository_info(),
+            {
+                'hash': '01234',
+                'branch': 'fix/foobar'
+            }
+        )

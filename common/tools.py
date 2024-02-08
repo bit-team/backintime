@@ -361,7 +361,7 @@ def get_git_repository_info(path=None):
     """
 
     if not path:
-        path = Path.cwd()
+        path = pathlib.Path.cwd()
 
     git_folder = path / '.git'
 
@@ -389,6 +389,7 @@ def get_git_repository_info(path=None):
         result['hash'] = handle.read().strip()
 
     return result
+
 
 def readFile(path, default=None):
     """

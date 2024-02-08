@@ -55,7 +55,7 @@ def collect_diagnostics():
 
     # Git repo
     bit_root_path = Path(tools.backintimePath(""))
-    git_info = get_git_repository_info(bit_root_path)
+    git_info = tools.get_git_repository_info(bit_root_path)
 
     if git_info:
 
