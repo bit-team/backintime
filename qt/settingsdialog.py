@@ -21,6 +21,7 @@ import os
 import datetime
 import copy
 import re
+import textwrap
 
 from PyQt6.QtGui import (QIcon,
                          QFont,
@@ -70,6 +71,9 @@ import snapshots
 import sshtools
 import logger
 from exceptions import MountException, NoPubKeyLogin, KnownHost
+
+# That value is used to wrap tooltip strings (inserting newline characters).
+_TOOLTIP_WRAP_LENGTH = 72
 
 
 class SettingsDialog(QDialog):
@@ -1024,6 +1028,25 @@ class SettingsDialog(QDialog):
         )
         layout.addWidget(self.cbCopyLinks)
 
+        # one file system option
+        self.cbOneFileSystem = QCheckBox(
+            _('Restrict to one file system'), self)
+        self.cbOneFileSystem.setToolTip(
+            'uses \'rsync --one-file-system\'\n'
+            'From \'man rsync\':\n'
+            + '\n'.join(textwrap.wrap(
+                'This tells rsync to avoid crossing a filesystem boundary '
+                'when recursing. This does not limit the user\'s ability '
+                'to specify items to copy from multiple filesystems, just '
+                'rsync\'s recursion through the hierarchy of each directory '
+                'that the user specified, and also the analogous recursion '
+                'on the receiving side during deletion. Also keep in mind '
+                'that rsync treats a "bind" mount to the same device as '
+                'being on the same filesystem.',
+                _TOOLTIP_WRAP_LENGTH))
+        )
+        layout.addWidget(self.cbOneFileSystem)
+
         # additional rsync options
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
@@ -1405,6 +1428,7 @@ class SettingsDialog(QDialog):
         self.cbPreserveXattr.setChecked(self.config.preserveXattr())
         self.cbCopyUnsafeLinks.setChecked(self.config.copyUnsafeLinks())
         self.cbCopyLinks.setChecked(self.config.copyLinks())
+        self.cbOneFileSystem.setChecked(self.config.oneFileSystem())
         self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled())
         self.txtRsyncOptions.setText(self.config.rsyncOptions())
         self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
@@ -1599,6 +1623,7 @@ class SettingsDialog(QDialog):
         self.config.setPreserveXattr(self.cbPreserveXattr.isChecked())
         self.config.setCopyUnsafeLinks(self.cbCopyUnsafeLinks.isChecked())
         self.config.setCopyLinks(self.cbCopyLinks.isChecked())
+        self.config.setOneFileSystem(self.cbOneFileSystem.isChecked())
         self.config.setRsyncOptions(self.cbRsyncOptions.isChecked(),
                                     self.txtRsyncOptions.text())
         self.config.setSshPrefix(self.cbSshPrefix.isChecked(),
