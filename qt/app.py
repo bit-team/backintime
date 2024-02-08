@@ -1839,7 +1839,14 @@ class About(QDialog):
         logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
         version = self.config.VERSION
-        ref, hashid = tools.gitRevisionAndHash()
+
+        gitinfo = tools.get_git_repository_info()
+        if gitinfo:
+            ref = gitinfo['branch']
+            hashid = gitinfo['hash']
+        else:
+            ref, hashid = None, None
+
         git_version = ''
         if ref:
             git_version = " git branch '{}' hash '{}'".format(ref, hashid)

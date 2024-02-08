@@ -295,51 +295,6 @@ def _get_extern_versions(cmd,
     return result.strip()  # as string
 
 
-def get_git_repository_info(path=None):
-    """Return the current branch and last commit hash.
-
-    Credits: https://stackoverflow.com/a/51224861/4865723
-
-    Args:
-        path (Path): Path with '.git' folder in (default is
-                     current working directory).
-
-    Returns:
-        (dict): Dict with keys "branch" and "hash" if it is a git repo,
-                otherwise an `None`.
-    """
-
-    if not path:
-        path = Path.cwd()
-
-    git_folder = path / '.git'
-
-    if not git_folder.exists():
-        return None
-
-    result = {}
-
-    # branch name
-    with (git_folder / 'HEAD').open('r') as handle:
-        val = handle.read()
-
-    if val.startswith('ref: '):
-        result['branch'] = '/'.join(val.split('/')[2:]).strip()
-
-    else:
-        result['branch'] = '(detached HEAD)'
-        result['hash'] = val
-
-        return result
-
-    # commit hash
-    with (git_folder / 'refs' / 'heads' / result['branch']) \
-         .open('r') as handle:
-        result['hash'] = handle.read().strip()
-
-    return result
-
-
 def _get_os_release():
     """Try to get the name and version of the operating system used.
 

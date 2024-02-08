@@ -601,10 +601,6 @@ def printHeader():
     Print application name, version and legal notes.
     """
     version = config.Config.VERSION
-    # Git info is now only shown via --diagnostics
-    # ref, hashid = tools.gitRevisionAndHash()
-    # if ref:
-    #     version += " git branch '{}' hash '{}'".format(ref, hashid)
     print('')
     print('Back In Time')
     print('Version: ' + version)

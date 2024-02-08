@@ -129,18 +129,6 @@ class TestTools(generic.TestCase):
         tools.addSourceToPathEnviron()
         self.assertIn(source, os.environ['PATH'])
 
-    def test_gitRevisionAndHash(self):
-        ref, hashid = tools.gitRevisionAndHash()
-        if isinstance(ref, str):
-            self.assertGreater(len(ref), 0)
-        else:
-            self.assertIsNone(ref)
-
-        if isinstance(hashid, str):
-            self.assertEqual(len(hashid), 7)
-        else:
-            self.assertIsNone(hashid)
-
     def test_readFile(self):
         """
         Test the function readFile

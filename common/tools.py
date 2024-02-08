@@ -390,40 +390,6 @@ def get_git_repository_info(path=None):
 
     return result
 
-def gitRevisionAndHash():
-    """
-    Get the current Git Branch and the last HashID (shot form) if running
-    from source.
-
-    Returns:
-        tuple:  two items of either :py:class:`str` instance if running from
-                source or ``None``
-    """
-    ref, hashid = None, None
-    gitPath = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, '.git'))
-    headPath = os.path.join(gitPath, 'HEAD')
-    refPath = ''
-    if not os.path.isdir(gitPath):
-        return (ref, hashid)
-    try:
-        with open(headPath, 'rt') as f:
-            refPath = f.read().strip('\n')
-            if refPath.startswith('ref: '):
-                refPath = refPath[5:]
-            if refPath:
-                refPath = os.path.join(gitPath, refPath)
-                ref = os.path.basename(refPath)
-    except Exception as e:
-        pass
-    if os.path.isfile(refPath):
-        try:
-            with open(refPath, 'rt') as f:
-                hashid = f.read().strip('\n')[:7]
-        except:
-            pass
-    return (ref, hashid)
-
-
 def readFile(path, default=None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
@@ -455,7 +421,6 @@ def readFile(path, default=None):
         pass
 
     return ret_val
-
 
 def readFileLines(path, default = None):
     """
