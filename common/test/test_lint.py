@@ -1,10 +1,7 @@
 import unittest
 import pathlib
 import subprocess
-from importlib import metadata
 from typing import Iterable
-
-# PACKAGE_NAME = 'buhtzology'
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
@@ -16,24 +13,24 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """All py-files related to that distribution package.
 
         Dev note (2023-11): Use package metadata after migration to
-        pyproject.toml. This will prevent the dirty folder-jumping-hack
-        currently done in this code.
+        pyproject.toml.
         """
-        p = pathlib.Path.cwd()
+        path = pathlib.Path.cwd()
 
         # Make sure we are inside the test folder
-        if p.name in ['qt', 'common']:  # happens e.g. on TravisCI
-            p = p / 'test'
+        if path.name in ['qt', 'common']:  # happens e.g. on TravisCI
+            path = path / 'test'
 
-        if not p.name.startswith('test'):
-            raise Exception('Something went wrong. The test should run inside'
-                            f' the test folder but current folder is {p}.')
+        if not path.name.startswith('test'):
+            raise RuntimeError('Something went wrong. The test should run '
+                               'inside the test folder but current folder '
+                               f'is {path}.')
 
         # Workaround
-        p = p.parent
+        path = path.parent
 
         # Find recursive all py-files.
-        return p.rglob('**/*.py')
+        return path.rglob('**/*.py')
 
     def test_with_pylint(self):
         """Use Pylint to check for specific error codes.
@@ -46,20 +43,35 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Pylint base command
         cmd = [
             'pylint',
+            # Storing results in a pickle file is unnecessary
+            '--persistent=n',
+            # autodetec number of parallel jobs
+            '--jobs=0',
+            # Disable scoring  ("Your code has been rated at xx/10")
+            '--score=n',
+            # Deactivate all checks by default
+            '--disable=all',
             # prevent false-positive no-module-member errors
             '--extension-pkg-whitelist=PyQt6',
             # Because of globally installed GNU gettext functions
             '--additional-builtins=_,ngettext',
-            # Deactivate all checks by default
-            '--disable=all'
+            # PEP8 conform line length (see PyLint Issue #3078)
+            '--max-line-length=79',
+            # Whitelist variable names
+            '--good-names=idx,fp',
         ]
 
         # Explicit activate checks
         err_codes = [
+            'E0602',  # undefined-variable
             'E1101',  # no-member
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
         ]
         cmd.append('--enable=' + ','.join(err_codes))
 
-        for fp in self._collect_py_files():
-            subprocess.run(cmd + [fp], check=True)
+        # Add py files
+        cmd.extend(self._collect_py_files())
+
+        # print(f'Execute {cmd=}')
+
+        subprocess.run(cmd, check=True)

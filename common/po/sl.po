@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-20 21:34+0100\n"
+"POT-Creation-Date: 2024-01-30 10:08+0100\n"
 "PO-Revision-Date: 2024-01-20 19:14+0000\n"
 "Last-Translator: ravijol1 <liamstaric@gmail.com>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
@@ -21,66 +21,66 @@ msgstr ""
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: common/config.py:139 common/config.py:282
+#: common/config.py:146 common/config.py:289
 msgid "Main profile"
 msgstr "Glavni profil"
 
-#: common/config.py:292 common/config.py:297
+#: common/config.py:299 common/config.py:304
 msgid "Local"
 msgstr "Lokalno"
 
-#: common/config.py:294 common/config.py:304 qt/settingsdialog.py:1946
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
 msgid "SSH private key"
 msgstr "Privatni ključ SSH"
 
-#: common/config.py:297
+#: common/config.py:304
 msgid "encrypted"
 msgstr "šifrirano"
 
-#: common/config.py:298 common/config.py:305
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: common/config.py:303
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "SSH šifrirano"
 
-#: common/config.py:310
+#: common/config.py:317
 msgid "Default"
 msgstr "Privzeto"
 
-#: common/config.py:341 common/config.py:353 common/config.py:370
-#: common/config.py:381
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:342
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
 msgstr "Mapa s posnetki ni veljavna!"
 
-#: common/config.py:354
+#: common/config.py:361
 msgid "You must select at least one folder to back up!"
 msgstr "Izbrati morate vsaj eno mapo, da lahko ustvarite varnostno kopijo!"
 
-#: common/config.py:371
+#: common/config.py:378
 msgid "Backup folder cannot be included."
 msgstr "Mape za varnostne kopije ni mogoče vključiti."
 
-#: common/config.py:383
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
 msgstr "Podmape za varnostne kopije ni mogoče vključiti."
 
-#: common/config.py:441
+#: common/config.py:448
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Neveljavna možnost. {path} ni mapa."
 
-#: common/config.py:450
+#: common/config.py:457
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Host/User/Profile-ID ne sme biti prazen."
 
-#: common/config.py:460 common/config.py:507
+#: common/config.py:467 common/config.py:514
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -89,7 +89,7 @@ msgstr ""
 "Ni mogoče pisati v: {path}\n"
 "Ali ste prepričani, da imate dostop za pisanje?"
 
-#: common/config.py:477
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -98,7 +98,7 @@ msgstr ""
 "Ciljni datotečni sistem za {path} je formatiran s FAT, ki ne podpira trdih "
 "povezav. Uporabite lastni datotečni sistem Linux."
 
-#: common/config.py:486
+#: common/config.py:493
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -109,15 +109,15 @@ msgstr ""
 "Preverite, ali oddaljeni strežnik SMB podpira simbolne povezave ali "
 "aktivirajte {copyLinks} v {expertOptions}."
 
-#: common/config.py:490 qt/settingsdialog.py:1004
+#: common/config.py:497 qt/settingsdialog.py:1004
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopiraj povezave (dereferenciraj simbolne povezave)"
 
-#: common/config.py:491
+#: common/config.py:498
 msgid "Expert Options"
 msgstr "Napredne možnosti"
 
-#: common/config.py:495
+#: common/config.py:502
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -126,7 +126,7 @@ msgstr ""
 "Ciljni datotečni sistem za {path} je sshfs priklopjen v skupno rabo. sshfs "
 "ne podpira trdih povezav. Namesto tega uporabite način 'SSH'."
 
-#: common/config.py:1591
+#: common/config.py:1598
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -136,11 +136,11 @@ msgstr ""
 "Ste prepričani, da je cron naložen?\n"
 "V primeru, da ni, morate onemogočiti vse samodejne varnostne kopije."
 
-#: common/config.py:1597
+#: common/config.py:1604
 msgid "Failed to write new crontab."
 msgstr "Novega crontaba ni mogoče zapisati."
 
-#: common/config.py:1700
+#: common/config.py:1707
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -149,12 +149,12 @@ msgstr ""
 "Ni bilo mogoče namestiti pravila Udev za profil {profile_id}. Storitev DBus "
 "'{dbus_interface}' ni bila na voljo"
 
-#: common/config.py:1715
+#: common/config.py:1722
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Razpored udev ne deluje z načinom {mode}"
 
-#: common/config.py:1726
+#: common/config.py:1733
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Ni bilo mogoče najti UUID za {path}"
@@ -309,52 +309,56 @@ msgid "Success"
 msgstr "Uspeh"
 
 #: common/snapshots.py:1255
+msgid "Partial transfer due to error"
+msgstr ""
+
+#: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Delni prenos zaradi izginulih izvornih datotek (glej 'man rsync')"
 
-#: common/snapshots.py:1258
+#: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' se je končal z izhodno kodo {exit_code}"
 
-#: common/snapshots.py:1267
+#: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
 msgstr "Za več informacij glej 'man rsync'"
 
-#: common/snapshots.py:1271
+#: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negativne izhodne kode rsync so signalne številke, glej 'kill -l' in 'man "
 "kill'"
 
-#: common/snapshots.py:1286
+#: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nič se ni spremenilo, nov posnetek ni potreben"
 
-#: common/snapshots.py:1317
+#: common/snapshots.py:1318
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "{new_path} ni mogoče preimenovati v {path}"
 
-#: common/snapshots.py:1635 common/snapshots.py:1687
+#: common/snapshots.py:1636 common/snapshots.py:1688
 msgid "Smart remove"
 msgstr "Pametno odstranjevanje"
 
-#: common/snapshots.py:1662
+#: common/snapshots.py:1663
 msgid "Removing old snapshots"
 msgstr "Odstranjevanje starih posnetkov"
 
-#: common/snapshots.py:1697
+#: common/snapshots.py:1698
 msgid "Trying to keep min free space"
 msgstr "Poskus ohranjanja minimalnega prostora"
 
-#: common/snapshots.py:1736
+#: common/snapshots.py:1737
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Poskus ohranjanja najmanj {perc} prostih inodov"
 
-#: common/snapshots.py:2819 qt/app.py:1616
+#: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
 msgstr "Zdaj"
 
@@ -441,7 +445,7 @@ msgstr ""
 msgid "Add to Include"
 msgstr "Dodaj v Vključi"
 
-#: qt/app.py:254 qt/logviewdialog.py:176
+#: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
 msgstr "Dodaj v Izključi"
 
@@ -847,61 +851,65 @@ msgstr "prevajalna platforma"
 msgid "Your translation"
 msgstr "Vaš prevod"
 
-#: qt/logviewdialog.py:53
+#: qt/logviewdialog.py:62
 msgid "Last Log View"
 msgstr "Ogled zadnjega dnevnika"
 
-#: qt/logviewdialog.py:55
+#: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
 msgstr "Ogled dnevnika posnetkov"
 
-#: qt/logviewdialog.py:63 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
+#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
 msgid "Profile"
 msgstr "Profil"
 
-#: qt/logviewdialog.py:71 qt/qttools.py:347 qt/snapshotsdialog.py:99
+#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
 msgstr "Posnetki"
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:94
 msgid "Filter"
 msgstr "Filter"
 
-#: qt/logviewdialog.py:91 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
 msgid "All"
 msgstr "Vse"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:100 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
 msgid "Changes"
 msgstr "Spremembe"
 
-#: qt/logviewdialog.py:97 qt/logviewdialog.py:99 qt/settingsdialog.py:811
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
 #: qt/settingsdialog.py:814
 msgid "Errors"
 msgstr "Napake"
 
-#: qt/logviewdialog.py:101 qt/messagebox.py:71
+#: qt/logviewdialog.py:110 qt/messagebox.py:71
 msgid "Information"
 msgstr "Informacije"
 
 #: qt/logviewdialog.py:111
+msgid "rsync transfer failures (experimental)"
+msgstr ""
+
+#: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Napake, [I] Informacije, [C] Spremembe"
 
-#: qt/logviewdialog.py:114 qt/qtsystrayicon.py:98
+#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
 msgstr "dešifriranje poti"
 
-#: qt/logviewdialog.py:172
+#: qt/logviewdialog.py:182
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: qt/logviewdialog.py:180
+#: qt/logviewdialog.py:190
 msgid "Decode"
 msgstr "Dešifriraj"
 
-#: qt/logviewdialog.py:202
+#: qt/logviewdialog.py:212
 msgid "Do you want to exclude this?"
 msgstr "Ali želite to izključiti?"
 

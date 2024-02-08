@@ -42,9 +42,9 @@ import progress
 import logviewdialog
 import encfstools
 
-from PyQt6.QtCore import QObject, QTimer
+from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
-from PyQt6.QtGui import QIcon, QRegion
+from PyQt6.QtGui import QRegion
 
 
 class QtSysTrayIcon:
