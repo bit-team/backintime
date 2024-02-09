@@ -2456,13 +2456,17 @@ class SID(object):
             bool:       ``True`` if file exists
         """
         fullPath = self.pathBackup(path)
+
         if not os.path.exists(fullPath):
             return False
+
         if not os.path.islink(fullPath):
             return True
+
         basePath = self.pathBackup()
         target = os.readlink(fullPath)
         target = os.path.join(os.path.abspath(os.path.dirname(fullPath)), target)
+
         return target.startswith(basePath)
 
     @property
