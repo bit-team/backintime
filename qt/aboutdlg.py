@@ -109,7 +109,7 @@ class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
         return messagebox.showInfo(self, _('License'), content)
 
     def _read_about_content(self, file_path):
-        content = file_path.read_text()
+        content = file_path.read_text('utf-8')
 
         # Convert URLs and Email into <a href>
         content = re.sub(r'<(.*?)>', self._to_a_href, content)
