@@ -3,6 +3,8 @@
 That file is a workaround until the project migrated to a Python build-system.
 See Issue #1575 for details about that migration.
 """
+import pathlib
+import json
 import tools
 # Value of this variable is modified via update_version.sh
 __version_base__ = '1.4.4-dev'
@@ -24,14 +26,16 @@ def _create_full_version_string():
     git_info = tools.get_git_repository_info(tools.backintimePath(''), 8)
 
     if not git_info:
+        bit_path = pathlib.Path(tools.backintimePath('common'))
+        git_json_file = bit_path / 'git-version.json'
+
         # Git info file available?
-        git_json_file = pathlib.Path(tools.backintimePath('')) / 'git-info.json'
         if git_json_file.exists():
-            git_info = json.load(git_json_file)
+            git_info = json.loads(git_json_file.read_text('utf-8'))
 
     # git info from current repo or info file
     if git_info:
-        return f'{__version_base__}.{git_info["hash"]}'
+        return f'{__version_base__}.{git_info["hash"][:8]}'
 
     # maybe a WARNING?
     # ...

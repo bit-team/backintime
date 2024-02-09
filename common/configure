@@ -239,7 +239,7 @@ printf "\t\tprint(j.dumps(git))\" > git-version.json" >> ${MAKEFILE}
 addNewline
 printf "\tcat git-version.json" >> ${MAKEFILE}
 addNewline
-addInstallFile "git-version.json" "/share/backintime-common"
+addInstallFile "git-version.json" "/share/backintime/common"
 
 addComment "autostart"
 addInstallDir                       "/../etc/xdg/autostart"
