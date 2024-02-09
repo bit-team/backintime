@@ -7,5 +7,15 @@ import tools
 # Value of this variable is modified via update_version.sh
 __version_base__ = '1.4.4-dev'
 
-# Regular version string used by the application.
-__version__ = __version_base__
+
+def __getattr__(attr_name):
+    """Attribute getter for this module providing access to on-demand created
+    variable
+    """
+
+    # Regular version string used by the application.
+    if attr_name == '__version__':
+        return __version_base
+
+    # Ask module for all other attributes
+    return getattr(__name__, attr_name)
