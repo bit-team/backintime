@@ -99,6 +99,7 @@ import logviewdialog
 from restoredialog import RestoreDialog
 import languagedialog
 import messagebox
+from aboutdlg import AboutDlg
 
 
 class MainWindow(QMainWindow):
@@ -1258,7 +1259,7 @@ class MainWindow(QMainWindow):
 
     def btnAboutClicked(self):
         with self.suspendMouseButtonNavigation():
-            dlg = About(self)
+            dlg = AboutDlg(self)
             dlg.exec()
 
     def btnHelpClicked(self):
@@ -1850,76 +1851,6 @@ files that the receiver requests to be transferred.""")
 
     def slot_help_translation(self):
         self._open_approach_translator_dialog()
-
-
-class About(QDialog):
-    def __init__(self, parent = None):
-        super(About, self).__init__(parent)
-        self.parent = parent
-        self.config = parent.config
-        import icon
-
-        self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
-        logo     = QLabel('Icon')
-        logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
-        version = self.config.VERSION
-        ref, hashid = tools.gitRevisionAndHash()
-        git_version = ''
-        if ref:
-            git_version = " git branch '{}' hash '{}'".format(ref, hashid)
-        name = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>' + git_version)
-        name.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        homepage = QLabel(self.mkurl('<https://github.com/bit-team/backintime>'))
-        homepage.setTextInteractionFlags(
-            Qt.TextInteractionFlag.LinksAccessibleByMouse)
-        homepage.setOpenExternalLinks(True)
-        bit_copyright = QLabel(self.config.COPYRIGHT + '\n')
-
-        vlayout = QVBoxLayout(self)
-        hlayout = QHBoxLayout()
-        hlayout.addWidget(logo)
-        hlayout.addWidget(name)
-        hlayout.addStretch()
-        vlayout.addLayout(hlayout)
-        vlayout.addWidget(homepage)
-        vlayout.addWidget(bit_copyright)
-
-        buttonBoxLeft  = QDialogButtonBox(self)
-        btn_authors      = buttonBoxLeft.addButton(_('Authors'), QDialogButtonBox.ButtonRole.ActionRole)
-        btn_translations = buttonBoxLeft.addButton(_('Translations'), QDialogButtonBox.ButtonRole.ActionRole)
-        btn_license      = buttonBoxLeft.addButton(_('License'), QDialogButtonBox.ButtonRole.ActionRole)
-
-        buttonBoxRight = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
-
-        hlayout = QHBoxLayout()
-        hlayout.addWidget(buttonBoxLeft)
-        hlayout.addWidget(buttonBoxRight)
-        vlayout.addLayout(hlayout)
-
-        btn_authors.clicked.connect(self.authors)
-        btn_translations.clicked.connect(self.translations)
-        btn_license.clicked.connect(self.license)
-        buttonBoxRight.accepted.connect(self.accept)
-
-    def authors(self):
-        return messagebox.showInfo(self, _('Authors'), self.mkurl(self.config.authors()))
-
-    def translations(self):
-        return messagebox.showInfo(self, _('Translations'), self.mkurl(self.config.translations()))
-
-    def license(self):
-        return messagebox.showInfo(self, _('License'), self.config.license())
-
-    def mkurl(self, msg):
-        msg = re.sub(r'<(.*?)>', self.aHref, msg)
-        msg = re.sub(r'\n', '<br>', msg)
-        return msg
-
-    def aHref(self, m):
-        if m.group(1).count('@'):
-            return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(1)}
-        else:
-            return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(1)}
 
 class ExtraMouseButtonEventFilter(QObject):
     """
