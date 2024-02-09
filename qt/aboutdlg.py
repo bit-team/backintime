@@ -17,12 +17,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import re
-import os
-
-# # ????
-# if not os.getenv('DISPLAY', ''):
-#     os.putenv('DISPLAY', ':0.0')
-
+import pathlib
 from PyQt6.QtWidgets import (QLabel,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -33,7 +28,7 @@ import tools
 import messagebox
 
 
-class AboutDlg(QDialog):
+class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
     """The about dialog accessiable from the Help menu in the main window."""
 
     def __init__(self, parent=None):
@@ -41,25 +36,17 @@ class AboutDlg(QDialog):
 
         self.parent = parent
         self.config = parent.config
-        import icon
+
+        import icon  # pylint: disable=import-outside-toplevel
 
         self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
         logo = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
 
-        version = self.config.VERSION
-        ref, hashid = tools.gitRevisionAndHash()
-        git_version = ''
-        if ref:
-            git_version = " git branch '{}' hash '{}'".format(ref, hashid)
-
-        name = QLabel(
-            f'<h1>{self.config.APP_NAME} {version}</h1>{git_version}')
-        name.setAlignment(
-            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        name = self._create_name_and_version_label()
 
         homepage = QLabel(
-            self.mkurl('<https://github.com/bit-team/backintime>'))
+            self._to_a_href('https://github.com/bit-team/backintime'))
         homepage.setTextInteractionFlags(
             Qt.TextInteractionFlag.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
@@ -75,44 +62,84 @@ class AboutDlg(QDialog):
         vlayout.addWidget(homepage)
         vlayout.addWidget(bit_copyright)
 
-        buttonBoxLeft = QDialogButtonBox(self)
-        btn_authors = buttonBoxLeft.addButton(
-            _('Authors'), QDialogButtonBox.ButtonRole.ActionRole)
-        btn_translations = buttonBoxLeft.addButton(
-            _('Translations'), QDialogButtonBox.ButtonRole.ActionRole)
-        btn_license = buttonBoxLeft.addButton(
-            _('License'), QDialogButtonBox.ButtonRole.ActionRole)
+        button_box_left = QDialogButtonBox(self)
+        for label, slot in ((_('Authors'), self._msgbox_authors),
+                            (_('Translations'), self._msgbox_translations),
+                            (_('License'), self._msgbox_license)):
+            btn = button_box_left.addButton(
+                label, QDialogButtonBox.ButtonRole.ActionRole)
+            btn.clicked.connect(slot)
 
-        buttonBoxRight = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
+        button_box_right = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
+        button_box_right.accepted.connect(self.accept)
 
         hlayout = QHBoxLayout()
-        hlayout.addWidget(buttonBoxLeft)
-        hlayout.addWidget(buttonBoxRight)
+        hlayout.addWidget(button_box_left)
+        hlayout.addWidget(button_box_right)
         vlayout.addLayout(hlayout)
 
-        btn_authors.clicked.connect(self.authors)
-        btn_translations.clicked.connect(self.translations)
-        btn_license.clicked.connect(self.license)
-        buttonBoxRight.accepted.connect(self.accept)
+    def _create_name_and_version_label(self):
+        version = self.config.VERSION
+        ref, hashid = tools.gitRevisionAndHash()
+        git_version = f" git branch '{ref}' hash '{hashid}'" if ref else ''
 
-    def authors(self):
-        return messagebox.showInfo(
-            self, _('Authors'), self.mkurl(self.config.authors()))
+        name = QLabel(
+            f'<h1>{self.config.APP_NAME} {version}</h1>{git_version}')
+        name.setAlignment(
+            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-    def translations(self):
-        return messagebox.showInfo(
-            self, _('Translations'), self.mkurl(self.config.translations()))
+        return name
 
-    def license(self):
-        return messagebox.showInfo(self, _('License'), self.config.license())
+    def _msgbox_authors(self):
+        file_path = pathlib.Path(tools.docPath()) / 'AUTHORS'
+        content = self._read_about_content(file_path)
 
-    def mkurl(self, msg):
-        msg = re.sub(r'<(.*?)>', self.aHref, msg)
-        msg = re.sub(r'\n', '<br>', msg)
-        return msg
+        return messagebox.showInfo(self, _('Authors'), content)
 
-    def aHref(self, m):
-        if m.group(1).count('@'):
-            return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(1)}
-        else:
-            return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(1)}
+    def _msgbox_translations(self):
+        file_path = pathlib.Path(tools.docPath()) / 'TRANSLATIONS'
+        content = self._read_about_content(file_path)
+
+        return messagebox.showInfo(self, _('Translations'), content)
+
+    def _msgbox_license(self):
+        file_path = pathlib.Path(tools.docPath()) / 'LICENSE'
+        content = self._read_about_content(file_path)
+
+        return messagebox.showInfo(self, _('License'), content)
+
+    def _read_about_content(self, file_path):
+        content = file_path.read_text()
+
+        # Convert URLs and Email into <a href>
+        content = re.sub(r'<(.*?)>', self._to_a_href, content)
+
+        # HTML line breaks
+        content = re.sub(r'\n', '<br>', content)
+
+        return content
+
+    def _to_a_href(self, m):
+        """Create a HTML a-tag out of Website and EMail URIs.
+
+        Args:
+            m (str, re.Match): Match or string to convert.
+
+        Examples:
+
+            - 'https://foo.bar' becomes
+              '<a href="https://foo.bar">https://foo.bar</a>'
+            - 'foo@bar.com' becomes
+             '<a href="mailto:foo@bar.com">foo@bar.com</a>'
+        """
+        #
+
+        try:
+            raw_string = m.group(1)
+        except AttributeError:
+            raw_string = m
+
+        if '@' in raw_string:
+            return f'<a href="mailto:{raw_string}">{raw_string}</a>'
+
+        return f'<a href="{raw_string}">{raw_string}</a>'

@@ -109,6 +109,33 @@ def sharePath():
 
     return '/usr/share'
 
+def backintimePath(*path):
+    """
+    Get path inside 'backintime' install folder.
+
+    Args:
+        *path (str):    paths that should be joined to 'backintime'
+
+    Returns:
+        str:            'backintime' child path like::
+
+                            /usr/share/backintime/common
+                            /usr/share/backintime/qt
+    """
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+
+def docPath():
+    path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
+
+    # Dev note (buhtz, 2024-02-09):
+    # Don't know why this "if" exists. I assume this is an undocumented
+    # workraound to handle different approaches of distro maintainers.
+    license_file = pathlib.Path(backintimePath()) / 'LICENSE'
+    if license_file.exists():
+        path = backintimePath()
+
+    return str(path)
+
 
 # |---------------------------------------------------|
 # | Internationalization (i18n) & localization (L10n) |
@@ -295,22 +322,6 @@ def get_native_language_and_completeness(language_code):
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
-
-def backintimePath(*path):
-    """
-    Get path inside 'backintime' install folder.
-
-    Args:
-        *path (str):    paths that should be joined to 'backintime'
-
-    Returns:
-        str:            'backintime' child path like::
-
-                            /usr/share/backintime/common
-                            /usr/share/backintime/qt
-    """
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
-
 def registerBackintimePath(*path):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports

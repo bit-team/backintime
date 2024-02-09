@@ -146,9 +146,7 @@ class Config(configfile.ConfigFileWithProfiles):
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
         self._APP_PATH = tools.backintimePath()
-        self._DOC_PATH = os.path.join(tools.sharePath(), 'doc', 'backintime-common')
-        if os.path.exists(os.path.join(self._APP_PATH, 'LICENSE')):
-            self._DOC_PATH = self._APP_PATH
+        self._DOC_PATH = tools.docPath()
 
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
