@@ -23,7 +23,7 @@ import subprocess
 from datetime import datetime
 from time import sleep
 import json
-
+import pathlib
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action

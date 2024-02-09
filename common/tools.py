@@ -91,10 +91,11 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 def sharePath():
     """Get path where Back In Time is installed.
 
+    This is similar to $XDG_DATA_DIRS (XDG Base Directory Specification).
     If running from source return default ``/usr/share``.
 
     Returns:
-        str:    share path like::
+        str: share path like::
 
                     /usr/share
                     /usr/local/share
@@ -125,11 +126,16 @@ def backintimePath(*path):
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
 def docPath():
+    """Not sure what this path is about.
+    """
     path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
 
     # Dev note (buhtz, 2024-02-09):
     # Don't know why this "if" exists. I assume this is an undocumented
     # workraound to handle different approaches of distro maintainers.
+    # I am aware that on Debian this file usually do not exist at this
+    # location. But package maintainer made an exception in case of BIT
+    # so it do exist also on Debian.
     license_file = pathlib.Path(backintimePath()) / 'LICENSE'
     if license_file.exists():
         path = backintimePath()

@@ -21,6 +21,7 @@ import sys
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
+import pathlib
 import re
 import subprocess
 import shutil
