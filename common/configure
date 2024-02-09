@@ -170,9 +170,10 @@ printf "\trm -f config-example-*.gz\n" >> ${MAKEFILE}
 printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
 printf "\trm -f .coverage\n" >> ${MAKEFILE}
 printf "\trm -rf htmlcov\n" >> ${MAKEFILE}
+printf "\trm git-version.json\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\tinstall_translations\n" >> ${MAKEFILE}
 addComment "python"
 addUninstallDir          "/share/backintime/common/__pycache__"
@@ -221,6 +222,24 @@ addInstallDir                       "/bin"
 addInstallFile "backintime"         "/bin" "755"
 addInstallFile "backintime-askpass" "/bin" "755"
 addNewline
+
+addComment "git version infos"
+# DONT FORGET CLEAN
+printf "\t${PYTHON} -c \\" >> ${MAKEFILE}
+addNewline
+printf "\t\t\"from tools import get_git_repository_info; \\" >> ${MAKEFILE}
+addNewline
+printf "\t\timport pathlib as p; \\" >> ${MAKEFILE}
+addNewline
+printf "\t\timport json as j; \\" >> ${MAKEFILE}
+addNewline
+printf "\t\tgit=get_git_repository_info(p.Path.cwd().parent); \\" >> ${MAKEFILE}
+addNewline
+printf "\t\tprint(j.dumps(git))\" > git-version.json" >> ${MAKEFILE}
+addNewline
+printf "\tcat git-version.json" >> ${MAKEFILE}
+addNewline
+addInstallFile "git-version.json" "/share/backintime-common"
 
 addComment "autostart"
 addInstallDir                       "/../etc/xdg/autostart"

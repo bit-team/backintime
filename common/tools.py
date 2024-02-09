@@ -346,14 +346,18 @@ def addSourceToPathEnviron():
     if path and source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' %(source, path)
 
-def get_git_repository_info(path=None):
+def get_git_repository_info(path=None, hash_length=None):
     """Return the current branch and last commit hash.
+
+    About the lenght of a commit hash. There is no strict rule but it is
+    common sense that 8 to 10 characters are enough to be unique.
 
     Credits: https://stackoverflow.com/a/51224861/4865723
 
     Args:
         path (Path): Path with '.git' folder in (default is
                      current working directory).
+        cut_hash (int): Restrict length of commit hash.
 
     Returns:
         (dict): Dict with keys "branch" and "hash" if it is a git repo,
@@ -362,6 +366,9 @@ def get_git_repository_info(path=None):
 
     if not path:
         path = pathlib.Path.cwd()
+    elif isinstance(path, str):
+        # WORKAROUND until cmoplete migration to pathlib
+        path = pathlib.Path(path)
 
     git_folder = path / '.git'
 
@@ -374,19 +381,20 @@ def get_git_repository_info(path=None):
     with (git_folder / 'HEAD').open('r') as handle:
         val = handle.read()
 
-    if val.startswith('ref: '):
-        result['branch'] = '/'.join(val.split('/')[2:]).strip()
-
-    else:
+    if not val.startswith('ref: '):
         result['branch'] = '(detached HEAD)'
         result['hash'] = val
 
-        return result
+    else:
+        result['branch'] = '/'.join(val.split('/')[2:]).strip()
 
-    # commit hash
-    with (git_folder / 'refs' / 'heads' / result['branch']) \
-         .open('r') as handle:
-        result['hash'] = handle.read().strip()
+        # commit hash
+        with (git_folder / 'refs' / 'heads' / result['branch']) \
+            .open('r') as handle:
+            result['hash'] = handle.read().strip()
+
+    if hash_length:
+        result['hash'] = result['hash'][:hash_length]
 
     return result
 
