@@ -35,6 +35,12 @@
 
 
 VERSION=`cat VERSION`
+
+if [[ $VERSION == *-dev ]]
+then
+    VERSION+="."`git rev-parse --short HEAD`
+fi
+
 echo VERSION: $VERSION
 
 MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
