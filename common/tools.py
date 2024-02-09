@@ -349,7 +349,7 @@ def addSourceToPathEnviron():
 def get_git_repository_info(path=None, hash_length=None):
     """Return the current branch and last commit hash.
 
-    About the lenght of a commit hash. There is no strict rule but it is
+    About the length of a commit hash. There is no strict rule but it is
     common sense that 8 to 10 characters are enough to be unique.
 
     Credits: https://stackoverflow.com/a/51224861/4865723

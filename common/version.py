@@ -1,4 +1,4 @@
-"""Centralize managment about the version.
+"""Centralize management about the version.
 
 That file is a workaround until the project migrated to a Python build-system.
 See Issue #1575 for details about that migration.
@@ -43,5 +43,5 @@ def _create_full_version_string():
     return __version_base__
 
 
-# Version string regulary used by the application and presented to users.
+# Version string regularyly used by the application and presented to users.
 __version__ = _create_full_version_string()

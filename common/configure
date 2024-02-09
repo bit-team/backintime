@@ -224,7 +224,6 @@ addInstallFile "backintime-askpass" "/bin" "755"
 addNewline
 
 addComment "git version infos"
-# DONT FORGET CLEAN
 printf "\t${PYTHON} -c \\" >> ${MAKEFILE}
 addNewline
 printf "\t\t\"from tools import get_git_repository_info; \\" >> ${MAKEFILE}
