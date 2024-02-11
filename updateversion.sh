@@ -55,7 +55,7 @@ update_sphinx_config () {
 
 update_app () {
   echo "Update '$1'"
-  sed -e "s/^\(\s*\)__version_base__ = '.*'$/\1__version_base__ = '$VERSION'/" \
+  sed -e "s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" \
       -i $1
 }
 
