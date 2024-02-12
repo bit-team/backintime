@@ -62,6 +62,15 @@
 
     <launchable type="desktop-id">backintime-qt.desktop</launchable>
 
+    <!--
+        - 16:9 ratio
+        - PNG format
+        - Default desktop theme
+        - Include windows only (incl. boders) and use alpha mask for
+          rounded window corners
+        - Without mouse pointer
+        - Add caption (without fullstop)
+        -->
     <screenshots>
       <screenshot type="default">
         <caption>Main window</caption>
@@ -75,5 +84,8 @@
       </screenshot>
     </screenshots>
 
+    <!-- https://hughsie.github.io/oars/generate.html -->
     <content_rating type="oars-1.0" />
+
+    <update_contact>bit-dev@python.org</update_contact>
   </component>
