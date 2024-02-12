@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html -->
 <component type="desktop-application">
-  <id>bit_team.back_in_time.gui</id>
+  <id>org.bit_team.back_in_time.gui</id>
 
   <name>Back In Time</name>
-  <summary>An easy-to-use backup tool for GNU Linux using rsync in the back</summary>
+  <summary>Backup tool for GNU Linux desktop using rsync with its hard-links feature to save storage space</summary>
 
   <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-2.0-only</project_license>
+  <project_license>GPL-2.0</project_license>
 
   <description>
     <p>
@@ -20,17 +21,42 @@
     </p>
     <p>
       You only need to specify 3 things:
-      <ol>
-        <li>What folders to back up.</li>
-        <li>Where to save snapshots.</li>
-        <li>The backup frequency (manual, every hour, every day, every month)</li>
-      </ol>
-      </p>
-    </description>
+    </p>
+    <ol>
+      <li>What folders to back up.</li>
+      <li>Where to save snapshots.</li>
+      <li>The backup frequency (manual, every hour, every day, every month).</li>
+    </ol>
+  </description>
+
+    <icon type="stock">document-save</icon>
+
+    <categories>
+      <!-- https://specifications.freedesktop.org/menu-spec/latest/apa.html -->
+      <category>System</category>
+      <category>Archiving</category>
+    </categories>
+
+    <keywords>
+      <keyword translate="no">Backup</keyword>
+      <keyword translate="no">Rsync</keyword>
+      <keyword translate="no">GUI</keyword>
+    </keywords>
+
+    <url type="homepage">https://github.com/bit-team/backintime</url>
+    <url type="bugtracker">https://github.com/bit-team/backintime/issues</url>
+    <url type="faq">https://github.com/bit-team/backintime/blob/dev/FAQ.md</url>
+    <url type="help">https://backintime.readthedocs.io/</url>
+    <url type="translate">https://translate.codeberg.org/engage/backintime</url>
+    <url type="contact">https://mail.python.org/mailman3/lists/bit-dev.python.org</url>
+    <url type="vcs-browser">https://github.com/bit-team/backintime</url>
+    <url type="contribute">https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md</url>
 
     <launchable type="desktop-id">backintime-qt.desktop</launchable>
+
     <screenshots>
       <screenshot type="default">
+        <caption>Main window</caption>
         <image>https://raw.githubusercontent.com/bit-team/doc/master/_images/main_window.png</image>
       </screenshot>
       <screenshot>
@@ -40,4 +66,6 @@
         <image>https://translate.codeberg.org/media/screenshots/bit_menubar.gif</image>
       </screenshot>
     </screenshots>
+
+    <content_rating type="oars-1.0" />
   </component>
