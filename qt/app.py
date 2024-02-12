@@ -1042,7 +1042,7 @@ class MainWindow(QMainWindow):
     def addPlace(self, name, path, icon):
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        qttools.py::HeaderItem::__init__().
+        qttools.py::HeaderItem.__init__().
         """
         item = QTreeWidgetItem()
 
@@ -1058,7 +1058,7 @@ class MainWindow(QMainWindow):
             # item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             item.setFlags(Qt.ItemFlag.NoItemFlags)
             item.setForeground(
-                0, self.palette().color(QPalette.ColorRole.WindowText))
+                0, self.palette().color(QPalette.ColorRole.PlaceholderText))
             item.setBackground(
                 0, self.palette().color(QPalette.ColorRole.Window))
 

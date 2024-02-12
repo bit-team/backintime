@@ -552,7 +552,7 @@ class HeaderItem(TimeLineItem):
     def __init__(self, name, sid):
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        app.py::MainWindow::addPlace().
+        app.py::MainWindow.addPlace().
         """
         super(HeaderItem, self).__init__()
         self.setText(0, name)
@@ -560,7 +560,7 @@ class HeaderItem(TimeLineItem):
 
         palette = QApplication.instance().palette()
         self.setForeground(
-            0, palette.color(QPalette.ColorRole.WindowText))
+            0, palette.color(QPalette.ColorRole.PlaceholderText))
         self.setBackground(
             0, palette.color(QPalette.ColorRole.Window))
 
