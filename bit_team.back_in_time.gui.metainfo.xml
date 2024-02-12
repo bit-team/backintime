@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>bit_team.back_in_time.gui</id>
+
+  <name>Back In Time</name>
+  <summary>An easy-to-use backup tool for GNU Linux using rsync in the back</summary>
+
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-2.0-only</project_license>
+
+  <description>
+    <p>
+      It is an easy-to-use backup tool for files and folders. It runs on GNU Linux and provides a command line tool <code>backintime</code> and a Qt5 GUI <code>backintime-qt</code> both written in Python3. It uses [<code>rsync</code>](https://rsync.samba.org/) to take manual or scheduled snapshots and stores them locally or remotely through SSH. Each snapshot is its own folder with copies of the original files, but unchanged files are hard-linked between snapshots to save space. It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
+    </p>
+    <p>
+      You only need to specify 3 things:
+    </p>
+    <p>
+      <em> What folders to back up. </em> Where to save snapshots. * The backup frequency (manual, every hour, every day, every month).y day, every month).
+      </p>
+    </description>
+
+    <launchable type="desktop-id">backintime-qt.desktop</launchable>
+    <screenshots>
+      <screenshot type="default">
+        <image>https://github.com/bit-team/doc/blob/master/_images/main_window.png</image>
+      </screenshot>
+      <screenshot>
+        <image>https://github.com/bit-team/doc/blob/master/_images/settings_general.png</image>
+      </screenshot>
+    </screenshots>
+  </component>
