@@ -53,7 +53,7 @@ update_sphinx_config () {
       -i $1
 }
 
-update_app () {
+update_app_version () {
   echo "Update '$1'"
   sed -e "s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" \
       -i $1
@@ -90,7 +90,7 @@ update_changelog () {
   echo  " -- ${MAINTAINER}  $(date -R)" >> $1
 }
 
-update_app common/version.py
+update_app_version common/version.py
 
 update_sphinx_config common/doc-dev/conf.py
 
