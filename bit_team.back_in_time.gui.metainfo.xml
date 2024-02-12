@@ -10,23 +10,34 @@
 
   <description>
     <p>
-      It is an easy-to-use backup tool for files and folders. It runs on GNU Linux and provides a command line tool <code>backintime</code> and a Qt5 GUI <code>backintime-qt</code> both written in Python3. It uses [<code>rsync</code>](https://rsync.samba.org/) to take manual or scheduled snapshots and stores them locally or remotely through SSH. Each snapshot is its own folder with copies of the original files, but unchanged files are hard-linked between snapshots to save space. It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
+      It is an easy-to-use backup tool for files and folders. It runs on GNU
+      Linux and provides a command line tool "backintime" and a Qt5 GUI
+      "backintime-qt". It uses "rsync" in the back to take manual or scheduled
+      snapshots and stores them locally or remotely through SSH. Each snapshot
+      is its own folder with copies of the original files, but unchanged files
+      are hard-linked between snapshots to save space. It was inspired by
+      "FlyBack".
     </p>
     <p>
       You only need to specify 3 things:
-    </p>
-    <p>
-      <em> What folders to back up. </em> Where to save snapshots. * The backup frequency (manual, every hour, every day, every month).y day, every month).
+      <ol>
+        <li>What folders to back up.</li>
+        <li>Where to save snapshots.</li>
+        <li>The backup frequency (manual, every hour, every day, every month)</li>
+      </ol>
       </p>
     </description>
 
     <launchable type="desktop-id">backintime-qt.desktop</launchable>
     <screenshots>
       <screenshot type="default">
-        <image>https://github.com/bit-team/doc/blob/master/_images/main_window.png</image>
+        <image>https://raw.githubusercontent.com/bit-team/doc/master/_images/main_window.png</image>
       </screenshot>
       <screenshot>
-        <image>https://github.com/bit-team/doc/blob/master/_images/settings_general.png</image>
+        <image>https://raw.githubusercontent.com/bit-team/doc/master/_images/settings_general.png</image>
+      </screenshot>
+      <screenshot>
+        <image>https://translate.codeberg.org/media/screenshots/bit_menubar.gif</image>
       </screenshot>
     </screenshots>
   </component>
