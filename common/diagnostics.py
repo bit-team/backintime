@@ -15,8 +15,9 @@ import locale
 import subprocess
 import json
 import re
-import config  # config.Config.VERSION  Refactor after src-layout migration
+import config
 import tools
+import version
 
 
 def collect_diagnostics():
@@ -40,7 +41,7 @@ def collect_diagnostics():
 
     result['backintime'] = {
         'name': config.Config.APP_NAME,
-        'version': config.Config.VERSION,
+        'version': version.__version__,
         'latest-config-version': config.Config.CONFIG_VERSION,
         'local-config-file': cfg._LOCAL_CONFIG_PATH,
         'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
@@ -55,7 +56,7 @@ def collect_diagnostics():
 
     # Git repo
     bit_root_path = Path(tools.backintimePath(""))
-    git_info = get_git_repository_info(bit_root_path)
+    git_info = tools.get_git_repository_info(bit_root_path)
 
     if git_info:
 
@@ -293,51 +294,6 @@ def _get_extern_versions(cmd,
             result = re.findall(pattern, result)[0]
 
     return result.strip()  # as string
-
-
-def get_git_repository_info(path=None):
-    """Return the current branch and last commit hash.
-
-    Credits: https://stackoverflow.com/a/51224861/4865723
-
-    Args:
-        path (Path): Path with '.git' folder in (default is
-                     current working directory).
-
-    Returns:
-        (dict): Dict with keys "branch" and "hash" if it is a git repo,
-                otherwise an `None`.
-    """
-
-    if not path:
-        path = Path.cwd()
-
-    git_folder = path / '.git'
-
-    if not git_folder.exists():
-        return None
-
-    result = {}
-
-    # branch name
-    with (git_folder / 'HEAD').open('r') as handle:
-        val = handle.read()
-
-    if val.startswith('ref: '):
-        result['branch'] = '/'.join(val.split('/')[2:]).strip()
-
-    else:
-        result['branch'] = '(detached HEAD)'
-        result['hash'] = val
-
-        return result
-
-    # commit hash
-    with (git_folder / 'refs' / 'heads' / result['branch']) \
-         .open('r') as handle:
-        result['hash'] = handle.read().strip()
-
-    return result
 
 
 def _get_os_release():
