@@ -23,6 +23,7 @@ from test import generic
 import json
 
 import config
+import version
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -248,4 +249,4 @@ under certain conditions; type `backintime --license' for details.
         self.assertEqual(diagnostics["backintime"]["name"],
                          config.Config.APP_NAME)
         self.assertEqual(diagnostics["backintime"]["version"],
-                         config.Config.VERSION)
+                         version.__version__)
