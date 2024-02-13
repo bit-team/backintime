@@ -30,6 +30,7 @@ import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bcolors
+import version
 
 
 class SSH(MountControl):
@@ -692,7 +693,7 @@ class SSH(MountControl):
 
         logger.debug('Check ping host', self)
         versionString = 'SSH-2.0-backintime_{}\r\n'.format(
-            self.config.VERSION).encode()
+            version.__version__).encode()
 
         count = 0
 
