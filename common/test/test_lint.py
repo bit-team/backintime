@@ -1,7 +1,14 @@
 import unittest
+import os
 import pathlib
 import subprocess
+import shutil
 from typing import Iterable
+
+ON_TRAVIS = os.environ.get('TRAVIS', '') == 'true'
+PYLINT_AVIALBE = not shutil.which('pylint') is None
+PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
+                 'it runs only if `pylint` is available.')
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
@@ -32,6 +39,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Find recursive all py-files.
         return path.rglob('**/*.py')
 
+    @unittest.skipUnless(ON_TRAVIS or PYLINT_AVIALBE, PYLINT_REASON)
     def test_with_pylint(self):
         """Use Pylint to check for specific error codes.
 
