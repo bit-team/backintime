@@ -1,20 +1,22 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-#    Germar Reitze, Taylor Raack
+"""Collection of helper functions not fitting to other modules.
+"""
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze, Taylor Raack
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import os
 import sys
 import pathlib
@@ -86,7 +88,6 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 # |-----------------|
 # | Handling paths  |
 # |-----------------|
-
 
 def sharePath():
     """Get path where Back In Time is installed.
@@ -362,38 +363,57 @@ def addSourceToPathEnviron():
     if path and source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' %(source, path)
 
-def gitRevisionAndHash():
-    """
-    Get the current Git Branch and the last HashID (shot form) if running
-    from source.
+def get_git_repository_info(path=None, hash_length=None):
+    """Return the current branch and last commit hash.
+
+    About the length of a commit hash. There is no strict rule but it is
+    common sense that 8 to 10 characters are enough to be unique.
+
+    Credits: https://stackoverflow.com/a/51224861/4865723
+
+    Args:
+        path (Path): Path with '.git' folder in (default is
+                     current working directory).
+        cut_hash (int): Restrict length of commit hash.
 
     Returns:
-        tuple:  two items of either :py:class:`str` instance if running from
-                source or ``None``
+        (dict): Dict with keys "branch" and "hash" if it is a git repo,
+                otherwise an `None`.
     """
-    ref, hashid = None, None
-    gitPath = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, '.git'))
-    headPath = os.path.join(gitPath, 'HEAD')
-    refPath = ''
-    if not os.path.isdir(gitPath):
-        return (ref, hashid)
-    try:
-        with open(headPath, 'rt') as f:
-            refPath = f.read().strip('\n')
-            if refPath.startswith('ref: '):
-                refPath = refPath[5:]
-            if refPath:
-                refPath = os.path.join(gitPath, refPath)
-                ref = os.path.basename(refPath)
-    except Exception as e:
-        pass
-    if os.path.isfile(refPath):
-        try:
-            with open(refPath, 'rt') as f:
-                hashid = f.read().strip('\n')[:7]
-        except:
-            pass
-    return (ref, hashid)
+
+    if not path:
+        path = pathlib.Path.cwd()
+    elif isinstance(path, str):
+        # WORKAROUND until cmoplete migration to pathlib
+        path = pathlib.Path(path)
+
+    git_folder = path / '.git'
+
+    if not git_folder.exists():
+        return None
+
+    result = {}
+
+    # branch name
+    with (git_folder / 'HEAD').open('r') as handle:
+        val = handle.read()
+
+    if not val.startswith('ref: '):
+        result['branch'] = '(detached HEAD)'
+        result['hash'] = val
+
+    else:
+        result['branch'] = '/'.join(val.split('/')[2:]).strip()
+
+        # commit hash
+        with (git_folder / 'refs' / 'heads' / result['branch']) \
+            .open('r') as handle:
+            result['hash'] = handle.read().strip()
+
+    if hash_length:
+        result['hash'] = result['hash'][:hash_length]
+
+    return result
 
 
 def readFile(path, default=None):
@@ -427,7 +447,6 @@ def readFile(path, default=None):
         pass
 
     return ret_val
-
 
 def readFileLines(path, default = None):
     """
@@ -1967,7 +1986,6 @@ class UniquenessSet:
             return False
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
-
 
 class Alarm(object):
     """

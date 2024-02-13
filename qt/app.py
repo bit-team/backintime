@@ -1854,6 +1854,7 @@ files that the receiver requests to be transferred.""")
     def slot_help_translation(self):
         self._open_approach_translator_dialog()
 
+
 class ExtraMouseButtonEventFilter(QObject):
     """
     globally catch mouse buttons 4 and 5 (mostly used as back and forward)

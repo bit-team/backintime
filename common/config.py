@@ -62,11 +62,11 @@ from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
                        LimitExceeded
+import version
 
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.4.4-dev'
     COPYRIGHT = 'Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze, Christian Buhtz, Michael Büker, Jürgen Altfeld et al.'
 
@@ -204,7 +204,7 @@ class Config(configfile.ConfigFileWithProfiles):
                              "doesn't support upgrading config from version "   \
                              "< 1.0 anymore. Please use BackInTime version "    \
                              "<= 1.1.12 to upgrade the config to a more recent "\
-                             "version.".format(self.VERSION))
+                             "version.".format(version.__version__))
                 #TODO: add popup warning
                 sys.exit(2)
 

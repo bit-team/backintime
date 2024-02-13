@@ -1,8 +1,11 @@
 Back In Time
 
 Version 1.4.4-dev (development of upcoming release)
-* Breacking change: Migration to PyQt6
+* Breaking change: Migration to PyQt6
+* Build: PyLint unit test is skipped if PyLint isn't installed, but will always run on TravisCI (#1634)
 * Feature: Support rsync '--one-file-system' in Expert Options (#1598)
+* Feature: "*-dev" version strings contain last commit hash (#1637)
+* Build: Git commit hash is presevered while "make install" (#1637)
 * Build: Fix bash-completion symlink creation while installing & adding --diagnostics (#1615)
 * Build: Activate PyLint error E602 (undefined-variable)
 * Build: TravisCI use PyQt (except arch "ppc64le")
