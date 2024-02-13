@@ -172,7 +172,7 @@ printf "\trm -f .coverage\n" >> ${MAKEFILE}
 printf "\trm -rf htmlcov\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\tinstall_translations\n" >> ${MAKEFILE}
 addComment "python"
 addUninstallDir          "/share/backintime/common/__pycache__"
@@ -196,7 +196,6 @@ addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../LICENSE"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-common"
-addInstallFile "../VERSION"          "/share/doc/backintime-common"
 addInstallFile "../CHANGES"          "/share/doc/backintime-common"
 addNewline
 
