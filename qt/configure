@@ -85,9 +85,9 @@ addUninstallDir () {
 }
 
 addComment () {
-    printf "\t#install $1\n" >> ${MAKEFILE}
-    printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
-    printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+    printf "\t# Install $1\n" >> ${MAKEFILE}
+    printf "\t# Uninstall files $1\n" >> ${UNINSTALL_FILES}
+    printf "\t# Uninstall directory $1\n" >> ${UNINSTALL_DIRS}
 }
 
 addNewline () {
@@ -139,6 +139,7 @@ printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
 printf "all:\tbuild\n\n" >> ${MAKEFILE}
 
 printf "build:\tcompress\n\n" >> ${MAKEFILE}
+printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
 
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
@@ -227,7 +228,7 @@ addNewline
 
 #compress
 printf "compress:\n" >> ${MAKEFILE}
-printf "\t#man pages\n" >> ${MAKEFILE}
+printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
 
 #uninstall
