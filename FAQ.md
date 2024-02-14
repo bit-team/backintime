@@ -114,7 +114,7 @@ With systemd and _Back In Time_ version older than 1.4.3:
 
     $ journalctl --grep backintime
 
-Without systemd have a look at the files `/var/log/syslog*`.
+Without systemd, you can examine the files in `/var/log/syslog*`.
 
 ## Backups (snapshots)
 
