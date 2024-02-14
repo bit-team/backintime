@@ -144,7 +144,7 @@ printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
 
 # Migration
@@ -172,6 +172,7 @@ addComment "application"
 addInstallDir                           "/bin"
 addInstallFile "backintime-qt"         "/bin" "755"
 addInstallFile "backintime-qt_polkit"  "/bin" "755"
+printf "\tinstall --mode=644 io.github.bit_team.back_in_time.gui.xml /usr/share/metainfo\n"  >> ${MAKEFILE}
 addNewline
 
 addComment "dbus service"
