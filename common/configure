@@ -162,7 +162,6 @@ printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
 printf "all:\tbuild\n\n" >> ${MAKEFILE}
 
 printf "build:\ttranslate compress\n" >> ${MAKEFILE}
-printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
 
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
@@ -175,6 +174,9 @@ printf "\n" >> ${MAKEFILE}
 
 # Create install and uninstall target
 printf "install:\tinstall_translations\n" >> ${MAKEFILE}
+printf "\n\t# Inject version string into source files\n" >> ${MAKEFILE}
+printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
+
 addComment "python"
 addUninstallDir          "/share/backintime/common/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/common/__pycache__"

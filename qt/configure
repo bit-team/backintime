@@ -139,19 +139,22 @@ printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
 printf "all:\tbuild\n\n" >> ${MAKEFILE}
 
 printf "build:\tcompress\n\n" >> ${MAKEFILE}
-printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
 
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
 
 # Migration
-printf "\t#clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
+printf "\t# Clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
 printf "\trm -f \$(DEST)/etc/dbus-1/system.d/net.launchpad.backintime.serviceHelper.conf\n" >> ${MAKEFILE}
 printf "\trm -f \$(DEST)/share/backintime/plugins/qt4plugin.py\n" >> ${MAKEFILE}
+addNewline
+
+printf "\t# Inject version string into source files\n" >> ${MAKEFILE}
+printf "\t(cd .. && ./updateversion.sh)\n" >> ${MAKEFILE}
 addNewline
 
 addComment "python"
