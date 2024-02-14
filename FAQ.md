@@ -6,7 +6,7 @@
    * [Does _Back in Time_ support full system backups?](#does-back-in-time-support-full-system-backups)
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
 - [Backups (snapshots)](#backups-snapshots)
-   * [Does Back In Time create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
+   * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
    * [How can I check if my snapshots are using hard-links?](#how-can-i-check-if-my-snapshots-are-using-hard-links)
    * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
@@ -82,9 +82,41 @@ which does not support `rsync`.
 
 For a discussion about this topic see [Backup on OneDrive or Google Drive](https://github.com/bit-team/backintime/issues/1166).
 
+### Where is the log file?
+
+There are three distinct logs generated:
+
+1. The _snapshot log_ contains messages specific to a particular snapshot at a
+   given time. It is stored within each snapshot and can be accessed through
+   the GUI.
+
+2. The _restore log_ contains messages specific to a particular restore
+   process. It is displayed in the GUI after each restore. It is also located
+   in the folder `~/.local/share/backintime/` and is named `restore_.log` for
+   the main profile, `restore_2.log` for the second, and so forth.
+
+3. The applications log is generated using the syslog feature of the operating
+   system. See [[How to read log entries?]] for further details.
+
+### How to read log entries?
+
+Both the _snapshot_ and _restore_ log files are plain text files and can be read
+accordingly. Refere to [Where is the log file?]. The _application_ log is
+generated via syslog using the identifier `backintime`.
+
+With systemd and _Back In Time_ version 1.4.3 or higher:
+
+    $ journalctl --identifier backintime
+
+With systemd and _Back In Time_ version older than 1.4.3:
+
+    $ journalctl --grep backintime
+
+Without systemd have a look at the files `/var/log/syslog*`.
+
 ## Backups (snapshots)
 
-### Does Back In Time create incremental or full backups?
+### Does _Back In Time_ create incremental or full backups?
 
 Back In Time does use `rsync` and its `--hard-links` feature.
 Because of that each snapshot is technically a full backup (contains each file)
