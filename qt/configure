@@ -172,7 +172,7 @@ addComment "application"
 addInstallDir                           "/bin"
 addInstallFile "backintime-qt"         "/bin" "755"
 addInstallFile "backintime-qt_polkit"  "/bin" "755"
-printf "\tinstall --mode=644 io.github.bit_team.back_in_time.gui.xml /usr/share/metainfo\n"  >> ${MAKEFILE}
+printf "\tinstall --mode=644 io.github.bit_team.back_in_time.gui.metainfo.xml /usr/share/metainfo\n"  >> ${MAKEFILE}
 addNewline
 
 addComment "dbus service"
