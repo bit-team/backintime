@@ -5,6 +5,8 @@
 - [General](#general)
    * [Does _Back in Time_ support full system backups?](#does-back-in-time-support-full-system-backups)
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
+   * [Where is the log file?](#where-is-the-log-file)
+   * [How to read log entries?](#how-to-read-log-entries)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
