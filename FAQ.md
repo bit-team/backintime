@@ -107,15 +107,15 @@ Both the _snapshot_ and _restore_ log files are plain text files and can be read
 accordingly. Refere to [Where is the log file?](#where-is-the-log-file).
 The _application_ log is generated via syslog using the identifier `backintime`.
 
-- With systemd and _Back In Time_ version 1.4.3 or higher:
+With systemd and _Back In Time_ version 1.4.3 or higher:
 
     $ journalctl --identifier backintime
 
-- With systemd and _Back In Time_ version older than 1.4.3:
+With systemd and _Back In Time_ version older than 1.4.3:
 
     $ journalctl --grep backintime
 
-- Without systemd, you can examine the files in `/var/log/syslog*`.
+Without systemd, you can examine the files in `/var/log/syslog*`.
 
 ## Backups (snapshots)
 
