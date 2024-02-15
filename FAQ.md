@@ -97,7 +97,7 @@ There are three distinct logs generated:
    in the folder `~/.local/share/backintime/` and is named `restore_.log` for
    the main profile, `restore_2.log` for the second, and so forth.
 
-3. The applications log is generated using the syslog feature of the operating
+3. The _application log_ is generated using the syslog feature of the operating
    system. See [How to read log entries?](#how-to-read-log-entries) for
    further details.
 
@@ -107,15 +107,15 @@ Both the _snapshot_ and _restore_ log files are plain text files and can be read
 accordingly. Refere to [Where is the log file?](#where-is-the-log-file).
 The _application_ log is generated via syslog using the identifier `backintime`.
 
-With systemd and _Back In Time_ version 1.4.3 or higher:
+- With systemd and _Back In Time_ version 1.4.3 or higher:
 
     $ journalctl --identifier backintime
 
-With systemd and _Back In Time_ version older than 1.4.3:
+- With systemd and _Back In Time_ version older than 1.4.3:
 
     $ journalctl --grep backintime
 
-Without systemd, you can examine the files in `/var/log/syslog*`.
+- Without systemd, you can examine the files in `/var/log/syslog*`.
 
 ## Backups (snapshots)
 
