@@ -85,9 +85,9 @@ addUninstallDir () {
 }
 
 addComment () {
-    printf "\t#install $1\n" >> ${MAKEFILE}
-    printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
-    printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+    printf "\t# Install $1\n" >> ${MAKEFILE}
+    printf "\t# Uninstall files $1\n" >> ${UNINSTALL_FILES}
+    printf "\t# Uninstall directory $1\n" >> ${UNINSTALL_DIRS}
 }
 
 addNewline () {
@@ -144,13 +144,17 @@ printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
 
 # Migration
-printf "\t#clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
+printf "\t# Clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
 printf "\trm -f \$(DEST)/etc/dbus-1/system.d/net.launchpad.backintime.serviceHelper.conf\n" >> ${MAKEFILE}
 printf "\trm -f \$(DEST)/share/backintime/plugins/qt4plugin.py\n" >> ${MAKEFILE}
+addNewline
+
+printf "\t# Inject version string into source files\n" >> ${MAKEFILE}
+printf "\t(cd .. && ./updateversion.sh)\n" >> ${MAKEFILE}
 addNewline
 
 addComment "python"
@@ -227,7 +231,7 @@ addNewline
 
 #compress
 printf "compress:\n" >> ${MAKEFILE}
-printf "\t#man pages\n" >> ${MAKEFILE}
+printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
 
 #uninstall
