@@ -98,7 +98,8 @@ There are three distinct logs generated:
    the main profile, `restore_2.log` for the second, and so forth.
 
 3. The applications log is generated using the syslog feature of the operating
-   system. See [[How to read log entries?]] for further details.
+   system. See [How to read log entries?](#how-to-read-log-entries) for
+   further details.
 
 ### How to read log entries?
 
