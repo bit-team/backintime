@@ -763,8 +763,6 @@ class MainWindow(QMainWindow):
         restore_sub_menu = self.act_restore_menu.menu()
         # get the toolbar buttons widget...
         button_restore = toolbar.widgetForAction(self.act_restore)
-        # Restore sub menu
-        restore_sub_menu = self.act_restore_menu.menu()
         # ...and add the menu to it
         button_restore.setMenu(restore_sub_menu)
         button_restore.setPopupMode(QToolButton.MenuButtonPopup)
