@@ -710,14 +710,11 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
-            print(f'{act=} {act.toolTip()=} {act.text()=}')
-
             # If action has both tip and text, then change the format
             # for the button tip
-            if act.toolTip() and act.text():
+            if act.toolTip() != act.text():
                 button_tip = f'{act.text()}: {act.toolTip()}'
-                btn = toolbar.widgetForAction(act)
-                btn.setToolTip(button_tip)
+                toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
