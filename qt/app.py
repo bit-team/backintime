@@ -713,7 +713,14 @@ class MainWindow(QMainWindow):
             # If action has both tip and text, then change the format
             # for the button tip
             if act.toolTip() != act.text():
-                button_tip = f'{act.text()}: {act.toolTip()}'
+
+                if toolbar.layoutDirection() == 1:
+                    # RTL/BIDI languange like Hebrew
+                    button_tip = f'{act.toolTip()} :{act.text()}'
+                else:
+                    # LTR language (e.g. English)
+                    button_tip = f'{act.text()}: {act.toolTip()}'
+
                 toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
