@@ -11,7 +11,7 @@ UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
-PYTHON="python3"
+PYTHON="/usr/bin/python3"
 
 USR_BIN_FILES="backintime-qt backintime-qt_polkit"
 DBUS_SERVICE_FILES="net.launchpad.backintime.serviceHelper.service"
@@ -85,9 +85,9 @@ addUninstallDir () {
 }
 
 addComment () {
-    printf "\t#install $1\n" >> ${MAKEFILE}
-    printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
-    printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+    printf "\t# Install $1\n" >> ${MAKEFILE}
+    printf "\t# Uninstall files $1\n" >> ${UNINSTALL_FILES}
+    printf "\t# Uninstall directory $1\n" >> ${UNINSTALL_DIRS}
 }
 
 addNewline () {
@@ -118,9 +118,13 @@ if [ -n "$unknown_args" ]; then
 	echo "Unknown Arguments: $unknown_args"
 fi
 
+if [ ! -f "$PYTHON" ]; then
+    echo "Warning: \"${PYTHON}\" not found on this computer"
+fi
+
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
-if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ] \
+if [ -n "$(sed -e "s#^/usr/bin/python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ] \
     && [ -n "$(sed -e "s#^Exec=/usr/bin/python3\? #Exec=${PYTHON} #gw /dev/stdout" -i $DBUS_SERVICE_FILES)" ]
 then
     echo "Replacement of python path with \"${PYTHON}\" successful."
@@ -140,8 +144,19 @@ printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
+
+# Migration
+printf "\t# Clean-up installed old files that were renamed or moved in later BiT versions\n" >> ${MAKEFILE}
+printf "\trm -f \$(DEST)/etc/dbus-1/system.d/net.launchpad.backintime.serviceHelper.conf\n" >> ${MAKEFILE}
+printf "\trm -f \$(DEST)/share/backintime/plugins/qt4plugin.py\n" >> ${MAKEFILE}
+addNewline
+
+printf "\t# Inject version string into source files\n" >> ${MAKEFILE}
+printf "\t(cd .. && ./updateversion.sh)\n" >> ${MAKEFILE}
+addNewline
+
 addComment "python"
 addUninstallDir          "/share/backintime/qt/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/qt/__pycache__"
@@ -170,10 +185,10 @@ addUninstallDir                                     "/share/dbus-1"
 addNewline
 
 addComment "dbus conf"
-addInstallDir                                    "/../etc/dbus-1/system.d"
-addInstallFiles "net.launchpad.backintime*.conf" "/../etc/dbus-1/system.d"
-addUninstallDir                                  "/../etc/dbus-1"
-addUninstallDir                                  "/../etc"
+addInstallDir                                    "/share/dbus-1/system.d"
+addInstallFiles "net.launchpad.backintime*.conf" "/share/dbus-1/system.d"
+addUninstallDir                                  "/share/dbus-1"
+addUninstallDir                                  "/share"
 addNewline
 
 addComment "polkit action"
@@ -189,7 +204,6 @@ addInstallFile "../AUTHORS"          "/share/doc/backintime-qt"
 addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
 addInstallFile "../README.md"        "/share/doc/backintime-qt"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt"
-addInstallFile "../VERSION"          "/share/doc/backintime-qt"
 addInstallFile "../CHANGES"          "/share/doc/backintime-qt"
 addNewline
 
@@ -217,7 +231,7 @@ addNewline
 
 #compress
 printf "compress:\n" >> ${MAKEFILE}
-printf "\t#man pages\n" >> ${MAKEFILE}
+printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
 
 #uninstall

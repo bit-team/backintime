@@ -617,7 +617,7 @@ class Snapshots:
         Remove snapshot ``sid``.
 
         BUHTZ 2022-10-11: From my understanding rsync is used here to sync the
-        directory of a concrete snapshot (``sid```) against an empty temporary
+        directory of a concrete snapshot (``sid``) against an empty temporary
         directory. In the consequence the sid directory is empty but not
         deleted.
         To delete that directory simple `rm` call (via `shutil` package) is
@@ -1252,6 +1252,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         # (not as ERROR). The values are message strings for the snapshot log.
         rsync_non_error_exit_codes = {
             0: _("Success"),
+            23: _("Partial transfer due to error"),  # ignored as fix for #1587 (until we introduce a new snapshot result category "(with warnings)")
             24: _("Partial transfer due to vanished source files (see 'man rsync')")
         }
 
@@ -1261,11 +1262,11 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             self.setTakeSnapshotMessage(0,
                                         rsync_exit_code_msg + ": {msg}".format(
                                             msg=rsync_non_error_exit_codes[rsync_exit_code]))
-        elif rsync_exit_code > 0:  # indicates a rsync error
+        elif rsync_exit_code > 0:  # indicates an rsync error
             params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
             self.setTakeSnapshotMessage(1,
                                         rsync_exit_code_msg + ": " + _("See 'man rsync' for more details"))
-        elif rsync_exit_code < 0:  # indicates a rsync error caused by a signal
+        elif rsync_exit_code < 0:  # indicates an rsync error caused by a signal
             params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
             self.setTakeSnapshotMessage(1,
                                         rsync_exit_code_msg + ": " + _("Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"))
@@ -2625,7 +2626,8 @@ class SID(object):
         except PermissionError as e:
             logger.error('Failed to write {}: {}'.format(self.FILEINFO, str(e)))
 
-    #TODO: use @property decorator
+    # TODO use @property decorator? IMHO not because it is not a "getter" but processes data
+    # TODO Should have an action name like "loadLogFile"
     def log(self, mode = None, decode = None):
         """
         Load log from "takesnapshot.log.bz2"

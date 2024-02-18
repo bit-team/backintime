@@ -33,6 +33,15 @@ class LogViewDialog(QDialog):
     # Remove as soon as possible.
     # pylint: disable=undefined-variable
     def __init__(self, parent, sid = None, systray = False):
+        """
+        Instantiate a snapshot log file viewer
+
+        Args:
+            parent:
+            sid (:py:class:`SID`): snapshot ID whose log file shall be shown
+                                   (``None`` = show last log)
+            systray (bool): TODO Show log from systray icon or from App (boolean)
+        """
         if systray:
             super(LogViewDialog, self).__init__()
         else:
@@ -91,17 +100,18 @@ class LogViewDialog(QDialog):
         layout.addWidget(self.comboFilter, 1)
         self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
 
-        self.comboFilter.addItem(_('All'), 0)
+        self.comboFilter.addItem(_('All'), snapshotlog.LogFilter.NO_FILTER)
 
         # Note about ngettext plural forms: n=102 means "Other" in Arabic and
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
+        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), snapshotlog.LogFilter.ERROR_AND_CHANGES)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.addItem(_('Errors'), 1)
-        self.comboFilter.addItem(_('Changes'), 2)
-        self.comboFilter.addItem(_('Information'), 3)
+        self.comboFilter.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
+        self.comboFilter.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
+        self.comboFilter.addItem(_('Information'), snapshotlog.LogFilter.INFORMATION)
+        self.comboFilter.addItem(_('rsync transfer failures (experimental)'), snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
 
         # text view
         self.txtLogView = QPlainTextEdit(self)
@@ -133,7 +143,7 @@ class LogViewDialog(QDialog):
             # only watch if we show the last log
             log = self.config.takeSnapshotLogFile(self.comboProfiles.currentProfileID())
             self.watcher.addPath(log)
-        self.watcher.fileChanged.connect(self.updateLog)
+        self.watcher.fileChanged.connect(self.updateLog)  # passes the path to the changed file to updateLog()
 
         self.txtLogView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.txtLogView.customContextMenuRequested.connect(self.contextMenuClicked)
@@ -255,11 +265,24 @@ class LogViewDialog(QDialog):
                 self.cbDecode.setChecked(False)
 
     def updateLog(self, watchPath = None):
+        """
+        Show the log file of the current snapshot in the GUI
+
+        Args:
+            watchPath: FQN to a log file (as string) whose changes are watched
+                       via ``QFileSystemWatcher``. In case of changes
+                       this function is called with the log file
+                       and only the new lines in the log file are appended
+                       to the log file widget in the GUI
+                       Use ``None`` if a complete log file shall be shown
+                       at once.
+        """
         if not self.enableUpdate:
             return
 
         mode = self.comboFilter.itemData(self.comboFilter.currentIndex())
 
+        # TODO This expressions is hard to understand (watchPath is not a boolean!)
         if watchPath and self.sid is None:
             # remove path from watch to prevent multiple updates at the same time
             self.watcher.removePath(watchPath)

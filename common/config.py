@@ -62,12 +62,12 @@ from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
                        LimitExceeded
+import version
 
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.4.2-dev'
-    COPYRIGHT = 'Copyright (C) 2008-2023 Oprea Dan, Bart de Koning, ' \
+    COPYRIGHT = 'Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze, Christian Buhtz, Michael Büker, Jürgen Altfeld et al.'
 
     CONFIG_VERSION = 6
@@ -116,6 +116,13 @@ class Config(configfile.ConfigFileWithProfiles):
         '/var/backups/*',
         '.Private',
         '/swapfile',
+        # Discord files
+        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
+        'SingletonLock',
+        'SingletonCookie',
+        # Mozilla files
+        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
+        'lock'
     ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True
@@ -202,7 +209,7 @@ class Config(configfile.ConfigFileWithProfiles):
                              "doesn't support upgrading config from version "   \
                              "< 1.0 anymore. Please use BackInTime version "    \
                              "<= 1.1.12 to upgrade the config to a more recent "\
-                             "version.".format(self.VERSION))
+                             "version.".format(version.__version__))
                 #TODO: add popup warning
                 sys.exit(2)
 
@@ -1259,12 +1266,20 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.setProfileBoolValue('snapshots.copy_unsafe_links', value, profile_id)
 
     def copyLinks(self, profile_id = None):
-        #?When  symlinks  are  encountered, the item that they point to
+        #?When symlinks are encountered, the item that they point to
         #?(the reference) is copied, rather than the symlink.
         return self.profileBoolValue('snapshots.copy_links', False, profile_id)
 
     def setCopyLinks(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.copy_links', value, profile_id)
+
+    def oneFileSystem(self, profile_id = None):
+        #?Use rsync's "--one-file-system" to avoid crossing filesystem
+        #?boundaries when recursing.
+        return self.profileBoolValue('snapshots.one_file_system', False, profile_id)
+
+    def setOneFileSystem(self, value, profile_id = None):
+        return self.setProfileBoolValue('snapshots.one_file_system', value, profile_id)
 
     def rsyncOptionsEnabled(self, profile_id = None):
         #?Past additional options to rsync

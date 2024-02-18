@@ -10,8 +10,8 @@ MAKEFILE="$(mktemp)"
 UNINSTALL_FILES="$(mktemp)"
 UNINSTALL_DIRS="$(mktemp)"
 
-#set default options
-PYTHON="python3"
+# set default options
+PYTHON="/usr/bin/python3"
 
 USR_BIN_FILES="backintime backintime-askpass"
 
@@ -53,7 +53,7 @@ addInstallFile () {
 addSymlink () {
     dst=$1
     src=$2
-    printf "\tln -s $dst \$(DEST)$src\n" >> ${MAKEFILE}
+    printf "\tln --symbolic --force $dst \$(DEST)$src\n" >> ${MAKEFILE}
     addUninstallFile "$src"
 }
 
@@ -96,9 +96,9 @@ addUninstallDir () {
 }
 
 addComment () {
-    printf "\t#install $1\n" >> ${MAKEFILE}
-    printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
-    printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+    printf "\t# Install $1\n" >> ${MAKEFILE}
+    printf "\t# Uninstall files $1\n" >> ${UNINSTALL_FILES}
+    printf "\t# Uninstall directory $1\n" >> ${UNINSTALL_DIRS}
 }
 
 addNewline () {
@@ -133,7 +133,11 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
-if [ -n "$(sed -e "s#^python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ]
+if [ ! -f "$PYTHON" ]; then
+    echo "Warning: \"${PYTHON}\" not found on this computer"
+fi
+
+if [ -n "$(sed -e "s#^/usr/bin/python3\? #${PYTHON} #gw /dev/stdout" -i $USR_BIN_FILES)" ]
 then
     echo "Replacement of python path with \"${PYTHON}\" successful."
 else
@@ -157,7 +161,7 @@ printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
 
 printf "all:\tbuild\n\n" >> ${MAKEFILE}
 
-printf "build:\ttranslate compress\n\n" >> ${MAKEFILE}
+printf "build:\ttranslate compress\n" >> ${MAKEFILE}
 
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
@@ -168,8 +172,11 @@ printf "\trm -f .coverage\n" >> ${MAKEFILE}
 printf "\trm -rf htmlcov\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
-#create install and uninstall target
+# Create install and uninstall target
 printf "install:\tinstall_translations\n" >> ${MAKEFILE}
+printf "\n\t# Inject version string into source files\n" >> ${MAKEFILE}
+printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
+
 addComment "python"
 addUninstallDir          "/share/backintime/common/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/common/__pycache__"
@@ -192,7 +199,6 @@ addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../LICENSE"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-common"
-addInstallFile "../VERSION"          "/share/doc/backintime-common"
 addInstallFile "../CHANGES"          "/share/doc/backintime-common"
 addNewline
 
@@ -234,10 +240,10 @@ addNewline
 
 #compress
 printf "compress:\n" >> ${MAKEFILE}
-printf "\t#man pages\n" >> ${MAKEFILE}
+printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
 
-printf "\t#config-examples\n" >> ${MAKEFILE}
+printf "\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> ${MAKEFILE}
 
@@ -277,9 +283,9 @@ for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
     fi
 done
 COVERAGE=$(which coverage 2>/dev/null)
-#use "coverage run" only on travis-ci.org and if it is available
-#this will pass information to coveralls.io.
-#otherwise use "python", "python3" or if available "py.test-3"
+# Use "coverage run" only on travis-ci.org and if it is available
+# this will pass information to coveralls.io.
+# Otherwise use "python", "python3" or if available "py.test-3"
 if onTravis && [ -n "${COVERAGE}" ]; then
     CMD="coverage run -p"
 else

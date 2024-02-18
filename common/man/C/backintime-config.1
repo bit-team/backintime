@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Nov 2023" "version 1.4.2-dev" "USER COMMANDS"
+.TH backintime-config 1 "Feb 2024" "version 1.4.4-dev" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -202,7 +202,7 @@ Default: true
 .RS
 Type: bool      Allowed Values: true|false
 .br
-When  symlinks  are  encountered, the item that they point to (the reference) is copied, rather than the symlink.
+When symlinks are encountered, the item that they point to (the reference) is copied, rather than the symlink.
 .PP
 Default: false
 .RE
@@ -456,6 +456,15 @@ Type: bool      Allowed Values: true|false
 Display notifications (errors, warnings) through libnotify.
 .PP
 Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.one_file_system\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Use rsync's "--one-file-system" to avoid crossing filesystem boundaries when recursing.
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.path\fR" 6

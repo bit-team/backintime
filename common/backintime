@@ -31,7 +31,7 @@ else
 fi
 
 # -E ignores env vars like PYTHONPATH and PYTHONHOME that may modify
-#    the behaviour of the interpreter
+#    the behavior of the interpreter
 # -s Don't add user site directory to sys.path
 # TODO Should we use "$APP_PATH" (quoted) to prevent globbing and word splitting?
-python3 -Es $APP_PATH/backintime.py "$@"
+/usr/bin/python3 -Es $APP_PATH/backintime.py "$@"

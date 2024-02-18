@@ -444,7 +444,9 @@ class MainWindow(QMainWindow):
         """
 
         action_dict = {
+            # because of "icon"
             # pylint: disable=undefined-variable
+
             # 'Name of action attribute in "self"': (
             #     ICON, Label text,
             #     trigger_handler_function,
@@ -1176,7 +1178,7 @@ class MainWindow(QMainWindow):
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).show()
+            logviewdialog.LogViewDialog(self).show()  # no SID argument in constructor means "show last log"
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()
@@ -1845,8 +1847,15 @@ class About(QDialog):
         self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
         logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
-        version = self.config.VERSION
-        ref, hashid = tools.gitRevisionAndHash()
+        version = backintime.__version__
+
+        gitinfo = tools.get_git_repository_info()
+        if gitinfo:
+            ref = gitinfo['branch']
+            hashid = gitinfo['hash']
+        else:
+            ref, hashid = None, None
+
         git_version = ''
         if ref:
             git_version = " git branch '{}' hash '{}'".format(ref, hashid)
