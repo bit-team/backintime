@@ -710,8 +710,8 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
-            # If action has both tip and text, then change the format
-            # for the button tip
+            # Assume an explicit tooltip if it is different from "text()".
+            # Note that Qt use "text()" as "toolTip()" by default.
             if act.toolTip() != act.text():
 
                 if toolbar.layoutDirection() == 1:
