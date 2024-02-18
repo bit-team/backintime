@@ -706,20 +706,25 @@ class MainWindow(QMainWindow):
             self.act_shutdown,
         ]
 
+        # Add each action to toolbar
+        for act in actions_for_toolbar:
+            toolbar.addAction(act)
+
+            print(f'{act=} {act.toolTip()=} {act.text()=}')
+
+            # If action has both tip and text, then change the format
+            # for the button tip
+            if act.toolTip() and act.text():
+                button_tip = f'{act.text()}: {act.toolTip()}'
+                btn = toolbar.widgetForAction(act)
+                btn.setToolTip(button_tip)
+
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
         submenu_take_snapshot.addAction(self.act_take_snapshot)
         submenu_take_snapshot.addAction(self.act_take_snapshot_checksum)
         submenu_take_snapshot.setToolTipsVisible(True)
-        # Add actions to toolbar and get the toolbar buttons widget...
-        for act in actions_for_toolbar:
-            toolbar.addActions(actions_for_toolbar)
-            print(f'{act=} {act.toolTip()=} {act.text()=}')
-            # If action has both tip and text, then change the format for the button tip
-            if act.toolTip() and act.text():
-                button_tip = f'{act.text()}: {act.toolTip()}'
-            button_take_snapshot = toolbar.widgetForAction(act)
-            button_take_snapshot.setToolTip(button_tip)
+
         # ...and add the menu to it
         button_take_snapshot.setMenu(submenu_take_snapshot)
         button_take_snapshot.setPopupMode(QToolButton.MenuButtonPopup)
