@@ -725,6 +725,8 @@ class MainWindow(QMainWindow):
         submenu_take_snapshot.addAction(self.act_take_snapshot_checksum)
         submenu_take_snapshot.setToolTipsVisible(True)
 
+        # get the toolbar buttons widget...
+        button_take_snapshot = toolbar.widgetForAction(self.act_take_snapshot)
         # ...and add the menu to it
         button_take_snapshot.setMenu(submenu_take_snapshot)
         button_take_snapshot.setPopupMode(QToolButton.MenuButtonPopup)
@@ -754,6 +756,9 @@ class MainWindow(QMainWindow):
         self.widget_current_path = QLineEdit(self)
         self.widget_current_path.setReadOnly(True)
         toolbar.insertWidget(self.act_show_hidden, self.widget_current_path)
+
+        # get the toolbar buttons widget...
+        button_restore = toolbar.widgetForAction(self.act_restore)
         # Restore sub menu
         restore_sub_menu = self.act_restore_menu.menu()
         # Add actions to toolbar and get the toolbar buttons widget...
