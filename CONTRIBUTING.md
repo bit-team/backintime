@@ -9,7 +9,15 @@ improved together with the maintainers.
 
 Please always make a new branch when preparing a Pull Request ("PR") or a patch.
 Baseline that feature or bug fix branch on `dev` (the latest development
-state). When open a pull request please make sure that it targets
+state).
+
+    $ git checkout dev
+    $ git checkout --branch mynewfeature
+    $ [do your coding]
+    $ git commit -am 'my message'
+    $ git push
+
+When open a pull request please make sure that it targets
 `bit-team:dev`.
 
 Please take the following best practices into account if possible (to reduce
@@ -23,7 +31,7 @@ Please take the following best practices into account if possible (to reduce
    the use of it when opening a pull request.
  - Run unit tests before you open a Pull Request. You can run them via
    `make`-system with `cd common && ./configure && make && make test` or you
-   can use `pytest`.
+   can use `pytest`. See section [Build and install via `make` system](#build-and-install-via-make-system-recommended) for further details.
  - Try to create new unit tests if appropriated. Use Pythons regular `unittest`
    instead of `pytest`. If you know the difference please try follow the
    _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
