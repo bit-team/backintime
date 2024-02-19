@@ -714,7 +714,7 @@ class MainWindow(QMainWindow):
             # Note that Qt use "text()" as "toolTip()" by default.
             if act.toolTip() != act.text():
 
-                if toolbar.layoutDirection() == 1:
+                if toolbar.layoutDirection() == Qt.LayoutDirection.RightToLeft:
                     # RTL/BIDI languange like Hebrew
                     button_tip = f'{act.toolTip()} :{act.text()}'
                 else:
