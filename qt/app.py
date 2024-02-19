@@ -78,6 +78,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QInputDialog,
                              QDialog,
                              QDialogButtonBox,
+                             QApplication,
                              )
 from PyQt6.QtCore import (Qt,
                           QObject,
@@ -719,11 +720,11 @@ class MainWindow(QMainWindow):
             # Note that Qt use "text()" as "toolTip()" by default.
             if act.toolTip() != act.text():
 
-                if toolbar.layoutDirection() == Qt.LayoutDirection.RightToLeft:
+                if QApplication.instance().isRightToLeft():
                     # RTL/BIDI languange like Hebrew
                     button_tip = f'{act.toolTip()} :{act.text()}'
                 else:
-                    # LTR language (e.g. English)
+                    # (default) LTR language (e.g. English)
                     button_tip = f'{act.text()}: {act.toolTip()}'
 
                 toolbar.widgetForAction(act).setToolTip(button_tip)
