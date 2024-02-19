@@ -711,13 +711,29 @@ class MainWindow(QMainWindow):
             self.act_shutdown,
         ]
 
-        toolbar.addActions(actions_for_toolbar)
+        # Add each action to toolbar
+        for act in actions_for_toolbar:
+            toolbar.addAction(act)
+
+            # Assume an explicit tooltip if it is different from "text()".
+            # Note that Qt use "text()" as "toolTip()" by default.
+            if act.toolTip() != act.text():
+
+                if toolbar.layoutDirection() == Qt.LayoutDirection.RightToLeft:
+                    # RTL/BIDI languange like Hebrew
+                    button_tip = f'{act.toolTip()} :{act.text()}'
+                else:
+                    # LTR language (e.g. English)
+                    button_tip = f'{act.text()}: {act.toolTip()}'
+
+                toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
         submenu_take_snapshot.addAction(self.act_take_snapshot)
         submenu_take_snapshot.addAction(self.act_take_snapshot_checksum)
         submenu_take_snapshot.setToolTipsVisible(True)
+
         # get the toolbar buttons widget...
         button_take_snapshot = toolbar.widgetForAction(self.act_take_snapshot)
         # ...and add the menu to it
