@@ -778,11 +778,14 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                             if self.config.canBackup():
                                 break
                         if counter != 0:
-                            logger.info("Waited %d seconds for target directory to be available", counter)
+                            logger.info(f'Waited {counter} seconds for target'
+                                        ' directory to be available.', self)
 
                     if not self.config.canBackup(profile_id):
                         logger.warning('Can\'t find snapshots folder!', self)
-                        self.config.PLUGIN_MANAGER.error(3)  # Can't find snapshots directory (is it on a removable drive ?)
+                        # Can't find snapshots directory (is it on a
+                        # removable drive ?)
+                        self.config.PLUGIN_MANAGER.error(3)
                     else:
                         ret_error = False
                         sid = SID(now, self.config)

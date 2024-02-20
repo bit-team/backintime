@@ -15,6 +15,7 @@ from usercallbackplugin import UserCallbackPlugin
 # I assume it is well usable for some other tests, too.
 # But it will be always a workaround until the code is cleaner.
 
+
 class UserCallback(unittest.TestCase):
     """Simple test related to to UserCallbackPlugin class.
 
@@ -111,3 +112,24 @@ class UserCallback(unittest.TestCase):
             sut.unmount('987')
             func_callback.assert_called_once()
             func_callback.assert_called_with('8', profileID='987')
+
+
+class SystemTest(unittest.TestCase):
+    """Full run backup and parsing the log output for the expected
+    user-callback returns in correct order.
+
+    Create and use your own config file and take it over via `--config`
+    option. Place your own user-callback script in the same folder as
+    this config file.
+    """
+
+    # Use inspect.cleandoc() or textwrap.dedent() on it.
+    # Credits: https://stackoverflow.com/a/48112903/4865723
+    user_callback_content = '''
+        #!/usr/bin/env python3
+        import sys
+        import pathlib
+        print('I'*200)
+        print(f'{pathlib.Path.cwd()=}')
+        print(f'{sys.argv=}')
+    '''
