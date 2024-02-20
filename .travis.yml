@@ -74,6 +74,7 @@ script:
   - coverage --version
   - python3 -u -m coverage --version
   - python3 -u -m coverage run -p -m unittest -v -b test/test_applicationinstance.py
+  - python3 -u -m unittest -v -b test/test_applicationinstance.py
   - cd common
   - ./configure  --python=python3
   - make unittest-v
