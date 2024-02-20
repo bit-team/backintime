@@ -135,7 +135,7 @@ Renaming does *not* work!
 
 **Status: Fixed in v1.4.0**
 
-Missing installations of Qt5-supported themes and icons can cause this effect.
+Missing installations of Qt-supported themes and icons can cause this effect.
 _Back In Time_ may activate the wrong theme in this
 case leading to some missing icons. A fix for the next release is in preparation.
 

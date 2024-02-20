@@ -51,7 +51,7 @@ if QIcon.fromTheme('document-save').isNull():
 
 # BackInTime Logo
 # TODO If we knew for sure that the global var "qapp" exists then
-#      we could use a built-in "standard" Qt5 icon as fallback if the theme does
+#      we could use a built-in "standard" Qt icon as fallback if the theme does
 #      not provide the icon.
 #      => wait for icon.py refactoring than improve this:
 #      qapp.style().standardIcon(QStyle.SP_DialogSaveButton)

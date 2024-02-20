@@ -233,7 +233,7 @@ def createQApplication(app_name='Back In Time'):
     try:
         # The platform name indicates eg. wayland vs. X11, see also:
         # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-        # For more details see our X11/Wayland/Qt5 documentation the doc-dev
+        # For more details see our X11/Wayland/Qt documentation the doc-dev
         # folder
         qt_platform_name = qapp.platformName()
         logger.debug(f"QT QPA platform plugin: {qt_platform_name}")

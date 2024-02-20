@@ -1949,7 +1949,7 @@ class ExtraMouseButtonEventFilter(QObject):
     """
     globally catch mouse buttons 4 and 5 (mostly used as back and forward)
     and assign it to browse in file history.
-    When updating to Qt5 use Qt.BackButton and Qt.ForwardButton instead.
+    Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
     """
     def __init__(self, mainWindow):
         self.mainWindow = mainWindow
