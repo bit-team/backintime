@@ -721,7 +721,7 @@ class MainWindow(QMainWindow):
             if act.toolTip() != act.text():
 
                 if QApplication.instance().isRightToLeft():
-                    # RTL/BIDI languange like Hebrew
+                    # RTL/BIDI language like Hebrew
                     button_tip = f'{act.toolTip()} :{act.text()}'
                 else:
                     # (default) LTR language (e.g. English)
