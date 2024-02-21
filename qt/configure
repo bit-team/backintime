@@ -176,6 +176,9 @@ addComment "application"
 addInstallDir                           "/bin"
 addInstallFile "backintime-qt"         "/bin" "755"
 addInstallFile "backintime-qt_polkit"  "/bin" "755"
+printf "\tinstall -d /usr/share/metainfo\n" >> ${MAKEFILE}
+addInstallFile "io.github.bit_team.back_in_time.gui.metainfo.xml" "/share/metainfo"
+# printf "\tinstall --mode=644 io.github.bit_team.back_in_time.gui.metainfo.xml /usr/share/metainfo\n"  >> ${MAKEFILE}
 addNewline
 
 addComment "dbus service"
@@ -234,11 +237,10 @@ printf "compress:\n" >> ${MAKEFILE}
 printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
 
-#uninstall
+# Uninstall
 printf "uninstall: uninstall_files uninstall_dirs\n\n" >> ${MAKEFILE}
 printf "uninstall_files:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_FILES} >> ${MAKEFILE}
-
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
