@@ -52,7 +52,7 @@ import os
 import sys
 from time import strftime, gmtime
 
-PATH = os.path.join(os.getcwd(), os.path.dirname(sys.argv[0]))
+PATH = os.path.join(os.getcwd(), 'common')
 
 CONFIG = os.path.join(PATH, 'config.py')
 MAN = os.path.join(PATH, 'man/C/backintime-config.1')
