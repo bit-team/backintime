@@ -32,6 +32,7 @@ class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
     """The about dialog accessible from the Help menu in the main window."""
 
     def __init__(self, parent=None):
+        """Initialize and layout."""
         super().__init__(parent)
 
         self.parent = parent
@@ -126,14 +127,11 @@ class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
             m (str, re.Match): Match or string to convert.
 
         Examples:
-
             - 'https://foo.bar' becomes
               '<a href="https://foo.bar">https://foo.bar</a>'
             - 'foo@bar.com' becomes
              '<a href="mailto:foo@bar.com">foo@bar.com</a>'
         """
-        #
-
         try:
             raw_string = m.group(1)
         except AttributeError:
