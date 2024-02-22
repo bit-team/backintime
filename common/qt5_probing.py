@@ -7,22 +7,22 @@ logger.openlog()
 
 # from tools import isRoot
 
-# This mini python script is used to determine if a Qt5 GUI application
+# This mini python script is used to determine if a Qt GUI application
 # can be created without an error.
 #
 # It is used e.g. for diagnostics output of backintime
 # or to check if a system tray icon could be shown...
 #
-# It is called by "tools.is_Qt5_working()" normally
+# It is called by "tools.is_Qt_working()" normally
 # but you can also execute it manually via
 #     python3 qt5_probing.py
 
 # It works by trying to create a QApplication instance
-# Any error indicates that Qt5 is not available or not correctly configured.
+# Any error indicates that Qt is not available or not correctly configured.
 
 # WORK AROUND:
 #
-# The C++ code of Qt5 ends abruptly with a SIGABRT signal (qFatal macro)
+# The C++ code of Qt ends abruptly with a SIGABRT signal (qFatal macro)
 # if a QApplication cannot be instantiated.
 # This causes a coredump creation by the python default signal handler
 # and the signal handler cannot be disabled since it reacts to a
@@ -30,7 +30,7 @@ logger.openlog()
 #
 # Even though the coredump message cannot be prevented there is
 # workaround to prevent the coredump **file** creation which
-# would take too much time just to probe Qt5's availability:
+# would take too much time just to probe Qt's availability:
 #
 #    Use resource.setrlimit() to set resource.RLIMIT_CORE’s soft limit to 0
 #
@@ -112,7 +112,7 @@ try:
     # > To check whether a system tray is present on the user's desktop,
     # > call the QSystemTrayIcon::isSystemTrayAvailable() static function.
     #
-    # This requires a QApplication instance (otherwise Qt5 causes a segfault)
+    # This requires a QApplication instance (otherwise Qt causes a segfault)
     # which we don't have here so we create it to check if a window manager
     # ("GUI") is active at all (e.g. in headless installations it isn't).
     # See: https://forum.qt.io/topic/3852/issystemtrayavailable-always-crashes-segfault-on-ubuntu-10-10-desktop/6
@@ -123,7 +123,7 @@ try:
     if is_sys_tray_available:
         exit_code = 2
 
-    logger.debug(f"isSystemTrayAvailable for Qt5: {is_sys_tray_available}")
+    logger.debug(f"isSystemTrayAvailable for Qt: {is_sys_tray_available}")
 
 except Exception as e:
     logger.debug(f"Error: {repr(e)}")
@@ -131,12 +131,11 @@ except Exception as e:
 logger.debug(f"{__file__} is terminating normally (exit code: {exit_code})")
 
 # Exit codes:
-# 0 = no Qt5 GUI available
-# 1 = only Qt5 GUI available (no sys tray support)
-# 2 = Qt5 GUI and sys tray available
+# 0 = no Qt GUI available
+# 1 = only Qt GUI available (no sys tray support)
+# 2 = Qt GUI and sys tray available
 # 134 (-6 as signed byte exit code type!) = SIGABRT caught by python
 #     ("interrupted by signal 6: SIGABRT").
-#     This is most probably caused by a misconfigured Qt5...
+#     This is most probably caused by a misconfigured Qt...
 #     So the interpretation is the same as exit code 0.
 sys.exit(exit_code)
-
