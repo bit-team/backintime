@@ -126,17 +126,24 @@ def backintimePath(*path):
     """
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
+
 def docPath():
     """Not sure what this path is about.
     """
     path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
 
-    # Dev note (buhtz, 2024-02-09):
-    # Don't know why this "if" exists. I assume this is an undocumented
-    # workraound to handle different approaches of distro maintainers.
-    # I am aware that on Debian this file usually do not exist at this
-    # location. But package maintainer made an exception in case of BIT
-    # so it do exist also on Debian.
+    # Dev note (buhtz, aryoda, 2024-02):
+    # This piece of code originally resisted in Config.__init__() and was
+    # introduced by Dan in 2008. The reason for the existence of this "if"
+    # is unclear.
+
+    # Makefile (in common) does only install into share/doc/backintime-common
+    # but never into the the backintime "binary" path so I guess the if is
+    # a) either a distro-specific exception for a distro package that
+    # (manually?) installs the LICENSE into another path
+    # b) or a left-over from old code where the LICENSE was installed
+    # differently...
+
     license_file = pathlib.Path(backintimePath()) / 'LICENSE'
     if license_file.exists():
         path = backintimePath()
