@@ -16,9 +16,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
 
 import qttools
 import snapshots
@@ -117,7 +117,7 @@ class LogViewDialog(QDialog):
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setFont(QFont('Monospace'))
         self.txtLogView.setReadOnly(True)
-        self.txtLogView.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         self.mainLayout.addWidget(self.txtLogView)
 
         #
@@ -129,7 +129,7 @@ class LogViewDialog(QDialog):
         self.mainLayout.addWidget(self.cbDecode)
 
         #buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         self.mainLayout.addWidget(buttonBox)
         buttonBox.rejected.connect(self.close)
 
@@ -145,7 +145,7 @@ class LogViewDialog(QDialog):
             self.watcher.addPath(log)
         self.watcher.fileChanged.connect(self.updateLog)  # passes the path to the changed file to updateLog()
 
-        self.txtLogView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.txtLogView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.txtLogView.customContextMenuRequested.connect(self.contextMenuClicked)
 
     def cbDecodeChanged(self):
@@ -195,7 +195,7 @@ class LogViewDialog(QDialog):
         btnDecode.setEnabled(cursor.hasSelection())
         btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
 
-        menu.exec_(self.txtLogView.mapToGlobal(point))
+        menu.exec(self.txtLogView.mapToGlobal(point))
 
     def btnAddExcludeClicked(self):
         exclude = self.config.exclude()

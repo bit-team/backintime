@@ -23,8 +23,13 @@ import copy
 import re
 import textwrap
 
-from PyQt5.QtGui import QIcon, QFont, QPalette, QBrush, QColor
-from PyQt5.QtWidgets import (QDialog,
+from PyQt6.QtGui import (QIcon,
+                         QFont,
+                         QPalette,
+                         QBrush,
+                         QColor,
+                         QFileSystemModel)
+from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
                              QGridLayout,
@@ -47,11 +52,10 @@ from PyQt5.QtWidgets import (QDialog,
                              QAbstractItemView,
                              QHeaderView,
                              QCheckBox,
-                             QFileSystemModel,
                              QMenu,
                              QProgressBar,
                              QPlainTextEdit)
-from PyQt5.QtCore import (Qt,
+from PyQt6.QtCore import (Qt,
                           QDir,
                           QSortFilterProxyModel,
                           QThread,
@@ -127,7 +131,7 @@ class SettingsDialog(QDialog):
 
         # TAB: General
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&General'))
 
         layoutWidget = QWidget(self)
@@ -178,7 +182,7 @@ class SettingsDialog(QDialog):
         hlayout.addWidget(self.editSnapshotsPath)
 
         self.btnSnapshotsPath = QToolButton(self)
-        self.btnSnapshotsPath.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSnapshotsPath.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSnapshotsPath.setIcon(icon.FOLDER)
         self.btnSnapshotsPath.setText(_('Folder'))
         self.btnSnapshotsPath.setMinimumSize(32, 28)
@@ -234,7 +238,7 @@ class SettingsDialog(QDialog):
         hlayout3.addWidget(self.txtSshPrivateKeyFile)
 
         self.btnSshPrivateKeyFile = QToolButton(self)
-        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSshPrivateKeyFile.setIcon(icon.FOLDER)
         self.btnSshPrivateKeyFile.setToolTip(
             _('Choose an existing private key file (normally named "id_rsa")'))
@@ -244,7 +248,7 @@ class SettingsDialog(QDialog):
             .connect(self.btnSshPrivateKeyFileClicked)
 
         self.btnSshKeyGen = QToolButton(self)
-        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSshKeyGen.setIcon(icon.ADD)
         self.btnSshKeyGen.setToolTip(
             _('Create a new SSH key without password (not allowed if a '
@@ -279,13 +283,13 @@ class SettingsDialog(QDialog):
         self.lblPassword1 = QLabel(_('Password'), self)
         hlayout1.addWidget(self.lblPassword1)
         self.txtPassword1 = QLineEdit(self)
-        self.txtPassword1.setEchoMode(QLineEdit.Password)
+        self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
         hlayout1.addWidget(self.txtPassword1)
 
         self.lblPassword2 = QLabel(_('Password'), self)
         hlayout2.addWidget(self.lblPassword2)
         self.txtPassword2 = QLineEdit(self)
-        self.txtPassword2.setEchoMode(QLineEdit.Password)
+        self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
         hlayout2.addWidget(self.txtPassword2)
 
         self.cbPasswordSave = QCheckBox(_('Save Password to Keyring'), self)
@@ -386,7 +390,7 @@ class SettingsDialog(QDialog):
 
         self.lblScheduleDay = QLabel(_('Day') + ':', self)
         self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleDay.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lblScheduleDay.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleDay, 1, 0)
 
         self.comboScheduleDay = QComboBox(self)
@@ -397,7 +401,7 @@ class SettingsDialog(QDialog):
 
         self.lblScheduleWeekday = QLabel(_('Weekday') + ':', self)
         self.lblScheduleWeekday.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleWeekday.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lblScheduleWeekday.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleWeekday, 2, 0)
 
         self.comboScheduleWeekday = QComboBox(self)
@@ -412,7 +416,7 @@ class SettingsDialog(QDialog):
 
         self.lblScheduleTime = QLabel(_('Hour') + ':', self)
         self.lblScheduleTime.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleTime.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.lblScheduleTime.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleTime, 3, 0)
 
         self.comboScheduleTime = QComboBox(self)
@@ -428,7 +432,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleCronPatern = QLabel(_('Hours') + ':', self)
         self.lblScheduleCronPatern.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleCronPatern.setAlignment(
-            Qt.AlignRight | Qt.AlignVCenter)
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleCronPatern, 4, 0)
 
         self.txtScheduleCronPatern = QLineEdit(self)
@@ -446,7 +450,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleRepeatedPeriod = QLabel(_('Every') + ':')
         self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleRepeatedPeriod.setAlignment(
-            Qt.AlignRight | Qt.AlignVCenter)
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleRepeatedPeriod, 7, 0)
 
         hlayout = QHBoxLayout()
@@ -489,12 +493,13 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(tabWidget)
 
         self.listInclude = QTreeWidget(self)
-        self.listInclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.listInclude.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listInclude.setRootIsDecorated(False)
         self.listInclude.setHeaderLabels(
             [_('Include files and folders'), 'Count'])
 
-        self.listInclude.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.listInclude.header().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch)
         self.listInclude.header().setSectionsClickable(True)
         self.listInclude.header().setSortIndicatorShown(True)
         self.listInclude.header().setSectionHidden(1, True)
@@ -541,12 +546,13 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.lblSshEncfsExcludeWarning)
 
         self.listExclude = QTreeWidget(self)
-        self.listExclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.listExclude.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listExclude.setRootIsDecorated(False)
         self.listExclude.setHeaderLabels(
             [_('Exclude patterns, files or folders'), 'Count'])
 
-        self.listExclude.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.listExclude.header().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch)
         self.listExclude.header().setSectionsClickable(True)
         self.listExclude.header().setSortIndicatorShown(True)
         self.listExclude.header().setSectionHidden(1, True)
@@ -616,7 +622,7 @@ class SettingsDialog(QDialog):
 
         # TAB: Auto-remove
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&Auto-remove'))
 
         layoutWidget = QWidget(self)
@@ -745,7 +751,7 @@ class SettingsDialog(QDialog):
 
         # TAB: Options
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&Options'))
 
         layoutWidget = QWidget(self)
@@ -825,7 +831,7 @@ class SettingsDialog(QDialog):
 
         # TAB: Expert Options
         scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.NoFrame)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('E&xpert Options'))
 
         layoutWidget = QWidget(self)
@@ -1106,12 +1112,12 @@ class SettingsDialog(QDialog):
 
         # buttons
         buttonBox = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
         btnRestore = buttonBox.addButton(
-            _('Restore Config'), QDialogButtonBox.ResetRole)
+            _('Restore Config'), QDialogButtonBox.ButtonRole.ResetRole)
         btnUserCallback = buttonBox.addButton(
-            _('Edit user-callback'), QDialogButtonBox.ResetRole)
+            _('Edit user-callback'), QDialogButtonBox.ButtonRole.ResetRole)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         btnRestore.clicked.connect(self.restoreConfig)
@@ -1332,10 +1338,14 @@ class SettingsDialog(QDialog):
         for include in self.config.include():
             self.addInclude(include)
 
-        includeSortColumn = int(self.config.profileIntValue(
-            'qt.settingsdialog.include.SortColumn', 1))
-        includeSortOrder = int(self.config.profileIntValue(
-            'qt.settingsdialog.include.SortOrder', Qt.AscendingOrder))
+        includeSortColumn = int(
+            self.config.profileIntValue('qt.settingsdialog.include.SortColumn',
+                                        1)
+        )
+        includeSortOrder = Qt.SortOrder(
+            self.config.profileIntValue('qt.settingsdialog.include.SortOrder',
+                                        Qt.SortOrder.AscendingOrder)
+        )
         self.listInclude.sortItems(includeSortColumn, includeSortOrder)
 
         # TAB: Exclude
@@ -1348,8 +1358,10 @@ class SettingsDialog(QDialog):
 
         excludeSortColumn = int(self.config.profileIntValue(
             'qt.settingsdialog.exclude.SortColumn', 1))
-        excludeSortOrder = int(self.config.profileIntValue(
-            'qt.settingsdialog.exclude.SortOrder', Qt.AscendingOrder))
+        excludeSortOrder = Qt.SortOrder(
+            self.config.profileIntValue('qt.settingsdialog.exclude.SortOrder',
+                                        Qt.SortOrder.AscendingOrder)
+        )
         self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
 
         # TAB: Auto-remove
@@ -1509,12 +1521,12 @@ class SettingsDialog(QDialog):
         self.config.setProfileIntValue(
             'qt.settingsdialog.include.SortOrder',
             self.listInclude.header().sortIndicatorOrder())
-        self.listInclude.sortItems(1, Qt.AscendingOrder)
+        self.listInclude.sortItems(1, Qt.SortOrder.AscendingOrder)
 
         include_list = []
         for index in range(self.listInclude.topLevelItemCount()):
             item = self.listInclude.topLevelItem(index)
-            include_list.append((item.text(0), item.data(0, Qt.UserRole)))
+            include_list.append((item.text(0), item.data(0, Qt.ItemDataRole.UserRole)))
 
         self.config.setInclude(include_list)
 
@@ -1525,7 +1537,7 @@ class SettingsDialog(QDialog):
         self.config.setProfileIntValue(
             'qt.settingsdialog.exclude.SortOrder',
             self.listExclude.header().sortIndicatorOrder())
-        self.listExclude.sortItems(1, Qt.AscendingOrder)
+        self.listExclude.sortItems(1, Qt.SortOrder.AscendingOrder)
 
         exclude_list = []
         for index in range(self.listExclude.topLevelItemCount()):
@@ -1742,7 +1754,9 @@ class SettingsDialog(QDialog):
         messagebox.critical(self, message)
 
     def questionHandler(self, message):
-        return QMessageBox.Yes == messagebox.warningYesNo(self, message)
+        answer = messagebox.warningYesNo(self, message)
+
+        return answer == QMessageBox.StandardButton.Yes
 
     def updateRemoveOlder(self):
         enabled = self.cbRemoveOlder.isChecked()
@@ -1763,10 +1777,10 @@ class SettingsDialog(QDialog):
             item.setIcon(0, self.icon.FILE)
 
         item.setText(0, data[0])
-        item.setData(0, Qt.UserRole, data[1])
+        item.setData(0, Qt.ItemDataRole.UserRole, data[1])
         self.listIncludeCount += 1
         item.setText(1, str(self.listIncludeCount).zfill(6))
-        item.setData(1, Qt.UserRole, self.listIncludeCount)
+        item.setData(1, Qt.ItemDataRole.UserRole, self.listIncludeCount)
         self.listInclude.addTopLevelItem(item)
 
         if self.listInclude.currentItem() is None:
@@ -1777,10 +1791,10 @@ class SettingsDialog(QDialog):
     def addExclude(self, pattern):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
-        item.setData(0, Qt.UserRole, pattern)
+        item.setData(0, Qt.ItemDataRole.UserRole, pattern)
         self.listExcludeCount += 1
         item.setText(1, str(self.listExcludeCount).zfill(6))
-        item.setData(1, Qt.UserRole, self.listExcludeCount)
+        item.setData(1, Qt.ItemDataRole.UserRole, self.listExcludeCount)
         self.formatExcludeItem(item)
         self.listExclude.addTopLevelItem(item)
 
@@ -1843,7 +1857,7 @@ class SettingsDialog(QDialog):
 
     def btnExcludeAddClicked(self):
         dlg = QInputDialog(self)
-        dlg.setInputMode(QInputDialog.TextInput)
+        dlg.setInputMode(QInputDialog.InputMode.TextInput)
         dlg.setWindowTitle(_('Exclude pattern'))
         dlg.setLabelText('')
         dlg.resize(400, 0)
@@ -1981,33 +1995,52 @@ class SettingsDialog(QDialog):
                               .format(path=key))
 
     def comboModesChanged(self, *params):
+        """Hide/show widget elements related to one of
+        the four snapshot modes.
+        """
+
         if not params:
             index = self.comboModes.currentIndex()
         else:
             index = params[0]
+
         active_mode = str(self.comboModes.itemData(index))
+
         if active_mode != self.mode:
+
+            # DevNote (buhtz): Widgets of the GUI related to the four
+            # snapshot modes are acccesed via "getattr(self, ...)".
+            # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
             for mode in list(self.config.SNAPSHOT_MODES.keys()):
+                # Hide all widgets
                 getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
+
             for mode in list(self.config.SNAPSHOT_MODES.keys()):
+                # Show up the widget related to the selected mode.
                 if active_mode == mode:
                     getattr(self, 'mode%s' % tools.camelCase(mode)).show()
+
             self.mode = active_mode
 
         if self.config.modeNeedPassword(active_mode):
+
             self.lblPassword1.setText(
                 self.config.SNAPSHOT_MODES[active_mode][2] + ':')
+
             self.groupPassword1.show()
+
             if self.config.modeNeedPassword(active_mode, 2):
                 self.lblPassword2.setText(
                     self.config.SNAPSHOT_MODES[active_mode][3] + ':')
                 self.lblPassword2.show()
                 self.txtPassword2.show()
                 qttools.equalIndent(self.lblPassword1, self.lblPassword2)
+
             else:
                 self.lblPassword2.hide()
                 self.txtPassword2.hide()
                 qttools.equalIndent(self.lblPassword1)
+
         else:
             self.groupPassword1.hide()
 
@@ -2015,9 +2048,11 @@ class SettingsDialog(QDialog):
             self.lblSshEncfsExcludeWarning.show()
         else:
             self.lblSshEncfsExcludeWarning.hide()
+
         self.updateExcludeItems()
 
         enabled = active_mode in ('ssh', 'ssh_encfs')
+
         self.cbNiceOnRemote.setEnabled(enabled)
         self.cbIoniceOnRemote.setEnabled(enabled)
         self.cbNocacheOnRemote.setEnabled(enabled)
@@ -2051,11 +2086,13 @@ class SettingsDialog(QDialog):
             self.formatExcludeItem(item)
 
     def formatExcludeItem(self, item):
-        no_encr_wildcard = tools.patternHasNotEncryptableWildcard(item.text(0))
+        no_encr_wildcard \
+            = tools.patternHasNotEncryptableWildcard(item.text(0))
+
         if self.mode == 'ssh_encfs' and no_encr_wildcard:
             item.setIcon(0, self.icon.INVALID_EXCLUDE)
-            item.setBackground(0, QPalette().brush(QPalette.Active,
-                                                   QPalette.Link))
+            item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Active,
+                                                   QPalette.ColorRole.Link))
 
         elif item.text(0) in self.config.DEFAULT_EXCLUDE:
             item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
@@ -2066,14 +2103,19 @@ class SettingsDialog(QDialog):
             item.setBackground(0, QBrush())
 
     def customSortOrder(self, header, loop, newColumn, newOrder):
-        if newColumn == 0 and newOrder == Qt.AscendingOrder:
+
+        if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
+
             if loop:
-                newColumn, newOrder = 1, Qt.AscendingOrder
+                newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
                 header.setSortIndicator(newColumn, newOrder)
                 loop = False
+
             else:
                 loop = True
+
         header.model().sort(newColumn, newOrder)
+
         return loop
 
     def includeCustomSortOrder(self, *args):
@@ -2094,11 +2136,11 @@ class SettingsDialog(QDialog):
         return ' (%s: %s)' % (_('default'), value_)
 
     def restoreConfig(self, *args):
-        RestoreConfigDialog(self).exec_()
+        RestoreConfigDialog(self).exec()
         self.updateProfiles()
 
     def editUserCallback(self, *args):
-        EditUserCallback(self).exec_()
+        EditUserCallback(self).exec()
 
     def accept(self):
         if self.validate():
@@ -2167,14 +2209,15 @@ class RestoreConfigDialog(QDialog):
         self.treeViewModel = QFileSystemModel(self)
         self.treeViewModel.setRootPath(QDir().rootPath())
         self.treeViewModel.setReadOnly(True)
-        self.treeViewModel.setFilter(QDir.AllDirs |
-                                     QDir.NoDotAndDotDot | QDir.Hidden)
+        self.treeViewModel.setFilter(QDir.Filter.AllDirs |
+                                     QDir.Filter.NoDotAndDotDot |
+                                     QDir.Filter.Hidden)
 
         self.treeViewFilterProxy = QSortFilterProxyModel(self)
         self.treeViewFilterProxy.setDynamicSortFilter(True)
         self.treeViewFilterProxy.setSourceModel(self.treeViewModel)
 
-        self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
+        self.treeViewFilterProxy.setFilterRegularExpression(r'^[^\.]')
 
         self.treeView.setModel(self.treeViewFilterProxy)
         for col in range(self.treeView.header().count()):
@@ -2186,7 +2229,7 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(self.treeView)
 
         # context menu
-        self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.treeView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.onContextMenu)
         self.contextMenu = QMenu(self)
         self.btnShowHidden = self.contextMenu.addAction(
@@ -2234,9 +2277,9 @@ class RestoreConfigDialog(QDialog):
 
         buttonBox = QDialogButtonBox(self)
         self.restoreButton = buttonBox.addButton(
-            _('Restore'), QDialogButtonBox.AcceptRole)
+            _('Restore'), QDialogButtonBox.ButtonRole.AcceptRole)
         self.restoreButton.setEnabled(False)
-        buttonBox.addButton(QDialogButtonBox.Cancel)
+        buttonBox.addButton(QDialogButtonBox.StandardButton.Cancel)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         layout.addWidget(buttonBox)
@@ -2354,13 +2397,13 @@ class RestoreConfigDialog(QDialog):
         self.wait.deleteLater()
 
     def onContextMenu(self, point):
-        self.contextMenu.exec_(self.treeView.mapToGlobal(point))
+        self.contextMenu.exec(self.treeView.mapToGlobal(point))
 
     def onBtnShowHidden(self, checked):
         if checked:
-            self.treeViewFilterProxy.setFilterRegExp(r'')
+            self.treeViewFilterProxy.setFilterRegularExpression(r'')
         else:
-            self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
+            self.treeViewFilterProxy.setFilterRegularExpression(r'^[^\.]')
 
     def accept(self):
         """
@@ -2371,11 +2414,11 @@ class RestoreConfigDialog(QDialog):
             self.config.dict = self.restoreConfig.dict
         super(RestoreConfigDialog, self).accept()
 
-    def exec_(self):
+    def exec(self):
         """
         stop the scan thread if it is still running after dialog was closed.
         """
-        ret = super(RestoreConfigDialog, self).exec_()
+        ret = super(RestoreConfigDialog, self).exec()
         self.scan.stop()
         return ret
 
@@ -2467,7 +2510,7 @@ class EditUserCallback(QDialog):
         layout.addWidget(self.edit)
 
         btnBox = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
 
         btnBox.accepted.connect(self.accept)
