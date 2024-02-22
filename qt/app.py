@@ -1623,6 +1623,8 @@ files that the receiver requests to be transferred.""")
         rel_path = os.path.join(self.path, rel_path)
         full_path = self.sid.pathBackup(rel_path)
 
+        # The class "GenericNonSnapshot" indicates that "Now" is selected
+        # in the snapshots timeline widget.
         if (os.path.exists(full_path)
             and (isinstance(self.sid, snapshots.GenericNonSnapshot)  # "Now"
                  or self.sid.canOpenPath(rel_path))):
