@@ -42,9 +42,9 @@ import progress
 import logviewdialog
 import encfstools
 
-from PyQt5.QtCore import QObject, QTimer
-from PyQt5.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
-from PyQt5.QtGui import QIcon, QRegion
+from PyQt6.QtCore import QTimer
+from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
+from PyQt6.QtGui import QRegion
 
 
 class QtSysTrayIcon:
@@ -116,7 +116,11 @@ class QtSysTrayIcon:
         self.progressBar.setValue(0)
         self.progressBar.setTextVisible(False)
         self.progressBar.resize(24, 6)
-        self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
+        self.progressBar.render(
+            self.pixmap,
+            sourceRegion=QRegion(0, -14, 24, 6),
+            flags=QWidget.RenderFlag.DrawChildren
+        )
 
         self.first_error = self.config.notify()
         self.popup = None
@@ -146,7 +150,7 @@ class QtSysTrayIcon:
 
         # logger.debug("begin loop", self)
 
-        self.qapp.exec_()
+        self.qapp.exec()
 
         # logger.debug("end loop", self)
 
@@ -223,7 +227,7 @@ class QtSysTrayIcon:
         dlg = logviewdialog.LogViewDialog(self, systray = True)
         dlg.decode = self.decode
         dlg.cbDecode.setChecked(self.btnDecode.isChecked())
-        dlg.exec_()
+        dlg.exec()
 
     def onBtnDecode(self, checked):
         if checked:

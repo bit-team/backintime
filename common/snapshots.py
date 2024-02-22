@@ -778,7 +778,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                             if self.config.canBackup():
                                 break
                         if counter != 0:
-                            logger.info("Waited %d seconds for target directory to be available", counter)
+                            logger.info(f"Waited {counter} seconds for target directory to be available", self)
 
                     if not self.config.canBackup(profile_id):
                         logger.warning('Can\'t find snapshots folder!', self)

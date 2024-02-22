@@ -104,7 +104,7 @@ There are three distinct logs generated:
 ### How to read log entries?
 
 Both the _snapshot_ and _restore_ log files are plain text files and can be read
-accordingly. Refere to [Where is the log file?](#where-is-the-log-file).
+accordingly. Refer to [Where is the log file?](#where-is-the-log-file).
 The _application_ log is generated via syslog using the identifier `backintime`.
 
 With systemd and _Back In Time_ version 1.4.3 or higher:

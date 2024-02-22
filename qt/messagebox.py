@@ -14,8 +14,8 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from PyQt5.QtCore import QTimer, Qt
-from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit,\
+from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit,\
     QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QScrollArea
 import qttools
 
@@ -38,10 +38,10 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog.setWindowIcon(icon.BIT_LOGO)
     dialog.setWindowTitle(title)
     dialog.setLabelText(prompt)
-    dialog.setTextEchoMode(QLineEdit.Password)
+    dialog.setTextEchoMode(QLineEdit.EchoMode.Password)
     QApplication.processEvents()
 
-    ret = dialog.exec_()
+    ret = dialog.exec()
 
     timer.stop()
     if ret:
@@ -71,17 +71,24 @@ def info(text, title=None, widget_to_center_on=None):
         title if title else _('Information'),
         text)
 
+
 def critical(parent, msg):
-    return QMessageBox.critical(parent,
-                                _('Error'),
-                                msg,
-                                buttons = QMessageBox.Ok,
-                                defaultButton = QMessageBox.Ok)
+    return QMessageBox.critical(
+        parent,
+        _('Error'),
+        msg,
+        buttons=QMessageBox.StandardButton.Ok,
+        defaultButton=QMessageBox.StandardButton.Ok)
+
 
 def warningYesNo(parent, msg):
-    return QMessageBox.question(parent, _('Question'), msg,
-                                buttons = QMessageBox.Yes | QMessageBox.No,
-                                defaultButton = QMessageBox.No)
+    return QMessageBox.question(
+        parent,
+        _('Question'),
+        msg,
+        buttons=QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+        defaultButton=QMessageBox.StandardButton.No)
+
 
 def warningYesNoOptions(parent, msg, options = ()):
 
@@ -100,14 +107,14 @@ def warningYesNoOptions(parent, msg, options = ()):
         layout.addWidget(opt['widget'])
 
     # Button box
-    buttonBox = QDialogButtonBox(QDialogButtonBox.Yes | QDialogButtonBox.No)
-    buttonBox.button(QDialogButtonBox.No).setDefault(True)
+    buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Yes | QDialogButtonBox.StandardButton.No)
+    buttonBox.button(QDialogButtonBox.StandardButton.No).setDefault(True)
     layout.addWidget(buttonBox)
     buttonBox.accepted.connect(dlg.accept)
     buttonBox.rejected.connect(dlg.reject)
 
     # Show and ask user for the answer
-    ret = dlg.exec_()
+    ret = dlg.exec()
 
     return (
         ret,
@@ -125,15 +132,16 @@ def showInfo(parent, title, msg):
     dlg.setWindowTitle(title)
     vlayout = QVBoxLayout(dlg)
     label = QLabel(msg)
-    label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+    label.setTextInteractionFlags(
+        Qt.TextInteractionFlag.LinksAccessibleByMouse)
     label.setOpenExternalLinks(True)
 
     scroll_area = QScrollArea()
     scroll_area.setWidget(label)
 
-    buttonBox = QDialogButtonBox(QDialogButtonBox.Ok)
+    buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
     buttonBox.accepted.connect(dlg.accept)
 
     vlayout.addWidget(scroll_area)
     vlayout.addWidget(buttonBox)
-    return dlg.exec_()
+    return dlg.exec()

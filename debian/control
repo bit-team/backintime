@@ -18,13 +18,13 @@ Description: Simple backup system (common)
 
 Package: backintime-qt
 Architecture: all
-Depends: x11-utils, libnotify-bin, python3-pyqt5, python3-dbus.mainloop.pyqt5, policykit-1, backintime-common (>= ${source:Version}~), ${python3:Depends}, ${misc:Depends}
+Depends: x11-utils, libnotify-bin, python3-pyqt6, python3-dbus.mainloop.pyqt6, policykit-1, backintime-common (>= ${source:Version}~), ${python3:Depends}, ${misc:Depends}
 Recommends: python3-secretstorage
 Suggests: meld | kompare
 Conflicts: backintime-qt4 (<< ${source:Version}~), backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
 Replaces:  backintime-qt4 (<< ${source:Version}~), backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
 Description: Simple backup system
- This is a Qt5 GUI frontend for backintime-common.
+ This is a Qt GUI frontend for backintime-common.
 
 Package: backintime-qt4
 Section: oldlibs

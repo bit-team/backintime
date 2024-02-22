@@ -56,28 +56,28 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
         # Old implementation disabled:
         # Why can a systray icon only be shown on X11 (not wayland)?
-        # Qt5 can handle wayland now!
+        # Qt can handle wayland now!
         #    if not tools.checkXServer():
         #        return False
 
-        # New implementation: Let Qt5 decide if a system tray icon can be shown.
+        # New implementation: Let Qt decide if a system tray icon can be shown.
         # See https://doc.qt.io/qt-5/qsystemtrayicon.html#details:
         # > To check whether a system tray is present on the user's desktop,
         # > call the QSystemTrayIcon::isSystemTrayAvailable() static function.
         #
-        # This requires a QApplication instance (otherwise Qt5 causes a segfault)
+        # This requires a QApplication instance (otherwise Qt causes a segfault)
         # which we don't have here so we create it to check if a window manager
         # ("GUI") is active at all (e.g. in headless installations it isn't).
         # See: https://forum.qt.io/topic/3852/issystemtrayavailable-always-crashes-segfault-on-ubuntu-10-10-desktop/6
 
         try:
 
-            if tools.is_Qt5_working(systray_required=True):
+            if tools.is_Qt6_working(systray_required=True):
                 logger.debug("System tray is available to show the BiT system tray icon")
                 return True
 
         except Exception as e:
-            logger.debug(f"Could not ask Qt5 if system tray is available: {repr(e)}")
+            logger.debug(f"Could not ask Qt if system tray is available: {repr(e)}")
 
         logger.debug("No system tray available to show the BiT system tray icon")
         return False

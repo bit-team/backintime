@@ -14,7 +14,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from PyQt5.QtGui import QIcon
+from PyQt6.QtGui import QIcon
 import logger
 
 logger.debug("Checking if the current theme contains the BiT icon...")
@@ -51,7 +51,7 @@ if QIcon.fromTheme('document-save').isNull():
 
 # BackInTime Logo
 # TODO If we knew for sure that the global var "qapp" exists then
-#      we could use a built-in "standard" Qt5 icon as fallback if the theme does
+#      we could use a built-in "standard" Qt icon as fallback if the theme does
 #      not provide the icon.
 #      => wait for icon.py refactoring than improve this:
 #      qapp.style().standardIcon(QStyle.SP_DialogSaveButton)
