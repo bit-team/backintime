@@ -79,6 +79,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QInputDialog,
                              QDialog,
                              QDialogButtonBox,
+                             QApplication,
                              )
 from PyQt6.QtCore import (Qt,
                           QObject,
@@ -713,13 +714,29 @@ class MainWindow(QMainWindow):
             self.act_shutdown,
         ]
 
-        toolbar.addActions(actions_for_toolbar)
+        # Add each action to toolbar
+        for act in actions_for_toolbar:
+            toolbar.addAction(act)
+
+            # Assume an explicit tooltip if it is different from "text()".
+            # Note that Qt use "text()" as "toolTip()" by default.
+            if act.toolTip() != act.text():
+
+                if QApplication.instance().isRightToLeft():
+                    # RTL/BIDI language like Hebrew
+                    button_tip = f'{act.toolTip()} :{act.text()}'
+                else:
+                    # (default) LTR language (e.g. English)
+                    button_tip = f'{act.text()}: {act.toolTip()}'
+
+                toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
         submenu_take_snapshot.addAction(self.act_take_snapshot)
         submenu_take_snapshot.addAction(self.act_take_snapshot_checksum)
         submenu_take_snapshot.setToolTipsVisible(True)
+
         # get the toolbar buttons widget...
         button_take_snapshot = toolbar.widgetForAction(self.act_take_snapshot)
         # ...and add the menu to it
@@ -1859,7 +1876,7 @@ class ExtraMouseButtonEventFilter(QObject):
     """
     globally catch mouse buttons 4 and 5 (mostly used as back and forward)
     and assign it to browse in file history.
-    When updating to Qt5 use Qt.BackButton and Qt.ForwardButton instead.
+    Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
     """
     def __init__(self, mainWindow):
         self.mainWindow = mainWindow
