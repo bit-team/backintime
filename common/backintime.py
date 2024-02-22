@@ -23,7 +23,7 @@ import subprocess
 from datetime import datetime
 from time import sleep
 import json
-
+import pathlib
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
@@ -719,8 +719,8 @@ class printLicense(argparse.Action):
         super(printLicense, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        cfg = config.Config()
-        print(cfg.license())
+        license_path = pathlib.Path(tools.docPath()) / 'LICENSE'
+        print(license_path.read_text('utf-8'))
         sys.exit(RETURN_OK)
 
 class printDiagnostics(argparse.Action):

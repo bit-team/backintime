@@ -92,10 +92,11 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 def sharePath():
     """Get path where Back In Time is installed.
 
+    This is similar to $XDG_DATA_DIRS (XDG Base Directory Specification).
     If running from source return default ``/usr/share``.
 
     Returns:
-        str:    share path like::
+        str: share path like::
 
                     /usr/share
                     /usr/local/share
@@ -109,6 +110,45 @@ def sharePath():
         return share
 
     return '/usr/share'
+
+def backintimePath(*path):
+    """
+    Get path inside 'backintime' install folder.
+
+    Args:
+        *path (str):    paths that should be joined to 'backintime'
+
+    Returns:
+        str:            'backintime' child path like::
+
+                            /usr/share/backintime/common
+                            /usr/share/backintime/qt
+    """
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+
+
+def docPath():
+    """Not sure what this path is about.
+    """
+    path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
+
+    # Dev note (buhtz, aryoda, 2024-02):
+    # This piece of code originally resisted in Config.__init__() and was
+    # introduced by Dan in 2008. The reason for the existence of this "if"
+    # is unclear.
+
+    # Makefile (in common) does only install into share/doc/backintime-common
+    # but never into the the backintime "binary" path so I guess the if is
+    # a) either a distro-specific exception for a distro package that
+    # (manually?) installs the LICENSE into another path
+    # b) or a left-over from old code where the LICENSE was installed
+    # differently...
+
+    license_file = pathlib.Path(backintimePath()) / 'LICENSE'
+    if license_file.exists():
+        path = backintimePath()
+
+    return str(path)
 
 
 # |---------------------------------------------------|
@@ -296,22 +336,6 @@ def get_native_language_and_completeness(language_code):
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
-
-def backintimePath(*path):
-    """
-    Get path inside 'backintime' install folder.
-
-    Args:
-        *path (str):    paths that should be joined to 'backintime'
-
-    Returns:
-        str:            'backintime' child path like::
-
-                            /usr/share/backintime/common
-                            /usr/share/backintime/qt
-    """
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
-
 def registerBackintimePath(*path):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
