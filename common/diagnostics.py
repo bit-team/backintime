@@ -211,7 +211,8 @@ def _get_qt_information():
 
     # Themes
     theme_info = {}
-    if tools.checkXServer():  # TODO use tools.is_Qt5_working() when stable
+
+    if tools.checkXServer():  # TODO use tools.is_Qt_working() when stable
         qapp = PyQt6.QtWidgets.QApplication([])
         theme_info = {
             'Theme': PyQt6.QtGui.QIcon.themeName(),

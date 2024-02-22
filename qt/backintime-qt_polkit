@@ -2,7 +2,7 @@
 
 if [ "x$XDG_SESSION_TYPE" = "xwayland" ]; then
     # PREFIX="env QT_QPA_PLATFORM=wayland-egl XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
-    # Empty prefix to use the default Qt5 platform plugin (normally xcb) to fix #836 and #1350
+    # Empty prefix to use the default Qt platform plugin (normally xcb) to fix #836 and #1350
     PREFIX=""
 else
     # X11
