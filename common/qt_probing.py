@@ -118,7 +118,7 @@ try:
     # ("GUI") is active at all (e.g. in headless installations it isn't).
     # See: https://forum.qt.io/topic/3852/issystemtrayavailable-always-crashes-segfault-on-ubuntu-10-10-desktop/6
 
-    from PyQt6.QtWidgets import QSystemTrayIcon
+    from PyQt6.QtWidgets import QSystemTrayIcon # pylint: disable=import-error
     is_sys_tray_available = QSystemTrayIcon.isSystemTrayAvailable()
 
     if is_sys_tray_available:
