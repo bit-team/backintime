@@ -2,6 +2,7 @@ import sys
 import inspect
 import tempfile
 from pathlib import Path
+import stat
 import io
 from datetime import datetime
 import unittest
@@ -136,7 +137,7 @@ class SystemTest(unittest.TestCase):
         #!/usr/bin/env python3
         import sys
         import pathlib
-        print('I'*200)
+        print('I'*400)
         print(f'{pathlib.Path.cwd()=}')
         print(f'{sys.argv=}')
     '''
@@ -192,9 +193,9 @@ class SystemTest(unittest.TestCase):
 
         # create config file
         cfg_content = inspect.cleandoc(self.config_content).format(
-            rootpath = self.temp_dir.name,
-            source = self.NAME_SOURCE,
-            destination = self.NAME_DESTINATION
+            rootpath=self.temp_dir.name,
+            source=self.NAME_SOURCE,
+            destination=self.NAME_DESTINATION
         )
         self.config_fp.write_text(cfg_content, 'utf-8')
 
@@ -202,21 +203,20 @@ class SystemTest(unittest.TestCase):
         callback_content = inspect.cleandoc(self.user_callback_content)
         callback_fp = self.config_fp.parent / 'user-callback'
         callback_fp.write_text(callback_content, 'utf-8')
+        callback_fp.chmod(stat.S_IRWXU)
 
         # DEBUG
         print(f'\n{self.temp_dir=}')
         print(list(Path(self.temp_dir.name).rglob('*')))
 
-
     def test_foobar(self):
         """Try it..."""
 
-
         # Initialize logging
         # logger.APP_NAME = 'BIT_unittest'
-        logger.openlog()
+        # logger.openlog()
         # # --- TestCase.setUp() ---
-        logger.DEBUG = True  # '-v' in sys.argv
+        # logger.DEBUG = True  # '-v' in sys.argv
 
         # # ?
         # self.run = False
@@ -230,7 +230,7 @@ class SystemTest(unittest.TestCase):
         # # mock notifyplugin to suppress notifications
         # patcher = patch('notifyplugin.NotifyPlugin.message')
         # self.mockNotifyPlugin = patcher.start()
-        config.PLUGIN_MANAGER.load()
+        # config.PLUGIN_MANAGER.load(cfg=config)
 
         # The full snapshot path combines the backup destination root
         # directory with hostname, username and the profile (backupjob) ID.
@@ -253,14 +253,15 @@ class SystemTest(unittest.TestCase):
 
         with redirect_stdout(stdout), redirect_stderr(stderr):
 
-            result = snapshot.takeSnapshot(
-                # Snapshot identifier for this snapshot to created
-                sid=SID(datetime.now(), config),
-                # Start time
-                now=datetime.now(),
-                # Folders to include
-                include_folders=config.include()
-            )
+            # result = snapshot.takeSnapshot(
+            #     # Snapshot identifier for this snapshot to created
+            #     sid=SID(datetime.now(), config),
+            #     # Start time
+            #     now=datetime.now(),
+            #     # Folders to include
+            #     include_folders=config.include()
+            # )
+            result = snapshot.backup()
 
         print(f'{result=}')
 
