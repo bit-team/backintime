@@ -20,9 +20,9 @@ import os
 import subprocess
 import shlex
 
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
 
 import tools
 import restoredialog
@@ -65,7 +65,7 @@ class DiffOptionsDialog(QDialog):
 
         self.mainLayout.addWidget(QLabel(_('Use %1 and %2 for path parameters')), 2, 1)
 
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
@@ -172,11 +172,11 @@ class SnapshotsDialog(QDialog):
         layout.addWidget(self.comboDiff, 2)
 
         #buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.btnGoto =   buttonBox.button(QDialogButtonBox.Ok)
-        self.btnCancel = buttonBox.button(QDialogButtonBox.Cancel)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        self.btnGoto =   buttonBox.button(QDialogButtonBox.StandardButton.Ok)
+        self.btnCancel = buttonBox.button(QDialogButtonBox.StandardButton.Cancel)
         self.btnGoto.setText(_('Go To'))
-        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.HelpRole)
+        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.ButtonRole.HelpRole)
         btnDiffOptions.setIcon(icon.DIFF_OPTIONS)
 
         self.mainLayout.addWidget(buttonBox)
@@ -354,7 +354,7 @@ class SnapshotsDialog(QDialog):
         subprocess.Popen(shlex.split(cmd))
 
     def btnDiffOptionsClicked(self):
-        DiffOptionsDialog(self).exec_()
+        DiffOptionsDialog(self).exec()
 
     def comboEqualToChanged(self, index):
         self.updateSnapshots()
@@ -379,9 +379,11 @@ class SnapshotsDialog(QDialog):
         msg = '{}\n{}: {}'.format(
             msg, _('WARNING'), _('This cannot be revoked!'))
 
-        if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
+        answer = messagebox.warningYesNo(self, msg)
+        if answer == QMessageBox.StandardButton.Yes:
+
             for item in items:
-                item.setFlags(Qt.NoItemFlags)
+                item.setFlags(Qt.ItemFlag.NoItemFlags)
 
             thread = RemoveFileThread(self, items)
             thread.started.connect(lambda: self.btnGoto.setDisabled(True))
@@ -396,9 +398,12 @@ class SnapshotsDialog(QDialog):
             msg = _('Exclude {path} from future snapshots?').format(
                 path=f'"{self.path}"')
 
-            if self.path not in exclude and QMessageBox.Yes == messagebox.warningYesNo(self, msg):
-                exclude.append(self.path)
-                self.config.setExclude(exclude)
+            if self.path not in exclude:
+                answer = messagebox.warningYesNo(self, msg)
+
+                if answer == QMessageBox.StandardButton.Yes:
+                    exclude.append(self.path)
+                    self.config.setExclude(exclude)
 
     def btnSelectAllClicked(self):
         """

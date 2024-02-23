@@ -4,7 +4,7 @@
 # Note about PyQt related unit tests:
 # They are not executed on architecture "ppc64le". For this architecture
 # PyQt is not available from PyPi and not installable via pip.
-# The alternative to use "system-site-packages" option and installing PyQt5
+# The alternative to use "system-site-packages" option and installing PyQt
 # from Ubuntu repository via "apt" is not working as expected. TravisCI
 # allow "system-site-packages" only for those Python interpreteres that are
 # offered by Ubuntu itself; Python 3.8 in case of Ubuntu Focal. Other Python
@@ -58,8 +58,8 @@ jobs:
 
 install:
   - pip install pylint coveralls pyfakefs
-  # PyQt5 is not available for "ppc64le" architecture on PyPi
-  - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pip install pyqt5; fi
+  # PyQt is not available for "ppc64le" architecture on PyPi
+  - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pip install pyqt6; fi
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
@@ -77,8 +77,8 @@ script:
   - cd qt
   - ./configure --python=python3
   - make
-  # PyQt5 is not installed on "ppc64le"
-  - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest; fi
+  # PyQt is not installed on "ppc64le"
+  - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pytest ; else echo -e "\033[1;35mOn ppc64le no Qt testing because PyQt is impossible to install.\033[0m" ; fi
 
 after_success:
   - coverage combine

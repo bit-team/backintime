@@ -145,11 +145,6 @@ class Config(configfile.ConfigFileWithProfiles):
         # read yet.
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
-        self._APP_PATH = tools.backintimePath()
-        self._DOC_PATH = os.path.join(tools.sharePath(), 'doc', 'backintime-common')
-        if os.path.exists(os.path.join(self._APP_PATH, 'LICENSE')):
-            self._DOC_PATH = self._APP_PATH
-
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
         HOME_FOLDER = os.path.expanduser('~')
@@ -1378,12 +1373,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def setGlobalFlock(self, value):
         self.setBoolValue('global.use_flock', value)
 
-    def appPath(self):
-        return self._APP_PATH
-
-    def docPath(self):
-        return self._DOC_PATH
-
     def appInstanceFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'app.lock')
 
@@ -1469,23 +1458,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def encfsconfigBackupFolder(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
-
-    def license(self):
-        return tools.readFile(os.path.join(self.docPath(), 'LICENSE'), '')
-
-    def translations(self):
-        return tools.readFile(os.path.join(self.docPath(), 'TRANSLATIONS'), '')
-
-    def authors(self):
-        return tools.readFile(os.path.join(self.docPath(), 'AUTHORS'), '')
-
-    def changelog(self):
-        for i in ('CHANGES', 'changelog'):
-            f = os.path.join(self.docPath(), i)
-            clog = tools.readFile(f, '')
-            if clog:
-                return clog
-        return ''
 
     def preparePath(self, path):
         if len(path) > 1:

@@ -92,10 +92,11 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 def sharePath():
     """Get path where Back In Time is installed.
 
+    This is similar to $XDG_DATA_DIRS (XDG Base Directory Specification).
     If running from source return default ``/usr/share``.
 
     Returns:
-        str:    share path like::
+        str: share path like::
 
                     /usr/share
                     /usr/local/share
@@ -109,6 +110,45 @@ def sharePath():
         return share
 
     return '/usr/share'
+
+def backintimePath(*path):
+    """
+    Get path inside 'backintime' install folder.
+
+    Args:
+        *path (str):    paths that should be joined to 'backintime'
+
+    Returns:
+        str:            'backintime' child path like::
+
+                            /usr/share/backintime/common
+                            /usr/share/backintime/qt
+    """
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+
+
+def docPath():
+    """Not sure what this path is about.
+    """
+    path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
+
+    # Dev note (buhtz, aryoda, 2024-02):
+    # This piece of code originally resisted in Config.__init__() and was
+    # introduced by Dan in 2008. The reason for the existence of this "if"
+    # is unclear.
+
+    # Makefile (in common) does only install into share/doc/backintime-common
+    # but never into the the backintime "binary" path so I guess the if is
+    # a) either a distro-specific exception for a distro package that
+    # (manually?) installs the LICENSE into another path
+    # b) or a left-over from old code where the LICENSE was installed
+    # differently...
+
+    license_file = pathlib.Path(backintimePath()) / 'LICENSE'
+    if license_file.exists():
+        path = backintimePath()
+
+    return str(path)
 
 
 # |---------------------------------------------------|
@@ -296,22 +336,6 @@ def get_native_language_and_completeness(language_code):
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
-
-def backintimePath(*path):
-    """
-    Get path inside 'backintime' install folder.
-
-    Args:
-        *path (str):    paths that should be joined to 'backintime'
-
-    Returns:
-        str:            'backintime' child path like::
-
-                            /usr/share/backintime/common
-                            /usr/share/backintime/qt
-    """
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
-
 def registerBackintimePath(*path):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
@@ -694,7 +718,7 @@ def checkXServer():
     """
     Check if there is a X11 server running on this system.
 
-    Use ``is_Qt5_working`` instead if you want to be sure that Qt5 is working.
+    Use ``is_Qt_working`` instead if you want to be sure that Qt is working.
 
     Returns:
         bool:   ``True`` if X11 server is running
@@ -715,22 +739,22 @@ def checkXServer():
         return False
 
 
-def is_Qt5_working(systray_required=False):
+def is_Qt_working(systray_required=False):
     """
-    Check if the Qt5 GUI library is working (installed and configured)
+    Check if the Qt GUI library is working (installed and configured)
 
-    This function is contained in BiT CLI (not BiT Qt) to allow Qt5
+    This function is contained in BiT CLI (not BiT Qt) to allow Qt
     diagnostics output even if the BiT Qt GUI is not installed.
-    This function does NOT add a hard Qt5 dependency (just "probing")
+    This function does NOT add a hard Qt dependency (just "probing")
     so it is OK to be in BiT CLI.
 
     Args:
         systray_required: Set to ``True`` if the systray of the desktop
-        environment must be available too to consider Qt5 as "working"
+        environment must be available too to consider Qt as "working"
 
     Returns:
-        bool: ``True``  Qt5 can create a GUI
-              ``False`` Qt5 fails (or the systray is not available
+        bool: ``True``  Qt can create a GUI
+              ``False`` Qt fails (or the systray is not available
                         if ``systray_required`` is ``True``)
     """
 
@@ -751,25 +775,25 @@ def is_Qt5_working(systray_required=False):
             std_output, error_output = proc.communicate(timeout=30)  # to get the exit code
             # "timeout" fixes #1592 (qt5_probing.py may hang as root): Kill after timeout
 
-            logger.debug(f"Qt5 probing result: exit code {proc.returncode}")
+            logger.debug(f"Qt probing result: exit code {proc.returncode}")
 
-            if proc.returncode != 2 or logger.DEBUG:  # if some Qt5 parts are missing: Show details
-                logger.debug(f"Qt5 probing stdout:\n{std_output}")
-                logger.debug(f"Qt5 probing errout:\n{error_output}")
+            if proc.returncode != 2 or logger.DEBUG:  # if some Qt parts are missing: Show details
+                logger.debug(f"Qt probing stdout:\n{std_output}")
+                logger.debug(f"Qt probing errout:\n{error_output}")
 
             return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
 
     except FileNotFoundError:
-        logger.error(f"Qt5 probing script not found: {cmd[0]}")
+        logger.error(f"Qt probing script not found: {cmd[0]}")
         raise
 
     # Fix for #1592 (qt5_probing.py may hang as root): Kill after timeout
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
-        logger.info("Qt5 probing sub process killed after timeout without response")
-        logger.debug(f"Qt5 probing stdout:\n{outs}")
-        logger.debug(f"Qt5 probing errout:\n{errs}")
+        logger.info("Qt probing sub process killed after timeout without response")
+        logger.debug(f"Qt probing stdout:\n{outs}")
+        logger.debug(f"Qt probing errout:\n{errs}")
 
     except Exception as e:
         logger.error(f"Error: {repr(e)}")

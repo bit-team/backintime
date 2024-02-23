@@ -60,7 +60,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # Deactivate all checks by default
             '--disable=all',
             # prevent false-positive no-module-member errors
-            '--extension-pkg-whitelist=PyQt5',
+            '--extension-pkg-whitelist=PyQt6,PyQt6.QtCore',
             # Because of globally installed GNU gettext functions
             '--additional-builtins=_,ngettext',
             # PEP8 conform line length (see PyLint Issue #3078)
