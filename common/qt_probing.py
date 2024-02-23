@@ -15,7 +15,7 @@ logger.openlog()
 #
 # It is called by "tools.is_Qt_working()" normally
 # but you can also execute it manually via
-#     python3 qt5_probing.py
+#     python3 qt_probing.py
 
 # It works by trying to create a QApplication instance
 # Any error indicates that Qt is not available or not correctly configured.
@@ -95,7 +95,7 @@ try:
     logger.debug(f"Current euid: {os.geteuid()}")
     # Jan 25, 2024 Not enabled but just documented here since this "fix" is a hack (assumes hard-coded UID 1000 to be always correct). But it works in 99 % of installations
     # if isRoot():
-    #     logger.debug("Changing euid from root to user as work-around for #1592 (qt5_probing hangs in root cron job)")
+    #     logger.debug("Changing euid from root to user as work-around for #1592 (qt_probing hangs in root cron job)")
     #     # Fix inspired by
     #     # https://stackoverflow.com/questions/71425861/connecting-to-user-dbus-as-root
     #     os.seteuid(1000)

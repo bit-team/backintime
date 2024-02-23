@@ -762,7 +762,7 @@ def is_Qt_working(systray_required=False):
     # don't want to crash BiT if this happens...
 
     try:
-        path = os.path.join(backintimePath("common"), "qt5_probing.py")
+        path = os.path.join(backintimePath("common"), "qt_probing.py")
         cmd = [sys.executable, path]
         if logger.DEBUG:
             cmd.append('--debug')
@@ -773,7 +773,7 @@ def is_Qt_working(systray_required=False):
                               universal_newlines=True) as proc:
 
             std_output, error_output = proc.communicate(timeout=30)  # to get the exit code
-            # "timeout" fixes #1592 (qt5_probing.py may hang as root): Kill after timeout
+            # "timeout" fixes #1592 (qt_probing.py may hang as root): Kill after timeout
 
             logger.debug(f"Qt probing result: exit code {proc.returncode}")
 
@@ -787,7 +787,7 @@ def is_Qt_working(systray_required=False):
         logger.error(f"Qt probing script not found: {cmd[0]}")
         raise
 
-    # Fix for #1592 (qt5_probing.py may hang as root): Kill after timeout
+    # Fix for #1592 (qt_probing.py may hang as root): Kill after timeout
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
