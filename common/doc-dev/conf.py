@@ -61,7 +61,7 @@ copyright = '2016, Germar Reitze'
 author = 'Germar Reitze'
 
 # Don't edit this variable. It is updated automatically by "updateversion.sh".
-version = '1.4.4-dev.117a3021'
+version = '1.4.4-dev.bb32455a'
 # The full version, including alpha/beta/rc tags.
 release = version  # '1.3.3-dev'
 

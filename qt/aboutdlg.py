@@ -82,7 +82,10 @@ class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
 
     def _create_name_and_version_label(self):
         version = backintime.__version__
-        info = tools.get_git_repository_info(hash_length=8)
+        info = tools.get_git_repository_info(
+            # should be the repos root folder
+            path=pathlib.Path(__file__).parent.parent,
+            hash_length=8)
         try:
             git_version \
                 = f" git branch '{info['branch']}' hash '{info['hash']}'"
