@@ -73,7 +73,7 @@ import dbus
 import dbus.service
 import dbus.mainloop  # pylint: disable=import-error
 import dbus.mainloop.pyqt6  # pylint: disable=import-error
-from dbus.mainloop.pyqt6 import DBusQtMainLoop
+from dbus.mainloop.pyqt6 import DBusQtMainLoop  # pylint: disable=import-error
 from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
