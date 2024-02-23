@@ -26,6 +26,7 @@ from PyQt6.QtWidgets import (QLabel,
 from PyQt6.QtCore import Qt, QSize
 import tools
 import messagebox
+import backintime
 
 
 class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
@@ -80,9 +81,13 @@ class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
         vlayout.addLayout(hlayout)
 
     def _create_name_and_version_label(self):
-        version = self.config.VERSION
-        ref, hashid = tools.gitRevisionAndHash()
-        git_version = f" git branch '{ref}' hash '{hashid}'" if ref else ''
+        version = backintime.__version__
+        info = tools.get_git_repository_info(hash_length=8)
+        try:
+            git_version \
+                = f" git branch '{info['branch']}' hash '{info['hash']}'"
+        except TypeError:
+            git_version = ''
 
         name = QLabel(
             f'<h1>{self.config.APP_NAME} {version}</h1>{git_version}')

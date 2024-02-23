@@ -389,7 +389,8 @@ def get_git_repository_info(path=None, hash_length=None):
     """
 
     if not path:
-        path = pathlib.Path.cwd()
+        # This should be the repositories root folder
+        path = pathlib.Path(__file__).parent.parent
     elif isinstance(path, str):
         # WORKAROUND until cmoplete migration to pathlib
         path = pathlib.Path(path)
