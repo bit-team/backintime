@@ -53,10 +53,9 @@ try:
     #       because the latter is still not available here in the global
     #       module code.
     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
-        # pyling: disable=import-error
-        import keyring
-        from keyring import backend
-        import keyring.util.platform_
+        import keyring  # pyling: disable=import-error
+        from keyring import backend  # pyling: disable=import-error
+        import keyring.util.platform_  # pyling: disable=import-error
         is_keyring_available = True
 except Exception as e:
     is_keyring_available = False
