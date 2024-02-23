@@ -48,9 +48,13 @@ class Snapshots:
     """
     Collection of take-snapshot and restore commands.
 
-    BUHTZ 2022-10-09: In my understanding this the representation of a
+    BUHTZ 2022-10-09: In my understanding this is the representation of a
     snapshot in the "application layer". This seems to be the difference to
     the class `SID` which represents a snapshot in the "data layer".
+
+    BUHTZ 2024-02-23: Not sure but it seems to be one concret snapshot and
+    not a collection of snapshots. In this case the class name is missleading
+    because it is in plural form.
 
     Args:
         cfg (config.Config): current config

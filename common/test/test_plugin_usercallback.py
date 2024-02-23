@@ -1,13 +1,20 @@
 import sys
-import pathlib
+import inspect
+import tempfile
+from pathlib import Path
+import io
+from datetime import datetime
 import unittest
 import unittest.mock as mock
 import json
+from contextlib import redirect_stdout, redirect_stderr
 
 # This workaround will become obsolet when migrating to src-layout
-sys.path.append(str(pathlib.Path(__file__).parent))
-sys.path.append(str(pathlib.Path(__file__).parent / 'plugins'))
-import config
+sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent / 'plugins'))
+import logger
+from config import Config
+from snapshots import Snapshots, SID
 from usercallbackplugin import UserCallbackPlugin
 
 # TODO
@@ -115,7 +122,7 @@ class UserCallback(unittest.TestCase):
 
 
 class SystemTest(unittest.TestCase):
-    """Full run backup and parsing the log output for the expected
+    """Full backup run and parsing the log output for the expected
     user-callback returns in correct order.
 
     Create and use your own config file and take it over via `--config`
@@ -133,3 +140,129 @@ class SystemTest(unittest.TestCase):
         print(f'{pathlib.Path.cwd()=}')
         print(f'{sys.argv=}')
     '''
+
+    config_content = '''
+        config.version=6
+        profile1.snapshots.include.1.type=0
+        profile1.snapshots.include.1.value={rootpath}/{source}
+        profile1.snapshots.include.size=1
+        profile1.snapshots.no_on_battery=false
+        profile1.snapshots.notify.enabled=true
+        profile1.snapshots.path={rootpath}/{destination}
+        profile1.snapshots.path.host=test-host
+        profile1.snapshots.path.profile=1
+        profile1.snapshots.path.user=test-user
+        profile1.snapshots.preserve_acl=false
+        profile1.snapshots.preserve_xattr=false
+        profile1.snapshots.remove_old_snapshots.enabled=true
+        profile1.snapshots.remove_old_snapshots.unit=80
+        profile1.snapshots.remove_old_snapshots.value=10
+        profile1.snapshots.rsync_options.enabled=false
+        profile1.snapshots.rsync_options.value=
+        profiles.version=1
+    '''
+
+    # Name of folder with files to backup.
+    NAME_SOURCE = 'snapshotsource'
+    # Name of folder where snapshots (backups) are stored in.
+    NAME_DESTINATION = 'snapshotdestination'
+
+    def setUp(self):
+        # cleanup() happens automatically
+        self.temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
+
+        # Workaround: tempfile and pathlib not compatible yet
+        temp_path = Path(self.temp_dir.name)
+
+        # Create source and destination backup folders
+        src_path = temp_path / self.NAME_SOURCE
+        src_path.mkdir()
+        (src_path / 'one').write_bytes(b'0123')
+        (src_path / 'subfolder').mkdir()
+        (src_path / 'subfolder' / 'two').write_bytes(b'4567')
+        dest_path = temp_path / self.NAME_DESTINATION
+        dest_path.mkdir()
+
+        # Unclear what this is. Used in Config.__init__()
+        self.data_path = temp_path / 'data_path'
+
+        # folder for config file
+        self.config_fp = Path(temp_path) / 'config_path' / 'config'
+        self.config_fp.parent.mkdir()
+
+        # create config file
+        cfg_content = inspect.cleandoc(self.config_content).format(
+            rootpath = self.temp_dir.name,
+            source = self.NAME_SOURCE,
+            destination = self.NAME_DESTINATION
+        )
+        self.config_fp.write_text(cfg_content, 'utf-8')
+
+        # create user-callback script
+        callback_content = inspect.cleandoc(self.user_callback_content)
+        callback_fp = self.config_fp.parent / 'user-callback'
+        callback_fp.write_text(callback_content, 'utf-8')
+
+        # DEBUG
+        print(f'\n{self.temp_dir=}')
+        print(list(Path(self.temp_dir.name).rglob('*')))
+
+
+    def test_foobar(self):
+        """Try it..."""
+
+
+        # Initialize logging
+        # logger.APP_NAME = 'BIT_unittest'
+        logger.openlog()
+        # # --- TestCase.setUp() ---
+        logger.DEBUG = True  # '-v' in sys.argv
+
+        # # ?
+        # self.run = False
+
+        # --- TestCaseCfg.setUp() ---
+        config = Config(
+            config_path=str(self.config_fp),
+            data_path=str(self.data_path)
+        )
+
+        # # mock notifyplugin to suppress notifications
+        # patcher = patch('notifyplugin.NotifyPlugin.message')
+        # self.mockNotifyPlugin = patcher.start()
+        config.PLUGIN_MANAGER.load()
+
+        # The full snapshot path combines the backup destination root
+        # directory with hostname, username and the profile (backupjob) ID.
+        # e.g. /tmp/tmpf3mdnt8l/backintime/test-host/test-user/1
+        full_snapshot_path = config.snapshotsFullPath()
+        Path(full_snapshot_path).mkdir(parents=True)
+
+        snapshot = Snapshots(config)
+
+        # # use a tmp-file for flock because test_flockExclusive would deadlock
+        # # otherwise if a regular snapshot is running in background
+        # self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
+
+        # DevNote : Because BIT don't use Python's logging module there is
+        # no way to use assertLogs(). Current solution is to capture
+        # stdout/stderr.
+
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+
+        with redirect_stdout(stdout), redirect_stderr(stderr):
+
+            result = snapshot.takeSnapshot(
+                # Snapshot identifier for this snapshot to created
+                sid=SID(datetime.now(), config),
+                # Start time
+                now=datetime.now(),
+                # Folders to include
+                include_folders=config.include()
+            )
+
+        print(f'{result=}')
+
+        print(f'---- redirected STDERR ---\n{stderr.getvalue()}')
+        print(f'---- redirected STDOUT ---\n{stdout.getvalue()}')

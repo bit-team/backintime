@@ -28,6 +28,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import snapshots
 import mount
 
+
 class TestTakeSnapshot(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestTakeSnapshot, self).setUp()
