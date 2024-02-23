@@ -69,8 +69,10 @@ try:
 except ImportError:
     pwd = None
 
-import dbus
-import dbus.service
+# "dbus-python" not available for ppc64le architecture
+# "dbus.mainloop.pyqt6" not available via PyPi for any architecture
+import dbus  # pylint: disable=import-error
+import dbus.service  # pylint: disable=import-error
 import dbus.mainloop  # pylint: disable=import-error
 import dbus.mainloop.pyqt6  # pylint: disable=import-error
 from dbus.mainloop.pyqt6 import DBusQtMainLoop  # pylint: disable=import-error
