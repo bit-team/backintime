@@ -31,14 +31,14 @@
 import os
 import sys
 
-from PyQt6.QtGui import (QAction, QFont, QColor, QIcon)
+from PyQt6.QtGui import (QAction, QFont, QPalette, QIcon)
 from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox,
-                             QSystemTrayIcon, QWidget)
+                             QSystemTrayIcon)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
@@ -560,11 +560,20 @@ class SnapshotItem(TimeLineItem):
 
 class HeaderItem(TimeLineItem):
     def __init__(self, name, sid):
+        """
+        Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
+        app.py::MainWindow.addPlace().
+        """
         super(HeaderItem, self).__init__()
         self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
-        self.setBackground(0, QColor(196, 196, 196))
-        self.setForeground(0, QColor(60, 60, 60))
+
+        palette = QApplication.instance().palette()
+        self.setForeground(
+            0, palette.color(QPalette.ColorRole.PlaceholderText))
+        self.setBackground(
+            0, palette.color(QPalette.ColorRole.Window))
+
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
