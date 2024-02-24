@@ -1024,18 +1024,19 @@ class TestToolsExecuteOsSystem(generic.TestCase):
 
 
 class Tools_FakeFS(pyfakefs_ut.TestCase):
-    """Tests using a fake filesystem.
-    """
+    """Tests using a fake filesystem."""
 
     def setUp(self):
         self.setUpPyfakefs(allow_root_user=False)
 
-    def test_git_repo_info(self):
+    def test_git_repo_info_none(self):
+        """Acutally not a git repo"""
 
-        # not a git repo
         self.assertEqual(tools.get_git_repository_info(), None)
 
-        # simulate a git repo
+    def test_git_repo_info(self):
+        """Simulate a git repo"""
+
         path = pathlib.Path('.git')
         path.mkdir()
 

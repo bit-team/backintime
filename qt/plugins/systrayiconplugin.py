@@ -72,7 +72,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
         try:
 
-            if tools.is_Qt6_working(systray_required=True):
+            if tools.is_Qt_working(systray_required=True):
                 logger.debug("System tray is available to show the BiT system tray icon")
                 return True
 
