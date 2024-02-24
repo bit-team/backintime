@@ -708,26 +708,32 @@ class Snapshots:
         if not self.config.isConfigured():
             logger.warning('Not configured', self)
             self.config.PLUGIN_MANAGER.error(1) # not configured
+
         elif not force and self.config.noSnapshotOnBattery() and tools.onBattery():
             self.setTakeSnapshotMessage(0, _('Deferring backup while on battery'))
             logger.info('Deferring backup while on battery', self)
             logger.warning('Backup not performed', self)
             ret_error = False
+
         elif not force and not self.config.backupScheduled():
             logger.info('Profile "%s" is not scheduled to run now.'
                         %self.config.profileName(), self)
             ret_error = False
+
         else:
             instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False, flock = True)
             restore_instance = ApplicationInstance(self.config.restoreInstanceFile(), False)
+
             if not instance.check():
                 logger.warning('A backup is already running.  The pid of the \
 already running backup is in file %s.  Maybe delete it' % instance.pidFile , self )
                 self.config.PLUGIN_MANAGER.error(2) # a backup is already running
+
             elif not restore_instance.check():
                 logger.warning('Restore is still running. Stop backup until \
 restore is done. The pid of the already running restore is in %s.  Maybe delete it'\
                                % restore_instance.pidFile, self)
+
             else:
                 if self.config.noSnapshotOnBattery () and not tools.powerStatusAvailable():
                     logger.warning('Backups disabled on battery but power status is not available', self)

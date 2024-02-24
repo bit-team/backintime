@@ -142,62 +142,70 @@ class SystemTest(unittest.TestCase):
             print(f'{sys.argv[4:]=}')
     '''
 
-    config_content = '''
-        config.version=6
-        profile1.snapshots.include.1.type=0
-        profile1.snapshots.include.1.value={rootpath}/{source}
-        profile1.snapshots.include.size=1
-        profile1.snapshots.no_on_battery=false
-        profile1.snapshots.notify.enabled=true
-        profile1.snapshots.path={rootpath}/{destination}
-        profile1.snapshots.path.host=test-host
-        profile1.snapshots.path.profile=1
-        profile1.snapshots.path.user=test-user
-        profile1.snapshots.preserve_acl=false
-        profile1.snapshots.preserve_xattr=false
-        profile1.snapshots.remove_old_snapshots.enabled=true
-        profile1.snapshots.remove_old_snapshots.unit=80
-        profile1.snapshots.remove_old_snapshots.value=10
-        profile1.snapshots.rsync_options.enabled=false
-        profile1.snapshots.rsync_options.value=
-        profiles.version=1
-    '''
-
     # Name of folder with files to backup.
-    NAME_SOURCE = 'snapshotsource'
+    NAME_SOURCE = 'snapshotsourc'
     # Name of folder where snapshots (backups) are stored in.
-    NAME_DESTINATION = 'snapshotdestination'
+    NAME_DESTINATION = 'snapshotdestinatio'
 
-    def setUp(self):
-        # cleanup() happens automatically
-        self.temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
-
-        # Workaround: tempfile and pathlib not compatible yet
-        temp_path = Path(self.temp_dir.name)
-
-        # Create source and destination backup folders
-        src_path = temp_path / self.NAME_SOURCE
+    @classmethod
+    def _create_source_and_destination_folders(cls, parent_path):
+        src_path = parent_path / cls.NAME_SOURCE
         src_path.mkdir()
         (src_path / 'one').write_bytes(b'0123')
         (src_path / 'subfolder').mkdir()
         (src_path / 'subfolder' / 'two').write_bytes(b'4567')
-        dest_path = temp_path / self.NAME_DESTINATION
+        dest_path = parent_path / cls.NAME_DESTINATION
         dest_path.mkdir()
+
+    @classmethod
+    def _create_config_file(cls, parent_path):
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value={rootpath}/{source}
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path={rootpath}/{destination}
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        cfg_content = cfg_content.format(
+            rootpath=parent_path.name,
+            source=cls.NAME_SOURCE,
+            destination=cls.NAME_DESTINATION
+        )
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def setUp(self):
+        # cleanup() happens automatically
+        self.temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        temp_path = Path(self.temp_dir.name)
+
+        print(f'{self.temp_dir=}')
+
+        self._create_source_and_destination_folders(temp_path)
+        self.config_fp = self._create_config_file(temp_path)
 
         # Unclear what this is. Used in Config.__init__()
         self.data_path = temp_path / 'data_path'
-
-        # folder for config file
-        self.config_fp = Path(temp_path) / 'config_path' / 'config'
-        self.config_fp.parent.mkdir()
-
-        # create config file
-        cfg_content = inspect.cleandoc(self.config_content).format(
-            rootpath=self.temp_dir.name,
-            source=self.NAME_SOURCE,
-            destination=self.NAME_DESTINATION
-        )
-        self.config_fp.write_text(cfg_content, 'utf-8')
 
         # create user-callback script
         callback_content = inspect.cleandoc(self.user_callback_content)
@@ -205,32 +213,14 @@ class SystemTest(unittest.TestCase):
         callback_fp.write_text(callback_content, 'utf-8')
         callback_fp.chmod(stat.S_IRWXU)
 
-        # # DEBUG
-        # print(f'\n{self.temp_dir=}')
-        # print(list(Path(self.temp_dir.name).rglob('*')))
-
     def test_foobar(self):
         """Try it..."""
-
-        # Initialize logging
-        # logger.APP_NAME = 'BIT_unittest'
-        # logger.openlog()
-        # # --- TestCase.setUp() ---
-        # logger.DEBUG = True  # '-v' in sys.argv
-
-        # # ?
-        # self.run = False
 
         # --- TestCaseCfg.setUp() ---
         config = Config(
             config_path=str(self.config_fp),
             data_path=str(self.data_path)
         )
-
-        # # mock notifyplugin to suppress notifications
-        # patcher = patch('notifyplugin.NotifyPlugin.message')
-        # self.mockNotifyPlugin = patcher.start()
-        # config.PLUGIN_MANAGER.load(cfg=config)
 
         # The full snapshot path combines the backup destination root
         # directory with hostname, username and the profile (backupjob) ID.
@@ -240,10 +230,6 @@ class SystemTest(unittest.TestCase):
 
         snapshot = Snapshots(config)
 
-        # # use a tmp-file for flock because test_flockExclusive would deadlock
-        # # otherwise if a regular snapshot is running in background
-        # self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
-
         # DevNote : Because BIT don't use Python's logging module there is
         # no way to use assertLogs(). Current solution is to capture
         # stdout/stderr.
@@ -252,15 +238,6 @@ class SystemTest(unittest.TestCase):
         stderr = io.StringIO()
 
         with redirect_stdout(stdout), redirect_stderr(stderr):
-
-            # result = snapshot.takeSnapshot(
-            #     # Snapshot identifier for this snapshot to created
-            #     sid=SID(datetime.now(), config),
-            #     # Start time
-            #     now=datetime.now(),
-            #     # Folders to include
-            #     include_folders=config.include()
-            # )
             result = snapshot.backup()
 
         print(f'{result=}')
