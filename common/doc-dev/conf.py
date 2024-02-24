@@ -61,7 +61,8 @@ copyright = '2016, Germar Reitze'
 author = 'Germar Reitze'
 
 # Don't edit this variable. It is updated automatically by "updateversion.sh".
-version = '1.4.4-dev.bb32455a'
+import backintime
+version = backintime.__version__
 # The full version, including alpha/beta/rc tags.
 release = version  # '1.3.3-dev'
 
