@@ -136,10 +136,10 @@ class SystemTest(unittest.TestCase):
     user_callback_content = '''
         #!/usr/bin/env python3
         import sys
-        import pathlib
-        print('I'*400)
-        print(f'{pathlib.Path.cwd()=}')
-        print(f'{sys.argv=}')
+        print(f'Profile: "{sys.argv[2]}" ({sys.argv[1]}) '
+              f' Reason: {sys.argv[3]}')
+        if len(sys.argv) > 4:
+            print(f'{sys.argv[4:]=}')
     '''
 
     config_content = '''
@@ -205,9 +205,9 @@ class SystemTest(unittest.TestCase):
         callback_fp.write_text(callback_content, 'utf-8')
         callback_fp.chmod(stat.S_IRWXU)
 
-        # DEBUG
-        print(f'\n{self.temp_dir=}')
-        print(list(Path(self.temp_dir.name).rglob('*')))
+        # # DEBUG
+        # print(f'\n{self.temp_dir=}')
+        # print(list(Path(self.temp_dir.name).rglob('*')))
 
     def test_foobar(self):
         """Try it..."""

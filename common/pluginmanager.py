@@ -276,10 +276,8 @@ class PluginManager:
                             logger.error('Failed to load plugin %s: %s' %(f, str(e)), self)
 
     def processBegin(self):
-        print('-------=======<<<<<<<<<< PlugingManager.processBegin()')
         ret_val = True
         for plugin in self.plugins:
-            print(f'{plugin=}')
             try:
                 plugin.processBegin()
             except StopException:

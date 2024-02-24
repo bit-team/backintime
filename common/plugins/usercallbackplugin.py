@@ -64,15 +64,11 @@ class UserCallbackPlugin(pluginmanager.Plugin):
     def init(self, snapshots):
         self.config = snapshots.config
         self.script = self.config.takeSnapshotUserCallback()
-        print(f'\n>>>>>>>>>>>>>>>> UserClbPlugin.init() :: {self.script=}')  # DEBUG
-        if not os.path.exists(self.script):
-            return False
-        print('EXISTS')
-        return True
+
+        return os.path.exists(self.script)
 
     # TODO 09/28/2022: This method should be private (_callback)
     def callback(self, *args, profileID = None):
-        print(f'\n>>>>>>>>>>>>>>> UserClbPlugin.callback() :: {args=} {profileID=}')
         if profileID is None:
             profileID = self.config.currentProfile()
 
