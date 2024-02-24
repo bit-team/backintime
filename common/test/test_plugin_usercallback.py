@@ -40,7 +40,7 @@ class UserCallback(unittest.TestCase):
     """
     def _generic_called_with(self, the_step, reason, *args):
         sut = UserCallbackPlugin()
-        sut.config = config.Config()
+        sut.config = Config()
         sut.script = ''
 
         mock_name = 'usercallbackplugin.UserCallbackPlugin.callback'
@@ -60,7 +60,7 @@ class UserCallback(unittest.TestCase):
 
     def test_reason_error(self):
         sut = UserCallbackPlugin()
-        sut.config = config.Config()
+        sut.config = Config()
         sut.script = ''
 
         mock_name = 'usercallbackplugin.UserCallbackPlugin.callback'
@@ -85,7 +85,7 @@ class UserCallback(unittest.TestCase):
 
     def test_reason_mount(self):
         sut = UserCallbackPlugin()
-        sut.config = config.Config()
+        sut.config = Config()
         sut.script = ''
 
         mock_name = 'usercallbackplugin.UserCallbackPlugin.callback'
@@ -104,7 +104,7 @@ class UserCallback(unittest.TestCase):
 
     def test_reason_unmount(self):
         sut = UserCallbackPlugin()
-        sut.config = config.Config()
+        sut.config = Config()
         sut.script = ''
 
         mock_name = 'usercallbackplugin.UserCallbackPlugin.callback'
