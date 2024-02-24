@@ -16,15 +16,11 @@
 
 import os
 import sys
-try:
-    import gtk
-except:
-    pass
-
 import password
 import password_ipc
 import tools
 import config
+
 
 if __name__ == '__main__':
     """
@@ -52,5 +48,6 @@ if __name__ == '__main__':
     #temp mode
     fifo = password_ipc.FIFO(temp_file)
     pw = fifo.read(5)
+
     if pw:
         print(pw)
