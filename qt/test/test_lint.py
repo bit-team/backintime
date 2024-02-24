@@ -51,6 +51,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Pylint base command
         cmd = [
             'pylint',
+            # Workaround
+            '--init-hook=import sys;sys.path.insert(0, "./../common");',
             # Storing results in a pickle file is unnecessary
             '--persistent=n',
             # autodetec number of parallel jobs
@@ -74,12 +76,11 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0602',  # undefined-variable
             'E1101',  # no-member
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
+            'E0401',  # import-error
         ]
         cmd.append('--enable=' + ','.join(err_codes))
 
         # Add py files
         cmd.extend(self._collect_py_files())
-
-        # print(f'Execute {cmd=}')
 
         subprocess.run(cmd, check=True)
