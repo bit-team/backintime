@@ -157,6 +157,8 @@ class SystemTest(unittest.TestCase):
         dest_path = parent_path / cls.NAME_DESTINATION
         dest_path.mkdir()
 
+        print(f'\n{src_path=} {dest_path=}')
+
     @classmethod
     def _create_config_file(cls, parent_path):
         cfg_content = inspect.cleandoc('''
@@ -180,28 +182,40 @@ class SystemTest(unittest.TestCase):
             profiles.version=1
         ''')
 
+        print(f'{parent_path=}')
         cfg_content = cfg_content.format(
-            rootpath=parent_path.name,
+            rootpath=parent_path,
             source=cls.NAME_SOURCE,
             destination=cls.NAME_DESTINATION
         )
+
+        print(cfg_content)
 
         # config file location
         config_fp = parent_path / 'config_path' / 'config'
         config_fp.parent.mkdir()
         config_fp.write_text(cfg_content, 'utf-8')
 
+        print(f'{config_fp=}')
+
         return config_fp
 
     def setUp(self):
         # cleanup() happens automatically
         self.temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
+
         # Workaround: tempfile and pathlib not compatible yet
         temp_path = Path(self.temp_dir.name)
 
-        logger.DEBUG = True
+        if temp_path.exists():
+            import shutil
+            shutil.rmtree(temp_path)
 
-        print(f'{self.temp_dir=}')
+        temp_path.mkdir()
+
+        # logger.DEBUG = True
+
+        print(f'{self.temp_dir=} {temp_path=}')
 
         self._create_source_and_destination_folders(temp_path)
         self.config_fp = self._create_config_file(temp_path)
@@ -229,6 +243,8 @@ class SystemTest(unittest.TestCase):
         # e.g. /tmp/tmpf3mdnt8l/backintime/test-host/test-user/1
         full_snapshot_path = config.snapshotsFullPath()
         Path(full_snapshot_path).mkdir(parents=True)
+
+        print(f'{full_snapshot_path=}')
 
         snapshot = Snapshots(config)
 

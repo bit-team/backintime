@@ -918,6 +918,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                             will be set to ``True``. If rsync reported a changed
                             file ``params[1]`` will be set to ``True``
         """
+        print(f'snapshots.py :: rsyncCallback() -- {params=} {line=}')  # DEBUG
+
         if not line:
             return
 
@@ -941,6 +943,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 if line[12] != '.' and line[12:14] != 'cd':
                     params[1] = True
                     self.snapshotLog.append('[C] ' + line[12:], 2)
+
+        print(f'\t --- end rsyncCallback() -- {params=}')  # DEBUG
 
     def makeDirs(self, path):
         """
