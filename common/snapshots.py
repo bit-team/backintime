@@ -1235,11 +1235,13 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         self.setTakeSnapshotMessage(0, _('Taking snapshot'))
 
         # run rsync
+        print(f'\n--- before {params=}')
         proc = tools.Execute(cmd,
                              callback = self.rsyncCallback,  # TODO interprets the user_data in params as: list of two bool [error, changes] but params is reused as return value of this function with [changes, error]. Use a separate variable to avoid confusion!
                              user_data = params,
                              filters = (self.filterRsyncProgress,),
                              parent = self)
+        print(f'\n--- after {params=}')
         self.snapshotLog.append('[I] ' + proc.printable_cmd, 3)  # TODO introduce centralized log msg builder to avoid spread severity level indicators like "[I]" here?
         # TODO Process return value with rsync exit code to recognize errors that cannot be recognized by parsing the rsync output currently
         rsync_exit_code = proc.run()

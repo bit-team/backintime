@@ -143,9 +143,9 @@ class SystemTest(unittest.TestCase):
     '''
 
     # Name of folder with files to backup.
-    NAME_SOURCE = 'snapshotsourc'
+    NAME_SOURCE = 'src'
     # Name of folder where snapshots (backups) are stored in.
-    NAME_DESTINATION = 'snapshotdestinatio'
+    NAME_DESTINATION = 'dest'
 
     @classmethod
     def _create_source_and_destination_folders(cls, parent_path):
@@ -198,6 +198,8 @@ class SystemTest(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
         # Workaround: tempfile and pathlib not compatible yet
         temp_path = Path(self.temp_dir.name)
+
+        logger.DEBUG = True
 
         print(f'{self.temp_dir=}')
 
