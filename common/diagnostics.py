@@ -199,8 +199,8 @@ def collect_diagnostics():
 def _get_qt_information():
     """Collect Version and Theme information from Qt.
 
-    If environment variable DISPLAY is set a temporary QApplication instances
-    is created.
+    If environment variable ``DISPLAY`` is set a temporary QApplication
+    instances is created.
     """
     try:
         import PyQt6.QtCore
@@ -302,7 +302,7 @@ def _get_os_release():
 
     First it extract infos from the file ``/etc/os-release``. Because not all
     GNU Linux distributions follow the standards it will also look for
-    alternative release files (pattern: /etc/*release).
+    alternative release files (pattern: ``/etc/*release``).
     See http://linuxmafia.com/faq/Admin/release-files.html for examples.
 
     Returns:
