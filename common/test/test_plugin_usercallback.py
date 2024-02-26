@@ -131,21 +131,69 @@ class SystemTest(unittest.TestCase):
     this config file.
     """
 
-    # Use inspect.cleandoc() or textwrap.dedent() on it.
-    # Credits: https://stackoverflow.com/a/48112903/4865723
-    user_callback_content = '''
-        #!/usr/bin/env python3
-        import sys
-        print(f'Profile: "{sys.argv[2]}" ({sys.argv[1]}) '
-              f' Reason: {sys.argv[3]}')
-        if len(sys.argv) > 4:
-            print(f'{sys.argv[4:]=}')
-    '''
+    @classmethod
+    def _create_user_callback_file(cls, parent_path):
+        content = inspect.cleandoc('''
+            #!/usr/bin/env python3
+            import sys
+            response = sys.argv[1:]
+            print(response)
+        ''')
+
+        callback_fp = parent_path / 'user-callback'
+        callback_fp.write_text(content, 'utf-8')
+        callback_fp.chmod(stat.S_IRWXU)
 
     # Name of folder with files to backup.
     NAME_SOURCE = 'src'
     # Name of folder where snapshots (backups) are stored in.
     NAME_DESTINATION = 'dest'
+
+    @classmethod
+    def _extract_callback_responses(cls, output):
+        """Extract response of user-callback script out of log output.
+
+        See https://github.com/bit-team/user-callback for documentation about
+        user-callback and the response codes.
+
+        Example ::
+            # Raw output
+            INFO: user-callback returned '['1', 'Main profile', '2']'
+            INFO: Something else
+            INFO: user-callback returned '['1', 'Main profile', '8']'
+
+            # Result in a two entry list
+            [
+                ['1', 'Main profile', '2']
+                ['1', 'Main profile', '8']
+            ]
+
+        Returns:
+            A list of response values as lists. First entry is profile, second
+            is profile id, third is reason code. If available further entries
+            could be contained.
+        """
+
+        if isinstance(output, str):
+            output = output.splitlines()
+
+        # only log lines related to user-callback
+        response_lines = filter(
+            lambda line: 'user-callback returned' in line, output)
+
+        callback_responses = []
+
+        for line in response_lines:
+            callback_responses.append(
+                eval(line[line.index("'")+1:line.rindex("'")])
+            )
+
+        # Workaround: Cast profile-id and response-code to integers
+        for idx in range(len(callback_responses)):
+            callback_responses[idx][0] = int(callback_responses[idx][0])
+            callback_responses[idx][2] = int(callback_responses[idx][2])
+
+        return callback_responses
 
     @classmethod
     def _create_source_and_destination_folders(cls, parent_path):
@@ -156,8 +204,6 @@ class SystemTest(unittest.TestCase):
         (src_path / 'subfolder' / 'two').write_bytes(b'4567')
         dest_path = parent_path / cls.NAME_DESTINATION
         dest_path.mkdir()
-
-        print(f'\n{src_path=} {dest_path=}')
 
     @classmethod
     def _create_config_file(cls, parent_path):
@@ -182,83 +228,82 @@ class SystemTest(unittest.TestCase):
             profiles.version=1
         ''')
 
-        print(f'{parent_path=}')
         cfg_content = cfg_content.format(
             rootpath=parent_path,
             source=cls.NAME_SOURCE,
             destination=cls.NAME_DESTINATION
         )
 
-        print(cfg_content)
-
         # config file location
         config_fp = parent_path / 'config_path' / 'config'
         config_fp.parent.mkdir()
         config_fp.write_text(cfg_content, 'utf-8')
 
-        print(f'{config_fp=}')
+        # print(f'{config_fp=}')
+        # print(cfg_content)
 
         return config_fp
 
     def setUp(self):
+        """Setup a local snapshot profile including a user-callback"""
         # cleanup() happens automatically
-        self.temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
-
+        self._temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
         # Workaround: tempfile and pathlib not compatible yet
-        temp_path = Path(self.temp_dir.name)
-
-        if temp_path.exists():
-            import shutil
-            shutil.rmtree(temp_path)
-
-        temp_path.mkdir()
+        self.temp_path = Path(self._temp_dir.name)
 
         # logger.DEBUG = True
 
-        print(f'{self.temp_dir=} {temp_path=}')
+        self._create_source_and_destination_folders(self.temp_path)
+        self.config_fp = self._create_config_file(self.temp_path)
+        self._create_user_callback_file(self.config_fp.parent)
 
-        self._create_source_and_destination_folders(temp_path)
-        self.config_fp = self._create_config_file(temp_path)
+    def test_local_snapshot(self):
+        """User-callback response while doing a local snapshot"""
 
-        # Unclear what this is. Used in Config.__init__()
-        self.data_path = temp_path / 'data_path'
-
-        # create user-callback script
-        callback_content = inspect.cleandoc(self.user_callback_content)
-        callback_fp = self.config_fp.parent / 'user-callback'
-        callback_fp.write_text(callback_content, 'utf-8')
-        callback_fp.chmod(stat.S_IRWXU)
-
-    def test_foobar(self):
-        """Try it..."""
-
-        # --- TestCaseCfg.setUp() ---
         config = Config(
             config_path=str(self.config_fp),
-            data_path=str(self.data_path)
+            data_path=str(self.temp_path / '.local' / 'share')
         )
 
-        # The full snapshot path combines the backup destination root
-        # directory with hostname, username and the profile (backupjob) ID.
-        # e.g. /tmp/tmpf3mdnt8l/backintime/test-host/test-user/1
         full_snapshot_path = config.snapshotsFullPath()
         Path(full_snapshot_path).mkdir(parents=True)
-
-        print(f'{full_snapshot_path=}')
+        # print(f'{full_snapshot_path=}')
 
         snapshot = Snapshots(config)
 
         # DevNote : Because BIT don't use Python's logging module there is
         # no way to use assertLogs(). Current solution is to capture
         # stdout/stderr.
-
         stdout = io.StringIO()
         stderr = io.StringIO()
 
         with redirect_stdout(stdout), redirect_stderr(stderr):
-            result = snapshot.backup()
+            # Result is inverted. 'True' means there was an error.
+            self.assertFalse(snapshot.backup())
 
-        print(f'{result=}')
+        # Empty STDOUT output
+        self.assertFalse(stdout.getvalue())
 
-        print(f'---- redirected STDERR ---\n{stderr.getvalue()}')
-        print(f'---- redirected STDOUT ---\n{stdout.getvalue()}')
+        responses = self._extract_callback_responses(stderr.getvalue())
+
+        # Number of responses
+        self.assertEqual(5, len(responses))
+
+        # Test Name and ID
+        self.assertEqual(
+            {(1, 'Main profile')},
+            # de-duplicate (using set() )by first two elements in each entry
+            {(entry[0], entry[1]) for entry in responses}
+        )
+
+        # Order of response codes
+        self.assertEqual(
+            [
+                7,  # Mount
+                1,  # Backup begins
+                3,  # New snapshot was taken
+                2,  # Backup ends
+                8,  # Unmount
+            ],
+            [entry[2] for entry in responses]
+        )

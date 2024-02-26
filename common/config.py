@@ -140,6 +140,13 @@ class Config(configfile.ConfigFileWithProfiles):
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):
+        """Back In Time configuration (and much more then this).
+
+        Args:
+            config_path (str): Full path to the config file
+                (default: `~/.config/backintime/config`).
+            data_path (str): It is $XDG_DATA_HOME (default: `~/.local/share`).
+        """
         # Note: The main profiles name here is translated using the systems
         # current locale because the language code in the config file wasn't
         # read yet.

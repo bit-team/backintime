@@ -998,8 +998,6 @@ class Snapshots:
                             will be set to ``True``. If rsync reported a changed
                             file ``params[1]`` will be set to ``True``
         """
-        print(f'snapshots.py :: rsyncCallback() -- {params=} {line=}')  # DEBUG
-
         if not line:
             return
 
@@ -1023,8 +1021,6 @@ class Snapshots:
                 if line[12] != '.' and line[12:14] != 'cd':
                     params[1] = True
                     self.snapshotLog.append('[C] ' + line[12:], 2)
-
-        print(f'\t --- end rsyncCallback() -- {params=}')  # DEBUG
 
     def makeDirs(self, path):
         """
@@ -1338,7 +1334,6 @@ class Snapshots:
         self.setTakeSnapshotMessage(0, _('Taking snapshot'))
 
         # run rsync
-        print(f'\n--- before {params=}')
         proc = tools.Execute(cmd,
                              # TODO
                              # interprets the user_data in params as: list of
