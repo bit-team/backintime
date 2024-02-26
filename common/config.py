@@ -1373,21 +1373,26 @@ class Config(configfile.ConfigFileWithProfiles):
     def appInstanceFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'app.lock')
 
-    def fileId(self, profile_id = None):
+    def fileId(self, profile_id=None):
         if profile_id is None:
             profile_id = self.currentProfile()
+
         if profile_id == '1':
             return ''
+
         return profile_id
 
     def takeSnapshotLogFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "takesnapshot_%s.log" % self.fileId(profile_id))
+        return os.path.join(self._LOCAL_DATA_FOLDER,
+                            "takesnapshot_%s.log" % self.fileId(profile_id))
 
     def takeSnapshotMessageFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.message" % self.fileId(profile_id))
+        return os.path.join(self._LOCAL_DATA_FOLDER,
+                            "worker%s.message" % self.fileId(profile_id))
 
     def takeSnapshotProgressFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.progress" % self.fileId(profile_id))
+        return os.path.join(self._LOCAL_DATA_FOLDER,
+                            "worker%s.progress" % self.fileId(profile_id))
 
     def takeSnapshotInstanceFile(self, profile_id=None):
         return os.path.join(

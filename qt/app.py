@@ -921,7 +921,14 @@ class MainWindow(QMainWindow):
         logger.debug("Raise cmd: %s" %raiseCmd, self)
         self.qapp.alert(self)
 
-    def updateTakeSnapshot(self, force_wait_lock = False):
+    def updateTakeSnapshot(self, force_wait_lock=False):
+        """Update the statusbar and progress indicator with latest message
+        from the snapshot message file.
+
+        This method is called via a timeout event. See
+        `self.timerUpdateTakeSnapshot`. Also see
+        `Snapshots.takeSnapshotMessage()` for further details.
+        """
         if force_wait_lock:
             self.forceWaitLockCounter = 10
 
