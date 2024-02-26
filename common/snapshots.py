@@ -79,7 +79,7 @@ class Snapshots:
                                           r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'  #estimated time of arrival
                                           r'(.*$)')                         #trash at the end
 
-        self.lastBusyCheck = datetime.datetime(1,1,1)
+        self.lastBusyCheck = datetime.datetime(1, 1, 1)
         self.flock = None
         self.restorePermissionFailed = False
 
@@ -101,7 +101,7 @@ class Snapshots:
             Too many try..excepts in here.
         """
         # Dev note (buhtz): Not sure what happens here or why this is usefull.
-        wait = datetime.datetime.now() - datetime.timedelta(seconds = 5)
+        wait = datetime.datetime.now() - datetime.timedelta(seconds=5)
 
         if self.lastBusyCheck < wait:
             self.lastBusyCheck = datetime.datetime.now()
@@ -122,9 +122,9 @@ class Snapshots:
                 items = handle.read().split('\n')
 
         # TODO (buhtz): To broad exception
-        except Exception as exp:
+        except Exception as exc:
             logger.debug('Failed to get takeSnapshot message from '
-                         f'{message_fn}: {str(exp)}', self)
+                         f'{message_fn}: {str(exc)}', self)
 
             return None
 
@@ -137,13 +137,12 @@ class Snapshots:
         try:
             mid = int(items[0])
 
-        # TODO (buhtz): To broad exception
-        except Exception as exp:
+        # TODO (buhtz): Too broad exception
+        except Exception as exc:
             logger.debug('Failed to extract message ID from '
-                         f'{items}: {str(e)}', self)
+                         f'{items}: {str(exc)}', self)
 
-
-        return(mid, '\n'.join(items[1:]))
+        return (mid, '\n'.join(items[1:]))
 
     # TODO: make own class for takeSnapshotMessage
     def setTakeSnapshotMessage(self, type_id, message, timeout=-1):
@@ -174,9 +173,9 @@ class Snapshots:
             with open(message_fn, 'wt') as f:
                 f.write(str(type_id) + '\n' + message)
 
-        except Exception as exp:
+        except Exception as exc:
             logger.debug('Failed to set takeSnapshot message '
-                         f'to {message_fn}: {str(exp)}', self)
+                         f'to {message_fn}: {str(exc)}', self)
 
         # Error message?
         if type_id == 1:
@@ -185,14 +184,13 @@ class Snapshots:
             self.snapshotLog.append('[I] ' + message, 3)
 
         try:
-            profile_id =self.config.currentProfile()
+            profile_id = self.config.currentProfile()
             profile_name = self.config.profileName(profile_id)
             self.config.PLUGIN_MANAGER.message(
                 profile_id, profile_name, type_id, message, timeout)
 
-        except Exception as e:
-            logger.debug(f'Failed to send message to plugins: {str(e)}', self)
-
+        except Exception as exc:
+            logger.debug(f'Failed to send message to plugins: {str(exc)}', self)
 
     def busy(self):
         instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
