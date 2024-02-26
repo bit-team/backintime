@@ -121,7 +121,7 @@ class Snapshots:
             with open(message_fn, 'rt') as handle:
                 items = handle.read().split('\n')
 
-        # TODO (buhtz): To broad exception
+        # TODO (buhtz): Too broad exception
         except Exception as exc:
             logger.debug('Failed to get takeSnapshot message from '
                          f'{message_fn}: {str(exc)}', self)
