@@ -18,7 +18,7 @@
 
 import json
 import os
-import pathlib
+from pathlib import Path
 import stat
 import datetime
 import gettext
@@ -83,52 +83,70 @@ class Snapshots:
         self.flock = None
         self.restorePermissionFailed = False
 
-    #TODO: make own class for takeSnapshotMessage
+    # TODO: make own class for takeSnapshotMessage
     def clearTakeSnapshotMessage(self):
-        files = (self.config.takeSnapshotMessageFile(), \
-                 self.config.takeSnapshotProgressFile())
-        for f in files:
-            if os.path.exists(f):
-                os.remove(f)
+        """Delete message and progress file"""
+        Path(self.config.takeSnapshotMessageFile()).unlink(missing_ok=True)
+        Path(self.config.takeSnapshotProgressFile()).unlink(missing_ok=True)
 
-    #TODO: make own class for takeSnapshotMessage
+    # TODO: make own class for takeSnapshotMessage
     def takeSnapshotMessage(self):
+        """Get the current message from the message file.
+
+        Returns:
+            (tuple(int, str)): The message type and its string or `None`. See
+                `setTakeSnapshotMessage()` for further details.
+
+        Dev note (buhtz):
+            Too many try..excepts in here.
+        """
+        # Dev note (buhtz): Not sure what happens here or why this is usefull.
         wait = datetime.datetime.now() - datetime.timedelta(seconds = 5)
+
         if self.lastBusyCheck < wait:
             self.lastBusyCheck = datetime.datetime.now()
+
             if not self.busy():
                 self.clearTakeSnapshotMessage()
+
                 return None
 
-        if not os.path.exists(self.config.takeSnapshotMessageFile()):
+        # Filename of the message file
+        message_fn = self.config.takeSnapshotMessageFile()
+
+        if not os.path.exists(message_fn):
             return None
+
         try:
-            with open(self.config.takeSnapshotMessageFile(), 'rt') as f:
-                items = f.read().split('\n')
-        except Exception as e:
-            logger.debug('Failed to get takeSnapshot message from %s: %s'
-                         %(self.config.takeSnapshotMessageFile(), str(e)),
-                         self)
+            with open(message_fn, 'rt') as handle:
+                items = handle.read().split('\n')
+
+        # TODO (buhtz): To broad exception
+        except Exception as exp:
+            logger.debug('Failed to get takeSnapshot message from '
+                         f'{message_fn}: {str(exp)}', self)
+
             return None
 
         if len(items) < 2:
             return None
 
+        # "Message id": Type of the message.
         mid = 0
+
         try:
             mid = int(items[0])
-        except Exception as e:
-            logger.debug('Failed to extract message ID from %s: %s'
-                         %(items[0], str(e)),
-                         self)
 
-        del items[0]
-        message = '\n'.join(items)
+        # TODO (buhtz): To broad exception
+        except Exception as exp:
+            logger.debug('Failed to extract message ID from '
+                         f'{items}: {str(e)}', self)
 
-        return(mid, message)
+
+        return(mid, '\n'.join(items[1:]))
 
     # TODO: make own class for takeSnapshotMessage
-    def setTakeSnapshotMessage(self, type_id, message, timeout = -1):
+    def setTakeSnapshotMessage(self, type_id, message, timeout=-1):
         """Update the status message of the active snapshot creation job
 
         Write the status message into a message file to allow async
@@ -148,29 +166,33 @@ class Snapshots:
                      In fact currently all known plug-ins do
                      ignore the timeout value!
         """
-        data = str(type_id) + '\n' + message
+
+        message_fn = self.config.takeSnapshotMessageFile()
 
         try:
-            with open(self.config.takeSnapshotMessageFile(), 'wt') as f:
-                f.write(data)
-        except Exception as e:
-            logger.debug('Failed to set takeSnapshot message to %s: %s'
-                         %(self.config.takeSnapshotMessageFile(), str(e)),
-                         self)
+            # Write message to file (and overwrites the previos one)
+            with open(message_fn, 'wt') as f:
+                f.write(str(type_id) + '\n' + message)
 
-        if 1 == type_id:
+        except Exception as exp:
+            logger.debug('Failed to set takeSnapshot message '
+                         f'to {message_fn}: {str(exp)}', self)
+
+        # Error message?
+        if type_id == 1:
             self.snapshotLog.append('[E] ' + message, 1)
         else:
-            self.snapshotLog.append('[I] '  + message, 3)
+            self.snapshotLog.append('[I] ' + message, 3)
 
         try:
             profile_id =self.config.currentProfile()
             profile_name = self.config.profileName(profile_id)
-            self.config.PLUGIN_MANAGER.message(profile_id, profile_name, type_id, message, timeout)
+            self.config.PLUGIN_MANAGER.message(
+                profile_id, profile_name, type_id, message, timeout)
+
         except Exception as e:
-            logger.debug('Failed to send message to plugins: %s'
-                         %str(e),
-                         self)
+            logger.debug(f'Failed to send message to plugins: {str(e)}', self)
+
 
     def busy(self):
         instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
