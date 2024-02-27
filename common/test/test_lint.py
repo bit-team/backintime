@@ -77,6 +77,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1101',  # no-member
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'E0401',  # import-error
+            'I0021',  # useless-suppression
         ]
         cmd.append('--enable=' + ','.join(err_codes))
 
