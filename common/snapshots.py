@@ -2445,7 +2445,7 @@ class SID(object):
         """
         return os.path.isdir(self.path()) and os.path.isdir(self.pathBackup())
 
-    def canOpenPath(self, path):
+    def isExistingPathInsideSnapshotFolder(self, path):
         """
         ``True`` if path is a file inside this snapshot
 

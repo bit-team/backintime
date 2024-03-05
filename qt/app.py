@@ -1555,7 +1555,8 @@ files that the receiver requests to be transferred.""")
     def _folderHistoryClicked(self, path):
         full_path = self.sid.pathBackup(path)
 
-        if os.path.isdir(full_path) and self.sid.canOpenPath(path):
+        if (os.path.isdir(full_path)
+                and self.sid.isExistingPathInsideSnapshotFolder(path)):
             self.path = path
             self.updateFilesView(0)
 
@@ -1640,7 +1641,7 @@ files that the receiver requests to be transferred.""")
         # in the snapshots timeline widget.
         if (os.path.exists(full_path)
             and (isinstance(self.sid, snapshots.GenericNonSnapshot)  # "Now"
-                 or self.sid.canOpenPath(rel_path))):
+                 or self.sid.isExistingPathInsideSnapshotFolder(rel_path))):
 
             if os.path.isdir(full_path):
                 self.path = rel_path
