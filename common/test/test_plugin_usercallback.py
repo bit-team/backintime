@@ -18,11 +18,6 @@ from config import Config
 from snapshots import Snapshots, SID
 from usercallbackplugin import UserCallbackPlugin
 
-# TODO
-# Create a surrogate instance of config.Config
-# I assume it is well usable for some other tests, too.
-# But it will be always a workaround until the code is cleaner.
-
 
 class UserCallback(unittest.TestCase):
     """Simple test related to to UserCallbackPlugin class.
@@ -197,11 +192,16 @@ class SystemTest(unittest.TestCase):
 
     @classmethod
     def _create_source_and_destination_folders(cls, parent_path):
+        # Folder to backup
         src_path = parent_path / cls.NAME_SOURCE
         src_path.mkdir()
+
+        # Files and folders as backup content
         (src_path / 'one').write_bytes(b'0123')
         (src_path / 'subfolder').mkdir()
         (src_path / 'subfolder' / 'two').write_bytes(b'4567')
+
+        # Folder to store backup
         dest_path = parent_path / cls.NAME_DESTINATION
         dest_path.mkdir()
 
@@ -239,9 +239,6 @@ class SystemTest(unittest.TestCase):
         config_fp.parent.mkdir()
         config_fp.write_text(cfg_content, 'utf-8')
 
-        # print(f'{config_fp=}')
-        # print(cfg_content)
-
         return config_fp
 
     def setUp(self):
@@ -250,8 +247,6 @@ class SystemTest(unittest.TestCase):
         self._temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
         # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
-
-        # logger.DEBUG = True
 
         self._create_source_and_destination_folders(self.temp_path)
         self.config_fp = self._create_config_file(self.temp_path)
@@ -267,7 +262,6 @@ class SystemTest(unittest.TestCase):
 
         full_snapshot_path = config.snapshotsFullPath()
         Path(full_snapshot_path).mkdir(parents=True)
-        # print(f'{full_snapshot_path=}')
 
         snapshot = Snapshots(config)
 
