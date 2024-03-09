@@ -238,15 +238,20 @@ class PluginManager:
         self.hasGuiPlugins = False
 
         loadedPlugins = []
+
         # TODO 09/28/2022: Move hard coded plugin folders to configuration
         for path in ('plugins', 'common/plugins', 'qt/plugins'):
             fullPath = tools.backintimePath(path)
+
             if os.path.isdir(fullPath):
                 logger.debug('Register plugin path %s' %fullPath, self)
                 tools.registerBackintimePath(path)
+
                 for f in os.listdir(fullPath):
+
                     if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
                         logger.debug('Probing plugin %s' % f, self)
+
                         try:
                             module = __import__(f[: -3])
                             module_dict = module.__dict__
