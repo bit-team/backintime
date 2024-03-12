@@ -570,6 +570,8 @@ class SettingsDialog(QDialog):
         label.setWordWrap(True)
         layout.addWidget(label)
 
+        print(f'\n{self.config.DEFAULT_EXCLUDE=}')  # DEBUG
+
         buttonsLayout = QHBoxLayout()
         layout.addLayout(buttonsLayout)
 
@@ -1793,8 +1795,8 @@ class SettingsDialog(QDialog):
         item.setText(0, pattern)
         item.setData(0, Qt.ItemDataRole.UserRole, pattern)
         self.listExcludeCount += 1
-        item.setText(1, str(self.listExcludeCount).zfill(6))
-        item.setData(1, Qt.ItemDataRole.UserRole, self.listExcludeCount)
+        # item.setText(1, str(self.listExcludeCount).zfill(6))
+        # item.setData(1, Qt.ItemDataRole.UserRole, self.listExcludeCount)
         self.formatExcludeItem(item)
         self.listExclude.addTopLevelItem(item)
 
@@ -1845,13 +1847,13 @@ class SettingsDialog(QDialog):
             self.listExclude.setCurrentItem(self.listExclude.topLevelItem(0))
 
     def addExclude_(self, pattern):
+        """WTF is this compared to addExclude() !?"""
         if not pattern:
             return
 
-        for index in range(self.listExclude.topLevelItemCount()):
-            item = self.listExclude.topLevelItem(index)
-            if pattern == item.text(0):
-                return
+        # Is pattern still in the list widget?
+        if self.listExclude.findItems(pattern, Qt.MatchFlag.MatchFixedString):
+            return
 
         self.addExclude(pattern)
 
