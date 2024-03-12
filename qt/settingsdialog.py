@@ -1857,7 +1857,7 @@ class SettingsDialog(QDialog):
         if self.listExclude.topLevelItemCount() > 0:
             self.listExclude.setCurrentItem(self.listExclude.topLevelItem(0))
 
-        self._update_exclude_recommend_label(self)
+        self._update_exclude_recommend_label()
 
     def addExclude(self, pattern):
         """Initiate adding a new exclude pattern to the list widget.
