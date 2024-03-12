@@ -562,14 +562,9 @@ class SettingsDialog(QDialog):
 
         layout.addWidget(self.listExclude)
 
-        label = QLabel(_('Highly recommended') + ':', self)
-        qttools.setFontBold(label)
-        layout.addWidget(label)
-        label = QLabel(', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self)
-        label.setWordWrap(True)
-        layout.addWidget(label)
-
-        print(f'\n{self.config.DEFAULT_EXCLUDE=}')  # DEBUG
+        self._label_exclude_recommend = QLabel('', self)
+        self._label_exclude_recommend.setWordWrap(True)
+        layout.addWidget(self._label_exclude_recommend)
 
         buttonsLayout = QHBoxLayout()
         layout.addLayout(buttonsLayout)
@@ -1262,6 +1257,26 @@ class SettingsDialog(QDialog):
 
         self.disableProfileChanged = False
 
+    def _update_exclude_recommend_label(self):
+        """Update the label about recommended exclude patterns."""
+
+        # Default patterns that are not still in the list widget
+        recommend = list(filter(
+            lambda val: not self.listExclude.findItems(
+                val, Qt.MatchFlag.MatchFixedString),
+            self.config.DEFAULT_EXCLUDE
+        ))
+
+        if not recommend:
+            recommend = [_('(All recommendations already included.)')]
+
+        self._label_exclude_recommend.setText(
+            '<strong>{}</strong>: {}'.format(
+                _('Highly recommended'),
+                ', '.join(sorted(recommend))
+            )
+        )
+
     def updateProfile(self):
         if self.config.currentProfile() == '1':
             self.btnEditProfile.setEnabled(False)
@@ -1364,6 +1379,7 @@ class SettingsDialog(QDialog):
                                         Qt.SortOrder.AscendingOrder)
         )
         self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
+        self._update_exclude_recommend_label()
 
         # TAB: Auto-remove
 
@@ -1841,6 +1857,8 @@ class SettingsDialog(QDialog):
         if self.listExclude.topLevelItemCount() > 0:
             self.listExclude.setCurrentItem(self.listExclude.topLevelItem(0))
 
+        self._update_exclude_recommend_label(self)
+
     def addExclude(self, pattern):
         """Initiate adding a new exclude pattern to the list widget.
 
@@ -1858,6 +1876,8 @@ class SettingsDialog(QDialog):
 
         # Select/highlight that entry.
         self.listExclude.setCurrentItem(item)
+
+        self._update_exclude_recommend_label()
 
     def btnExcludeAddClicked(self):
         dlg = QInputDialog(self)
