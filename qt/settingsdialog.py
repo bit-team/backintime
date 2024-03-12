@@ -1862,7 +1862,7 @@ class SettingsDialog(QDialog):
     def addExclude(self, pattern):
         """Initiate adding a new exclude pattern to the list widget.
 
-        See `_add_exlcude_pattern()` also.
+        See `_add_exclude_pattern()` also.
         """
         if not pattern:
             return
@@ -2112,25 +2112,25 @@ class SettingsDialog(QDialog):
     def _formatExcludeItem(self, item):
         """Modify visual appearance of an item in the exclude list widget.
         """
-        no_encr_wildcard \
-            = tools.patternHasNotEncryptableWildcard(item.text(0))
-
         # Invalid item (because of encfs restrictions)
-        if self.mode == 'ssh_encfs' and no_encr_wildcard:
+        if (self.mode == 'ssh_encfs'
+                and tools.patternHasNotEncryptableWildcard(item.text(0))):
+
             item.setIcon(0, self.icon.INVALID_EXCLUDE)
             item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Active,
                                                    QPalette.ColorRole.Link))
             return
 
-        # A default exclude item
+        # default background color
+        item.setBackground(0, QBrush())
+
+        # Icon: default exclude item
         if item.text(0) in self.config.DEFAULT_EXCLUDE:
             item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
-            item.setBackground(0, QBrush())
             return
 
-        # User definied
+        # Icon: user definied
         item.setIcon(0, self.icon.EXCLUDE)
-        item.setBackground(0, QBrush())
 
 
     def customSortOrder(self, header, loop, newColumn, newOrder):
