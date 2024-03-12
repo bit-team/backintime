@@ -561,7 +561,6 @@ class SettingsDialog(QDialog):
             .connect(self.excludeCustomSortOrder)
 
         layout.addWidget(self.listExclude)
-        # self.listExcludeCount = 0
 
         label = QLabel(_('Highly recommended') + ':', self)
         qttools.setFontBold(label)
@@ -1354,7 +1353,7 @@ class SettingsDialog(QDialog):
         self.listExclude.clear()
 
         for exclude in self.config.exclude():
-            self.addExclude(exclude)
+            self._add_exclude_pattern(exclude)
         self.cbExcludeBySize.setChecked(self.config.excludeBySizeEnabled())
         self.spbExcludeBySize.setValue(self.config.excludeBySize())
 
@@ -1790,18 +1789,14 @@ class SettingsDialog(QDialog):
 
         return item
 
-    def addExclude(self, pattern):
+    def _add_exclude_pattern(self, pattern):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
         item.setData(0, Qt.ItemDataRole.UserRole, pattern)
-        # self.listExcludeCount += 1
-        # item.setText(1, str(self.listExcludeCount).zfill(6))
-        # item.setData(1, Qt.ItemDataRole.UserRole, self.listExcludeCount)
-        self.formatExcludeItem(item)
-        self.listExclude.addTopLevelItem(item)
+        self._formatExcludeItem(item)
 
-        if self.listExclude.currentItem() is None:
-            self.listExclude.setCurrentItem(item)
+        # Add item to the widget
+        self.listExclude.addTopLevelItem(item)
 
         return item
 
@@ -1846,16 +1841,23 @@ class SettingsDialog(QDialog):
         if self.listExclude.topLevelItemCount() > 0:
             self.listExclude.setCurrentItem(self.listExclude.topLevelItem(0))
 
-    def addExclude_(self, pattern):
-        """WTF is this compared to addExclude() !?"""
+    def addExclude(self, pattern):
+        """Initiate adding a new exclude pattern to the list widget.
+
+        See `_add_exlcude_pattern()` also.
+        """
         if not pattern:
             return
 
-        # Is pattern still in the list widget?
+        # Duplicate?
         if self.listExclude.findItems(pattern, Qt.MatchFlag.MatchFixedString):
             return
 
-        self.addExclude(pattern)
+        # Create new entry and add it to the list widget.
+        item = self._add_exclude_pattern(pattern)
+
+        # Select/highlight that entry.
+        self.listExclude.setCurrentItem(item)
 
     def btnExcludeAddClicked(self):
         dlg = QInputDialog(self)
@@ -1870,19 +1872,19 @@ class SettingsDialog(QDialog):
         if not pattern:
             return
 
-        self.addExclude_(pattern)
+        self.addExclude(pattern)
 
     def btnExcludeFileClicked(self):
         for path in qttools.getOpenFileNames(self, _('Exclude file')):
-            self.addExclude_(path)
+            self.addExclude(path)
 
     def btnExcludeFolderClicked(self):
         for path in qttools.getExistingDirectories(self, _('Exclude folder')):
-            self.addExclude_(path)
+            self.addExclude(path)
 
     def btnExcludeDefaultClicked(self):
         for path in self.config.DEFAULT_EXCLUDE:
-            self.addExclude_(path)
+            self.addExclude(path)
 
     def btnIncludeRemoveClicked(self):
         for item in self.listInclude.selectedItems():
@@ -2085,24 +2087,31 @@ class SettingsDialog(QDialog):
     def updateExcludeItems(self):
         for index in range(self.listExclude.topLevelItemCount()):
             item = self.listExclude.topLevelItem(index)
-            self.formatExcludeItem(item)
+            self._formatExcludeItem(item)
 
-    def formatExcludeItem(self, item):
+    def _formatExcludeItem(self, item):
+        """Modify visual appearance of an item in the exclude list widget.
+        """
         no_encr_wildcard \
             = tools.patternHasNotEncryptableWildcard(item.text(0))
 
+        # Invalid item (because of encfs restrictions)
         if self.mode == 'ssh_encfs' and no_encr_wildcard:
             item.setIcon(0, self.icon.INVALID_EXCLUDE)
             item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Active,
                                                    QPalette.ColorRole.Link))
+            return
 
-        elif item.text(0) in self.config.DEFAULT_EXCLUDE:
+        # A default exclude item
+        if item.text(0) in self.config.DEFAULT_EXCLUDE:
             item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
             item.setBackground(0, QBrush())
+            return
 
-        else:
-            item.setIcon(0, self.icon.EXCLUDE)
-            item.setBackground(0, QBrush())
+        # User definied
+        item.setIcon(0, self.icon.EXCLUDE)
+        item.setBackground(0, QBrush())
+
 
     def customSortOrder(self, header, loop, newColumn, newOrder):
 
