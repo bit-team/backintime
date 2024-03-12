@@ -561,7 +561,7 @@ class SettingsDialog(QDialog):
             .connect(self.excludeCustomSortOrder)
 
         layout.addWidget(self.listExclude)
-        self.listExcludeCount = 0
+        # self.listExcludeCount = 0
 
         label = QLabel(_('Highly recommended') + ':', self)
         qttools.setFontBold(label)
@@ -1794,7 +1794,7 @@ class SettingsDialog(QDialog):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
         item.setData(0, Qt.ItemDataRole.UserRole, pattern)
-        self.listExcludeCount += 1
+        # self.listExcludeCount += 1
         # item.setText(1, str(self.listExcludeCount).zfill(6))
         # item.setData(1, Qt.ItemDataRole.UserRole, self.listExcludeCount)
         self.formatExcludeItem(item)
