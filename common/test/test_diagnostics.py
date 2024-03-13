@@ -31,7 +31,6 @@ class Diagnostics(unittest.TestCase):
         """Some containted elements"""
         result = diagnostics.collect_diagnostics()
 
-        print(f'\n{result=}')  # DEBUG
         # 1st level keys
         self.assertCountEqual(
             result.keys(),

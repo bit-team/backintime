@@ -172,6 +172,7 @@ class SystemTest(unittest.TestCase):
         if isinstance(output, str):
             output = output.splitlines()
 
+        print(f'{output=}')  # DEBUG
         # only log lines related to user-callback
         response_lines = filter(
             lambda line: 'user-callback returned' in line, output)
