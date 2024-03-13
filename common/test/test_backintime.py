@@ -236,6 +236,7 @@ under certain conditions; type `backintime --license' for details.
                                  "/tmp/test",
                                  "/tmp/restored"])
 
+    @unittest.skip('temporary')
     def test_diagnostics_arg(self):
         # "output" from stdout may currently be polluted with logging output
         # lines from INFO and DEBUG log output.

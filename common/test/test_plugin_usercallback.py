@@ -14,6 +14,7 @@ from contextlib import redirect_stdout, redirect_stderr
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent / 'plugins'))
 import logger
+import pluginmanager
 from config import Config
 from snapshots import Snapshots, SID
 from usercallbackplugin import UserCallbackPlugin
@@ -131,8 +132,7 @@ class SystemTest(unittest.TestCase):
         content = inspect.cleandoc('''
             #!/usr/bin/env python3
             import sys
-            response = sys.argv[1:]
-            print(response)
+            print(sys.argv[1:])
         ''')
 
         callback_fp = parent_path / 'user-callback'
@@ -172,7 +172,9 @@ class SystemTest(unittest.TestCase):
         if isinstance(output, str):
             output = output.splitlines()
 
-        print(f'{output=}')  # DEBUG
+        # for ooo in output:
+        #     print(f'_extract_callback_response() :: {ooo=}')  # DEBUG
+
         # only log lines related to user-callback
         response_lines = filter(
             lambda line: 'user-callback returned' in line, output)
@@ -180,6 +182,10 @@ class SystemTest(unittest.TestCase):
         callback_responses = []
 
         for line in response_lines:
+            # print(f'extract_usercallback_responses() :: {line=}')  # DEBUG
+            to_eval = line[line.index("'")+1:line.rindex("'")]
+            # print(f'extract_usercallback_responses() :: {to_eval=}')  # DEBUG
+
             callback_responses.append(
                 eval(line[line.index("'")+1:line.rindex("'")])
             )
@@ -245,6 +251,7 @@ class SystemTest(unittest.TestCase):
     def setUp(self):
         """Setup a local snapshot profile including a user-callback"""
         # cleanup() happens automatically
+        logger.DEBUG = True
         self._temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
         # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
@@ -256,12 +263,13 @@ class SystemTest(unittest.TestCase):
     def test_local_snapshot(self):
         """User-callback response while doing a local snapshot"""
 
+        Config.PLUGIN_MANAGER = pluginmanager.PluginManager()
         config = Config(
             config_path=str(self.config_fp),
             data_path=str(self.temp_path / '.local' / 'share')
         )
 
-        print(list(self.temp_path.rglob('**/*')))
+        # print(f'{config.takeSnapshotUserCallback()=}')  # DEBUG
         full_snapshot_path = config.snapshotsFullPath()
         Path(full_snapshot_path).mkdir(parents=True)
 
@@ -280,10 +288,9 @@ class SystemTest(unittest.TestCase):
         # Empty STDOUT output
         self.assertFalse(stdout.getvalue())
 
-        print(f'\n{stderr.getvalue()=}')  # DEBUG
         responses = self._extract_callback_responses(stderr.getvalue())
 
-        print(f'\n{responses=}')  # DEBUG
+        # print(f'\n{responses=}')  # DEBUG
         # Number of responses
         self.assertEqual(5, len(responses))
 
