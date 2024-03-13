@@ -48,7 +48,6 @@ def collect_diagnostics():
     """
     result = collect_minimal_diagnostics()
 
-
     # === BACK IN TIME ===
 
     # work-around: Instantiate to get the user-callback folder
@@ -83,7 +82,7 @@ def collect_diagnostics():
         # Kernel & Architecture
         'platform': platform.platform(),
         # OS Version (and maybe name)
-        'system': '{} {}'.format(platform.system(), platform.version()),
+        'system': f'{platform.system()} {platform.version()}'
     })
 
     # Display system (X11 or Wayland)
@@ -111,20 +110,21 @@ def collect_diagnostics():
         result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # === PYTHON setup ===
-    python = '{} {} {} {}'.format(
+    python = ' '.join((
         platform.python_version(),
         ' '.join(platform.python_build()),
         platform.python_implementation(),
         platform.python_compiler()
-    )
+    ))
 
     # Python branch and revision if available
     branch = platform.python_branch()
     if branch:
-        python = '{} branch: {}'.format(python, branch)
+        python = f'{python} branch: {branch}'
+
     rev = platform.python_revision()
     if rev:
-        python = '{} rev: {}'.format(python, rev)
+        python = f'{python} rev: {rev}'
 
     python_executable = Path(sys.executable)
 
@@ -214,6 +214,7 @@ def _get_qt_information():
     If environment variable ``DISPLAY`` is set a temporary QApplication
     instances is created.
     """
+    # pylint: disable=import-outside-toplevel
     try:
         import PyQt6.QtCore
         import PyQt6.QtGui
@@ -235,8 +236,8 @@ def _get_qt_information():
         qapp.quit()
 
     return {
-        'Version': 'PyQt {} / Qt {}'.format(PyQt6.QtCore.PYQT_VERSION_STR,
-                                            PyQt6.QtCore.QT_VERSION_STR),
+        'Version': f'PyQt {PyQt6.QtCore.PYQT_VERSION_STR} '
+                   f'/ Qt {PyQt6.QtCore.QT_VERSION_STR}',
         **theme_info
     }
 

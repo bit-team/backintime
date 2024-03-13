@@ -260,6 +260,7 @@ class SystemTest(unittest.TestCase):
             data_path=str(self.temp_path / '.local' / 'share')
         )
 
+        print(list(self.temp_path.rglob('**/*')))
         full_snapshot_path = config.snapshotsFullPath()
         Path(full_snapshot_path).mkdir(parents=True)
 
@@ -278,8 +279,10 @@ class SystemTest(unittest.TestCase):
         # Empty STDOUT output
         self.assertFalse(stdout.getvalue())
 
+        print(f'\n{stderr.getvalue()=}')  # DEBUG
         responses = self._extract_callback_responses(stderr.getvalue())
 
+        print(f'\n{responses=}')  # DEBUG
         # Number of responses
         self.assertEqual(5, len(responses))
 
