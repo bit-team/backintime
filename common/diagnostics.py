@@ -4,7 +4,6 @@ These are version numbers of the dependent tools, environment variables,
 paths, operating system and the like. This is used to enhance error reports
 and to enrich them with the necessary information as uncomplicated as possible.
 """
-
 import sys
 import os
 import itertools
@@ -20,6 +19,24 @@ import tools
 import version
 
 
+def collect_minimal_diagnostics():
+    """Collect minimal information about backintime and the operating system.
+
+    Returns:
+       dict: A nested dictionary.
+    """
+    return {
+        'backintime': {
+            'name': config.Config.APP_NAME,
+            'version': version.__version__,
+            'running-as-root': pwd.getpwuid(os.getuid()) == 'root'
+        },
+        'host-setup': {
+            'OS': _get_os_release()
+        }
+    }
+
+
 def collect_diagnostics():
     """Collect information about environment, versions of tools and
     packages used by Back In Time.
@@ -29,9 +46,8 @@ def collect_diagnostics():
     Returns:
        dict: A nested dictionary.
     """
-    result = {}
+    result = collect_minimal_diagnostics()
 
-    pwd_struct = pwd.getpwuid(os.getuid())
 
     # === BACK IN TIME ===
 
@@ -39,9 +55,7 @@ def collect_diagnostics():
     # (should be singleton)
     cfg = config.Config()
 
-    result['backintime'] = {
-        'name': config.Config.APP_NAME,
-        'version': version.__version__,
+    result['backintime'].update({
         'latest-config-version': config.Config.CONFIG_VERSION,
         'local-config-file': cfg._LOCAL_CONFIG_PATH,
         'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
@@ -49,10 +63,9 @@ def collect_diagnostics():
         'global-config-file-found': Path(cfg._GLOBAL_CONFIG_PATH).exists(),
         # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
-        'running-as-root': pwd_struct.pw_name == 'root',
         'user-callback': cfg.takeSnapshotUserCallback(),
         'keyring-supported': tools.keyringSupported()
-    }
+    })
 
     # Git repo
     bit_root_path = Path(tools.backintimePath(""))
@@ -66,15 +79,12 @@ def collect_diagnostics():
             result['backintime'][f'git-{key}'] = git_info[key]
 
     # == HOST setup ===
-    result['host-setup'] = {
+    result['host-setup'].update({
         # Kernel & Architecture
         'platform': platform.platform(),
         # OS Version (and maybe name)
         'system': '{} {}'.format(platform.system(), platform.version()),
-        # OS Release name (prettier)
-        'OS': _get_os_release()
-
-    }
+    })
 
     # Display system (X11 or Wayland)
     # This doesn't catch all edge cases.
@@ -190,8 +200,10 @@ def collect_diagnostics():
         result['external-programs']['shell-version'] \
             = shell_version.split('\n')[0]
 
-    result = _replace_username_paths(result=result,
-                                     username=pwd_struct.pw_name)
+    result = _replace_username_paths(
+        result=result,
+        username=pwd.getpwuid(os.getuid()).pw_name
+    )
 
     return result
 
