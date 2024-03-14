@@ -57,7 +57,7 @@ jobs:
       python: "3.12"
 
 install:
-  - pip install pylint coveralls pyfakefs keyring
+  - pip install pylint coveralls pyfakefs keyring dbus-python
   # PyQt is not available for "ppc64le" architecture on PyPi
   - if [ "$TRAVIS_ARCH" != "ppc64le" ] ; then pip install pyqt6; fi
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
