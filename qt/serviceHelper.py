@@ -74,7 +74,9 @@ except ImportError:
 import dbus
 import dbus.service
 import dbus.mainloop
-import dbus.mainloop.pyqt6  # pylint: disable=import-error,useless-suppression
+# pylint: disable-next=import-error,useless-suppression
+import dbus.mainloop.pyqt6
+# pylint: disable-next=import-error,useless-suppression
 from dbus.mainloop.pyqt6 import DBusQtMainLoop
 from PyQt6.QtCore import QCoreApplication
 
