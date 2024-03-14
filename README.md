@@ -76,7 +76,7 @@ In the latest stable release:
 - [`qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt5_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 In older releases:
-- RTE "module 'qttools' has no attribute 'initate_translator'" with encFS when prompting the user for a password (#1553)
+- RTE "module 'qttools' has no attribute 'initate_translator'" with encFS when prompting the user for a password ([#1553](https://github.com/bit-team/backintime/issues/#1553))
 - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
 - [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
 - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
