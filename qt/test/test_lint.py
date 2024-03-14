@@ -86,6 +86,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         if ON_TRAVIS_PPC64LE:
             # Because of missing PyQt6 on ppc64le architecture
             err_codes.remove('I0021')
+            err_codes.remove('E0401')
 
         cmd.append('--enable=' + ','.join(err_codes))
 
