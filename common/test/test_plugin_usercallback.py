@@ -172,9 +172,6 @@ class SystemTest(unittest.TestCase):
         if isinstance(output, str):
             output = output.splitlines()
 
-        # for ooo in output:
-        #     print(f'_extract_callback_response() :: {ooo=}')  # DEBUG
-
         # only log lines related to user-callback
         response_lines = filter(
             lambda line: 'user-callback returned' in line, output)
@@ -182,9 +179,7 @@ class SystemTest(unittest.TestCase):
         callback_responses = []
 
         for line in response_lines:
-            # print(f'extract_usercallback_responses() :: {line=}')  # DEBUG
             to_eval = line[line.index("'")+1:line.rindex("'")]
-            # print(f'extract_usercallback_responses() :: {to_eval=}')  # DEBUG
 
             callback_responses.append(
                 eval(line[line.index("'")+1:line.rindex("'")])
@@ -251,7 +246,6 @@ class SystemTest(unittest.TestCase):
     def setUp(self):
         """Setup a local snapshot profile including a user-callback"""
         # cleanup() happens automatically
-        logger.DEBUG = True
         self._temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
         # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
@@ -260,16 +254,17 @@ class SystemTest(unittest.TestCase):
         self.config_fp = self._create_config_file(self.temp_path)
         self._create_user_callback_file(self.config_fp.parent)
 
+        # Reset this instance because it is not isolated between tests.
+        Config.PLUGIN_MANAGER = pluginmanager.PluginManager()
+
     def test_local_snapshot(self):
         """User-callback response while doing a local snapshot"""
 
-        Config.PLUGIN_MANAGER = pluginmanager.PluginManager()
         config = Config(
             config_path=str(self.config_fp),
             data_path=str(self.temp_path / '.local' / 'share')
         )
 
-        # print(f'{config.takeSnapshotUserCallback()=}')  # DEBUG
         full_snapshot_path = config.snapshotsFullPath()
         Path(full_snapshot_path).mkdir(parents=True)
 
@@ -290,7 +285,6 @@ class SystemTest(unittest.TestCase):
 
         responses = self._extract_callback_responses(stderr.getvalue())
 
-        # print(f'\n{responses=}')  # DEBUG
         # Number of responses
         self.assertEqual(5, len(responses))
 

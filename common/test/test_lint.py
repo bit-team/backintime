@@ -12,7 +12,6 @@ PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
 ON_TRAVIS_PPC64LE = os.environ.get('TRAVIS_ARCH', '') == 'ppc64le'
 
 
-@unittest.skip('temp')
 class MirrorMirrorOnTheWall(unittest.TestCase):
     """Check all py-files in the package (incl. test files) for lints and
     potential bugs and if they are compliant to the coding styles (e.g. PEP8).
@@ -53,8 +52,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Pylint base command
         cmd = [
             'pylint',
-            # Make sure BIT modules can be improted (to detect "no-member")
-            '--init-hook=import sys;sys.path.insert(0, "./../qt");',
+            # Make sure BIT modules can be imported (to detect "no-member")
+            '--init-hook=import sys;'
+            'sys.path.insert(0, "./../qt");'
+            'sys.path.insert(0, "./../common");',
             # Storing results in a pickle file is unnecessary
             '--persistent=n',
             # autodetec number of parallel jobs

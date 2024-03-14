@@ -52,8 +52,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Pylint base command
         cmd = [
             'pylint',
-            # Workaround
-            '--init-hook=import sys;sys.path.insert(0, "./../common");',
+            # Make sure BIT modules can be imported (to detect "no-member")
+            '--init-hook=import sys;'
+            'sys.path.insert(0, "./../qt");'
+            'sys.path.insert(0, "./../common");',
             # Storing results in a pickle file is unnecessary
             '--persistent=n',
             # autodetec number of parallel jobs

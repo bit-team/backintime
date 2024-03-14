@@ -176,13 +176,12 @@ class Config(configfile.ConfigFileWithProfiles):
         tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
         self._DEFAULT_CONFIG_PATH = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config')
+
         if config_path is None:
-            print(f'config_path is None :: {self._DEFAULT_CONFIG_PATH=}')  # DEBUG
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
         else:
             self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
             self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
-            print(f'config_path NOT None :: {self._LOCAL_CONFIG_PATH=} {self._LOCAL_CONFIG_FOLDER=}')  # DEBUG
 
         # (buhtz) Introduced in 2009 via commit 5b26575be4.
         # Ready to remove after 15 years.
