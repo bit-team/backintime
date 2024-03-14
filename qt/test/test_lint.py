@@ -105,4 +105,4 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                                   r.stdout.splitlines())))
         print(r.stdout)
 
-        self.assertEqual(0, r.returncode, f'PyLint found {error_n} problems.')
+        self.assertEqual(0, error_n, f'PyLint found {error_n} problems.')
