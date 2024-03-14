@@ -187,8 +187,7 @@ with `rsync >= 3.2.4`
 
 If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a
 workaround. Add `--old-args` in
-[_Expert Options_ / _Additional options to rsync_]
-(https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
+[_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
 Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
 environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
 _Back In Time_. In that case you may not see any problems.
