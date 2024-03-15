@@ -71,11 +71,13 @@ except ImportError:
 
 # "dbus-python" not available for ppc64le architecture
 # "dbus.mainloop.pyqt6" not available via PyPi for any architecture
-import dbus  # pylint: disable=import-error
-import dbus.service  # pylint: disable=import-error
-import dbus.mainloop  # pylint: disable=import-error
-import dbus.mainloop.pyqt6  # pylint: disable=import-error
-from dbus.mainloop.pyqt6 import DBusQtMainLoop  # pylint: disable=import-error
+import dbus
+import dbus.service
+import dbus.mainloop
+# pylint: disable-next=import-error,useless-suppression
+import dbus.mainloop.pyqt6
+# pylint: disable-next=import-error,useless-suppression
+from dbus.mainloop.pyqt6 import DBusQtMainLoop
 from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'

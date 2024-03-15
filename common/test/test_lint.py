@@ -9,6 +9,7 @@ ON_TRAVIS = os.environ.get('TRAVIS', '') == 'true'
 PYLINT_AVIALBE = not shutil.which('pylint') is None
 PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
                  'it runs only if `pylint` is available.')
+ON_TRAVIS_PPC64LE = os.environ.get('TRAVIS_ARCH', '') == 'ppc64le'
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
@@ -51,8 +52,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Pylint base command
         cmd = [
             'pylint',
-            # Make sure BIT modules can be improted (to detect "no-member")
-            '--init-hook=import sys;sys.path.insert(0, "./../qt");',
+            # Make sure BIT modules can be imported (to detect "no-member")
+            '--init-hook=import sys;'
+            'sys.path.insert(0, "./../qt");'
+            'sys.path.insert(0, "./../common");',
             # Storing results in a pickle file is unnecessary
             '--persistent=n',
             # autodetec number of parallel jobs
@@ -79,9 +82,26 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'I0021',  # useless-suppression
         ]
+
+        if ON_TRAVIS_PPC64LE:
+            # Because of missing PyQt6 on ppc64le architecture
+            err_codes.remove('I0021')
+            err_codes.remove('E0401')
+
         cmd.append('--enable=' + ','.join(err_codes))
 
         # Add py files
         cmd.extend(self._collect_py_files())
 
-        subprocess.run(cmd, check=True)
+        r = subprocess.run(
+            cmd,
+            check=False,
+            universal_newlines=True,
+            capture_output=True)
+
+        # Count lines except module headings
+        error_n = len(list(filter(lambda line: not line.startswith('*****'),
+                                  r.stdout.splitlines())))
+        print(r.stdout)
+
+        self.assertEqual(0, error_n, f'PyLint found {error_n} problems.')

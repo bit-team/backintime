@@ -1,3 +1,4 @@
+"""Test related to diagnostics.py"""
 import sys
 import pathlib
 import unittest
@@ -8,15 +9,31 @@ import diagnostics  # testing target
 
 
 class Diagnostics(unittest.TestCase):
+    """Test about collecting diagnostic infos."""
 
-    def test_minimal(self):
+    def test_content_minimal(self):
         """Minimal set of elements."""
 
+        sut = diagnostics.collect_minimal_diagnostics()
+
+        # 1st level keys
+        self.assertCountEqual(sut.keys(), ['backintime', 'host-setup'])
+
+        # 2nd level "backintime"
+        self.assertCountEqual(
+            sut['backintime'].keys(),
+            ['name', 'version', 'running-as-root'])
+
+        # 2nd level "host-setup"
+        self.assertCountEqual(sut['host-setup'].keys(), ['OS'])
+
+    def test_some_content(self):
+        """Some containted elements"""
         result = diagnostics.collect_diagnostics()
 
         # 1st level keys
-        self.assertEqual(
-            sorted(result.keys()),
+        self.assertCountEqual(
+            result.keys(),
             ['backintime', 'external-programs', 'host-setup', 'python-setup']
         )
 
@@ -59,8 +76,7 @@ class Diagnostics(unittest.TestCase):
                 diagnostics.collect_diagnostics()
 
     def test_no_extern_version(self):
-        """Get version from not existing tool.
-        """
+        """Get version from not existing tool."""
         self.assertEqual(
             diagnostics._get_extern_versions(['fooXbar']),
             '(no fooXbar)'
@@ -68,7 +84,6 @@ class Diagnostics(unittest.TestCase):
 
     def test_replace_user_path(self):
         """Replace users path."""
-
         d = {
             'foo': '/home/rsync',
             'bar': '~/rsync'
@@ -86,5 +101,3 @@ class Diagnostics(unittest.TestCase):
             diagnostics._replace_username_paths(d, 'user'),
             d
         )
-
-

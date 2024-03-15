@@ -37,7 +37,7 @@ import mount
 import password
 import encfstools
 import cli
-from diagnostics import collect_diagnostics
+from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from version import __version__
@@ -504,14 +504,18 @@ def startApp(app_name = 'backintime'):
 
     logger.openlog()
 
-    #parse args
     args = argParse(None)
 
-    #add source path to $PATH environ if running from source
+    # Name, Version, As Root, OS
+    diag = collect_minimal_diagnostics()
+    logger.debug(
+        f'{diag["backintime"]} {list(diag["host-setup"]["OS"].values())}')
+
+    # Add source path to $PATH environ if running from source
     if tools.runningFromSource():
         tools.addSourceToPathEnviron()
 
-    #warn about sudo
+    # Warn about sudo
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
         logger.warning("It looks like you're using 'sudo' to start %(app)s. "
@@ -519,9 +523,10 @@ def startApp(app_name = 'backintime'):
                        "or 'pkexec %(app_name)s'."
                        %{'app_name': app_name, 'app': config.Config.APP_NAME})
 
-    #call commands
+    # Call commands
     if 'func' in dir(args):
         args.func(args)
+
     else:
         setQuiet(args)
         printHeader()
@@ -550,51 +555,64 @@ def argParse(args):
                         that should be merged into ``args``
         """
         for key, value in vars(subArgs).items():
-            #only add new values if it isn't set already or if there really IS a value
+            # Only add new values if it isn't set already or if there really IS
+            # a value
             if getattr(args, key, None) is None or value:
                 setattr(args, key, value)
 
-    #first parse the main parser without subparsers
-    #otherwise positional args in subparsers will be to greedy
-    #but only if -h or --help is not involved because otherwise
-    #help will not work for subcommands
+    # First parse the main parser without subparsers
+    # otherwise positional args in subparsers will be to greedy
+    # but only if -h or --help is not involved because otherwise
+    # help will not work for subcommands
     mainParser = parsers['main']
     sub = []
+
     if '-h' not in sys.argv and '--help' not in sys.argv:
+
         for i in mainParser._actions:
+
             if isinstance(i, argparse._SubParsersAction):
-                #remove subparsers
+                # Remove subparsers
                 mainParser._remove_action(i)
                 sub.append(i)
+
     args, unknownArgs = mainParser.parse_known_args(args)
-    #read subparsers again
+
+    # Read subparsers again
     if sub:
         [mainParser._add_action(i) for i in sub]
 
-    #parse it again for unknown args
+    # Parse it again for unknown args
     if unknownArgs:
         subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
         join(args, subArgs)
 
-    #finally parse only the command parser, otherwise we miss
-    #some arguments from command
+    # Finally parse only the command parser, otherwise we miss some arguments
+    # from command
     if unknownArgs and 'command' in args and args.command in parsers:
         commandParser = parsers[args.command]
         subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
         join(args, subArgs)
 
-    if 'debug' in args:
+    try:
         logger.DEBUG = args.debug
+    except AttributeError:
+        pass
 
-    dargs = vars(args)
-    logger.debug('Arguments: %s | unknownArgs: %s'
-                 %({arg:dargs[arg] for arg in dargs if dargs[arg]},
-                   unknownArgs))
+    args_dict = vars(args)
+    used_args = {
+        key: args_dict[key]
+        for key
+        in filter(lambda key: args_dict[key] is not None, args_dict)
+    }
+    logger.debug(f'Used argument(s): {used_args}')
+    logger.debug(f'Unknown argument(s): {unknownArgs}')
 
-    #report unknown arguments
-    #but not if we run aliasParser next because we will parse again in there
+    # Report unknown arguments but not if we run aliasParser next because we
+    # will parse again in there.
     if unknownArgs and not ('func' in args and args.func is aliasParser):
-        mainParser.error('Unknown Argument(s): %s' % ', '.join(unknownArgs))
+        mainParser.error(f'Unknown argument(s): {unknownArgs}')
+
     return args
 
 def printHeader():

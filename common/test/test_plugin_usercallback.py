@@ -14,6 +14,7 @@ from contextlib import redirect_stdout, redirect_stderr
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent / 'plugins'))
 import logger
+import pluginmanager
 from config import Config
 from snapshots import Snapshots, SID
 from usercallbackplugin import UserCallbackPlugin
@@ -131,8 +132,7 @@ class SystemTest(unittest.TestCase):
         content = inspect.cleandoc('''
             #!/usr/bin/env python3
             import sys
-            response = sys.argv[1:]
-            print(response)
+            print(sys.argv[1:])
         ''')
 
         callback_fp = parent_path / 'user-callback'
@@ -179,6 +179,8 @@ class SystemTest(unittest.TestCase):
         callback_responses = []
 
         for line in response_lines:
+            to_eval = line[line.index("'")+1:line.rindex("'")]
+
             callback_responses.append(
                 eval(line[line.index("'")+1:line.rindex("'")])
             )
@@ -251,6 +253,9 @@ class SystemTest(unittest.TestCase):
         self._create_source_and_destination_folders(self.temp_path)
         self.config_fp = self._create_config_file(self.temp_path)
         self._create_user_callback_file(self.config_fp.parent)
+
+        # Reset this instance because it is not isolated between tests.
+        Config.PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def test_local_snapshot(self):
         """User-callback response while doing a local snapshot"""
