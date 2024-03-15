@@ -31,7 +31,6 @@ import messagebox
 class LogViewDialog(QDialog):
     # Workaround because of *-imports of Qt elements.
     # Remove as soon as possible.
-    # pylint: disable=undefined-variable
     def __init__(self, parent, sid = None, systray = False):
         """
         Instantiate a snapshot log file viewer

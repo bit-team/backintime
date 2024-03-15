@@ -140,6 +140,13 @@ class Config(configfile.ConfigFileWithProfiles):
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):
+        """Back In Time configuration (and much more then this).
+
+        Args:
+            config_path (str): Full path to the config file
+                (default: `~/.config/backintime/config`).
+            data_path (str): It is $XDG_DATA_HOME (default: `~/.local/share`).
+        """
         # Note: The main profiles name here is translated using the systems
         # current locale because the language code in the config file wasn't
         # read yet.
@@ -169,18 +176,22 @@ class Config(configfile.ConfigFileWithProfiles):
         tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
         self._DEFAULT_CONFIG_PATH = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config')
+
         if config_path is None:
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
         else:
             self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
             self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
-        old_path = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config2')
 
-        if os.path.exists(old_path):
-            if os.path.exists(self._LOCAL_CONFIG_PATH):
-                os.remove(old_path)
-            else:
-                os.rename(old_path, self._LOCAL_CONFIG_PATH)
+        # (buhtz) Introduced in 2009 via commit 5b26575be4.
+        # Ready to remove after 15 years.
+        # old_path = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config2')
+
+        # if os.path.exists(old_path):
+        #     if os.path.exists(self._LOCAL_CONFIG_PATH):
+        #         os.remove(old_path)
+        #     else:
+        #         os.rename(old_path, self._LOCAL_CONFIG_PATH)
 
         # Load global config file
         self.load(self._GLOBAL_CONFIG_PATH)
@@ -1373,21 +1384,26 @@ class Config(configfile.ConfigFileWithProfiles):
     def appInstanceFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'app.lock')
 
-    def fileId(self, profile_id = None):
+    def fileId(self, profile_id=None):
         if profile_id is None:
             profile_id = self.currentProfile()
+
         if profile_id == '1':
             return ''
+
         return profile_id
 
     def takeSnapshotLogFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "takesnapshot_%s.log" % self.fileId(profile_id))
+        return os.path.join(self._LOCAL_DATA_FOLDER,
+                            "takesnapshot_%s.log" % self.fileId(profile_id))
 
     def takeSnapshotMessageFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.message" % self.fileId(profile_id))
+        return os.path.join(self._LOCAL_DATA_FOLDER,
+                            "worker%s.message" % self.fileId(profile_id))
 
     def takeSnapshotProgressFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.progress" % self.fileId(profile_id))
+        return os.path.join(self._LOCAL_DATA_FOLDER,
+                            "worker%s.progress" % self.fileId(profile_id))
 
     def takeSnapshotInstanceFile(self, profile_id=None):
         return os.path.join(

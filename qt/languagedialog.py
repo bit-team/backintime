@@ -169,7 +169,6 @@ class LanguageDialog(QDialog):
         btn = self.sender()
 
         if btn.isChecked():
-            # pylint: disable-next=attribute-defined-outside-init
             self.language_code = btn.lang_code
 
 
@@ -268,7 +267,7 @@ class ApproachTranslatorDialog(QDialog):
         if self.height() < best.height():
             self.resize(best)
 
-    def resizeEvent(self, event):  # pylint: disable=invalid-name
+    def resizeEvent(self, event):
         """See `_fixSize()`  for details."""
         super().resizeEvent(event)
 
