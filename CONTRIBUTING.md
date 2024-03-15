@@ -90,8 +90,8 @@ replaced with PyPi packages.
   - `python3-dbus.mainloop.pyqt6`
   - `libnotify-bin`
   - `policykit-1`
-  - `qttranslations5-l10n`
-  - `qtwayland5` (if Wayland is used as display server instead of X11)
+  - `qttranslations6-l10n`
+  - `qtwayland6` (if Wayland is used as display server instead of X11)
   - Recommended
       - For SSH key storage **one** of these packages
         - `python3-secretstorage`
@@ -151,4 +151,4 @@ Keep in mind as you contribute, that code, docs and other material submitted
 to the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
 
-<sub>Sept 2023</sub>
+<sub>March 2024</sub>

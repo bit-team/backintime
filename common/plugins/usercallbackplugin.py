@@ -68,7 +68,7 @@ class UserCallbackPlugin(pluginmanager.Plugin):
         return os.path.exists(self.script)
 
     # TODO 09/28/2022: This method should be private (_callback)
-    def callback(self, *args, profileID = None):
+    def callback(self, *args, profileID=None):
         if profileID is None:
             profileID = self.config.currentProfile()
 

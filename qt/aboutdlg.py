@@ -29,7 +29,7 @@ import messagebox
 import backintime
 
 
-class AboutDlg(QDialog):  # pylint: disable=too-few-public-methods
+class AboutDlg(QDialog):
     """The about dialog accessible from the Help menu in the main window."""
 
     def __init__(self, parent=None):
