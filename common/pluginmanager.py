@@ -184,6 +184,9 @@ class Plugin:
         """
         return
 
+    def postUnmount(self, profileID = None):
+        return
+
 class PluginManager:
     """ Central interface for loading plugins and calling their API
 
@@ -339,6 +342,13 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.unmount(profileID)
+            except BaseException as e:
+                self.logError(plugin, e)
+
+    def postUnmount(self, profileID = None):
+        for plugin in reversed(self.plugins):
+            try:
+                plugin.postUnmount(profileID)
             except BaseException as e:
                 self.logError(plugin, e)
 

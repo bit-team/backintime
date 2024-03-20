@@ -138,3 +138,6 @@ class UserCallbackPlugin(pluginmanager.Plugin):
 
     def unmount(self, profileID = None):
         self.callback('8', profileID = profileID)
+
+    def postUnmount(self, profileID = None):
+        self.callback('9', profileID = profileID)
