@@ -178,16 +178,7 @@ class LogViewDialog(QDialog):
 
     def contextMenuClicked(self, point):
         menu = QMenu()
-        clipboard = qttools.createQApplication().clipboard()
         cursor = self.txtLogView.textCursor()
-
-        btnCopy = menu.addAction(_('Copy'))
-        btnCopy.triggered.connect(lambda: clipboard.setText(cursor.selectedText()))
-        btnCopy.setEnabled(cursor.hasSelection())
-
-        btnAddExclude = menu.addAction(_('Add to Exclude'))
-        btnAddExclude.triggered.connect(self.btnAddExcludeClicked)
-        btnAddExclude.setEnabled(cursor.hasSelection())
 
         btnDecode = menu.addAction(_('Decode'))
         btnDecode.triggered.connect(self.btnDecodeClicked)
@@ -195,31 +186,6 @@ class LogViewDialog(QDialog):
         btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
 
         menu.exec(self.txtLogView.mapToGlobal(point))
-
-    def btnAddExcludeClicked(self):
-        exclude = self.config.exclude()
-        path = self.txtLogView.textCursor().selectedText().strip()
-        if not path or path in exclude:
-            return
-        edit = QLineEdit(self)
-        edit.setText(path)
-        edit.setMinimumWidth(600)
-        options = {
-            'widget': edit,
-            'retFunc': edit.text,
-            'id': 'path'
-        }
-        confirm, opt = messagebox.warningYesNoOptions(
-            self,
-            _('Do you want to exclude this?'),
-            (options, )
-        )
-
-        if not confirm:
-            return
-
-        exclude.append(opt['path'])
-        self.config.setExclude(exclude)
 
     def btnDecodeClicked(self):
         if not self.decode:
