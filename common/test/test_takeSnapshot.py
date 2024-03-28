@@ -66,9 +66,9 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         )
 
         self.assertTrue(sid1.exists())
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'file with spaces')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'test')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'file with spaces')))
         self.assertExists(self.cfg.anacronSpoolFile())
         for f in ('config',
                   'fileinfo.bz2',
@@ -100,7 +100,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid3, now, [(self.include.name, 0),]))
         self.assertTrue(sid3.exists())
-        self.assertTrue(sid3.canOpenPath(os.path.join(self.include.name, 'lalala')))
+        self.assertTrue(sid3.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'lalala')))
         inode1 = self.getInode(sid1)
         inode3 = self.getInode(sid3)
         self.assertEqual(inode1, inode3)
@@ -113,8 +113,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid4, now, [(self.include.name, 0),]))
         self.assertTrue(sid4.exists())
-        self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
-        self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'test')))
+        self.assertTrue(sid4.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid4.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'test')))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_with_spaces_in_include(self, sleep):
@@ -125,8 +125,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(include, 0),]))
         self.assertTrue(sid1.exists())
-        self.assertTrue(sid1.canOpenPath(os.path.join(include, 'foo', 'bar', 'baz')))
-        self.assertTrue(sid1.canOpenPath(os.path.join(include, 'test')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(include, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(include, 'test')))
         for f in ('config',
                   'fileinfo.bz2',
                   'info',
@@ -145,9 +145,9 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
         self.assertTrue(sid1.exists())
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar')))
-        self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'foo', 'bar')))
+        self.assertFalse(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'test')))
         for f in ('config',
                   'fileinfo.bz2',
                   'info',
@@ -168,9 +168,9 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
         self.assertTrue(sid1.exists())
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
-        self.assertFalse(sid1.canOpenPath(exclude))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'test')))
+        self.assertFalse(sid1.isExistingPathInsideSnapshotFolder(exclude))
         for f in ('config',
                   'fileinfo.bz2',
                   'info',
@@ -189,8 +189,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
             self.assertListEqual([True, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
             self.assertTrue(sid1.exists())
-            self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
-            self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
+            self.assertTrue(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+            self.assertFalse(sid1.isExistingPathInsideSnapshotFolder(os.path.join(self.include.name, 'test')))
             for f in ('config',
                       'fileinfo.bz2',
                       'info',

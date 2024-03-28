@@ -1554,18 +1554,16 @@ files that the receiver requests to be transferred.""")
         self.updateFilesView(0)
 
     def btnFolderHistoryPreviousClicked(self):
-        path = self.path_history.previous()
-        full_path = self.sid.pathBackup(path)
-
-        if os.path.isdir(full_path) and self.sid.canOpenPath(path):
-            self.path = path
-            self.updateFilesView(0)
+        self._folderHistoryClicked(self.path_history.previous())
 
     def btnFolderHistoryNextClicked(self):
-        path = self.path_history.next()
+        self._folderHistoryClicked(self.path_history.next())
+
+    def _folderHistoryClicked(self, path):
         full_path = self.sid.pathBackup(path)
 
-        if os.path.isdir(full_path) and self.sid.canOpenPath(path):
+        if (os.path.isdir(full_path)
+                and self.sid.isExistingPathInsideSnapshotFolder(path)):
             self.path = path
             self.updateFilesView(0)
 
@@ -1646,7 +1644,11 @@ files that the receiver requests to be transferred.""")
         rel_path = os.path.join(self.path, rel_path)
         full_path = self.sid.pathBackup(rel_path)
 
-        if os.path.exists(full_path) and self.sid.canOpenPath(rel_path):
+        # The class "GenericNonSnapshot" indicates that "Now" is selected
+        # in the snapshots timeline widget.
+        if (os.path.exists(full_path)
+            and (isinstance(self.sid, snapshots.GenericNonSnapshot)  # "Now"
+                 or self.sid.isExistingPathInsideSnapshotFolder(rel_path))):
 
             if os.path.isdir(full_path):
                 self.path = rel_path

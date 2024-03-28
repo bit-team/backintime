@@ -185,7 +185,7 @@ class TestSID(generic.SnapshotsTestCase):
                                  'backup'))
         self.assertTrue(sid.exists())
 
-    def test_canOpenPath(self):
+    def test_isExistingPathInsideSnapshotFolder(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         backupPath = os.path.join(self.snapshotPath,
                                   '20151219-010324-123',
@@ -193,32 +193,32 @@ class TestSID(generic.SnapshotsTestCase):
         os.makedirs(os.path.join(backupPath, 'foo'))
 
         #test existing file and non existing file
-        self.assertTrue(sid.canOpenPath('/foo'))
-        self.assertFalse(sid.canOpenPath('/tmp'))
+        self.assertTrue(sid.isExistingPathInsideSnapshotFolder('/foo'))
+        self.assertFalse(sid.isExistingPathInsideSnapshotFolder('/tmp'))
 
         #test valid absolute symlink inside snapshot
         os.symlink(os.path.join(backupPath, 'foo'),
                    os.path.join(backupPath, 'bar'))
         self.assertIsLink(backupPath, 'bar')
-        self.assertTrue(sid.canOpenPath('/bar'))
+        self.assertTrue(sid.isExistingPathInsideSnapshotFolder('/bar'))
 
         #test valid relative symlink inside snapshot
         os.symlink('./foo',
                    os.path.join(backupPath, 'baz'))
         self.assertIsLink(backupPath, 'baz')
-        self.assertTrue(sid.canOpenPath('/baz'))
+        self.assertTrue(sid.isExistingPathInsideSnapshotFolder('/baz'))
 
         #test invalid symlink
         os.symlink(os.path.join(backupPath, 'asdf'),
                    os.path.join(backupPath, 'qwer'))
         self.assertIsLink(backupPath, 'qwer')
-        self.assertFalse(sid.canOpenPath('/qwer'))
+        self.assertFalse(sid.isExistingPathInsideSnapshotFolder('/qwer'))
 
         #test valid symlink outside snapshot
         os.symlink('/tmp',
                    os.path.join(backupPath, 'bla'))
         self.assertIsLink(backupPath, 'bla')
-        self.assertFalse(sid.canOpenPath('/bla'))
+        self.assertFalse(sid.isExistingPathInsideSnapshotFolder('/bla'))
 
     def test_name(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)

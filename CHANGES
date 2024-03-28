@@ -1,9 +1,10 @@
 Back In Time
 
 Version 1.4.4-dev (development of upcoming release)
+* Fix bug: Open symlinked folders in file view (#1476)
+* Fix bug: Respect dark mode using color roles (#1601)
 * Fix: "Highly recommended" exclusion pattern in "Manage Profile" dialog's "Exclude" tab show missings only (#1620)
 * Build: Activate PyLint error E0401 (import-error)
-* Fix: Respect dark mode using color roles (#1601)
 * Dependency: Migration to PyQt6
 * Build: PyLint unit test is skipped if PyLint isn't installed, but will always run on TravisCI (#1634)
 * Feature: Support rsync '--one-file-system' in Expert Options (#1598)
