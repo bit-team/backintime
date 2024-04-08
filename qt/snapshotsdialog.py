@@ -29,7 +29,7 @@ import restoredialog
 import messagebox
 import qttools
 import snapshots
-
+import logger
 
 if tools.checkCommand('meld'):
     DIFF_CMD = 'meld'
@@ -352,6 +352,9 @@ class SnapshotsDialog(QDialog):
         params = params.replace('%2', '"%s"' %path2)
 
         cmd = diffCmd + ' ' + params
+
+        logger.debug(f'Compare two snapshots with command {cmd}.')
+
         subprocess.Popen(shlex.split(cmd))
 
     def btnDiffOptionsClicked(self):
