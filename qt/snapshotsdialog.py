@@ -33,14 +33,16 @@ import snapshots
 
 if tools.checkCommand('meld'):
     DIFF_CMD = 'meld'
-    DIFF_PARAMS = '%1 %2'
 elif tools.checkCommand('kompare'):
     DIFF_CMD = 'kompare'
-    DIFF_PARAMS = '%1 %2'
 else:
-    DIFF_CMD = 'false'
-    DIFF_PARAMS = '%1 %2'
+    DIFF_CMD = ''
 
+if DIFF_CMD is None:
+    DIFF_PARAMS = ''
+else:
+    DIFF_PARAMS = '%1 %2'
+    
 class DiffOptionsDialog(QDialog):
     def __init__(self, parent):
         super(DiffOptionsDialog, self).__init__(parent)
@@ -333,10 +335,9 @@ class SnapshotsDialog(QDialog):
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
         diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
-        if not tools.checkCommand(diffCmd):
+        if diffCmd is None:
             messagebox.critical(
-                self, '{}: {}'.format(_('Command not found'), diffCmd)
-            )
+                self, ('No tool found to compare snapshots. It is suggested to install "meld", "kompare", or a similar tool.'))
             return
 
         # prevent backup data from being accidentally overwritten
