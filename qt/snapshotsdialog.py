@@ -36,9 +36,9 @@ if tools.checkCommand('meld'):
 elif tools.checkCommand('kompare'):
     DIFF_CMD = 'kompare'
 else:
-    DIFF_CMD = ''
+    DIFF_CMD = None
 
-if DIFF_CMD == '':
+if DIFF_CMD is None:
     DIFF_PARAMS = ''
 else:
     DIFF_PARAMS = '%1 %2'
@@ -82,7 +82,7 @@ class DiffOptionsDialog(QDialog):
                 self, _('The command "{cmd}" is not valid.').format(cmd=diffCmd))
             return
 
-        # if it is empty, use the default
+        # if it is empty, use the default (here we use '' instead of None since if the user leaves the field empty, the value will be '')
         if diffCmd is '':
             diffCmd = DIFF_CMD
             diffParams = DIFF_PARAMS
@@ -179,7 +179,7 @@ class SnapshotsDialog(QDialog):
         self.mainLayout.addLayout(layout)
 
         self.btnDiff = QPushButton(_('Compare'), self)
-        self.btnDiff.setDisabled(DIFF_CMD is '')
+        self.btnDiff.setDisabled(DIFF_CMD is None)
         layout.addWidget(self.btnDiff)
         self.btnDiff.clicked.connect(self.btnDiffClicked)
 
@@ -348,7 +348,7 @@ class SnapshotsDialog(QDialog):
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
         diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
-        if diffCmd is '':
+        if diffCmd is None:
             messagebox.critical(
                 self, ('No tool found to compare snapshots. It is suggested to install "meld", "kompare", or a similar tool.'))
             return
@@ -373,7 +373,7 @@ class SnapshotsDialog(QDialog):
     def btnDiffOptionsClicked(self):
         DiffOptionsDialog(self).exec()
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
-        self.btnDiff.setDisabled(diffCmd is '')
+        self.btnDiff.setDisabled(diffCmd is None)
 
     def comboEqualToChanged(self, index):
         self.updateSnapshots()
