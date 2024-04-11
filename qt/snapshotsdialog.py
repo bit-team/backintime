@@ -358,11 +358,6 @@ class SnapshotsDialog(QDialog):
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
         diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
-        if diffCmd is None:
-            messagebox.critical(
-                self, ('No tool found to compare snapshots. It is suggested to install "meld", "kompare", or a similar tool.'))
-            return
-
         # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(sid1, snapshots.RootSnapshot):
@@ -371,8 +366,8 @@ class SnapshotsDialog(QDialog):
             path2 = self.parent.tmpCopy(path2, sid2)
 
         params = diffParams
-        params = params.replace('%1', '"%s"' %path1)
-        params = params.replace('%2', '"%s"' %path2)
+        params = params.replace('%1', '"%s"' % path1)
+        params = params.replace('%2', '"%s"' % path2)
 
         cmd = diffCmd + ' ' + params
 
