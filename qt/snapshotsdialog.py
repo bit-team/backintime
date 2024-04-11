@@ -73,24 +73,27 @@ class DiffOptionsDialog(QDialog):
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
 
     def accept(self):
-        diffCmd = self.editCmd.text()
-        diffParams = self.editParams.text()
+        """OK was clicked"""
+
+        # Get values from text dialogs fields
+        cmd = self.editCmd.text()
+        params = self.editParams.text()
 
         # check if new diff command is valid or empty
-        if not diffCmd is '' and not tools.checkCommand(diffCmd):
+        if cmd != '' and not tools.checkCommand(cmd):
             messagebox.critical(
-                self, _('The command "{cmd}" is not valid.').format(cmd=diffCmd))
+                self, _('The command "{cmd}" is not valid.').format(cmd=cmd))
             return
 
-        # if it is empty, use the default (here we use '' instead of None since if the user leaves the field empty, the value will be '')
-        if diffCmd is '':
-            diffCmd = DIFF_CMD
-            diffParams = DIFF_PARAMS
+        # Use defaults if empty
+        if not cmd != '':
+            cmd = DIFF_CMD
+            params = DIFF_PARAMS
 
         # save new values
-        if diffCmd != self.diffCmd or diffParams != self.diffParams:
-            self.config.setStrValue('qt.diff.cmd', diffCmd)
-            self.config.setStrValue('qt.diff.params', diffParams)
+        if cmd != self.diffCmd or params != self.diffParams:
+            self.config.setStrValue('qt.diff.cmd', cmd)
+            self.config.setStrValue('qt.diff.params', params)
             self.config.save()
 
         super(DiffOptionsDialog, self).accept()
