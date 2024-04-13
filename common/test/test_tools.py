@@ -418,6 +418,8 @@ class TestTools(generic.TestCase):
         self.assertEqual(procArgs[1], '/proc')
         self.assertEqual(procArgs[2], 'proc')
 
+    @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
+                     'No UUIDs available on this system.')
     def test_filesystemMountInfo(self):
         """
         Basic sanity checks on returned structure
