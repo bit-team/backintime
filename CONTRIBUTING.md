@@ -15,7 +15,7 @@ state).
 
 2. Clone your fork:
 
-   $ git clone git@github.com:YOURNAME/backintime.git
+       $ git clone git@github.com:YOURNAME/backintime.git
 
 3. Create and checkout your own feature- or bugfix-branch with `dev` as baseline branch:
 
