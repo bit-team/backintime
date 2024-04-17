@@ -11,9 +11,9 @@ Please always make a new branch when preparing a Pull Request ("PR") or a patch.
 Baseline that feature or bug fix branch on `dev` (the latest development
 state).
 
-1. Fork our repository. See Microsoft GitHub's own docu about [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+1. Fork this repository. See Microsoft GitHub's own docu about [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
-2. Clone your fork and enter the directory:
+2. Clone your own fork to your local machine and enter the directory:
 
        $ git clone git@github.com:YOURNAME/backintime.git
        $ cd backintime
