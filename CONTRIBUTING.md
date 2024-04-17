@@ -23,9 +23,10 @@ improved together with the maintainers.
 <!-- TOC end -->
 
 # Quick guide
-Please always make a new branch when preparing a Pull Request ("PR") or a patch.
-Baseline that feature or bug fix branch on `dev` (the latest development
-state).
+> [!IMPORTANT]
+> Please always make a new branch when preparing a Pull Request ("PR") or a patch.
+> Baseline that feature or bug fix branch on `dev` (the latest development
+> state).
 
 1. Fork this repository. See Microsoft GitHub's own docu about [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
