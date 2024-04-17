@@ -168,7 +168,8 @@ See `common/configure --help` and `qt/configure --help` for details.
 
 # Testing
 > [!IMPORTANT]
-> Remember to **manualy** test _Back In Time_ and not only trust the automatic test suite.
+> Remember to **manualy** test _Back In Time_ and not rely solely on
+> the automatic test suite.
 
 After [building and installing](#build--install), `make` can be used to run the
 test suite. Since _Back In Time_ consists of two components, `common` and `qt`,
