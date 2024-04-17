@@ -170,8 +170,9 @@ See `common/configure --help` and `qt/configure --help` for details.
 > [!IMPORTANT]
 > Remember to manualy test _Back In Time_ and not only trust the automatic test suite.
 
-After [building and installing](#build--install) `make` can be used to run the
-test suite. Because _Back In Time_ consist of the two components `common` and `qt` the tests are separated the same way.
+After [building and installing](#build--install), `make` can be used to run the
+test suite. Since _Back In Time_ consists of two components, `common` and `qt`,
+the tests are segregated accordingly.
 
     $ cd common
     $ make test
@@ -181,7 +182,8 @@ Or
     $ cd qt
     $ make test
 
-Use `test-v` as target for more verbose output. The `make` system will use `pytest` as test runner if available otherwise Python's own `unittest` module.
+Use `test-v` as target for more verbose output. The `make` system will use
+`pytest` as test runner if available otherwise Python's own `unittest` module.
 
 # Further reading
 - https://www.contribution-guide.org
