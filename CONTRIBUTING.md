@@ -26,11 +26,12 @@ the maintenance team upon request.
 
 # Quick guide
 > [!IMPORTANT]
-> Please always make a new branch when preparing a Pull Request.
-> Baseline that feature or bug fix branch on `dev` (the latest development
-> state).
+> Please remember to create a new branch before you begin any modifications.
+> Baseline your feature or bug fix branch on `dev`
+> (reflecting the latest development state).
 
-1. Fork this repository. See Microsoft GitHub's own docu about [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+1. Fork this repository. See Microsoft GitHub's own docu about
+   [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
 2. Clone your own fork to your local machine and enter the directory:
 
@@ -48,7 +49,9 @@ the maintenance team upon request.
         $ git commit -am 'commit message'
         $ git push
 
-6. Visit your on repository on Microsoft GitHub's website and create a Pull Request. See Microsoft GitHub's own docu about [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+6. Visit your on repository on Microsoft GitHub's website and create a Pull Request.
+   See Microsoft GitHub's own docu about
+   [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 # Best practice and recommendations
 Please take the following best practices into account if possible (to reduce
