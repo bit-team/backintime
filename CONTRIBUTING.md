@@ -13,24 +13,23 @@ state).
 
 1. Fork our repository. See Microsoft GitHub's own docu about [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
-2. Clone your fork:
+2. Clone your fork and enter the directory:
 
        $ git clone git@github.com:YOURNAME/backintime.git
+       $ cd backintime
 
 3. Create and checkout your own feature- or bugfix-branch with `dev` as baseline branch:
 
-   `git checkout --branch myfancyfeature dev`
+       $ git checkout --branch myfancyfeature dev
 
-4. Foo
+4. Now you can add your modifications.
 
-    $ git checkout dev
-    $ git checkout --branch mynewfeature
-    $ [do your coding]
-    $ git commit -am 'my message'
-    $ git push
+5. Commit and push it to your forked repo:
 
-When open a pull request please make sure that it targets
-`bit-team:dev`.
+        $ git commit -am 'commit message'
+        $ git push
+
+6. Visit your on repository on Microsoft GitHub's website and create a Pull Request. See Microsoft GitHub's own docu about [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 Please take the following best practices into account if possible (to reduce
 	the work load of the maintainers and to increase the chance that your pull
