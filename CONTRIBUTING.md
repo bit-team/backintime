@@ -2,10 +2,12 @@
 
 😊 **Thanks for taking the time to contribute!**
 
-The maintenance team will welcome all types of contributions. No contribution
-will be rejected just because it doesn't fit to our quality standards,
-guidelines or rules. Every contribution is reviewed and if needed will be
-improved together with the maintainers.
+The maintenance team welcomes all types of contributions. No contribution will
+be rejected solely because it doesn't meet our quality standards, guidelines,
+or rules. Every contribution is reviewed, and if necessary, improved in
+collaboration with the maintenance team.  New contributors who may need
+assistance or are less experienced are warmly welcomed and will be mentored by
+the maintenance team upon request.
 
 # Index
 
