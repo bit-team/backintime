@@ -13,7 +13,7 @@ the maintenance team upon request.
 
 <!-- TOC start -->
 - [Quick guide](#quick-guide)
-- [Best practice and recommendations](#best-practice-and-recomendations)
+- [Best practice and recommendations](#best-practice-and-recommendations)
 - [Resources](#resources)
 - [Build & Install](#build--install)
   * [Dependencies](#dependencies)
