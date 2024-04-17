@@ -30,7 +30,7 @@ the maintenance team upon request.
 > Baseline your feature or bug fix branch on `dev`
 > (reflecting the latest development state).
 
-1. Fork this repository. See Microsoft GitHub's own docu about
+1. Fork this repository. See Microsoft GitHub's own documentation about
    [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
 2. Clone your own fork to your local machine and enter the directory:
@@ -50,7 +50,7 @@ the maintenance team upon request.
         $ git push
 
 6. Visit your on repository on Microsoft GitHub's website and create a Pull Request.
-   See Microsoft GitHub's own docu about
+   See Microsoft GitHub's own documentation about
    [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 # Best practice and recommendations
