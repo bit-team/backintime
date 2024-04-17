@@ -168,7 +168,7 @@ See `common/configure --help` and `qt/configure --help` for details.
 
 # Testing
 > [!IMPORTANT]
-> Remember to **manualy** test _Back In Time_ and not rely solely on
+> Remember to **manually** test _Back In Time_ and not rely solely on
 > the automatic test suite.
 
 After [building and installing](#build--install), `make` can be used to run the
@@ -183,8 +183,9 @@ Or
     $ cd qt
     $ make test
 
-Use `test-v` as target for more verbose output. The `make` system will use
-`pytest` as test runner if available otherwise Python's own `unittest` module.
+Alternatively use `make test-v` for a more verbose output. The `make` system
+will use `pytest` as test runner if available otherwise Python's own `unittest`
+module.
 
 # Further reading
 - https://www.contribution-guide.org
