@@ -26,7 +26,7 @@ the maintenance team upon request.
 
 # Quick guide
 > [!IMPORTANT]
-> Please always make a new branch when preparing a Pull Request ("PR") or a patch.
+> Please always make a new branch when preparing a Pull Request.
 > Baseline that feature or bug fix branch on `dev` (the latest development
 > state).
 
