@@ -20,6 +20,7 @@ the maintenance team upon request.
   * [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
   * [Build own `deb` file](#build-own-deb-file)
+- [Testing](#testing)
 - [Further reading](#further-reading)
 - [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
@@ -49,7 +50,9 @@ the maintenance team upon request.
         $ git commit -am 'commit message'
         $ git push
 
-6. Visit your on repository on Microsoft GitHub's website and create a Pull Request.
+6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
+
+7. Visit your on repository on Microsoft GitHub's website and create a Pull Request.
    See Microsoft GitHub's own documentation about
    [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
@@ -162,6 +165,23 @@ See `common/configure --help` and `qt/configure --help` for details.
 3. Install the packages
   - `sudo dpkg -i ../backintime-common-<version>.deb`
   - `sudo dpkg -i ../backintime-qt-<version>.deb`
+
+# Testing
+> [!IMPORTANT]
+> Remember to manualy test _Back In Time_ and not only trust the automatic test suite.
+
+After [building and installing](#build--install) `make` can be used to run the
+test suite. Because _Back In Time_ consist of the two components `common` and `qt` the tests are separated the same way.
+
+    $ cd common
+    $ make test
+
+Or
+
+    $ cd qt
+    $ make test
+
+Use `test-v` as target for more verbose output. The `make` system will use `pytest` as test runner if available otherwise Python's own `unittest` module.
 
 # Further reading
 - https://www.contribution-guide.org
