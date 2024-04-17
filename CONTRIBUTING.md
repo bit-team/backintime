@@ -59,8 +59,8 @@ the work load of the maintainers and to increase the chance that your pull
 request is accepted.
  - Follow [PEP 8](https://peps.python.org/pep-0008/) as a minimal Style Guide
    for Python Code
- - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for
-   docstrings (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
+ - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
+   (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
  - Be careful when using automatic formatters like `black` and please mention
    the use of it when opening a pull request.
  - Run unit tests before you open a Pull Request. You can run them via
