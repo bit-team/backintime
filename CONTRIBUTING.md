@@ -54,9 +54,9 @@ the maintenance team upon request.
    [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 # Best practice and recommendations
-Please take the following best practices into account if possible (to reduce
-	the work load of the maintainers and to increase the chance that your pull
-	request is accepted):
+Please take the following best practices into account if possible. This will reduce
+the work load of the maintainers and to increase the chance that your pull
+request is accepted.
  - Follow [PEP 8](https://peps.python.org/pep-0008/) as a minimal Style Guide
    for Python Code
  - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for
