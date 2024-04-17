@@ -38,7 +38,7 @@ the maintenance team upon request.
        $ git clone git@github.com:YOURNAME/backintime.git
        $ cd backintime
 
-3. Create and checkout your own feature- or bugfix-branch with `dev` as baseline branch:
+3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
 
        $ git checkout --branch myfancyfeature dev
 
