@@ -7,6 +7,22 @@ will be rejected just because it doesn't fit to our quality standards,
 guidelines or rules. Every contribution is reviewed and if needed will be
 improved together with the maintainers.
 
+# Index
+
+<!-- TOC start -->
+- [Quick guide](#quick-guide)
+- [Best practice and recommendations](#best-practice-and-recomendations)
+- [Resources](#resources)
+- [Build & Install](#build--install)
+  * [Dependencies](#dependencies)
+  * [Build and install via `make` system
+    (recommended)](#build-and-install-via-make-system-recommended)
+  * [Build own `deb` file](#build-own-deb-file)
+- [Further reading](#further-reading)
+- [Licensing of contributed material](#licensing-of-contributed-material)
+<!-- TOC end -->
+
+# Quick guide
 Please always make a new branch when preparing a Pull Request ("PR") or a patch.
 Baseline that feature or bug fix branch on `dev` (the latest development
 state).
@@ -31,6 +47,7 @@ state).
 
 6. Visit your on repository on Microsoft GitHub's website and create a Pull Request. See Microsoft GitHub's own docu about [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
+# Best practice and recommendations
 Please take the following best practices into account if possible (to reduce
 	the work load of the maintainers and to increase the chance that your pull
 	request is accepted):
@@ -47,33 +64,20 @@ Please take the following best practices into account if possible (to reduce
    instead of `pytest`. If you know the difference please try follow the
    _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
 
-## Index
-
-<!-- TOC start -->
-- [Resources](#resources)
-- [Build & Install](#build--install)
-  * [Dependencies](#dependencies)
-  * [Build and install via `make` system
-    (recommended)](#build-and-install-via-make-system-recommended)
-  * [Build own `deb` file](#build-own-deb-file)
-- [Further reading](#further-reading)
-- [Licensing of contributed material](#licensing-of-contributed-material)
-<!-- TOC end -->
-
-## Resources
+# Resources
 
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform
  - [HowTo's and maintenance documents](common/doc-dev/README.md)
 
-## Build & Install
+# Build & Install
 
 This section describes how to build and install _Back In Time_ in preparation
 of your own contributions. It is assumed that you `git clone` this repository
 first.
 
-### Dependencies
+## Dependencies
 
 The following dependencies are based on Ubuntu. Please [open an
 Issue](https://github.com/bit-team/backintime/issues/new/choose) if something
@@ -125,7 +129,7 @@ replaced with PyPi packages.
   - `python3-pyfakefs`
   - `pylint`
 
-### Build and install via `make` system (recommended)
+## Build and install via `make` system (recommended)
 
 Remember that _Back In Time_ does consist of two packages, which must be built
 and installed separately accordingly.
@@ -145,7 +149,7 @@ and installed separately accordingly.
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
 
-### Build own `deb` file
+## Build own `deb` file
 
 1. Run `./makedeb.sh` in the repositories root directory.
 2. Two `deb` files are built and places in the repositories parent directory.
@@ -153,7 +157,7 @@ See `common/configure --help` and `qt/configure --help` for details.
   - `sudo dpkg -i ../backintime-common-<version>.deb`
   - `sudo dpkg -i ../backintime-qt-<version>.deb`
 
-## Further reading
+# Further reading
 - https://www.contribution-guide.org
 - https://mozillascience.github.io/working-open-workshop/contributing
 
@@ -162,4 +166,4 @@ Keep in mind as you contribute, that code, docs and other material submitted
 to the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
 
-<sub>March 2024</sub>
+<sub>April 2024</sub>
