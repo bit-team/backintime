@@ -12,10 +12,15 @@ Baseline that feature or bug fix branch on `dev` (the latest development
 state).
 
 1. Fork our repository. See Microsoft GitHub's own docu about [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
 2. Clone your fork:
+
    `git clone git@github.com:YOURNAME/backintime.git`
+
 3. Create and checkout your own feature- or bugfix-branch with `dev` as baseline branch:
+
    `git checkout --branch myfancyfeature dev`
+
 4. Foo
 
     $ git checkout dev
