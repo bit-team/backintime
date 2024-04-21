@@ -26,18 +26,15 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-import config
-import logger
 import mount
 import sshtools
 import tools
 from exceptions import MountException
 
-@unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
+@unittest.skipIf(not generic.LOCAL_SSH,
+                 'Skip as this test requires a local ssh server, public and '
+                 'private keys installed')
 class TestSSH(generic.SSHTestCase):
-    # running this test requires that user has public / private key pair created and ssh server running
-
     def test_can_mount_ssh_rw(self):
         mnt = mount.Mount(cfg = self.cfg, tmp_mount = True)
         mnt.preMountCheck(mode = 'ssh', first_run = True, **self.mount_kwargs)
@@ -259,21 +256,32 @@ class TestSshKey(generic.TestCaseCfg):
 
             try:
                 # test copy pubKey
-                self.assertTrue(sshtools.sshCopyId(pubKey, self.cfg.user(), 'localhost',
-                                                   askPass = 'test/mock_askpass'))
+                self.assertTrue(
+                    sshtools.sshCopyId(
+                        pubKey,
+                        getpass.getuser(),
+                        'localhost',
+                        askPass='test/mock_askpass'
+                    )
+                )
 
                 self.assertExists(authKeys)
                 with open(authKeys, 'rt') as f:
                     self.assertIn(pubKeyValue, f.readlines())
+
             finally:
-                # restore original ~/.ssh/authorized_keys file without test pubKey
+                # OMG! Does this means this test does modify the SSH config
+                # of the productive system?!
+                # restore original ~/.ssh/authorized_keys file without test
+                # pubKey
                 if os.path.exists(authKeysSic):
                     shutil.copyfile(authKeysSic, authKeys)
 
     @unittest.skipIf(not tools.checkCommand('ssh-keygen'),
                      "'ssh-keygen' not found.")
     def test_sshKeyFingerprint(self):
-        self.assertIsNone(sshtools.sshKeyFingerprint(os.path.abspath(__file__)))
+        self.assertIsNone(
+            sshtools.sshKeyFingerprint(os.path.abspath(__file__)))
 
         with TemporaryDirectory() as d:
             key = os.path.join(d, 'key')
