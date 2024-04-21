@@ -1,31 +1,37 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import (QDialog,
+                             QLabel,
+                             QPlainTextEdit,
+                             QVBoxLayout,
+                             QHBoxLayout,
+                             QComboBox,
+                             QDialogButtonBox,
+                             QMenu,
+                             QCheckBox,
+                             )
+from PyQt6.QtCore import Qt, QFileSystemWatcher
 import qttools
 import snapshots
 import encfstools
 import snapshotlog
 import tools
-import messagebox
 
 
 class LogViewDialog(QDialog):
@@ -45,7 +51,6 @@ class LogViewDialog(QDialog):
             super(LogViewDialog, self).__init__()
         else:
             super(LogViewDialog, self).__init__(parent)
-
 
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -71,7 +76,7 @@ class LogViewDialog(QDialog):
         self.mainLayout.addLayout(layout)
 
         # profiles
-        self.lblProfile = QLabel(_('Profile') + ':', self)
+        self.lblProfile = QLabel(_('Profile:'), self)
         layout.addWidget(self.lblProfile)
 
         self.comboProfiles = qttools.ProfileCombo(self)
@@ -79,7 +84,7 @@ class LogViewDialog(QDialog):
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
         # snapshots
-        self.lblSnapshots = QLabel(_('Snapshots') + ':', self)
+        self.lblSnapshots = QLabel(_('Snapshots:'), self)
         layout.addWidget(self.lblSnapshots)
         self.comboSnapshots = qttools.SnapshotCombo(self)
         layout.addWidget(self.comboSnapshots, 1)
@@ -88,12 +93,13 @@ class LogViewDialog(QDialog):
         if self.sid is None:
             self.lblSnapshots.hide()
             self.comboSnapshots.hide()
+
         if self.sid or systray:
             self.lblProfile.hide()
             self.comboProfiles.hide()
 
         # filter
-        layout.addWidget(QLabel(_('Filter') + ':'))
+        layout.addWidget(QLabel(_('Filter:'), self))
 
         self.comboFilter = QComboBox(self)
         layout.addWidget(self.comboFilter, 1)
@@ -122,7 +128,7 @@ class LogViewDialog(QDialog):
         #
         self.mainLayout.addWidget(QLabel(_('[E] Error, [I] Information, [C] Change')))
 
-        #decode path
+        # decode path
         self.cbDecode = QCheckBox(_('decode paths'), self)
         self.cbDecode.stateChanged.connect(self.cbDecodeChanged)
         self.mainLayout.addWidget(self.cbDecode)
