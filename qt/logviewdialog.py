@@ -187,6 +187,10 @@ class LogViewDialog(QDialog):
         menu = QMenu()
         cursor = self.txtLogView.textCursor()
 
+        # Don't show context menu if nothing is selected
+        if not cursor.hasSelection():
+            return
+
         btnDecode = menu.addAction(_('Decode'))
         btnDecode.triggered.connect(self._slot_decode_clicked)
         btnDecode.setEnabled(cursor.hasSelection())
