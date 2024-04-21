@@ -23,10 +23,9 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QComboBox,
                              QDialogButtonBox,
-                             QMenu,
                              QCheckBox,
                              )
-from PyQt6.QtCore import Qt, QFileSystemWatcher
+from PyQt6.QtCore import QFileSystemWatcher
 import qttools
 import snapshots
 import encfstools
@@ -35,9 +34,7 @@ import tools
 
 
 class LogViewDialog(QDialog):
-    # Workaround because of *-imports of Qt elements.
-    # Remove as soon as possible.
-    def __init__(self, parent, sid = None, systray = False):
+    def __init__(self, parent, sid=None, systray=False):
         """
         Instantiate a snapshot log file viewer
 
@@ -217,7 +214,7 @@ class LogViewDialog(QDialog):
             if self.cbDecode.isChecked():
                 self.cbDecode.setChecked(False)
 
-    def updateLog(self, watchPath = None):
+    def updateLog(self, watchPath=None):
         """
         Show the log file of the current snapshot in the GUI
 
