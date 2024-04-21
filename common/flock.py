@@ -5,13 +5,22 @@
 # This file is part of the program "Back In time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+import os
+import fcntl
 from pathlib import Path
+import logger
 
 
 class FlockContext:
+    """Context manager to manage flock.
+
+    Usage example ::
+
+        with FlockContext('backintime.lock'):
+             do_fancy_things()
+
     """
-    """
-    def __init__(self, filenname: str, folder: Path = None):
+    def __init__(self, filename: str, folder: Path = None):
         # default
         if folder is None:
             folder = Path(Path.cwd().root) / 'run' / 'lock'
@@ -20,24 +29,31 @@ class FlockContext:
             if not folder.exists():
                 folder = Path(Path.cwd().root) / 'var' / 'lock'
 
-
-        # Script start
-        self.script_name = pathlib.Path(the_file)
-        self.console_log_level=console_log_level
-
-        if self.script_name.is_absolute():
-            self.script_name = self.script_name.relative_to(pathlib.Path.cwd())
+        self._file_path = folder / filename
+        """Path to used for flock"""
 
     def __enter__(self):
-        # Logging
-        buhtzology.setup_logging(
-            console_level=self.console_log_level,
-            file_level=logging.DEBUG)
+        self._log('Set')
 
-        self._message_start()
-        self._message_version_infos()
+        # Open (and create if needed) the file
+        mode = 'r' if self._file_path.exists() else 'w'
+        self._flock_handle = self._file_path.open(mode)
+
+        # blocks (waits) until an existing flock is released
+        fcntl.flock(self._flock_handle, fcntl.LOCK_EX)
+
+        # If new created file set itspermissions to "rw-rw-rw".
+        # otherwise a foreign user is not able to use it.
+        if mode == 'w':
+            self._file_path.chmod('0o666')
 
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        self._message_finish()
+        self._log('Release')
+        fcntl.fcntl(self._flock_handle, fcntl.LOCK_UN)
+        self._flock_handle.close()
+
+    def _log(self, prefix: str):
+        logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}',
+                     self)
