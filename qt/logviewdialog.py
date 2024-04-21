@@ -133,7 +133,7 @@ class LogViewDialog(QDialog):
         self.cbDecode.stateChanged.connect(self.cbDecodeChanged)
         self.mainLayout.addWidget(self.cbDecode)
 
-        #buttons
+        # buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         self.mainLayout.addWidget(buttonBox)
         buttonBox.rejected.connect(self.close)
@@ -146,25 +146,22 @@ class LogViewDialog(QDialog):
         self.watcher = QFileSystemWatcher(self)
         if self.sid is None:
             # only watch if we show the last log
-            log = self.config.takeSnapshotLogFile(self.comboProfiles.currentProfileID())
+            log = self.config.takeSnapshotLogFile(
+                self.comboProfiles.currentProfileID())
             self.watcher.addPath(log)
-        self.watcher.fileChanged.connect(self.updateLog)  # passes the path to the changed file to updateLog()
-
-        # Context menu entry to decode EncFS paths in SSH encrypted profiles
-        if self.config.snapshotsMode() == 'ssh_encfs':
-            self.txtLogView.setContextMenuPolicy(
-                Qt.ContextMenuPolicy.CustomContextMenu)
-            self.txtLogView.customContextMenuRequested.connect(
-                self._slot_context_menu_clicked)
+        # passes the path to the changed file to updateLog()
+        self.watcher.fileChanged.connect(self.updateLog)
 
     def cbDecodeChanged(self):
         if self.cbDecode.isChecked():
             if not self.decode:
                 self.decode = encfstools.Decode(self.config)
+
         else:
-            if not self.decode is None:
+            if self.decode is not None:
                 self.decode.close()
             self.decode = None
+
         self.updateLog()
 
     def profileChanged(self, index):
@@ -185,31 +182,6 @@ class LogViewDialog(QDialog):
 
     def comboFilterChanged(self, index):
         self.updateLog()
-
-    def _slot_context_menu_clicked(self, point):
-        """Slot to handle context menu requests (e.g. right mouse button) on
-        the text widget.
-        """
-        menu = QMenu()
-        cursor = self.txtLogView.textCursor()
-
-        # Don't show context menu if nothing is selected
-        if not cursor.hasSelection():
-            return
-
-        btnDecode = menu.addAction(_('Decode'))
-        btnDecode.triggered.connect(self._slot_decode_clicked)
-        btnDecode.setEnabled(cursor.hasSelection())
-
-        menu.exec(self.txtLogView.mapToGlobal(point))
-
-    def _slot_decode_clicked(self):
-        if not self.decode:
-            self.decode = encfstools.Decode(self.config)
-        cursor = self.txtLogView.textCursor()
-        selection = cursor.selectedText().strip()
-        plain = self.decode.path(selection)
-        cursor.insertText(plain)
 
     def updateProfiles(self):
         current_profile_id = self.config.currentProfile()
