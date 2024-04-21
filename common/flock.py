@@ -45,7 +45,7 @@ class FlockContext:
         # If new created file set itspermissions to "rw-rw-rw".
         # otherwise a foreign user is not able to use it.
         if mode == 'w':
-            self._file_path.chmod('0o666')
+            self._file_path.chmod(int('0o666', 8))
 
         return self
 
