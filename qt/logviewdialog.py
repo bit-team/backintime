@@ -144,8 +144,12 @@ class LogViewDialog(QDialog):
             self.watcher.addPath(log)
         self.watcher.fileChanged.connect(self.updateLog)  # passes the path to the changed file to updateLog()
 
-        self.txtLogView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.txtLogView.customContextMenuRequested.connect(self.contextMenuClicked)
+        # Context menu entry to decode EncFS paths in SSH encrypted profiles
+        if self.config.snapshotsMode() == 'ssh_encfs':
+            self.txtLogView.setContextMenuPolicy(
+                Qt.ContextMenuPolicy.CustomContextMenu)
+            self.txtLogView.customContextMenuRequested.connect(
+                self._slot_context_menu_clicked)
 
     def cbDecodeChanged(self):
         if self.cbDecode.isChecked():
@@ -176,52 +180,20 @@ class LogViewDialog(QDialog):
     def comboFilterChanged(self, index):
         self.updateLog()
 
-    def contextMenuClicked(self, point):
+    def _slot_context_menu_clicked(self, point):
+        """Slot to handle context menu requests (e.g. right mouse button) on
+        the text widget.
+        """
         menu = QMenu()
-        clipboard = qttools.createQApplication().clipboard()
         cursor = self.txtLogView.textCursor()
 
-        btnCopy = menu.addAction(_('Copy'))
-        btnCopy.triggered.connect(lambda: clipboard.setText(cursor.selectedText()))
-        btnCopy.setEnabled(cursor.hasSelection())
-
-        btnAddExclude = menu.addAction(_('Add to Exclude'))
-        btnAddExclude.triggered.connect(self.btnAddExcludeClicked)
-        btnAddExclude.setEnabled(cursor.hasSelection())
-
         btnDecode = menu.addAction(_('Decode'))
-        btnDecode.triggered.connect(self.btnDecodeClicked)
+        btnDecode.triggered.connect(self._slot_decode_clicked)
         btnDecode.setEnabled(cursor.hasSelection())
-        btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
 
         menu.exec(self.txtLogView.mapToGlobal(point))
 
-    def btnAddExcludeClicked(self):
-        exclude = self.config.exclude()
-        path = self.txtLogView.textCursor().selectedText().strip()
-        if not path or path in exclude:
-            return
-        edit = QLineEdit(self)
-        edit.setText(path)
-        edit.setMinimumWidth(600)
-        options = {
-            'widget': edit,
-            'retFunc': edit.text,
-            'id': 'path'
-        }
-        confirm, opt = messagebox.warningYesNoOptions(
-            self,
-            _('Do you want to exclude this?'),
-            (options, )
-        )
-
-        if not confirm:
-            return
-
-        exclude.append(opt['path'])
-        self.config.setExclude(exclude)
-
-    def btnDecodeClicked(self):
+    def _slot_decode_clicked(self):
         if not self.decode:
             self.decode = encfstools.Decode(self.config)
         cursor = self.txtLogView.textCursor()
