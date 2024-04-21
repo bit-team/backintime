@@ -57,3 +57,8 @@ class FlockContext:
     def _log(self, prefix: str):
         logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}',
                      self)
+
+
+class GlobalFlock(FlockContext):
+    def __init__(self):
+        super().__init__('backintime.lock')
