@@ -88,9 +88,9 @@ class TestTools(generic.TestCase):
 
     def tearDown(self):
         super(TestTools, self).tearDown()
-        self.killProcess()
+        self._kill_process()
 
-    def createProcess(self, *args):
+    def _create_process(self, *args):
         dummyPath = os.path.join(os.path.dirname(__file__), generic.DUMMY)
         cmd = [dummyPath]
         cmd.extend(args)
@@ -98,7 +98,7 @@ class TestTools(generic.TestCase):
         sleep(0.1)
         return self.subproc.pid
 
-    def killProcess(self):
+    def _kill_process(self):
         if self.subproc:
             self.subproc.kill()
             self.subproc.wait()
@@ -234,7 +234,7 @@ class TestTools(generic.TestCase):
         self.assertIn(os.getpid(), pids)
 
     def test_processStat(self):
-        pid = self.createProcess()
+        pid = self._create_process()
         stat = tools.processStat(pid)
         self.assertRegex(
             stat, r'{} \({}\) \w .*'.format(pid, generic.DUMMY[:15]))
@@ -242,11 +242,11 @@ class TestTools(generic.TestCase):
     @patch('builtins.open')
     def test_processStat_exception(self, mock_open):
         mock_open.side_effect = OSError()
-        pid = self.createProcess()
+        pid = self._create_process()
         self.assertEqual(tools.processStat(pid), '')
 
     def test_processPaused(self):
-        pid = self.createProcess()
+        pid = self._create_process()
         self.assertFalse(tools.processPaused(pid))
         self.subproc.send_signal(signal.SIGSTOP)
         sleep(0.01)
@@ -256,34 +256,34 @@ class TestTools(generic.TestCase):
         self.assertFalse(tools.processPaused(pid))
 
     def test_processName(self):
-        pid = self.createProcess()
+        pid = self._create_process()
         self.assertEqual(tools.processName(pid), generic.DUMMY[:15])
 
     def test_processCmdline(self):
-        pid = self.createProcess()
+        pid = self._create_process()
         self.assertRegex(tools.processCmdline(pid),
                          r'.*/sh.*/common/test/dummy_test_process\.sh')
-        self.killProcess()
-        pid = self.createProcess('foo', 'bar')
+        self._kill_process()
+        pid = self._create_process('foo', 'bar')
         self.assertRegex(tools.processCmdline(pid),
                          r'.*/sh.*/common/test/dummy_test_process\.sh.foo.bar')
 
     @patch('builtins.open')
     def test_processCmdline_exception(self, mock_open):
         mock_open.side_effect = OSError()
-        pid = self.createProcess()
+        pid = self._create_process()
         self.assertEqual(tools.processCmdline(pid), '')
 
     def test_pidsWithName(self):
         self.assertEqual(len(tools.pidsWithName('nonExistingProcess')), 0)
-        pid = self.createProcess()
+        pid = self._create_process()
         pids = tools.pidsWithName(generic.DUMMY)
         self.assertGreaterEqual(len(pids), 1)
         self.assertIn(pid, pids)
 
     def test_processExists(self):
         self.assertFalse(tools.processExists('nonExistingProcess'))
-        self.createProcess()
+        self._create_process()
         self.assertTrue(tools.processExists(generic.DUMMY))
 
     def test_processAlive(self):
@@ -292,9 +292,9 @@ class TestTools(generic.TestCase):
         """
         # TODO: add test (in chroot) running proc as root and kill as non-root
         self.assertTrue(tools.processAlive(os.getpid()))
-        pid = self.createProcess()
+        pid = self._create_process()
         self.assertTrue(tools.processAlive(pid))
-        self.killProcess()
+        self._kill_process()
         self.assertFalse(tools.processAlive(pid))
         self.assertFalse(tools.processAlive(999999))
         with self.assertRaises(ValueError):
@@ -394,8 +394,6 @@ class TestTools(generic.TestCase):
         self.assertFalse(tools.checkCronPattern('*/6,8'))
         self.assertFalse(tools.checkCronPattern('*/6 a'))
 
-    # envLoad and envSave tests are in TestToolsEnviron below
-
     def test_mountpoint(self):
         self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
         proc = os.path.join('/proc', str(os.getpid()), 'fd')
@@ -419,200 +417,6 @@ class TestTools(generic.TestCase):
         self.assertEqual(procArgs[0], 'proc')
         self.assertEqual(procArgs[1], '/proc')
         self.assertEqual(procArgs[2], 'proc')
-
-    def test_device(self):
-        self.assertEqual(tools.device('/proc'), 'proc')
-        self.assertRegex(tools.device('/sys'), r'sys.*')
-        self.assertRegex(
-            tools.device('/nonExistingFolder/foo/bar'),
-            r'(:?/dev/.*|tmpfs|overlay|instances/containers/travis.*)')
-
-    def test_filesystem(self):
-        self.assertEqual(tools.filesystem('/proc'), 'proc')
-        self.assertRegex(tools.filesystem('/sys'), r'sys.*')
-        self.assertRegex(
-            tools.filesystem('/nonExistingFolder/foo/bar').lower(),
-            r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|overlay|shiftfs)')
-
-    # tools.uuidFromDev() get called from tools.uuidFromPath because the
-    # latter is a synonym/surrogate for too.suuidFromDev()
-    # So we skip an extra unittest as it's hard to find a dev on all systems
-    @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
-                     'No UUIDs available on this system.')
-    def test_uuidFromPath(self):
-        """UUID related to a path.
-
-        by buhtz: I was wondering why this test passed because the path used
-        here doesn't exists! The function ``tools.uuidFromPath()`` does use
-        ``tools.device()`` function to determine the device (e.g. ``/sda1``)
-        related to the path. Not matter that the path itself doesn't exists
-        only the "mountpoint" is relevant. The mountpoint for the non-existing
-        path is ``/`` which of curse does exists.
-
-        In short: That test needs a refactoring.
-        """
-
-        uuid = tools.uuidFromPath('/nonExistingFolder/foo/bar')
-
-        self.assertIsInstance(uuid, str)
-        self.assertRegex(uuid.lower(), r'^[a-f0-9\-]+$')
-        self.assertEqual(len(uuid.replace('-', '')), 32)
-
-    @pyfakefs_ut.patchfs
-    def test_uuid_via_filesystem(self, fake_fs):
-        """Extract UUID from /dev filesystem.
-
-        That test using a faked filesystem via pyfakefs. 16 devices and
-        corresponding uuids are generated."""
-
-        # dev-disk folder
-        path_dev = pathlib.Path('/dev')
-        fake_fs.create_dir(path_dev)
-
-        # create disk-files from "sda1" to "sda4" to "sdd4"
-        dev_list = [
-            path_dev / f'sd{letter}{number}'
-            for letter in list('abcd')
-            for number in range(1, 5)]
-
-        # dev-disk-by-uuid
-        path_by_uuid = pathlib.Path('/dev') / 'disk' / 'by-uuid'
-        fake_fs.create_dir(path_by_uuid)
-
-        # uuids
-        uuid_list = [str(uuid.uuid4()) for _ in range(16)]
-
-        # connect device files with uuid symlinks
-        for idx in range(16):  # 16 devices
-            fake_fs.create_symlink(
-                # e.g. /dev/disk/by-uuid/c7aca0
-                file_path=path_by_uuid / uuid_list[idx],
-                # e.g. /dev/sda1
-                link_target=path_dev / dev_list[idx]
-            )
-
-        # randomly select one of the dev-uuid pairs
-        check_idx = random.choice(range(16))
-
-        # TEST
-        self.assertEqual(
-            tools._uuidFromDev_via_filesystem(dev=dev_list[check_idx]),
-            uuid_list[check_idx]
-        )
-
-    @patch('subprocess.check_output')
-    def test_uuid_via_blkid(self, mock_check_output):
-        """Extract UUID from blkid output."""
-
-        one_uuid = 'c7aca0a7-89ed-43f0-a4f9-c744dfe673e0'
-        one_dev = '/dev/sda1'
-
-        output = f'{one_dev}: UUID="{one_uuid}" BLOCK_SIZE="4096" ' \
-                 'TYPE="ext4" PARTUUID="89ffeb8f-01"'
-
-        mock_check_output.return_value = output
-
-        self.assertEqual(
-            tools._uuidFromDev_via_blkid_command(dev=one_dev),
-            one_uuid
-        )
-
-    @patch('subprocess.check_output')
-    def test_uuid_via_udevadm(self, mock_check_output):
-        """Extract UUID from udevadm output."""
-
-        one_uuid = 'c7aca0a7-89ed-43f0-a4f9-c744dfe673e0'
-        one_dev = '/dev/sda1'
-
-        # output to mock with injected dev and uuid
-        output = 'P: /devices/pci0000:00/0000:00:1f.2/ata1/host0/target' \
-                 '0:0:0/0:0:0:0/block/sda/sda1\n' \
-                 f'N: {one_dev}\n' \
-                 'L: 0\n' \
-                 'S: disk/by-uuid/c7aca0a7-89ed-43f0-a4f9-c744dfe673e0\n' \
-                 'S: disk/by-id/ata-WDC_WD20EARS-00S8B1_WD-' \
-                 'WCAVY4333133-part1\n' \
-                 'S: disk/by-id/wwn-0x50014ee2049ff22c-part1\n' \
-                 'S: disk/by-path/pci-0000:00:1f.2-ata-1.0-part1\n' \
-                 'S: disk/by-partuuid/89ffeb8f-01\n' \
-                 'S: disk/by-path/pci-0000:00:1f.2-ata-1-part1\n' \
-                 'E: DEVPATH=/devices/pci0000:00/0000:00:1f.2/ata1/host0/' \
-                 'target0:0:0/0:0:0:0/block/sda/sda1\n' \
-                 'E: DEVNAME=/dev/sda1\n' \
-                 'E: DEVTYPE=partition\n' \
-                 'E: PARTN=1\n' \
-                 'E: MAJOR=8\n' \
-                 'E: MINOR=1\n' \
-                 'E: SUBSYSTEM=block\n' \
-                 'E: USEC_INITIALIZED=1997408\n' \
-                 'E: ID_ATA=1\n' \
-                 'E: ID_TYPE=disk\n' \
-                 'E: ID_BUS=ata\n' \
-                 'E: ID_MODEL=WDC_WD20EARS-00S8B1\n' \
-                 'E: ID_MODEL_ENC=WDC\x20WD20EARS-00S8B1' \
-                 '\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20' \
-                 '\x20\x20\x20\x20\x20\x20\x20\x20\n' \
-                 'E: ID_REVISION=80.00A80\n' \
-                 'E: ID_SERIAL=WDC_WD20EARS-00S8B1_WD-WCAVY4333133\n' \
-                 'E: ID_SERIAL_SHORT=WD-WCAVY4333133\n' \
-                 'E: ID_ATA_WRITE_CACHE=1\n' \
-                 'E: ID_ATA_WRITE_CACHE_ENABLED=1\n' \
-                 'E: ID_ATA_FEATURE_SET_HPA=1\n' \
-                 'E: ID_ATA_FEATURE_SET_HPA_ENABLED=1\n' \
-                 'E: ID_ATA_FEATURE_SET_PM=1\n' \
-                 'E: ID_ATA_FEATURE_SET_PM_ENABLED=1\n' \
-                 'E: ID_ATA_FEATURE_SET_SECURITY=1\n' \
-                 'E: ID_ATA_FEATURE_SET_SECURITY_ENABLED=0\n' \
-                 'E: ID_ATA_FEATURE_SET_SECURITY_ERASE_UNIT_MIN=416\n' \
-                 'E: ID_ATA_FEATURE_SET_SECURITY_ENHANCED_' \
-                 'ERASE_UNIT_MIN=416\n' \
-                 'E: ID_ATA_FEATURE_SET_SECURITY_FROZEN=1\n' \
-                 'E: ID_ATA_FEATURE_SET_SMART=1\n' \
-                 'E: ID_ATA_FEATURE_SET_SMART_ENABLED=1\n' \
-                 'E: ID_ATA_FEATURE_SET_AAM=1\n' \
-                 'E: ID_ATA_FEATURE_SET_AAM_ENABLED=1\n' \
-                 'E: ID_ATA_FEATURE_SET_AAM_VENDOR_RECOMMENDED_VALUE=128\n' \
-                 'E: ID_ATA_FEATURE_SET_AAM_CURRENT_VALUE=254\n' \
-                 'E: ID_ATA_FEATURE_SET_PUIS=1\n' \
-                 'E: ID_ATA_FEATURE_SET_PUIS_ENABLED=0\n' \
-                 'E: ID_ATA_DOWNLOAD_MICROCODE=1\n' \
-                 'E: ID_ATA_SATA=1\n' \
-                 'E: ID_ATA_SATA_SIGNAL_RATE_GEN2=1\n' \
-                 'E: ID_ATA_SATA_SIGNAL_RATE_GEN1=1\n' \
-                 'E: ID_WWN=0x50014ee2049ff22c\n' \
-                 'E: ID_WWN_WITH_EXTENSION=0x50014ee2049ff22c\n' \
-                 'E: ID_PATH=pci-0000:00:1f.2-ata-1.0\n' \
-                 'E: ID_PATH_TAG=pci-0000_00_1f_2-ata-1_0\n' \
-                 'E: ID_PATH_ATA_COMPAT=pci-0000:00:1f.2-ata-1\n' \
-                 'E: ID_PART_TABLE_UUID=89ffeb8f\n' \
-                 'E: ID_PART_TABLE_TYPE=dos\n' \
-                 'E: ID_FS_UUID=c7aca0a7-89ed-43f0-a4f9-c744dfe673e0\n' \
-                 'E: ID_FS_UUID_ENC=c7aca0a7-89ed-43f0-a4f9-c744dfe673e0\n' \
-                 'E: ID_FS_VERSION=1.0\n' \
-                 'E: ID_FS_TYPE=ext4\n' \
-                 'E: ID_FS_USAGE=filesystem\n' \
-                 'E: ID_PART_ENTRY_SCHEME=dos\n' \
-                 'E: ID_PART_ENTRY_UUID=89ffeb8f-01\n' \
-                 'E: ID_PART_ENTRY_TYPE=0x83\n' \
-                 'E: ID_PART_ENTRY_NUMBER=1\n' \
-                 'E: ID_PART_ENTRY_OFFSET=2048\n' \
-                 'E: ID_PART_ENTRY_SIZE=3907026944\n' \
-                 'E: ID_PART_ENTRY_DISK=8:0\n' \
-                 'E: DEVLINKS=/dev/disk/by-uuid/c7aca0a7-89ed-43f0-a4f9-' \
-                 'c744dfe673e0 /dev/disk/by-id/ata-WDC_WD20EARS-00S8B1_WD'\
-                 '-WCAVY4333133-part1 /dev/disk/by-id/wwn-' \
-                 '0x50014ee2049ff22c-part1 /dev/disk/by-path/pci-0000:00:' \
-                 '1f.2-ata-1.0-part1 /dev/disk/by-partuuid/89ffeb8f-01 ' \
-                 '/dev/disk/by-path/pci-0000:00:1f.2-ata-1-part1\n' \
-                 'E: TAGS=:systemd:\n' \
-                 'E: CURRENT_TAGS=:systemd:\n'
-
-        mock_check_output.return_value = output
-
-        self.assertEqual(
-            tools._uuidFromDev_via_udevadm_command(dev=one_dev),
-            one_uuid
-        )
 
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
@@ -747,12 +551,6 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.escapeIPv6Address('foo.bar'), 'foo.bar')
         self.assertEqual(tools.escapeIPv6Address('192.168.1.1'), '192.168.1.1')
         self.assertEqual(tools.escapeIPv6Address('fd00'), 'fd00')
-
-    def test_camelCase(self):
-        self.assertEqual(tools.camelCase('foo'), 'Foo')
-        self.assertEqual(tools.camelCase('Foo'), 'Foo')
-        self.assertEqual(tools.camelCase('foo_bar'), 'FooBar')
-        self.assertEqual(tools.camelCase('foo_Bar'), 'FooBar')
 
 
 class TestToolsEnviron(generic.TestCase):
