@@ -179,7 +179,7 @@ class QtSysTrayIcon:
                 if self.decode:
                     message = (message[0], self.decode.log(message[1]))
                 self.menuStatusMessage.setText('\n'.join(textwrap.wrap(message[1], \
-                                                                                width = 80, \
+                                                                                width = 80) \
                                                          ))
                 self.status_icon.setToolTip(message[1])
 
