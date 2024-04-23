@@ -5,7 +5,7 @@
 
 # Back In Time
 <sub>Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
-Germar Reitze, Taylor Raack</sub>
+Germar Reitze, Taylor Raack</sub><br />
 <sub>Copyright (C) 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
  
 _Back In Time_ is an easy-to-use tool to backup files and folders.
