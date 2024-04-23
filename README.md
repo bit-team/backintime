@@ -54,8 +54,6 @@ and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%
    questions and report bugs.
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 
----
-
 ## Installation
 
 _Back In Time_ is included in [many GNU/Linux distributions](https://repology.org/project/backintime/badges).
@@ -70,8 +68,6 @@ installation options provided and maintained by third parties.
 - [@Germar](https://github.com/germar)'s Personal Package Archive ([PPA](https://launchpad.net/ubuntu/+ppas)) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
 - [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
 - The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
-
----
 
 ## Known Problems and Workarounds
 
