@@ -523,7 +523,7 @@ def startApp(app_name='backintime'):
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
         logger.warning(
             "It looks like you're using 'sudo' to start "
-            f"{config.Config.APP_name}. This will cause some trouble. "
+            f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
 
     # Call commands
