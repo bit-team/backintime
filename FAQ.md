@@ -1051,24 +1051,11 @@ A solution is described in
 
 ### SSH related tests are skipped
 
-Some tests require an available SSH server.
-They get skipped if this is not the case.
-Please see
-[Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests).
+They get skipped if no SSH server is available. Please see section
+[Testing & Building](CONTRIBUTING.md#testing--building) about how to setup
+a SSH server on your system.
 
 ### Setup SSH Server to run unit tests
 
-For detailed setup instructions see the [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md)
-
-The goal is to log into the SSH server on your local computer via `ssh localhost` without using
-a password:
-
-- Generate an RSA key pair executing `ssh-keygen`. Use the default file name
-  and don't use a passphrase for the key.
-- Populate the public key to the server executing `ssh-copy-id`.
-- Make the `ssh` instance run.
-- The port `22` (SSH default) should be available.
-
-To test the connection just execute `ssh localhost` and you should see an
-SSH shell without being asked for a password.
+Please see section [Testing & Building](CONTRIBUTING.md#testing--building).
 
