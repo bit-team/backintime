@@ -1057,5 +1057,5 @@ a SSH server on your system.
 
 ### Setup SSH Server to run unit tests
 
-Please see section [Testing & Building](CONTRIBUTING.md#testing--building).
+Please see section [Testing - SSH](CONTRIBUTING.md#testing).
 
