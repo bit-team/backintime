@@ -5,7 +5,8 @@
 
 # Back In Time
 <sub>Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
-Germar Reitze, Taylor Raack, Christian Buhtz, Michael Büker, Jürgen Altfeld<sub>
+Germar Reitze, Taylor Raack</sub><br />
+<sub>Copyright (C) 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
  
 _Back In Time_ is an easy-to-use tool to backup files and folders.
 It runs on GNU Linux (not on Windows or OS X/macOS) and provides a command line tool `backintime` and a
@@ -39,7 +40,7 @@ and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%
 - [Documentation, FAQs, Support](#documentation-faqs-support)
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
-- [CONTRIBUTING](CONTRIBUTING.md)
+- [Contributing and other ways to support the project](#contributing-and-other-ways-to-support-the-project)
 
 ## Documentation, FAQs, Support
 
@@ -72,7 +73,6 @@ installation options provided and maintained by third parties.
 
 In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
-- [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
 - [`qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt5_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 In older releases:
@@ -99,19 +99,6 @@ If you don't like the new behavior, you can use _Expert Options_ -> _Paste addit
 to add `--no-perms --no-group --no-owner` to it.
 Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
 files.
-
-#### Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
-
-In newer Ubuntu-based distros you may get this warning if you manually install _Back In Time_
-as described in the [Installation](#installation) section here.
-
-The reason is that public keys of signed packages shall be stored in a new folder now
-(for details see https://itsfoss.com/apt-key-deprecated/).
-
-You can currently ignore this warning until we have found a reliable way
-to support all Ubuntu distros (older and newer ones).
-
-This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
 
 #### `qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
 
@@ -200,4 +187,7 @@ Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 to make it work. If you want to update _Back In Time_, you may use one of the
 [alternative options for installation](#alternative-installation-options).
 
-<sub>March 2024</sub>
+## Contributing and other ways to support the project
+See [CONTRIBUTING](CONTRIBUTING.md) file.
+
+<sub>April 2024</sub>

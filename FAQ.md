@@ -41,6 +41,7 @@
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
    * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
+   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -1036,29 +1037,25 @@ You can avoid this by moving the file/folder in the last snapshot too:
 5. Remove the next to last snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
 
+#### Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
+
+In newer Ubuntu-based distros you may get this warning if you install _Back In
+Time_ from PPA.  The reason is that public keys of signed packages shall be
+stored in a new folder now (for details see
+https://itsfoss.com/apt-key-deprecated/).
+
+A solution is described in
+[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 
 ## Testing & Building
 
 ### SSH related tests are skipped
 
-Some tests require an available SSH server.
-They get skipped if this is not the case.
-Please see
-[Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests).
+They get skipped if no SSH server is available. Please see section
+[Testing & Building](CONTRIBUTING.md#testing--building) about how to setup
+a SSH server on your system.
 
 ### Setup SSH Server to run unit tests
 
-For detailed setup instructions see the [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md)
-
-The goal is to log into the SSH server on your local computer via `ssh localhost` without using
-a password:
-
-- Generate an RSA key pair executing `ssh-keygen`. Use the default file name
-  and don't use a passphrase for the key.
-- Populate the public key to the server executing `ssh-copy-id`.
-- Make the `ssh` instance run.
-- The port `22` (SSH default) should be available.
-
-To test the connection just execute `ssh localhost` and you should see an
-SSH shell without being asked for a password.
+Please see section [Testing - SSH](CONTRIBUTING.md#ssh).
 

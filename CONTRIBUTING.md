@@ -187,6 +187,24 @@ Alternatively use `make test-v` for a more verbose output. The `make` system
 will use `pytest` as test runner if available otherwise Python's own `unittest`
 module.
 
+## SSH
+
+Some tests require an available SSH server. They get skipped if this is not the
+case. The goal is to log into the SSH server on your local computer via
+`ssh localhost` without using a password:
+
+- Generate an RSA key pair executing `ssh-keygen`. Use the default file name
+  and don't use a passphrase for the key.
+- Populate the public key to the server executing `ssh-copy-id`.
+- Make the `ssh` instance run.
+- The port `22` (SSH default) should be available.
+
+To test the connection just execute `ssh localhost` and you should see an
+SSH shell **without** being asked for a password.
+
+For detailed setup instructions see the
+[how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
+
 # Further reading
 - https://www.contribution-guide.org
 - https://mozillascience.github.io/working-open-workshop/contributing
