@@ -21,8 +21,8 @@ import os
 import datetime
 import copy
 import re
+import getpass
 import textwrap
-
 from PyQt6.QtGui import (QIcon,
                          QFont,
                          QPalette,
@@ -2215,7 +2215,7 @@ class RestoreConfigDialog(QDialog):
         samplePath = os.path.join(
             'backintime',
             self.config.host(),
-            self.config.user(), '1',
+            getpass.getuser(), '1',
             snapshots.SID(datetime.datetime.now(), self.config).sid
         )
 
@@ -2358,9 +2358,9 @@ class RestoreConfigDialog(QDialog):
         """
         try to find config in couple possible subfolders
         """
-        snapshotPath = os.path.join('backintime',
-                                    self.config.host(),
-                                    self.config.user())
+        snapshotPath = os.path.join(
+            'backintime', self.config.host(), getpass.getuser())
+
         tryPaths = ['', '..', 'last_snapshot']
         tryPaths.extend([
             os.path.join(snapshotPath, str(i), 'last_snapshot')
@@ -2373,9 +2373,14 @@ class RestoreConfigDialog(QDialog):
 
                 try:
                     cfg = config.Config(cfgPath)
+
                     if cfg.isConfigured():
                         return cfg
-                except:
+
+                except Exception as exc:
+                    logger.error(
+                        f'Unhandled branch in code! See in {__file__} '
+                        f'SettingsDialog.searchConfig()\n{exc}')
                     pass
 
         return

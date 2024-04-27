@@ -34,12 +34,8 @@ import sys
 import datetime
 import socket
 import random
+import getpass
 import shlex
-try:
-    import pwd
-except ImportError:
-    import getpass
-    pwd = None
 
 # Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
@@ -400,17 +396,6 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
         return True
 
-    def user(self):
-        """
-        portable way to get username
-        cc by-sa 3.0      http://stackoverflow.com/a/19865396/1139841
-        author: techtonik http://stackoverflow.com/users/239247/techtonik
-        """
-        if pwd:
-            return pwd.getpwuid(os.geteuid()).pw_name
-        else:
-            return getpass.getuser()
-
     def pid(self):
         return str(os.getpid())
 
@@ -632,7 +617,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def sshUser(self, profile_id = None):
         #?Remote SSH user;;local users name
-        return self.profileStrValue('snapshots.ssh.user', self.user(), profile_id)
+        return self.profileStrValue('snapshots.ssh.user', getpass.getuser(), profile_id)
 
     def setSshUser(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.user', value, profile_id)
@@ -850,9 +835,9 @@ class Config(configfile.ConfigFileWithProfiles):
             profile_id = self.currentProfile()
         return 'profile_id_%s' % profile_id
 
-    def hostUserProfileDefault(self, profile_id = None):
+    def hostUserProfileDefault(self, profile_id=None):
         host = socket.gethostname()
-        user = self.user()
+        user = getpass.getuser()
         profile = profile_id
         if profile is None:
             profile = self.currentProfile()
@@ -1456,7 +1441,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return profile_id + '_' + profile_name.replace(' ', '_')
 
     def udevRulesPath(self):
-        return os.path.join('/etc/udev/rules.d', '99-backintime-%s.rules' % self.user())
+        return os.path.join('/etc/udev/rules.d', '99-backintime-%s.rules' % getpass.getuser())
 
     def restoreLogFile(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.fileId(profile_id))

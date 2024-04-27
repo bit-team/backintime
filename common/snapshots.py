@@ -1,21 +1,20 @@
-#	Back In Time
-#	Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze, Taylor Raack
 #
-#	This program is free software; you can redistribute it and/or modify
-#	it under the terms of the GNU General Public License as published by
-#	the Free Software Foundation; either version 2 of the License, or
-#	(at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#	This program is distributed in the hope that it will be useful,
-#	but WITHOUT ANY WARRANTY; without even the implied warranty of
-#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#	GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#	You should have received a copy of the GNU General Public License along
-#	with this program; if not, write to the Free Software Foundation, Inc.,
-#	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import json
 import os
 from pathlib import Path
@@ -24,6 +23,7 @@ import datetime
 import gettext
 import bz2
 import pwd
+import getpass
 import grp
 import subprocess
 import shutil
@@ -31,7 +31,6 @@ import time
 import re
 import fcntl
 from tempfile import TemporaryDirectory
-
 import config
 import configfile
 import logger
@@ -251,7 +250,7 @@ class Snapshots:
                         callback(msg)
                 else:
                     self.restorePermissionFailed = True
-                    msg = 'Failed to get UID for %s: %s' %(name, str(e))
+                    msg = 'Failed to get UID for %s: %s' % (name, str(e))
                     logger.error(msg, self)
                     if callback:
                         callback(msg)
@@ -1126,7 +1125,7 @@ class Snapshots:
         """
         logger.info("Create info file", self)
         machine = self.config.host()
-        user = self.config.user()
+        user = getpass.getuser()
         profile_id = self.config.currentProfile()
         i = configfile.ConfigFile()
         i.setIntValue('snapshot_version', self.SNAPSHOT_VERSION)
