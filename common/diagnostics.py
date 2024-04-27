@@ -1,5 +1,4 @@
 # SPDX-FileCopyrightText: © 2022 Christian BUHTZ <c.buhtz@posteo.jp>
-# SPDX-FileCopyrightText: © 2022 Jürgen Altfeld <python@altfeld-im.de>
 #
 # SPDX-License-Identifier: GPL-2.0
 #
