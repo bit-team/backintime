@@ -22,6 +22,7 @@ the maintenance team upon request.
   - [Build own `deb` file](#build-own-deb-file)
 - [Testing](#testing)
   - [SSH](#SSH)
+- [What happens after you opened a Pull Request?](#what-happens-after-you-opened-a-pull-request)
 - [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
 
@@ -62,14 +63,17 @@ the work load of the maintainers and to increase the chance that your pull
 request is accepted.
 
 - Follow [PEP 8](https://peps.python.org/pep-0008/) as a minimal Style Guide
-  for Python Code
+  for Python Code.
 - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
   (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
 - Be careful when using automatic formatters like `black` and please mention
   the use of it when opening a pull request.
 - Run unit tests before you open a Pull Request. You can run them via
   `make`-system with `cd common && ./configure && make && make test` or you
-  can use `pytest`. See section [Build and install via `make` system](#build-and-install-via-make-system-recommended) for further details.
+  can use `pytest`. See section
+  [Build and install via `make`
+  system](#build-and-install-via-make-system-recommended)
+  for further details.
 - Try to create new unit tests if appropriated. Use Pythons regular `unittest`
   instead of `pytest`. If you know the difference please try follow the
   _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
@@ -82,6 +86,7 @@ request is accepted.
 - [HowTo's and maintenance documents](common/doc-dev/README.md)
 
 - [contribution-guide.org](https://www.contribution-guide.org)
+- [How to submit a contribution (opensrouce.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
 - [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
 
 
@@ -209,6 +214,28 @@ SSH shell **without** being asked for a password.
 
 For detailed setup instructions see the
 [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
+
+# What happens after you opened a Pull Request?
+The maintenance team members are promptly notified of your request. One of
+them will respond within days or weeks.  Note that all team members perform
+their duties voluntarily in their limited spare time.
+
+Please read the maintainers' responses carefully, answer their questions, and
+try follow their instructions. Do not hesitate to ask for clarification if
+needed. At least one maintainer will review and ultimately approve your pull
+request.
+
+Depending on the topic or impact of the pull request, the maintainer may decide
+that an approval from a second maintainer is needed. This may result in
+additional waiting time. Please remain patient. In such cases, the pull request
+will be labeled
+[PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review). 
+
+If no second approval is necessary, the pull request will remain
+open for minimum of one week. It will then be labeled
+[PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
+This rule allows all maintainers the chance to review and potentially veto the
+pull request.
 
 # Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted
