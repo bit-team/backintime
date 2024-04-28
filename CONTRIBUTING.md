@@ -221,7 +221,7 @@ them will respond within days or weeks.  Note that all team members perform
 their duties voluntarily in their limited spare time.
 
 Please read the maintainers' responses carefully, answer their questions, and
-try follow their instructions. Do not hesitate to ask for clarification if
+try to follow their instructions. Do not hesitate to ask for clarification if
 needed. At least one maintainer will review and ultimately approve your pull
 request.
 
@@ -233,7 +233,7 @@ will be labeled
 
 If no second approval is necessary, the pull request will remain
 open for minimum of one week. It will then be labeled
-[PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
+[PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break).
 This rule allows all maintainers the chance to review and potentially veto the
 pull request.
 
