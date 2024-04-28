@@ -29,9 +29,7 @@ import subprocess
 import shutil
 import time
 import re
-import fcntl
 from tempfile import TemporaryDirectory
-
 import config
 import configfile
 import logger
@@ -85,7 +83,7 @@ class Snapshots:
                                           r'(.*$)')                         #trash at the end
 
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
-        self.flock = None
+        # self.flock = None
         self.restorePermissionFailed = False
 
     # TODO: make own class for takeSnapshotMessage
@@ -706,7 +704,7 @@ class Snapshots:
     #  - Nested "if"s
     #  - Fuzzy names of classes, attributes and methods
     # - unclear variable names (at least for the return values)
-    def backup(self, force = False):
+    def backup(self, force=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
 
@@ -792,12 +790,12 @@ class Snapshots:
                     now = datetime.datetime.today()
 
                     # inhibit suspend/hibernate during snapshot is running
-                    self.config.inhibitCookie \
-                        = tools.inhibitSuspend(toplevel_xid=self.config.xWindowId)
+                    self.config.inhibitCookie = tools.inhibitSuspend(
+                        toplevel_xid=self.config.xWindowId)
 
                     # mount
                     try:
-                        hash_id = mount.Mount(cfg = self.config).mount()
+                        hash_id = mount.Mount(cfg=self.config).mount()
 
                     except MountException as ex:
                         logger.error(str(ex), self)
@@ -835,12 +833,13 @@ class Snapshots:
                                     and self.config.notify()):
 
                                 message = (
-                                    _('Can\'t find snapshots folder.\nIf it is '
-                                    'on a removable drive please plug it in.')
+                                    _("Can't find snapshots folder.\n"
+                                      "If it is on a removable drive please "
+                                      "plug it in.")
                                     + '\n'
                                     + gettext.ngettext('Waiting %s second.',
-                                                    'Waiting %s seconds.',
-                                                    30) % 30
+                                                       'Waiting %s seconds.',
+                                                       30) % 30
                                 )
 
                                 self.setTakeSnapshotMessage(
@@ -851,8 +850,8 @@ class Snapshots:
                             counter = 0
                             for counter in range(0, 30):
                                 logger.debug(
-                                    "Cannot start snapshot yet: target directory "
-                                    "not accessible. Waiting 1s.")
+                                    'Cannot start snapshot yet: target '
+                                    'directory not accessible. Waiting 1s.')
 
                                 time.sleep(1)
 
@@ -861,13 +860,14 @@ class Snapshots:
 
                             if counter != 0:
                                 logger.info(
-                                    f"Waited {counter} seconds for target "
-                                    "directory to be available", self)
+                                    f'Waited {counter} seconds for target '
+                                    'directory to be available', self)
 
                         if not self.config.canBackup(profile_id):
-                            logger.warning("Can't find snapshots folder!", self)
-                            # Can't find snapshots directory (is it on a removable
-                            # drive ?)
+                            logger.warning(
+                                "Can't find snapshots folder!", self)
+                            # Can't find snapshots directory (is it on a
+                            # removable drive ?)
                             self.config.PLUGIN_MANAGER.error(3)
 
                         else:
@@ -876,7 +876,7 @@ class Snapshots:
 
                             if sid.exists():
                                 logger.warning(f'Snapshot path "{sid.path()}" '
-                                            'already exists', self)
+                                               'already exists', self)
                                 # This snapshot already exists
                                 self.config.PLUGIN_MANAGER.error(4, sid)
 
@@ -884,12 +884,13 @@ class Snapshots:
 
                                 try:
                                     # TODO
-                                    # rename ret_val to new_snapshot_created and
-                                    # ret_error to has_error for clearer code
+                                    # rename ret_val to new_snapshot_created
+                                    # and ret_error to has_error for clearer
+                                    # code
                                     ret_val, ret_error = self.takeSnapshot(
                                         sid, now, include_folders)
 
-                                except:
+                                except:  # TODO too broad exception
                                     new = NewSnapshot(self.config)
 
                                     if new.exists():
@@ -902,7 +903,8 @@ class Snapshots:
                                 self.remove(sid)
 
                                 if ret_error:
-                                    logger.error('Failed to take snapshot.', self)
+                                    logger.error(
+                                        'Failed to take snapshot.', self)
                                     msg = _('Failed to take snapshot '
                                             '{snapshot_id}.').format(
                                                 snapshot_id=sid.displayID)
@@ -918,18 +920,18 @@ class Snapshots:
                             else:  # new snapshot taken...
 
                                 if ret_error:
-                                    logger.error(
-                                        'New snapshot taken but errors detected',
-                                        self)
+                                    logger.error('New snapshot taken but '
+                                                 'errors detected',
+                                                 self)
                                     # Fixes #1491
                                     self.config.PLUGIN_MANAGER.error(
                                         6, sid.displayID)
 
                                 # Why ignore errors now?
                                 ret_error = False
-                                # Probably because a new snapshot has been created
-                                # (= changes transferred) and "continue on errors"
-                                # is enabled
+                                # Probably because a new snapshot has been
+                                # created (= changes transferred) and
+                                # "continue on errors" is enabled
 
                             if not ret_error:
                                 self.freeSpace(now)
@@ -955,7 +957,8 @@ class Snapshots:
 
                     # unmount
                     try:
-                        mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
+                        mount.Mount(cfg=self.config) \
+                             .umount(self.config.current_hash_id)
 
                     except MountException as ex:
                         logger.error(str(ex), self)

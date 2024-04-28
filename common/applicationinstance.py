@@ -31,6 +31,8 @@ import tools
 #      one app instance eg. if a restore is running and another
 #      backup starts).
 #      Rename it to eg. LockFileManager
+# TODO2 When refactoring have a look at "common/flock.py" still implementing
+#       a contxt mananger for that problem.
 class ApplicationInstance:
     """
     Class used to handle one application instance mechanism.
