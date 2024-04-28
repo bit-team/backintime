@@ -107,6 +107,7 @@
 import os
 import subprocess
 import json
+import getpass
 from zlib import crc32
 from time import sleep
 
@@ -450,7 +451,7 @@ class MountControl(object):
         self.symlink = symlink
 
         self.local_host = self.config.host()
-        self.local_user = self.config.user()
+        self.local_user = getpass.getuser()
         self.pid = self.config.pid()
 
         self.all_kwargs = {}
