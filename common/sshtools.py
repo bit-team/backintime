@@ -23,6 +23,7 @@ import socket
 import re
 import atexit
 import signal
+from pathlib import Path
 from time import sleep
 import logger
 import tools
@@ -103,6 +104,9 @@ class SSH(MountControl):
         self.host = None
         self.port = None
         self.cipher = None
+        self.proxy_user = None
+        self.proxy_host = None
+        self.proxy_port = None
         self.nice = None
         self.ionice = None
         self.nocache = None
@@ -122,6 +126,14 @@ class SSH(MountControl):
         self.setattrKwargs(
             'private_key_file',
             self.config.sshPrivateKeyFile(self.profile_id), **kwargs)
+
+        self.setattrKwargs(
+            'proxy_user', self.config.sshProxyUser(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'proxy_host', self.config.sshProxyHost(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'proxy_port', self.config.sshProxyPort(self.profile_id), **kwargs)
+
         self.setattrKwargs(
             'nice',
             self.config.niceOnRemote(self.profile_id), store=False, **kwargs)
@@ -201,6 +213,16 @@ class SSH(MountControl):
                      % ' '.join(sshfs),
                      self)
 
+        # SSH Proxy (aka Jump host)
+        if self.proxy_host:
+            sshfs.extend([
+                '-o',
+                'ssh_command=ssh -J '
+                f'{self.proxy_user}@{self.proxy_host}:{self.proxy_port}'
+            ])
+
+        logger.debug(f'Execute SSHFS command {sshfs}.')
+
         proc = subprocess.Popen(sshfs,
                                 env=env,
                                 stdout=subprocess.DEVNULL,
@@ -212,9 +234,12 @@ class SSH(MountControl):
         if proc.returncode == 0:
             return
 
-        raise MountException("{}\n\n{}".format(
-            _("Can't mount {sshfs}").format(sshfs=" ".join(sshfs)),
-            err))
+        raise MountException(
+            "{}\n\n{}".format(
+                _("Can't mount {sshfs}").format(sshfs=" ".join(sshfs)),
+                err
+            )
+        )
 
     def preMountCheck(self, first_run=False):
         """
@@ -434,14 +459,17 @@ class SSH(MountControl):
 
         logger.debug('Check login', self)
 
+        # Custom SSH arguments
+        custom_ssh_args = [
+            '-o',
+            'PreferredAuthentications=publickey',
+            '-p', str(self.port),
+            self.user_host
+        ]
+
+        # Create SSH command
         ssh = self.config.sshCommand(cmd=['exit'],
-                                     custom_args=[
-                                          '-o',
-                                          'PreferredAuthentications=publickey',
-                                          '-p',
-                                          str(self.port),
-                                          self.user_host
-                                     ],
+                                     custom_args=custom_ssh_args,
                                      port=False,
                                      user_host=False,
                                      nice=False,
@@ -691,7 +719,10 @@ class SSH(MountControl):
         if not self.config.sshCheckPingHost(self.profile_id):
             return
 
-        logger.debug('Check ping host', self)
+        ping_host = self.proxy_host or self.host
+        ping_port = self.proxy_port or self.port
+
+        logger.debug(f'Check ping host "{ping_host}:{ping_port}"', self)
         versionString = 'SSH-2.0-backintime_{}\r\n'.format(
             version.__version__).encode()
 
@@ -701,28 +732,29 @@ class SSH(MountControl):
 
             try:
                 with socket.create_connection(
-                        (self.host, self.port), 2.0) as s:
+                        (ping_host, ping_port), 2.0) as s:
 
                     result = s.connect_ex(s.getpeername())
                     s.sendall(versionString)
 
-            except:
+            except:  # Refactor: too broad exception
                 result = -1
 
             if result == 0:
-                logger.debug('Host %s is available' % self.host, self)
+                logger.debug(
+                    f'Host "{ping_host}:{ping_port}" is available', self)
                 return
-
-            logger.debug('Could not ping host %s. Try again' % self.host, self)
 
             count += 1
             sleep(0.2)
 
         if result != 0:
-            logger.debug('Failed pinging host %s' % self.host, self)
-
-            raise MountException(
-                f'Ping {self.host} failed. Host is down or wrong address.')
+            proxy_msg = f' via proxy "{ping_host}:{ping_port}"' \
+                if self.proxy_host else ''
+            msg = f'Ping {self.host}{proxy_msg} failed. ' \
+                  'Host is down or wrong address.'
+            logger.debug(msg, self)
+            raise MountException(msg)
 
     def checkRemoteCommands(self, retry=False):
         """
@@ -1030,8 +1062,76 @@ def sshKeyGen(keyfile):
     return not proc.returncode
 
 
-def sshCopyId(pubkey, user, host, port='22',
-              askPass='backintime-askpass', cipher=None):
+def sshCopyIdCommand(
+    pubkey,
+    user,
+    host,
+    port='22',
+    proxy_user=None,
+    proxy_host=None,
+    proxy_port='22',
+    cipher=None
+):
+    """
+    Generate a ssh-copy-id command to copy the given public ssh-key to a
+    remote host.
+
+    Args:
+        pubkey (str):   path to the public key file
+        user (str):     remote user
+        host (str):     remote host
+        port (str):     ssh port on remote host
+        proxy_user (str):     proxy host user
+        proxy_host (str):     proxy host
+        proxy_port (str):     proxy host port
+        cipher (str):   cipher used for ssh
+
+    Returns:
+        list: The ssh-copy-id command as a list.
+
+    Raises:
+        FileNotFoundError: If public key file not exist.
+    """
+    if not Path(pubkey).exists():
+        msg = f'SSH public key "{pubkey}" does not exist.'
+        logger.error(msg)
+        raise FileNotFoundError(msg)
+
+    cmd = [
+        'ssh-copy-id',
+        # key file
+        '-i', pubkey,
+        # port
+        '-p', str(port),
+    ]
+
+    # cipher
+    if cipher and cipher != 'default':
+        cmd.extend(['-o', 'Ciphers={}'.format(cipher)])
+
+    # proxy
+    if proxy_host:
+        proxy_jump = f'{proxy_user}@{proxy_host}:{proxy_port}'
+        cmd.extend(['-o', f'ProxyJump={proxy_jump}'])
+
+    cmd.append(f'{user}@{host}')
+
+    logger.debug(f'ssh-copy-id command {cmd}')
+
+    return cmd
+
+
+def sshCopyId(
+    pubkey,
+    user,
+    host,
+    port='22',
+    proxy_user=None,
+    proxy_host=None,
+    proxy_port=None,
+    askPass='backintime-askpass',
+    cipher=None
+):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -1046,13 +1146,16 @@ def sshCopyId(pubkey, user, host, port='22',
     Returns:
         bool:           True if successful
     """
-
-    if not os.path.exists(pubkey):
-        logger.warning(
-            'SSH public key "{}" does not exist. Skip copy to remote host'
-            .format(pubkey))
-
-        return False
+    cmd = sshCopyIdCommand(
+        pubkey,
+        user,
+        host,
+        port,
+        proxy_user,
+        proxy_host,
+        proxy_port,
+        cipher
+    )
 
     env = os.environ.copy()
     env['SSH_ASKPASS'] = askPass
@@ -1062,16 +1165,6 @@ def sshCopyId(pubkey, user, host, port='22',
             pubkey=pubkey, host=host),
         _('Please enter password for "{user}"').format(user=user)
     )
-
-    cmd = ['ssh-copy-id', '-i', pubkey, '-p', port]
-
-    if cipher and cipher != 'default':
-        cmd.extend(['-o', 'Ciphers={}'.format(cipher)])
-
-    cmd.append('{}@{}'.format(user, host))
-
-    logger.debug('Call command "{}"'.format(' '.join(cmd)))
-
     proc = subprocess.Popen(cmd, env=env,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.PIPE,
@@ -1085,6 +1178,7 @@ def sshCopyId(pubkey, user, host, port='22',
     if proc.returncode:
         logger.error('Failed to copy ssh-key "{}" to "{}@{}": [{}] {}'
                      .format(pubkey, user, host, proc.returncode, err))
+
     else:
         logger.info('Successfully copied ssh-key "{}" to "{}@{}"'
                     .format(pubkey, user, host))

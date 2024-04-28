@@ -1,3 +1,10 @@
+# SPDX-FileCopyrightText: © 2022 Christian BUHTZ <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: GPL-2.0
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 """Provides the ability to collect diagnostic information on Back In Time.
 
 These are version numbers of the dependent tools, environment variables,

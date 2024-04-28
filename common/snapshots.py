@@ -23,12 +23,13 @@ import datetime
 import gettext
 import bz2
 import pwd
+import getpass
 import grp
 import subprocess
 import shutil
 import time
 import re
-# import fcntl
+import fcntl
 from tempfile import TemporaryDirectory
 
 import config
@@ -733,8 +734,9 @@ class Snapshots:
             self.config.PLUGIN_MANAGER.error(1)
 
         elif (not force
-                  and self.config.noSnapshotOnBattery()
-                  and tools.onBattery()):
+              and self.config.noSnapshotOnBattery()
+              and tools.onBattery()):
+
             self.setTakeSnapshotMessage(
                 0, _('Deferring backup while on battery'))
             logger.info('Deferring backup while on battery', self)
@@ -762,7 +764,7 @@ class Snapshots:
                 logger.warning(
                     'A backup is already running. The pid of the already '
                     f'running backup is in file {instance.pidFile}. Maybe '
-                    'delete it.', self )
+                    'delete it.', self)
 
                 # a backup is already running
                 self.config.PLUGIN_MANAGER.error(2)
@@ -774,7 +776,7 @@ class Snapshots:
                     f'{restore_instance.pidFile}. Maybe delete it.', self)
 
             else:
-                if (self.config.noSnapshotOnBattery ()
+                if (self.config.noSnapshotOnBattery()
                         and not tools.powerStatusAvailable()):
                     logger.warning('Backups disabled on battery but power '
                                    'status is not available', self)
@@ -1129,7 +1131,7 @@ class Snapshots:
         """
         logger.info("Create info file", self)
         machine = self.config.host()
-        user = self.config.user()
+        user = getpass.getuser()
         profile_id = self.config.currentProfile()
         i = configfile.ConfigFile()
         i.setIntValue('snapshot_version', self.SNAPSHOT_VERSION)
@@ -3034,8 +3036,7 @@ class RootSnapshot(GenericNonSnapshot):
 
 def iterSnapshots(cfg, includeNewSnapshot = False):
     """
-    Iterate over snapshots in current snapshot path. Use this in a 'for' loop
-    for faster processing than list object
+    A generator to iterate over snapshots in current snapshot path.
 
     Args:
         cfg (config.Config):        current config
@@ -3046,21 +3047,33 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
         SID:                        snapshot IDs
     """
     path = cfg.snapshotsFullPath()
+
     if not os.path.exists(path):
         return None
+
     for item in os.listdir(path):
+
         if item == NewSnapshot.NEWSNAPSHOT:
             newSid = NewSnapshot(cfg)
+
             if newSid.exists() and includeNewSnapshot:
                 yield newSid
+
             continue
+
         try:
             sid = SID(item, cfg)
+
             if sid.exists():
                 yield sid
+
+        # REFACTOR!
+        # LastSnapshotSymlink is an exception instance and could be catched
+        # explicit. But not sure about its purpose.
         except Exception as e:
             if not isinstance(e, LastSnapshotSymlink):
-                logger.debug("'{}' is not a snapshot ID: {}".format(item, str(e)))
+                logger.debug(
+                    "'{}' is not a snapshot ID: {}".format(item, str(e)))
 
 
 def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):

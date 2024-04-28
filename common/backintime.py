@@ -484,12 +484,14 @@ def createParsers(app_name = 'backintime'):
             arg = '-%s' % alias
         else:
             arg = '--%s' % alias
-        group.add_argument(arg,
-                           nargs = nargs,
-                           action = PseudoAliasAction,
-                           help = argparse.SUPPRESS)
 
-def startApp(app_name = 'backintime'):
+        group.add_argument(arg,
+                           nargs=nargs,
+                           action=PseudoAliasAction,
+                           help=argparse.SUPPRESS)
+
+
+def startApp(app_name='backintime'):
     """
     Start the requested command or return config if there was no command
     in arguments.
@@ -507,21 +509,22 @@ def startApp(app_name = 'backintime'):
     args = argParse(None)
 
     # Name, Version, As Root, OS
-    diag = collect_minimal_diagnostics()
-    logger.debug(
-        f'{diag["backintime"]} {list(diag["host-setup"]["OS"].values())}')
+    for key, val in collect_minimal_diagnostics().items():
+        logger.debug(f'{key}: {val}')
 
     # Add source path to $PATH environ if running from source
     if tools.runningFromSource():
         tools.addSourceToPathEnviron()
 
     # Warn about sudo
-    if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
+    if (tools.usingSudo()
+            and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false'):
+
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
-        logger.warning("It looks like you're using 'sudo' to start %(app)s. "
-                       "This will cause some trouble. Please use either 'sudo -i %(app_name)s' "
-                       "or 'pkexec %(app_name)s'."
-                       %{'app_name': app_name, 'app': config.Config.APP_NAME})
+        logger.warning(
+            "It looks like you're using 'sudo' to start "
+            f"{config.Config.APP_NAME}. This will cause some trouble. "
+            f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
 
     # Call commands
     if 'func' in dir(args):
@@ -530,7 +533,9 @@ def startApp(app_name = 'backintime'):
     else:
         setQuiet(args)
         printHeader()
+
         return getConfig(args, False)
+
 
 def argParse(args):
     """

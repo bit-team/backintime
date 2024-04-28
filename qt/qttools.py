@@ -30,14 +30,29 @@
 """
 import os
 import sys
-
+import textwrap
+from typing import Union, Iterable
 from PyQt6.QtGui import (QAction, QFont, QPalette, QIcon)
-from PyQt6.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo,
+from PyQt6.QtCore import (QDir,
+                          Qt,
+                          pyqtSlot,
+                          pyqtSignal,
+                          QModelIndex,
+                          QTranslator,
+                          QLocale,
+                          QLibraryInfo,
                           QT_VERSION_STR)
-from PyQt6.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
-                             QTreeView, QDialog, QApplication, QStyleFactory,
-                             QTreeWidget, QTreeWidgetItem, QComboBox,
+from PyQt6.QtWidgets import (QWidget,
+                             QFileDialog,
+                             QAbstractItemView,
+                             QListView,
+                             QTreeView,
+                             QDialog,
+                             QApplication,
+                             QStyleFactory,
+                             QTreeWidget,
+                             QTreeWidgetItem,
+                             QComboBox,
                              QSystemTrayIcon)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
@@ -92,6 +107,34 @@ def can_render(string, widget):
             return False
 
     return True
+
+
+# |--------------------------------|
+# | Widget modification & creation |
+# |--------------------------------|
+
+def set_wrapped_tooltip(widget: QWidget,
+                        tooltip: Union[str, Iterable[str]],
+                        wrap_length: int=72):
+    """Add a tooltip to the widget but insert line breaks when appropriated.
+
+    If a list of strings is provided, each string is wrapped individually and
+    then joined with a line break.
+
+    Args:
+        widget: The widget to which a tooltip should be added.
+        tooltip: The tooltip as string or iterable of strings.
+        wrap_length: Every line is at most this lengths.
+    """
+    # Always use tuple or list
+    if isinstance(tooltip, str):
+        tooltip = (tooltip, )
+
+    result = []
+    for paragraph in tooltip:
+        result.append('\n'.join(textwrap.wrap(paragraph, wrap_length)))
+
+    widget.setToolTip('\n'.join(result))
 
 
 # |---------------------|
