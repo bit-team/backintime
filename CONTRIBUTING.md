@@ -14,14 +14,14 @@ the maintenance team upon request.
 <!-- TOC start -->
 - [Quick guide](#quick-guide)
 - [Best practice and recommendations](#best-practice-and-recommendations)
-- [Resources](#resources)
+- [Resources & Further Reading](#resources--furhter-reading)
 - [Build & Install](#build--install)
-  * [Dependencies](#dependencies)
-  * [Build and install via `make` system
+  - [Dependencies](#dependencies)
+  - [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
-  * [Build own `deb` file](#build-own-deb-file)
+  - [Build own `deb` file](#build-own-deb-file)
 - [Testing](#testing)
-- [Further reading](#further-reading)
+  - [SSH](#SSH)
 - [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
 
@@ -60,25 +60,30 @@ the maintenance team upon request.
 Please take the following best practices into account if possible. This will reduce
 the work load of the maintainers and to increase the chance that your pull
 request is accepted.
- - Follow [PEP 8](https://peps.python.org/pep-0008/) as a minimal Style Guide
-   for Python Code
- - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
-   (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
- - Be careful when using automatic formatters like `black` and please mention
-   the use of it when opening a pull request.
- - Run unit tests before you open a Pull Request. You can run them via
-   `make`-system with `cd common && ./configure && make && make test` or you
-   can use `pytest`. See section [Build and install via `make` system](#build-and-install-via-make-system-recommended) for further details.
- - Try to create new unit tests if appropriated. Use Pythons regular `unittest`
-   instead of `pytest`. If you know the difference please try follow the
-   _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
 
-# Resources
+- Follow [PEP 8](https://peps.python.org/pep-0008/) as a minimal Style Guide
+  for Python Code
+- For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
+  (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
+- Be careful when using automatic formatters like `black` and please mention
+  the use of it when opening a pull request.
+- Run unit tests before you open a Pull Request. You can run them via
+  `make`-system with `cd common && ./configure && make && make test` or you
+  can use `pytest`. See section [Build and install via `make` system](#build-and-install-via-make-system-recommended) for further details.
+- Try to create new unit tests if appropriated. Use Pythons regular `unittest`
+  instead of `pytest`. If you know the difference please try follow the
+  _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
 
- - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
- - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
- - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform
- - [HowTo's and maintenance documents](common/doc-dev/README.md)
+# Resources & Further reading
+
+- [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
+- [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+- [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
+- [HowTo's and maintenance documents](common/doc-dev/README.md)
+
+- [contribution-guide.org](https://www.contribution-guide.org)
+- [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
+
 
 # Build & Install
 
@@ -205,11 +210,7 @@ SSH shell **without** being asked for a password.
 For detailed setup instructions see the
 [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
 
-# Further reading
-- https://www.contribution-guide.org
-- https://mozillascience.github.io/working-open-workshop/contributing
-
-## Licensing of contributed material
+# Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted
 to the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
