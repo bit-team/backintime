@@ -86,7 +86,7 @@ request is accepted.
 - [HowTo's and maintenance documents](common/doc-dev/README.md)
 
 - [contribution-guide.org](https://www.contribution-guide.org)
-- [How to submit a contribution (opensrouce.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
+- [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
 - [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
 
 
