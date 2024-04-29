@@ -19,7 +19,6 @@ import syslog
 import os
 import sys
 import atexit
-import textwrap
 
 import bcolors
 
@@ -58,9 +57,8 @@ def closelog():
 
 
 def _do_syslog(message: str, level: int) -> str:
-    for line in textwrap.wrap(message):
-        syslog.syslog(level, '{}{}: {}'.format(
-            SYSLOG_MESSAGE_PREFIX, _level_names[level], line))
+    syslog.syslog(level, '{}{}: {}'.format(
+        SYSLOG_MESSAGE_PREFIX, _level_names[level], message))
 
 
 def error(msg, parent=None, traceDepth=0):
