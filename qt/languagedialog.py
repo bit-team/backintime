@@ -277,7 +277,6 @@ class ApproachTranslatorDialog(QDialog):
         elif event.spontaneous():
             self._fix_size()
 
-
     def slot_link_hovered(self, url):
         """Show URL in tooltip without anoing http-protocol prefixf."""
         QToolTip.showText(QCursor.pos(), url.replace('https://', ''))
