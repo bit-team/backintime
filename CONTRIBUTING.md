@@ -220,10 +220,10 @@ In short:
 1. The maintenance team will review your PR in days or weeks.
 2. Modifications may be requested, and the PR will eventually be approved.
 3. One of two labels will be added to the PR:
- - [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break):
- Merge, but with a minimum delay one week to allow other maintainers to review.
- - [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review):
- Wait until a second approval from another maintainer.
+   - [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break):
+     Merge, but with a minimum delay one week to allow other maintainers to review.
+   - [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review):
+     Wait until a second approval from another maintainer.
 
 The maintenance team members are promptly notified of your request. One of
 them will respond within days or weeks.  Note that all team members perform
