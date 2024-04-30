@@ -225,8 +225,6 @@ In short:
    - [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review):
      Wait until a second approval from another maintainer.
 
-foo <span style="--label-r:212;--label-g:197;--label-b:249;--label-h:257;--label-s:81;--label-l:87;">PR: Waiting for review</span> bar
-
 The maintenance team members are promptly notified of your request. One of
 them will respond within days or weeks.  Note that all team members perform
 their duties voluntarily in their limited spare time.
