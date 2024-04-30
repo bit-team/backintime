@@ -216,10 +216,18 @@ For detailed setup instructions see the
 [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
 
 # What happens after you opened a Pull Request?
+In short:
+1. The maintenance team will review your PR in days or weeks.
+2. Modifications may be requested, and the PR will eventually be approved.
+3. One of two labels will be added to the PR:
+  - [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break):
+    Merge, but with a minimum delay one week to allow other maintainers to review.
+  - [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review):
+    Wait until a second approval from another maintainer.
+
 The maintenance team members are promptly notified of your request. One of
 them will respond within days or weeks.  Note that all team members perform
 their duties voluntarily in their limited spare time.
-
 Please read the maintainers' responses carefully, answer their questions, and
 try to follow their instructions. Do not hesitate to ask for clarification if
 needed. At least one maintainer will review and ultimately approve your pull
