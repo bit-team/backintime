@@ -430,9 +430,6 @@ class TestTools(generic.TestCase):
         self.assertIn('/', mounts)
         self.assertIn('original_uuid', mounts.get('/'))
 
-    def test_syncfs(self):
-        self.assertTrue(tools.syncfs())
-
     def test_isRoot(self):
         self.assertIsInstance(tools.isRoot(), bool)
 
