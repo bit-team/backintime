@@ -12,7 +12,6 @@ common
    config
    configfile
    diagnostics
-   driveinfo
    encfstools
    exceptions
    guiapplicationinstance
