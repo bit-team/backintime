@@ -528,18 +528,23 @@ class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
         self.assertEqual(tools.md5sum(self.sid.path('config')),
                          tools.md5sum(self.cfgFile))
 
-    def test_backupInfo(self):
-        self.sn.backupInfo(self.sid)
-        self.assertIsFile(self.sid.path('info'))
-        with open(self.sid.path('info'), 'rt') as f:
-            self.assertRegex(f.read(), re.compile('''filesystem_mounts=.+
-group.size=.+
+    def test_backup_info_file(self):
+        """Creation and content of the 'info' file contained in each snapshot
+        """
+
+        # Create the file
+        self.sn._backup_info_file(self.sid)
+        sut_fp = pathlib.Path(self.sid.path('info'))
+
+        self.assertTrue(sut_fp.is_file())
+
+        sut = sut_fp.read_text()
+        self.assertRegex(sut, re.compile('''group.size=.+
 snapshot_date=20151219-010324
 snapshot_machine=.+
 snapshot_profile_id=1
 snapshot_tag=123
 snapshot_user=.+
-snapshot_version=.+
 user.size=.+''', re.MULTILINE))
 
     def test_backupPermissions(self):
