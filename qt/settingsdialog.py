@@ -610,16 +610,22 @@ class SettingsDialog(QDialog):
         self.tabs.addTab(tabWidget, _('&Exclude'))
         layout = QVBoxLayout(tabWidget)
 
+        # DEBUG
+        brush = QPalette().brush(QPalette.ColorGroup.Normal,
+                                 QPalette.ColorRole.Link)
+        hex_foreground = brush.color().name()
+
         self.lblSshEncfsExcludeWarning = QLabel(
-            "<b>{}:</b> {}".format(
-                _("Warning"),
-                _(
-                    "Wildcards ({example1}) will be ignored "
-                    "with mode 'SSH encrypted'.\nOnly single or double "
-                    "asterisks are allowed ({example2})"
-                ).format(example1="'foo*', '[fF]oo', 'fo?'",
-                         example2="'foo/*', 'foo/**/bar'")
-            ),
+            f"foobar <span style='background-color: {hex_foreground};'>ROT</span> normal",
+            # "<b>{}:</b> {}".format(
+            #     _("Warning"),
+            #     _(
+            #         "Wildcards ({example1}) will be ignored "
+            #         "with mode 'SSH encrypted'.\nOnly single or double "
+            #         "asterisks are allowed ({example2})"
+            #     ).format(example1="'foo*', '[fF]oo', 'fo?'",
+            #              example2="'foo/*', 'foo/**/bar'")
+            # ),
             self
         )
         self.lblSshEncfsExcludeWarning.setWordWrap(True)
@@ -2205,8 +2211,11 @@ class SettingsDialog(QDialog):
                 and tools.patternHasNotEncryptableWildcard(item.text(0))):
 
             item.setIcon(0, self.icon.INVALID_EXCLUDE)
-            item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Active,
-                                                   QPalette.ColorRole.Link))
+            item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
+                                                   QPalette.ColorRole.Window))
+            item.setForeground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
+                                                   QPalette.ColorRole.Text))
+
             return
 
         # default background color
