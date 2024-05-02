@@ -610,22 +610,19 @@ class SettingsDialog(QDialog):
         self.tabs.addTab(tabWidget, _('&Exclude'))
         layout = QVBoxLayout(tabWidget)
 
-        # DEBUG
-        brush = QPalette().brush(QPalette.ColorGroup.Normal,
-                                 QPalette.ColorRole.Link)
-        hex_foreground = brush.color().name()
-
         self.lblSshEncfsExcludeWarning = QLabel(
-            f"foobar <span style='background-color: {hex_foreground};'>ROT</span> normal",
-            # "<b>{}:</b> {}".format(
-            #     _("Warning"),
-            #     _(
-            #         "Wildcards ({example1}) will be ignored "
-            #         "with mode 'SSH encrypted'.\nOnly single or double "
-            #         "asterisks are allowed ({example2})"
-            #     ).format(example1="'foo*', '[fF]oo', 'fo?'",
-            #              example2="'foo/*', 'foo/**/bar'")
-            # ),
+            "<b>{}:</b> {}".format(
+                _("Warning"),
+                _(
+                    "In 'SSH encrypted' mode, only single or double asterisks "
+                    "are functional (e.g. {example2}). Other types of "
+                    "wildcards and patterns (e.g. {example1}) will be ignored."
+                ).format(example1="<code>'foo*'</code>, "
+                                  "<code>'[fF]oo'</code>, "
+                                  "<code>'fo?'</code>",
+                         example2="<code>'foo/*'</code>, "
+                                  "<code>'foo/**/bar'</code>")
+            ),
             self
         )
         self.lblSshEncfsExcludeWarning.setWordWrap(True)
@@ -2217,7 +2214,7 @@ class SettingsDialog(QDialog):
         item.setData(
             0,
             Qt.ItemDataRole.ToolTipRole,
-            _("Disabled because this pattern can not be handled in "
+            _("Disabled because this pattern is not functional in "
               "mode 'SSH encrypted'.")
         )
 
