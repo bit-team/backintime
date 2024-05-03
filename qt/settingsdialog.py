@@ -616,7 +616,7 @@ class SettingsDialog(QDialog):
                 _(
                     "In 'SSH encrypted' mode, only single or double asterisks "
                     "are functional (e.g. {example2}). Other types of "
-                    "wildcards and patterns (e.g. {example1}) will be ignored."
+                    "wildcards and patterns will be ignored (e.g. {example1})."
                 ).format(example1="<code>'foo*'</code>, "
                                   "<code>'[fF]oo'</code>, "
                                   "<code>'fo?'</code>",
