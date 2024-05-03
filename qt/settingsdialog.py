@@ -612,7 +612,7 @@ class SettingsDialog(QDialog):
 
         self.lblSshEncfsExcludeWarning = QLabel(
             "<b>{}:</b> {}".format(
-                _("Warning"),
+                _('Info'),
                 _(
                     "In 'SSH encrypted' mode, only single or double asterisks "
                     "are functional (e.g. {example2}). Other types of "
