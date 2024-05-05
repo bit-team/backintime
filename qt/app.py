@@ -345,10 +345,9 @@ class MainWindow(QMainWindow):
         # force settingdialog if it is not configured
         if not config.isConfigured():
             message = _(
-                '{appName} is not configured. Would you like '
-                'to restore a previous configuration?') \
-                .format(appName=self.config.APP_NAME)
-
+                '{app_name} appears to be running for the first time as no '
+                'configuration is found. Restore a previous configuration?') \
+                .format(app_name=self.config.APP_NAME)
             answer = messagebox.warningYesNo(self, message)
             if answer == QMessageBox.StandardButton.Yes:
                 settingsdialog.RestoreConfigDialog(self).exec()
