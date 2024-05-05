@@ -1108,7 +1108,7 @@ class MainWindow(QMainWindow):
             include_entries = self.config.include()
 
         else:
-            # Determine files and folders from the snapshot itself
+            # Determine folders from the snapshot itself
             base = os.path.expanduser('~')
             folders = os.listdir(self.sid.pathBackup(base))
             include_entries = [(os.path.join(base, f), 0) for f in folders]
