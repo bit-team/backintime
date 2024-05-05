@@ -876,27 +876,37 @@ class MainWindow(QMainWindow):
         profile_id = self.comboProfiles.currentProfileID()
         if not profile_id:
             return
+
         old_profile_id = self.config.currentProfile()
+
         if profile_id != old_profile_id:
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
-            self.config.setProfileIntValue('qt.places.SortColumn',
-                                           self.places.header().sortIndicatorSection(),
-                                           old_profile_id)
-            self.config.setProfileIntValue('qt.places.SortOrder',
-                                           self.places.header().sortIndicatorOrder(),
-                                           old_profile_id)
+            self.config.setProfileIntValue(
+                'qt.places.SortColumn',
+                self.places.header().sortIndicatorSection(),
+                old_profile_id)
+            self.config.setProfileIntValue(
+                'qt.places.SortOrder',
+                self.places.header().sortIndicatorOrder(),
+                old_profile_id)
+
             self.placesSortLoop[old_profile_id] = False
             self.places.header().setSortIndicator(
-                int(self.config.profileIntValue('qt.places.SortColumn', 1, profile_id)),
-                Qt.SortOrder(self.config.profileIntValue('qt.places.SortOrder',
-                                                         Qt.SortOrder.AscendingOrder,
-                                                         profile_id))
+                int(self.config.profileIntValue(
+                    'qt.places.SortColumn', 1, profile_id)),
+                Qt.SortOrder(self.config.profileIntValue(
+                    'qt.places.SortOrder',
+                    Qt.SortOrder.AscendingOrder,
+                    profile_id))
             )
 
-            self.config.setProfileStrValue('qt.last_path', self.path, old_profile_id)
-            path = self.config.profileStrValue('qt.last_path', self.path, profile_id)
+            self.config.setProfileStrValue(
+                'qt.last_path', self.path, old_profile_id)
+            path = self.config.profileStrValue(
+                'qt.last_path', self.path, profile_id)
+
             if not path == self.path:
                 self.path = path
                 self.path_history.reset(self.path)
@@ -1175,15 +1185,17 @@ class MainWindow(QMainWindow):
         self.updatePlaces()
         self.updateFilesView(2)
 
-    def updateTimeLine(self, refreshSnapshotsList = True):
+    def updateTimeLine(self, refreshSnapshotsList=True):
         self.timeLine.clear()
         self.timeLine.addRoot(snapshots.RootSnapshot(self.config))
+
         if refreshSnapshotsList:
             self.snapshotsList = []
             thread = FillTimeLineThread(self)
             thread.addSnapshot.connect(self.timeLine.addSnapshot)
             thread.finished.connect(self.timeLine.checkSelection)
             thread.start()
+
         else:
             for sid in self.snapshotsList:
                 item = self.timeLine.addSnapshot(sid)
