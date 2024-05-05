@@ -1104,35 +1104,31 @@ class MainWindow(QMainWindow):
 
         # "Now" or a specific snapshot selected?
         if self.sid.isRoot:
-            # Use snapshots profiles list of include folders
-            include_folders = self.config.include()
+            # Use snapshots profiles list of include files and folders
+            include_entries = self.config.include()
 
         else:
-            # Determine folders from the snapshot itself
+            # Determine files and folders from the snapshot itself
             base = os.path.expanduser('~')
             folders = os.listdir(self.sid.pathBackup(base))
-            include_folders = [(os.path.join(base, f), 0) for f in folders]
+            include_entries = [(os.path.join(base, f), 0) for f in folders]
+
+        # Use folders only (if 2nd tuple entry is 0)
+        only_folders = filter(lambda entry: entry[1] == 0, include_entries)
+        include_folders = [item[0] for item in only_folders]
 
         if not include_folders:
             return
 
-        folders = []
-        for item in include_folders:
-            if item[1] == 0:
-                folders.append(item[0])
+        if not self.places.header().sortIndicatorSection():
+            indic = self.places.header().sortIndicatorOrder()
+            reverse = True if indic == Qt.SortOrder.DescendingOrder else False
+            include_folders = sorted(include_folders, reverse=reverse)
 
-        if folders:
-            sortColumn = self.places.header().sortIndicatorSection()
-            sortOrder = self.places.header().sortIndicatorOrder()
+        self.addPlace(_('Backup folders'), '', '')
 
-            if not sortColumn:
-                folders.sort(
-                    key=lambda v: (v.upper(), v[0].islower()),
-                    reverse=sortOrder == Qt.SortOrder.DescendingOrder)
-
-            self.addPlace(_('Backup folders'), '', '')
-            for folder in folders:
-                self.addPlace(folder, folder, 'document-save')
+        for folder in include_folders:
+            self.addPlace(folder, folder, 'document-save')
 
     def sortPlaces(self, newColumn, newOrder, force = False):
         profile_id = self.config.currentProfile()
