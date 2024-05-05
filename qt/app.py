@@ -1103,7 +1103,12 @@ class MainWindow(QMainWindow):
         self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
 
         # add backup folders
-        include_folders = self.config.include()
+        if self.sid.isRoot:
+            include_folders = self.config.include()
+        else:
+            base = os.path.expanduser('~')
+            folders = os.listdir(self.sid.pathBackup(base))
+            include_folders = [(os.path.join(base, f), 0) for f in folders]
 
         if include_folders:
             folders = []
@@ -1166,6 +1171,7 @@ class MainWindow(QMainWindow):
             return
 
         self.sid = sid
+        self.updatePlaces()
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList = True):
