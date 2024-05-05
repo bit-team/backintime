@@ -2348,7 +2348,8 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(self.treeView)
 
         # context menu
-        self.treeView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.treeView.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.onContextMenu)
         self.contextMenu = QMenu(self)
         self.btnShowHidden = self.contextMenu.addAction(
@@ -2358,9 +2359,11 @@ class RestoreConfigDialog(QDialog):
 
         # colors
         self.colorRed = QPalette()
-        self.colorRed.setColor(QPalette.WindowText, QColor(205, 0, 0))
+        self.colorRed.setColor(
+            QPalette.ColorRole.WindowText, QColor(205, 0, 0))
         self.colorGreen = QPalette()
-        self.colorGreen.setColor(QPalette.WindowText, QColor(0, 160, 0))
+        self.colorGreen.setColor(
+            QPalette.ColorRole.WindowText, QColor(0, 160, 0))
 
         # wait indicator which will show that the scan for
         # snapshots is still running
