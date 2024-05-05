@@ -57,9 +57,8 @@ def closelog():
 
 
 def _do_syslog(message: str, level: int) -> str:
-    for line in wrapLine(message):
-        syslog.syslog(level, '{}{}: {}'.format(
-            SYSLOG_MESSAGE_PREFIX, _level_names[level], line))
+    syslog.syslog(level, '{}{}: {}'.format(
+        SYSLOG_MESSAGE_PREFIX, _level_names[level], message))
 
 
 def error(msg, parent=None, traceDepth=0):
@@ -142,43 +141,3 @@ def _debugHeader(parent, traceDepth):
 
     func = frame.f_code.co_name
     return '[%s/%s:%s %s%s]' % (fmodule, fname, line, fclass, func)
-
-
-# This function was moved from tools.py to here to solve a circular
-# import dependency between "tools" and "logger".
-def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
-    """
-    Wrap line ``msg`` into multiple lines with each shorter than ``size``. Try
-    to break the line on ``delimiters``. New lines will start with
-    ``new_line_indicator``.
-
-    Args:
-        msg (str):                  string that should get wrapped
-        size (int):                 maximum length of returned strings
-        delimiters (str):           try to break ``msg`` on these characters
-        new_line_indicator (str):   start new lines with this string
-
-    Yields:
-        str:                        lines with max ``size`` length
-    """
-
-    # TODO Use "textwrap.wrap" instead (https://docs.python.org/3/library/textwrap.html)
-    #      (which may change the output formatting and may affect unit tests then)
-    #      To avoid duplicated argument values in calls this function could
-    #      act as a wrapper-
-
-    if len(new_line_indicator) >= size - 1:
-        new_line_indicator = ''
-    while msg:
-        if len(msg) <= size:
-            yield(msg)
-            break
-        else:
-            line = ''
-            for look in range(size-1, size//2, -1):
-                if msg[look] in delimiters:
-                    line, msg = msg[:look+1], new_line_indicator + msg[look+1:]
-                    break
-            if not line:
-                line, msg = msg[:size], new_line_indicator + msg[size:]
-            yield(line)
