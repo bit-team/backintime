@@ -617,6 +617,8 @@ class SettingsDialog(QDialog):
                     "In 'SSH encrypted' mode, only single or double asterisks "
                     "are functional (e.g. {example2}). Other types of "
                     "wildcards and patterns will be ignored (e.g. {example1})."
+                    "Filenames are unpredictable in this mode due to "
+                    "encryption by EncFS."
                 ).format(example1="<code>'foo*'</code>, "
                                   "<code>'[fF]oo'</code>, "
                                   "<code>'fo?'</code>",
