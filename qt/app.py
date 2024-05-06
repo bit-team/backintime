@@ -1120,6 +1120,9 @@ class MainWindow(QMainWindow):
         else:
             # Determine folders from the snapshot itself
             base = os.path.expanduser('~')
+            if not os.path.isdir(self.sid.pathBackup(base)):
+                # Folder not mounted. We can skip for the next updatePlaces()
+                return
             folders = os.listdir(self.sid.pathBackup(base))
             include_entries = [(os.path.join(base, f), 0) for f in folders]
 
