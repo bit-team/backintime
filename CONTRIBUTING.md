@@ -14,7 +14,7 @@ the maintenance team upon request.
 <!-- TOC start -->
 - [Quick guide](#quick-guide)
 - [Best practice and recommendations](#best-practice-and-recommendations)
-- [Resources & Further Reading](#resources--furhter-reading)
+- [Resources & Further Reading](#resources--further-reading)
 - [Build & Install](#build--install)
   - [Dependencies](#dependencies)
   - [Build and install via `make` system
