@@ -346,8 +346,12 @@ class MainWindow(QMainWindow):
         if not config.isConfigured():
             message = _(
                 '{app_name} appears to be running for the first time as no '
-                'configuration is found. Restore a previous configuration?') \
-                .format(app_name=self.config.APP_NAME)
+                'configuration is found.'
+            ).format(app_name=self.config.APP_NAME)
+            message = f'{message}\n\n'
+            message = message + _(
+                'Do you want to import an existing configuration '
+                '(from a backup target folder or another computer)?')
             answer = messagebox.warningYesNo(self, message)
             if answer == QMessageBox.StandardButton.Yes:
                 settingsdialog.RestoreConfigDialog(self).exec()
