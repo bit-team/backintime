@@ -2295,7 +2295,7 @@ class RestoreConfigDialog(QDialog):
         import icon
         self.icon = icon
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle(_('Import configuration')
+        self.setWindowTitle(_('Import configuration'))
 
         layout = QVBoxLayout(self)
 
