@@ -342,8 +342,8 @@ class MainWindow(QMainWindow):
             self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
             self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
 
-        # force settingdialog if it is not configured
-        if True:  # not config.isConfigured():
+        # Force dialog to import old configuration
+        if not config.isConfigured():
             message = _(
                 '{app_name} appears to be running for the first time as no '
                 'configuration is found.'

@@ -2298,31 +2298,7 @@ class RestoreConfigDialog(QDialog):
         self.setWindowTitle(_('Import configuration'))
 
         layout = QVBoxLayout(self)
-
-        # show a hint on how the snapshot path will look like.
-        samplePath = os.path.join(
-            'backintime',
-            self.config.host(),
-            getpass.getuser(), '1',
-            snapshots.SID(datetime.datetime.now(), self.config).sid
-        )
-        samplePath = f'</ br><code>{samplePath}</code>'
-
-        label = _(
-            'Select the snapshot folder from which the configuration '
-            'file should be imported. The path may look like: {samplePath}'
-        ).format(samplePath=samplePath)
-
-        label = '<p>' + label + '</p><p>' + _(
-            'If the snapshot is located on an external or remote data drive, '
-            'it must be manually mounted beforehand.'
-        )
-        label = f'{label}</p>'
-
-        print(f'{label=}')
-        label = QLabel(label, self)
-        label.setWordWrap(True)
-        layout.addWidget(label)
+        layout.addWidget(self._create_hint_label())
 
         # treeView
         self.treeView = qttools.MyTreeView(self)
@@ -2410,6 +2386,36 @@ class RestoreConfigDialog(QDialog):
         self.scan.start()
 
         self.resize(600, 700)
+
+    def _create_hint_label(self):
+        """Create the label to explain how and where to find existing config
+        file.
+
+        Returns:
+            (QLabel): The label
+        """
+
+        samplePath = os.path.join(
+            'backintime',
+            self.config.host(),
+            getpass.getuser(), '1',
+            snapshots.SID(datetime.datetime.now(), self.config).sid
+        )
+        samplePath = f'</ br><code>{samplePath}</code>'
+
+        label = _(
+            'Select the snapshot folder from which the configuration '
+            'file should be imported. The path may look like: {samplePath}'
+        ).format(samplePath=samplePath)
+        label = '<p>' + label + '</p><p>' + _(
+            'If the snapshot is located on an external or remote data drive, '
+            'it must be manually mounted beforehand.'
+        )
+        label = f'{label}</p>'
+        label = QLabel(label, self)
+        label.setWordWrap(True)
+
+        return label
 
     def pathFromIndex(self, index):
         """
