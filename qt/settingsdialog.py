@@ -2306,20 +2306,21 @@ class RestoreConfigDialog(QDialog):
             getpass.getuser(), '1',
             snapshots.SID(datetime.datetime.now(), self.config).sid
         )
+        samplePath = f'</ br><code>{samplePath}</code>'
 
-        label = QLabel(_(
-            "Please navigate to the snapshot from which you want to restore "
-            "{appName}'s configuration. The path may look like:\n"
-            "{samplePath}\n\nIf your snapshots are on a remote drive or if "
-            "they are encrypted you need to manually mount them first. "
-            "If you use Mode SSH you also may need to set up public key "
-            "login to the remote host.\n"
-            "Take a look at 'man backintime'.")
-            .format(
-                appName=self.config.APP_NAME,
-                samplePath=samplePath),
-            self
+        label = _(
+            'Select the snapshot folder from which the configuration '
+            'file should be imported. The path may look like: {samplePath}'
+        ).format(samplePath=samplePath)
+
+        label = '<p>' + label + '</p><p>' + _(
+            'If the snapshot is located on an external or remote data drive, '
+            'it must be manually mounted beforehand.'
         )
+        label = f'{label}</p>'
+
+        print(f'{label=}')
+        label = QLabel(label, self)
         label.setWordWrap(True)
         layout.addWidget(label)
 
