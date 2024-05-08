@@ -2403,16 +2403,17 @@ class RestoreConfigDialog(QDialog):
         )
         samplePath = f'</ br><code>{samplePath}</code>'
 
-        label = _(
+        text_a = _(
             'Select the snapshot folder from which the configuration '
             'file should be imported. The path may look like: {samplePath}'
         ).format(samplePath=samplePath)
-        label = '<p>' + label + '</p><p>' + _(
-            'If the snapshot is located on an external or remote data drive, '
+
+        text_b = _(
+            'If the folder is located on an external or remote drive, '
             'it must be manually mounted beforehand.'
         )
-        label = f'{label}</p>'
-        label = QLabel(label, self)
+
+        label = QLabel(f'<p>{text_a}</p><p>{text_b}</p>', self)
         label.setWordWrap(True)
 
         return label
