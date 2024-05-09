@@ -22,7 +22,7 @@ the maintenance team upon request.
   - [Build own `deb` file](#build-own-deb-file)
 - [Testing](#testing)
   - [SSH](#SSH)
-- [What happens after you opened a Pull Request?](#what-happens-after-you-opened-a-pull-request)
+- [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-PR)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
@@ -216,7 +216,7 @@ SSH shell **without** being asked for a password.
 For detailed setup instructions see the
 [how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
 
-# What happens after you opened a Pull Request?
+# What happens after you opened a Pull Request (PR)?
 In short:
 1. The maintenance team will review your PR in days or weeks.
 2. Modifications may be requested, and the PR will eventually be approved.
@@ -227,24 +227,23 @@ In short:
      Wait until a second approval from another maintainer.
 
 The maintenance team members are promptly notified of your request. One of
-them will respond within days or weeks.  Note that all team members perform
+them will respond within days or weeks. Note that all team members perform
 their duties voluntarily in their limited spare time.
 Please read the maintainers' responses carefully, answer their questions, and
 try to follow their instructions. Do not hesitate to ask for clarification if
 needed. At least one maintainer will review and ultimately approve your pull
 request.
 
-Depending on the topic or impact of the pull request, the maintainer may decide
+Depending on the topic or impact of the PR, the maintainer may decide
 that an approval from a second maintainer is needed. This may result in
-additional waiting time. Please remain patient. In such cases, the pull request
-will be labeled
+additional waiting time. Please remain patient. In such cases, the PR will be
+labeled
 [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review). 
 
-If no second approval is necessary, the pull request will remain
-open for minimum of one week. It will then be labeled
-[PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break).
-This rule allows all maintainers the chance to review and potentially veto the
-pull request.
+If no second approval is necessary, the PR is labled
+[PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
+and will remain open for minimum of one week. This rule allows all maintainers
+the chance to review and potentially veto the pull request.
 
 # Strategy Outline
 The following tries to give a broad overview of the tasks or steps to
