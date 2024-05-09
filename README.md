@@ -19,21 +19,31 @@ It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
 
 ## Maintenance status
 
-A small team (Christian Buhtz, Michael Büker and Jürgen Altfeld)
-has started in summer 2022 to get things moving again after the
-development of this project has been dormant for a while.
-We do the development in our spare time and have to prioritize so
-stick with us, we all ♥️ _Back In Time_. 😁
+The project is in active developement since the [new team](#the-team) joined in
+summer 2022. Development is done in spare time so things need to be
+prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
-We are currently focusing on fixing
+Current focus is on fixing
 [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
 instead of implementing new
 [features](https://github.com/bit-team/backintime/labels/Feature).
-If you are interested in the development, please
-see [CONTRIBUTING](CONTRIBUTING.md) and have a look on
+Please see  [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
+development and have a look on
 [open issues](https://github.com/bit-team/backintime/issues) especially
 those labeled as [good first issue](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
+
+# The team
+The current team started in summer of 2022 (with #1232) and constitutes the
+projects 3rd generation of maintainers. Consisting of three members with
+diverse backgrounds (@aryoda, @buhtz, @emtiu), the team benefits from the
+assistance of the former maintainer, @Germar, who contributes from behind the
+scenes.
+
+All team members are engaged in every aspect of the project, including code
+analysis, documentation, solving issues, and the implementation of new
+features. This work is carried out voluntarily during their limited spare time.
+have to prioritize so stick with us, we all ♥️ _Back In Time_. 😁
 
 ## Index
 
