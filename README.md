@@ -31,7 +31,7 @@ instead of implementing new
 Please see  [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
 development and have a look on
 [open issues](https://github.com/bit-team/backintime/issues) especially
-those labeled as [good first issue](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
+those labeled as [good first issues](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 # The team
@@ -44,7 +44,6 @@ scenes.
 All team members are engaged in every aspect of the project, including code
 analysis, documentation, solving issues, and the implementation of new
 features. This work is carried out voluntarily during their limited spare time.
-have to prioritize so stick with us, we all ♥️ _Back In Time_. 😁
 
 ## Index
 
@@ -199,6 +198,7 @@ to make it work. If you want to update _Back In Time_, you may use one of the
 [alternative options for installation](#alternative-installation-options).
 
 ## Contributing and other ways to support the project
-See [CONTRIBUTING](CONTRIBUTING.md) file.
+See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
+workflow and strategy.
 
-<sub>April 2024</sub>
+<sub>May 2024</sub>
