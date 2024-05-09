@@ -26,7 +26,8 @@ prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 Current focus is on fixing
 [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
 instead of implementing new
-[features](https://github.com/bit-team/backintime/labels/Feature).
+[features](https://github.com/bit-team/backintime/labels/Feature). Read the
+[strategy outline](CONTRIBUTING.md#strategy-outline) for details.
 Please see  [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
 development and have a look on
 [open issues](https://github.com/bit-team/backintime/issues) especially
