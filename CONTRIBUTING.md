@@ -304,9 +304,14 @@ Currently, _Back In Time_ uses [EncFS](https://github.com/vgough/encfs) for
 encrypting backups, but it has known security vulnerabilities (see issue
 #1549). This requires replacing it, with
 [GoCryptFS](https://github.com/rfjakob/gocryptfs) as a potential candidate.
-However, lack of resources hinders this effort.  If no volunteers step forward,
+However, lack of resources hinders this effort. If no volunteers step forward,
 the encryption feature will be removed, prioritizing user security and team
 maintenance efforts.
+
+Beside replacing EncFS there is also a discussion going on if _Back In Time_
+needs an encryption feature or if encryption should be done on file systems
+level via [LUKS](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup) or
+similar solutions.
 
 ## Project infrastructure
 
