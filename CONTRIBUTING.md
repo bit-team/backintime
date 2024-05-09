@@ -324,7 +324,7 @@ in Python packaging ([PEP 621](https://peps.python.org/pep-0621),
 [src layout](https://packaging.python.org/en/latest/tutorials/packaging-projects),
 [pyproject.toml](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)).
 The team intends to migrate to these contemporary standards to streamline
-the maintenance of _Back In Time_ (#1575).
+the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintime/issues/1575)).
 
 ## Graphical User Interface (GUI): Redesign and Refactoring
 
@@ -335,8 +335,10 @@ redesign as well as code refactoring. Additionally, it lacks tests.
 
 Various people use _Back In Time_ via the terminal, for example, through an SSH
 shell on a headless server. There is an idea of creating a terminal user
-interface (TUI) or to enhance the existing command-line interface (CLI).  See
-#254. The proposal of having a web frontend was rejected (#209).  Separate
+interface (TUI) or to enhance the existing command-line interface (CLI). See
+[#254](https://github.com/bit-team/backintime/issues/254). The proposal of
+having a web frontend was rejected
+([#209](https://github.com/bit-team/backintime/issues/209)). Separate
 projects offering a web fronted will be supported of course.
 
 # Licensing of contributed material
