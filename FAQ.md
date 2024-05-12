@@ -43,6 +43,7 @@
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Uncategorized questions](#uncategorized-questions)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
+   * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -1067,18 +1068,18 @@ them in your own rsync script, too. But to name some features:
 
 ## Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)
 
-We will help and support every other project offering specific distribution
-packages. So we are behind your back and suggest to create your own repository
-to manage and maintain such packages. We will mention it in our documentation
-as an alternative source for installation and linking to it.
+We assist and support other projects providing specific distribution
+packages. Thus, we suggest creating your own repository to manage and maintain
+such packages. It will be mentioned in our documentation as an alternative
+source for installation.
 
-We do not directly support 3rd party distribution channels related to specific
-GNU/Linux distributions, in-official repositories (e.g. Arch AUR, Launchpad
-PPA) or FlatPack & Co. One reasons is our lack of ressources and the need to
-focus on important tasks. The other is that their are distro maintainers out
-there with much more experience and skills in packaging.  We always recommend
-to use the GNU Linux distributions official repositories only and contact their
-maintainers if _Back In Time_ is not available or out dated.
+We do not directly support third-party distribution channels associated with
+specific GNU/Linux distributions, unofficial repositories (e.g. Arch AUR,
+Launchpad PPA) or FlatPack & Co. One reasons is our lack of ressources and the
+need to prioritize tasks. Another reasons is that their are distro maintainers
+with much more experience and skills in packaging. We always recommend using
+the official repositories of GNU/Linux distributions and contacting their
+maintainers if _Back In Time_ is unavailable or out dated.
 
 
 # Testing & Building
