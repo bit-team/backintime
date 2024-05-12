@@ -7,6 +7,8 @@
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
    * [Where is the log file?](#where-is-the-log-file)
    * [How to read log entries?](#how-to-read-log-entries)
+   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
+   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
@@ -27,6 +29,7 @@
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
    * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
+   * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
@@ -39,10 +42,7 @@
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Uncategorized questions](#uncategorized-questions)
-   * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
-   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
-   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -118,6 +118,56 @@ With systemd and _Back In Time_ version older than 1.4.3:
     $ journalctl --grep backintime
 
 Without systemd, you can examine the files in `/var/log/syslog*`.
+
+## How to move snapshots to a new hard-drive?
+
+There are three different solutions:
+
+1. clone the drive with ``dd`` and enlarge the partition on the new drive to
+   use all space. This will **destroy all data** on the destination drive!
+
+   ```bash
+    sudo dd if=/dev/sdbX of=/dev/sdcX bs=4M
+   ```
+
+   where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
+
+   Finally use ``gparted`` to resize the partition. Take a look at the
+   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
+
+1. copy all files using ``rsync -H``
+
+   ```bash
+    rsync -avhH --info=progress2 /SOURCE /DESTINATION
+   ```
+
+1. copy all files using ``tar``
+
+   ```bash
+   cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
+   ```
+
+Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
+
+## How to move a large directory in the backup source without duplicating the files in the backup?
+
+If you move a file/folder in the source ("include") location that is backed-up by BiT
+it will treat this like a new file/folder and
+create a new backup file for it (not hard-linked to the old one). With large
+directories this can fill up your backup drive quite fast.
+
+You can avoid this by moving the file/folder in the last snapshot too:
+
+1. Create a new snapshot
+
+2. Move the original folder
+
+3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
+
+4. Create a new snapshot
+
+5. Remove the next to last snapshot (the one where you moved the folder manually)
+   to avoid problems with permissions when you try to restore from that snapshot
 
 
 # Backups (snapshots)
@@ -489,6 +539,18 @@ See also:
 - [#1095](https://github.com/bit-team/backintime/issues/1095)
 - [RedHead#1844781](https://bugzilla.redhat.com/show_bug.cgi?id=1844781)
 - [Python crash when exiting Back In Time (Manjaro Forum)](https://forum.manjaro.org/t/python-crash-when-exiting-back-in-time/102856/11)
+
+## Version >= 1.2.0 works very slow / Unchanged files are backed up
+
+After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
+permissions are handled differently. Before 1.2.0 all destination file 
+permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
+option which tells rsync to preserve the source file permission. 
+That's why so many files seem to be changed.
+
+If you don't like the new behavior, you can use "Expert Options" 
+-> "Paste additional options to rsync" to add the value
+`--no-perms --no-group --no-owner` in that field.
 
 ## What happens if I hibernate the computer while a backup is running?
 
@@ -986,18 +1048,6 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
 # Uncategorized questions
 
-## Version >= 1.2.0 works very slow / Unchanged files are backed up
-
-After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
-permissions are handled differently. Before 1.2.0 all destination file 
-permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
-option which tells rsync to preserve the source file permission. 
-That's why so many files seem to be changed.
-
-If you don't like the new behavior, you can use "Expert Options" 
--> "Paste additional options to rsync" to add the value
-`--no-perms --no-group --no-owner` in that field.
-
 ## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
@@ -1014,55 +1064,21 @@ them in your own rsync script, too. But to name some features:
 - Auto- and Smart-Remove
 - Plugin- and user-callback support
 
-## How to move snapshots to a new hard-drive?
 
-There are three different solutions:
+## Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)
 
-1. clone the drive with ``dd`` and enlarge the partition on the new drive to
-   use all space. This will **destroy all data** on the destination drive!
+We will help and support every other project offering specific distribution
+packages. So we are behind your back and suggest to create your own repository
+to manage and maintain such packages. We will mention it in our documentation
+as an alternative source for installation and linking to it.
 
-   ```bash
-    sudo dd if=/dev/sdbX of=/dev/sdcX bs=4M
-   ```
-
-   where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
-
-   Finally use ``gparted`` to resize the partition. Take a look at the
-   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
-
-1. copy all files using ``rsync -H``
-
-   ```bash
-    rsync -avhH --info=progress2 /SOURCE /DESTINATION
-   ```
-
-1. copy all files using ``tar``
-
-   ```bash
-   cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
-   ```
-
-Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
-
-## How to move a large directory in the backup source without duplicating the files in the backup?
-
-If you move a file/folder in the source ("include") location that is backed-up by BiT
-it will treat this like a new file/folder and
-create a new backup file for it (not hard-linked to the old one). With large
-directories this can fill up your backup drive quite fast.
-
-You can avoid this by moving the file/folder in the last snapshot too:
-
-1. Create a new snapshot
-
-2. Move the original folder
-
-3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
-
-4. Create a new snapshot
-
-5. Remove the next to last snapshot (the one where you moved the folder manually)
-   to avoid problems with permissions when you try to restore from that snapshot
+We do not directly support 3rd party distribution channels related to specific
+GNU/Linux distributions, in-official repositories (e.g. Arch AUR, Launchpad
+PPA) or FlatPack & Co. One reasons is our lack of ressources and the need to
+focus on important tasks. The other is that their are distro maintainers out
+there with much more experience and skills in packaging.  We always recommend
+to use the GNU Linux distributions official repositories only and contact their
+maintainers if _Back In Time_ is not available or out dated.
 
 
 # Testing & Building
