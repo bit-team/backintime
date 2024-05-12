@@ -24,6 +24,8 @@
 - [Common problems and solutions](#common-problems-and-solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#_back-in-time_-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
+   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
+   * [Segmentation fault on Exit](#segmentation-fault-on-exit)
 - [Error Handling](#error-handling)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
@@ -463,6 +465,18 @@ It happens because Qt does not detect theme modifications out of the
 box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
+
+### Segmentation fault on Exit
+To our understanding, the root cause is attributed to the Qt GUI library or one
+of its components. No known solution exists. The issue has persisted for some
+time, including in the latest version of _Back In Time_ utilizing Qt
+version 6. It does not impact the functionality of _Back In Time_ or jeopardize
+backup integrity. Simply ignore it.
+
+See also:
+- [#1095](https://github.com/bit-team/backintime/issues/1095)
+- [RedHead#1844781](https://bugzilla.redhat.com/show_bug.cgi?id=1844781)
+- [Python crash when exiting Back In Time (Manjaro Forum)](https://forum.manjaro.org/t/python-crash-when-exiting-back-in-time/102856/11)
 
 ## Error Handling
 
