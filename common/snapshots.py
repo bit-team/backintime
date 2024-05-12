@@ -1117,27 +1117,32 @@ class Snapshots:
                         f' command was {cmd}. Also see the previous '
                         'WARNING message for a more details.', parent=self)
 
-    def backupInfo(self, sid):
+    def _backup_info_file(self, sid):
         """
-        Save infos about the snapshot into the 'info' file.
+        Save infos about the snapshot into the 'info' file. The result is
+        stored in 'sid.info' also.
 
         Args:
-            sid (SID):  snapshot that should get an info file
+            sid (SID): Snapshot that should get the info file.
         """
-        logger.info("Create info file", self)
+        logger.debug(
+            f'Create info file for snapshot "{sid.displayName}".', self)
+
         machine = self.config.host()
         user = getpass.getuser()
         profile_id = self.config.currentProfile()
+
         i = configfile.ConfigFile()
-        i.setIntValue('snapshot_version', self.SNAPSHOT_VERSION)
         i.setStrValue('snapshot_date', sid.withoutTag)
         i.setStrValue('snapshot_machine', machine)
         i.setStrValue('snapshot_user', user)
         i.setIntValue('snapshot_profile_id', profile_id)
         i.setIntValue('snapshot_tag', sid.tag)
-        i.setListValue('user', ('int:uid', 'str:name'), list(self.userCache.items()))
-        i.setListValue('group', ('int:gid', 'str:name'), list(self.groupCache.items()))
-        i.setStrValue('filesystem_mounts', json.dumps(tools.filesystemMountInfo()))
+        i.setListValue(
+            'user', ('int:uid', 'str:name'), list(self.userCache.items()))
+        i.setListValue(
+            'group', ('int:gid', 'str:name'), list(self.groupCache.items()))
+
         sid.info = i
 
     def backupPermissions(self, sid):
@@ -1502,7 +1507,7 @@ class Snapshots:
 
             return [False, True]
 
-        self.backupInfo(sid)
+        self._backup_info_file(sid)
 
         if not has_errors and not list(self.config.anacrontabFiles()):
             tools.writeTimeStamp(self.config.anacronSpoolFile())

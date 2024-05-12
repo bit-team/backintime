@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
 import os
 import sys
 import subprocess
@@ -417,18 +416,6 @@ class TestTools(generic.TestCase):
         self.assertEqual(procArgs[0], 'proc')
         self.assertEqual(procArgs[1], '/proc')
         self.assertEqual(procArgs[2], 'proc')
-
-    @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
-                     'No UUIDs available on this system.')
-    def test_filesystemMountInfo(self):
-        """
-        Basic sanity checks on returned structure
-        """
-        mounts = tools.filesystemMountInfo()
-        self.assertIsInstance(mounts, dict)
-        self.assertGreater(len(mounts.items()), 0)
-        self.assertIn('/', mounts)
-        self.assertIn('original_uuid', mounts.get('/'))
 
     def test_isRoot(self):
         self.assertIsInstance(tools.isRoot(), bool)
