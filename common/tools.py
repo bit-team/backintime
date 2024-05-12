@@ -1558,22 +1558,6 @@ def uuidFromPath(path):
     return uuidFromDev(device(path))
 
 
-def filesystemMountInfo():
-    """
-    Get a dict of mount point string -> dict of filesystem info for
-    entire system.
-
-    Returns:
-        dict:   {MOUNTPOINT: {'original_uuid': UUID}}
-    """
-    # There may be multiple mount points inside of the root (/) mount, so
-    # iterate over mtab to find all non-special mounts.
-    with open('/etc/mtab', 'r') as mounts:
-        return {items[1]: {'original_uuid': uuidFromDev(items[0])} for items in
-                [mount_line.strip('\n').split(' ')[:2] for mount_line in mounts]
-                if uuidFromDev(items[0]) != None}
-
-
 def isRoot():
     """
     Check if we are root.
