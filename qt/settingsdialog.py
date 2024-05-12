@@ -612,13 +612,18 @@ class SettingsDialog(QDialog):
 
         self.lblSshEncfsExcludeWarning = QLabel(
             "<b>{}:</b> {}".format(
-                _("Warning"),
+                _('Info'),
                 _(
-                    "Wildcards ({example1}) will be ignored "
-                    "with mode 'SSH encrypted'.\nOnly single or double "
-                    "asterisks are allowed ({example2})"
-                ).format(example1="'foo*', '[fF]oo', 'fo?'",
-                         example2="'foo/*', 'foo/**/bar'")
+                    "In 'SSH encrypted' mode, only single or double asterisks "
+                    "are functional (e.g. {example2}). Other types of "
+                    "wildcards and patterns will be ignored (e.g. {example1})."
+                    "Filenames are unpredictable in this mode due to "
+                    "encryption by EncFS."
+                ).format(example1="<code>'foo*'</code>, "
+                                  "<code>'[fF]oo'</code>, "
+                                  "<code>'fo?'</code>",
+                         example2="<code>'foo/*'</code>, "
+                                  "<code>'foo/**/bar'</code>")
             ),
             self
         )
@@ -2197,28 +2202,54 @@ class SettingsDialog(QDialog):
             item = self.listExclude.topLevelItem(index)
             self._formatExcludeItem(item)
 
+
+    def _format_exclude_item_encfs_invalid(self, item):
+        """Modify visual appearance of an item in the exclude list widget to
+        express that the item is invalid.
+
+        See :py:func:`_formatExcludeItem` for details.
+        """
+        # Icon
+        item.setIcon(0, self.icon.INVALID_EXCLUDE)
+
+        # ToolTip
+        item.setData(
+            0,
+            Qt.ItemDataRole.ToolTipRole,
+            _("Disabled because this pattern is not functional in "
+              "mode 'SSH encrypted'.")
+        )
+
+        # Fore- and Backgroundcolor (as disabled)
+        item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
+                                                QPalette.ColorRole.Window))
+        item.setForeground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
+                                                QPalette.ColorRole.Text))
+
+
     def _formatExcludeItem(self, item):
         """Modify visual appearance of an item in the exclude list widget.
         """
-        # Invalid item (because of encfs restrictions)
         if (self.mode == 'ssh_encfs'
                 and tools.patternHasNotEncryptableWildcard(item.text(0))):
+            # Invalid item (because of encfs restrictions)
+            self._format_exclude_item_encfs_invalid(item)
 
-            item.setIcon(0, self.icon.INVALID_EXCLUDE)
-            item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Active,
-                                                   QPalette.ColorRole.Link))
-            return
+        else:
+            # default background color
+            item.setBackground(0, QBrush())
+            item.setForeground(0, QBrush())
 
-        # default background color
-        item.setBackground(0, QBrush())
+            # Remove items tooltip
+            item.setData(0, Qt.ItemDataRole.ToolTipRole, None)
 
-        # Icon: default exclude item
-        if item.text(0) in self.config.DEFAULT_EXCLUDE:
-            item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
-            return
+            # Icon: default exclude item
+            if item.text(0) in self.config.DEFAULT_EXCLUDE:
+                item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
 
-        # Icon: user definied
-        item.setIcon(0, self.icon.EXCLUDE)
+            else:
+                # Icon: user definied
+                item.setIcon(0, self.icon.EXCLUDE)
 
 
     def customSortOrder(self, header, loop, newColumn, newOrder):
