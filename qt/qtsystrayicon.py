@@ -20,6 +20,7 @@ import sys
 import os
 import subprocess
 import signal
+import textwrap
 
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
@@ -177,10 +178,8 @@ class QtSysTrayIcon:
                 self.last_message = message
                 if self.decode:
                     message = (message[0], self.decode.log(message[1]))
-                self.menuStatusMessage.setText('\n'.join(logger.wrapLine(message[1], \
-                                                                                size = 80, \
-                                                                                delimiters = '', \
-                                                                                new_line_indicator = '') \
+                self.menuStatusMessage.setText('\n'.join(textwrap.wrap(message[1], \
+                                                                                width = 80) \
                                                          ))
                 self.status_icon.setToolTip(message[1])
 
