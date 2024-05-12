@@ -21,10 +21,12 @@
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
    * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
-- [Common problems and solutions](#common-problems-and-solutions)
+- [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#_back-in-time_-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
-- [Error Handling](#error-handling)
+   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
+   * [Segmentation fault on Exit](#segmentation-fault-on-exit)
+   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
@@ -41,7 +43,6 @@
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
    * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
-   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -424,7 +425,7 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
-## Common problems and solutions
+## Problems, Errors & Solutions
 ### WARNING: A backup is already running
 _Back In Time_ uses signal files like `worker<PID>.lock` to avoid starting the same backup twice.
 Normally it is deleted as soon as the backup finishes. In some case something went wrong
@@ -464,7 +465,15 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-## Error Handling
+### Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
+
+In newer Ubuntu-based distros you may get this warning if you install _Back In
+Time_ from PPA.  The reason is that public keys of signed packages shall be
+stored in a new folder now (for details see
+https://itsfoss.com/apt-key-deprecated/).
+
+A solution is described in
+[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 
 ### What happens if I hibernate the computer while a backup is running?
 
@@ -1036,16 +1045,6 @@ You can avoid this by moving the file/folder in the last snapshot too:
 
 5. Remove the next to last snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
-
-#### Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
-
-In newer Ubuntu-based distros you may get this warning if you install _Back In
-Time_ from PPA.  The reason is that public keys of signed packages shall be
-stored in a new folder now (for details see
-https://itsfoss.com/apt-key-deprecated/).
-
-A solution is described in
-[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 
 ## Testing & Building
 
