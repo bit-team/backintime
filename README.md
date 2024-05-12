@@ -82,6 +82,9 @@ In older releases:
 - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
 - [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
 
+More problems described in
+[this FAQ section](FAQ.md#common-problems-and-solutions).
+
 ### Problems in the latest stable release
 
 All releases can be found in the [list of releases](https://github.com/bit-team/backintime/releases).
