@@ -33,13 +33,11 @@ import os
 import pluginmanager
 import tools
 import logger
-import time
 import gettext
-import _thread
 import subprocess
 
 
-_=gettext.gettext
+_ = gettext.gettext
 
 
 if not os.getenv('DISPLAY', ''):

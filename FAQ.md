@@ -458,7 +458,7 @@ Otherwise, kill the process. After that look into the folder
 For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
 ### Switching to dark or light mode in the desktop environment is ignored by BIT
-After restart _Back In Time_ it should addapt to the desktops current used
+After restart _Back In Time_ it should adapt to the desktops current used
 color theme.
 
 It happens because Qt does not detect theme modifications out of the

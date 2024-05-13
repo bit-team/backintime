@@ -65,22 +65,50 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # Deactivate all checks by default
             '--disable=all',
             # prevent false-positive no-module-member errors
-            '--extension-pkg-whitelist=PyQt6,PyQt6.QtCore',
+            '--extension-pkg-allow-list=PyQt6,PyQt6.QtCore',
             # Because of globally installed GNU gettext functions
             '--additional-builtins=_,ngettext',
             # PEP8 conform line length (see PyLint Issue #3078)
             '--max-line-length=79',
             # Whitelist variable names
             '--good-names=idx,fp',
+            # '--reports=yes',
         ]
 
         # Explicit activate checks
         err_codes = [
+            'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'W0611',  # unused-import
+            'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
-            'E0401',  # import-error
             'I0021',  # useless-suppression
+
+            # Enable asap. This list is selection of existing (not all!)
+            # problems currently exiting in the BIT code base. Quit easy to fix
+            # because there count is low.
+            # 'C0303',  # trailing-whitespace
+            # 'C0305',  # trailing-newlines
+            # 'C0324',  # superfluous-parens
+            # 'C0410',  # multiple-imports
+            # 'E0213',  # no-self-argument
+            # 'R0201',  # no-self-use
+            # 'R0202',  # no-classmethod-decorator
+            # 'R0203',  # no-staticmethod-decorator
+            # 'R0801',  # duplicate-code
+            # 'W0123',  # eval-used
+            # 'W0237',  # arguments-renamed
+            # 'W0221',  # arguments-differ
+            # 'W0311',  # bad-indentation
+            # 'W0404',  # reimported
+            # 'W4902',  # deprecated-method
+            # 'W4904',  # deprecated-class
+            # 'W0603',  # global-statement
+            # 'W0614',  # unused-wildcard-import
+            # 'W0611',  # unused-import
+            # 'W0612',  # unused-variable
+            # 'W0707',  # raise-missing-from
         ]
 
         if ON_TRAVIS_PPC64LE:
