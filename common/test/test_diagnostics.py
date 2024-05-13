@@ -28,7 +28,7 @@ class Diagnostics(unittest.TestCase):
         self.assertCountEqual(sut['host-setup'].keys(), ['OS'])
 
     def test_some_content(self):
-        """Some containted elements"""
+        """Some contained elements"""
         result = diagnostics.collect_diagnostics()
 
         # 1st level keys

@@ -1,6 +1,9 @@
 Back In Time
 
 Version 1.4.4-dev (development of upcoming release)
+* Breaking Change: GUI started with --debug does no longer add --debug to the crontab for scheduled profiles.
+                   Use the new "enable logging for debug messages" in the 'Schedule' section of the 'Manage profiles' GUI instead.
+* Feature: Profile and GUI allow to activate debug output for scheduled jobs by adding '--debug' to crontab entry (#1616, contributed by @stcksmsh Kosta Vukicevic)
 * Removed: Field "filesystem_mount" and "snapshot_version" in "info" file (#1684)
 * Feature: Support SSH proxy (jump) host (#1688) (@cgrinham, Christie Grinham)
 * Removed: Context menu in LogViewDialog (#1578)
@@ -8,7 +11,7 @@ Version 1.4.4-dev (development of upcoming release)
 * Fix: Validation of diff command settings in compare snapshots dialog (#1662) (@stcksmsh Kosta Vukicevic)
 * Fix bug: Open symlinked folders in file view (#1476)
 * Fix bug: Respect dark mode using color roles (#1601)
-* Fix: "Highly recommended" exclusion pattern in "Manage Profile" dialog's "Exclude" tab show missings only (#1620)
+* Fix: "Highly recommended" exclusion pattern in "Manage Profile" dialog's "Exclude" tab show missing only (#1620)
 * Build: Activate PyLint error E0401 (import-error)
 * Dependency: Migration to PyQt6
 * Build: PyLint unit test is skipped if PyLint isn't installed, but will always run on TravisCI (#1634)

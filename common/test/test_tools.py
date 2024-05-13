@@ -812,7 +812,7 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
         self.setUpPyfakefs(allow_root_user=False)
 
     def test_git_repo_info_none(self):
-        """Acutally not a git repo"""
+        """Actually not a git repo"""
 
         self.assertEqual(tools.get_git_repository_info(), None)
 
