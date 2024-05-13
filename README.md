@@ -93,7 +93,7 @@ In older releases:
 - [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
 
 More problems described in
-[this FAQ section](FAQ.md#common-problems-and-solutions).
+[this FAQ section](FAQ.md#problems-errors--solutions).
 
 ### Problems in the latest stable release
 
