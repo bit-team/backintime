@@ -989,6 +989,13 @@ class Config(configfile.ConfigFileWithProfiles):
     def setScheduleMode(self, value, profile_id = None):
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
+    def scheduleDebug(self, profile_id = None):
+        #?Enable debug output to system log for schedule mode.
+        return self.profileBoolValue('schedule.debug', False, profile_id)
+
+    def setScheduleDebug(self, value, profile_id = None):
+        self.setProfileBoolValue('schedule.debug', value, profile_id)
+
     def scheduleTime(self, profile_id = None):
         #?Position-coded number with the format "hhmm" to specify the hour
         #?and minute the cronjob should start (eg. 2015 means a quarter
@@ -1787,28 +1794,59 @@ class Config(configfile.ConfigFileWithProfiles):
         return cron_line
 
     def cronCmd(self, profile_id):
-        if not tools.checkCommand('backintime'):
-            logger.error("Command 'backintime' not found", self)
-            return
+        """Generates the command used in the crontab file based on the settings
+        for the current profile.
+
+        Returns:
+            str: The crontab line.
+        """
+
+        # buhtz (2024-04): IMHO meaningless in productive environments.
+        # if not tools.checkCommand('backintime'):
+        #     logger.error("Command 'backintime' not found", self)
+        #     return
+
+        # Get full path of the Back In Time binary
         cmd = tools.which('backintime') + ' '
+
+        # The "--profile-id" argument is used only for profiles different from
+        # first profile
         if profile_id != '1':
             cmd += '--profile-id %s ' % profile_id
+
+        # User defined path to config file
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
             cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
-        if logger.DEBUG:
+
+        # Enable debug output
+        if self.scheduleDebug(profile_id):
             cmd += '--debug '
+
+        # command
         cmd += 'backup-job'
+
+        # Redirect stdout to nirvana
         if self.redirectStdoutInCron(profile_id):
             cmd += ' >/dev/null'
+
+        # Redirect stderr ...
         if self.redirectStderrInCron(profile_id):
+
             if self.redirectStdoutInCron(profile_id):
+                # ... to stdout
                 cmd += ' 2>&1'
             else:
+                # ... to nirvana
                 cmd += ' 2>/dev/null'
+
+        # IO priority: low (-n7) in "best effort" class (-c2)
         if self.ioniceOnCron(profile_id) and tools.checkCommand('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
+
+        # CPU priority: very low
         if self.niceOnCron(profile_id) and tools.checkCommand('nice'):
             cmd = tools.which('nice') + ' -n19 ' + cmd
+
         return cmd
 
 

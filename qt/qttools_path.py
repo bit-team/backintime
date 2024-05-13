@@ -25,7 +25,6 @@ the future.
 """
 import os
 import sys
-import gettext
 
 def backintimePath(*path):
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
