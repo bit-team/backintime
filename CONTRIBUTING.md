@@ -14,7 +14,7 @@ the maintenance team upon request.
 <!-- TOC start -->
 - [Quick guide](#quick-guide)
 - [Best practice and recommendations](#best-practice-and-recommendations)
-- [Resources & Further Reading](#resources--further-reading)
+- [Resources & Further Readings](#resources--further-readings)
 - [Build & Install](#build--install)
   - [Dependencies](#dependencies)
   - [Build and install via `make` system
@@ -70,21 +70,21 @@ request is accepted.
 - Be careful when using automatic formatters like `black` and please mention
   the use of it when opening a pull request.
 - Run unit tests before you open a Pull Request. You can run them via
-  `make`-system with `cd common && ./configure && make && make test` or you
-  can use `pytest`. See section
-  [Build and install via `make`
-  system](#build-and-install-via-make-system-recommended)
+  `make`-system with `cd common && ./configure && make && make test` or using a
+  regular unittest runner of your choice (e.g. `pytest`). See section
+  [Build and install via `make` system](#build-and-install-via-make-system-recommended)
   for further details.
-- Try to create new unit tests if appropriated. Use Pythons regular `unittest`
-  instead of `pytest`. If you know the difference please try follow the
-  _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
+- Try to create new unit tests if appropriate. Use the style of regular Python
+  `unittest` rather than `pytest`. If you know the difference please try follow
+  the _Classical (aka Detroit) school_ instead of _London (aka mockist)
+  school_.
 
-# Resources & Further reading
+# Resources & Further readings
 
 - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
-- [HowTo's and maintenance documents](common/doc-dev/README.md)
+- [HowTo's and maintenance](common/doc-dev/README.md)
 
 - [contribution-guide.org](https://www.contribution-guide.org)
 - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
@@ -237,10 +237,10 @@ request.
 Depending on the topic or impact of the PR, the maintainer may decide
 that an approval from a second maintainer is needed. This may result in
 additional waiting time. Please remain patient. In such cases, the PR will be
-labeled
+labelled
 [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review). 
 
-If no second approval is necessary, the PR is labled
+If no second approval is necessary, the PR is labelled
 [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
 and will remain open for minimum of one week. This rule allows all maintainers
 the chance to review and potentially veto the pull request.
@@ -273,13 +273,14 @@ sufficient isolation, making it difficult, if not nearly impossible in some
 cases, to write valuable unit tests. Heavy refactoring of the code is
 necessary, but this carries a high risk of introducing new bugs. To mitigate
 this risk, unit tests are essential to catch any potential bugs or unintended
-changes in the behavior of _Back In Time_. Thus, the circle is closed.
+changes in the behavior of _Back In Time_. Each of the problems is blocking the
+solution to the other problem.
 
-Considering the three major types of tests (unit, integration, system), the
-current test suite primarily consists of system tests. While these system tests
-are valuable, their purpose differs from that of unit tests. The codebase has
-very low coverage of real unit tests (in the meaning of behavioral focused
-_Classical_ test school).
+Considering the three major types of tests (_unit_, _integration_, _system_),
+the current test suite primarily consists of _system tests_. While these
+_system tests_ are valuable, their purpose differs from that of _unit tests_.
+Due to the lack of _unit tests_ in the test suite, the codebase
+has notably low test coverage.
 
 The codebase does not adhere to [PEP8](https://peps.python.org/pep-0008/),
 which serves as the minimum Python coding style. Utilizing linters in their
@@ -307,7 +308,7 @@ potential candidate. However, lack of resources hinders this effort. If no
 volunteers step forward, the encryption feature will be removed, prioritizing
 user security and team maintenance efforts.
 
-Beside replacing EncFS there is also a
+Besides replacing EncFS there is also a
 [discussion](https://mail.python.org/archives/list/bit-dev@python.org/thread/D2GXCCVUAVZ2E5ELBHUZGT7ITUN4ADEP)
 going on if _Back In Time_ needs an encryption feature or if encryption should
 be done on file systems level via

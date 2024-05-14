@@ -36,7 +36,7 @@ and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%
 
 # The team
 The current team started in summer of 2022 (with #1232) and constitutes the
-projects 3rd generation of maintainers. Consisting of three members with
+project's 3rd generation of maintainers. Consisting of three members with
 diverse backgrounds (@aryoda, @buhtz, @emtiu), the team benefits from the
 assistance of the former maintainer, @Germar, who contributes from behind the
 scenes.
