@@ -45,7 +45,7 @@ All team members are engaged in every aspect of the project, including code
 analysis, documentation, solving issues, and the implementation of new
 features. This work is carried out voluntarily during their limited spare time.
 
-## Index
+# Index
 
 - [Documentation, FAQs, Support](#documentation-faqs-support)
 - [Installation](#installation)
