@@ -22,7 +22,6 @@ import datetime
 import copy
 import re
 import getpass
-import textwrap
 from PyQt6.QtGui import (QIcon,
                          QFont,
                          QPalette,
@@ -561,6 +560,19 @@ class SettingsDialog(QDialog):
         glayout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
 
         self.comboSchedule.currentIndexChanged.connect(self.scheduleChanged)
+
+        self.cbScheduleDebug = QCheckBox(self)
+        self.cbScheduleDebug.setText(_('Enable logging of debug messages'))
+        qttools.set_wrapped_tooltip(
+            self.cbScheduleDebug,
+            [
+                _('Writes debug-level messages into the system log via '
+                  '"--debug".'),
+                _('Caution: Only use this temporarily for diagnostics, as it '
+                  'generates a large amount of output.')
+            ]
+        )
+        glayout.addWidget(self.cbScheduleDebug, 8, 0)
 
         #
         layout.addStretch()
@@ -1434,6 +1446,8 @@ class SettingsDialog(QDialog):
                            self.config.scheduleRepeatedUnit())
         self.updateSchedule(self.config.scheduleMode())
 
+        self.cbScheduleDebug.setChecked(self.config.scheduleDebug())
+
         # TAB: Include
         self.listInclude.clear()
 
@@ -1673,6 +1687,8 @@ class SettingsDialog(QDialog):
         self.config.setScheduleRepeatedUnit(
             self.comboScheduleRepeatedUnit.itemData(
                 self.comboScheduleRepeatedUnit.currentIndex()))
+
+        self.config.setScheduleDebug(self.cbScheduleDebug.isChecked())
 
         # auto-remove
         self.config.setRemoveOldSnapshots(
