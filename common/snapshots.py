@@ -52,7 +52,7 @@ class Snapshots:
     the class `SID` which represents a snapshot in the "data layer".
 
     BUHTZ 2024-02-23: Not sure but it seems to be one concret snapshot and
-    not a collection of snapshots. In this case the class name is missleading
+    not a collection of snapshots. In this case the class name is misleading
     because it is in plural form.
 
     Args:
@@ -103,7 +103,7 @@ class Snapshots:
         Dev note (buhtz):
             Too many try..excepts in here.
         """
-        # Dev note (buhtz): Not sure what happens here or why this is usefull.
+        # Dev note (buhtz): Not sure what happens here or why this is useful.
         wait = datetime.datetime.now() - datetime.timedelta(seconds=5)
 
         if self.lastBusyCheck < wait:
@@ -172,7 +172,7 @@ class Snapshots:
         message_fn = self.config.takeSnapshotMessageFile()
 
         try:
-            # Write message to file (and overwrites the previos one)
+            # Write message to file (and overwrites the previous one)
             with open(message_fn, 'wt') as f:
                 f.write(str(type_id) + '\n' + message)
 
