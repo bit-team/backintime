@@ -59,7 +59,6 @@ class Snapshots:
         cfg (config.Config): current config
     """
     SNAPSHOT_VERSION = 3
-    # GLOBAL_FLOCK = '/tmp/backintime.lock'
 
     def __init__(self, cfg = None):
         self.config = cfg
@@ -83,7 +82,6 @@ class Snapshots:
                                           r'(.*$)')                         #trash at the end
 
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
-        # self.flock = None
         self.restorePermissionFailed = False
 
     # TODO: make own class for takeSnapshotMessage
@@ -818,7 +816,7 @@ class Snapshots:
 
                     else:
                         # take snapshot process begin
-                        self.setTakeSnapshotMessage(0, '...')
+                        self.setTakeSnapshotMessage(0, '…')
                         self.snapshotLog.new(now)
 
                         profile_id = self.config.currentProfile()
@@ -2209,34 +2207,6 @@ class Snapshots:
         except Exception as e:
             logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
             return False
-
-    # # TODO Rename to make the purpose obvious, eg: Serialize_[backup|execution]_via_exclusive_global_flock()
-    # def flockExclusive(self):
-    #     """
-    #     Block :py:func:`backup` from other profiles or users
-    #     and run them serialized
-    #     """
-    #     if self.config.globalFlock():
-    #         logger.debug('Set flock %s' %self.GLOBAL_FLOCK, self)
-    #         self.flock = open(self.GLOBAL_FLOCK, 'w')
-    #         fcntl.flock(self.flock, fcntl.LOCK_EX)  # blocks (waits) until an existing flock is released
-    #         # make it rw by all if that's not already done.
-    #         perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | \
-    #                 stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH
-    #         s = os.fstat(self.flock.fileno())
-    #         if not s.st_mode & perms == perms:
-    #             logger.debug('Set flock permissions %s' %self.GLOBAL_FLOCK, self)
-    #             os.fchmod(self.flock.fileno(), perms)
-
-    # def flockRelease(self):
-    #     """
-    #     Release lock so other snapshots can continue
-    #     """
-    #     if self.flock:
-    #         logger.debug('Release flock %s' %self.GLOBAL_FLOCK, self)
-    #         fcntl.fcntl(self.flock, fcntl.LOCK_UN)
-    #         self.flock.close()
-    #     self.flock = None
 
     def rsyncSuffix(self, includeFolders = None, excludeFolders = None):
         """
