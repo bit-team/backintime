@@ -11,17 +11,23 @@ from pathlib import Path
 import logger
 
 
-class FlockContext:
-    """Context manager to manage flock.
+class _FlockContext:
+    """Context manager to manage file locks (flock).
+
+    The flock file is stored in the folder `/run/lock` or if not present in
+    `/var/lock`.
 
     Usage example ::
 
-        with FlockContext('backintime.lock'):
+        class MyFlock(_FlockContext):
+            def __init__(self):
+                super().__init__('my.lock')
+
+        with MyFlock():
              do_fancy_things()
 
     """
     def __init__(self, filename: str, folder: Path = None):
-        # default
         if folder is None:
             folder = Path(Path.cwd().root) / 'run' / 'lock'
 
@@ -55,10 +61,14 @@ class FlockContext:
         self._flock_handle.close()
 
     def _log(self, prefix: str):
+        """Generate a log message including the current lock files path and the
+        process ID.
+        """
         logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}',
                      self)
 
 
-class GlobalFlock(FlockContext):
+class GlobalFlock(_FlockContext):
+    """Flock context manager used for global flock in Back In Time."""
     def __init__(self):
         super().__init__('backintime.lock')
