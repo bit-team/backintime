@@ -7,6 +7,8 @@
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
    * [Where is the log file?](#where-is-the-log-file)
    * [How to read log entries?](#how-to-read-log-entries)
+   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
+   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
@@ -21,12 +23,13 @@
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
    * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
-- [Common problems and solutions](#common-problems-and-solutions)
+- [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#_back-in-time_-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
+   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
-- [Error Handling](#error-handling)
+   * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
@@ -39,20 +42,17 @@
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Uncategorized questions](#uncategorized-questions)
-   * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
-   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
-   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
-   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
+   * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
 
 <!-- TOC end -->
 
-## General
+# General
 
-### Does _Back in Time_ support full system backups?
+## Does _Back in Time_ support full system backups?
 
 _Back in Time_ is suited for file-based backups.
 
@@ -72,7 +72,7 @@ For full system backups look for
 - a disk imaging ("cloning") solution (eg. [Clonezilla](https://clonezilla.org/))
 - file-based backup tools that are designed for this (eg. [`Timeshift`](https://github.com/linuxmint/timeshift))
 
-### Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?
+## Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?
 
 Cloud storage as backup source or target is not support because _Back in Time_
 uses `rsync` as backend for file transfer and therefore a locally mounted file system
@@ -87,7 +87,7 @@ which does not support `rsync`.
 
 For a discussion about this topic see [Backup on OneDrive or Google Drive](https://github.com/bit-team/backintime/issues/1166).
 
-### Where is the log file?
+## Where is the log file?
 
 There are three distinct logs generated:
 
@@ -104,7 +104,7 @@ There are three distinct logs generated:
    system. See [How to read log entries?](#how-to-read-log-entries) for
    further details.
 
-### How to read log entries?
+## How to read log entries?
 
 Both the _snapshot_ and _restore_ log files are plain text files and can be read
 accordingly. Refer to [Where is the log file?](#where-is-the-log-file).
@@ -120,9 +120,60 @@ With systemd and _Back In Time_ version older than 1.4.3:
 
 Without systemd, you can examine the files in `/var/log/syslog*`.
 
-## Backups (snapshots)
+## How to move snapshots to a new hard-drive?
 
-### Does _Back In Time_ create incremental or full backups?
+There are three different solutions:
+
+1. clone the drive with ``dd`` and enlarge the partition on the new drive to
+   use all space. This will **destroy all data** on the destination drive!
+
+   ```bash
+    sudo dd if=/dev/sdbX of=/dev/sdcX bs=4M
+   ```
+
+   where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
+
+   Finally use ``gparted`` to resize the partition. Take a look at the
+   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
+
+1. copy all files using ``rsync -H``
+
+   ```bash
+    rsync -avhH --info=progress2 /SOURCE /DESTINATION
+   ```
+
+1. copy all files using ``tar``
+
+   ```bash
+   cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
+   ```
+
+Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
+
+## How to move a large directory in the backup source without duplicating the files in the backup?
+
+If you move a file/folder in the source ("include") location that is backed-up by BiT
+it will treat this like a new file/folder and
+create a new backup file for it (not hard-linked to the old one). With large
+directories this can fill up your backup drive quite fast.
+
+You can avoid this by moving the file/folder in the last snapshot too:
+
+1. Create a new snapshot
+
+2. Move the original folder
+
+3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
+
+4. Create a new snapshot
+
+5. Remove the next to last snapshot (the one where you moved the folder manually)
+   to avoid problems with permissions when you try to restore from that snapshot
+
+
+# Backups (snapshots)
+
+## Does _Back In Time_ create incremental or full backups?
 
 Back In Time does use `rsync` and its `--hard-links` feature.
 Because of that each snapshot is technically a full backup (contains each file)
@@ -132,7 +183,7 @@ files by setting a so-called "hard-link".
 In technical terms it is not an
 [incremental backups](https://en.wikipedia.org/wiki/Incremental_backup).
 
-### How do snapshots with hard-links work?
+## How do snapshots with hard-links work?
 
 From the answer on Launchpad to the question
 [_Does auto remove smart mode merge incremental backups?_](https://answers.launchpad.net/backintime/+question/123486)
@@ -238,7 +289,7 @@ I hope this will shed a light on the "magic" behind BIT. If it's even more
 confusing don't hesitate to ask ;)
 
 
-### How can I check if my snapshots are using hard-links?
+## How can I check if my snapshots are using hard-links?
 
 Please compare the inodes of a file that definitely didn't change between two
 snapshots. For this open two Terminals and ``cd`` into both snapshot folder.
@@ -269,7 +320,7 @@ du -chld0 /media/<USER>/backintime/<HOST>/<USER>/1/*
 
 (``ncdu`` isn't installed by default so I won't recommend using it)
 
-### How to use checksum to find corrupt files periodically?
+## How to use checksum to find corrupt files periodically?
 
 Starting with BIT Version 1.0.28 there is a new command line option
 ``--checksum`` which will do the same as *Use checksum to detect changes* in
@@ -303,7 +354,7 @@ For ``--checksum`` only at first Sunday per month add:
 Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> to exit
 (if you editor is `nano`. Maybe different depending on your default text editor).
 
-### What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
+## What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
 
 This are from `rsync` and indicating what changed and why.
 Please see the section `--itemize-changes` in the
@@ -311,7 +362,7 @@ Please see the section `--itemize-changes` in the
 of `rsync`. See also some
 [rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
 
-### Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
+## Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
 
 [BiT Version 1.4.0 (2023-09-14)](https://github.com/bit-team/backintime/releases/tag/v1.4.0)
 introduced the **evaluation of `rsync` exit codes for better error recognition**:
@@ -331,9 +382,10 @@ which error is hidden behind "exit code 23" (and possibly fix it - eg. delete or
 We plan to implement an improved handling of exit code 23 in the future
 (presumably by introducing warnings into the snapshot log).
 
-## Restore
 
-### After Restore I have duplicates with extension ".backup.20131121"
+# Restore
+
+## After Restore I have duplicates with extension ".backup.20131121"
 
 This is because *Backup files on restore* in Options was enabled. This is
 the default setting to prevent overriding files on restore.
@@ -351,7 +403,7 @@ Check if this correctly listed all those files you want to delete and than run:
 find /path/to/files -regextype posix-basic -regex ".*\.backup\.[[:digit:]]\{8\}" -delete
 ```
 
-### Back In Time doesn't find my old Snapshots on my new Computer
+## Back In Time doesn't find my old Snapshots on my new Computer
 
 Back In Time prior to version 1.1.0 had an option called
 *Auto Host/User/Profile ID* (hidden under *General* > *Advanced*) which will
@@ -378,9 +430,10 @@ You have three options to fix this:
   an assistant to restore the config from an old Snapshot on first start.
 
 
-## Schedule
 
-### How does the 'Repeatedly (anacron)' schedule work?
+# Schedule
+
+## How does the 'Repeatedly (anacron)' schedule work?
 
 In fact *Back In Time* doesn't use anacron anymore. It was to inflexible. But that
 schedule mimics anacron.
@@ -400,7 +453,7 @@ the next quarter hour.
 ``backintime --backup`` will always create a new snapshot. No matter how many
 time elapsed since last successful snapshot.
 
-### Will a scheduled snapshot run as soon as the computer is back on?
+## Will a scheduled snapshot run as soon as the computer is back on?
 
 Depends on which schedule you choose:
 
@@ -415,7 +468,7 @@ Depends on which schedule you choose:
   new snapshot at the given time. If your computer is off, no snapshot will be
   created.
 
-### If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
+## If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
 
 You can add your own crontab entries as you like. *Back In Time* will not touch them.
 It will identify its own entries by the comment line ``#Back In Time system
@@ -426,8 +479,9 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
-## Common problems and solutions
-### WARNING: A backup is already running
+
+# Problems, Errors & Solutions
+## WARNING: A backup is already running
 _Back In Time_ uses signal files like `worker<PID>.lock` to avoid starting the same backup twice.
 Normally it is deleted as soon as the backup finishes. In some case something went wrong
 so that _Back In Time_ was forcefully stopped without having the chance to delete
@@ -446,7 +500,7 @@ or killed via `kill <process id>`.
 
 For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
-### _Back in Time_ does not start and shows: The application is already running! (pid: 1234567)
+## _Back in Time_ does not start and shows: The application is already running! (pid: 1234567)
 This message occurs when _Back In Time_ is either already running or did not finish regularly (e.g. due to a crash)
 and wasn't able to delete its application lock file.
 
@@ -457,7 +511,7 @@ Otherwise, kill the process. After that look into the folder
 
 For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
-### Switching to dark or light mode in the desktop environment is ignored by BIT
+## Switching to dark or light mode in the desktop environment is ignored by BIT
 After restart _Back In Time_ it should adapt to the desktops current used
 color theme.
 
@@ -466,7 +520,16 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-### Segmentation fault on Exit
+## Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
+
+In newer Ubuntu-based distros you may get this warning if you install _Back In
+Time_ from PPA.  The reason is that public keys of signed packages shall be
+stored in a new folder now (for details see
+https://itsfoss.com/apt-key-deprecated/).
+
+A solution is described in
+[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
+## Segmentation fault on Exit
 To our understanding, the root cause is attributed to the Qt GUI library or one
 of its components. No known solution exists. The issue has persisted for some
 time, including in the latest version of _Back In Time_ utilizing Qt
@@ -478,22 +541,32 @@ See also:
 - [RedHead#1844781](https://bugzilla.redhat.com/show_bug.cgi?id=1844781)
 - [Python crash when exiting Back In Time (Manjaro Forum)](https://forum.manjaro.org/t/python-crash-when-exiting-back-in-time/102856/11)
 
-## Error Handling
+## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
-### What happens if I hibernate the computer while a backup is running?
+After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
+permissions are handled differently. Before 1.2.0 all destination file 
+permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
+option which tells rsync to preserve the source file permission. 
+That's why so many files seem to be changed.
+
+If you don't like the new behavior, you can use "Expert Options" 
+-> "Paste additional options to rsync" to add the value
+`--no-perms --no-group --no-owner` in that field.
+
+## What happens if I hibernate the computer while a backup is running?
 
 *Back In Time* will inhibit automatic suspend/hibernate while a snapshot/restore is
 running. If you manually force hibernate this will freeze the current process.
 It will continue as soon as you wake up the system again.
 
-### What happens if I power down the computer while a backup is running, or if a power outage happens?
+## What happens if I power down the computer while a backup is running, or if a power outage happens?
 
 This will kill the current process. The new snapshot will stay in ``new_snapshot``
 folder. Depending on which state the process was while killing the next
 scheduled snapshot can continue the leftover ``new_snapshot`` or it will remove
 it first and start a new one.
 
-### What happens if there is not enough disk space for the current backup?
+## What happens if there is not enough disk space for the current backup?
 
 *Back In Time* will try to create a new snapshot but rsync will fail when there is
 not enough space. Depending on ``Continue on errors`` setting the failed
@@ -501,9 +574,10 @@ snapshot will be kept and marked ``With Errors`` or it will be removed.
 By default, *Back In Time* will finally remove the oldest snapshots until there is
 more than 1 GiB free space again.
 
-## user-callback and other PlugIns
 
-### How to backup Debian/Ubuntu Package selection?
+# user-callback and other PlugIns
+
+## How to backup Debian/Ubuntu Package selection?
 
 There is a [user-callback example](https://github.com/bit-team/user-callback/blob/master/user-callback.apt-backup)
 which will backup all package
@@ -517,7 +591,7 @@ it executable with ``chmod 755 ~/.config/backintime/user-callback``
 It will run every time a new snapshot is taken. Make sure to include
 ``~/.apt-backup``.
 
-### How to restore Debian/Ubuntu Package selection?
+## How to restore Debian/Ubuntu Package selection?
 
 If you made snapshots including apt-get package selection as described in the
 FAQ "`How to backup Debian/Ubuntu Package selection?`_" you can easily restore
@@ -592,9 +666,10 @@ your system after a disaster/on a new machine.
     sudo apt-mark manual $(cat ~/.apt-backup/pkg_manual.list)
    ```
 
-## Hardware-specific Setup
 
-### How to use QNAP QTS NAS with BIT over SSH
+# Hardware-specific Setup
+
+## How to use QNAP QTS NAS with BIT over SSH
 
 To use *BackInTime* over SSH with a QNAP NAS there is still some work to be done
  in the terminal.
@@ -657,7 +732,7 @@ backup has read permission, other users have no access.
 
 This way can change with newer versions of *BackInTime* or QNAPs QTS!
 
-### How to use Synology DSM 5 with BIT over SSH
+## How to use Synology DSM 5 with BIT over SSH
 
 **Issue**
 
@@ -787,7 +862,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
    ``backup``.
 
-### How to use Synology DSM 6 with BIT over SSH
+## How to use Synology DSM 6 with BIT over SSH
 
 **HowTo**
 
@@ -870,7 +945,7 @@ establish the connection. As a test, one can run the command
 
 in a terminal (on the client PC).
 
-### How to use Western Digital MyBook World Edition with BIT over ssh?
+## How to use Western Digital MyBook World Edition with BIT over ssh?
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
 The BusyBox that is used by WD in MBWE for serving basic commands like ``cp``
@@ -971,21 +1046,10 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	Usage: cp [OPTION]... SOURCE DEST
    ```
 
-## Uncategorized questions
 
-### Version >= 1.2.0 works very slow / Unchanged files are backed up
+# Uncategorized questions
 
-After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
-permissions are handled differently. Before 1.2.0 all destination file 
-permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
-option which tells rsync to preserve the source file permission. 
-That's why so many files seem to be changed.
-
-If you don't like the new behavior, you can use "Expert Options" 
--> "Paste additional options to rsync" to add the value
-`--no-perms --no-group --no-owner` in that field.
-
-### Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
+## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
 which will make it possible to restore permissions correctly even if UID/GID
@@ -1001,75 +1065,32 @@ them in your own rsync script, too. But to name some features:
 - Auto- and Smart-Remove
 - Plugin- and user-callback support
 
-### How to move snapshots to a new hard-drive?
 
-There are three different solutions:
+## Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)
 
-1. clone the drive with ``dd`` and enlarge the partition on the new drive to
-   use all space. This will **destroy all data** on the destination drive!
+We assist and support other projects providing specific distribution
+packages. Thus, we suggest creating your own repository to manage and maintain
+such packages. It will be mentioned in our documentation as an alternative
+source for installation.
 
-   ```bash
-    sudo dd if=/dev/sdbX of=/dev/sdcX bs=4M
-   ```
+We do not directly support third-party distribution channels associated with
+specific GNU/Linux distributions, unofficial repositories (e.g. Arch AUR,
+Launchpad PPA) or FlatPack & Co. One reasons is our lack of ressources and the
+need to prioritize tasks. Another reasons is that their are distro maintainers
+with much more experience and skills in packaging. We always recommend using
+the official repositories of GNU/Linux distributions and contacting their
+maintainers if _Back In Time_ is unavailable or out dated.
 
-   where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
 
-   Finally use ``gparted`` to resize the partition. Take a look at the
-   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
+# Testing & Building
 
-1. copy all files using ``rsync -H``
-
-   ```bash
-    rsync -avhH --info=progress2 /SOURCE /DESTINATION
-   ```
-
-1. copy all files using ``tar``
-
-   ```bash
-   cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
-   ```
-
-Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
-
-### How to move a large directory in the backup source without duplicating the files in the backup?
-
-If you move a file/folder in the source ("include") location that is backed-up by BiT
-it will treat this like a new file/folder and
-create a new backup file for it (not hard-linked to the old one). With large
-directories this can fill up your backup drive quite fast.
-
-You can avoid this by moving the file/folder in the last snapshot too:
-
-1. Create a new snapshot
-
-2. Move the original folder
-
-3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
-
-4. Create a new snapshot
-
-5. Remove the next to last snapshot (the one where you moved the folder manually)
-   to avoid problems with permissions when you try to restore from that snapshot
-
-#### Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
-
-In newer Ubuntu-based distros you may get this warning if you install _Back In
-Time_ from PPA.  The reason is that public keys of signed packages shall be
-stored in a new folder now (for details see
-https://itsfoss.com/apt-key-deprecated/).
-
-A solution is described in
-[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
-
-## Testing & Building
-
-### SSH related tests are skipped
+## SSH related tests are skipped
 
 They get skipped if no SSH server is available. Please see section
 [Testing & Building](CONTRIBUTING.md#testing--building) about how to setup
 a SSH server on your system.
 
-### Setup SSH Server to run unit tests
+## Setup SSH Server to run unit tests
 
 Please see section [Testing - SSH](CONTRIBUTING.md#ssh).
 
