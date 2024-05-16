@@ -32,7 +32,7 @@ import tools
 #      backup starts).
 #      Rename it to eg. LockFileManager
 # TODO2 When refactoring have a look at "common/flock.py" still implementing
-#       a contxt mananger for that problem.
+#       a contxt manager for that problem.
 class ApplicationInstance:
     """
     Class used to handle one application instance mechanism.
@@ -157,15 +157,20 @@ class ApplicationInstance:
         (so that only the last creator wins).
 
         Dev notes:
-        ---------
+        ----------
         buhtz (2023-09):
         Not sure but just log an ERROR without doing anything else is
         IMHO not enough.
+
         aryoda (2023-12):
         It seems the purpose of this additional lock file using an exclusive lock
         is to block the other process to continue until this exclusive lock
         is released (= serialize execution).
         Therefore advisory locks are used via fcntl.flock (see: man 2 fcntl)
+
+        buhtz (2024-05):
+        Have a look at the new :mod:`flock` module providing an flock context
+        manager.
         """
 
         flock_file_URI = self.pidFile + '.flock'

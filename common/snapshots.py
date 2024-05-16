@@ -3046,7 +3046,7 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
                 yield sid
 
         # REFACTOR!
-        # LastSnapshotSymlink is an exception instance and could be catched
+        # LastSnapshotSymlink is an exception instance and could be caught
         # explicit. But not sure about its purpose.
         except Exception as e:
             if not isinstance(e, LastSnapshotSymlink):

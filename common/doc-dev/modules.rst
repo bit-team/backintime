@@ -14,6 +14,7 @@ common
    diagnostics
    encfstools
    exceptions
+   flock
    guiapplicationinstance
    logger
    mount
