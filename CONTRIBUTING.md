@@ -85,7 +85,6 @@ request is accepted.
 - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
 - [HowTo's and maintenance](common/doc-dev/README.md)
-
 - [contribution-guide.org](https://www.contribution-guide.org)
 - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
 - [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
