@@ -1075,7 +1075,7 @@ source for installation.
 
 We do not directly support third-party distribution channels associated with
 specific GNU/Linux distributions, unofficial repositories (e.g. Arch AUR,
-Launchpad PPA) or FlatPack & Co. One reasons is our lack of ressources and the
+Launchpad PPA) or FlatPack & Co. One reasons is our lack of resources and the
 need to prioritize tasks. Another reasons is that their are distro maintainers
 with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their

@@ -85,7 +85,6 @@ request is accepted.
 - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
 - [HowTo's and maintenance](common/doc-dev/README.md)
-
 - [contribution-guide.org](https://www.contribution-guide.org)
 - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
 - [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
@@ -237,10 +236,10 @@ request.
 Depending on the topic or impact of the PR, the maintainer may decide
 that an approval from a second maintainer is needed. This may result in
 additional waiting time. Please remain patient. In such cases, the PR will be
-labelled
+labeled
 [PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review). 
 
-If no second approval is necessary, the PR is labelled
+If no second approval is necessary, the PR is labeled
 [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
 and will remain open for minimum of one week. This rule allows all maintainers
 the chance to review and potentially veto the pull request.

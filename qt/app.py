@@ -1377,13 +1377,16 @@ class MainWindow(QMainWindow):
                 suffix=self.snapshots.backupSuffix()))
 
         cb.setChecked(self.config.backupOnRestore())
-        cb.setToolTip(_(
-            "Newer versions of files will be renamed with trailing "
-            "{suffix} before restoring.\n"
-            "If you don't need them anymore you can remove them with {cmd}")
-            .format(suffix=self.snapshots.backupSuffix(),
-                    cmd='find ./ -name "*{suffix}" -delete'
-                        .format(suffix=self.snapshots.backupSuffix()))
+        qttools.set_wrapped_tooltip(
+            cb,
+            _("Newer versions of files will be renamed with trailing {suffix} "
+              "before restoring. If you don't need them anymore you can "
+              "remove them with {cmd}").format(
+                  suffix=self.snapshots.backupSuffix(),
+                  cmd='find ./ -name "*{suffix}" -delete'.format(
+                      suffix=self.snapshots.backupSuffix()
+                  )
+            )
         )
         return {
             'widget': cb,
@@ -1395,27 +1398,29 @@ class MainWindow(QMainWindow):
         cb = QCheckBox(_('Only restore elements which do not exist or\n'
                          'are newer than those in destination.\n'
                          'Using "rsync --update" option.'))
-        cb.setToolTip("""From 'man rsync':
-
-This forces rsync to skip any files which exist on the
-destination and have a modified time that is newer than
-the source file. (If an existing destination file has a
-modification time equal to the source file’s, it will be
-updated if the sizes are different.)
-
-Note that this does not affect the copying of dirs,
-symlinks, or other special files. Also, a difference of
-file format between the sender and receiver is always
-considered to be important enough for an update, no
-matter what date is on the objects. In other words, if
-the source has a directory where the destination has a
-file, the transfer would occur regardless of the
-timestamps.
-
-This option is a transfer rule, not an exclude, so it
-doesn’t affect the data that goes into the file-lists,
-and thus it doesn’t affect deletions. It just limits the
-files that the receiver requests to be transferred.""")
+        qttools.set_wrapped_tooltip(
+            cb,
+            ["From 'man rsync':",
+             "",
+             "This forces rsync to skip any files which exist on the "
+             "destination and have a modified time that is newer than the "
+             "source file. (If an existing destination file has a "
+             "modification time equal to the source file’s, it will be "
+             "updated if the sizes are different.)",
+             "",
+             "Note that this does not affect the copying of dirs, symlinks, "
+             "or other special files. Also, a difference of file format "
+             "between the sender and receiver is always considered to be "
+             "important enough for an update, no matter what date is on the "
+             "objects. In other words, if the source has a directory where "
+             "the destination has a file, the transfer would occur regardless "
+             "of the timestamps.",
+             "",
+             "This option is a transfer rule, not an exclude, so it doesn’t "
+             "affect the data that goes into the file-lists, and thus it "
+             "doesn’t affect deletions. It just limits the files that the "
+             "receiver requests to be transferred."]
+        )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
 
     def listRestorePaths(self, paths):
@@ -1426,13 +1431,13 @@ files that the receiver requests to be transferred.""")
 
     def deleteOnRestore(self):
         cb = QCheckBox(_('Remove newer elements in original folder.'))
-        cb.setToolTip(_('Restore selected files or folders '
-                        'to the original destination and\n'
-                        'delete files or folders which are '
-                        'not in the snapshot.\n'
-                        'Be extremely careful because this will\n'
-                        'delete files and folders which were\n'
-                        'excluded during taking the snapshot.'))
+        qttools.set_wrapped_tooltip(
+            cb,
+            _('Restore selected files or folders to the original destination '
+              'and delete files or folders which are not in the snapshot. Be '
+              'extremely careful because this will delete files and folders '
+              'which were excluded during taking the snapshot.')
+        )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
     def confirmRestore(self, paths, restoreTo = None):

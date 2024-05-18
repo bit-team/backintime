@@ -19,7 +19,7 @@ It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
 
 ## Maintenance status
 
-The project is in active developement since the [new team](#the-team) joined in
+The project is in active development since the [new team](#the-team) joined in
 summer 2022. Development is done in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
