@@ -29,7 +29,6 @@ import subprocess
 import shutil
 import time
 import re
-import fcntl
 from tempfile import TemporaryDirectory
 import config
 import configfile
@@ -39,6 +38,7 @@ import encfstools
 import mount
 import progress
 import snapshotlog
+import flock
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 
@@ -59,7 +59,6 @@ class Snapshots:
         cfg (config.Config): current config
     """
     SNAPSHOT_VERSION = 3
-    GLOBAL_FLOCK = '/tmp/backintime.lock'
 
     def __init__(self, cfg = None):
         self.config = cfg
@@ -83,7 +82,6 @@ class Snapshots:
                                           r'(.*$)')                         #trash at the end
 
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
-        self.flock = None
         self.restorePermissionFailed = False
 
     # TODO: make own class for takeSnapshotMessage
@@ -250,7 +248,7 @@ class Snapshots:
                         callback(msg)
                 else:
                     self.restorePermissionFailed = True
-                    msg = 'Failed to get UID for %s: %s' % (name, str(e))
+                    msg = 'Failed to get UID for %s: %s' %(name, str(e))
                     logger.error(msg, self)
                     if callback:
                         callback(msg)
@@ -704,7 +702,7 @@ class Snapshots:
     #  - Nested "if"s
     #  - Fuzzy names of classes, attributes and methods
     # - unclear variable names (at least for the return values)
-    def backup(self, force = False):
+    def backup(self, force=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
 
@@ -783,183 +781,191 @@ class Snapshots:
 
                 # global flock to block backups from other profiles or users
                 # (and run them serialized)
-                self.flockExclusive()
-                logger.info('Lock', self)
+                # self.flockExclusive()
+                with flock.GlobalFlock():
+                    logger.info('Lock', self)
 
-                now = datetime.datetime.today()
+                    now = datetime.datetime.today()
 
-                # inhibit suspend/hibernate during snapshot is running
-                self.config.inhibitCookie \
-                    = tools.inhibitSuspend(toplevel_xid=self.config.xWindowId)
+                    # inhibit suspend/hibernate during snapshot is running
+                    self.config.inhibitCookie = tools.inhibitSuspend(
+                        toplevel_xid=self.config.xWindowId)
 
-                # mount
-                try:
-                    hash_id = mount.Mount(cfg=self.config).mount()
+                    # mount
+                    try:
+                        hash_id = mount.Mount(cfg=self.config).mount()
 
-                except MountException as ex:
-                    logger.error(str(ex), self)
-                    instance.exitApplication()
-                    logger.info('Unlock', self)
-                    time.sleep(2)
+                    except MountException as ex:
+                        logger.error(str(ex), self)
+                        instance.exitApplication()
+                        logger.info('Unlock', self)
+                        time.sleep(2)
 
-                    return True
-
-                else:
-                    self.config.setCurrentHashId(hash_id)
-
-                include_folders = self.config.include()
-
-                if not include_folders:
-                    logger.info('Nothing to do', self)
-
-                elif not self.config.PLUGIN_MANAGER.processBegin():
-                    logger.info('A plugin prevented the backup', self)
-
-                else:
-                    # take snapshot process begin
-                    self.setTakeSnapshotMessage(0, '...')
-                    self.snapshotLog.new(now)
-
-                    profile_id = self.config.currentProfile()
-                    profile_name = self.config.profileName()
-
-                    logger.info(f"Take a new snapshot. Profile: {profile_id} "
-                                f"{profile_name}", self)
-
-                    if not self.config.canBackup(profile_id):
-
-                        if (self.config.PLUGIN_MANAGER.hasGuiPlugins
-                                and self.config.notify()):
-
-                            message = (
-                                _('Can\'t find snapshots folder.\nIf it is '
-                                  'on a removable drive please plug it in.')
-                                + '\n'
-                                + gettext.ngettext('Waiting %s second.',
-                                                   'Waiting %s seconds.',
-                                                   30) % 30
-                            )
-
-                            self.setTakeSnapshotMessage(
-                                type_id=1,
-                                message=message,
-                                timeout=30)
-
-                        counter = 0
-                        for counter in range(0, 30):
-                            logger.debug(
-                                "Cannot start snapshot yet: target directory "
-                                "not accessible. Waiting 1s.")
-
-                            time.sleep(1)
-
-                            if self.config.canBackup():
-                                break
-
-                        if counter != 0:
-                            logger.info(
-                                f"Waited {counter} seconds for target "
-                                "directory to be available", self)
-
-                    if not self.config.canBackup(profile_id):
-                        logger.warning("Can't find snapshots folder!", self)
-                        # Can't find snapshots directory (is it on a removable
-                        # drive ?)
-                        self.config.PLUGIN_MANAGER.error(3)
+                        return True
 
                     else:
-                        ret_error = False
-                        sid = SID(now, self.config)
+                        self.config.setCurrentHashId(hash_id)
 
-                        if sid.exists():
-                            logger.warning(f'Snapshot path "{sid.path()}" '
-                                           'already exists', self)
-                            # This snapshot already exists
-                            self.config.PLUGIN_MANAGER.error(4, sid)
+                    include_folders = self.config.include()
+
+                    if not include_folders:
+                        logger.info('Nothing to do', self)
+
+                    elif not self.config.PLUGIN_MANAGER.processBegin():
+                        logger.info('A plugin prevented the backup', self)
+
+                    else:
+                        # take snapshot process begin
+                        self.setTakeSnapshotMessage(0, '…')
+                        self.snapshotLog.new(now)
+
+                        profile_id = self.config.currentProfile()
+                        profile_name = self.config.profileName()
+
+                        logger.info(f"Take a new snapshot. Profile: {profile_id} "
+                                    f"{profile_name}", self)
+
+                        if not self.config.canBackup(profile_id):
+
+                            if (self.config.PLUGIN_MANAGER.hasGuiPlugins
+                                    and self.config.notify()):
+
+                                message = (
+                                    _("Can't find snapshots folder.\n"
+                                      "If it is on a removable drive please "
+                                      "plug it in.")
+                                    + '\n'
+                                    + gettext.ngettext('Waiting %s second.',
+                                                       'Waiting %s seconds.',
+                                                       30) % 30
+                                )
+
+                                self.setTakeSnapshotMessage(
+                                    type_id=1,
+                                    message=message,
+                                    timeout=30)
+
+                            counter = 0
+                            for counter in range(0, 30):
+                                logger.debug(
+                                    'Cannot start snapshot yet: target '
+                                    'directory not accessible. Waiting 1s.')
+
+                                time.sleep(1)
+
+                                if self.config.canBackup():
+                                    break
+
+                            if counter != 0:
+                                logger.info(
+                                    f'Waited {counter} seconds for target '
+                                    'directory to be available', self)
+
+                        if not self.config.canBackup(profile_id):
+                            logger.warning(
+                                "Can't find snapshots folder!", self)
+                            # Can't find snapshots directory (is it on a
+                            # removable drive ?)
+                            self.config.PLUGIN_MANAGER.error(3)
 
                         else:
+                            ret_error = False
+                            sid = SID(now, self.config)
 
-                            try:
-                                # TODO
-                                # rename ret_val to new_snapshot_created and
-                                # ret_error to has_error for clearer code
-                                ret_val, ret_error = self.takeSnapshot(
-                                    sid, now, include_folders)
-
-                            except:
-                                new = NewSnapshot(self.config)
-
-                                if new.exists():
-                                    new.saveToContinue = False
-                                    new.failed = True
-
-                                raise
-
-                        if not ret_val:
-                            self.remove(sid)
-
-                            if ret_error:
-                                logger.error('Failed to take snapshot.', self)
-                                msg = _('Failed to take snapshot '
-                                        '{snapshot_id}.').format(
-                                            snapshot_id=sid.displayID)
-                                self.setTakeSnapshotMessage(1, msg)
-                                # Fixes #1491
-                                self.config.PLUGIN_MANAGER.error(5, msg)
-
-                                time.sleep(2)
+                            if sid.exists():
+                                logger.warning(f'Snapshot path "{sid.path()}" '
+                                               'already exists', self)
+                                # This snapshot already exists
+                                self.config.PLUGIN_MANAGER.error(4, sid)
 
                             else:
-                                logger.warning("No new snapshot", self)
 
-                        else:  # new snapshot taken...
+                                try:
+                                    # TODO
+                                    # rename ret_val to new_snapshot_created
+                                    # and ret_error to has_error for clearer
+                                    # code
+                                    ret_val, ret_error = self.takeSnapshot(
+                                        sid, now, include_folders)
 
-                            if ret_error:
-                                logger.error(
-                                    'New snapshot taken but errors detected',
-                                    self)
-                                # Fixes #1491
-                                self.config.PLUGIN_MANAGER.error(
-                                    6, sid.displayID)
+                                except:  # TODO too broad exception
+                                    new = NewSnapshot(self.config)
 
-                            # Why ignore errors now?
-                            ret_error = False
-                            # Probably because a new snapshot has been created
-                            # (= changes transferred) and "continue on errors"
-                            # is enabled
+                                    if new.exists():
+                                        new.saveToContinue = False
+                                        new.failed = True
 
-                        if not ret_error:
-                            self.freeSpace(now)
-                            self.setTakeSnapshotMessage(0, _('Finalizing'))
+                                    raise
 
-                    time.sleep(2)
-                    sleep = False
+                            if not ret_val:
+                                self.remove(sid)
 
-                    if ret_val:
-                        # new snapshot
-                        self.config.PLUGIN_MANAGER.newSnapshot(
-                            sid, sid.path())
+                                if ret_error:
+                                    logger.error(
+                                        'Failed to take snapshot.', self)
+                                    msg = _('Failed to take snapshot '
+                                            '{snapshot_id}.').format(
+                                                snapshot_id=sid.displayID)
+                                    self.setTakeSnapshotMessage(1, msg)
+                                    # Fixes #1491
+                                    self.config.PLUGIN_MANAGER.error(5, msg)
 
-                    # Take snapshot process end
-                    self.config.PLUGIN_MANAGER.processEnd()
+                                    time.sleep(2)
 
-                if sleep:
-                    time.sleep(2)
-                    sleep = False
+                                else:
+                                    logger.warning("No new snapshot", self)
 
-                if not ret_error:
-                    self.clearTakeSnapshotMessage()
+                            else:  # new snapshot taken...
 
-                # unmount
-                try:
-                    mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
+                                if ret_error:
+                                    logger.error('New snapshot taken but '
+                                                 'errors detected',
+                                                 self)
+                                    # Fixes #1491
+                                    self.config.PLUGIN_MANAGER.error(
+                                        6, sid.displayID)
 
-                except MountException as ex:
-                    logger.error(str(ex), self)
+                                # Why ignore errors now?
+                                ret_error = False
+                                # Probably because a new snapshot has been
+                                # created (= changes transferred) and
+                                # "continue on errors" is enabled
 
-                instance.exitApplication()
-                self.flockRelease()
-                logger.info('Unlock', self)
+                            if not ret_error:
+                                self.freeSpace(now)
+                                self.setTakeSnapshotMessage(0, _('Finalizing'))
+
+                        time.sleep(2)
+                        sleep = False
+
+                        if ret_val:
+                            # new snapshot
+                            self.config.PLUGIN_MANAGER.newSnapshot(
+                                sid, sid.path())
+
+                        # Take snapshot process end
+                        self.config.PLUGIN_MANAGER.processEnd()
+
+                    if sleep:
+                        time.sleep(2)
+                        sleep = False
+
+                    if not ret_error:
+                        self.clearTakeSnapshotMessage()
+
+                    # unmount
+                    try:
+                        mount.Mount(cfg=self.config) \
+                             .umount(self.config.current_hash_id)
+
+                    except MountException as ex:
+                        logger.error(str(ex), self)
+
+                    instance.exitApplication()
+                    # self.flockRelease()
+
+                    logger.info('Unlock', self)
+                    # --- END GlobalFlock context ---
 
         if sleep:
             # max 1 backup / second
@@ -2202,34 +2208,6 @@ class Snapshots:
             logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
             return False
 
-    # TODO Rename to make the purpose obvious, eg: Serialize_[backup|execution]_via_exclusive_global_flock()
-    def flockExclusive(self):
-        """
-        Block :py:func:`backup` from other profiles or users
-        and run them serialized
-        """
-        if self.config.globalFlock():
-            logger.debug('Set flock %s' %self.GLOBAL_FLOCK, self)
-            self.flock = open(self.GLOBAL_FLOCK, 'w')
-            fcntl.flock(self.flock, fcntl.LOCK_EX)  # blocks (waits) until an existing flock is released
-            # make it rw by all if that's not already done.
-            perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | \
-                    stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH
-            s = os.fstat(self.flock.fileno())
-            if not s.st_mode & perms == perms:
-                logger.debug('Set flock permissions %s' %self.GLOBAL_FLOCK, self)
-                os.fchmod(self.flock.fileno(), perms)
-
-    def flockRelease(self):
-        """
-        Release lock so other snapshots can continue
-        """
-        if self.flock:
-            logger.debug('Release flock %s' %self.GLOBAL_FLOCK, self)
-            fcntl.fcntl(self.flock, fcntl.LOCK_UN)
-            self.flock.close()
-        self.flock = None
-
     def rsyncSuffix(self, includeFolders = None, excludeFolders = None):
         """
         Create suffixes for rsync.
@@ -3068,7 +3046,7 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
                 yield sid
 
         # REFACTOR!
-        # LastSnapshotSymlink is an exception instance and could be catched
+        # LastSnapshotSymlink is an exception instance and could be caught
         # explicit. But not sure about its purpose.
         except Exception as e:
             if not isinstance(e, LastSnapshotSymlink):

@@ -1,23 +1,24 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 """
 This module holds the ApplicationInstance class, used to handle
-the one application instance mechanism 
+the one application instance mechanism.
 """
 
 import os
@@ -30,6 +31,8 @@ import tools
 #      one app instance eg. if a restore is running and another
 #      backup starts).
 #      Rename it to eg. LockFileManager
+# TODO2 When refactoring have a look at "common/flock.py" still implementing
+#       a contxt manager for that problem.
 class ApplicationInstance:
     """
     Class used to handle one application instance mechanism.
@@ -154,15 +157,20 @@ class ApplicationInstance:
         (so that only the last creator wins).
 
         Dev notes:
-        ---------
+        ----------
         buhtz (2023-09):
         Not sure but just log an ERROR without doing anything else is
         IMHO not enough.
+
         aryoda (2023-12):
         It seems the purpose of this additional lock file using an exclusive lock
         is to block the other process to continue until this exclusive lock
         is released (= serialize execution).
         Therefore advisory locks are used via fcntl.flock (see: man 2 fcntl)
+
+        buhtz (2024-05):
+        Have a look at the new :mod:`flock` module providing an flock context
+        manager.
         """
 
         flock_file_URI = self.pidFile + '.flock'

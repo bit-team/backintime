@@ -204,33 +204,33 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertIsLink(symlink)
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
-    def flockSecondInstance(self):
-        cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
-        cfg = config.Config(cfgFile)
-        sn = snapshots.Snapshots(cfg)
-        sn.GLOBAL_FLOCK = self.sn.GLOBAL_FLOCK
+    # def flockSecondInstance(self):
+    #     cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
+    #     cfg = config.Config(cfgFile)
+    #     sn = snapshots.Snapshots(cfg)
+    #     sn.GLOBAL_FLOCK = self.sn.GLOBAL_FLOCK
 
-        cfg.setGlobalFlock(True)
-        sn.flockExclusive()
-        sn.flockRelease()
+    #     cfg.setGlobalFlock(True)
+    #     sn.flockExclusive()
+    #     sn.flockRelease()
 
-    def test_flockExclusive(self):
-        RWUGO = 33206 #-rw-rw-rw
-        self.cfg.setGlobalFlock(True)
-        thread = Thread(target = self.flockSecondInstance, args = ())
-        self.sn.flockExclusive()
+    # def test_flockExclusive(self):
+    #     RWUGO = 33206 #-rw-rw-rw
+    #     self.cfg.setGlobalFlock(True)
+    #     thread = Thread(target = self.flockSecondInstance, args = ())
+    #     self.sn.flockExclusive()
 
-        self.assertExists(self.sn.GLOBAL_FLOCK)
-        mode = os.stat(self.sn.GLOBAL_FLOCK).st_mode
-        self.assertEqual(mode, RWUGO)
+    #     self.assertExists(self.sn.GLOBAL_FLOCK)
+    #     mode = os.stat(self.sn.GLOBAL_FLOCK).st_mode
+    #     self.assertEqual(mode, RWUGO)
 
-        thread.start()
-        thread.join(0.01)
-        self.assertTrue(thread.is_alive())
+    #     thread.start()
+    #     thread.join(0.01)
+    #     self.assertTrue(thread.is_alive())
 
-        self.sn.flockRelease()
-        thread.join()
-        self.assertFalse(thread.is_alive())
+    #     self.sn.flockRelease()
+    #     thread.join()
+    #     self.assertFalse(thread.is_alive())
 
     def test_statFreeSpaceLocal(self):
         self.assertIsInstance(self.sn.statFreeSpaceLocal('/'), int)
