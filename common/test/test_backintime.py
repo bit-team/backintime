@@ -53,7 +53,7 @@ class TestBackInTime(generic.TestCase):
         and observe the intended behavior.  Heavy refactoring is needed. But
         because of the "level" of that tests it won't happen in the near
         future. Also maintenance costs of this tests are damn high because
-        every tiny modifcation of BIT gives a false fail of this test.
+        every tiny modification of BIT gives a false fail of this test.
 
         Development notes (by Buhtz, 2024-05):
         It is just dumb stdout parsing. I tend to remove this test because of

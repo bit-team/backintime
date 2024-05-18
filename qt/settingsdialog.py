@@ -2293,7 +2293,7 @@ class SettingsDialog(QDialog):
                 item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
 
             else:
-                # Icon: user definied
+                # Icon: user defined
                 item.setIcon(0, self.icon.EXCLUDE)
 
 
