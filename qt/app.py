@@ -875,27 +875,37 @@ class MainWindow(QMainWindow):
         profile_id = self.comboProfiles.currentProfileID()
         if not profile_id:
             return
+
         old_profile_id = self.config.currentProfile()
+
         if profile_id != old_profile_id:
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
-            self.config.setProfileIntValue('qt.places.SortColumn',
-                                           self.places.header().sortIndicatorSection(),
-                                           old_profile_id)
-            self.config.setProfileIntValue('qt.places.SortOrder',
-                                           self.places.header().sortIndicatorOrder(),
-                                           old_profile_id)
+            self.config.setProfileIntValue(
+                'qt.places.SortColumn',
+                self.places.header().sortIndicatorSection(),
+                old_profile_id)
+            self.config.setProfileIntValue(
+                'qt.places.SortOrder',
+                self.places.header().sortIndicatorOrder(),
+                old_profile_id)
+
             self.placesSortLoop[old_profile_id] = False
             self.places.header().setSortIndicator(
-                int(self.config.profileIntValue('qt.places.SortColumn', 1, profile_id)),
-                Qt.SortOrder(self.config.profileIntValue('qt.places.SortOrder',
-                                                         Qt.SortOrder.AscendingOrder,
-                                                         profile_id))
+                int(self.config.profileIntValue(
+                    'qt.places.SortColumn', 1, profile_id)),
+                Qt.SortOrder(self.config.profileIntValue(
+                    'qt.places.SortOrder',
+                    Qt.SortOrder.AscendingOrder,
+                    profile_id))
             )
 
-            self.config.setProfileStrValue('qt.last_path', self.path, old_profile_id)
-            path = self.config.profileStrValue('qt.last_path', self.path, profile_id)
+            self.config.setProfileStrValue(
+                'qt.last_path', self.path, old_profile_id)
+            path = self.config.profileStrValue(
+                'qt.last_path', self.path, profile_id)
+
             if not path == self.path:
                 self.path = path
                 self.path_history.reset(self.path)
@@ -1101,27 +1111,36 @@ class MainWindow(QMainWindow):
         self.addPlace(_('Root'), '/', 'computer')
         self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
 
-        # add backup folders
-        include_folders = self.config.include()
+        # "Now" or a specific snapshot selected?
+        if self.sid.isRoot:
+            # Use snapshots profiles list of include files and folders
+            include_entries = self.config.include()
 
-        if include_folders:
-            folders = []
-            for item in include_folders:
-                if item[1] == 0:
-                    folders.append(item[0])
+        else:
+            # Determine folders from the snapshot itself
+            base = os.path.expanduser('~')
+            if not os.path.isdir(self.sid.pathBackup(base)):
+                # Folder not mounted. We can skip for the next updatePlaces()
+                return
+            folders = os.listdir(self.sid.pathBackup(base))
+            include_entries = [(os.path.join(base, f), 0) for f in folders]
 
-            if folders:
-                sortColumn = self.places.header().sortIndicatorSection()
-                sortOrder = self.places.header().sortIndicatorOrder()
+        # Use folders only (if 2nd tuple entry is 0)
+        only_folders = filter(lambda entry: entry[1] == 0, include_entries)
+        include_folders = [item[0] for item in only_folders]
 
-                if not sortColumn:
-                    folders.sort(
-                        key=lambda v: (v.upper(), v[0].islower()),
-                        reverse=sortOrder == Qt.SortOrder.DescendingOrder)
+        if not include_folders:
+            return
 
-                self.addPlace(_('Backup folders'), '', '')
-                for folder in folders:
-                    self.addPlace(folder, folder, 'document-save')
+        if not self.places.header().sortIndicatorSection():
+            indic = self.places.header().sortIndicatorOrder()
+            reverse = True if indic == Qt.SortOrder.DescendingOrder else False
+            include_folders = sorted(include_folders, reverse=reverse)
+
+        self.addPlace(_('Backup folders'), '', '')
+
+        for folder in include_folders:
+            self.addPlace(folder, folder, 'document-save')
 
     def sortPlaces(self, newColumn, newOrder, force = False):
         profile_id = self.config.currentProfile()
@@ -1165,17 +1184,20 @@ class MainWindow(QMainWindow):
             return
 
         self.sid = sid
+        self.updatePlaces()
         self.updateFilesView(2)
 
-    def updateTimeLine(self, refreshSnapshotsList = True):
+    def updateTimeLine(self, refreshSnapshotsList=True):
         self.timeLine.clear()
         self.timeLine.addRoot(snapshots.RootSnapshot(self.config))
+
         if refreshSnapshotsList:
             self.snapshotsList = []
             thread = FillTimeLineThread(self)
             thread.addSnapshot.connect(self.timeLine.addSnapshot)
             thread.finished.connect(self.timeLine.checkSelection)
             thread.start()
+
         else:
             for sid in self.snapshotsList:
                 item = self.timeLine.addSnapshot(sid)
@@ -1358,13 +1380,16 @@ class MainWindow(QMainWindow):
                 suffix=self.snapshots.backupSuffix()))
 
         cb.setChecked(self.config.backupOnRestore())
-        cb.setToolTip(_(
-            "Newer versions of files will be renamed with trailing "
-            "{suffix} before restoring.\n"
-            "If you don't need them anymore you can remove them with {cmd}")
-            .format(suffix=self.snapshots.backupSuffix(),
-                    cmd='find ./ -name "*{suffix}" -delete'
-                        .format(suffix=self.snapshots.backupSuffix()))
+        qttools.set_wrapped_tooltip(
+            cb,
+            _("Newer versions of files will be renamed with trailing {suffix} "
+              "before restoring. If you don't need them anymore you can "
+              "remove them with {cmd}").format(
+                  suffix=self.snapshots.backupSuffix(),
+                  cmd='find ./ -name "*{suffix}" -delete'.format(
+                      suffix=self.snapshots.backupSuffix()
+                  )
+            )
         )
         return {
             'widget': cb,
@@ -1376,27 +1401,29 @@ class MainWindow(QMainWindow):
         cb = QCheckBox(_('Only restore elements which do not exist or\n'
                          'are newer than those in destination.\n'
                          'Using "rsync --update" option.'))
-        cb.setToolTip("""From 'man rsync':
-
-This forces rsync to skip any files which exist on the
-destination and have a modified time that is newer than
-the source file. (If an existing destination file has a
-modification time equal to the source file’s, it will be
-updated if the sizes are different.)
-
-Note that this does not affect the copying of dirs,
-symlinks, or other special files. Also, a difference of
-file format between the sender and receiver is always
-considered to be important enough for an update, no
-matter what date is on the objects. In other words, if
-the source has a directory where the destination has a
-file, the transfer would occur regardless of the
-timestamps.
-
-This option is a transfer rule, not an exclude, so it
-doesn’t affect the data that goes into the file-lists,
-and thus it doesn’t affect deletions. It just limits the
-files that the receiver requests to be transferred.""")
+        qttools.set_wrapped_tooltip(
+            cb,
+            ["From 'man rsync':",
+             "",
+             "This forces rsync to skip any files which exist on the "
+             "destination and have a modified time that is newer than the "
+             "source file. (If an existing destination file has a "
+             "modification time equal to the source file’s, it will be "
+             "updated if the sizes are different.)",
+             "",
+             "Note that this does not affect the copying of dirs, symlinks, "
+             "or other special files. Also, a difference of file format "
+             "between the sender and receiver is always considered to be "
+             "important enough for an update, no matter what date is on the "
+             "objects. In other words, if the source has a directory where "
+             "the destination has a file, the transfer would occur regardless "
+             "of the timestamps.",
+             "",
+             "This option is a transfer rule, not an exclude, so it doesn’t "
+             "affect the data that goes into the file-lists, and thus it "
+             "doesn’t affect deletions. It just limits the files that the "
+             "receiver requests to be transferred."]
+        )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
 
     def listRestorePaths(self, paths):
@@ -1407,13 +1434,13 @@ files that the receiver requests to be transferred.""")
 
     def deleteOnRestore(self):
         cb = QCheckBox(_('Remove newer elements in original folder.'))
-        cb.setToolTip(_('Restore selected files or folders '
-                        'to the original destination and\n'
-                        'delete files or folders which are '
-                        'not in the snapshot.\n'
-                        'Be extremely careful because this will\n'
-                        'delete files and folders which were\n'
-                        'excluded during taking the snapshot.'))
+        qttools.set_wrapped_tooltip(
+            cb,
+            _('Restore selected files or folders to the original destination '
+              'and delete files or folders which are not in the snapshot. Be '
+              'extremely careful because this will delete files and folders '
+              'which were excluded during taking the snapshot.')
+        )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
     def confirmRestore(self, paths, restoreTo = None):
