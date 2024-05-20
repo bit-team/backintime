@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-30 10:08+0100\n"
-"PO-Revision-Date: 2024-01-12 13:56+0000\n"
-"Last-Translator: Maytha8 <maytha8thedev@gmail.com>\n"
+"PO-Revision-Date: 2024-03-26 02:18+0000\n"
+"Last-Translator: Maytham Alsudany <maytha8thedev@gmail.com>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.4.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -314,7 +314,7 @@ msgstr "ناجح"
 
 #: common/snapshots.py:1255
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "تحويل جزئي بسبب خطأ"
 
 #: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -366,13 +366,13 @@ msgid "Now"
 msgstr "الآن"
 
 #: common/sshtools.py:215
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "تعذر ضم {sshfs}"
+msgstr "غير ممكن تركيب {sshfs}"
 
 #: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "لا يوجد ssh-agent. يرجى التأكد انه منصب."
 
 #: common/sshtools.py:418
 msgid ""
@@ -384,53 +384,52 @@ msgstr ""
 #: common/sshtools.py:506
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "الشفرة {cipher} فش ل{host}."
 
 #: common/sshtools.py:653
 msgid "Remote path exists but is not a directory."
-msgstr ""
+msgstr "المسار المتباعد موجود لكن ليس مجلدا."
 
 #: common/sshtools.py:658
 msgid "Remote path is not writable."
-msgstr ""
+msgstr "المسار المتباعد ليس قابل لالكتابة."
 
 #: common/sshtools.py:663
 msgid "Remote path is not executable."
-msgstr ""
+msgstr "المسار المتباعد ليس قابل لالتنفيذ."
 
 #: common/sshtools.py:668
-#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "لا يُمكن إنشاء مُجلد."
+msgstr "لا يمكن انشاء المسار المتباعد."
 
 #: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr ""
+msgstr "المضيف المتباعد {host} لا يدعم {command}"
 
 #: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "راجع 'man backintime' لالمزيد من التعليمات"
 
 #: common/sshtools.py:956
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
+msgstr "التأكد من الأوامر على المضيف {host} اعاد غلط غير معروف"
 
 #: common/sshtools.py:977
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr ""
+msgstr "المضيف المتباعد {host} لا يدعم الروابط الصلبة"
 
 #: common/sshtools.py:1060
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr ""
+msgstr "انسخ مفتاح ssh العام \"{pubkey}\" لالمضيف المتباعد \"{host}\""
 
 #: common/sshtools.py:1062
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr "رجاء أكد كلمة السر"
+msgstr "يرجى ادخال كلمة السر لالمستخدم \"{user}\""
 
 #: qt/app.py:167
 msgid "Shortcuts"
@@ -441,24 +440,25 @@ msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
+"هذه المجلد غير موجود\n"
+"في اللقطة المختارة حاليا."
 
 #: qt/app.py:252
 msgid "Add to Include"
-msgstr ""
+msgstr "اضف لالتضمن"
 
 #: qt/app.py:254 qt/logviewdialog.py:186
 msgid "Add to Exclude"
-msgstr ""
+msgstr "اضف لالأستبعاد"
 
 #: qt/app.py:339
 #, python-brace-format
 msgid ""
 "{appName} is not configured. Would you like to restore a previous "
 "configuration?"
-msgstr ""
+msgstr "{appName} غير متكون. هل تريد اعادة التكوين السبق؟"
 
 #: qt/app.py:368
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -467,77 +467,68 @@ msgstr ""
 "إذا كان على قرص قابل للإزالة من فضلك وَصْلّهُ ومن ثم أضغط موافق."
 
 #: qt/app.py:453
-#, fuzzy
 msgid "Take a snapshot"
 msgstr "خذ لقطة"
 
 #: qt/app.py:455
 msgid "Use modification time & size for file change detection."
-msgstr ""
+msgstr "استخدم وقت التغيير والحجم لاكتشاف تغييرات في الملفات."
 
 #: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
-msgstr ""
+msgstr "خذ لقطة (طريقة المجموعة الاختبارية)"
 
 #: qt/app.py:460
-#, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "أستخدم تدقيق المجموع لِكشف التغيُّرات."
+msgstr "أستخدم المجامع الاختبارية لكشف التغيُّرات في الملفات."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
-msgstr ""
+msgstr "اوقف عملية اخذ اللقطة مؤقتا"
 
 #: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
-msgstr ""
+msgstr "استئناف عملية اخذ اللقطة"
 
 #: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
-msgstr ""
+msgstr "اوقف عملية اخذ اللقطة"
 
 #: qt/app.py:476
-#, fuzzy
 msgid "Refresh snapshot list"
 msgstr "حدث قائمة اللقطات"
 
 #: qt/app.py:480
-#, fuzzy
 msgid "Name snapshot"
-msgstr "خذ لقطة"
+msgstr "سمي اللقطة"
 
 #: qt/app.py:484
-#, fuzzy
 msgid "Remove snapshot"
 msgstr "أزل اللقطة"
 
 #: qt/app.py:488
-#, fuzzy
 msgid "View snapshot log"
 msgstr "عرض سجل اللقطات"
 
 #: qt/app.py:492
-#, fuzzy
 msgid "View last log"
 msgstr "عرض اخر سجل"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "الملف الشخصي الرئيسي"
+msgstr "إدارة الملفات الشخصية…"
 
 #: qt/app.py:500
 msgid "Shutdown"
 msgstr "أغلق"
 
 #: qt/app.py:502
-#, fuzzy
 msgid "Shut down system after snapshot has finished."
 msgstr "أطفئ النظام بعد اكتمال أخذ اللقطة."
 
 #: qt/app.py:504
 msgid "Setup language…"
-msgstr ""
+msgstr "اعداد اللغة…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -548,7 +539,6 @@ msgid "Help"
 msgstr "مُساعدة"
 
 #: qt/app.py:516
-#, fuzzy
 msgid "Profiles config file"
 msgstr "أحفظ ملف التعديل"
 
@@ -573,9 +563,8 @@ msgid "Report a bug"
 msgstr "بلّغ عن عِلة"
 
 #: qt/app.py:534
-#, fuzzy
 msgid "Translation"
-msgstr "الترجمات"
+msgstr "الترجمة"
 
 #: qt/app.py:537 qt/app.py:1834
 msgid "About"
@@ -588,28 +577,27 @@ msgstr "إسترجع"
 
 #: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
-msgstr ""
+msgstr "إسترجع الملفات والمجلدات المختارة الى اماكنهم الاصلية."
 
 #: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
 msgstr "إسترجع إلى …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
-msgstr ""
+msgstr "إسترجع الملفات والمجلدات المختارة الى موقع جديد."
 
 #: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
-msgstr ""
+msgstr "إسترجع الملفات والمجلدات الظاهرة وكل محتوياتها الى اماكنهم الاصلية."
 
 #: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
-msgstr ""
+msgstr "إسترجع الملفات والمجلدات الظاهرة وكل محتوياتها الى موقع جديد."
 
 #: qt/app.py:560
 msgid "Up"
@@ -620,29 +608,27 @@ msgid "Show hidden files"
 msgstr "أظهر الملفات المخفيّة"
 
 #: qt/app.py:566
-#, fuzzy
 msgid "Compare snapshots…"
-msgstr "خذ لقطة"
+msgstr "قارن اللقطات…"
 
 #: qt/app.py:627
 msgid "&Backup"
-msgstr ""
+msgstr "النسخ الاحتياطي"
 
 #: qt/app.py:638
-#, fuzzy
 msgid "&Restore"
 msgstr "إسترجع"
 
 #: qt/app.py:644
-#, fuzzy
 msgid "&Help"
 msgstr "مُساعدة"
 
 #: qt/app.py:761
+#, fuzzy
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
-msgstr ""
+msgstr "اذا قمت بإزالت هذه اللوحة, فلن يتمكن"
 
 #: qt/app.py:905
 msgid "Working:"
@@ -653,7 +639,6 @@ msgid "Done, no backup needed"
 msgstr "تم، لا حاجة للنسخ الاحتياطي"
 
 #: qt/app.py:962
-#, fuzzy
 msgid "Working"
 msgstr "يعمل"
 
@@ -663,16 +648,15 @@ msgstr "خطأ"
 
 #: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
-msgstr ""
+msgstr "مرسل"
 
 #: qt/app.py:995 qt/qtsystrayicon.py:203
-#, fuzzy
 msgid "Speed"
 msgstr "السرعة"
 
 #: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
-msgstr ""
+msgstr "الوقت المتبقي"
 
 #: qt/app.py:1050
 msgid "Global"
@@ -684,7 +668,7 @@ msgstr "جذر"
 
 #: qt/app.py:1052
 msgid "Home"
-msgstr "Home"
+msgstr "الرئيسية"
 
 #: qt/app.py:1067
 msgid "Backup folders"
@@ -695,15 +679,14 @@ msgid "Snapshot Name"
 msgstr "اسم اللقطة"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة"
-msgstr[1] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة"
-msgstr[2] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة"
-msgstr[3] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة"
-msgstr[4] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة"
-msgstr[5] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة"
+msgstr[0] "هل أنت مُتأكد بأنك تُريد إزالة اللقطات؟"
+msgstr[1] "هل أنت مُتأكد بأنك تُريد إزالة اللقطة؟"
+msgstr[2] "هل أنت مُتأكد بأنك تُريد إزالة اللقطتان؟"
+msgstr[3] "هل أنت مُتأكد بأنك تُريد إزالة اللقطات؟"
+msgstr[4] "هل أنت مُتأكد بأنك تُريد إزالة اللقطات؟"
+msgstr[5] "هل أنت مُتأكد بأنك تُريد إزالة اللقطات؟"
 
 #: qt/app.py:1294
 #, python-brace-format

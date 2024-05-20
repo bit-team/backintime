@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-30 10:08+0100\n"
-"PO-Revision-Date: 2024-01-27 19:46+0000\n"
-"Last-Translator: zvavybir <m.kaak@protonmail.ch>\n"
+"PO-Revision-Date: 2024-02-22 11:56+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -240,7 +240,7 @@ msgstr "Malpravis"
 
 #: common/snapshots.py:539 common/snapshots.py:601
 msgid "Restore permissions"
-msgstr ""
+msgstr "Restaŭri permesojn"
 
 #: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
 #: qt/qtsystrayicon.py:80
@@ -256,6 +256,8 @@ msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
+"Ne povas trovi momentaĵdosierujon.\n"
+"Se ĝi estas je demetabla memorilo, bonvolu konekti ĝin."
 
 #: common/snapshots.py:772
 #, python-format
@@ -267,7 +269,7 @@ msgstr[1] "Atendi %s sekundojn."
 #: common/snapshots.py:809
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr ""
+msgstr "Malsukcesas krei momentaĵon {snapshot_id}."
 
 #: common/snapshots.py:826
 msgid "Finalizing"
@@ -278,23 +280,22 @@ msgid "Can't create folder"
 msgstr "Ne povas krei dosieron"
 
 #: common/snapshots.py:966
-#, fuzzy
 msgid "Saving config file…"
 msgstr "Konservante agordan dosieron…"
 
 #: common/snapshots.py:1042
 msgid "Saving permissions…"
-msgstr ""
+msgstr "Savante permesojn…"
 
 #: common/snapshots.py:1150
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
-msgstr ""
+msgstr "Trovis {snapshot_id}, kiun eblas plukreas."
 
 #: common/snapshots.py:1169
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr ""
+msgstr "Forigante {snapshot_id} dosierujon de lasta momentaĵkreo"
 
 #: common/snapshots.py:1179
 msgid "Can't remove folder"
@@ -310,7 +311,7 @@ msgstr "Sukceso"
 
 #: common/snapshots.py:1255
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Parta transmeto pro eraro"
 
 #: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -319,16 +320,18 @@ msgstr "Parta transmeto, ĉar la fontaj dosieroj malaperis (vidu 'man rsync')"
 #: common/snapshots.py:1259
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' finas kun elira kodo {exit_code}"
 
 #: common/snapshots.py:1268
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Vidu 'man rsync' por pli multe da detaloj"
 
 #: common/snapshots.py:1272
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
+"Negativaj eliraj kodoj de rsync estas signalkodoj, vidu 'kill -l' kaj 'man "
+"kill'"
 
 #: common/snapshots.py:1287
 msgid "Nothing changed, no new snapshot necessary"
@@ -354,7 +357,7 @@ msgstr "Provas konservi la minimumo da neokupita diskospaco"
 #: common/snapshots.py:1737
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr ""
+msgstr "Provante konservi minimume {perc} da malplenaj indeksnodoj"
 
 #: common/snapshots.py:2821 qt/app.py:1616
 msgid "Now"
@@ -363,7 +366,7 @@ msgstr "Nun"
 #: common/sshtools.py:215
 #, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr ""
+msgstr "Ne povas surmeti {sshfs}"
 
 #: common/sshtools.py:275
 msgid "ssh-agent not found. Please make sure it is installed."
@@ -401,11 +404,11 @@ msgstr "Ne povis krei foran vojon."
 #: common/sshtools.py:948
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr ""
+msgstr "Foriga gastiganto {host} ne subtenas {command}"
 
 #: common/sshtools.py:952 common/sshtools.py:961
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "Vidu al 'man backintime' por pli multe da instrukcioj"
 
 #: common/sshtools.py:956
 #, python-brace-format
@@ -468,39 +471,39 @@ msgstr "Fari momentaĵon"
 
 #: qt/app.py:455
 msgid "Use modification time & size for file change detection."
-msgstr ""
+msgstr "Uzi tempon kaj grandon de modifo por detektado de dosierŝanĝoj."
 
 #: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
-msgstr ""
+msgstr "Krei momentaĵon (kontrolsumreĝimo)"
 
 #: qt/app.py:460
 msgid "Use checksums for file change detection."
-msgstr ""
+msgstr "Uzi kontrolsumojn por detektado de dosierŝanĝoj."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
-msgstr ""
+msgstr "Paŭzi momentaĵkreon"
 
 #: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
-msgstr ""
+msgstr "Malpaŭzi momentaĵkreon"
 
 #: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
-msgstr ""
+msgstr "Ĉesi momentaĵkreon"
 
 #: qt/app.py:476
 msgid "Refresh snapshot list"
-msgstr ""
+msgstr "Aktualigi liston da momentaĵoj"
 
 #: qt/app.py:480
 msgid "Name snapshot"
-msgstr ""
+msgstr "Nomi momentaĵon"
 
 #: qt/app.py:484
 msgid "Remove snapshot"
-msgstr ""
+msgstr "Forigi momentaĵon"
 
 #: qt/app.py:488
 msgid "View snapshot log"
@@ -511,9 +514,8 @@ msgid "View last log"
 msgstr "Vidi lastan protokolon"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Ĉefa profilo"
+msgstr "Administri profilojn…"
 
 #: qt/app.py:500
 msgid "Shutdown"
@@ -521,11 +523,11 @@ msgstr "Sistemfermo"
 
 #: qt/app.py:502
 msgid "Shut down system after snapshot has finished."
-msgstr ""
+msgstr "Malŝati sistemon post fini momentaĵkreon."
 
 #: qt/app.py:504
 msgid "Setup language…"
-msgstr ""
+msgstr "Agordi lingvon…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -536,9 +538,8 @@ msgid "Help"
 msgstr "Helpo"
 
 #: qt/app.py:516
-#, fuzzy
 msgid "Profiles config file"
-msgstr "Konservante agordan dosieron"
+msgstr "Agorddosiero por profiloj"
 
 #: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
@@ -546,7 +547,7 @@ msgstr "Retejo"
 
 #: qt/app.py:522 qt/app.py:1261
 msgid "Changelog"
-msgstr ""
+msgstr "Ŝanĝoprotokolo"
 
 #: qt/app.py:525
 msgid "FAQ"
@@ -578,9 +579,8 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr "Restaŭri la selektitajn dosierojn aŭ dosierujojn al originala celo."
 
 #: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "Restore to …"
-msgstr "Restaŭri al…"
+msgstr "Restaŭri al …"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
@@ -619,7 +619,6 @@ msgid "&Backup"
 msgstr "&Savkopio"
 
 #: qt/app.py:638
-#, fuzzy
 msgid "&Restore"
 msgstr "&Restaŭri"
 
@@ -661,7 +660,7 @@ msgstr "Rapideco"
 
 #: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
-msgstr ""
+msgstr "Restanta"
 
 #: qt/app.py:1050
 msgid "Global"
@@ -684,13 +683,10 @@ msgid "Snapshot Name"
 msgstr "Nomo de momentaĵo"
 
 #: qt/app.py:1202
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] ""
-"Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
-msgstr[1] ""
-"Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
+msgstr[0] "Ĉu vi certas ke vi volas forigi tion momentaĵon?"
+msgstr[1] "Ĉu vi certas ke vi volas forigi tiojn momentaĵojn?"
 
 #: qt/app.py:1294
 #, python-brace-format
@@ -722,7 +718,7 @@ msgstr ""
 
 #: qt/app.py:1347
 msgid "Remove newer elements in original folder."
-msgstr ""
+msgstr "Forigi pli novaj elementoj en la originala dosierujo."
 
 #: qt/app.py:1348
 msgid ""
@@ -732,9 +728,14 @@ msgid ""
 "delete files and folders which were\n"
 "excluded during taking the snapshot."
 msgstr ""
+"Restaŭri selektajn dosierojn aŭ dosierujon al la originala celon kaj\n"
+"forigi dosierojn aŭ dosierujojn, kiuj ne estas en la momentaĵo.\n"
+"Estu treege zorga, ĉar tio forigos\n"
+"dosierojn kaj dosierujon, kiuj estis ekskluzivitaj\n"
+"kiam la momentaĵo estis kreita."
 
 #: qt/app.py:1361
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -742,18 +743,17 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n\n"
-"en la nova dosierujo {path}"
+"Ĉu vi vere volas restaŭri ĉi tiun dosier(uj)on al la nova dosierujo\n"
+"{path}?"
 msgstr[1] ""
-"Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n\n"
-"en la nova dosierujo {path}"
+"Ĉu vi vere volas restaŭri ĉi tiujn dosier(uj)ojn al la nova dosierujo\n"
+"{path}?"
 
 #: qt/app.py:1370
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n"
-msgstr[1] "Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n"
+msgstr[0] "Ĉu vi vere volas restaŭri ĉi tiun dosieron?"
+msgstr[1] "Ĉu vi vere volas restaŭri ĉi tiujn dosierojn?"
 
 #: qt/app.py:1385
 #, python-brace-format
@@ -764,58 +764,62 @@ msgstr "Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
+"Ĉu vi estas certa, ke vi volas forigi ĉiujn pli novajn dosierojn en la "
+"originala dosierujo?"
 
 #: qt/app.py:1393
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
+"AVERTO: Forigi dosierojn en la radika dosierujo povas rompi vian tutan "
+"sistemon!"
 
 #: qt/app.py:1623
 msgid "Snapshot"
-msgstr ""
+msgstr "Momentaĵo"
 
 #: qt/app.py:1660
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaŭri {path}"
 
 #: qt/app.py:1662
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Restaŭri {path} al…"
+msgstr "Restaŭri {path} al …"
 
 #: qt/app.py:1819
 msgid "The language settings take effect only after restarting Back In Time."
-msgstr ""
+msgstr "La lingoagordoj ne efikas antaŭ restarti Back In Time."
 
 #: qt/app.py:1859 qt/app.py:1876
 msgid "Authors"
-msgstr ""
+msgstr "Aŭtoroj"
 
 #: qt/app.py:1860 qt/app.py:1879
 msgid "Translations"
-msgstr ""
+msgstr "Tradukoj"
 
 #: qt/app.py:1861 qt/app.py:1882
 msgid "License"
-msgstr ""
+msgstr "Permesilo"
 
 #: qt/languagedialog.py:29
 msgid "Setup language"
-msgstr ""
+msgstr "Agordi lingvon"
 
 #: qt/languagedialog.py:87
 msgid "System default"
-msgstr ""
+msgstr "Defaŭlto de la sistemo"
 
 #: qt/languagedialog.py:94
 msgid "Use operating systems language."
-msgstr ""
+msgstr "Uzi la lingvon de la operaciumo."
 
 #: qt/languagedialog.py:146
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "Tradukita: {percent}"
 
 #: qt/languagedialog.py:184
 #, python-brace-format
@@ -836,19 +840,19 @@ msgstr ""
 
 #: qt/languagedialog.py:216
 msgid "translation platform"
-msgstr ""
+msgstr "tradukplatformon"
 
 #: qt/languagedialog.py:232
 msgid "Your translation"
-msgstr ""
+msgstr "Via traduko"
 
 #: qt/logviewdialog.py:62
 msgid "Last Log View"
-msgstr ""
+msgstr "Vidaĵo je lastaj protokoloj"
 
 #: qt/logviewdialog.py:64
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Vidaĵo je momentaĵoj"
 
 #: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
 #: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
@@ -857,7 +861,7 @@ msgstr "Profilo"
 
 #: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
 msgid "Snapshots"
-msgstr ""
+msgstr "Momentaĵoj"
 
 #: qt/logviewdialog.py:94
 msgid "Filter"
@@ -877,17 +881,16 @@ msgid "Errors"
 msgstr "Eraroj"
 
 #: qt/logviewdialog.py:110 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "Informoj"
 
 #: qt/logviewdialog.py:111
 msgid "rsync transfer failures (experimental)"
-msgstr ""
+msgstr "Transmetpaneo je rsync (eksperimenta)"
 
 #: qt/logviewdialog.py:121
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E] Eraro, [I] Informoj, [C] Ŝanĝo"
 
 #: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
 msgid "decode paths"
@@ -919,7 +922,6 @@ msgid "Start {appname}"
 msgstr "Komencu {appname}"
 
 #: qt/qtsystrayicon.py:169
-#, fuzzy
 msgid "Working…"
 msgstr "Laborante…"
 
@@ -941,21 +943,20 @@ msgstr "Lasta semajno"
 
 #: qt/qttools.py:539
 msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
+msgstr "Tio Ne estas momentaĵo, sed liva vivo de viaj lokaj dosieroj"
 
 #: qt/qttools.py:544
 #, python-brace-format
 msgid "Last check {time}"
-msgstr ""
+msgstr "Lasta kontrolo {time}"
 
 #: qt/restoredialog.py:60
 msgid "Show full Log"
-msgstr ""
+msgstr "Vidigi tutan protokolon"
 
 #: qt/settingsdialog.py:87
-#, fuzzy
 msgid "Manage profiles"
-msgstr "Ĉefa profilo"
+msgstr "Administri profilojn"
 
 #: qt/settingsdialog.py:104
 msgid "Edit"
@@ -963,7 +964,7 @@ msgstr "Redakti"
 
 #: qt/settingsdialog.py:108 qt/settingsdialog.py:566
 msgid "Add"
-msgstr ""
+msgstr "Aldoni"
 
 #: qt/settingsdialog.py:112 qt/settingsdialog.py:515 qt/settingsdialog.py:584
 msgid "Remove"
@@ -1052,15 +1053,15 @@ msgstr ""
 
 #: qt/settingsdialog.py:306
 msgid "Advanced"
-msgstr ""
+msgstr "Progresinta"
 
 #: qt/settingsdialog.py:336
 msgid "Full snapshot path"
-msgstr ""
+msgstr "Tuta momentaĵvojo"
 
 #: qt/settingsdialog.py:343
 msgid "Schedule"
-msgstr ""
+msgstr "Horaro"
 
 #: qt/settingsdialog.py:355
 msgid "Disabled"
@@ -1071,10 +1072,10 @@ msgid "At every boot/reboot"
 msgstr "Je ĉiu startigo/restartigo"
 
 #: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Je ĉiuj {n} minutoj"
+msgstr[0] "Je ĉiu minuto"
 msgstr[1] "Je ĉiuj {n} minutoj"
 
 #: qt/settingsdialog.py:363
@@ -1083,18 +1084,17 @@ msgstr "Ĉiu horon"
 
 #: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
 #: qt/settingsdialog.py:371
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Ĉiu {n} horojn"
+msgstr[0] "Ĉiu horoj"
 msgstr[1] "Ĉiu {n} horojn"
 
 #: qt/settingsdialog.py:372
 msgid "Custom hours"
-msgstr ""
+msgstr "Uzdefinitaj horoj"
 
 #: qt/settingsdialog.py:373
-#, fuzzy
 msgid "Every day"
 msgstr "Ĉiutage"
 
@@ -1107,17 +1107,14 @@ msgid "When drive gets connected (udev)"
 msgstr "Kiam diskingo estas kontektate (udev)"
 
 #: qt/settingsdialog.py:376
-#, fuzzy
 msgid "Every week"
 msgstr "Ĉiusemajne"
 
 #: qt/settingsdialog.py:377
-#, fuzzy
 msgid "Every month"
 msgstr "Ĉiumonate"
 
 #: qt/settingsdialog.py:378
-#, fuzzy
 msgid "Every year"
 msgstr "Ĉiujare"
 
@@ -1127,7 +1124,7 @@ msgstr "Tago"
 
 #: qt/settingsdialog.py:394
 msgid "Weekday"
-msgstr ""
+msgstr "Labortago"
 
 #: qt/settingsdialog.py:409
 msgid "Hour"
@@ -1142,11 +1139,12 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
+"Ruli Back In Time ripetfoje. Tio estas utila se la komputilo ne rulas "
+"regule."
 
 #: qt/settingsdialog.py:442
-#, fuzzy
 msgid "Every"
-msgstr "Ĉiu"
+msgstr "Ĉiuj"
 
 #: qt/settingsdialog.py:456
 msgid "Hour(s)"
@@ -1169,6 +1167,8 @@ msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
+"Ruli Back In Time tuj kiam la disko estas konektita (sole unu fojon en X tagoj).\n"
+"Vi estos demandata je via sudo-pasvorton."
 
 #: qt/settingsdialog.py:484
 msgid "&Include"
@@ -1176,7 +1176,7 @@ msgstr "&Inkluzivi"
 
 #: qt/settingsdialog.py:491
 msgid "Include files and folders"
-msgstr ""
+msgstr "Inkluzivi dosierojn kaj dosierujojn"
 
 #: qt/settingsdialog.py:507 qt/settingsdialog.py:570
 msgid "Add file"
@@ -1196,22 +1196,24 @@ msgid ""
 "Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
 "Only single or double asterisks are allowed ({example2})"
 msgstr ""
+"Ĵokeroj ({example1}) estas ignorita je reĝimo 'SSH ĉifrita'.unuopa\n"
+"Sole unuoblaj aŭ duoblaj steletoj estas permesita ({example2})"
 
 #: qt/settingsdialog.py:543
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Ekskluzivi ŝablonojn, dosierojn aŭ dosierujojn"
 
 #: qt/settingsdialog.py:556
 msgid "Highly recommended"
-msgstr ""
+msgstr "Treege rekomenditoj"
 
 #: qt/settingsdialog.py:579
 msgid "Add default"
-msgstr ""
+msgstr "Aldoni defaŭlton"
 
 #: qt/settingsdialog.py:592
 msgid "Exclude files bigger than: "
-msgstr ""
+msgstr "Ekskluzivi dosierojn pli grandajn ol: "
 
 #: qt/settingsdialog.py:594
 #, python-format
@@ -1222,14 +1224,19 @@ msgid ""
 "So big files that have been backed up before will remain in snapshots\n"
 "even if they have changed."
 msgstr ""
+"Ekskluzivi dosierojn pli grandajn ol la valoro je %(prefix)s.\n"
+"Se 'Tuta rsync reĝimo' estas malvalidigita, tio sole influos novajn doiserojn,\n"
+"ĉar por rsync tio estas transmetopcio, ne ekskluzivopcio.\n"
+"Do grandaj dosieroj, kiujn estis savkopiita antaŭe, restos en momentaĵoj,\n"
+"eĉ se ili ŝanĝis."
 
 #: qt/settingsdialog.py:616
 msgid "&Auto-remove"
-msgstr ""
+msgstr "&Forigi aŭtomate"
 
 #: qt/settingsdialog.py:622
 msgid "Older than"
-msgstr ""
+msgstr "Pli malnova ol"
 
 #: qt/settingsdialog.py:636
 msgid "Year(s)"
@@ -1237,62 +1244,59 @@ msgstr "Jaro(j)"
 
 #: qt/settingsdialog.py:644
 msgid "If free space is less than"
-msgstr ""
+msgstr "Se neokupita loko estas malpli ol"
 
 #: qt/settingsdialog.py:664
 msgid "If free inodes is less than"
-msgstr ""
+msgstr "Se neokupita indeksnodo estas malpli ol"
 
 #: qt/settingsdialog.py:678
 msgid "Smart remove:"
-msgstr ""
+msgstr "Inteligenta forigo:"
 
 #: qt/settingsdialog.py:689
 msgid "Run in background on remote host."
-msgstr ""
+msgstr "Ruli fone je la foriga gastiganto."
 
 #: qt/settingsdialog.py:690
 msgid "EXPERIMENTAL"
-msgstr ""
+msgstr "EKSPERIMENTA"
 
 #: qt/settingsdialog.py:696
 msgid "Keep all snapshots for the last"
-msgstr ""
+msgstr "Savi ĉiujn momentaĵojn de la lasta(j)"
 
 #: qt/settingsdialog.py:700 qt/settingsdialog.py:707
-#, fuzzy
 msgid "day(s)."
-msgstr "Tago(j)"
+msgstr "tago(j)."
 
 #: qt/settingsdialog.py:703
 msgid "Keep one snapshot per day for the last"
-msgstr ""
+msgstr "Savi unu momentaĵon por tago je la lasta(j)"
 
 #: qt/settingsdialog.py:710
 msgid "Keep one snapshot per week for the last"
-msgstr ""
+msgstr "Savi unu momentaĵon por semajno je la lasta(j)"
 
 #: qt/settingsdialog.py:714
-#, fuzzy
 msgid "week(s)."
-msgstr "Semajno(j)"
+msgstr "semajno(j)."
 
 #: qt/settingsdialog.py:717
 msgid "Keep one snapshot per month for the last"
-msgstr ""
+msgstr "Savi unu momentaĵon por monato je la lasta(j)"
 
 #: qt/settingsdialog.py:721
-#, fuzzy
 msgid "month(s)."
-msgstr "Monato(j)"
+msgstr "monato(j)."
 
 #: qt/settingsdialog.py:724
 msgid "Keep one snapshot per year for all years."
-msgstr ""
+msgstr "Savi unu momentaĵon por jaro je ĉiuj jaroj."
 
 #: qt/settingsdialog.py:733
 msgid "Don't remove named snapshots."
-msgstr ""
+msgstr "Ne forigi nomitajn momentaĵojn."
 
 #: qt/settingsdialog.py:745
 msgid "&Options"
@@ -1304,15 +1308,15 @@ msgstr "Aktivigi sciigojn"
 
 #: qt/settingsdialog.py:754
 msgid "Disable snapshots when on battery"
-msgstr ""
+msgstr "Malvalidigi momentaĵkreado kiam ruli je baterio"
 
 #: qt/settingsdialog.py:758
 msgid "Power status not available from system"
-msgstr ""
+msgstr "Kurentstato ne estas havebla de la sistemo"
 
 #: qt/settingsdialog.py:761
 msgid "Run only one snapshot at a time"
-msgstr ""
+msgstr "Ne ruli plurajn momentaĵojn samtempe"
 
 #: qt/settingsdialog.py:763
 msgid ""
@@ -1320,40 +1324,42 @@ msgid ""
 "This is a global option. So it will affect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
+"Aliaj momentaĵoj estos ŝtopita ĝis la aktuala momentaĵo estas kreita.\n"
+"Tio estas malloka opcio. Do ĝi afekcias ĉiujn profilojn por tiu uzanto.\n"
+"Sed vi devas ankaŭ aktivigi tion por ĉiujn aliaj uzanto."
 
 #: qt/settingsdialog.py:772
 msgid "Backup replaced files on restore"
-msgstr ""
+msgstr "Anstataŭigi dosierojn dum restaŭri"
 
 #: qt/settingsdialog.py:785
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Kontinui je eraroj (savi nekompletajn momentaĵojn)"
 
 #: qt/settingsdialog.py:789
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Uzi kontrolsumo por detekti ŝanĝojn"
 
 #: qt/settingsdialog.py:793
 msgid "Take a new snapshot whether there were changes or not."
-msgstr ""
+msgstr "Krei novan momentaĵon eĉ se nenio ŝanĝis."
 
 #: qt/settingsdialog.py:800
 msgid "Log Level"
-msgstr ""
+msgstr "Nivelo de protokoli"
 
 #: qt/settingsdialog.py:805
 msgid "None"
 msgstr "Neniu"
 
 #: qt/settingsdialog.py:825
-#, fuzzy
 msgid "E&xpert Options"
 msgstr "&Specialaj Opcioj"
 
 #: qt/settingsdialog.py:830
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr ""
+msgstr "Singardo: Ŝanĝu tiojn opciojn sole se vi reale scias, kiun vi faras."
 
 #: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
 #, python-brace-format
@@ -1411,11 +1417,11 @@ msgstr "Kopii danĝerajn ligilojn (sole funkcias je absolutaj ligiloj)"
 #: qt/settingsdialog.py:1024
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
+msgstr "Opcioj devas esti citita ekz. {example}."
 
 #: qt/settingsdialog.py:1027
 msgid "Paste additional options to rsync"
-msgstr ""
+msgstr "Aldoni pluajn opciojn al rsync"
 
 #: qt/settingsdialog.py:1042
 #, python-format
@@ -1428,18 +1434,25 @@ msgid ""
 "\n"
 "%(default)s: %(def_value)s"
 msgstr ""
+"Prefikso antaŭ ĉiuj komandoj en la fora gastiganto.\n"
+"Variabloj devas eskapita je \\$FOO.\n"
+"Tio ne afektas rsync. Do por aldoni\n"
+"prefikso al rsync, uzi \"%(cbRsyncOptions)s\" je\n"
+" %(rsync_options_value)s\n"
+"\n"
+"%(default)s: %(def_value)s"
 
 #: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
 msgid "default"
-msgstr ""
+msgstr "Defaŭlto"
 
 #: qt/settingsdialog.py:1052
 msgid "Add prefix to SSH commands"
-msgstr ""
+msgstr "Aldoni prefikso al SSH-komandoj"
 
 #: qt/settingsdialog.py:1065
 msgid "Check if remote host is online"
-msgstr ""
+msgstr "Kontroli, ke la fora gastiganto estas konektita"
 
 #: qt/settingsdialog.py:1067
 msgid ""
@@ -1447,10 +1460,13 @@ msgid ""
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
+"Averto: se malvalidigita kaj la fora gastiganto\n"
+"ne estas disponebla, tio eblas igi kelkaj\n"
+"da bizaraj eraroj."
 
 #: qt/settingsdialog.py:1071
 msgid "Check if remote host supports all necessary commands"
-msgstr ""
+msgstr "Kontroli, ke la fora gastiganto subtenas ĉiujn necesajn komandojn"
 
 #: qt/settingsdialog.py:1073
 msgid ""
@@ -1458,33 +1474,38 @@ msgid ""
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
+"Averto: se malvalidigita kaj la fora gastiganto\n"
+"ne subtenas ĉiujn necesajn komandojn,\n"
+"tio eblas igi kelkaj da bizaraj eraroj."
 
 #: qt/settingsdialog.py:1089
 msgid "Restore Config"
-msgstr ""
+msgstr "Restaŭri agordon"
 
 #: qt/settingsdialog.py:1091
 msgid "Edit user-callback"
-msgstr ""
+msgstr "Redakti user-callback"
 
 #: qt/settingsdialog.py:1109
 msgid "New profile"
-msgstr ""
+msgstr "Nova profilo"
 
 #: qt/settingsdialog.py:1126
 msgid "Rename profile"
-msgstr ""
+msgstr "Renomi profilon"
 
 #: qt/settingsdialog.py:1142
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en \"{name}\"?"
+msgstr "Ĉu vi certas ke vi volas forigi la profilon \"{name}\"?"
 
 #: qt/settingsdialog.py:1416
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
+"Uzdefinitaj horoj sole eblas esti perkome disigita listo (ekz. 8,12,18,23) "
+"aŭ io kiel */3 por periodaj savkopioj je ĉiu 3 horoj."
 
 #: qt/settingsdialog.py:1458
 msgid ""
@@ -1514,12 +1535,17 @@ msgid ""
 "\n"
 "{keytype} key fingerprint is:"
 msgstr ""
+"La aŭtenteco de la gastiganto {host} ne estis konstatebla.\n"
+"\n"
+"{keytype} ŝlosilfingropremo estas:"
 
 #: qt/settingsdialog.py:1659
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
+"Bonvolu konfirmi tion fingropremon! Ĉu vi volas aldoni ĝin al via "
+"'known_hosts' dosiero?"
 
 #: qt/settingsdialog.py:1822
 msgid "Exclude pattern"
@@ -1551,9 +1577,8 @@ msgid "Include folder"
 msgstr "Inkludi dosierujon"
 
 #: qt/settingsdialog.py:1930
-#, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
-msgstr "Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
+msgstr "Ĉu vi certas ke vi volas ŝanĝi la momentaĵdosierujon?"
 
 #: qt/settingsdialog.py:1955
 #, python-brace-format
@@ -1585,22 +1610,27 @@ msgid ""
 "If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
 "Take a look at 'man backintime'."
 msgstr ""
+"Bonvolu elekti la momentaĵon, de kiun vi volas restaŭri la agordo de {appName}. La vojo eble estas kiel:\n"
+"{samplePath}\n"
+"\n"
+"Se viaj momentaĵoj estas je fora disko aŭ se iliaj estas ĉifrita, vi devas surmeti ilian mane unue. Se vi uzi Reĝimo SSH, vi eble ankaŭ devas agordi ensaluton je publika ŝlosilo por la fora gastiganto.\n"
+"Vidu 'man backintime'."
 
 #: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
 msgid "No config found"
-msgstr ""
+msgstr "Ne trovas agordon"
 
 #: qt/settingsdialog.py:2459
 msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr ""
+msgstr "Skripto de user-callback ne havas shebang (#!/bin/sh)."
 
 #: qt/settingsdialog.py:2466
 msgid "Shebang in user-callback script is not executable."
-msgstr ""
+msgstr "Shebang en skripto de user-callback ne estas plenumebla."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
-msgstr ""
+msgstr "Opcioj de kompari momentaĵojn"
 
 #: qt/snapshotsdialog.py:58
 msgid "Command"
@@ -1612,19 +1642,19 @@ msgstr "parametroj"
 
 #: qt/snapshotsdialog.py:66
 msgid "Use %1 and %2 for path parameters"
-msgstr ""
+msgstr "Uzi %1 kaj %1 por vojparametroj"
 
 #: qt/snapshotsdialog.py:110
 msgid "Differing snapshots only"
-msgstr ""
+msgstr "Sole malsamaj momentaĵoj"
 
 #: qt/snapshotsdialog.py:118
 msgid "List only equal snapshots to: "
-msgstr ""
+msgstr "Sole listigi momentaĵojn samajn al: "
 
 #: qt/snapshotsdialog.py:129
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Kompleta kontrolo (pli precize, sed pli malrapide)"
 
 #: qt/snapshotsdialog.py:150
 msgid "Delete"
@@ -1636,36 +1666,33 @@ msgstr "Elekti ĉion"
 
 #: qt/snapshotsdialog.py:167
 msgid "Compare"
-msgstr ""
+msgstr "Kompari"
 
 #: qt/snapshotsdialog.py:178
 msgid "Go To"
 msgstr "Iri al"
 
 #: qt/snapshotsdialog.py:179
-#, fuzzy
 msgid "Options"
 msgstr "Opcioj"
 
 #: qt/snapshotsdialog.py:330
 msgid "You can't compare a snapshot to itself."
-msgstr ""
+msgstr "Vi ne povas kompari momentaĵon je ĝin mem."
 
 #: qt/snapshotsdialog.py:338
 msgid "Command not found"
 msgstr "La komando ne estas trovita"
 
 #: qt/snapshotsdialog.py:369
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr ""
-"Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n\n"
-"en la nova dosierujo {path}"
+msgstr "Ĉu vi vere volas forigi {file} en momentaĵo {snapshot_id}?"
 
 #: qt/snapshotsdialog.py:375
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
-msgstr "Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n"
+msgstr "Ĉu vi vere volas forigi {file} en {count} momentaĵoj?"
 
 #: qt/snapshotsdialog.py:380
 msgid "This cannot be revoked!"
@@ -1678,7 +1705,7 @@ msgstr "AVERTO"
 #: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr ""
+msgstr "Ekskluzivi {path} de estontaj momentaĵoj?"
 
 #~ msgid "Error:"
 #~ msgstr "Eraro:"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-01-30 10:08+0100\n"
-"PO-Revision-Date: 2024-01-17 12:56+0000\n"
-"Last-Translator: hpanago <hpanago@gmail.com>\n"
+"PO-Revision-Date: 2024-03-13 19:53+0000\n"
+"Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.4.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
@@ -287,7 +287,6 @@ msgid "Saving config file…"
 msgstr "Αποθήκευση αρχείου ρυθμίσεων…"
 
 #: common/snapshots.py:1042
-#, fuzzy
 msgid "Saving permissions…"
 msgstr "Αποθήκευση δικαιωμάτων…"
 
@@ -316,7 +315,7 @@ msgstr "Επιτυχία"
 
 #: common/snapshots.py:1255
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Μερική μεταφορά λόγω σφάλματος"
 
 #: common/snapshots.py:1256
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -472,61 +471,56 @@ msgstr ""
 "προηγούμενες ρυθμίσεις;"
 
 #: qt/app.py:368
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Δε βρέθηκε ο φάκελος στιγμιοτύπων.\n"
+"Δε βρέθηκε φάκελος στιγμιοτύπων.\n"
 "Εάν βρίσκεται σε αφαιρούμενη συσκευή, παρακαλώ συνδέστε την."
 
 #: qt/app.py:453
-#, fuzzy
 msgid "Take a snapshot"
 msgstr "Λήψη στιγμιοτύπου"
 
 #: qt/app.py:455
 msgid "Use modification time & size for file change detection."
-msgstr ""
+msgstr "Χρήση ώρας τροποποίησης και μεγέθους, για ανίχνευση αλλαγής αρχείου."
 
 #: qt/app.py:458
 msgid "Take a snapshot (checksum mode)"
-msgstr ""
+msgstr "Λήψη στιγμιοτύπου (κατάσταση checksum)"
 
 #: qt/app.py:460
 msgid "Use checksums for file change detection."
-msgstr ""
+msgstr "Χρήση των checksum για ανίχνευση αλλαγών αρχείου."
 
 #: qt/app.py:463 qt/qtsystrayicon.py:85
 msgid "Pause snapshot process"
-msgstr ""
+msgstr "Παύση της διαδικασίας στιγμιοτύπου"
 
 #: qt/app.py:468 qt/qtsystrayicon.py:89
 msgid "Resume snapshot process"
-msgstr ""
+msgstr "Συνέχιση διαδικασίας στιγμιοτύπου"
 
 #: qt/app.py:472 qt/qtsystrayicon.py:94
 msgid "Stop snapshot process"
-msgstr ""
+msgstr "Διακοπή διαδικασίας στιγμιοτύπου"
 
 #: qt/app.py:476
 msgid "Refresh snapshot list"
-msgstr ""
+msgstr "Ανανέωση λίστας στιγμιοτύπου"
 
 #: qt/app.py:480
-#, fuzzy
 msgid "Name snapshot"
-msgstr "Λήψη στιγμιοτύπου"
+msgstr "Ονομασία στιγμιότυπου"
 
 #: qt/app.py:484
-#, fuzzy
 msgid "Remove snapshot"
-msgstr "Λήψη στιγμιοτύπου"
+msgstr "Αφαίρεση στιγμιότυπου"
 
 #: qt/app.py:488
-#, fuzzy
 msgid "View snapshot log"
-msgstr "Λήψη στιγμιοτύπου"
+msgstr "Προβολή καταγραφής στιγμιότυπου"
 
 #: qt/app.py:492
 msgid "View last log"
@@ -543,10 +537,11 @@ msgstr "Τερματισμός"
 #: qt/app.py:502
 msgid "Shut down system after snapshot has finished."
 msgstr ""
+"Τερματισμός λειτουργίας συστήματος μετά την ολοκλήρωση του στιγμιοτύπου."
 
 #: qt/app.py:504
 msgid "Setup language…"
-msgstr ""
+msgstr "Καθορισμός γλώσσας…"
 
 #: qt/app.py:508
 msgid "Exit"
@@ -557,9 +552,8 @@ msgid "Help"
 msgstr "Βοήθεια"
 
 #: qt/app.py:516
-#, fuzzy
 msgid "Profiles config file"
-msgstr "Αποθήκευση αρχείου ρυθμίσεων"
+msgstr "Αρχείο ρυθμίσεων προφίλ"
 
 #: qt/app.py:519 qt/languagedialog.py:219
 msgid "Website"
@@ -575,7 +569,7 @@ msgstr "Συχνές Ερωτήσεις"
 
 #: qt/app.py:528
 msgid "Ask a question"
-msgstr ""
+msgstr "Κάνε μια ερώτηση"
 
 #: qt/app.py:531
 msgid "Report a bug"
@@ -597,6 +591,7 @@ msgstr "Επαναφορά"
 #: qt/app.py:542
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
+"Επαναφορά των επιλεγμένων αρχείων ή φακέλων στον αρχικό τους προορισμό."
 
 #: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
 msgid "Restore to …"
@@ -604,23 +599,27 @@ msgstr "Επαναφορά στο…"
 
 #: qt/app.py:547
 msgid "Restore the selected files or folders to a new destination."
-msgstr ""
+msgstr "Επαναφορά των επιλεγμένων αρχείων ή φακέλων σε ένα νέο προορισμό."
 
 #: qt/app.py:552
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
+"Επαναφορά του τρέχοντος εμφανιζόμενου φακέλου και όλων των περιεχομένων του,"
+" στον αρχικό προορισμό."
 
 #: qt/app.py:557
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
+"Επαναφορά του τρέχοντος εμφανιζόμενου φακέλου και όλων των περιεχομένων του "
+"σε ένα νέο προορισμό."
 
 #: qt/app.py:560
 msgid "Up"
-msgstr ""
+msgstr "Επάνω"
 
 #: qt/app.py:563 qt/settingsdialog.py:2168
 msgid "Show hidden files"
@@ -632,33 +631,35 @@ msgstr "Σύγκριση στιγμιοτύπων…"
 
 #: qt/app.py:627
 msgid "&Backup"
-msgstr ""
+msgstr "&Backup"
 
 #: qt/app.py:638
 msgid "&Restore"
-msgstr ""
+msgstr "&Restore"
 
 #: qt/app.py:644
 msgid "&Help"
-msgstr ""
+msgstr "&Βοήθεια"
 
 #: qt/app.py:761
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
+"Αν κλείσετε αυτό το παράθυρο το Back In Time δεν θα μπορεί να τερματίσει το σύστημά σας όταν ολοκληρωθεί το στιγμιότυπο.\n"
+"Θέλετε πραγματικά να κλείσει;"
 
 #: qt/app.py:905
 msgid "Working:"
-msgstr ""
+msgstr "Εργασία:"
 
 #: qt/app.py:953
 msgid "Done, no backup needed"
-msgstr ""
+msgstr "Ολοκληρώθηκε, δεν χρειάζεται backup"
 
 #: qt/app.py:962
 msgid "Working"
-msgstr ""
+msgstr "Εργασία"
 
 #: qt/app.py:971 qt/messagebox.py:76
 msgid "Error"
@@ -666,7 +667,7 @@ msgstr "Σφάλμα"
 
 #: qt/app.py:994 qt/qtsystrayicon.py:202
 msgid "Sent"
-msgstr ""
+msgstr "Στάλθηκαν"
 
 #: qt/app.py:995 qt/qtsystrayicon.py:203
 msgid "Speed"
@@ -674,27 +675,27 @@ msgstr "Ταχύτητα"
 
 #: qt/app.py:996 qt/qtsystrayicon.py:204
 msgid "ETA"
-msgstr ""
+msgstr "Αναμενόμενος χρόνος"
 
 #: qt/app.py:1050
 msgid "Global"
-msgstr ""
+msgstr "Γενικά"
 
 #: qt/app.py:1051
 msgid "Root"
-msgstr ""
+msgstr "Ρίζα"
 
 #: qt/app.py:1052
 msgid "Home"
-msgstr ""
+msgstr "Οικία"
 
 #: qt/app.py:1067
 msgid "Backup folders"
-msgstr ""
+msgstr "Φάκελοι backup"
 
 #: qt/app.py:1155
 msgid "Snapshot Name"
-msgstr ""
+msgstr "Όνομα στιγμιότυπου"
 
 #: qt/app.py:1202
 msgid "Are you sure you want to remove this snapshot?"
@@ -708,6 +709,8 @@ msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
+"Δημιουργία αντιγράφων backup με επίθεμα {suffix}\n"
+"πριν την αντικατάσταση ή αφαίρεση τοπικών στοιχείων."
 
 #: qt/app.py:1300 qt/settingsdialog.py:774
 #, python-brace-format
@@ -715,6 +718,8 @@ msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
 "If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
+"Οι νεότερες εκδόσεις αρχείων θα μετονομαστούν με επίθεμα {suffix} πριν επανέλθουν.\n"
+"Αν δεν τα χρειάζεστε πια, μπορείτε να τα αφαιρέσετε με {cmd}"
 
 #: qt/app.py:1314
 msgid ""
@@ -1666,7 +1671,7 @@ msgstr "ΠΡΟΣΟΧΗ"
 #: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr ""
+msgstr "Εξαίρεση {path} από μελλοντικά στιγμιότυπα;"
 
 #, fuzzy
 #~ msgid "&Snapshot"
