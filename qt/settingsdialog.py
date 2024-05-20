@@ -170,7 +170,7 @@ class SettingsDialog(QDialog):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
 
-        layout.addWidget(QLabel(_('Profile') + ':', self))
+        layout.addWidget(QLabel(_('Profile:'), self))
 
         self.firstUpdateAll = True
         self.disableProfileChanged = True
@@ -212,7 +212,7 @@ class SettingsDialog(QDialog):
         vlayout = QVBoxLayout()
         layout.addLayout(vlayout)
 
-        self.lblModes = QLabel(_('Mode') + ':', self)
+        self.lblModes = QLabel(_('Mode:'), self)
 
         self.comboModes = QComboBox(self)
         hlayout = QHBoxLayout()
@@ -274,34 +274,34 @@ class SettingsDialog(QDialog):
         hlayout3 = QHBoxLayout()
         vlayout.addLayout(hlayout3)
 
-        self.lblSshHost = QLabel(_('Host') + ':', self)
+        self.lblSshHost = QLabel(_('Host:'), self)
         hlayout1.addWidget(self.lblSshHost)
         self.txtSshHost = QLineEdit(self)
         hlayout1.addWidget(self.txtSshHost)
 
-        self.lblSshPort = QLabel(_('Port') + ':', self)
+        self.lblSshPort = QLabel(_('Port:'), self)
         hlayout1.addWidget(self.lblSshPort)
         self.txtSshPort = QLineEdit(self)
         hlayout1.addWidget(self.txtSshPort)
 
-        self.lblSshUser = QLabel(_('User') + ':', self)
+        self.lblSshUser = QLabel(_('User:'), self)
         hlayout1.addWidget(self.lblSshUser)
         self.txtSshUser = QLineEdit(self)
         hlayout1.addWidget(self.txtSshUser)
 
-        self.lblSshPath = QLabel(_('Path') + ':', self)
+        self.lblSshPath = QLabel(_('Path:'), self)
         hlayout2.addWidget(self.lblSshPath)
         self.txtSshPath = QLineEdit(self)
         self.txtSshPath.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtSshPath)
 
-        self.lblSshCipher = QLabel(_('Cipher') + ':', self)
+        self.lblSshCipher = QLabel(_('Cipher:'), self)
         hlayout3.addWidget(self.lblSshCipher)
         self.comboSshCipher = QComboBox(self)
         hlayout3.addWidget(self.comboSshCipher)
         self.fillCombo(self.comboSshCipher, self.config.SSH_CIPHERS)
 
-        self.lblSshPrivateKeyFile = QLabel(_('Private Key') + ':', self)
+        self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
         hlayout3.addWidget(self.lblSshPrivateKeyFile)
         self.txtSshPrivateKeyFile = QLineEdit(self)
         self.txtSshPrivateKeyFile.setReadOnly(True)
@@ -404,19 +404,19 @@ class SettingsDialog(QDialog):
         hlayout2 = QHBoxLayout()
         vlayout2.addLayout(hlayout2)
 
-        self.lblHost = QLabel(_('Host') + ':', self)
+        self.lblHost = QLabel(_('Host:'), self)
         hlayout2.addWidget(self.lblHost)
         self.txtHost = QLineEdit(self)
         self.txtHost.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtHost)
 
-        self.lblUser = QLabel(_('User') + ':', self)
+        self.lblUser = QLabel(_('User:'), self)
         hlayout2.addWidget(self.lblUser)
         self.txtUser = QLineEdit(self)
         self.txtUser.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtUser)
 
-        self.lblProfile = QLabel(_('Profile') + ':', self)
+        self.lblProfile = QLabel(_('Profile:'), self)
         hlayout2.addWidget(self.lblProfile)
         self.txt_profile = QLineEdit(self)
         self.txt_profile.textChanged.connect(self.fullPathChanged)
@@ -469,7 +469,7 @@ class SettingsDialog(QDialog):
 
         self.fillCombo(self.comboSchedule, schedule_modes_dict)
 
-        self.lblScheduleDay = QLabel(_('Day') + ':', self)
+        self.lblScheduleDay = QLabel(_('Day:'), self)
         self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleDay.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleDay, 1, 0)
@@ -480,7 +480,7 @@ class SettingsDialog(QDialog):
         for d in range(1, 29):
             self.comboScheduleDay.addItem(QIcon(), str(d), d)
 
-        self.lblScheduleWeekday = QLabel(_('Weekday') + ':', self)
+        self.lblScheduleWeekday = QLabel(_('Weekday:'), self)
         self.lblScheduleWeekday.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleWeekday.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleWeekday, 2, 0)
@@ -495,7 +495,7 @@ class SettingsDialog(QDialog):
                 d
             )
 
-        self.lblScheduleTime = QLabel(_('Hour') + ':', self)
+        self.lblScheduleTime = QLabel(_('Hour:'), self)
         self.lblScheduleTime.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleTime.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         glayout.addWidget(self.lblScheduleTime, 3, 0)
@@ -510,7 +510,7 @@ class SettingsDialog(QDialog):
                 t
             )
 
-        self.lblScheduleCronPatern = QLabel(_('Hours') + ':', self)
+        self.lblScheduleCronPatern = QLabel(_('Hours:'), self)
         self.lblScheduleCronPatern.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleCronPatern.setAlignment(
             Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
@@ -528,7 +528,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleRepeated.setWordWrap(True)
         glayout.addWidget(self.lblScheduleRepeated, 5, 0, 1, 2)
 
-        self.lblScheduleRepeatedPeriod = QLabel(_('Every') + ':')
+        self.lblScheduleRepeatedPeriod = QLabel(_('Every:'))
         self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleRepeatedPeriod.setAlignment(
             Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
@@ -645,7 +645,8 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.lblSshEncfsExcludeWarning)
 
         self.listExclude = QTreeWidget(self)
-        self.listExclude.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.listExclude.setSelectionMode(
+            QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listExclude.setRootIsDecorated(False)
         self.listExclude.setHeaderLabels(
             [_('Exclude patterns, files or folders'), 'Count'])
@@ -694,7 +695,7 @@ class SettingsDialog(QDialog):
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
         self.cbExcludeBySize = QCheckBox(
-            _('Exclude files bigger than: '), self)
+            _('Exclude files bigger than:'), self)
         qttools.set_wrapped_tooltip(
             self.cbExcludeBySize,
             [
@@ -726,7 +727,7 @@ class SettingsDialog(QDialog):
         layout = QGridLayout(layoutWidget)
 
         # remove old snapshots
-        self.cbRemoveOlder = QCheckBox(_('Older than') + ':', self)
+        self.cbRemoveOlder = QCheckBox(_('Older than:'), self)
         layout.addWidget(self.cbRemoveOlder, 0, 0)
         self.cbRemoveOlder.stateChanged.connect(self.updateRemoveOlder)
 
@@ -748,7 +749,7 @@ class SettingsDialog(QDialog):
         enabled, value, unit = self.config.minFreeSpace()
 
         self.cbFreeSpace = QCheckBox(
-            _('If free space is less than') + ':', self)
+            _('If free space is less than:'), self)
         layout.addWidget(self.cbFreeSpace, 1, 0)
         self.cbFreeSpace.stateChanged.connect(self.updateFreeSpace)
 
@@ -768,7 +769,7 @@ class SettingsDialog(QDialog):
 
         # min free inodes
         self.cbFreeInodes = QCheckBox(
-            _('If free inodes is less than') + ':', self)
+            _('If free inodes is less than:'), self)
         layout.addWidget(self.cbFreeInodes, 2, 0)
 
         self.spbFreeInodes = QSpinBox(self)
@@ -906,7 +907,7 @@ class SettingsDialog(QDialog):
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
 
-        hlayout.addWidget(QLabel(_('Log Level') + ':', self))
+        hlayout.addWidget(QLabel(_('Log Level:'), self))
 
         self.comboLogLevel = QComboBox(self)
         hlayout.addWidget(self.comboLogLevel, 1)

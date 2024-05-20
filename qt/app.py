@@ -631,7 +631,10 @@ class MainWindow(QMainWindow):
         """Create the menubar and connect it to actions."""
 
         menu_dict = {
-            'Back In &Time': (
+            # The application name itself shouldn't be translated but the
+            # shortcut indicator (marked with &) should be translated and
+            # decided by the translator.
+            _('Back In &Time'): (
                 self.act_setup_language,
                 self.act_shutdown,
                 self.act_quit,
