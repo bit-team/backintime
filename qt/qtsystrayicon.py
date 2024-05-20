@@ -202,9 +202,9 @@ class QtSysTrayIcon:
 
     def getMenuProgress(self, pg):
         d = (
-            ('sent', _('Sent') + ':'),
-            ('speed', _('Speed') + ':'),
-            ('eta',    _('ETA') + ':')
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
 
         for key, txt in d:
