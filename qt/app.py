@@ -338,13 +338,16 @@ class MainWindow(QMainWindow):
             self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
             self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
 
-        # force settingdialog if it is not configured
+        # Force dialog to import old configuration
         if not config.isConfigured():
             message = _(
-                '{appName} is not configured. Would you like '
-                'to restore a previous configuration?') \
-                .format(appName=self.config.APP_NAME)
-
+                '{app_name} appears to be running for the first time as no '
+                'configuration is found.'
+            ).format(app_name=self.config.APP_NAME)
+            message = f'{message}\n\n'
+            message = message + _(
+                'Import an existing configuration (from a backup target '
+                'folder or another computer)?')
             answer = messagebox.warningYesNo(self, message)
             if answer == QMessageBox.StandardButton.Yes:
                 settingsdialog.RestoreConfigDialog(self).exec()

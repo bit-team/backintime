@@ -2371,33 +2371,10 @@ class RestoreConfigDialog(QDialog):
         import icon
         self.icon = icon
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle(_('Restore Settings'))
+        self.setWindowTitle(_('Import configuration'))
 
         layout = QVBoxLayout(self)
-
-        # show a hint on how the snapshot path will look like.
-        samplePath = os.path.join(
-            'backintime',
-            self.config.host(),
-            getpass.getuser(), '1',
-            snapshots.SID(datetime.datetime.now(), self.config).sid
-        )
-
-        label = QLabel(_(
-            "Please navigate to the snapshot from which you want to restore "
-            "{appName}'s configuration. The path may look like:\n"
-            "{samplePath}\n\nIf your snapshots are on a remote drive or if "
-            "they are encrypted you need to manually mount them first. "
-            "If you use Mode SSH you also may need to set up public key "
-            "login to the remote host.\n"
-            "Take a look at 'man backintime'.")
-            .format(
-                appName=self.config.APP_NAME,
-                samplePath=samplePath),
-            self
-        )
-        label.setWordWrap(True)
-        layout.addWidget(label)
+        layout.addWidget(self._create_hint_label())
 
         # treeView
         self.treeView = qttools.MyTreeView(self)
@@ -2424,7 +2401,8 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(self.treeView)
 
         # context menu
-        self.treeView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.treeView.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.onContextMenu)
         self.contextMenu = QMenu(self)
         self.btnShowHidden = self.contextMenu.addAction(
@@ -2434,9 +2412,11 @@ class RestoreConfigDialog(QDialog):
 
         # colors
         self.colorRed = QPalette()
-        self.colorRed.setColor(QPalette.WindowText, QColor(205, 0, 0))
+        self.colorRed.setColor(
+            QPalette.ColorRole.WindowText, QColor(205, 0, 0))
         self.colorGreen = QPalette()
-        self.colorGreen.setColor(QPalette.WindowText, QColor(0, 160, 0))
+        self.colorGreen.setColor(
+            QPalette.ColorRole.WindowText, QColor(0, 160, 0))
 
         # wait indicator which will show that the scan for
         # snapshots is still running
@@ -2472,7 +2452,7 @@ class RestoreConfigDialog(QDialog):
 
         buttonBox = QDialogButtonBox(self)
         self.restoreButton = buttonBox.addButton(
-            _('Restore'), QDialogButtonBox.ButtonRole.AcceptRole)
+            _('Import'), QDialogButtonBox.ButtonRole.AcceptRole)
         self.restoreButton.setEnabled(False)
         buttonBox.addButton(QDialogButtonBox.StandardButton.Cancel)
         buttonBox.accepted.connect(self.accept)
@@ -2482,6 +2462,37 @@ class RestoreConfigDialog(QDialog):
         self.scan.start()
 
         self.resize(600, 700)
+
+    def _create_hint_label(self):
+        """Create the label to explain how and where to find existing config
+        file.
+
+        Returns:
+            (QLabel): The label
+        """
+
+        samplePath = os.path.join(
+            'backintime',
+            self.config.host(),
+            getpass.getuser(), '1',
+            snapshots.SID(datetime.datetime.now(), self.config).sid
+        )
+        samplePath = f'</ br><code>{samplePath}</code>'
+
+        text_a = _(
+            'Select the snapshot folder from which the configuration '
+            'file should be imported. The path may look like: {samplePath}'
+        ).format(samplePath=samplePath)
+
+        text_b = _(
+            'If the folder is located on an external or remote drive, '
+            'it must be manually mounted beforehand.'
+        )
+
+        label = QLabel(f'<p>{text_a}</p><p>{text_b}</p>', self)
+        label.setWordWrap(True)
+
+        return label
 
     def pathFromIndex(self, index):
         """
