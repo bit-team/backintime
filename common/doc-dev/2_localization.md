@@ -200,6 +200,32 @@ Just `commit` the changes to the repository.
 
 Keep in mind: To make the translation appear in the running _Back In Time_ the `po` files need be compiled to `mo` files. This is done in the build (packaging) and install process which is described [elsewhere](../../CONTRIBUTING.md#build--install).
 
+# Instructions for the translation process
+## Considere Right-to-Left (RTL) and Bidiretional (BIDI) languages
+In short: Always include punctuation marks (e.g. colons) in the strings to
+translate.
+
+Languages such as Arabic or Hebrew are read from right to left (RTL). To
+be more precise, they can have mixed reading directions (BIDI). The GUI library used
+by _Back In Time_ takes this into account when arrange elements in a
+window. For example, a text-input widget is left from a label
+widget. This switched order is the reason why punctuation marks (e.g. colons)
+in the string of a label widget need to change their direction as well. This
+task can only be performed by the translator themselves, which is why
+punctuation marks need to be included in the string to translate.
+
+## Be aware of shortcut indicators and possible duplicates
+The _Back In Time_ GUI can be controlled via keyboard shortcuts. In the English
+version for example the menu _Back In Time_ in the main window can be unfolded
+via `Alt+T`, _Backup_ via `Alt+B` or _Help_ via `Alt+H`. The keyboard letters
+to use are indicated in the GUI with an underlined letter. The original string
+in source code use the character `&` in front of a letter to indicate the
+shortcut. In our example it is `Back In &Time`, `&Backup` and `&Help`.
+
+msgstr "&Yedek"
+
+msgstr "Y&ardım"
+
 # Setup Weblate project
 
 The setup was done in 2023. This section is only for documentation of what was done at that time. For demonstration purpose in the screenshots the BIT upstream repository is not used but a fork of it.
