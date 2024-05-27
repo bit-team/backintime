@@ -845,22 +845,35 @@ class Config(configfile.ConfigFileWithProfiles):
             mode = self.snapshotsMode(profile_id)
         self.setProfileBoolValue('snapshots.%s.password.use_cache' % mode, value, profile_id)
 
-    def password(self, parent = None, profile_id = None, mode = None, pw_id = 1, only_from_keyring = False):
-        if self.pw is None:
-            self.pw = password.Password(self)
-        if profile_id is None:
-            profile_id = self.currentProfile()
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-        return self.pw.password(parent, profile_id, mode, pw_id, only_from_keyring)
+    def password(self,
+                 parent=None,
+                 profile_id=None,
+                 mode=None,
+                 pw_id=1,
+                 only_from_keyring=False):
 
-    def setPassword(self, password, profile_id = None, mode = None, pw_id = 1):
         if self.pw is None:
             self.pw = password.Password(self)
+
         if profile_id is None:
             profile_id = self.currentProfile()
+
         if mode is None:
             mode = self.snapshotsMode(profile_id)
+
+        return self.pw.password(
+            parent, profile_id, mode, pw_id, only_from_keyring)
+
+    def setPassword(self, password, profile_id=None, mode=None, pw_id=1):
+        if self.pw is None:
+            self.pw = password.Password(self)
+
+        if profile_id is None:
+            profile_id = self.currentProfile()
+
+        if mode is None:
+            mode = self.snapshotsMode(profile_id)
+
         self.pw.setPassword(password, profile_id, mode, pw_id)
 
     def modeNeedPassword(self, mode, pw_id = 1):

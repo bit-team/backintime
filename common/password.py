@@ -166,39 +166,55 @@ class Password(object):
 
         self.keyringSupported = tools.keyringSupported()
 
-    def password(self, parent, profile_id, mode, pw_id = 1, only_from_keyring = False):
+    def password(self, parent, profile_id, mode, pw_id=1, only_from_keyring=False):
         """
         based on profile settings return password from keyring,
         Password_Cache or by asking User.
         """
         if not self.config.modeNeedPassword(mode, pw_id):
             return ''
+
         service_name = self.config.keyringServiceName(profile_id, mode, pw_id)
+
         user_name = self.config.keyringUserName(profile_id)
+
         try:
             return self.db['%s/%s' %(service_name, user_name)]
+
         except KeyError:
             pass
+
         password = ''
+
         if self.config.passwordUseCache(profile_id) and not only_from_keyring:
-            #from cache
+            # From cache
             password = self.passwordFromCache(service_name, user_name)
+
             if not password is None:
                 self.setPasswordDb(service_name, user_name, password)
+
                 return password
+
         if self.config.passwordSave(profile_id):
-            #from keyring
+            # From keyring
             password = self.passwordFromKeyring(service_name, user_name)
+
             if not password is None:
                 self.setPasswordDb(service_name, user_name, password)
+
                 return password
+
         if not only_from_keyring:
-            #ask user and write to cache
+            # Ask user and write to cache
             password = self.passwordFromUser(parent, profile_id, mode, pw_id)
+
             if self.config.passwordUseCache(profile_id):
                 self.setPasswordCache(service_name, user_name, password)
+
             self.setPasswordDb(service_name, user_name, password)
+
             return password
+
         return password
 
     def passwordFromKeyring(self, service_name, user_name):
