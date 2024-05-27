@@ -137,8 +137,9 @@ be used to format text and cross-reference code.
 
       :py:func:`takeSnapshot`
 
-  Important: Don't forget to surround the function name with back ticks
-  otherwise Sphinx will not create a cross reference silently!
+- Reference a module:
+
+      :py:module:`datetime`
 
 - Specify the python type of an method/function argument:
 
@@ -147,22 +148,25 @@ be used to format text and cross-reference code.
     Args:
         cfg (config.Config): Current configuration
 
-- Indicate python keywords (without cross-referencing them)
+- To indicate verbatim text (inline code) enclose it with two backticks each.
 
       ``True``
       ``None``
-
-  Surround the keyword with two backticks (it will be shown as code then)
-
+      ``de_DE.UTF-8``
 
 
 # Known issues with documentation generation
 
-- Sphinx' "make html" does not recreate the html file of a sub class if only
+- Elements of PyQt can not be referenced. It is a [known
+  Issue](https://riverbankcomputing.com/pipermail/pyqt/2013-March/032528.html)
+  without an acceptable solution. Name them via verbatime text (two backticks)
+  only.
+  
+- Sphinx' ``make html`` does not recreate the html file of a sub class if only
   the parent class docstring was changed.
 
-  Impact: Inherited documentation in the sub class is not up to date
+  /Impact/: Inherited documentation in the sub class is not up to date
 
-  Work around: Use "make clean" before "make html"
+  /Work around/: Use ``make clean`` before ``make html``
 
 <sub>March 2023</sub>

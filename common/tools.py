@@ -245,7 +245,21 @@ def initiate_translation(language_code):
 
 
 def set_lc_time_by_language_code(language_code: str):
-    """
+    """Set ``LC_TIME`` based on a specific language code.
+
+    Args:
+        language_code(str): A language code consisting of two letters.
+
+    The reason is to display correctly translated weekday and months
+    names. Python's :mod:`datetime` module, as well
+    ``PyQt6.QtCore.QDate``, use :mod:`locale` to determine the
+    correct translation. The module :mod:`gettext` and
+    ``PyQt6.QtCore.QTranslator`` is not involved so their setup does
+    not take effect.
+
+    Be aware that a language code (e.g. ``de``) is not the same as a locale code
+    (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter based
+    on the language code. A warning is logged if it is not possible.
     """
 
     # Determine the normalized locale code (e.g. "de_DE.UTF-8") by
@@ -264,10 +278,9 @@ def set_lc_time_by_language_code(language_code: str):
     except locale.Error:
         logger.warning(
             f'Determined normalized locale code "{code}" (from language code '
-            f'"{used_code}" not available or invalid. The code will be '
-            'ignored. This might lead to unusual display of dates and '
-            'timestamps, but it does not affect the functionality of the '
-            'application.')
+            f'"{code}" not available or invalid. The code will be ignored. '
+            'This might lead to unusual display of dates and timestamps, but '
+            'it does not affect the functionality of the application.')
 
 
 def get_available_language_codes():
