@@ -27,6 +27,7 @@ import re
 import errno
 import gzip
 import tempfile
+import locale
 import gettext
 try:
     from collections.abc import MutableSet
@@ -38,7 +39,6 @@ import atexit
 from datetime import datetime
 from packaging.version import Version
 from time import sleep
-
 import logger
 
 # Try to import keyring
@@ -236,7 +236,38 @@ def initiate_translation(language_code):
     )
     translation.install(names=['ngettext'])
 
-    return _determine_current_used_language_code(translation, language_code)
+    used_code = _determine_current_used_language_code(
+        translation, language_code)
+
+    set_lc_time_by_language_code(used_code)
+
+    return used_code
+
+
+def set_lc_time_by_language_code(language_code: str):
+    """
+    """
+
+    # Determine the normalized locale code (e.g. "de_DE.UTF-8") by
+    # language code (e.g. "de").
+
+    # "de" -> "de_DE.ISO8859-1" -> "de_DE"
+    code = locale.normalize(language_code).split('.')[0]
+    # "de_DE" -> "de_DE.UTF-8"
+    code = code + '.' + locale.getencoding()
+
+    try:
+        logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
+                     f'language code "{language_code}".')
+        locale.setlocale(locale.LC_TIME, code)
+
+    except locale.Error:
+        logger.warning(
+            f'Determined normalized locale code "{code}" (from language code '
+            f'"{used_code}" not available or invalid. The code will be '
+            'ignored. This might lead to unusual display of dates and '
+            'timestamps, but it does not affect the functionality of the '
+            'application.')
 
 
 def get_available_language_codes():

@@ -55,6 +55,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QProgressBar,
                              QPlainTextEdit)
 from PyQt6.QtCore import (Qt,
+                          QDate,
                           QDir,
                           QSortFilterProxyModel,
                           QThread,
@@ -489,11 +490,16 @@ class SettingsDialog(QDialog):
         glayout.addWidget(self.comboScheduleWeekday, 2, 1)
 
         for d in range(1, 8):
+            logger.debug(datetime.date(2011, 11, 6 + d).strftime("%A"))
             self.comboScheduleWeekday.addItem(
                 QIcon(),
                 datetime.date(2011, 11, 6 + d).strftime("%A"),
                 d
             )
+
+        print('T'*100)  # DEBUG
+        print(QDate.currentDate().toString('dddd'))
+        print('X'*100)
 
         self.lblScheduleTime = QLabel(_('Hour') + ':', self)
         self.lblScheduleTime.setContentsMargins(5, 0, 0, 0)
