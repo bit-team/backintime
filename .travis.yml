@@ -43,7 +43,7 @@ before_install:
   # https://github.com/travis-ci/travis-ci/issues/4937#issuecomment-149289729
   - sudo rm -f /etc/apt/sources.list.d/mongodb.list
   - sudo apt-key list
-  - sudo apt-key del 656408E390CFB1F5
+  - sudo apt-key del 90CFB1F5
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
