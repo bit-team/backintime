@@ -300,10 +300,10 @@ class Config(configfile.ConfigFileWithProfiles):
                     'local': (
                         None, _('Local'), False, False),
                     'ssh': (
-                        sshtools.SSH, 'SSH', _('SSH private key'), False),
+                        sshtools.SSH, _('SSH'), _('SSH private key'), False),
                     'local_encfs': (
                         encfstools.EncFS_mount,
-                        '{} {}'.format(_('Local'), _('encrypted')),
+                        _('Local encrypted'),
                         _('Encryption'),
                         False
                     ),

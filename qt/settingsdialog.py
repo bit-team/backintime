@@ -113,9 +113,10 @@ class SshProxyWidget(QWidget):
 
         qttools.set_wrapped_tooltip(
             self,
-            'Connect to the target host via this proxy (also known as a jump '
-            'host). See "-J" in the "ssh" command documentation or '
-            '"ProxyJump" in "ssh_config" man page for details.')
+            _('Connect to the target host via this proxy (also known as a '
+              'jump host). See "-J" in the "ssh" command documentation or '
+              '"ProxyJump" in "ssh_config" man page for details.')
+        )
 
     def _slot_checkbox_changed(self, state):
         if Qt.CheckState(state) == Qt.CheckState.Checked:
@@ -404,25 +405,25 @@ class SettingsDialog(QDialog):
         hlayout2 = QHBoxLayout()
         vlayout2.addLayout(hlayout2)
 
-        self.lblHost = QLabel(_('Host') + ':', self)
+        self.lblHost = QLabel(_('Host:'), self)
         hlayout2.addWidget(self.lblHost)
         self.txtHost = QLineEdit(self)
         self.txtHost.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtHost)
 
-        self.lblUser = QLabel(_('User') + ':', self)
+        self.lblUser = QLabel(_('User:'), self)
         hlayout2.addWidget(self.lblUser)
         self.txtUser = QLineEdit(self)
         self.txtUser.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtUser)
 
-        self.lblProfile = QLabel(_('Profile') + ':', self)
+        self.lblProfile = QLabel(_('Profile:'), self)
         hlayout2.addWidget(self.lblProfile)
         self.txt_profile = QLineEdit(self)
         self.txt_profile.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txt_profile)
 
-        self.lblFullPath = QLabel(_('Full snapshot path') + ': ', self)
+        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
@@ -2233,7 +2234,7 @@ class SettingsDialog(QDialog):
         else:
             path = self.editSnapshotsPath.text()
         self.lblFullPath.setText(
-            _('Full snapshot path: ') +
+            _('Full snapshot path:') + ' ' +
             os.path.join(
                 path,
                 'backintime',
