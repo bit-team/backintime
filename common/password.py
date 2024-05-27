@@ -1,19 +1,18 @@
-#    Copyright (C) 2012-2022 Germar Reitze
+# Copyright (C) 2012-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import sys
 import os
 import time
@@ -22,7 +21,6 @@ import signal
 import subprocess
 import re
 import errno
-
 import config
 import configfile
 import tools
@@ -152,14 +150,15 @@ class Password_Cache(tools.Daemon):
         super(Password_Cache, self).cleanupHandler(signum, frame)
 
 class Password(object):
+    """Provide passwords for BIT either from keyring, Password_Cache or
+    by asking user.
     """
-    provide passwords for BIT either from keyring, Password_Cache or
-    by asking User.
-    """
-    def __init__(self, cfg = None):
+    def __init__(self, cfg=None):
         self.config = cfg
+
         if self.config is None:
             self.config = config.Config()
+
         self.cache = Password_Cache(self.config)
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
         self.db = {}
