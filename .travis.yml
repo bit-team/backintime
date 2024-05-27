@@ -44,7 +44,7 @@ before_install:
   - sudo cat /etc/apt/trusted.gpg
   - sudo ls /etc/apt/sources.list.d -l
   - sudo cat /etc/apt/sources.list
-  - sudo rm -f /etc/apt/sources.list.d/mongodb.list
+  - sudo rm -f /etc/apt/sources.list.d/mongodb*.list
   - sudo apt-key list
   - sudo ls /etc/apt/trusted.gpg.d -l
   - sudo apt-key del 90CFB1F5
