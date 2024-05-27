@@ -405,8 +405,7 @@ class SnapshotsDialog(QDialog):
                     'snapshots?').format(
                         file=f'"{self.path}"', count=len(items))
 
-        msg = '{}\n{}: {}'.format(
-            msg, _('WARNING'), _('This cannot be revoked!'))
+        msg = _('WARNING: This cannot be revoked.')
 
         answer = messagebox.warningYesNo(self, msg)
         if answer == QMessageBox.StandardButton.Yes:

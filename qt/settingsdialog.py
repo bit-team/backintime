@@ -625,20 +625,19 @@ class SettingsDialog(QDialog):
         self.tabs.addTab(tabWidget, _('&Exclude'))
         layout = QVBoxLayout(tabWidget)
 
-        self.lblSshEncfsExcludeWarning = QLabel(
-            "<b>{}:</b> {}".format(
-                _('Info'),
-                _(
-                    "In 'SSH encrypted' mode, only single or double asterisks "
-                    "are functional (e.g. {example2}). Other types of "
-                    "wildcards and patterns will be ignored (e.g. {example1})."
-                    "Filenames are unpredictable in this mode due to "
-                    "encryption by EncFS."
-                ).format(example1="<code>'foo*'</code>, "
-                                  "<code>'[fF]oo'</code>, "
-                                  "<code>'fo?'</code>",
-                         example2="<code>'foo/*'</code>, "
-                                  "<code>'foo/**/bar'</code>")
+        self.lblSshEncfsExcludeWarning = QLabel(_(
+            "{BOLD}Info{ENDBOLD}: "
+            "In 'SSH encrypted' mode, only single or double asterisks are "
+            "functional (e.g. {example2}). Other types of wildcards and "
+            "patterns will be ignored (e.g. {example1}). Filenames are "
+            "unpredictable in this mode due to encryption by EncFS.").format(
+                BOLD='<strong>',
+                ENDBOLD='</strong>',
+                example1="<code>'foo*'</code>, "
+                         "<code>'[fF]oo'</code>, "
+                         "<code>'fo?'</code>",
+                example2="<code>'foo/*'</code>, "
+                         "<code>'foo/**/bar'</code>"
             ),
             self
         )
@@ -1025,8 +1024,7 @@ class SettingsDialog(QDialog):
         # bwlimit
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
-        self.cbBwlimit = QCheckBox(
-            _('Limit rsync bandwidth usage') + ': ', self)
+        self.cbBwlimit = QCheckBox(_('Limit rsync bandwidth usage:'), self)
         hlayout.addWidget(self.cbBwlimit)
         self.spbBwlimit = QSpinBox(self)
         self.spbBwlimit.setSuffix(' ' + _('KB/sec'))
@@ -2326,13 +2324,8 @@ class SettingsDialog(QDialog):
             self.listExclude.header(), self.listExcludeSortLoop, *args)
 
     def printDefault(self, value):
-        if value:
-            value_ = _('enabled')
-
-        else:
-            value_ = _('disabled')
-
-        return ' (%s: %s)' % (_('default'), value_)
+        return ' ' + _('(default: {})').format(
+            _('enabled') if value else _('disabled'))
 
     def restoreConfig(self, *args):
         RestoreConfigDialog(self).exec()
