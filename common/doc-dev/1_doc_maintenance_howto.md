@@ -145,8 +145,13 @@ be used to format text and cross-reference code.
 
   Add the type name (with namespace if not in the same) in parentheses
 
-    Args:
-        cfg (config.Config): Current configuration
+      """Short description...
+      
+      Long discription...
+      
+      Args:
+          cfg (config.Config): Current configuration
+      """
 
 - To indicate verbatim text (inline code) enclose it with two backticks each.
 
