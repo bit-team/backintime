@@ -59,38 +59,33 @@ for extended examples.
 
 # How to add new modules to the documentation
 
-There are two scenarios here:
+There are two scenarios:
 
-a) The new module files are in a separate folder (not yet included in the doc generation so far)
+## Scenario A: New module files are in a separate folder (not yet included in the doc generation so far)
 
-- Add the python source code folder to the doc-dev/conf.py file
-  so that autodoc can find the files (navigate "relative" to the "doc-dev" folder)
-
-- Generate the initial rst files for the new modules via "sphinx-apidoc", eg.
+- Add the python source code folder to the file `doc-dev/conf.py` which is the
+  configuration. Then the `autodoc` extension is able to find the files
+  (navigate _relative_ to the `doc-dev` folder).
+- Generate the initial `.rst` files for the new modules via `sphinx-apidoc`, eg.
 
       sphinx-apidoc -o ./plugins ../plugins
 
-  to create a sub folder "doc-dev/plugins" with the rst files (one for each source file
-  in "doc-dev/../plugins"
+  This example will create a sub folder `doc-dev/plugins` with the `.rst`
+  files (one for each source file) in `doc-dev/../plugins`.
+- Add the new modules in the sub folder to the top-most _root_ `index.rst`:
 
-- Add the new modules in the sub folder to the top-most "root" index.rst:
+      # under "modules.rst" add this line add a link to new modules
+      plugins/modules.rst
 
-  # under "modules.rst" add this line add a link to new modules
-  plugins/modules.rst
+## Scenario B: The new module files are in a folder that already contains other modules contained in the doc
 
-
-
-b) The new module files are in a folder that already contains other modules contained in the doc
-
-   To create the initial version of rst files for new modules eg. in the "common" folder use
+To create the initial version of `.rst` files for new modules eg. in the `common` folder use
 
        sphinx-apidoc -o . ..
 
-   TODO: How to remove old rst files with non-existing python files (eg. due to renaming or deletion)
-         -> probably the -f ("force") argument could do this. Try it with -d ("dry-run")!
-
-
-
+_TODO_: How to remove old rst files with non-existing python files (eg. due to
+renaming or deletion)? Probably the -f ("force") argument could do this. Try it
+with -d ("dry-run")!
 
 # Commonly used rst markups in the docstring
 
