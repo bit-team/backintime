@@ -1,5 +1,9 @@
 # Using Sphinx to write and build documentation
-<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
+<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues)
+or contact the
+[maintenance team on the mailing
+list](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
+if this text is difficult to understand or not helpful.</sub>
 
 This file describes briefly how to
 - build and view the source code "API" documentation of _Back In Time_
@@ -12,75 +16,50 @@ This file describes briefly how to
 
 <!-- TOC start -->
 - [Background](#background)
-- [Why to use Sphinx to generate the
-  documentation?](#why-to-use-sphinx-to-generate-the-documentation)
-- [How to build and view the
-  documentation](#how-to-build-and-view-the-documentation)
-- [How to add new modules to the
-  documentation](#how-to-add-new-modules-to-the-documentation)
-- [How to write docstrings for Back In
-  Time](#how-to-write-docstrings-for-back-in-time)
-- [Commonly used rst markups in the
-  docstring](#commonly-used-rst-markups-in-the-docstring)
-- [Known issues with documentation
-  generation](#known-issues-with-documentation-generation)
+- [How to build and view the documentation](#how-to-build-and-view-the-documentation)
+- [How to write docstrings for Back In Time](#how-to-write-docstrings-for-back-in-time)
+- [How to add new modules to the documentation](#how-to-add-new-modules-to-the-documentation)
+- [Commonly used rst markups in the docstring](#commonly-used-rst-markups-in-the-docstring)
+- [Known issues with documentation generation](#known-issues-with-documentation-generation)
 <!-- TOC end -->
 
 # Background
 
-The documentation is generated automatically from the docstrings
-in the python source code files using the tool
+The documentation is generated automatically from the docstrings in the python
+source code files using [Sphinx](https://www.sphinx-doc.org/en/master/) in
+combination with the following Sphinx-Extensions:
 
-  Sphinx (https://www.sphinx-doc.org/en/master/)
+  - [autodoc](https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html) to
+    automatically generate rst doc files from the python docstrings.
+  - [napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)
+    to convert google-style docstrings to reStructuredText `rst` format
+    required for autodoc.
+  - [viewcode](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)
+    to create links to browse the highlighted source code.
 
-together with the Sphinx-Extensions
+Further readings:
 
-  - autodoc (to automatically generate rst doc files from the python docstrings)
-    https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
-
-  - napoleon (to convert google-style docstrings to reStructuredText "rst" format required for autodoc)
-    https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
-
-  - viewcode (to create links to browse the highlighted source code)
-    https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
-
-For a brief introduction to Sphinx for Python see:
-https://betterprogramming.pub/auto-documenting-a-python-project-using-sphinx-8878f9ddc6e9
-
-For a reference of rst markups see:
-https://docutils.sourceforge.io/docs/user/rst/quickref.html
-
-For a description of the Google coding style for python see:
-https://google.github.io/styleguide/pyguide.html
-
-# Why to use Sphinx to generate the documentation?
-
-Sphinx has eg. the advantage to
-
-- generate the documentation in different formats
-  (eg. html, PDF or Linux man pages).
-
-- report invalid markups contained in the documentation
-
-- inject documentation of attributes and methods from parent classes
-  into sub classes (in case of inheritance)
-
-
-
+ - [Brief introduction to Sphinx for Python](https://betterprogramming.pub/auto-documenting-a-python-project-using-sphinx-8878f9ddc6e9)
+ - [Quick reference of rst markups](https://docutils.sourceforge.io/docs/user/rst/quickref.html)
+ 
 # How to build and view the documentation
 
-Open a terminal in the "doc-dev" folder and call
+Open a terminal, navigate to the folder `common/doc-dev` and call
 
     make html      # to generate the HTML documentation
     make htmlOpen  # to open the browser showing the generated HTML pages
 
+# How to write docstrings for _Back In Time_
 
+_Back In Time_ uses the [Google style for
+docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings).
+Please stick to this convention. Look into documentation of
+[`sphinx.ext.napoleon`](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google)
+for extended examples.
 
 # How to add new modules to the documentation
 
 There are two scenarios here:
-
-
 
 a) The new module files are in a separate folder (not yet included in the doc generation so far)
 
@@ -111,14 +90,6 @@ b) The new module files are in a folder that already contains other modules cont
          -> probably the -f ("force") argument could do this. Try it with -d ("dry-run")!
 
 
-
-# How to write docstrings for _Back In Time_
-
-_Back In Time_ uses the [Google style for
-docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings).
-Please stick to this convention. Look into documentation of
-[`sphinx.ext.napoleon` for an extended
-example](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google).
 
 
 # Commonly used rst markups in the docstring
@@ -170,8 +141,8 @@ be used to format text and cross-reference code.
 - Sphinx' ``make html`` does not recreate the html file of a sub class if only
   the parent class docstring was changed.
 
-  /Impact/: Inherited documentation in the sub class is not up to date
+  _Impact_: Inherited documentation in the sub class is not up to date
 
-  /Work around/: Use ``make clean`` before ``make html``
+  _Work around_: Use ``make clean`` before ``make html``
 
-<sub>March 2023</sub>
+<sub>May 2024</sub>
