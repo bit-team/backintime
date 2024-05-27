@@ -267,8 +267,12 @@ def set_lc_time_by_language_code(language_code: str):
 
     # "de" -> "de_DE.ISO8859-1" -> "de_DE"
     code = locale.normalize(language_code).split('.')[0]
-    # "de_DE" -> "de_DE.UTF-8"
-    code = code + '.' + locale.getencoding()
+
+    try:
+        # "de_DE" -> "de_DE.UTF-8"
+        code = code + '.' + locale.getencoding()
+    except AttributeError:  # Python 3.10 or older
+        code = code + '.' + locale.getpreferredencoding()
 
     try:
         logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
