@@ -1396,14 +1396,17 @@ class SettingsDialog(QDialog):
         ))
 
         if not recommend:
-            recommend = [_('(All recommendations already included.)')]
+            text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
+                    'already included.)').format(
+                        BOLD='<strong>', ENDBOLD='</strong>')
 
-        self._label_exclude_recommend.setText(
-            '<strong>{}</strong>: {}'.format(
-                _('Highly recommended'),
-                ', '.join(sorted(recommend))
-            )
-        )
+        else:
+            text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
+                BOLD='<strong>',
+                ENDBOLD='</strong>',
+                files=', '.join(sorted(recommend)))
+
+        self._label_exclude_recommend.setText(text)
 
     def updateProfile(self):
         if self.config.currentProfile() == '1':
