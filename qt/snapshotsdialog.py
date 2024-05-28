@@ -55,11 +55,11 @@ class DiffOptionsDialog(QDialog):
         cmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
         params = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
-        self.mainLayout.addWidget(QLabel(_('Command') + ':'), 0, 0)
+        self.mainLayout.addWidget(QLabel(_('Command:')), 0, 0)
         self.editCmd = QLineEdit(cmd, self)
         self.mainLayout.addWidget(self.editCmd, 0, 1)
 
-        self.mainLayout.addWidget(QLabel(_('Parameters') + ':'), 1, 0)
+        self.mainLayout.addWidget(QLabel(_('Parameters:')), 1, 0)
         self.editParams = QLineEdit(params, self)
         self.mainLayout.addWidget(self.editParams, 1, 1)
 

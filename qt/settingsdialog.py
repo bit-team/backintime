@@ -213,7 +213,7 @@ class SettingsDialog(QDialog):
         vlayout = QVBoxLayout()
         layout.addLayout(vlayout)
 
-        self.lblModes = QLabel(_('Mode') + ':', self)
+        self.lblModes = QLabel(_('Mode:'), self)
 
         self.comboModes = QComboBox(self)
         hlayout = QHBoxLayout()
