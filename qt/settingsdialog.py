@@ -450,7 +450,8 @@ class SettingsDialog(QDialog):
                 'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
             config.Config._30_MIN: ngettext(
                 'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
-            config.Config._1_HOUR: _('Every hour'),
+            config.Config._1_HOUR: ngettext(
+                'Every hour', 'Every {n} hours', 1).format(n=1),
             config.Config._2_HOURS: ngettext(
                 'Every {n} hour', 'Every {n} hours', 2).format(n=2),
             config.Config._4_HOURS: ngettext(
