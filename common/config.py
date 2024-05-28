@@ -488,7 +488,7 @@ class Config(configfile.ConfigFileWithProfiles):
         elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
             self.notifyError(_(
                 "Destination filesystem for {path} is an sshfs-mounted share."
-                " sshfs doesn't support hard-links. "
+                " Sshfs doesn't support hard-links. "
                 "Please use mode 'SSH' instead.")
                 .format(path=value))
 

@@ -2582,9 +2582,9 @@ class RestoreConfigDialog(QDialog):
         for row, profileId in enumerate(cfg.profiles()):
 
             for col, txt in enumerate((
-                    _('Profile') + ': ' + str(profileId),
+                    _('Profile:') + str(profileId),
                     cfg.profileName(profileId),
-                    _('Mode') + ': ' + cfg.SNAPSHOT_MODES[
+                    _('Mode:') + cfg.SNAPSHOT_MODES[
                         cfg.snapshotsMode(profileId)][1]
                     )):
                 self.gridProfiles.addWidget(QLabel(txt, self), row, col)
