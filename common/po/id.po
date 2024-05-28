@@ -7,82 +7,84 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-01-30 10:08+0100\n"
-"PO-Revision-Date: 2024-01-18 16:24+0000\n"
-"Last-Translator: andika <andika@gmail.com>\n"
+"POT-Creation-Date: 2024-05-20 10:41+0200\n"
+"PO-Revision-Date: 2024-05-08 07:52+0000\n"
+"Last-Translator: "
+"Andika Triwidada <andika@gmail.com>, "
+"dapurletter <dapurletter@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.5.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:50 qt/settingsdialog.py:151 qt/settingsdialog.py:526
+#: common/config.py:46 qt/settingsdialog.py:229
 msgid "Warning"
 msgstr "Peringatan"
 
-#: common/config.py:146 common/config.py:289
+#: common/config.py:149 common/config.py:291
 msgid "Main profile"
 msgstr "Profil utama"
 
-#: common/config.py:299 common/config.py:304
+#: common/config.py:301 common/config.py:306
 msgid "Local"
 msgstr "Lokal"
 
-#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:1946
+#: common/config.py:303 common/config.py:313 qt/settingsdialog.py:2148
 msgid "SSH private key"
 msgstr "Kunci rahasia SSH"
 
-#: common/config.py:304
+#: common/config.py:306
 msgid "encrypted"
 msgstr "terenkripsi"
 
-#: common/config.py:305 common/config.py:312
+#: common/config.py:307 common/config.py:314
 msgid "Encryption"
 msgstr "Enkripsi"
 
-#: common/config.py:310
+#: common/config.py:312
 msgid "SSH encrypted"
 msgstr "Terenkripsi secara SSH"
 
-#: common/config.py:317
+#: common/config.py:319
 msgid "Default"
 msgstr "Bawaan"
 
-#: common/config.py:348 common/config.py:360 common/config.py:377
-#: common/config.py:388
+#: common/config.py:350 common/config.py:362 common/config.py:379
+#: common/config.py:390
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:349
+#: common/config.py:351
 msgid "Snapshots folder is not valid!"
 msgstr "Folder snapshot tidak valid!"
 
-#: common/config.py:361
+#: common/config.py:363
 msgid "You must select at least one folder to back up!"
 msgstr "Anda harus memilih setidaknya satu folder untuk backup!"
 
-#: common/config.py:378
+#: common/config.py:380
 msgid "Backup folder cannot be included."
 msgstr "Folder backup tidak boleh disertakan."
 
-#: common/config.py:390
+#: common/config.py:392
 msgid "Backup sub-folder cannot be included."
 msgstr "Sub folder backup tidak bisa disertakan."
 
-#: common/config.py:448
+#: common/config.py:439
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Opsi tidak valid. {path} bukan sebuah folder."
 
-#: common/config.py:457
+#: common/config.py:448
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Host/User/Profile-ID tidak boleh kosong."
 
-#: common/config.py:467 common/config.py:514
+#: common/config.py:458 common/config.py:505
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -91,7 +93,7 @@ msgstr ""
 "Tak bisa menulis ke: {path}\n"
 "Apakah Anda yakin memiliki hak untuk menulis?"
 
-#: common/config.py:484
+#: common/config.py:475
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -100,7 +102,7 @@ msgstr ""
 "Sistem berkas tujuan untuk {path} diformat menggunakan FAT yang tidak "
 "mendukung hard-link. Mohon menggunakan sistem berkas Linux yang native."
 
-#: common/config.py:493
+#: common/config.py:484
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -111,15 +113,15 @@ msgstr ""
 "Pastikan SMB server remote mendukung symlink atau aktifkan {copyLinks} pada "
 "{expertOptions}."
 
-#: common/config.py:497 qt/settingsdialog.py:1004
+#: common/config.py:488 qt/settingsdialog.py:1132
 msgid "Copy links (dereference symbolic links)"
 msgstr "Salin link (dereference link simbolik)"
 
-#: common/config.py:498
+#: common/config.py:489
 msgid "Expert Options"
 msgstr "Opsi Tingkat Lanjut"
 
-#: common/config.py:502
+#: common/config.py:493
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
@@ -128,7 +130,7 @@ msgstr ""
 "Sistem berkas tujuan untuk {path} adalah share yang dipasang dengan sshfs. "
 "sshfs tidak mendukung hard-link. Harap gunakan mode 'SSH' sebagai pengganti."
 
-#: common/config.py:1598
+#: common/config.py:1640
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -138,11 +140,11 @@ msgstr ""
 "Apakah Anda yakin cron sudah terpasang?\n"
 "Jika tidak, Anda harus mematikan semua backup otomatis."
 
-#: common/config.py:1604
+#: common/config.py:1646
 msgid "Failed to write new crontab."
 msgstr "Gagal menulis crontab baru."
 
-#: common/config.py:1707
+#: common/config.py:1749
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -151,12 +153,12 @@ msgstr ""
 "Gagal memasang peraturan Udev untuk profil {profile_id}. Layanan DBus "
 "'{dbus_interface}' tidak tersedia"
 
-#: common/config.py:1722
+#: common/config.py:1764
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Penjadwalan udev tidak dapat digunakan dengan mode {mode}"
 
-#: common/config.py:1733
+#: common/config.py:1775
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Tidak bisa menemukan UUID untuk {path}"
@@ -211,20 +213,20 @@ msgstr ""
 "encfs versi 1.7.2 dan sebelumnya mempunyai bug ketika menggunakan opsi "
 "--reverse. Silakan perbaharui encfs."
 
-#: common/encfstools.py:516 common/snapshots.py:914
+#: common/encfstools.py:516 common/snapshots.py:1033
 msgid "Take snapshot"
 msgstr "Ambil snapshot"
 
-#: common/mount.py:608
+#: common/mount.py:609
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Tidak dapat melepas kait {mountprocess} dari {mountpoint}."
 
-#: common/mount.py:695
+#: common/mount.py:696
 msgid "{} not found. Please install e.g. {}"
 msgstr "{} tidak ditemukan. Silakan pasang misalnya {}"
 
-#: common/mount.py:716
+#: common/mount.py:717
 msgid "Mountpoint {} not empty."
 msgstr "Titik kait {} tidak kosong."
 
@@ -233,24 +235,24 @@ msgstr "Titik kait {} tidak kosong."
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Profil '{profile}': Masukkan kata sandi untuk {mode}: "
 
-#: common/snapshots.py:342 common/snapshots.py:593
+#: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
 msgstr "GAGAL"
 
-#: common/snapshots.py:539 common/snapshots.py:601
+#: common/snapshots.py:560 common/snapshots.py:622
 msgid "Restore permissions"
 msgstr "Pulihkan izin"
 
-#: common/snapshots.py:596 qt/app.py:287 qt/app.py:915 qt/app.py:950
-#: qt/qtsystrayicon.py:80
+#: common/snapshots.py:617 qt/app.py:292 qt/app.py:970 qt/app.py:1005
+#: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Selesai"
 
-#: common/snapshots.py:708
+#: common/snapshots.py:737
 msgid "Deferring backup while on battery"
 msgstr "Tunda backup saat menggunakan baterai"
 
-#: common/snapshots.py:770
+#: common/snapshots.py:834
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -258,120 +260,120 @@ msgstr ""
 "Tidak dapat menemukan folder snapshot.\n"
 "Jika ada di hardisk eksternal atau perangkat lainnya silakan ditancapkan."
 
-#: common/snapshots.py:772
+#: common/snapshots.py:838
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Menunggu %s detik."
 
-#: common/snapshots.py:809
+#: common/snapshots.py:906
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Gagal untuk mengambil snapshot {snapshot_id}."
 
-#: common/snapshots.py:826
+#: common/snapshots.py:936
 msgid "Finalizing"
 msgstr "Menyelesaikan"
 
-#: common/snapshots.py:949
+#: common/snapshots.py:1068
 msgid "Can't create folder"
 msgstr "Tidak bisa membuat folder"
 
-#: common/snapshots.py:966
+#: common/snapshots.py:1085
 msgid "Saving config file…"
 msgstr "Menyimpan berkas konfigurasi…"
 
-#: common/snapshots.py:1042
+#: common/snapshots.py:1166
 msgid "Saving permissions…"
 msgstr "Menyimpan izin…"
 
-#: common/snapshots.py:1150
+#: common/snapshots.py:1278
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Ditemukan sisa snapshot {snapshot_id} yang dapat dilanjutkan."
 
-#: common/snapshots.py:1169
+#: common/snapshots.py:1301
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Membuang sisa folder snapshot {snapshot_id} dari proses sebelumnya"
 
-#: common/snapshots.py:1179
+#: common/snapshots.py:1311
 msgid "Can't remove folder"
 msgstr "Tidak bisa membuang folder"
 
-#: common/snapshots.py:1222
+#: common/snapshots.py:1365
 msgid "Taking snapshot"
 msgstr "Mengambil snapshot"
 
-#: common/snapshots.py:1254
+#: common/snapshots.py:1416
 msgid "Success"
 msgstr "Sukses"
 
-#: common/snapshots.py:1255
+#: common/snapshots.py:1419
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Transfer sebagian karena kesalahan"
 
-#: common/snapshots.py:1256
+#: common/snapshots.py:1420
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfer sebagian karena berkas sumber yang menghilang (lihat 'man rsync')"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1424
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' berakhir dengan kode keluar {exit_code}"
 
-#: common/snapshots.py:1268
+#: common/snapshots.py:1437
 msgid "See 'man rsync' for more details"
 msgstr "Lihat 'man rsync' untuk lebih jelasnya"
 
-#: common/snapshots.py:1272
+#: common/snapshots.py:1444
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Kode keluar rsync negatif adalah nomor sinyal, lihat 'kill -l' dan 'man "
 "kill'"
 
-#: common/snapshots.py:1287
+#: common/snapshots.py:1465
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Tidak ada yang berubah, tidak perlu membuat snapshot baru"
 
-#: common/snapshots.py:1318
+#: common/snapshots.py:1509
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Tidak bisa mengubah nama {new_path} ke {path}"
 
-#: common/snapshots.py:1636 common/snapshots.py:1688
+#: common/snapshots.py:1827 common/snapshots.py:1879
 msgid "Smart remove"
 msgstr "Pembuangan pintar"
 
-#: common/snapshots.py:1663
+#: common/snapshots.py:1854
 msgid "Removing old snapshots"
 msgstr "Membuang snapshot lama"
 
-#: common/snapshots.py:1698
+#: common/snapshots.py:1889
 msgid "Trying to keep min free space"
 msgstr "Mencoba menjaga ruang kosong minimum"
 
-#: common/snapshots.py:1737
+#: common/snapshots.py:1928
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Mencoba menjaga minimum {perc} inode bebas"
 
-#: common/snapshots.py:2821 qt/app.py:1616
+#: common/snapshots.py:2988 qt/app.py:1712
 msgid "Now"
 msgstr "Sekarang"
 
-#: common/sshtools.py:215
+#: common/sshtools.py:239
 #, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Tidak bisa mengait {sshfs}"
 
-#: common/sshtools.py:275
+#: common/sshtools.py:301
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr "ssh-agent tidak ditemukan. Pastikan sudah terpasang."
 
-#: common/sshtools.py:418
+#: common/sshtools.py:444
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -379,63 +381,79 @@ msgstr ""
 "Tidak dapat membuka kunci kunci privat SSH. Kata sandi yang salah atau tidak"
 " tersedia untuk cron."
 
-#: common/sshtools.py:506
+#: common/sshtools.py:535
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "Cipher {cipher} gagal untuk {host}."
 
-#: common/sshtools.py:653
+#: common/sshtools.py:682
 msgid "Remote path exists but is not a directory."
 msgstr "Path jauh ada tapi sayangnya bukan sebuah direktori."
 
-#: common/sshtools.py:658
+#: common/sshtools.py:687
 msgid "Remote path is not writable."
 msgstr "Path jauh tidak dapat ditulisi."
 
-#: common/sshtools.py:663
+#: common/sshtools.py:692
 msgid "Remote path is not executable."
 msgstr "Path jauh tidak dapat dieksekusi."
 
-#: common/sshtools.py:668
+#: common/sshtools.py:697
 msgid "Couldn't create remote path."
 msgstr "Tidak bisa membuat path jauh."
 
-#: common/sshtools.py:948
+#: common/sshtools.py:981
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Host {host} jauh tidak mendukung {command}"
 
-#: common/sshtools.py:952 common/sshtools.py:961
+#: common/sshtools.py:985 common/sshtools.py:994
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Lihat 'man backintime' untuk instruksi lebih lanjut"
 
-#: common/sshtools.py:956
+#: common/sshtools.py:989
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "Pemeriksaan perintah pada host {host} mengembalikan kesalahan yang tak "
 "dikenal"
 
-#: common/sshtools.py:977
+#: common/sshtools.py:1010
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Host {host} jauh tidak mendukung hardlink"
 
-#: common/sshtools.py:1060
+#: common/sshtools.py:1164
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr "Salin ssh-key publik \"{pubkey}\" ke host jarak jauh \"{host}\""
 
-#: common/sshtools.py:1062
+#: common/sshtools.py:1166
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Mohon masukkan kata sandi untuk \"{user}\""
 
-#: qt/app.py:167
+#: qt/aboutdlg.py:44 qt/app.py:549
+msgid "About"
+msgstr "Tentang"
+
+#: qt/aboutdlg.py:68 qt/aboutdlg.py:106
+msgid "Authors"
+msgstr "Penulis"
+
+#: qt/aboutdlg.py:69 qt/aboutdlg.py:112
+msgid "Translations"
+msgstr "Terjemahan"
+
+#: qt/aboutdlg.py:70 qt/aboutdlg.py:118
+msgid "License"
+msgstr "Lisensi"
+
+#: qt/app.py:170
 msgid "Shortcuts"
 msgstr "Pintasan"
 
-#: qt/app.py:187
+#: qt/app.py:190
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
@@ -443,24 +461,28 @@ msgstr ""
 "Folder ini tidak ada\n"
 "dalam snapshot yang sedang dipilih."
 
-#: qt/app.py:252
+#: qt/app.py:257
 msgid "Add to Include"
 msgstr "Tambahkan untuk Disertakan"
 
-#: qt/app.py:254 qt/logviewdialog.py:186
+#: qt/app.py:259
 msgid "Add to Exclude"
 msgstr "Tambahkan pada Perkecualian"
 
-#: qt/app.py:339
+#: qt/app.py:344
 #, python-brace-format
 msgid ""
-"{appName} is not configured. Would you like to restore a previous "
-"configuration?"
+"{app_name} appears to be running for the first time as no configuration is "
+"found."
 msgstr ""
-"{appName} belum dikonfigurasi. Apakah Anda hendak memulihkan konfigurasi "
-"sebelumnya?"
 
-#: qt/app.py:368
+#: qt/app.py:349
+msgid ""
+"Import an existing configuration (from a backup target folder or another "
+"computer)?"
+msgstr ""
+
+#: qt/app.py:377
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -468,166 +490,166 @@ msgstr ""
 "Tidak bisa menemukan folder snapshot.\n"
 "Jika folder tersebut ada pada drive lepasan harap tancapkan lalu tekan OK."
 
-#: qt/app.py:453
+#: qt/app.py:465
 msgid "Take a snapshot"
 msgstr "Ambil snapshot"
 
-#: qt/app.py:455
+#: qt/app.py:467
 msgid "Use modification time & size for file change detection."
 msgstr "Gunakan waktu & ukuran modifikasi untuk deteksi perubahan berkas."
 
-#: qt/app.py:458
+#: qt/app.py:470
 msgid "Take a snapshot (checksum mode)"
 msgstr "Ambil snapshot (mode checksum)"
 
-#: qt/app.py:460
+#: qt/app.py:472
 msgid "Use checksums for file change detection."
 msgstr "Gunakan checksum untuk deteksi perubahan berkas."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:85
+#: qt/app.py:475 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
 msgstr "Istirahatkan proses snapshot"
 
-#: qt/app.py:468 qt/qtsystrayicon.py:89
+#: qt/app.py:480 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
 msgstr "Lanjutkan proses snapshot"
 
-#: qt/app.py:472 qt/qtsystrayicon.py:94
+#: qt/app.py:484 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
 msgstr "Hentikan proses snapshot"
 
-#: qt/app.py:476
+#: qt/app.py:488
 msgid "Refresh snapshot list"
 msgstr "Segarkan daftar snapshot"
 
-#: qt/app.py:480
+#: qt/app.py:492
 msgid "Name snapshot"
 msgstr "Namai snapshot"
 
-#: qt/app.py:484
+#: qt/app.py:496
 msgid "Remove snapshot"
 msgstr "Buang snapshot"
 
-#: qt/app.py:488
+#: qt/app.py:500
 msgid "View snapshot log"
 msgstr "Lihat catatan log snapshot"
 
-#: qt/app.py:492
+#: qt/app.py:504
 msgid "View last log"
 msgstr "Lihat catatan log terakhir"
 
-#: qt/app.py:496
+#: qt/app.py:508
 msgid "Manage profiles…"
 msgstr "Kelola profil…"
 
-#: qt/app.py:500
+#: qt/app.py:512
 msgid "Shutdown"
 msgstr "Matikan"
 
-#: qt/app.py:502
+#: qt/app.py:514
 msgid "Shut down system after snapshot has finished."
 msgstr "Matikan sistem setelah snapshot selesai."
 
-#: qt/app.py:504
+#: qt/app.py:516
 msgid "Setup language…"
 msgstr "Siapkan bahasa…"
 
-#: qt/app.py:508
+#: qt/app.py:520
 msgid "Exit"
 msgstr "Keluar"
 
-#: qt/app.py:512
+#: qt/app.py:524
 msgid "Help"
 msgstr "Bantuan"
 
-#: qt/app.py:516
+#: qt/app.py:528
 msgid "Profiles config file"
 msgstr "Berkas konfigurasi profil"
 
-#: qt/app.py:519 qt/languagedialog.py:219
+#: qt/app.py:531 qt/languagedialog.py:222
 msgid "Website"
 msgstr "Situs Web"
 
-#: qt/app.py:522 qt/app.py:1261
+#: qt/app.py:534 qt/app.py:1348
 msgid "Changelog"
-msgstr "Changelog"
+msgstr "Perubahan"
 
-#: qt/app.py:525
+#: qt/app.py:537
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:528
+#: qt/app.py:540
 msgid "Ask a question"
 msgstr "Ajukan sebuah pertanyaan"
 
-#: qt/app.py:531
+#: qt/app.py:543
 msgid "Report a bug"
 msgstr "Laporkan sebuah bug"
 
-#: qt/app.py:534
+#: qt/app.py:546
 msgid "Translation"
 msgstr "Terjemahan"
 
-#: qt/app.py:537 qt/app.py:1834
-msgid "About"
-msgstr "Tentang"
-
-#: qt/app.py:540 qt/restoredialog.py:47 qt/settingsdialog.py:2212
-#: qt/snapshotsdialog.py:140 qt/snapshotsdialog.py:145
+#: qt/app.py:552 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/snapshotsdialog.py:169
 msgid "Restore"
 msgstr "Pulihkan"
 
-#: qt/app.py:542
+#: qt/app.py:554
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Pulihkan berkas atau folder yang dipilih ke tujuan asal."
 
-#: qt/app.py:545 qt/app.py:1421 qt/app.py:1453 qt/snapshotsdialog.py:142
+#: qt/app.py:557 qt/app.py:1515 qt/app.py:1547 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Pulihkan ke …"
 
-#: qt/app.py:547
+#: qt/app.py:559
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Pulihkan berkas atau folder yang dipilih ke sebuah tujuan baru."
 
-#: qt/app.py:552
+#: qt/app.py:564
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 "Pulihkan folder yang saat ini ditampilkan dan semua isinya ke tujuan awal."
 
-#: qt/app.py:557
+#: qt/app.py:569
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
 "Pulihkan folder yang saat ini ditampilkan dan semua isinya ke tujuan baru."
 
-#: qt/app.py:560
+#: qt/app.py:572
 msgid "Up"
 msgstr "Naik"
 
-#: qt/app.py:563 qt/settingsdialog.py:2168
+#: qt/app.py:575 qt/settingsdialog.py:2410
 msgid "Show hidden files"
 msgstr "Tampilkan berkas tersembunyi"
 
-#: qt/app.py:566
+#: qt/app.py:578
 msgid "Compare snapshots…"
 msgstr "Bandingkan snapshot…"
 
-#: qt/app.py:627
+#: qt/app.py:637
+msgid "Back In &Time"
+msgstr ""
+
+#: qt/app.py:642
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:638
+#: qt/app.py:653
 msgid "&Restore"
 msgstr "&Pulihkan"
 
-#: qt/app.py:644
+#: qt/app.py:659
 msgid "&Help"
 msgstr "B&antuan"
 
-#: qt/app.py:761
+#: qt/app.py:794
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -635,60 +657,60 @@ msgstr ""
 "Jika anda menutup jendela ini Back In Time tidak akan mampu mematikan sistem Anda ketika snapshot selesai dibuat.\n"
 "Apakah Anda yakin ingin menutupnya?"
 
-#: qt/app.py:905
+#: qt/app.py:960
 msgid "Working:"
 msgstr "Sedang Bekerja:"
 
-#: qt/app.py:953
+#: qt/app.py:1008
 msgid "Done, no backup needed"
 msgstr "Selesai, backup tidak diperlukan"
 
-#: qt/app.py:962
+#: qt/app.py:1017
 msgid "Working"
 msgstr "Sedang Bekerja"
 
-#: qt/app.py:971 qt/messagebox.py:76
+#: qt/app.py:1026 qt/messagebox.py:78
 msgid "Error"
 msgstr "Kesalahan"
 
-#: qt/app.py:994 qt/qtsystrayicon.py:202
+#: qt/app.py:1049
 msgid "Sent"
 msgstr "Terkirim"
 
-#: qt/app.py:995 qt/qtsystrayicon.py:203
+#: qt/app.py:1050
 msgid "Speed"
 msgstr "Kecepatan"
 
-#: qt/app.py:996 qt/qtsystrayicon.py:204
+#: qt/app.py:1051
 msgid "ETA"
 msgstr "ETA"
 
-#: qt/app.py:1050
+#: qt/app.py:1113
 msgid "Global"
 msgstr "Global"
 
-#: qt/app.py:1051
+#: qt/app.py:1114
 msgid "Root"
 msgstr "Root"
 
-#: qt/app.py:1052
+#: qt/app.py:1115
 msgid "Home"
 msgstr "Home"
 
-#: qt/app.py:1067
+#: qt/app.py:1143
 msgid "Backup folders"
 msgstr "Folder backup"
 
-#: qt/app.py:1155
+#: qt/app.py:1239
 msgid "Snapshot Name"
 msgstr "Nama Snapshot"
 
-#: qt/app.py:1202
+#: qt/app.py:1286
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Anda yakin hendak membuang snapshot ini?"
 
-#: qt/app.py:1294
+#: qt/app.py:1381
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -697,16 +719,16 @@ msgstr ""
 "Buat salinan cadangan dengan {suffix} di belakang\n"
 "sebelum menimpa atau menghapus elemen lokal."
 
-#: qt/app.py:1300 qt/settingsdialog.py:774
-#, python-brace-format
+#: qt/app.py:1388 qt/settingsdialog.py:883
+#, fuzzy, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before restoring.\n"
-"If you don't need them anymore you can remove them with {cmd}"
+"Newer versions of files will be renamed with trailing {suffix} before "
+"restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 "Versi lebih baru dari berkas akan diubah nama dengan tambahan {suffix} di belakang sebelum memulihkan.\n"
 "Jika Anda tidak memerlukannya lagi Anda dapat menghapusnya dengan {cmd}"
 
-#: qt/app.py:1314
+#: qt/app.py:1404
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -716,17 +738,17 @@ msgstr ""
 "lebih baru dari yang ada di tujuan.\n"
 "Gunakan opsi \"rsync --update\"."
 
-#: qt/app.py:1347
+#: qt/app.py:1439
 msgid "Remove newer elements in original folder."
 msgstr "Buang elemen yang lebih baru di folder asal."
 
-#: qt/app.py:1348
+#: qt/app.py:1442
+#, fuzzy
 msgid ""
-"Restore selected files or folders to the original destination and\n"
-"delete files or folders which are not in the snapshot.\n"
-"Be extremely careful because this will\n"
-"delete files and folders which were\n"
-"excluded during taking the snapshot."
+"Restore selected files or folders to the original destination and delete "
+"files or folders which are not in the snapshot. Be extremely careful because"
+" this will delete files and folders which were excluded during taking the "
+"snapshot."
 msgstr ""
 "Pulihkan berkas atau folder yang dipilih ke tujuan asal dan\n"
 "hapus berkas/folder yang tidak ada dalam snapshot.\n"
@@ -734,7 +756,7 @@ msgstr ""
 "menghapus berkas/folder yang dikecualikan\n"
 "pada saat pengambilan snapshot."
 
-#: qt/app.py:1361
+#: qt/app.py:1453
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -746,77 +768,65 @@ msgstr[0] ""
 "Anda yakin ingin memulihkan elemen ini ke dalam folder baru\n"
 "{path}?"
 
-#: qt/app.py:1370
+#: qt/app.py:1462
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Anda yakin ingin memulihkan elemen ini?"
 
-#: qt/app.py:1385
+#: qt/app.py:1477
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Anda yakin ingin membuang semua berkas yang lebih baru dalam {path}?"
 
-#: qt/app.py:1388
+#: qt/app.py:1480
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Anda yakin ingin membuang semua berkas yang lebih baru dalam folder asal?"
 
-#: qt/app.py:1393
+#: qt/app.py:1485
 msgid ""
 "WARNING: Deleting files in filesystem root could break your whole system!"
 msgstr ""
 "PERINGATAN: Menghapus berkas-berkas dalam sistem berkas root dapat merusak "
 "seluruh sistem Anda!"
 
-#: qt/app.py:1623
+#: qt/app.py:1719
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: qt/app.py:1660
+#: qt/app.py:1756
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Pulihkan {path}"
 
-#: qt/app.py:1662
+#: qt/app.py:1758
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Pulihkan {path} ke …"
 
-#: qt/app.py:1819
+#: qt/app.py:1915
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Pengaturan bahasa hanya berlaku setelah memulai ulang Back In Time."
 
-#: qt/app.py:1859 qt/app.py:1876
-msgid "Authors"
-msgstr "Penulis"
-
-#: qt/app.py:1860 qt/app.py:1879
-msgid "Translations"
-msgstr "Terjemahan"
-
-#: qt/app.py:1861 qt/app.py:1882
-msgid "License"
-msgstr "Lisensi"
-
-#: qt/languagedialog.py:29
+#: qt/languagedialog.py:30
 msgid "Setup language"
 msgstr "Siapkan bahasa"
 
-#: qt/languagedialog.py:87
+#: qt/languagedialog.py:92
 msgid "System default"
 msgstr "Baku sistem"
 
-#: qt/languagedialog.py:94
+#: qt/languagedialog.py:99
 msgid "Use operating systems language."
 msgstr "Gunakan bahasa sistem operasi."
 
-#: qt/languagedialog.py:146
+#: qt/languagedialog.py:150
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Diterjemahkan: {percent}"
 
-#: qt/languagedialog.py:184
+#: qt/languagedialog.py:188
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -833,149 +843,181 @@ msgstr ""
 "Maaf atas gangguannya, dan pesan ini tidak akan ditampilkan lagi. Dialog ini tersedia kapan saja melalui menu bantuan.\n"
 "Tim Back In Time"
 
-#: qt/languagedialog.py:216
+#: qt/languagedialog.py:217
 msgid "translation platform"
 msgstr "platform penerjemahan"
 
-#: qt/languagedialog.py:232
+#: qt/languagedialog.py:242
 msgid "Your translation"
 msgstr "Terjemahan Anda"
 
-#: qt/logviewdialog.py:62
+#: qt/logviewdialog.py:66
 msgid "Last Log View"
 msgstr "Tampilan Log Terakhir"
 
-#: qt/logviewdialog.py:64
+#: qt/logviewdialog.py:68
 msgid "Snapshot Log View"
 msgstr "Tampilan Log Snapshot"
 
-#: qt/logviewdialog.py:72 qt/qtsystrayicon.py:76 qt/settingsdialog.py:95
-#: qt/settingsdialog.py:330 qt/settingsdialog.py:2309
-msgid "Profile"
+#: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
+#, fuzzy
+msgid "Profile:"
 msgstr "Profil"
 
-#: qt/logviewdialog.py:80 qt/qttools.py:347 qt/snapshotsdialog.py:99
-msgid "Snapshots"
+#: qt/logviewdialog.py:84
+#, fuzzy
+msgid "Snapshots:"
 msgstr "Snapshot"
 
-#: qt/logviewdialog.py:94
-msgid "Filter"
+#: qt/logviewdialog.py:99
+#, fuzzy
+msgid "Filter:"
 msgstr "Filter"
 
-#: qt/logviewdialog.py:100 qt/settingsdialog.py:815
+#: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
 msgstr "Semua"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:109 qt/settingsdialog.py:814
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:924
 msgid "Changes"
 msgstr "Perubahan"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:108 qt/settingsdialog.py:811
-#: qt/settingsdialog.py:814
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:921
+#: qt/settingsdialog.py:924
 msgid "Errors"
 msgstr "Kesalahan"
 
-#: qt/logviewdialog.py:110 qt/messagebox.py:71
+#: qt/logviewdialog.py:115 qt/messagebox.py:71
 msgid "Information"
 msgstr "Informasi"
 
-#: qt/logviewdialog.py:111
+#: qt/logviewdialog.py:116
 msgid "rsync transfer failures (experimental)"
-msgstr ""
+msgstr "kegagalan transfer rsync (eksperimen)"
 
-#: qt/logviewdialog.py:121
+#: qt/logviewdialog.py:126
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[K] Kesalahan, [I] Informasi, [U] Ubah"
 
-#: qt/logviewdialog.py:124 qt/qtsystrayicon.py:98
+#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:99
 msgid "decode paths"
 msgstr "dekode path"
 
-#: qt/logviewdialog.py:182
-msgid "Copy"
-msgstr "Salin"
-
-#: qt/logviewdialog.py:190
-msgid "Decode"
-msgstr "Dekode"
-
-#: qt/logviewdialog.py:212
-msgid "Do you want to exclude this?"
-msgstr "Apakah Anda ingin mengecualikan ini?"
-
-#: qt/messagebox.py:82 qt/messagebox.py:90
+#: qt/messagebox.py:87 qt/messagebox.py:97
 msgid "Question"
 msgstr "Pertanyaan"
 
-#: qt/qtsystrayicon.py:103
+#: qt/qtsystrayicon.py:77 qt/settingsdialog.py:2589
+msgid "Profile"
+msgstr "Profil"
+
+#: qt/qtsystrayicon.py:104
 msgid "View Last Log"
 msgstr "Lihat Catatan Log Terakhir"
 
-#: qt/qtsystrayicon.py:107
+#: qt/qtsystrayicon.py:108
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Mulai {appname}"
 
-#: qt/qtsystrayicon.py:169
+#: qt/qtsystrayicon.py:174
 msgid "Working…"
 msgstr "Sedang Bekerja…"
 
-#: qt/qttools.py:370
+#: qt/qtsystrayicon.py:205
+#, fuzzy
+msgid "Sent:"
+msgstr "Terkirim"
+
+#: qt/qtsystrayicon.py:206
+#, fuzzy
+msgid "Speed:"
+msgstr "Kecepatan"
+
+#: qt/qtsystrayicon.py:207
+msgid "ETA:"
+msgstr ""
+
+#: qt/qttools.py:400 qt/snapshotsdialog.py:123
+msgid "Snapshots"
+msgstr "Snapshot"
+
+#: qt/qttools.py:423
 msgid "Today"
 msgstr "Hari ini"
 
-#: qt/qttools.py:377
+#: qt/qttools.py:430
 msgid "Yesterday"
 msgstr "Kemarin"
 
-#: qt/qttools.py:386
+#: qt/qttools.py:439
 msgid "This week"
 msgstr "Minggu ini"
 
-#: qt/qttools.py:393
+#: qt/qttools.py:446
 msgid "Last week"
 msgstr "Minggu lalu"
 
-#: qt/qttools.py:539
+#: qt/qttools.py:592
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Ini BUKAN sebuah snapshot melainkan tampilan langsung dari berkas-berkas "
 "lokal Anda"
 
-#: qt/qttools.py:544
+#: qt/qttools.py:597
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Pemeriksaan terakhir {time}"
 
-#: qt/restoredialog.py:60
+#: qt/restoredialog.py:59
 msgid "Show full Log"
 msgstr "Tampilkan log lengkap"
 
-#: qt/settingsdialog.py:87
+#: qt/settingsdialog.py:92
+msgid "SSH Proxy"
+msgstr ""
+
+#: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
+#, fuzzy
+msgid "Host:"
+msgstr "Host"
+
+#: qt/settingsdialog.py:103 qt/settingsdialog.py:282
+#, fuzzy
+msgid "Port:"
+msgstr "Port"
+
+#: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
+#, fuzzy
+msgid "User:"
+msgstr "Pengguna"
+
+#: qt/settingsdialog.py:165
 msgid "Manage profiles"
 msgstr "Kelola profil"
 
-#: qt/settingsdialog.py:104
+#: qt/settingsdialog.py:182
 msgid "Edit"
 msgstr "Sunting"
 
-#: qt/settingsdialog.py:108 qt/settingsdialog.py:566
+#: qt/settingsdialog.py:186 qt/settingsdialog.py:672
 msgid "Add"
 msgstr "Tambah"
 
-#: qt/settingsdialog.py:112 qt/settingsdialog.py:515 qt/settingsdialog.py:584
+#: qt/settingsdialog.py:190 qt/settingsdialog.py:618 qt/settingsdialog.py:690
 msgid "Remove"
 msgstr "Buang"
 
-#: qt/settingsdialog.py:127
+#: qt/settingsdialog.py:205
 msgid "&General"
 msgstr "&Umum"
 
-#: qt/settingsdialog.py:137 qt/settingsdialog.py:2311
-msgid "Mode"
+#: qt/settingsdialog.py:215
+#, fuzzy
+msgid "Mode:"
 msgstr "Mode"
 
-#: qt/settingsdialog.py:152
+#: qt/settingsdialog.py:230
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
@@ -986,47 +1028,38 @@ msgstr ""
 "menemukan beberapa kemungkinan vektor serangan untuk ini. Mohon melihat "
 "\"CATATAN TENTANG KEAMANAN\" dalam \"man backintime\"."
 
-#: qt/settingsdialog.py:163 qt/settingsdialog.py:1922
+#: qt/settingsdialog.py:241 qt/settingsdialog.py:2124
 msgid "Where to save snapshots"
 msgstr "Lokasi penyimpanan snapshot"
 
-#: qt/settingsdialog.py:179
+#: qt/settingsdialog.py:257
 msgid "Folder"
 msgstr "Folder"
 
-#: qt/settingsdialog.py:187
+#: qt/settingsdialog.py:265
 msgid "SSH Settings"
 msgstr "Pengaturan SSH"
 
-#: qt/settingsdialog.py:199 qt/settingsdialog.py:318
-msgid "Host"
-msgstr "Host"
-
-#: qt/settingsdialog.py:204
-msgid "Port"
-msgstr "Port"
-
-#: qt/settingsdialog.py:209 qt/settingsdialog.py:324
-msgid "User"
-msgstr "Pengguna"
-
-#: qt/settingsdialog.py:214
-msgid "Path"
+#: qt/settingsdialog.py:292
+#, fuzzy
+msgid "Path:"
 msgstr "Path"
 
-#: qt/settingsdialog.py:220
-msgid "Cipher"
+#: qt/settingsdialog.py:298
+#, fuzzy
+msgid "Cipher:"
 msgstr "Cipher"
 
-#: qt/settingsdialog.py:226
-msgid "Private Key"
+#: qt/settingsdialog.py:304
+#, fuzzy
+msgid "Private Key:"
 msgstr "Kunci Privat"
 
-#: qt/settingsdialog.py:236
+#: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Pilih berkas kunci privat yang sudah ada (umumnya dinamai \"id_rsa\")"
 
-#: qt/settingsdialog.py:246
+#: qt/settingsdialog.py:325
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
@@ -1034,102 +1067,105 @@ msgstr ""
 "Buat kunci SSH baru tanpa kata sandi (tidak diizinkan jika kunci privat "
 "sudah dipilih)"
 
-#: qt/settingsdialog.py:266 qt/settingsdialog.py:275 qt/settingsdialog.py:281
+#: qt/settingsdialog.py:355 qt/settingsdialog.py:364 qt/settingsdialog.py:370
 msgid "Password"
 msgstr "Kata Sandi"
 
-#: qt/settingsdialog.py:287
+#: qt/settingsdialog.py:376
 msgid "Save Password to Keyring"
 msgstr "Simpan Kata Sandi ke Ring Kunci"
 
-#: qt/settingsdialog.py:291
+#: qt/settingsdialog.py:380
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Singgahkan Kata Sandi untuk Cron (Masalah keamanan: root dapat membaca kata "
 "sandi)"
 
-#: qt/settingsdialog.py:306
+#: qt/settingsdialog.py:395
 msgid "Advanced"
 msgstr "Tingkat Lanjut"
 
-#: qt/settingsdialog.py:336
+#: qt/settingsdialog.py:425
 msgid "Full snapshot path"
 msgstr "Path snapshot lengkap"
 
-#: qt/settingsdialog.py:343
+#: qt/settingsdialog.py:432
 msgid "Schedule"
 msgstr "Jadwal"
 
-#: qt/settingsdialog.py:355
+#: qt/settingsdialog.py:444
 msgid "Disabled"
 msgstr "Dinonaktifkan"
 
-#: qt/settingsdialog.py:356
+#: qt/settingsdialog.py:445
 msgid "At every boot/reboot"
 msgstr "Pada setiap boot/reboot"
 
-#: qt/settingsdialog.py:358 qt/settingsdialog.py:360 qt/settingsdialog.py:362
+#: qt/settingsdialog.py:447 qt/settingsdialog.py:449 qt/settingsdialog.py:451
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Setiap {n} menit"
 
-#: qt/settingsdialog.py:363
+#: qt/settingsdialog.py:452
 msgid "Every hour"
 msgstr "Setiap jam"
 
-#: qt/settingsdialog.py:365 qt/settingsdialog.py:367 qt/settingsdialog.py:369
-#: qt/settingsdialog.py:371
+#: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
+#: qt/settingsdialog.py:460
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Setiap {n} jam"
 
-#: qt/settingsdialog.py:372
+#: qt/settingsdialog.py:461
 msgid "Custom hours"
 msgstr "Waktu Khusus"
 
-#: qt/settingsdialog.py:373
+#: qt/settingsdialog.py:462
 msgid "Every day"
 msgstr "Setiap Hari"
 
-#: qt/settingsdialog.py:374
+#: qt/settingsdialog.py:463
 msgid "Repeatedly (anacron)"
 msgstr "Berulang (anacron)"
 
-#: qt/settingsdialog.py:375
+#: qt/settingsdialog.py:464
 msgid "When drive gets connected (udev)"
 msgstr "Ketika drive tersambung (udev)"
 
-#: qt/settingsdialog.py:376
+#: qt/settingsdialog.py:465
 msgid "Every week"
 msgstr "Setiap minggu"
 
-#: qt/settingsdialog.py:377
+#: qt/settingsdialog.py:466
 msgid "Every month"
 msgstr "Setiap bulan"
 
-#: qt/settingsdialog.py:378
+#: qt/settingsdialog.py:467
 msgid "Every year"
 msgstr "Setiap tahun"
 
-#: qt/settingsdialog.py:383
-msgid "Day"
-msgstr "Hari"
+#: qt/settingsdialog.py:472
+msgid "Day:"
+msgstr ""
 
-#: qt/settingsdialog.py:394
-msgid "Weekday"
+#: qt/settingsdialog.py:483
+#, fuzzy
+msgid "Weekday:"
 msgstr "Hari kerja"
 
-#: qt/settingsdialog.py:409
-msgid "Hour"
+#: qt/settingsdialog.py:498
+#, fuzzy
+msgid "Hour:"
 msgstr "Jam"
 
-#: qt/settingsdialog.py:424
-msgid "Hours"
+#: qt/settingsdialog.py:513
+#, fuzzy
+msgid "Hours:"
 msgstr "Jam"
 
-#: qt/settingsdialog.py:435
+#: qt/settingsdialog.py:524
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1137,27 +1173,28 @@ msgstr ""
 "Jalankan Back In Time secara berulang. Ini berguna bila komputer tidak "
 "dijalankan secara berkala."
 
-#: qt/settingsdialog.py:442
-msgid "Every"
+#: qt/settingsdialog.py:531
+#, fuzzy
+msgid "Every:"
 msgstr "Setiap"
 
-#: qt/settingsdialog.py:456
+#: qt/settingsdialog.py:545
 msgid "Hour(s)"
 msgstr "Jam"
 
-#: qt/settingsdialog.py:457 qt/settingsdialog.py:634
+#: qt/settingsdialog.py:546 qt/settingsdialog.py:742
 msgid "Day(s)"
 msgstr "Hari"
 
-#: qt/settingsdialog.py:458 qt/settingsdialog.py:635
+#: qt/settingsdialog.py:547 qt/settingsdialog.py:743
 msgid "Week(s)"
 msgstr "Minggu"
 
-#: qt/settingsdialog.py:459
+#: qt/settingsdialog.py:548
 msgid "Month(s)"
 msgstr "Bulan"
 
-#: qt/settingsdialog.py:469
+#: qt/settingsdialog.py:558
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
@@ -1165,59 +1202,78 @@ msgstr ""
 "Jalankan Run Back In Time segera setelah drive terhubung (hanya sekali setiap X hari).\n"
 "Anda akan ditanya untuk kata sandi sudo Anda."
 
-#: qt/settingsdialog.py:484
+#: qt/settingsdialog.py:567
+msgid "Enable logging of debug messages"
+msgstr ""
+
+#: qt/settingsdialog.py:571
+msgid "Writes debug-level messages into the system log via \"--debug\"."
+msgstr ""
+
+#: qt/settingsdialog.py:573
+msgid ""
+"Caution: Only use this temporarily for diagnostics, as it generates a large "
+"amount of output."
+msgstr ""
+
+#: qt/settingsdialog.py:586
 msgid "&Include"
 msgstr "&Sertakan"
 
-#: qt/settingsdialog.py:491
+#: qt/settingsdialog.py:593
 msgid "Include files and folders"
 msgstr "Menyertakan berkas dan folder"
 
-#: qt/settingsdialog.py:507 qt/settingsdialog.py:570
+#: qt/settingsdialog.py:610 qt/settingsdialog.py:676
 msgid "Add file"
 msgstr "Tambah berkas"
 
-#: qt/settingsdialog.py:511 qt/settingsdialog.py:574
+#: qt/settingsdialog.py:614 qt/settingsdialog.py:680
 msgid "Add folder"
 msgstr "Tambah folder"
 
-#: qt/settingsdialog.py:521
+#: qt/settingsdialog.py:624
 msgid "&Exclude"
 msgstr "K&ecualikan"
 
-#: qt/settingsdialog.py:528
+#: qt/settingsdialog.py:629
+msgid "Info"
+msgstr ""
+
+#: qt/settingsdialog.py:631
 #, python-brace-format
 msgid ""
-"Wildcards ({example1}) will be ignored with mode 'SSH encrypted'.\n"
-"Only single or double asterisks are allowed ({example2})"
+"In 'SSH encrypted' mode, only single or double asterisks are functional "
+"(e.g. {example2}). Other types of wildcards and patterns will be ignored "
+"(e.g. {example1}).Filenames are unpredictable in this mode due to encryption"
+" by EncFS."
 msgstr ""
-"Wildcard ({example1}) akan diabaikan dengan mode 'SSH terenkripsi'.\n"
-"Hanya tanda bintang tunggal atau ganda yang diizinkan ({example2})"
 
-#: qt/settingsdialog.py:543
+#: qt/settingsdialog.py:652
 msgid "Exclude patterns, files or folders"
 msgstr "Abaikan pola, berkas, atau folder"
 
-#: qt/settingsdialog.py:556
-msgid "Highly recommended"
-msgstr "Sangat direkomendasikan"
-
-#: qt/settingsdialog.py:579
+#: qt/settingsdialog.py:685
 msgid "Add default"
 msgstr "Tambahkan baku"
 
-#: qt/settingsdialog.py:592
-msgid "Exclude files bigger than: "
+#: qt/settingsdialog.py:698
+#, fuzzy
+msgid "Exclude files bigger than:"
 msgstr "Abaikan berkas yang lebih dari: "
 
-#: qt/settingsdialog.py:594
-#, python-format
+#: qt/settingsdialog.py:702
+#, fuzzy, python-brace-format
+msgid "Exclude files bigger than value in {size_unit}."
+msgstr "Abaikan berkas yang lebih dari: "
+
+#: qt/settingsdialog.py:704
+#, fuzzy
 msgid ""
-"Exclude files bigger than value in %(prefix)s.\n"
-"With 'Full rsync mode' disabled this will only affect new files\n"
-"because for rsync this is a transfer option, not an exclude option.\n"
-"So big files that have been backed up before will remain in snapshots\n"
-"even if they have changed."
+"With 'Full rsync mode' disabled, this will only impact new files since for "
+"rsync, this is a transfer option, not an exclusion option. Therefore, large "
+"files that have been backed up previously will persist in snapshots even if "
+"they have been modified."
 msgstr ""
 "Abaikan berkas yang lebih dari nilai di %(prefix)s.\n"
 "Dengan 'Mode rsync lengkap' dimatikan, ini hanya akan mempengaruhi berkas-berkas baru\n"
@@ -1225,212 +1281,236 @@ msgstr ""
 "Maka berkas-berkas besar yang telah dicadangkan sebelumnya akan tetap berada\n"
 "dalam snapshot-snapshot bahkan setelah mereka berubah."
 
-#: qt/settingsdialog.py:616
+#: qt/settingsdialog.py:724
 msgid "&Auto-remove"
 msgstr "Bu&ang Otomatis"
 
-#: qt/settingsdialog.py:622
-msgid "Older than"
+#: qt/settingsdialog.py:730
+#, fuzzy
+msgid "Older than:"
 msgstr "Lebih lama dari"
 
-#: qt/settingsdialog.py:636
+#: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Tahun"
 
-#: qt/settingsdialog.py:644
-msgid "If free space is less than"
+#: qt/settingsdialog.py:752
+#, fuzzy
+msgid "If free space is less than:"
 msgstr "Jika ruang kosong kurang dari"
 
-#: qt/settingsdialog.py:664
-msgid "If free inodes is less than"
+#: qt/settingsdialog.py:772
+#, fuzzy
+msgid "If free inodes is less than:"
 msgstr "Jika inode bebas kurang dari"
 
-#: qt/settingsdialog.py:678
+#: qt/settingsdialog.py:786
 msgid "Smart remove:"
 msgstr "Penghapusan pintar:"
 
-#: qt/settingsdialog.py:689
+#: qt/settingsdialog.py:797
 msgid "Run in background on remote host."
 msgstr "Jalankan di latar belakang pada host jarak jauh."
 
-#: qt/settingsdialog.py:690
+#: qt/settingsdialog.py:798
 msgid "EXPERIMENTAL"
 msgstr "EKSPERIMENTAL"
 
-#: qt/settingsdialog.py:696
+#: qt/settingsdialog.py:804
 msgid "Keep all snapshots for the last"
 msgstr "Simpan semua snapshot selama"
 
-#: qt/settingsdialog.py:700 qt/settingsdialog.py:707
+#: qt/settingsdialog.py:808 qt/settingsdialog.py:815
 msgid "day(s)."
 msgstr "hari terakhir."
 
-#: qt/settingsdialog.py:703
+#: qt/settingsdialog.py:811
 msgid "Keep one snapshot per day for the last"
 msgstr "Simpan satu snapshot tiap hari selama"
 
-#: qt/settingsdialog.py:710
+#: qt/settingsdialog.py:818
 msgid "Keep one snapshot per week for the last"
 msgstr "Simpan satu snapshot tiap minggu selama"
 
-#: qt/settingsdialog.py:714
+#: qt/settingsdialog.py:822
 msgid "week(s)."
 msgstr "minggu terakhir."
 
-#: qt/settingsdialog.py:717
+#: qt/settingsdialog.py:825
 msgid "Keep one snapshot per month for the last"
 msgstr "Simpan satu snapshot tiap bulan selama"
 
-#: qt/settingsdialog.py:721
+#: qt/settingsdialog.py:829
 msgid "month(s)."
 msgstr "bulan terakhir."
 
-#: qt/settingsdialog.py:724
+#: qt/settingsdialog.py:832
 msgid "Keep one snapshot per year for all years."
 msgstr "Simpan satu snapshot tiap tahun untuk semua tahun."
 
-#: qt/settingsdialog.py:733
+#: qt/settingsdialog.py:841
 msgid "Don't remove named snapshots."
 msgstr "Jangan buang snapshot yang telah dinamai."
 
-#: qt/settingsdialog.py:745
+#: qt/settingsdialog.py:853
 msgid "&Options"
 msgstr "&Opsi"
 
-#: qt/settingsdialog.py:750
+#: qt/settingsdialog.py:858
 msgid "Enable notifications"
 msgstr "Fungsikan pemberitahuan"
 
-#: qt/settingsdialog.py:754
+#: qt/settingsdialog.py:862
 msgid "Disable snapshots when on battery"
 msgstr "Matikan snapshot ketika menggunakan baterai"
 
-#: qt/settingsdialog.py:758
+#: qt/settingsdialog.py:866
 msgid "Power status not available from system"
 msgstr "Status daya tidak tersedia dari sistem"
 
-#: qt/settingsdialog.py:761
+#: qt/settingsdialog.py:869
 msgid "Run only one snapshot at a time"
 msgstr "Jalankan hanya satu snapshot pada suatu saat"
 
-#: qt/settingsdialog.py:763
+#: qt/settingsdialog.py:872
+#, fuzzy
 msgid ""
-"Other snapshots will be blocked until the current snapshot is done.\n"
-"This is a global option. So it will affect all profiles for this user.\n"
-"But you need to activate this for all other users, too."
+"Other snapshots will be blocked until the current snapshot is done. This is "
+"a global option. So it will affect all profiles for this user. But you need "
+"to activate this for all other users, too."
 msgstr ""
 "Snapshot-snapshot lain akan diblok hingga snapshot yang sekarang berjalan selesai.\n"
 "Ini adalah pilihan global. Jadi ini akan mempengaruhi semua profil untuk pengguna ini.\n"
 "Tetapi Anda harus mengaktifkan ini untuk pengguna lainnya juga."
 
-#: qt/settingsdialog.py:772
+#: qt/settingsdialog.py:880
 msgid "Backup replaced files on restore"
 msgstr "Backup menggantikan berkas-berkas saat pemulihan"
 
-#: qt/settingsdialog.py:785
+#: qt/settingsdialog.py:895
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
 "Lanjukan saat ada kesalahan (simpan snapshot-snapshot yang tidak lengkap)"
 
-#: qt/settingsdialog.py:789
+#: qt/settingsdialog.py:899
 msgid "Use checksum to detect changes"
 msgstr "Gunakan checksum untuk mendeteksi perubahan"
 
-#: qt/settingsdialog.py:793
+#: qt/settingsdialog.py:903
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "Ambil snapshot baru walaupun ada perubahan atau tidak."
 
-#: qt/settingsdialog.py:800
-msgid "Log Level"
+#: qt/settingsdialog.py:910
+#, fuzzy
+msgid "Log Level:"
 msgstr "Level Log"
 
-#: qt/settingsdialog.py:805
+#: qt/settingsdialog.py:915
 msgid "None"
 msgstr "Nihil"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:935
 msgid "E&xpert Options"
 msgstr "Opsi Tingkat &Lanjut"
 
-#: qt/settingsdialog.py:830
+#: qt/settingsdialog.py:940
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Hati-hati: Ubah opsi ini hanya jika Anda benar-benar tahu apa yang Anda "
 "lakukan."
 
-#: qt/settingsdialog.py:835 qt/settingsdialog.py:851 qt/settingsdialog.py:873
+#: qt/settingsdialog.py:945 qt/settingsdialog.py:961 qt/settingsdialog.py:983
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Jalankan 'rsync' dengan '{cmd}':"
 
-#: qt/settingsdialog.py:842 qt/settingsdialog.py:858
+#: qt/settingsdialog.py:952 qt/settingsdialog.py:968
 msgid "as cron job"
 msgstr "sebagai cron job"
 
-#: qt/settingsdialog.py:847 qt/settingsdialog.py:868 qt/settingsdialog.py:889
+#: qt/settingsdialog.py:957 qt/settingsdialog.py:978 qt/settingsdialog.py:999
 msgid "on remote host"
 msgstr "pada host jarak jauh"
 
-#: qt/settingsdialog.py:863
+#: qt/settingsdialog.py:973
 msgid "when taking a manual snapshot"
 msgstr "ketika mengambil snapshot manual"
 
-#: qt/settingsdialog.py:876
+#: qt/settingsdialog.py:986
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Mohon pasang 'nocache' untuk mengaktifkan opsi ini)"
 
-#: qt/settingsdialog.py:883
+#: qt/settingsdialog.py:993
 msgid "on local machine"
 msgstr "pada mesin lokal"
 
-#: qt/settingsdialog.py:894
+#: qt/settingsdialog.py:1004
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Arahkan ulang stdout ke /dev/null dalam cronjobs."
 
-#: qt/settingsdialog.py:903
+#: qt/settingsdialog.py:1009
+msgid ""
+"Cron will automatically send an email with attached output of cronjobs if an"
+" MTA is installed."
+msgstr ""
+
+#: qt/settingsdialog.py:1015
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Arahkan ulang stderr ke /dev/null dalam cronjobs."
 
-#: qt/settingsdialog.py:915
+#: qt/settingsdialog.py:1020
+msgid ""
+"Cron will automatically send an email with attached errors of cronjobs if an"
+" MTA is installed."
+msgstr ""
+
+#: qt/settingsdialog.py:1029
 msgid "Limit rsync bandwidth usage"
 msgstr "Batasi penggunaan bandwidth rsync"
 
-#: qt/settingsdialog.py:918
+#: qt/settingsdialog.py:1032
 msgid "KB/sec"
 msgstr "KB/detik"
 
-#: qt/settingsdialog.py:956
+#: qt/settingsdialog.py:1076
 msgid "Preserve ACL"
 msgstr "Pertahankan ACL"
 
-#: qt/settingsdialog.py:971
+#: qt/settingsdialog.py:1094
 msgid "Preserve extended attributes (xattr)"
 msgstr "Pertahankan atribut tambahan (xattr)"
 
-#: qt/settingsdialog.py:991
+#: qt/settingsdialog.py:1117
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Salin tautan yang tidak aman (hanya bisa untuk tautan absolut)"
 
-#: qt/settingsdialog.py:1024
+#: qt/settingsdialog.py:1153
+msgid "Restrict to one file system"
+msgstr ""
+
+#: qt/settingsdialog.py:1173
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Opsi harus diapit tanda kutip mis.: {example}."
 
-#: qt/settingsdialog.py:1027
+#: qt/settingsdialog.py:1176
 msgid "Paste additional options to rsync"
 msgstr "Tempelkan opsi tambahan ke rsync"
 
-#: qt/settingsdialog.py:1042
-#, python-format
+#: qt/settingsdialog.py:1190
+msgid "Add prefix to SSH commands"
+msgstr "Tambahkan prefiks ke perintah-perintah SSH"
+
+#: qt/settingsdialog.py:1192
+msgid "Prefix to run before every command on remote host."
+msgstr ""
+
+#: qt/settingsdialog.py:1193
+#, fuzzy, python-brace-format
 msgid ""
-"Prefix to run before every command on remote host.\n"
-"Variables need to be escaped with \\$FOO.\n"
-"This doesn't touch rsync. So to add a prefix\n"
-"for rsync use \"%(cbRsyncOptions)s\" with\n"
-"%(rsync_options_value)s\n"
-"\n"
-"%(default)s: %(def_value)s"
+"Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
+"add a prefix for rsync use \"{example_value}\" with {rsync_options_value}"
 msgstr ""
 "Awalan untuk dijalankan sebelum setiap perintah pada host jarak jauh.\n"
 "Variabel perlu di-escape dengan \\$FOO.\n"
@@ -1440,65 +1520,69 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1050 qt/settingsdialog.py:2069
+#: qt/settingsdialog.py:1201 qt/settingsdialog.py:2332
 msgid "default"
 msgstr "baku"
 
-#: qt/settingsdialog.py:1052
-msgid "Add prefix to SSH commands"
-msgstr "Tambahkan prefiks ke perintah-perintah SSH"
-
-#: qt/settingsdialog.py:1065
+#: qt/settingsdialog.py:1216
 msgid "Check if remote host is online"
 msgstr "Periksa apakah host jarak jauh sedang daring"
 
-#: qt/settingsdialog.py:1067
+#: qt/settingsdialog.py:1219
+#, fuzzy
 msgid ""
-"Warning: if disabled and the remote host\n"
-"is not available, this could lead to some\n"
-"weird errors."
+"Warning: if disabled and the remote host is not available, this could lead "
+"to some weird errors."
 msgstr ""
 "Peringatan: jika dimatikan dan host jarak jauh\n"
 "tidak tersedia, ini dapat menyebabkan\n"
 "kesalahan yang aneh."
 
-#: qt/settingsdialog.py:1071
+#: qt/settingsdialog.py:1223
 msgid "Check if remote host supports all necessary commands"
 msgstr ""
 "Periksa apakah host jarak jauh mendukung semua perintah yang diperlukan"
 
-#: qt/settingsdialog.py:1073
+#: qt/settingsdialog.py:1226
+#, fuzzy
 msgid ""
-"Warning: if disabled and the remote host\n"
-"does not support all necessary commands,\n"
-"this could lead to some weird errors."
+"Warning: if disabled and the remote host does not support all necessary "
+"commands, this could lead to some weird errors."
 msgstr ""
 "Peringatan: jika dimatikan dan host jarak jauh\n"
 "tidak mendukung semua perintah yang dibutuhkan,\n"
 "ini dapat menyebabkan beberapa kesalahan aneh."
 
-#: qt/settingsdialog.py:1089
+#: qt/settingsdialog.py:1242
 msgid "Restore Config"
 msgstr "Pulihkan Konfigurasi"
 
-#: qt/settingsdialog.py:1091
+#: qt/settingsdialog.py:1244
 msgid "Edit user-callback"
 msgstr "Sunting user-callback"
 
-#: qt/settingsdialog.py:1109
+#: qt/settingsdialog.py:1262
 msgid "New profile"
 msgstr "Profil baru"
 
-#: qt/settingsdialog.py:1126
+#: qt/settingsdialog.py:1279
 msgid "Rename profile"
 msgstr "Ubah nama profil"
 
-#: qt/settingsdialog.py:1142
+#: qt/settingsdialog.py:1295
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Anda yakin ingin menghapus profil \"{name}\" ?"
 
-#: qt/settingsdialog.py:1416
+#: qt/settingsdialog.py:1399
+msgid "(All recommendations already included.)"
+msgstr ""
+
+#: qt/settingsdialog.py:1403
+msgid "Highly recommended"
+msgstr "Sangat direkomendasikan"
+
+#: qt/settingsdialog.py:1599
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1506,7 +1590,7 @@ msgstr ""
 "Jam ubahan hanya dapat berupa daftar jam yang dipisah koma (contoh: "
 "8,12,18,23) atau */3 untuk backup terjadwal setiap 3 jam."
 
-#: qt/settingsdialog.py:1458
+#: qt/settingsdialog.py:1645
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1514,12 +1598,12 @@ msgstr ""
 "Anda tidak memilih berkas kunci privat untuk SSH.\n"
 "Apakah Anda ingin membuat pasangan baru kunci publik/privat tanpa kata sandi?"
 
-#: qt/settingsdialog.py:1469
+#: qt/settingsdialog.py:1656
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Berkas kunci privat \"{file}\" tidak ada."
 
-#: qt/settingsdialog.py:1621
+#: qt/settingsdialog.py:1811
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1527,7 +1611,7 @@ msgstr ""
 "Apakah Anda ingin menyalin kunci publik SSH Anda ke\n"
 "host jarak jauh untuk mengaktifkan login tanpa kata sandi?"
 
-#: qt/settingsdialog.py:1649
+#: qt/settingsdialog.py:1842
 #, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
@@ -1538,7 +1622,7 @@ msgstr ""
 "\n"
 "sidik jari kunci {keytype} adalah:"
 
-#: qt/settingsdialog.py:1659
+#: qt/settingsdialog.py:1852
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
@@ -1546,23 +1630,23 @@ msgstr ""
 "Mohon memeriksa sidik jari ini! Apakah Anda ingin menambahkannya ke dalam "
 "berkas 'known_hosts' Anda?"
 
-#: qt/settingsdialog.py:1822
+#: qt/settingsdialog.py:2024
 msgid "Exclude pattern"
 msgstr "Abaikan pola"
 
-#: qt/settingsdialog.py:1835
+#: qt/settingsdialog.py:2037
 msgid "Exclude file"
 msgstr "Abaikan berkas"
 
-#: qt/settingsdialog.py:1839
+#: qt/settingsdialog.py:2041
 msgid "Exclude folder"
 msgstr "Abaikan folder"
 
-#: qt/settingsdialog.py:1863
+#: qt/settingsdialog.py:2065
 msgid "Include file"
 msgstr "Sertakan berkas"
 
-#: qt/settingsdialog.py:1872 qt/settingsdialog.py:1902
+#: qt/settingsdialog.py:2074 qt/settingsdialog.py:2104
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1571,59 +1655,70 @@ msgstr ""
 "\"{path}\" adalah sebuah symlink. Tujuan yang ditaut tidak akan dicadangkan hingga Anda juga menyertakannya.\n"
 "Apakah Anda ingin menyertakan tujuan yang di-symlink sebagai penggnti?"
 
-#: qt/settingsdialog.py:1893
+#: qt/settingsdialog.py:2095
 msgid "Include folder"
 msgstr "Sertakan folder"
 
-#: qt/settingsdialog.py:1930
+#: qt/settingsdialog.py:2132
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Anda yakin ingin mengubah folder snapshot?"
 
-#: qt/settingsdialog.py:1955
+#: qt/settingsdialog.py:2157
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Gagal membuat kunci SSH baru dalam {path}"
 
-#: qt/settingsdialog.py:2014
+#: qt/settingsdialog.py:2237
 msgid "Full snapshot path: "
 msgstr "Path snapshot lengkap: "
 
-#: qt/settingsdialog.py:2064
+#: qt/settingsdialog.py:2265
+msgid ""
+"Disabled because this pattern is not functional in mode 'SSH encrypted'."
+msgstr ""
+
+#: qt/settingsdialog.py:2327
 msgid "enabled"
 msgstr "difungsikan"
 
-#: qt/settingsdialog.py:2067
+#: qt/settingsdialog.py:2330
 msgid "disabled"
 msgstr "dinonaktifkan"
 
-#: qt/settingsdialog.py:2112
-msgid "Restore Settings"
-msgstr "Pulihkan Pengaturan"
-
-#: qt/settingsdialog.py:2125
-#, python-brace-format
-msgid ""
-"Please navigate to the snapshot from which you want to restore {appName}'s configuration. The path may look like:\n"
-"{samplePath}\n"
-"\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to manually mount them first. If you use Mode SSH you also may need to set up public key login to the remote host.\n"
-"Take a look at 'man backintime'."
+#: qt/settingsdialog.py:2375
+msgid "Import configuration"
 msgstr ""
-"Mohon navigasi ke snapshot sumber pemulihan konfigurasi dari {appName}. Path mungkin tampak sebagai berikut:\n"
-"{samplePath}\n"
-"\n"
-"Jika snapshot Anda ada pada drive jarak jauh atau bila mereka terenkipsi Anda harus memasang mereka secara manual dahulu. Jika Anda menggunakan Mode SSH Anda mungkin juga butuh untuk mengatur kunci publik untuk login ke host jarak jauh.\n"
-"Lihat pada 'man backintime'."
 
-#: qt/settingsdialog.py:2187 qt/settingsdialog.py:2252
+#: qt/settingsdialog.py:2431 qt/settingsdialog.py:2527
 msgid "No config found"
 msgstr "Konfigurasi tidak ditemukan"
 
-#: qt/settingsdialog.py:2459
+#: qt/settingsdialog.py:2456
+msgid "Import"
+msgstr ""
+
+#: qt/settingsdialog.py:2484
+#, python-brace-format
+msgid ""
+"Select the snapshot folder from which the configuration file should be "
+"imported. The path may look like: {samplePath}"
+msgstr ""
+
+#: qt/settingsdialog.py:2489
+msgid ""
+"If the folder is located on an external or remote drive, it must be manually"
+" mounted beforehand."
+msgstr ""
+
+#: qt/settingsdialog.py:2591
+msgid "Mode"
+msgstr "Mode"
+
+#: qt/settingsdialog.py:2739
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "skrip user-callback tidak memiliki baris shebang (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2466
+#: qt/settingsdialog.py:2746
 msgid "Shebang in user-callback script is not executable."
 msgstr "Shebang dalam skrip user-callback tidak dapat dijalankan."
 
@@ -1636,275 +1731,87 @@ msgid "Command"
 msgstr "Perintah"
 
 #: qt/snapshotsdialog.py:62
-msgid "Parameters"
+#, fuzzy
+msgid "Parameters:"
 msgstr "Parameter"
 
-#: qt/snapshotsdialog.py:66
+#: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
 msgstr "Gunakan %1 dan %2 untuk parameter path"
 
-#: qt/snapshotsdialog.py:110
+#: qt/snapshotsdialog.py:84
+msgid "Please set a diff command or press Cancel."
+msgstr ""
+
+#: qt/snapshotsdialog.py:90
+#, python-brace-format
+msgid ""
+"The command \"{cmd}\" can not be found on this system. Please try something "
+"else or press Cancel."
+msgstr ""
+
+#: qt/snapshotsdialog.py:98
+#, python-brace-format
+msgid "No parameters set for the diff command. Using default value \"{params}\"."
+msgstr ""
+
+#: qt/snapshotsdialog.py:134
 msgid "Differing snapshots only"
 msgstr "Hanya snapshot yang berbeda"
 
-#: qt/snapshotsdialog.py:118
+#: qt/snapshotsdialog.py:142
 msgid "List only equal snapshots to: "
 msgstr "Hanya cantumkan daftar snapshot yang sama dengan: "
 
-#: qt/snapshotsdialog.py:129
+#: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"
 msgstr "Pemeriksaan mendalam (lebih akurat, tetapi lambat)"
 
-#: qt/snapshotsdialog.py:150
+#: qt/snapshotsdialog.py:174
 msgid "Delete"
 msgstr "Hapus"
 
-#: qt/snapshotsdialog.py:154
+#: qt/snapshotsdialog.py:178
 msgid "Select All"
 msgstr "Pilih Semua"
 
-#: qt/snapshotsdialog.py:167
+#: qt/snapshotsdialog.py:191
 msgid "Compare"
 msgstr "Bandingkan"
 
-#: qt/snapshotsdialog.py:178
+#: qt/snapshotsdialog.py:203
 msgid "Go To"
 msgstr "Pergi Ke"
 
-#: qt/snapshotsdialog.py:179
+#: qt/snapshotsdialog.py:204
 msgid "Options"
 msgstr "Opsi"
 
-#: qt/snapshotsdialog.py:330
+#: qt/snapshotsdialog.py:355
 msgid "You can't compare a snapshot to itself."
 msgstr "Anda tidak bisa membandingkan sebuah snapshot dengan dirinya sendiri."
 
-#: qt/snapshotsdialog.py:338
-msgid "Command not found"
-msgstr "Perintah tidak ditemukan"
-
-#: qt/snapshotsdialog.py:369
+#: qt/snapshotsdialog.py:398
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr ""
 "Apakah Anda yakin ingin menghapus \"{file}\" dalam snapshot "
 "\"{snapshot_id}\"?"
 
-#: qt/snapshotsdialog.py:375
+#: qt/snapshotsdialog.py:404
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Apakah Anda yakin ingin menghapus \"{file}\" dalam {count} snapshot?"
 
-#: qt/snapshotsdialog.py:380
+#: qt/snapshotsdialog.py:409
 msgid "This cannot be revoked!"
 msgstr "Ini tidak dapat dibatalkan!"
 
-#: qt/snapshotsdialog.py:380
+#: qt/snapshotsdialog.py:409
 msgid "WARNING"
 msgstr "PERINGATAN"
 
-#: qt/snapshotsdialog.py:396
+#: qt/snapshotsdialog.py:427
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jangan ikutkan \"{path}\" dari snapshot mendatang?"
-
-#~ msgid " and add your user to group 'fuse'"
-#~ msgstr " dan tambahkan user anda pada grup 'fuse'"
-
-#, python-format
-#~ msgid ""
-#~ "\"%s\" is a symlink. The linked target will not be backed up until you include it, too.\n"
-#~ "Would you like to include the symlinks target instead?"
-#~ msgstr ""
-#~ "\"%s\" adalah sebuah symlink. Tujuan yand dihubungkan tidak akan dibackup hingga anda memasukkannya juga.\n"
-#~ "Apakah anda ingin memasukkan symlinks tujuan?"
-
-#~ msgid ""
-#~ "### This log has been decoded with automatic search pattern\n"
-#~ "### If some paths are not decoded you can manually decode them with:\n"
-#~ msgstr ""
-#~ "### Catatan ini telah di decode dengan pencarian pola otomatis\n"
-#~ "### Jika ada beberapa jalur yang tidak didecode anda dapat mendecodenya secara manual menggunakan:\n"
-
-#, python-format
-#~ msgid ""
-#~ "%(user)s is not member of group 'fuse'.\n"
-#~ " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
-#~ "Look at 'man backintime' for further instructions."
-#~ msgstr ""
-#~ "%(user)s bukan merupakan anggota dari grup 'fuse'.\n"
-#~ " Jalankan 'sudo adduser %(user)s fuse'. Untuk menerapkan perubahan silahkan logout dan login kembali.\n"
-#~ "Lihat pada 'man backintime' untuk instruksi lebih lanjut."
-
-#, python-format
-#~ msgid "%s not found in ssh_known_hosts."
-#~ msgstr "%s tidak ditemukan dalam ssh_known_hosts."
-
-#~ msgid "&Snapshot"
-#~ msgstr "&Snapshot"
-
-#~ msgid "&View"
-#~ msgstr "&Tampilan"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "3DES-CBC"
-#~ msgstr "3DES-CBC"
-
-#~ msgid "AES128-CBC"
-#~ msgstr "AES128-CBC"
-
-#~ msgid "AES128-CTR"
-#~ msgstr "AES128-CTR"
-
-#~ msgid "AES192-CBC"
-#~ msgstr "AES192-CBC"
-
-#~ msgid "AES192-CTR"
-#~ msgstr "AES192-CTR"
-
-#~ msgid "AES256-CBC"
-#~ msgstr "AES256-CBC"
-
-#~ msgid "AES256-CTR"
-#~ msgstr "AES256-CTR"
-
-#~ msgid "ARCFOUR"
-#~ msgstr "ARCFOUR"
-
-#~ msgid "ARCFOUR128"
-#~ msgstr "ARCFOUR128"
-
-#~ msgid "ARCFOUR256"
-#~ msgstr "ARCFOUR256"
-
-#~ msgid "Blowfish-CBC"
-#~ msgstr "Blowfish-CBC"
-
-#~ msgid "Cast128-CBC"
-#~ msgstr "Cast128-CBC"
-
-#~ msgid "Changes & Errors"
-#~ msgstr "Perubahan dan Kesalahan"
-
-#~ msgid "Config File Help"
-#~ msgstr "Bantuan File Pengaturan"
-
-#~ msgid "Diff"
-#~ msgstr "Bandingkan"
-
-#~ msgid "Diff Options"
-#~ msgstr "Pilihan Perbandingan"
-
-#~ msgid "Error:"
-#~ msgstr "Kesalahan:"
-
-#~ msgid "Every 10 minutes"
-#~ msgstr "Setiap 10 menit"
-
-#~ msgid "Every 12 hours"
-#~ msgstr "Setiap 12 jam"
-
-#~ msgid "Every 30 minutes"
-#~ msgstr "Setiap 30 menit"
-
-#~ msgid "Every 4 hours"
-#~ msgstr "Setiap 4 jam"
-
-#~ msgid "Every 5 minutes"
-#~ msgstr "Setiap 5 menit"
-
-#~ msgid "Every 6 hours"
-#~ msgstr "Setiap 6 jam"
-
-#~ msgid ""
-#~ "Full system backup can only create a snapshot to be restored to the same physical disk(s) with the same disk partitioning as from the source; restoring to new physical disks or the same disks with different partitioning will yield a potentially broken and unusable system.\n"
-#~ "\n"
-#~ "Full system backup will override some settings that may have been customized. Continue?"
-#~ msgstr ""
-#~ "System backup menyeluruh hanya dapat membuat sebuah snapshot untuk dipulihkan pada disk fisik dengan partisi disk yang sama dengan asalnya; memulihkan pada disk fisik atau disk yang sama dengan partisi yang berbeda akan menyebabkan kemungkinan system yang rusak dan tidak dapat digunakan.\n"
-#~ "\n"
-#~ "System backup menyeluruh akan menulis di atas beberapa settingan yang telah dikustomkan. Lanjutkan?"
-
-#, python-format
-#~ msgid ""
-#~ "Hash collision occurred in hash_id %s. Incrementing global value "
-#~ "hash_collision and try again."
-#~ msgstr ""
-#~ "Tabrakan hash muncul pada hash_id %s. Naikkan nilai global hash_collision "
-#~ "dan cobalah lagi."
-
-#~ msgid "Local encrypted"
-#~ msgstr "Terenkripsi secara lokal"
-
-#~ msgid "Modify for Full System Backup"
-#~ msgstr "Ubah untuk System Backup Menyeluruh"
-
-#~ msgid "Mountprocess lock timeout"
-#~ msgstr "Kunci proses mount telah habis"
-
-#, python-format
-#~ msgid ""
-#~ "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
-#~ "backintime' for further instructions."
-#~ msgstr ""
-#~ "Otentikasi tak bersandi untuk %(user)s@%(host)s gagal. Lihat pada 'man "
-#~ "backintime' untuk instruksi lebih lanjut."
-
-#, python-format
-#~ msgid "Ping %s failed. Host is down or wrong address."
-#~ msgstr "Ping %s gagal. Host sedang down atau alamatnya salah."
-
-#, fuzzy, python-brace-format
-#~ msgid "Profile: {name}"
-#~ msgstr "Profil: \"{name}\""
-
-#, python-format
-#~ msgid "Restore '%s'"
-#~ msgstr "Memulihkan '%s'"
-
-#, python-format
-#~ msgid "Restore '%s' to ..."
-#~ msgstr "Pulihan '%s' ke ..."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Restore selected file or folder.\n"
-#~ "If this button is grayed out this is most likely because \"{now}\" is selected in left hand snapshots list."
-#~ msgstr ""
-#~ "Kembalikan file atau folder yang telah dipilih.\n"
-#~ "Jika tombol ini abu-abu ini karena \"{now}\" dipilih di bagian kiri dari daftar snapshot."
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Settings"
-#~ msgstr "Pengaturan"
-
-#, python-format
-#~ msgid "Snapshot: %s"
-#~ msgstr "Snapshot: %s"
-
-#, fuzzy
-#~ msgid "View the current disk contents"
-#~ msgstr "Tampilkan isi disk ini"
-
-#, fuzzy, python-brace-format
-#~ msgid "View the snapshot made at {timestamp}"
-#~ msgstr "Lihat snapshot yang dibuat pada {timestamp}"
-
-#~ msgid "WITH ERRORS !"
-#~ msgstr "DENGAN KESALAHAN !"
-
-#~ msgid "Working..."
-#~ msgstr "Sedang Bekerja..."
-
-#~ msgid "You can't include backup folder!"
-#~ msgstr "Anda tidak boleh menyertakan folder backup!"
-
-#~ msgid "You can't include backup sub-folder!"
-#~ msgstr "Anda tidak boleh menyertakan sub-folder backup !"
-
-#~ msgid "You can't remove the last profile!"
-#~ msgstr "Anda tidak boleh menghapus profil terakhir !"

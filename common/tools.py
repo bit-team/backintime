@@ -1803,14 +1803,16 @@ def writeCrontab(lines):
                                 stderr = subprocess.PIPE,
                                 universal_newlines = True)
         out, err = proc.communicate()
+
     if proc.returncode or err:
-        logger.error('Failed to write lines to crontab: %s, %s'
-                     %(proc.returncode, err))
+        logger.error(
+            f'Failed to write lines to crontab: {proc.returncode}, {err}')
         return False
+
     else:
-        logger.debug('Wrote %s lines to user crontab'
-                     %len(lines))
+        logger.debug(f'Wrote {len(lines)} lines to user crontab')
         return True
+
 
 def splitCommands(cmds, head = '', tail = '', maxLength = 0):
     """
@@ -1840,35 +1842,29 @@ def splitCommands(cmds, head = '', tail = '', maxLength = 0):
         s += tail
         yield s
 
-def isIPv6Address(address):
-    """
-    Check if ``address`` is a valid IPv6 address.
-
-    Args:
-        address (str):  address that should get tested
-
-    Returns:
-        bool:           True if ``address`` is a valid IPv6 address
-    """
-    try:
-        return isinstance(ipaddress.IPv6Address(address), ipaddress.IPv6Address)
-    except:
-        return False
 
 def escapeIPv6Address(address):
-    """
-    Escape IPv6 Addresses with square brackets ``[]``.
+    """Escape IP addresses with square brackets ``[]`` if they are IPv6.
+
+    If it is an IPv4 address or a hostname (lettersonly) nothing is changed.
 
     Args:
-        address (str):  address that should be escaped
+        address (str): IP-Address to escape if needed.
 
     Returns:
-        str:            ``address`` in square brackets
+        str: The address, escaped if it is IPv6.
     """
-    if isIPv6Address(address):
-        return '[{}]'.format(address)
-    else:
+    try:
+        ip = ipaddress.ip_address(address)
+    except ValueError:
+        # invalid IP, e.g. a hostname
         return address
+
+    if ip.version == 6:
+        return f'[{address}]'
+
+    return address
+
 
 def camelCase(s):
     """
