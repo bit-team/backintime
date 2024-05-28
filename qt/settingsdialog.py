@@ -784,7 +784,7 @@ class SettingsDialog(QDialog):
         self.cbFreeInodes.stateChanged.connect(enabled)
 
         # smart remove
-        self.cbSmartRemove = QCheckBox(_('Smart remove:'), self)
+        self.cbSmartRemove = QCheckBox(_('Smart removal:'), self)
         layout.addWidget(self.cbSmartRemove, 3, 0)
 
         widget = QWidget(self)
