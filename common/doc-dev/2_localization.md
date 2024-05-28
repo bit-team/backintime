@@ -206,7 +206,7 @@ Just `commit` the changes to the repository.
 Keep in mind: To make the translation appear in the running _Back In Time_ the `po` files need be compiled to `mo` files. This is done in the build (packaging) and install process which is described [elsewhere](../../CONTRIBUTING.md#build--install).
 
 # Instructions for the translation process
-## Considere Right-to-Left (RTL) and Bidiretional (BIDI) languages
+## Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages
 
 In short: Always include punctuation marks (e.g. colons) in the strings to
 translate.
