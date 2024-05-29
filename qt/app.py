@@ -791,9 +791,10 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
-            msg = _('If you close this window Back In Time will not be able '
-                    'to shut down your system when the snapshot has finished.'
-                    '\nDo you really want to close?')
+            msg = _('If you close this window, Back In Time will not be able '
+                    'to shut down your system when the snapshot is finished.')
+            msg = msg + '\n'
+            msg = msg + _('Do you really want to close it?')
             answer = messagebox.warningYesNo(self, msg)
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
@@ -1479,11 +1480,14 @@ class MainWindow(QMainWindow):
         else:
             msg = _('Are you sure you want to remove all newer files in your '
                     'original folder?')
+
         if warnRoot:
-            msg = '{}\n\n{}'.format(
-                msg,
-                _('WARNING: Deleting files in filesystem root could break '
-                  'your whole system!'))
+            msg = f'<p>{msg}</p><p>'
+            msg = msg + _(
+                '{BOLD}Warning{BOLDEND}: Deleting files in the filesystem '
+                'root could break your entire system.').format(
+                    BOLD='<strong>', BOLDEND='</strong>')
+            msg = msg + '</p>'
 
         answer = messagebox.warningYesNo(self, msg)
 

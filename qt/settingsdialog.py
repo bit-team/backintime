@@ -2736,14 +2736,14 @@ class EditUserCallback(QDialog):
             logger.error(
                 'user-callback script has no shebang (#!/bin/sh) line.')
             self.config.errorHandler(
-                _('user-callback script has no shebang (#!/bin/sh) line.'))
+                'user-callback script has no shebang (#!/bin/sh) line.')
 
             return False
 
         if not tools.checkCommand(m.group(1)):
             logger.error('Shebang in user-callback script is not executable.')
-            self.config.errorHandler(
-                _('Shebang in user-callback script is not executable.'))
+            self.config.errorHandle(
+                'Shebang in user-callback script is not executable.')
 
             return False
 
