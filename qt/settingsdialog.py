@@ -1645,9 +1645,10 @@ class SettingsDialog(QDialog):
 
             if not self.txtSshPrivateKeyFile.text():
 
-                question = _('You did not choose a private key file for '
-                             'SSH.\nWould you like to generate a new '
-                             'password-less public/private key pair?')
+                question = '{}\n{}'.format(
+                        _('You did not choose a private key file for SSH.'),
+                        _('Would you like to generate a new password-less '
+                          'public/private key pair?'))
                 if self.questionHandler(question):
                     self.btnSshKeyGenClicked()
 
@@ -1807,13 +1808,12 @@ class SettingsDialog(QDialog):
 
             try:
                 mnt.preMountCheck(mode=mode, first_run=True, **mount_kwargs)
+
             except NoPubKeyLogin as ex:
                 logger.error(str(ex), self)
 
-                question = _(
-                    'Would you like to copy your public SSH key to the\n'
-                    'remote host to enable password-less login?'
-                )
+                question = _('Would you like to copy your public SSH key to '
+                             'the remote host to enable password-less login?')
                 rc_copy_id = sshtools.sshCopyId(
                     self.config.sshPrivateKeyFile() + '.pub',
                     self.config.sshUser(),
@@ -1842,17 +1842,19 @@ class SettingsDialog(QDialog):
 
                     return False
 
-                msg = _("The authenticity of host {host} can't be "
-                        "established.\n\n{keytype} key fingerprint is:") \
-                        .format(host='"{}"'.format(self.config.sshHost()),
-                                keytype=keyType)
+                msg = '{}\n\n{}'.format(
+                        _("The authenticity of host {host} can't be "
+                          "established.").format(
+                              host=self.config.sshHost()),
+                        _('{keytype} key fingerprint is:').format(
+                            keytype=keyType))
                 options = []
                 lblFingerprint = QLabel(fingerprint + '\n')
                 lblFingerprint.setWordWrap(False)
                 lblFingerprint.setFont(QFont('Monospace'))
                 options.append({'widget': lblFingerprint, 'retFunc': None})
                 lblQuestion = QLabel(
-                    _("Please verify this fingerprint! Would you like to "
+                    _("Please verify this fingerprint. Would you like to "
                       "add it to your 'known_hosts' file?")
                 )
                 options.append({'widget': lblQuestion, 'retFunc': None})
