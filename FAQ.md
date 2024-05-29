@@ -108,17 +108,18 @@ There are three distinct logs generated:
 
 Both the _snapshot_ and _restore_ log files are plain text files and can be read
 accordingly. Refer to [Where is the log file?](#where-is-the-log-file).
-The _application_ log is generated via syslog using the identifier `backintime`.
+The _application_ log is generated via [syslog](https://en.wikipedia.org/wiki/Syslog)
+using the identifier `backintime`.
 
-With systemd and _Back In Time_ version 1.4.3 or higher:
+Display messages in syslog regarding _Back In Time_ use this command.
 
     $ journalctl --identifier backintime
 
-With systemd and _Back In Time_ version older than 1.4.3:
+With an older _Back In Time_ version (1.4.2 or older) use this command:
 
     $ journalctl --grep backintime
 
-Without systemd, you can examine the files in `/var/log/syslog*`.
+If the error message `journalctl: command not found` appears, examine the files in `/var/log/syslog*`.
 
 ## How to move snapshots to a new hard-drive?
 
