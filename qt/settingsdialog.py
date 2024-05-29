@@ -1216,14 +1216,14 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing = QCheckBox(_('Check if remote host is online'))
         qttools.set_wrapped_tooltip(
             self.cbSshCheckPing,
-            _('Warning: if disabled and the remote host is not available, '
+            _('Warning: If disabled and the remote host is not available, '
               'this could lead to some weird errors.')
         )
         self.cbSshCheckCommands = QCheckBox(
-            _('Check if remote host supports all necessary commands'))
+            _('Check if remote host supports all necessary commands.'))
         qttools.set_wrapped_tooltip(
             self.cbSshCheckCommands,
-            _('Warning: if disabled and the remote host does not support all '
+            _('Warning: If disabled and the remote host does not support all '
               'necessary commands, this could lead to some weird errors.')
         )
         layout.addWidget(self.cbSshCheckPing)
