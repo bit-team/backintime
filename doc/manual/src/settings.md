@@ -1,16 +1,8 @@
----
-title: Settings
----
-Settings
-========
+# Settings
 
-Profile
--------
+## General
 
-General
--------
-
-You can choose which mode Back in Time should use to store snapshots.
+You can choose which mode *Back in Time* should use to store snapshots.
 
 Available modes:
 
@@ -32,11 +24,13 @@ Choose the destination path for snapshots with the ![folder](_images/folder_btn.
 
 [Local Encrypted](#local-encrypted) works like [Local](#local) but the snapshots will be stored encrypted with `EncFs`. The encrypted folder will be created automatically inside the selected folder.
 
-**Warning:** A recent security audit revealed several possible attack vectors for `EncFs`.
+!!! Danger
 
-From [https://defuse.ca/audits/encfs.htm](https://defuse.ca/audits/encfs.htm):
+    A recent security audit revealed several possible attack vectors for `EncFs`.
 
-> EncFS is probably safe as long as the adversary only gets one copy of the ciphertext and nothing more. EncFS is not safe if the adversary has the opportunity to see two or more snapshots of the ciphertext at different times. EncFS attempts to protect files from malicious modification, but there are serious problems with this feature.
+    From [https://defuse.ca/audits/encfs.htm](https://defuse.ca/audits/encfs.htm):
+
+    > EncFS is probably safe as long as the adversary only gets one copy of the ciphertext and nothing more. EncFS is not safe if the adversary has the opportunity to see two or more snapshots of the ciphertext at different times. EncFS attempts to protect files from malicious modification, but there are serious problems with this feature.
 
 This might be a problem with Back In Time snapshots.
 
@@ -70,13 +64,15 @@ Enter the private key password in `SSH private key` (this is the password you ch
 
 SSH Encrypted](#ssh-encrypted) will work like [SSH](#ssh) but the snapshots will be stored encrypted using `encfs --reverse`. Back in Time will mount an encrypted view of the local root file-system (`/`) and sync it with `rsync` to the remote host. As [Back in Time will backup the encrypted files, all logs and status messages will show cypher text.
 
-**Warning:** A recent security audit revealed several possible attack vectors for `EncFs`.
+!!! Danger
 
-From [https://defuse.ca/audits/encfs.htm](https://defuse.ca/audits/encfs.htm):
+    A recent security audit revealed several possible attack vectors for `EncFs`.
 
-> EncFS is probably safe as long as the adversary only gets one copy of the ciphertext and nothing more. EncFS is not safe if the adversary has the opportunity to see two or more snapshots of the ciphertext at different times. EncFS attempts to protect files from malicious modification, but there are serious problems with this feature.
+    From [https://defuse.ca/audits/encfs.htm](https://defuse.ca/audits/encfs.htm):
 
-This might be a problem with Back In Time snapshots.
+    > EncFS is probably safe as long as the adversary only gets one copy of the ciphertext and nothing more. EncFS is not safe if the adversary has the opportunity to see two or more snapshots of the ciphertext at different times. EncFS attempts to protect files from malicious modification, but there are serious problems with this feature.
+
+This might be a problem with *Back In Time* snapshots.
 
 ![Settings - General](_images/light/settings_general_ssh_encrypted.png#only-light)
 ![Settings - General](_images/dark/settings_general_ssh_encrypted.png#only-dark)
@@ -102,36 +98,32 @@ You can choose between couple different schedules which will automatically start
 - **Every Week**: start a new snapshot on a configurable week-day/time every week. If the computer is not running at the configured time there will be no new snapshot for the week.
 - **Every Month**: start a new snapshot on a configurable day/time every month. If the computer is not running at the configured time there will be no new snapshot for the month.
 
-Include
--------
+## Include
 
 ![Settings - Include](_images/light/settings_include.png#only-light)
 ![Settings - Include](_images/dark/settings_include.png#only-dark)
 
-Exclude
--------
+## Exclude
 
 ![Settings - Exclude](_images/light/settings_exclude.png#only-light)
 ![Settings - Exclude](_images/dark/settings_exclude.png#only-dark)
 
-Auto Remove
------------
+## Auto-removal
 
 ![Settings - Auto Remove](_images/light/settings_autoremove.png#only-light)
 ![Settings - Auto Remove](_images/dark/settings_autoremove.png#only-dark)
 
-Options
--------
+## Options
 
 ![Settings - Options](_images/light/settings_options.png#only-light)
 ![Settings - Options](_images/dark/settings_options.png#only-dark)
 
-### User-callback
-
-For more information on user callback see [this](user-callback.md).
-
-Expert Options
---------------
+## Expert Options
 
 ![Settings - Expert Options](_images/light/settings_expert_options.png#only-light)
 ![Settings - Expert Options](_images/dark/settings_expert_options.png#only-dark)
+
+## User-callback
+
+For more information on user callback see [this](user-callback.md).
+

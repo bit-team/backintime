@@ -1,8 +1,4 @@
----
-title: Snapshots Dialog
----
-Snapshots Dialog
-================
+# Snapshots Dialog
 
 ![Snapshots Dialog](_images/light/snapshotsdialog.png#only-light)
 ![Snapshots Dialog](_images/dark/snapshotsdialog.png#only-dark)

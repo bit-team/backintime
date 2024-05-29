@@ -13,14 +13,19 @@ site_dir: html
 repo_name: Back In Time
 repo_url: https://github.com/bit-team/backintime
 
-# No need for a "nav:" entry.
-# This is determined by MkDocs itself sorting the md files in alphanumerical
-# order except the index.md.
-# The ordering is manipulated by using numbers as filename prefix.
-# Sub topics are realized via sub folders.
+# Entrie labels determined by the the 1st level heading
+nav: 
+  - 'index.md'
+  - 'quick-start.md'
+  - 'main-window.md'
+  - 'settings.md'
+  - 'snapshots-dialog.md'
+  - 'log.md'
+  - 'additional.md'
 
 markdown_extensions:
-  # Boxex for warnings, etc
+  # Boxex for warnings, etc.
+  # https://squidfunk.github.io/mkdocs-material/reference/admonitions/
   - admonition
   - toc:
       permalink: true  
