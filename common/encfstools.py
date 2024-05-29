@@ -163,6 +163,11 @@ class EncFS_mount(MountControl):
         """
         check encfs version.
         1.7.2 had a bug with --reverse that will create corrupt files
+
+        Dev note (buhtz, 2024-05): Looking at upstream it seems that the 1.7.2
+        release was widthdrawn. The release before and after are from the year
+        2010. In consequence this code is definitly out dated and a candidate
+        for removal.
         """
         logger.debug('Check version', self)
         if self.reverse:
@@ -175,8 +180,8 @@ class EncFS_mount(MountControl):
             if m and Version(m.group(1)) <= Version('1.7.2'):
                 logger.debug('Wrong encfs version %s' % m.group(1), self)
                 raise MountException(
-                    _('encfs version 1.7.2 and before has a bug with '
-                      'option --reverse. Please update encfs.'))
+                        'encfs version 1.7.2 and before has a bug with '
+                        'option --reverse. Please update encfs.')
 
     def backupConfig(self):
         """

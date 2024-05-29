@@ -32,6 +32,7 @@ import sys
 import datetime
 import socket
 import random
+import textwrap
 import getpass
 import shlex
 # Workaround: Mostly relevant on TravisCI but not exclusively.
@@ -1646,10 +1647,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 else:
                     logger.error('crontab not found.', self)
-                    self.notifyError(_(
-                        "Can't find crontab.\n"
-                        "Are you sure cron is installed?\n"
-                        "If not you should disable all automatic backups."))
+                    msg = _("Can't find crontab. Are you sure cron is "
+                            "installed? If not you should disable all "
+                            "automatic backups.")
+                    msg = '\n'.join(textwrap.wrap(msg, 72))
+                    self.notifyError(msg)
+
                     return False
 
             if not tools.writeCrontab(newCrontab):
