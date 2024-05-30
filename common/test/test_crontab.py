@@ -158,3 +158,17 @@ class CrontabContent(unittest.TestCase):
 
         self.assertEqual(result, expect)
         self.assertIn('--profile-id 7', result[-1])
+
+    def test_create_crontab(self):
+        # Mock reading a config file
+        with mock.patch('configfile.ConfigFile.append') as mock_append:
+            cfg = config.Config()
+            cfg.setProfileName('Foobar')
+            cfg.setScheduleMode(12)  # every two hours
+
+            result = cfg.createNewCrontab([])
+
+        self.assertEqual(result[-2], config.Config.SYSTEM_ENTRY_MESSAGE)
+        self.assertIn('*/2 * * *', result[-1])
+        self.assertIn('backintime', result[-1])
+        self.assertIn('backup-job', result[-1])

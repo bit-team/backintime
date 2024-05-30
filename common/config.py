@@ -1682,14 +1682,20 @@ class Config(configfile.ConfigFileWithProfiles):
 
 
     def createNewCrontab(self, oldCrontab):
+        """Add a new entry to existing crontab content based on the current
+        snapshto profile and its schedule settings."""
         newCrontab = oldCrontab[:]
+
         if not tools.checkCommand('backintime'):
             logger.error("Command 'backintime' not found", self)
             return newCrontab
+
         for profile_id in self.profiles():
             cronLine = self.cronLine(profile_id)
+
             if not isinstance(cronLine, str):
                 return cronLine
+
             if cronLine:
                 newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
                 newCrontab.append(cronLine.replace('{cmd}', self.cronCmd(profile_id)))
@@ -1698,11 +1704,15 @@ class Config(configfile.ConfigFileWithProfiles):
             # Leave one self.SYSTEM_ENTRY_MESSAGE in to prevent deleting of manual
             # entries if there is no automatic entry.
             newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
-            newCrontab.append("#Please don't delete these two lines, or all custom backintime "
-                              "entries will be deleted next time you call the gui options!")
+            newCrontab.append(
+                "#Please don't delete these two lines, or all custom backintime "
+                "entries will be deleted next time you call the gui options!")
+
         return newCrontab
 
+
     def cronLine(self, profile_id):
+        """Create a crontab line based on the snapshot profiles settings"""
         cron_line = ''
         profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
@@ -1808,11 +1818,6 @@ class Config(configfile.ConfigFileWithProfiles):
         Returns:
             str: The crontab line.
         """
-
-        # buhtz (2024-04): IMHO meaningless in productive environments.
-        # if not tools.checkCommand('backintime'):
-        #     logger.error("Command 'backintime' not found", self)
-        #     return
 
         # Get full path of the Back In Time binary
         cmd = tools.which('backintime') + ' '

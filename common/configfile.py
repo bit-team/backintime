@@ -650,14 +650,13 @@ class ConfigFileWithProfiles(ConfigFile):
         return False
 
     def profileName(self, profile_id=None):
-        """
-        Name of the profile.
+        """Name of the profile.
 
         Args:
-            profile_id (str, int):  valid profile ID
+            profile_id (str, int): Valid profile ID
 
         Returns:
-            str:                    name of profile
+            str: Name of profile.
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
