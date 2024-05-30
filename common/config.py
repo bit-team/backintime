@@ -1603,6 +1603,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         self.setupUdev.clean()
 
+        # Lines of current users crontab file
         oldCrontab = tools.readCrontab()
 
         strippedCrontab = self.removeOldCrontab(oldCrontab)
@@ -1644,26 +1645,24 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def removeOldCrontab(self, crontab):
-        #We have to check if the self.SYSTEM_ENTRY_MESSAGE is in use,
-        #if not then the entries are most likely from Back In Time 0.9.26
-        #or earlier.
-        if not self.SYSTEM_ENTRY_MESSAGE in crontab:
-            #Then the system entry message has not yet been used in this crontab
-            #therefore we assume all entries are system entries and clear them all.
-            #This is the old behavior
-            logger.debug("Clearing all Back In Time entries", self)
-            return [x for x in crontab if not 'backintime' in x]
-        else:
-            #clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
-            #one backintime command line
-            logger.debug("Clearing system Back In Time entries", self)
-            delLines = []
-            for i, line in enumerate(crontab):
-                if self.SYSTEM_ENTRY_MESSAGE in line and \
-                    len(crontab) > i + 1 and        \
-                    'backintime' in crontab[i + 1]:
-                        delLines.extend((i, i + 1))
-            return [line for i, line in enumerate(crontab) if i not in delLines]
+        """Clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
+        one backintime command line. In other words all entries related to
+        Back In Time are removed.
+
+        Args:
+            crontab(list): List of crontab lines.
+        """
+        logger.debug("Clearing system Back In Time entries", self)
+        delLines = []
+
+        for i, line in enumerate(crontab):
+
+            if Config.SYSTEM_ENTRY_MESSAGE in line and \
+                len(crontab) > i + 1 and        \
+                'backintime' in crontab[i + 1]:
+                    delLines.extend((i, i + 1))
+
+        return [line for i, line in enumerate(crontab) if i not in delLines]
 
     def createNewCrontab(self, oldCrontab):
         newCrontab = oldCrontab[:]

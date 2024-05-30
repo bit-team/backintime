@@ -1758,33 +1758,37 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         return (cookie, bus, dbus_props)
 
 def readCrontab():
-    """
-    Read users crontab.
+    """Read current users crontab.
+
+    An empty list is returned on any errros.
 
     Returns:
-        list:   crontab lines
+        list: Crontab lines.
     """
     cmd = ['crontab', '-l']
+
     if not checkCommand(cmd[0]):
         logger.debug('crontab not found.')
         return []
-    else:
-        proc = subprocess.Popen(cmd,
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.PIPE,
-                                universal_newlines = True)
-        out, err = proc.communicate()
-        if proc.returncode or err:
-            logger.error('Failed to get crontab lines: %s, %s'
-                         %(proc.returncode, err))
-            return []
-        else:
-            crontab = [x.strip() for x in out.strip('\n').split('\n')]
-            if crontab == ['']:  # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
-                crontab = []
-            logger.debug('Read %s lines from user crontab'
-                         %len(crontab))
-            return crontab
+
+    proc = subprocess.Popen(cmd,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                            universal_newlines=True)
+    out, err = proc.communicate()
+
+    if proc.returncode or err:
+        logger.error(f'Failed to get crontab lines: {proc.returncode}, {err}')
+        return []
+
+    crontab = [line.strip() for line in out.strip('\n').split('\n')]
+
+    # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
+    if crontab == ['']:
+        crontab = []
+
+    return crontab
+
 
 def writeCrontab(lines):
     """
@@ -2297,14 +2301,18 @@ class SetupUdev(object):
     OBJECT = '/UdevRules'
     INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
     MEMBERS = ('addRule', 'save', 'delete')
+
     def __init__(self):
         if dbus is None:
             self.isReady = False
+
             return
+
         try:
             bus = dbus.SystemBus()
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+
         except dbus.exceptions.DBusException as e:
             # Only DBusExceptions are  handled to do a "graceful recovery"
             # by working without a serviceHelper D-Bus connection...
@@ -2313,29 +2321,37 @@ class SetupUdev(object):
             # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
             #                           'org.freedesktop.DBus.Error.ServiceUnknown',
             #                           'org.freedesktop.DBus.Error.FileNotFound'):
-            logger.warning("Failed to connect to Udev serviceHelper daemon via D-Bus: " + e.get_dbus_name())
-            logger.warning("D-Bus message: " + e.get_dbus_message())
-            logger.warning("Udev-based profiles cannot be changed or checked due to Udev serviceHelper connection failure")
+            logger.warning('Failed to connect to Udev serviceHelper daemon '
+                           'via D-Bus: ' + e.get_dbus_name())
+            logger.warning('D-Bus message: ' + e.get_dbus_message())
+            logger.warning('Udev-based profiles cannot be changed or checked '
+                           'due to Udev serviceHelper connection failure')
             conn = None
+
             # else:
             #     raise
+
         self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
-        """
-        Prepare rules in serviceHelper.py
+        """Prepare rules in serviceHelper.py
         """
         if not self.isReady:
             return
+
         try:
             return self.iface.addRule(cmd, uuid)
+
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
                 raise InvalidChar(str(e))
+
             elif e._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
                 raise InvalidCmd(str(e))
+
             elif e._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
                 raise LimitExceeded(str(e))
+
             else:
                 raise
 
@@ -2355,11 +2371,11 @@ class SetupUdev(object):
                 raise
 
     def clean(self):
-        """
-        Clean up remote cache
+        """Clean up remote cache.
         """
         if not self.isReady:
             return
+
         self.iface.clean()
 
 
