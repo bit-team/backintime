@@ -87,7 +87,7 @@ class DiffOptionsDialog(QDialog):
         # Command exists?
         if tools.checkCommand(cmd) == False:
             messagebox.info(_(
-                'The command "{cmd}" can not be found on this system. Please '
+                'The command "{cmd}" cannot be found on this system. Please '
                 'try something else or press Cancel.').format(cmd=cmd))
             return
 
