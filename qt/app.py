@@ -373,9 +373,10 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            messagebox.critical(self, _(
-                "Can't find snapshots folder.\nIf it is on a removable "
-                "drive please plug it in and then press OK."))
+            msg = _("Can't find snapshots folder.") + '\n' \
+                + _('If it is on a removable drive please plug it in and then '
+                    'press OK.')
+            messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
