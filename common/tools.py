@@ -1611,49 +1611,60 @@ def patternHasNotEncryptableWildcard(pattern):
         return True
     return False
 
-BIT_TIME_FORMAT = '%Y%m%d %H%M'
-ANACRON_TIME_FORMAT = '%Y%m%d'
 
 def readTimeStamp(fname):
     """
     Read date string from file ``fname`` and try to return datetime.
 
     Args:
-        fname (str):        full path to timestamp file
+        fname (str): Full path to timestamp file.
 
     Returns:
-        datetime.datetime:  date from timestamp file
+        datetime.datetime: Timestamp object.
     """
+
     if not os.path.exists(fname):
-        logger.debug("no timestamp in '%(file)s'" %
-                     {'file': fname})
+        logger.debug(f"No timestamp file '{fname}'")
         return
+
     with open(fname, 'r') as f:
         s = f.read().strip('\n')
-    for i in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
+
+    time_formats = (
+        '%Y%m%d %H%M',  # BIT like
+        '%Y%m%d',  # Anacron like
+    )
+
+    for form in time_formats:
+
         try:
-            stamp = datetime.strptime(s, i)
-            logger.debug("read timestamp '%(time)s' from file '%(file)s'" %
-                         {'time': stamp,
-                          'file': fname})
-            return stamp
+            stamp = datetime.strptime(s, form)
+
         except ValueError:
+            # invalid format
+            # next iteration
             pass
 
+        else:
+            # valid time stamp
+            logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
+
+            return stamp
+
+
 def writeTimeStamp(fname):
-    """
-    Write current date and time into file ``fname``.
+    """Write current date and time into file ``fname``.
 
     Args:
-        fname (str):        full path to timestamp file
+        fname (str): Full path to timestamp file.
     """
     now = datetime.now().strftime(BIT_TIME_FORMAT)
-    logger.debug("write timestamp '%(time)s' into file '%(file)s'" %
-                 {'time': now,
-                  'file': fname})
+    logger.debug(f"Write timestamp '{now}' into file '{fname}'")
     makeDirs(os.path.dirname(fname))
+
     with open(fname, 'w') as f:
         f.write(now)
+
 
 INHIBIT_LOGGING_OUT = 1
 INHIBIT_USER_SWITCHING = 2
