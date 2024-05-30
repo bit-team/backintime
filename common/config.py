@@ -1644,6 +1644,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return True
 
+
     def removeOldCrontab(self, crontab):
         """Clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
         one backintime command line. In other words all entries related to
@@ -1652,17 +1653,33 @@ class Config(configfile.ConfigFileWithProfiles):
         Args:
             crontab(list): List of crontab lines.
         """
-        logger.debug("Clearing system Back In Time entries", self)
         delLines = []
 
-        for i, line in enumerate(crontab):
+        # Indices of lines containint the marker
+        marker_indexes = list(filter(
+            lambda idx: Config.SYSTEM_ENTRY_MESSAGE in crontab[idx],
+            range(len(crontab))
+        ))
 
-            if Config.SYSTEM_ENTRY_MESSAGE in line and \
-                len(crontab) > i + 1 and        \
-                'backintime' in crontab[i + 1]:
-                    delLines.extend((i, i + 1))
+        # Check if there is a valid BIT entry after the marker lines
+        for idx in marker_indexes[:]:
+            try:
+                if 'backintime' in crontab[idx+1]:
+                    continue
+            except IndexError:
+                pass
 
-        return [line for i, line in enumerate(crontab) if i not in delLines]
+            # Remove the current index because the following line is not valid
+            marker_indexes.remove(marker_indexes.index(idx))
+
+        modified_crontab = crontab[:]
+
+        # Remove the marker comment line and the following backintime line
+        for idx in reversed(marker_indexes):
+            del modified_crontab[idx:idx+2]
+
+        return modified_crontab
+
 
     def createNewCrontab(self, oldCrontab):
         newCrontab = oldCrontab[:]
