@@ -153,7 +153,7 @@ class EncFS_mount(MountControl):
                 else:
                     pw = password.Password(self.config)
                     password_confirm = pw.passwordFromUser(
-                        self.parent, prompt=_('Please confirm password'))
+                        self.parent, prompt=_('Please confirm the password.'))
                     if self.password == password_confirm:
                         return False
                     else:
