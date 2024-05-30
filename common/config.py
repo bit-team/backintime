@@ -1474,21 +1474,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def cronEnvFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "cron_env")
 
-    # def anacrontab(self, suffix = ''):
-    #     """
-    #     Deprecated since 1.1. Just keep this to delete old anacrontab files
-    #     """
-    #     return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab' + suffix)
-
-    # def anacrontabFiles(self):
-    #     """
-    #     list existing old anacrontab files
-    #     """
-    #     dirname, basename = os.path.split(self.anacrontab())
-    #     for f in os.listdir(dirname):
-    #         if f.startswith(basename):
-    #             yield os.path.join(dirname, f)
-
     def anacronSpool(self):
         # ~/.local/share/backintime/anacron
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
@@ -1570,14 +1555,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if self.scheduleMode(profile_id) not in (self.REPEATEDLY, self.UDEV):
             return True
 
-        # #if crontab wasn't updated since upgrading BIT to version without anacron
-        # #we are most likely started by anacron and should run this task without asking.
-        # if list(self.anacrontabFiles()):
-        #     return True
-
         last_time = tools.readTimeStamp(self.anacronSpoolFile(profile_id))
-        print('X'*100)  # DEBUG
-        print(f'{last_time=}')
         if not last_time:
             return True
 
@@ -1623,10 +1601,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def setupCron(self):
         """????
         """
-        # for f in self.anacrontabFiles():
-        #     logger.debug("Clearing anacrontab %s"
-        #                  %f, self)
-        #     os.remove(f)
         self.setupUdev.clean()
 
         oldCrontab = tools.readCrontab()

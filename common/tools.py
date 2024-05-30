@@ -1658,7 +1658,7 @@ def writeTimeStamp(fname):
     Args:
         fname (str): Full path to timestamp file.
     """
-    now = datetime.now().strftime(BIT_TIME_FORMAT)
+    now = datetime.now().strftime('%Y%m%d %H%M')
     logger.debug(f"Write timestamp '{now}' into file '{fname}'")
     makeDirs(os.path.dirname(fname))
 
