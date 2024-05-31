@@ -104,6 +104,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         self.assertNotIn('--debug', sut)
 
 
+# TODO Replace with test_schedule.py
 class CrontabContent(unittest.TestCase):
     """Manipulation of crontab content"""
     def test_remove_bit_entries(self):

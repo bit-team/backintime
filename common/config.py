@@ -1592,6 +1592,7 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             return True
 
+    # TODO Replace with schedule._MARKER
     SYSTEM_ENTRY_MESSAGE \
         = "#Back In Time system entry, this will be edited by the gui:"
     """The string is used in crontab file to mark entries as owned by Back

@@ -19,6 +19,11 @@ import tools
 import logger
 # config.*
 
+_MARKER = '#Back In Time system entry, this will be edited by the gui:'
+"""The string is used in crontab file to mark entries as owned by Back
+In Time. **WARNING**: Don't modify that string in code because it is used
+as match target while parsing the crontab file.
+"""
 
 def read_crontab():
     """Read current users crontab.
@@ -94,3 +99,38 @@ def write_crontab(lines):
                          f'was {err.returncode}. Error was:\n{err.stderr}')
 
     return True
+
+
+def remove_bit_from_crontab(crontab):
+    """Remove crontab entries related to backintime and having a marker line in
+    the line before.
+
+    Args:
+        lines(list): List of crontab liens.
+    """
+    delLines = []
+
+    # Indices of lines containint the marker
+    marker_indexes = list(filter(
+        lambda idx: _MARKER in crontab[idx],
+        range(len(crontab))
+    ))
+
+    # Check if there is a valid BIT entry after the marker lines
+    for idx in marker_indexes[:]:
+        try:
+            if 'backintime' in crontab[idx+1]:
+                continue
+        except IndexError:
+            pass
+
+        # Remove the current index because the following line is not valid
+        marker_indexes.remove(marker_indexes.index(idx))
+
+    modified_crontab = crontab[:]
+
+    # Remove the marker comment line and the following backintime line
+    for idx in reversed(marker_indexes):
+        del modified_crontab[idx:idx+2]
+
+    return modified_crontab
