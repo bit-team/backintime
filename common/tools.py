@@ -1757,6 +1757,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         logger.warning('Release inhibit Suspend failed.')
         return (cookie, bus, dbus_props)
 
+
 def readCrontab():
     """Read current users crontab.
 
@@ -1768,7 +1769,7 @@ def readCrontab():
     cmd = ['crontab', '-l']
 
     if not checkCommand(cmd[0]):
-        logger.debug('crontab not found.')
+        logger.error('Command "crontab" not found.')
         return []
 
     proc = subprocess.Popen(cmd,
@@ -1791,32 +1792,37 @@ def readCrontab():
 
 
 def writeCrontab(lines):
-    """
-    Write to users crontab.
+    """Write to users crontab.
 
-    Note:
-        This will overwrite the whole crontab. So to keep the old crontab and
-        only add new entries you need to read it first with
-        :py:func:`tools.readCrontab`, append new entries to the list and write
-        it back.
+    This will overwrite the whole crontab. So to keep the old crontab and only
+    add new entries you need to read it first with
+    :py:func:`tools.readCrontab`, append new entries to the list and write
+    it back.
 
     Args:
-        lines (:py:class:`list`, :py:class:`tuple`):
-                    lines that should be written to crontab
+        lines (list, tuple): Lines that should be written to crontab.
 
     Returns:
-        bool:       ``True`` if successful
+        bool: ``True`` if successful.
+
     """
-    assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
-    with tempfile.NamedTemporaryFile(mode = 'wt') as f:
+    if not isinstance(lines, (list, tuple)):
+        raise TypeError(f'Argument "lines" is not list or tuple '
+                        'type but {type(lines)}.')
+
+    # Refactor: Don't write temp files. Feed "crontab" from stdin instead.
+    # e.g. `echo "* * * * * foo" | crontab -`
+    with tempfile.NamedTemporaryFile(mode='wt') as f:
         f.write('\n'.join(lines))
         f.write('\n\n')
         f.flush()
+
+        # Install new crontab from temporary file, replacing the previous.
         cmd = ['crontab', f.name]
         proc = subprocess.Popen(cmd,
-                                stdout = subprocess.DEVNULL,
-                                stderr = subprocess.PIPE,
-                                universal_newlines = True)
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.PIPE,
+                                universal_newlines=True)
         out, err = proc.communicate()
 
     if proc.returncode or err:
@@ -1824,9 +1830,7 @@ def writeCrontab(lines):
             f'Failed to write lines to crontab: {proc.returncode}, {err}')
         return False
 
-    else:
-        logger.debug(f'Wrote {len(lines)} lines to user crontab')
-        return True
+    return True
 
 
 def splitCommands(cmds, head = '', tail = '', maxLength = 0):
@@ -2356,19 +2360,23 @@ class SetupUdev(object):
                 raise
 
     def save(self):
-        """
-        Save rules with serviceHelper.py after authentication
+        """Save rules with serviceHelper.py after authentication.
+
         If no rules where added before this will delete current rule.
         """
         if not self.isReady:
             return
+
         try:
             return self.iface.save()
-        except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
-                raise PermissionDeniedByPolicy(str(e))
+
+        except dbus.exceptions.DBusException as err:
+
+            if err._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
+                raise PermissionDeniedByPolicy(str(err)) from err
+
             else:
-                raise
+                raise err
 
     def clean(self):
         """Clean up remote cache.

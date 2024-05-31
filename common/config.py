@@ -1606,20 +1606,27 @@ class Config(configfile.ConfigFileWithProfiles):
         # Lines of current users crontab file
         oldCrontab = tools.readCrontab()
 
+        # Remove all auto-generated BIT entries from crontab
         strippedCrontab = self.removeOldCrontab(oldCrontab)
+
+        # Add auto-generated BIT entries for all profiles to crontab
         newCrontab = self.createNewCrontab(strippedCrontab)
+
         if not isinstance(newCrontab, (list, tuple)):
             return newCrontab
 
-        #save Udev rules
+        # Save Udev rules
         try:
             if self.setupUdev.isReady and self.setupUdev.save():
                 logger.debug('Udev rules added successfully', self)
-        except PermissionDeniedByPolicy as e:
-            logger.error(str(e), self)
-            self.notifyError(str(e))
+
+        except PermissionDeniedByPolicy as err:
+            logger.error(str(err), self)
+            self.notifyError(str(err))
+
             return False
 
+        # Crontab modified?
         if not newCrontab == oldCrontab:
 
             if not tools.checkCommand('crontab'):
