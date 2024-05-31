@@ -17,8 +17,6 @@ features.
 import subprocess
 import tools
 import logger
-# tools.readCrontab
-# tools.writeCrontab
 # config.*
 
 
@@ -30,7 +28,7 @@ def read_crontab():
     Returns:
         list: Crontab lines.
 
-    Dev notes (buhtz, 2024-05): Should raise exception on errors.
+    Dev notes (buhtz, 2024-05): Might should raise exception on errors.
     """
 
     try:
@@ -44,7 +42,7 @@ def read_crontab():
         logger.error('Command "crontab" not found.')
         return []
 
-    except subprocess.CalledSubProcessError as err:
+    except subprocess.CalledProcessError as err:
         logger.error('Failed to get crontab lines. Return code '
                      f'of {err.cmd} was {err.returncode}.')
         return []
@@ -56,6 +54,7 @@ def read_crontab():
         content = []
 
     return content
+
 
 def write_crontab(lines):
     """Write users crontab.

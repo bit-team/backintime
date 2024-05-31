@@ -54,6 +54,7 @@ import sshtools
 import encfstools
 import password
 import pluginmanager
+import schedule
 from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
@@ -1604,7 +1605,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setupUdev.clean()
 
         # Lines of current users crontab file
-        oldCrontab = tools.readCrontab()
+        oldCrontab = schedule.read_crontab()
 
         # Remove all auto-generated BIT entries from crontab
         strippedCrontab = self.removeOldCrontab(oldCrontab)
@@ -1642,7 +1643,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         "If not you should disable all automatic backups."))
                     return False
 
-            if not tools.writeCrontab(newCrontab):
+            if not schedule.write_crontab(newCrontab):
                 self.notifyError(_('Failed to write new crontab.'))
                 return False
 
