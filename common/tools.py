@@ -1117,6 +1117,9 @@ def checkCronPattern(s):
 
     Returns:
         bool:       ``True`` if ``s`` is a valid cron pattern
+
+    Dev note: Schedule for removal. See comment in
+    `config.Config.saveProfile()`.
     """
     if s.find(' ') >= 0:
         return False

@@ -527,9 +527,9 @@ class ConfigFileWithProfiles(ConfigFile):
         List of all available profile IDs. Profile IDs are strings!
 
         Returns:
-            list:   all available profile IDs as strings
+            list: List with strings of profile IDs as strings.
         """
-        return self.strValue('profiles', '1').split(':')
+        return self.strValue(key='profiles', default='1').split(':')
 
     def profilesSortedByName(self):
         """

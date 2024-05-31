@@ -1688,39 +1688,40 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return modified_crontab
 
-
     def createNewCrontab(self, oldCrontab):
         """Add a new entry to existing crontab content based on the current
         snapshto profile and its schedule settings."""
         newCrontab = oldCrontab[:]
 
-        if not tools.checkCommand('backintime'):
-            logger.error("Command 'backintime' not found", self)
-            return newCrontab
+        cron_lines = self.get_crontab_lines()
 
-        for profile_id in self.profiles():
-            cronLine = self.cronLine(profile_id)
-
-            if not isinstance(cronLine, str):
-                return cronLine
-
-            if cronLine:
-                newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
-                newCrontab.append(cronLine.replace('{cmd}', self.cronCmd(profile_id)))
-
-        if newCrontab == oldCrontab:
-            # Leave one self.SYSTEM_ENTRY_MESSAGE in to prevent deleting of manual
-            # entries if there is no automatic entry.
+        for line in cron_lines:
             newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
-            newCrontab.append(
-                "#Please don't delete these two lines, or all custom backintime "
-                "entries will be deleted next time you call the gui options!")
+            newCrontab.append(line)
 
         return newCrontab
 
+    def get_all_crontab_lines(self):
+        """Return a list of crontab lines for each of the existing profiles.
+
+        Return:
+            list: The list of crontab lines.
+        """
+        profile_ids = self.profiles()
+
+        # For each profile: cronline and the command (backintime)
+        cron_lines = [
+            self.cronLine(pid).replace('{cmd}', self.cronCmd(pid))
+            for pid in profile_ids
+        ]
+
+        # Remove empty lines (profiles not scheduled)
+        cron_lines = list(filter(None, cron_lines))
+
+        return cron_lines
 
     def cronLine(self, profile_id):
-        """Create a crontab line based on the snapshot profiles settings"""
+        """Create a crontab line based on the snapshot profiles settings."""
         cron_line = ''
         profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
