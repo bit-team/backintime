@@ -107,7 +107,9 @@ pygments_style = 'sphinx'
 # -- Intersphinx options --------------------------------------------------
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org', None),
+    'python': ('https://docs.python.org/3/', None),
+    # PyQt is not mappable because of a known issue. See
+    # https://riverbankcomputing.com/pipermail/pyqt/2013-March/032528.html
 }
 
 # -- Napoleon include private members which have docstrings ---------------

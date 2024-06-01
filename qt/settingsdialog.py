@@ -488,10 +488,11 @@ class SettingsDialog(QDialog):
         self.comboScheduleWeekday = QComboBox(self)
         glayout.addWidget(self.comboScheduleWeekday, 2, 1)
 
+        sunday = datetime.date(2011, 11, 6)
         for d in range(1, 8):
             self.comboScheduleWeekday.addItem(
                 QIcon(),
-                datetime.date(2011, 11, 6 + d).strftime("%A"),
+                (sunday + datetime.timedelta(days=d)).strftime('%A'),
                 d
             )
 

@@ -367,6 +367,8 @@ def initiate_translator(language_code: str) -> QTranslator:
             f'"{language_code}". Deactivate translation and falling back to '
             'the source language (English).')
 
+    tools.set_lc_time_by_language_code(language_code)
+
     return translator
 
 
