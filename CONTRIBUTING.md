@@ -110,11 +110,11 @@ replaced with PyPi packages.
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
+  - `sshfs`
   - `python3-keyring`
   - `python3-dbus`
   - `python3-packaging`
   -  Recommended
-     - `sshfs`
      - `encfs`
 
 * Runtime dependencies for the GUI
