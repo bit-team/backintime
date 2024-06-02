@@ -85,6 +85,9 @@ class SshProxyWidget(QWidget):
             port = ''
             user = ''
 
+        elif isinstance(port, int):
+            port = str(port)
+
         vlayout = QVBoxLayout(self)
         # zero margins
         vlayout.setContentsMargins(0, 0, 0, 0)
