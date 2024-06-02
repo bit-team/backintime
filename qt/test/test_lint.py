@@ -9,7 +9,6 @@ ON_TRAVIS = os.environ.get('TRAVIS', '') == 'true'
 PYLINT_AVIALBE = not shutil.which('pylint') is None
 PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
                  'it runs only if `pylint` is available.')
-ON_TRAVIS_PPC64LE = os.environ.get('TRAVIS_ARCH', '') == 'ppc64le'
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
@@ -110,11 +109,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0612',  # unused-variable
             # 'W0707',  # raise-missing-from
         ]
-
-        if ON_TRAVIS_PPC64LE:
-            # Because of missing PyQt6 on ppc64le architecture
-            err_codes.remove('I0021')
-            err_codes.remove('E0401')
 
         cmd.append('--enable=' + ','.join(err_codes))
 
