@@ -18,10 +18,45 @@ import os
 import stat
 import sys
 import getpass
+import unittest
 from test import generic
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import config
+
+
+class Cron(unittest.TestCase):
+    """Cron-related behavior of Config class."""
+    def test_cron_lines(self):
+        """Creation of crontab lines per profile"""
+        # Mock reading a config file
+        with patch('configfile.ConfigFile.append'):
+            cfg = config.Config()
+
+            # Profile 1 (default)
+            cfg.setProfileName('Foobar')
+            cfg.setScheduleMode(12)  # 12 = every two hours
+
+            # Profile 3
+            cfg.setProfileName('NoSchedule', 3)
+
+            # Profile 8
+            cfg.setProfileName('Second', 8)
+            cfg.setScheduleMode(7, 8)  # 7 = every 30 minutes
+
+            result = cfg.profiles_cron_lines()
+
+        self.assertEqual(len(result), 2)
+
+        self.assertIn('*/2 * * *', result[0])
+        self.assertIn('backintime', result[0])
+        self.assertIn('backup-job', result[0])
+
+        self.assertIn('* */30 * *', result[1])
+        self.assertIn('backintime', result[1])
+        self.assertIn('backup-job', result[1])
+        self.assertIn('--profile=8', result[1])
 
 
 class TestConfig(generic.TestCaseCfg):

@@ -1592,30 +1592,23 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             return True
 
-    # TODO Replace with schedule._MARKER
-    SYSTEM_ENTRY_MESSAGE \
-        = "#Back In Time system entry, this will be edited by the gui:"
-    """The string is used in crontab file to mark entries as owned by Back
-    In Time. **WARNING**: Don't modify that string in code because it is used
-    as match target while parsing the crontab file.
-    """
-
     def setupCron(self):
-        """????
+        """
+        Returns:
+            bool: ``True`` if successfull or ``False`` on errors.
         """
         self.setupUdev.clean()
 
         # Lines of current users crontab file
-        oldCrontab = schedule.read_crontab()
+        org_crontab_lines = schedule.read_crontab()
 
         # Remove all auto-generated BIT entries from crontab
-        strippedCrontab = self.removeOldCrontab(oldCrontab)
+        crontab_lines = schedule.remove_bit_from_crontab(org_crontab_lines)
 
-        # Add auto-generated BIT entries for all profiles to crontab
-        newCrontab = self.createNewCrontab(strippedCrontab)
-
-        if not isinstance(newCrontab, (list, tuple)):
-            return newCrontab
+        # Add a new entry to existing crontab content based on the current
+        # snapshot profile and its schedule settings.
+        crontab_lines = schedule.append_bit_to_crontab(
+            self.profiles_cron_lines())
 
         # Save Udev rules
         try:
@@ -1625,84 +1618,29 @@ class Config(configfile.ConfigFileWithProfiles):
         except PermissionDeniedByPolicy as err:
             logger.error(str(err), self)
             self.notifyError(str(err))
-
             return False
 
         # Crontab modified?
-        if not newCrontab == oldCrontab:
+        if crontab_lines == org_crontab_lines:
+            return True
 
-            if not tools.checkCommand('crontab'):
+        # TODO (buhtz): Again a crontab check. Refactore somehow.
+        if not tools.checkCommand('crontab'):
+            logger.error('crontab not found.', self)
+            self.notifyError(_(
+                "Can't find crontab.\n"
+                "Are you sure cron is installed?\n"
+                "If not you should disable all automatic backups."))
 
-                if self.scheduleMode() is self.NONE:
-                    return True
+            return False
 
-                else:
-                    logger.error('crontab not found.', self)
-                    self.notifyError(_(
-                        "Can't find crontab.\n"
-                        "Are you sure cron is installed?\n"
-                        "If not you should disable all automatic backups."))
-                    return False
-
-            if not schedule.write_crontab(newCrontab):
-                self.notifyError(_('Failed to write new crontab.'))
-                return False
-
-        else:
-            logger.debug("Crontab didn't change. Skip writing.")
+        if schedule.write_crontab(newCrontab) == False:
+            self.notifyError(_('Failed to write new crontab.'))
+            return False
 
         return True
 
-
-    def removeOldCrontab(self, crontab):
-        """Clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
-        one backintime command line. In other words all entries related to
-        Back In Time are removed.
-
-        Args:
-            crontab(list): List of crontab lines.
-        """
-        delLines = []
-
-        # Indices of lines containint the marker
-        marker_indexes = list(filter(
-            lambda idx: Config.SYSTEM_ENTRY_MESSAGE in crontab[idx],
-            range(len(crontab))
-        ))
-
-        # Check if there is a valid BIT entry after the marker lines
-        for idx in marker_indexes[:]:
-            try:
-                if 'backintime' in crontab[idx+1]:
-                    continue
-            except IndexError:
-                pass
-
-            # Remove the current index because the following line is not valid
-            marker_indexes.remove(marker_indexes.index(idx))
-
-        modified_crontab = crontab[:]
-
-        # Remove the marker comment line and the following backintime line
-        for idx in reversed(marker_indexes):
-            del modified_crontab[idx:idx+2]
-
-        return modified_crontab
-
-    def createNewCrontab(self, oldCrontab):
-        """Add a new entry to existing crontab content based on the current
-        snapshto profile and its schedule settings."""
-        newCrontab = oldCrontab[:]
-
-        cron_lines = self.get_crontab_lines()
-
-        for line in cron_lines:
-            newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
-            newCrontab.append(line)
-
-        return newCrontab
-
-    def get_all_crontab_lines(self):
+    def profiles_cron_lines(self):
         """Return a list of crontab lines for each of the existing profiles.
 
         Return:
@@ -1712,7 +1650,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # For each profile: cronline and the command (backintime)
         cron_lines = [
-            self.cronLine(pid).replace('{cmd}', self.cronCmd(pid))
+            self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
             for pid in profile_ids
         ]
 
@@ -1721,7 +1659,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return cron_lines
 
-    def cronLine(self, profile_id):
+    def _cron_line(self, profile_id):
         """Create a crontab line based on the snapshot profiles settings."""
         cron_line = ''
         profile_name = self.profileName(profile_id)
@@ -1807,7 +1745,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 #cache uuid in config
                 self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
             try:
-                self.setupUdev.addRule(self.cronCmd(profile_id), uuid)
+                self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
             except (InvalidChar, InvalidCmd, LimitExceeded) as e:
                 logger.error(str(e), self)
                 self.notifyError(str(e))
@@ -1821,7 +1759,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return cron_line
 
-    def cronCmd(self, profile_id):
+    def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings
         for the current profile.
 

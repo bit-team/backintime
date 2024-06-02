@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-import unittest
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 import sys
 import os
@@ -23,11 +22,7 @@ import inspect
 from pathlib import Path
 from unittest import mock
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import backintime
 import config
-import snapshots
-import tools
-import logger
 
 
 class CrontabDebug(pyfakefs_ut.TestCase):
@@ -38,7 +33,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
 
         # cleanup() happens automatically
         self._temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
-         # Workaround: tempfile and pathlib not compatible yet
+        # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
 
         self.config_fp = self._create_config_file(parent_path=self.temp_path)
@@ -85,7 +80,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         conf.setScheduleDebug(True)
         self.assertTrue(conf.scheduleDebug())
 
-        sut = conf.cronCmd(profile_id='1')
+        sut = conf._cron_cmd(profile_id='1')
         self.assertIn('--debug', sut)
 
     @mock.patch('tools.which', return_value='backintime')
@@ -100,76 +95,5 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         conf.setScheduleDebug(False)
         self.assertFalse(conf.scheduleDebug())
 
-        sut = conf.cronCmd(profile_id='1')
+        sut = conf._cron_cmd(profile_id='1')
         self.assertNotIn('--debug', sut)
-
-
-# TODO Replace with test_schedule.py
-class CrontabContent(unittest.TestCase):
-    """Manipulation of crontab content"""
-    def test_remove_bit_entries(self):
-        """Remove BIT entries from crontab.
-
-        Three BIT entries in the crontab. The 1st and 3rd are auto generated
-        by BIT schedule feature and will be removed. But the second is
-        user defined and need to stay.
-        """
-        content = [
-            '# -------------- min (0 - 59)',
-            '# | --------------- hour (0 - 23)',
-            '# | | ---------------- day of month (1 - 31),'
-            '# | | | ----------------- month (1 - 12)',
-            '# | | | | ------------------ day of week (0 - 6)',
-            '# Saturday, or use names; 7 is Sunday, the same as 0)',
-            '# | | | | |',
-            '# | | | | |',
-            '# * * * * *',
-            '',
-            '30/* * * * * dohyperorg > /def/null',
-            '',
-
-            '51 */3 * * * cronjobblock '
-            '/home/user/.my.scripts/thunderbird_backup_duplicity.sh',
-
-            '',
-
-            '#Back In Time system entry, this will be edited by the gui:',
-
-            '0 8,12,18,23 * * * /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime backup-job >/dev/null',
-
-            '0 2 3 4 5 /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 7 backup-job >/dev/null',
-
-            '#Back In Time system entry, this will be edited by the gui:',
-
-            '0 0 1 1 * /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 3 backup-job >/dev/null',
-        ]
-
-        expect = content[:]
-        # Remove the last BIT entry incl. comment
-        del expect[-1]
-        del expect[-1]
-        # Remove the one before the one before the last
-        del expect[-2]
-        del expect[-2]
-
-        result = config.Config.removeOldCrontab(None, content)
-
-        self.assertEqual(result, expect)
-        self.assertIn('--profile-id 7', result[-1])
-
-    def test_create_crontab(self):
-        # Mock reading a config file
-        with mock.patch('configfile.ConfigFile.append') as mock_append:
-            cfg = config.Config()
-            cfg.setProfileName('Foobar')
-            cfg.setScheduleMode(12)  # every two hours
-
-            result = cfg.createNewCrontab([])
-
-        self.assertEqual(result[-2], config.Config.SYSTEM_ENTRY_MESSAGE)
-        self.assertIn('*/2 * * *', result[-1])
-        self.assertIn('backintime', result[-1])
-        self.assertIn('backup-job', result[-1])

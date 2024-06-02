@@ -15,15 +15,14 @@ Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
 import subprocess
-import tools
 import logger
-# config.*
 
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
 """The string is used in crontab file to mark entries as owned by Back
 In Time. **WARNING**: Don't modify that string in code because it is used
 as match target while parsing the crontab file.
 """
+
 
 def read_crontab():
     """Read current users crontab.
@@ -73,7 +72,7 @@ def write_crontab(lines):
         lines (list, tuple): Lines that should be written to crontab.
 
     Returns:
-        bool: ``True`` if successful.
+        bool: ``True`` if successful otherwise ``False``.
 
     """
     content = '\n'.join(lines)
@@ -97,6 +96,7 @@ def write_crontab(lines):
         except subprocess.CalledProcessError as err:
             logger.error('Failed to write crontab lines. Return code '
                          f'was {err.returncode}. Error was:\n{err.stderr}')
+            return False
 
     return True
 
@@ -134,3 +134,13 @@ def remove_bit_from_crontab(crontab):
         del modified_crontab[idx:idx+2]
 
     return modified_crontab
+
+
+def append_bit_to_crontab(crontab, bit_lines):
+    # Add a new entry to existing crontab content based on the current
+    # snapshot profile and its schedule settings.
+    for line in bit_lines:
+        crontab.append(_MARKER)
+        crontab.append(line)
+
+    return crontab

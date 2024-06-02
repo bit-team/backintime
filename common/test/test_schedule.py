@@ -9,7 +9,7 @@ import unittest
 import schedule
 
 
-class Crontab(unittest.TestCase):
+class Schedule(unittest.TestCase):
     """Manipulation of crontab content"""
     def test_remove_bit_entries(self):
         """Remove BIT entries from crontab.
@@ -64,16 +64,14 @@ class Crontab(unittest.TestCase):
         self.assertEqual(result, expect)
         self.assertIn('--profile-id 7', result[-1])
 
-    def _TODO_create_crontab(self):
-        # Mock reading a config file
-        with mock.patch('configfile.ConfigFile.append') as mock_append:
-            cfg = config.Config()
-            cfg.setProfileName('Foobar')
-            cfg.setScheduleMode(12)  # every two hours
+    def test_bit_to_crontab(self):
+        result = schedule.append_bit_to_crontab(
+            [],
+            ['foo', 'bar']
+        )
 
-            result = cfg.createNewCrontab([])
-
-        self.assertEqual(result[-2], config.Config.SYSTEM_ENTRY_MESSAGE)
-        self.assertIn('*/2 * * *', result[-1])
-        self.assertIn('backintime', result[-1])
-        self.assertIn('backup-job', result[-1])
+        self.assertEqual(len(result), 4)
+        self.assertTrue(result[0][0], '#')
+        self.assertTrue(result[1], 'foo')
+        self.assertTrue(result[2][0], '#')
+        self.assertTrue(result[3], 'bar')
