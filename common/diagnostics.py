@@ -402,6 +402,7 @@ def _get_os_release():
 def _get_install_info():
     """Try to determine how Back In Time was installed.
     """
+    # dpkg -l | grep apt
     return '(unknown)'
 
 
