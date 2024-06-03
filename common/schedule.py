@@ -20,7 +20,8 @@ import logger
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
 """The string is used in crontab file to mark entries as owned by Back
 In Time. **WARNING**: Don't modify that string in code because it is used
-as match target while parsing the crontab file.
+as match target while parsing the crontab file. See
+:func:`remove_bit_from_crontab()` for details.
 """
 
 
@@ -90,7 +91,7 @@ def write_crontab(lines):
             )
 
         except FileNotFoundError as err:
-            logger.error('Command "crontab" not found.')
+            logger.error(f'Command "crontab" not found. Error was: {err}')
             return False
 
         except subprocess.CalledProcessError as err:
@@ -108,8 +109,6 @@ def remove_bit_from_crontab(crontab):
     Args:
         lines(list): List of crontab liens.
     """
-    delLines = []
-
     # Indices of lines containing the marker
     marker_indexes = list(filter(
         lambda idx: _MARKER in crontab[idx],

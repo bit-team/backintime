@@ -1642,7 +1642,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
             return False
 
-        if schedule.write_crontab(newCrontab) == False:
+        if schedule.write_crontab(crontab_lines) == False:
             self.notifyError(_('Failed to write new crontab.'))
             return False
 
@@ -1655,12 +1655,14 @@ class Config(configfile.ConfigFileWithProfiles):
             list: The list of crontab lines.
         """
         profile_ids = self.profiles()
+        print(f'{profile_ids=}')  # DEBUG
 
         # For each profile: cronline and the command (backintime)
         cron_lines = [
             self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
             for pid in profile_ids
         ]
+        print(f'{cron_lines=}')  # DEBUG
 
         # Remove empty lines (profiles not scheduled)
         cron_lines = list(filter(None, cron_lines))
