@@ -9,7 +9,7 @@
 # This file is part of the program "Back In time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
-"""Basic routings regarding scheduing.
+"""Basic or low-level routines regarding scheduling.
 
 Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
@@ -110,7 +110,7 @@ def remove_bit_from_crontab(crontab):
     """
     delLines = []
 
-    # Indices of lines containint the marker
+    # Indices of lines containing the marker
     marker_indexes = list(filter(
         lambda idx: _MARKER in crontab[idx],
         range(len(crontab))

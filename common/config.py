@@ -1593,9 +1593,17 @@ class Config(configfile.ConfigFileWithProfiles):
             return True
 
     def setupCron(self):
-        """
+        """Update the current users crontab file based on profile settings.
+
+        The crontab files is read, all entries related to Back In Time are
+        removed and after it added again for each profile based on the profile
+        settings. The difference between a backintime related entry created
+        by Back In Time itself or by the user manually is determined by a
+        comment before each entry. See :data:`schedule._MARKER` and
+        :func:`schedule.remove_bit_from_crontab()` for details.
+
         Returns:
-            bool: ``True`` if successfull or ``False`` on errors.
+            bool: ``True`` if successful or ``False`` on errors.
         """
         self.setupUdev.clean()
 
