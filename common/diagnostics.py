@@ -36,7 +36,8 @@ def collect_minimal_diagnostics():
         'backintime': {
             'name': config.Config.APP_NAME,
             'version': version.__version__,
-            'running-as-root': pwd.getpwuid(os.getuid()) == 'root'
+            'running-as-root': pwd.getpwuid(os.getuid()) == 'root',
+            'installed-from': _get_install_info(),
         },
         'host-setup': {
             'OS': _get_os_release()
@@ -397,6 +398,11 @@ def _get_os_release():
         return osrelease[str(fp_osrelease)]
 
     return osrelease
+
+def _get_install_info():
+    """Try to determine how Back In Time was installed.
+    """
+    return '(unknown)'
 
 
 def _replace_username_paths(result, username):
