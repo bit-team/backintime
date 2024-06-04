@@ -327,14 +327,14 @@ def _get_rsync_info():
             except KeyError:
                 pass
 
-    # Reduce use of vertical space with transforming lists and dicts into
-    # strings.
-    for key in ['daemon_auth_list', 'compress_list', 'checksum_list',
-                'optimizations', 'capabilities']:
-        if isinstance(info[key], list):
-            info[key] = ', '.join(info[key])
-        elif isinstance(info[key], dict):
-            info[key] = '; '.join(f'{k}: {v}' for k, v in info[key].items())
+        # Reduce use of vertical space with transforming lists and dicts into
+        # strings.
+        for key in ['daemon_auth_list', 'compress_list', 'checksum_list',
+                    'optimizations', 'capabilities']:
+            if isinstance(info[key], list):
+                info[key] = ', '.join(info[key])
+            elif isinstance(info[key], dict):
+                info[key] = '; '.join(f'{k}: {v}' for k, v in info[key].items())
 
     return info
 
