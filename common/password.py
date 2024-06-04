@@ -243,16 +243,30 @@ class Password(object):
         else:
             return None
 
-    def passwordFromUser(self, parent, profile_id = None, mode = None, pw_id = 1, prompt = None):
+    def passwordFromUser(self,
+                         parent,
+                         profile_id=None,
+                         mode=None,
+                         pw_id=1,
+                         prompt=None):
+        """Ask user for password.
+
+        Use terminal input or a dialog box if X is available. This does even
+        work when run as cronjob and user is logged in.
+
+        Args:
+            parent: Parent of the ``QMessageDialog``.
+            profile_id(str): Profile identifier.
+            mode(str): Mode identifier (e.g. SSH (encrypted)).
+            pwd_id(int): See :data:`config.SNAPSHOT_MODES` for details.
+            propt(str): Alternative string used as prompt.
+
+        Return:
+            str: The password.
         """
-        ask user for password. This does even work when run as cronjob
-        and user is logged in.
-        """
+        # Default prompt
         if prompt is None:
-            """
-            Profile {name}: Enter password for {mode}
-            """
-            prompt = _("Profile '{profile}': Enter password for {mode}: ") \
+            prompt = _('Enter password for {mode} profile "{profile}":') \
                 .format(
                     profile=self.config.profileName(profile_id),
                     mode=self.config.SNAPSHOT_MODES[mode][pw_id+1])
@@ -261,24 +275,31 @@ class Password(object):
 
         x_server = tools.checkXServer()
         import_successful = False
+
         if x_server:
             try:
                 import messagebox
                 import_successful = True
+
             except ImportError:
                 pass
 
         if not import_successful or not x_server:
             import getpass
+
             alarm = tools.Alarm()
             alarm.start(300)
+
             try:
-                password = getpass.getpass(prompt)
+                password = getpass.getpass(prompt + ' ')
                 alarm.stop()
+
             except Timeout:
                 password = ''
+
             return password
 
+        # Use QDialog as graphical prompt
         password = messagebox.askPasswordDialog(
             parent=parent,
             title=self.config.APP_NAME,
