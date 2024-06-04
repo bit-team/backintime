@@ -10,6 +10,7 @@ import fcntl
 from pathlib import Path
 import logger
 
+logger.DEBUG = True
 
 class _FlockContext:
     """Context manager to manage file locks (flock).
@@ -37,6 +38,20 @@ class _FlockContext:
 
         self._file_path = folder / filename
         """Path to used for flock"""
+
+        if not self._file_path.exists():
+            try:
+                self._file_path.touch()
+            except PermissionError:
+                self._file_path = self._determine_user_flock(filename)
+
+    def _determine_user_flock(self, filename: str):
+        folder = Path(Path.cwd().root) / 'run' / 'user'
+        folder = folder / str(os.getuid()) / filename
+
+        logger.info(f'{folder=}')
+
+        folder.touch()
 
     def __enter__(self):
         self._log('Set')
