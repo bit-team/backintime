@@ -36,7 +36,7 @@ def collect_minimal_diagnostics():
         'backintime': {
             'name': config.Config.APP_NAME,
             'version': version.__version__,
-            'running-as-root': pwd.getpwuid(os.getuid()) == 'root'
+            'running-as-root': pwd.getpwuid(os.getuid()) == 'root',
         },
         'host-setup': {
             'OS': _get_os_release()
@@ -154,35 +154,7 @@ def collect_diagnostics():
     # === EXTERN TOOL ===
     result['external-programs'] = {}
 
-    # rsync
-    # rsync >= 3.2.7: -VV return a json
-    # rsync <= 3.2.6 and > (somewhere near) 3.1.3: -VV return the same as -V
-    # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
-    # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
-
-    # This works when rsync understands -VV and returns json or human readable
-    result['external-programs']['rsync'] = _get_extern_versions(
-        ['rsync', '-VV'],
-        r'rsync  version (.*)  protocol version',
-        try_json=True,
-        error_pattern=r'unknown option'
-    )
-
-    # When -VV was unknown use -V and parse the human readable output
-    if not result['external-programs']['rsync']:
-        # try the old way
-        result['external-programs']['rsync'] = _get_extern_versions(
-            ['rsync', '--version'],
-            r'rsync  version (.*)  protocol version'
-        )
-    elif isinstance(result['external-programs']['rsync'], dict):
-        # Rsync (>= 3.2.7)provided its information in JSON format.
-        # Remove some irrelevant information.
-        for key in ['program', 'copyright', 'url', 'license', 'caveat']:
-            try:
-                del result['external-programs']['rsync'][key]
-            except KeyError:
-                pass
+    result['external-programs']['rsync'] = _get_rsync_info()
 
     # ssh
     result['external-programs']['ssh'] = _get_extern_versions(['ssh', '-V'])
@@ -213,6 +185,7 @@ def collect_diagnostics():
     )
 
     return result
+
 
 
 def _get_qt_information():
@@ -315,6 +288,55 @@ def _get_extern_versions(cmd,
             result = re.findall(pattern, result)[0]
 
     return result.strip()  # as string
+
+
+def _get_rsync_info():
+    """Collect infos about rsync.
+
+    Returns:
+        dict: Collected info
+    """
+    # rsync
+    # rsync >= 3.2.7: -VV return a json
+    # rsync <= 3.2.6 and > (somewhere near) 3.1.3: -VV return the same as -V
+    # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
+    # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
+
+    # This works when rsync understands -VV and returns json or human readable
+    info = _get_extern_versions(
+        ['rsync', '-VV'],
+        r'rsync  version (.*)  protocol version',
+        try_json=True,
+        error_pattern=r'unknown option'
+    )
+
+    # When -VV was unknown use -V and parse the human readable output
+    if not info:
+        # try the old way
+        info = _get_extern_versions(
+            ['rsync', '--version'],
+            r'rsync  version (.*)  protocol version'
+        )
+
+    elif isinstance(info, dict):
+        # Rsync (>= 3.2.7)provided its information in JSON format.
+        # Remove some irrelevant information.
+        for key in ['program', 'copyright', 'url', 'license', 'caveat']:
+            try:
+                del info[key]
+            except KeyError:
+                pass
+
+        # Reduce use of vertical space with transforming lists and dicts into
+        # strings.
+        for key in ['daemon_auth_list', 'compress_list', 'checksum_list',
+                    'optimizations', 'capabilities']:
+            if isinstance(info[key], list):
+                info[key] = ', '.join(info[key])
+            elif isinstance(info[key], dict):
+                info[key] = '; '.join(f'{k}: {v}' for k, v in info[key].items())
+
+    return info
 
 
 def _get_os_release():

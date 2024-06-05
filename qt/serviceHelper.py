@@ -69,8 +69,6 @@ try:
 except ImportError:
     pwd = None
 
-# "dbus-python" not available for ppc64le architecture
-# "dbus.mainloop.pyqt6" not available via PyPi for any architecture
 import dbus
 import dbus.service
 import dbus.mainloop
@@ -82,17 +80,22 @@ from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 
+
 class InvalidChar(dbus.DBusException):
     _dbus_error_name = 'net.launchpad.backintime.InvalidChar'
+
 
 class InvalidCmd(dbus.DBusException):
     _dbus_error_name = 'net.launchpad.backintime.InvalidCmd'
 
+
 class LimitExceeded(dbus.DBusException):
     _dbus_error_name = 'net.launchpad.backintime.LimitExceeded'
 
+
 class PermissionDeniedByPolicy(dbus.DBusException):
     _dbus_error_name = 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
+
 
 class UdevRules(dbus.service.Object):
     def __init__(self, conn=None, object_path=None, bus_name=None):
@@ -114,7 +117,7 @@ class UdevRules(dbus.service.Object):
         self.max_cmd_len = 120  # was 100 before but was too small (see #1027)
 
     def _which(self, exe, fallback):
-        proc = Popen(['which', exe], stdout = PIPE)
+        proc = Popen(['which', exe], stdout=PIPE)
         ret = proc.communicate()[0].strip().decode()
         if proc.returncode or not ret:
             return fallback
@@ -148,18 +151,23 @@ class UdevRules(dbus.service.Object):
                 break
 
         if not parts:
-            raise InvalidCmd("Parameter 'cmd' does not contain the backintime command")
+            raise InvalidCmd(
+                "Parameter 'cmd' does not contain the backintime command")
+
         elif parts[0] != self.backintime:
-            raise InvalidCmd("Parameter 'cmd' contains non-whitelisted cmd/parameter (%s)" % parts[0])
+            raise InvalidCmd("Parameter 'cmd' contains non-whitelisted "
+                             f"cmd/parameter ({parts[0]})")
 
     def _checkLimits(self, owner, cmd):
 
         if len(self.tmpDict.get(owner, [])) >= self.max_rules:
             raise LimitExceeded("Maximum number of cached rules reached (%d)"
                             % self.max_rules)
+
         elif len(self.tmpDict) >= self.max_users:
             raise LimitExceeded("Maximum number of cached users reached (%d)"
                             % self.max_users)
+
         elif len(cmd) > self.max_cmd_len:
             raise LimitExceeded("Maximum length of command line reached (%d)"
                             % self.max_cmd_len)
@@ -173,12 +181,12 @@ class UdevRules(dbus.service.Object):
         This is done on the service side to prevent malicious code to
         run as root.
         """
-        #prevent breaking out of su command
+        # prevent breaking out of su command
         chars = re.findall(r'[^a-zA-Z0-9-/\.>& ]', cmd)
         if chars:
             raise InvalidChar("Parameter 'cmd' contains invalid character(s) %s"
                               % '|'.join(set(chars)))
-        #only allow relevant chars in uuid
+        # only allow relevant chars in uuid
         chars = re.findall(r'[^a-zA-Z0-9-]', uuid)
         if chars:
             raise InvalidChar("Parameter 'uuid' contains invalid character(s) %s"
@@ -200,6 +208,7 @@ class UdevRules(dbus.service.Object):
         #store rule
         if not owner in self.tmpDict:
             self.tmpDict[owner] = []
+
         self.tmpDict[owner].append(rule)
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
@@ -220,17 +229,22 @@ class UdevRules(dbus.service.Object):
         if not owner in self.tmpDict or not self.tmpDict[owner]:
             self.delete(sender, conn)
             return False
+
         #return False if rule already exist.
         if os.path.exists(UDEV_RULES_PATH % user):
             with open(UDEV_RULES_PATH % user, 'r') as f:
                 if self.tmpDict[owner] == f.readlines():
                     self._clean(owner)
                     return False
+
         #auth to save changes
         self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleSave')
+
         with open(UDEV_RULES_PATH % user, 'w') as f:
             f.writelines(self.tmpDict[owner])
+
         self._clean(owner)
+
         return True
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
@@ -244,6 +258,7 @@ class UdevRules(dbus.service.Object):
         user = info.connectionUnixUser()
         owner = info.nameOwner()
         self._clean(owner)
+
         if os.path.exists(UDEV_RULES_PATH % user):
             #auth to delete rule
             self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleDelete')
@@ -293,21 +308,35 @@ class UdevRules(dbus.service.Object):
 
         # query PolicyKit
         self._initPolkit()
+
         try:
-            # we don't need is_challenge return here, since we call with AllowUserInteraction
+            # We don't need is_challenge return here, since we call
+            # with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
-                    ('system-bus-name', {'name': dbus.String(sender, variant_level=1)}),
-                    privilege, {'': ''}, dbus.UInt32(1), '', timeout=3000)
+                (
+                    'system-bus-name',
+                    {'name': dbus.String(sender, variant_level=1)}
+                ),
+                privilege,
+                {'': ''},
+                dbus.UInt32(1),
+                '',
+                timeout=3000
+            )
+
         except dbus.DBusException as e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
                 # polkitd timed out, connect again
                 self.polkit = None
+
                 return self._checkPolkitPrivilege(sender, conn, privilege)
+
             else:
                 raise
 
         if not is_auth:
             raise PermissionDeniedByPolicy(privilege)
+
 
 class SenderInfo(object):
     def __init__(self, sender, conn):
@@ -327,6 +356,7 @@ class SenderInfo(object):
 
     def connectionPid(self):
         return self.dbus_info.GetConnectionUnixProcessID(self.sender)
+
 
 if __name__ == '__main__':
     DBusQtMainLoop(set_as_default=True)

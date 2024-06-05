@@ -116,9 +116,10 @@ class SshProxyWidget(QWidget):
 
         qttools.set_wrapped_tooltip(
             self,
-            'Connect to the target host via this proxy (also known as a jump '
-            'host). See "-J" in the "ssh" command documentation or '
-            '"ProxyJump" in "ssh_config" man page for details.')
+            _('Connect to the target host via this proxy (also known as a '
+              'jump host). See "-J" in the "ssh" command documentation or '
+              '"ProxyJump" in "ssh_config" man page for details.')
+        )
 
     def _slot_checkbox_changed(self, state):
         if Qt.CheckState(state) == Qt.CheckState.Checked:
@@ -425,7 +426,7 @@ class SettingsDialog(QDialog):
         self.txt_profile.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txt_profile)
 
-        self.lblFullPath = QLabel(_('Full snapshot path') + ': ', self)
+        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
@@ -452,7 +453,8 @@ class SettingsDialog(QDialog):
                 'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
             config.Config._30_MIN: ngettext(
                 'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
-            config.Config._1_HOUR: _('Every hour'),
+            config.Config._1_HOUR: ngettext(
+                'Every hour', 'Every {n} hours', 1).format(n=1),
             config.Config._2_HOURS: ngettext(
                 'Every {n} hour', 'Every {n} hours', 2).format(n=2),
             config.Config._4_HOURS: ngettext(
@@ -628,20 +630,19 @@ class SettingsDialog(QDialog):
         self.tabs.addTab(tabWidget, _('&Exclude'))
         layout = QVBoxLayout(tabWidget)
 
-        self.lblSshEncfsExcludeWarning = QLabel(
-            "<b>{}:</b> {}".format(
-                _('Info'),
-                _(
-                    "In 'SSH encrypted' mode, only single or double asterisks "
-                    "are functional (e.g. {example2}). Other types of "
-                    "wildcards and patterns will be ignored (e.g. {example1})."
-                    "Filenames are unpredictable in this mode due to "
-                    "encryption by EncFS."
-                ).format(example1="<code>'foo*'</code>, "
-                                  "<code>'[fF]oo'</code>, "
-                                  "<code>'fo?'</code>",
-                         example2="<code>'foo/*'</code>, "
-                                  "<code>'foo/**/bar'</code>")
+        self.lblSshEncfsExcludeWarning = QLabel(_(
+            "{BOLD}Info{ENDBOLD}: "
+            "In 'SSH encrypted' mode, only single or double asterisks are "
+            "functional (e.g. {example2}). Other types of wildcards and "
+            "patterns will be ignored (e.g. {example1}). Filenames are "
+            "unpredictable in this mode due to encryption by EncFS.").format(
+                BOLD='<strong>',
+                ENDBOLD='</strong>',
+                example1="<code>'foo*'</code>, "
+                         "<code>'[fF]oo'</code>, "
+                         "<code>'fo?'</code>",
+                example2="<code>'foo/*'</code>, "
+                         "<code>'foo/**/bar'</code>"
             ),
             self
         )
@@ -787,7 +788,7 @@ class SettingsDialog(QDialog):
         self.cbFreeInodes.stateChanged.connect(enabled)
 
         # smart remove
-        self.cbSmartRemove = QCheckBox(_('Smart remove:'), self)
+        self.cbSmartRemove = QCheckBox(_('Smart removal:'), self)
         layout.addWidget(self.cbSmartRemove, 3, 0)
 
         widget = QWidget(self)
@@ -1029,8 +1030,7 @@ class SettingsDialog(QDialog):
         # bwlimit
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
-        self.cbBwlimit = QCheckBox(
-            _('Limit rsync bandwidth usage') + ': ', self)
+        self.cbBwlimit = QCheckBox(_('Limit rsync bandwidth usage:'), self)
         hlayout.addWidget(self.cbBwlimit)
         self.spbBwlimit = QSpinBox(self)
         self.spbBwlimit.setSuffix(' ' + _('KB/sec'))
@@ -1220,14 +1220,14 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing = QCheckBox(_('Check if remote host is online'))
         qttools.set_wrapped_tooltip(
             self.cbSshCheckPing,
-            _('Warning: if disabled and the remote host is not available, '
+            _('Warning: If disabled and the remote host is not available, '
               'this could lead to some weird errors.')
         )
         self.cbSshCheckCommands = QCheckBox(
-            _('Check if remote host supports all necessary commands'))
+            _('Check if remote host supports all necessary commands.'))
         qttools.set_wrapped_tooltip(
             self.cbSshCheckCommands,
-            _('Warning: if disabled and the remote host does not support all '
+            _('Warning: If disabled and the remote host does not support all '
               'necessary commands, this could lead to some weird errors.')
         )
         layout.addWidget(self.cbSshCheckPing)
@@ -1400,14 +1400,17 @@ class SettingsDialog(QDialog):
         ))
 
         if not recommend:
-            recommend = [_('(All recommendations already included.)')]
+            text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
+                    'already included.)').format(
+                        BOLD='<strong>', ENDBOLD='</strong>')
 
-        self._label_exclude_recommend.setText(
-            '<strong>{}</strong>: {}'.format(
-                _('Highly recommended'),
-                ', '.join(sorted(recommend))
-            )
-        )
+        else:
+            text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
+                BOLD='<strong>',
+                ENDBOLD='</strong>',
+                files=', '.join(sorted(recommend)))
+
+        self._label_exclude_recommend.setText(text)
 
     def updateProfile(self):
         if self.config.currentProfile() == '1':
@@ -1646,9 +1649,10 @@ class SettingsDialog(QDialog):
 
             if not self.txtSshPrivateKeyFile.text():
 
-                question = _('You did not choose a private key file for '
-                             'SSH.\nWould you like to generate a new '
-                             'password-less public/private key pair?')
+                question = '{}\n{}'.format(
+                        _('You did not choose a private key file for SSH.'),
+                        _('Would you like to generate a new password-less '
+                          'public/private key pair?'))
                 if self.questionHandler(question):
                     self.btnSshKeyGenClicked()
 
@@ -1808,13 +1812,12 @@ class SettingsDialog(QDialog):
 
             try:
                 mnt.preMountCheck(mode=mode, first_run=True, **mount_kwargs)
+
             except NoPubKeyLogin as ex:
                 logger.error(str(ex), self)
 
-                question = _(
-                    'Would you like to copy your public SSH key to the\n'
-                    'remote host to enable password-less login?'
-                )
+                question = _('Would you like to copy your public SSH key to '
+                             'the remote host to enable password-less login?')
                 rc_copy_id = sshtools.sshCopyId(
                     self.config.sshPrivateKeyFile() + '.pub',
                     self.config.sshUser(),
@@ -1843,17 +1846,19 @@ class SettingsDialog(QDialog):
 
                     return False
 
-                msg = _("The authenticity of host {host} can't be "
-                        "established.\n\n{keytype} key fingerprint is:") \
-                        .format(host='"{}"'.format(self.config.sshHost()),
-                                keytype=keyType)
+                msg = '{}\n\n{}'.format(
+                        _("The authenticity of host {host} can't be "
+                          "established.").format(
+                              host=self.config.sshHost()),
+                        _('{keytype} key fingerprint is:').format(
+                            keytype=keyType))
                 options = []
                 lblFingerprint = QLabel(fingerprint + '\n')
                 lblFingerprint.setWordWrap(False)
                 lblFingerprint.setFont(QFont('Monospace'))
                 options.append({'widget': lblFingerprint, 'retFunc': None})
                 lblQuestion = QLabel(
-                    _("Please verify this fingerprint! Would you like to "
+                    _("Please verify this fingerprint. Would you like to "
                       "add it to your 'known_hosts' file?")
                 )
                 options.append({'widget': lblQuestion, 'retFunc': None})
@@ -2238,7 +2243,7 @@ class SettingsDialog(QDialog):
         else:
             path = self.editSnapshotsPath.text()
         self.lblFullPath.setText(
-            _('Full snapshot path: ') +
+            _('Full snapshot path:') + ' ' +
             os.path.join(
                 path,
                 'backintime',
@@ -2327,13 +2332,8 @@ class SettingsDialog(QDialog):
             self.listExclude.header(), self.listExcludeSortLoop, *args)
 
     def printDefault(self, value):
-        if value:
-            value_ = _('enabled')
-
-        else:
-            value_ = _('disabled')
-
-        return ' (%s: %s)' % (_('default'), value_)
+        return ' ' + _('(default: {})').format(
+            _('enabled') if value else _('disabled'))
 
     def restoreConfig(self, *args):
         RestoreConfigDialog(self).exec()
@@ -2590,9 +2590,9 @@ class RestoreConfigDialog(QDialog):
         for row, profileId in enumerate(cfg.profiles()):
 
             for col, txt in enumerate((
-                    _('Profile') + ': ' + str(profileId),
+                    _('Profile:') + str(profileId),
                     cfg.profileName(profileId),
-                    _('Mode') + ': ' + cfg.SNAPSHOT_MODES[
+                    _('Mode:') + cfg.SNAPSHOT_MODES[
                         cfg.snapshotsMode(profileId)][1]
                     )):
                 self.gridProfiles.addWidget(QLabel(txt, self), row, col)
@@ -2740,14 +2740,14 @@ class EditUserCallback(QDialog):
             logger.error(
                 'user-callback script has no shebang (#!/bin/sh) line.')
             self.config.errorHandler(
-                _('user-callback script has no shebang (#!/bin/sh) line.'))
+                'user-callback script has no shebang (#!/bin/sh) line.')
 
             return False
 
         if not tools.checkCommand(m.group(1)):
             logger.error('Shebang in user-callback script is not executable.')
-            self.config.errorHandler(
-                _('Shebang in user-callback script is not executable.'))
+            self.config.errorHandle(
+                'Shebang in user-callback script is not executable.')
 
             return False
 
