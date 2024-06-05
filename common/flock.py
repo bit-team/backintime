@@ -62,9 +62,14 @@ class _FlockContext:
         try:
             file_path.touch(mode=0o666)
         except PermissionError:
-            logger.info(f'Cannot use file lock on {file_path}.')
+            logger.debug(f'Cannot use file lock on {file_path}.')
+        except Exception as err:
+            logger.error(f'Unknown error while testing file '
+                         f'lock on {file_path}. Error was {err}.')
         else:
-            logger.info(f'Use {file_path} for file lock.')
+            print('X'*100)
+            logger.debug(f'Use {file_path} for file lock.')
+            return True
 
         return False
 
