@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-01-27 04:41+0000\n"
-"Last-Translator: MarvinDarwin <ivan.horak@outlook.com>\n"
+"PO-Revision-Date: 2024-05-28 11:27+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Croatian <https://translate.codeberg.org/projects/backintime/common/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:46 qt/settingsdialog.py:229
@@ -53,17 +53,15 @@ msgstr ""
 
 #: common/config.py:350 common/config.py:362 common/config.py:379
 #: common/config.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:351
-#, fuzzy
 msgid "Snapshots folder is not valid!"
 msgstr "Mapa snimki nije valjana !"
 
 #: common/config.py:363
-#, fuzzy
 msgid "You must select at least one folder to back up!"
 msgstr "Morate odabrati barem jednu mapu za rezervu !"
 
@@ -85,7 +83,7 @@ msgid "Host/User/Profile-ID must not be empty."
 msgstr ""
 
 #: common/config.py:458 common/config.py:505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
@@ -124,7 +122,6 @@ msgid ""
 msgstr ""
 
 #: common/config.py:1640
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -164,7 +161,7 @@ msgid "Failed to load config"
 msgstr ""
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profil \"{name}\" već postoji."
 
@@ -230,7 +227,6 @@ msgid "FAILED"
 msgstr "NEUSPJEŠNO"
 
 #: common/snapshots.py:560 common/snapshots.py:622
-#, fuzzy
 msgid "Restore permissions"
 msgstr "Spremi dopuštenje"
 
@@ -244,7 +240,6 @@ msgid "Deferring backup while on battery"
 msgstr ""
 
 #: common/snapshots.py:834
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -261,7 +256,7 @@ msgstr[1] "Čekanje %s sekundi."
 msgstr[2] "Čekanje %s sekundi."
 
 #: common/snapshots.py:906
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Neuspjelo uzimanje snimke {snapshot_id}."
 
@@ -274,14 +269,12 @@ msgid "Can't create folder"
 msgstr "Nije moguće napraviti mapu"
 
 #: common/snapshots.py:1085
-#, fuzzy
 msgid "Saving config file…"
-msgstr "Spremi datoteku postavki ..."
+msgstr "Spremi datoteku postavki …"
 
 #: common/snapshots.py:1166
-#, fuzzy
 msgid "Saving permissions…"
-msgstr "Spremi dopuštenje ..."
+msgstr "Spremi dopuštenje …"
 
 #: common/snapshots.py:1278
 #, python-brace-format
@@ -349,7 +342,7 @@ msgid "Trying to keep min free space"
 msgstr "Pokušaj sačuvati min slobodno mjesta"
 
 #: common/snapshots.py:1928
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokušaj sačuvati min {perc} slobodno mjesta"
 
@@ -390,7 +383,6 @@ msgid "Remote path is not executable."
 msgstr ""
 
 #: common/sshtools.py:697
-#, fuzzy
 msgid "Couldn't create remote path."
 msgstr "Nije moguće napraviti mapu."
 
@@ -471,7 +463,6 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:377
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -480,7 +471,6 @@ msgstr ""
 "Ako je na izmjenjivom disku, molimo, spojite ga i pritisnite OK."
 
 #: qt/app.py:465
-#, fuzzy
 msgid "Take a snapshot"
 msgstr "Uzmi snimku"
 
@@ -509,34 +499,28 @@ msgid "Stop snapshot process"
 msgstr ""
 
 #: qt/app.py:488
-#, fuzzy
 msgid "Refresh snapshot list"
 msgstr "Osvježi popis snimki"
 
 #: qt/app.py:492
-#, fuzzy
 msgid "Name snapshot"
 msgstr "Uzmi snimku"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Remove snapshot"
 msgstr "Ukloni Snimku"
 
 #: qt/app.py:500
-#, fuzzy
 msgid "View snapshot log"
 msgstr "Prikaži Zapis Snimke"
 
 #: qt/app.py:504
-#, fuzzy
 msgid "View last log"
 msgstr "Prikaži Zadnji Zapis"
 
 #: qt/app.py:508
-#, fuzzy
 msgid "Manage profiles…"
-msgstr "Glavni profil"
+msgstr "Glavni profil…"
 
 #: qt/app.py:512
 msgid "Shutdown"
@@ -559,7 +543,6 @@ msgid "Help"
 msgstr "Pomoć"
 
 #: qt/app.py:528
-#, fuzzy
 msgid "Profiles config file"
 msgstr "Spremi datoteku postavki"
 
@@ -597,9 +580,8 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
 #: qt/app.py:557 qt/app.py:1515 qt/app.py:1547 qt/snapshotsdialog.py:166
-#, fuzzy
 msgid "Restore to …"
-msgstr "Povrati"
+msgstr "Povrati…"
 
 #: qt/app.py:559
 msgid "Restore the selected files or folders to a new destination."
@@ -626,9 +608,8 @@ msgid "Show hidden files"
 msgstr "Prikaži skrivene datoteke"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Compare snapshots…"
-msgstr "Uzmi snimku"
+msgstr "Uzmi snimku…"
 
 #: qt/app.py:637
 msgid "Back In &Time"
@@ -639,12 +620,10 @@ msgid "&Backup"
 msgstr ""
 
 #: qt/app.py:653
-#, fuzzy
 msgid "&Restore"
 msgstr "&Povrati"
 
 #: qt/app.py:659
-#, fuzzy
 msgid "&Help"
 msgstr "Po&moć"
 
@@ -663,7 +642,6 @@ msgid "Done, no backup needed"
 msgstr "Završeno, nije potrebna rezerva"
 
 #: qt/app.py:1017
-#, fuzzy
 msgid "Working"
 msgstr "Radim"
 
@@ -704,7 +682,6 @@ msgid "Snapshot Name"
 msgstr "Ime Snimke"
 
 #: qt/app.py:1286
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Jeste li sigurni da želite ukloniti snimku"
@@ -745,7 +722,7 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1453
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -757,7 +734,6 @@ msgstr[1] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
 msgstr[2] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
 
 #: qt/app.py:1462
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Jeste li sigurni da želite ukloniti snimku"
@@ -780,19 +756,18 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1719
-#, fuzzy
 msgid "Snapshot"
 msgstr "Snimke"
 
 #: qt/app.py:1756
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Povrati {path}"
 
 #: qt/app.py:1758
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Povrati {path}"
+msgstr "Povrati {path}…"
 
 #: qt/app.py:1915
 msgid "The language settings take effect only after restarting Back In Time."
@@ -849,19 +824,16 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "Profil"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Snimke"
+msgstr "Snimke:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Filter"
+msgstr "Filter:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
@@ -877,7 +849,6 @@ msgid "Errors"
 msgstr "Grješke"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "Informacije"
 
@@ -898,7 +869,6 @@ msgid "Question"
 msgstr ""
 
 #: qt/qtsystrayicon.py:77 qt/settingsdialog.py:2589
-#, fuzzy
 msgid "Profile"
 msgstr "Profil"
 
@@ -912,9 +882,8 @@ msgid "Start {appname}"
 msgstr ""
 
 #: qt/qtsystrayicon.py:174
-#, fuzzy
 msgid "Working…"
-msgstr "Radim"
+msgstr "Radim…"
 
 #: qt/qtsystrayicon.py:205
 msgid "Sent:"
@@ -966,21 +935,18 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "Domaćin"
+msgstr "Domaćin:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
 msgid "Port:"
 msgstr ""
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "Korisnik"
+msgstr "Korisnik:"
 
 #: qt/settingsdialog.py:165
-#, fuzzy
 msgid "Manage profiles"
 msgstr "Glavni profil"
 
@@ -997,7 +963,6 @@ msgid "Remove"
 msgstr ""
 
 #: qt/settingsdialog.py:205
-#, fuzzy
 msgid "&General"
 msgstr "&Općenito"
 
@@ -1080,7 +1045,7 @@ msgid "At every boot/reboot"
 msgstr "Pri svakom paljenju/podizanju"
 
 #: qt/settingsdialog.py:447 qt/settingsdialog.py:449 qt/settingsdialog.py:451
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Svakih {n} minuta"
@@ -1093,7 +1058,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
 #: qt/settingsdialog.py:460
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Svakih {n} sati"
@@ -1105,7 +1070,6 @@ msgid "Custom hours"
 msgstr ""
 
 #: qt/settingsdialog.py:462
-#, fuzzy
 msgid "Every day"
 msgstr "Svaki dan"
 
@@ -1118,17 +1082,14 @@ msgid "When drive gets connected (udev)"
 msgstr ""
 
 #: qt/settingsdialog.py:465
-#, fuzzy
 msgid "Every week"
 msgstr "Svaki tjedan"
 
 #: qt/settingsdialog.py:466
-#, fuzzy
 msgid "Every month"
 msgstr "Svaki mjesec"
 
 #: qt/settingsdialog.py:467
-#, fuzzy
 msgid "Every year"
 msgstr "Svake godine"
 
@@ -1141,14 +1102,12 @@ msgid "Weekday:"
 msgstr ""
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "Sat"
+msgstr "Sat:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "Sat"
+msgstr "Sat:"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1157,9 +1116,8 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "Svakih"
+msgstr "Svakih:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1198,7 +1156,6 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:586
-#, fuzzy
 msgid "&Include"
 msgstr "&Uključi"
 
@@ -1215,7 +1172,6 @@ msgid "Add folder"
 msgstr "Dodaj mapu"
 
 #: qt/settingsdialog.py:624
-#, fuzzy
 msgid "&Exclude"
 msgstr "&Isključi"
 
@@ -1241,9 +1197,8 @@ msgid "Add default"
 msgstr ""
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Isključi datoteku"
+msgstr "Isključi datoteku:"
 
 #: qt/settingsdialog.py:702
 #, python-brace-format
@@ -1259,33 +1214,28 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "&Auto-remove"
 msgstr "&Auto-ukloni"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "Starije od"
+msgstr "Starije od:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Godina"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Ako je slobodan prostor manji od"
+msgstr "Ako je slobodan prostor manji od:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Ako je slobodan prostor manji od"
+msgstr "Ako je slobodan prostor manji od:"
 
 #: qt/settingsdialog.py:786
-#, fuzzy
 msgid "Smart remove:"
-msgstr "Smart uklanjanje"
+msgstr "Smart uklanjanje:"
 
 #: qt/settingsdialog.py:797
 msgid "Run in background on remote host."
@@ -1300,9 +1250,8 @@ msgid "Keep all snapshots for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:808 qt/settingsdialog.py:815
-#, fuzzy
 msgid "day(s)."
-msgstr "Dan(a)"
+msgstr "Dan(a)."
 
 #: qt/settingsdialog.py:811
 msgid "Keep one snapshot per day for the last"
@@ -1313,9 +1262,8 @@ msgid "Keep one snapshot per week for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:822
-#, fuzzy
 msgid "week(s)."
-msgstr "Tjedan(a)"
+msgstr "Tjedan(a)."
 
 #: qt/settingsdialog.py:825
 msgid "Keep one snapshot per month for the last"
@@ -1330,12 +1278,10 @@ msgid "Keep one snapshot per year for all years."
 msgstr ""
 
 #: qt/settingsdialog.py:841
-#, fuzzy
 msgid "Don't remove named snapshots."
-msgstr "Nemoj uklanjati imenovane snimke"
+msgstr "Nemoj uklanjati imenovane snimke."
 
 #: qt/settingsdialog.py:853
-#, fuzzy
 msgid "&Options"
 msgstr "Op&cije"
 
@@ -1379,16 +1325,14 @@ msgid "Take a new snapshot whether there were changes or not."
 msgstr ""
 
 #: qt/settingsdialog.py:910
-#, fuzzy
 msgid "Log Level:"
-msgstr "Razina Zapisa"
+msgstr "Razina Zapisa:"
 
 #: qt/settingsdialog.py:915
 msgid "None"
 msgstr "Nijedno"
 
 #: qt/settingsdialog.py:935
-#, fuzzy
 msgid "E&xpert Options"
 msgstr "&Stručne opcije"
 
@@ -1532,7 +1476,7 @@ msgid "Rename profile"
 msgstr "Preimenuj profil"
 
 #: qt/settingsdialog.py:1295
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Jeste li sigurni da želite obrisati profil \"{name}\" ?"
 
@@ -1541,7 +1485,6 @@ msgid "(All recommendations already included.)"
 msgstr ""
 
 #: qt/settingsdialog.py:1403
-#, fuzzy
 msgid "Highly recommended"
 msgstr "Visoko preporučeno"
 
@@ -1610,7 +1553,6 @@ msgid "Include folder"
 msgstr "Uključi mapu"
 
 #: qt/settingsdialog.py:2132
-#, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Jeste li sigurni da želite promjeniti mapu snimki?"
 
@@ -1678,14 +1620,12 @@ msgid "Options about comparing snapshots"
 msgstr ""
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command"
 msgstr "Naredba"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parametri"
+msgstr "Parametri:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1736,12 +1676,10 @@ msgid "Go To"
 msgstr "Idi Na"
 
 #: qt/snapshotsdialog.py:204
-#, fuzzy
 msgid "Options"
 msgstr "Opcije"
 
 #: qt/snapshotsdialog.py:355
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
 msgstr "Nije moguće usporediti snimku s njom samom."
 

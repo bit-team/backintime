@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-01-31 23:54+0000\n"
-"Last-Translator: Ayako Buhtz, kazuo <kazu.nito@gmail.com>\n"
+"PO-Revision-Date: 2024-05-28 11:27+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:46 qt/settingsdialog.py:229
@@ -707,13 +707,13 @@ msgstr ""
 "末尾に {suffix} を付けたバックアップコピーを作成する。"
 
 #: qt/app.py:1388 qt/settingsdialog.py:883
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更されます\n"
-"もし不要の場合は以下のコマンドで削除してください : {cmd}"
+"復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更されます。もし不要の場合は以下のコマンドで削除してください : "
+"{cmd}"
 
 #: qt/app.py:1404
 msgid ""
@@ -730,17 +730,14 @@ msgid "Remove newer elements in original folder."
 msgstr "元のフォルダ内の新しいファイルを削除する。"
 
 #: qt/app.py:1442
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"選択したファイルやフォルダを元の保存先に復元し\n"
-"スナップショットに含まれないファイルやフォルダを削除します。\n"
-"これによって\n"
-"スナップショット作成時に除外されたファイルやフォルダが\n"
+"選択したファイルやフォルダを元の保存先に復元し "
+"スナップショットに含まれないファイルやフォルダを削除します。これによってスナップショット作成時に除外されたファイルやフォルダが "
 "削除されるので、十分注意してください。"
 
 #: qt/app.py:1453
@@ -843,19 +840,16 @@ msgid "Snapshot Log View"
 msgstr "スナップショットログを表示"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "プロファイル"
+msgstr "プロファイル:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "スナップショット"
+msgstr "スナップショット:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "フィルタ"
+msgstr "フィルタ:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
@@ -908,14 +902,12 @@ msgid "Working…"
 msgstr "作業中…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "送信"
+msgstr "送信:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "速度"
+msgstr "速度:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -959,19 +951,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "ホスト"
+msgstr "ホスト:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
-#, fuzzy
 msgid "Port:"
-msgstr "ポート"
+msgstr "ポート:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "ユーザ"
+msgstr "ユーザ:"
 
 #: qt/settingsdialog.py:165
 msgid "Manage profiles"
@@ -994,9 +983,8 @@ msgid "&General"
 msgstr "一般"
 
 #: qt/settingsdialog.py:215
-#, fuzzy
 msgid "Mode:"
-msgstr "モード"
+msgstr "モード:"
 
 #: qt/settingsdialog.py:230
 #, python-brace-format
@@ -1021,19 +1009,16 @@ msgid "SSH Settings"
 msgstr "SHH 設定"
 
 #: qt/settingsdialog.py:292
-#, fuzzy
 msgid "Path:"
-msgstr "パス名"
+msgstr "パス名:"
 
 #: qt/settingsdialog.py:298
-#, fuzzy
 msgid "Cipher:"
-msgstr "暗号化方法"
+msgstr "暗号化方法:"
 
 #: qt/settingsdialog.py:304
-#, fuzzy
 msgid "Private Key:"
-msgstr "プライベート鍵"
+msgstr "プライベート鍵:"
 
 #: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1127,19 +1112,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:483
-#, fuzzy
 msgid "Weekday:"
-msgstr "曜日"
+msgstr "曜日:"
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "時"
+msgstr "時:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "時間"
+msgstr "時間:"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1148,9 +1130,8 @@ msgid ""
 msgstr "Run Back In Time を繰り返し実行する。コンピュータを定期的に起動していない場合に便利です。"
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "毎"
+msgstr "毎:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1232,9 +1213,8 @@ msgid "Add default"
 msgstr "標準設定に追加"
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "これより大きいファイルは除外する: "
+msgstr "これより大きいファイルは除外する:"
 
 #: qt/settingsdialog.py:702
 #, fuzzy, python-brace-format
@@ -1260,23 +1240,20 @@ msgid "&Auto-remove"
 msgstr "自動削除"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "以下より古い場合"
+msgstr "以下より古い場合:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "年"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "以下より空き容量が少ない場合"
+msgstr "以下より空き容量が少ない場合:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "以下より空きのイノードが少ない場合"
+msgstr "以下より空きのイノードが少ない場合:"
 
 #: qt/settingsdialog.py:786
 msgid "Smart remove:"
@@ -1347,15 +1324,12 @@ msgid "Run only one snapshot at a time"
 msgstr "一度に作成するスナップショットの数をひとつに限定して実行する"
 
 #: qt/settingsdialog.py:872
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"他のスナップショット作業は現在のものが終了するまで保留されます。\n"
-"これはすべてのプロファイルに適用されます。\n"
-"逆に言えば、その条件が満たされないとこのオプションを使うことができません。"
+"他のスナップショット作業は現在のものが終了するまで保留されます。これはすべてのプロファイルに適用されます。逆に言えば、その条件が満たされないとこのオプションを使うことができません。"
 
 #: qt/settingsdialog.py:880
 msgid "Backup replaced files on restore"
@@ -1374,9 +1348,8 @@ msgid "Take a new snapshot whether there were changes or not."
 msgstr "変更の有無に関わらず、新しいスナップショットを取得する。"
 
 #: qt/settingsdialog.py:910
-#, fuzzy
 msgid "Log Level:"
-msgstr "ログレベル"
+msgstr "ログレベル:"
 
 #: qt/settingsdialog.py:915
 msgid "None"
@@ -1696,9 +1669,8 @@ msgid "Command"
 msgstr "コマンド"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "パラメータ"
+msgstr "パラメータ:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"

@@ -8,17 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-02-05 07:56+0000\n"
-"Last-Translator: Scythemare, "
-"Andre Desgualdo Pereira, "
-"Yuri Musachio Montezuma da Cruz <yuri.musachio@gmail.com>\n"
+"PO-Revision-Date: 2024-05-25 04:53+0000\n"
+"Last-Translator: NameLessGO <NameLessGO@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:46 qt/settingsdialog.py:229
@@ -479,12 +477,16 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"{app_name} parece estar em execução pela primeira vez, pois nenhuma "
+"configuração foi encontrada."
 
 #: qt/app.py:349
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
+"Importar uma configuração existente (de uma pasta de destino de backup ou de"
+" outro computador)?"
 
 #: qt/app.py:377
 msgid ""
@@ -643,7 +645,7 @@ msgstr "Comparar snapshots…"
 
 #: qt/app.py:637
 msgid "Back In &Time"
-msgstr ""
+msgstr "Back In &Time"
 
 #: qt/app.py:642
 msgid "&Backup"
@@ -729,13 +731,14 @@ msgstr ""
 "antes de sobrescrever ou remover elementos locais."
 
 #: qt/app.py:1388 qt/settingsdialog.py:883
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"Versões mais recentes dos arquivos serão renomeadas com o sufixo '{suffix}' antes de serem restauradas.\n"
-"Se você não precisar mais delas, pode removê-las com '{cmd}'"
+"Versões mais recentes de arquivos serão renomeadas com {suffix} à direita "
+"antes da restauração. Se não precisar mais deles, poderá removê-los com "
+"{cmd}"
 
 #: qt/app.py:1404
 msgid ""
@@ -752,18 +755,15 @@ msgid "Remove newer elements in original folder."
 msgstr "Remover elementos mais recentes na pasta original."
 
 #: qt/app.py:1442
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"Restaurar arquivos ou pastas selecionadas para o destino original e\n"
-"excluir arquivos ou pastas que não estão no snapshot.\n"
-"Tenha extrema cautela, pois isso irá\n"
-"deletar os arquivos e pastas que foram\n"
-"excluídos durante a criação do snapshot."
+"Restaure os arquivos ou pastas selecionados para o destino original e exclua"
+" os arquivos ou pastas que não estão no snapshot. Tenha muito cuidado porque"
+" isso excluirá arquivos e pastas que foram excluídos durante o snapshot."
 
 #: qt/app.py:1453
 #, python-brace-format
@@ -878,19 +878,16 @@ msgid "Snapshot Log View"
 msgstr "Visualização do Log do Snapshot"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "Perfil"
+msgstr "Perfil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Snapshots"
+msgstr "Snapshots:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Filtrar"
+msgstr "Filtrar:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
@@ -943,18 +940,16 @@ msgid "Working…"
 msgstr "Trabalhando…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Enviado"
+msgstr "Enviado:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Velocidade"
+msgstr "Velocidade:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
-msgstr ""
+msgstr "ETA:"
 
 #: qt/qttools.py:400 qt/snapshotsdialog.py:123
 msgid "Snapshots"
@@ -991,22 +986,19 @@ msgstr "Mostrar Log Completo"
 
 #: qt/settingsdialog.py:92
 msgid "SSH Proxy"
-msgstr ""
+msgstr "Proxy SSH"
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "Host"
+msgstr "Host:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
-#, fuzzy
 msgid "Port:"
-msgstr "Porta"
+msgstr "Porta:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "Usuário"
+msgstr "Usuário:"
 
 #: qt/settingsdialog.py:165
 msgid "Manage profiles"
@@ -1029,9 +1021,8 @@ msgid "&General"
 msgstr "&Geral"
 
 #: qt/settingsdialog.py:215
-#, fuzzy
 msgid "Mode:"
-msgstr "Modo"
+msgstr "Modo:"
 
 #: qt/settingsdialog.py:230
 #, python-brace-format
@@ -1057,19 +1048,16 @@ msgid "SSH Settings"
 msgstr "Configurações do SSH"
 
 #: qt/settingsdialog.py:292
-#, fuzzy
 msgid "Path:"
-msgstr "Caminho"
+msgstr "Caminho:"
 
 #: qt/settingsdialog.py:298
-#, fuzzy
 msgid "Cipher:"
-msgstr "Cifra"
+msgstr "Cifra:"
 
 #: qt/settingsdialog.py:304
-#, fuzzy
 msgid "Private Key:"
-msgstr "Chave Privada"
+msgstr "Chave Privada:"
 
 #: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1168,22 +1156,19 @@ msgstr "Todo ano"
 
 #: qt/settingsdialog.py:472
 msgid "Day:"
-msgstr ""
+msgstr "Dia:"
 
 #: qt/settingsdialog.py:483
-#, fuzzy
 msgid "Weekday:"
-msgstr "Dia da Semana"
+msgstr "Dia da Semana:"
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "Hora"
+msgstr "Hora:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "Horas"
+msgstr "Horas:"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1194,9 +1179,8 @@ msgstr ""
 "executado regularmente."
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "Todo"
+msgstr "Todo:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1224,17 +1208,19 @@ msgstr ""
 
 #: qt/settingsdialog.py:567
 msgid "Enable logging of debug messages"
-msgstr ""
+msgstr "Habilitar registro de mensagens de depuração"
 
 #: qt/settingsdialog.py:571
 msgid "Writes debug-level messages into the system log via \"--debug\"."
-msgstr ""
+msgstr "Grava mensagens de nível de depuração no log do sistema via \"--debug\"."
 
 #: qt/settingsdialog.py:573
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
+"Cuidado: Use-o apenas temporariamente para diagnóstico por gerar um excesso "
+"de resultados."
 
 #: qt/settingsdialog.py:586
 msgid "&Include"
@@ -1258,7 +1244,7 @@ msgstr "&Excluir"
 
 #: qt/settingsdialog.py:629
 msgid "Info"
-msgstr ""
+msgstr "Informações"
 
 #: qt/settingsdialog.py:631
 #, python-brace-format
@@ -1268,6 +1254,10 @@ msgid ""
 "(e.g. {example1}).Filenames are unpredictable in this mode due to encryption"
 " by EncFS."
 msgstr ""
+"No modo 'criptografado por SSH', apenas asteriscos simples ou duplos são "
+"funcionais (por exemplo, {example2}). Outros tipos de curingas e padrões "
+"serão ignorados (por exemplo, {example1}). Os nomes de arquivos são "
+"imprevisíveis neste modo devido à criptografia por EncFS."
 
 #: qt/settingsdialog.py:652
 msgid "Exclude patterns, files or folders"
@@ -1278,51 +1268,45 @@ msgid "Add default"
 msgstr "Adicionar padrão"
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Excluir arquivos maiores que: "
+msgstr "Excluir arquivos maiores que:"
 
 #: qt/settingsdialog.py:702
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Excluir arquivos maiores que: "
+msgstr "Exclua arquivos maiores que o valor em {size_unit}."
 
 #: qt/settingsdialog.py:704
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
-"Excluir arquivos maiores que o valor em %(prefix)s.\n"
-"Com o 'Modo completo do rsync' desativado, isso afetará apenas novos arquivos,\n"
-"pois, para o rsync, essa é uma opção de transferência, não uma opção de exclusão.\n"
-"Portanto, arquivos grandes que foram feitos backup anteriormente permanecerão nos snapshots\n"
-"mesmo que tenham sido alterados."
+"Com o 'modo rsync completo' desativado, isso afetará apenas os novos "
+"arquivos, pois para o rsync, esta é uma opção de transferência, não uma "
+"opção de exclusão. Portanto, arquivos grandes dos quais foi feito backup "
+"anteriormente persistirão nos snapshots, mesmo que tenham sido modificados."
 
 #: qt/settingsdialog.py:724
 msgid "&Auto-remove"
 msgstr "&Remoção automática"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "Mais antigo que"
+msgstr "Mais antigo que:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Ano(s)"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Se o espaço livre for menor que"
+msgstr "Se o espaço livre for menor que:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Se o número de inodes livres é menor que"
+msgstr "Se o número de inodes livres é menor que:"
 
 #: qt/settingsdialog.py:786
 msgid "Smart remove:"
@@ -1393,15 +1377,14 @@ msgid "Run only one snapshot at a time"
 msgstr "Executar apenas um snapshot por vez"
 
 #: qt/settingsdialog.py:872
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"Outros snapshots ficarão bloqueados até que o snapshot atual seja completado.\n"
-"Esta é uma opção global. Por isso, irá afetar todos os perfis para este usuário.\n"
-"No entanto, você precisa ativá-la também para todos os outros usuários."
+"Outros snapshots serão bloqueados até que o snapshot atual seja concluído. "
+"Esta é uma opção global. Portanto, isso afetará todos os perfis deste "
+"usuário. Mas também precisa ativar isso para todos os outros usuários."
 
 #: qt/settingsdialog.py:880
 msgid "Backup replaced files on restore"
@@ -1421,9 +1404,8 @@ msgstr ""
 "Criar um novo snapshot independentemente de existir ou não alterações."
 
 #: qt/settingsdialog.py:910
-#, fuzzy
 msgid "Log Level:"
-msgstr "Nível de Log"
+msgstr "Nível de Log:"
 
 #: qt/settingsdialog.py:915
 msgid "None"
@@ -1473,6 +1455,8 @@ msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"O Cron enviará automaticamente um e-mail com a saída anexada dos cronjobs se"
+" um MTA estiver instalado."
 
 #: qt/settingsdialog.py:1015
 msgid "Redirect stderr to /dev/null in cronjobs."
@@ -1483,6 +1467,8 @@ msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"O Cron enviará automaticamente um e-mail com erros anexados de cronjobs se "
+"um MTA estiver instalado."
 
 #: qt/settingsdialog.py:1029
 msgid "Limit rsync bandwidth usage"
@@ -1506,7 +1492,7 @@ msgstr "Copiar links inseguros (funciona apenas com links absolutos)"
 
 #: qt/settingsdialog.py:1153
 msgid "Restrict to one file system"
-msgstr ""
+msgstr "Restringir a um sistema de arquivos"
 
 #: qt/settingsdialog.py:1173
 #, python-brace-format
@@ -1523,21 +1509,17 @@ msgstr "Adicionar prefixo aos comandos SSH"
 
 #: qt/settingsdialog.py:1192
 msgid "Prefix to run before every command on remote host."
-msgstr ""
+msgstr "Prefixo para ser executado antes de cada comando no host remoto."
 
 #: qt/settingsdialog.py:1193
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}"
 msgstr ""
-"Prefixo a ser executado antes de cada comando no host remoto.\n"
-"Variáveis precisam ser escapadas com \\$FOO.\n"
-"Isso não afeta o rsync. Então para adicionar um prefixo\n"
-"ao rsync, use \"%(cbRsyncOptions)s\" com\n"
-"%(rsync_options_value)s\n"
-"\n"
-"%(default)s: %(def_value)s"
+"As variáveis precisam ser escapadas com \\$FOO. Isso não afeta o rsync. "
+"Portanto, para adicionar um prefixo para rsync, use \"{example_value}\" com "
+"{rsync_options_value}"
 
 #: qt/settingsdialog.py:1201 qt/settingsdialog.py:2332
 msgid "default"
@@ -1548,28 +1530,24 @@ msgid "Check if remote host is online"
 msgstr "Verificar se host remoto está online"
 
 #: qt/settingsdialog.py:1219
-#, fuzzy
 msgid ""
 "Warning: if disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Aviso: se desabilitado e o host remoto\n"
-"não estiver disponível, isto poderá resultar em alguns\n"
-"erros estranhos."
+"Aviso: se desabilitado e o host remoto não estiver disponível, isso pode "
+"levar a alguns erros estranhos."
 
 #: qt/settingsdialog.py:1223
 msgid "Check if remote host supports all necessary commands"
 msgstr "Verificar se o host remoto suporta todos os comandos necessários"
 
 #: qt/settingsdialog.py:1226
-#, fuzzy
 msgid ""
 "Warning: if disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Aviso: se desabilitado e o host remoto\n"
-"não suporta todos os comandos necessários,\n"
-"isto poderá resultar em alguns erros estranhos."
+"Aviso: se desabilitado e o host remoto não suportar todos os comandos "
+"necessários, isso poderá levar a alguns erros estranhos."
 
 #: qt/settingsdialog.py:1242
 msgid "Restore Config"
@@ -1594,7 +1572,7 @@ msgstr "Você tem certeza que deseja excluir o perfil \"{name}\" ?"
 
 #: qt/settingsdialog.py:1399
 msgid "(All recommendations already included.)"
-msgstr ""
+msgstr "(Todas as recomendações já incluídas.)"
 
 #: qt/settingsdialog.py:1403
 msgid "Highly recommended"
@@ -1694,6 +1672,7 @@ msgstr "Caminho completo do snapshot: "
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
+"Desativado porque este padrão não funciona no modo 'SSH criptografado'."
 
 #: qt/settingsdialog.py:2327
 msgid "enabled"
@@ -1705,7 +1684,7 @@ msgstr "desativado"
 
 #: qt/settingsdialog.py:2375
 msgid "Import configuration"
-msgstr ""
+msgstr "Configuração de importação"
 
 #: qt/settingsdialog.py:2431 qt/settingsdialog.py:2527
 msgid "No config found"
@@ -1713,7 +1692,7 @@ msgstr "Nenhum arquivo de configuração encontrado"
 
 #: qt/settingsdialog.py:2456
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #: qt/settingsdialog.py:2484
 #, python-brace-format
@@ -1721,12 +1700,16 @@ msgid ""
 "Select the snapshot folder from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
+"Selecione a pasta de snapshot da qual o arquivo de configuração deve ser "
+"importado. O caminho pode ser semelhante a: {samplePath}"
 
 #: qt/settingsdialog.py:2489
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
 msgstr ""
+"Se a pasta estiver localizada em uma unidade externa ou remota, ela deverá "
+"ser montada manualmente antes."
 
 #: qt/settingsdialog.py:2591
 msgid "Mode"
@@ -1749,9 +1732,8 @@ msgid "Command"
 msgstr "Comando"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parâmetros"
+msgstr "Parâmetros:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1759,7 +1741,7 @@ msgstr "Use %1 e %2 para os parâmetros de caminho"
 
 #: qt/snapshotsdialog.py:84
 msgid "Please set a diff command or press Cancel."
-msgstr ""
+msgstr "Por favor, defina um comando diff ou pressione Cancelar."
 
 #: qt/snapshotsdialog.py:90
 #, python-brace-format
@@ -1767,11 +1749,15 @@ msgid ""
 "The command \"{cmd}\" can not be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
+"O comando \"{cmd}\" não pode ser encontrado neste sistema. Por favor, tente "
+"outra coisa ou pressione Cancelar."
 
 #: qt/snapshotsdialog.py:98
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
+"Nenhum parâmetro definido para o comando diff. Usando o valor padrão "
+"\"{params}\"."
 
 #: qt/snapshotsdialog.py:134
 msgid "Differing snapshots only"

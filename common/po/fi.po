@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-02-20 20:57+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"PO-Revision-Date: 2024-05-28 11:07+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:46 qt/settingsdialog.py:229
@@ -36,7 +36,6 @@ msgid "SSH private key"
 msgstr "SSH – yksityinen avain"
 
 #: common/config.py:306
-#, fuzzy
 msgid "encrypted"
 msgstr "Paikallinen salattu"
 
@@ -54,17 +53,15 @@ msgstr "Oletus"
 
 #: common/config.py:350 common/config.py:362 common/config.py:379
 #: common/config.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiili: ”{name}”"
 
 #: common/config.py:351
-#, fuzzy
 msgid "Snapshots folder is not valid!"
 msgstr "Otoskansio ei ole kelvollinen!"
 
 #: common/config.py:363
-#, fuzzy
 msgid "You must select at least one folder to back up!"
 msgstr "Valitse varmuuskopioitavaksi vähintään yksi kansio!"
 
@@ -82,12 +79,11 @@ msgid "Invalid option. {path} is not a folder."
 msgstr "Väärä arvo. {path} ei ole kansio."
 
 #: common/config.py:448
-#, fuzzy
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Kone/käyttäjätunnus/profiilin tunnus ei voi olla tyhjä."
 
 #: common/config.py:458 common/config.py:505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
@@ -96,7 +92,7 @@ msgstr ""
 "Onko siihen varmasti kirjoitusoikeus?"
 
 #: common/config.py:475
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
@@ -105,7 +101,7 @@ msgstr ""
 "linkkejä. Käytä Linuxin natiivia tiedostojärjestelmää."
 
 #: common/config.py:484
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
 "the remote SMB server supports symlinks or activate {copyLinks} in "
@@ -124,7 +120,7 @@ msgid "Expert Options"
 msgstr "Asiantuntija-asetukset"
 
 #: common/config.py:493
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
@@ -133,7 +129,6 @@ msgstr ""
 "tue kovia linkkejä. Käytä tämän sijaan SSH-tilaa."
 
 #: common/config.py:1640
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -148,7 +143,7 @@ msgid "Failed to write new crontab."
 msgstr "Uuden crontabin kirjoittaminen epäonnistui."
 
 #: common/config.py:1749
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
@@ -157,37 +152,34 @@ msgstr ""
 "”{dbus_interface}” ei ole käytettävissä"
 
 #: common/config.py:1764
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Udev-aikataulu ei toimi {mode}-tilassa"
 
 #: common/config.py:1775
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Kohteelle ”{path}” ei löytynyt UUID:tä"
 
 #: common/configfile.py:107
-#, fuzzy
 msgid "Failed to save config"
 msgstr "Määrityksen tallentaminen epäonnistui"
 
 #: common/configfile.py:143
-#, fuzzy
 msgid "Failed to load config"
 msgstr "Määrityksen lataaminen epäonnistui"
 
 #: common/configfile.py:691 common/configfile.py:790
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profiili ”{name}” on jo olemassa."
 
 #: common/configfile.py:736
-#, fuzzy
 msgid "The last profile cannot be removed."
 msgstr "Tätä ei voi kumota."
 
 #: common/encfstools.py:92
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "Ei voitu liittää: ”{command}”"
 
@@ -196,7 +188,6 @@ msgid "Config for encrypted folder not found."
 msgstr "Salatun kansion määritystä ei löytynyt."
 
 #: common/encfstools.py:147
-#, fuzzy
 msgid "Create a new encrypted folder?"
 msgstr "Luodaanko uusi salattu kansio?"
 
@@ -209,12 +200,10 @@ msgid "Please confirm password"
 msgstr "Vahvista salasana"
 
 #: common/encfstools.py:160
-#, fuzzy
 msgid "Password doesn't match."
 msgstr "Salasanat eivät täsmää."
 
 #: common/encfstools.py:178
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
@@ -236,22 +225,19 @@ msgid "{} not found. Please install e.g. {}"
 msgstr ""
 
 #: common/mount.py:717
-#, fuzzy
 msgid "Mountpoint {} not empty."
-msgstr "liitospiste %s ei ole tyhjä."
+msgstr "liitospiste {} ei ole tyhjä."
 
 #: common/password.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Profiili ”{profile}”: Anna {mode}-salasana: "
 
 #: common/snapshots.py:363 common/snapshots.py:614
-#, fuzzy
 msgid "FAILED"
 msgstr "EPÄONNISTUI"
 
 #: common/snapshots.py:560 common/snapshots.py:622
-#, fuzzy
 msgid "Restore permissions"
 msgstr "Palauta käyttöoikeudet"
 
@@ -265,7 +251,6 @@ msgid "Deferring backup while on battery"
 msgstr "Viivästetään varmuuskopiointia akkukäytön ajan"
 
 #: common/snapshots.py:834
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -281,7 +266,7 @@ msgstr[0] "Odotetaan %s sekunti."
 msgstr[1] "Odotetaan %s sekuntia."
 
 #: common/snapshots.py:906
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Otoksen {snapshot_id} luominen epäonnistui."
 
@@ -290,32 +275,28 @@ msgid "Finalizing"
 msgstr "Viimeistellään"
 
 #: common/snapshots.py:1068
-#, fuzzy
 msgid "Can't create folder"
 msgstr "Ei voitu luoda kansiota"
 
 #: common/snapshots.py:1085
-#, fuzzy
 msgid "Saving config file…"
 msgstr "Tallennetaan määritystiedostoa…"
 
 #: common/snapshots.py:1166
-#, fuzzy
 msgid "Saving permissions…"
 msgstr "Tallennetaan käyttöoikeuksia…"
 
 #: common/snapshots.py:1278
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Löytyi kesken jäänyt ”{snapshot_id}”, jota voi jatkaa."
 
 #: common/snapshots.py:1301
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Poistetaan viime suorituksessa kesken jäänyt kansio ”{snapshot_id}”"
 
 #: common/snapshots.py:1311
-#, fuzzy
 msgid "Can't remove folder"
 msgstr "Ei voida poistaa kansiota"
 
@@ -372,7 +353,7 @@ msgid "Trying to keep min free space"
 msgstr "Yritetään pitää vapaa vähimmäistila"
 
 #: common/snapshots.py:1928
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Yritetään pitää vähintään {perc} inodeja vapaana"
 
@@ -381,7 +362,7 @@ msgid "Now"
 msgstr "Nyt"
 
 #: common/sshtools.py:239
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "Ei voida liittää {sshfs}"
 
@@ -403,32 +384,27 @@ msgid "Cipher {cipher} failed for {host}."
 msgstr ""
 
 #: common/sshtools.py:682
-#, fuzzy
 msgid "Remote path exists but is not a directory."
 msgstr "Etäsijainti on olemassa muttei kansio."
 
 #: common/sshtools.py:687
-#, fuzzy
 msgid "Remote path is not writable."
 msgstr "Etäsijaintiin ei voi kirjoittaa."
 
 #: common/sshtools.py:692
-#, fuzzy
 msgid "Remote path is not executable."
 msgstr "Etäsijainti ei ole ohjelmatiedosto."
 
 #: common/sshtools.py:697
-#, fuzzy
 msgid "Couldn't create remote path."
 msgstr "Etäsijaintia ei voitu luoda."
 
 #: common/sshtools.py:981
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Etäkone {host} ei tue komentoa {command}"
 
 #: common/sshtools.py:985 common/sshtools.py:994
-#, fuzzy
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Lisätietoa: ”man backintime”"
 
@@ -438,7 +414,7 @@ msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 
 #: common/sshtools.py:1010
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Etäkone {host} ei tue kovia linkkejä"
 
@@ -473,7 +449,6 @@ msgid "Shortcuts"
 msgstr "Pikanäppäimet"
 
 #: qt/app.py:190
-#, fuzzy
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
@@ -503,7 +478,6 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:377
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -512,7 +486,6 @@ msgstr ""
 "Jos kansio on siirrettävällä asemalla, kytke se ja napsauta OK."
 
 #: qt/app.py:465
-#, fuzzy
 msgid "Take a snapshot"
 msgstr "Ota otos"
 
@@ -521,12 +494,10 @@ msgid "Use modification time & size for file change detection."
 msgstr ""
 
 #: qt/app.py:470
-#, fuzzy
 msgid "Take a snapshot (checksum mode)"
 msgstr "Ota otos tarkistussummin"
 
 #: qt/app.py:472
-#, fuzzy
 msgid "Use checksums for file change detection."
 msgstr "Havaitse muutokset tarkistussummista."
 
@@ -543,27 +514,22 @@ msgid "Stop snapshot process"
 msgstr "Pysäytä otosprosessi"
 
 #: qt/app.py:488
-#, fuzzy
 msgid "Refresh snapshot list"
 msgstr "Virkistä otosluettelo"
 
 #: qt/app.py:492
-#, fuzzy
 msgid "Name snapshot"
 msgstr "Ota otos"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Remove snapshot"
 msgstr "Poista otos"
 
 #: qt/app.py:500
-#, fuzzy
 msgid "View snapshot log"
 msgstr "Näytä otosloki"
 
 #: qt/app.py:504
-#, fuzzy
 msgid "View last log"
 msgstr "Näytä viimeisin loki"
 
@@ -576,7 +542,6 @@ msgid "Shutdown"
 msgstr "Sammuta"
 
 #: qt/app.py:514
-#, fuzzy
 msgid "Shut down system after snapshot has finished."
 msgstr "Sammuta järjestelmän otoksen valmistuttua."
 
@@ -593,7 +558,6 @@ msgid "Help"
 msgstr "Ohje"
 
 #: qt/app.py:528
-#, fuzzy
 msgid "Profiles config file"
 msgstr "Tallennetaan määritystiedostoa"
 
@@ -618,7 +582,6 @@ msgid "Report a bug"
 msgstr "Ilmoita ohjelmavirheestä"
 
 #: qt/app.py:546
-#, fuzzy
 msgid "Translation"
 msgstr "Käännökset"
 
@@ -632,7 +595,6 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr "Palauta valitut tiedostot tai kansiot alkuperäiseen paikkaansa."
 
 #: qt/app.py:557 qt/app.py:1515 qt/app.py:1547 qt/snapshotsdialog.py:166
-#, fuzzy
 msgid "Restore to …"
 msgstr "Palauta kohteeseen…"
 
@@ -641,14 +603,12 @@ msgid "Restore the selected files or folders to a new destination."
 msgstr "Palauta valitut tiedostot tai kansiot uuteen paikkaan."
 
 #: qt/app.py:564
-#, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr "Palauta näytetty kansio kaikkine sisältöineen alkuperäiseen paikkaan."
 
 #: qt/app.py:569
-#, fuzzy
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
@@ -675,17 +635,14 @@ msgid "&Backup"
 msgstr "&Varmuuskopio"
 
 #: qt/app.py:653
-#, fuzzy
 msgid "&Restore"
 msgstr "&Palauta"
 
 #: qt/app.py:659
-#, fuzzy
 msgid "&Help"
 msgstr "&Ohje"
 
 #: qt/app.py:794
-#, fuzzy
 msgid ""
 "If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
 "Do you really want to close?"
@@ -702,7 +659,6 @@ msgid "Done, no backup needed"
 msgstr "Valmis, varmuuskopiota ei tarvittu"
 
 #: qt/app.py:1017
-#, fuzzy
 msgid "Working"
 msgstr "Käsitellään"
 
@@ -711,7 +667,6 @@ msgid "Error"
 msgstr "Virhe"
 
 #: qt/app.py:1049
-#, fuzzy
 msgid "Sent"
 msgstr "Lähetetty"
 
@@ -720,7 +675,6 @@ msgid "Speed"
 msgstr "Nopeus"
 
 #: qt/app.py:1051
-#, fuzzy
 msgid "ETA"
 msgstr "Jäljellä"
 
@@ -751,7 +705,7 @@ msgstr[0] "Oletko varma että haluat poistaa nämä otokset?"
 msgstr[1] "Oletko varma että haluat poistaa nämä otokset?"
 
 #: qt/app.py:1381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
@@ -760,7 +714,7 @@ msgstr ""
 "tai poistamista ”{suffix}”-päätteelle."
 
 #: qt/app.py:1388 qt/settingsdialog.py:883
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
@@ -769,7 +723,6 @@ msgstr ""
 "Ellei niitä enää tarvita, ne voi poistaa komennolla \"{cmd}”"
 
 #: qt/app.py:1404
-#, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -791,10 +744,9 @@ msgid ""
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"Palauta valitut tiedostot tai kansiot alkuperäiseen paikkaan ja\n"
-"poista tiedostot tai kansiot, joita otoksessa ei ole.\n"
-"Tämä poistaa tiedostot ja kansiot, jotka jätettiin otoksesta pois!\n"
-"Ole hyvin varovainen!"
+"Palauta valitut tiedostot tai kansiot alkuperäiseen paikkaan ja poista "
+"tiedostot tai kansiot, joita otoksessa ei ole. Tämä poistaa tiedostot ja "
+"kansiot, jotka jätettiin otoksesta pois! Ole hyvin varovainen!"
 
 #: qt/app.py:1453
 #, python-brace-format
@@ -818,7 +770,7 @@ msgstr[0] "Haluatko varmasti palauttaa tämän tiedoston?"
 msgstr[1] "Haluatko varmasti palauttaa nämä tiedostot?"
 
 #: qt/app.py:1477
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Haluatko varmasti poistaa kansion ”{path}” kaikki uudemmat tiedostot?"
 
@@ -836,17 +788,16 @@ msgstr ""
 "järjestelmän!!!"
 
 #: qt/app.py:1719
-#, fuzzy
 msgid "Snapshot"
 msgstr "Otokset"
 
 #: qt/app.py:1756
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Palauta {path}"
 
 #: qt/app.py:1758
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Palauta {path} kohteeseen…"
 
@@ -889,12 +840,10 @@ msgstr ""
 "Sinun Back In Time Team"
 
 #: qt/languagedialog.py:217
-#, fuzzy
 msgid "translation platform"
 msgstr "Käännökset"
 
 #: qt/languagedialog.py:242
-#, fuzzy
 msgid "Your translation"
 msgstr "Käännökset"
 
@@ -907,19 +856,16 @@ msgid "Snapshot Log View"
 msgstr "Otoslokinäkymä"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "Profiili"
+msgstr "Profiili:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Otokset"
+msgstr "Otokset:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Suodatin"
+msgstr "Suodatin:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
@@ -935,7 +881,6 @@ msgid "Errors"
 msgstr "Virheet"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "Tiedot"
 
@@ -956,7 +901,6 @@ msgid "Question"
 msgstr "Kysymys"
 
 #: qt/qtsystrayicon.py:77 qt/settingsdialog.py:2589
-#, fuzzy
 msgid "Profile"
 msgstr "Profiili"
 
@@ -965,7 +909,7 @@ msgid "View Last Log"
 msgstr "Näytä viimeisin loki"
 
 #: qt/qtsystrayicon.py:108
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Start {appname}"
 msgstr "Käynnistä {appname}"
 
@@ -974,14 +918,12 @@ msgid "Working…"
 msgstr "Käsitellään…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Lähetetty"
+msgstr "Lähetetty:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Nopeus"
+msgstr "Nopeus:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1012,7 +954,7 @@ msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "Tämä EI ole otos vaan elävä näkymä paikallisiin tiedostoihin"
 
 #: qt/qttools.py:597
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Last check {time}"
 msgstr "Viimeksi tarkistettu {time}"
 
@@ -1025,22 +967,18 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "Konenimi"
+msgstr "Konenimi:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
-#, fuzzy
 msgid "Port:"
-msgstr "Portti"
+msgstr "Portti:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "Käyttäjä"
+msgstr "Käyttäjä:"
 
 #: qt/settingsdialog.py:165
-#, fuzzy
 msgid "Manage profiles"
 msgstr "Pääprofiili"
 
@@ -1057,17 +995,15 @@ msgid "Remove"
 msgstr "Poista"
 
 #: qt/settingsdialog.py:205
-#, fuzzy
 msgid "&General"
 msgstr "&Yleisasetukset"
 
 #: qt/settingsdialog.py:215
-#, fuzzy
 msgid "Mode:"
-msgstr "Tila"
+msgstr "Tila:"
 
 #: qt/settingsdialog.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
 "possible attack vectors for this. Please take a look at \"A NOTE ON "
@@ -1089,19 +1025,16 @@ msgid "SSH Settings"
 msgstr "SSH-asetukset"
 
 #: qt/settingsdialog.py:292
-#, fuzzy
 msgid "Path:"
-msgstr "Sijainti"
+msgstr "Sijainti:"
 
 #: qt/settingsdialog.py:298
-#, fuzzy
 msgid "Cipher:"
-msgstr "Salausmenetelmä"
+msgstr "Salausmenetelmä:"
 
 #: qt/settingsdialog.py:304
-#, fuzzy
 msgid "Private Key:"
-msgstr "Yksityinen avain"
+msgstr "Yksityinen avain:"
 
 #: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1132,7 +1065,6 @@ msgid "Advanced"
 msgstr "Lisäasetukset"
 
 #: qt/settingsdialog.py:425
-#, fuzzy
 msgid "Full snapshot path"
 msgstr "Otoksen täydellinen sijainti"
 
@@ -1149,7 +1081,7 @@ msgid "At every boot/reboot"
 msgstr "Käynnistysten yhteydessä"
 
 #: qt/settingsdialog.py:447 qt/settingsdialog.py:449 qt/settingsdialog.py:451
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "{n} minuutin välein"
@@ -1168,12 +1100,10 @@ msgstr[0] "{n} tunnin välein"
 msgstr[1] "{n} tunnin välein"
 
 #: qt/settingsdialog.py:461
-#, fuzzy
 msgid "Custom hours"
 msgstr "Mukautetut tunnit"
 
 #: qt/settingsdialog.py:462
-#, fuzzy
 msgid "Every day"
 msgstr "Päivittäin"
 
@@ -1182,22 +1112,18 @@ msgid "Repeatedly (anacron)"
 msgstr "Toistuva (anacron)"
 
 #: qt/settingsdialog.py:464
-#, fuzzy
 msgid "When drive gets connected (udev)"
 msgstr "Asemaa kytkettäessä (udev)"
 
 #: qt/settingsdialog.py:465
-#, fuzzy
 msgid "Every week"
 msgstr "Viikoittain"
 
 #: qt/settingsdialog.py:466
-#, fuzzy
 msgid "Every month"
 msgstr "Kuukausittain"
 
 #: qt/settingsdialog.py:467
-#, fuzzy
 msgid "Every year"
 msgstr "Joka vuosi"
 
@@ -1206,19 +1132,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:483
-#, fuzzy
 msgid "Weekday:"
-msgstr "Viikonpäivä"
+msgstr "Viikonpäivä:"
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "Tunti"
+msgstr "Tunti:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "Tunnit"
+msgstr "Tunnit:"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1229,9 +1152,8 @@ msgstr ""
 "käynnissä."
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "Joka"
+msgstr "Joka:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1272,7 +1194,6 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:586
-#, fuzzy
 msgid "&Include"
 msgstr "&Ota mukaan"
 
@@ -1289,7 +1210,6 @@ msgid "Add folder"
 msgstr "Lisää kansio"
 
 #: qt/settingsdialog.py:624
-#, fuzzy
 msgid "&Exclude"
 msgstr "&Jätä pois"
 
@@ -1315,9 +1235,8 @@ msgid "Add default"
 msgstr "Lisää oletukset"
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Jätä pois tätä suuremmat tiedostot: "
+msgstr "Jätä pois tätä suuremmat tiedostot:"
 
 #: qt/settingsdialog.py:702
 #, fuzzy, python-brace-format
@@ -1339,40 +1258,34 @@ msgstr ""
 "varmuuskopioitu aikaisemmin säilyvät otoksessa, vaikka ne muuttuisivat."
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "&Auto-remove"
 msgstr "Automaattinen &poisto"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "Vanhemmat kuin"
+msgstr "Vanhemmat kuin:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Vuosi(a)"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Kun vapaata tilaa on alle"
+msgstr "Kun vapaata tilaa on alle:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Kun vapaita inodeja on alle"
+msgstr "Kun vapaita inodeja on alle:"
 
 #: qt/settingsdialog.py:786
 msgid "Smart remove:"
 msgstr "Älykäs poisto:"
 
 #: qt/settingsdialog.py:797
-#, fuzzy
 msgid "Run in background on remote host."
 msgstr "Suorita etäkoneessa taustalla."
 
 #: qt/settingsdialog.py:798
-#, fuzzy
 msgid "EXPERIMENTAL"
 msgstr "KOKEELLINEN"
 
@@ -1413,7 +1326,6 @@ msgid "Don't remove named snapshots."
 msgstr "Älä poista nimettyjä otoksia."
 
 #: qt/settingsdialog.py:853
-#, fuzzy
 msgid "&Options"
 msgstr "&Valinnat"
 
@@ -1434,15 +1346,14 @@ msgid "Run only one snapshot at a time"
 msgstr "Tee vain yksi otos kerrallaan"
 
 #: qt/settingsdialog.py:872
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"Muut otokset estetään, kunnes nykyinen on valmis.\n"
-"Tämä on yleisasetus, joten se vaikuttaa käyttäjän kaikkiin profiileihin.\n"
-"Muille käyttäjille asetus täytyy kuitenkin ottaa käyttön erikseen."
+"Muut otokset estetään, kunnes nykyinen on valmis. Tämä on yleisasetus, joten"
+" se vaikuttaa käyttäjän kaikkiin profiileihin. Muille käyttäjille asetus "
+"täytyy kuitenkin ottaa käyttön erikseen."
 
 #: qt/settingsdialog.py:880
 msgid "Backup replaced files on restore"
@@ -1457,21 +1368,18 @@ msgid "Use checksum to detect changes"
 msgstr "Havaitse muutokset tarkistussummista"
 
 #: qt/settingsdialog.py:903
-#, fuzzy
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "Tee uusi otos, vaikkei muutoksia olisi."
 
 #: qt/settingsdialog.py:910
-#, fuzzy
 msgid "Log Level:"
-msgstr "Lokitaso"
+msgstr "Lokitaso:"
 
 #: qt/settingsdialog.py:915
 msgid "None"
 msgstr "Ei mitään"
 
 #: qt/settingsdialog.py:935
-#, fuzzy
 msgid "E&xpert Options"
 msgstr "A&siantuntija-asetukset"
 
@@ -1527,12 +1435,10 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:1029
-#, fuzzy
 msgid "Limit rsync bandwidth usage"
 msgstr "Rajoita rsyncin kaistan käyttöä"
 
 #: qt/settingsdialog.py:1032
-#, fuzzy
 msgid "KB/sec"
 msgstr "kt/s"
 
@@ -1553,7 +1459,7 @@ msgid "Restrict to one file system"
 msgstr ""
 
 #: qt/settingsdialog.py:1173
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Valitsinten arvot tulee merkitä lainausmerkkeihin, esim. {example}."
 
@@ -1585,29 +1491,24 @@ msgid "Check if remote host is online"
 msgstr "Tarkista, onko etäkone verkossa"
 
 #: qt/settingsdialog.py:1219
-#, fuzzy
 msgid ""
 "Warning: if disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Varoitus: ellei ole käytössä eikä etäkone\n"
-"ole käytettävissä, voi johtaa outoihin\n"
-"virheisiin."
+"Varoitus: ellei ole käytössä eikä etäkone ole käytettävissä, voi johtaa "
+"outoihin virheisiin."
 
 #: qt/settingsdialog.py:1223
-#, fuzzy
 msgid "Check if remote host supports all necessary commands"
 msgstr "Tarkista, tukeeko etäkone kaikkia vaadittuja komentoja"
 
 #: qt/settingsdialog.py:1226
-#, fuzzy
 msgid ""
 "Warning: if disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Varoitus: ellei ole käytössä eikä etäkone tue\n"
-"kaikkia vaadittuja komentoja, voi johtaa\n"
-"outoihin virheisiin."
+"Varoitus: ellei ole käytössä eikä etäkone tue kaikkia vaadittuja komentoja, "
+"voi johtaa outoihin virheisiin."
 
 #: qt/settingsdialog.py:1242
 msgid "Restore Config"
@@ -1626,7 +1527,7 @@ msgid "Rename profile"
 msgstr "Muuta profiilin nimeä"
 
 #: qt/settingsdialog.py:1295
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Haluatko varmasti poistaa profiilin ”{name}”?"
 
@@ -1635,7 +1536,6 @@ msgid "(All recommendations already included.)"
 msgstr ""
 
 #: qt/settingsdialog.py:1403
-#, fuzzy
 msgid "Highly recommended"
 msgstr "Erityisesti suositellaan"
 
@@ -1656,7 +1556,7 @@ msgstr ""
 "Haluatko luoda uuden salasanattoman julkisen ja yksityisen avaimen parin?"
 
 #: qt/settingsdialog.py:1656
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Yksityistä avaintiedostoa ”{file}” ei ole olemassa."
 
@@ -1669,7 +1569,7 @@ msgstr ""
 "salasanatonta kirjautumista varten?"
 
 #: qt/settingsdialog.py:1842
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The authenticity of host {host} can't be established.\n"
 "\n"
@@ -1703,7 +1603,7 @@ msgid "Include file"
 msgstr "Ota mukaan tiedosto"
 
 #: qt/settingsdialog.py:2074 qt/settingsdialog.py:2104
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
@@ -1716,12 +1616,11 @@ msgid "Include folder"
 msgstr "Ota mukaan kansio"
 
 #: qt/settingsdialog.py:2132
-#, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Haluatko varmasti muuttaa otoskansiota?"
 
 #: qt/settingsdialog.py:2157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Ei voitu luoda uutta SSH-avainta kansioon {path}"
 
@@ -1768,7 +1667,6 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:2591
-#, fuzzy
 msgid "Mode"
 msgstr "Tila"
 
@@ -1785,14 +1683,12 @@ msgid "Options about comparing snapshots"
 msgstr ""
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command"
 msgstr "Komento"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parametrit"
+msgstr "Parametrit:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1843,35 +1739,32 @@ msgid "Go To"
 msgstr "Siirry"
 
 #: qt/snapshotsdialog.py:204
-#, fuzzy
 msgid "Options"
 msgstr "Valinnat"
 
 #: qt/snapshotsdialog.py:355
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
 msgstr "Otosta ei voi verrata itseensä."
 
 #: qt/snapshotsdialog.py:398
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr "Haluatko poistaa tiedoston ”{file}” otoksesta ”{snapshot_id}”?"
 
 #: qt/snapshotsdialog.py:404
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Haluatko varmasti poistaa tiedoston ”{file}” {count} otoksesta?"
 
 #: qt/snapshotsdialog.py:409
-#, fuzzy
 msgid "This cannot be revoked!"
-msgstr "VAROITUS: Tätä ei voi kumota!"
+msgstr "Tätä ei voi kumota!"
 
 #: qt/snapshotsdialog.py:409
 msgid "WARNING"
 msgstr ""
 
 #: qt/snapshotsdialog.py:427
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"

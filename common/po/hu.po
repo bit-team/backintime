@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-02-17 17:56+0000\n"
-"Last-Translator: urbalazs <balazs@urbalazs.hu>\n"
+"PO-Revision-Date: 2024-05-30 09:09+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:46 qt/settingsdialog.py:229
@@ -730,13 +730,14 @@ msgstr ""
 "végződéssel a helyi elemek felülírása vagy eltávolítása előtt."
 
 #: qt/app.py:1388 qt/settingsdialog.py:883
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"A fájlok újabb verziói átnevezésre kerülnek {suffix} végződéssel a helyreállítás előtt.\n"
-"Ha már nincs rájuk többé szüksége, akkor a(z) {cmd} paranccsal eltávolíthatja azokat."
+"A fájlok újabb verziói átnevezésre kerülnek {suffix} végződéssel a "
+"helyreállítás előtt. Ha már nincs rájuk többé szüksége, akkor a(z) {cmd} "
+"paranccsal eltávolíthatja azokat."
 
 #: qt/app.py:1404
 msgid ""
@@ -877,19 +878,16 @@ msgid "Snapshot Log View"
 msgstr "Pillanatkép naplójának megtekintése"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "Profil"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Pillanatképek"
+msgstr "Pillanatképek:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Szűrő"
+msgstr "Szűrő:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
@@ -942,14 +940,12 @@ msgid "Working…"
 msgstr "Munkavégzés…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Elküldve"
+msgstr "Elküldve:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Sebesség"
+msgstr "Sebesség:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -993,19 +989,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "Kiszolgáló"
+msgstr "Kiszolgáló:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
-#, fuzzy
 msgid "Port:"
-msgstr "Port"
+msgstr "Port:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "Felhasználó"
+msgstr "Felhasználó:"
 
 #: qt/settingsdialog.py:165
 msgid "Manage profiles"
@@ -1028,9 +1021,8 @@ msgid "&General"
 msgstr "Á&ltalános"
 
 #: qt/settingsdialog.py:215
-#, fuzzy
 msgid "Mode:"
-msgstr "Mód"
+msgstr "Mód:"
 
 #: qt/settingsdialog.py:230
 #, python-brace-format
@@ -1057,19 +1049,16 @@ msgid "SSH Settings"
 msgstr "SSH-beállítások"
 
 #: qt/settingsdialog.py:292
-#, fuzzy
 msgid "Path:"
-msgstr "Útvonal"
+msgstr "Útvonal:"
 
 #: qt/settingsdialog.py:298
-#, fuzzy
 msgid "Cipher:"
-msgstr "Titkosító"
+msgstr "Titkosító:"
 
 #: qt/settingsdialog.py:304
-#, fuzzy
 msgid "Private Key:"
-msgstr "Személyes kulcs"
+msgstr "Személyes kulcs:"
 
 #: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1169,19 +1158,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:483
-#, fuzzy
 msgid "Weekday:"
-msgstr "Hét napja"
+msgstr "Hét napja:"
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "Óra"
+msgstr "Óra:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "Óra"
+msgstr "Óra:"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1192,9 +1178,8 @@ msgstr ""
 " rendszeresen bekapcsolva."
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "Minden"
+msgstr "Minden:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1276,9 +1261,8 @@ msgid "Add default"
 msgstr "Alapértelmezett hozzáadása"
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Ennél nagyobb fájlok kizárása: "
+msgstr "Ennél nagyobb fájlok kizárása:"
 
 #: qt/settingsdialog.py:702
 #, fuzzy, python-brace-format
@@ -1304,23 +1288,20 @@ msgid "&Auto-remove"
 msgstr "&Automatikus eltávolítás"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "Régebbi mint"
+msgstr "Régebbi mint:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Év"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Ha a szabad hely kevesebb mint"
+msgstr "Ha a szabad hely kevesebb mint:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Ha a szabad inode-ok száma kevesebb mint"
+msgstr "Ha a szabad inode-ok száma kevesebb mint:"
 
 #: qt/settingsdialog.py:786
 msgid "Smart remove:"
@@ -1420,9 +1401,8 @@ msgstr ""
 "vagy sem."
 
 #: qt/settingsdialog.py:910
-#, fuzzy
 msgid "Log Level:"
-msgstr "Naplózási szint"
+msgstr "Naplózási szint:"
 
 #: qt/settingsdialog.py:915
 msgid "None"
@@ -1760,9 +1740,8 @@ msgid "Command"
 msgstr "Parancs"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Paraméterek"
+msgstr "Paraméterek:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"

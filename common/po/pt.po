@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-02-20 20:57+0000\n"
-"Last-Translator: Yuri Musachio <yuri.musachio@gmail.com>\n"
+"PO-Revision-Date: 2024-05-30 09:09+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:46 qt/settingsdialog.py:229
@@ -730,13 +730,14 @@ msgstr ""
 "antes de substituir ou remover elementos locais."
 
 #: qt/app.py:1388 qt/settingsdialog.py:883
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"As versões mais recentes dos ficheiros serão renomeadas com o sufixo {suffix} antes de serem restauradas.\n"
-"Se já não precisa delas, pode removê-las com {cmd}"
+"As versões mais recentes dos ficheiros serão renomeadas com o sufixo "
+"{suffix} antes de serem restauradas. Se já não precisa delas, pode removê-"
+"las com {cmd}"
 
 #: qt/app.py:1404
 msgid ""
@@ -753,18 +754,16 @@ msgid "Remove newer elements in original folder."
 msgstr "Remover elementos mais recentes na pasta original."
 
 #: qt/app.py:1442
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"Restaurar os ficheiros ou pastas selecionados para o destino original e\n"
-"eliminar os ficheiros ou pastas que não estão no snapshot.\n"
-"Tenha extrema precaução, pois isto irá\n"
-"eliminar ficheiros e pastas que foram\n"
-"excluídos durante a criação do snapshot."
+"Restaurar os ficheiros ou pastas selecionados para o destino original e "
+"eliminar os ficheiros ou pastas que não estão no snapshot. Tenha extrema "
+"precaução, pois isto irá eliminar ficheiros e pastas que foram excluídos "
+"durante a criação do snapshot."
 
 #: qt/app.py:1453
 #, python-brace-format
@@ -807,12 +806,11 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1719
-#, fuzzy
 msgid "Snapshot"
 msgstr "Capturas de ecrã"
 
 #: qt/app.py:1756
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurar {path}"
 
@@ -876,14 +874,12 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "Perfil"
+msgstr "Perfil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Capturas de ecrã"
+msgstr "Capturas de ecrã:"
 
 #: qt/logviewdialog.py:99
 msgid "Filter:"
@@ -903,7 +899,6 @@ msgid "Errors"
 msgstr "Erros"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "Informações"
 
@@ -924,7 +919,6 @@ msgid "Question"
 msgstr ""
 
 #: qt/qtsystrayicon.py:77 qt/settingsdialog.py:2589
-#, fuzzy
 msgid "Profile"
 msgstr "Perfil"
 
@@ -942,14 +936,12 @@ msgid "Working…"
 msgstr "A processar…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Enviado"
+msgstr "Enviado:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Velocidade"
+msgstr "Velocidade:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -993,21 +985,18 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "Servidor"
+msgstr "Servidor:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
 msgid "Port:"
 msgstr ""
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "Utilizador"
+msgstr "Utilizador:"
 
 #: qt/settingsdialog.py:165
-#, fuzzy
 msgid "Manage profiles"
 msgstr "Perfil Principal"
 
@@ -1024,7 +1013,6 @@ msgid "Remove"
 msgstr ""
 
 #: qt/settingsdialog.py:205
-#, fuzzy
 msgid "&General"
 msgstr "&Geral"
 
@@ -1061,9 +1049,8 @@ msgid "Cipher:"
 msgstr ""
 
 #: qt/settingsdialog.py:304
-#, fuzzy
 msgid "Private Key:"
-msgstr "Chave privada SSH"
+msgstr "Chave privada SSH:"
 
 #: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1108,7 +1095,7 @@ msgid "At every boot/reboot"
 msgstr "A cada arranque/reinício"
 
 #: qt/settingsdialog.py:447 qt/settingsdialog.py:449 qt/settingsdialog.py:451
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "A cada {n} minutos"
@@ -1120,19 +1107,17 @@ msgstr "A cada hora"
 
 #: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
 #: qt/settingsdialog.py:460
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "A cada {n} horas"
 msgstr[1] "A cada {n} horas"
 
 #: qt/settingsdialog.py:461
-#, fuzzy
 msgid "Custom hours"
 msgstr "A Horas Definidas"
 
 #: qt/settingsdialog.py:462
-#, fuzzy
 msgid "Every day"
 msgstr "Diariamente"
 
@@ -1141,22 +1126,18 @@ msgid "Repeatedly (anacron)"
 msgstr "Repetidamente (anacron)"
 
 #: qt/settingsdialog.py:464
-#, fuzzy
 msgid "When drive gets connected (udev)"
 msgstr "Qunado o dispositifo for conectado (udev)"
 
 #: qt/settingsdialog.py:465
-#, fuzzy
 msgid "Every week"
 msgstr "Semanalmente"
 
 #: qt/settingsdialog.py:466
-#, fuzzy
 msgid "Every month"
 msgstr "Mensalmente"
 
 #: qt/settingsdialog.py:467
-#, fuzzy
 msgid "Every year"
 msgstr "Anualmente"
 
@@ -1169,14 +1150,12 @@ msgid "Weekday:"
 msgstr ""
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "Hora"
+msgstr "Hora:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "Hora(s)"
+msgstr "Hora(s):"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1185,9 +1164,8 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "A cada"
+msgstr "A cada:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1226,7 +1204,6 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:586
-#, fuzzy
 msgid "&Include"
 msgstr "&Incluir"
 
@@ -1239,12 +1216,10 @@ msgid "Add file"
 msgstr "Adicionar um ficheiro"
 
 #: qt/settingsdialog.py:614 qt/settingsdialog.py:680
-#, fuzzy
 msgid "Add folder"
 msgstr "Adicionar pasta"
 
 #: qt/settingsdialog.py:624
-#, fuzzy
 msgid "&Exclude"
 msgstr "&Excluir"
 
@@ -1270,9 +1245,8 @@ msgid "Add default"
 msgstr ""
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Excluir ficheiro"
+msgstr "Excluir ficheiro:"
 
 #: qt/settingsdialog.py:702
 #, python-brace-format
@@ -1288,28 +1262,24 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "&Auto-remove"
 msgstr "&Auto-remoção"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "Mais antigo do que"
+msgstr "Mais antigo do que:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Ano(s)"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Se espaço livre é inferior a"
+msgstr "Se espaço livre é inferior a:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Se espaço livre é inferior a"
+msgstr "Se espaço livre é inferior a:"
 
 #: qt/settingsdialog.py:786
 msgid "Smart remove:"
@@ -1320,7 +1290,6 @@ msgid "Run in background on remote host."
 msgstr ""
 
 #: qt/settingsdialog.py:798
-#, fuzzy
 msgid "EXPERIMENTAL"
 msgstr "EXPERIMENTAL"
 
@@ -1361,7 +1330,6 @@ msgid "Don't remove named snapshots."
 msgstr "Não remover snapshots nomeadas."
 
 #: qt/settingsdialog.py:853
-#, fuzzy
 msgid "&Options"
 msgstr "&Opções"
 
@@ -1413,7 +1381,6 @@ msgid "None"
 msgstr ""
 
 #: qt/settingsdialog.py:935
-#, fuzzy
 msgid "E&xpert Options"
 msgstr "O&pções Avançadas"
 
@@ -1556,7 +1523,7 @@ msgid "Rename profile"
 msgstr "Renomear perfil"
 
 #: qt/settingsdialog.py:1295
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Tem a certeza que desja remover este perfil \"{name}\" ?"
 
@@ -1565,7 +1532,6 @@ msgid "(All recommendations already included.)"
 msgstr ""
 
 #: qt/settingsdialog.py:1403
-#, fuzzy
 msgid "Highly recommended"
 msgstr "Altamente recomendado"
 
@@ -1701,14 +1667,12 @@ msgid "Options about comparing snapshots"
 msgstr ""
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command"
 msgstr "Comando"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parâmetros"
+msgstr "Parâmetros:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1759,7 +1723,6 @@ msgid "Go To"
 msgstr "Ir para"
 
 #: qt/snapshotsdialog.py:204
-#, fuzzy
 msgid "Options"
 msgstr "Opções"
 

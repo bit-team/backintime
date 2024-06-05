@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2024-02-20 20:57+0000\n"
-"Last-Translator: Tomáš Vadina <kyberdev@gmail.com>\n"
+"PO-Revision-Date: 2024-05-28 11:07+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Poedit-Country: SLOVAKIA\n"
 "X-Poedit-Language: Slovak\n"
@@ -55,7 +55,7 @@ msgstr "Predvolené"
 
 #: common/config.py:350 common/config.py:362 common/config.py:379
 #: common/config.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
@@ -85,7 +85,7 @@ msgid "Host/User/Profile-ID must not be empty."
 msgstr "Hosť/Používateľ/Profil musia byť vyplnené."
 
 #: common/config.py:458 common/config.py:505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
@@ -94,7 +94,7 @@ msgstr ""
 "Určite máte právo na zápis ?"
 
 #: common/config.py:475
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
@@ -103,7 +103,7 @@ msgstr ""
 "tvrdé odkazy. Použijte prosím natívny systém súborov pre Linux."
 
 #: common/config.py:484
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
 "the remote SMB server supports symlinks or activate {copyLinks} in "
@@ -114,7 +114,6 @@ msgstr ""
 "{copyLinks} v {expertOptions}."
 
 #: common/config.py:488 qt/settingsdialog.py:1132
-#, fuzzy
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopírovať odkazy (znefunkční symbolické odkazy)"
 
@@ -123,7 +122,7 @@ msgid "Expert Options"
 msgstr "Pokročilé nastavenia"
 
 #: common/config.py:493
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
@@ -132,7 +131,6 @@ msgstr ""
 "pevné odkazy. Použijte prosím 'SSH'."
 
 #: common/config.py:1640
-#, fuzzy
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed?\n"
@@ -143,7 +141,6 @@ msgstr ""
 "Ak nie, mali by ste vypnúť všetky automatické zálohovania."
 
 #: common/config.py:1646
-#, fuzzy
 msgid "Failed to write new crontab."
 msgstr "Zapisanie nového crontabu zlyhalo."
 
@@ -189,7 +186,6 @@ msgid "Can't mount '{command}'"
 msgstr "Neviem primontovať '{command}'"
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Config for encrypted folder not found."
 msgstr "Konfigurácia pre šifrovaný priečinok nebola nájdena."
 
@@ -210,7 +206,6 @@ msgid "Password doesn't match."
 msgstr "Heslo sa nezhoduje."
 
 #: common/encfstools.py:178
-#, fuzzy
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs."
@@ -223,22 +218,20 @@ msgid "Take snapshot"
 msgstr "Urobiť snímku"
 
 #: common/mount.py:609
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Nemožem odpojiť {mountprocess} z {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy
 msgid "{} not found. Please install e.g. {}"
 msgstr "{} nenájdene. Prosím nainštaluje e.g. {}"
 
 #: common/mount.py:717
-#, fuzzy
 msgid "Mountpoint {} not empty."
 msgstr "Priečinok na pripojenie {} nieje prázdny."
 
 #: common/password.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Profil '{profile}': Zadajte heslo pre {mode}: "
 
@@ -256,12 +249,10 @@ msgid "Done"
 msgstr "Hotovo"
 
 #: common/snapshots.py:737
-#, fuzzy
 msgid "Deferring backup while on battery"
 msgstr "Zálohovanie odložené pri behu na batériu"
 
 #: common/snapshots.py:834
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -278,7 +269,7 @@ msgstr[1] "Čakám %s sekundu."
 msgstr[2] "Čakám %s sekundy."
 
 #: common/snapshots.py:906
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Zlyhalo vytváranie snímky {snapshot_id}."
 
@@ -304,12 +295,11 @@ msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Nájdený ponechaný snímok {snapshot_id}, ktory može pokračovať."
 
 #: common/snapshots.py:1301
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr "Odstraňujem ponechaný {snapshot_id} priečinok z posledného spustenia."
+msgstr "Odstraňujem ponechaný {snapshot_id} priečinok z posledného spustenia"
 
 #: common/snapshots.py:1311
-#, fuzzy
 msgid "Can't remove folder"
 msgstr "Nemožno odstrániť priečinok"
 
@@ -318,7 +308,6 @@ msgid "Taking snapshot"
 msgstr "Robím snímok"
 
 #: common/snapshots.py:1416
-#, fuzzy
 msgid "Success"
 msgstr "Hotovo"
 
@@ -327,18 +316,16 @@ msgid "Partial transfer due to error"
 msgstr ""
 
 #: common/snapshots.py:1420
-#, fuzzy
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Čiastočny prenos kvôli zmiznutému zdrojovému súboru (pozri 'man rsync')"
 
 #: common/snapshots.py:1424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' ukončený s kódom {exit_code}"
 
 #: common/snapshots.py:1437
-#, fuzzy
 msgid "See 'man rsync' for more details"
 msgstr "Pozri 'man rsync' pre viac detailov"
 
@@ -491,7 +478,6 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:377
-#, fuzzy
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in and then press OK."
@@ -500,7 +486,6 @@ msgstr ""
 "Ak je na prenosnom médiu prosím vložte ho a potom stlačte OK."
 
 #: qt/app.py:465
-#, fuzzy
 msgid "Take a snapshot"
 msgstr "Urobiť snímku"
 
@@ -513,7 +498,6 @@ msgid "Take a snapshot (checksum mode)"
 msgstr ""
 
 #: qt/app.py:472
-#, fuzzy
 msgid "Use checksums for file change detection."
 msgstr "Použiť kontrolný súčet pre zistenie zmien."
 
@@ -530,27 +514,22 @@ msgid "Stop snapshot process"
 msgstr ""
 
 #: qt/app.py:488
-#, fuzzy
 msgid "Refresh snapshot list"
 msgstr "Obnoviť zoznam snímok"
 
 #: qt/app.py:492
-#, fuzzy
 msgid "Name snapshot"
 msgstr "Urobiť snímku"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Remove snapshot"
 msgstr "Odstrániť snímku"
 
 #: qt/app.py:500
-#, fuzzy
 msgid "View snapshot log"
 msgstr "Zobraziť záznam snímok"
 
 #: qt/app.py:504
-#, fuzzy
 msgid "View last log"
 msgstr "Zobraziť posledný log"
 
@@ -657,12 +636,10 @@ msgid "&Backup"
 msgstr ""
 
 #: qt/app.py:653
-#, fuzzy
 msgid "&Restore"
 msgstr "&Obnoviť"
 
 #: qt/app.py:659
-#, fuzzy
 msgid "&Help"
 msgstr "&Pomocník"
 
@@ -681,7 +658,6 @@ msgid "Done, no backup needed"
 msgstr "Hotovo, záloha nie je potrebná"
 
 #: qt/app.py:1017
-#, fuzzy
 msgid "Working"
 msgstr "Prebieha"
 
@@ -722,7 +698,6 @@ msgid "Snapshot Name"
 msgstr "Názov snímky"
 
 #: qt/app.py:1286
-#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Ste si istí, že chcete odstrániť snímku"
@@ -763,7 +738,7 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1453
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -775,7 +750,6 @@ msgstr[1] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 msgstr[2] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 
 #: qt/app.py:1462
-#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Ste si istí, že chcete odstrániť snímku"
@@ -803,7 +777,7 @@ msgid "Snapshot"
 msgstr "Snímky"
 
 #: qt/app.py:1756
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnoviť {path}"
 
@@ -867,19 +841,16 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
 msgid "Profile:"
-msgstr "Profil"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Snímky"
+msgstr "Snímky:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Filter"
+msgstr "Filter:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:925
 msgid "All"
@@ -895,7 +866,6 @@ msgid "Errors"
 msgstr "Chyby"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgstr "Informácie"
 
@@ -916,7 +886,6 @@ msgid "Question"
 msgstr ""
 
 #: qt/qtsystrayicon.py:77 qt/settingsdialog.py:2589
-#, fuzzy
 msgid "Profile"
 msgstr "Profil"
 
@@ -983,21 +952,18 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
 msgid "Host:"
-msgstr "Server"
+msgstr "Server:"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:282
 msgid "Port:"
 msgstr ""
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
 msgid "User:"
-msgstr "Používateľ"
+msgstr "Používateľ:"
 
 #: qt/settingsdialog.py:165
-#, fuzzy
 msgid "Manage profiles"
 msgstr "Hlavný profil"
 
@@ -1014,7 +980,6 @@ msgid "Remove"
 msgstr "Odstráň"
 
 #: qt/settingsdialog.py:205
-#, fuzzy
 msgid "&General"
 msgstr "&Hlavné"
 
@@ -1051,9 +1016,8 @@ msgid "Cipher:"
 msgstr ""
 
 #: qt/settingsdialog.py:304
-#, fuzzy
 msgid "Private Key:"
-msgstr "SSH privátny kľúč"
+msgstr "SSH privátny kľúč:"
 
 #: qt/settingsdialog.py:314
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1098,7 +1062,7 @@ msgid "At every boot/reboot"
 msgstr "Pri každom štarte/reštarte"
 
 #: qt/settingsdialog.py:447 qt/settingsdialog.py:449 qt/settingsdialog.py:451
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Každých {n} minút"
@@ -1111,7 +1075,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
 #: qt/settingsdialog.py:460
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Každých {n} hodín"
@@ -1123,7 +1087,6 @@ msgid "Custom hours"
 msgstr ""
 
 #: qt/settingsdialog.py:462
-#, fuzzy
 msgid "Every day"
 msgstr "Každý deň"
 
@@ -1136,17 +1099,14 @@ msgid "When drive gets connected (udev)"
 msgstr ""
 
 #: qt/settingsdialog.py:465
-#, fuzzy
 msgid "Every week"
 msgstr "Každý týždeň"
 
 #: qt/settingsdialog.py:466
-#, fuzzy
 msgid "Every month"
 msgstr "Každý mesiac"
 
 #: qt/settingsdialog.py:467
-#, fuzzy
 msgid "Every year"
 msgstr "Každý rok"
 
@@ -1159,14 +1119,12 @@ msgid "Weekday:"
 msgstr ""
 
 #: qt/settingsdialog.py:498
-#, fuzzy
 msgid "Hour:"
-msgstr "Hodina"
+msgstr "Hodina:"
 
 #: qt/settingsdialog.py:513
-#, fuzzy
 msgid "Hours:"
-msgstr "Hodina"
+msgstr "Hodina:"
 
 #: qt/settingsdialog.py:524
 msgid ""
@@ -1175,9 +1133,8 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:531
-#, fuzzy
 msgid "Every:"
-msgstr "Každých"
+msgstr "Každých:"
 
 #: qt/settingsdialog.py:545
 msgid "Hour(s)"
@@ -1216,7 +1173,6 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:586
-#, fuzzy
 msgid "&Include"
 msgstr "&Zahrnúť"
 
@@ -1233,7 +1189,6 @@ msgid "Add folder"
 msgstr "Pridať priečinok"
 
 #: qt/settingsdialog.py:624
-#, fuzzy
 msgid "&Exclude"
 msgstr "&Vylúčiť"
 
@@ -1259,9 +1214,8 @@ msgid "Add default"
 msgstr ""
 
 #: qt/settingsdialog.py:698
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Vylúčiť súbor"
+msgstr "Vylúčiť súbor:"
 
 #: qt/settingsdialog.py:702
 #, python-brace-format
@@ -1277,28 +1231,24 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:724
-#, fuzzy
 msgid "&Auto-remove"
 msgstr "&Automatické odstránenie"
 
 #: qt/settingsdialog.py:730
-#, fuzzy
 msgid "Older than:"
-msgstr "Staršie ako"
+msgstr "Staršie ako:"
 
 #: qt/settingsdialog.py:744
 msgid "Year(s)"
 msgstr "Roky"
 
 #: qt/settingsdialog.py:752
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Ak je voľné miesto menšie než"
+msgstr "Ak je voľné miesto menšie než:"
 
 #: qt/settingsdialog.py:772
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Ak je voľné miesto menšie než"
+msgstr "Ak je voľné miesto menšie než:"
 
 #: qt/settingsdialog.py:786
 msgid "Smart remove:"
@@ -1317,9 +1267,8 @@ msgid "Keep all snapshots for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:808 qt/settingsdialog.py:815
-#, fuzzy
 msgid "day(s)."
-msgstr "Počet dní"
+msgstr "Počet dní."
 
 #: qt/settingsdialog.py:811
 msgid "Keep one snapshot per day for the last"
@@ -1330,9 +1279,8 @@ msgid "Keep one snapshot per week for the last"
 msgstr ""
 
 #: qt/settingsdialog.py:822
-#, fuzzy
 msgid "week(s)."
-msgstr "Týždne"
+msgstr "Týždne."
 
 #: qt/settingsdialog.py:825
 msgid "Keep one snapshot per month for the last"
@@ -1351,7 +1299,6 @@ msgid "Don't remove named snapshots."
 msgstr "Neodstraňovať pomenované snímky."
 
 #: qt/settingsdialog.py:853
-#, fuzzy
 msgid "&Options"
 msgstr "&Možnosti"
 
@@ -1395,16 +1342,14 @@ msgid "Take a new snapshot whether there were changes or not."
 msgstr ""
 
 #: qt/settingsdialog.py:910
-#, fuzzy
 msgid "Log Level:"
-msgstr "Úroveň záznamu"
+msgstr "Úroveň záznamu:"
 
 #: qt/settingsdialog.py:915
 msgid "None"
 msgstr "Žiadne"
 
 #: qt/settingsdialog.py:935
-#, fuzzy
 msgid "E&xpert Options"
 msgstr "Možnosti e&xpertov"
 
@@ -1548,7 +1493,7 @@ msgid "Rename profile"
 msgstr "Premenovať profil"
 
 #: qt/settingsdialog.py:1295
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Určite chcete vymazať profil \"{name}\" ?"
 
@@ -1557,7 +1502,6 @@ msgid "(All recommendations already included.)"
 msgstr ""
 
 #: qt/settingsdialog.py:1403
-#, fuzzy
 msgid "Highly recommended"
 msgstr "Vysoko odporúčané"
 
@@ -1626,7 +1570,6 @@ msgid "Include folder"
 msgstr "Zahrnúť priečinok"
 
 #: qt/settingsdialog.py:2132
-#, fuzzy
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Ste si istí, že chcete zmeniť priečinok snímok?"
 
@@ -1694,14 +1637,12 @@ msgid "Options about comparing snapshots"
 msgstr ""
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command"
 msgstr "Príkaz"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parametre"
+msgstr "Parametre:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1752,12 +1693,10 @@ msgid "Go To"
 msgstr "Ísť na"
 
 #: qt/snapshotsdialog.py:204
-#, fuzzy
 msgid "Options"
 msgstr "Možnosti"
 
 #: qt/snapshotsdialog.py:355
-#, fuzzy
 msgid "You can't compare a snapshot to itself."
 msgstr "Nemôžete porovnávať snímku s ňou samou."
 
