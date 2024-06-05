@@ -25,19 +25,24 @@ Time_. The goal is to synchronize the state of the ongoing translation at
 Weblate and the modified py-files in the upstream repository at Microsoft
 GitHub.
 
-1. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
-    1. Press "Commit".
-    2. "Lock" the project.
-2. git: Start a new branch.
-3. Download and integrate Weblate into the git repository via `./update_language_files.py weblate`.
-4. Check via `git status` or `git diff`. The `po`-files (not `pot`!) in `common/po` and the file `common/languages.py` should be modified.
-5. Commit.
-6. Scan `py`-files for modified source strings via `./update_language_files.py source`.
-7. Check via `git status` or `git diff`. The file `messages.pot` and all `po`-files should be modified.
-8. Commit.
-9. Optional: Check for redundant letters in "shortcut groups" via `./update_language_files.py shortcuts`.
-10. Create PR and merge into "dev".
-11. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
+1. Press "Commit" in Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
+2. "Lock" the project in Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
+3. git: Start a new branch.
+4. Download and integrate Weblate into the git repository
+   via `./update_language_files.py weblate`.
+5. Check via `git status` or `git diff`. The `po`-files
+   (not `pot`!) in `common/po` and the file `common/languages.py`
+   should be modified.
+6. Commit.
+7. Scan `py`-files for modified source strings
+   via `./update_language_files.py source`.
+8. Check via `git status` or `git diff`. The file `messages.pot` and
+   all `po`-files should be modified.
+9. Commit.
+10. Optional: Check for redundant letters in "shortcut groups"
+    via `./update_language_files.py shortcuts`.
+11. Create PR and merge into "dev".
+12. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
     1. Go to "Danger zone" and click on "Reset".
     2. "Unlock" the project.
 
@@ -199,6 +204,44 @@ index b6e07b50..f2b73be4 100644
 Just `commit` the changes to the repository.
 
 Keep in mind: To make the translation appear in the running _Back In Time_ the `po` files need be compiled to `mo` files. This is done in the build (packaging) and install process which is described [elsewhere](../../CONTRIBUTING.md#build--install).
+
+# Instructions for the translation process
+## Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages
+
+In short: Always include punctuation marks (e.g. colons) in the strings to
+translate.
+
+Languages such as Arabic or Hebrew are read from right to left (RTL). To
+be more precise, they can have mixed reading directions (BIDI). The GUI library used
+by _Back In Time_ takes this into account when arrange elements in a
+window. For example, a text-input widget is left from a label
+widget. This switched order is the reason why punctuation marks (e.g. colons)
+in the string of a label widget need to change their direction as well. This
+task can only be performed by the translator themselves, which is why
+punctuation marks need to be included in the string to translate.
+
+## Be aware of shortcut indicators and possible duplicates
+
+In short:
+1. Use the character `&` to indicate the letter to access a GUI element via
+   keyboard shortcut.
+2. Be careful not to create conflicts by using the same letter multiple times
+   in the same GUI context.
+
+The _Back In Time_ GUI can be controlled via keyboard shortcuts. In the English
+version, for example, the menu _Back In Time_ in the main window can be
+unfolded via `Alt+T`, _Backup_ via `Alt+B`, or _Help_ via `Alt+H`. The keyboard
+letters to use are indicated in the GUI with an underlined letter. The original
+string in the source code uses the character `&` in front of a letter to
+indicate the shortcut and produce this underline. The example above use the
+source strings `Back In &Time`, `&Backup`, and `&Help`. This illustrates why it
+is not appropriate to always use the first letter for shortcuts. Here in this
+example, `&Back In Time` and `&Backup` would use the same letter.
+
+Translating `&Backup` and `&Help` into Turkish becomes `&Yedek` and `Y&ardım`,
+where using the first letter only would produce conflicts again.
+
+That is why the translator needs to decide which letter to use.
 
 # Setup Weblate project
 

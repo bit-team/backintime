@@ -1066,7 +1066,7 @@ them in your own rsync script, too. But to name some features:
 
 - Inhibit suspend/hibernate during take snapshot
 - Shutdown system after finish
-- Auto- and Smart-Remove
+- Auto- and Smart-Removal
 - Plugin- and user-callback support
 
 

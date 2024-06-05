@@ -1,21 +1,20 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-#    Germar Reitze
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 """Configuration logic.
 
 This module and its `Config` class contain the application logic handling the
@@ -28,15 +27,14 @@ Development notes:
     `backintime-config`. The script `create-manpage-backintime-config.py`
     parses this module for that.
 """
-
 import os
 import sys
 import datetime
 import socket
 import random
+import textwrap
 import getpass
 import shlex
-
 # Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
@@ -300,10 +298,10 @@ class Config(configfile.ConfigFileWithProfiles):
                     'local': (
                         None, _('Local'), False, False),
                     'ssh': (
-                        sshtools.SSH, 'SSH', _('SSH private key'), False),
+                        sshtools.SSH, _('SSH'), _('SSH private key'), False),
                     'local_encfs': (
                         encfstools.EncFS_mount,
-                        '{} {}'.format(_('Local'), _('encrypted')),
+                        _('Local encrypted'),
                         _('Encryption'),
                         False
                     ),
@@ -491,7 +489,7 @@ class Config(configfile.ConfigFileWithProfiles):
         elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
             self.notifyError(_(
                 "Destination filesystem for {path} is an sshfs-mounted share."
-                " sshfs doesn't support hard-links. "
+                " Sshfs doesn't support hard-links. "
                 "Please use mode 'SSH' instead.")
                 .format(path=value))
 
@@ -845,22 +843,35 @@ class Config(configfile.ConfigFileWithProfiles):
             mode = self.snapshotsMode(profile_id)
         self.setProfileBoolValue('snapshots.%s.password.use_cache' % mode, value, profile_id)
 
-    def password(self, parent = None, profile_id = None, mode = None, pw_id = 1, only_from_keyring = False):
-        if self.pw is None:
-            self.pw = password.Password(self)
-        if profile_id is None:
-            profile_id = self.currentProfile()
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-        return self.pw.password(parent, profile_id, mode, pw_id, only_from_keyring)
+    def password(self,
+                 parent=None,
+                 profile_id=None,
+                 mode=None,
+                 pw_id=1,
+                 only_from_keyring=False):
 
-    def setPassword(self, password, profile_id = None, mode = None, pw_id = 1):
         if self.pw is None:
             self.pw = password.Password(self)
+
         if profile_id is None:
             profile_id = self.currentProfile()
+
         if mode is None:
             mode = self.snapshotsMode(profile_id)
+
+        return self.pw.password(
+            parent, profile_id, mode, pw_id, only_from_keyring)
+
+    def setPassword(self, password, profile_id=None, mode=None, pw_id=1):
+        if self.pw is None:
+            self.pw = password.Password(self)
+
+        if profile_id is None:
+            profile_id = self.currentProfile()
+
+        if mode is None:
+            mode = self.snapshotsMode(profile_id)
+
         self.pw.setPassword(password, profile_id, mode, pw_id)
 
     def modeNeedPassword(self, mode, pw_id = 1):
@@ -1636,10 +1647,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 else:
                     logger.error('crontab not found.', self)
-                    self.notifyError(_(
-                        "Can't find crontab.\n"
-                        "Are you sure cron is installed?\n"
-                        "If not you should disable all automatic backups."))
+                    msg = _("Can't find crontab. Are you sure cron is "
+                            "installed? If not you should disable all "
+                            "automatic backups.")
+                    msg = '\n'.join(textwrap.wrap(msg, 72))
+                    self.notifyError(msg)
+
                     return False
 
             if not tools.writeCrontab(newCrontab):

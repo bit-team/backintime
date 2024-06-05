@@ -1824,7 +1824,7 @@ class Snapshots:
                         %del_snapshots, self)
 
             for i, sid in enumerate(del_snapshots, 1):
-                log(_('Smart remove') + ' %s/%s' %(i, len(del_snapshots)))
+                log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
     def freeSpace(self, now):
@@ -1876,7 +1876,7 @@ class Snapshots:
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
 
         if enabled:
-            self.setTakeSnapshotMessage(0, _('Smart remove'))
+            self.setTakeSnapshotMessage(0, _('Smart removal'))
             del_snapshots = self.smartRemoveList(now,
                                                  keep_all,
                                                  keep_one_per_day,
