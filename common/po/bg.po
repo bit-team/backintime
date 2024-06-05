@@ -7,82 +7,87 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-05-20 10:41+0200\n"
-"PO-Revision-Date: 2023-12-09 16:56+0000\n"
-"Last-Translator: Salif Mehmed <mail@salif.eu>\n"
+"POT-Creation-Date: 2024-06-05 10:16+0200\n"
+"PO-Revision-Date: 2024-05-25 04:53+0000\n"
+"Last-Translator: krlsk <krlsk@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2.1\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:46 qt/settingsdialog.py:229
+#: common/config.py:44 qt/settingsdialog.py:233
 msgid "Warning"
 msgstr "Внимание"
 
-#: common/config.py:149 common/config.py:291
+#: common/config.py:147 common/config.py:289
 msgid "Main profile"
 msgstr "Основен профил"
 
-#: common/config.py:301 common/config.py:306
+#: common/config.py:299
 msgid "Local"
 msgstr "Местен"
 
-#: common/config.py:303 common/config.py:313 qt/settingsdialog.py:2148
+#: common/config.py:301
+msgid "SSH"
+msgstr ""
+
+#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "Частен SSH ключ"
 
-#: common/config.py:306
-msgid "encrypted"
+#: common/config.py:304
+#, fuzzy
+msgid "Local encrypted"
 msgstr "криптиран"
 
-#: common/config.py:307 common/config.py:314
+#: common/config.py:305 common/config.py:312
 msgid "Encryption"
 msgstr "Криптиране"
 
-#: common/config.py:312
+#: common/config.py:310
 msgid "SSH encrypted"
 msgstr "SSH криптиран"
 
-#: common/config.py:319
+#: common/config.py:317
 msgid "Default"
 msgstr "По подразбиране"
 
-#: common/config.py:350 common/config.py:362 common/config.py:379
-#: common/config.py:390
+#: common/config.py:348 common/config.py:360 common/config.py:377
+#: common/config.py:388
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Профил: \"{name}\""
 
-#: common/config.py:351
+#: common/config.py:349
 msgid "Snapshots folder is not valid!"
 msgstr "Папката за моментни архиви не е валидна!"
 
-#: common/config.py:363
+#: common/config.py:361
 msgid "You must select at least one folder to back up!"
 msgstr "Трябва да изберете поне една директория за архивиране!"
 
-#: common/config.py:380
+#: common/config.py:378
 msgid "Backup folder cannot be included."
 msgstr "Папката за резервно копие не може да бъде включена."
 
-#: common/config.py:392
+#: common/config.py:390
 msgid "Backup sub-folder cannot be included."
 msgstr "Не може да се включи подпапка за резервно копие."
 
-#: common/config.py:439
+#: common/config.py:437
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Невалидна опция. {path} не е папка."
 
-#: common/config.py:448
+#: common/config.py:446
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Хост/Потребител/Профил-ID не трябва да бъде празен."
 
-#: common/config.py:458 common/config.py:505
+#: common/config.py:456 common/config.py:503
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -91,7 +96,7 @@ msgstr ""
 "Записването в {path} е невъзможно\n"
 "Сигурни ли сте, че имате достъп?"
 
-#: common/config.py:475
+#: common/config.py:473
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -100,7 +105,7 @@ msgstr ""
 "Крайната файлова система за {path} е от тип FAT и не поддържа преки пътища. "
 "Моля, използвайте Linux файлова система."
 
-#: common/config.py:484
+#: common/config.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -111,38 +116,38 @@ msgstr ""
 "отдалеченият SMB сървър поддържа преки пътища или активирайте {copyLinks} в "
 "{expertOptions}."
 
-#: common/config.py:488 qt/settingsdialog.py:1132
+#: common/config.py:486 qt/settingsdialog.py:1136
 msgid "Copy links (dereference symbolic links)"
 msgstr "Копирай връзките към файлове (следвай символните връзки)"
 
-#: common/config.py:489
+#: common/config.py:487
 msgid "Expert Options"
 msgstr "Експертни настройки"
 
-#: common/config.py:493
-#, python-brace-format
+#: common/config.py:491
+#, fuzzy, python-brace-format
 msgid ""
-"Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
+"Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
 "Крайната файлова система за {path} е от споделен тип sshfs. Тя не поддържа "
 "преки пътища. Моля, използвайте режим 'SSH'."
 
-#: common/config.py:1640
+#: common/config.py:1650
+#, fuzzy
 msgid ""
-"Can't find crontab.\n"
-"Are you sure cron is installed?\n"
-"If not you should disable all automatic backups."
+"Can't find crontab. Are you sure cron is installed? If not you should "
+"disable all automatic backups."
 msgstr ""
 "crontab не може да бъде намерен.\n"
 "Сигурни ли сте, че cron е инсталиран?\n"
 "Ако не е, трябва да изключите всички автоматични архивирания."
 
-#: common/config.py:1646
+#: common/config.py:1659
 msgid "Failed to write new crontab."
 msgstr "Неуспех при създаването на нова периодична задача - crontab."
 
-#: common/config.py:1749
+#: common/config.py:1762
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -151,12 +156,12 @@ msgstr ""
 "Неуспех при задаването на Udev правило за профил {profile_id}. DBus Service "
 "{dbus_interface} не е открит"
 
-#: common/config.py:1764
+#: common/config.py:1777
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Планираните при монтиране на диск архиви не работят в режим {mode}"
 
-#: common/config.py:1775
+#: common/config.py:1788
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Не може да бъде намерен UUID за {path}"
@@ -196,22 +201,15 @@ msgid "Cancel"
 msgstr "Откажи"
 
 #: common/encfstools.py:156
-msgid "Please confirm password"
+#, fuzzy
+msgid "Please confirm the password."
 msgstr "Моля потвърдете паролата"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Паролата не съвпада."
 
-#: common/encfstools.py:178
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs."
-msgstr ""
-"Във версия 1.7.2 и по-ранни версии на encfs има грешка с опцията --reverse. "
-"Моля, актуализирайте encfs."
-
-#: common/encfstools.py:516 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1033
 msgid "Take snapshot"
 msgstr "Създайте моментен архив"
 
@@ -221,17 +219,19 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Не мога да демонтирам {mountprocess} от {mountpoint}."
 
 #: common/mount.py:696
-msgid "{} not found. Please install e.g. {}"
+#, fuzzy, python-brace-format
+msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
 msgstr "{} не е намерен. Моля, инсталирайте например {}"
 
-#: common/mount.py:717
-msgid "Mountpoint {} not empty."
+#: common/mount.py:720
+#, fuzzy, python-brace-format
+msgid "Mountpoint {mntpoint} not empty."
 msgstr "Mountpoint {} не е празна."
 
-#: common/password.py:240
+#: common/password.py:269
 #, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Профил '{profile}': Въведете парола за {mode}: "
+msgid "Enter password for {mode} profile \"{profile}\":"
+msgstr ""
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -241,7 +241,7 @@ msgstr "Провал"
 msgid "Restore permissions"
 msgstr "Възстановете разрешенията"
 
-#: common/snapshots.py:617 qt/app.py:292 qt/app.py:970 qt/app.py:1005
+#: common/snapshots.py:617 qt/app.py:292 qt/app.py:972 qt/app.py:1007
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Готово"
@@ -310,7 +310,7 @@ msgstr "Успешно"
 
 #: common/snapshots.py:1419
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Частично прехвърляне поради грешка"
 
 #: common/snapshots.py:1420
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -343,7 +343,8 @@ msgid "Can't rename {new_path} to {path}"
 msgstr "{new_path} не може да бъде преименуван на {path}"
 
 #: common/snapshots.py:1827 common/snapshots.py:1879
-msgid "Smart remove"
+#, fuzzy
+msgid "Smart removal"
 msgstr "Умно премахване"
 
 #: common/snapshots.py:1854
@@ -359,7 +360,7 @@ msgstr "Опит за запазване на минимално свободн�
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Опит за запазване на минимум {perc} свободни inode"
 
-#: common/snapshots.py:2988 qt/app.py:1712
+#: common/snapshots.py:2988 qt/app.py:1717
 msgid "Now"
 msgstr "Сега"
 
@@ -421,16 +422,16 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Отдалеченият хост {host} не поддържа твърди връзки"
 
 #: common/sshtools.py:1164
-#, python-brace-format
-msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
+#, fuzzy, python-brace-format
+msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Копирай публичния ssh ключ \"{pubkey}\" в дистанционният хост \"{host}\""
 
 #: common/sshtools.py:1166
-#, python-brace-format
-msgid "Please enter password for \"{user}\""
+#, fuzzy, python-brace-format
+msgid "Please enter a password for \"{user}\"."
 msgstr "Моля въведете паролата за \"{user}\""
 
-#: qt/aboutdlg.py:44 qt/app.py:549
+#: qt/aboutdlg.py:44 qt/app.py:550
 msgid "About"
 msgstr "Относно"
 
@@ -472,251 +473,261 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"{app_name} изглежда, че се стартира за първи път, тъй като не е намерена "
+"конфигурация."
 
 #: qt/app.py:349
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
+"Импортиране на съществуваща конфигурация (от архивирана целева папка или от "
+"друг компютър)?"
+
+#: qt/app.py:376
+#, fuzzy
+msgid "Can't find snapshots folder."
+msgstr "Папката не може да бъде създадена"
 
 #: qt/app.py:377
-msgid ""
-"Can't find snapshots folder.\n"
-"If it is on a removable drive please plug it in and then press OK."
+#, fuzzy
+msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Папката за моментни архиви не може да бъде открита.\n"
 "Ако е на преносимо устройство, моля включете го и натиснете ОК."
 
-#: qt/app.py:465
+#: qt/app.py:466
 msgid "Take a snapshot"
 msgstr "Направете моментен архив"
 
-#: qt/app.py:467
+#: qt/app.py:468
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Използвайте времето и размера на модификацията за откриване на промени във "
 "файла."
 
-#: qt/app.py:470
+#: qt/app.py:471
 msgid "Take a snapshot (checksum mode)"
 msgstr "Създаване на моментен архив (режим на контролна сума)"
 
-#: qt/app.py:472
+#: qt/app.py:473
 msgid "Use checksums for file change detection."
 msgstr "Използване на контролни суми за откриване на промени във файловете."
 
-#: qt/app.py:475 qt/qtsystrayicon.py:86
+#: qt/app.py:476 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
 msgstr "Пауза на моментното копие"
 
-#: qt/app.py:480 qt/qtsystrayicon.py:90
+#: qt/app.py:481 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
 msgstr "Продължаване на моментното копие"
 
-#: qt/app.py:484 qt/qtsystrayicon.py:95
+#: qt/app.py:485 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
 msgstr "Спиране на моментното копие"
 
-#: qt/app.py:488
+#: qt/app.py:489
 msgid "Refresh snapshot list"
 msgstr "Обновяване на списъка с архиви"
 
-#: qt/app.py:492
+#: qt/app.py:493
 msgid "Name snapshot"
 msgstr "Наименувай архив"
 
-#: qt/app.py:496
+#: qt/app.py:497
 msgid "Remove snapshot"
 msgstr "Премахване на архив"
 
-#: qt/app.py:500
+#: qt/app.py:501
 msgid "View snapshot log"
 msgstr "Преглед на дневника на архивите"
 
-#: qt/app.py:504
+#: qt/app.py:505
 msgid "View last log"
 msgstr "Преглед на последния дневник"
 
-#: qt/app.py:508
-#, fuzzy
+#: qt/app.py:509
 msgid "Manage profiles…"
-msgstr "Управление на профили"
+msgstr "Управление на профили…"
 
-#: qt/app.py:512
+#: qt/app.py:513
 msgid "Shutdown"
 msgstr "Изключване"
 
-#: qt/app.py:514
+#: qt/app.py:515
 msgid "Shut down system after snapshot has finished."
 msgstr "Изключване на системата слад като моментното архивно копие е готово."
 
-#: qt/app.py:516
-#, fuzzy
+#: qt/app.py:517
 msgid "Setup language…"
-msgstr "Език на настройката"
+msgstr "Език на настройките…"
 
-#: qt/app.py:520
+#: qt/app.py:521
 msgid "Exit"
 msgstr "Изход"
 
-#: qt/app.py:524
+#: qt/app.py:525
 msgid "Help"
 msgstr "Помощ"
 
-#: qt/app.py:528
+#: qt/app.py:529
 msgid "Profiles config file"
 msgstr "Файл за конфигуриране на профили"
 
-#: qt/app.py:531 qt/languagedialog.py:222
+#: qt/app.py:532 qt/languagedialog.py:222
 msgid "Website"
 msgstr "Уебсайт"
 
-#: qt/app.py:534 qt/app.py:1348
+#: qt/app.py:535 qt/app.py:1350
 msgid "Changelog"
 msgstr "История на промените"
 
-#: qt/app.py:537
+#: qt/app.py:538
 msgid "FAQ"
 msgstr "ЧЗВ"
 
-#: qt/app.py:540
+#: qt/app.py:541
 msgid "Ask a question"
 msgstr "Задайте въпрос"
 
-#: qt/app.py:543
+#: qt/app.py:544
 msgid "Report a bug"
 msgstr "Докладвайте неизправност"
 
-#: qt/app.py:546
+#: qt/app.py:547
 msgid "Translation"
 msgstr "Превод"
 
-#: qt/app.py:552 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/app.py:553 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
 msgstr "Възстановяване"
 
-#: qt/app.py:554
+#: qt/app.py:555
 msgid "Restore the selected files or folders to the original destination."
 msgstr "Възстановете избраните файлове или папки на първоначалното място."
 
-#: qt/app.py:557 qt/app.py:1515 qt/app.py:1547 qt/snapshotsdialog.py:166
+#: qt/app.py:558 qt/app.py:1520 qt/app.py:1552 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Възстановяване в …"
 
-#: qt/app.py:559
+#: qt/app.py:560
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Възстановете избраните файлове или папки на друго място."
 
-#: qt/app.py:564
+#: qt/app.py:565
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 "Възстановете показаната папка и нейното съдържание на първоначалното място."
 
-#: qt/app.py:569
+#: qt/app.py:570
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr "Възстановете показаната папка и нейното съдържание на ново място."
 
-#: qt/app.py:572
+#: qt/app.py:573
 msgid "Up"
 msgstr "Нагоре"
 
-#: qt/app.py:575 qt/settingsdialog.py:2410
+#: qt/app.py:576 qt/settingsdialog.py:2414
 msgid "Show hidden files"
 msgstr "Показване на скритите файлове"
 
-#: qt/app.py:578
-#, fuzzy
+#: qt/app.py:579
 msgid "Compare snapshots…"
-msgstr "Сравни архиви"
+msgstr "Сравни архиви…"
 
-#: qt/app.py:637
+#: qt/app.py:638
 msgid "Back In &Time"
-msgstr ""
+msgstr "Назад във Времето"
 
-#: qt/app.py:642
+#: qt/app.py:643
 msgid "&Backup"
 msgstr "&Резервно копие"
 
-#: qt/app.py:653
+#: qt/app.py:654
 msgid "&Restore"
 msgstr "&Възстановяване"
 
-#: qt/app.py:659
+#: qt/app.py:660
 msgid "&Help"
 msgstr "&Помощ"
 
-#: qt/app.py:794
+#: qt/app.py:795
+#, fuzzy
 msgid ""
-"If you close this window Back In Time will not be able to shut down your system when the snapshot has finished.\n"
-"Do you really want to close?"
+"If you close this window, Back In Time will not be able to shut down your "
+"system when the snapshot is finished."
 msgstr ""
 "Ако затворите този прозорец, Back in Time няма да може да изключи вашата система когато моментното копие е завършено.\n"
 "Наистина ли искате да го затворите?"
 
-#: qt/app.py:960
+#: qt/app.py:798
+#, fuzzy
+msgid "Do you really want to close it?"
+msgstr "Наистина ли искате да възстановите този файл?"
+
+#: qt/app.py:962
 msgid "Working:"
 msgstr "Изпълнение:"
 
-#: qt/app.py:1008
+#: qt/app.py:1010
 msgid "Done, no backup needed"
 msgstr "Готово, не е необходимо архивиране"
 
-#: qt/app.py:1017
+#: qt/app.py:1019
 msgid "Working"
 msgstr "Изпълняване"
 
-#: qt/app.py:1026 qt/messagebox.py:78
+#: qt/app.py:1028 qt/messagebox.py:78
 msgid "Error"
 msgstr "Грешка"
 
-#: qt/app.py:1049
+#: qt/app.py:1051
 msgid "Sent"
 msgstr "Изпратено"
 
-#: qt/app.py:1050
+#: qt/app.py:1052
 msgid "Speed"
 msgstr "Скорост"
 
-#: qt/app.py:1051
+#: qt/app.py:1053
 msgid "ETA"
 msgstr "Приблизително оставащо време"
 
-#: qt/app.py:1113
+#: qt/app.py:1115
 msgid "Global"
 msgstr "Глобални"
 
-#: qt/app.py:1114
+#: qt/app.py:1116
 msgid "Root"
 msgstr "Файлова система"
 
-#: qt/app.py:1115
+#: qt/app.py:1117
 msgid "Home"
 msgstr "Домашна папка"
 
-#: qt/app.py:1143
+#: qt/app.py:1145
 msgid "Backup folders"
 msgstr "Резевни папки"
 
-#: qt/app.py:1239
+#: qt/app.py:1241
 msgid "Snapshot Name"
 msgstr "Име на моментния архив"
 
-#: qt/app.py:1286
-#, fuzzy
+#: qt/app.py:1288
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] ""
-"Сигурни ли сте, че желаете окончателно да премахнете моментния архив"
+"Сигурни ли сте, че желаете окончателно да премахнете моментния архив?"
 msgstr[1] ""
-"Сигурни ли сте, че желаете окончателно да премахнете моментния архив"
+"Сигурни ли сте, че желаете окончателно да премахнете моментните архиви?"
 
-#: qt/app.py:1381
-#, fuzzy, python-brace-format
+#: qt/app.py:1383
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
@@ -724,17 +735,17 @@ msgstr ""
 "Създайте резервни копия, завършващи със {suffix} преди\n"
 "да бъдат презаписани или премахнати локални файлове."
 
-#: qt/app.py:1388 qt/settingsdialog.py:883
-#, fuzzy, python-brace-format
+#: qt/app.py:1390 qt/settingsdialog.py:888
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"По-новите версии на файловете ще бъдат преименувани с последващ {suffix} при възстановяването.\n"
-"Ако не са необходими, могат да бъдат премахнати посредством {cmd}"
+"По-новите версии на файловете ще бъдат преименувани с последващ {suffix} "
+"преди възстановяването. Ако те не са необходими вече, може да ги премахнете "
+"посредством {cmd}"
 
-#: qt/app.py:1404
-#, fuzzy
+#: qt/app.py:1406
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -742,28 +753,26 @@ msgid ""
 msgstr ""
 "Възстановете само файлове, които не съществуват,\n"
 "или са по-нови от тези в крайната папка.\n"
-"Използвайте опцията \"rsync --update\"."
+"Използвайки опцията \"rsync --update\"."
 
-#: qt/app.py:1439
-#, fuzzy
+#: qt/app.py:1441
 msgid "Remove newer elements in original folder."
-msgstr "Премахнете по-новите файлове от първоначалната директория"
+msgstr "Премахнете по-новите файлове от първоначалната папка."
 
-#: qt/app.py:1442
-#, fuzzy
+#: qt/app.py:1444
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"Възстановяване на избрани файлове или папки до първоначалната дестинация и\n"
-"изтриване на файлове/папки, които не са в архива.\n"
-"Това ще доведе до изтриване на файлове/папки, които са били изключени по време на създаването на архива!\n"
-"Бъдете изключително внимателни!"
+"Възстановяване на избраните файлове или папки до първоначалната дестинация и"
+" изтриване на файлове/папки, които не са в моментният архив. Бъдете "
+"изключително внимателни,това ще доведе до изтриване на файлове/папки, които "
+"са били изключени по време на създаването на архива."
 
-#: qt/app.py:1453
-#, fuzzy, python-brace-format
+#: qt/app.py:1455
+#, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
 "{path}?"
@@ -771,55 +780,56 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Наистина ли искате да възстановите тези файлове\n"
-"в новата директория {path}"
+"Наистина ли искате да възстановите този файл\n"
+"в новата директория {path}?"
 msgstr[1] ""
 "Наистина ли искате да възстановите тези файлове\n"
-"в новата директория {path}"
+"в новата директория {path}?"
 
-#: qt/app.py:1462
-#, fuzzy
+#: qt/app.py:1464
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Наистина ли искате да възстановите файловете"
-msgstr[1] "Наистина ли искате да възстановите файловете"
+msgstr[0] "Наистина ли искате да възстановите този файл?"
+msgstr[1] "Наистина ли искате да възстановите файловете?"
 
-#: qt/app.py:1477
+#: qt/app.py:1479
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 "Сигурни ли сте, че желаете окончателно да премахнете всички по-нови файлове "
 "в {path}?"
 
-#: qt/app.py:1480
+#: qt/app.py:1482
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Сигурни ли сте, че искате да премахнете всички по-нови файлове в "
 "първоначалната директория?"
 
-#: qt/app.py:1485
+#: qt/app.py:1488
+#, fuzzy, python-brace-format
 msgid ""
-"WARNING: Deleting files in filesystem root could break your whole system!"
+"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
+"your entire system."
 msgstr ""
 "ПРЕДУПРЕЖДЕНИЕ: Изтриването на файлове в коренната част на файловата система"
 " може да разруши цялата ви система!"
 
-#: qt/app.py:1719
+#: qt/app.py:1724
 msgid "Snapshot"
 msgstr "Моментно архивно копие"
 
-#: qt/app.py:1756
+#: qt/app.py:1761
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Възстановете {path}"
 
-#: qt/app.py:1758
+#: qt/app.py:1763
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Възстановете {path} в …"
 
-#: qt/app.py:1915
+#: qt/app.py:1920
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Езиковите настройки влизат в сила само след рестартиране на Back In Time."
@@ -874,47 +884,48 @@ msgstr "Последно преглеждане на записа със съб�
 msgid "Snapshot Log View"
 msgstr "Преглеждане на записа със сибития относно моментните копия"
 
-#: qt/logviewdialog.py:76 qt/settingsdialog.py:173 qt/settingsdialog.py:419
-#, fuzzy
+#: qt/logviewdialog.py:76 qt/settingsdialog.py:177 qt/settingsdialog.py:423
+#: qt/settingsdialog.py:2593
 msgid "Profile:"
-msgstr "Профил"
+msgstr "Профил:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Моментни архиви"
+msgstr "Моментни архиви:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Филтър"
+msgstr "Филтър:"
 
-#: qt/logviewdialog.py:105 qt/settingsdialog.py:925
+#: qt/logviewdialog.py:105 qt/settingsdialog.py:930
 msgid "All"
 msgstr "Всичко"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:924
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:929
 msgid "Changes"
 msgstr "Промени"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:921
-#: qt/settingsdialog.py:924
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:926
+#: qt/settingsdialog.py:929
 msgid "Errors"
 msgstr "Грешки"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
+#, fuzzy
 msgid "Information"
-msgstr "Информация"
+msgid_plural "Information"
+msgstr[0] "Информация"
+msgstr[1] "Информация"
 
-#: qt/logviewdialog.py:116
+#: qt/logviewdialog.py:117
 msgid "rsync transfer failures (experimental)"
-msgstr ""
+msgstr "rsync неуспешен трансфер (експериментален)"
 
-#: qt/logviewdialog.py:126
+#: qt/logviewdialog.py:128
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[Г] Грешка, [И] Информация, [П] Промяна"
 
-#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:99
+#: qt/logviewdialog.py:131 qt/qtsystrayicon.py:99
 msgid "decode paths"
 msgstr "декодиране на пътищата"
 
@@ -922,9 +933,10 @@ msgstr "декодиране на пътищата"
 msgid "Question"
 msgstr "Въпрос"
 
-#: qt/qtsystrayicon.py:77 qt/settingsdialog.py:2589
-msgid "Profile"
-msgstr "Профил"
+#: qt/qtsystrayicon.py:77
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name}"
+msgstr "Профил: \"{name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -940,44 +952,42 @@ msgid "Working…"
 msgstr "Изпълняване…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Изпратено"
+msgstr "Изпратено:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Скорост"
+msgstr "Скорост:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
-msgstr ""
+msgstr "приблизително оставащо време:"
 
-#: qt/qttools.py:400 qt/snapshotsdialog.py:123
+#: qt/qttools.py:402 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "Моментни архиви"
 
-#: qt/qttools.py:423
+#: qt/qttools.py:425
 msgid "Today"
 msgstr "Днес"
 
-#: qt/qttools.py:430
+#: qt/qttools.py:432
 msgid "Yesterday"
 msgstr "Вчера"
 
-#: qt/qttools.py:439
+#: qt/qttools.py:441
 msgid "This week"
 msgstr "Тази седмица"
 
-#: qt/qttools.py:446
+#: qt/qttools.py:448
 msgid "Last week"
 msgstr "Миналата седмица"
 
-#: qt/qttools.py:592
+#: qt/qttools.py:594
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "Това НЕ е моментно копие, а текущ изглед на локалните Ви файлове"
 
-#: qt/qttools.py:597
+#: qt/qttools.py:599
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Последна проверка {time}"
@@ -986,51 +996,54 @@ msgstr "Последна проверка {time}"
 msgid "Show full Log"
 msgstr "Покажи всички записани събития"
 
-#: qt/settingsdialog.py:92
+#: qt/settingsdialog.py:95
 msgid "SSH Proxy"
+msgstr "SSH Прокси"
+
+#: qt/settingsdialog.py:102 qt/settingsdialog.py:281 qt/settingsdialog.py:411
+msgid "Host:"
+msgstr "Хост:"
+
+#: qt/settingsdialog.py:106 qt/settingsdialog.py:286
+msgid "Port:"
+msgstr "Порт:"
+
+#: qt/settingsdialog.py:110 qt/settingsdialog.py:291 qt/settingsdialog.py:417
+msgid "User:"
+msgstr "Потребител:"
+
+#: qt/settingsdialog.py:119
+msgid ""
+"Connect to the target host via this proxy (also known as a jump host). See "
+"\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
+"\"ssh_config\" man page for details."
 msgstr ""
 
-#: qt/settingsdialog.py:99 qt/settingsdialog.py:277 qt/settingsdialog.py:407
-#, fuzzy
-msgid "Host:"
-msgstr "Хост"
-
-#: qt/settingsdialog.py:103 qt/settingsdialog.py:282
-#, fuzzy
-msgid "Port:"
-msgstr "Порт"
-
-#: qt/settingsdialog.py:107 qt/settingsdialog.py:287 qt/settingsdialog.py:413
-#, fuzzy
-msgid "User:"
-msgstr "Потребител"
-
-#: qt/settingsdialog.py:165
+#: qt/settingsdialog.py:169
 msgid "Manage profiles"
 msgstr "Управление на профили"
 
-#: qt/settingsdialog.py:182
+#: qt/settingsdialog.py:186
 msgid "Edit"
 msgstr "Редактиране"
 
-#: qt/settingsdialog.py:186 qt/settingsdialog.py:672
+#: qt/settingsdialog.py:190 qt/settingsdialog.py:677
 msgid "Add"
 msgstr "Добавяне"
 
-#: qt/settingsdialog.py:190 qt/settingsdialog.py:618 qt/settingsdialog.py:690
+#: qt/settingsdialog.py:194 qt/settingsdialog.py:624 qt/settingsdialog.py:695
 msgid "Remove"
 msgstr "Премахване"
 
-#: qt/settingsdialog.py:205
+#: qt/settingsdialog.py:209
 msgid "&General"
 msgstr "&Общи"
 
-#: qt/settingsdialog.py:215
-#, fuzzy
+#: qt/settingsdialog.py:219 qt/settingsdialog.py:2595
 msgid "Mode:"
-msgstr "Режим"
+msgstr "Режим:"
 
-#: qt/settingsdialog.py:230
+#: qt/settingsdialog.py:234
 #, python-brace-format
 msgid ""
 "{app} uses EncFS for encryption. A recent security audit revealed several "
@@ -1041,38 +1054,35 @@ msgstr ""
 "възможни уязвимости. Моля погледнете \"A NOTE ON SECURITY\" в \"man "
 "backintime\"."
 
-#: qt/settingsdialog.py:241 qt/settingsdialog.py:2124
+#: qt/settingsdialog.py:245 qt/settingsdialog.py:2133
 msgid "Where to save snapshots"
 msgstr "Къде да се запазват моментните архиви"
 
-#: qt/settingsdialog.py:257
+#: qt/settingsdialog.py:261
 msgid "Folder"
 msgstr "Директория"
 
-#: qt/settingsdialog.py:265
+#: qt/settingsdialog.py:269
 msgid "SSH Settings"
 msgstr "SSH настройки"
 
-#: qt/settingsdialog.py:292
-#, fuzzy
+#: qt/settingsdialog.py:296
 msgid "Path:"
-msgstr "Път"
+msgstr "Път:"
 
-#: qt/settingsdialog.py:298
-#, fuzzy
+#: qt/settingsdialog.py:302
 msgid "Cipher:"
-msgstr "Шифър"
+msgstr "Шифър:"
 
-#: qt/settingsdialog.py:304
-#, fuzzy
+#: qt/settingsdialog.py:308
 msgid "Private Key:"
-msgstr "Частен ключ"
+msgstr "Частен ключ:"
 
-#: qt/settingsdialog.py:314
+#: qt/settingsdialog.py:318
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Изберете съществуващ частен ключ (обикновено озаглавен \"id_rsa\")"
 
-#: qt/settingsdialog.py:325
+#: qt/settingsdialog.py:329
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
@@ -1080,112 +1090,113 @@ msgstr ""
 "Създайте нов SSH ключ без парола (не е позволено, ако файл с частен ключ е "
 "вече избран)"
 
-#: qt/settingsdialog.py:355 qt/settingsdialog.py:364 qt/settingsdialog.py:370
+#: qt/settingsdialog.py:359 qt/settingsdialog.py:368 qt/settingsdialog.py:374
 msgid "Password"
 msgstr "Парола"
 
-#: qt/settingsdialog.py:376
+#: qt/settingsdialog.py:380
 msgid "Save Password to Keyring"
 msgstr "Запазете паролата в ключодържателя"
 
-#: qt/settingsdialog.py:380
+#: qt/settingsdialog.py:384
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Кеширайте паролата за периодичните задачи (Възможен проблем със сигурността:"
 " потребител root може да достъпва паролата)"
 
-#: qt/settingsdialog.py:395
+#: qt/settingsdialog.py:399
 msgid "Advanced"
 msgstr "Разширени"
 
-#: qt/settingsdialog.py:425
-msgid "Full snapshot path"
-msgstr "Пълен път за моментното архивно копие"
+#: qt/settingsdialog.py:429 qt/settingsdialog.py:2246
+#, fuzzy
+msgid "Full snapshot path:"
+msgstr "Пълен път за моментни архивни копия: "
 
-#: qt/settingsdialog.py:432
+#: qt/settingsdialog.py:436
 msgid "Schedule"
 msgstr "Разписание"
 
-#: qt/settingsdialog.py:444
+#: qt/settingsdialog.py:448
 msgid "Disabled"
 msgstr "Изключено"
 
-#: qt/settingsdialog.py:445
+#: qt/settingsdialog.py:449
 msgid "At every boot/reboot"
 msgstr "При всяко зареждане/рестартиране"
 
-#: qt/settingsdialog.py:447 qt/settingsdialog.py:449 qt/settingsdialog.py:451
+#: qt/settingsdialog.py:451 qt/settingsdialog.py:453 qt/settingsdialog.py:455
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "На всяка {n} минута"
 msgstr[1] "На всеки {n} минути"
 
-#: qt/settingsdialog.py:452
+#: qt/settingsdialog.py:457
+#, fuzzy, python-brace-format
 msgid "Every hour"
-msgstr "На всеки час"
+msgid_plural "Every {n} hours"
+msgstr[0] "На всеки час"
+msgstr[1] "На всеки час"
 
-#: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
-#: qt/settingsdialog.py:460
+#: qt/settingsdialog.py:459 qt/settingsdialog.py:461 qt/settingsdialog.py:463
+#: qt/settingsdialog.py:465
 #, fuzzy, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "На всеки {n} часа"
 msgstr[1] "На всеки {n} часа"
 
-#: qt/settingsdialog.py:461
+#: qt/settingsdialog.py:466
 #, fuzzy
 msgid "Custom hours"
 msgstr "Часове по предпочитание"
 
-#: qt/settingsdialog.py:462
+#: qt/settingsdialog.py:467
 #, fuzzy
 msgid "Every day"
 msgstr "Ежедневно"
 
-#: qt/settingsdialog.py:463
+#: qt/settingsdialog.py:468
 msgid "Repeatedly (anacron)"
 msgstr "Многократно (anacron)"
 
-#: qt/settingsdialog.py:464
+#: qt/settingsdialog.py:469
 msgid "When drive gets connected (udev)"
 msgstr "Когато дискът бъде свързан (udev)"
 
-#: qt/settingsdialog.py:465
+#: qt/settingsdialog.py:470
 #, fuzzy
 msgid "Every week"
 msgstr "Ежеседмично"
 
-#: qt/settingsdialog.py:466
+#: qt/settingsdialog.py:471
 #, fuzzy
 msgid "Every month"
 msgstr "Ежемесечно"
 
-#: qt/settingsdialog.py:467
+#: qt/settingsdialog.py:472
 #, fuzzy
 msgid "Every year"
 msgstr "Ежегодишно"
 
-#: qt/settingsdialog.py:472
+#: qt/settingsdialog.py:477
 msgid "Day:"
 msgstr ""
 
-#: qt/settingsdialog.py:483
-#, fuzzy
+#: qt/settingsdialog.py:488
 msgid "Weekday:"
-msgstr "Работен ден"
+msgstr "Работен ден:"
 
-#: qt/settingsdialog.py:498
-#, fuzzy
+#: qt/settingsdialog.py:504
 msgid "Hour:"
-msgstr "Час"
+msgstr "Час:"
 
-#: qt/settingsdialog.py:513
-#, fuzzy
+#: qt/settingsdialog.py:519
 msgid "Hours:"
-msgstr "Часа"
+msgstr "Часа:"
 
-#: qt/settingsdialog.py:524
+#: qt/settingsdialog.py:530
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1193,28 +1204,27 @@ msgstr ""
 "Изпълнявайте Back In Time многократно. Това е полезно, когато компютърът не "
 "работи редовно."
 
-#: qt/settingsdialog.py:531
-#, fuzzy
+#: qt/settingsdialog.py:537
 msgid "Every:"
-msgstr "Всеки"
+msgstr "Всеки:"
 
-#: qt/settingsdialog.py:545
+#: qt/settingsdialog.py:551
 msgid "Hour(s)"
 msgstr "Час (а)"
 
-#: qt/settingsdialog.py:546 qt/settingsdialog.py:742
+#: qt/settingsdialog.py:552 qt/settingsdialog.py:747
 msgid "Day(s)"
 msgstr "Дни"
 
-#: qt/settingsdialog.py:547 qt/settingsdialog.py:743
+#: qt/settingsdialog.py:553 qt/settingsdialog.py:748
 msgid "Week(s)"
 msgstr "Седмици"
 
-#: qt/settingsdialog.py:548
+#: qt/settingsdialog.py:554
 msgid "Month(s)"
 msgstr "Месеци"
 
-#: qt/settingsdialog.py:558
+#: qt/settingsdialog.py:564
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
@@ -1222,72 +1232,67 @@ msgstr ""
 "Изпълнявайте Back In Time веднага щом дискът бъде свързан (веднъж на X дни).\n"
 "Ще бъдете помолени да въведете вашата sudo парола."
 
-#: qt/settingsdialog.py:567
+#: qt/settingsdialog.py:573
 msgid "Enable logging of debug messages"
 msgstr ""
 
-#: qt/settingsdialog.py:571
+#: qt/settingsdialog.py:577
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 
-#: qt/settingsdialog.py:573
+#: qt/settingsdialog.py:579
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
 
-#: qt/settingsdialog.py:586
+#: qt/settingsdialog.py:592
 msgid "&Include"
 msgstr "&Включване"
 
-#: qt/settingsdialog.py:593
+#: qt/settingsdialog.py:599
 msgid "Include files and folders"
 msgstr "Включване на файлове и папки"
 
-#: qt/settingsdialog.py:610 qt/settingsdialog.py:676
+#: qt/settingsdialog.py:616 qt/settingsdialog.py:681
 msgid "Add file"
 msgstr "Добавяне на файл"
 
-#: qt/settingsdialog.py:614 qt/settingsdialog.py:680
+#: qt/settingsdialog.py:620 qt/settingsdialog.py:685
 msgid "Add folder"
 msgstr "Добавяне на папка"
 
-#: qt/settingsdialog.py:624
+#: qt/settingsdialog.py:630
 msgid "&Exclude"
 msgstr "&Изключване"
 
-#: qt/settingsdialog.py:629
-msgid "Info"
-msgstr ""
-
-#: qt/settingsdialog.py:631
+#: qt/settingsdialog.py:634
 #, python-brace-format
 msgid ""
-"In 'SSH encrypted' mode, only single or double asterisks are functional "
-"(e.g. {example2}). Other types of wildcards and patterns will be ignored "
-"(e.g. {example1}).Filenames are unpredictable in this mode due to encryption"
-" by EncFS."
+"{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
+"asterisks are functional (e.g. {example2}). Other types of wildcards and "
+"patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
+"this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/settingsdialog.py:652
+#: qt/settingsdialog.py:657
 msgid "Exclude patterns, files or folders"
 msgstr "Изключване на шарки, файлове или папки"
 
-#: qt/settingsdialog.py:685
+#: qt/settingsdialog.py:690
 msgid "Add default"
 msgstr "Добавете по подразбиране"
 
-#: qt/settingsdialog.py:698
-#, fuzzy
+#: qt/settingsdialog.py:703
 msgid "Exclude files bigger than:"
-msgstr "Изключете файлове, по-големи от: "
+msgstr "Изключете файлове, по-големи от:"
 
-#: qt/settingsdialog.py:702
-#, fuzzy, python-brace-format
+#: qt/settingsdialog.py:707
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Изключете файлове, по-големи от: "
+msgstr "Изключете файлове, по-големи от: {size_unit}"
 
-#: qt/settingsdialog.py:704
+#: qt/settingsdialog.py:709
 #, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
@@ -1301,104 +1306,101 @@ msgstr ""
 "Така че големите файлове, които са били архивирани преди, ще останат в\n"
 "моментните копия дори и да са били променени."
 
-#: qt/settingsdialog.py:724
+#: qt/settingsdialog.py:729
 msgid "&Auto-remove"
 msgstr "&Автоматично премахване"
 
-#: qt/settingsdialog.py:730
-#, fuzzy
+#: qt/settingsdialog.py:735
 msgid "Older than:"
-msgstr "По-стари от"
+msgstr "По-стари от:"
 
-#: qt/settingsdialog.py:744
+#: qt/settingsdialog.py:749
 msgid "Year(s)"
 msgstr "Години"
 
-#: qt/settingsdialog.py:752
-#, fuzzy
+#: qt/settingsdialog.py:757
 msgid "If free space is less than:"
-msgstr "Ако свободното пространство е по-малко от"
+msgstr "Ако свободното пространство е по-малко от:"
 
-#: qt/settingsdialog.py:772
-#, fuzzy
+#: qt/settingsdialog.py:777
 msgid "If free inodes is less than:"
-msgstr "Ако има по-малко inodes от"
+msgstr "Ако има по-малко inodes от:"
 
-#: qt/settingsdialog.py:786
+#: qt/settingsdialog.py:791
 #, fuzzy
-msgid "Smart remove:"
-msgstr "Умно премахване"
+msgid "Smart removal:"
+msgstr "Умно премахване:"
 
-#: qt/settingsdialog.py:797
+#: qt/settingsdialog.py:802
 msgid "Run in background on remote host."
 msgstr "Изпълнява се във фонов режим на отдалечен хост."
 
-#: qt/settingsdialog.py:798
+#: qt/settingsdialog.py:803
 msgid "EXPERIMENTAL"
 msgstr "ЕКСПЕРИМЕНТАЛНО"
 
-#: qt/settingsdialog.py:804
+#: qt/settingsdialog.py:809
 msgid "Keep all snapshots for the last"
 msgstr "Пазете всички временни архиви за последните"
 
-#: qt/settingsdialog.py:808 qt/settingsdialog.py:815
+#: qt/settingsdialog.py:813 qt/settingsdialog.py:820
 #, fuzzy
 msgid "day(s)."
 msgstr "дни"
 
-#: qt/settingsdialog.py:811
+#: qt/settingsdialog.py:816
 msgid "Keep one snapshot per day for the last"
 msgstr "Пазете едно моментно копие на ден за последните"
 
-#: qt/settingsdialog.py:818
+#: qt/settingsdialog.py:823
 msgid "Keep one snapshot per week for the last"
 msgstr "Пазете едно моментно копие на седмица за последните"
 
-#: qt/settingsdialog.py:822
+#: qt/settingsdialog.py:827
 #, fuzzy
 msgid "week(s)."
 msgstr "седмица(и)"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:830
 msgid "Keep one snapshot per month for the last"
 msgstr "Пазете едно моментно копие на месец за последните"
 
-#: qt/settingsdialog.py:829
+#: qt/settingsdialog.py:834
 #, fuzzy
 msgid "month(s)."
 msgstr "месеца"
 
-#: qt/settingsdialog.py:832
+#: qt/settingsdialog.py:837
 #, fuzzy
 msgid "Keep one snapshot per year for all years."
 msgstr "Пазете едно моментно копие на година"
 
-#: qt/settingsdialog.py:841
+#: qt/settingsdialog.py:846
 #, fuzzy
 msgid "Don't remove named snapshots."
 msgstr "Да не се премахват именувани архиви"
 
-#: qt/settingsdialog.py:853
+#: qt/settingsdialog.py:858
 msgid "&Options"
 msgstr "&Настройки"
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:863
 msgid "Enable notifications"
 msgstr "Включване на известяването"
 
-#: qt/settingsdialog.py:862
+#: qt/settingsdialog.py:867
 msgid "Disable snapshots when on battery"
 msgstr "Изключване на моментни архиви при работа на батерия"
 
-#: qt/settingsdialog.py:866
+#: qt/settingsdialog.py:871
 msgid "Power status not available from system"
 msgstr "Енергийното състояние не е налично от системата"
 
-#: qt/settingsdialog.py:869
+#: qt/settingsdialog.py:874
 msgid "Run only one snapshot at a time"
 msgstr "Изпълнявайте по едно моментно копие наведжъж"
 
-#: qt/settingsdialog.py:872
+#: qt/settingsdialog.py:877
 #, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
@@ -1409,129 +1411,129 @@ msgstr ""
 "Това е глобална опция и ще повлияе на всички профили на потребителя.\n"
 "Но трябва да я изберете също и за останалите потребители."
 
-#: qt/settingsdialog.py:880
+#: qt/settingsdialog.py:885
 msgid "Backup replaced files on restore"
 msgstr "Архивирайте подменените файлове при възстановяване"
 
-#: qt/settingsdialog.py:895
+#: qt/settingsdialog.py:900
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Продължаване при грешки (запазване на непълни моментни архиви)"
 
-#: qt/settingsdialog.py:899
+#: qt/settingsdialog.py:904
 msgid "Use checksum to detect changes"
 msgstr "Използвайте проверка на контролната сума, за да засечете промените"
 
-#: qt/settingsdialog.py:903
+#: qt/settingsdialog.py:908
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "Направете ново моментно копие независимо дали има промени или не."
 
-#: qt/settingsdialog.py:910
-#, fuzzy
-msgid "Log Level:"
-msgstr "Ниво на записа"
-
 #: qt/settingsdialog.py:915
+msgid "Log Level:"
+msgstr "Ниво на записа:"
+
+#: qt/settingsdialog.py:920
 msgid "None"
 msgstr "Нищо"
 
-#: qt/settingsdialog.py:935
+#: qt/settingsdialog.py:940
 msgid "E&xpert Options"
 msgstr "Е&кспертни настройки"
 
-#: qt/settingsdialog.py:940
+#: qt/settingsdialog.py:945
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Внимание: Променяйте тези опции само ако наистина знаете какво правите."
 
-#: qt/settingsdialog.py:945 qt/settingsdialog.py:961 qt/settingsdialog.py:983
+#: qt/settingsdialog.py:950 qt/settingsdialog.py:966 qt/settingsdialog.py:988
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Изпълнете 'rsync' посредством '{cmd}':"
 
-#: qt/settingsdialog.py:952 qt/settingsdialog.py:968
+#: qt/settingsdialog.py:957 qt/settingsdialog.py:973
 msgid "as cron job"
 msgstr "като периодична задача"
 
-#: qt/settingsdialog.py:957 qt/settingsdialog.py:978 qt/settingsdialog.py:999
+#: qt/settingsdialog.py:962 qt/settingsdialog.py:983 qt/settingsdialog.py:1004
 msgid "on remote host"
 msgstr "върху отдалечен хост"
 
-#: qt/settingsdialog.py:973
+#: qt/settingsdialog.py:978
 msgid "when taking a manual snapshot"
 msgstr "когато се изпълнява ръчно моментно копие"
 
-#: qt/settingsdialog.py:986
+#: qt/settingsdialog.py:991
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Моля инсталирайте 'nocache', за да активирате тази опция)"
 
-#: qt/settingsdialog.py:993
+#: qt/settingsdialog.py:998
 msgid "on local machine"
 msgstr "върху настоящата машина"
 
-#: qt/settingsdialog.py:1004
+#: qt/settingsdialog.py:1009
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Пренасочете стандартният изход към /dev/null при периодичните задачи."
 
-#: qt/settingsdialog.py:1009
+#: qt/settingsdialog.py:1014
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/settingsdialog.py:1015
+#: qt/settingsdialog.py:1020
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 "Пренасочете стандартният изход за грешки към /dev/null за периодични задачи."
 
-#: qt/settingsdialog.py:1020
+#: qt/settingsdialog.py:1025
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/settingsdialog.py:1029
-msgid "Limit rsync bandwidth usage"
+#: qt/settingsdialog.py:1033
+#, fuzzy
+msgid "Limit rsync bandwidth usage:"
 msgstr "Ограничете използваният трафик от rsync"
 
-#: qt/settingsdialog.py:1032
+#: qt/settingsdialog.py:1036
 msgid "KB/sec"
 msgstr "KB/сек"
 
-#: qt/settingsdialog.py:1076
+#: qt/settingsdialog.py:1080
 msgid "Preserve ACL"
 msgstr "Запазване на ACL (списък за контрол на достъпа)"
 
-#: qt/settingsdialog.py:1094
+#: qt/settingsdialog.py:1098
 msgid "Preserve extended attributes (xattr)"
 msgstr "Запазване на разширените атрибути (xattr)"
 
-#: qt/settingsdialog.py:1117
+#: qt/settingsdialog.py:1121
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Копиране на несигурните връзки (работи само с абсолютни връзки)"
 
-#: qt/settingsdialog.py:1153
+#: qt/settingsdialog.py:1157
 msgid "Restrict to one file system"
 msgstr ""
 
-#: qt/settingsdialog.py:1173
+#: qt/settingsdialog.py:1177
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Опциите трябва да бъдат цитирани, напр. {example}."
 
-#: qt/settingsdialog.py:1176
+#: qt/settingsdialog.py:1180
 msgid "Paste additional options to rsync"
 msgstr "Добавете допълнителни опции към rsync"
 
-#: qt/settingsdialog.py:1190
+#: qt/settingsdialog.py:1194
 msgid "Add prefix to SSH commands"
 msgstr "Добавете префикс към SSH командите"
 
-#: qt/settingsdialog.py:1192
+#: qt/settingsdialog.py:1196
 msgid "Prefix to run before every command on remote host."
 msgstr ""
 
-#: qt/settingsdialog.py:1193
+#: qt/settingsdialog.py:1197
 #, fuzzy, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1545,68 +1547,72 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1201 qt/settingsdialog.py:2332
+#: qt/settingsdialog.py:1205
 msgid "default"
 msgstr "по подразбиране"
 
-#: qt/settingsdialog.py:1216
+#: qt/settingsdialog.py:1220
 msgid "Check if remote host is online"
 msgstr "Проверете дали отдалеченият хост е онлайн"
 
-#: qt/settingsdialog.py:1219
+#: qt/settingsdialog.py:1223
 #, fuzzy
 msgid ""
-"Warning: if disabled and the remote host is not available, this could lead "
+"Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
 "Внимание: ако е изключено и отдалеченият хост\n"
 "не е наличен, това може да доведе до някои\n"
 "непредвидени грешки."
 
-#: qt/settingsdialog.py:1223
-msgid "Check if remote host supports all necessary commands"
+#: qt/settingsdialog.py:1227
+#, fuzzy
+msgid "Check if remote host supports all necessary commands."
 msgstr "Проверете дали отдалеченият хост поддържа всички необходими команди"
 
-#: qt/settingsdialog.py:1226
+#: qt/settingsdialog.py:1230
 #, fuzzy
 msgid ""
-"Warning: if disabled and the remote host does not support all necessary "
+"Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
 "Внимание: ако е изключено и отдалеченият хост\n"
 "не поддържа всички необходими команди,\n"
 "това може да довете до неочаквани грешки."
 
-#: qt/settingsdialog.py:1242
+#: qt/settingsdialog.py:1246
 msgid "Restore Config"
 msgstr "Възстановете конфигурацията"
 
-#: qt/settingsdialog.py:1244
+#: qt/settingsdialog.py:1248
 msgid "Edit user-callback"
 msgstr "Променете потребителския скрипт"
 
-#: qt/settingsdialog.py:1262
+#: qt/settingsdialog.py:1266
 msgid "New profile"
 msgstr "Нов профил"
 
-#: qt/settingsdialog.py:1279
+#: qt/settingsdialog.py:1283
 msgid "Rename profile"
 msgstr "Преименуване на профил"
 
-#: qt/settingsdialog.py:1295
+#: qt/settingsdialog.py:1299
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Сигурни ли сте, че желаете да изтриете профила \"{name}\"?"
 
-#: qt/settingsdialog.py:1399
-msgid "(All recommendations already included.)"
+#: qt/settingsdialog.py:1403
+#, python-brace-format
+msgid ""
+"{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/settingsdialog.py:1403
-msgid "Highly recommended"
+#: qt/settingsdialog.py:1408
+#, fuzzy, python-brace-format
+msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "Силно препоръчително"
 
-#: qt/settingsdialog.py:1599
+#: qt/settingsdialog.py:1606
 #, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
@@ -1615,63 +1621,71 @@ msgstr ""
 "Персонализираните часове могат да представляват само списък, разделен със "
 "запетаи (напр. 8,12,18,23) или */3 за периодични архиви на всеки 3 часа"
 
-#: qt/settingsdialog.py:1645
+#: qt/settingsdialog.py:1653
+msgid "You did not choose a private key file for SSH."
+msgstr ""
+
+#: qt/settingsdialog.py:1654
+#, fuzzy
 msgid ""
-"You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 "Не сте избрали частен ключ за SSH.\n"
 "Бихте ли искали да създадете нова двойка частен/публичен ключ без парола?"
 
-#: qt/settingsdialog.py:1656
+#: qt/settingsdialog.py:1664
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Файлът с частния ключ \"{file}\" не съществува."
 
-#: qt/settingsdialog.py:1811
+#: qt/settingsdialog.py:1819
+#, fuzzy
 msgid ""
-"Would you like to copy your public SSH key to the\n"
-"remote host to enable password-less login?"
+"Would you like to copy your public SSH key to the remote host to enable "
+"password-less login?"
 msgstr ""
 "Бихте ли искали да копирате вашият публичен SSH ключ върху\n"
 "отдалеченият хост, за да активирате логин без парола?"
 
-#: qt/settingsdialog.py:1842
-#, python-brace-format
-msgid ""
-"The authenticity of host {host} can't be established.\n"
-"\n"
-"{keytype} key fingerprint is:"
+#: qt/settingsdialog.py:1850
+#, fuzzy, python-brace-format
+msgid "The authenticity of host {host} can't be established."
 msgstr ""
 "Достоверността на хоста {host} не може да бъде потвърдена.\n"
 "\n"
 "{keytype} отпечатъкът на ключа е:"
 
-#: qt/settingsdialog.py:1852
+#: qt/settingsdialog.py:1853
+#, python-brace-format
+msgid "{keytype} key fingerprint is:"
+msgstr ""
+
+#: qt/settingsdialog.py:1861
+#, fuzzy
 msgid ""
-"Please verify this fingerprint! Would you like to add it to your "
+"Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 "Моля потвърдете този отпечатък! Бихте ли искали да го добавите към "
 "'known_hosts' файлът с позволени хостове?"
 
-#: qt/settingsdialog.py:2024
+#: qt/settingsdialog.py:2033
 msgid "Exclude pattern"
 msgstr "Шаблон за изключване"
 
-#: qt/settingsdialog.py:2037
+#: qt/settingsdialog.py:2046
 msgid "Exclude file"
 msgstr "Изключване на файл"
 
-#: qt/settingsdialog.py:2041
+#: qt/settingsdialog.py:2050
 msgid "Exclude folder"
 msgstr "Изключване на папка"
 
-#: qt/settingsdialog.py:2065
+#: qt/settingsdialog.py:2074
 msgid "Include file"
 msgstr "Включване на файл"
 
-#: qt/settingsdialog.py:2074 qt/settingsdialog.py:2104
+#: qt/settingsdialog.py:2083 qt/settingsdialog.py:2113
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1680,85 +1694,74 @@ msgstr ""
 "\"{path}\" е пряк път. Целта, към която сочи, няма да бъде архивирана докато не добавите и нея.\n"
 "Бихте ли искали да добавите крайната цел вместо това?"
 
-#: qt/settingsdialog.py:2095
+#: qt/settingsdialog.py:2104
 msgid "Include folder"
 msgstr "Включване на папка"
 
-#: qt/settingsdialog.py:2132
+#: qt/settingsdialog.py:2141
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Сигурни ли сте, че желаете да промените папката за моментни архиви ?"
 
-#: qt/settingsdialog.py:2157
+#: qt/settingsdialog.py:2166
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Неуспех при създаване на нов SSH ключ в {path}"
 
-#: qt/settingsdialog.py:2237
-msgid "Full snapshot path: "
-msgstr "Пълен път за моментни архивни копия: "
-
-#: qt/settingsdialog.py:2265
+#: qt/settingsdialog.py:2274
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 
-#: qt/settingsdialog.py:2327
-msgid "enabled"
-msgstr "активирано"
+#: qt/settingsdialog.py:2335
+#, fuzzy
+msgid "(default: {})"
+msgstr "по подразбиране"
 
-#: qt/settingsdialog.py:2330
+#: qt/settingsdialog.py:2336
 msgid "disabled"
 msgstr "деактивирано"
 
-#: qt/settingsdialog.py:2375
+#: qt/settingsdialog.py:2336
+msgid "enabled"
+msgstr "активирано"
+
+#: qt/settingsdialog.py:2379
 msgid "Import configuration"
 msgstr ""
 
-#: qt/settingsdialog.py:2431 qt/settingsdialog.py:2527
+#: qt/settingsdialog.py:2435 qt/settingsdialog.py:2531
 msgid "No config found"
 msgstr "Не е намерена конфигурация"
 
-#: qt/settingsdialog.py:2456
+#: qt/settingsdialog.py:2460
 msgid "Import"
 msgstr ""
 
-#: qt/settingsdialog.py:2484
+#: qt/settingsdialog.py:2488
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
-#: qt/settingsdialog.py:2489
+#: qt/settingsdialog.py:2493
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
 msgstr ""
-
-#: qt/settingsdialog.py:2591
-msgid "Mode"
-msgstr "Режим"
-
-#: qt/settingsdialog.py:2739
-msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr "Потребителският скрипт няма шебанг (#!/bin/sh) на първия ред."
-
-#: qt/settingsdialog.py:2746
-msgid "Shebang in user-callback script is not executable."
-msgstr "Шебангът в потребителският скрипт не е изпълним."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr "Опции за сравняване на моментни архиви"
 
 #: qt/snapshotsdialog.py:58
-msgid "Command"
+#, fuzzy
+msgid "Command:"
 msgstr "Команда"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Параметри"
+msgstr "Параметри:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1771,7 +1774,7 @@ msgstr ""
 #: qt/snapshotsdialog.py:90
 #, python-brace-format
 msgid ""
-"The command \"{cmd}\" can not be found on this system. Please try something "
+"The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
 
@@ -1827,15 +1830,41 @@ msgstr ""
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Наистина ли искате да изтриете {file} от {count} моментни архиви?"
 
-#: qt/snapshotsdialog.py:409
-msgid "This cannot be revoked!"
+#: qt/snapshotsdialog.py:408
+#, fuzzy
+msgid "WARNING: This cannot be revoked."
 msgstr "Това действие не може да бъде отменено!"
 
-#: qt/snapshotsdialog.py:409
-msgid "WARNING"
-msgstr "ВНИМАНИЕ"
-
-#: qt/snapshotsdialog.py:427
+#: qt/snapshotsdialog.py:426
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Изключете {path} от бъдещите моментни архиви?"
+
+#~ msgid "Full snapshot path"
+#~ msgstr "Пълен път за моментното архивно копие"
+
+#~ msgid "Mode"
+#~ msgstr "Режим"
+
+#~ msgid "Profile"
+#~ msgstr "Профил"
+
+#, python-brace-format
+#~ msgid "Profile '{profile}': Enter password for {mode}: "
+#~ msgstr "Профил '{profile}': Въведете парола за {mode}: "
+
+#~ msgid "Shebang in user-callback script is not executable."
+#~ msgstr "Шебангът в потребителският скрипт не е изпълним."
+
+#~ msgid "WARNING"
+#~ msgstr "ВНИМАНИЕ"
+
+#~ msgid ""
+#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
+#~ "update encfs."
+#~ msgstr ""
+#~ "Във версия 1.7.2 и по-ранни версии на encfs има грешка с опцията --reverse. "
+#~ "Моля, актуализирайте encfs."
+
+#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
+#~ msgstr "Потребителският скрипт няма шебанг (#!/bin/sh) на първия ред."

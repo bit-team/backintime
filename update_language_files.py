@@ -379,6 +379,7 @@ def get_shortcut_groups() -> dict[str, list]:
         '&Exclude',
         '&Auto-remove',
         '&Options',
+        'Back In &Time',
         'E&xpert Options',
     ]
 
@@ -432,8 +433,8 @@ def check_shortcuts():
         # Remember shortcut relevant entries.
         real = {key: [] for key in groups}
 
-        # WORKAROUND. See get_shortcut_groups() for details.
-        real['mainwindow'].append('Back In &Time')
+        # # WORKAROUND. See get_shortcut_groups() for details.
+        # real['mainwindow'].append('Back In &Time')
 
         # Entries using shortcut indicators
         shortcut_entries = get_shortcut_entries(polib.pofile(po_path))
