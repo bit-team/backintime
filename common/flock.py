@@ -10,7 +10,8 @@ import fcntl
 from pathlib import Path
 import logger
 
-logger.DEBUG = True
+logger.DEBUG = True  # REMOVE BEFORE MERGE
+
 
 class _FlockContext:
     """Context manager to manage file locks (flock).
@@ -37,21 +38,33 @@ class _FlockContext:
                 folder = Path(Path.cwd().root) / 'var' / 'lock'
 
         self._file_path = folder / filename
-        """Path to used for flock"""
+        """Path used for flock"""
 
-        if not self._file_path.exists():
-            try:
-                self._file_path.touch()
-            except PermissionError:
-                self._file_path = self._determine_user_flock(filename)
+        if not self._can_use_file(self._file_path):
+            # Try user specific file lock
+            self._file_path = Path(os.environ['XDG_RUNTIME_DIR']) / filename
 
-    def _determine_user_flock(self, filename: str):
-        folder = Path(Path.cwd().root) / 'run' / 'user'
-        folder = folder / str(os.getuid()) / filename
+        if not self._can_use_file(self._file_path):
+            # Last try users cache dir
+            self._file_path \
+                = Path(os.environ.get('XDG_CACHE_HOME', '~/.cache')) / filename
 
-        logger.info(f'{folder=}')
+        if not self._can_use_file(self._file_path):
+            raise RuntimeError('Can not set global flock')
 
-        folder.touch()
+    def _can_use_file(self, file_path: Path) -> bool:
+        """
+        """
+        if file_path.exists():
+            return True
+
+        # Try to create it
+        try:
+            file_path.touch(mode=0o666)
+        except PermissionError:
+            logger.info(f'Cannot use file lock on {file_path}.')
+
+        return False
 
     def __enter__(self):
         self._log('Set')
