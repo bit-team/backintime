@@ -63,6 +63,8 @@ class _FlockContext:
             file_path.touch(mode=0o666)
         except PermissionError:
             logger.info(f'Cannot use file lock on {file_path}.')
+        else:
+            logger.info(f'Use {file_path} for file lock.')
 
         return False
 
