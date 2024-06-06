@@ -16,8 +16,10 @@ logger.DEBUG = True  # REMOVE BEFORE MERGE
 class _FlockContext:
     """Context manager to manage file locks (flock).
 
-    The flock file is stored in the folder `/run/lock` or if not present in
-    `/var/lock`.
+    It will be tried to establish a multi-user file lock; if not feasible a
+    single-user file lock will be used. It depends on the GNU Linux
+    distribution used and the write permissions to the file lock locations in
+    the file system.
 
     Usage example ::
 
@@ -28,6 +30,22 @@ class _FlockContext:
         with MyFlock():
              do_fancy_things()
 
+    The following directories will be checked in sequence to determine if they
+    exist, if a file lock file exists within them, or if there are sufficient
+    permissions to create such a file within them. ::
+
+        /run/lock
+        /var/lock
+        /run/user/<UID>/
+        ~/.cache
+
+    The first and second directory in that list is for multi-user file lock.
+
+    To the experience of the developers on Debian-based distributions there is
+    no problem having a multi-user file lock. But on Arch-based distributions
+    only a user with root privileges is able to do it. Because of that on Arch
+    a single-user file lock is used by default until Back In Time is started
+    once as root.
     """
     def __init__(self, filename: str, folder: Path = None):
         if folder is None:
@@ -42,6 +60,7 @@ class _FlockContext:
 
         if not self._can_use_file(self._file_path):
             # Try user specific file lock
+            # e.g. /run/user/<UID>
             self._file_path = Path(os.environ['XDG_RUNTIME_DIR']) / filename
 
         if not self._can_use_file(self._file_path):
