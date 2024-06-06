@@ -47,29 +47,39 @@ class _FlockContext:
     a single-user file lock is used by default until Back In Time is started
     once as root.
     """
-    def __init__(self, filename: str, folder: Path = None):
-        if folder is None:
-            folder = Path(Path.cwd().root) / 'run' / 'lock'
+    def __init__(self,
+                 filename: str,
+                 disable: bool = False):
+        folder = Path(Path.cwd().root) / 'run' / 'lock'
 
-            # out-dated default
-            if not folder.exists():
-                folder = Path(Path.cwd().root) / 'var' / 'lock'
+        if not folder.exists():
+            # On older systems
+            folder = Path(Path.cwd().root) / 'var' / 'lock'
 
         self._file_path = folder / filename
-        """Path used for flock"""
+        """Full path used for the flock file"""
 
-        if not self._can_use_file(self._file_path):
-            # Try user specific file lock
-            # e.g. /run/user/<UID>
-            self._file_path = Path(os.environ['XDG_RUNTIME_DIR']) / filename
+        if self._can_use_file(self._file_path):
+            return
 
-        if not self._can_use_file(self._file_path):
-            # Last try users cache dir
-            self._file_path \
-                = Path(os.environ.get('XDG_CACHE_HOME', '~/.cache')) / filename
+        # Try user specific file lock
+        # e.g. /run/user/<UID>
+        self._file_path = Path(os.environ['XDG_RUNTIME_DIR']) / filename
 
-        if not self._can_use_file(self._file_path):
-            raise RuntimeError('Can not set global flock')
+        if self._can_use_file(self._file_path):
+            return
+
+        # At last, try users cache dir.
+        self._file_path = Path(
+            os.environ.get('XDG_CACHE_HOME',
+                           Path.home() / 'cache')
+        ) / filename
+
+        if self._can_use_file(self._file_path):
+            return
+
+        raise RuntimeError(
+            f'Can not establish global flock file {self._file_path}')
 
     def _can_use_file(self, file_path: Path) -> bool:
         """
@@ -80,13 +90,14 @@ class _FlockContext:
         # Try to create it
         try:
             file_path.touch(mode=0o666)
+
         except PermissionError:
             logger.debug(f'Cannot use file lock on {file_path}.')
+
         except Exception as err:
             logger.error(f'Unknown error while testing file '
                          f'lock on {file_path}. Error was {err}.')
         else:
-            print('X'*100)
             logger.debug(f'Use {file_path} for file lock.')
             return True
 
@@ -124,5 +135,5 @@ class _FlockContext:
 
 class GlobalFlock(_FlockContext):
     """Flock context manager used for global flock in Back In Time."""
-    def __init__(self):
-        super().__init__('backintime.lock')
+    def __init__(self, disable: bool = False):
+        super().__init__('backintime.lock', disable=disable)
