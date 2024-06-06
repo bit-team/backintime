@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.4.4-dev (development of upcoming release)
+* Build: Activate PyLint error E0100 (init-is-generator), E0101 (return-in-init), E0102 (function-redefined), E0103 (not-in-loop), E0106 (return-arg-in-generator)
 * Fix: Names of weekdays and months translated correct (#1729)
 * Fix: Global flock for multiple users (#1122, #1676)
 * Fix bug: "Backup folders" list does reflect the selected snapshot (#1585) (@rafaelhdr Rafael Hurpia da Rocha)
