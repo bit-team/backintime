@@ -108,7 +108,7 @@ class _FlockContext:
         """Check if ``file_path`` is usable as an flock file.
 
         The answer is ``True`` if the file exists without checking its
-        permissions. If not the file will be created and if successfull
+        permissions. If not the file will be created and if successful
         ``True`` will be returned.
 
         Returns:
