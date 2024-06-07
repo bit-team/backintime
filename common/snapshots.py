@@ -779,10 +779,11 @@ class Snapshots:
 
                 instance.startApplication()
 
-                # global flock to block backups from other profiles or users
-                # (and run them serialized)
-                # self.flockExclusive()
-                with flock.GlobalFlock():
+                # Global flock to block backups from other profiles or users
+                # (and run them serialized). The argument "disabled" is a
+                # workaround (#1751) that should be removed/refactored after
+                # this method ("backup()") is refactored.
+                with flock.GlobalFlock(disable=not self.config.globalFlock()):
                     logger.info('Lock', self)
 
                     now = datetime.datetime.today()
