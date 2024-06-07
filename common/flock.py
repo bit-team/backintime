@@ -173,8 +173,7 @@ class _FlockContext:
         Args:
             prefix: Used in front of the log message.
         """
-        logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}',
-                     self)
+        logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}')
 
 
 class GlobalFlock(_FlockContext):
