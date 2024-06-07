@@ -50,6 +50,29 @@ class _FlockContext:
     def __init__(self,
                  filename: str,
                  disable: bool = False):
+        """Check if an flock file can be used or created.
+
+        See the classes documentation about details.
+
+        Args:
+            filename: The filename (without path) used for the flock file.
+            disabled: Disable the whole context managers behavior. This is a
+                workaround. See #1751 and :func:``Snapshots.backup()`` for
+                details.
+
+        Raises:
+            RuntimeError: If it wasn't possible to use
+        """
+        self._file_path = None
+        """Full path used for the flock file"""
+
+        self._flock_handle = None
+        """File handle (descriptor) to the flock file."""
+
+        # Workaround for #1751. Remove after refactoring Snapshots.backup()
+        if disable:
+            return
+
         folder = Path(Path.cwd().root) / 'run' / 'lock'
 
         if not folder.exists():
@@ -82,7 +105,18 @@ class _FlockContext:
             f'Can not establish global flock file {self._file_path}')
 
     def _can_use_file(self, file_path: Path) -> bool:
-        """
+        """Check if ``file_path`` is usable as an flock file.
+
+        The answer is ``True`` if the file exists without checking its
+        permissions. If not the file will be created and if successfull
+        ``True`` will be returned.
+
+        Returns:
+            bool: The answer.
+
+        Raises:
+            PermissionError: Not enough permissions to create the file.
+            Exception: Any other error.
         """
         if file_path.exists():
             return True
@@ -95,8 +129,10 @@ class _FlockContext:
             logger.debug(f'Cannot use file lock on {file_path}.')
 
         except Exception as err:
-            logger.error(f'Unknown error while testing file '
-                         f'lock on {file_path}. Error was {err}.')
+            logger.error(
+                f'Unknown error while testing file lock on {file_path}. '
+                f'Please open a bug report. Error was {err}.')
+
         else:
             logger.debug(f'Use {file_path} for file lock.')
             return True
@@ -104,23 +140,29 @@ class _FlockContext:
         return False
 
     def __enter__(self):
+        """Request an exclucive file lock on :data:``self._file_path``.
+        """
+        # Workaround for #1751. Remove after refactoring Snapshots.backup()
+        # See __init__() for details
+        if self._file_path is None:
+            return
+
         self._log('Set')
 
-        # Open (and create if needed) the file
-        mode = 'r' if self._file_path.exists() else 'w'
-        self._flock_handle = self._file_path.open(mode)
+        # Open file for reading
+        self._flock_handle = self._file_path.open(mode='r')
 
         # blocks (waits) until an existing flock is released
         fcntl.flock(self._flock_handle, fcntl.LOCK_EX)
 
-        # If new created file set itspermissions to "rw-rw-rw".
-        # otherwise a foreign user is not able to use it.
-        if mode == 'w':
-            self._file_path.chmod(int('0o666', 8))
-
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
+        # Workaround for #1751. Remove after refactoring Snapshots.backup()
+        # See __init__() for details
+        if self._flock_handle is None:
+            return
+
         self._log('Release')
         fcntl.fcntl(self._flock_handle, fcntl.LOCK_UN)
         self._flock_handle.close()
@@ -128,12 +170,21 @@ class _FlockContext:
     def _log(self, prefix: str):
         """Generate a log message including the current lock files path and the
         process ID.
+
+        Args:
+            prefix: Used in front of the log message.
         """
         logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}',
                      self)
 
 
 class GlobalFlock(_FlockContext):
-    """Flock context manager used for global flock in Back In Time."""
+    """Context manager used for global file lock in Back In Time.
+
+    If it is a multi-user or single-user flock depends on the several
+    aspects. See :class:`_FlockContext` for details.
+    """
     def __init__(self, disable: bool = False):
+        """See :func:`_FlockContext.__init__()` for details.
+        """
         super().__init__('backintime.lock', disable=disable)
