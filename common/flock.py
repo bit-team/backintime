@@ -80,7 +80,6 @@ class _FlockContext:
             folder = Path(Path.cwd().root) / 'var' / 'lock'
 
         self._file_path = folder / filename
-        """Full path used for the flock file"""
 
         if self._can_use_file(self._file_path):
             return
