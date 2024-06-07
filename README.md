@@ -86,11 +86,10 @@ In the latest stable release:
 - [`qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt5_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 In older releases:
-- RTE "module 'qttools' has no attribute 'initate_translator'" with encFS when prompting the user for a password ([#1553](https://github.com/bit-team/backintime/issues/#1553))
+- Error: "module 'qttools' has no attribute 'initate_translator'" with EncFS when prompting the user for a password ([#1553](https://github.com/bit-team/backintime/issues/1553))
 - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
 - [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
 - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
-- [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
@@ -191,14 +190,6 @@ workaround. Add `--old-args` in
 Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
 environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
 _Back In Time_. In that case you may not see any problems.
-
-### Python 3.10 compatibility and Ubuntu version
-
-_Back In Time_ versions older than 1.3.2 do not start with Python >= 3.10.
-Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
-[a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
-to make it work. If you want to update _Back In Time_, you may use one of the
-[alternative options for installation](#alternative-installation-options).
 
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects

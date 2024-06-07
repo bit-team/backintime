@@ -68,7 +68,7 @@ def info(text, title=None, widget_to_center_on=None):
     """
     QMessageBox.information(
         widget_to_center_on,
-        title if title else _('Information'),
+        title if title else ngettext('Information', 'Information', 1),
         text)
 
 
