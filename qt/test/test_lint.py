@@ -79,6 +79,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'W0311',  # bad-indentation
             'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
@@ -99,7 +100,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0123',  # eval-used
             # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
-            # 'W0311',  # bad-indentation
             # 'W0404',  # reimported
             # 'W4902',  # deprecated-method
             # 'W4904',  # deprecated-class
