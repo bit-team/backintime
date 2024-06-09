@@ -1467,7 +1467,7 @@ class Snapshots:
             if prev_sid:
                 prev_sid.setLastChecked()
 
-            if not has_errors and not list(self.config.anacrontabFiles()):
+            if not has_errors:
                 tools.writeTimeStamp(self.config.anacronSpoolFile())
 
             # Part of fix for #1491:
@@ -1515,7 +1515,7 @@ class Snapshots:
 
         self._backup_info_file(sid)
 
-        if not has_errors and not list(self.config.anacrontabFiles()):
+        if not has_errors:
             tools.writeTimeStamp(self.config.anacronSpoolFile())
 
         # create last_snapshot symlink

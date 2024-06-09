@@ -1165,6 +1165,9 @@ def checkCronPattern(s):
 
     Returns:
         bool:       ``True`` if ``s`` is a valid cron pattern
+
+    Dev note: Schedule for removal. See comment in
+    `config.Config.saveProfile()`.
     """
     if s.find(' ') >= 0:
         return False
@@ -1659,49 +1662,60 @@ def patternHasNotEncryptableWildcard(pattern):
         return True
     return False
 
-BIT_TIME_FORMAT = '%Y%m%d %H%M'
-ANACRON_TIME_FORMAT = '%Y%m%d'
 
 def readTimeStamp(fname):
     """
     Read date string from file ``fname`` and try to return datetime.
 
     Args:
-        fname (str):        full path to timestamp file
+        fname (str): Full path to timestamp file.
 
     Returns:
-        datetime.datetime:  date from timestamp file
+        datetime.datetime: Timestamp object.
     """
+
     if not os.path.exists(fname):
-        logger.debug("no timestamp in '%(file)s'" %
-                     {'file': fname})
+        logger.debug(f"No timestamp file '{fname}'")
         return
+
     with open(fname, 'r') as f:
         s = f.read().strip('\n')
-    for i in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
+
+    time_formats = (
+        '%Y%m%d %H%M',  # BIT like
+        '%Y%m%d',  # Anacron like
+    )
+
+    for form in time_formats:
+
         try:
-            stamp = datetime.strptime(s, i)
-            logger.debug("read timestamp '%(time)s' from file '%(file)s'" %
-                         {'time': stamp,
-                          'file': fname})
-            return stamp
+            stamp = datetime.strptime(s, form)
+
         except ValueError:
+            # invalid format
+            # next iteration
             pass
 
+        else:
+            # valid time stamp
+            logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
+
+            return stamp
+
+
 def writeTimeStamp(fname):
-    """
-    Write current date and time into file ``fname``.
+    """Write current date and time into file ``fname``.
 
     Args:
-        fname (str):        full path to timestamp file
+        fname (str): Full path to timestamp file.
     """
-    now = datetime.now().strftime(BIT_TIME_FORMAT)
-    logger.debug("write timestamp '%(time)s' into file '%(file)s'" %
-                 {'time': now,
-                  'file': fname})
+    now = datetime.now().strftime('%Y%m%d %H%M')
+    logger.debug(f"Write timestamp '{now}' into file '{fname}'")
     makeDirs(os.path.dirname(fname))
+
     with open(fname, 'w') as f:
         f.write(now)
+
 
 INHIBIT_LOGGING_OUT = 1
 INHIBIT_USER_SWITCHING = 2
@@ -1793,73 +1807,6 @@ def unInhibitSuspend(cookie, bus, dbus_props):
     except dbus.exceptions.DBusException:
         logger.warning('Release inhibit Suspend failed.')
         return (cookie, bus, dbus_props)
-
-def readCrontab():
-    """
-    Read users crontab.
-
-    Returns:
-        list:   crontab lines
-    """
-    cmd = ['crontab', '-l']
-    if not checkCommand(cmd[0]):
-        logger.debug('crontab not found.')
-        return []
-    else:
-        proc = subprocess.Popen(cmd,
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.PIPE,
-                                universal_newlines = True)
-        out, err = proc.communicate()
-        if proc.returncode or err:
-            logger.error('Failed to get crontab lines: %s, %s'
-                         %(proc.returncode, err))
-            return []
-        else:
-            crontab = [x.strip() for x in out.strip('\n').split('\n')]
-            if crontab == ['']:  # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
-                crontab = []
-            logger.debug('Read %s lines from user crontab'
-                         %len(crontab))
-            return crontab
-
-def writeCrontab(lines):
-    """
-    Write to users crontab.
-
-    Note:
-        This will overwrite the whole crontab. So to keep the old crontab and
-        only add new entries you need to read it first with
-        :py:func:`tools.readCrontab`, append new entries to the list and write
-        it back.
-
-    Args:
-        lines (:py:class:`list`, :py:class:`tuple`):
-                    lines that should be written to crontab
-
-    Returns:
-        bool:       ``True`` if successful
-    """
-    assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
-    with tempfile.NamedTemporaryFile(mode = 'wt') as f:
-        f.write('\n'.join(lines))
-        f.write('\n\n')
-        f.flush()
-        cmd = ['crontab', f.name]
-        proc = subprocess.Popen(cmd,
-                                stdout = subprocess.DEVNULL,
-                                stderr = subprocess.PIPE,
-                                universal_newlines = True)
-        out, err = proc.communicate()
-
-    if proc.returncode or err:
-        logger.error(
-            f'Failed to write lines to crontab: {proc.returncode}, {err}')
-        return False
-
-    else:
-        logger.debug(f'Wrote {len(lines)} lines to user crontab')
-        return True
 
 
 def splitCommands(cmds, head = '', tail = '', maxLength = 0):
@@ -2334,14 +2281,18 @@ class SetupUdev(object):
     OBJECT = '/UdevRules'
     INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
     MEMBERS = ('addRule', 'save', 'delete')
+
     def __init__(self):
         if dbus is None:
             self.isReady = False
+
             return
+
         try:
             bus = dbus.SystemBus()
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+
         except dbus.exceptions.DBusException as e:
             # Only DBusExceptions are  handled to do a "graceful recovery"
             # by working without a serviceHelper D-Bus connection...
@@ -2350,53 +2301,65 @@ class SetupUdev(object):
             # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
             #                           'org.freedesktop.DBus.Error.ServiceUnknown',
             #                           'org.freedesktop.DBus.Error.FileNotFound'):
-            logger.warning("Failed to connect to Udev serviceHelper daemon via D-Bus: " + e.get_dbus_name())
-            logger.warning("D-Bus message: " + e.get_dbus_message())
-            logger.warning("Udev-based profiles cannot be changed or checked due to Udev serviceHelper connection failure")
+            logger.warning('Failed to connect to Udev serviceHelper daemon '
+                           'via D-Bus: ' + e.get_dbus_name())
+            logger.warning('D-Bus message: ' + e.get_dbus_message())
+            logger.warning('Udev-based profiles cannot be changed or checked '
+                           'due to Udev serviceHelper connection failure')
             conn = None
+
             # else:
             #     raise
+
         self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
-        """
-        Prepare rules in serviceHelper.py
+        """Prepare rules in serviceHelper.py
         """
         if not self.isReady:
             return
+
         try:
             return self.iface.addRule(cmd, uuid)
+
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
                 raise InvalidChar(str(e))
+
             elif e._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
                 raise InvalidCmd(str(e))
+
             elif e._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
                 raise LimitExceeded(str(e))
+
             else:
                 raise
 
     def save(self):
-        """
-        Save rules with serviceHelper.py after authentication
+        """Save rules with serviceHelper.py after authentication.
+
         If no rules where added before this will delete current rule.
         """
         if not self.isReady:
             return
+
         try:
             return self.iface.save()
-        except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
-                raise PermissionDeniedByPolicy(str(e))
+
+        except dbus.exceptions.DBusException as err:
+
+            if err._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
+                raise PermissionDeniedByPolicy(str(err)) from err
+
             else:
-                raise
+                raise err
 
     def clean(self):
-        """
-        Clean up remote cache
+        """Clean up remote cache.
         """
         if not self.isReady:
             return
+
         self.iface.clean()
 
 

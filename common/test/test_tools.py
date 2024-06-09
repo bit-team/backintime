@@ -466,25 +466,6 @@ class TestTools(generic.TestCase):
             self.assertTrue(s.replace(' ', '').isdigit())
             self.assertEqual(len(s), 13)
 
-    @unittest.skipIf(not tools.checkCommand('crontab'),
-                     "'crontab' not found.")
-    def test_readWriteCrontab(self):
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        oldCrontab = tools.readCrontab()
-        self.assertIsInstance(oldCrontab, list)
-
-        testLine = '#BackInTime Unittest from {}. Test probably failed. ' \
-                   'You can remove this line.'.format(now)
-        self.assertTrue(tools.writeCrontab(oldCrontab + [testLine, ]))
-
-        newCrontab = tools.readCrontab()
-        self.assertIn(testLine, newCrontab)
-        self.assertEqual(len(newCrontab), len(oldCrontab) + 1)
-
-        self.assertTrue(tools.writeCrontab(oldCrontab))
-        if oldCrontab:
-            self.assertListEqual(oldCrontab, tools.readCrontab())
-
     def test_splitCommands(self):
         ret = list(tools.splitCommands(['echo foo;'],
                                        head='echo start;',

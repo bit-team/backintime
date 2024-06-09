@@ -14,14 +14,18 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+"""Tests about config module.
+"""
 import os
 import stat
 import sys
 import getpass
+import unittest
+from unittest import mock
 from test import generic
 from tempfile import TemporaryDirectory
-from unittest.mock import patch
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import config
 
 
 class TestConfig(generic.TestCaseCfg):
@@ -35,7 +39,7 @@ class TestConfig(generic.TestCaseCfg):
             with generic.mockPermissions(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH):
                 self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
 
-    @patch('os.chmod')
+    @mock.patch('os.chmod')
     def test_set_snapshots_path_permission_fail(self, mock_chmod):
         mock_chmod.side_effect = PermissionError()
         with TemporaryDirectory() as dirpath:

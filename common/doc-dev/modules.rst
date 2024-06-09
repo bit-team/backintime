@@ -22,6 +22,7 @@ common
    password_ipc
    pluginmanager
    progress
+   schedule
    snapshotlog
    snapshots
    sshMaxArg

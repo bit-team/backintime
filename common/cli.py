@@ -128,9 +128,11 @@ def checkConfig(cfg, crontab = True):
     if crontab:
         test = 'Install crontab'
         announceTest()
+
         if not cfg.setupCron():
             failed()
             return False
+
         okay()
 
     return True

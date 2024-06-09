@@ -52,6 +52,7 @@ import sshtools
 import encfstools
 import password
 import pluginmanager
+import schedule
 from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
@@ -1485,31 +1486,28 @@ class Config(configfile.ConfigFileWithProfiles):
     def cronEnvFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "cron_env")
 
-    def anacrontab(self, suffix = ''):
-        """
-        Deprecated since 1.1. Just keep this to delete old anacrontab files
-        """
-        return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab' + suffix)
-
-    def anacrontabFiles(self):
-        """
-        list existing old anacrontab files
-        """
-        dirname, basename = os.path.split(self.anacrontab())
-        for f in os.listdir(dirname):
-            if f.startswith(basename):
-                yield os.path.join(dirname, f)
-
     def anacronSpool(self):
+        # ~/.local/share/backintime/anacron
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
 
-    def anacronSpoolFile(self, profile_id = None):
-        return os.path.join(self.anacronSpool(), self.anacronJobIdentify(profile_id))
+    def anacronSpoolFile(self, profile_id=None):
+        """Return the timestamp file related to the current profile.
 
-    def anacronJobIdentify(self, profile_id = None):
+        Despite the methods name anacron is not involved. But the anacron
+        behavior is imitated by Back In Time. This timestamp files are an
+        element of this behavior.
+        """
+        # ~/.local/share/backintime/anacron/1_Main_profile
+        return os.path.join(self.anacronSpool(),
+                            self.anacronJobIdentify(profile_id))
+
+    def anacronJobIdentify(self, profile_id=None):
         if not profile_id:
             profile_id = self.currentProfile()
+
         profile_name = self.profileName(profile_id)
+
+        # "Main profile" -> "1_Main_profile"
         return profile_id + '_' + profile_name.replace(' ', '_')
 
     def udevRulesPath(self):
@@ -1561,15 +1559,12 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def backupScheduled(self, profile_id = None):
-        """
-        check if profile is supposed to be run this time
+        """Check if the profile is supposed to be run this time.
+
+        Returns:
+            (bool): The answer.
         """
         if self.scheduleMode(profile_id) not in (self.REPEATEDLY, self.UDEV):
-            return True
-
-        #if crontab wasn't updated since upgrading BIT to version without anacron
-        #we are most likely started by anacron and should run this task without asking.
-        if list(self.anacrontabFiles()):
             return True
 
         last_time = tools.readTimeStamp(self.anacronSpoolFile(profile_id))
@@ -1608,106 +1603,85 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             return True
 
-    SYSTEM_ENTRY_MESSAGE \
-        = "#Back In Time system entry, this will be edited by the gui:"
-    """The string is used in crontab file to mark entries as owned by Back
-    In Time. **WARNING**: Don't modify that string in code because it is used
-    as match target while parsing the crontab file.
-    """
-
     def setupCron(self):
-        for f in self.anacrontabFiles():
-            logger.debug("Clearing anacrontab %s"
-                         %f, self)
-            os.remove(f)
+        """Update the current users crontab file based on profile settings.
+
+        The crontab files is read, all entries related to Back In Time are
+        removed and after it added again for each profile based on the profile
+        settings. The difference between a backintime related entry created
+        by Back In Time itself or by the user manually is determined by a
+        comment before each entry. See :data:`schedule._MARKER` and
+        :func:`schedule.remove_bit_from_crontab()` for details.
+
+        Returns:
+            bool: ``True`` if successful or ``False`` on errors.
+        """
         self.setupUdev.clean()
 
-        oldCrontab = tools.readCrontab()
+        # Lines of current users crontab file
+        org_crontab_lines = schedule.read_crontab()
 
-        strippedCrontab = self.removeOldCrontab(oldCrontab)
-        newCrontab = self.createNewCrontab(strippedCrontab)
-        if not isinstance(newCrontab, (list, tuple)):
-            return newCrontab
+        # Remove all auto-generated BIT entries from crontab
+        crontab_lines = schedule.remove_bit_from_crontab(org_crontab_lines)
 
-        #save Udev rules
+        # Add a new entry to existing crontab content based on the current
+        # snapshot profile and its schedule settings.
+        crontab_lines = schedule.append_bit_to_crontab(
+            self.profiles_cron_lines())
+
+        # Save Udev rules
         try:
             if self.setupUdev.isReady and self.setupUdev.save():
                 logger.debug('Udev rules added successfully', self)
-        except PermissionDeniedByPolicy as e:
-            logger.error(str(e), self)
-            self.notifyError(str(e))
+
+        except PermissionDeniedByPolicy as err:
+            logger.error(str(err), self)
+            self.notifyError(str(err))
             return False
 
-        if not newCrontab == oldCrontab:
+        # Crontab modified?
+        if crontab_lines == org_crontab_lines:
+            return True
 
-            if not tools.checkCommand('crontab'):
+        # TODO (buhtz): Again a crontab check. Refactore somehow.
+        if not tools.checkCommand('crontab'):
+            logger.error('crontab not found.', self)
+            self.notifyError(_(
+                "Can't find crontab.\n"
+                "Are you sure cron is installed?\n"
+                "If not you should disable all automatic backups."))
 
-                if self.scheduleMode() is self.NONE:
-                    return True
+            return False
 
-                else:
-                    logger.error('crontab not found.', self)
-                    msg = _("Can't find crontab. Are you sure cron is "
-                            "installed? If not you should disable all "
-                            "automatic backups.")
-                    msg = '\n'.join(textwrap.wrap(msg, 72))
-                    self.notifyError(msg)
-
-                    return False
-
-            if not tools.writeCrontab(newCrontab):
-                self.notifyError(_('Failed to write new crontab.'))
-                return False
-
-        else:
-            logger.debug("Crontab didn't change. Skip writing.")
+        if schedule.write_crontab(crontab_lines) == False:
+            self.notifyError(_('Failed to write new crontab.'))
+            return False
 
         return True
 
-    def removeOldCrontab(self, crontab):
-        #We have to check if the self.SYSTEM_ENTRY_MESSAGE is in use,
-        #if not then the entries are most likely from Back In Time 0.9.26
-        #or earlier.
-        if not self.SYSTEM_ENTRY_MESSAGE in crontab:
-            #Then the system entry message has not yet been used in this crontab
-            #therefore we assume all entries are system entries and clear them all.
-            #This is the old behavior
-            logger.debug("Clearing all Back In Time entries", self)
-            return [x for x in crontab if not 'backintime' in x]
-        else:
-            #clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
-            #one backintime command line
-            logger.debug("Clearing system Back In Time entries", self)
-            delLines = []
-            for i, line in enumerate(crontab):
-                if self.SYSTEM_ENTRY_MESSAGE in line and \
-                    len(crontab) > i + 1 and        \
-                    'backintime' in crontab[i + 1]:
-                        delLines.extend((i, i + 1))
-            return [line for i, line in enumerate(crontab) if i not in delLines]
+    def profiles_cron_lines(self):
+        """Return a list of crontab lines for each of the existing profiles.
 
-    def createNewCrontab(self, oldCrontab):
-        newCrontab = oldCrontab[:]
-        if not tools.checkCommand('backintime'):
-            logger.error("Command 'backintime' not found", self)
-            return newCrontab
-        for profile_id in self.profiles():
-            cronLine = self.cronLine(profile_id)
-            if not isinstance(cronLine, str):
-                return cronLine
-            if cronLine:
-                newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
-                newCrontab.append(cronLine.replace('{cmd}', self.cronCmd(profile_id)))
+        Return:
+            list: The list of crontab lines.
+        """
+        profile_ids = self.profiles()
+        print(f'{profile_ids=}')  # DEBUG
 
-        if newCrontab == oldCrontab:
-            # Leave one self.SYSTEM_ENTRY_MESSAGE in to prevent deleting of manual
-            # entries if there is no automatic entry.
-            newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
-            newCrontab.append("#Please don't delete these two lines, or all custom backintime "
-                              "entries will be deleted next time you call the gui options!")
-        return newCrontab
+        # For each profile: cronline and the command (backintime)
+        cron_lines = [
+            self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
+            for pid in profile_ids
+        ]
+        print(f'{cron_lines=}')  # DEBUG
 
-    def cronLine(self, profile_id):
+        # Remove empty lines (profiles not scheduled)
+        cron_lines = list(filter(None, cron_lines))
+
+        return cron_lines
+
+    def _cron_line(self, profile_id):
+        """Create a crontab line based on the snapshot profiles settings."""
         cron_line = ''
         profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
@@ -1792,7 +1766,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 #cache uuid in config
                 self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
             try:
-                self.setupUdev.addRule(self.cronCmd(profile_id), uuid)
+                self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
             except (InvalidChar, InvalidCmd, LimitExceeded) as e:
                 logger.error(str(e), self)
                 self.notifyError(str(e))
@@ -1806,18 +1780,13 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return cron_line
 
-    def cronCmd(self, profile_id):
+    def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings
         for the current profile.
 
         Returns:
             str: The crontab line.
         """
-
-        # buhtz (2024-04): IMHO meaningless in productive environments.
-        # if not tools.checkCommand('backintime'):
-        #     logger.error("Command 'backintime' not found", self)
-        #     return
 
         # Get full path of the Back In Time binary
         cmd = tools.which('backintime') + ' '
