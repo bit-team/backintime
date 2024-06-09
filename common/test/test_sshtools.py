@@ -21,7 +21,6 @@ import random
 import subprocess
 import stat
 import shutil
-import getpass
 import unittest
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
@@ -237,47 +236,6 @@ class TestSshKey(generic.TestCaseCfg):
 
             # do not overwrite existing keys
             self.assertFalse(sshtools.sshKeyGen(secKey))
-
-    @unittest.skipIf(getpass.getuser() != 'germar', 'Password login does not work on Travis-ci.')
-    @unittest.skipIf(not generic.LOCAL_SSH, SKIP_MESSAGE_SSH)
-    def test_sshCopyId(self):
-        with TemporaryDirectory() as tmp:
-            secKey = os.path.join(tmp, 'key')
-            pubKey = secKey + '.pub'
-            authKeys = os.path.expanduser('~/.ssh/authorized_keys')
-            authKeysSic = os.path.join(tmp, 'sic')
-            if os.path.exists(authKeys):
-                shutil.copyfile(authKeys, authKeysSic)
-                os.remove(authKeys)
-
-            # create new key
-            sshtools.sshKeyGen(secKey)
-            self.assertIsFile(pubKey)
-            with open(pubKey, 'rt') as f:
-                pubKeyValue = f.read()
-
-            try:
-                # test copy pubKey
-                self.assertTrue(
-                    sshtools.sshCopyId(
-                        pubKey,
-                        getpass.getuser(),
-                        'localhost',
-                        askPass='test/mock_askpass'
-                    )
-                )
-
-                self.assertExists(authKeys)
-                with open(authKeys, 'rt') as f:
-                    self.assertIn(pubKeyValue, f.readlines())
-
-            finally:
-                # OMG! Does this means this test does modify the SSH config
-                # of the productive system?!
-                # restore original ~/.ssh/authorized_keys file without test
-                # pubKey
-                if os.path.exists(authKeysSic):
-                    shutil.copyfile(authKeysSic, authKeys)
 
     @unittest.skipIf(not tools.checkCommand('ssh-keygen'),
                      "'ssh-keygen' not found.")
