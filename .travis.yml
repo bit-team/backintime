@@ -3,7 +3,9 @@
 
 os: linux
  
+# Support End of "Focal" (20.04 LTS) is April 2025
 # dist: focal
+# Support End of "Jammy" (22.04 LTS) is April 2027
 dist: jammy
 
 language: python
@@ -43,6 +45,7 @@ jobs:
     - python: "3.12"
 
 install:
+  - pip install -U pip
   - pip install pylint coveralls pyfakefs keyring
   - pip install pyqt6 dbus-python
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
