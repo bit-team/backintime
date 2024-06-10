@@ -285,6 +285,7 @@ The codebase does not adhere to [PEP8](https://peps.python.org/pep-0008/),
 which serves as the minimum Python coding style. Utilizing linters in their
 default configuration is currently not feasible. One of our objectives is to
 align with PEP8 standards and meet the requirements of code linters.
+See [Issue #1755](https://github.com/bit-team/backintime/issues/1755) about it.
 
 ## Issues
 
