@@ -155,7 +155,8 @@ def append_bit_to_crontab(crontab, bit_lines):
 def is_cron_running():
     """Validate if a cron instance is running.
 
-    The string ``cron`` is search case-insensitive in the output of ``ps``.
+    The output of ``ps`` is searched (case-insensitive) via ``grep`` for the
+    string ``cron``.
 
     Returns:
         bool: The answer.
