@@ -307,6 +307,8 @@ replacing it, with [GoCryptFS](https://github.com/rfjakob/gocryptfs) as a
 potential candidate. However, lack of resources hinders this effort. If no
 volunteers step forward, the encryption feature will be removed, prioritizing
 user security and team maintenance efforts.
+See [Issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
+transation process and the discussion about alternatives to EncFS.
 
 Besides replacing EncFS there is also a
 [discussion](https://mail.python.org/archives/list/bit-dev@python.org/thread/D2GXCCVUAVZ2E5ELBHUZGT7ITUN4ADEP)
