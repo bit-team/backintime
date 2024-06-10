@@ -1600,6 +1600,15 @@ class SettingsDialog(QDialog):
 
         if item_data == self.config.CUSTOM_HOUR:
 
+            # TODO
+            # Dev note (buhtz, 2024-05): IMHO checkCronPattern() is not needed
+            # because the "crontab" command itself will validate this. See
+            # schedule.write_crontab().
+            # We just need to take care to catch an the error in the GUI
+            # and report it to the user.
+            # An alternative solution would be a GUI element where the user
+            # is not able to input an invalid value. See #1449 about redesign
+            # the schedule section in the Manage Profiles dialog.
             if not tools.checkCronPattern(self.txtScheduleCronPatern.text()):
 
                 self.errorHandler(

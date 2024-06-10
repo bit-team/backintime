@@ -76,13 +76,18 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            'E0100',  # init-is-generator
+            'E0101',  # return-in-init
+            'E0102',  # function-redefined
+            'E0103',  # not-in-loop
+            'E0106',  # return-arg-in-generator
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'I0021',  # useless-suppression
             # 'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
-            'I0021',  # useless-suppression
 
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
