@@ -35,7 +35,7 @@ before_install:
   - sudo apt-key del 90CFB1F5
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
-  - sudo apt-get install -y sshfs screen util-linux
+  - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
 
 jobs:
   exclude:
