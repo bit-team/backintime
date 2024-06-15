@@ -15,7 +15,9 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Developers agreed on the new version number.
 - Most-recent translations were merged into `dev` branch. See the [localization documentation](2_localization.md).
-- Full CI build pipeline matrix is activate (see [#1529](https://github.com/bit-team/backintime/issues/1529)).
+- Full CI build pipeline matrix is activate (see
+  [#1529](https://github.com/bit-team/backintime/issues/1529)). This is related
+  to the Python versions and also to the Ubuntu Distro versions.
 - `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released".
 
 

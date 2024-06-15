@@ -76,6 +76,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            'C0303',  # trailing-whitespace
             'E0100',  # init-is-generator
             'E0101',  # return-in-init
             'E0102',  # function-redefined
@@ -84,6 +85,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'W0311',  # bad-indentation
+            'W0611',  # unused-import
             'I0021',  # useless-suppression
             # 'W0611',  # unused-import
             'W1301',  # unused-format-string-key
@@ -92,7 +95,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
             # because there count is low.
-            # 'C0303',  # trailing-whitespace
+            # 'C0304',  # missing-final-newline
             # 'C0305',  # trailing-newlines
             # 'C0324',  # superfluous-parens
             # 'C0410',  # multiple-imports
@@ -104,7 +107,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0123',  # eval-used
             # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
-            # 'W0311',  # bad-indentation
             # 'W0404',  # reimported
             # 'W4902',  # deprecated-method
             # 'W4904',  # deprecated-class
