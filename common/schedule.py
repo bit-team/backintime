@@ -136,10 +136,41 @@ def remove_bit_from_crontab(crontab):
 
 
 def append_bit_to_crontab(crontab, bit_lines):
-    # Add a new entry to existing crontab content based on the current
-    # snapshot profile and its schedule settings.
+    """Add new entries to existing crontab content.
+
+    Args:
+        crontab(list): A list of strings as crontab lines.
+        bit_lines(list): A list of strings as new crontab lines.
+
+    Returns:
+        list: The new crontab lines.
+    """
     for line in bit_lines:
         crontab.append(_MARKER)
         crontab.append(line)
 
     return crontab
+
+
+def is_cron_running():
+    """Validate if a cron instance is running.
+
+    The output of ``ps`` is searched (case-insensitive) via ``grep`` for the
+    string ``cron``.
+
+    Returns:
+        bool: The answer.
+    """
+
+    with subprocess.Popen(['ps', '-eo', 'comm'], stdout=subprocess.PIPE) as ps:
+        try:
+            grep = subprocess.run(
+                ['grep', '--ignore-case', 'cron'],
+                stdin=ps.stdout,
+                stdout=subprocess.PIPE,
+                check=True
+            )
+        except subprocess.CalledProcessError:
+            return False
+
+    return True

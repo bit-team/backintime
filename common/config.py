@@ -1627,6 +1627,7 @@ class Config(configfile.ConfigFileWithProfiles):
         # Add a new entry to existing crontab content based on the current
         # snapshot profile and its schedule settings.
         crontab_lines = schedule.append_bit_to_crontab(
+            crontab_lines,
             self.profiles_cron_lines())
 
         # Save Udev rules
@@ -1643,19 +1644,21 @@ class Config(configfile.ConfigFileWithProfiles):
         if crontab_lines == org_crontab_lines:
             return True
 
-        # TODO (buhtz): Again a crontab check. Refactore somehow.
-        if not tools.checkCommand('crontab'):
-            logger.error('crontab not found.', self)
-            self.notifyError(_(
-                "Can't find crontab.\n"
-                "Are you sure cron is installed?\n"
-                "If not you should disable all automatic backups."))
-
-            return False
-
         if schedule.write_crontab(crontab_lines) == False:
+            logger.error('Failed to write new crontab.')
             self.notifyError(_('Failed to write new crontab.'))
             return False
+
+        if not schedule.is_cron_running():
+            logger.error(
+                'Cron is not running despite the crontab command being '
+                'available. Scheduled backup jobs will not run.')
+            self.notifyError(_(
+                'Cron is not running despite the crontab command being '
+                'available. Scheduled backup jobs will not run. '
+                'Cron might be installed but not enabled. Try the command '
+                '"systemctl enable cron" or consulte the support channels of '
+                'your GNU Linux distribution.'))
 
         return True
 
@@ -1666,14 +1669,12 @@ class Config(configfile.ConfigFileWithProfiles):
             list: The list of crontab lines.
         """
         profile_ids = self.profiles()
-        print(f'{profile_ids=}')  # DEBUG
 
         # For each profile: cronline and the command (backintime)
         cron_lines = [
             self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
             for pid in profile_ids
         ]
-        print(f'{cron_lines=}')  # DEBUG
 
         # Remove empty lines (profiles not scheduled)
         cron_lines = list(filter(None, cron_lines))
