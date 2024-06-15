@@ -1127,7 +1127,7 @@ class MainWindow(QMainWindow):
             if not os.path.isdir(self.sid.pathBackup(base)):
                 # Folder not mounted. We can skip for the next updatePlaces()
                 return
-            folders = os.listdir(self.sid.pathBackup(base))
+            folders = [i.name for i in os.scandir(self.sid.pathBackup(base)) if i.is_dir()]
             include_entries = [(os.path.join(base, f), 0) for f in folders]
 
         # Use folders only (if 2nd tuple entry is 0)
