@@ -9,7 +9,6 @@ ON_TRAVIS = os.environ.get('TRAVIS', '') == 'true'
 PYLINT_AVIALBE = not shutil.which('pylint') is None
 PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
                  'it runs only if `pylint` is available.')
-ON_TRAVIS_PPC64LE = os.environ.get('TRAVIS_ARCH', '') == 'ppc64le'
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
@@ -77,18 +76,25 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            'C0303',  # trailing-whitespace
+            'E0100',  # init-is-generator
+            'E0101',  # return-in-init
+            'E0102',  # function-redefined
+            'E0103',  # not-in-loop
+            'E0106',  # return-arg-in-generator
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'W0311',  # bad-indentation
+            'I0021',  # useless-suppression
             # 'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
-            'I0021',  # useless-suppression
 
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
             # because there count is low.
-            # 'C0303',  # trailing-whitespace
+            # 'C0304',  # missing-final-newline
             # 'C0305',  # trailing-newlines
             # 'C0324',  # superfluous-parens
             # 'C0410',  # multiple-imports
@@ -100,7 +106,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0123',  # eval-used
             # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
-            # 'W0311',  # bad-indentation
             # 'W0404',  # reimported
             # 'W4902',  # deprecated-method
             # 'W4904',  # deprecated-class
@@ -109,11 +114,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0612',  # unused-variable
             # 'W0707',  # raise-missing-from
         ]
-
-        if ON_TRAVIS_PPC64LE:
-            # Because of missing PyQt6 on ppc64le architecture
-            err_codes.remove('I0021')
-            err_codes.remove('E0401')
 
         cmd.append('--enable=' + ','.join(err_codes))
 

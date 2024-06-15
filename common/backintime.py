@@ -422,7 +422,7 @@ def createParsers(app_name = 'backintime'):
 
     command = 'smart-remove'
     nargs = 0
-    description = 'Remove snapshots based on "Smart Remove" pattern.'
+    description = 'Remove snapshots based on "Smart Removal" pattern.'
     smartRemoveCP =        subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
@@ -1118,7 +1118,7 @@ def removeAndDoNotAskAgain(args):
 
 def smartRemove(args):
     """
-    Command for running Smart-Remove from Terminal.
+    Command for running Smart-Removal from Terminal.
 
     Args:
         args (argparse.Namespace):
@@ -1126,7 +1126,7 @@ def smartRemove(args):
 
     Raises:
         SystemExit:     0 if okay
-                        2 if Smart-Remove is not configured
+                        2 if Smart-Removal is not configured
     """
     setQuiet(args)
     printHeader()
@@ -1141,12 +1141,12 @@ def smartRemove(args):
                                            keep_one_per_day,
                                            keep_one_per_week,
                                            keep_one_per_month)
-        logger.info('Smart Remove will remove {} snapshots'.format(len(del_snapshots)))
+        logger.info('Smart Removal will remove {} snapshots'.format(len(del_snapshots)))
         sn.smartRemove(del_snapshots, log = logger.info)
         _umount(cfg)
         sys.exit(RETURN_OK)
     else:
-        logger.error('Smart Remove is not configured.')
+        logger.error('Smart Removal is not configured.')
         sys.exit(RETURN_NO_CFG)
 
 def restore(args):

@@ -1,19 +1,18 @@
-#    Copyright (C) 2012-2022 Germar Reitze
+# Copyright (C) 2012-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import sys
 import os
 import time
@@ -22,7 +21,6 @@ import signal
 import subprocess
 import re
 import errno
-
 import config
 import configfile
 import tools
@@ -152,53 +150,70 @@ class Password_Cache(tools.Daemon):
         super(Password_Cache, self).cleanupHandler(signum, frame)
 
 class Password(object):
+    """Provide passwords for BIT either from keyring, Password_Cache or
+    by asking user.
     """
-    provide passwords for BIT either from keyring, Password_Cache or
-    by asking User.
-    """
-    def __init__(self, cfg = None):
+    def __init__(self, cfg=None):
         self.config = cfg
+
         if self.config is None:
             self.config = config.Config()
+
         self.cache = Password_Cache(self.config)
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
         self.db = {}
 
         self.keyringSupported = tools.keyringSupported()
 
-    def password(self, parent, profile_id, mode, pw_id = 1, only_from_keyring = False):
+    def password(self, parent, profile_id, mode, pw_id=1, only_from_keyring=False):
         """
         based on profile settings return password from keyring,
         Password_Cache or by asking User.
         """
         if not self.config.modeNeedPassword(mode, pw_id):
             return ''
+
         service_name = self.config.keyringServiceName(profile_id, mode, pw_id)
+
         user_name = self.config.keyringUserName(profile_id)
+
         try:
             return self.db['%s/%s' %(service_name, user_name)]
+
         except KeyError:
             pass
+
         password = ''
+
         if self.config.passwordUseCache(profile_id) and not only_from_keyring:
-            #from cache
+            # From cache
             password = self.passwordFromCache(service_name, user_name)
+
             if not password is None:
                 self.setPasswordDb(service_name, user_name, password)
+
                 return password
+
         if self.config.passwordSave(profile_id):
-            #from keyring
+            # From keyring
             password = self.passwordFromKeyring(service_name, user_name)
+
             if not password is None:
                 self.setPasswordDb(service_name, user_name, password)
+
                 return password
+
         if not only_from_keyring:
-            #ask user and write to cache
+            # Ask user and write to cache
             password = self.passwordFromUser(parent, profile_id, mode, pw_id)
+
             if self.config.passwordUseCache(profile_id):
                 self.setPasswordCache(service_name, user_name, password)
+
             self.setPasswordDb(service_name, user_name, password)
+
             return password
+
         return password
 
     def passwordFromKeyring(self, service_name, user_name):
@@ -228,16 +243,30 @@ class Password(object):
         else:
             return None
 
-    def passwordFromUser(self, parent, profile_id = None, mode = None, pw_id = 1, prompt = None):
+    def passwordFromUser(self,
+                         parent,
+                         profile_id=None,
+                         mode=None,
+                         pw_id=1,
+                         prompt=None):
+        """Ask user for password.
+
+        Use terminal input or a dialog box if X is available. This does even
+        work when run as cronjob and user is logged in.
+
+        Args:
+            parent: Parent of the ``QMessageDialog``.
+            profile_id(str): Profile identifier.
+            mode(str): Mode identifier (e.g. SSH (encrypted)).
+            pwd_id(int): See :data:`config.SNAPSHOT_MODES` for details.
+            propt(str): Alternative string used as prompt.
+
+        Return:
+            str: The password.
         """
-        ask user for password. This does even work when run as cronjob
-        and user is logged in.
-        """
+        # Default prompt
         if prompt is None:
-            """
-            Profile {name}: Enter password for {mode}
-            """
-            prompt = _("Profile '{profile}': Enter password for {mode}: ") \
+            prompt = _('Enter password for {mode} profile "{profile}":') \
                 .format(
                     profile=self.config.profileName(profile_id),
                     mode=self.config.SNAPSHOT_MODES[mode][pw_id+1])
@@ -246,24 +275,31 @@ class Password(object):
 
         x_server = tools.checkXServer()
         import_successful = False
+
         if x_server:
             try:
                 import messagebox
                 import_successful = True
+
             except ImportError:
                 pass
 
         if not import_successful or not x_server:
             import getpass
+
             alarm = tools.Alarm()
             alarm.start(300)
+
             try:
-                password = getpass.getpass(prompt)
+                password = getpass.getpass(prompt + ' ')
                 alarm.stop()
+
             except Timeout:
                 password = ''
+
             return password
 
+        # Use QDialog as graphical prompt
         password = messagebox.askPasswordDialog(
             parent=parent,
             title=self.config.APP_NAME,

@@ -153,7 +153,7 @@ class EncFS_mount(MountControl):
                 else:
                     pw = password.Password(self.config)
                     password_confirm = pw.passwordFromUser(
-                        self.parent, prompt=_('Please confirm password'))
+                        self.parent, prompt=_('Please confirm the password.'))
                     if self.password == password_confirm:
                         return False
                     else:
@@ -163,6 +163,11 @@ class EncFS_mount(MountControl):
         """
         check encfs version.
         1.7.2 had a bug with --reverse that will create corrupt files
+
+        Dev note (buhtz, 2024-05): Looking at upstream it seems that the 1.7.2
+        release was widthdrawn. The release before and after are from the year
+        2010. In consequence this code is definitly out dated and a candidate
+        for removal.
         """
         logger.debug('Check version', self)
         if self.reverse:
@@ -175,8 +180,8 @@ class EncFS_mount(MountControl):
             if m and Version(m.group(1)) <= Version('1.7.2'):
                 logger.debug('Wrong encfs version %s' % m.group(1), self)
                 raise MountException(
-                    _('encfs version 1.7.2 and before has a bug with '
-                      'option --reverse. Please update encfs.'))
+                        'encfs version 1.7.2 and before has a bug with '
+                        'option --reverse. Please update encfs.')
 
     def backupConfig(self):
         """
@@ -288,10 +293,10 @@ class EncFS_SSH(EncFS_mount):
         """
         call preMountCheck for sshfs, encfs --reverse and encfs
         """
-        if self.ssh.preMountCheck(*args, **kwargs) and \
-           self.rev_root.preMountCheck(*args, **kwargs) and \
-           super(EncFS_SSH, self).preMountCheck(*args, **kwargs):
-                return True
+        if (self.ssh.preMountCheck(*args, **kwargs)
+                and self.rev_root.preMountCheck(*args, **kwargs)
+                and super(EncFS_SSH, self).preMountCheck(*args, **kwargs)):
+            return True
 
     def splitKwargs(self, mode):
         """

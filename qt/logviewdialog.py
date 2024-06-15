@@ -112,7 +112,8 @@ class LogViewDialog(QDialog):
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
         self.comboFilter.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
         self.comboFilter.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
-        self.comboFilter.addItem(_('Information'), snapshotlog.LogFilter.INFORMATION)
+        self.comboFilter.addItem(ngettext('Information', 'Information', 2),
+                                 snapshotlog.LogFilter.INFORMATION)
         self.comboFilter.addItem(_('rsync transfer failures (experimental)'), snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
 
         # text view
@@ -123,7 +124,8 @@ class LogViewDialog(QDialog):
         self.mainLayout.addWidget(self.txtLogView)
 
         #
-        self.mainLayout.addWidget(QLabel(_('[E] Error, [I] Information, [C] Change')))
+        self.mainLayout.addWidget(
+            QLabel(_('[E] Error, [I] Information, [C] Change')))
 
         # decode path
         self.cbDecode = QCheckBox(_('decode paths'), self)
