@@ -293,10 +293,10 @@ class EncFS_SSH(EncFS_mount):
         """
         call preMountCheck for sshfs, encfs --reverse and encfs
         """
-        if self.ssh.preMountCheck(*args, **kwargs) and \
-           self.rev_root.preMountCheck(*args, **kwargs) and \
-           super(EncFS_SSH, self).preMountCheck(*args, **kwargs):
-                return True
+        if (self.ssh.preMountCheck(*args, **kwargs)
+                and self.rev_root.preMountCheck(*args, **kwargs)
+                and super(EncFS_SSH, self).preMountCheck(*args, **kwargs)):
+            return True
 
     def splitKwargs(self, mode):
         """
