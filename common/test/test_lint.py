@@ -93,7 +93,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
             # because there count is low.
-            # 'C0303',  # trailing-whitespace
+            'C0303',  # trailing-whitespace
             # 'C0305',  # trailing-newlines
             # 'C0324',  # superfluous-parens
             # 'C0410',  # multiple-imports

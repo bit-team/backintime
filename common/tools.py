@@ -563,7 +563,6 @@ def checkCommand(cmd):
 
     return which(cmd) is not None
 
-  
 def which(cmd):
     """Get the fullpath of executable command ``cmd``.
 
