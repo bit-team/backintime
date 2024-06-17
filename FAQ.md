@@ -25,7 +25,7 @@
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
-   * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#_back-in-time_-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
+   * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
    * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
@@ -108,17 +108,21 @@ There are three distinct logs generated:
 
 Both the _snapshot_ and _restore_ log files are plain text files and can be read
 accordingly. Refer to [Where is the log file?](#where-is-the-log-file).
-The _application_ log is generated via syslog using the identifier `backintime`.
+The _application_ log is generated via [syslog](https://en.wikipedia.org/wiki/Syslog)
+using the identifier `backintime`. Depending on the version of _Back In time_ and the
+GNU/Linux distribution used, there are three ways to get the log entries.
 
-With systemd and _Back In Time_ version 1.4.3 or higher:
+1. On modern systems:
 
-    $ journalctl --identifier backintime
+    `journalctl --identifier backintime`
 
-With systemd and _Back In Time_ version older than 1.4.3:
+2. With an older _Back In Time_ version (1.4.2 or older):
 
-    $ journalctl --grep backintime
+    `journalctl --grep backintime`
 
-Without systemd, you can examine the files in `/var/log/syslog*`.
+3. If the error message `journalctl: command not found` appears, directly examine the syslog files:
+
+    `sudo grep backintime /var/log/syslog`
 
 ## How to move snapshots to a new hard-drive?
 
@@ -1062,7 +1066,7 @@ them in your own rsync script, too. But to name some features:
 
 - Inhibit suspend/hibernate during take snapshot
 - Shutdown system after finish
-- Auto- and Smart-Remove
+- Auto- and Smart-Removal
 - Plugin- and user-callback support
 
 

@@ -82,7 +82,7 @@ def update_po_template():
     run(cmd, check=True)
 
 
-def update_po_language_files():
+def update_po_language_files(remove_obsolete_entries: bool = False):
     """The po files are updated with the source strings from the pot-file (the
     template for each po-file).
 
@@ -90,6 +90,11 @@ def update_po_language_files():
 
     The function `update_po_template()` should be called before.
     """
+
+    print(
+        'Update language (po) files'
+        + ' and remove obsolete entries' if remove_obsolete_entries else ''
+    )
 
     # Recursive all po-files
     for po_path in LOCAL_DIR.rglob('**/*.po'):
@@ -108,14 +113,15 @@ def update_po_language_files():
         ]
         run(cmd, check=True)
 
-        # remove obsolete entries ("#~ msgid)
-        cmd = [
-            'msgattrib',
-            '--no-obsolete',
-            f'--output-file={po_path}',
-            f'{po_path}'
-        ]
-        run(cmd, check=True)
+        if remove_obsolete_entries:
+            # remove obsolete entries ("#~ msgid)
+            cmd = [
+                'msgattrib',
+                '--no-obsolete',
+                f'--output-file={po_path}',
+                f'{po_path}'
+            ]
+            run(cmd, check=True)
 
 
 def check_existence():
@@ -373,6 +379,7 @@ def get_shortcut_groups() -> dict[str, list]:
         '&Exclude',
         '&Auto-remove',
         '&Options',
+        'Back In &Time',
         'E&xpert Options',
     ]
 
@@ -426,8 +433,8 @@ def check_shortcuts():
         # Remember shortcut relevant entries.
         real = {key: [] for key in groups}
 
-        # WORKAROUND. See get_shortcut_groups() for details.
-        real['mainwindow'].append('Back In &Time')
+        # # WORKAROUND. See get_shortcut_groups() for details.
+        # real['mainwindow'].append('Back In &Time')
 
         # Entries using shortcut indicators
         shortcut_entries = get_shortcut_entries(polib.pofile(po_path))
@@ -477,7 +484,7 @@ if __name__ == '__main__':
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
-        update_po_language_files()
+        update_po_language_files('--remove-obsolete-entries' in sys.argv)
         create_languages_file()
         print(FIN_MSG)
         sys.exit()
@@ -497,7 +504,8 @@ if __name__ == '__main__':
 
     print('Use one of the following argument keywords:\n'
           '  source  - Update the pot and po files with translatable '
-          'strings extracted from py files. (Prepare upload to Weblate)\n'
+          'strings extracted from py files. (Prepare upload to Weblate). '
+          'Optional use --remove-obsolete-entries\n'
           '  weblate - Update the po files with translations from '
           'external translation service Weblate. (Download from Weblate)\n'
           '  shortcut - Check po files for redundant keyboard shortcuts '

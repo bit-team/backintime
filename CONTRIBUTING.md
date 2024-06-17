@@ -110,11 +110,11 @@ replaced with PyPi packages.
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
+  - `sshfs`
   - `python3-keyring`
   - `python3-dbus`
   - `python3-packaging`
   -  Recommended
-     - `sshfs`
      - `encfs`
 
 * Runtime dependencies for the GUI
@@ -285,6 +285,7 @@ The codebase does not adhere to [PEP8](https://peps.python.org/pep-0008/),
 which serves as the minimum Python coding style. Utilizing linters in their
 default configuration is currently not feasible. One of our objectives is to
 align with PEP8 standards and meet the requirements of code linters.
+See [Issue #1755](https://github.com/bit-team/backintime/issues/1755) about it.
 
 ## Issues
 
@@ -306,6 +307,8 @@ replacing it, with [GoCryptFS](https://github.com/rfjakob/gocryptfs) as a
 potential candidate. However, lack of resources hinders this effort. If no
 volunteers step forward, the encryption feature will be removed, prioritizing
 user security and team maintenance efforts.
+See [Issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
+transation process and the discussion about alternatives to EncFS.
 
 Besides replacing EncFS there is also a
 [discussion](https://mail.python.org/archives/list/bit-dev@python.org/thread/D2GXCCVUAVZ2E5ELBHUZGT7ITUN4ADEP)
@@ -345,4 +348,4 @@ Keep in mind as you contribute, that code, docs and other material submitted to
 the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
 
-<sub>May 2024</sub>
+<sub>July 2024</sub>

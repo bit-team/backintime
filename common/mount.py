@@ -693,9 +693,11 @@ class MountControl(object):
             logger.debug(f'{self.mountproc} is missing', self)
 
             raise MountException(
-                _('{} not found. Please install e.g. {}')
-                .format(self.mountproc,
-                        f"'apt-get install {self.mountproc}'"))
+                _('{command} not found. Please install it '
+                  '(e.g. via "{installcommand}"').format(
+                      command=self.mountproc,
+                      installcommand=f"'apt-get install {self.mountproc}'")
+            )
 
     def mounted(self):
         """
@@ -714,8 +716,9 @@ class MountControl(object):
         else:
             try:
                 if os.listdir(self.currentMountpoint):
-                    raise MountException(_('Mountpoint {} not empty.')
-                                         .format(self.currentMountpoint))
+                    raise MountException(
+                        _('Mountpoint {mntpoint} not empty.').format(
+                            mntpoint=self.currentMountpoint))
 
             except FileNotFoundError:
                 pass

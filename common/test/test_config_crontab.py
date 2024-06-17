@@ -14,6 +14,10 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+"""Tests about Cron-related behavior of the config module.
+
+See also test_schedule.py for low-level-Cron-behavior implemented in schedule
+module."""
 import unittest
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 import sys
@@ -23,11 +27,42 @@ import inspect
 from pathlib import Path
 from unittest import mock
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import backintime
 import config
-import snapshots
-import tools
-import logger
+
+
+class Cron(unittest.TestCase):
+    """Cron-related behavior of Config class."""
+    def test_cron_lines(self):
+        """Creation of crontab lines per profile"""
+        # Mock reading a config file
+        with mock.patch('configfile.ConfigFile.append'):
+            cfg = config.Config()
+
+            # Profile 1 (default profile)
+            cfg.setScheduleMode(12)  # 12 = every two hours
+
+            # Profile 2
+            profile_id = cfg.addProfile('NoSchedule')
+            self.assertEqual(profile_id, '2')
+
+            # Profile 3
+            profile_id = cfg.addProfile('Second')
+            self.assertEqual(profile_id, '3')
+            cfg.setScheduleMode(7, profile_id)  # 7 = every 30 minutes
+
+            result = cfg.profiles_cron_lines()
+
+        self.assertEqual(len(result), 2)
+
+        self.assertIn('*/2 * * *', result[0])
+        self.assertIn('backintime', result[0])
+        self.assertIn('backup-job', result[0])
+        self.assertNotIn('--profile-id', result[0])
+
+        self.assertIn('*/30 * * *', result[1])
+        self.assertIn('backintime', result[1])
+        self.assertIn('backup-job', result[1])
+        self.assertIn('--profile-id 3', result[1])
 
 
 class CrontabDebug(pyfakefs_ut.TestCase):
@@ -38,7 +73,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
 
         # cleanup() happens automatically
         self._temp_dir = tempfile.TemporaryDirectory(prefix='bit.')
-         # Workaround: tempfile and pathlib not compatible yet
+        # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
 
         self.config_fp = self._create_config_file(parent_path=self.temp_path)
@@ -85,7 +120,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         conf.setScheduleDebug(True)
         self.assertTrue(conf.scheduleDebug())
 
-        sut = conf.cronCmd(profile_id='1')
+        sut = conf._cron_cmd(profile_id='1')
         self.assertIn('--debug', sut)
 
     @mock.patch('tools.which', return_value='backintime')
@@ -100,5 +135,5 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         conf.setScheduleDebug(False)
         self.assertFalse(conf.scheduleDebug())
 
-        sut = conf.cronCmd(profile_id='1')
+        sut = conf._cron_cmd(profile_id='1')
         self.assertNotIn('--debug', sut)
