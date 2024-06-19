@@ -563,6 +563,7 @@ def checkCommand(cmd):
 
     return which(cmd) is not None
 
+
 def which(cmd):
     """Get the fullpath of executable command ``cmd``.
 
@@ -1230,7 +1231,7 @@ def envLoad(f):
             continue
         if not key in list(env.keys()):
             os.environ[key] = value
-    del(env_file)
+    del env_file
 
 
 def envSave(f):
@@ -2200,7 +2201,7 @@ class ShutDown(object):
                 sessionbus = dbus.SessionBus()
             systembus  = dbus.SystemBus()
         except:
-            return((None, None))
+            return (None, None)
         des = list(self.DBUS_SHUTDOWN.keys())
         des.sort()
         for de in des:
@@ -2214,23 +2215,23 @@ class ShutDown(object):
                     bus = systembus
                 interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
                 proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
-                return((proxy, dbus_props['arguments']))
+                return (proxy, dbus_props['arguments'])
             except dbus.exceptions.DBusException:
                 continue
-        return((None, None))
+        return (None, None)
 
     def canShutdown(self):
         """
         Indicate if a valid dbus service is available to shutdown system.
         """
-        return(not self.proxy is None or self.is_root)
+        return not self.proxy is None or self.is_root
 
     def askBeforeQuit(self):
         """
         Indicate if ShutDown is ready to fire and so the application
         shouldn't be closed.
         """
-        return(self.activate_shutdown and not self.started)
+        return self.activate_shutdown and not self.started
 
     def shutdown(self):
         """
@@ -2238,7 +2239,7 @@ class ShutDown(object):
         call the dbus proxy to start the shutdown.
         """
         if not self.activate_shutdown:
-            return(False)
+            return False
 
         if self.is_root:
             self.started = True
@@ -2247,12 +2248,12 @@ class ShutDown(object):
             return proc.returncode
 
         if self.proxy is None:
-            return(False)
+            return False
 
         else:
             self.started = True
 
-            return(self.proxy(*self.args))
+            return self.proxy(*self.args)
 
     def unity7(self):
         """

@@ -1003,7 +1003,7 @@ class Snapshots:
                 pg.setStrValue('speed', m.group(3))
                 #pg.setStrValue('eta', m.group(4))
                 pg.save()
-                del(pg)
+                del pg
             else:
                 ret.append(l)
         return '\n'.join(ret)

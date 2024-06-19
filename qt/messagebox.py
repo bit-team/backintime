@@ -48,9 +48,9 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
         password = dialog.textValue()
     else:
         password = ''
-    del(dialog)
+    del dialog
 
-    return(password)
+    return password
 
 def info(text, title=None, widget_to_center_on=None):
     """Show a modal information message box.

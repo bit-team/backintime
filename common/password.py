@@ -110,9 +110,9 @@ class Password_Cache(tools.Daemon):
         """
         time.sleep(2)
         cfgPath = self.config._LOCAL_CONFIG_PATH
-        del(self.config)
+        del self.config
         self.config = config.Config(cfgPath)
-        del(self.dbKeyring)
+        del self.dbKeyring
         self.dbKeyring = {}
         self.collectPasswords()
 

@@ -1039,7 +1039,7 @@ class MountControl(object):
         Returns:
             str:        hash of string ``s``
         """
-        return('%X' % (crc32(s.encode()) & 0xFFFFFFFF))
+        return '%X' % (crc32(s.encode()) & 0xFFFFFFFF)
 
     def hashIdPath(self, hash_id = None):
         """
