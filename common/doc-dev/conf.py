@@ -128,4 +128,3 @@ texinfo_documents = [
    'Germar Reitze', 'BackInTime', 'One line description of project.',
    'Miscellaneous'),
 ]
-
