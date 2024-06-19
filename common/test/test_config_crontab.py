@@ -78,7 +78,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
 
         self.config_fp = self._create_config_file(parent_path=self.temp_path)
 
-    def _create_config_file(cls, parent_path):
+    def _create_config_file(self, parent_path):
         """Minimal config file"""
         cfg_content = inspect.cleandoc('''
             config.version=6
