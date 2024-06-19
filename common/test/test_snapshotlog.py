@@ -86,7 +86,7 @@ class TestLogFilter(generic.TestCase):
             self.assertEqual(line, logFilter.filter(line))
         for line in (self.e, self.c, self.i, self.h):
             self.assertIsNone(logFilter.filter(line))
-        for line in (self.n):
+        for line in self.n:
             self.assertEqual(line, logFilter.filter(line))  # empty line stays empty line
 
 class TestSnapshotLog(generic.SnapshotsTestCase):
