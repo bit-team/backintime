@@ -69,6 +69,7 @@ import messagebox
 import snapshots
 import sshtools
 import logger
+import encfsmsgbox
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
 
@@ -383,9 +384,6 @@ class SettingsDialog(QDialog):
 
         self.keyringSupported = tools.keyringSupported()
         self.cbPasswordSave.setEnabled(self.keyringSupported)
-
-        # mode change
-        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
 
         # host, user, profile id
         groupBox = QGroupBox(self)
@@ -1249,6 +1247,9 @@ class SettingsDialog(QDialog):
         self.updateProfiles()
         self.comboModesChanged()
 
+        # mode change
+        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
+
         # enable tabs scroll buttons again but keep dialog size
         size = self.sizeHint()
         self.tabs.setUsesScrollButtons(scrollButtonDefault)
@@ -1275,12 +1276,11 @@ class SettingsDialog(QDialog):
 
         # Show URL in tooltip without anoing http-protocol prefix.
         label.linkHovered.connect(
-            lambda url: QToolTip.showText(QCursor.pos(),
-                                          url.replace('https://', ''))
+            lambda url: QToolTip.showText(
+                QCursor.pos(), url.replace('https://', ''))
         )
 
         return label
-
 
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
@@ -2263,8 +2263,17 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing.setHidden(not enabled)
         self.cbSshCheckCommands.setHidden(not enabled)
 
-        self.encfsWarning.setHidden(
-            active_mode not in ('local_encfs', 'ssh_encfs'))
+        # EncFS deprecation warnings
+        if active_mode in ('local_encfs', 'ssh_encfs'):
+            self.encfsWarning.setHidden(False)
+
+            # Workaround to avoid showing the warning messagebox just when
+            # opening the manage profiles dialog.
+            if self.isVisible():
+                dlg = encfsmsgbox.EncfsCreateWarning(self)
+                dlg.exec()
+        else:
+            self.encfsWarning.setHidden(True)
 
     def fullPathChanged(self, dummy):
         if self.mode in ('ssh', 'ssh_encfs'):
@@ -2285,7 +2294,6 @@ class SettingsDialog(QDialog):
         for index in range(self.listExclude.topLevelItemCount()):
             item = self.listExclude.topLevelItem(index)
             self._formatExcludeItem(item)
-
 
     def _format_exclude_item_encfs_invalid(self, item):
         """Modify visual appearance of an item in the exclude list widget to
@@ -2310,7 +2318,6 @@ class SettingsDialog(QDialog):
         item.setForeground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
                                                 QPalette.ColorRole.Text))
 
-
     def _formatExcludeItem(self, item):
         """Modify visual appearance of an item in the exclude list widget.
         """
@@ -2334,7 +2341,6 @@ class SettingsDialog(QDialog):
             else:
                 # Icon: user defined
                 item.setIcon(0, self.icon.EXCLUDE)
-
 
     def customSortOrder(self, header, loop, newColumn, newOrder):
 
