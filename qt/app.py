@@ -563,6 +563,11 @@ class MainWindow(QMainWindow):
             'act_help_translation': (
                 None, _('Translation'),
                 self.slot_help_translation, None, None),
+            'act_help_encryption': (
+                icon.ENCRYPT,
+                _('Encryption Transition (EncFS)'),
+                self.slot_help_encryption, None,
+                _('Shows the message about EncFS removal again.')),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -683,6 +688,7 @@ class MainWindow(QMainWindow):
                 self.act_help_question,
                 self.act_help_bugreport,
                 self.act_help_translation,
+                self.act_help_encryption,
                 self.act_help_about,
             )
         }
@@ -1940,6 +1946,10 @@ class MainWindow(QMainWindow):
 
     def slot_help_translation(self):
         self._open_approach_translator_dialog()
+
+    def slot_help_encryption(self):
+        dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg.exec()
 
 
 class ExtraMouseButtonEventFilter(QObject):
