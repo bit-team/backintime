@@ -46,6 +46,7 @@ import snapshots
 import guiapplicationinstance
 import mount
 import progress
+import encfsmsgbox
 from exceptions import MountException
 
 from PyQt6.QtGui import (QAction,
@@ -424,6 +425,22 @@ class MainWindow(QMainWindow):
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
         self.config.decrement_manual_starts_countdown()
+
+        # If the encfs-deprecation warning was never shown before
+        if self.config.boolValue('internal.msg_shown_encfs') == False:
+
+            # Are there profiles using EncFS?
+            encfs_profiles = []
+            for pid in self.config.profiles():
+                if 'encfs' in self.config.snapshotsMode(pid):
+                    encfs_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})')
+
+            # EncFS deprecation warning (#1734, #1735)
+            if encfs_profiles:
+                dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
+                dlg.exec()
+                self.config.setBoolValue('internal.msg_shown_encfs', True)
 
     @property
     def showHiddenFiles(self):
