@@ -1,22 +1,20 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-#                            Germar Reitze, Taylor Raack
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#                         Germar Reitze, Taylor Raack
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import os
 import datetime
 import copy
@@ -27,6 +25,7 @@ from PyQt6.QtGui import (QIcon,
                          QPalette,
                          QBrush,
                          QColor,
+                         QCursor,
                          QFileSystemModel)
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
@@ -53,7 +52,8 @@ from PyQt6.QtWidgets import (QDialog,
                              QCheckBox,
                              QMenu,
                              QProgressBar,
-                             QPlainTextEdit)
+                             QPlainTextEdit,
+                             QToolTip)
 from PyQt6.QtCore import (Qt,
                           QDir,
                           QSortFilterProxyModel,
@@ -70,6 +70,7 @@ import snapshots
 import sshtools
 import logger
 from exceptions import MountException, NoPubKeyLogin, KnownHost
+from bitbase import URL_ENCRYPT_TRANSITION
 
 
 class SshProxyWidget(QWidget):
@@ -228,15 +229,8 @@ class SettingsDialog(QDialog):
             store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
         self.fillCombo(self.comboModes, store_modes)
 
-        # encfs security warning
-        self.encfsWarning = QLabel('<b>{}:</b> {}'.format(
-            _('Warning'),
-            _('{app} uses EncFS for encryption. A recent security audit '
-              'revealed several possible attack vectors for this. Please '
-              'take a look at "A NOTE ON SECURITY" in "man backintime".')
-            .format(app=self.config.APP_NAME)
-        ))
-        self.encfsWarning.setWordWrap(True)
+        # EncFS deprecation (#1734, #1735)
+        self.encfsWarning = self._create_label_encfs_deprecation()
         layout.addWidget(self.encfsWarning)
 
         # Where to save snapshots
@@ -1261,6 +1255,32 @@ class SettingsDialog(QDialog):
         self.resize(size)
 
         self.finished.connect(self.cleanup)
+
+    def _create_label_encfs_deprecation(self):
+        # encfs deprecation warning (see #1734, #1735)
+        label = QLabel('<b>{}:</b> {}'.format(
+            _('Warning'),
+            _('Support for EncFS will be discontinued in the foreseeable '
+              'future. A decision on a replacement for continued support of '
+              'encrypted backups is still pending, depending on project '
+              'resources and contributor availability. More details are '
+              'available in this {url}.').format(
+                  url='<a href="{}">{}</a>'.format(
+                      URL_ENCRYPT_TRANSITION,
+                      _('whitepaper'))
+                  )
+        ))
+        label.setWordWrap(True)
+        label.setOpenExternalLinks(True)
+
+        # Show URL in tooltip without anoing http-protocol prefix.
+        label.linkHovered.connect(
+            lambda url: QToolTip.showText(QCursor.pos(),
+                                          url.replace('https://', ''))
+        )
+
+        return label
+
 
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
