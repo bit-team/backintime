@@ -10,9 +10,9 @@
  * [Further readings and resources](#further-readings-and-resources)
 
 ## Introduction
-This document explain the current situation regarding the encryption feature of
-_Back In Time_. The support for encrypted snapshot profiles is undergoing
-significant changes.
+This document outlines the current status of the encryption feature in _Back In
+Time_. Support for encrypted snapshot profiles is undergoing significant
+changes.
 
 ## Short summary
 - To realize encrypted snapshots in _Back In Time_, [EncFS] is used.
@@ -23,7 +23,7 @@ significant changes.
 - In the best case, EncFS will be replaced with an alternative library
   (expected to be [GoCryptFS]).
 - The current maintenance team does not have the resources to implement an
-  alternative for EncFS.
+  alternative for EncFS. So extern contributors are need to step in.
 - If GoCryptFS or another alternative will be implemented, depending on project
   resources and contributor availability.
 
@@ -41,7 +41,7 @@ this library is implemented or not.
 
 The [EncFS] maintainer himself [recommends to
 switch](https://github.com/vgough/encfs?tab=readme-ov-file#status) to
-[GoCryptFS]. This way it works seems similar to EncFS. Therefore, according to
+[GoCryptFS]. It seems to work similar to EncFS. Therefore, according to
 the current state of research and discussion, GoCryptFS is the preferred choice
 for a solution.
 
@@ -50,7 +50,7 @@ option. In this case _Back In Time_ won't need an encryption feature anymore
 because the file system tools do take care of it. It might be an option for
 some of the affected users but [it was also
 shown](https://github.com/bit-team/backintime/issues/1734#issuecomment-2151875246)
-that file system encryption is not an option for all use cases. Therefore, LUKS
+that file system encryption is not an option in all use cases. Therefore, LUKS
 might not be the first choice solution, but is better then nothing in case the
 project won't find a contributor for replacing EncFS with GoCryptFS or
 something else.
@@ -60,7 +60,8 @@ The project also is open for other alternative solutions.
 ## Planned steps of the transition process
 
 The transition is a process *not fixed* in all details and planned to take
-until the *year 2029 or 2030*. The goal is to have slow and transparent steps
+until the *year 2029 or 2030*. The project will try to adapt to users needs and
+other extern issues. The goal is to have slow and transparent steps
 in a timeline of multiple years until round about the year 2029 or 2030 when
 Debian 15 will be released. Current stable Debian is version 12.
 
