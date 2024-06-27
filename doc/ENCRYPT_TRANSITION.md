@@ -65,7 +65,7 @@ other extern issues. The goal is to have slow and transparent steps
 in a timeline of multiple years until round about the year 2029 or 2030 when
 Debian 15 will be released. Current stable Debian is version 12.
 
-The transiation is scheduled around the release cycles of Debian GNU Linux
+The transition is scheduled around the release cycles of Debian GNU Linux
 because Debian has very long release cycles and is the base for most of the
 distributions out there.
 
