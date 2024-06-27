@@ -1,7 +1,13 @@
 # Transition of the encryption feature in _Back In Time_
 <sub>July 2024</sub>
 
-TOC
+ * [Introduction](#introduction)
+ * [Short summary](#short-summary)
+ * [Rational](#rational)
+ * [Alternatives to EncFS](#alternatives-to-encfs)
+ * [Planned steps of the transition process](#planned-steps-of-the-transition-process)
+ * [About EncFS security issues](#about-encfs-security-issues)
+ * [Further readings and resources](#further-readings-and-resources)
 
 ## Introduction
 This document explain the current situation regarding the encryption feature of
