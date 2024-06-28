@@ -29,10 +29,7 @@ import gzip
 import tempfile
 import locale
 import gettext
-try:
-    from collections.abc import MutableSet
-except ImportError:
-    from collections import MutableSet
+from collections.abc import MutableSet
 import hashlib
 import ipaddress
 import atexit

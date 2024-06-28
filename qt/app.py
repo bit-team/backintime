@@ -89,9 +89,7 @@ from PyQt6.QtCore import (Qt,
                           QEvent,
                           QSortFilterProxyModel,
                           QDir,
-                          QUrl,
-                          pyqtRemoveInputHook,
-                          )
+                          QUrl)
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
@@ -1789,7 +1787,9 @@ class MainWindow(QMainWindow):
         self.act_restore_to.setEnabled(enable)
 
     def dirListerCompleted(self):
-        has_files = (self.filesViewProxyModel.rowCount(self.filesView.rootIndex()) > 0)
+        row_count = self.filesViewProxyModel.rowCount(
+            self.filesView.rootIndex())
+        has_files = row_count > 0
 
         # update restore button state
         enable = not self.sid.isRoot and has_files
@@ -2015,13 +2015,6 @@ class SetupCron(QThread):
     def run(self):
         self.config.setupCron()
 
-def debugTrace():
-    """
-    Set a tracepoint in the Python debugger that works with Qt
-    """
-    from pdb import set_trace
-    pyqtRemoveInputHook()
-    set_trace()
 
 if __name__ == '__main__':
     cfg = backintime.startApp('backintime-qt')
