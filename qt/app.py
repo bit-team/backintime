@@ -512,7 +512,7 @@ class MainWindow(QMainWindow):
                 None, None,
                 _('Shut down system after snapshot has finished.')),
             'act_setup_language': (
-                None, _('Setup language…'),
+                icon.LANGUAGE, _('Setup language…'),
                 self.slot_setup_language, None,
                 None),
             'act_quit': (
@@ -542,8 +542,11 @@ class MainWindow(QMainWindow):
                 icon.BUG, _('Report a bug'),
                 self.btnReportBugClicked, None, None),
             'act_help_translation': (
-                None, _('Translation'),
-                self.slot_help_translation, None, None),
+                icon.LANGUAGE, _('Translation'),
+                self.slot_help_translation, None,
+                _('Shows the message about participation '
+                  'in translation again.')
+            ),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),

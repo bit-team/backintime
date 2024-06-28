@@ -120,3 +120,5 @@ EXCLUDE             = REMOVE_SNAPSHOT
 DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')
 INVALID_EXCLUDE     = QIcon.fromTheme('emblem-ohno',
                       QIcon.fromTheme('face-surprise'))
+
+LANGUAGE = QIcon.fromTheme('preferences-desktop-locale')
