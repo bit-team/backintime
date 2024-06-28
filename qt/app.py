@@ -90,9 +90,7 @@ from PyQt6.QtCore import (Qt,
                           QEvent,
                           QSortFilterProxyModel,
                           QDir,
-                          QUrl,
-                          pyqtRemoveInputHook,
-                          )
+                          QUrl)
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
@@ -531,7 +529,7 @@ class MainWindow(QMainWindow):
                 None, None,
                 _('Shut down system after snapshot has finished.')),
             'act_setup_language': (
-                None, _('Setup language…'),
+                icon.LANGUAGE, _('Setup language…'),
                 self.slot_setup_language, None,
                 None),
             'act_quit': (
@@ -561,8 +559,10 @@ class MainWindow(QMainWindow):
                 icon.BUG, _('Report a bug'),
                 self.btnReportBugClicked, None, None),
             'act_help_translation': (
-                None, _('Translation'),
-                self.slot_help_translation, None, None),
+                icon.LANGUAGE, _('Translation'),
+                self.slot_help_translation, None,
+                _('Shows the message about participation '
+                  'in translation again.')),
             'act_help_encryption': (
                 icon.ENCRYPT,
                 _('Encryption Transition (EncFS)'),
@@ -822,6 +822,8 @@ class MainWindow(QMainWindow):
             answer = messagebox.warningYesNo(self, msg)
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
+
+        self.qapp.removeEventFilter(self.mouseButtonEventFilter)
 
         self.config.setStrValue('qt.last_path', self.path)
         self.config.setProfileStrValue('qt.last_path', self.path)
@@ -1812,7 +1814,9 @@ class MainWindow(QMainWindow):
         self.act_restore_to.setEnabled(enable)
 
     def dirListerCompleted(self):
-        has_files = (self.filesViewProxyModel.rowCount(self.filesView.rootIndex()) > 0)
+        row_count = self.filesViewProxyModel.rowCount(
+            self.filesView.rootIndex())
+        has_files = row_count > 0
 
         # update restore button state
         enable = not self.sid.isRoot and has_files
@@ -2042,13 +2046,6 @@ class SetupCron(QThread):
     def run(self):
         self.config.setupCron()
 
-def debugTrace():
-    """
-    Set a tracepoint in the Python debugger that works with Qt
-    """
-    from pdb import set_trace
-    pyqtRemoveInputHook()
-    set_trace()
 
 if __name__ == '__main__':
     cfg = backintime.startApp('backintime-qt')

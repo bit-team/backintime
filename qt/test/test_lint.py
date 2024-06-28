@@ -77,7 +77,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Explicit activate checks
         err_codes = [
             'C0305',  # trailing-newlines
-            'C0324',  # superfluous-parens
+            'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
             'C0303',  # trailing-whitespace
             'E0100',  # init-is-generator
@@ -95,6 +95,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
+            'W1515',  # forgotten-debug-statement
 
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
