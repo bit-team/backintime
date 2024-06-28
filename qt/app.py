@@ -798,6 +798,8 @@ class MainWindow(QMainWindow):
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
+        self.qapp.removeEventFilter(self.mouseButtonEventFilter)
+
         self.config.setStrValue('qt.last_path', self.path)
         self.config.setProfileStrValue('qt.last_path', self.path)
 
