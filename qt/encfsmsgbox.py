@@ -30,8 +30,7 @@ class _EncfsWarningBase(QMessageBox):
         for label in self.findChildren(QLabel):
             label.linkHovered.connect(
                 lambda url: QToolTip.showText(
-                    QCursor.pos(), url.replace('https://', ''))
-        )
+                    QCursor.pos(), url.replace('https://', '')))
 
 
 class EncfsCreateWarning(_EncfsWarningBase):
