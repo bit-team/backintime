@@ -41,8 +41,8 @@ class EncfsCreateWarning(_EncfsWarningBase):
 
     def __init__(self, parent):
         text = _('Support for EncFS will be discontinued in the '
-                 'foreseeable future. It is not recommended use that '
-                 'mode for a profile.')
+                 'foreseeable future. It is not recommended to use that '
+                 'mode for a profile furthermore.')
         informative_text = _(
             'A decision on a replacement for continued support of encrypted '
             'backups is still pending, depending on project resources and '
