@@ -5,12 +5,14 @@
 # This file is part of the program "Back In time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+"""Manage file lock.
+
+Offer context managers to manage file lock (flock) files.
+"""
 import os
 import fcntl
 from pathlib import Path
 import logger
-
-logger.DEBUG = True  # REMOVE BEFORE MERGE
 
 
 class _FlockContext:
