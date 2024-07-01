@@ -1,7 +1,10 @@
 # Transition of the encryption feature in _Back In Time_
 <sub>July 2024</sub>
 
- * [Introduction](#introduction)
+This document outlines the current status of the encryption feature in _Back In
+Time_. Support for encrypted snapshot profiles is undergoing significant
+changes.
+
  * [Short summary](#short-summary)
  * [Rational](#rational)
  * [Alternatives to EncFS](#alternatives-to-encfs)
@@ -9,15 +12,10 @@
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 
-## Introduction
-This document outlines the current status of the encryption feature in _Back In
-Time_. Support for encrypted snapshot profiles is undergoing significant
-changes.
-
 ## Short summary
 - To realize encrypted snapshots in _Back In Time_, [EncFS] is used.
 - EncFS has known security issues and also is no longer maintained.
-- EncFS library will be removed from _Back In Time_ *around the year 2029*.
+- EncFS library will be **removed** from _Back In Time_ **around the year 2029**.
   This will happen in slow and small steps with sufficient advance warnings and
   lead time.
 - In the best case, EncFS will be replaced with an alternative library
@@ -41,9 +39,9 @@ this library is implemented or not.
 
 The [EncFS] maintainer himself [recommends to
 switch](https://github.com/vgough/encfs?tab=readme-ov-file#status) to
-[GoCryptFS]. It seems to work similar to EncFS. Therefore, according to
-the current state of research and discussion, GoCryptFS is the preferred choice
-for a solution.
+[GoCryptFS]. It seems to work similar to EncFS. Therefore, according to the
+[current state of research and discussion](https://github.com/bit-team/backintime/issues/1734),
+GoCryptFS is the preferred choice for a solution.
 
 It was also discussed if file system encryption (e.g. [LUKS]) could be an
 option. In this case _Back In Time_ won't need an encryption feature anymore
@@ -61,9 +59,10 @@ The project also is open for other alternative solutions.
 
 The transition is a process *not fixed* in all details and planned to take
 until the *year 2029 or 2030*. The project will try to adapt to users needs and
-other extern issues. The goal is to have slow and transparent steps
-in a timeline of multiple years until round about the year 2029 or 2030 when
-Debian 15 will be released. Current stable Debian is version 12.
+other extern issues. Therefore the plan is not written in stone. The goal is to
+have slow and transparent steps in a timeline of multiple years until round
+about the year 2029 or 2030 when Debian 15 will be released. Current stable
+Debian is version 12.
 
 The transition is scheduled around the release cycles of Debian GNU Linux
 because Debian has very long release cycles and is the base for most of the
