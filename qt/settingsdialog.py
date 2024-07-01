@@ -326,7 +326,7 @@ class SettingsDialog(QDialog):
         qttools.set_wrapped_tooltip(
             self.btnSshKeyGen,
             _('Create a new SSH key without password (not allowed if a '
-              'private key file is already selected)')
+              'private key file is already selected).')
         )
         self.btnSshKeyGen.setMinimumSize(32, 28)
         hlayout3.addWidget(self.btnSshKeyGen)
@@ -1195,7 +1195,7 @@ class SettingsDialog(QDialog):
             _('Prefix to run before every command on remote host.'),
             _('Variables need to be escaped with \\$FOO. This doesn\'t touch '
               'rsync. So to add a prefix for rsync use "{example_value}" with '
-              '{rsync_options_value}').format(
+              '{rsync_options_value}.').format(
                   example_value=self.cbRsyncOptions.text(),
                   rsync_options_value \
                       ='--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"'),
@@ -2171,7 +2171,7 @@ class SettingsDialog(QDialog):
         if sshtools.sshKeyGen(key):
             self.txtSshPrivateKeyFile.setText(key)
         else:
-            self.errorHandler(_('Failed to create new SSH key in {path}')
+            self.errorHandler(_('Failed to create new SSH key in {path}.')
                               .format(path=key))
 
     def comboModesChanged(self, *params):
