@@ -1193,7 +1193,7 @@ class SettingsDialog(QDialog):
         self.cbSshPrefix = QCheckBox(_('Add prefix to SSH commands'), self)
         tooltip = [
             _('Prefix to run before every command on remote host.'),
-            _('Variables need to be escaped with \\$FOO. This doesn\'t touch '
+            _("Variables need to be escaped with \\$FOO. This doesn't touch "
               'rsync. So to add a prefix for rsync use "{example_value}" with '
               '{rsync_options_value}.').format(
                   example_value=self.cbRsyncOptions.text(),
