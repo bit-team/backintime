@@ -694,7 +694,7 @@ class MountControl(object):
 
             raise MountException(
                 _('{command} not found. Please install it '
-                  '(e.g. via "{installcommand}"').format(
+                  '(e.g. via "{installcommand}")').format(
                       command=self.mountproc,
                       installcommand=f"'apt-get install {self.mountproc}'")
             )
