@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-06-05 10:16+0200\n"
+"POT-Creation-Date: 2024-07-05 11:03+0200\n"
 "PO-Revision-Date: 2024-05-28 11:07+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
@@ -21,75 +21,85 @@ msgstr ""
 "X-Poedit-Country: SLOVAKIA\n"
 "X-Poedit-Language: Slovak\n"
 
-#: common/config.py:44 qt/settingsdialog.py:233
+#: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
 msgid "Warning"
 msgstr "Varovanie"
 
-#: common/config.py:147 common/config.py:289
+#: common/config.py:148 common/config.py:290
 msgid "Main profile"
 msgstr "Hlavný profil"
 
-#: common/config.py:299
+#: common/config.py:297
+#, fuzzy
+msgid "Local (EncFS encrypted)"
+msgstr "šifrovaný"
+
+#: common/config.py:298
+#, fuzzy
+msgid "SSH (EncFS encrypted)"
+msgstr "šifrovanie"
+
+#: common/config.py:309
 msgid "Local"
 msgstr "Lokálny"
 
-#: common/config.py:301
+#: common/config.py:311
 msgid "SSH"
 msgstr ""
 
-#: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
+#: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
 msgid "SSH private key"
 msgstr "SSH privátny kľúč"
 
-#: common/config.py:304
+#: common/config.py:314
 #, fuzzy
 msgid "Local encrypted"
 msgstr "šifrovaný"
 
-#: common/config.py:305 common/config.py:312
+#: common/config.py:315 common/config.py:322
 msgid "Encryption"
 msgstr "Šifrovanie"
 
-#: common/config.py:310
+#: common/config.py:320
 msgid "SSH encrypted"
 msgstr "šifrovanie"
 
-#: common/config.py:317
+#: common/config.py:327
 msgid "Default"
 msgstr "Predvolené"
 
-#: common/config.py:348 common/config.py:360 common/config.py:377
-#: common/config.py:388
+#: common/config.py:358 common/config.py:370 common/config.py:387
+#: common/config.py:398
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:349
+#: common/config.py:359
 msgid "Snapshots folder is not valid!"
 msgstr "Neplatný priečinok na snímky!"
 
-#: common/config.py:361
+#: common/config.py:371
 msgid "You must select at least one folder to back up!"
 msgstr "Musíte vybrať aspoň jeden priečinok na zálohovanie!"
 
-#: common/config.py:378
+#: common/config.py:388
 msgid "Backup folder cannot be included."
 msgstr "Priečinok Zálohy nemože byť zahrnutý."
 
-#: common/config.py:390
+#: common/config.py:400
 msgid "Backup sub-folder cannot be included."
 msgstr "Pod-priečinok Zálohy nemože byť zahrnutý."
 
-#: common/config.py:437
+#: common/config.py:447
 #, fuzzy, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "{path} nie je priečinok."
 
-#: common/config.py:446
+#: common/config.py:456
 msgid "Host/User/Profile-ID must not be empty."
 msgstr "Hosť/Používateľ/Profil musia byť vyplnené."
 
-#: common/config.py:456 common/config.py:503
+#: common/config.py:466 common/config.py:513
 #, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
@@ -98,7 +108,7 @@ msgstr ""
 "Nie je možné zapisovať do: {path}\n"
 "Určite máte právo na zápis ?"
 
-#: common/config.py:473
+#: common/config.py:483
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -107,7 +117,7 @@ msgstr ""
 "Cieľový systém súborov pre {path} je formatovaný na FAT, ktorý nepodporuje "
 "tvrdé odkazy. Použijte prosím natívny systém súborov pre Linux."
 
-#: common/config.py:482
+#: common/config.py:492
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -118,15 +128,15 @@ msgstr ""
 " vzdialený SMB server podporuje symbolické odkazy alebo aktivujte "
 "{copyLinks} v {expertOptions}."
 
-#: common/config.py:486 qt/settingsdialog.py:1136
+#: common/config.py:496 qt/settingsdialog.py:1127
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopírovať odkazy (znefunkční symbolické odkazy)"
 
-#: common/config.py:487
+#: common/config.py:497
 msgid "Expert Options"
 msgstr "Pokročilé nastavenia"
 
-#: common/config.py:491
+#: common/config.py:501
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
@@ -135,21 +145,19 @@ msgstr ""
 "Cieľový systém súborov pre {path} je zdieľaný cez sshfs. sshfs nepodporuje "
 "pevné odkazy. Použijte prosím 'SSH'."
 
-#: common/config.py:1650
-#, fuzzy
-msgid ""
-"Can't find crontab. Are you sure cron is installed? If not you should "
-"disable all automatic backups."
-msgstr ""
-"Nemožno nájsť crontab.\n"
-"Ste si istí, že je nainštalovaný ?\n"
-"Ak nie, mali by ste vypnúť všetky automatické zálohovania."
-
-#: common/config.py:1659
+#: common/config.py:1658
 msgid "Failed to write new crontab."
 msgstr "Zapisanie nového crontabu zlyhalo."
 
-#: common/config.py:1762
+#: common/config.py:1666
+msgid ""
+"Cron is not running despite the crontab command being available. Scheduled "
+"backup jobs will not run. Cron might be installed but not enabled. Try the "
+"command \"systemctl enable cron\" or consulte the support channels of your "
+"GNU Linux distribution."
+msgstr ""
+
+#: common/config.py:1746
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -158,12 +166,12 @@ msgstr ""
 "Uden pravidlo pre profil {profile_id} nebolo nastavené. Služba DBus pre "
 "'{dbus_interface}' nie je dostupná"
 
-#: common/config.py:1777
+#: common/config.py:1761
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Pri móde {mode} nie je dostupný udev scheduler"
 
-#: common/config.py:1788
+#: common/config.py:1772
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nepodarilo sa nájsť UUID pre {path}"
@@ -176,12 +184,12 @@ msgstr "Nepodarilo sa uložiť konfiguráciu"
 msgid "Failed to load config"
 msgstr "Nepodarilo sa načitať konfiguráciu"
 
-#: common/configfile.py:691 common/configfile.py:790
+#: common/configfile.py:690 common/configfile.py:789
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profil \"{name}\" už existuje."
 
-#: common/configfile.py:736
+#: common/configfile.py:735
 msgid "The last profile cannot be removed."
 msgstr "Nieje možné zmazať posledný profil."
 
@@ -222,7 +230,7 @@ msgstr "Nemožem odpojiť {mountprocess} z {mountpoint}."
 
 #: common/mount.py:696
 #, fuzzy, python-brace-format
-msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
+msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr "{} nenájdene. Prosím nainštaluje e.g. {}"
 
 #: common/mount.py:720
@@ -243,7 +251,7 @@ msgstr "ZLYHANIE"
 msgid "Restore permissions"
 msgstr "Obnoviť práva"
 
-#: common/snapshots.py:617 qt/app.py:292 qt/app.py:972 qt/app.py:1007
+#: common/snapshots.py:617 qt/app.py:291 qt/app.py:997 qt/app.py:1032
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Hotovo"
@@ -361,7 +369,7 @@ msgstr "Pracujem na minimálnom voľnom mieste"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Snažiť sa udržať minimálne voĺné miesto"
 
-#: common/snapshots.py:2988 qt/app.py:1717
+#: common/snapshots.py:2988 qt/app.py:1743
 msgid "Now"
 msgstr "Teraz"
 
@@ -431,7 +439,7 @@ msgstr ""
 msgid "Please enter a password for \"{user}\"."
 msgstr "Profil '{profile}': Zadajte heslo pre {mode}: "
 
-#: qt/aboutdlg.py:44 qt/app.py:550
+#: qt/aboutdlg.py:44 qt/app.py:572
 msgid "About"
 msgstr "O programe"
 
@@ -447,299 +455,312 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: qt/app.py:170
+#: qt/app.py:169
 msgid "Shortcuts"
 msgstr "Skratky"
 
-#: qt/app.py:190
+#: qt/app.py:189
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 
-#: qt/app.py:257
+#: qt/app.py:256
 msgid "Add to Include"
 msgstr ""
 
-#: qt/app.py:259
+#: qt/app.py:258
 msgid "Add to Exclude"
 msgstr ""
 
-#: qt/app.py:344
+#: qt/app.py:343
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:349
+#: qt/app.py:348
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:376
+#: qt/app.py:375
 #, fuzzy
 msgid "Can't find snapshots folder."
 msgstr "Nemožno vytvoriť priečinok"
 
-#: qt/app.py:377
+#: qt/app.py:376
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Nie je možné nájsť priečinok snímok.\n"
 "Ak je na prenosnom médiu prosím vložte ho a potom stlačte OK."
 
-#: qt/app.py:466
+#: qt/app.py:481
 msgid "Take a snapshot"
 msgstr "Urobiť snímku"
 
-#: qt/app.py:468
+#: qt/app.py:483
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:471
+#: qt/app.py:486
 msgid "Take a snapshot (checksum mode)"
 msgstr ""
 
-#: qt/app.py:473
+#: qt/app.py:488
 msgid "Use checksums for file change detection."
 msgstr "Použiť kontrolný súčet pre zistenie zmien."
 
-#: qt/app.py:476 qt/qtsystrayicon.py:86
+#: qt/app.py:491 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
 msgstr ""
 
-#: qt/app.py:481 qt/qtsystrayicon.py:90
+#: qt/app.py:496 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
 msgstr ""
 
-#: qt/app.py:485 qt/qtsystrayicon.py:95
+#: qt/app.py:500 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
 msgstr ""
 
-#: qt/app.py:489
+#: qt/app.py:504
 msgid "Refresh snapshot list"
 msgstr "Obnoviť zoznam snímok"
 
-#: qt/app.py:493
+#: qt/app.py:508
 msgid "Name snapshot"
 msgstr "Urobiť snímku"
 
-#: qt/app.py:497
+#: qt/app.py:512
 msgid "Remove snapshot"
 msgstr "Odstrániť snímku"
 
-#: qt/app.py:501
+#: qt/app.py:516
 msgid "View snapshot log"
 msgstr "Zobraziť záznam snímok"
 
-#: qt/app.py:505
+#: qt/app.py:520
 msgid "View last log"
 msgstr "Zobraziť posledný log"
 
-#: qt/app.py:509
+#: qt/app.py:524
 msgid "Manage profiles…"
 msgstr "Hlavný profil…"
 
-#: qt/app.py:513
+#: qt/app.py:528
 msgid "Shutdown"
 msgstr ""
 
-#: qt/app.py:515
+#: qt/app.py:530
 msgid "Shut down system after snapshot has finished."
 msgstr ""
 
-#: qt/app.py:517
+#: qt/app.py:532
 msgid "Setup language…"
 msgstr ""
 
-#: qt/app.py:521
+#: qt/app.py:536
 msgid "Exit"
 msgstr "Koniec"
 
-#: qt/app.py:525
+#: qt/app.py:540
 msgid "Help"
 msgstr "Pomocník"
 
-#: qt/app.py:529
+#: qt/app.py:544
 #, fuzzy
 msgid "Profiles config file"
 msgstr "Uložiť konfiguračný súbor"
 
-#: qt/app.py:532 qt/languagedialog.py:222
+#: qt/app.py:547 qt/languagedialog.py:222
 msgid "Website"
 msgstr "Webová stránka"
 
-#: qt/app.py:535 qt/app.py:1350
+#: qt/app.py:550 qt/app.py:1375
 msgid "Changelog"
 msgstr ""
 
-#: qt/app.py:538
+#: qt/app.py:553
 msgid "FAQ"
 msgstr "Často kladené otázky (FAQ)"
 
-#: qt/app.py:541
+#: qt/app.py:556
 msgid "Ask a question"
 msgstr ""
 
-#: qt/app.py:544
+#: qt/app.py:559
 msgid "Report a bug"
 msgstr ""
 
-#: qt/app.py:547
+#: qt/app.py:562
 msgid "Translation"
 msgstr ""
 
-#: qt/app.py:553 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/app.py:564
+msgid "Shows the message about participation in translation again."
+msgstr ""
+
+#: qt/app.py:568
+msgid "Encryption Transition (EncFS)"
+msgstr ""
+
+#: qt/app.py:570
+msgid "Shows the message about EncFS removal again."
+msgstr ""
+
+#: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: qt/app.py:555
+#: qt/app.py:577
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
-#: qt/app.py:558 qt/app.py:1520 qt/app.py:1552 qt/snapshotsdialog.py:166
+#: qt/app.py:580 qt/app.py:1546 qt/app.py:1578 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Obnoviť …"
 
-#: qt/app.py:560
+#: qt/app.py:582
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
 
-#: qt/app.py:565
+#: qt/app.py:587
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 
-#: qt/app.py:570
+#: qt/app.py:592
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr ""
 
-#: qt/app.py:573
+#: qt/app.py:595
 msgid "Up"
 msgstr "Hore"
 
-#: qt/app.py:576 qt/settingsdialog.py:2414
+#: qt/app.py:598 qt/settingsdialog.py:2448
 msgid "Show hidden files"
 msgstr "Ukázať skryté súbory"
 
-#: qt/app.py:579
+#: qt/app.py:601
 msgid "Compare snapshots…"
 msgstr "Urobiť snímku…"
 
-#: qt/app.py:638
+#: qt/app.py:660
 msgid "Back In &Time"
 msgstr ""
 
-#: qt/app.py:643
+#: qt/app.py:665
 msgid "&Backup"
 msgstr ""
 
-#: qt/app.py:654
+#: qt/app.py:676
 msgid "&Restore"
 msgstr "&Obnoviť"
 
-#: qt/app.py:660
+#: qt/app.py:682
 msgid "&Help"
 msgstr "&Pomocník"
 
-#: qt/app.py:795
+#: qt/app.py:818
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
 
-#: qt/app.py:798
+#: qt/app.py:821
 #, fuzzy
 msgid "Do you really want to close it?"
 msgstr "Ste si istí, že chcete odstrániť snímku"
 
-#: qt/app.py:962
+#: qt/app.py:987
 msgid "Working:"
 msgstr "Pracujem:"
 
-#: qt/app.py:1010
+#: qt/app.py:1035
 msgid "Done, no backup needed"
 msgstr "Hotovo, záloha nie je potrebná"
 
-#: qt/app.py:1019
+#: qt/app.py:1044
 msgid "Working"
 msgstr "Prebieha"
 
-#: qt/app.py:1028 qt/messagebox.py:78
+#: qt/app.py:1053 qt/messagebox.py:78
 msgid "Error"
 msgstr "Chyba"
 
-#: qt/app.py:1051
+#: qt/app.py:1076
 msgid "Sent"
 msgstr ""
 
-#: qt/app.py:1052
+#: qt/app.py:1077
 msgid "Speed"
 msgstr ""
 
-#: qt/app.py:1053
+#: qt/app.py:1078
 msgid "ETA"
 msgstr ""
 
-#: qt/app.py:1115
+#: qt/app.py:1140
 msgid "Global"
 msgstr "Globálne"
 
-#: qt/app.py:1116
+#: qt/app.py:1141
 msgid "Root"
 msgstr "Koreňový priečinok"
 
-#: qt/app.py:1117
+#: qt/app.py:1142
 msgid "Home"
 msgstr "Domovský priečinok"
 
-#: qt/app.py:1145
+#: qt/app.py:1170
 msgid "Backup folders"
 msgstr "Priečinky zálohy"
 
-#: qt/app.py:1241
+#: qt/app.py:1266
 msgid "Snapshot Name"
 msgstr "Názov snímky"
 
-#: qt/app.py:1288
+#: qt/app.py:1313
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Ste si istí, že chcete odstrániť snímku"
 msgstr[1] "Ste si istí, že chcete odstrániť snímku"
 msgstr[2] "Ste si istí, že chcete odstrániť snímku"
 
-#: qt/app.py:1383
+#: qt/app.py:1408
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
 
-#: qt/app.py:1390 qt/settingsdialog.py:888
+#: qt/app.py:1416
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
-"restoring. If you don't need them anymore you can remove them with {cmd}"
+"restoring. If you don't need them anymore you can remove them with the "
+"following command:"
 msgstr ""
 
-#: qt/app.py:1406
+#: qt/app.py:1432
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: qt/app.py:1441
+#: qt/app.py:1467
 msgid "Remove newer elements in original folder."
 msgstr ""
 
-#: qt/app.py:1444
+#: qt/app.py:1470
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
@@ -747,7 +768,7 @@ msgid ""
 "snapshot."
 msgstr ""
 
-#: qt/app.py:1455
+#: qt/app.py:1481
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -759,48 +780,95 @@ msgstr[0] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 msgstr[1] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 msgstr[2] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 
-#: qt/app.py:1464
+#: qt/app.py:1490
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Ste si istí, že chcete odstrániť snímku"
 msgstr[1] "Ste si istí, že chcete odstrániť snímku"
 msgstr[2] "Ste si istí, že chcete odstrániť snímku"
 
-#: qt/app.py:1479
+#: qt/app.py:1505
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 
-#: qt/app.py:1482
+#: qt/app.py:1508
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: qt/app.py:1488
+#: qt/app.py:1514
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
 
-#: qt/app.py:1724
+#: qt/app.py:1750
 #, fuzzy
 msgid "Snapshot"
 msgstr "Snímky"
 
-#: qt/app.py:1761
+#: qt/app.py:1787
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnoviť {path}"
 
-#: qt/app.py:1763
+#: qt/app.py:1789
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Obnoviť {path} …"
 
-#: qt/app.py:1920
+#: qt/app.py:1948
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Nastavenie jazyka sa zmení po reštartovaní aplikácie Back In Time."
+
+#: qt/encfsmsgbox.py:42
+msgid ""
+"Support for EncFS will be discontinued in the foreseeable future. It is not "
+"recommended to use that mode for a profile furthermore."
+msgstr ""
+
+#: qt/encfsmsgbox.py:46
+#, python-brace-format
+msgid ""
+"A decision on a replacement for continued support of encrypted backups is "
+"still pending, depending on project resources and contributor availability. "
+"More details are available in this {url}."
+msgstr ""
+
+#: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
+msgid "whitepaper"
+msgstr ""
+
+#: qt/encfsmsgbox.py:66
+msgid ""
+"The support for encrypted snapshot profiles is undergoing significant "
+"changes, and EncFS will be removed in the foreseeable future."
+msgstr ""
+
+#: qt/encfsmsgbox.py:75
+msgid "The following profile(s) use encryption with EncFS:"
+msgstr ""
+
+#: qt/encfsmsgbox.py:77
+#, python-brace-format
+msgid ""
+"A decision on a replacement for continued support of encrypted backups is "
+"still pending, depending on project resources and contributor availability. "
+"Users are invited to join this discussion. Updated details on the next steps"
+" and are available in this {url}."
+msgstr ""
+
+#: qt/encfsmsgbox.py:85
+msgid ""
+"This message will not be shown again. This dialog is available at any time "
+"via the help menu."
+msgstr ""
+
+#: qt/encfsmsgbox.py:87
+msgid "Your Back In Time Team"
+msgstr ""
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
@@ -852,8 +920,8 @@ msgstr ""
 msgid "Snapshot Log View"
 msgstr ""
 
-#: qt/logviewdialog.py:76 qt/settingsdialog.py:177 qt/settingsdialog.py:423
-#: qt/settingsdialog.py:2593
+#: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
+#: qt/settingsdialog.py:2627
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -865,16 +933,16 @@ msgstr "Snímky:"
 msgid "Filter:"
 msgstr "Filter:"
 
-#: qt/logviewdialog.py:105 qt/settingsdialog.py:930
+#: qt/logviewdialog.py:105 qt/settingsdialog.py:921
 msgid "All"
 msgstr "Všetko"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:929
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:920
 msgid "Changes"
 msgstr "Zmeny"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:926
-#: qt/settingsdialog.py:929
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:917
+#: qt/settingsdialog.py:920
 msgid "Errors"
 msgstr "Chyby"
 
@@ -932,31 +1000,31 @@ msgstr ""
 msgid "ETA:"
 msgstr ""
 
-#: qt/qttools.py:402 qt/snapshotsdialog.py:123
+#: qt/qttools.py:404 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "Snímky"
 
-#: qt/qttools.py:425
+#: qt/qttools.py:427
 msgid "Today"
 msgstr "Dnes"
 
-#: qt/qttools.py:432
+#: qt/qttools.py:434
 msgid "Yesterday"
 msgstr "Včera"
 
-#: qt/qttools.py:441
+#: qt/qttools.py:443
 msgid "This week"
 msgstr "Tento týždeň"
 
-#: qt/qttools.py:448
+#: qt/qttools.py:450
 msgid "Last week"
 msgstr "Minulý týždeň"
 
-#: qt/qttools.py:594
+#: qt/qttools.py:596
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 
-#: qt/qttools.py:599
+#: qt/qttools.py:601
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Posledná kontrola {time}"
@@ -965,128 +1033,120 @@ msgstr "Posledná kontrola {time}"
 msgid "Show full Log"
 msgstr ""
 
-#: qt/settingsdialog.py:95
+#: qt/settingsdialog.py:96
 msgid "SSH Proxy"
 msgstr ""
 
-#: qt/settingsdialog.py:102 qt/settingsdialog.py:281 qt/settingsdialog.py:411
+#: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
 msgid "Host:"
 msgstr "Server:"
 
-#: qt/settingsdialog.py:106 qt/settingsdialog.py:286
+#: qt/settingsdialog.py:107 qt/settingsdialog.py:280
 msgid "Port:"
 msgstr ""
 
-#: qt/settingsdialog.py:110 qt/settingsdialog.py:291 qt/settingsdialog.py:417
+#: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
 msgid "User:"
 msgstr "Používateľ:"
 
-#: qt/settingsdialog.py:119
+#: qt/settingsdialog.py:120
 msgid ""
 "Connect to the target host via this proxy (also known as a jump host). See "
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
 
-#: qt/settingsdialog.py:169
+#: qt/settingsdialog.py:170
 msgid "Manage profiles"
 msgstr "Hlavný profil"
 
-#: qt/settingsdialog.py:186
+#: qt/settingsdialog.py:187
 msgid "Edit"
 msgstr "Zmeň"
 
-#: qt/settingsdialog.py:190 qt/settingsdialog.py:677
+#: qt/settingsdialog.py:191 qt/settingsdialog.py:668
 msgid "Add"
 msgstr ""
 
-#: qt/settingsdialog.py:194 qt/settingsdialog.py:624 qt/settingsdialog.py:695
+#: qt/settingsdialog.py:195 qt/settingsdialog.py:615 qt/settingsdialog.py:686
 msgid "Remove"
 msgstr "Odstráň"
 
-#: qt/settingsdialog.py:209
+#: qt/settingsdialog.py:210
 msgid "&General"
 msgstr "&Hlavné"
 
-#: qt/settingsdialog.py:219 qt/settingsdialog.py:2595
+#: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
 msgid "Mode:"
 msgstr ""
 
-#: qt/settingsdialog.py:234
-#, python-brace-format
-msgid ""
-"{app} uses EncFS for encryption. A recent security audit revealed several "
-"possible attack vectors for this. Please take a look at \"A NOTE ON "
-"SECURITY\" in \"man backintime\"."
-msgstr ""
-
-#: qt/settingsdialog.py:245 qt/settingsdialog.py:2133
+#: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
 msgstr "Kam sa uložia snímky"
 
-#: qt/settingsdialog.py:261
+#: qt/settingsdialog.py:255
 msgid "Folder"
 msgstr ""
 
-#: qt/settingsdialog.py:269
+#: qt/settingsdialog.py:263
 msgid "SSH Settings"
 msgstr ""
 
-#: qt/settingsdialog.py:296
+#: qt/settingsdialog.py:290
 msgid "Path:"
 msgstr ""
 
-#: qt/settingsdialog.py:302
+#: qt/settingsdialog.py:296
 msgid "Cipher:"
 msgstr ""
 
-#: qt/settingsdialog.py:308
+#: qt/settingsdialog.py:302
 msgid "Private Key:"
 msgstr "SSH privátny kľúč:"
 
-#: qt/settingsdialog.py:318
+#: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
 
-#: qt/settingsdialog.py:329
+#: qt/settingsdialog.py:323
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
-"already selected)"
+"already selected)."
 msgstr ""
 
-#: qt/settingsdialog.py:359 qt/settingsdialog.py:368 qt/settingsdialog.py:374
+#: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
 msgstr ""
 
-#: qt/settingsdialog.py:380
+#: qt/settingsdialog.py:374
 msgid "Save Password to Keyring"
 msgstr ""
 
-#: qt/settingsdialog.py:384
+#: qt/settingsdialog.py:378
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 
-#: qt/settingsdialog.py:399
+#: qt/settingsdialog.py:390
 msgid "Advanced"
 msgstr "Detailné nastavenie"
 
-#: qt/settingsdialog.py:429 qt/settingsdialog.py:2246
+#: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
 msgid "Full snapshot path:"
 msgstr ""
 
-#: qt/settingsdialog.py:436
+#: qt/settingsdialog.py:427
 msgid "Schedule"
 msgstr "Plánovanie"
 
-#: qt/settingsdialog.py:448
+#: qt/settingsdialog.py:439
 msgid "Disabled"
 msgstr "Zakázané"
 
-#: qt/settingsdialog.py:449
+#: qt/settingsdialog.py:440
 msgid "At every boot/reboot"
 msgstr "Pri každom štarte/reštarte"
 
-#: qt/settingsdialog.py:451 qt/settingsdialog.py:453 qt/settingsdialog.py:455
+#: qt/settingsdialog.py:442 qt/settingsdialog.py:444 qt/settingsdialog.py:446
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1094,7 +1154,7 @@ msgstr[0] "Každých {n} minút"
 msgstr[1] "Každých {n} minút"
 msgstr[2] "Každých {n} minút"
 
-#: qt/settingsdialog.py:457
+#: qt/settingsdialog.py:448
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
@@ -1102,8 +1162,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/settingsdialog.py:459 qt/settingsdialog.py:461 qt/settingsdialog.py:463
-#: qt/settingsdialog.py:465
+#: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
+#: qt/settingsdialog.py:456
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
@@ -1111,117 +1171,117 @@ msgstr[0] "Každých {n} hodín"
 msgstr[1] "Každých {n} hodín"
 msgstr[2] "Každých {n} hodín"
 
-#: qt/settingsdialog.py:466
+#: qt/settingsdialog.py:457
 msgid "Custom hours"
 msgstr ""
 
-#: qt/settingsdialog.py:467
+#: qt/settingsdialog.py:458
 msgid "Every day"
 msgstr "Každý deň"
 
-#: qt/settingsdialog.py:468
+#: qt/settingsdialog.py:459
 msgid "Repeatedly (anacron)"
 msgstr ""
 
-#: qt/settingsdialog.py:469
+#: qt/settingsdialog.py:460
 msgid "When drive gets connected (udev)"
 msgstr ""
 
-#: qt/settingsdialog.py:470
+#: qt/settingsdialog.py:461
 msgid "Every week"
 msgstr "Každý týždeň"
 
-#: qt/settingsdialog.py:471
+#: qt/settingsdialog.py:462
 msgid "Every month"
 msgstr "Každý mesiac"
 
-#: qt/settingsdialog.py:472
+#: qt/settingsdialog.py:463
 msgid "Every year"
 msgstr "Každý rok"
 
-#: qt/settingsdialog.py:477
+#: qt/settingsdialog.py:468
 msgid "Day:"
 msgstr ""
 
-#: qt/settingsdialog.py:488
+#: qt/settingsdialog.py:479
 msgid "Weekday:"
 msgstr ""
 
-#: qt/settingsdialog.py:504
+#: qt/settingsdialog.py:495
 msgid "Hour:"
 msgstr "Hodina:"
 
-#: qt/settingsdialog.py:519
+#: qt/settingsdialog.py:510
 msgid "Hours:"
 msgstr "Hodina:"
 
-#: qt/settingsdialog.py:530
+#: qt/settingsdialog.py:521
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
 
-#: qt/settingsdialog.py:537
+#: qt/settingsdialog.py:528
 msgid "Every:"
 msgstr "Každých:"
 
-#: qt/settingsdialog.py:551
+#: qt/settingsdialog.py:542
 msgid "Hour(s)"
 msgstr ""
 
-#: qt/settingsdialog.py:552 qt/settingsdialog.py:747
+#: qt/settingsdialog.py:543 qt/settingsdialog.py:738
 msgid "Day(s)"
 msgstr "Dni"
 
-#: qt/settingsdialog.py:553 qt/settingsdialog.py:748
+#: qt/settingsdialog.py:544 qt/settingsdialog.py:739
 msgid "Week(s)"
 msgstr "Týždne"
 
-#: qt/settingsdialog.py:554
+#: qt/settingsdialog.py:545
 msgid "Month(s)"
 msgstr ""
 
-#: qt/settingsdialog.py:564
+#: qt/settingsdialog.py:555
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 
-#: qt/settingsdialog.py:573
+#: qt/settingsdialog.py:564
 msgid "Enable logging of debug messages"
 msgstr ""
 
-#: qt/settingsdialog.py:577
+#: qt/settingsdialog.py:568
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 
-#: qt/settingsdialog.py:579
+#: qt/settingsdialog.py:570
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
 
-#: qt/settingsdialog.py:592
+#: qt/settingsdialog.py:583
 msgid "&Include"
 msgstr "&Zahrnúť"
 
-#: qt/settingsdialog.py:599
+#: qt/settingsdialog.py:590
 msgid "Include files and folders"
 msgstr "Zahrňuje súbory a priečinky"
 
-#: qt/settingsdialog.py:616 qt/settingsdialog.py:681
+#: qt/settingsdialog.py:607 qt/settingsdialog.py:672
 msgid "Add file"
 msgstr "Pridať súbor"
 
-#: qt/settingsdialog.py:620 qt/settingsdialog.py:685
+#: qt/settingsdialog.py:611 qt/settingsdialog.py:676
 msgid "Add folder"
 msgstr "Pridať priečinok"
 
-#: qt/settingsdialog.py:630
+#: qt/settingsdialog.py:621
 msgid "&Exclude"
 msgstr "&Vylúčiť"
 
-#: qt/settingsdialog.py:634
+#: qt/settingsdialog.py:625
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1230,24 +1290,24 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/settingsdialog.py:657
+#: qt/settingsdialog.py:648
 msgid "Exclude patterns, files or folders"
 msgstr "Nazahrňovať vzory, súbory alebo priečinky"
 
-#: qt/settingsdialog.py:690
+#: qt/settingsdialog.py:681
 msgid "Add default"
 msgstr ""
 
-#: qt/settingsdialog.py:703
+#: qt/settingsdialog.py:694
 msgid "Exclude files bigger than:"
 msgstr "Vylúčiť súbor:"
 
-#: qt/settingsdialog.py:707
+#: qt/settingsdialog.py:698
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr ""
 
-#: qt/settingsdialog.py:709
+#: qt/settingsdialog.py:700
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1255,401 +1315,417 @@ msgid ""
 "they have been modified."
 msgstr ""
 
-#: qt/settingsdialog.py:729
+#: qt/settingsdialog.py:720
 msgid "&Auto-remove"
 msgstr "&Automatické odstránenie"
 
-#: qt/settingsdialog.py:735
+#: qt/settingsdialog.py:726
 msgid "Older than:"
 msgstr "Staršie ako:"
 
-#: qt/settingsdialog.py:749
+#: qt/settingsdialog.py:740
 msgid "Year(s)"
 msgstr "Roky"
 
-#: qt/settingsdialog.py:757
+#: qt/settingsdialog.py:748
 msgid "If free space is less than:"
 msgstr "Ak je voľné miesto menšie než:"
 
-#: qt/settingsdialog.py:777
+#: qt/settingsdialog.py:768
 msgid "If free inodes is less than:"
 msgstr "Ak je voľné miesto menšie než:"
 
-#: qt/settingsdialog.py:791
+#: qt/settingsdialog.py:782
 #, fuzzy
 msgid "Smart removal:"
 msgstr "Šikovné odstránenie:"
 
-#: qt/settingsdialog.py:802
+#: qt/settingsdialog.py:793
 msgid "Run in background on remote host."
 msgstr ""
 
-#: qt/settingsdialog.py:803
+#: qt/settingsdialog.py:794
 msgid "EXPERIMENTAL"
 msgstr ""
 
-#: qt/settingsdialog.py:809
+#: qt/settingsdialog.py:800
 msgid "Keep all snapshots for the last"
 msgstr ""
 
-#: qt/settingsdialog.py:813 qt/settingsdialog.py:820
+#: qt/settingsdialog.py:804 qt/settingsdialog.py:811
 msgid "day(s)."
 msgstr "Počet dní."
 
-#: qt/settingsdialog.py:816
+#: qt/settingsdialog.py:807
 msgid "Keep one snapshot per day for the last"
 msgstr ""
 
-#: qt/settingsdialog.py:823
+#: qt/settingsdialog.py:814
 msgid "Keep one snapshot per week for the last"
 msgstr ""
 
-#: qt/settingsdialog.py:827
+#: qt/settingsdialog.py:818
 msgid "week(s)."
 msgstr "Týždne."
 
-#: qt/settingsdialog.py:830
+#: qt/settingsdialog.py:821
 msgid "Keep one snapshot per month for the last"
 msgstr ""
 
-#: qt/settingsdialog.py:834
+#: qt/settingsdialog.py:825
 msgid "month(s)."
 msgstr ""
 
-#: qt/settingsdialog.py:837
+#: qt/settingsdialog.py:828
 msgid "Keep one snapshot per year for all years."
 msgstr ""
 
-#: qt/settingsdialog.py:846
+#: qt/settingsdialog.py:837
 msgid "Don't remove named snapshots."
 msgstr "Neodstraňovať pomenované snímky."
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:849
 msgid "&Options"
 msgstr "&Možnosti"
 
-#: qt/settingsdialog.py:863
+#: qt/settingsdialog.py:854
 msgid "Enable notifications"
 msgstr "Povoliť upozornenia"
 
-#: qt/settingsdialog.py:867
+#: qt/settingsdialog.py:858
 msgid "Disable snapshots when on battery"
 msgstr "Nevytvárať snímky pokiaľ systém beží na batérie"
 
-#: qt/settingsdialog.py:871
+#: qt/settingsdialog.py:862
 msgid "Power status not available from system"
 msgstr "Nie je možné zistiť stav napájania"
 
-#: qt/settingsdialog.py:874
+#: qt/settingsdialog.py:865
 msgid "Run only one snapshot at a time"
 msgstr ""
 
-#: qt/settingsdialog.py:877
+#: qt/settingsdialog.py:868
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
 
-#: qt/settingsdialog.py:885
+#: qt/settingsdialog.py:876
 msgid "Backup replaced files on restore"
 msgstr ""
 
-#: qt/settingsdialog.py:900
+#: qt/settingsdialog.py:879
+#, python-brace-format
+msgid ""
+"Newer versions of files will be renamed with trailing {suffix} before "
+"restoring. If you don't need them anymore you can remove them with {cmd}"
+msgstr ""
+
+#: qt/settingsdialog.py:891
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Pokračovať pri chybách (zachovať nekompletné snímky)"
 
-#: qt/settingsdialog.py:904
+#: qt/settingsdialog.py:895
 msgid "Use checksum to detect changes"
 msgstr "Použiť kontrolný súčet pre zistenie zmien"
 
-#: qt/settingsdialog.py:908
+#: qt/settingsdialog.py:899
 msgid "Take a new snapshot whether there were changes or not."
 msgstr ""
 
-#: qt/settingsdialog.py:915
+#: qt/settingsdialog.py:906
 msgid "Log Level:"
 msgstr "Úroveň záznamu:"
 
-#: qt/settingsdialog.py:920
+#: qt/settingsdialog.py:911
 msgid "None"
 msgstr "Žiadne"
 
-#: qt/settingsdialog.py:940
+#: qt/settingsdialog.py:931
 msgid "E&xpert Options"
 msgstr "Možnosti e&xpertov"
 
-#: qt/settingsdialog.py:945
+#: qt/settingsdialog.py:936
 #, fuzzy
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr "Meňte tieto možnosti len pokiaľ naozaj viete, čo robíte."
 
-#: qt/settingsdialog.py:950 qt/settingsdialog.py:966 qt/settingsdialog.py:988
+#: qt/settingsdialog.py:941 qt/settingsdialog.py:957 qt/settingsdialog.py:979
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr ""
 
-#: qt/settingsdialog.py:957 qt/settingsdialog.py:973
+#: qt/settingsdialog.py:948 qt/settingsdialog.py:964
 msgid "as cron job"
 msgstr ""
 
-#: qt/settingsdialog.py:962 qt/settingsdialog.py:983 qt/settingsdialog.py:1004
+#: qt/settingsdialog.py:953 qt/settingsdialog.py:974 qt/settingsdialog.py:995
 msgid "on remote host"
 msgstr ""
 
-#: qt/settingsdialog.py:978
+#: qt/settingsdialog.py:969
 msgid "when taking a manual snapshot"
 msgstr ""
 
-#: qt/settingsdialog.py:991
+#: qt/settingsdialog.py:982
 msgid "(Please install 'nocache' to enable this option)"
 msgstr ""
 
-#: qt/settingsdialog.py:998
+#: qt/settingsdialog.py:989
 msgid "on local machine"
 msgstr ""
 
-#: qt/settingsdialog.py:1009
+#: qt/settingsdialog.py:1000
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr ""
 
-#: qt/settingsdialog.py:1014
+#: qt/settingsdialog.py:1005
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/settingsdialog.py:1020
+#: qt/settingsdialog.py:1011
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 
-#: qt/settingsdialog.py:1025
+#: qt/settingsdialog.py:1016
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/settingsdialog.py:1033
+#: qt/settingsdialog.py:1024
 msgid "Limit rsync bandwidth usage:"
 msgstr ""
 
-#: qt/settingsdialog.py:1036
+#: qt/settingsdialog.py:1027
 msgid "KB/sec"
 msgstr ""
 
-#: qt/settingsdialog.py:1080
+#: qt/settingsdialog.py:1071
 msgid "Preserve ACL"
 msgstr "Zachovať ACL"
 
-#: qt/settingsdialog.py:1098
+#: qt/settingsdialog.py:1089
 msgid "Preserve extended attributes (xattr)"
 msgstr "Zachovať rozšírené atribúty (xattr)"
 
-#: qt/settingsdialog.py:1121
+#: qt/settingsdialog.py:1112
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopírovať nebezpečné odkazy (funguje len s absolútnymi odkazmi)"
 
-#: qt/settingsdialog.py:1157
+#: qt/settingsdialog.py:1148
 msgid "Restrict to one file system"
 msgstr ""
 
-#: qt/settingsdialog.py:1177
+#: qt/settingsdialog.py:1168
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 
-#: qt/settingsdialog.py:1180
+#: qt/settingsdialog.py:1171
 msgid "Paste additional options to rsync"
 msgstr ""
 
-#: qt/settingsdialog.py:1194
+#: qt/settingsdialog.py:1185
 msgid "Add prefix to SSH commands"
 msgstr ""
 
-#: qt/settingsdialog.py:1196
+#: qt/settingsdialog.py:1187
 msgid "Prefix to run before every command on remote host."
 msgstr ""
 
-#: qt/settingsdialog.py:1197
+#: qt/settingsdialog.py:1188
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
-"add a prefix for rsync use \"{example_value}\" with {rsync_options_value}"
+"add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 
-#: qt/settingsdialog.py:1205
+#: qt/settingsdialog.py:1196
 msgid "default"
 msgstr ""
 
-#: qt/settingsdialog.py:1220
+#: qt/settingsdialog.py:1211
 msgid "Check if remote host is online"
 msgstr ""
 
-#: qt/settingsdialog.py:1223
+#: qt/settingsdialog.py:1214
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1227
+#: qt/settingsdialog.py:1218
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 
-#: qt/settingsdialog.py:1230
+#: qt/settingsdialog.py:1221
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1246
+#: qt/settingsdialog.py:1237
 msgid "Restore Config"
 msgstr ""
 
-#: qt/settingsdialog.py:1248
+#: qt/settingsdialog.py:1239
 msgid "Edit user-callback"
 msgstr ""
 
-#: qt/settingsdialog.py:1266
+#: qt/settingsdialog.py:1263
+#, python-brace-format
+msgid ""
+"Support for EncFS will be discontinued in the foreseeable future. A decision"
+" on a replacement for continued support of encrypted backups is still "
+"pending, depending on project resources and contributor availability. More "
+"details are available in this {url}."
+msgstr ""
+
+#: qt/settingsdialog.py:1285
 msgid "New profile"
 msgstr "Nový profil"
 
-#: qt/settingsdialog.py:1283
+#: qt/settingsdialog.py:1302
 msgid "Rename profile"
 msgstr "Premenovať profil"
 
-#: qt/settingsdialog.py:1299
+#: qt/settingsdialog.py:1318
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Určite chcete vymazať profil \"{name}\" ?"
 
-#: qt/settingsdialog.py:1403
+#: qt/settingsdialog.py:1422
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/settingsdialog.py:1408
+#: qt/settingsdialog.py:1427
 #, fuzzy, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "Vysoko odporúčané"
 
-#: qt/settingsdialog.py:1606
+#: qt/settingsdialog.py:1634
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
 
-#: qt/settingsdialog.py:1653
+#: qt/settingsdialog.py:1681
 msgid "You did not choose a private key file for SSH."
 msgstr ""
 
-#: qt/settingsdialog.py:1654
+#: qt/settingsdialog.py:1682
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 
-#: qt/settingsdialog.py:1664
+#: qt/settingsdialog.py:1692
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr ""
 
-#: qt/settingsdialog.py:1819
+#: qt/settingsdialog.py:1847
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
 
-#: qt/settingsdialog.py:1850
+#: qt/settingsdialog.py:1878
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
 
-#: qt/settingsdialog.py:1853
+#: qt/settingsdialog.py:1881
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/settingsdialog.py:1861
+#: qt/settingsdialog.py:1889
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 
-#: qt/settingsdialog.py:2033
+#: qt/settingsdialog.py:2061
 msgid "Exclude pattern"
 msgstr "Vylúčiť vzor"
 
-#: qt/settingsdialog.py:2046
+#: qt/settingsdialog.py:2074
 msgid "Exclude file"
 msgstr "Vylúčiť súbor"
 
-#: qt/settingsdialog.py:2050
+#: qt/settingsdialog.py:2078
 msgid "Exclude folder"
 msgstr "Vylúčiť priečinok"
 
-#: qt/settingsdialog.py:2074
+#: qt/settingsdialog.py:2102
 msgid "Include file"
 msgstr "Zahrnúť súbor"
 
-#: qt/settingsdialog.py:2083 qt/settingsdialog.py:2113
+#: qt/settingsdialog.py:2111 qt/settingsdialog.py:2141
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/settingsdialog.py:2104
+#: qt/settingsdialog.py:2132
 msgid "Include folder"
 msgstr "Zahrnúť priečinok"
 
-#: qt/settingsdialog.py:2141
+#: qt/settingsdialog.py:2169
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Ste si istí, že chcete zmeniť priečinok snímok?"
 
-#: qt/settingsdialog.py:2166
-#, python-brace-format
-msgid "Failed to create new SSH key in {path}"
-msgstr ""
+#: qt/settingsdialog.py:2194
+#, fuzzy, python-brace-format
+msgid "Failed to create new SSH key in {path}."
+msgstr "Zapisanie nového crontabu zlyhalo."
 
-#: qt/settingsdialog.py:2274
+#: qt/settingsdialog.py:2310
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 
-#: qt/settingsdialog.py:2335
+#: qt/settingsdialog.py:2369
 #, fuzzy
 msgid "(default: {})"
 msgstr "Predvolené"
 
-#: qt/settingsdialog.py:2336
+#: qt/settingsdialog.py:2370
 msgid "disabled"
 msgstr ""
 
-#: qt/settingsdialog.py:2336
+#: qt/settingsdialog.py:2370
 msgid "enabled"
 msgstr ""
 
-#: qt/settingsdialog.py:2379
+#: qt/settingsdialog.py:2413
 msgid "Import configuration"
 msgstr ""
 
-#: qt/settingsdialog.py:2435 qt/settingsdialog.py:2531
+#: qt/settingsdialog.py:2469 qt/settingsdialog.py:2565
 msgid "No config found"
 msgstr ""
 
-#: qt/settingsdialog.py:2460
+#: qt/settingsdialog.py:2494
 msgid "Import"
 msgstr ""
 
-#: qt/settingsdialog.py:2488
+#: qt/settingsdialog.py:2522
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
-#: qt/settingsdialog.py:2493
+#: qt/settingsdialog.py:2527
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
@@ -1693,7 +1769,7 @@ msgid "Differing snapshots only"
 msgstr ""
 
 #: qt/snapshotsdialog.py:142
-msgid "List only equal snapshots to: "
+msgid "List only snapshots that are equal to:"
 msgstr ""
 
 #: qt/snapshotsdialog.py:153
@@ -1742,6 +1818,15 @@ msgstr ""
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "Can't find crontab. Are you sure cron is installed? If not you should "
+#~ "disable all automatic backups."
+#~ msgstr ""
+#~ "Nemožno nájsť crontab.\n"
+#~ "Ste si istí, že je nainštalovaný ?\n"
+#~ "Ak nie, mali by ste vypnúť všetky automatické zálohovania."
 
 #~ msgid "Profile"
 #~ msgstr "Profil"

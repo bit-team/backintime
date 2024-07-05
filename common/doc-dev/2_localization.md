@@ -25,8 +25,8 @@ Time_. The goal is to synchronize the state of the ongoing translation at
 Weblate and the modified py-files in the upstream repository at Microsoft
 GitHub.
 
-1. Press "Commit" in Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
-2. "Lock" the project in Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
+1. Press "Commit" in Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository).
+2. "Lock" the project in Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository).
 3. git: Start a new branch.
 4. Download and integrate Weblate into the git repository
    via `./update_language_files.py weblate`.
