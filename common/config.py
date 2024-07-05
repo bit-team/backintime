@@ -289,6 +289,15 @@ class Config(configfile.ConfigFileWithProfiles):
         # Workaround
         self.default_profile_name = _('Main profile')
 
+        # ToDo Those hidden labels exist to speed up their translation.
+        # Unhide them after the upcoming release (1.5.0).
+        # See: https://github.com/bit-team/backintime/issues/
+        # 1735#issuecomment-2197646518
+        _HIDDEN_NEW_MODE_LABELS = (
+            _('Local (EncFS encrypted)'),
+            _('SSH (EncFS encrypted)')
+        )
+
         self.SNAPSHOT_MODES = {
                     # mode: (
                     #     <mounttools>,

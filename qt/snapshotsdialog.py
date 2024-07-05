@@ -139,7 +139,7 @@ class SnapshotsDialog(QDialog):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
         self.cbOnlyEqualSnapshots = QCheckBox(
-            _('List only equal snapshots to: '), self)
+            _('List only snapshots that are equal to:'), self)
         self.cbOnlyEqualSnapshots.stateChanged.connect(
             self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)

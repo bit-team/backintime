@@ -132,7 +132,9 @@ def set_wrapped_tooltip(widget: QWidget,
 
     result = []
     for paragraph in tooltip:
-        result.append('\n'.join(textwrap.wrap(paragraph, wrap_length)))
+        result.append('\n'.join(
+            textwrap.wrap(paragraph, wrap_length)
+        ))
 
     widget.setToolTip('\n'.join(result))
 

@@ -1412,15 +1412,16 @@ class MainWindow(QMainWindow):
         cb.setChecked(self.config.backupOnRestore())
         qttools.set_wrapped_tooltip(
             cb,
-            _("Newer versions of files will be renamed with trailing {suffix} "
-              "before restoring. If you don't need them anymore you can "
-              "remove them with {cmd}").format(
-                  suffix=self.snapshots.backupSuffix(),
-                  cmd='find ./ -name "*{suffix}" -delete'.format(
-                      suffix=self.snapshots.backupSuffix()
-                  )
-            )
-        )
+            [
+                _("Newer versions of files will be renamed with trailing "
+                  "{suffix} before restoring. If you don't need them anymore "
+                  "you can remove them with the following command:").format(
+                      suffix=self.snapshots.backupSuffix()),
+                'find ./ -name "*{suffix}" -delete'.format(
+                    suffix=self.snapshots.backupSuffix())
+            ]
+        ),
+
         return {
             'widget': cb,
             'retFunc': cb.isChecked,
