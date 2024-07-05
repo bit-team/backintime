@@ -166,7 +166,7 @@ class EncFS_mount(MountControl):
 
         Dev note (buhtz, 2024-05): Looking at upstream it seems that the 1.7.2
         release was widthdrawn. The release before and after are from the year
-        2010. In consequence this code is definitly out dated and a candidate
+        2010. In consequence this code is definitely out dated and a candidate
         for removal.
         """
         logger.debug('Check version', self)

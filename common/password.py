@@ -259,7 +259,7 @@ class Password(object):
             profile_id(str): Profile identifier.
             mode(str): Mode identifier (e.g. SSH (encrypted)).
             pwd_id(int): See :data:`config.SNAPSHOT_MODES` for details.
-            propt(str): Alternative string used as prompt.
+            prompt(str): Alternative string used as prompt.
 
         Return:
             str: The password.
