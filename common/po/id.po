@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 11:03+0200\n"
-"PO-Revision-Date: 2024-06-06 10:18+0000\n"
+"POT-Creation-Date: 2024-07-05 15:37+0200\n"
+"PO-Revision-Date: 2024-07-05 13:36+0000\n"
 "Last-Translator: andika <andika@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -28,14 +28,12 @@ msgid "Main profile"
 msgstr "Profil utama"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "Terenkripsi secara lokal"
+msgstr "Lokal (terenkripsi EncFS)"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "Terenkripsi secara SSH"
+msgstr "SSH (terenkripsi EncFS)"
 
 #: common/config.py:309
 msgid "Local"
@@ -153,6 +151,10 @@ msgid ""
 "command \"systemctl enable cron\" or consulte the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Cron tidak berjalan walaupun perintah crontab tersedia. Tugas backup "
+"terjadwal tidak akan berjalan. Cron mungkin terpasang tapi tidak "
+"difungsikan. Cobalah perintah \"systemctl enable cron\" atau konsultasikan "
+"ke kanal dukungan dari distribusi GNU Linux Anda."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -225,7 +227,7 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Tidak dapat melepas kait {mountprocess} dari {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
 "{command} tidak ditemukan. Silakan pasang (misalnya melalui "
@@ -602,15 +604,15 @@ msgstr "Terjemahan"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Menampilkan pesan tentang partisipasi dalam penerjemahan lagi."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Transisi Enkripsi (EncFS)"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Menampilkan pesan tentang penghapusan EncFS lagi."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -746,7 +748,7 @@ msgstr ""
 "sebelum menimpa atau menghapus elemen lokal."
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
@@ -754,7 +756,7 @@ msgid ""
 msgstr ""
 "Versi lebih baru dari berkas akan diubah nama dengan tambahan {suffix} di "
 "belakang sebelum memulihkan. Jika Anda tidak memerlukannya lagi Anda dapat "
-"menghapusnya dengan {cmd}"
+"menghapusnya dengan perintah berikut:"
 
 #: qt/app.py:1432
 msgid ""
@@ -842,48 +844,61 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"Dukungan untuk EncFS akan dihentikan di masa mendatang. Tidak disarankan "
+"lagi untuk memakai mode itu bagi suatu profil."
 
 #: qt/encfsmsgbox.py:46
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
-"More details are available in this {url}."
+"More details are available in this {whitepaper}."
 msgstr ""
+"Suatu keputusan tentang pengganti bagi dukungan lanjutan dari backup "
+"terenkripsi masih tertunda, bergantung pada ketersediaan kontributor dan "
+"sumber daya proyek. Rincian lebih jauh tersedia di {url} ini."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "dokumen"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"Dukungan bagi profil snapshot terenkripsi sedang mengalami perubahan "
+"signifikan, dan EncFS akan dihapus di masa mendatang."
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Profil berikut memakai enkripsi dengan EncFS:"
 
 #: qt/encfsmsgbox.py:77
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
 "Users are invited to join this discussion. Updated details on the next steps"
-" and are available in this {url}."
+" are available in this {whitepaper}."
 msgstr ""
+"Suatu keputusan tentang penggantian bagi dukungan lanjutan dari backup "
+"terenkripsi masih tertunda, bergantung pada ketersediaan kontributor dan "
+"sumber daya proyek. Pengguna diundang untuk bergabung ke diskusi ini. "
+"Rincian yang diperbarui tentang langkah-langkah selanjutnya tersedia dalam "
+"{url} ini."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Pesan ini tidak akan ditampilkan lagi. Dialog ini tersedia kapan pun melalui"
+" menu bantuan."
 
 #: qt/encfsmsgbox.py:87
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Back In &Time"
+msgstr "Tim Back In Time Anda"
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
@@ -1126,13 +1141,12 @@ msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Pilih berkas kunci privat yang sudah ada (umumnya dinamai \"id_rsa\")"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
 "Buat kunci SSH baru tanpa kata sandi (tidak diizinkan jika kunci privat "
-"sudah dipilih)"
+"sudah dipilih)."
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1581,14 +1595,14 @@ msgid "Prefix to run before every command on remote host."
 msgstr "Prefiks yang dijalankan sebelum setiap perintah pada host jarak jauh."
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 "Variabel perlu di-escape dengan \\$FOO. Ini tidak menyentuh rsync. Jadi "
 "untuk menambah awalan bagi rsync gunakan \"{example_value}\" dengan "
-"{rsync_options_value}"
+"{rsync_options_value}."
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1628,13 +1642,17 @@ msgid "Edit user-callback"
 msgstr "Sunting user-callback"
 
 #: qt/settingsdialog.py:1263
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
 " on a replacement for continued support of encrypted backups is still "
 "pending, depending on project resources and contributor availability. More "
-"details are available in this {url}."
+"details are available in this {whitepaper}."
 msgstr ""
+"Dukungan bagi EncFS akan dihentikan di masa mendatang. Suatu keputusan "
+"tentang penggantian untuk dukungan lanjutan dari backup terenkripsi masih "
+"tertunda, bergantung kepada ketersediaan kontributor dan sumber daya proyek."
+" Rincian lebih banyak tersedia di {url} ini."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
@@ -1744,9 +1762,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Anda yakin ingin mengubah folder snapshot?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Gagal membuat kunci SSH baru dalam {path}"
+msgstr "Gagal membuat kunci SSH baru dalam {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1836,9 +1854,8 @@ msgid "Differing snapshots only"
 msgstr "Hanya snapshot yang berbeda"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Hanya cantumkan daftar snapshot yang sama dengan: "
+msgstr "Hanya cantumkan daftar snapshot yang sama dengan:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 11:03+0200\n"
-"PO-Revision-Date: 2024-07-02 13:39+0000\n"
+"POT-Creation-Date: 2024-07-05 15:37+0200\n"
+"PO-Revision-Date: 2024-07-05 13:36+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -28,14 +28,12 @@ msgid "Main profile"
 msgstr "Основний профіль"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "Локальний зашифрований"
+msgstr "Локальний (зашифрований EncFS)"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH зашифрований"
+msgstr "SSH (зашифрований EncFS)"
 
 #: common/config.py:309
 msgid "Local"
@@ -225,10 +223,11 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Не вдається розмонтувати {mountprocess} з {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"{command} не знайдено. Встановіть (напр., за допомогою «{installcommand}»"
+"{command} не знайдено. Встановіть її (напр., за допомогою "
+"«{installcommand}»)"
 
 #: common/mount.py:720
 #, python-brace-format
@@ -745,14 +744,14 @@ msgstr ""
 "або видаленням, додаючи до назви {suffix}."
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
 "Перед відновленням новіші версії файлів буде перейменовано з додаванням "
-"{suffix}. Якщо вони Вам не потрібні, можна видалити їх, використавши {cmd}"
+"{suffix}. Якщо вони Вам не потрібні, можна видалити їх за допомогою команди:"
 
 #: qt/app.py:1432
 msgid ""
@@ -852,12 +851,12 @@ msgstr ""
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
-"More details are available in this {url}."
+"More details are available in this {whitepaper}."
 msgstr ""
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "документі"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
@@ -867,7 +866,7 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Профілі, які використовують шифрування EncFS:"
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -875,7 +874,7 @@ msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
 "Users are invited to join this discussion. Updated details on the next steps"
-" and are available in this {url}."
+" are available in this {whitepaper}."
 msgstr ""
 
 #: qt/encfsmsgbox.py:85
@@ -885,9 +884,8 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:87
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Back In &Time"
+msgstr "Ваша команда Back In Time"
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
@@ -1130,13 +1128,12 @@ msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Оберіть файл приватного ключа (зазвичай має назву «id_rsa»)"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
 "Створити новий ключ SSH без пароля (недоступно, якщо Ви вже обрали файл "
-"приватного ключа)"
+"приватного ключа)."
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1585,13 +1582,13 @@ msgid "Prefix to run before every command on remote host."
 msgstr "Префікс для виконання перед кожною командою на віддаленому сервері."
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 "Екрануйте змінні за допомогою \\$FOO. Це не стосується rsync. Щоб додати "
-"префікс для rsync, використовуйте «{example_value}» з {rsync_options_value}"
+"префікс для rsync, використовуйте «{example_value}» з {rsync_options_value}."
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1635,7 +1632,7 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
 " on a replacement for continued support of encrypted backups is still "
 "pending, depending on project resources and contributor availability. More "
-"details are available in this {url}."
+"details are available in this {whitepaper}."
 msgstr ""
 
 #: qt/settingsdialog.py:1285
@@ -1744,9 +1741,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Ви впевнені, що хочете змінити теку для резервних копій?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Не вдалося створити новий ключ SSH у {path}"
+msgstr "Не вдалося створити новий ключ SSH у {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1835,9 +1832,8 @@ msgid "Differing snapshots only"
 msgstr "Тільки копії, що відрізняються"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Показати лише однакові копії: "
+msgstr "Показати лише копії, однакові з:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

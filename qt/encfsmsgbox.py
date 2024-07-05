@@ -46,8 +46,8 @@ class EncfsCreateWarning(_EncfsWarningBase):
             'A decision on a replacement for continued support of encrypted '
             'backups is still pending, depending on project resources and '
             'contributor availability. More details are available in this '
-            '{url}.'
-        ).format(url='<a href="{}">{}</a>'.format(
+            '{whitepaper}.'
+        ).format(whitepaper='<a href="{}">{}</a>'.format(
             URL_ENCRYPT_TRANSITION,
             _('whitepaper')))
 
@@ -77,9 +77,9 @@ class EncfsExistsWarning(_EncfsWarningBase):
             _('A decision on a replacement for continued support of encrypted '
               'backups is still pending, depending on project resources and '
               'contributor availability. Users are invited to join this '
-              'discussion. Updated details on the next steps and are '
-              'available in this {url}.').format(
-                  url='<a href="{}">{}</a>'.format(
+              'discussion. Updated details on the next steps are '
+              'available in this {whitepaper}.').format(
+                  whitepaper='<a href="{}">{}</a>'.format(
                       URL_ENCRYPT_TRANSITION,
                       _('whitepaper'))),
             _('This message will not be shown again. This dialog is '
