@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-06-05 10:16+0200\n"
-"PO-Revision-Date: 2024-05-30 09:09+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-02 14:16+0000\n"
+"Last-Translator: alexgabi <alexgabi@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/settingsdialog.py:233
@@ -33,16 +33,15 @@ msgstr "Lokala"
 
 #: common/config.py:301
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "SSH giltza pribatua"
 
 #: common/config.py:304
-#, fuzzy
 msgid "Local encrypted"
-msgstr "zifratua"
+msgstr "Lokalki zifratua"
 
 #: common/config.py:305 common/config.py:312
 msgid "Encryption"
@@ -125,7 +124,7 @@ msgid "Expert Options"
 msgstr "Aukera aurreratuak"
 
 #: common/config.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
@@ -134,14 +133,12 @@ msgstr ""
 "da. sshfs-ek ez du esteka gogorrik onartzen. Erabili 'SSH' haren ordez."
 
 #: common/config.py:1650
-#, fuzzy
 msgid ""
 "Can't find crontab. Are you sure cron is installed? If not you should "
 "disable all automatic backups."
 msgstr ""
-"Ezin da aurkitu crontab.\n"
-"Seguru zaude crontab instalatuta dagoela?\n"
-"Crontab ez baduzu babeskopia automatiko guztiak ezgaitu beharko zenuke."
+"Ezin da aurkitu crontab. Seguru zaude crontab instalatuta dagoela? Crontab "
+"ez baduzu babeskopia automatiko guztiak ezgaitu beharko zenuke."
 
 #: common/config.py:1659
 msgid "Failed to write new crontab."
@@ -201,7 +198,6 @@ msgid "Cancel"
 msgstr "Utzi"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
 msgstr "Egiaztatu pasahitza mesedez"
 
@@ -219,19 +215,21 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Ezin da {mountprocess} desmuntatu {mountpoint}-tik."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
-msgstr "{} ez da aurkitu. Mesedez instalatu adibidez {}"
+msgstr ""
+"{command} ez da aurkitu. Mesedez instalatu (adibidez \"{installcommand}\"ren"
+" bidez)"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "{} muntatze-puntua ez dago hutsik."
+msgstr "{mntpoint} muntatze-puntua ez dago hutsik."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Idatzi {mode} \"{profile}\" profilaren pasahitza:"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -344,9 +342,8 @@ msgid "Can't rename {new_path} to {path}"
 msgstr "Ezin jarri {new_path} izena honi {path}"
 
 #: common/snapshots.py:1827 common/snapshots.py:1879
-#, fuzzy
 msgid "Smart removal"
-msgstr "Ezabatze automatikoa"
+msgstr "Ezabatze adimenduna"
 
 #: common/snapshots.py:1854
 msgid "Removing old snapshots"
@@ -424,14 +421,14 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "{host} urrutiko ostalariak ez ditu esteka gogorrak onartzen"
 
 #: common/sshtools.py:1164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Kopiatu \"{pubkey}\" ssh-gako publikoa \"{host}\" urrutiko ostalarira"
+msgstr "Kopiatu \"{pubkey}\" ssh-gako publikoa \"{host}\" urrutiko ostalarira."
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Egiaztatu \"{user}\"-en pasahitza, mesedez"
+msgstr "Sartu \"{user}\"-entzako pasahitza bat."
 
 #: qt/aboutdlg.py:44 qt/app.py:550
 msgid "About"
@@ -487,16 +484,12 @@ msgstr ""
 "ordenagailu batetik)?"
 
 #: qt/app.py:376
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "Ezin da karpeta sortu"
+msgstr "Ezin da aurkitu irudien karpeta."
 
 #: qt/app.py:377
-#, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr ""
-"Ezin da aurkitu babeskopien karpeta.\n"
-"Unitate eramangarri batean badago konekta ezazu eta sakatu Ados."
+msgstr "Unitate eramangarri batean badago konekta ezazu eta sakatu Ados."
 
 #: qt/app.py:466
 msgid "Take a snapshot"
@@ -660,18 +653,16 @@ msgid "&Help"
 msgstr "L&aguntza"
 
 #: qt/app.py:795
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Leiho hau ixten baduzu Back In Time-k ezin izango du zure sistema itzali babeskopia bukatzean.\n"
-"Seguru zaude itxi nahi duzula?"
+"Leiho hau ixten baduzu Back In Time-k ezin izango du zure sistema itzali "
+"babeskopia bukatzean."
 
 #: qt/app.py:798
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Ziur zaude fitxategi hau berreskuratu nahi duzula?"
+msgstr "Ziur zaude itxi nahi duzula?"
 
 #: qt/app.py:962
 msgid "Working:"
@@ -761,17 +752,13 @@ msgid "Remove newer elements in original folder."
 msgstr "Ezabatu jatorrizko karpetako fitxategirik berrienak."
 
 #: qt/app.py:1444
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"Leheneratu hautatutako fitxategiak edo karpetak jatorrizko kokalekura eta\n"
-"ezabatu babeskopian ez dauden fitxategi edo karpetak.\n"
-"Argi ibili, honek babeskopia\n"
-"egitean baztertutako fitxategi\n"
+"Leheneratu hautatutako fitxategiak edo karpetak jatorrizko kokalekura eta ezabatu babeskopian ez dauden fitxategi edo karpetak. Argi ibili, honek babeskopia egitean baztertutako fitxategi\n"
 "eta karpetak ezabatuko ditu."
 
 #: qt/app.py:1455
@@ -808,13 +795,13 @@ msgstr ""
 "fitxategi guztiak?"
 
 #: qt/app.py:1488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"KONTUZ: fitxategi-sistemaren erroko fitxategiak ezabatzeak sistema osoa "
-"hondatu dezake!"
+"{BOLD}KONTUZ{BOLDEND}: fitxategi-sistemaren erroko fitxategiak ezabatzeak "
+"sistema osoa hondatu dezake!"
 
 #: qt/app.py:1724
 msgid "Snapshot"
@@ -913,7 +900,6 @@ msgid "Errors"
 msgstr "Akatsak"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Informazioa"
@@ -936,9 +922,9 @@ msgid "Question"
 msgstr "Galdera"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profila: \"{name}\""
+msgstr "Profila:  {profile_name}"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1020,6 +1006,9 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"Konektatu xede-ostalarira proxy honen bidez (jauzi-ostalari gisa ere "
+"ezaguna). Ikus \"-J\" \"ssh\" komandoaren dokumentazioan edo \"ProxyJump\" "
+"\"ssh_config\" man orrialdean xehetasunetarako."
 
 #: qt/settingsdialog.py:169
 msgid "Manage profiles"
@@ -1113,9 +1102,8 @@ msgid "Advanced"
 msgstr "Aurreratua"
 
 #: qt/settingsdialog.py:429 qt/settingsdialog.py:2246
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Babeskopiaren bide osoa: "
+msgstr "Babeskopiaren bide osoa:"
 
 #: qt/settingsdialog.py:436
 msgid "Schedule"
@@ -1137,11 +1125,11 @@ msgstr[0] "minutu {n}etik behin"
 msgstr[1] "{n} minututik behin"
 
 #: qt/settingsdialog.py:457
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Orduro"
-msgstr[1] "Orduro"
+msgstr[1] "{n} orduro"
 
 #: qt/settingsdialog.py:459 qt/settingsdialog.py:461 qt/settingsdialog.py:463
 #: qt/settingsdialog.py:465
@@ -1270,7 +1258,7 @@ msgid "&Exclude"
 msgstr "&Kanpoan utzi"
 
 #: qt/settingsdialog.py:634
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
@@ -1295,23 +1283,21 @@ msgid "Exclude files bigger than:"
 msgstr "Utzi kanpoan hau baino handiagoak diren fitxategiak:"
 
 #: qt/settingsdialog.py:707
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Utzi kanpoan hau baino handiagoak diren fitxategiak: "
+msgstr "Utzi kanpoan {size_unit} baino handiagoak diren fitxategiak:"
 
 #: qt/settingsdialog.py:709
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
-"Utzi kanpoan hau baino handiagoak diren fitxategiak %(prefix)s\n"
-"'rsync osoko modua' desgaituta badago horrek fitxategi berriei soilik eragingo die\n"
-"zeren eta rsync-entzat hori transferentzia aukera bat da, ez baztertze aukera bat.\n"
-"Beraz babeskopia lehendik egina zituzten fitxategi handiak mantenduko dira irudian\n"
-"nahiz eta aldaketak jasan."
+"'rsync osoko modua' desgaituta badago horrek fitxategi berriei soilik "
+"eragingo die zeren eta rsync-entzat hori transferentzia aukera bat da, ez "
+"baztertze aukera bat. Beraz babeskopia lehendik egina zituzten fitxategi "
+"handiak mantenduko dira irudian nahiz eta aldaketak jasan."
 
 #: qt/settingsdialog.py:729
 msgid "&Auto-remove"
@@ -1334,7 +1320,6 @@ msgid "If free inodes is less than:"
 msgstr "Baldin eta nodo libreak hauek baino gutxiago badira:"
 
 #: qt/settingsdialog.py:791
-#, fuzzy
 msgid "Smart removal:"
 msgstr "Ezabatze adimendua:"
 
@@ -1403,15 +1388,14 @@ msgid "Run only one snapshot at a time"
 msgstr "Egin babeskopia bat aldiko"
 
 #: qt/settingsdialog.py:877
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"Beste babeskopiak blokeatuko dira oraingo babeskopia egiten den bitartean.\n"
-"Hau aukera globala da, beraz, erabiltzaile honen profil guztiei eragiten die.\n"
-"Baina beste erabiltzaileentzat aktibatu behar da ere."
+"Beste babeskopiak blokeatuko dira oraingo babeskopia egiten den bitartean. "
+"Hau aukera globala da, beraz, erabiltzaile honen profil guztiei eragiten "
+"die. Baina beste erabiltzaileentzat aktibatu behar da ere."
 
 #: qt/settingsdialog.py:885
 msgid "Backup replaced files on restore"
@@ -1496,9 +1480,8 @@ msgstr ""
 "erantsita MTA instalatuta badago."
 
 #: qt/settingsdialog.py:1033
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Mugatu rsync-en banda-zabaleraren erabilera"
+msgstr "Mugatu rsync-en banda-zabaleraren erabilera:"
 
 #: qt/settingsdialog.py:1036
 msgid "KB/sec"
@@ -1539,18 +1522,14 @@ msgstr ""
 "Urruneko ostalariaren komando bakoitzaren aurretik exekutatzeko aurrizkia."
 
 #: qt/settingsdialog.py:1197
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}"
 msgstr ""
-"Ezarri exekutatzeko urrutiko ostalariko edozein komandoaren aurretik.\n"
-"Aldagaiak \\$FOO bidez alde egin behar dute.\n"
-"Honek ez dio eragiten rsync-i. Beraz gehitu aurrizki bat\n"
-"rsync erabili dezan \"%(cbRsyncOptions)s\"\n"
-"%(rsync_options_value)s-rekin\n"
-"\n"
-"%(default)s: %(def_value)s"
+"Aldagaiak \\$FOO bidez alde egin behar dute. Honek ez dio eragiten rsync-i. "
+"Beraz rsync erabili dezan aurrizki bat gehitzeko erabili \"{example_value}\""
+" {rsync_options_value}-rekin"
 
 #: qt/settingsdialog.py:1205
 msgid "default"
@@ -1561,30 +1540,25 @@ msgid "Check if remote host is online"
 msgstr "Markatu urrutiko ostalaria linean badago"
 
 #: qt/settingsdialog.py:1223
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Kontuz: desgaitzen baduzu eta urrutiko ostalaria\n"
-"ezin bada erabili, ustekabeko erroreak sor\n"
-"daitezke."
+"Kontuz: desgaitzen baduzu eta urrutiko ostalaria ezin bada erabili, "
+"ustekabeko erroreak sor daitezke."
 
 #: qt/settingsdialog.py:1227
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
-"Markatu urrutiko ostalariak behar diren komando guztiak onartzen baditu"
+"Probatu urrutiko ostalariak behar diren komando guztiak onartzen dituen."
 
 #: qt/settingsdialog.py:1230
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Kontuz: desgaitzen baduzu eta urrutiko ostalariak\n"
-"behar diren komando guztiak onartzen ez baditu,\n"
-"ustekabeko erroreak sor daitezke ."
+"Kontuz: desgaitzen baduzu eta urrutiko ostalariak behar diren komando "
+"guztiak onartzen ez baditu, ustekabeko erroreak sor daitezke ."
 
 #: qt/settingsdialog.py:1246
 msgid "Restore Config"
@@ -1608,15 +1582,16 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Seguru zaude \"{name}\" profila ezabatu nahi duzula?"
 
 #: qt/settingsdialog.py:1403
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr "(Gomendio guztiak dagoeneko sartuta.)"
+msgstr ""
+"{BOLD}Oso gomendagarria{ENDBOLD}: (Gomendio guztiak dagoeneko sartuta.)"
 
 #: qt/settingsdialog.py:1408
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Oso gomendagarria"
+msgstr "{BOLD}Oso gomendagarria{ENDBOLD}: {files}"
 
 #: qt/settingsdialog.py:1606
 msgid ""
@@ -1628,15 +1603,12 @@ msgstr ""
 
 #: qt/settingsdialog.py:1653
 msgid "You did not choose a private key file for SSH."
-msgstr ""
+msgstr "Ez duzu gako pribatuko fitxategirik aukeratu SSHrako."
 
 #: qt/settingsdialog.py:1654
-#, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
-msgstr ""
-"Ez duzu aukeratu SSHrako gako fitxategi pribatua.\n"
-"Nahi al duzu pasahitzik gabeko gako publiko/pribatu parea sortzea?"
+msgstr "Nahi al duzu pasahitzik gabeko gako publiko/pribatu parea sortzea?"
 
 #: qt/settingsdialog.py:1664
 #, python-brace-format
@@ -1644,29 +1616,24 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "\"{file}\" gako pribatuko fitxategirik ez dago."
 
 #: qt/settingsdialog.py:1819
-#, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
-"Nahi al duzu kopiatzea zure SSH gako publikoa\n"
-"urrutiko ostalarira pasahitzik gabe sartu ahal izateko?"
+"Nahi al duzu kopiatzea zure SSH gako publikoa urrutiko ostalarira pasahitzik"
+" gabe sartu ahal izateko?"
 
 #: qt/settingsdialog.py:1850
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"Ezin da egiaztatu \"{host}\" ostalariaren benetakotasuna.\n"
-"\n"
-"{keytype} hatz-marka gakoa da:"
+msgstr "Ezin da egiaztatu \"{host}\" ostalariaren benetakotasuna."
 
 #: qt/settingsdialog.py:1853
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr ""
+msgstr "{keytype} gakoaren hatz-marka hau da:"
 
 #: qt/settingsdialog.py:1861
-#, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1720,9 +1687,8 @@ msgstr ""
 "moduan."
 
 #: qt/settingsdialog.py:2335
-#, fuzzy
 msgid "(default: {})"
-msgstr "lehenetsia"
+msgstr "(default: {})"
 
 #: qt/settingsdialog.py:2336
 msgid "disabled"
@@ -1766,9 +1732,8 @@ msgid "Options about comparing snapshots"
 msgstr "Irudiak alderatzeko aukerak"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command:"
-msgstr "Agindua"
+msgstr "Agindua:"
 
 #: qt/snapshotsdialog.py:62
 msgid "Parameters:"
@@ -1783,13 +1748,13 @@ msgid "Please set a diff command or press Cancel."
 msgstr "Ezarri diff komando bat edo sakatu Utzi."
 
 #: qt/snapshotsdialog.py:90
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"\"{cmd}\" komandoa ezin da aurkitu sistema honetan.Saiatu beste zerbait edo "
-"sakatu Utzi."
+"\"{cmd}\" komandoa ezin da aurkitu sistema honetan. Saiatu beste zerbait edo"
+" sakatu Utzi."
 
 #: qt/snapshotsdialog.py:98
 #, python-brace-format
@@ -1848,9 +1813,8 @@ msgstr ""
 "Ziur zaude {count} babeskopiako \"{file}\" fitxategia ezabatu nahi duzula?"
 
 #: qt/snapshotsdialog.py:408
-#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "Honek ez dauka atzera bueltarik!"
+msgstr "KONTUZ: Honek ez dauka atzera bueltarik!"
 
 #: qt/snapshotsdialog.py:426
 #, python-brace-format

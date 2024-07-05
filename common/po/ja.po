@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-06-05 10:16+0200\n"
-"PO-Revision-Date: 2024-05-28 11:27+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-02 09:27+0000\n"
+"Last-Translator: kazuo <kazuo@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/settingsdialog.py:233
@@ -32,17 +32,17 @@ msgid "Local"
 msgstr "ローカル"
 
 #: common/config.py:301
+#, fuzzy
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "SSH 秘密鍵"
 
 #: common/config.py:304
-#, fuzzy
 msgid "Local encrypted"
-msgstr "暗号化"
+msgstr "ローカル暗号化"
 
 #: common/config.py:305 common/config.py:312
 msgid "Encryption"
@@ -134,14 +134,10 @@ msgstr ""
 "'SSH' を使用してください。"
 
 #: common/config.py:1650
-#, fuzzy
 msgid ""
 "Can't find crontab. Are you sure cron is installed? If not you should "
 "disable all automatic backups."
-msgstr ""
-"crontab が見つかりません。\n"
-"cronがインストールされていますか？\n"
-"もしそうでなければ、自動バックアップをすべて無効にしてください。"
+msgstr "crontab が見つかりません。cronがインストールされていますか？もしそうでなければ、自動バックアップをすべて無効にしてください。"
 
 #: common/config.py:1659
 msgid "Failed to write new crontab."
@@ -201,9 +197,8 @@ msgid "Cancel"
 msgstr "取消"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "パスワード確認"
+msgstr "パスワードを確認してください。"
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -219,19 +214,19 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "{mountprocess} を {mountpoint} からアンマウントできない。"
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
-msgstr "{} が見つかりません。インストールしてください。例 {}"
+msgstr "{command} が見つかりません。インストールしてください。例\"{installcommand}\""
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "マウントポイント {} が空ではありません。"
+msgstr "マウントポイント {mntpoint} が空ではありません。"
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "{mode} プロファイル\"{profile}\"のパスワードを入力してください："
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -421,9 +416,9 @@ msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "公開鍵 \"{pubkey}\" をリモートホスト \"{host}\" にコピーしてください"
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "ユーザ \"{user}\" のパスワードを入力してください"
+msgstr "ユーザ \"{user}\" のパスワードを入力してください。"
 
 #: qt/aboutdlg.py:44 qt/app.py:550
 msgid "About"
@@ -475,9 +470,8 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:376
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "フォルダを作成できません"
+msgstr "スナップショットフォルダが見つかりません。"
 
 #: qt/app.py:377
 #, fuzzy
@@ -781,11 +775,11 @@ msgid ""
 msgstr "元のフォルダにあるより新しいファイルを削除してもよろしいですか?"
 
 #: qt/app.py:1488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
-msgstr "警告：ファイルシステムルートのファイルを削除すると、システム全体が壊れる可能性があります！"
+msgstr "{BOLD}警告{BOLDEND}：ファイルシステムルートのファイルを削除すると、システム全体が壊れる可能性があります！"
 
 #: qt/app.py:1724
 msgid "Snapshot"
@@ -1073,9 +1067,8 @@ msgid "Advanced"
 msgstr "上級設定"
 
 #: qt/settingsdialog.py:429 qt/settingsdialog.py:2246
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "すでに絶対パス： "
+msgstr "スナップショットのフルパス："
 
 #: qt/settingsdialog.py:436
 msgid "Schedule"
@@ -1242,9 +1235,9 @@ msgid "Exclude files bigger than:"
 msgstr "これより大きいファイルは除外する:"
 
 #: qt/settingsdialog.py:707
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "これより大きいファイルは除外する: "
+msgstr "{size_unit}の値よりも大きいファイルは除外する。"
 
 #: qt/settingsdialog.py:709
 #, fuzzy
@@ -1509,9 +1502,8 @@ msgstr ""
 "奇妙なエラーが発生する可能性があります。"
 
 #: qt/settingsdialog.py:1227
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "リモートホストが必要なコマンドをすべてサポートしているか確認する"
+msgstr "リモートホストが必要なコマンドをすべてサポートしているか確認する。"
 
 #: qt/settingsdialog.py:1230
 #, fuzzy
@@ -1588,12 +1580,9 @@ msgstr ""
 "パスワード不要のログインを可能にしたいですか？"
 
 #: qt/settingsdialog.py:1850
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"ホスト {host} の真正性を確立できない。\n"
-"\n"
-"{keytype} キー フィンガープリント："
+msgstr "ホスト {host} の信頼性を確立できません。"
 
 #: qt/settingsdialog.py:1853
 #, python-brace-format

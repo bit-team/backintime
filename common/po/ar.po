@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-06-05 10:16+0200\n"
-"PO-Revision-Date: 2024-03-26 02:18+0000\n"
+"PO-Revision-Date: 2024-07-02 13:39+0000\n"
 "Last-Translator: Maytham Alsudany <maytha8thedev@gmail.com>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
 "Language: ar\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.4.2\n"
+"X-Generator: Weblate 5.6.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/settingsdialog.py:233
@@ -33,16 +33,15 @@ msgstr "محلي"
 
 #: common/config.py:301
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "مفتاح SSH خاص"
 
 #: common/config.py:304
-#, fuzzy
 msgid "Local encrypted"
-msgstr "مشفرة"
+msgstr "مشفرة محليا"
 
 #: common/config.py:305 common/config.py:312
 msgid "Encryption"
@@ -125,7 +124,7 @@ msgid "Expert Options"
 msgstr "خيارات الخبراء"
 
 #: common/config.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
@@ -134,14 +133,12 @@ msgstr ""
 "الروابط الصلبة. الرجاء استخدام طريقة 'SSH' بدلاً منه."
 
 #: common/config.py:1650
-#, fuzzy
 msgid ""
 "Can't find crontab. Are you sure cron is installed? If not you should "
 "disable all automatic backups."
 msgstr ""
-"لا يستطيع إيجاد crontab.\n"
-"هل أنت مُتأكد بأن cron مثبت فعلاً ؟\n"
-"أن لم يكن كذلك فعليك تعطيل جميع النسخ الإحتياطية الأوتوماتيكي."
+"لا يستطيع إيجاد crontab. هل أنت مُتأكد بأن cron مثبت فعلاً ؟ أن لم يكن كذلك "
+"فعليك تعطيل جميع النسخ الإحتياطية الأوتوماتيكي."
 
 #: common/config.py:1659
 msgid "Failed to write new crontab."
@@ -201,9 +198,8 @@ msgid "Cancel"
 msgstr "إلغاء"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "يرجى تأكيد كلمة السر"
+msgstr "يرجى تأكيد كلمة السر."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -219,19 +215,19 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "لا يستطيع تفكيك {mountprocess} من {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
-msgstr "لا يوجد {}. الرجاء تثبيت مثلا {}"
+msgstr "لا يوجد {command}. الرجاء تثبيته (مثلا مع \"{installcommand}\")"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "نقطة التركيب {} ليست فارغة."
+msgstr "نقطة التركيب {mntpoint} ليست فارغة."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "ادخل كلمة المرور لملف التعريف لوضع {mode} يسمى \"{profile}\":"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -345,7 +341,6 @@ msgid "Can't rename {new_path} to {path}"
 msgstr "لا يمكن إعادة تسمية {new_path} إلى {path}"
 
 #: common/snapshots.py:1827 common/snapshots.py:1879
-#, fuzzy
 msgid "Smart removal"
 msgstr "إزالة ذكية"
 
@@ -358,9 +353,9 @@ msgid "Trying to keep min free space"
 msgstr "حاول أبقاء حد أدنى من المساحة فارغة"
 
 #: common/snapshots.py:1928
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "حاول أبقاء حد أدنى من المساحة فارغة"
+msgstr "حاول أبقاء لا ما يقل عن {perc} من المساحة فارغة"
 
 #: common/snapshots.py:2988 qt/app.py:1717
 msgid "Now"
@@ -423,9 +418,9 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "المضيف المتباعد {host} لا يدعم الروابط الصلبة"
 
 #: common/sshtools.py:1164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "انسخ مفتاح ssh العام \"{pubkey}\" لالمضيف المتباعد \"{host}\""
+msgstr "انسخ مفتاح ssh العام \"{pubkey}\" لالمضيف المتباعد \"{host}\"."
 
 #: common/sshtools.py:1166
 #, fuzzy, python-brace-format

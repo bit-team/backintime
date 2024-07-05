@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-06-05 10:16+0200\n"
-"PO-Revision-Date: 2024-05-28 11:27+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-04 08:22+0000\n"
+"Last-Translator: Parodper <Parodper@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/settingsdialog.py:233
@@ -33,16 +33,15 @@ msgstr "Local"
 
 #: common/config.py:301
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "Chave privada SSH"
 
 #: common/config.py:304
-#, fuzzy
 msgid "Local encrypted"
-msgstr "cifrado"
+msgstr "Cifrado local"
 
 #: common/config.py:305 common/config.py:312
 msgid "Encryption"
@@ -72,11 +71,11 @@ msgstr "Debe escoller polo menos un cartafol para copiar!"
 
 #: common/config.py:378
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Non se pode incluír o cartafol de copias de apoio."
 
 #: common/config.py:390
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Non se pode incluír o subcartafol de copia de apoio."
 
 #: common/config.py:437
 #, python-brace-format
@@ -134,14 +133,12 @@ msgstr ""
 "sshfs. sshfs non acepta ligazóns fortes. Use o modo «SSH»."
 
 #: common/config.py:1650
-#, fuzzy
 msgid ""
 "Can't find crontab. Are you sure cron is installed? If not you should "
 "disable all automatic backups."
 msgstr ""
-"Non se atopa «crontab».\n"
-"Ten certeza de que «cron» está instalado?\n"
-"Se non o está debería desactivar todas as copias automáticas."
+"Non se atopou o «crontab». Ten certeza de que «cron» está instalado? Se non "
+"o está debería desactivar todas as copias automáticas."
 
 #: common/config.py:1659
 msgid "Failed to write new crontab."
@@ -201,9 +198,8 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Confirme o contrasinal"
+msgstr "Confirme o contrasinal."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -219,19 +215,19 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Non é posíbel desmontar {mountprocess} de {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
-msgstr "Non foi posíbel atopar %(proc)s. Instalar p.e. %(install_command)s"
+msgstr "Non se atopou {command}. Instáleo, por exemplo con {installcommand}"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "o punto de montaxe %s non está libre."
+msgstr "O punto de montaxe {mntpoint} non está libre."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Introduza o contrasinal do perfil de {mode} ({profile}):"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -306,24 +302,26 @@ msgstr "Facer copia"
 
 #: common/snapshots.py:1416
 msgid "Success"
-msgstr ""
+msgstr "Éxito"
 
 #: common/snapshots.py:1419
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Transferencia incompleta por mor dun fallo"
 
 #: common/snapshots.py:1420
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
+"Transferencia incompleta por desapareceren os ficheiros orixinais (véxase "
+"«man rsync»)"
 
 #: common/snapshots.py:1424
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "«rsync» rematou co código {exit_code}"
 
 #: common/snapshots.py:1437
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Véxase «man rsync» para máis información"
 
 #: common/snapshots.py:1444
 msgid ""

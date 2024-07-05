@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-06-05 10:16+0200\n"
-"PO-Revision-Date: 2024-05-23 10:18+0000\n"
+"PO-Revision-Date: 2024-07-02 13:39+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/settingsdialog.py:233
@@ -33,16 +33,15 @@ msgstr "Локальний"
 
 #: common/config.py:301
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "Приватний ключ SSH"
 
 #: common/config.py:304
-#, fuzzy
 msgid "Local encrypted"
-msgstr "зашифрований"
+msgstr "Локальний зашифрований"
 
 #: common/config.py:305 common/config.py:312
 msgid "Encryption"
@@ -125,23 +124,21 @@ msgid "Expert Options"
 msgstr "Розширені налаштування"
 
 #: common/config.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Вказане розташування {path} — спільний sshfs-ресурс. sshfs не підтримує "
+"Вказане розташування {path} — спільний sshfs-ресурс. Sshfs не підтримує "
 "жорсткі посилання. Будь ласка, використовуйте режим «SSH»."
 
 #: common/config.py:1650
-#, fuzzy
 msgid ""
 "Can't find crontab. Are you sure cron is installed? If not you should "
 "disable all automatic backups."
 msgstr ""
-"Не вдається знайти crontab.\n"
-"Ви впевнені, що cron встановлено?\n"
-"Якщо ні, Вам варто вимкнути все автоматичне резервування."
+"Не вдається знайти crontab. Ви впевнені, що cron встановлено? Якщо ні, Вам "
+"варто вимкнути все автоматичне резервування."
 
 #: common/config.py:1659
 msgid "Failed to write new crontab."
@@ -201,9 +198,8 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Підтвердіть пароль"
+msgstr "Підтвердіть пароль."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -219,19 +215,20 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Не вдається розмонтувати {mountprocess} з {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
-msgstr "{} не знайдено. Встановіть, наприклад, {}"
+msgstr ""
+"{command} не знайдено. Встановіть (напр., за допомогою «{installcommand}»"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Точка монтування {} не порожня."
+msgstr "Точка монтування {mntpoint} не порожня."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Введіть пароль для профілю {mode} «{profile}»:"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -343,7 +340,6 @@ msgid "Can't rename {new_path} to {path}"
 msgstr "Не вдається перейменувати {new_path} в {path}"
 
 #: common/snapshots.py:1827 common/snapshots.py:1879
-#, fuzzy
 msgid "Smart removal"
 msgstr "Розумне видалення"
 
@@ -422,14 +418,14 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Сервер {host} не підтримує жорсткі посилання"
 
 #: common/sshtools.py:1164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Копіювати публічний ключ SSH «{pubkey}» на сервер «{host}»"
+msgstr "Копіювати публічний ключ SSH «{pubkey}» на сервер «{host}»."
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Будь ласка, введіть пароль для «{user}»"
+msgstr "Будь ласка, введіть пароль для «{user}»."
 
 #: qt/aboutdlg.py:44 qt/app.py:550
 msgid "About"
@@ -485,15 +481,12 @@ msgstr ""
 "комп'ютера)?"
 
 #: qt/app.py:376
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "Не вдається створити теку"
+msgstr "Не вдається знайти теку резервних копій."
 
 #: qt/app.py:377
-#, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Не вдається знайти теку резервних копій.\n"
 "Якщо вона знаходиться на знімному диску, підключіть його і натисніть OK."
 
 #: qt/app.py:466
@@ -654,18 +647,16 @@ msgid "&Help"
 msgstr "&Допомога"
 
 #: qt/app.py:795
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Якщо закрити це вікно, Back In Time не зможе вимкнути Вашу систему після закінчення резервування.\n"
-"Ви справді хочете закрити вікно?"
+"Якщо закрити це вікно, Back In Time не зможе вимкнути Вашу систему після "
+"закінчення резервування."
 
 #: qt/app.py:798
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Ви справді хочете відновити цей елемент?"
+msgstr "Справді закрити?"
 
 #: qt/app.py:962
 msgid "Working:"
@@ -801,11 +792,12 @@ msgid ""
 msgstr "Бажаєте видалити всі новіші файли в початковому розташуванні?"
 
 #: qt/app.py:1488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
-msgstr "УВАГА: видалення файлів у root може зламати всю Вашу систему!"
+msgstr ""
+"{BOLD}УВАГА{BOLDEND}: видалення файлів у root може зламати всю Вашу систему."
 
 #: qt/app.py:1724
 msgid "Snapshot"
@@ -891,7 +883,7 @@ msgstr "Фільтр:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:930
 msgid "All"
-msgstr "Все"
+msgstr "Усе"
 
 #: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:929
 msgid "Changes"
@@ -903,7 +895,6 @@ msgid "Errors"
 msgstr "Помилки"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Інформація"
@@ -927,9 +918,9 @@ msgid "Question"
 msgstr "Питання"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Профіль: «{name}»"
+msgstr "Профіль: {profile_name}"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1011,6 +1002,9 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"Підключайтеся до цільового сервера через цей проксі (також відомий як "
+"проміжний сервер або jump host). Докладніше див. розділ «-J» у документації "
+"до команди «ssh» або розділ «ProxyJump» у посібнику «ssh_config»."
 
 #: qt/settingsdialog.py:169
 msgid "Manage profiles"
@@ -1100,9 +1094,8 @@ msgid "Advanced"
 msgstr "Додатково"
 
 #: qt/settingsdialog.py:429 qt/settingsdialog.py:2246
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Повний шлях до копії: "
+msgstr "Повний шлях до копії:"
 
 #: qt/settingsdialog.py:436
 msgid "Schedule"
@@ -1125,12 +1118,12 @@ msgstr[1] "Кожні {n} хвилини"
 msgstr[2] "Кожні {n} хвилин"
 
 #: qt/settingsdialog.py:457
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Щогодини"
-msgstr[1] "Щогодини"
-msgstr[2] "Щогодини"
+msgstr[0] "Кожну годину"
+msgstr[1] "Кожні {n} години"
+msgstr[2] "Кожні {n} годин"
 
 #: qt/settingsdialog.py:459 qt/settingsdialog.py:461 qt/settingsdialog.py:463
 #: qt/settingsdialog.py:465
@@ -1259,17 +1252,17 @@ msgid "&Exclude"
 msgstr "Вик&лючити"
 
 #: qt/settingsdialog.py:634
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
-"У режимі «SSH зашифрований» можна використовувати лише одну або дві зірочки "
-"(напр., {example2}). Інші символи підстановки і шаблони ігноруються (напр., "
-"{example1}). Імена файлів у цьому режимі непередбачувані через шифрування "
-"EncFS."
+"{BOLD}Підказка{ENDBOLD}: в режимі «SSH зашифрований» можна використовувати "
+"лише одну або дві зірочки (напр., {example2}). Інші символи підстановки і "
+"шаблони ігноруються (напр., {example1}). Імена файлів у цьому режимі "
+"непередбачувані через шифрування EncFS."
 
 #: qt/settingsdialog.py:657
 msgid "Exclude patterns, files or folders"
@@ -1320,7 +1313,6 @@ msgid "If free inodes is less than:"
 msgstr "Якщо вільних айнодів менше ніж:"
 
 #: qt/settingsdialog.py:791
-#, fuzzy
 msgid "Smart removal:"
 msgstr "Розумне видалення:"
 
@@ -1482,9 +1474,8 @@ msgstr ""
 "прикріпленими помилками cronjobs."
 
 #: qt/settingsdialog.py:1033
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Обмежити пропускну здатність"
+msgstr "Обмежити пропускну здатність:"
 
 #: qt/settingsdialog.py:1036
 msgid "KB/sec"
@@ -1541,7 +1532,6 @@ msgid "Check if remote host is online"
 msgstr "Перевіряти, чи сервер онлайн"
 
 #: qt/settingsdialog.py:1223
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1550,12 +1540,10 @@ msgstr ""
 "непередбачуваних помилок."
 
 #: qt/settingsdialog.py:1227
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "Перевіряти, чи підтримує сервер усі необхідні команди"
+msgstr "Перевіряти, чи підтримує сервер усі необхідні команди."
 
 #: qt/settingsdialog.py:1230
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1585,15 +1573,16 @@ msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Ви впевнені, що хочете видалити профіль «{name}»?"
 
 #: qt/settingsdialog.py:1403
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr "(Усі рекомендації вже включено.)"
+msgstr ""
+"{BOLD}Настійно рекомендується{ENDBOLD}: (Усі рекомендації вже включено.)"
 
 #: qt/settingsdialog.py:1408
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Настійно рекомендується"
+msgstr "{BOLD}Настійно рекомендується{ENDBOLD}: {files}"
 
 #: qt/settingsdialog.py:1606
 msgid ""
@@ -1605,15 +1594,12 @@ msgstr ""
 
 #: qt/settingsdialog.py:1653
 msgid "You did not choose a private key file for SSH."
-msgstr ""
+msgstr "Ви не вибрали файл приватного ключа для SSH."
 
 #: qt/settingsdialog.py:1654
-#, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
-msgstr ""
-"Ви не обрали приватний ключ SSH.\n"
-"Бажаєте згенерувати нову пару публічний/приватний ключ без пароля?"
+msgstr "Бажаєте згенерувати нову пару публічний/приватний ключ без пароля?"
 
 #: qt/settingsdialog.py:1664
 #, python-brace-format
@@ -1621,34 +1607,29 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Приватний ключ «{file}» не існує."
 
 #: qt/settingsdialog.py:1819
-#, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
-"Бажаєте скопіювати свій публічний ключ SSH\n"
-"на сервер, щоб увімкнути безпарольний доступ?"
+"Бажаєте скопіювати свій публічний ключ SSH на сервер, щоб увімкнути "
+"безпарольний доступ?"
 
 #: qt/settingsdialog.py:1850
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"Автентичність сервера {host} не вдалося встановити.\n"
-"\n"
-"Відбиток ключа {keytype}:"
+msgstr "Автентичність сервера {host} не вдалося встановити."
 
 #: qt/settingsdialog.py:1853
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr ""
+msgstr "Відбиток ключа {keytype}:"
 
 #: qt/settingsdialog.py:1861
-#, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
-"Перевірте цей відбиток! Бажаєте додати його до свого файлу «known_hosts»?"
+"Перевірте цей відбиток. Бажаєте додати його до свого файлу «known_hosts»?"
 
 #: qt/settingsdialog.py:2033
 msgid "Exclude pattern"
@@ -1694,9 +1675,8 @@ msgid ""
 msgstr "Вимкнено, оскільки цей шаблон не працює у режимі «SSH зашифрований»."
 
 #: qt/settingsdialog.py:2335
-#, fuzzy
 msgid "(default: {})"
-msgstr "за замовчуванням"
+msgstr "(за замовчуванням: {})"
 
 #: qt/settingsdialog.py:2336
 msgid "disabled"
@@ -1740,9 +1720,8 @@ msgid "Options about comparing snapshots"
 msgstr "Параметри порівняння резервних копій"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command:"
-msgstr "Команда"
+msgstr "Команда:"
 
 #: qt/snapshotsdialog.py:62
 msgid "Parameters:"
@@ -1757,7 +1736,7 @@ msgid "Please set a diff command or press Cancel."
 msgstr "Задайте команду diff або натисніть «Скасувати»."
 
 #: qt/snapshotsdialog.py:90
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
@@ -1819,9 +1798,8 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Ви справді хочете видалити {file} з {count} резервних копій?"
 
 #: qt/snapshotsdialog.py:408
-#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "Це не можна буде скасувати!"
+msgstr "УВАГА: це не можна буде скасувати."
 
 #: qt/snapshotsdialog.py:426
 #, python-brace-format

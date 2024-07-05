@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-06-05 10:16+0200\n"
-"PO-Revision-Date: 2024-01-23 09:10+0000\n"
-"Last-Translator: Brazi <alexander@linux.com>, Hans Fredrik Nordhaug <hansfn@gmail.com>\n"
+"PO-Revision-Date: 2024-07-02 09:27+0000\n"
+"Last-Translator: pere <pere@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.6.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/settingsdialog.py:233
@@ -33,16 +33,15 @@ msgstr "Lokal"
 
 #: common/config.py:301
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:301 common/config.py:311 qt/settingsdialog.py:2157
 msgid "SSH private key"
 msgstr "privat SSH-nøkkel"
 
 #: common/config.py:304
-#, fuzzy
 msgid "Local encrypted"
-msgstr "kryptert"
+msgstr "kryptert lokalt"
 
 #: common/config.py:305 common/config.py:312
 msgid "Encryption"
@@ -125,23 +124,21 @@ msgid "Expert Options"
 msgstr "Avanserte innstillinger"
 
 #: common/config.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Målfilsystemet for {path} er delt nettverksområde montert med sshfs, men "
-"sshfs støtter ikke harde lenker. Vennligst bruk modus 'SSH' istedenfor."
+"Målfilsystemet for {path} er delt sshfs-montert område, men sshfs støtter "
+"ikke harde lenker. Vennligst bruk «SSH»-modus i stedet."
 
 #: common/config.py:1650
-#, fuzzy
 msgid ""
 "Can't find crontab. Are you sure cron is installed? If not you should "
 "disable all automatic backups."
 msgstr ""
-"Kan ikke finne crontab.\n"
-"Er du sikker på at cron er installert?\n"
-"Hvis ikke bør du skru av alle automatiske sikkerhetskopier."
+"Klarte ikke finne crontab. Er du sikker på at cron er installert? Hvis ikke "
+"bør du skru av alle automatiske sikkerhetskopier."
 
 #: common/config.py:1659
 msgid "Failed to write new crontab."
@@ -201,9 +198,8 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Vennligst bekreft passord"
+msgstr "Vennligst bekreft passordet."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -219,19 +215,21 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Kan ikke avmontere {mountprocess} fra {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\""
-msgstr "Finner ikke {}. Vennligst installer for eksempel {}"
+msgstr ""
+"Finner ikke {command}. Vennligst installer den, for eksempel via "
+"«{installcommand}»"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Monteringspunket {} er ikke tomt."
+msgstr "Monteringspunket {mntpoint} er ikke tomt."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Skriv inn passord for {mode} profil «{profile}»:"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -310,7 +308,7 @@ msgstr "Suksess"
 
 #: common/snapshots.py:1419
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Delvis overføring på grunn av feil"
 
 #: common/snapshots.py:1420
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -340,7 +338,6 @@ msgid "Can't rename {new_path} to {path}"
 msgstr "Kan ikke endre navn fra {new_path} til {path}"
 
 #: common/snapshots.py:1827 common/snapshots.py:1879
-#, fuzzy
 msgid "Smart removal"
 msgstr "Smart sletting"
 
@@ -419,14 +416,14 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Fjern-verten {host} støtter ikke harde lenker"
 
 #: common/sshtools.py:1164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Kopier offentlig ssh nøkkel \"{pubkey}\" til den andre verten \"{host}\""
+msgstr "Kopier offentlig ssh nøkkel \"{pubkey}\" til den andre verten «{host}»."
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Vennligst skriv inn passord for \"{user}\""
+msgstr "Vennligst skriv inn passord for «{user}»."
 
 #: qt/aboutdlg.py:44 qt/app.py:550
 msgid "About"
@@ -469,7 +466,7 @@ msgstr "Legg til for å ekskludere"
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
-msgstr ""
+msgstr "{app_name} virker å kjøre for første gang, da intet oppsett finnes."
 
 #: qt/app.py:349
 msgid ""
@@ -1830,9 +1827,8 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Ønsker du virkelig å slette {file} i {count} øyeblikksbilder?"
 
 #: qt/snapshotsdialog.py:408
-#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "Dette kan ikke gjøres om!"
+msgstr "ADVARSEL: Dette kan ikke gjøres om."
 
 #: qt/snapshotsdialog.py:426
 #, python-brace-format
