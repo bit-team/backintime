@@ -46,6 +46,7 @@ import snapshots
 import guiapplicationinstance
 import mount
 import progress
+import encfsmsgbox
 from exceptions import MountException
 
 from PyQt6.QtGui import (QAction,
@@ -423,6 +424,22 @@ class MainWindow(QMainWindow):
         # BIT is presented to the users.
         self.config.decrement_manual_starts_countdown()
 
+        # If the encfs-deprecation warning was never shown before
+        if self.config.boolValue('internal.msg_shown_encfs') == False:
+
+            # Are there profiles using EncFS?
+            encfs_profiles = []
+            for pid in self.config.profiles():
+                if 'encfs' in self.config.snapshotsMode(pid):
+                    encfs_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})')
+
+            # EncFS deprecation warning (#1734, #1735)
+            if encfs_profiles:
+                dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
+                dlg.exec()
+                self.config.setBoolValue('internal.msg_shown_encfs', True)
+
     @property
     def showHiddenFiles(self):
         return self.config.boolValue('qt.show_hidden_files', False)
@@ -545,8 +562,12 @@ class MainWindow(QMainWindow):
                 icon.LANGUAGE, _('Translation'),
                 self.slot_help_translation, None,
                 _('Shows the message about participation '
-                  'in translation again.')
-            ),
+                  'in translation again.')),
+            'act_help_encryption': (
+                icon.ENCRYPT,
+                _('Encryption Transition (EncFS)'),
+                self.slot_help_encryption, None,
+                _('Shows the message about EncFS removal again.')),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -667,6 +688,7 @@ class MainWindow(QMainWindow):
                 self.act_help_question,
                 self.act_help_bugreport,
                 self.act_help_translation,
+                self.act_help_encryption,
                 self.act_help_about,
             )
         }
@@ -1928,6 +1950,10 @@ class MainWindow(QMainWindow):
 
     def slot_help_translation(self):
         self._open_approach_translator_dialog()
+
+    def slot_help_encryption(self):
+        dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg.exec()
 
 
 class ExtraMouseButtonEventFilter(QObject):

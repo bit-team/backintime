@@ -363,21 +363,30 @@ Display path where is saves the snapshots (if configured)
 unmount | \-\-unmount
 Unmount the profile.
 
-.SH A NOTE ON SECURITY
-There was a paid security audit for EncFS in Feb 2014 which revealed several
-potential vulnerabilities.
-.TP
-From https://defuse.ca/audits/encfs.htm
-EncFS is probably safe as long as the adversary only gets one copy of
-the ciphertext and nothing more. EncFS is not safe if the adversary
-has the opportunity to see two or more snapshots of the ciphertext at
-different times. EncFS attempts to protect files from malicious
-modification, but there are serious problems with this feature.
+.SH A NOTE ON SECURITY AND ENCFS
+Because of security issues with EncFS it is planned to remove it from
+Back In Time. To continue the support of encrypted snapshots it is the goal
+to replace it with an alternative if possible. See this document for details
+and the current state of the transition process.
 .PP
-This might be a problem with Back In Time snapshots.
+    https://github.com/bit-team/backintime/doc/ENCRYPT_TRANSITION.md
+.PP
+The security issues are mentioned in a security audit from 2014 and not
+fixed until today. The EnCFS project is not maintained anymore and his former
+maintainer recommend to switch to GoCryptFS. See the following links for further readings:
+.IP
+EncFS Security Audit (updated blog post): https://defuse.ca/audits/encfs.htm
+.IP
+EncFS Security Audit (original mailing list entry): https://sourceforge.net/p/encfs/mailman/message/31849549
+.IP
+Back In Time Issue #1734 about transition of the encryption feature: https://github.com/bit-team/backintime/issues/1734
 .SH SEE ALSO
-backintime-qt, backintime-config.
+.BR backintime-qt (1),
+.BR backintime-config (1),
+.BR backintime-askpass (1)
 .PP
-Back In Time also has a website: https://github.com/bit-team/backintime
+\fBBack In Time\fP project website: https://github.com/bit-team/backintime
+.PP
+\fBBack In Time\fP mailing list: https://mail.python.org/mailman3/lists/bit-dev.python.org
 .SH AUTHOR
-This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
+\fBBack In Time\fP Team
