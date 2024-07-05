@@ -121,4 +121,5 @@ DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')
 INVALID_EXCLUDE     = QIcon.fromTheme('emblem-ohno',
                       QIcon.fromTheme('face-surprise'))
 
+ENCRYPT = QIcon.fromTheme('lock', QIcon.fromTheme('security-high'))
 LANGUAGE = QIcon.fromTheme('preferences-desktop-locale')
