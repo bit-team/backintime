@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 15:37+0200\n"
-"PO-Revision-Date: 2024-07-05 13:36+0000\n"
+"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"PO-Revision-Date: 2024-07-05 13:52+0000\n"
 "Last-Translator: andika <andika@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
@@ -145,10 +145,11 @@ msgid "Failed to write new crontab."
 msgstr "Gagal menulis crontab baru."
 
 #: common/config.py:1666
+#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
-"command \"systemctl enable cron\" or consulte the support channels of your "
+"command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
 "Cron tidak berjalan walaupun perintah crontab tersedia. Tugas backup "
@@ -848,7 +849,7 @@ msgstr ""
 "lagi untuk memakai mode itu bagi suatu profil."
 
 #: qt/encfsmsgbox.py:46
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
@@ -856,7 +857,7 @@ msgid ""
 msgstr ""
 "Suatu keputusan tentang pengganti bagi dukungan lanjutan dari backup "
 "terenkripsi masih tertunda, bergantung pada ketersediaan kontributor dan "
-"sumber daya proyek. Rincian lebih jauh tersedia di {url} ini."
+"sumber daya proyek. Rincian lebih jauh tersedia di {whitepaper} ini."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
@@ -875,7 +876,7 @@ msgid "The following profile(s) use encryption with EncFS:"
 msgstr "Profil berikut memakai enkripsi dengan EncFS:"
 
 #: qt/encfsmsgbox.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
@@ -886,7 +887,7 @@ msgstr ""
 "terenkripsi masih tertunda, bergantung pada ketersediaan kontributor dan "
 "sumber daya proyek. Pengguna diundang untuk bergabung ke diskusi ini. "
 "Rincian yang diperbarui tentang langkah-langkah selanjutnya tersedia dalam "
-"{url} ini."
+"{whitepaper} ini."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
@@ -1642,7 +1643,7 @@ msgid "Edit user-callback"
 msgstr "Sunting user-callback"
 
 #: qt/settingsdialog.py:1263
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
 " on a replacement for continued support of encrypted backups is still "
@@ -1652,7 +1653,7 @@ msgstr ""
 "Dukungan bagi EncFS akan dihentikan di masa mendatang. Suatu keputusan "
 "tentang penggantian untuk dukungan lanjutan dari backup terenkripsi masih "
 "tertunda, bergantung kepada ketersediaan kontributor dan sumber daya proyek."
-" Rincian lebih banyak tersedia di {url} ini."
+" Rincian lebih banyak tersedia di {whitepaper} ini."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"

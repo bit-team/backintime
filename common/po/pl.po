@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 15:37+0200\n"
-"PO-Revision-Date: 2024-07-05 09:57+0000\n"
+"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"PO-Revision-Date: 2024-07-05 13:50+0000\n"
 "Last-Translator: Merik <Merik@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -145,10 +145,11 @@ msgid "Failed to write new crontab."
 msgstr "Nie udało się zapisać nowej tablicy zadań (crontab)."
 
 #: common/config.py:1666
+#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
-"command \"systemctl enable cron\" or consulte the support channels of your "
+"command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
 "Cron nie działa pomimo dostępnego polecenia crontab. Zaplanowane zadania "
@@ -863,7 +864,7 @@ msgstr ""
 " Ponadto nie zaleca się używania tego trybu dla profilu."
 
 #: qt/encfsmsgbox.py:46
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
@@ -871,11 +872,11 @@ msgid ""
 msgstr ""
 "Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
 "jest nadal w toku w zależności od zasobów projektu i dostępności "
-"współpracowników. Więcej szczegółów jest dostępnych pod adresem {url}."
+"współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr "biała księga"
+msgstr "białej księdze"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
@@ -890,7 +891,7 @@ msgid "The following profile(s) use encryption with EncFS:"
 msgstr "Poniższe profile używają szyfrowania z EncFS:"
 
 #: qt/encfsmsgbox.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
@@ -900,8 +901,8 @@ msgstr ""
 "Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
 "jest nadal w toku w zależności od zasobów projektu i dostępności "
 "współpracowników. Użytkownicy są zaproszeni do dołączenia do tej dyskusji. "
-"Zaktualizowane szczegóły dotyczące następnych kroków są dostępne pod tym "
-"adresem {url}."
+"Zaktualizowane szczegóły dotyczące następnych kroków są dostępne w "
+"{whitepaper}."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
@@ -1664,7 +1665,7 @@ msgid "Edit user-callback"
 msgstr "Edytuj user-callback"
 
 #: qt/settingsdialog.py:1263
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
 " on a replacement for continued support of encrypted backups is still "
@@ -1674,7 +1675,7 @@ msgstr ""
 "Wsparcie dla EncFS zostanie przerwane w dającej się przewidzieć przyszłości."
 " Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
 "jest nadal w toku w zależności od zasobów projektu i dostępności "
-"współpracowników. Więcej szczegółów jest dostępnych pod tym adresem {url}."
+"współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"

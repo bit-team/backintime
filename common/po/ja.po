@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 15:37+0200\n"
-"PO-Revision-Date: 2024-07-02 09:27+0000\n"
-"Last-Translator: kazuo <kazuo@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"PO-Revision-Date: 2024-07-06 07:27+0000\n"
+"Last-Translator: eltociear <eltociear@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -28,9 +28,8 @@ msgid "Main profile"
 msgstr "メインプロファイル"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "ローカル暗号化"
+msgstr "ローカル (EncFS暗号化)"
 
 #: common/config.py:298
 #, fuzzy
@@ -48,7 +47,7 @@ msgstr "SSH"
 
 #: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
 msgid "SSH private key"
-msgstr "SSH 秘密鍵"
+msgstr "SSHプライベートキー"
 
 #: common/config.py:314
 msgid "Local encrypted"
@@ -151,7 +150,7 @@ msgstr "新しい crontab の書き込みに失敗しました。"
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
-"command \"systemctl enable cron\" or consulte the support channels of your "
+"command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
 
@@ -1107,11 +1106,10 @@ msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "すでにあるプライベート鍵を使用する (通常 \"id_rsa\"というファイル名)"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
-msgstr "新しい SSH鍵をパスワードなしで作成する (すでにプライベート鍵を選択済みの場合は実行できません)"
+msgstr "新しい SSH鍵をパスワードなしで作成する (すでにプライベート鍵を選択済みの場合は実行できません)。"
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1796,9 +1794,8 @@ msgid "Differing snapshots only"
 msgstr "スナップショットの差分のみ"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "等しいスナップショットだけをリストアップする： "
+msgstr "等しいスナップショットだけをリストアップする："
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

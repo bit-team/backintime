@@ -439,7 +439,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sid6 = snapshots.SID('20160410-134327-123', self.cfg)
         sids = [sid1, sid2, sid3, sid4, sid5, sid6]
 
-        # keep the first healty snapshot
+        # keep the first healthy snapshot
         keep = self.sn.smartRemoveKeepFirst(sids,
                                             date(2016, 4, 20),
                                             date(2016, 4, 23),

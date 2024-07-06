@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 15:37+0200\n"
-"PO-Revision-Date: 2024-07-03 07:20+0000\n"
+"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"PO-Revision-Date: 2024-07-06 07:27+0000\n"
 "Last-Translator: blackslide <blackslide@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -79,16 +79,16 @@ msgstr "Sa pead valima vähemalt ühe kataloogi tagavarakoopia tegemiseks!"
 
 #: common/config.py:388
 msgid "Backup folder cannot be included."
-msgstr ""
+msgstr "Varukoopia kausta ei saa kaasata."
 
 #: common/config.py:400
 msgid "Backup sub-folder cannot be included."
-msgstr ""
+msgstr "Varukoopia alamkausta ei saa kaasata."
 
 #: common/config.py:447
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "{path} ei ole kataloog."
+msgstr "Kõlbamatu valik. {path} ei ole kaust."
 
 #: common/config.py:456
 msgid "Host/User/Profile-ID must not be empty."
@@ -141,7 +141,7 @@ msgstr ""
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
-"command \"systemctl enable cron\" or consulte the support channels of your "
+"command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
 

@@ -349,7 +349,7 @@ class EncFS_SSH(EncFS_mount):
 class Encode(object):
     """
     encode path with encfsctl.
-    ENCFS_SSH will replace config.ENCODE whit this
+    ENCFS_SSH will replace config.ENCODE with this
     """
     def __init__(self, encfs):
         self.encfs = encfs

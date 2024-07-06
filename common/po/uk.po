@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-05 15:37+0200\n"
-"PO-Revision-Date: 2024-07-05 13:36+0000\n"
+"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"PO-Revision-Date: 2024-07-06 07:27+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -145,12 +145,17 @@ msgid "Failed to write new crontab."
 msgstr "Не вдалося записати новий crontab."
 
 #: common/config.py:1666
+#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
-"command \"systemctl enable cron\" or consulte the support channels of your "
+"command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Cron не запускається, незважаючи на наявність команди crontab. Заплановані "
+"завдання резервного копіювання не буде виконано. Можливо, Cron встановлено, "
+"але не ввімкнено. Спробуйте команду «systemctl enable cron» або зверніться "
+"до каналів підтримки Вашого дистрибутива GNU Linux."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -882,6 +887,8 @@ msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Це повідомлення більше не виводитиметься. Це діалогове вікно доступне в "
+"будь-який час через меню «Допомога»."
 
 #: qt/encfsmsgbox.py:87
 msgid "Your Back In Time Team"
