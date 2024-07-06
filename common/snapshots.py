@@ -51,7 +51,7 @@ class Snapshots:
     snapshot in the "application layer". This seems to be the difference to
     the class `SID` which represents a snapshot in the "data layer".
 
-    BUHTZ 2024-02-23: Not sure but it seems to be one concret snapshot and
+    BUHTZ 2024-02-23: Not sure but it seems to be one concrete snapshot and
     not a collection of snapshots. In this case the class name is misleading
     because it is in plural form.
 
@@ -779,10 +779,11 @@ class Snapshots:
 
                 instance.startApplication()
 
-                # global flock to block backups from other profiles or users
-                # (and run them serialized)
-                # self.flockExclusive()
-                with flock.GlobalFlock():
+                # Global flock to block backups from other profiles or users
+                # (and run them serialized). The argument "disabled" is a
+                # workaround (#1751) that should be removed/refactored after
+                # this method ("backup()") is refactored.
+                with flock.GlobalFlock(disable=not self.config.globalFlock()):
                     logger.info('Lock', self)
 
                     now = datetime.datetime.today()
@@ -1572,7 +1573,7 @@ class Snapshots:
         logger.debug("Keep first >= %s and < %s" %(min_id, max_id), self)
 
         for sid in snapshots:
-            # try to keep the first healty snapshot
+            # try to keep the first healthy snapshot
             if keep_healthy and sid.failed:
                 logger.debug("Do not keep failed snapshot %s" %sid, self)
                 continue
