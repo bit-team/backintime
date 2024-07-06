@@ -86,19 +86,20 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 # | Handling paths  |
 # |-----------------|
 
-
 def sharePath():
     """Get path where Back In Time is installed.
 
-    This is similar to $XDG_DATA_DIRS (XDG Base Directory Specification).
-    If running from source return default ``/usr/share``.
+    This is similar to ``XDG_DATA_DIRS``. If running from source return
+    default ``/usr/share``.
+
+    Share path like: ::
+
+        /usr/share
+        /usr/local/share
+        /opt/usr/share
 
     Returns:
-        str: share path like::
-
-                    /usr/share
-                    /usr/local/share
-                    /opt/usr/share
+        str: Share path.
     """
     share = os.path.abspath(
         os.path.join(__file__, os.pardir, os.pardir, os.pardir)
@@ -112,16 +113,14 @@ def sharePath():
 
 def backintimePath(*path):
     """
-    Get path inside 'backintime' install folder.
+    Get path inside ``backintime`` install folder.
 
     Args:
-        *path (str):    paths that should be joined to 'backintime'
+        *path (str): Paths that should be joined to ``backintime``.
 
     Returns:
-        str:            'backintime' child path like::
-
-                            /usr/share/backintime/common
-                            /usr/share/backintime/qt
+        str: Child path of ``backintime`` child path e.g.
+            ``/usr/share/backintime/common``or ``/usr/share/backintime/qt``.
     """
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
@@ -2013,20 +2012,17 @@ class Alarm(object):
     (reentrance) or you may cause non-deterministic "random" RTEs.
     """
     def __init__(self, callback = None, overwrite = True):
-        """
-        Create a new alarm instance
+        """Create a new alarm instance
 
         Args:
-            callback: Function to call when the timer ran down
-                      (ensure calling only reentrant code).
-                      Use ``None`` to throw a ``Timeout`` exception instead.
-            overwrite: Is it allowed to (re)start the timer
-                       even though the current timer is still running
-                       ("ticking"):
-                       ``True`` cancels the current timer (if active)
-                                and restarts with the new timeout.
-                       ``False` silently ignores the start request
-                                if the current timer is still "ticking"
+            callback: Function to call when the timer ran down (ensure
+                calling only reentrant code). Use ``None`` to throw a
+                ``Timeout`` exception instead.
+            overwrite: Is it allowed to (re)start the timer even though the
+                current timer is still running ("ticking"). ``True`` cancels
+                the current timer (if active) and restarts with the new
+                timeout. ``False`` silently ignores the start request if the
+                current timer is still "ticking"
         """
         self.callback = callback
         self.ticking = False
