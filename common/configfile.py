@@ -598,7 +598,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
     def setCurrentProfileByName(self, name):
         """
-        Change the current profile by a givin name.
+        Change the current profile by a given name.
 
         Args:
             name (str): valid profile name
