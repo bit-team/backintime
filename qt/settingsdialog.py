@@ -1264,8 +1264,8 @@ class SettingsDialog(QDialog):
               'future. A decision on a replacement for continued support of '
               'encrypted backups is still pending, depending on project '
               'resources and contributor availability. More details are '
-              'available in this {url}.').format(
-                  url='<a href="{}">{}</a>'.format(
+              'available in this {whitepaper}.').format(
+                  whitepaper='<a href="{}">{}</a>'.format(
                       URL_ENCRYPT_TRANSITION,
                       _('whitepaper'))
                   )

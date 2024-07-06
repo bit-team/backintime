@@ -1666,7 +1666,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 'Cron is not running despite the crontab command being '
                 'available. Scheduled backup jobs will not run. '
                 'Cron might be installed but not enabled. Try the command '
-                '"systemctl enable cron" or consulte the support channels of '
+                '"systemctl enable cron" or consult the support channels of '
                 'your GNU Linux distribution.'))
 
         return True

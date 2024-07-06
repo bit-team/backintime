@@ -96,7 +96,7 @@ def can_render(string, widget):
         widget(QWidget): The widget which font is used.
 
     Returns:
-        (bool) True if the widgets font contain all givin characters.
+        (bool) True if the widgets font contain all given characters.
     """
     fm = widget.fontMetrics()
 
