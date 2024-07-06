@@ -94,4 +94,4 @@ Depending on selection in left hand [Timeline](#timeline) this will either show 
 
 ## Statusbar
 
-Show current status. While a snapshot is running this will show a progress-bar combined with current speed, already transfered data and the last message from `rsync`.
+Show current status. While a snapshot is running this will show a progress-bar combined with current speed, already transferred data and the last message from `rsync`.
