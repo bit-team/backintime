@@ -61,13 +61,13 @@ script:
   - cd common
   - ./configure  --python=python3
   - make unittest-v
-  - make install
+  - sudo make install
   - cd ..
   - cd qt
   - ./configure --python=python3
   - make
   - pytest
-  - make install
+  - sudo make install
 
 after_success:
   - coverage combine
