@@ -12,7 +12,7 @@ PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
-    """Check all py-files in the package (incl. test files) for lints and
+    """Check all py-files in the package (incl. test files) for lints,
     potential bugs and if they are compliant to the coding styles (e.g. PEP8).
     """
 
@@ -30,7 +30,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         if not path.name.startswith('test'):
             raise RuntimeError('Something went wrong. The test should run '
-                               'inside the test folder but current folder '
+                               'inside the test folder but the current folder '
                                f'is {path}.')
 
         # Workaround
@@ -45,7 +45,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         Some facts about PyLint
          - It is one of the slowest available linters.
-         - It is able to catch lints none of the other linters
+         - It is able to catch lints other linters miss.
         """
 
         # Pylint base command
@@ -103,9 +103,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W4904',  # deprecated-class
             'W0614',  # unused-wildcard-import
 
-            # Enable asap. This list is selection of existing (not all!)
-            # problems currently exiting in the BIT code base. Quit easy to fix
-            # because there count is low.
+            # Enable asap. This list is a selection of existing (not all!)
+            # problems currently existing in the BIT code base. Quite easy to fix
+            # because their count is low.
             # 'R0801',  # duplicate-code
             # 'W0123',  # eval-used
             # 'W0237',  # arguments-renamed
@@ -117,7 +117,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         cmd.append('--enable=' + ','.join(err_codes))
 
-        # Add py files
+        # Add py-files
         cmd.extend(self._collect_py_files())
 
         r = subprocess.run(
