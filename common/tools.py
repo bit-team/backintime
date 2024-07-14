@@ -2315,15 +2315,15 @@ class SetupUdev(object):
         try:
             return self.iface.addRule(cmd, uuid)
 
-        except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
-                raise InvalidChar(str(e))
+        except dbus.exceptions.DBusException as exc:
+            if exc._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
+                raise InvalidChar(str(exc)) from exc
 
-            elif e._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
-                raise InvalidCmd(str(e))
+            elif exc._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
+                raise InvalidCmd(str(exc)) from exc
 
-            elif e._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
-                raise LimitExceeded(str(e))
+            elif exc._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
+                raise LimitExceeded(str(exc))  from exc
 
             else:
                 raise
