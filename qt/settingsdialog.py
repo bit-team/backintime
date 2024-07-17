@@ -1971,10 +1971,10 @@ class SettingsDialog(QDialog):
             item.setIcon(0, self.icon.FILE)
 
         # Prevent duplicates
-        duplicate = self.listInclude.findItems(
+        duplicates = self.listInclude.findItems(
             data[0], Qt.MatchFlag.MatchFixedString)
 
-        if duplicate:
+        if duplicates:
             self.listInclude.setCurrentItem(duplicate[0])
             return
 
@@ -2056,7 +2056,11 @@ class SettingsDialog(QDialog):
             return
 
         # Duplicate?
-        if self.listExclude.findItems(pattern, Qt.MatchFlag.MatchFixedString):
+        duplicates = self.listExclude.findItems(
+            pattern, Qt.MatchFlag.MatchFixedString)
+
+        if duplicates:
+            self.listExclude.setCurrentItem(duplicates[0])
             return
 
         # Create new entry and add it to the list widget.
