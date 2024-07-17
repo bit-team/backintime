@@ -2030,13 +2030,12 @@ class Snapshots:
                base_sid,
                base_path,
                snapshotsList,
-               list_diff_only  = False,
-               flag_deep_check = False,
-               list_equal_to = ''):
-        """
-        Filter snapshots from ``snapshotsList`` based on whether ``base_path``
-        file is included and optional if the snapshot is unique or equal to
-        ``list_equal_to``.
+               list_diff_only=False,
+               flag_deep_check=False,
+               list_equal_to=''):
+        """Filter snapshots from ``snapshotsList`` based on whether
+        ``base_path`` file is included and optional if the snapshot is unique
+        or equal to ``list_equal_to``.
 
         Args:
             base_sid (SID):         snapshot ID that contained the original
@@ -2065,7 +2064,7 @@ class Snapshots:
         allSnapshotsList = [RootSnapshot(self.config)]
         allSnapshotsList.extend(snapshotsList)
 
-        #links
+        # links
         if os.path.islink(base_full_path):
             targets = []
 
@@ -2073,45 +2072,60 @@ class Snapshots:
                 path = sid.pathBackup(base_path)
 
                 if os.path.lexists(path) and os.path.islink(path):
+
                     if list_diff_only:
                         target = os.readlink(path)
+
                         if target in targets:
                             continue
+
                         targets.append(target)
+
                     snapshotsFiltered.append(sid)
 
             return snapshotsFiltered
 
-        #directories
+        # directories
         if os.path.isdir(base_full_path):
+
             for sid in allSnapshotsList:
                 path = sid.pathBackup(base_path)
 
-                if os.path.exists(path) and not os.path.islink(path) and os.path.isdir(path):
+                if (os.path.exists(path)
+                        and not os.path.islink(path)
+                        and os.path.isdir(path)):
                     snapshotsFiltered.append(sid)
 
             return snapshotsFiltered
 
-        #files
+        # files
         if not list_diff_only and not list_equal_to:
+
             for sid in allSnapshotsList:
                 path = sid.pathBackup(base_path)
 
-                if os.path.exists(path) and not os.path.islink(path) and os.path.isfile(path):
+                if (os.path.exists(path)
+                        and not os.path.islink(path)
+                        and os.path.isfile(path)):
                     snapshotsFiltered.append(sid)
 
             return snapshotsFiltered
 
         # check for duplicates
-        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False, list_equal_to = list_equal_to)
+        uniqueness = tools.UniquenessSet(
+            flag_deep_check, follow_symlink=False, list_equal_to=list_equal_to)
+
         for sid in allSnapshotsList:
             path = sid.pathBackup(base_path)
-            if os.path.exists(path) and not os.path.islink(path) and os.path.isfile(path) and uniqueness.check(path):
+
+            if (os.path.exists(path)
+                    and not os.path.islink(path)
+                    and os.path.isfile(path)
+                    and uniqueness.check(path)):
                 snapshotsFiltered.append(sid)
 
         return snapshotsFiltered
 
-    #TODO: move this to config.Config -> Don't!
     def rsyncRemotePath(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
         """
         Format the destination string for rsync depending on which profile is

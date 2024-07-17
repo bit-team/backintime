@@ -1890,18 +1890,20 @@ class UniquenessSet:
     """
     Check for uniqueness or equality of files.
 
-    Args:
-        dc (bool):              if ``True`` use deep check which will compare
-                                files md5sums if they are of same size but no
-                                hardlinks (don't have the same inode).
-                                If ``False`` use files size and mtime
-        follow_symlink (bool):  if ``True`` check symlinks target instead of the
-                                link
-        list_equal_to (str):    full path to file. If not empty only return
-                                equal files to the given path instead of
-                                unique files.
     """
-    def __init__(self, dc = False, follow_symlink = False, list_equal_to = ''):
+    def __init__(self, dc=False, follow_symlink=False, list_equal_to=''):
+        """
+        Args:
+            dc (bool):              if ``True`` use deep check which will compare
+                                    files md5sums if they are of same size but no
+                                    hardlinks (don't have the same inode).
+                                    If ``False`` use files size and mtime
+            follow_symlink (bool):  if ``True`` check symlinks target instead of the
+                                    link
+            list_equal_to (str):    full path to file. If not empty only return
+                                    equal files to the given path instead of
+                                    unique files.
+        """
         self.deep_check = dc
         self.follow_sym = follow_symlink
         self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
