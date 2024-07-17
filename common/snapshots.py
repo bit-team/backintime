@@ -2249,26 +2249,30 @@ class Snapshots:
 
         return ret
 
-    def rsyncExclude(self, excludeFolders = None):
-        """
-        Format exclude list for rsync
+    def rsyncExclude(self, excludeFolders=None):
+        """Format exclude list for rsync.
+
+        See `rsyncInclude()` for more details.
 
         Args:
-            excludeFolders (list):  list of folders to exclude
+            excludeFolders (list): List of folders to exclude.
 
         Returns:
-            OrderedSet:             rsync exclude options
+            (list): Rsync exclude options.
         """
-        items = tools.OrderedSet()
+        items = []
         encode = self.config.ENCODE
+
         if excludeFolders is None:
             excludeFolders = self.config.exclude()
 
         for exclude in excludeFolders:
             exclude = encode.exclude(exclude)
+
             if exclude is None:
                 continue
-            items.add('--exclude=' + exclude)
+
+            items.append(f'--exclude={exclude}')
 
         return items
 

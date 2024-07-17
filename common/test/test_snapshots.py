@@ -252,12 +252,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                              '--exclude=*bar',
                                              '--exclude=/baz/1'])
 
-    def test_rsyncExclude_duplicate_items(self):
-        exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1', '/foo', '/baz/1'])
-        self.assertListEqual(list(exclude), ['--exclude=/foo',
-                                             '--exclude=*bar',
-                                             '--exclude=/baz/1'])
-
     def test_rsyncInclude_unique_items(self):
         i1, i2 = self.sn.rsyncInclude([('/foo', 0),
                                        ('/bar', 1),
