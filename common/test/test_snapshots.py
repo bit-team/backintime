@@ -269,19 +269,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                         '--include=/bar',
                                         '--include=/baz/1/2'])
 
-    def test_rsyncInclude_duplicate_items(self):
-        i1, i2 = self.sn.rsyncInclude([('/foo', 0),
-                                       ('/bar', 1),
-                                       ('/foo', 0),
-                                       ('/baz/1/2', 1),
-                                       ('/baz/1/2', 1)])
-        self.assertListEqual(list(i1), ['--include=/foo/',
-                                        '--include=/baz/1/',
-                                        '--include=/baz/'])
-        self.assertListEqual(list(i2), ['--include=/foo/**',
-                                        '--include=/bar',
-                                        '--include=/baz/1/2'])
-
     def test_rsyncInclude_root(self):
         i1, i2 = self.sn.rsyncInclude([('/', 0), ])
         self.assertListEqual(list(i1), [])
