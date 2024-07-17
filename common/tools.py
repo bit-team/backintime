@@ -26,7 +26,6 @@ import signal
 import re
 import errno
 import gzip
-import tempfile
 import locale
 import gettext
 from collections.abc import MutableSet
@@ -85,6 +84,7 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 # |-----------------|
 # | Handling paths  |
 # |-----------------|
+
 
 def sharePath():
     """Get path where Back In Time is installed.
