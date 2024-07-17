@@ -115,9 +115,10 @@ PROFILE_EDIT        = SNAPSHOT_NAME
 ADD                 = QIcon.fromTheme('list-add')
 REMOVE              = QIcon.fromTheme('list-remove')
 FOLDER              = QIcon.fromTheme('folder')
-FILE                = VIEW_SNAPSHOT_LOG
-EXCLUDE             = REMOVE_SNAPSHOT
-DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')
+FILE                = QIcon.fromTheme('text-plain',
+                      QIcon.fromTheme('text-x-generic'))
+EXCLUDE             = QIcon.fromTheme('edit-delete')
+DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-default')
 INVALID_EXCLUDE     = QIcon.fromTheme('emblem-ohno',
                       QIcon.fromTheme('face-surprise'))
 
