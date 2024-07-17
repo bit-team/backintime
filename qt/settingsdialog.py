@@ -1975,7 +1975,7 @@ class SettingsDialog(QDialog):
             data[0], Qt.MatchFlag.MatchFixedString)
 
         if duplicates:
-            self.listInclude.setCurrentItem(duplicate[0])
+            self.listInclude.setCurrentItem(duplicates[0])
             return
 
         # First column
