@@ -118,7 +118,8 @@ FOLDER              = QIcon.fromTheme('folder')
 FILE                = QIcon.fromTheme('text-plain',
                       QIcon.fromTheme('text-x-generic'))
 EXCLUDE             = QIcon.fromTheme('edit-delete')
-DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-default')
+# "emblem-default" is a green mark and doesn't make sense in this case.
+DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')
 INVALID_EXCLUDE     = QIcon.fromTheme('emblem-ohno',
                       QIcon.fromTheme('face-surprise'))
 
