@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
 "PO-Revision-Date: 2024-07-19 11:10+0000\n"
 "Last-Translator: espresso_nightingale <espresso_nightingale@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
@@ -219,7 +219,7 @@ msgstr "Confirmați parola."
 msgid "Password doesn't match."
 msgstr "Parola nu se potrivește."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Ia instantaneu"
 
@@ -261,7 +261,7 @@ msgstr "Terminat"
 msgid "Deferring backup while on battery"
 msgstr "Se amână copierea de rezervă în timp ce se utilizează bateria"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -269,7 +269,7 @@ msgstr ""
 "Nu se poate găsi dosarul de instantanee.\n"
 "Dacă este pe o unitate detașabilă, conectați-o."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -277,102 +277,102 @@ msgstr[0] "Se așteaptă %s secundă."
 msgstr[1] "Se așteaptă %s secunde."
 msgstr[2] "Se așteaptă %s de secunde."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nu s-a putut realiza instantaneul {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Se finalizează"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Nu se poate crea dosarul"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Se salvează fișierul de configurație…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Se salvează permisiunile…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "A fost găsit {snapshot_id} rămas care poate fi continuat."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Se elimină dosarul {snapshot_id} rămas din ultima rulare"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Nu se poate elimina dosarul"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Se ia instantaneul"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Transfer parțial din cauza unei erori"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfer parțial din cauza fișierelor sursă dispărute (consultați „man "
 "rsync”)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "„rsync” s-a încheiat cu codul de ieșire {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Consultați „man rsync” pentru mai multe detalii"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Codurile de ieșire rsync negative sunt numere de semnal, consultați „kill "
 "-l” și „man kill”"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nimic nu s-a schimbat, nu este necesar un instantaneu nou"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Nu se poate redenumi {new_path} la {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "Înlăturare inteligentă"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Se elimină instantaneele vechi"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Se încearcă păstrarea minimului de spațiu liber"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Se încearcă păstrarea a minim {perc} inode-uri libere"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Acum"
 

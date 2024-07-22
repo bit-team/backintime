@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
 "PO-Revision-Date: 2024-07-22 11:15+0000\n"
 "Last-Translator: Jad Madi <jadmadi@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
@@ -216,7 +216,7 @@ msgstr "يرجى تأكيد كلمة السر."
 msgid "Password doesn't match."
 msgstr "كلمة السر ليس مطابق."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "خذ لقطة"
 
@@ -259,7 +259,7 @@ msgstr "تم"
 msgid "Deferring backup while on battery"
 msgstr "تأجيل النسخ الاحتياطي أثناء وجوده على البطارية"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -267,7 +267,7 @@ msgstr ""
 "لم نتمكن من إيجاد مُجلد اللقطات.\n"
 "إذا كان في قرص قابل للإزالة فيرجى توصيله."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -278,99 +278,99 @@ msgstr[3] "ينتظر %s ثواني."
 msgstr[4] "ينتظر %s ثانية."
 msgstr[5] "ينتظر %s ثواني."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "فشل بأخذ لقطة {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "يُنْهيّ"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "لا يمكن إنشاء مجلد"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "يتم حفظ ملف التكوين…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "يتم حفظ الأذونات…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "وجد بقايا {snapshot_id} ويمكن الاستمرار فيه."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "يتم إزالة مجلد بقايا {snapshot_id} من العملية الاخيرة"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "لا يُمكن إزالة المُجلد"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "يتم اخذ لقطة"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "نجاح"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "عملية النقل جزئية بسبب حدوث خطأ"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "عملية النقل جزئية بسبب اختفاء ملفات المصدر (انظر 'man rsync')"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "انتهت عملية 'rsync' مع رمز الخروج {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "اطلع على 'man rsync' للمزيد من التفاصيل"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "رموز الخروج السلبية لrsync هم ارقام إشارة, اطلع على 'kill -l' و'man kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "لا شيء تغير, لا حاجة للقطة جديدة"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "لا يمكن إعادة تسمية {new_path} إلى {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "إزالة ذكية"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "إزالة اللقطات القديمة"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "حاول إبقاء حد أدنى من المساحة فارغة"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "محاولة للحفاظ على الحد الأدنى من {perc} ضمن مساحة الـ inode حرة"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "الآن"
 

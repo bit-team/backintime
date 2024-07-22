@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
 "PO-Revision-Date: 2024-07-02 13:39+0000\n"
 "Last-Translator: ravijol1 <ravijol1@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
@@ -213,7 +213,7 @@ msgstr "Prosim potrdite geslo."
 msgid "Password doesn't match."
 msgstr "Geslo se ne ujema."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Ustvari posnetek"
 
@@ -255,7 +255,7 @@ msgstr "Končano"
 msgid "Deferring backup while on battery"
 msgstr "Odložitev varnostnega kopiranja med delovanjem na bateriji"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -263,7 +263,7 @@ msgstr ""
 "Mapa posnetkov ni na razpolago.\n"
 "V primeru, da je na izmenljivem pogonu, ga priključite."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -272,100 +272,100 @@ msgstr[1] "Čakanje %s sekundo."
 msgstr[2] "Čakanje %s sekundi."
 msgstr[3] "Čakanje %s sekunde."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Posnetek {snapshot_id} ni uspel."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Zaključevanje"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Mape ni mogoče ustvariti"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Shranjevanje konfiguracijske datoteke…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Shranjevanje dovoljenj…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Najden ostanek {snapshot_id}, ki ga je mogoče nadaljevati."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Odstranjevanje ostankov mape {snapshot_id} od zadnjega zagona"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Mape ni mogoče odstraniti"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Ustvarjanje posnetka"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Uspeh"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Delni prenos zaradi napake"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Delni prenos zaradi izginulih izvornih datotek (glej 'man rsync')"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' se je končal z izhodno kodo {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Za več informacij glej 'man rsync'"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negativne izhodne kode rsync so signalne številke, glej 'kill -l' in 'man "
 "kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nič se ni spremenilo, nov posnetek ni potreben"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "{new_path} ni mogoče preimenovati v {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "Pametno odstranjevanje"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Odstranjevanje starih posnetkov"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Poskus ohranjanja minimalnega prostora"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Poskus ohranjanja najmanj {perc} prostih inodov"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Zdaj"
 
