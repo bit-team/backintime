@@ -440,6 +440,8 @@ class MainWindow(QMainWindow):
                 dlg.exec()
                 self.config.setBoolValue('internal.msg_shown_encfs', True)
 
+        self.confirmDelete(True)  # DEBUG
+
     @property
     def showHiddenFiles(self):
         return self.config.boolValue('qt.show_hidden_files', False)
