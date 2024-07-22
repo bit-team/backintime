@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-06-06 10:18+0000\n"
+"PO-Revision-Date: 2024-07-22 12:37+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
 "Language: lt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -212,9 +212,8 @@ msgid "Cancel"
 msgstr ""
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Prašome patvirtinti slaptažodį"
+msgstr "Prašome patvirtinti slaptažodį."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
@@ -1023,9 +1022,9 @@ msgid "Question"
 msgstr "Klausimas"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profilis: \"{name}\""
+msgstr "Profilis: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1041,14 +1040,12 @@ msgid "Working…"
 msgstr "Dirbama…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Išsiųsta"
+msgstr "Išsiųsta:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Greitis"
+msgstr "Greitis:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1092,19 +1089,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Pagrindinis kompiuteris"
+msgstr "Pagrindinis kompiuteris:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Prievadas"
+msgstr "Prievadas:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-#, fuzzy
 msgid "User:"
-msgstr "Naudotojas"
+msgstr "Naudotojas:"
 
 #: qt/settingsdialog.py:120
 msgid ""
@@ -1135,9 +1129,8 @@ msgid "&General"
 msgstr "&Bendri"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Būsena"
+msgstr "Būsena:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1157,14 +1150,12 @@ msgid "Path:"
 msgstr "Adresas"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "Šifras"
+msgstr "Šifras:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Privatus Raktas"
+msgstr "Privatus Raktas:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1199,9 +1190,8 @@ msgid "Advanced"
 msgstr "Išplėstiniai parametrai"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Visas momentinės kopijos kelias: "
+msgstr "Visas momentinės kopijos kelias:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"
@@ -1278,19 +1268,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "Savaitės diena"
+msgstr "Savaitės diena:"
 
 #: qt/settingsdialog.py:495
-#, fuzzy
 msgid "Hour:"
-msgstr "Valanda"
+msgstr "Valanda:"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "Valandos"
+msgstr "Valandos:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1301,9 +1288,8 @@ msgstr ""
 " reguliariai."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "Kiekvienas"
+msgstr "Kiekvienas:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"
@@ -1381,9 +1367,8 @@ msgid "Add default"
 msgstr "Pridėti numatytąjį"
 
 #: qt/settingsdialog.py:694
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Išskirti failus, didesnius, nei: "
+msgstr "Išskirti failus, didesnius, nei:"
 
 #: qt/settingsdialog.py:698
 #, fuzzy, python-brace-format

@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-06-22 13:18+0000\n"
-"Last-Translator: ctrlaltca <ctrlaltca@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-22 07:07+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -763,7 +763,7 @@ msgid ""
 "following command:"
 msgstr ""
 "Le nuove versioni dei file verranno rinominate con il suffisso {suffix} "
-"prima del ripristino. Se non ne hai più bisogno, puoi rimuoverle con {cmd}"
+"prima del ripristino. Se non ne hai più bisogno, puoi rimuoverle con {cmd}:"
 
 #: qt/app.py:1432
 msgid ""
@@ -1144,13 +1144,12 @@ msgstr ""
 "\"id_rsa\")"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
 "Crea una nuova chiave SSH senza password (non permesso se è già stato "
-"selezionato un file di chiave privata)"
+"selezionato un file di chiave privata)."
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1602,14 +1601,14 @@ msgid "Prefix to run before every command on remote host."
 msgstr "Prefisso da eseguire prima di ciascun comando sull'host remoto."
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 "Le variabili necessitano di escaping con \\$FOO. Questo non riguarda rsync. "
 "Quindi per aggiungere un prefisso per rsync usa \"{example_value}\" con "
-"{rsync_options_value}"
+"{rsync_options_value}."
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1766,9 +1765,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Sei sicuro di voler cambiare la cartella delle istantanee?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Impossibile creare una nuova chiave SSH in {path}"
+msgstr "Impossibile creare una nuova chiave SSH in {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1859,9 +1858,8 @@ msgid "Differing snapshots only"
 msgstr "Solo istantanee diverse"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Mostra solo istantanee uguali a: "
+msgstr "Mostra solo istantanee uguali a:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

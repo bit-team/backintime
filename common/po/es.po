@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-06 07:27+0000\n"
-"Last-Translator: gallegonovato <gallegonovato@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-11 13:36+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -147,7 +147,6 @@ msgid "Failed to write new crontab."
 msgstr "Error al escribir nuevo crontab."
 
 #: common/config.py:1666
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -769,8 +768,9 @@ msgid ""
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
-"Antes de restaurar, las versiones más nuevas de los archivos se añaden con un\n"
-"{suffix} renombrado. Si ya no son necesarios, se pueden eliminar usando el siguiente comando:"
+"Antes de restaurar, las versiones más nuevas de los archivos se añaden con "
+"un {suffix} renombrado. Si ya no son necesarios, se pueden eliminar usando "
+"el siguiente comando:"
 
 #: qt/app.py:1432
 msgid ""
@@ -1626,14 +1626,14 @@ msgid "Prefix to run before every command on remote host."
 msgstr "Prefijo a ejecutar antes de cada comando en el host remoto."
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"Un prefijo que se ejecutará antes de cada comando en el host remoto. Es "
-"necesario escapar de las variables usando \\$FOO. Esto no implica rsync. "
-"Entonces agrega el prefijo \"{example_value}\" con {rsync_options_value}"
+"Las variables deben tener como escape \\$FOO. Esto no afecta a rsync. Para "
+"agregar un prefijo para rsync tienes que » {example_value} « con Se puede "
+"utilizar {rsync_options_value} ."
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1679,6 +1679,11 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"El soporte para EncFS se suspenderá en un futuro previsible. Está pendiente "
+"una decisión sobre un reemplazo para continuar admitiendo copias de "
+"seguridad cifradas y depende de los recursos del proyecto y la "
+"disponibilidad de los contribuyentes. Más detalles están a continuación "
+"{whitepaper} disponible."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
@@ -1788,9 +1793,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "¿Estás seguro de que quieres cambiar la carpeta de instantáneas?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Error al crear una nueva clave SSH en {path}"
+msgstr "Error al crear una nueva clave SSH en {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1882,9 +1887,8 @@ msgid "Differing snapshots only"
 msgstr "Sólo instantáneas diferentes"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Lista sólo instantáneas iguales a: "
+msgstr "Enumere solo instantáneas que sean iguales a:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

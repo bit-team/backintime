@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-02 13:39+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-11 12:12+0000\n"
+"Last-Translator: ktzhao <ktzhao@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Traditional) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -28,14 +28,12 @@ msgid "Main profile"
 msgstr "主要設定檔"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "本地加密的"
+msgstr "本地（EncFS 加密）"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH 加密"
+msgstr "SSH（EncFS 加密）"
 
 #: common/config.py:309
 msgid "Local"
@@ -148,6 +146,8 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"儘管 crontab 命令可用，但 Cron 並未運行。已排程的備份作業將不會運作。 Cron 可能已安裝但未啟用。嘗試命令「systemctl "
+"enable cron」或諮詢您的 GNU Linux 發行版的支援管道。"
 
 #: common/config.py:1746
 #, python-brace-format
@@ -218,9 +218,9 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "無法從 {mountpoint} 卸載 {mountprocess}。"
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{command}未找到。 請安裝例如 {installcommand}"
+msgstr "找不到指令{command}。請安裝它（例如透過“{installcommand}”）"
 
 #: common/mount.py:720
 #, python-brace-format
@@ -582,15 +582,15 @@ msgstr "翻譯"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "再次顯示參與翻譯的訊息。"
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "加密轉換 (EncFS)"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "再次顯示有關 EncFS 刪除的訊息。"
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -722,12 +722,12 @@ msgstr ""
 "在覆蓋或刪除本地元素之前。"
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
-msgstr "在復原之前，較新版本的檔案將使用 {suffix} 進行重新命名。如果您不再需要它們，可以使用 {cmd} 刪除它們"
+msgstr "在復原之前，較新版本的檔案將使用尾隨 {suffix} 進行重新命名。如果您不再需要它們，可以使用以下命令刪除它們："
 
 #: qt/app.py:1432
 msgid ""
@@ -807,7 +807,7 @@ msgstr "語言設定僅在重新啟動 Back In Time 後生效。"
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
-msgstr ""
+msgstr "在可預見的將來，將停止對 EncFS 的支援。不建議進一步對設定檔使用該模式。"
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -815,21 +815,21 @@ msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
-msgstr ""
+msgstr "關於替換加密備份的持續支援的決定仍在等待中，具體取決於專案資源和貢獻者的可用性。此{whitepaper}中提供了更多詳細資訊。"
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "白皮書"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
-msgstr ""
+msgstr "對加密快照設定檔的支援正在發生重大變化，並且 EncFS 將在可預見的將來被刪除。"
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "以下設定檔使用 EncFS 進行加密："
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -839,17 +839,17 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"關於替換加密備份的持續支援的決定仍在等待中，具體取決於專案資源和貢獻者的可用性。邀請用戶加入此討論。本{whitepaper}中提供了有關後續步驟的更新詳細資訊。"
 
 #: qt/encfsmsgbox.py:85
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
-msgstr ""
+msgstr "此訊息將不會再次顯示。您可以隨時透過幫助選單存取此對話框。"
 
 #: qt/encfsmsgbox.py:87
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Back In &Time"
+msgstr "您的Back In Time團隊"
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
@@ -1088,11 +1088,10 @@ msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "選擇現有的私鑰檔案（通常命名為“id_rsa”）"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
-msgstr "建立一個新的無密碼 SSH 金鑰（如果已選擇私鑰檔案則不允許）"
+msgstr "建立一個新的無密碼 SSH 金鑰（如果已選擇私鑰檔案則不允許）。"
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1517,13 +1516,13 @@ msgid "Prefix to run before every command on remote host."
 msgstr "在遠端主機上的每個命令之前運行的前綴。"
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 "在遠端主機上的每個命令之前運行的前綴。變數需要使用 \\$FOO 進行轉義。這不涉及 rsync。 "
-"所以要加上前綴{example_value}{rsync_options_value}"
+"所以要加上前綴{example_value}{rsync_options_value}。"
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1565,6 +1564,8 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"在可預見的將來，將停止對 EncFS "
+"的支援。關於替換加密備份的持續支援的決定仍在等待中，具體取決於專案資源和貢獻者的可用性。此{whitepaper}中提供了更多詳細資訊。"
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
@@ -1666,9 +1667,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "確認修改快照資料夾？"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "無法在 {path} 中建立新的 SSH 金鑰"
+msgstr "無法在 {path} 中建立新的 SSH 金鑰。"
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1749,9 +1750,8 @@ msgid "Differing snapshots only"
 msgstr "僅不同快照"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "僅列出與以下內容相同的快照： "
+msgstr "僅列出與以下內容相同的快照："
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"
