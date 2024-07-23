@@ -1,5 +1,4 @@
-# How to prepare and publish a new BiT release
-
+# How to prepare and publish a new BIT release
 
 ## Overview
 
@@ -8,8 +7,6 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Source branch: `dev`
 - Target branch for the pull request: `dev`
-
-
 
 ## Preconditions for a new release
 
