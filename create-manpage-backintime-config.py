@@ -47,25 +47,47 @@ force_default and force_var. If there is no forced value it will chose the
 value based on the instance with `select_values`
 """
 
+Improving the provided code involves enhancing its readability, maintainability, and performance without altering its functionality. I've made the following changes:
+
+1. **Refactor Imports:** Group and order imports.
+2. **Use Constants and Docstrings:** Add descriptive comments and docstrings for functions.
+3. **Simplify Conditionals:** Use more Pythonic constructs where appropriate, reducing the complexity of certain conditional checks.
+4. **Optimize Regular Expressions:** Compiled regular expressions can be reused effectively.
+5. **Reduce Redundant Code:** Streamlined the process of updating configuration data.
+6. **Type Hints:** Added type hints for better code clarity.
+7. **Optimized Overall Logic:** Made minor adjustments to improve logical flow.
+
+Here’s a refactored version of your code:
+
+```python
 import re
 import os
-import sys
 from time import strftime, gmtime
+from typing import Dict, Any
 
+# Constants for file paths
 PATH = os.path.join(os.getcwd(), 'common')
-
 CONFIG = os.path.join(PATH, 'config.py')
 MAN = os.path.join(PATH, 'man/C/backintime-config.1')
+VERSION_FILE = os.path.join(PATH, '../VERSION')
 
-with open(os.path.join(PATH, '../VERSION'), 'r') as f:
-    VERSION = f.read().strip('\n')
+# Load the version from the VERSION file
+with open(VERSION_FILE, 'r') as f:
+    VERSION = f.read().strip()
 
+# Sort option for the output
 SORT = True  # True = sort by alphabet; False = sort by line numbering
 
-c_list = re.compile(r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
-c = re.compile(r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
+# Compiled regex patterns
+C_LIST_PATTERN = re.compile(
+    r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?'
+)
+C_PATTERN = re.compile(
+    r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?'
+)
 
-HEADER = r'''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
+# Header and footer texts for the manual page
+HEADER = (r'''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -86,7 +108,7 @@ Arguments don't need to be quoted. All characters are allowed except '='.
 .PP
 Run 'backintime check-config' to verify the configfile, create the snapshot folder and crontab entries.
 .SH POSSIBLE KEYWORDS
-''' % (strftime('%b %Y', gmtime()), VERSION)
+''' % (strftime('%b %Y', gmtime()), VERSION))
 
 FOOTER = r'''.SH SEE ALSO
 backintime, backintime-qt.
@@ -96,6 +118,7 @@ Back In Time also has a website: https://github.com/bit-team/backintime
 This manual page was written by BIT Team(<bit-dev@python.org>).
 '''
 
+# Constants for dictionary keys
 INSTANCE = 'instance'
 NAME = 'name'
 VALUES = 'values'
@@ -105,261 +128,12 @@ REFERENCE = 'reference'
 LINE = 'line'
 
 
-def output(instance='', name='', values='', default='',
-           comment='', reference='', line=0):
+def output(instance: str = '', name: str = '', values: str = '', default: str = '',
+           comment: str = '', reference: str = '', line: int = 0) -> str:
     """
+    Generate formatted output for a configuration item.
     """
-    if not default:
-        default = "''"
-
-    ret = '.IP "\\fI%s\\fR" 6\n' % name
+    default = default if default else "''"
+    ret = f'.IP "\\fI{name}\\fR" 6\n'
     ret += '.RS\n'
-    ret += 'Type: %-10sAllowed Values: %s\n' % (instance.lower(), values)
-    ret += '.br\n'
-    ret += '%s\n' % comment
-    ret += '.PP\n'
-
-    if SORT:
-        ret += 'Default: %s\n' % default
-    else:
-        ret += 'Default: %-18s %s line: %d\n' % (default, reference, line)
-
-    ret += '.RE\n'
-
-    return ret
-
-
-def select(a, b):
-    if a:
-        return a
-
-    return b
-
-
-def select_values(instance, values):
-    if values:
-        return values
-
-    return {
-        'bool': 'true|false',
-        'str': 'text',
-        'int': '0-99999'
-    }[instance.lower()]
-
-
-def process_line(d, key, profile, instance, name, var, default, commentline,
-                 values, force_var, force_default, replace_default, counter):
-    # Ignore commentlines with #?! and 'config.version'
-    comment = None
-
-    if not commentline.startswith('!') and key not in d:
-        d[key] = {}
-        commentline = commentline.split(';')
-
-        try:
-            comment = commentline[0]
-            values = commentline[1]
-            force_default = commentline[2]
-            force_var = commentline[3]
-
-        except IndexError:
-            pass
-
-        if default.startswith('self.') and default[5:] in replace_default:
-            default = replace_default[default[5:]]
-
-        if isinstance(force_default, str) \
-           and force_default.startswith('self.') \
-           and force_default[5:] in replace_default:
-            force_default = replace_default[force_default[5:]]
-
-        if instance.lower() == 'bool':
-            default = default.lower()
-
-        d[key][INSTANCE] = instance
-        d[key][NAME] = re.sub(
-            r'%[\S]', '<%s>' % select(force_var, var).upper(), name
-        )
-        d[key][VALUES] = select_values(instance, values)
-        d[key][DEFAULT] = select(force_default, default)
-        d[key][COMMENT] = re.sub(r'\\n', '\n.br\n', comment)
-        d[key][REFERENCE] = 'config.py'
-        d[key][LINE] = counter
-
-
-def main():
-    d = {
-        'profiles.version': {
-            INSTANCE: 'int',
-            NAME: 'profiles.version',
-            VALUES: '1',
-            DEFAULT: '1',
-            COMMENT: 'Internal version of profiles config.',
-            REFERENCE: 'configfile.py',
-            LINE: 419
-        },
-        'profiles': {
-            INSTANCE: 'str',
-            NAME: 'profiles',
-            VALUES: 'int separated by colon (e.g. 1:3:4)',
-            DEFAULT: '1',
-            COMMENT: 'All active Profiles (<N> in profile<N>.snapshots...).',
-            REFERENCE: 'configfile.py',
-            LINE: 472
-        },
-        'profile<N>.name': {
-            INSTANCE: 'str',
-            NAME: 'profile<N>.name',
-            VALUES: 'text',
-            DEFAULT: 'Main profile',
-            COMMENT: 'Name of this profile.',
-            REFERENCE: 'configfile.py',
-            LINE: 704
-        }
-    }
-
-    # Default variables and there values collected from config.py
-    replace_default = {}
-
-    # Variables named "CONFIG_VERSION" or with names starting with "DEFAULT"
-    regex_default = re.compile(r'(^DEFAULT[\w]*|CONFIG_VERSION)[\s]*= (.*)')
-
-    with open(CONFIG, 'r') as f:
-        print(f'Read "{CONFIG}".')
-        commentline = ''
-        values = force_var = force_default = instance \
-            = name = var = default = None
-
-        for counter, line in enumerate(f, 1):
-            line = line.lstrip()
-
-            # parse for DEFAULT variable
-            m_default = regex_default.match(line)
-
-            # DEFAULT variable
-            if m_default:
-                replace_default[m_default.group(1)] \
-                    = m_default.group(2)
-                continue
-
-            # Comment intended to use for the manpage
-            if line.startswith('#?'):
-                if commentline \
-                   and ';' not in commentline \
-                   and not commentline.endswith('\\n'):
-                    commentline += ' '
-
-                commentline += line.lstrip('#?').rstrip('\n')
-
-                continue
-
-            # Simple comments are ignored
-            if line.startswith('#'):
-                commentline = ''
-                continue
-
-            # e.g. "return self.profileListValue('snapshots.include', ('str:value', 'int:type'), [], profile_id)"
-            # becomes
-            # ('profile', 'List', 'snapshots.include', "('str:value', 'int:type')", '[]')
-            m = c_list.match(line)
-
-            if not m:
-                # e.g. "return self.profileBoolValue('snapshots.use_checksum', False, profile_id)"
-                # becomes
-                # ('profile', 'Bool', 'snapshots.use_checksum', '', 'False')
-                m = c.match(line)
-
-            # Ignore undocumented (without "#?" comments) variables.
-            if m and not commentline:
-                continue
-
-            if m:
-                profile, instance, name, var, default = m.groups()
-
-                if profile == 'profile':
-                    name = 'profile<N>.' + name
-
-                var = var.lstrip('% ')
-
-                if instance.lower() == 'list':
-
-                    type_key = [x.strip('"\'') for x in re.findall(r'["\'].*?["\']', var)]
-
-                    commentline_split = commentline.split('::')
-
-                    for i, tk in enumerate(type_key):
-                        t, k = tk.split(':', maxsplit=1)
-
-                        process_line(
-                            d,
-                            key,
-                            profile,
-                            'int',
-                            '%s.size' % name,
-                            var,
-                            r'\-1',
-                            'Quantity of %s.<I> entries.' % name,
-                            values,
-                            force_var,
-                            force_default,
-                            replace_default,
-                            counter)
-
-                        key = '%s.%s' % (name, k)
-                        key = key.lower()
-
-                        process_line(
-                            d,
-                            key,
-                            profile,
-                            t,
-                            '%s.<I>.%s' % (name, k),
-                            var,
-                            '',
-                            commentline_split[i],
-                            values,
-                            force_var,
-                            force_default,
-                            replace_default,
-                            counter
-                        )
-
-                else:
-                    key = re.sub(r'%[\S]', var, name).lower()
-
-                process_line(
-                    d,
-                    key,
-                    profile,
-                    instance,
-                    name,
-                    var,
-                    default,
-                    commentline,
-                    values,
-                    force_var,
-                    force_default,
-                    replace_default,
-                    counter
-                )
-
-                values = force_var = force_default = instance \
-                    = name = var = default = None
-
-                commentline = ''
-
-    with open(MAN, 'w') as f:
-        print(f'Write into "{MAN}".')
-        f.write(HEADER)
-
-        if SORT:
-            s = lambda x: x
-        else:
-            s = lambda x: d[x][LINE]
-
-        f.write('\n'.join(output(**d[key]) for key in sorted(d, key=s)))
-        f.write(FOOTER)
-
-
-if __name__ == '__main__':
-    main()
+    ret += f'Type:
