@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-05-28 11:27+0000\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-22 12:04+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -43,7 +43,7 @@ msgstr "Τοπικό"
 
 #: common/config.py:311
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
 msgid "SSH private key"
@@ -158,6 +158,11 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Το cron δεν εκτελείται παρά το γεγονός ότι η εντολή crontab είναι διαθέσιμη."
+" Οι προγραμματισμένες εργασίες δημιουργίας αντιγράφων ασφαλείας δεν θα "
+"εκτελεστούν. Το Cron ενδέχεται να είναι εγκατεστημένο αλλά όχι "
+"ενεργοποιημένο. Δοκιμάστε την εντολή «systemctl enable cron» ή "
+"συμβουλευτείτε τα κανάλια υποστήριξης της διανομής σας GNU Linux."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -213,15 +218,14 @@ msgid "Cancel"
 msgstr "Ακύρωση"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό"
+msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Ο κωδικός δεν ταιριάζει."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
@@ -236,9 +240,9 @@ msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr "Δεν βρέθηκε το {}. Παρακαλώ εγκαταστήστε, π.χ. {}"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Το σημείο προσάρτησης {} δεν είναι κενό."
+msgstr "Το σημείο προσάρτησης {mntpoint} δεν είναι κενό."
 
 #: common/password.py:269
 #, python-brace-format
@@ -262,7 +266,7 @@ msgstr "Ολοκληρώθηκε"
 msgid "Deferring backup while on battery"
 msgstr "Αναβολή του backup όσο το σύστημα βρίσκεται σε μπαταρία"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -270,111 +274,111 @@ msgstr ""
 "Δε βρέθηκε ο φάκελος στιγμιοτύπων.\n"
 "Εάν βρίσκεται σε αφαιρούμενο δίσκο, παρακαλώ συνδέστε τον."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Αναμονή %s δευτερόλεπτο."
 msgstr[1] "Αναμονή %s δευτερόλεπτα."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Αποτυχία λήψης στιγμιότυπου {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Οριστικοποίηση"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Αδυναμία δημιουργίας φακέλου"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Αποθήκευση αρχείου ρυθμίσεων…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Αποθήκευση δικαιωμάτων…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Βρέθηκε παλαιότερο {snapshot_id} το οποίο μπορεί να συνεχιστεί."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 "Αφαίρεση προηγούμενου {snapshot_id} φακέλου από την τελευταία εκτέλεση"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Αδυναμία αφαίρεσης φακέλου"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Επιτυχία"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Μερική μεταφορά λόγω σφάλματος"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Μερική μεταφορά λόγω εξαφανισμένων αρχείων πηγής (δείτε 'man rsync')"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "Η διεργασία 'rsync' τελείωσε με κωδικό {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Δείτε το 'man rsync' για περισσότερες λεπτομέρειες"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Οι αρνητικοί αριθμοί ως κωδικοί εξόδου του rsync είναι αριθμοί σήματος, "
 "δείτε 'kill -l' και 'man kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Δεν άλλαξε τίποτα, δεν είναι απαραίτητη η λήψη νέου στιγμιότυπου"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Αδυναμία μετονομασίας {new_path} σε {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Έξυπνη αφαίρεση"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Αφαίρεση παλαιών στιγμιοτύπων"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Προσπάθεια διατήρησης ελάχιστου ελεύθερου χώρου"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 "Προσπαάθεια διατήρησης ελάχιστου ποσοστού {perc} ελεύθερων συστημάτων "
 "αρχείου (inodes)"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Τώρα"
 
@@ -456,7 +460,7 @@ msgstr "Σχετικά"
 
 #: qt/aboutdlg.py:68 qt/aboutdlg.py:106
 msgid "Authors"
-msgstr ""
+msgstr "Δικαιούχοι"
 
 #: qt/aboutdlg.py:69 qt/aboutdlg.py:112
 msgid "Translations"
@@ -997,9 +1001,9 @@ msgid "Question"
 msgstr ""
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Προφίλ: \"{name}\""
+msgstr "Προφίλ: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1124,16 +1128,17 @@ msgstr ""
 
 #: qt/settingsdialog.py:296
 msgid "Cipher:"
-msgstr "Κρυπτογράφημα:"
+msgstr "Κρυπτοαλγόριθμος:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Ιδιωτικό κλειδί SSH"
+msgstr "Ιδιωτικό κλειδί:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
+"Διάλεξε ένα υπάρχων αρχείο ιδιωτικού κλειδιού (συνήθως ονομάζεται "
+"\"id_rsa\")"
 
 #: qt/settingsdialog.py:323
 msgid ""
@@ -1181,10 +1186,10 @@ msgstr[0] "Κάθε {n} λεπτό"
 msgstr[1] "Κάθε {n} λεπτά"
 
 #: qt/settingsdialog.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Κάθε ώρα"
+msgstr[0] "Κάθε{n}  ώρες"
 msgstr[1] "Κάθε ώρα"
 
 #: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
@@ -1225,7 +1230,7 @@ msgstr "Κάθε χρόνο"
 
 #: qt/settingsdialog.py:468
 msgid "Day:"
-msgstr ""
+msgstr "Ημέρα:"
 
 #: qt/settingsdialog.py:479
 msgid "Weekday:"
@@ -1295,11 +1300,11 @@ msgstr ""
 
 #: qt/settingsdialog.py:607 qt/settingsdialog.py:672
 msgid "Add file"
-msgstr ""
+msgstr "Πρόσθεσε αρχείο"
 
 #: qt/settingsdialog.py:611 qt/settingsdialog.py:676
 msgid "Add folder"
-msgstr ""
+msgstr "Πρόσθεσε φάκελο"
 
 #: qt/settingsdialog.py:621
 msgid "&Exclude"
@@ -1324,7 +1329,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:694
 msgid "Exclude files bigger than:"
-msgstr "Εξαίρεση αρχείου:"
+msgstr "Εξαίρεση αρχείου μεγαλύτερου από:"
 
 #: qt/settingsdialog.py:698
 #, python-brace-format
@@ -1360,9 +1365,8 @@ msgid "If free inodes is less than:"
 msgstr ""
 
 #: qt/settingsdialog.py:782
-#, fuzzy
 msgid "Smart removal:"
-msgstr "Έξυπνη αφαίρεση"
+msgstr "Έξυπνη αφαίρεση:"
 
 #: qt/settingsdialog.py:793
 msgid "Run in background on remote host."
@@ -1370,7 +1374,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:794
 msgid "EXPERIMENTAL"
-msgstr ""
+msgstr "ΠΕΙΡΑΜΑΤΙΚΟ"
 
 #: qt/settingsdialog.py:800
 msgid "Keep all snapshots for the last"
@@ -1454,7 +1458,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:895
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Χρησιμοποίησε checksum για να εντοπίσεις αλλαγές"
 
 #: qt/settingsdialog.py:899
 msgid "Take a new snapshot whether there were changes or not."
@@ -1466,7 +1470,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:911
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #: qt/settingsdialog.py:931
 msgid "E&xpert Options"
@@ -1480,7 +1484,7 @@ msgstr ""
 #: qt/settingsdialog.py:941 qt/settingsdialog.py:957 qt/settingsdialog.py:979
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr ""
+msgstr "Τρέξε 'rsync' με '{cmd}':"
 
 #: qt/settingsdialog.py:948 qt/settingsdialog.py:964
 msgid "as cron job"
@@ -1500,7 +1504,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:989
 msgid "on local machine"
-msgstr ""
+msgstr "στην τοπική μηχανή"
 
 #: qt/settingsdialog.py:1000
 msgid "Redirect stdout to /dev/null in cronjobs."

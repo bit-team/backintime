@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-02 13:39+0000\n"
-"Last-Translator: Dmitriy Q <krote5k@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-22 12:37+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -217,7 +217,7 @@ msgstr "Пожалуйста, подтвердите пароль."
 msgid "Password doesn't match."
 msgstr "Пароль не подходит."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Сделать снимок"
 
@@ -260,7 +260,7 @@ msgstr "Готово"
 msgid "Deferring backup while on battery"
 msgstr "Отсрочка резервного копирования при работе от батареи"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -268,7 +268,7 @@ msgstr ""
 "Невозможно найти каталог снимков.\n"
 "Если он находится на съёмном диске, пожалуйста, подключите его."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -276,103 +276,103 @@ msgstr[0] "Ждать %s секунду."
 msgstr[1] "Ждать %s секунды."
 msgstr[2] "Ждать %s секунд."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Не удалось создать снимок {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Окончание"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Невозможно создать каталог"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Сохранение файла конфигурации…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Сохранение разрешений…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Найдены остатки {snapshot_id}, с которыми можно продолжить."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 "Удаление остатков папки {snapshot_id}, оставшиеся после последнего запуска"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Невозможно удалить каталог"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Создание снимка"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Успешно"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Неполная передача из-за ошибки"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Частичный перенос из-за исчезновения исходных файлов (см. «man rsync»)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "rsync завершился c кодом {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Подробнее см. «man rsync»"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Неудачные коды выхода из rsync - это номера сигналов, см. 'kill -l' и 'man "
 "kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Ничего не изменилось, нет необходимости в резервной копии"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Невозможно переименовать {new_path} в {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Умное удаление"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Удалить старые резервные копии"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Стараться сохранять минимальное свободное место"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Попытка сохранить минимум {perc} свободных инодов"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Сейчас"
 
@@ -769,8 +769,9 @@ msgid ""
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
-"Более новые версии файлов перед восстановлением будут переименованы с трейлингом {suffix}.\n"
-"Если они вам больше не нужны, то можете удалить их с помощью команды {cmd}"
+"Более новые версии файлов перед восстановлением будут переименованы с "
+"трейлингом {suffix}. Если они вам больше не нужны, то можете удалить их с "
+"помощью команды:"
 
 #: qt/app.py:1432
 #, fuzzy
@@ -964,9 +965,8 @@ msgstr "Просмотр журнала снимка"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
 #: qt/settingsdialog.py:2627
-#, fuzzy
 msgid "Profile:"
-msgstr "Профиль"
+msgstr "Профиль:"
 
 #: qt/logviewdialog.py:84
 #, fuzzy
@@ -1033,14 +1033,12 @@ msgid "Working…"
 msgstr "Работаю…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Отправлено"
+msgstr "Отправлено:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Скорость"
+msgstr "Скорость:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1084,14 +1082,12 @@ msgid "SSH Proxy"
 msgstr "SSH-прокси"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Хост"
+msgstr "Хост:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Порт"
+msgstr "Порт:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
 #, fuzzy
@@ -1126,9 +1122,8 @@ msgid "&General"
 msgstr "&Общие"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Режим"
+msgstr "Режим:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1143,19 +1138,16 @@ msgid "SSH Settings"
 msgstr "Найстроки SSH"
 
 #: qt/settingsdialog.py:290
-#, fuzzy
 msgid "Path:"
-msgstr "Путь"
+msgstr "Путь:"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "шифр"
+msgstr "шифр:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Приватный ключ"
+msgstr "Приватный ключ:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1265,9 +1257,8 @@ msgid "Day:"
 msgstr "Число:"
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "День недели"
+msgstr "День недели:"
 
 #: qt/settingsdialog.py:495
 #, fuzzy
@@ -1275,9 +1266,8 @@ msgid "Hour:"
 msgstr "Час"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "Часа"
+msgstr "Часа:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1288,9 +1278,8 @@ msgstr ""
 "работает нерегулярно."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "Каждые"
+msgstr "Каждые:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"

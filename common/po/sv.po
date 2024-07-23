@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-02-20 20:57+0000\n"
-"Last-Translator: Niklas Grahn <terra.unknown@yahoo.com>\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-22 12:12+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -215,16 +215,15 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Bekräfta lösenord"
+msgstr "Bekräfta lösenord."
 
 #: common/encfstools.py:160
 #, fuzzy
 msgid "Password doesn't match."
 msgstr "Lösenord matchar inte."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Ta ögonblicksbild"
 
@@ -266,7 +265,7 @@ msgstr "Färdig"
 msgid "Deferring backup while on battery"
 msgstr "Uppskjuter säkerhetskopiering vid batteridrift"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -274,110 +273,110 @@ msgstr ""
 "Det går inte att hitta mappen för ögonblicksbilder.\n"
 "Om den är på en flyttbar enhet, anslut den."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Väntar %s sekund."
 msgstr[1] "Väntar %s sekunder."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Misslyckades att skapa ögonblicksbild {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Färdigställer"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 #, fuzzy
 msgid "Can't create folder"
 msgstr "Kan inte skapa mapp"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Sparar konfigurationsfil…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Sparar behörigheter…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Hittade överbliven \"{snapshot_id}\" som kan återupptas."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Tar bort överbliven \"{snapshot_id}\"-mapp från den senaste körningen"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 #, fuzzy
 msgid "Can't remove folder"
 msgstr "Kan inte ta bort mapp"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Tar ögonblicksbild"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr ""
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr ""
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Ofullständig överföring på grund av källfiler som försvann (se \"man "
 "rsync\")"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "\"rsync\" avslutades med felkod {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Se \"man rsync\" för fler detaljer"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "Negativa felkoder från rsync är signalnummer, se \"kill -l\" och \"man kill\""
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Inget har förändrats, ingen ny ögonblicksbild behövs"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Kan inte byta namn från {new_path} till {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Smart borttagning"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Tar bort gamla ögonblicksbilder"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Försöker att behålla minimum ledigt utrymme"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Försöker behålla minst {perc} fria inoder"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Nu"
 
@@ -449,9 +448,9 @@ msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Kopiera offentlig ssh-nyckel \"{pubkey}\" till fjärrvärd \"{host}\""
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Ange lösenord för \"{user}\""
+msgstr "Ange lösenord för \"{user}\"."
 
 #: qt/aboutdlg.py:44 qt/app.py:572
 msgid "About"
@@ -503,9 +502,8 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:375
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "Kan inte skapa mapp"
+msgstr "Kan inte skapa mapp."
 
 #: qt/app.py:376
 #, fuzzy
@@ -972,19 +970,16 @@ msgstr "Visning av logg för ögonblicksbild"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
 #: qt/settingsdialog.py:2627
-#, fuzzy
 msgid "Profile:"
-msgstr "Profil"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Ögonblicksbilder"
+msgstr "Ögonblicksbilder:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Filter"
+msgstr "Filter:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:921
 msgid "All"
@@ -1023,9 +1018,9 @@ msgid "Question"
 msgstr "Fråga"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profil: \"{name}\""
+msgstr "Profil: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1042,14 +1037,12 @@ msgid "Working…"
 msgstr "Arbetar…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Skickat"
+msgstr "Skickat:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Hastighet"
+msgstr "Hastighet:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1094,19 +1087,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Värd"
+msgstr "Värd:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Port"
+msgstr "Port:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-#, fuzzy
 msgid "User:"
-msgstr "Användare"
+msgstr "Användare:"
 
 #: qt/settingsdialog.py:120
 msgid ""
@@ -1137,9 +1127,8 @@ msgid "&General"
 msgstr "&Allmänt"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Läge"
+msgstr "Läge:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1154,19 +1143,16 @@ msgid "SSH Settings"
 msgstr "SSH-inställningar"
 
 #: qt/settingsdialog.py:290
-#, fuzzy
 msgid "Path:"
-msgstr "Sökväg"
+msgstr "Sökväg:"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "Chiffer"
+msgstr "Chiffer:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Privat nyckel"
+msgstr "Privat nyckel:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1200,9 +1186,8 @@ msgid "Advanced"
 msgstr "Avancerat"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Fullständig sökväg för ögonblicksbild: "
+msgstr "Fullständig sökväg för ögonblicksbild:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"
@@ -1276,19 +1261,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "Veckodag"
+msgstr "Veckodag:"
 
 #: qt/settingsdialog.py:495
-#, fuzzy
 msgid "Hour:"
-msgstr "Timme"
+msgstr "Timme:"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "Timmar"
+msgstr "Timmar:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1299,9 +1281,8 @@ msgstr ""
 "regelbundet."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "Varje"
+msgstr "Varje:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"
@@ -1381,9 +1362,8 @@ msgid "Add default"
 msgstr "Lägg till standard"
 
 #: qt/settingsdialog.py:694
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Exkludera filer större än: "
+msgstr "Exkludera filer större än:"
 
 #: qt/settingsdialog.py:698
 #, fuzzy, python-brace-format
@@ -1410,23 +1390,20 @@ msgid "&Auto-remove"
 msgstr "Automatisk &borttagning"
 
 #: qt/settingsdialog.py:726
-#, fuzzy
 msgid "Older than:"
-msgstr "Äldre än"
+msgstr "Äldre än:"
 
 #: qt/settingsdialog.py:740
 msgid "Year(s)"
 msgstr "År"
 
 #: qt/settingsdialog.py:748
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Om ledigt utrymme är mindre än"
+msgstr "Om ledigt utrymme är mindre än:"
 
 #: qt/settingsdialog.py:768
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Om lediga inoder är mindre än"
+msgstr "Om lediga inoder är mindre än:"
 
 #: qt/settingsdialog.py:782
 #, fuzzy
@@ -1538,9 +1515,8 @@ msgid "Take a new snapshot whether there were changes or not."
 msgstr "Ta en ny ögonblicksbild oavsett om det fanns ändringar eller inte."
 
 #: qt/settingsdialog.py:906
-#, fuzzy
 msgid "Log Level:"
-msgstr "Loggnivå"
+msgstr "Loggnivå:"
 
 #: qt/settingsdialog.py:911
 msgid "None"
@@ -1602,9 +1578,8 @@ msgid ""
 msgstr ""
 
 #: qt/settingsdialog.py:1024
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Bandbreddsbegränsning för rsync"
+msgstr "Bandbreddsbegränsning för rsync:"
 
 #: qt/settingsdialog.py:1027
 msgid "KB/sec"
@@ -1676,9 +1651,8 @@ msgstr ""
 "konstiga fel."
 
 #: qt/settingsdialog.py:1218
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "Kontrollera om fjärrvärden stöder alla nödvändiga kommandon"
+msgstr "Kontrollera om fjärrvärden stöder alla nödvändiga kommandon."
 
 #: qt/settingsdialog.py:1221
 #, fuzzy
@@ -1822,9 +1796,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Är du säker på att du vill ändra mappen för ögonblicksbilder?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Misslyckades med att skapa ny SSH-nyckel i {path}"
+msgstr "Misslyckades med att skapa ny SSH-nyckel i {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1874,14 +1848,12 @@ msgid "Options about comparing snapshots"
 msgstr "Alternativ för att jämföra ögonblicksbilder"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command:"
-msgstr "Kommando"
+msgstr "Kommando:"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parametrar"
+msgstr "Parametrar:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1952,9 +1924,8 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Vill du verkligen ta bort \"{file}\" i {count} ögonblicksbilder?"
 
 #: qt/snapshotsdialog.py:408
-#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "VARNING: Det här kan inte återkallas!"
+msgstr "VARNING: Det här kan inte återkallas."
 
 #: qt/snapshotsdialog.py:426
 #, fuzzy, python-brace-format

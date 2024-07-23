@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-05 13:36+0000\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-19 11:10+0000\n"
 "Last-Translator: espresso_nightingale <espresso_nightingale@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
 "Language: ro\n"
@@ -28,14 +28,12 @@ msgid "Main profile"
 msgstr "Profil principal"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "criptat"
+msgstr "Local (criptat EncFS)"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "Criptat SSH"
+msgstr "SSH (criptat EncFS)"
 
 #: common/config.py:309
 msgid "Local"
@@ -50,9 +48,8 @@ msgid "SSH private key"
 msgstr "Cheie privată SSH"
 
 #: common/config.py:314
-#, fuzzy
 msgid "Local encrypted"
-msgstr "criptat"
+msgstr "Local criptat"
 
 #: common/config.py:315 common/config.py:322
 msgid "Encryption"
@@ -78,7 +75,8 @@ msgstr "Dosarul de instantanee nu este valid!"
 
 #: common/config.py:371
 msgid "You must select at least one folder to back up!"
-msgstr "Trebuie să selectați cel puțin un dosar pentru a copia de rezervă!"
+msgstr ""
+"Trebuie să selectați cel puțin un dosar pentru a efectua copia de rezervă!"
 
 #: common/config.py:388
 msgid "Backup folder cannot be included."
@@ -95,7 +93,7 @@ msgstr "Opțiune nevalidă. {path} nu este un dosar."
 
 #: common/config.py:456
 msgid "Host/User/Profile-ID must not be empty."
-msgstr "Gazda/Utilizatorul/ID-ul de profil nu trebuie să fie liber."
+msgstr "Gazda/Utilizatorul/ID-ul de profil nu trebuie să fie gol."
 
 #: common/config.py:466 common/config.py:513
 #, python-brace-format
@@ -135,13 +133,14 @@ msgid "Expert Options"
 msgstr "Opțiuni expert"
 
 #: common/config.py:501
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Sistemul de fișiere destinație pentru {path} este o partajare monatată pe "
-"sshfs. sshfs nu suportă legăturile tari. Utilizați în schimb modul „SSH”."
+"Sistemul de fișiere destinație pentru {path} este o partajare montată pe "
+"sshfs. Sshfs nu oferă suport pentru legăturile permanente (hard-link). "
+"Utilizați în schimb modul „SSH”."
 
 #: common/config.py:1658
 msgid "Failed to write new crontab."
@@ -154,6 +153,10 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Cron nu rulează deși comanda crontab este disponibilă. Sarcinile de copiere "
+"de rezervă programate nu vor rula. Cron ar putea fi instalat, dar nu este "
+"activat. Încercați comanda „systemctl enable cron” sau consultați canalele "
+"de asistență ale distribuției GNU Linux pe care o aveți."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -209,15 +212,14 @@ msgid "Cancel"
 msgstr "Anulează"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Confirmați parola"
+msgstr "Confirmați parola."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Parola nu se potrivește."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Ia instantaneu"
 
@@ -227,19 +229,20 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Nu se poate demonta {mountprocess} de la {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{} nu a fost găsit. Instalați de ex. {}"
+msgstr ""
+"{command} nu a fost găsită. Instalați-o (de ex. prin „{installcommand}”)"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Punctul de montare {} nu este liber."
+msgstr "Punctul de montare {mntpoint} nu este liber."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Introduceți parola pentru profilul {mode} „{profile}”:"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -258,7 +261,7 @@ msgstr "Terminat"
 msgid "Deferring backup while on battery"
 msgstr "Se amână copierea de rezervă în timp ce se utilizează bateria"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -266,7 +269,7 @@ msgstr ""
 "Nu se poate găsi dosarul de instantanee.\n"
 "Dacă este pe o unitate detașabilă, conectați-o."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -274,103 +277,102 @@ msgstr[0] "Se așteaptă %s secundă."
 msgstr[1] "Se așteaptă %s secunde."
 msgstr[2] "Se așteaptă %s de secunde."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nu s-a putut realiza instantaneul {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Se finalizează"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Nu se poate crea dosarul"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Se salvează fișierul de configurație…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Se salvează permisiunile…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "A fost găsit {snapshot_id} rămas care poate fi continuat."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Se elimină dosarul {snapshot_id} rămas din ultima rulare"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Nu se poate elimina dosarul"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Se ia instantaneul"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Transfer parțial din cauza unei erori"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfer parțial din cauza fișierelor sursă dispărute (consultați „man "
 "rsync”)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "„rsync” s-a încheiat cu codul de ieșire {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Consultați „man rsync” pentru mai multe detalii"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Codurile de ieșire rsync negative sunt numere de semnal, consultați „kill "
 "-l” și „man kill”"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nimic nu s-a schimbat, nu este necesar un instantaneu nou"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Nu se poate redenumi {new_path} la {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
-#, fuzzy
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
-msgstr "Eliminare inteligentă"
+msgstr "Înlăturare inteligentă"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Se elimină instantaneele vechi"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Se încearcă păstrarea minimului de spațiu liber"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Se încearcă păstrarea a minim {perc} inode-uri libere"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Acum"
 
@@ -433,14 +435,15 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Gazda de la distanță {host} nu suportă legăturile tari"
 
 #: common/sshtools.py:1164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Copiază cheia publică ssh „{pubkey}” la gazda de la distanță „{host}”"
+msgstr ""
+"Copiază cheia publică ssh „{pubkey}” la gazda de la distanță „{host}”."
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Introduceți parola pentru „{user}”"
+msgstr "Introduceți o parolă pentru „{user}”."
 
 #: qt/aboutdlg.py:44 qt/app.py:572
 msgid "About"
@@ -484,24 +487,24 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"{app_name} pare să ruleze pentru prima dată întrucât nu s-a găsit nicio "
+"configurație."
 
 #: qt/app.py:348
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
+"Importați o configurație existentă (dintr-un dosar țintă de copie de rezervă"
+" sau de pe un alt calculator)?"
 
 #: qt/app.py:375
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "Nu se poate crea dosarul"
+msgstr "Nu s-a putut găsi dosarul cu instantanee."
 
 #: qt/app.py:376
-#, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr ""
-"Nu se poate găsi dosarul de instantanee.\n"
-"Dacă este pe o unitate detașabilă, conectați-o și apoi apăsați OK."
+msgstr "Dacă se află pe o unitate detașabilă, conectați-o și apoi apăsați OK."
 
 #: qt/app.py:481
 msgid "Take a snapshot"
@@ -607,15 +610,15 @@ msgstr "Traducere"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Afișează din nou mesajul despre participarea la traducere."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Tranziție de criptare (EncFS)"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Afișează din nou mesajul despre înlăturarea EncFS."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -664,7 +667,7 @@ msgstr "Compară instantaneele…"
 
 #: qt/app.py:660
 msgid "Back In &Time"
-msgstr ""
+msgstr "Back In &Time"
 
 #: qt/app.py:665
 msgid "&Backup"
@@ -679,18 +682,16 @@ msgid "&Help"
 msgstr "&Ajutor"
 
 #: qt/app.py:818
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Dacă închideți această fereastră, Back In Time nu vă va putea opri sistemul când instantaneul este finalizat.\n"
-"Sigur doriți să închideți?"
+"Dacă închideți această fereastră, Back In Time nu vă va putea opri sistemul "
+"când instantaneul este finalizat."
 
 #: qt/app.py:821
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Sigur doriți să restaurați acest element?"
+msgstr "Sigur doriți să o închideți?"
 
 #: qt/app.py:987
 msgid "Working:"
@@ -757,14 +758,15 @@ msgstr ""
 "înainte de a suprascrie sau de a elimina elementele locale."
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
-"Noile versiuni ale fișierelor vor fi redenumite cu sufixul {suffix} înainte de restaurare.\n"
-"Dacă nu mai aveți nevoie de ele, puteți să le eliminați cu {cmd}"
+"Noile versiuni ale fișierelor vor fi redenumite cu sufixul {suffix} înainte "
+"de restaurare. Dacă nu mai aveți nevoie de ele, puteți să le eliminați cu "
+"următoarea comandă:"
 
 #: qt/app.py:1432
 msgid ""
@@ -781,18 +783,16 @@ msgid "Remove newer elements in original folder."
 msgstr "Elimină elementele mai noi din dosarul original."
 
 #: qt/app.py:1470
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"Restaurează fișierele sau dosarele selectate la destinația originală și\n"
-"șterge fișiere sau dosare care nu se află în instantaneu.\n"
-"Fiți extrem de atent pentru că acest lucru va\n"
-"șterge fișiere și dosare care au fost\n"
-"excluse în timpul realizării instantaneului."
+"Restaurează fișierele sau dosarele selectate la destinația originală și "
+"șterge fișiere sau dosare care nu se află în instantaneu. Fiți extrem de "
+"atent pentru că acest lucru va șterge fișiere și dosare care au fost excluse"
+" în timpul realizării instantaneului."
 
 #: qt/app.py:1481
 #, python-brace-format
@@ -831,13 +831,13 @@ msgstr ""
 "Sigur doriți să eliminați toate fișierele mai noi din dosarul original?"
 
 #: qt/app.py:1514
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"AVERTISMENT: Ștergerea fișierelor din root-ul sistemului de fișiere vă poate"
-" distruge întregul sistem!"
+"{BOLD}Avertisment{BOLDEND}: Ștergerea fișierelor din root-ul sistemului de "
+"fișiere vă poate distruge întregul sistem."
 
 #: qt/app.py:1750
 msgid "Snapshot"
@@ -863,6 +863,8 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"Suportul pentru EncFS va fi întrerupt în viitorul apropiat. Nu este "
+"recomandat să utilizați acel mod pentru un profil de acum încolo."
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -871,20 +873,26 @@ msgid ""
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
 msgstr ""
+"O decizie cu privire la înlocuirea suportului continuu pentru copiile de "
+"rezervă criptate este încă în așteptare, în funcție de resursele proiectului"
+" și de disponibilitatea contribuitorilor. Mai multe detalii sunt disponibile"
+" în acest {whitepaper}."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "raport"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"Suportul pentru profilurile de instantanee criptate suferă modificări "
+"semnificative și EncFS va fi eliminat în viitorul apropiat."
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Următorul profil(uri) utilizează criptare cu EncFS:"
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -894,16 +902,23 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"O decizie cu privire la înlocuirea suportului continuu al copiilor de "
+"rezervă criptate este încă în așteptare, în funcție de resursele proiectului"
+" și disponibilitatea contribuitorilor. Utilizatorii sunt invitați să se "
+"alăture acestei discuții. Detalii actualizate despre următorii pași sunt "
+"disponibile în acest {whitepaper}."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Acest mesaj nu va fi afișat din nou. Acest dialog este disponibil în orice "
+"moment prin meniul de ajutor."
 
 #: qt/encfsmsgbox.py:87
 msgid "Your Back In Time Team"
-msgstr ""
+msgstr "Echipa Back In Time"
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
@@ -957,19 +972,16 @@ msgstr "Vizualizare jurnal de instantaneu"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
 #: qt/settingsdialog.py:2627
-#, fuzzy
 msgid "Profile:"
-msgstr "Profil"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Instantanee"
+msgstr "Instantanee:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Filtrează"
+msgstr "Filtrează:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:921
 msgid "All"
@@ -985,10 +997,9 @@ msgid "Errors"
 msgstr "Erori"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
-msgstr[0] "Informații"
+msgstr[0] "Informație"
 msgstr[1] "Informații"
 msgstr[2] "Informații"
 
@@ -1009,9 +1020,9 @@ msgid "Question"
 msgstr "Întrebare"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profil: „{name}”"
+msgstr "Profil: {profile_name}"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1027,18 +1038,16 @@ msgid "Working…"
 msgstr "Se lucrează…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Trimis"
+msgstr "Trimis:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Viteză"
+msgstr "Viteză:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
-msgstr ""
+msgstr "ETA:"
 
 #: qt/qttools.py:404 qt/snapshotsdialog.py:123
 msgid "Snapshots"
@@ -1076,22 +1085,19 @@ msgstr "Arată jurnalul complet"
 
 #: qt/settingsdialog.py:96
 msgid "SSH Proxy"
-msgstr ""
+msgstr "Proxy SSH"
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Gazdă"
+msgstr "Gazdă:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Port"
+msgstr "Port:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-#, fuzzy
 msgid "User:"
-msgstr "Utilizator"
+msgstr "Utilizator:"
 
 #: qt/settingsdialog.py:120
 msgid ""
@@ -1099,6 +1105,9 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"Conectați-vă la gazda țintă prin acest proxy (cunoscut și ca gazdă de salt)."
+" Consultați „-J” în documentația comenzii „ssh” sau „ProxyJump” în pagina "
+"man „ssh_config” pentru detalii."
 
 #: qt/settingsdialog.py:170
 msgid "Manage profiles"
@@ -1121,9 +1130,8 @@ msgid "&General"
 msgstr "&Generale"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Mod"
+msgstr "Mod:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1138,32 +1146,28 @@ msgid "SSH Settings"
 msgstr "Configurări SSH"
 
 #: qt/settingsdialog.py:290
-#, fuzzy
 msgid "Path:"
-msgstr "Cale"
+msgstr "Cale:"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "Cifru"
+msgstr "Cifru:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Cheie privată"
+msgstr "Cheie privată:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Alegeți un fisier cheie privată existent (de obicei denumit „id_rsa”)"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
-"Crează o nouă cheie SSH fără parolă (nu este permis dacă un fișier cheie "
-"privată este deja selectat)"
+"Creează o nouă cheie SSH fără parolă (nu este permis dacă un fișier cheie "
+"privată este deja selectat)."
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1184,9 +1188,8 @@ msgid "Advanced"
 msgstr "Avansat"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Calea completă a instantaneului: "
+msgstr "Cale completă instantaneu:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"
@@ -1209,12 +1212,12 @@ msgstr[1] "La fiecare {n} minute"
 msgstr[2] "La fiecare {n} de minute"
 
 #: qt/settingsdialog.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "La fiecare oră"
-msgstr[1] "La fiecare oră"
-msgstr[2] "La fiecare oră"
+msgstr[1] "La fiecare {n} ore"
+msgstr[2] "La fiecare {n} de ore"
 
 #: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
 #: qt/settingsdialog.py:456
@@ -1255,22 +1258,19 @@ msgstr "Anual"
 
 #: qt/settingsdialog.py:468
 msgid "Day:"
-msgstr ""
+msgstr "Zi:"
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "Zi de lucru"
+msgstr "Zi lucrătoare:"
 
 #: qt/settingsdialog.py:495
-#, fuzzy
 msgid "Hour:"
-msgstr "Oră"
+msgstr "Oră:"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "Ore"
+msgstr "Ore:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1281,9 +1281,8 @@ msgstr ""
 " nu rulează în mod regulat."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "La fiecare"
+msgstr "La fiecare:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"
@@ -1311,17 +1310,20 @@ msgstr ""
 
 #: qt/settingsdialog.py:564
 msgid "Enable logging of debug messages"
-msgstr ""
+msgstr "Activează înregistarea mesajelor de depanare"
 
 #: qt/settingsdialog.py:568
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
+"Scrie mesaje la nivel de depanare în jurnalul de sistem prin „--debug”."
 
 #: qt/settingsdialog.py:570
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
+"Atenție: Folosiți-l doar temporar pentru diagnosticare, deoarece generează o"
+" cantitate mare de rezultate."
 
 #: qt/settingsdialog.py:583
 msgid "&Include"
@@ -1351,6 +1353,10 @@ msgid ""
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
+"{BOLD}Informații{ENDBOLD}: În modul „criptat SSH”, doar asterisk-urile "
+"simple sau duble sunt funcționale (de ex. {example2}). Alte tipuri de "
+"wildcard-uri și modele vor fi ignorate (de ex. {example1}). Numele "
+"fișierelor sunt imprevizibile în acest mod din cauza criptării cu EncFS."
 
 #: qt/settingsdialog.py:648
 msgid "Exclude patterns, files or folders"
@@ -1361,56 +1367,49 @@ msgid "Add default"
 msgstr "Adaugă implicit"
 
 #: qt/settingsdialog.py:694
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Exclude fișiere mai mari decât: "
+msgstr "Exclude fișierele mai mari decât:"
 
 #: qt/settingsdialog.py:698
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Exclude fișiere mai mari decât: "
+msgstr "Exclude fișierele mai mari decât valoarea în {size_unit}."
 
 #: qt/settingsdialog.py:700
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
-"Excludeți fișierele mai mari decât valoarea în %(prefix)s.\n"
-"Cu „Modul rsync complet” dezactivat, acest lucru va afecta doar fișierele noi,\n"
-"deoarece pentru rsync aceasta este o opțiune de transfer, nu o opțiune de excludere.\n"
-"Deci, fișierele mari care au fost copiate de rezervă înainte vor rămâne în instantanee\n"
-"chiar dacă s-au modificat."
+"Cu „Modul rsync complet” dezactivat, acest lucru va afecta doar fișierele "
+"noi, deoarece pentru rsync aceasta este o opțiune de transfer, nu o opțiune "
+"de excludere. Prin urmare, fișierele mari care au fost copiate de rezervă "
+"anterior vor persista în instantanee chiar dacă au fost modificate."
 
 #: qt/settingsdialog.py:720
 msgid "&Auto-remove"
 msgstr "Eliminare &automată"
 
 #: qt/settingsdialog.py:726
-#, fuzzy
 msgid "Older than:"
-msgstr "Mai vechi de"
+msgstr "Mai vechi de:"
 
 #: qt/settingsdialog.py:740
 msgid "Year(s)"
 msgstr "An (Ani)"
 
 #: qt/settingsdialog.py:748
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Dacă spațiul liber este mai mic decât"
+msgstr "Dacă spațiul liber este mai mic decât:"
 
 #: qt/settingsdialog.py:768
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Dacă inode-urile libere sunt mai puține decât"
+msgstr "Dacă inode-urile libere sunt mai puține decât:"
 
 #: qt/settingsdialog.py:782
-#, fuzzy
 msgid "Smart removal:"
-msgstr "Eliminare inteligentă:"
+msgstr "Înlăturare inteligentă:"
 
 #: qt/settingsdialog.py:793
 msgid "Run in background on remote host."
@@ -1477,28 +1476,29 @@ msgid "Run only one snapshot at a time"
 msgstr "Rulează doar un instantaneu la un moment dat"
 
 #: qt/settingsdialog.py:868
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"Alte instantanee vor fi blocate până la finalizarea instantaneului curent.\n"
-"Aceasta este o opțiune globală. Deci, va afecta toate profilurile pentru acest utilizator.\n"
-"Dar trebuie să activați acest lucru și pentru toți ceilalți utilizatori."
+"Alte instantanee vor fi blocate până la finalizarea instantaneului curent. "
+"Aceasta este o opțiune globală. Deci, va afecta toate profilurile pentru "
+"acest utilizator. Dar trebuie să activați acest lucru și pentru toți "
+"ceilalți utilizatori."
 
 #: qt/settingsdialog.py:876
 msgid "Backup replaced files on restore"
 msgstr "Copiază de rezervă fișierele înlocuite la restaurare"
 
 #: qt/settingsdialog.py:879
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
-"Noile versiuni ale fișierelor vor fi redenumite cu sufixul {suffix} înainte de restaurare.\n"
-"Dacă nu mai aveți nevoie de ele, puteți să le eliminați cu {cmd}"
+"Noile versiuni ale fișierelor vor fi redenumite cu sufixul {suffix} înainte "
+"de restaurare. Dacă nu mai aveți nevoie de ele, puteți să le eliminați cu "
+"{cmd}"
 
 #: qt/settingsdialog.py:891
 msgid "Continue on errors (keep incomplete snapshots)"
@@ -1513,9 +1513,8 @@ msgid "Take a new snapshot whether there were changes or not."
 msgstr "Ia un instantaneu nou indiferent dacă au existat modificări sau nu."
 
 #: qt/settingsdialog.py:906
-#, fuzzy
 msgid "Log Level:"
-msgstr "Nivel de jurnalizare"
+msgstr "Nivel de jurnalizare:"
 
 #: qt/settingsdialog.py:911
 msgid "None"
@@ -1565,6 +1564,8 @@ msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"Cron va trimite automat un email cu rezultatul atașat al cronjob-urilor dacă"
+" un MTA este instalat."
 
 #: qt/settingsdialog.py:1011
 msgid "Redirect stderr to /dev/null in cronjobs."
@@ -1575,11 +1576,12 @@ msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"Cron va trimite automat un email cu erorile atașate ale cronjob-urilor dacă "
+"un MTA este instalat."
 
 #: qt/settingsdialog.py:1024
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Limitează utilizarea lățimii de bandă a rsync"
+msgstr "Limitează utilizarea lățimii de bandă a rsync:"
 
 #: qt/settingsdialog.py:1027
 msgid "KB/sec"
@@ -1600,7 +1602,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:1148
 msgid "Restrict to one file system"
-msgstr ""
+msgstr "Restricționează la un singur sistem de fișiere"
 
 #: qt/settingsdialog.py:1168
 #, python-brace-format
@@ -1617,21 +1619,17 @@ msgstr "Adaugă un prefix la comenzile SSH"
 
 #: qt/settingsdialog.py:1187
 msgid "Prefix to run before every command on remote host."
-msgstr ""
+msgstr "Prefix de rulat înainte de fiecare comandă pe gazda de la distanță."
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"Prefix de rulat înaintea fiecărei comenzi pe gazda de la distanță.\n"
-"Variabilele trebuie să fie escapate cu \\$FOO.\n"
-"Acest lucru nu atinge rsync. Deci, pentru a adăuga un prefix\n"
-"pentru rsync utilizați „%(cbRsyncOptions)s” cu\n"
-"%(rsync_options_value)s\n"
-"\n"
-"%(default)s: %(def_value)s"
+"Variabilele trebuie să fie escapate cu \\$FOO. Acest lucru nu atinge rsync. "
+"Deci, pentru a adăuga un prefix pentru rsync utilizați „{example_value}” cu "
+"{rsync_options_value}."
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1642,29 +1640,24 @@ msgid "Check if remote host is online"
 msgstr "Verifică dacă gazda de la distanță este conectată"
 
 #: qt/settingsdialog.py:1214
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Avertisment: dacă este dezactivat și gazda de la distanță\n"
-"nu este disponibilă, acest lucru ar putea duce la unele\n"
-"erori ciudate."
+"Avertisment: dacă este dezactivat și gazda de la distanță nu este "
+"disponibilă, acest lucru ar putea duce la unele erori ciudate."
 
 #: qt/settingsdialog.py:1218
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "Verifică dacă gazda de la distanță suportă toate comenzile necesare"
+msgstr "Verifică dacă gazda de la distanță suportă toate comenzile necesare."
 
 #: qt/settingsdialog.py:1221
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Avertisment: dacă este dezactivat și gazda de la distanță\n"
-"nu suportă toate comenzile necesare,\n"
-"acest lucru ar putea duce la unele erori ciudate."
+"Avertisment: dacă este dezactivat și gazda de la distanță nu suportă toate "
+"comenzile necesare, acest lucru ar putea duce la unele erori ciudate."
 
 #: qt/settingsdialog.py:1237
 msgid "Restore Config"
@@ -1682,6 +1675,11 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"Suportul pentru EncFS va fi întrerupt în viitorul apropiat. O decizie cu "
+"privire la înlocuirea suportului continuu pentru copiile de rezervă criptate"
+" este încă în așteptare, în funcție de resursele proiectului și "
+"disponibilitatea contribuitorilor. Mai multe detalii sunt disponibile în "
+"acest {whitepaper}."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
@@ -1701,11 +1699,12 @@ msgstr "Sigur doriți să ștergeți profilul „{name}”?"
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
+"{BOLD}Foarte recomandat{ENDBOLD}: (Toate recomandările sunt deja incluse.)"
 
 #: qt/settingsdialog.py:1427
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Foarte recomandat"
+msgstr "{BOLD}Foarte recomandat{ENDBOLD}: {files}"
 
 #: qt/settingsdialog.py:1634
 msgid ""
@@ -1717,14 +1716,12 @@ msgstr ""
 
 #: qt/settingsdialog.py:1681
 msgid "You did not choose a private key file for SSH."
-msgstr ""
+msgstr "Nu ați ales un fișier cheie privată pentru SSH."
 
 #: qt/settingsdialog.py:1682
-#, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
-"Nu ați ales un fișier cheie privată pentru SSH.\n"
 "Doriți să generați o nouă pereche de chei publice/private fără parolă?"
 
 #: qt/settingsdialog.py:1692
@@ -1733,34 +1730,29 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Fișierul cheie privată „{file}” nu există."
 
 #: qt/settingsdialog.py:1847
-#, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
-"Doriți să copiați cheia publică SSH la\n"
-"gazda de la distanță pentru a activa autentificarea fără parolă?"
+"Doriți să copiați cheia publică SSH la gazda de la distanță pentru a activa "
+"autentificarea fără parolă?"
 
 #: qt/settingsdialog.py:1878
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"Autenticitatea gazdei {host} nu poate fi stabilită.\n"
-"\n"
-"Amprenta cheii {keytype} este:"
+msgstr "Autenticitatea gazdei {host} nu poate fi stabilită."
 
 #: qt/settingsdialog.py:1881
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr ""
+msgstr "Amprenta cheii {keytype} este:"
 
 #: qt/settingsdialog.py:1889
-#, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
-"Verificați această amprentă! Doriți să o adăugați la fișierul „known_hosts”?"
+"Verificați această amprentă. Doriți să o adăugați la fișierul „known_hosts”?"
 
 #: qt/settingsdialog.py:2061
 msgid "Exclude pattern"
@@ -1796,19 +1788,19 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Sigur doriți să modificați dosarul de instantanee?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Nu s-a putut crea o cheie SSH nouă în {path}"
+msgstr "Nu s-a putut crea o cheie SSH nouă în {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
+"Dezactivat pentru că acest model nu este funcțional în modul „criptat SSH”."
 
 #: qt/settingsdialog.py:2369
-#, fuzzy
 msgid "(default: {})"
-msgstr "implicit"
+msgstr "(implicit: {})"
 
 #: qt/settingsdialog.py:2370
 msgid "disabled"
@@ -1820,7 +1812,7 @@ msgstr "activat"
 
 #: qt/settingsdialog.py:2413
 msgid "Import configuration"
-msgstr ""
+msgstr "Importă configurația"
 
 #: qt/settingsdialog.py:2469 qt/settingsdialog.py:2565
 msgid "No config found"
@@ -1828,7 +1820,7 @@ msgstr "Nu s-a găsit nicio configurație"
 
 #: qt/settingsdialog.py:2494
 msgid "Import"
-msgstr ""
+msgstr "Importă"
 
 #: qt/settingsdialog.py:2522
 #, python-brace-format
@@ -1836,26 +1828,28 @@ msgid ""
 "Select the snapshot folder from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
+"Selectați dosarul de instantaneu din care ar trebui să fie importat fișierul"
+" de configurație. Calea poate arăta astfel: {samplePath}"
 
 #: qt/settingsdialog.py:2527
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
 msgstr ""
+"Dacă dosarul se află pe o unitate externă sau de la distanță, aceasta "
+"trebuie montată manual în prealabil."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
 msgstr "Opțiuni despre compararea instantaneelor"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command:"
-msgstr "Comandă"
+msgstr "Comandă:"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Parametri"
+msgstr "Parametri:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1863,7 +1857,7 @@ msgstr "Utilizați %1 și %2 pentru parametrii căii"
 
 #: qt/snapshotsdialog.py:84
 msgid "Please set a diff command or press Cancel."
-msgstr ""
+msgstr "Stabiliți o comandă diff sau apăsați Anulează."
 
 #: qt/snapshotsdialog.py:90
 #, python-brace-format
@@ -1871,20 +1865,23 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
+"Comanda „{cmd}” nu poate fi găsită pe acest sistem. Încercați altceva sau "
+"apăsați Anulează."
 
 #: qt/snapshotsdialog.py:98
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
+"Nu s-au stabilit parametri pentru comanda diff. Se utilizează valoarea "
+"implicită „{params}”."
 
 #: qt/snapshotsdialog.py:134
 msgid "Differing snapshots only"
 msgstr "Doar instantaneele care diferă"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Listează doar instantaneele egale cu: "
+msgstr "Listează doar instantaneele care sunt egale cu:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"
@@ -1925,9 +1922,8 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Sigur doriți să ștergeți {file} în {count} instantanee?"
 
 #: qt/snapshotsdialog.py:408
-#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "Acest lucru nu poate fi revocat!"
+msgstr "AVERTISMENT: Acest lucru nu poate fi revocat."
 
 #: qt/snapshotsdialog.py:426
 #, python-brace-format
