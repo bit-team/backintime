@@ -901,8 +901,7 @@ class MainWindow(QMainWindow):
         # EncFS deprecation warning (see #1734)
         current_mode = self.config.snapshotsMode(self.config.currentProfile())
         if current_mode in ('local_encfs', 'ssh_encfs'):
-            # In the main window show the profile specific warning dialog only
-            # once per profile.
+            # Show the profile specific warning dialog only once per profile.
             if self.config.profileBoolValue('msg_shown_encfs') is False:
                 self.config.setProfileBoolValue('msg_shown_encfs', True)
                 dlg = encfsmsgbox.EncfsCreateWarning(self)

@@ -2262,15 +2262,19 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing.setHidden(not enabled)
         self.cbSshCheckCommands.setHidden(not enabled)
 
-        # EncFS deprecation warnings
+        # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
             self.encfsWarning.setHidden(False)
 
             # Workaround to avoid showing the warning messagebox just when
             # opening the manage profiles dialog.
             if self.isVisible():
-                dlg = encfsmsgbox.EncfsCreateWarning(self)
-                dlg.exec()
+                # Show the profile specific warning dialog only once per
+                # profile.
+                if self.config.profileBoolValue('msg_shown_encfs') is False:
+                    self.config.setProfileBoolValue('msg_shown_encfs', True)
+                    dlg = encfsmsgbox.EncfsCreateWarning(self)
+                    dlg.exec()
         else:
             self.encfsWarning.setHidden(True)
 
