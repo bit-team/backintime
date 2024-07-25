@@ -384,6 +384,9 @@ class SettingsDialog(QDialog):
         self.keyringSupported = tools.keyringSupported()
         self.cbPasswordSave.setEnabled(self.keyringSupported)
 
+        # mode change
+        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
+
         # host, user, profile id
         groupBox = QGroupBox(self)
         self.frameAdvanced = groupBox
@@ -1245,9 +1248,6 @@ class SettingsDialog(QDialog):
 
         self.updateProfiles()
         self.comboModesChanged()
-
-        # mode change
-        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
 
         # enable tabs scroll buttons again but keep dialog size
         size = self.sizeHint()
