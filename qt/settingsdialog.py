@@ -384,6 +384,9 @@ class SettingsDialog(QDialog):
         self.keyringSupported = tools.keyringSupported()
         self.cbPasswordSave.setEnabled(self.keyringSupported)
 
+        # mode change
+        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
+
         # host, user, profile id
         groupBox = QGroupBox(self)
         self.frameAdvanced = groupBox
@@ -1245,9 +1248,6 @@ class SettingsDialog(QDialog):
 
         self.updateProfiles()
         self.comboModesChanged()
-
-        # mode change
-        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
 
         # enable tabs scroll buttons again but keep dialog size
         size = self.sizeHint()
@@ -2262,15 +2262,19 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing.setHidden(not enabled)
         self.cbSshCheckCommands.setHidden(not enabled)
 
-        # EncFS deprecation warnings
+        # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
             self.encfsWarning.setHidden(False)
 
             # Workaround to avoid showing the warning messagebox just when
             # opening the manage profiles dialog.
             if self.isVisible():
-                dlg = encfsmsgbox.EncfsCreateWarning(self)
-                dlg.exec()
+                # Show the profile specific warning dialog only once per
+                # profile.
+                if self.config.profileBoolValue('msg_shown_encfs') is False:
+                    self.config.setProfileBoolValue('msg_shown_encfs', True)
+                    dlg = encfsmsgbox.EncfsCreateWarning(self)
+                    dlg.exec()
         else:
             self.encfsWarning.setHidden(True)
 
