@@ -83,7 +83,7 @@ installation options provided and maintained by third parties.
 
 In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
-- [`qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt5_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
+- [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 In older releases:
 - Error: "module 'qttools' has no attribute 'initate_translator'" with EncFS when prompting the user for a password ([#1553](https://github.com/bit-team/backintime/issues/1553))
@@ -112,14 +112,14 @@ to add `--no-perms --no-group --no-owner` to it.
 Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
 files.
 
-### `qt5_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
+### `qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
 
 See the related issue [#1592](https://github.com/bit-team/backintime/issues/1592).
 
 The only reliable work-around is to delete (or move into another folder)
-the file `/usr/share/backintime/common/qt5_probing.py`:
+the file `/usr/share/backintime/common/qt_probing.py`:
 
-`mv /usr/share/backintime/common/qt5_probing.py /usr/share/backintime/`
+`mv /usr/share/backintime/common/qt_probing.py /usr/share/backintime/`
 
 Renaming does *not* work!
 
@@ -195,4 +195,4 @@ _Back In Time_. In that case you may not see any problems.
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
-<sub>May 2024</sub>
+<sub>July 2024</sub>

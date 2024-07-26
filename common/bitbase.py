@@ -9,4 +9,4 @@
 
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
-                         '/doc/ENCRYPT_TRANSITION.md'
+                         '/blob/-/doc/ENCRYPT_TRANSITION.md'
