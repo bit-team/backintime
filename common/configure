@@ -195,6 +195,7 @@ addInstallDir                        "/share/doc/backintime-common"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../LICENSE"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
+addInstallFile "../FAQ.md"           "/share/doc/backintime-common"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-common"
 addInstallFile "../CHANGES"          "/share/doc/backintime-common"
 addNewline
@@ -235,7 +236,7 @@ addSymlink      "backintime"        "/share/bash-completion/completions/backinti
 addUninstallDir                     "/share/bash-completion"
 addNewline
 
-#compress
+# compress
 printf "compress:\n" >> ${MAKEFILE}
 printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
@@ -244,7 +245,7 @@ printf "\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> ${MAKEFILE}
 
-#translate
+# translate
 printf "translate:\t$mos\n\n" >> ${MAKEFILE}
 
 for lang in $langs; do
@@ -252,7 +253,7 @@ for lang in $langs; do
     printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> ${MAKEFILE}
 done
 
-#common langs
+# common langs
 printf "install_translations:\n" >> ${MAKEFILE}
 addComment "translations"
 for lang in $langs; do
@@ -264,7 +265,7 @@ addUninstallDir "/share/locale"
 addUninstallDir "/share"
 addNewline
 
-#uninstall
+# uninstall
 printf "uninstall:\tuninstall_files uninstall_dirs\n\n" >> ${MAKEFILE}
 printf "uninstall_files:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_FILES} >> ${MAKEFILE}
@@ -272,7 +273,7 @@ cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
-#test
+# test
 for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
     PYTEST=$(which $i 2>/dev/null)
     if [ -n "${PYTEST}" ]; then
