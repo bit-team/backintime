@@ -168,8 +168,6 @@ printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n" >> ${MAKEFILE}
 printf "\trm -f config-example-*.gz\n" >> ${MAKEFILE}
 printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
-printf "\trm -f .coverage\n" >> ${MAKEFILE}
-printf "\trm -rf htmlcov\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
 # Create install and uninstall target
@@ -281,15 +279,9 @@ for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
         break
     fi
 done
-COVERAGE=$(which coverage 2>/dev/null)
-# Use "coverage run" only on travis-ci.org and if it is available
-# this will pass information to coveralls.io.
-# Otherwise use "python", "python3" or if available "py.test-3"
-if onTravis && [ -n "${COVERAGE}" ]; then
-    CMD="coverage run -p"
-else
-    CMD="${PYTHON}"
-fi
+
+# Use "python", "python3" or if available "py.test-3"
+CMD="${PYTHON}"
 
 printf "test:\tunittest\n\n" >> ${MAKEFILE}
 printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
@@ -309,19 +301,6 @@ for v in "" "-v"; do
     fi
     printf "\n" >> ${MAKEFILE}
 done
-
-# For details about the "coverage" package args see:
-# https://coverage.readthedocs.io/en/stable/cmd.html
-printf "coverage:\n" >> ${MAKEFILE}
-printf "\tpython3 -m coverage run --source=.,./plugins,../qt,../qt/plugins --omit */test/* -m unittest -b\n" >> ${MAKEFILE}
-printf "\tpython3 -m coverage report\n" >> ${MAKEFILE}
-printf "\t# To show an interactive HTML coverage report use:\n" >> ${MAKEFILE}
-printf "\t# python3 -m coverage html\n" >> ${MAKEFILE}
-printf "\t# firefox htmlcov/index.html\n" >> ${MAKEFILE}
-printf "\n" >> ${MAKEFILE}
-
-printf "integrationtest:\n" >> ${MAKEFILE}
-printf "\ttest/test.sh\n" >> ${MAKEFILE}
 
 #copy Makefile
 mv ${MAKEFILE} Makefile
