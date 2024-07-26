@@ -207,7 +207,7 @@ When the PR is merged:
 
 - Create a new release in Github (`Releases` button under `code`):
   - Tag in `dev` branch with version number, eg.: `v1.4.0`
-  - Release title eg.: Back in Time 1.4.0 (Sept. 14, 2023)
+  - Release title eg.: Back In Time 1.4.0 (Sept. 14, 2023)
   - Description: `# Changelog` + the relevant part of the CHANGES file
   - Check `Set as the latest release`
   - Attach binaries: Upload the generated tar archive (eg. `backintime-1.4.0.tar.gz`).
