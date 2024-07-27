@@ -111,7 +111,7 @@ onTravis () {
     [ "${TRAVIS}" = "true" ]
 }
 
-#get commandline arguments
+# Get commandline arguments
 unknown_args=""
 for arg in $*; do
     case $arg in
