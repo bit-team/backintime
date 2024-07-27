@@ -719,8 +719,12 @@ class SSH(MountControl):
         if not self.config.sshCheckPingHost(self.profile_id):
             return
 
-        ping_host = self.proxy_host or self.host
-        ping_port = self.proxy_port or self.port
+        if self.proxy_host:
+            ping_host = self.proxy_host
+            ping_port = self.proxy_port
+        else:
+            ping_host = self.host
+            ping_port = self.port
 
         logger.debug(f'Check ping host "{ping_host}:{ping_port}"', self)
         versionString = 'SSH-2.0-backintime_{}\r\n'.format(
@@ -754,6 +758,7 @@ class SSH(MountControl):
             msg = f'Ping {self.host}{proxy_msg} failed. ' \
                   'Host is down or wrong address.'
             logger.debug(msg, self)
+
             raise MountException(msg)
 
     def checkRemoteCommands(self, retry=False):
