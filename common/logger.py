@@ -133,11 +133,14 @@ def deprecated(parent=None):
 
 def _debugHeader(parent, traceDepth):
     frame = sys._getframe(2 + traceDepth)
+    line = frame.f_lineno
+    func = frame.f_code.co_name
+
     fdir, fname = os.path.split(frame.f_code.co_filename)
     fmodule = os.path.basename(fdir)
-    line = frame.f_lineno
 
-    fclass = '%s.' % parent.__class__.__name__ if parent else ''
+    fclass = f'{parent.__class__.__name__}.' if parent else ''
 
-    func = frame.f_code.co_name
-    return '[%s/%s:%s %s%s]' % (fmodule, fname, line, fclass, func)
+    pid = os.getpid()
+
+    return f'[{pid}:{fmodule}/{fname}:{line} {fclass}{func}]'
