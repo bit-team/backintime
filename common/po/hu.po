@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-05-30 09:09+0000\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-22 12:37+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -44,7 +44,7 @@ msgstr "Helyi"
 
 #: common/config.py:311
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
 msgid "SSH private key"
@@ -211,15 +211,14 @@ msgid "Cancel"
 msgstr "Mégse"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Erősítse meg a jelszót"
+msgstr "Erősítse meg a jelszót."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "A jelszó nem egyezik."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Pillanatkép készítése"
 
@@ -231,19 +230,19 @@ msgstr ""
 "csatolási pontról."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "A(z) {} nem található. Telepítse például ezt: {}"
+msgstr "A(z) {command} nem található. Telepítse például ezt: {installcommand}"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "A(z) {} csatolási pont nem üres."
+msgstr "A(z) {mntpoint} csatolási pont nem üres."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Írja be a jelszót a(z) {mode} \"{profile}\":"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -262,7 +261,7 @@ msgstr "Kész"
 msgid "Deferring backup while on battery"
 msgstr "Biztonsági mentés elhalasztása akkumulátorról való működésnél"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -270,108 +269,108 @@ msgstr ""
 "Nem található a pillanatképek mappája.\n"
 "Ha cserélhető meghajtón van, akkor helyezze be."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "%s másodperc várakozás."
 msgstr[1] "%s másodperc várakozás."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nem sikerült a(z) {snapshot_id} pillanatkép készítése."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Véglegesítés"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Nem lehet mappát létrehozni"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Beállítófájl mentése…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Jogosultságok mentése…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "A(z) {snapshot_id} maradvány található, amely folytatható."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "A(z) {snapshot_id} maradványmappa eltávolítása az utolsó futásból"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Nem lehet eltávolítani a mappát"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Pillanatkép készítése"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Sikeres"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Részleges átvitel egy hiba miatt"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Részleges átvitel az eltűnt forrásfájlok miatt (lásd: „man rsync”)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "Az „rsync” a(z) {exit_code} számú hibakóddal fejeződött be"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Nézze meg a „man rsync” kézikönyvet a további részletekért"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "A negatív rsync kilépési kódok szignálszámok, nézze meg a „kill -l” és a "
 "„man kill” parancsokat"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Semmi sem változott, nincs szükség új pillanatképre"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Nem lehet átnevezni a(z) {new_path} útvonalat erre: {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Intelligens eltávolítás"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Régi pillanatképek eltávolítása"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Kísérlet a legkisebb szabad hely megtartására"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Kísérlet legalább {perc} szabad inode megtartására"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Most"
 
@@ -489,13 +488,13 @@ msgstr "Hozzáadás a kizártakhoz"
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
-msgstr ""
+msgstr "{app_name} először lett elindítva, ezért nem található konfiguráció."
 
 #: qt/app.py:348
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
-msgstr ""
+msgstr "Betölti a beállításokat (egy mentésből vagy egy másik gépről)?"
 
 #: qt/app.py:375
 #, fuzzy
@@ -503,10 +502,8 @@ msgid "Can't find snapshots folder."
 msgstr "Nem lehet mappát létrehozni"
 
 #: qt/app.py:376
-#, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Nem található a pillanatképek könyvtára.\n"
 "Ha cserélhető meghajtón van, akkor helyezze be, és nyomja meg az OK gombot."
 
 #: qt/app.py:481
@@ -612,7 +609,7 @@ msgstr "Fordítás"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "A fordításban segédkezők megtekintése."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
@@ -620,7 +617,7 @@ msgstr ""
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Ismét megjeleníti az EncFS eltávolításának üzenetét."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -669,7 +666,7 @@ msgstr "Pillanatképek összehasonlítása…"
 
 #: qt/app.py:660
 msgid "Back In &Time"
-msgstr ""
+msgstr "Vissza az időbe"
 
 #: qt/app.py:665
 msgid "&Backup"
@@ -684,18 +681,16 @@ msgid "&Help"
 msgstr "&Súgó"
 
 #: qt/app.py:818
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Ha bezárja ezt az ablakot, akkor a Back In Time nem lesz képes leállítani a rendszert a pillanatkép befejezése után.\n"
-"Valóban be szeretné zárni?"
+"Ha bezárja ezt az ablakot, akkor a Back In Time nem lesz képes leállítani a "
+"rendszert a pillanatkép befejezése után."
 
 #: qt/app.py:821
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Valóban helyre szeretné állítani ezt az elemet?"
+msgstr "Valóban be szeretné zárni?"
 
 #: qt/app.py:987
 msgid "Working:"
@@ -761,15 +756,15 @@ msgstr ""
 "végződéssel a helyi elemek felülírása vagy eltávolítása előtt."
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
 "A fájlok újabb verziói átnevezésre kerülnek {suffix} végződéssel a "
-"helyreállítás előtt. Ha már nincs rájuk többé szüksége, akkor a(z) {cmd} "
-"paranccsal eltávolíthatja azokat."
+"helyreállítás előtt. Ha már nincs rájuk többé szüksége, akkor az alábbi "
+"paranccsal eltávolíthatja azokat:"
 
 #: qt/app.py:1432
 msgid ""
@@ -786,18 +781,16 @@ msgid "Remove newer elements in original folder."
 msgstr "Újabb elemek eltávolítása az eredeti mappából."
 
 #: qt/app.py:1470
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"A kijelölt fájlok vagy mappák helyreállítása az eredeti célhelyre,\n"
-"valamint a pillanatképben nem szereplő fájlok vagy mappák törlése.\n"
-"Legyen rendkívül óvatos, mert ez törölni\n"
-"fogja azokat a fájlokat és mappákat, amelyek\n"
-"a pillanatkép készítésekor ki lettek zárva."
+"A kijelölt fájlok vagy mappák helyreállítása az eredeti célhelyre, valamint "
+"a pillanatképben nem szereplő fájlok vagy mappák törlése. Legyen rendkívül "
+"óvatos, mert ez törölni fogja azokat a fájlokat és mappákat, amelyek a "
+"pillanatkép készítésekor ki lettek zárva."
 
 #: qt/app.py:1481
 #, python-brace-format
@@ -834,13 +827,13 @@ msgstr ""
 "Biztosan el szeretné távolítani az eredeti mappában lévő összes újabb fájlt?"
 
 #: qt/app.py:1514
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"FIGYELMEZTETÉS: a fájlrendszer gyökerében lévő fájlok törlése tönkreteheti "
-"az egész rendszert!"
+"{BOLD}FIGYELMEZTETÉS:{BOLDEND} a fájlrendszer gyökerében lévő fájlok törlése"
+" tönkreteheti az egész rendszert."
 
 #: qt/app.py:1750
 msgid "Snapshot"
@@ -866,6 +859,8 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"Az EncFS támogatása a közel jövőben meg fog szünni. Nem javasolt a profilhoz"
+" való használata."
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -877,7 +872,7 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "Leírás"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
@@ -887,7 +882,7 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Az alábbi profil(ok) használ(nak) EncFS titkosítást:"
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -1008,9 +1003,9 @@ msgid "Question"
 msgstr "Kérdés"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profil: „{name}”"
+msgstr "Profil: „{profile_name}”"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1173,9 +1168,8 @@ msgid "Advanced"
 msgstr "Speciális"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Teljes pillanatkép útvonala: "
+msgstr "Teljes pillanatkép útvonala:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"

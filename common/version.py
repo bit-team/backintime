@@ -5,4 +5,4 @@ See Issue #1575 for details about that migration.
 """
 
 # Version string regularyly used by the application and presented to users.
-__version__ = '1.4.4-dev'
+__version__ = '1.5.2-dev.a371d14e'

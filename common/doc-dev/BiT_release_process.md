@@ -1,5 +1,4 @@
-# How to prepare and publish a new BiT release
-
+# How to prepare and publish a new BIT release
 
 ## Overview
 
@@ -8,8 +7,6 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Source branch: `dev`
 - Target branch for the pull request: `dev`
-
-
 
 ## Preconditions for a new release
 
@@ -113,11 +110,8 @@ When the PR is merged:
   using the version number from the `VERSION` file
   (so you do not forget to update one file ;-).
 
-  - BiT CLI config in `common/config.py`
-  - Sphinx config in `common/doc-dev/conf.py`
+  - BiT CLI config in `common/version.py`
   - man pages in `common/man/C/backintime*.1` and `qt/man/C/backintime*.1`
-  - changelog to build a debian package in `debian/changelog`
-    (this will be deprecated once we give up or separate the packaging for distros)
 
 - Check that the version numbers have been update by opening some of the above files.
 
@@ -128,15 +122,6 @@ When the PR is merged:
   .TH backintime-config 1 "Aug 2023" "version 1.4.0" "USER COMMANDS"
   ```
 
-- Optional: Search for all "copyright" strings in the code to update the year and add missing major contributors
-
-  Eg.:
-  - common/config.py
-
-  There is also script `updatecopyright.sh` in the project's root folder
-  which updates the copyright dates in all files but this script
-  needs an overhaul to be able to insert new contributors too...
-
 - Update the `AUTHORS` file in the project's root folder
 
   - Should be done during development normally
@@ -145,7 +130,6 @@ When the PR is merged:
 
 - Review and update the `README.md` in your release candidate branch
 
-  - Copyright: Names and year
   - Update the **Known Problems and Workarounds** section:
     - Move fixed major known problems
       from the "Known Problems and Workarounds" section
@@ -220,10 +204,11 @@ When the PR is merged:
     into a new folder `../backintime-$VERSION` and then make an tar archive file
     using that new folder.
     Cloning into a new folder ensures that there are no left-over files inside the tar archive.
+  - Test this tarball. Install it.
 
 - Create a new release in Github (`Releases` button under `code`):
   - Tag in `dev` branch with version number, eg.: `v1.4.0`
-  - Release title eg.: Back in Time 1.4.0 (Sept. 14, 2023)
+  - Release title eg.: Back In Time 1.4.0 (Sept. 14, 2023)
   - Description: `# Changelog` + the relevant part of the CHANGES file
   - Check `Set as the latest release`
   - Attach binaries: Upload the generated tar archive (eg. `backintime-1.4.0.tar.gz`).

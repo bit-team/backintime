@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-02-05 07:56+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-22 12:37+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.3.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -211,15 +211,14 @@ msgid "Cancel"
 msgstr "Storno"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Potvrďte heslo"
+msgstr "Potvrďte heslo."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Zadání hesla se neshodují."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Pořídit zachycený stav"
 
@@ -260,7 +259,7 @@ msgstr "Dokončeno"
 msgid "Deferring backup while on battery"
 msgstr "Zálohování odloženo po dobu napájení z akumulátoru"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -268,7 +267,7 @@ msgstr ""
 "Nedaří se nalézt složku se zachycenými stavy.\n"
 "Pokud se nachází na vyjímatelném zařízení, připojte ho."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -276,101 +275,101 @@ msgstr[0] "Čekání %s sekundu."
 msgstr[1] "Čekání %s sekundy."
 msgstr[2] "Čekání %s sekund."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nepodařilo se pořídit zachycený stav {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Dokončování"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Složku se nedaří vytvořit"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Ukládání souboru s nastaveními…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Ukládání oprávnění…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Nalezen pozůstatek „{snapshot_id}“ ve kterém lze pokračovat."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Odebírání složky „{snapshot_id}“, zanechané minulým průchodem"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Složku se nepodařilo odstranit"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Pořizování zachyceného stavu"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Úspěch"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Přenos jen částečně úspěšný kvůli chybě"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Přenesena je část kvůli zmizelým zdrojovým souborům (viz „man rsync“)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "„rsync“ skončilo s návratovým kódem {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Podrobnosti získáte spuštěním „man rsync“"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Záporné návratovhé kódy z rsync jsou čísly signálů – viz příkazy „kill -l“ a"
 " „man kill“"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nic se nezměnilo, nový zachycený stav není třeba"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Nepodařilo se přejmenovat {new_path} na {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Postupné odstranění"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Odstranění starých zachycených stavů"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Snaha o zachování nějakého volného místa"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Snaha o zachování alespoň {perc} volných i-uzlů"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Nyní"
 
@@ -954,9 +953,8 @@ msgstr "Zobrazení událostí při pořizování zachyceného stavu"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
 #: qt/settingsdialog.py:2627
-#, fuzzy
 msgid "Profile:"
-msgstr "Profil"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:84
 #, fuzzy
@@ -1006,9 +1004,9 @@ msgid "Question"
 msgstr "Dotaz"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profil: „{name}“"
+msgstr "Profil: „{profile_name}“"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1024,14 +1022,12 @@ msgid "Working…"
 msgstr "Zpracování…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Odesláno"
+msgstr "Odesláno:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Rychlost"
+msgstr "Rychlost:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1077,19 +1073,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Stroj"
+msgstr "Stroj:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Port"
+msgstr "Port:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-#, fuzzy
 msgid "User:"
-msgstr "Uživatel"
+msgstr "Uživatel:"
 
 #: qt/settingsdialog.py:120
 msgid ""
@@ -1119,9 +1112,8 @@ msgid "&General"
 msgstr "&Obecné"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Ukládání záloh"
+msgstr "Ukládání záloh:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1136,19 +1128,16 @@ msgid "SSH Settings"
 msgstr "Nastavení pro SSH"
 
 #: qt/settingsdialog.py:290
-#, fuzzy
 msgid "Path:"
-msgstr "Umístění"
+msgstr "Umístění:"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "Šifra"
+msgstr "Šifra:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Soukromá část klíče"
+msgstr "Soukromá část klíče:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1183,9 +1172,8 @@ msgid "Advanced"
 msgstr "Pokročilé"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Úplný popis umístění zachyceného stavu: "
+msgstr "Úplný popis umístění zachyceného stavu:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"
@@ -1257,19 +1245,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "Den v týdnu"
+msgstr "Den v týdnu:"
 
 #: qt/settingsdialog.py:495
-#, fuzzy
 msgid "Hour:"
-msgstr "V hodinu"
+msgstr "V hodinu:"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "V hodiny"
+msgstr "V hodiny:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1280,9 +1265,8 @@ msgstr ""
 "zapínán pravidelně."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "Každých"
+msgstr "Každých:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"
@@ -1360,9 +1344,8 @@ msgid "Add default"
 msgstr "Přidat výchozí"
 
 #: qt/settingsdialog.py:694
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Vynechat soubory větší než: "
+msgstr "Vynechat soubory větší než:"
 
 #: qt/settingsdialog.py:698
 #, fuzzy, python-brace-format

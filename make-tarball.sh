@@ -10,7 +10,20 @@ if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
 else
     cp -aR ${CURRENT} ${NEW}
 fi
-tar cfz backintime-$VER.tar.gz ${NEW}/AUTHORS ${NEW}/CHANGES ${NEW}/LICENSE    \
-                               ${NEW}/README.md ${NEW}/TRANSLATIONS\
-                               ${NEW}/VERSION ${NEW}/makedeb.sh ${NEW}/common  \
-                               ${NEW}/qt ${NEW}/debian
+tar cfz backintime-$VER.tar.gz \
+    ${NEW}/AUTHORS \
+    ${NEW}/CHANGES \
+    ${NEW}/LICENSE \
+    ${NEW}/README.md \
+    ${NEW}/FAQ.md \
+    ${NEW}/CONTRIBUTING.md \
+    ${NEW}/HISTORY.md \
+    ${NEW}/TRANSLATIONS \
+    ${NEW}/VERSION \
+    ${NEW}/updateversion.sh \
+    ${NEW}/common \
+    ${NEW}/qt \
+    ${NEW}/doc
+
+rm -rf backintime-$VER
+
