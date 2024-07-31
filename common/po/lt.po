@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-06-06 10:18+0000\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-22 12:37+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
 "Language: lt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -212,15 +212,14 @@ msgid "Cancel"
 msgstr ""
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Prašome patvirtinti slaptažodį"
+msgstr "Prašome patvirtinti slaptažodį."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr ""
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Išsaugoti momentinę nuotrauką"
 
@@ -261,7 +260,7 @@ msgstr "Atlikta"
 msgid "Deferring backup while on battery"
 msgstr "Atsarginės kopijos kūrimas atidedamas, kol naudojamas akumuliatorius"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -269,7 +268,7 @@ msgstr ""
 "Nepavyko rasti momentinių nuotraukų aplanko.\n"
 "Jei jis yra keičiamame diske, prijunkite jį."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -277,99 +276,99 @@ msgstr[0] "Laukti %s sekundes."
 msgstr[1] "Laukti %s sekundžių."
 msgstr[2] "Laukti %s sekundžių."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, fuzzy, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nepavyko išsaugoti momentinės kopijos {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Baigiama"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Nepavyko sukurti aplanko"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Išsaugomas konfigūracijos failas…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Prieigos yra išsaugomos…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Rastas likęs {snapshot_id}, kurį galima tęsti."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Šalinamas atlikęs {snapshot_id} aplankas iš praeitos operacijos"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Nepavyko pašalinti aplanko"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Padaryti momentinę nuotrauką"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr ""
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr ""
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr ""
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Niekas nepakito, įrašyti naujos momentinės kopijos neprivaloma"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Neįmanoma pervadinti {new_path} į {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Išmanus pašalinimas"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Senų momentinių kopijų pašalinimas"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Bandyti"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Bandoma išlaikyti mažiausiai {perc} laisvų inodų"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Dabar"
 
@@ -1023,9 +1022,9 @@ msgid "Question"
 msgstr "Klausimas"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profilis: \"{name}\""
+msgstr "Profilis: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1041,14 +1040,12 @@ msgid "Working…"
 msgstr "Dirbama…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Išsiųsta"
+msgstr "Išsiųsta:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Greitis"
+msgstr "Greitis:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1092,19 +1089,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Pagrindinis kompiuteris"
+msgstr "Pagrindinis kompiuteris:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Prievadas"
+msgstr "Prievadas:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-#, fuzzy
 msgid "User:"
-msgstr "Naudotojas"
+msgstr "Naudotojas:"
 
 #: qt/settingsdialog.py:120
 msgid ""
@@ -1135,9 +1129,8 @@ msgid "&General"
 msgstr "&Bendri"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Būsena"
+msgstr "Būsena:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1157,14 +1150,12 @@ msgid "Path:"
 msgstr "Adresas"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "Šifras"
+msgstr "Šifras:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Privatus Raktas"
+msgstr "Privatus Raktas:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1199,9 +1190,8 @@ msgid "Advanced"
 msgstr "Išplėstiniai parametrai"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Visas momentinės kopijos kelias: "
+msgstr "Visas momentinės kopijos kelias:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"
@@ -1278,19 +1268,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "Savaitės diena"
+msgstr "Savaitės diena:"
 
 #: qt/settingsdialog.py:495
-#, fuzzy
 msgid "Hour:"
-msgstr "Valanda"
+msgstr "Valanda:"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "Valandos"
+msgstr "Valandos:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1301,9 +1288,8 @@ msgstr ""
 " reguliariai."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "Kiekvienas"
+msgstr "Kiekvienas:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"
@@ -1381,9 +1367,8 @@ msgid "Add default"
 msgstr "Pridėti numatytąjį"
 
 #: qt/settingsdialog.py:694
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Išskirti failus, didesnius, nei: "
+msgstr "Išskirti failus, didesnius, nei:"
 
 #: qt/settingsdialog.py:698
 #, fuzzy, python-brace-format

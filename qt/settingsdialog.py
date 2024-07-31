@@ -93,9 +93,9 @@ class SshProxyWidget(QWidget):
         # zero margins
         vlayout.setContentsMargins(0, 0, 0, 0)
 
-        checkbox = QCheckBox(_('SSH Proxy'), self)
-        vlayout.addWidget(checkbox)
-        checkbox.stateChanged.connect(self._slot_checkbox_changed)
+        self._checkbox = QCheckBox(_('SSH Proxy'), self)
+        vlayout.addWidget(self._checkbox)
+        self._checkbox.stateChanged.connect(self._slot_checkbox_changed)
 
         hlayout = QHBoxLayout()
         vlayout.addLayout(hlayout)
@@ -129,6 +129,7 @@ class SshProxyWidget(QWidget):
             self._disable()
 
     def _set_default(self):
+        """Set GUI elements back to default."""
         self.host_edit.setText('')
         self.port_edit.setText('22')
         self.user_edit.setText(getpass.getuser())
@@ -144,11 +145,19 @@ class SshProxyWidget(QWidget):
             lay.itemAt(idx).widget().setEnabled(enable)
 
     def values(self):
-        return {
-            'host': self.host_edit.text(),
-            'port': self.port_edit.text(),
-            'user': self.user_edit.text(),
-        }
+        if self._checkbox.isChecked():
+            return {
+                'host': self.host_edit.text(),
+                'port': self.port_edit.text(),
+                'user': self.user_edit.text(),
+            }
+
+        else:
+            return {
+                'host': '',
+                'port': '',
+                'user': '',
+            }
 
 
 class SettingsDialog(QDialog):
@@ -383,6 +392,9 @@ class SettingsDialog(QDialog):
 
         self.keyringSupported = tools.keyringSupported()
         self.cbPasswordSave.setEnabled(self.keyringSupported)
+
+        # mode change
+        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
 
         # host, user, profile id
         groupBox = QGroupBox(self)
@@ -1245,9 +1257,6 @@ class SettingsDialog(QDialog):
 
         self.updateProfiles()
         self.comboModesChanged()
-
-        # mode change
-        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
 
         # enable tabs scroll buttons again but keep dialog size
         size = self.sizeHint()
@@ -2262,15 +2271,19 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing.setHidden(not enabled)
         self.cbSshCheckCommands.setHidden(not enabled)
 
-        # EncFS deprecation warnings
+        # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
             self.encfsWarning.setHidden(False)
 
             # Workaround to avoid showing the warning messagebox just when
             # opening the manage profiles dialog.
             if self.isVisible():
-                dlg = encfsmsgbox.EncfsCreateWarning(self)
-                dlg.exec()
+                # Show the profile specific warning dialog only once per
+                # profile.
+                if self.config.profileBoolValue('msg_shown_encfs') is False:
+                    self.config.setProfileBoolValue('msg_shown_encfs', True)
+                    dlg = encfsmsgbox.EncfsCreateWarning(self)
+                    dlg.exec()
         else:
             self.encfsWarning.setHidden(True)
 

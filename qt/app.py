@@ -898,6 +898,15 @@ class MainWindow(QMainWindow):
         self.updatePlaces()
         self.updateFilesView(0)
 
+        # EncFS deprecation warning (see #1734)
+        current_mode = self.config.snapshotsMode(self.config.currentProfile())
+        if current_mode in ('local_encfs', 'ssh_encfs'):
+            # Show the profile specific warning dialog only once per profile.
+            if self.config.profileBoolValue('msg_shown_encfs') is False:
+                self.config.setProfileBoolValue('msg_shown_encfs', True)
+                dlg = encfsmsgbox.EncfsCreateWarning(self)
+                dlg.exec()
+
     def comboProfileChanged(self, index):
         if self.disableProfileChanged:
             return

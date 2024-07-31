@@ -545,16 +545,14 @@ https://itsfoss.com/apt-key-deprecated/).
 A solution is described in
 [#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 ## Segmentation fault on Exit
-To our understanding, the root cause is attributed to the Qt GUI library or one
-of its components. No known solution exists. The issue has persisted for some
-time, including in the latest version of _Back In Time_ utilizing Qt
-version 6. It does not impact the functionality of _Back In Time_ or jeopardize
-backup integrity. Simply ignore it.
+This problem existed at least since version 1.2.1, and will hopefully be fixed
+with version 1.5.0. For all affected versions, it does not impact the
+functionality of _Back In Time_ or jeopardize backup integrity. It can be
+safely ignored.
 
 See also:
+- [#1768](https://github.com/bit-team/backintime/pull/1768)
 - [#1095](https://github.com/bit-team/backintime/issues/1095)
-- [RedHead#1844781](https://bugzilla.redhat.com/show_bug.cgi?id=1844781)
-- [Python crash when exiting Back In Time (Manjaro Forum)](https://forum.manjaro.org/t/python-crash-when-exiting-back-in-time/102856/11)
 
 ## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
