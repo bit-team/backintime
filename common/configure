@@ -290,31 +290,31 @@ printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
     # Provide unittests with and without verbosity -v
     printf "unittest${v}:\n" >> ${MAKEFILE}
-    # if onTravis || [ -z "${PYTEST}" ]; then
-    if [ -z "${PYTEST}" ]; then
+
+    # Use pytest if available
+    if [ -n "${PYTEST}" ]; then
+        printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
+    # Fallback to unittest module
+    else
         for i in $(ls -1 test/test_*.py); do
             printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
         done
-    else
-        #else just call py.test-3 which will find test/test_*.py by itself
-        #py.test-3 has a nicer output so this is preferred over simple python3
-        printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
     fi
     printf "\n" >> ${MAKEFILE}
 done
 
-#copy Makefile
+# Copy Makefile
 mv ${MAKEFILE} Makefile
 chmod 644 Makefile
 
-#clean up
+# Clean up
 for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
     if [ -e "$i" ]; then
         rm "$i"
     fi
 done
 
-# check python version
+# Check python version
 PYTHON_VERSION_REQUIRED="3.8"
 PYTHON_VERSION_CURRENT=$(${PYTHON} --version | tr --delete 'Python ')
 
