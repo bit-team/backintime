@@ -288,11 +288,10 @@ CMD="${PYTHON}"
 printf "test:\tunittest\n\n" >> ${MAKEFILE}
 printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
-    #provide unittests with and without verbosity -v
+    # Provide unittests with and without verbosity -v
     printf "unittest${v}:\n" >> ${MAKEFILE}
-    if onTravis || [ -z "${PYTEST}" ]; then
-        #if running on travis-ci.org or if py.test-3 is not available
-        #call every test/test_*.py with $CMD from above
+    # if onTravis || [ -z "${PYTEST}" ]; then
+    if [ -z "${PYTEST}" ]; then
         for i in $(ls -1 test/test_*.py); do
             printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
         done
