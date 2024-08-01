@@ -204,6 +204,7 @@ When the PR is merged:
     into a new folder `../backintime-$VERSION` and then make an tar archive file
     using that new folder.
     Cloning into a new folder ensures that there are no left-over files inside the tar archive.
+  - Test this tarball. Install it.
 
 - Create a new release in Github (`Releases` button under `code`):
   - Tag in `dev` branch with version number, eg.: `v1.4.0`

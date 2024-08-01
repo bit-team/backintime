@@ -20,6 +20,7 @@ tar cfz backintime-$VER.tar.gz \
     ${NEW}/HISTORY.md \
     ${NEW}/TRANSLATIONS \
     ${NEW}/VERSION \
+    ${NEW}/updateversion.sh \
     ${NEW}/common \
     ${NEW}/qt \
     ${NEW}/doc
