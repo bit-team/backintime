@@ -133,6 +133,7 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
+# Check if the python binary file exists
 if [ ! -f "$PYTHON" ]; then
     echo "Warning: \"${PYTHON}\" not found on this computer"
 fi
