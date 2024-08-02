@@ -257,7 +257,6 @@ under certain conditions; type `backintime --license' for details.
         # so `check_output` does work here (returns only stdout without
         # stderr).
         output = subprocess.check_output(["./backintime", "--diagnostics"])
-        # output = subprocess.getoutput("./backintime --diagnostics")
 
         diagnostics = json.loads(output)
         self.assertEqual(diagnostics["backintime"]["name"],
