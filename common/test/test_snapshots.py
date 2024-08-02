@@ -48,8 +48,6 @@ CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
 # all groups the current user is member in
 GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
 
-IS_ROOT = os.geteuid() == 0
-
 
 class TestSnapshots(generic.SnapshotsTestCase):
     ############################################################################
@@ -634,8 +632,6 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
-    #TODO: add fakeroot tests with https://github.com/yaybu/fakechroot
-    @unittest.skipIf(IS_ROOT, "We're running as root. So this test won't work.")
     def test_change_owner_without_root(self):
         d = snapshots.FileInfoDict()
         d[b'foo'] = (self.modeFolder, 'root'.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
