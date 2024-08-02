@@ -75,7 +75,7 @@ SKIP_SSH_TEST_MESSAGE = 'Skip as this test requires a local ssh server, ' \
 # On TravisCI that tests are enforced and never skipped.
 LOCAL_SSH = True if ON_TRAVIS else all([
     # Server process running?
-    tools.processExists('sshdfoobar'),
+    tools.processExists('sshd'),
     # Privat keyfile (id_rsa)
     PRIV_KEY_FILE.is_file(),
     # Key known (copied via "ssh-copy-id")
