@@ -35,8 +35,10 @@ class TestBackInTime(generic.TestCase):
     def test_quiet_mode(self):
         output = subprocess.getoutput('python3 backintime.py --quiet')
 
-        # Remove "WARNING:" messages from output
-        output = filter(lambda line: not line.startswith('WARNING:'),
+        # Remove "WARNING:" and "ERROR:" messages from output.
+        # They should appear even in quite-mode.
+        output = filter(lambda line: not line.startswith('WARNING:')
+                        and not line.startswith('ERROR:'),
                         output.split('\n'))
         output = '\n'.join(list(output))
 
