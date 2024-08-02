@@ -663,7 +663,7 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
-    @unittest.skipIf(NO_GROUPS, "Current user is in no other group. So this test won't work.")
+    # @unittest.skipIf(NO_GROUPS, "Current user is in no other group. So this test won't work.")
     def test_change_group(self):
         newGroup = [x for x in GROUPS if x != CURRENTGROUP][0]
         newGID = grp.getgrnam(newGroup).gr_gid
