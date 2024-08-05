@@ -197,6 +197,8 @@ def check_syntax_of_po_files():
     rex_reduce = re.compile(r'[^\{\}]')
     # Match every pair of curly brackets
     rex_curly_pair = re.compile(r'\{\}')
+    # Extract placeholder/variable names
+    rex_names = re.compile(r'\{(.*?)\}')
 
     def _curly_brackets_balanced(to_check):
         """Check if curly brackes for variable placeholders are balanced."""
@@ -237,6 +239,31 @@ def check_syntax_of_po_files():
 
         return True
 
+    def _place_holders(trans_string, src_string):
+        """Check if the placeholders between original source string
+        and the translated string are identical. Order is ignored."""
+
+        # Compare number of curly brackets.
+        for bracket in tuple('{}'):
+            if src_string.count(bracket) != trans_string.count(bracket):
+                print(f'\nERROR: Number of "{bracket}" between orginal source '
+                      'and translated string is different.\n'
+                      f'Translation: {trans_string}')
+                return False
+
+        # Compare variable names
+        org_names = rex_names.findall(src_string)
+        trans_names = rex_names.findall(trans_string)
+        if sorted(org_names) != sorted(trans_names):
+            print('\nERROR: Names of placeholders between original source '
+                  'and translated string is different.\n'
+                  f'Names in original    : {org_names}\n'
+                  f'Names in translation : {trans_names}\n'
+                  f'Full translation: {trans_string}')
+            return False
+
+        return True
+
     print('Checking syntax of po files...')
 
     # Each po file
@@ -247,9 +274,14 @@ def check_syntax_of_po_files():
 
         # Each translated entry
         for entry in pof.translated_entries():
-            if (not _curly_brackets_balanced(entry.msgstr) or
-                not _other_errors(entry.msgstr)):
-                print(f'Source string: {entry.msgid}')
+            # Plural form?
+            if entry.msgstr_plural or entry.msgid_plural:
+                continue
+
+            if (not _curly_brackets_balanced(entry.msgstr)
+                    or not _other_errors(entry.msgstr)
+                    or not _place_holders(entry.msgstr, entry.msgid)):
+                print(f'Source string: {entry.msgid}\n')
 
     print('')
 
@@ -578,7 +610,6 @@ if __name__ == '__main__':
     if 'syntax' in sys.argv:
         check_syntax_of_po_files()
         sys.exit()
-
 
     print('Use one of the following argument keywords:\n'
           '  source  - Update the pot and po files with translatable '
