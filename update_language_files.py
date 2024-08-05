@@ -206,9 +206,19 @@ def check_syntax_of_po_files():
         # Remove valid pairs of curly brackets
         invalid = rex_curly_pair.sub('', reduced)
 
+        # Catch nested curly brackest like this
+        # "{{{}}}", "{{}}"
+        # This is valid Python code and won't cause Exceptions. So errors here
+        # might be false negative. But despite rare cases where this might be
+        # used it is a high possibility that there is a typo in the translated
+        # string. BIT won't use constructs like this in strings, so it is
+        # handled as an error.
+        if rex_curly_pair.findall(invalid):
+            print(f'\nERROR: Curly brackets nested: {to_check}')
+            return False
+
         if invalid:
-            print('\nERROR: Curly brackets not balanced in '
-                  f'translation: {to_check}')
+            print(f'\nERROR: Curly brackets not balanced : {to_check}')
             return False
 
         return True
