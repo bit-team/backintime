@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"POT-Creation-Date: 2024-08-05 11:37+0200\n"
 "PO-Revision-Date: 2024-07-22 12:37+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
+#: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1271
 msgid "Warning"
 msgstr "Avís"
 
@@ -43,7 +43,7 @@ msgstr "Local"
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
+#: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2194
 msgid "SSH private key"
 msgstr "Clau privada SSH"
 
@@ -124,7 +124,7 @@ msgstr ""
 "SMB. Assegureu-vos que el servidor remot SMB admet enllaços simbòlics o "
 "activeu {copyLinks} a {expertOptions}."
 
-#: common/config.py:496 qt/settingsdialog.py:1127
+#: common/config.py:496 qt/settingsdialog.py:1139
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copia enllaços (dereferencia els enllaços simbòlics)"
 
@@ -251,7 +251,7 @@ msgstr "S'HA PRODUÏT UN ERROR"
 msgid "Restore permissions"
 msgstr "Restaura els permisos"
 
-#: common/snapshots.py:617 qt/app.py:291 qt/app.py:997 qt/app.py:1032
+#: common/snapshots.py:617 qt/app.py:291 qt/app.py:1006 qt/app.py:1041
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Fet"
@@ -372,7 +372,7 @@ msgstr "Proveu de mantenir un minim d'espai lliure"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proveu de mantenir mínim un {perc} d'inodes lliures"
 
-#: common/snapshots.py:2989 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1752
 msgid "Now"
 msgstr "Ara"
 
@@ -414,32 +414,32 @@ msgstr "La ruta remota no és executable."
 msgid "Couldn't create remote path."
 msgstr "No es pot crear la ruta remota."
 
-#: common/sshtools.py:981
+#: common/sshtools.py:986
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "L'amfitrió remot {host} no admet {command}"
 
-#: common/sshtools.py:985 common/sshtools.py:994
+#: common/sshtools.py:990 common/sshtools.py:999
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Mireu 'man backintime' per a més instruccions"
 
-#: common/sshtools.py:989
+#: common/sshtools.py:994
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "Comproveu les ordres a l'amfitrió {host} ha retornat un error desconegut"
 
-#: common/sshtools.py:1010
+#: common/sshtools.py:1015
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "L'amfitrió remot {host} no admet hardlinks"
 
-#: common/sshtools.py:1164
+#: common/sshtools.py:1169
 #, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Copieu la clau ssh pública \"{pubkey}\" al servidor remot \"{host}\""
 
-#: common/sshtools.py:1166
+#: common/sshtools.py:1171
 #, fuzzy, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Confirmeu la contrasenya per \"{user}\""
@@ -591,7 +591,7 @@ msgstr "Fitxer de configuració de perfils"
 msgid "Website"
 msgstr "Lloc web"
 
-#: qt/app.py:550 qt/app.py:1375
+#: qt/app.py:550 qt/app.py:1384
 msgid "Changelog"
 msgstr "Registre de canvis"
 
@@ -633,7 +633,7 @@ msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 "Restaura els fitxers o carpetes seleccionades a la destinació original."
 
-#: qt/app.py:580 qt/app.py:1546 qt/app.py:1578 qt/snapshotsdialog.py:166
+#: qt/app.py:580 qt/app.py:1555 qt/app.py:1587 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Restaura a …"
 
@@ -661,7 +661,7 @@ msgstr ""
 msgid "Up"
 msgstr "Amunt"
 
-#: qt/app.py:598 qt/settingsdialog.py:2448
+#: qt/app.py:598 qt/settingsdialog.py:2461
 msgid "Show hidden files"
 msgstr "Mostra els fitxers ocults"
 
@@ -699,61 +699,61 @@ msgstr ""
 msgid "Do you really want to close it?"
 msgstr "Segur que voleu restaurar aquest element?"
 
-#: qt/app.py:987
+#: qt/app.py:996
 msgid "Working:"
 msgstr "S'està treballant:"
 
-#: qt/app.py:1035
+#: qt/app.py:1044
 msgid "Done, no backup needed"
 msgstr "Fet, no ha estat necessari crear una còpia de seguretat"
 
-#: qt/app.py:1044
+#: qt/app.py:1053
 msgid "Working"
 msgstr "Treballant"
 
-#: qt/app.py:1053 qt/messagebox.py:78
+#: qt/app.py:1062 qt/messagebox.py:78
 msgid "Error"
 msgstr "Error"
 
-#: qt/app.py:1076
+#: qt/app.py:1085
 msgid "Sent"
 msgstr "Enviat"
 
-#: qt/app.py:1077
+#: qt/app.py:1086
 msgid "Speed"
 msgstr "Velocitat"
 
-#: qt/app.py:1078
+#: qt/app.py:1087
 msgid "ETA"
 msgstr "ETA"
 
-#: qt/app.py:1140
+#: qt/app.py:1149
 msgid "Global"
 msgstr "Global"
 
-#: qt/app.py:1141
+#: qt/app.py:1150
 msgid "Root"
 msgstr "Arrel"
 
-#: qt/app.py:1142
+#: qt/app.py:1151
 msgid "Home"
 msgstr "Inici"
 
-#: qt/app.py:1170
+#: qt/app.py:1179
 msgid "Backup folders"
 msgstr "Carpetes de còpia de seguretat"
 
-#: qt/app.py:1266
+#: qt/app.py:1275
 msgid "Snapshot Name"
 msgstr "Nom de la instantània"
 
-#: qt/app.py:1313
+#: qt/app.py:1322
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Segur que voleu esborrar la instantània?"
 msgstr[1] "Segur que voleu esborrar les instantànies?"
 
-#: qt/app.py:1408
+#: qt/app.py:1417
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -762,7 +762,7 @@ msgstr ""
 "Crea còpies de seguretat amb {suffix} al final abans de\n"
 "sobreescriure o esborrar fitxers locals."
 
-#: qt/app.py:1416
+#: qt/app.py:1425
 #, fuzzy, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -772,7 +772,7 @@ msgstr ""
 "Les versions més noves dels fitxers es canviaran de nom amb el final {suffix} abans de restaurar.\n"
 "Si ja no els necessiteu, podeu eliminar-los amb {cmd}"
 
-#: qt/app.py:1432
+#: qt/app.py:1441
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -782,11 +782,11 @@ msgstr ""
 "són més nous que els de destí.\n"
 "Utilitzant l'opció \"rsync --update\"."
 
-#: qt/app.py:1467
+#: qt/app.py:1476
 msgid "Remove newer elements in original folder."
 msgstr "Esborra els fitxers més nous de la carpeta original."
 
-#: qt/app.py:1470
+#: qt/app.py:1479
 #, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
@@ -799,7 +799,7 @@ msgstr ""
 "Això suprimirà els fitxers/carpetes que s'han exclòs durant la creació de la instantània!\n"
 "Aneu amb compte!"
 
-#: qt/app.py:1481
+#: qt/app.py:1490
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -814,25 +814,25 @@ msgstr[1] ""
 "Segur que voleu restaurar aquests elements\n"
 "a la carpeta nova {path}?"
 
-#: qt/app.py:1490
+#: qt/app.py:1499
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Segur que voleu restaurar aquest element?"
 msgstr[1] "Segur que voleu restaurar aquests elements?"
 
-#: qt/app.py:1505
+#: qt/app.py:1514
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Esteu segur que voleu eliminar tots els fitxers més nous a {path}?"
 
-#: qt/app.py:1508
+#: qt/app.py:1517
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Esteu segur que voleu eliminar tots els fitxers més nous de la carpeta "
 "original?"
 
-#: qt/app.py:1514
+#: qt/app.py:1523
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -841,21 +841,21 @@ msgstr ""
 "AVÍS: Esborrar fitxers a l'arrel del sistema de fitxers podria trencar tot "
 "el sistema!"
 
-#: qt/app.py:1750
+#: qt/app.py:1759
 msgid "Snapshot"
 msgstr "Instantàna"
 
-#: qt/app.py:1787
+#: qt/app.py:1796
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaura {path}"
 
-#: qt/app.py:1789
+#: qt/app.py:1798
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaura {path} a …"
 
-#: qt/app.py:1948
+#: qt/app.py:1957
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "La configuració de la llengua només tindrà efecte després de reiniciar Back "
@@ -881,7 +881,7 @@ msgstr ""
 "projecte i la disponibilitat dels col·laboradors. Hi ha més detalls "
 "disponibles en aquest {whitepaper}."
 
-#: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
+#: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1279
 msgid "whitepaper"
 msgstr "paper en blanc"
 
@@ -973,8 +973,8 @@ msgstr "Última visualització dels registres"
 msgid "Snapshot Log View"
 msgstr "Visualitza el registre d'instantànies"
 
-#: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
-#: qt/settingsdialog.py:2627
+#: qt/logviewdialog.py:76 qt/settingsdialog.py:187 qt/settingsdialog.py:426
+#: qt/settingsdialog.py:2640
 msgid "Profile:"
 msgstr "Perfil:"
 
@@ -988,16 +988,16 @@ msgstr "Instantànies"
 msgid "Filter:"
 msgstr "Filtre"
 
-#: qt/logviewdialog.py:105 qt/settingsdialog.py:921
+#: qt/logviewdialog.py:105 qt/settingsdialog.py:933
 msgid "All"
 msgstr "Tots"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:920
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:932
 msgid "Changes"
 msgstr "Canvis"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:917
-#: qt/settingsdialog.py:920
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:929
+#: qt/settingsdialog.py:932
 msgid "Errors"
 msgstr "Errors"
 
@@ -1092,15 +1092,15 @@ msgstr "Mostra el registre complet"
 msgid "SSH Proxy"
 msgstr "SSH Proxy"
 
-#: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
+#: qt/settingsdialog.py:103 qt/settingsdialog.py:284 qt/settingsdialog.py:414
 msgid "Host:"
 msgstr "Ordinador amfitrió:"
 
-#: qt/settingsdialog.py:107 qt/settingsdialog.py:280
+#: qt/settingsdialog.py:107 qt/settingsdialog.py:289
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
+#: qt/settingsdialog.py:111 qt/settingsdialog.py:294 qt/settingsdialog.py:420
 msgid "User:"
 msgstr "Usuari:"
 
@@ -1115,60 +1115,60 @@ msgstr ""
 "\"ssh\" o \"ProxyJump\" a la pàgina del manual \"ssh_config\" per obtenir "
 "més informació."
 
-#: qt/settingsdialog.py:170
+#: qt/settingsdialog.py:179
 msgid "Manage profiles"
 msgstr "Gestiona els perfils"
 
-#: qt/settingsdialog.py:187
+#: qt/settingsdialog.py:196
 msgid "Edit"
 msgstr "Edita"
 
-#: qt/settingsdialog.py:191 qt/settingsdialog.py:668
+#: qt/settingsdialog.py:200 qt/settingsdialog.py:680
 msgid "Add"
 msgstr "Afegeix"
 
-#: qt/settingsdialog.py:195 qt/settingsdialog.py:615 qt/settingsdialog.py:686
+#: qt/settingsdialog.py:204 qt/settingsdialog.py:627 qt/settingsdialog.py:698
 msgid "Remove"
 msgstr "Elimina"
 
-#: qt/settingsdialog.py:210
+#: qt/settingsdialog.py:219
 msgid "&General"
 msgstr "&General"
 
-#: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
+#: qt/settingsdialog.py:229 qt/settingsdialog.py:2642
 #, fuzzy
 msgid "Mode:"
 msgstr "Mode"
 
-#: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
+#: qt/settingsdialog.py:248 qt/settingsdialog.py:2170
 msgid "Where to save snapshots"
 msgstr "A on guardar Instanànies"
 
-#: qt/settingsdialog.py:255
+#: qt/settingsdialog.py:264
 msgid "Folder"
 msgstr "Carpeta"
 
-#: qt/settingsdialog.py:263
+#: qt/settingsdialog.py:272
 msgid "SSH Settings"
 msgstr "Paràmetres SSH"
 
-#: qt/settingsdialog.py:290
+#: qt/settingsdialog.py:299
 msgid "Path:"
 msgstr "Ruta:"
 
-#: qt/settingsdialog.py:296
+#: qt/settingsdialog.py:305
 msgid "Cipher:"
 msgstr "Xifratge:"
 
-#: qt/settingsdialog.py:302
+#: qt/settingsdialog.py:311
 msgid "Private Key:"
 msgstr "Clau privada:"
 
-#: qt/settingsdialog.py:312
+#: qt/settingsdialog.py:321
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Trieu un fitxer de clau privada existent (normalment anomenat \"id_rsa\")"
 
-#: qt/settingsdialog.py:323
+#: qt/settingsdialog.py:332
 #, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
@@ -1177,107 +1177,107 @@ msgstr ""
 "Crea una clau SSH nova sense contrasenya (no es permet si ja hi ha "
 "seleccionat un fitxer de clau privada)"
 
-#: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
+#: qt/settingsdialog.py:362 qt/settingsdialog.py:371 qt/settingsdialog.py:377
 msgid "Password"
 msgstr "﻿Contrasenya"
 
-#: qt/settingsdialog.py:374
+#: qt/settingsdialog.py:383
 msgid "Save Password to Keyring"
 msgstr "Desa la contrasenya a l'anell de claus"
 
-#: qt/settingsdialog.py:378
+#: qt/settingsdialog.py:387
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Contrasenya de la memòria cau per al Cron (problema de seguretat: "
 "l'administrador pot llegir la contrasenya)"
 
-#: qt/settingsdialog.py:390
+#: qt/settingsdialog.py:402
 msgid "Advanced"
 msgstr "Avançat"
 
-#: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
+#: qt/settingsdialog.py:432 qt/settingsdialog.py:2296
 msgid "Full snapshot path:"
 msgstr "Ruta completa de la instantània:"
 
-#: qt/settingsdialog.py:427
+#: qt/settingsdialog.py:439
 msgid "Schedule"
 msgstr "Planificació"
 
-#: qt/settingsdialog.py:439
+#: qt/settingsdialog.py:451
 msgid "Disabled"
 msgstr "Deshabilitat"
 
-#: qt/settingsdialog.py:440
+#: qt/settingsdialog.py:452
 msgid "At every boot/reboot"
 msgstr "En cada inici/reinici"
 
-#: qt/settingsdialog.py:442 qt/settingsdialog.py:444 qt/settingsdialog.py:446
+#: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Cada {n} minut"
 msgstr[1] "Cada {n} minuts"
 
-#: qt/settingsdialog.py:448
+#: qt/settingsdialog.py:460
 #, fuzzy, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Cada hora"
 msgstr[1] "Cada hora"
 
-#: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
-#: qt/settingsdialog.py:456
+#: qt/settingsdialog.py:462 qt/settingsdialog.py:464 qt/settingsdialog.py:466
+#: qt/settingsdialog.py:468
 #, fuzzy, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Cada {n} hora"
 msgstr[1] "Cada {n} hores"
 
-#: qt/settingsdialog.py:457
+#: qt/settingsdialog.py:469
 msgid "Custom hours"
 msgstr "Hores personalitzades"
 
-#: qt/settingsdialog.py:458
+#: qt/settingsdialog.py:470
 msgid "Every day"
 msgstr "Cada dia"
 
-#: qt/settingsdialog.py:459
+#: qt/settingsdialog.py:471
 msgid "Repeatedly (anacron)"
 msgstr "Repetidament (anacron)"
 
-#: qt/settingsdialog.py:460
+#: qt/settingsdialog.py:472
 msgid "When drive gets connected (udev)"
 msgstr "Quan la unitat es connecti (udev)"
 
-#: qt/settingsdialog.py:461
+#: qt/settingsdialog.py:473
 msgid "Every week"
 msgstr "Cada setmana"
 
-#: qt/settingsdialog.py:462
+#: qt/settingsdialog.py:474
 msgid "Every month"
 msgstr "Cada mes"
 
-#: qt/settingsdialog.py:463
+#: qt/settingsdialog.py:475
 msgid "Every year"
 msgstr "Cada any"
 
-#: qt/settingsdialog.py:468
+#: qt/settingsdialog.py:480
 msgid "Day:"
 msgstr "Día:"
 
-#: qt/settingsdialog.py:479
+#: qt/settingsdialog.py:491
 msgid "Weekday:"
 msgstr "Entre setmana:"
 
-#: qt/settingsdialog.py:495
+#: qt/settingsdialog.py:507
 msgid "Hour:"
 msgstr "Hora:"
 
-#: qt/settingsdialog.py:510
+#: qt/settingsdialog.py:522
 msgid "Hours:"
 msgstr "Hores:"
 
-#: qt/settingsdialog.py:521
+#: qt/settingsdialog.py:533
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1285,27 +1285,27 @@ msgstr ""
 "Executa Back In Time repetidament. Això és útil si l'ordinador no s'està "
 "executant regularment."
 
-#: qt/settingsdialog.py:528
+#: qt/settingsdialog.py:540
 msgid "Every:"
 msgstr "Cada:"
 
-#: qt/settingsdialog.py:542
+#: qt/settingsdialog.py:554
 msgid "Hour(s)"
 msgstr "Hora(es)"
 
-#: qt/settingsdialog.py:543 qt/settingsdialog.py:738
+#: qt/settingsdialog.py:555 qt/settingsdialog.py:750
 msgid "Day(s)"
 msgstr "Dia(es)"
 
-#: qt/settingsdialog.py:544 qt/settingsdialog.py:739
+#: qt/settingsdialog.py:556 qt/settingsdialog.py:751
 msgid "Week(s)"
 msgstr "Setmana(es)"
 
-#: qt/settingsdialog.py:545
+#: qt/settingsdialog.py:557
 msgid "Month(s)"
 msgstr "Mes(os)"
 
-#: qt/settingsdialog.py:555
+#: qt/settingsdialog.py:567
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
@@ -1313,17 +1313,17 @@ msgstr ""
 "Executa enrere en el temps tan aviat com la unitat estigui connectada (només una vegada cada X dies).\n"
 "Se us demanarà la contrasenya sudo."
 
-#: qt/settingsdialog.py:564
+#: qt/settingsdialog.py:576
 msgid "Enable logging of debug messages"
 msgstr "Activa el registre dels missatges de depuració"
 
-#: qt/settingsdialog.py:568
+#: qt/settingsdialog.py:580
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 "Escriu missatges de nivell de depuració al registre del sistema mitjançant "
 "\"--debug\"."
 
-#: qt/settingsdialog.py:570
+#: qt/settingsdialog.py:582
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
@@ -1331,27 +1331,27 @@ msgstr ""
 "Precaució: utilitzeu-lo només temporalment per a diagnòstics, ja que genera "
 "una gran quantitat de sortida."
 
-#: qt/settingsdialog.py:583
+#: qt/settingsdialog.py:595
 msgid "&Include"
 msgstr "&Inclou"
 
-#: qt/settingsdialog.py:590
+#: qt/settingsdialog.py:602
 msgid "Include files and folders"
 msgstr "Inclou fitxers i carpetes"
 
-#: qt/settingsdialog.py:607 qt/settingsdialog.py:672
+#: qt/settingsdialog.py:619 qt/settingsdialog.py:684
 msgid "Add file"
 msgstr "Afegeix fitxer"
 
-#: qt/settingsdialog.py:611 qt/settingsdialog.py:676
+#: qt/settingsdialog.py:623 qt/settingsdialog.py:688
 msgid "Add folder"
 msgstr "Afegeix un directori"
 
-#: qt/settingsdialog.py:621
+#: qt/settingsdialog.py:633
 msgid "&Exclude"
 msgstr "&Exclou"
 
-#: qt/settingsdialog.py:625
+#: qt/settingsdialog.py:637
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1364,24 +1364,24 @@ msgstr ""
 "de comodins i patrons (p. ex., {example1}). Els noms de fitxers són "
 "impredictibles en aquest mode a causa del xifratge per EncFS."
 
-#: qt/settingsdialog.py:648
+#: qt/settingsdialog.py:660
 msgid "Exclude patterns, files or folders"
 msgstr "Exclou fitxers i carpetes"
 
-#: qt/settingsdialog.py:681
+#: qt/settingsdialog.py:693
 msgid "Add default"
 msgstr "Afegeix per defecte"
 
-#: qt/settingsdialog.py:694
+#: qt/settingsdialog.py:706
 msgid "Exclude files bigger than:"
 msgstr "Exclou els fitxers més grans que:"
 
-#: qt/settingsdialog.py:698
+#: qt/settingsdialog.py:710
 #, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Exclou els fitxers més grans que: "
 
-#: qt/settingsdialog.py:700
+#: qt/settingsdialog.py:712
 #, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
@@ -1395,99 +1395,99 @@ msgstr ""
 "Doncs els fitxers grans ja copiats previament romandran en les instantànies\n"
 "encara que hagin canviat."
 
-#: qt/settingsdialog.py:720
+#: qt/settingsdialog.py:732
 msgid "&Auto-remove"
 msgstr "Eliminació &automàtica"
 
-#: qt/settingsdialog.py:726
+#: qt/settingsdialog.py:738
 #, fuzzy
 msgid "Older than:"
 msgstr "Més antics que"
 
-#: qt/settingsdialog.py:740
+#: qt/settingsdialog.py:752
 msgid "Year(s)"
 msgstr "Any(s)"
 
-#: qt/settingsdialog.py:748
+#: qt/settingsdialog.py:760
 #, fuzzy
 msgid "If free space is less than:"
 msgstr "Si l'espai lliure és inferior a"
 
-#: qt/settingsdialog.py:768
+#: qt/settingsdialog.py:780
 #, fuzzy
 msgid "If free inodes is less than:"
 msgstr "Si els inodes lliures són inferiors a"
 
-#: qt/settingsdialog.py:782
+#: qt/settingsdialog.py:794
 #, fuzzy
 msgid "Smart removal:"
 msgstr "Esborrat intel·ligent:"
 
-#: qt/settingsdialog.py:793
+#: qt/settingsdialog.py:805
 msgid "Run in background on remote host."
 msgstr "Executa en segon pla en una màquina remota."
 
-#: qt/settingsdialog.py:794
+#: qt/settingsdialog.py:806
 msgid "EXPERIMENTAL"
 msgstr "EXPERIMENTAL"
 
-#: qt/settingsdialog.py:800
+#: qt/settingsdialog.py:812
 msgid "Keep all snapshots for the last"
 msgstr "Mantingues totes les instantànies durant els darrers"
 
-#: qt/settingsdialog.py:804 qt/settingsdialog.py:811
+#: qt/settingsdialog.py:816 qt/settingsdialog.py:823
 msgid "day(s)."
 msgstr "dia(es)."
 
-#: qt/settingsdialog.py:807
+#: qt/settingsdialog.py:819
 msgid "Keep one snapshot per day for the last"
 msgstr "Mantingues una instantània al dia durant els darrers"
 
-#: qt/settingsdialog.py:814
+#: qt/settingsdialog.py:826
 msgid "Keep one snapshot per week for the last"
 msgstr "Mantingues una instantània a la setmana durant les darreres"
 
-#: qt/settingsdialog.py:818
+#: qt/settingsdialog.py:830
 msgid "week(s)."
 msgstr "setmana(es)."
 
-#: qt/settingsdialog.py:821
+#: qt/settingsdialog.py:833
 msgid "Keep one snapshot per month for the last"
 msgstr "Mantingues una instantània al mes durant els darrers"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:837
 msgid "month(s)."
 msgstr "mes(os)."
 
-#: qt/settingsdialog.py:828
+#: qt/settingsdialog.py:840
 msgid "Keep one snapshot per year for all years."
 msgstr "Conserva una instantània de cada any."
 
-#: qt/settingsdialog.py:837
+#: qt/settingsdialog.py:849
 msgid "Don't remove named snapshots."
 msgstr "No eliminis les instantànies amb nom."
 
-#: qt/settingsdialog.py:849
+#: qt/settingsdialog.py:861
 msgid "&Options"
 msgstr "&Opcions"
 
-#: qt/settingsdialog.py:854
+#: qt/settingsdialog.py:866
 msgid "Enable notifications"
 msgstr "Activa les notificacions"
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:870
 msgid "Disable snapshots when on battery"
 msgstr "Desactiva les instantànies treballant en bateria"
 
-#: qt/settingsdialog.py:862
+#: qt/settingsdialog.py:874
 msgid "Power status not available from system"
 msgstr "No està disponible l'estat de l'energia"
 
-#: qt/settingsdialog.py:865
+#: qt/settingsdialog.py:877
 msgid "Run only one snapshot at a time"
 msgstr "Executa només una instantània alhora"
 
-#: qt/settingsdialog.py:868
+#: qt/settingsdialog.py:880
 #, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
@@ -1498,11 +1498,11 @@ msgstr ""
 "Aquesta és una opció global. Per tant, afectarà tots els perfils d'aquest usuari.\n"
 "Però també heu d'activar això per a tots els altres usuaris."
 
-#: qt/settingsdialog.py:876
+#: qt/settingsdialog.py:888
 msgid "Backup replaced files on restore"
 msgstr "La còpia de seguretat ha substituïts fitxers en restaurar"
 
-#: qt/settingsdialog.py:879
+#: qt/settingsdialog.py:891
 #, fuzzy, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -1511,68 +1511,68 @@ msgstr ""
 "Les versions més noves dels fitxers es canviaran de nom amb el final {suffix} abans de restaurar.\n"
 "Si ja no els necessiteu, podeu eliminar-los amb {cmd}"
 
-#: qt/settingsdialog.py:891
+#: qt/settingsdialog.py:903
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Continua amb errors (Mantingues instantànies incompletes)"
 
-#: qt/settingsdialog.py:895
+#: qt/settingsdialog.py:907
 msgid "Use checksum to detect changes"
 msgstr "Utilitza el checksum per detectar canvis"
 
-#: qt/settingsdialog.py:899
+#: qt/settingsdialog.py:911
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "Preneu una nova instantània tant si hi ha canvis com si no."
 
-#: qt/settingsdialog.py:906
+#: qt/settingsdialog.py:918
 #, fuzzy
 msgid "Log Level:"
 msgstr "Nivell de registre"
 
-#: qt/settingsdialog.py:911
+#: qt/settingsdialog.py:923
 msgid "None"
 msgstr "Cap"
 
-#: qt/settingsdialog.py:931
+#: qt/settingsdialog.py:943
 msgid "E&xpert Options"
 msgstr "Opcions d'e&xperts"
 
-#: qt/settingsdialog.py:936
+#: qt/settingsdialog.py:948
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Precaució: Canvieu aquestes opcions només si realment sabeu el que esteu "
 "fent."
 
-#: qt/settingsdialog.py:941 qt/settingsdialog.py:957 qt/settingsdialog.py:979
+#: qt/settingsdialog.py:953 qt/settingsdialog.py:969 qt/settingsdialog.py:991
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Executa 'rsync' amb '{cmd}':"
 
-#: qt/settingsdialog.py:948 qt/settingsdialog.py:964
+#: qt/settingsdialog.py:960 qt/settingsdialog.py:976
 msgid "as cron job"
 msgstr "com a tasca cron"
 
-#: qt/settingsdialog.py:953 qt/settingsdialog.py:974 qt/settingsdialog.py:995
+#: qt/settingsdialog.py:965 qt/settingsdialog.py:986 qt/settingsdialog.py:1007
 msgid "on remote host"
 msgstr "a l'amfitrió remot"
 
-#: qt/settingsdialog.py:969
+#: qt/settingsdialog.py:981
 msgid "when taking a manual snapshot"
 msgstr "en prendre una instantània manual"
 
-#: qt/settingsdialog.py:982
+#: qt/settingsdialog.py:994
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Si us plau, instal·leu 'nocache' per a activar aquesta opció)"
 
-#: qt/settingsdialog.py:989
+#: qt/settingsdialog.py:1001
 msgid "on local machine"
 msgstr "a la màquina local"
 
-#: qt/settingsdialog.py:1000
+#: qt/settingsdialog.py:1012
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Redirigeix la stdout a /dev/null a les funcions cron."
 
-#: qt/settingsdialog.py:1005
+#: qt/settingsdialog.py:1017
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -1580,11 +1580,11 @@ msgstr ""
 "Cron enviarà automàticament un correu electrònic amb la sortida adjunta de "
 "cronjobs si hi ha instal·lat un MTA."
 
-#: qt/settingsdialog.py:1011
+#: qt/settingsdialog.py:1023
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Redirigeix stderr a /dev/null a les funcions cron."
 
-#: qt/settingsdialog.py:1016
+#: qt/settingsdialog.py:1028
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -1592,49 +1592,49 @@ msgstr ""
 "Cron enviarà automàticament un correu electrònic amb errors adjunts de "
 "cronjobs si hi ha instal·lat un MTA."
 
-#: qt/settingsdialog.py:1024
+#: qt/settingsdialog.py:1036
 #, fuzzy
 msgid "Limit rsync bandwidth usage:"
 msgstr "Limita l'ús de l'amplada de banda 'rsync'"
 
-#: qt/settingsdialog.py:1027
+#: qt/settingsdialog.py:1039
 msgid "KB/sec"
 msgstr "KB/seg"
 
-#: qt/settingsdialog.py:1071
+#: qt/settingsdialog.py:1083
 msgid "Preserve ACL"
 msgstr "Preserva ACL"
 
-#: qt/settingsdialog.py:1089
+#: qt/settingsdialog.py:1101
 msgid "Preserve extended attributes (xattr)"
 msgstr "Preserva els atributs extesos (xattr)"
 
-#: qt/settingsdialog.py:1112
+#: qt/settingsdialog.py:1124
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Copia links insegurs (Només funciona amb links absoluts)"
 
-#: qt/settingsdialog.py:1148
+#: qt/settingsdialog.py:1160
 msgid "Restrict to one file system"
 msgstr "Limiteu-vos a un sistema de fitxers"
 
-#: qt/settingsdialog.py:1168
+#: qt/settingsdialog.py:1180
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Les opcions s'han de citar, p. ex. {example}."
 
-#: qt/settingsdialog.py:1171
+#: qt/settingsdialog.py:1183
 msgid "Paste additional options to rsync"
 msgstr "Enganxa les opcions addicionals al 'rsync'"
 
-#: qt/settingsdialog.py:1185
+#: qt/settingsdialog.py:1197
 msgid "Add prefix to SSH commands"
 msgstr "Afegeix un prefix a les ordres SSH"
 
-#: qt/settingsdialog.py:1187
+#: qt/settingsdialog.py:1199
 msgid "Prefix to run before every command on remote host."
 msgstr "Prefix per executar-se abans de cada comanda a l'amfitrió remot."
 
-#: qt/settingsdialog.py:1188
+#: qt/settingsdialog.py:1200
 #, fuzzy, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1648,15 +1648,15 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: qt/settingsdialog.py:1196
+#: qt/settingsdialog.py:1208
 msgid "default"
 msgstr "per defecte"
 
-#: qt/settingsdialog.py:1211
+#: qt/settingsdialog.py:1223
 msgid "Check if remote host is online"
 msgstr "Comprova si l'amfitrió remot està connectat"
 
-#: qt/settingsdialog.py:1214
+#: qt/settingsdialog.py:1226
 #, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
@@ -1666,12 +1666,12 @@ msgstr ""
 "no està disponible, això podria portar a alguns\n"
 "errors estranys."
 
-#: qt/settingsdialog.py:1218
+#: qt/settingsdialog.py:1230
 #, fuzzy
 msgid "Check if remote host supports all necessary commands."
 msgstr "Comprova si l'amfitrió remot admet totes les ordres necessàries"
 
-#: qt/settingsdialog.py:1221
+#: qt/settingsdialog.py:1233
 #, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
@@ -1681,15 +1681,15 @@ msgstr ""
 "no admet totes les ordres necessàries,\n"
 "Això podria provocar alguns errors estranys."
 
-#: qt/settingsdialog.py:1237
+#: qt/settingsdialog.py:1249
 msgid "Restore Config"
 msgstr "Restaura la configuració"
 
-#: qt/settingsdialog.py:1239
+#: qt/settingsdialog.py:1251
 msgid "Edit user-callback"
 msgstr "Edita user-callback"
 
-#: qt/settingsdialog.py:1263
+#: qt/settingsdialog.py:1272
 #, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
@@ -1703,20 +1703,20 @@ msgstr ""
 "disponibilitat dels col·laboradors. Hi ha més detalls disponibles en aquest "
 "{whitepaper}."
 
-#: qt/settingsdialog.py:1285
+#: qt/settingsdialog.py:1294
 msgid "New profile"
 msgstr "Perfil nou"
 
-#: qt/settingsdialog.py:1302
+#: qt/settingsdialog.py:1311
 msgid "Rename profile"
 msgstr "Reanomena el perfil"
 
-#: qt/settingsdialog.py:1318
+#: qt/settingsdialog.py:1327
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Esteu segurs de que voleu eliminar el perfil \"{name}\"?"
 
-#: qt/settingsdialog.py:1422
+#: qt/settingsdialog.py:1431
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1724,12 +1724,12 @@ msgstr ""
 "{BOLD}Molt recomanable{ENDBOLD}: (Totes les recomanacions ja estan "
 "incloses.)"
 
-#: qt/settingsdialog.py:1427
+#: qt/settingsdialog.py:1436
 #, fuzzy, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "Molt recomanat"
 
-#: qt/settingsdialog.py:1634
+#: qt/settingsdialog.py:1643
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1737,11 +1737,11 @@ msgstr ""
 "Les hores personalitzades només poden ser una llista d'hores separades per "
 "comes (p.e. 8,12,18,23) o */3 per fer còpies periòdiques cada 3 hores."
 
-#: qt/settingsdialog.py:1681
+#: qt/settingsdialog.py:1690
 msgid "You did not choose a private key file for SSH."
 msgstr "No heu escollit un fitxer de clau privada per a SSH."
 
-#: qt/settingsdialog.py:1682
+#: qt/settingsdialog.py:1691
 #, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
@@ -1749,12 +1749,12 @@ msgstr ""
 "No heu triat cap fitxer de clau privada per a SSH.\n"
 "Voleu generar un nou parell de claus públic/privat sense contrasenya?"
 
-#: qt/settingsdialog.py:1692
+#: qt/settingsdialog.py:1701
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "El fitxer de clau privada \"{file}\" no existeix."
 
-#: qt/settingsdialog.py:1847
+#: qt/settingsdialog.py:1856
 #, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
@@ -1763,7 +1763,7 @@ msgstr ""
 "Voleu copiar la vostra clau SSH pública a la\n"
 "màquina remota per a habilitar l'inici de sessió sense contrasenya?"
 
-#: qt/settingsdialog.py:1878
+#: qt/settingsdialog.py:1887
 #, fuzzy, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
@@ -1771,12 +1771,12 @@ msgstr ""
 "\n"
 "L'empremta digital de la clau {keytype} és:"
 
-#: qt/settingsdialog.py:1881
+#: qt/settingsdialog.py:1890
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "L'empremta digital de la clau {keytype} és:"
 
-#: qt/settingsdialog.py:1889
+#: qt/settingsdialog.py:1898
 #, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
@@ -1785,23 +1785,23 @@ msgstr ""
 "Verifiqueu aquesta empremta digital! Voleu afegir-lo al fitxer "
 "'known_hosts'?"
 
-#: qt/settingsdialog.py:2061
+#: qt/settingsdialog.py:2070
 msgid "Exclude pattern"
 msgstr "Exclou el patró"
 
-#: qt/settingsdialog.py:2074
+#: qt/settingsdialog.py:2083
 msgid "Exclude file"
 msgstr "Exclou el fitxer"
 
-#: qt/settingsdialog.py:2078
+#: qt/settingsdialog.py:2087
 msgid "Exclude folder"
 msgstr "Exclou el directori"
 
-#: qt/settingsdialog.py:2102
+#: qt/settingsdialog.py:2111
 msgid "Include file"
 msgstr "Inclou un fitxer"
 
-#: qt/settingsdialog.py:2111 qt/settingsdialog.py:2141
+#: qt/settingsdialog.py:2120 qt/settingsdialog.py:2150
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1810,52 +1810,52 @@ msgstr ""
 "\"{path}\" és un enllaç simbòlic (symlink). L'objectiu enllaçat no es copiarà fins que no l'incloguin.\n"
 "Voleu incloure l'objectiu de l'enllaç simbòlic?"
 
-#: qt/settingsdialog.py:2132
+#: qt/settingsdialog.py:2141
 msgid "Include folder"
 msgstr "Inclou el directori"
 
-#: qt/settingsdialog.py:2169
+#: qt/settingsdialog.py:2178
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Segur que voleu canviar la carpeta d'instantànies?"
 
-#: qt/settingsdialog.py:2194
+#: qt/settingsdialog.py:2203
 #, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "No s'ha pogut crear una clau SSH nova a {path}"
 
-#: qt/settingsdialog.py:2310
+#: qt/settingsdialog.py:2323
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "S'ha desactivat perquè aquest patró no funciona en el mode \"SSH "
 "encriptat\"."
 
-#: qt/settingsdialog.py:2369
+#: qt/settingsdialog.py:2382
 #, fuzzy
 msgid "(default: {})"
 msgstr "per defecte"
 
-#: qt/settingsdialog.py:2370
+#: qt/settingsdialog.py:2383
 msgid "disabled"
 msgstr "desactivat"
 
-#: qt/settingsdialog.py:2370
+#: qt/settingsdialog.py:2383
 msgid "enabled"
 msgstr "habilitat"
 
-#: qt/settingsdialog.py:2413
+#: qt/settingsdialog.py:2426
 msgid "Import configuration"
 msgstr "Importa la configuració"
 
-#: qt/settingsdialog.py:2469 qt/settingsdialog.py:2565
+#: qt/settingsdialog.py:2482 qt/settingsdialog.py:2578
 msgid "No config found"
 msgstr "No s'ha trobat cap configuració"
 
-#: qt/settingsdialog.py:2494
+#: qt/settingsdialog.py:2507
 msgid "Import"
 msgstr "Importar"
 
-#: qt/settingsdialog.py:2522
+#: qt/settingsdialog.py:2535
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
@@ -1864,7 +1864,7 @@ msgstr ""
 "Seleccioneu la carpeta de snapshots des de la qual s'ha d'importar el fitxer"
 " de configuració. El path pot semblarse a: {samplePath}"
 
-#: qt/settingsdialog.py:2527
+#: qt/settingsdialog.py:2540
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."

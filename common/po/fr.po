@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2024-08-05 11:37+0200\n"
 "PO-Revision-Date: 2024-07-27 06:38+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
+#: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1271
 msgid "Warning"
 msgstr "Avertissement"
 
@@ -43,7 +43,7 @@ msgstr "Local"
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
+#: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2194
 msgid "SSH private key"
 msgstr "Clé privée SSH"
 
@@ -124,7 +124,7 @@ msgstr ""
 "Assurez-vous que le serveur SMB distant autorise les liens symboliques ou "
 "activez {copyLinks} dans {expertOptions}."
 
-#: common/config.py:496 qt/settingsdialog.py:1127
+#: common/config.py:496 qt/settingsdialog.py:1139
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copier les liens (résoudre les liens symboliques)"
 
@@ -253,7 +253,7 @@ msgstr "ÉCHEC"
 msgid "Restore permissions"
 msgstr "Restaurer les permissions"
 
-#: common/snapshots.py:617 qt/app.py:291 qt/app.py:997 qt/app.py:1032
+#: common/snapshots.py:617 qt/app.py:291 qt/app.py:1006 qt/app.py:1041
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Terminé"
@@ -373,7 +373,7 @@ msgstr "Essayer de conserver un minimum d'espace libre"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Essayer de conserver un minimum de {perc} d'inodes libres"
 
-#: common/snapshots.py:2989 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1752
 msgid "Now"
 msgstr "Maintenant"
 
@@ -415,33 +415,33 @@ msgstr "Le chemin d'accès distant n'est pas exécutable."
 msgid "Couldn't create remote path."
 msgstr "Impossible de créer le chemin distant."
 
-#: common/sshtools.py:981
+#: common/sshtools.py:986
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "L'hôte distant {host} n'accepte pas {command}"
 
-#: common/sshtools.py:985 common/sshtools.py:994
+#: common/sshtools.py:990 common/sshtools.py:999
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Consultez 'man backintime' pour plus d'informations"
 
-#: common/sshtools.py:989
+#: common/sshtools.py:994
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "La vérification des commandes sur l'hôte {host} a renvoyé une erreur "
 "inconnue"
 
-#: common/sshtools.py:1010
+#: common/sshtools.py:1015
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "L'hôte distant {host} ne prend pas en charge les liens physiques"
 
-#: common/sshtools.py:1164
+#: common/sshtools.py:1169
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Copie de la clé SSH publique \"{pubkey}s\" sur l'hôte distant \"{host}\"."
 
-#: common/sshtools.py:1166
+#: common/sshtools.py:1171
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Veuillez fournir un mot de passe pour \"{user}\"."
@@ -592,7 +592,7 @@ msgstr "Fichier de configuration des profils"
 msgid "Website"
 msgstr "Site Web"
 
-#: qt/app.py:550 qt/app.py:1375
+#: qt/app.py:550 qt/app.py:1384
 msgid "Changelog"
 msgstr "Notes de version"
 
@@ -636,7 +636,7 @@ msgstr ""
 "Restaurer les fichiers ou répertoires sélectionnés à leur emplacement "
 "d'origine."
 
-#: qt/app.py:580 qt/app.py:1546 qt/app.py:1578 qt/snapshotsdialog.py:166
+#: qt/app.py:580 qt/app.py:1555 qt/app.py:1587 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Restaurer vers …"
 
@@ -666,7 +666,7 @@ msgstr ""
 msgid "Up"
 msgstr "Dossier parent"
 
-#: qt/app.py:598 qt/settingsdialog.py:2448
+#: qt/app.py:598 qt/settingsdialog.py:2461
 msgid "Show hidden files"
 msgstr "Afficher les fichiers cachés"
 
@@ -702,61 +702,61 @@ msgstr ""
 msgid "Do you really want to close it?"
 msgstr "Voulez-vous vraiment la fermer ?"
 
-#: qt/app.py:987
+#: qt/app.py:996
 msgid "Working:"
 msgstr "En cours :"
 
-#: qt/app.py:1035
+#: qt/app.py:1044
 msgid "Done, no backup needed"
 msgstr "Terminé, il n'y a rien à sauvegarder"
 
-#: qt/app.py:1044
+#: qt/app.py:1053
 msgid "Working"
 msgstr "En cours"
 
-#: qt/app.py:1053 qt/messagebox.py:78
+#: qt/app.py:1062 qt/messagebox.py:78
 msgid "Error"
 msgstr "Erreur"
 
-#: qt/app.py:1076
+#: qt/app.py:1085
 msgid "Sent"
 msgstr "Envoyé"
 
-#: qt/app.py:1077
+#: qt/app.py:1086
 msgid "Speed"
 msgstr "Vitesse"
 
-#: qt/app.py:1078
+#: qt/app.py:1087
 msgid "ETA"
 msgstr "Temps restant estimé"
 
-#: qt/app.py:1140
+#: qt/app.py:1149
 msgid "Global"
 msgstr "Global"
 
-#: qt/app.py:1141
+#: qt/app.py:1150
 msgid "Root"
 msgstr "Répertoire racine"
 
-#: qt/app.py:1142
+#: qt/app.py:1151
 msgid "Home"
 msgstr "Répertoire personnel"
 
-#: qt/app.py:1170
+#: qt/app.py:1179
 msgid "Backup folders"
 msgstr "Répertoires sauvegardés"
 
-#: qt/app.py:1266
+#: qt/app.py:1275
 msgid "Snapshot Name"
 msgstr "Nom de l'instantané"
 
-#: qt/app.py:1313
+#: qt/app.py:1322
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Êtes-vous sûr(e) de vouloir supprimer cet instantané ?"
 msgstr[1] "Êtes-vous sûr(e) de vouloir supprimer ces instantanés ?"
 
-#: qt/app.py:1408
+#: qt/app.py:1417
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -765,7 +765,7 @@ msgstr ""
 "Créer des copies de sauvegarde avec le suffixe '{suffix}' \n"
 "avant d'écraser ou de supprimer les fichiers locaux."
 
-#: qt/app.py:1416
+#: qt/app.py:1425
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -776,7 +776,7 @@ msgstr ""
 " '{suffix}' avant la restauration. Si vous n'en avez plus besoin, vous "
 "pouvez les supprimer avec la commande suivante :"
 
-#: qt/app.py:1432
+#: qt/app.py:1441
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -786,11 +786,11 @@ msgstr ""
 " ou qui sont plus récents que ceux de la destination.\n"
 "Utilise l'option \"rsync --update\"."
 
-#: qt/app.py:1467
+#: qt/app.py:1476
 msgid "Remove newer elements in original folder."
 msgstr "Supprimer les fichiers les plus récents dans le dossier d'origine."
 
-#: qt/app.py:1470
+#: qt/app.py:1479
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
@@ -802,7 +802,7 @@ msgstr ""
 "la sauvegarde. Attention : cette option va supprimer les fichiers et "
 "répertoires qui étaient exclus lors de la sauvegarde."
 
-#: qt/app.py:1481
+#: qt/app.py:1490
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -817,27 +817,27 @@ msgstr[1] ""
 "Voulez-vous vraiment restaurer ces fichiers\n"
 "dans le nouveau répertoire {path} ?"
 
-#: qt/app.py:1490
+#: qt/app.py:1499
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Voulez-vous vraiment restaurer ce fichier ?"
 msgstr[1] "Voulez-vous vraiment restaurer ces fichiers ?"
 
-#: qt/app.py:1505
+#: qt/app.py:1514
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 "Voulez-vous vraiment supprimer tous les fichiers les plus récents dans "
 "{path} ?"
 
-#: qt/app.py:1508
+#: qt/app.py:1517
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Êtes vous sûr(e) de vouloir supprimer tous les fichiers plus récents dans le"
 " répertoire d'origine ?"
 
-#: qt/app.py:1514
+#: qt/app.py:1523
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -846,21 +846,21 @@ msgstr ""
 "{BOLD}Attention{BOLDEND} : Supprimer des fichiers à la racine du système de "
 "fichiers pourrait endommager l'ensemble de votre système."
 
-#: qt/app.py:1750
+#: qt/app.py:1759
 msgid "Snapshot"
 msgstr "Instantané"
 
-#: qt/app.py:1787
+#: qt/app.py:1796
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurer {path}"
 
-#: qt/app.py:1789
+#: qt/app.py:1798
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaurer {path} vers…"
 
-#: qt/app.py:1948
+#: qt/app.py:1957
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Le changement de langue ne prend effet qu'après le redémarrage de Back In "
@@ -886,7 +886,7 @@ msgstr ""
 "projet et de la disponibilité des contributeurs. Plus de détails sont "
 "disponibles dans ce {whitepaper}."
 
-#: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
+#: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1279
 msgid "whitepaper"
 msgstr "livre blanc"
 
@@ -978,8 +978,8 @@ msgstr "Voir le dernier journal"
 msgid "Snapshot Log View"
 msgstr "Voir le journal des instantanés"
 
-#: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
-#: qt/settingsdialog.py:2627
+#: qt/logviewdialog.py:76 qt/settingsdialog.py:187 qt/settingsdialog.py:426
+#: qt/settingsdialog.py:2640
 msgid "Profile:"
 msgstr "Profil :"
 
@@ -991,16 +991,16 @@ msgstr "Instantanés :"
 msgid "Filter:"
 msgstr "Filtre :"
 
-#: qt/logviewdialog.py:105 qt/settingsdialog.py:921
+#: qt/logviewdialog.py:105 qt/settingsdialog.py:933
 msgid "All"
 msgstr "Tous"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:920
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:932
 msgid "Changes"
 msgstr "Modifications"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:917
-#: qt/settingsdialog.py:920
+#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:929
+#: qt/settingsdialog.py:932
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -1095,15 +1095,15 @@ msgstr "Afficher le journal complet"
 msgid "SSH Proxy"
 msgstr "Proxy SSH"
 
-#: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
+#: qt/settingsdialog.py:103 qt/settingsdialog.py:284 qt/settingsdialog.py:414
 msgid "Host:"
 msgstr "Hôte :"
 
-#: qt/settingsdialog.py:107 qt/settingsdialog.py:280
+#: qt/settingsdialog.py:107 qt/settingsdialog.py:289
 msgid "Port:"
 msgstr "Port :"
 
-#: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
+#: qt/settingsdialog.py:111 qt/settingsdialog.py:294 qt/settingsdialog.py:420
 msgid "User:"
 msgstr "Utilisateur :"
 
@@ -1117,60 +1117,60 @@ msgstr ""
 "host). Voir l'option \"-J\" dans la documentation de la commande ssh ou "
 "\"ProxyJump\" dans celle de \"ssh_config\" pour les détails."
 
-#: qt/settingsdialog.py:170
+#: qt/settingsdialog.py:179
 msgid "Manage profiles"
 msgstr "Gérer les profils"
 
-#: qt/settingsdialog.py:187
+#: qt/settingsdialog.py:196
 msgid "Edit"
 msgstr "Modifier"
 
-#: qt/settingsdialog.py:191 qt/settingsdialog.py:668
+#: qt/settingsdialog.py:200 qt/settingsdialog.py:680
 msgid "Add"
 msgstr "Ajouter"
 
-#: qt/settingsdialog.py:195 qt/settingsdialog.py:615 qt/settingsdialog.py:686
+#: qt/settingsdialog.py:204 qt/settingsdialog.py:627 qt/settingsdialog.py:698
 msgid "Remove"
 msgstr "Retirer"
 
-#: qt/settingsdialog.py:210
+#: qt/settingsdialog.py:219
 msgid "&General"
 msgstr "&Général"
 
-#: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
+#: qt/settingsdialog.py:229 qt/settingsdialog.py:2642
 msgid "Mode:"
 msgstr "Mode :"
 
-#: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
+#: qt/settingsdialog.py:248 qt/settingsdialog.py:2170
 msgid "Where to save snapshots"
 msgstr "Dossier pour les sauvegardes"
 
-#: qt/settingsdialog.py:255
+#: qt/settingsdialog.py:264
 msgid "Folder"
 msgstr "Dossier"
 
-#: qt/settingsdialog.py:263
+#: qt/settingsdialog.py:272
 msgid "SSH Settings"
 msgstr "Réglages SSH"
 
-#: qt/settingsdialog.py:290
+#: qt/settingsdialog.py:299
 msgid "Path:"
 msgstr "Chemin :"
 
-#: qt/settingsdialog.py:296
+#: qt/settingsdialog.py:305
 msgid "Cipher:"
 msgstr "Type de chiffrement :"
 
-#: qt/settingsdialog.py:302
+#: qt/settingsdialog.py:311
 msgid "Private Key:"
 msgstr "Clé privée :"
 
-#: qt/settingsdialog.py:312
+#: qt/settingsdialog.py:321
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
 "Choisissez un fichier de clé privée existant (normalement nommé \"id_rsa\")"
 
-#: qt/settingsdialog.py:323
+#: qt/settingsdialog.py:332
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1178,107 +1178,107 @@ msgstr ""
 "Créer une nouvelle clé SSH sans mot de passe (non autorisé si un fichier de "
 "clé privée est déjà sélectionné)."
 
-#: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
+#: qt/settingsdialog.py:362 qt/settingsdialog.py:371 qt/settingsdialog.py:377
 msgid "Password"
 msgstr "Mot de passe"
 
-#: qt/settingsdialog.py:374
+#: qt/settingsdialog.py:383
 msgid "Save Password to Keyring"
 msgstr "Enregistrer le Mot de passe dans le trousseau"
 
-#: qt/settingsdialog.py:378
+#: qt/settingsdialog.py:387
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Mot de passe en cache pour Cron (note de sécurité : root peut lire le mot de"
 " passe)"
 
-#: qt/settingsdialog.py:390
+#: qt/settingsdialog.py:402
 msgid "Advanced"
 msgstr "Avancées"
 
-#: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
+#: qt/settingsdialog.py:432 qt/settingsdialog.py:2296
 msgid "Full snapshot path:"
 msgstr "Chemin d'accès complet de l'instantané :"
 
-#: qt/settingsdialog.py:427
+#: qt/settingsdialog.py:439
 msgid "Schedule"
 msgstr "Planification"
 
-#: qt/settingsdialog.py:439
+#: qt/settingsdialog.py:451
 msgid "Disabled"
 msgstr "Désactivée"
 
-#: qt/settingsdialog.py:440
+#: qt/settingsdialog.py:452
 msgid "At every boot/reboot"
 msgstr "À chaque démarrage/re-démarrage"
 
-#: qt/settingsdialog.py:442 qt/settingsdialog.py:444 qt/settingsdialog.py:446
+#: qt/settingsdialog.py:454 qt/settingsdialog.py:456 qt/settingsdialog.py:458
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Chaque minute"
 msgstr[1] "Toutes les {n} minutes"
 
-#: qt/settingsdialog.py:448
+#: qt/settingsdialog.py:460
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Chaque heure"
 msgstr[1] "Toutes les {n} heures"
 
-#: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
-#: qt/settingsdialog.py:456
+#: qt/settingsdialog.py:462 qt/settingsdialog.py:464 qt/settingsdialog.py:466
+#: qt/settingsdialog.py:468
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Chaque heure"
 msgstr[1] "Toutes les {n} heures"
 
-#: qt/settingsdialog.py:457
+#: qt/settingsdialog.py:469
 msgid "Custom hours"
 msgstr "Horaires personnalisées"
 
-#: qt/settingsdialog.py:458
+#: qt/settingsdialog.py:470
 msgid "Every day"
 msgstr "Tous les jours"
 
-#: qt/settingsdialog.py:459
+#: qt/settingsdialog.py:471
 msgid "Repeatedly (anacron)"
 msgstr "À plusieurs reprises (anacron)"
 
-#: qt/settingsdialog.py:460
+#: qt/settingsdialog.py:472
 msgid "When drive gets connected (udev)"
 msgstr "Quand le disque est connecté (udev)"
 
-#: qt/settingsdialog.py:461
+#: qt/settingsdialog.py:473
 msgid "Every week"
 msgstr "Chaque semaine"
 
-#: qt/settingsdialog.py:462
+#: qt/settingsdialog.py:474
 msgid "Every month"
 msgstr "Chaque mois"
 
-#: qt/settingsdialog.py:463
+#: qt/settingsdialog.py:475
 msgid "Every year"
 msgstr "Chaque année"
 
-#: qt/settingsdialog.py:468
+#: qt/settingsdialog.py:480
 msgid "Day:"
 msgstr "Jour :"
 
-#: qt/settingsdialog.py:479
+#: qt/settingsdialog.py:491
 msgid "Weekday:"
 msgstr "Jour de la semaine :"
 
-#: qt/settingsdialog.py:495
+#: qt/settingsdialog.py:507
 msgid "Hour:"
 msgstr "Heure :"
 
-#: qt/settingsdialog.py:510
+#: qt/settingsdialog.py:522
 msgid "Hours:"
 msgstr "Heures :"
 
-#: qt/settingsdialog.py:521
+#: qt/settingsdialog.py:533
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1286,27 +1286,27 @@ msgstr ""
 "Exécuter BackInTime à plusieurs reprises. Ce réglage est utile si "
 "l'ordinateur n'est pas allumé régulièrement."
 
-#: qt/settingsdialog.py:528
+#: qt/settingsdialog.py:540
 msgid "Every:"
 msgstr "Tous les :"
 
-#: qt/settingsdialog.py:542
+#: qt/settingsdialog.py:554
 msgid "Hour(s)"
 msgstr "Heure(s)"
 
-#: qt/settingsdialog.py:543 qt/settingsdialog.py:738
+#: qt/settingsdialog.py:555 qt/settingsdialog.py:750
 msgid "Day(s)"
 msgstr "Jour(s)"
 
-#: qt/settingsdialog.py:544 qt/settingsdialog.py:739
+#: qt/settingsdialog.py:556 qt/settingsdialog.py:751
 msgid "Week(s)"
 msgstr "Semaine(s)"
 
-#: qt/settingsdialog.py:545
+#: qt/settingsdialog.py:557
 msgid "Month(s)"
 msgstr "Mois"
 
-#: qt/settingsdialog.py:555
+#: qt/settingsdialog.py:567
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days).\n"
 "You will be prompted for your sudo password."
@@ -1314,17 +1314,17 @@ msgstr ""
 "Exécutez Back In Time dès que le lecteur est connecté (seulement une fois tous les X jours).\n"
 "Vous serez invité à saisir votre mot de passe super-utilisateur."
 
-#: qt/settingsdialog.py:564
+#: qt/settingsdialog.py:576
 msgid "Enable logging of debug messages"
 msgstr "Activer l'enregistrement des messages de débogage"
 
-#: qt/settingsdialog.py:568
+#: qt/settingsdialog.py:580
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 "Écrit des messages de niveau débogage dans le journal du système via \"--"
 "debug\"."
 
-#: qt/settingsdialog.py:570
+#: qt/settingsdialog.py:582
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
@@ -1332,27 +1332,27 @@ msgstr ""
 "Attention : n'utilisez cette fonction que temporairement pour des "
 "diagnostics, car elle génère une grande quantité de données."
 
-#: qt/settingsdialog.py:583
+#: qt/settingsdialog.py:595
 msgid "&Include"
 msgstr "&Inclure"
 
-#: qt/settingsdialog.py:590
+#: qt/settingsdialog.py:602
 msgid "Include files and folders"
 msgstr "Inclure les fichiers et répertoires"
 
-#: qt/settingsdialog.py:607 qt/settingsdialog.py:672
+#: qt/settingsdialog.py:619 qt/settingsdialog.py:684
 msgid "Add file"
 msgstr "Ajouter un fichier"
 
-#: qt/settingsdialog.py:611 qt/settingsdialog.py:676
+#: qt/settingsdialog.py:623 qt/settingsdialog.py:688
 msgid "Add folder"
 msgstr "Ajouter un répertoire"
 
-#: qt/settingsdialog.py:621
+#: qt/settingsdialog.py:633
 msgid "&Exclude"
 msgstr "&Exclure"
 
-#: qt/settingsdialog.py:625
+#: qt/settingsdialog.py:637
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1365,24 +1365,24 @@ msgstr ""
 "jokers et de motifs seront ignorés (par exemple {example1}). Les noms de "
 "fichiers sont imprévisibles dans ce mode en raison du chiffrement par EncFS."
 
-#: qt/settingsdialog.py:648
+#: qt/settingsdialog.py:660
 msgid "Exclude patterns, files or folders"
 msgstr "Exclure les motifs, fichiers ou répertoires"
 
-#: qt/settingsdialog.py:681
+#: qt/settingsdialog.py:693
 msgid "Add default"
 msgstr "Ajouter par défaut"
 
-#: qt/settingsdialog.py:694
+#: qt/settingsdialog.py:706
 msgid "Exclude files bigger than:"
 msgstr "Exclure les fichiers plus gros que :"
 
-#: qt/settingsdialog.py:698
+#: qt/settingsdialog.py:710
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Exclure les fichiers plus gros que la valeur en {size_unit}."
 
-#: qt/settingsdialog.py:700
+#: qt/settingsdialog.py:712
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1394,95 +1394,95 @@ msgstr ""
 "d'exclusion. Les gros fichiers transférés précédemment resteront donc dans "
 "l'instantané même s'ils ont été modifiés."
 
-#: qt/settingsdialog.py:720
+#: qt/settingsdialog.py:732
 msgid "&Auto-remove"
 msgstr "Suppression &automatique"
 
-#: qt/settingsdialog.py:726
+#: qt/settingsdialog.py:738
 msgid "Older than:"
 msgstr "Si antérieur à :"
 
-#: qt/settingsdialog.py:740
+#: qt/settingsdialog.py:752
 msgid "Year(s)"
 msgstr "Année(s)"
 
-#: qt/settingsdialog.py:748
+#: qt/settingsdialog.py:760
 msgid "If free space is less than:"
 msgstr "Si l'espace libre est inférieur à :"
 
-#: qt/settingsdialog.py:768
+#: qt/settingsdialog.py:780
 msgid "If free inodes is less than:"
 msgstr "Si les inodes libres sont inférieurs à :"
 
-#: qt/settingsdialog.py:782
+#: qt/settingsdialog.py:794
 msgid "Smart removal:"
 msgstr "Suppression intelligente :"
 
-#: qt/settingsdialog.py:793
+#: qt/settingsdialog.py:805
 msgid "Run in background on remote host."
 msgstr "Exécuter en tâche de fond sur l'hôte distant."
 
-#: qt/settingsdialog.py:794
+#: qt/settingsdialog.py:806
 msgid "EXPERIMENTAL"
 msgstr "EXPÉRIMENTAL"
 
-#: qt/settingsdialog.py:800
+#: qt/settingsdialog.py:812
 msgid "Keep all snapshots for the last"
 msgstr "Garder tous les instantanés depuis les derniers"
 
-#: qt/settingsdialog.py:804 qt/settingsdialog.py:811
+#: qt/settingsdialog.py:816 qt/settingsdialog.py:823
 msgid "day(s)."
 msgstr "jour(s)."
 
-#: qt/settingsdialog.py:807
+#: qt/settingsdialog.py:819
 msgid "Keep one snapshot per day for the last"
 msgstr "Garder un instantané par jour depuis les derniers"
 
-#: qt/settingsdialog.py:814
+#: qt/settingsdialog.py:826
 msgid "Keep one snapshot per week for the last"
 msgstr "Garder un instantané par semaine depuis les dernières"
 
-#: qt/settingsdialog.py:818
+#: qt/settingsdialog.py:830
 msgid "week(s)."
 msgstr "semaine(s)."
 
-#: qt/settingsdialog.py:821
+#: qt/settingsdialog.py:833
 msgid "Keep one snapshot per month for the last"
 msgstr "Garder un instantané par mois depuis les derniers"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:837
 msgid "month(s)."
 msgstr "mois."
 
-#: qt/settingsdialog.py:828
+#: qt/settingsdialog.py:840
 msgid "Keep one snapshot per year for all years."
 msgstr "Garder un instantané par an tous les ans."
 
-#: qt/settingsdialog.py:837
+#: qt/settingsdialog.py:849
 msgid "Don't remove named snapshots."
 msgstr "Ne pas effacer les instantanés avec des noms."
 
-#: qt/settingsdialog.py:849
+#: qt/settingsdialog.py:861
 msgid "&Options"
 msgstr "&Options"
 
-#: qt/settingsdialog.py:854
+#: qt/settingsdialog.py:866
 msgid "Enable notifications"
 msgstr "Activer les notifications"
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:870
 msgid "Disable snapshots when on battery"
 msgstr "Désactiver les sauvegardes automatiques en mode batterie"
 
-#: qt/settingsdialog.py:862
+#: qt/settingsdialog.py:874
 msgid "Power status not available from system"
 msgstr "Impossible d'obtenir l'état de l'alimentation du système"
 
-#: qt/settingsdialog.py:865
+#: qt/settingsdialog.py:877
 msgid "Run only one snapshot at a time"
 msgstr "Exécuter un seul instantané à la fois"
 
-#: qt/settingsdialog.py:868
+#: qt/settingsdialog.py:880
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
@@ -1493,11 +1493,11 @@ msgstr ""
 "de cet utilisateur. Vous devez cependant l'activer pour tous les autres "
 "utilisateurs."
 
-#: qt/settingsdialog.py:876
+#: qt/settingsdialog.py:888
 msgid "Backup replaced files on restore"
 msgstr "Sauvegarder les fichiers remplacés lors de la restauration"
 
-#: qt/settingsdialog.py:879
+#: qt/settingsdialog.py:891
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -1507,66 +1507,66 @@ msgstr ""
 "'{suffix}' avant la restauration. Si vous n'en avez pas besoin, vous pouvez "
 "les supprimer avec '{cmd}'"
 
-#: qt/settingsdialog.py:891
+#: qt/settingsdialog.py:903
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Continuer en cas d'erreur (conserver les instantanés incomplets)"
 
-#: qt/settingsdialog.py:895
+#: qt/settingsdialog.py:907
 msgid "Use checksum to detect changes"
 msgstr "Utiliser la somme de contrôle pour détecter les changements"
 
-#: qt/settingsdialog.py:899
+#: qt/settingsdialog.py:911
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "Prendre un instantané qu'il y ait eu des modifications ou non."
 
-#: qt/settingsdialog.py:906
+#: qt/settingsdialog.py:918
 msgid "Log Level:"
 msgstr "Niveau de journalisation :"
 
-#: qt/settingsdialog.py:911
+#: qt/settingsdialog.py:923
 msgid "None"
 msgstr "Aucun"
 
-#: qt/settingsdialog.py:931
+#: qt/settingsdialog.py:943
 msgid "E&xpert Options"
 msgstr "O&ptions avancées"
 
-#: qt/settingsdialog.py:936
+#: qt/settingsdialog.py:948
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "Modifiez ces options uniquement si vous savez réellement ce que vous faites."
 
-#: qt/settingsdialog.py:941 qt/settingsdialog.py:957 qt/settingsdialog.py:979
+#: qt/settingsdialog.py:953 qt/settingsdialog.py:969 qt/settingsdialog.py:991
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Exécuter 'rsync' avec '{cmd}' :"
 
-#: qt/settingsdialog.py:948 qt/settingsdialog.py:964
+#: qt/settingsdialog.py:960 qt/settingsdialog.py:976
 msgid "as cron job"
 msgstr "comme une tâche cron"
 
-#: qt/settingsdialog.py:953 qt/settingsdialog.py:974 qt/settingsdialog.py:995
+#: qt/settingsdialog.py:965 qt/settingsdialog.py:986 qt/settingsdialog.py:1007
 msgid "on remote host"
 msgstr "sur un serveur distant"
 
-#: qt/settingsdialog.py:969
+#: qt/settingsdialog.py:981
 msgid "when taking a manual snapshot"
 msgstr "lors d'un instantané manuel"
 
-#: qt/settingsdialog.py:982
+#: qt/settingsdialog.py:994
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(Veuillez installer 'nocache' pour activer cette option)"
 
-#: qt/settingsdialog.py:989
+#: qt/settingsdialog.py:1001
 msgid "on local machine"
 msgstr "sur la machine locale"
 
-#: qt/settingsdialog.py:1000
+#: qt/settingsdialog.py:1012
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Rediriger stdout vers /dev/null dans les tâches cron."
 
-#: qt/settingsdialog.py:1005
+#: qt/settingsdialog.py:1017
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -1574,11 +1574,11 @@ msgstr ""
 "Cron enverra automatiquement un email avec les résultats des cronjobs en "
 "pièce jointe si un MTA est installé."
 
-#: qt/settingsdialog.py:1011
+#: qt/settingsdialog.py:1023
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Rediriger stderr vers /dev/null dans les tâches cron."
 
-#: qt/settingsdialog.py:1016
+#: qt/settingsdialog.py:1028
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -1586,50 +1586,50 @@ msgstr ""
 "Cron enverra automatiquement un email avec les erreurs attachées des "
 "cronjobs si un MTA est installé."
 
-#: qt/settingsdialog.py:1024
+#: qt/settingsdialog.py:1036
 msgid "Limit rsync bandwidth usage:"
 msgstr "Limiter l'utilisation de bande passante par rsync :"
 
-#: qt/settingsdialog.py:1027
+#: qt/settingsdialog.py:1039
 msgid "KB/sec"
 msgstr "Ko/sec"
 
-#: qt/settingsdialog.py:1071
+#: qt/settingsdialog.py:1083
 msgid "Preserve ACL"
 msgstr "Conserver les autorisations"
 
-#: qt/settingsdialog.py:1089
+#: qt/settingsdialog.py:1101
 msgid "Preserve extended attributes (xattr)"
 msgstr "Conserver les attributs étendus (xattr)"
 
-#: qt/settingsdialog.py:1112
+#: qt/settingsdialog.py:1124
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 "Copier les liens non sécurisés (fonctionne seulement avec les liens absolus)"
 
-#: qt/settingsdialog.py:1148
+#: qt/settingsdialog.py:1160
 msgid "Restrict to one file system"
 msgstr "Limiter à un système de fichier"
 
-#: qt/settingsdialog.py:1168
+#: qt/settingsdialog.py:1180
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 "Les arguments doivent être entourés de guillemets, par exemple : {example}."
 
-#: qt/settingsdialog.py:1171
+#: qt/settingsdialog.py:1183
 msgid "Paste additional options to rsync"
 msgstr "Passer des options supplémentaires à rsync"
 
-#: qt/settingsdialog.py:1185
+#: qt/settingsdialog.py:1197
 msgid "Add prefix to SSH commands"
 msgstr "Ajouter un préfixe aux commandes SSH"
 
-#: qt/settingsdialog.py:1187
+#: qt/settingsdialog.py:1199
 msgid "Prefix to run before every command on remote host."
 msgstr "Préfixe à exécuter avant chaque commande sur l'hôte distant."
 
-#: qt/settingsdialog.py:1188
+#: qt/settingsdialog.py:1200
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1639,15 +1639,15 @@ msgstr ""
 "Donc, pour ajouter un préfixe à rsync, utilisez \"{example_value}\" avec "
 "{rsync_options_value}."
 
-#: qt/settingsdialog.py:1196
+#: qt/settingsdialog.py:1208
 msgid "default"
 msgstr "par défaut"
 
-#: qt/settingsdialog.py:1211
+#: qt/settingsdialog.py:1223
 msgid "Check if remote host is online"
 msgstr "Vérifier si l'hôte distant est en ligne"
 
-#: qt/settingsdialog.py:1214
+#: qt/settingsdialog.py:1226
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1655,11 +1655,11 @@ msgstr ""
 "Attention : si désactivé et si l'hôte distant n'est pas disponible, cela "
 "pourrait conduire à d'étranges erreurs."
 
-#: qt/settingsdialog.py:1218
+#: qt/settingsdialog.py:1230
 msgid "Check if remote host supports all necessary commands."
 msgstr "Vérifier si l'hôte distant accepte toutes les commandes nécessaires."
 
-#: qt/settingsdialog.py:1221
+#: qt/settingsdialog.py:1233
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1667,15 +1667,15 @@ msgstr ""
 "Attention : si désactivé et que l'hôte distant ne prend pas en charge toutes"
 " les commandes nécessaires, cela pourrait entraîner des erreurs étranges."
 
-#: qt/settingsdialog.py:1237
+#: qt/settingsdialog.py:1249
 msgid "Restore Config"
 msgstr "Restaurer la configuration"
 
-#: qt/settingsdialog.py:1239
+#: qt/settingsdialog.py:1251
 msgid "Edit user-callback"
 msgstr "Éditer le script de rappel (callback)"
 
-#: qt/settingsdialog.py:1263
+#: qt/settingsdialog.py:1272
 #, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
@@ -1689,20 +1689,20 @@ msgstr ""
 "ressources du projet et de la disponibilité des contributeurs. De plus "
 "amples détails sont disponibles dans ce {whitepaper}."
 
-#: qt/settingsdialog.py:1285
+#: qt/settingsdialog.py:1294
 msgid "New profile"
 msgstr "Nouveau profil"
 
-#: qt/settingsdialog.py:1302
+#: qt/settingsdialog.py:1311
 msgid "Rename profile"
 msgstr "Renommer le profil"
 
-#: qt/settingsdialog.py:1318
+#: qt/settingsdialog.py:1327
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Êtes-vous sûr(e) de vouloir supprimer le profil \"{name}\" ?"
 
-#: qt/settingsdialog.py:1422
+#: qt/settingsdialog.py:1431
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1710,12 +1710,12 @@ msgstr ""
 "{BOLD}Fortement recommandé{ENDBOLD} : (Toutes les recommandations sont déjà "
 "incluses.)"
 
-#: qt/settingsdialog.py:1427
+#: qt/settingsdialog.py:1436
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Fortement recommandé{ENDBOLD} : {files}"
 
-#: qt/settingsdialog.py:1634
+#: qt/settingsdialog.py:1643
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1723,23 +1723,23 @@ msgstr ""
 "Les heures personnalisées doivent être séparées par une virgule (ex : "
 "8,12,18,23) ou */3 pour les sauvegardes périodiques toutes les 3 heures."
 
-#: qt/settingsdialog.py:1681
+#: qt/settingsdialog.py:1690
 msgid "You did not choose a private key file for SSH."
 msgstr "Vous n'avez pas sélectionné de fichier de clé privée pour SSH."
 
-#: qt/settingsdialog.py:1682
+#: qt/settingsdialog.py:1691
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 "Voulez-vous générer une nouvelle paire de clés publique/privée sans mot de "
 "passe ?"
 
-#: qt/settingsdialog.py:1692
+#: qt/settingsdialog.py:1701
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Le fichier de clé privée {file} n'existe pas."
 
-#: qt/settingsdialog.py:1847
+#: qt/settingsdialog.py:1856
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
@@ -1747,17 +1747,17 @@ msgstr ""
 "Voulez-vous copier votre clé publique SSH sur l'hôte distant pour activer "
 "l'identification sans mot de passe ?"
 
-#: qt/settingsdialog.py:1878
+#: qt/settingsdialog.py:1887
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "L'authenticité de l'hôte {host} ne peut être établie."
 
-#: qt/settingsdialog.py:1881
+#: qt/settingsdialog.py:1890
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "L'empreinte de la clé {keytype} est :"
 
-#: qt/settingsdialog.py:1889
+#: qt/settingsdialog.py:1898
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1765,23 +1765,23 @@ msgstr ""
 "Veuillez vérifier cette empreinte. Souhaitez-vous l'ajouter à votre fichier "
 "'known_hosts' ?"
 
-#: qt/settingsdialog.py:2061
+#: qt/settingsdialog.py:2070
 msgid "Exclude pattern"
 msgstr "Exclure selon un modèle"
 
-#: qt/settingsdialog.py:2074
+#: qt/settingsdialog.py:2083
 msgid "Exclude file"
 msgstr "Exclure un fichier"
 
-#: qt/settingsdialog.py:2078
+#: qt/settingsdialog.py:2087
 msgid "Exclude folder"
 msgstr "Exclure un répertoire"
 
-#: qt/settingsdialog.py:2102
+#: qt/settingsdialog.py:2111
 msgid "Include file"
 msgstr "Inclure le fichier"
 
-#: qt/settingsdialog.py:2111 qt/settingsdialog.py:2141
+#: qt/settingsdialog.py:2120 qt/settingsdialog.py:2150
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1790,49 +1790,49 @@ msgstr ""
 "\"{path}\" est un lien symbolique. La cible du lien ne sera pas sauvegardée tant que vous ne l'aurez pas inclue également.\n"
 "Voulez-vous plutôt inclure la cible du lien ?"
 
-#: qt/settingsdialog.py:2132
+#: qt/settingsdialog.py:2141
 msgid "Include folder"
 msgstr "Inclure un répertoire"
 
-#: qt/settingsdialog.py:2169
+#: qt/settingsdialog.py:2178
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Êtes-vous sûr(e) de vouloir changer le répertoire des instantanés ?"
 
-#: qt/settingsdialog.py:2194
+#: qt/settingsdialog.py:2203
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Échec de la création de la nouvelle clé SSH dans {path}."
 
-#: qt/settingsdialog.py:2310
+#: qt/settingsdialog.py:2323
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Désactivé car ce motif n'est pas fonctionnel en mode \"SSH chiffré\"."
 
-#: qt/settingsdialog.py:2369
+#: qt/settingsdialog.py:2382
 msgid "(default: {})"
 msgstr "(par défaut : {})"
 
-#: qt/settingsdialog.py:2370
+#: qt/settingsdialog.py:2383
 msgid "disabled"
 msgstr "désactivé"
 
-#: qt/settingsdialog.py:2370
+#: qt/settingsdialog.py:2383
 msgid "enabled"
 msgstr "activé"
 
-#: qt/settingsdialog.py:2413
+#: qt/settingsdialog.py:2426
 msgid "Import configuration"
 msgstr "Importer la configuration"
 
-#: qt/settingsdialog.py:2469 qt/settingsdialog.py:2565
+#: qt/settingsdialog.py:2482 qt/settingsdialog.py:2578
 msgid "No config found"
 msgstr "Aucune configuration trouvée"
 
-#: qt/settingsdialog.py:2494
+#: qt/settingsdialog.py:2507
 msgid "Import"
 msgstr "Importer"
 
-#: qt/settingsdialog.py:2522
+#: qt/settingsdialog.py:2535
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
@@ -1842,7 +1842,7 @@ msgstr ""
 "configuration doit être importé. Le chemin d'accès peut ressembler à : "
 "{samplePath}"
 
-#: qt/settingsdialog.py:2527
+#: qt/settingsdialog.py:2540
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
