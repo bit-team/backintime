@@ -188,6 +188,44 @@ def update_from_weblate():
     shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
+def check_syntax_of_po_files():
+    """Check all po files of known syntax violations.
+    """
+
+    # Match every character except open/closing curly brackets
+    REX_REDUCE = re.compile(r'[^\{\}]')
+    # Match every pair of curly brackets
+    REX_CURLY_PAIR = re.compile(r'\{\}')
+
+    def _curly_brackets_balanced(string):
+        # Remove all none curly brackets
+        reduced = REX_REDUCE.sub('', string)
+
+        # Remove valid pairs of curly brackets
+        invalid = REX_CURLY_PAIR.sub('', reduced)
+
+        if invalid:
+            print(f'ERROR: Curly brackets not balanced in translation: {string}')
+            return False
+
+        return True
+
+    # Each po file
+    for po_path in all_po_files_in_local_dir():
+        print(f'Syntax check :: {po_path}')
+
+        pof = polib.pofile(po_path)
+
+        # Each translated entry
+        for entry in pof.translated_entries():
+            if not _curly_brackets_balanced(entry.msgstr):
+                print(f'Source string: {entry.msgid}')
+
+
+def all_po_files_in_local_dir():
+    return LOCAL_DIR.rglob('**/*.po')
+
+
 def create_completeness_dict():
     """Create a simple dictionary indexed by language code and value that
     indicate the completeness of the translation in percent.
@@ -198,7 +236,7 @@ def create_completeness_dict():
     result = {}
 
     # each po file in the repository
-    for po_path in LOCAL_DIR.rglob('**/*.po'):
+    for po_path in all_po_files_in_local_dir():
         pof = polib.pofile(po_path)
 
         result[po_path.stem] = pof.percent_translated()
@@ -493,6 +531,7 @@ if __name__ == '__main__':
     # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
+        check_syntax_of_po_files()
         create_languages_file()
         print(FIN_MSG)
         sys.exit()
@@ -502,6 +541,12 @@ if __name__ == '__main__':
         check_shortcuts()
         sys.exit()
 
+    # Check for syntax problems (also implicite called via "weblate")
+    if 'syntax' in sys.argv:
+        check_syntax_of_po_files()
+        sys.exit()
+
+
     print('Use one of the following argument keywords:\n'
           '  source  - Update the pot and po files with translatable '
           'strings extracted from py files. (Prepare upload to Weblate). '
@@ -509,6 +554,8 @@ if __name__ == '__main__':
           '  weblate - Update the po files with translations from '
           'external translation service Weblate. (Download from Weblate)\n'
           '  shortcut - Check po files for redundant keyboard shortcuts '
-          'using "&"')
+          'using "&"\n'
+          '  syntax - Check syntax of po files. (Also done via "weblate" '
+          'command)')
 
     sys.exit(1)
