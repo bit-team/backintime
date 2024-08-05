@@ -198,7 +198,7 @@ def check_syntax_of_po_files():
     REX_CURLY_PAIR = re.compile(r'\{\}')
 
     def _curly_brackets_balanced(string):
-        # Remove all none curly brackets
+        # Remove all characters that are not curly brackets
         reduced = REX_REDUCE.sub('', string)
 
         # Remove valid pairs of curly brackets
