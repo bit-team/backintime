@@ -205,14 +205,17 @@ def check_syntax_of_po_files():
         invalid = REX_CURLY_PAIR.sub('', reduced)
 
         if invalid:
-            print(f'ERROR: Curly brackets not balanced in translation: {string}')
+            print('\nERROR: Curly brackets not balanced in '
+                  f'translation: {string}')
             return False
 
         return True
 
+    print(f'Checking syntax of po files...')
+
     # Each po file
     for po_path in all_po_files_in_local_dir():
-        print(f'Syntax check :: {po_path}')
+        print(f'{po_path.with_suffix("").name}', end=' ')
 
         pof = polib.pofile(po_path)
 
@@ -220,6 +223,8 @@ def check_syntax_of_po_files():
         for entry in pof.translated_entries():
             if not _curly_brackets_balanced(entry.msgstr):
                 print(f'Source string: {entry.msgid}')
+
+    print('')
 
 
 def all_po_files_in_local_dir():
