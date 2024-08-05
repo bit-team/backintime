@@ -276,6 +276,8 @@ def check_syntax_of_po_files():
         for entry in pof.translated_entries():
             # Plural form?
             if entry.msgstr_plural or entry.msgid_plural:
+                # Ignoring plural form because this is to complex, not logical
+                # in all cases and also not worth the effort.
                 continue
 
             if (not _curly_brackets_balanced(entry.msgstr)
