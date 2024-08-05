@@ -312,7 +312,7 @@ def create_completeness_dict():
     result['en'] = 100
 
     # info
-    print(json.dumps(result, indent=4))
+    # print(json.dumps(result, indent=4))
 
     return result
 
