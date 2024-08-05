@@ -546,7 +546,7 @@ if __name__ == '__main__':
         check_shortcuts()
         sys.exit()
 
-    # Check for syntax problems (also implicite called via "weblate")
+    # Check for syntax problems (also implicit called via "weblate")
     if 'syntax' in sys.argv:
         check_syntax_of_po_files()
         sys.exit()
