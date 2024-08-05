@@ -8,6 +8,7 @@ import datetime
 import json
 import re
 import tempfile
+import string
 import shutil
 import pprint
 from pathlib import Path
@@ -193,25 +194,40 @@ def check_syntax_of_po_files():
     """
 
     # Match every character except open/closing curly brackets
-    REX_REDUCE = re.compile(r'[^\{\}]')
+    rex_reduce = re.compile(r'[^\{\}]')
     # Match every pair of curly brackets
-    REX_CURLY_PAIR = re.compile(r'\{\}')
+    rex_curly_pair = re.compile(r'\{\}')
 
-    def _curly_brackets_balanced(string):
+    def _curly_brackets_balanced(to_check):
+        """Check if curly brackes for variable placeholders are balanced."""
         # Remove all characters that are not curly brackets
-        reduced = REX_REDUCE.sub('', string)
+        reduced = rex_reduce.sub('', to_check)
 
         # Remove valid pairs of curly brackets
-        invalid = REX_CURLY_PAIR.sub('', reduced)
+        invalid = rex_curly_pair.sub('', reduced)
 
         if invalid:
             print('\nERROR: Curly brackets not balanced in '
-                  f'translation: {string}')
+                  f'translation: {to_check}')
             return False
 
         return True
 
-    print(f'Checking syntax of po files...')
+    def _other_errors(to_check):
+        """Check if there are any other errors that could be thrown via
+        printing this string."""
+        try:
+            # That is how print() internally parse placeholders and other
+            # things.
+            list(string.Formatter().parse(format_string=to_check))
+
+        except Exception as exc:  # pylint: disable=broad-exception-caught
+            print(f'\nERROR: {exc} in translation: {to_check}')
+            return False
+
+        return True
+
+    print('Checking syntax of po files...')
 
     # Each po file
     for po_path in all_po_files_in_local_dir():
@@ -221,13 +237,15 @@ def check_syntax_of_po_files():
 
         # Each translated entry
         for entry in pof.translated_entries():
-            if not _curly_brackets_balanced(entry.msgstr):
+            if (not _curly_brackets_balanced(entry.msgstr) or
+                not _other_errors(entry.msgstr)):
                 print(f'Source string: {entry.msgid}')
 
     print('')
 
 
 def all_po_files_in_local_dir():
+    """All po files (recursive)."""
     return LOCAL_DIR.rglob('**/*.po')
 
 
