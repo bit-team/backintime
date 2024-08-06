@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-22 21:49+0200\n"
-"PO-Revision-Date: 2024-07-02 14:16+0000\n"
-"Last-Translator: alexgabi <alexgabi@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-08-05 20:13+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -153,6 +153,10 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Cron ez da exekutatzen crontab komandoa eskuragarri egon arren. "
+"Programatutako babeskopia-lanak ez dira exekutatuko. Baliteke Cron "
+"instalatuta egotea baina gaituta ez egotea. Saiatu \"systemctl enable cron\""
+" komandoa edo kontsultatu zure GNU Linux banaketaren laguntza kanalak."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -604,15 +608,15 @@ msgstr "Itzulpena"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Itzulpenean parte hartzeari buruzko mezua erakusten du berriro."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Enkriptazio-trantsizioa (EncFS)"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "EncFS kentzeari buruzko mezua erakusten du berriro."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -851,6 +855,8 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"EncFSrako laguntza eten egingo da etorkizun hurbilean. Ez da gomendagarria "
+"modu hori erabiltzea profil baterako."
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -859,20 +865,25 @@ msgid ""
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
 msgstr ""
+"Zifratutako babeskopien laguntza jarraituaren ordezko erabakia oraindik zain"
+" dago, proiektuaren baliabideen eta laguntzaileen jarreraren arabera. "
+"Xehetasun gehiago eskuragarri daude {whitepaper} honetan."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "orri zuria"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"Enkriptatutako irudi-profilen euskarria aldaketa nabarmenak jasaten ari "
+"dira, eta etorkizun hurbilean EncFS kenduko da."
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Profil hau(ek) EncFS enkriptatzea erabiltzen dute:"
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -882,12 +893,19 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Zifratutako babeskopien laguntza jarraituaren ordezko erabakia oraindik zain"
+" dago, proiektuaren baliabideen eta laguntzaileen erabilgarritasunaren "
+"arabera. Erabiltzaileak eztabaida honetan parte hartzera gonbidatuta daude. "
+"Hurrengo urratsei buruzko xehetasun eguneratuak eskuragarri daude liburu "
+"zuri honetan {whitepaper}."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Mezu hau ez da berriro erakutsiko. Elkarrizketa hau edozein unetan "
+"eskuragarri dago laguntza menuaren bidez."
 
 #: qt/encfsmsgbox.py:87
 #, fuzzy
@@ -995,7 +1013,7 @@ msgstr "Galdera"
 #: qt/qtsystrayicon.py:77
 #, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profila:  {profile_name}"
+msgstr "Profila: {profile_name}"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1319,7 +1337,7 @@ msgid "&Exclude"
 msgstr "&Kanpoan utzi"
 
 #: qt/settingsdialog.py:625
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
@@ -1647,6 +1665,10 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"EncFSrako euskarria eten egingo da etorkizun hurbilean. Zifratutako "
+"babeskopien laguntza jarraituaren ordezko erabakia oraindik zain dago, "
+"proiektuaren baliabideen eta laguntzaileen jarreraren arabera. Xehetasun "
+"gehiago eskuragarri daude {whitepaper} honetan."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
@@ -1895,7 +1917,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:408
 msgid "WARNING: This cannot be revoked."
-msgstr "KONTUZ: Honek ez dauka atzera bueltarik!"
+msgstr "KONTUZ: Honek ez dauka atzera bueltarik."
 
 #: qt/snapshotsdialog.py:426
 #, python-brace-format
