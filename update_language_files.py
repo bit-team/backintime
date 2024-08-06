@@ -244,7 +244,7 @@ def check_syntax_of_po_files():
         and the translated string are identical. Order is ignored.
 
         To disable this check for a specific string add the translation
-        flag "ignore-placeholder-compare" to entry in the po-file.
+        flag "ignore-placeholder-compare" to the entry in the po-file.
         """
 
         if 'ignore-placeholder-compare' in flags:
@@ -256,8 +256,8 @@ def check_syntax_of_po_files():
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
-                print(f'\nERROR: Number of "{bracket}" between orginal source '
-                      'and translated string is different.\n'
+                print(f'\nERROR: Number of "{bracket}" between original '
+                      'source and translated string is different.\n'
                       f'Translation: {trans_string}\n{flagmsg}')
                 return False
 
@@ -266,7 +266,7 @@ def check_syntax_of_po_files():
         trans_names = rex_names.findall(trans_string)
         if sorted(org_names) != sorted(trans_names):
             print('\nERROR: Names of placeholders between original source '
-                  'and translated string is different.\n'
+                  'and translated string are different.\n'
                   f'Names in original    : {org_names}\n'
                   f'Names in translation : {trans_names}\n'
                   f'Full translation: {trans_string}\n{flagmsg}')
@@ -278,6 +278,7 @@ def check_syntax_of_po_files():
 
     # Each po file
     for po_path in all_po_files_in_local_dir():
+        # Language code determined by po-filename
         print(f'{po_path.with_suffix("").name}', end=' ')
 
         pof = polib.pofile(po_path)
