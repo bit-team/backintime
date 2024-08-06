@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-22 21:49+0200\n"
-"PO-Revision-Date: 2024-07-11 12:12+0000\n"
-"Last-Translator: Yaron Shahrabani <yaron@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-08-02 06:55+0000\n"
+"Last-Translator: itay-goldraich <itay-goldraich@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -202,7 +202,7 @@ msgstr "ליצור תיקייה מוצפנת חדשה?"
 
 #: common/encfstools.py:151
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: common/encfstools.py:156
 msgid "Please confirm the password."
@@ -210,11 +210,11 @@ msgstr "נא לאשר את הסיסמה."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
-msgstr ""
+msgstr "הסיסמאות לא תואמות."
 
 #: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
-msgstr "שמירת תמונת מצב"
+msgstr "בצע גיבוי"
 
 #: common/mount.py:609
 #, python-brace-format
@@ -225,6 +225,7 @@ msgstr ""
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
+"פקודה {command} לא נמצאה. אפשר להתקין את הפקודה (בעזרת \"{installcommand}\")"
 
 #: common/mount.py:720
 #, python-brace-format
@@ -234,7 +235,7 @@ msgstr ""
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "הכנס סיסמא בשביל {mode} משתמש \"{profile}\":"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -258,8 +259,8 @@ msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"לא ניתן למצוא את תיקיית תמונות המצב.\n"
-"אם היא נמצאת בכונן נשלף צריך לחבר אותו."
+"לא ניתן למצוא את תיקיית הגיבוי.\n"
+"אם הגיבוי נמצא בכונן נשלף, צריך לחבר אותו."
 
 #: common/snapshots.py:839
 #, python-format
@@ -313,7 +314,7 @@ msgstr ""
 
 #: common/snapshots.py:1420
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "שגיאה: בוצעה העברה חלקית בלבד"
 
 #: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
@@ -326,7 +327,7 @@ msgstr ""
 
 #: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "קרא את 'man rsync' לפרטים נוספים"
 
 #: common/snapshots.py:1445
 msgid ""
@@ -370,26 +371,28 @@ msgstr "אי אפשר לעגן את {sshfs}"
 
 #: common/sshtools.py:301
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
+msgstr "לא הצלחנו למצוא ssh-agent. וודאו שהssh-agent מותקן כראוי."
 
 #: common/sshtools.py:444
+#, fuzzy
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
-msgstr ""
+msgstr "שגיאה בפתיחת מפתח SSH פרטי. סיסמא שגויה ואו לא קיימת בcron."
 
 #: common/sshtools.py:535
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "מצפין {cipher} נכשל עבור המשתמש {host}."
 
 #: common/sshtools.py:682
+#, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr ""
+msgstr "הנתיב המרוחק (קיים) הוא לא תיקייה."
 
 #: common/sshtools.py:687
 msgid "Remote path is not writable."
-msgstr ""
+msgstr "לא ניתן לכתוב לנתיב המרוחק."
 
 #: common/sshtools.py:692
 msgid "Remote path is not executable."
@@ -402,11 +405,11 @@ msgstr "לא ניתן ליצור את הנתיב המרוחק."
 #: common/sshtools.py:981
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr ""
+msgstr "מארח מרוחק {host} לא תומך בפקודה {command}"
 
 #: common/sshtools.py:985 common/sshtools.py:994
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "קרא את 'man backintime' להוראות נוספות"
 
 #: common/sshtools.py:989
 #, python-brace-format
