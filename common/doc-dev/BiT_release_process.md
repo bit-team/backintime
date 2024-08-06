@@ -13,7 +13,7 @@ using a "feature" branch and sending a pull request asking for a review.
 - [Preconditions for a new release](#preconditions-for-a-new-release)
 - [TLDR ;-)](#tldr--)
 - [Step by step](#step-by-step)
-   * [Release Candidate Branch](#release-candidate-branch)
+   * [Create branch for release candidate](#create-branch-for-release-candidate)
    * [Bump version number](#bump-version-number)
    * [Testing & Miscellaneous](#testing--miscellaneous)
    * [Release Candidate](#release-candidate)
@@ -55,28 +55,22 @@ When the PR is merged:
 
 ## Step by step
 
-### Release Candidate Branch
+### Create branch for release candidate
 
 - Announce code freeze on `dev` branch to all active developers via email.
-
-- Check that Travis CI did successfully build the latest `dev` branch commit:
-
-  https://app.travis-ci.com/github/bit-team/backintime
-
-- Pull latest `dev` branch changes into your BiT repo clone's `dev` branch:
+- Check that [Travis CI](https://app.travis-ci.com/github/bit-team/backintime)
+  did successfully build the latest `dev` branch commit.
+- Pull latest `dev` branch changes into your BIT repo clone's `dev` branch:
   ```
   git switch dev
   git pull upstream dev
   ```
-
 - Create a release candidate branch in your clone using the new version number:
   ```
   git checkout -b rc/v1.4.0
   ```
-
 - Enable the full build matrix in Travis CI (Python version * arch[icture])
   by commenting the excluded architectures:
-
     ```
     jobs:
       # exclude:
