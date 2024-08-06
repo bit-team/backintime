@@ -239,16 +239,26 @@ def check_syntax_of_po_files():
 
         return True
 
-    def _place_holders(trans_string, src_string):
+    def _place_holders(trans_string, src_string, flags):
         """Check if the placeholders between original source string
-        and the translated string are identical. Order is ignored."""
+        and the translated string are identical. Order is ignored.
+
+        To disable this check for a specific string add the translation
+        flag "ignore-placeholder-compare" to entry in the po-file.
+        """
+
+        if 'ignore-placeholder-compare' in flags:
+            return True
+
+        flagmsg = 'Disable this check with flagging it with ' \
+                  '"ignore-placeholder-compare" in its po-file.'
 
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
                 print(f'\nERROR: Number of "{bracket}" between orginal source '
                       'and translated string is different.\n'
-                      f'Translation: {trans_string}')
+                      f'Translation: {trans_string}\n{flagmsg}')
                 return False
 
         # Compare variable names
@@ -259,7 +269,7 @@ def check_syntax_of_po_files():
                   'and translated string is different.\n'
                   f'Names in original    : {org_names}\n'
                   f'Names in translation : {trans_names}\n'
-                  f'Full translation: {trans_string}')
+                  f'Full translation: {trans_string}\n{flagmsg}')
             return False
 
         return True
@@ -282,7 +292,9 @@ def check_syntax_of_po_files():
 
             if (not _curly_brackets_balanced(entry.msgstr)
                     or not _other_errors(entry.msgstr)
-                    or not _place_holders(entry.msgstr, entry.msgid)):
+                    or not _place_holders(entry.msgstr,
+                                          entry.msgid,
+                                          entry.flags)):
                 print(f'Source string: {entry.msgid}\n')
 
     print('')
