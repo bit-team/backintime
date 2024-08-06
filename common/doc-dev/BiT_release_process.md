@@ -8,6 +8,22 @@ using a "feature" branch and sending a pull request asking for a review.
 - Source branch: `dev`
 - Target branch for the pull request: `dev`
 
+## Table of content
+
+- [Preconditions for a new release](#preconditions-for-a-new-release)
+- [TLDR ;-)](#tldr--)
+- [Step by step](#step-by-step)
+   * [Release Candidate Branch](#release-candidate-branch)
+   * [Bump version number](#bump-version-number)
+   * [Testing & Miscellaneous](#testing--miscellaneous)
+   * [Release Candidate](#release-candidate)
+   * [Create Release](#create-release)
+   * [Prepare new development version](#prepare-new-development-version)
+- [Other noteworthy things](#other-noteworthy-things)
+   * ["Read the docs" code documentation](#read-the-docs-code-documentation)
+   * [Building `deb` package files](#building-deb-package-files)
+
+
 ## Preconditions for a new release
 
 - Developers agreed on the new version number.
@@ -39,10 +55,12 @@ When the PR is merged:
 
 ## Step by step
 
+### Release Candidate Branch
+
 - Announce code freeze on `dev` branch to all active developers via email.
 
 - Check that Travis CI did successfully build the latest `dev` branch commit:
- 
+
   https://app.travis-ci.com/github/bit-team/backintime
 
 - Pull latest `dev` branch changes into your BiT repo clone's `dev` branch:
@@ -65,7 +83,7 @@ When the PR is merged:
       #   -  python: "3.9"
       #   -  python: "3.10"
     ```
-  
+
 - Build the still unchanged release candidate and execute the unit tests:
 
   ```
@@ -80,25 +98,27 @@ When the PR is merged:
 
 - **Recommended:** Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
   may be found only (too late) at run-time, eg. object name typos (see e.g. [#1553](https://github.com/bit-team/backintime/issues/1553)).
-  
+
   *Note:* Since v1.4.x there is a unit test `test_lint.py` which performs
           a minimal check for severe problems via `make test`.
+
+### Bump version number
 
 - Update the `CHANGES` text file in the project's root folder:
 
   - Check `git log` to find and add forgotten but relevant entries for `CHANGES`, eg.
     using the tag of the previous release:
-  
+
     `git log v1.4.0..HEAD`
 
   - Rename the top-most line with the collected `dev` changes from eg.
-  
+
     `Version 1.3.4-dev (development of upcoming release)`
-  
+
     into
-  
+
     `Version 1.4.0 (2023-09-14)`
-  
+
   using the new version number and release date.
 
 - Update `VERSION` text file in the project's root folder:
@@ -128,6 +148,7 @@ When the PR is merged:
   - Ask contributors for explicit permission to publish their
     name and email address!
 
+### Testing & Miscellaneous
 - Review and update the `README.md` in your release candidate branch
 
   - Update the **Known Problems and Workarounds** section:
@@ -168,6 +189,8 @@ When the PR is merged:
       section of `README.md` (of the release candidate branch) and describe
       a workaround (if any).
 
+### Release Candidate
+
 - Commit and push, if no "show-stopping" bug exists.
 
   Note: To push your release candidate branch into a new remote branch use:
@@ -192,6 +215,8 @@ When the PR is merged:
 
 - Wait for the final Travis CI build on the `dev` branch and check
   if everything is OK to proceed with the release.
+
+### Create Release
 
 - Create the tarball archive files to be attached as "binaries" to the release:
   - Update the `dev` branch
@@ -218,6 +243,8 @@ When the PR is merged:
     packages via Ubuntu PPA anymore this is not required or helpful anymore.
   - Click on the "Publish release" button
 
+### Prepare new development version
+
 - Start a new dev version by preparing a new PR
 
   ```
@@ -236,17 +263,17 @@ When the PR is merged:
   - Update the `CHANGES` text file in the project's root folder:
 
     Add a new top-most line with the new version number, eg.:
-  
+
     `Version 1.4.1-dev (development of upcoming release)`
 
   - Execute the script `./updateversion.sh` in the project's root folder
     to automatically update the version number in  files
-  
+
   - Edit `.travis.yml` to reduce the build matrix again
     (to save "build credits")
 
     Eg. re-enable the exclusion list:
-  
+
     ```
     jobs:
       exclude:
@@ -271,7 +298,6 @@ When the PR is merged:
   - inform about unexpected (open) problems (if any)
 
 - (Out of scope here): Update the Github milestones and the assigned issues
-
 
 
 ## Other noteworthy things
