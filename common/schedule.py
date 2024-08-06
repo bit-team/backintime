@@ -85,7 +85,7 @@ def write_crontab(lines):
     """
     content = '\n'.join(lines)
 
-    # Crontab need to end with a newline
+    # Crontab needs to end with a newline
     if not content.endswith('\n'):
         content += '\n'
 
