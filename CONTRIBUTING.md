@@ -153,7 +153,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
 
 ## Build and install via `make` system (recommended)
 
-> [!WARNING]
+> [!IMPORTANT]
 > Install [Dependencies](#dependencies) before you build and install.
 
 Remember that _Back In Time_ does consist of two packages, which must be built
@@ -174,18 +174,12 @@ and installed separately accordingly.
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
 
-## Build own `deb` file
-
-1. Run `./makedeb.sh` in the repositories root directory.
-2. Two `deb` files are built and places in the repositories parent directory.
-3. Install the packages
-  - `sudo dpkg -i ../backintime-common-<version>.deb`
-  - `sudo dpkg -i ../backintime-qt-<version>.deb`
-
 # Testing
 > [!IMPORTANT]
 > Remember to **manually** test _Back In Time_ and not rely solely on
-> the automatic test suite.
+> the automatic test suite. See section
+> [Manual testing](common/doc-dev/BiT_release_process.md#manual-testing---recommendations)
+> about recommendations how to perform such tests.
 
 After [building and installing](#build--install), `make` can be used to run the
 test suite. Since _Back In Time_ consists of two components, `common` and `qt`,
