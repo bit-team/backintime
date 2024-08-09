@@ -123,8 +123,8 @@ the packages provided by the official repository of your GNU/Linux distribution.
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt6` (not from PyPi)
-  - `python3-dbus.mainloop.pyqt6` (not available from PyPi)
+  - `python3-pyqt6` (not from _PyPi_ via `pip`)
+  - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
   - `libnotify-bin`
   - `policykit-1`
   - `qttranslations6-l10n`
