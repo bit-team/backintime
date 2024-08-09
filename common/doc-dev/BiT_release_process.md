@@ -294,7 +294,7 @@ expected. The following list suggests several actions and scenarios.
 - GNU/Linux distribution: Both major lines _Debian GNU/Linux_ and _Arch Linux_
   or distros based on them. Additionally use a none-systemd distro like _Devuan
   GNU/Linux_.
-- Run _Back In Time_ as user and as root.
+- Run _Back In Time_ and perform the following actions as user and as root.
 - Always start from terminal to catch silent errors and warnings.
 - Create snapshot profils in all available flavors (Local, SSH, with and
   without encryption).
