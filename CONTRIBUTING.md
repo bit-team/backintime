@@ -104,8 +104,8 @@ first.
 The following dependencies are based on Ubuntu. Please [open an
 Issue](https://github.com/bit-team/backintime/issues/new/choose) if something
 is missing. If you use another GNU/Linux distribution, please install the
-corresponding packages. Be aware that some of the named packages can be
-replaced with PyPi packages.
+corresponding packages. Even if some packages are available from PyPi stick to
+the packages provided by the official repository of your GNU/Linux distribution.
 
 * Runtime dependencies for the CLI
 
@@ -123,8 +123,8 @@ replaced with PyPi packages.
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt6`
-  - `python3-dbus.mainloop.pyqt6`
+  - `python3-pyqt6` (not from PyPi)
+  - `python3-dbus.mainloop.pyqt6` (not available from PyPi)
   - `libnotify-bin`
   - `policykit-1`
   - `qttranslations6-l10n`

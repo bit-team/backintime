@@ -20,6 +20,7 @@ using a "feature" branch and sending a pull request asking for a review.
    * [Release Candidate](#release-candidate)
    * [Create Release](#create-release)
    * [Prepare new development version](#prepare-new-development-version)
+- [Manual testing - Recommendations](#manual-testing--recommendations)
 - [Other noteworthy things](#other-noteworthy-things)
    * ["Read the docs" code documentation](#read-the-docs-code-documentation)
    * [Building `deb` package files](#building-deb-package-files)
@@ -280,6 +281,8 @@ When the PR is merged:
 
 - (Out of scope here): Update the Github milestones and the assigned issues
 
+
+## Manual testing - Recommendations
 
 ## Other noteworthy things
 
