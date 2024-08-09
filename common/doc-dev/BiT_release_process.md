@@ -283,6 +283,27 @@ When the PR is merged:
 
 
 ## Manual testing - Recommendations
+Automatic tests won't cover all scenarios and possible problems. There is a high
+need to run _Back In Time_ and perform several actions to make sure it works as
+expected. The following list suggests several actions and scenarios.
+
+- If available, prefer installing from the source tarball over the git
+  repository.
+- Use a fresh and clean virtual machine without a previous version of _Back In
+  Time_ installed.
+- GNU/Linux distribution: Both major lines _Debian GNU/Linux_ and _Arch Linux_
+  or distros based on them. Additionally use a none-systemd distro like _Devuan
+  GNU/Linux_.
+- Run _Back In Time_ as user and as root.
+- Always start from terminal to catch silent errors and warnings.
+- Create snapshot profils in all available flavors (Local, SSH, with and
+  without encryption).
+- Run the snapshots.
+- Restore snapshots.
+- Delete snapshots.
+- Schedule the snapshots using regular cron (e.g. _Every 5 minutes_) and
+  anacron-like cron (_Repeatedly (anacran)_). Additionally schedule with udev
+  (_When drive gets connected (udev)_).
 
 ## Other noteworthy things
 
