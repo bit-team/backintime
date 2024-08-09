@@ -153,7 +153,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
 
 ## Build and install via `make` system (recommended)
 
-> [!ATTENTION]
+> [!WARNING]
 > Install [Dependencies](#dependencies) before you build and install.
 
 Remember that _Back In Time_ does consist of two packages, which must be built
