@@ -213,14 +213,12 @@ class SettingsDialog(QDialog):
         scrollButtonDefault = self.tabs.usesScrollButtons()
         self.tabs.setUsesScrollButtons(False)
 
-        # TAB: General
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
+
+        # TAB: General
         self.tabs.addTab(scrollArea, _('&General'))
-
-        layoutWidget = self._tab_general()
-
-        scrollArea.setWidget(layoutWidget)
+        scrollArea.setWidget(self._tab_general())
         scrollArea.setWidgetResizable(True)
 
         # TAB: Include
@@ -899,13 +897,13 @@ class SettingsDialog(QDialog):
         self.finished.connect(self.cleanup)
 
     def _tab_general(self):
-        layoutWidget = QWidget(self)
-        layout = QVBoxLayout(layoutWidget)
+        tab_widget = QWidget(self)
+        tab_layout = QVBoxLayout(tab_widget)
 
         # select mode
         self.mode = None
         vlayout = QVBoxLayout()
-        layout.addLayout(vlayout)
+        tab_layout.addLayout(vlayout)
 
         self.lblModes = QLabel(_('Mode:'), self)
 
@@ -921,13 +919,13 @@ class SettingsDialog(QDialog):
 
         # EncFS deprecation (#1734, #1735)
         self.encfsWarning = self._create_label_encfs_deprecation()
-        layout.addWidget(self.encfsWarning)
+        tab_layout.addWidget(self.encfsWarning)
 
         # Where to save snapshots
         groupBox = QGroupBox(self)
         self.modeLocal = groupBox
         groupBox.setTitle(_('Where to save snapshots'))
-        layout.addWidget(groupBox)
+        tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
 
@@ -951,7 +949,7 @@ class SettingsDialog(QDialog):
         groupBox = QGroupBox(self)
         self.modeSsh = groupBox
         groupBox.setTitle(_('SSH Settings'))
-        layout.addWidget(groupBox)
+        tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
 
@@ -1041,7 +1039,7 @@ class SettingsDialog(QDialog):
         groupBox = QGroupBox(self)
         self.groupPassword1 = groupBox
         groupBox.setTitle(_('Password'))
-        layout.addWidget(groupBox)
+        tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
         hlayout1 = QHBoxLayout()
@@ -1081,7 +1079,7 @@ class SettingsDialog(QDialog):
         groupBox = QGroupBox(self)
         self.frameAdvanced = groupBox
         groupBox.setTitle(_('Advanced'))
-        layout.addWidget(groupBox)
+        tab_layout.addWidget(groupBox)
 
         hlayout = QHBoxLayout(groupBox)
         hlayout.addSpacing(12)
@@ -1118,7 +1116,7 @@ class SettingsDialog(QDialog):
         groupBox = QGroupBox(self)
         self.globalScheduleGroupBox = groupBox
         groupBox.setTitle(_('Schedule'))
-        layout.addWidget(groupBox)
+        tab_layout.addWidget(groupBox)
 
         glayout = QGridLayout(groupBox)
         glayout.setColumnStretch(1, 2)
@@ -1267,9 +1265,9 @@ class SettingsDialog(QDialog):
         glayout.addWidget(self.cbScheduleDebug, 8, 0)
 
         #
-        layout.addStretch()
+        tab_layout.addStretch()
 
-        return layoutWidget
+        return tab_widget
 
 
     def _create_label_encfs_deprecation(self):
