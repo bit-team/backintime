@@ -218,375 +218,8 @@ class SettingsDialog(QDialog):
         scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&General'))
 
-        layoutWidget = QWidget(self)
-        layout = QVBoxLayout(layoutWidget)
+        layoutWidget = self._tab_general()
 
-        # select mode
-        self.mode = None
-        vlayout = QVBoxLayout()
-        layout.addLayout(vlayout)
-
-        self.lblModes = QLabel(_('Mode:'), self)
-
-        self.comboModes = QComboBox(self)
-        hlayout = QHBoxLayout()
-        hlayout.addWidget(self.lblModes)
-        hlayout.addWidget(self.comboModes, 1)
-        vlayout.addLayout(hlayout)
-        store_modes = {}
-        for key in list(self.config.SNAPSHOT_MODES.keys()):
-            store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
-        self.fillCombo(self.comboModes, store_modes)
-
-        # EncFS deprecation (#1734, #1735)
-        self.encfsWarning = self._create_label_encfs_deprecation()
-        layout.addWidget(self.encfsWarning)
-
-        # Where to save snapshots
-        groupBox = QGroupBox(self)
-        self.modeLocal = groupBox
-        groupBox.setTitle(_('Where to save snapshots'))
-        layout.addWidget(groupBox)
-
-        vlayout = QVBoxLayout(groupBox)
-
-        hlayout = QHBoxLayout()
-        vlayout.addLayout(hlayout)
-
-        self.editSnapshotsPath = QLineEdit(self)
-        self.editSnapshotsPath.setReadOnly(True)
-        self.editSnapshotsPath.textChanged.connect(self.fullPathChanged)
-        hlayout.addWidget(self.editSnapshotsPath)
-
-        self.btnSnapshotsPath = QToolButton(self)
-        self.btnSnapshotsPath.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
-        self.btnSnapshotsPath.setIcon(icon.FOLDER)
-        self.btnSnapshotsPath.setText(_('Folder'))
-        self.btnSnapshotsPath.setMinimumSize(32, 28)
-        hlayout.addWidget(self.btnSnapshotsPath)
-        self.btnSnapshotsPath.clicked.connect(self.btnSnapshotsPathClicked)
-
-        # --- SSH ---
-        groupBox = QGroupBox(self)
-        self.modeSsh = groupBox
-        groupBox.setTitle(_('SSH Settings'))
-        layout.addWidget(groupBox)
-
-        vlayout = QVBoxLayout(groupBox)
-
-        hlayout1 = QHBoxLayout()
-        vlayout.addLayout(hlayout1)
-        hlayout2 = QHBoxLayout()
-        vlayout.addLayout(hlayout2)
-        hlayout3 = QHBoxLayout()
-        vlayout.addLayout(hlayout3)
-
-        self.lblSshHost = QLabel(_('Host:'), self)
-        hlayout1.addWidget(self.lblSshHost)
-        self.txtSshHost = QLineEdit(self)
-        hlayout1.addWidget(self.txtSshHost)
-
-        self.lblSshPort = QLabel(_('Port:'), self)
-        hlayout1.addWidget(self.lblSshPort)
-        self.txtSshPort = QLineEdit(self)
-        hlayout1.addWidget(self.txtSshPort)
-
-        self.lblSshUser = QLabel(_('User:'), self)
-        hlayout1.addWidget(self.lblSshUser)
-        self.txtSshUser = QLineEdit(self)
-        hlayout1.addWidget(self.txtSshUser)
-
-        self.lblSshPath = QLabel(_('Path:'), self)
-        hlayout2.addWidget(self.lblSshPath)
-        self.txtSshPath = QLineEdit(self)
-        self.txtSshPath.textChanged.connect(self.fullPathChanged)
-        hlayout2.addWidget(self.txtSshPath)
-
-        self.lblSshCipher = QLabel(_('Cipher:'), self)
-        hlayout3.addWidget(self.lblSshCipher)
-        self.comboSshCipher = QComboBox(self)
-        hlayout3.addWidget(self.comboSshCipher)
-        self.fillCombo(self.comboSshCipher, self.config.SSH_CIPHERS)
-
-        self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
-        hlayout3.addWidget(self.lblSshPrivateKeyFile)
-        self.txtSshPrivateKeyFile = QLineEdit(self)
-        self.txtSshPrivateKeyFile.setReadOnly(True)
-        hlayout3.addWidget(self.txtSshPrivateKeyFile)
-
-        self.btnSshPrivateKeyFile = QToolButton(self)
-        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
-        self.btnSshPrivateKeyFile.setIcon(icon.FOLDER)
-        self.btnSshPrivateKeyFile.setToolTip(
-            _('Choose an existing private key file (normally named "id_rsa")'))
-        self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
-        hlayout3.addWidget(self.btnSshPrivateKeyFile)
-        self.btnSshPrivateKeyFile.clicked \
-            .connect(self.btnSshPrivateKeyFileClicked)
-
-        self.btnSshKeyGen = QToolButton(self)
-        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
-        self.btnSshKeyGen.setIcon(icon.ADD)
-        qttools.set_wrapped_tooltip(
-            self.btnSshKeyGen,
-            _('Create a new SSH key without password (not allowed if a '
-              'private key file is already selected).')
-        )
-        self.btnSshKeyGen.setMinimumSize(32, 28)
-        hlayout3.addWidget(self.btnSshKeyGen)
-        self.btnSshKeyGen.clicked.connect(self.btnSshKeyGenClicked)
-
-        # Disable SSH key generation button if a key file is already set
-        self.txtSshPrivateKeyFile.textChanged \
-            .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
-
-        qttools.equalIndent(self.lblSshHost,
-                            self.lblSshPath,
-                            self.lblSshCipher)
-
-        self.wdgSshProxy = SshProxyWidget(
-            self,
-            self.config.sshProxyHost(),
-            self.config.sshProxyPort(),
-            self.config.sshProxyUser()
-        )
-        vlayout.addWidget(self.wdgSshProxy)
-
-        # encfs
-        self.modeLocalEncfs = self.modeLocal
-        self.modeSshEncfs = self.modeSsh
-
-        # password
-        groupBox = QGroupBox(self)
-        self.groupPassword1 = groupBox
-        groupBox.setTitle(_('Password'))
-        layout.addWidget(groupBox)
-
-        vlayout = QVBoxLayout(groupBox)
-        hlayout1 = QHBoxLayout()
-        vlayout.addLayout(hlayout1)
-        hlayout2 = QHBoxLayout()
-        vlayout.addLayout(hlayout2)
-
-        self.lblPassword1 = QLabel(_('Password'), self)
-        hlayout1.addWidget(self.lblPassword1)
-        self.txtPassword1 = QLineEdit(self)
-        self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
-        hlayout1.addWidget(self.txtPassword1)
-
-        self.lblPassword2 = QLabel(_('Password'), self)
-        hlayout2.addWidget(self.lblPassword2)
-        self.txtPassword2 = QLineEdit(self)
-        self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
-        hlayout2.addWidget(self.txtPassword2)
-
-        self.cbPasswordSave = QCheckBox(_('Save Password to Keyring'), self)
-        vlayout.addWidget(self.cbPasswordSave)
-
-        self.cbPasswordUseCache = QCheckBox(
-            _('Cache Password for Cron (Security '
-              'issue: root can read password)'),
-            self
-        )
-        vlayout.addWidget(self.cbPasswordUseCache)
-
-        self.keyringSupported = tools.keyringSupported()
-        self.cbPasswordSave.setEnabled(self.keyringSupported)
-
-        # mode change
-        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
-
-        # host, user, profile id
-        groupBox = QGroupBox(self)
-        self.frameAdvanced = groupBox
-        groupBox.setTitle(_('Advanced'))
-        layout.addWidget(groupBox)
-
-        hlayout = QHBoxLayout(groupBox)
-        hlayout.addSpacing(12)
-
-        vlayout2 = QVBoxLayout()
-        hlayout.addLayout(vlayout2)
-
-        hlayout2 = QHBoxLayout()
-        vlayout2.addLayout(hlayout2)
-
-        self.lblHost = QLabel(_('Host:'), self)
-        hlayout2.addWidget(self.lblHost)
-        self.txtHost = QLineEdit(self)
-        self.txtHost.textChanged.connect(self.fullPathChanged)
-        hlayout2.addWidget(self.txtHost)
-
-        self.lblUser = QLabel(_('User:'), self)
-        hlayout2.addWidget(self.lblUser)
-        self.txtUser = QLineEdit(self)
-        self.txtUser.textChanged.connect(self.fullPathChanged)
-        hlayout2.addWidget(self.txtUser)
-
-        self.lblProfile = QLabel(_('Profile:'), self)
-        hlayout2.addWidget(self.lblProfile)
-        self.txt_profile = QLineEdit(self)
-        self.txt_profile.textChanged.connect(self.fullPathChanged)
-        hlayout2.addWidget(self.txt_profile)
-
-        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
-        self.lblFullPath.setWordWrap(True)
-        vlayout2.addWidget(self.lblFullPath)
-
-        # Schedule
-        groupBox = QGroupBox(self)
-        self.globalScheduleGroupBox = groupBox
-        groupBox.setTitle(_('Schedule'))
-        layout.addWidget(groupBox)
-
-        glayout = QGridLayout(groupBox)
-        glayout.setColumnStretch(1, 2)
-
-        self.comboSchedule = QComboBox(self)
-        glayout.addWidget(self.comboSchedule, 0, 0, 1, 2)
-
-        # import gettext
-        # Regular schedule modes for that combo box
-        schedule_modes_dict = {
-            config.Config.NONE: _('Disabled'),
-            config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
-            config.Config._5_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
-            config.Config._10_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
-            config.Config._30_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
-            config.Config._1_HOUR: ngettext(
-                'Every hour', 'Every {n} hours', 1).format(n=1),
-            config.Config._2_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 2).format(n=2),
-            config.Config._4_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 4).format(n=4),
-            config.Config._6_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 6).format(n=6),
-            config.Config._12_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 12).format(n=12),
-            config.Config.CUSTOM_HOUR: _('Custom hours'),
-            config.Config.DAY: _('Every day'),
-            config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
-            config.Config.UDEV: _('When drive gets connected (udev)'),
-            config.Config.WEEK: _('Every week'),
-            config.Config.MONTH: _('Every month'),
-            config.Config.YEAR: _('Every year')
-        }
-
-        self.fillCombo(self.comboSchedule, schedule_modes_dict)
-
-        self.lblScheduleDay = QLabel(_('Day:'), self)
-        self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleDay.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        glayout.addWidget(self.lblScheduleDay, 1, 0)
-
-        self.comboScheduleDay = QComboBox(self)
-        glayout.addWidget(self.comboScheduleDay, 1, 1)
-
-        for d in range(1, 29):
-            self.comboScheduleDay.addItem(QIcon(), str(d), d)
-
-        self.lblScheduleWeekday = QLabel(_('Weekday:'), self)
-        self.lblScheduleWeekday.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleWeekday.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        glayout.addWidget(self.lblScheduleWeekday, 2, 0)
-
-        self.comboScheduleWeekday = QComboBox(self)
-        glayout.addWidget(self.comboScheduleWeekday, 2, 1)
-
-        sunday = datetime.date(2011, 11, 6)
-        for d in range(1, 8):
-            self.comboScheduleWeekday.addItem(
-                QIcon(),
-                (sunday + datetime.timedelta(days=d)).strftime('%A'),
-                d
-            )
-
-        self.lblScheduleTime = QLabel(_('Hour:'), self)
-        self.lblScheduleTime.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleTime.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        glayout.addWidget(self.lblScheduleTime, 3, 0)
-
-        self.comboScheduleTime = QComboBox(self)
-        glayout.addWidget(self.comboScheduleTime, 3, 1)
-
-        for t in range(0, 2400, 100):
-            self.comboScheduleTime.addItem(
-                QIcon(),
-                datetime.time(t // 100, t % 100).strftime("%H:%M"),
-                t
-            )
-
-        self.lblScheduleCronPatern = QLabel(_('Hours:'), self)
-        self.lblScheduleCronPatern.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleCronPatern.setAlignment(
-            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        glayout.addWidget(self.lblScheduleCronPatern, 4, 0)
-
-        self.txtScheduleCronPatern = QLineEdit(self)
-        glayout.addWidget(self.txtScheduleCronPatern, 4, 1)
-
-        # anacron
-        self.lblScheduleRepeated = QLabel(
-            _('Run Back In Time repeatedly. This is useful if the '
-              'computer is not running regularly.')
-        )
-        self.lblScheduleRepeated.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleRepeated.setWordWrap(True)
-        glayout.addWidget(self.lblScheduleRepeated, 5, 0, 1, 2)
-
-        self.lblScheduleRepeatedPeriod = QLabel(_('Every:'))
-        self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleRepeatedPeriod.setAlignment(
-            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        glayout.addWidget(self.lblScheduleRepeatedPeriod, 7, 0)
-
-        hlayout = QHBoxLayout()
-        self.spbScheduleRepeatedPeriod = QSpinBox(self)
-        self.spbScheduleRepeatedPeriod.setSingleStep(1)
-        self.spbScheduleRepeatedPeriod.setRange(1, 10000)
-        hlayout.addWidget(self.spbScheduleRepeatedPeriod)
-
-        self.comboScheduleRepeatedUnit = QComboBox(self)
-        REPEATEDLY_UNITS = {
-            config.Config.HOUR: _('Hour(s)'),
-            config.Config.DAY: _('Day(s)'),
-            config.Config.WEEK: _('Week(s)'),
-            config.Config.MONTH: _('Month(s)')}
-
-        self.fillCombo(self.comboScheduleRepeatedUnit,
-                       REPEATEDLY_UNITS)
-        hlayout.addWidget(self.comboScheduleRepeatedUnit)
-        hlayout.addStretch()
-        glayout.addLayout(hlayout, 7, 1)
-
-        # udev
-        self.lblScheduleUdev = QLabel(
-            _('Run Back In Time as soon as the drive is connected (only once'
-              ' every X days).\nYou will be prompted for your sudo password.')
-        )
-        self.lblScheduleUdev.setWordWrap(True)
-        glayout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
-
-        self.comboSchedule.currentIndexChanged.connect(self.scheduleChanged)
-
-        self.cbScheduleDebug = QCheckBox(self)
-        self.cbScheduleDebug.setText(_('Enable logging of debug messages'))
-        qttools.set_wrapped_tooltip(
-            self.cbScheduleDebug,
-            [
-                _('Writes debug-level messages into the system log via '
-                  '"--debug".'),
-                _('Caution: Only use this temporarily for diagnostics, as it '
-                  'generates a large amount of output.')
-            ]
-        )
-        glayout.addWidget(self.cbScheduleDebug, 8, 0)
-
-        #
-        layout.addStretch()
         scrollArea.setWidget(layoutWidget)
         scrollArea.setWidgetResizable(True)
 
@@ -1264,6 +897,380 @@ class SettingsDialog(QDialog):
         self.resize(size)
 
         self.finished.connect(self.cleanup)
+
+    def _tab_general(self):
+        layoutWidget = QWidget(self)
+        layout = QVBoxLayout(layoutWidget)
+
+        # select mode
+        self.mode = None
+        vlayout = QVBoxLayout()
+        layout.addLayout(vlayout)
+
+        self.lblModes = QLabel(_('Mode:'), self)
+
+        self.comboModes = QComboBox(self)
+        hlayout = QHBoxLayout()
+        hlayout.addWidget(self.lblModes)
+        hlayout.addWidget(self.comboModes, 1)
+        vlayout.addLayout(hlayout)
+        store_modes = {}
+        for key in list(self.config.SNAPSHOT_MODES.keys()):
+            store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
+        self.fillCombo(self.comboModes, store_modes)
+
+        # EncFS deprecation (#1734, #1735)
+        self.encfsWarning = self._create_label_encfs_deprecation()
+        layout.addWidget(self.encfsWarning)
+
+        # Where to save snapshots
+        groupBox = QGroupBox(self)
+        self.modeLocal = groupBox
+        groupBox.setTitle(_('Where to save snapshots'))
+        layout.addWidget(groupBox)
+
+        vlayout = QVBoxLayout(groupBox)
+
+        hlayout = QHBoxLayout()
+        vlayout.addLayout(hlayout)
+
+        self.editSnapshotsPath = QLineEdit(self)
+        self.editSnapshotsPath.setReadOnly(True)
+        self.editSnapshotsPath.textChanged.connect(self.fullPathChanged)
+        hlayout.addWidget(self.editSnapshotsPath)
+
+        self.btnSnapshotsPath = QToolButton(self)
+        self.btnSnapshotsPath.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.btnSnapshotsPath.setIcon(self.icon.FOLDER)
+        self.btnSnapshotsPath.setText(_('Folder'))
+        self.btnSnapshotsPath.setMinimumSize(32, 28)
+        hlayout.addWidget(self.btnSnapshotsPath)
+        self.btnSnapshotsPath.clicked.connect(self.btnSnapshotsPathClicked)
+
+        # --- SSH ---
+        groupBox = QGroupBox(self)
+        self.modeSsh = groupBox
+        groupBox.setTitle(_('SSH Settings'))
+        layout.addWidget(groupBox)
+
+        vlayout = QVBoxLayout(groupBox)
+
+        hlayout1 = QHBoxLayout()
+        vlayout.addLayout(hlayout1)
+        hlayout2 = QHBoxLayout()
+        vlayout.addLayout(hlayout2)
+        hlayout3 = QHBoxLayout()
+        vlayout.addLayout(hlayout3)
+
+        self.lblSshHost = QLabel(_('Host:'), self)
+        hlayout1.addWidget(self.lblSshHost)
+        self.txtSshHost = QLineEdit(self)
+        hlayout1.addWidget(self.txtSshHost)
+
+        self.lblSshPort = QLabel(_('Port:'), self)
+        hlayout1.addWidget(self.lblSshPort)
+        self.txtSshPort = QLineEdit(self)
+        hlayout1.addWidget(self.txtSshPort)
+
+        self.lblSshUser = QLabel(_('User:'), self)
+        hlayout1.addWidget(self.lblSshUser)
+        self.txtSshUser = QLineEdit(self)
+        hlayout1.addWidget(self.txtSshUser)
+
+        self.lblSshPath = QLabel(_('Path:'), self)
+        hlayout2.addWidget(self.lblSshPath)
+        self.txtSshPath = QLineEdit(self)
+        self.txtSshPath.textChanged.connect(self.fullPathChanged)
+        hlayout2.addWidget(self.txtSshPath)
+
+        self.lblSshCipher = QLabel(_('Cipher:'), self)
+        hlayout3.addWidget(self.lblSshCipher)
+        self.comboSshCipher = QComboBox(self)
+        hlayout3.addWidget(self.comboSshCipher)
+        self.fillCombo(self.comboSshCipher, self.config.SSH_CIPHERS)
+
+        self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
+        hlayout3.addWidget(self.lblSshPrivateKeyFile)
+        self.txtSshPrivateKeyFile = QLineEdit(self)
+        self.txtSshPrivateKeyFile.setReadOnly(True)
+        hlayout3.addWidget(self.txtSshPrivateKeyFile)
+
+        self.btnSshPrivateKeyFile = QToolButton(self)
+        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.btnSshPrivateKeyFile.setIcon(self.icon.FOLDER)
+        self.btnSshPrivateKeyFile.setToolTip(
+            _('Choose an existing private key file (normally named "id_rsa")'))
+        self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
+        hlayout3.addWidget(self.btnSshPrivateKeyFile)
+        self.btnSshPrivateKeyFile.clicked \
+            .connect(self.btnSshPrivateKeyFileClicked)
+
+        self.btnSshKeyGen = QToolButton(self)
+        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.btnSshKeyGen.setIcon(self.icon.ADD)
+        qttools.set_wrapped_tooltip(
+            self.btnSshKeyGen,
+            _('Create a new SSH key without password (not allowed if a '
+              'private key file is already selected).')
+        )
+        self.btnSshKeyGen.setMinimumSize(32, 28)
+        hlayout3.addWidget(self.btnSshKeyGen)
+        self.btnSshKeyGen.clicked.connect(self.btnSshKeyGenClicked)
+
+        # Disable SSH key generation button if a key file is already set
+        self.txtSshPrivateKeyFile.textChanged \
+            .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
+
+        qttools.equalIndent(self.lblSshHost,
+                            self.lblSshPath,
+                            self.lblSshCipher)
+
+        self.wdgSshProxy = SshProxyWidget(
+            self,
+            self.config.sshProxyHost(),
+            self.config.sshProxyPort(),
+            self.config.sshProxyUser()
+        )
+        vlayout.addWidget(self.wdgSshProxy)
+
+        # encfs
+        self.modeLocalEncfs = self.modeLocal
+        self.modeSshEncfs = self.modeSsh
+
+        # password
+        groupBox = QGroupBox(self)
+        self.groupPassword1 = groupBox
+        groupBox.setTitle(_('Password'))
+        layout.addWidget(groupBox)
+
+        vlayout = QVBoxLayout(groupBox)
+        hlayout1 = QHBoxLayout()
+        vlayout.addLayout(hlayout1)
+        hlayout2 = QHBoxLayout()
+        vlayout.addLayout(hlayout2)
+
+        self.lblPassword1 = QLabel(_('Password'), self)
+        hlayout1.addWidget(self.lblPassword1)
+        self.txtPassword1 = QLineEdit(self)
+        self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
+        hlayout1.addWidget(self.txtPassword1)
+
+        self.lblPassword2 = QLabel(_('Password'), self)
+        hlayout2.addWidget(self.lblPassword2)
+        self.txtPassword2 = QLineEdit(self)
+        self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
+        hlayout2.addWidget(self.txtPassword2)
+
+        self.cbPasswordSave = QCheckBox(_('Save Password to Keyring'), self)
+        vlayout.addWidget(self.cbPasswordSave)
+
+        self.cbPasswordUseCache = QCheckBox(
+            _('Cache Password for Cron (Security '
+              'issue: root can read password)'),
+            self
+        )
+        vlayout.addWidget(self.cbPasswordUseCache)
+
+        self.keyringSupported = tools.keyringSupported()
+        self.cbPasswordSave.setEnabled(self.keyringSupported)
+
+        # mode change
+        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
+
+        # host, user, profile id
+        groupBox = QGroupBox(self)
+        self.frameAdvanced = groupBox
+        groupBox.setTitle(_('Advanced'))
+        layout.addWidget(groupBox)
+
+        hlayout = QHBoxLayout(groupBox)
+        hlayout.addSpacing(12)
+
+        vlayout2 = QVBoxLayout()
+        hlayout.addLayout(vlayout2)
+
+        hlayout2 = QHBoxLayout()
+        vlayout2.addLayout(hlayout2)
+
+        self.lblHost = QLabel(_('Host:'), self)
+        hlayout2.addWidget(self.lblHost)
+        self.txtHost = QLineEdit(self)
+        self.txtHost.textChanged.connect(self.fullPathChanged)
+        hlayout2.addWidget(self.txtHost)
+
+        self.lblUser = QLabel(_('User:'), self)
+        hlayout2.addWidget(self.lblUser)
+        self.txtUser = QLineEdit(self)
+        self.txtUser.textChanged.connect(self.fullPathChanged)
+        hlayout2.addWidget(self.txtUser)
+
+        self.lblProfile = QLabel(_('Profile:'), self)
+        hlayout2.addWidget(self.lblProfile)
+        self.txt_profile = QLineEdit(self)
+        self.txt_profile.textChanged.connect(self.fullPathChanged)
+        hlayout2.addWidget(self.txt_profile)
+
+        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
+        self.lblFullPath.setWordWrap(True)
+        vlayout2.addWidget(self.lblFullPath)
+
+        # Schedule
+        groupBox = QGroupBox(self)
+        self.globalScheduleGroupBox = groupBox
+        groupBox.setTitle(_('Schedule'))
+        layout.addWidget(groupBox)
+
+        glayout = QGridLayout(groupBox)
+        glayout.setColumnStretch(1, 2)
+
+        self.comboSchedule = QComboBox(self)
+        glayout.addWidget(self.comboSchedule, 0, 0, 1, 2)
+
+        # import gettext
+        # Regular schedule modes for that combo box
+        schedule_modes_dict = {
+            config.Config.NONE: _('Disabled'),
+            config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
+            config.Config._5_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
+            config.Config._10_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
+            config.Config._30_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
+            config.Config._1_HOUR: ngettext(
+                'Every hour', 'Every {n} hours', 1).format(n=1),
+            config.Config._2_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 2).format(n=2),
+            config.Config._4_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 4).format(n=4),
+            config.Config._6_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 6).format(n=6),
+            config.Config._12_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 12).format(n=12),
+            config.Config.CUSTOM_HOUR: _('Custom hours'),
+            config.Config.DAY: _('Every day'),
+            config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
+            config.Config.UDEV: _('When drive gets connected (udev)'),
+            config.Config.WEEK: _('Every week'),
+            config.Config.MONTH: _('Every month'),
+            config.Config.YEAR: _('Every year')
+        }
+
+        self.fillCombo(self.comboSchedule, schedule_modes_dict)
+
+        self.lblScheduleDay = QLabel(_('Day:'), self)
+        self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleDay.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        glayout.addWidget(self.lblScheduleDay, 1, 0)
+
+        self.comboScheduleDay = QComboBox(self)
+        glayout.addWidget(self.comboScheduleDay, 1, 1)
+
+        for d in range(1, 29):
+            self.comboScheduleDay.addItem(QIcon(), str(d), d)
+
+        self.lblScheduleWeekday = QLabel(_('Weekday:'), self)
+        self.lblScheduleWeekday.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleWeekday.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        glayout.addWidget(self.lblScheduleWeekday, 2, 0)
+
+        self.comboScheduleWeekday = QComboBox(self)
+        glayout.addWidget(self.comboScheduleWeekday, 2, 1)
+
+        sunday = datetime.date(2011, 11, 6)
+        for d in range(1, 8):
+            self.comboScheduleWeekday.addItem(
+                QIcon(),
+                (sunday + datetime.timedelta(days=d)).strftime('%A'),
+                d
+            )
+
+        self.lblScheduleTime = QLabel(_('Hour:'), self)
+        self.lblScheduleTime.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleTime.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        glayout.addWidget(self.lblScheduleTime, 3, 0)
+
+        self.comboScheduleTime = QComboBox(self)
+        glayout.addWidget(self.comboScheduleTime, 3, 1)
+
+        for t in range(0, 2400, 100):
+            self.comboScheduleTime.addItem(
+                QIcon(),
+                datetime.time(t // 100, t % 100).strftime("%H:%M"),
+                t
+            )
+
+        self.lblScheduleCronPatern = QLabel(_('Hours:'), self)
+        self.lblScheduleCronPatern.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleCronPatern.setAlignment(
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        glayout.addWidget(self.lblScheduleCronPatern, 4, 0)
+
+        self.txtScheduleCronPatern = QLineEdit(self)
+        glayout.addWidget(self.txtScheduleCronPatern, 4, 1)
+
+        # anacron
+        self.lblScheduleRepeated = QLabel(
+            _('Run Back In Time repeatedly. This is useful if the '
+              'computer is not running regularly.')
+        )
+        self.lblScheduleRepeated.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleRepeated.setWordWrap(True)
+        glayout.addWidget(self.lblScheduleRepeated, 5, 0, 1, 2)
+
+        self.lblScheduleRepeatedPeriod = QLabel(_('Every:'))
+        self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleRepeatedPeriod.setAlignment(
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        glayout.addWidget(self.lblScheduleRepeatedPeriod, 7, 0)
+
+        hlayout = QHBoxLayout()
+        self.spbScheduleRepeatedPeriod = QSpinBox(self)
+        self.spbScheduleRepeatedPeriod.setSingleStep(1)
+        self.spbScheduleRepeatedPeriod.setRange(1, 10000)
+        hlayout.addWidget(self.spbScheduleRepeatedPeriod)
+
+        self.comboScheduleRepeatedUnit = QComboBox(self)
+        REPEATEDLY_UNITS = {
+            config.Config.HOUR: _('Hour(s)'),
+            config.Config.DAY: _('Day(s)'),
+            config.Config.WEEK: _('Week(s)'),
+            config.Config.MONTH: _('Month(s)')}
+
+        self.fillCombo(self.comboScheduleRepeatedUnit,
+                       REPEATEDLY_UNITS)
+        hlayout.addWidget(self.comboScheduleRepeatedUnit)
+        hlayout.addStretch()
+        glayout.addLayout(hlayout, 7, 1)
+
+        # udev
+        self.lblScheduleUdev = QLabel(
+            _('Run Back In Time as soon as the drive is connected (only once'
+              ' every X days).\nYou will be prompted for your sudo password.')
+        )
+        self.lblScheduleUdev.setWordWrap(True)
+        glayout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
+
+        self.comboSchedule.currentIndexChanged.connect(self.scheduleChanged)
+
+        self.cbScheduleDebug = QCheckBox(self)
+        self.cbScheduleDebug.setText(_('Enable logging of debug messages'))
+        qttools.set_wrapped_tooltip(
+            self.cbScheduleDebug,
+            [
+                _('Writes debug-level messages into the system log via '
+                  '"--debug".'),
+                _('Caution: Only use this temporarily for diagnostics, as it '
+                  'generates a large amount of output.')
+            ]
+        )
+        glayout.addWidget(self.cbScheduleDebug, 8, 0)
+
+        #
+        layout.addStretch()
+
+        return layoutWidget
+
 
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
