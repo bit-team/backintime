@@ -160,6 +160,156 @@ class SshProxyWidget(QWidget):
             }
 
 
+class ScheduleWidget(QGroupBox):
+    """Widget to schedule snapshots."""
+    def __init__(self, parent):
+        super().__init__(title=_('Schedule'), parent=parent)
+
+        main_layout = QGridLayout(groupBox)
+        main_layout.setColumnStretch(1, 2)
+
+        self._combo_box = QComboBox(self)
+        main_layout.addWidget(self._combo_box, 0, 0, 1, 2)
+        self._fill_combo()
+
+        def _create_label(text):
+            label = QLabel(text, self)
+            label.setContentsMargins(5, 0, 0, 0)
+            label.setAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+
+            return label
+
+        # Day
+        main_layout.addWidget(_create_label(_('Day:')), 1, 0)
+        self.comboScheduleDay = QComboBox(self)
+        main_layout.addWidget(self.comboScheduleDay, 1, 1)
+        for day_number in range(1, 29):
+            self.comboScheduleDay.addItem(QIcon(), str(day_number), day_number)
+
+        # Weekday
+        main_layout.addWidget(_create_label(_('Weekday:')), 2, 0)
+        self.comboScheduleWeekday = QComboBox(self)
+        main_layout.addWidget(self.comboScheduleWeekday, 2, 1)
+        sunday = datetime.date(2011, 11, 6)
+        for day_number in range(1, 8):
+            self.comboScheduleWeekday.addItem(
+                QIcon(),
+                (sunday + datetime.timedelta(days=day_number)).strftime('%A'),
+                day_number
+            )
+
+        # Hour
+        main_layout.addWidget(_create_label(_('Hour:')), 3, 0)
+        self.comboScheduleTime = QComboBox(self)
+        main_layout.addWidget(self.comboScheduleTime, 3, 1)
+        for val in range(0, 2400, 100):
+            self.comboScheduleTime.addItem(
+                QIcon(),
+                datetime.time(val // 100, val % 100).strftime("%H:%M"),
+                val
+            )
+
+        # HourS
+        main_layout.addWidget(_create_label(_('Hours:')), 4, 0)
+        self.txtScheduleCronPatern = QLineEdit(self)
+        main_layout.addWidget(self.txtScheduleCronPatern, 4, 1)
+
+        # Repeatedly (like anacron)
+        self.lblScheduleRepeated = QLabel(
+            _('Run Back In Time repeatedly. This is useful if the '
+              'computer is not running regularly.')
+        )
+        self.lblScheduleRepeated.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleRepeated.setWordWrap(True)
+        main_layout.addWidget(self.lblScheduleRepeated, 5, 0, 1, 2)
+
+        self.lblScheduleRepeatedPeriod = QLabel(_('Every:'))
+        self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
+        self.lblScheduleRepeatedPeriod.setAlignment(
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        main_layout.addWidget(self.lblScheduleRepeatedPeriod, 7, 0)
+
+        hlayout = QHBoxLayout()
+        self.spbScheduleRepeatedPeriod = QSpinBox(self)
+        self.spbScheduleRepeatedPeriod.setSingleStep(1)
+        self.spbScheduleRepeatedPeriod.setRange(1, 10000)
+        hlayout.addWidget(self.spbScheduleRepeatedPeriod)
+
+        self.comboScheduleRepeatedUnit = QComboBox(self)
+        REPEATEDLY_UNITS = {
+            config.Config.HOUR: _('Hour(s)'),
+            config.Config.DAY: _('Day(s)'),
+            config.Config.WEEK: _('Week(s)'),
+            config.Config.MONTH: _('Month(s)')}
+
+        self.fillCombo(self.comboScheduleRepeatedUnit,
+                       REPEATEDLY_UNITS)
+        hlayout.addWidget(self.comboScheduleRepeatedUnit)
+        hlayout.addStretch()
+        main_layout.addLayout(hlayout, 7, 1)
+
+        # udev
+        self.lblScheduleUdev = QLabel(
+            _('Run Back In Time as soon as the drive is connected (only once'
+              ' every X days).\nYou will be prompted for your sudo password.')
+        )
+        self.lblScheduleUdev.setWordWrap(True)
+        main_layout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
+
+        self._combo_box.currentIndexChanged.connect(self.scheduleChanged)
+
+        self.cbScheduleDebug = QCheckBox(self)
+        self.cbScheduleDebug.setText(_('Enable logging of debug messages'))
+        qttools.set_wrapped_tooltip(
+            self.cbScheduleDebug,
+            [
+                _('Writes debug-level messages into the system log via '
+                  '"--debug".'),
+                _('Caution: Only use this temporarily for diagnostics, as it '
+                  'generates a large amount of output.')
+            ]
+        )
+        main_layout.addWidget(self.cbScheduleDebug, 8, 0)
+
+    def _fillCombo(self):
+        """Fill the combo box with values."""
+
+        # Regular schedule modes for that combo box
+        schedule_modes = {
+            config.Config.NONE: _('Disabled'),
+            config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
+            config.Config._5_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
+            config.Config._10_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
+            config.Config._30_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
+            config.Config._1_HOUR: ngettext(
+                'Every hour', 'Every {n} hours', 1).format(n=1),
+            config.Config._2_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 2).format(n=2),
+            config.Config._4_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 4).format(n=4),
+            config.Config._6_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 6).format(n=6),
+            config.Config._12_HOURS: ngettext(
+                'Every {n} hour', 'Every {n} hours', 12).format(n=12),
+            config.Config.CUSTOM_HOUR: _('Custom hours'),
+            config.Config.DAY: _('Every day'),
+            config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
+            config.Config.UDEV: _('When drive gets connected (udev)'),
+            config.Config.WEEK: _('Every week'),
+            config.Config.MONTH: _('Every month'),
+            config.Config.YEAR: _('Every year')
+        }
+
+        # Dev note (buhtz): Do not see a reason for sorting.
+
+        for key in sorted(list(schedule_modes)):
+            self.addItem(QIcon(), schedule_modes[key], key)
+
+
 class SettingsDialog(QDialog):
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
@@ -1124,7 +1274,6 @@ class SettingsDialog(QDialog):
         tab_layout.addStretch()
 
         return tab_widget
-
 
     def _schedule_widget(self):
         # Schedule
