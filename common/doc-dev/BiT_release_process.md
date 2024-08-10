@@ -154,17 +154,18 @@ When the PR is merged:
       https://derlin.github.io/bitdowntoc/ to generate a TOC and copy the
       changed parts into the `README.md`.
 
-- Build, install and test (again!) the prepared release candidate.
+- Build, install and [test (again!)](#manual-testing---recommendations)
+  the prepared release candidate.
 
 - Run [`codespell`](https://pypi.org/project/codespell) in the repositories
   root folder to check for common spelling errors.
 
-- Do a manual smoke and UAT ("user acceptance test") of the GUI. Create
-  snapshot profiles in all (four) available flavors. Create snapshots. Restore
-  snapshots. Delete snapshots.
+- Do a [manual smoke and UAT ("user acceptance test")](#manual-testing---recommendations)
+  of the GUI. Create snapshot profiles in all (four) available flavors. Create
+  snapshots. Restore snapshots. Delete snapshots.
   
-- In English: Did you really perform the previous test? Don't dodge the
-  question! :D
+- Did you really perform the previous
+  [test](#manual-testing---recommendations)? Don't dodge the question! :D
 
 - If you find bugs:
 
