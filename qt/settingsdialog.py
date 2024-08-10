@@ -897,10 +897,15 @@ class SettingsDialog(QDialog):
         self.finished.connect(self.cleanup)
 
     def _tab_general(self):
+        """Create the 'Generals' tab.
+
+        Returns:
+            QWidget: The full layouted tab widget.
+        """
         tab_widget = QWidget(self)
         tab_layout = QVBoxLayout(tab_widget)
 
-        # select mode
+        # Snapshot mode
         self.mode = None
         vlayout = QVBoxLayout()
         tab_layout.addLayout(vlayout)
@@ -1112,11 +1117,19 @@ class SettingsDialog(QDialog):
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
+        self.globalScheduleGroupBox = self._schedule_widget()
+        tab_layout.addWidget(self.globalScheduleGroupBox)
+
+        #
+        tab_layout.addStretch()
+
+        return tab_widget
+
+
+    def _schedule_widget(self):
         # Schedule
         groupBox = QGroupBox(self)
-        self.globalScheduleGroupBox = groupBox
         groupBox.setTitle(_('Schedule'))
-        tab_layout.addWidget(groupBox)
 
         glayout = QGridLayout(groupBox)
         glayout.setColumnStretch(1, 2)
@@ -1264,11 +1277,7 @@ class SettingsDialog(QDialog):
         )
         glayout.addWidget(self.cbScheduleDebug, 8, 0)
 
-        #
-        tab_layout.addStretch()
-
-        return tab_widget
-
+        return groupBox
 
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
