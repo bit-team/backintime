@@ -26,7 +26,6 @@ import signal
 import re
 import errno
 import gzip
-import tempfile
 import locale
 import gettext
 from collections.abc import MutableSet

@@ -1,4 +1,5 @@
 # How to prepare and publish a new BIT release
+<sub>August 2024</sub>
 
 ## Overview
 
@@ -7,6 +8,22 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Source branch: `dev`
 - Target branch for the pull request: `dev`
+
+## Table of content
+
+- [Preconditions for a new release](#preconditions-for-a-new-release)
+- [TLDR ;-)](#tldr--)
+- [Step by step](#step-by-step)
+   * [Create branch for release candidate](#create-branch-for-release-candidate)
+   * [Bump version number](#bump-version-number)
+   * [Testing & Miscellaneous](#testing--miscellaneous)
+   * [Release Candidate](#release-candidate)
+   * [Create Release](#create-release)
+   * [Prepare new development version](#prepare-new-development-version)
+- [Other noteworthy things](#other-noteworthy-things)
+   * ["Read the docs" code documentation](#read-the-docs-code-documentation)
+   * [Building `deb` package files](#building-deb-package-files)
+
 
 ## Preconditions for a new release
 
@@ -39,13 +56,14 @@ When the PR is merged:
 
 ## Step by step
 
+### Create branch for release candidate
+
 - Announce code freeze on `dev` branch to all active developers via email.
 
-- Check that Travis CI did successfully build the latest `dev` branch commit:
- 
-  https://app.travis-ci.com/github/bit-team/backintime
+- Check that [Travis CI](https://app.travis-ci.com/github/bit-team/backintime)
+  did successfully build the latest `dev` branch commit.
 
-- Pull latest `dev` branch changes into your BiT repo clone's `dev` branch:
+- Pull latest `dev` branch changes into your BIT repo clone's `dev` branch:
   ```
   git switch dev
   git pull upstream dev
@@ -58,16 +76,14 @@ When the PR is merged:
 
 - Enable the full build matrix in Travis CI (Python version * arch[icture])
   by commenting the excluded architectures:
-
     ```
     jobs:
       # exclude:
       #   -  python: "3.9"
       #   -  python: "3.10"
     ```
-  
-- Build the still unchanged release candidate and execute the unit tests:
 
+- Build the still unchanged release candidate and execute the unit tests:
   ```
   cd common
   ./configure
@@ -78,95 +94,89 @@ When the PR is merged:
   make
   ```
 
-- **Recommended:** Use a linter like [`pylint`](https://pypi.org/project/pylint/) to identify code errors that are not obvious but
-  may be found only (too late) at run-time, eg. object name typos (see e.g. [#1553](https://github.com/bit-team/backintime/issues/1553)).
-  
-  *Note:* Since v1.4.x there is a unit test `test_lint.py` which performs
-          a minimal check for severe problems via `make test`.
+### Bump version number
 
-- Update the `CHANGES` text file in the project's root folder:
+- Update the changelog file `CHANGES` in the project's root folder:
 
-  - Check `git log` to find and add forgotten but relevant entries for `CHANGES`, eg.
-    using the tag of the previous release:
-  
-    `git log v1.4.0..HEAD`
+  - Check the commit history about forgotten but relevant entries that are
+    currently not present in `CHANGES` file. e.g. `git log v1.4.0..HEAD`
 
   - Rename the top-most line with the collected `dev` changes from eg.
-  
+
     `Version 1.3.4-dev (development of upcoming release)`
-  
+
     into
-  
+
     `Version 1.4.0 (2023-09-14)`
-  
+
   using the new version number and release date.
 
-- Update `VERSION` text file in the project's root folder:
-
-  Set the new version number **without** the release date (eg. `1.4.0`)
+- Update `VERSION` text file in the project's root folder and set the new
+  version number **without** the release date (eg. `1.4.0`).
 
 - Execute the script `./updateversion.sh` in the project's root folder
   to automatically update the version number in multiple files
   using the version number from the `VERSION` file
-  (so you do not forget to update one file ;-).
+  (so you do not forget to update one file ;-). The script should modify the
+  following files:
 
-  - BiT CLI config in `common/version.py`
-  - man pages in `common/man/C/backintime*.1` and `qt/man/C/backintime*.1`
+  - `common/version.py`
+  - `common/man/C/backintime*.1`
+  - `qt/man/C/backintime*.1`
 
-- Check that the version numbers have been update by opening some of the above files.
+- Check that the version numbers have been update by opening some of the above
+  files.
 
-- Update the "as at" date in the man page files (in `common/man/C/backintime*.1` and `qt/man/C/backintime*.1`) manually by changing
-  the month and year in the first line that looks like this:
+- Update the "as at" date in the man page files (in
+  `common/man/C/backintime*.1` and `qt/man/C/backintime*.1`) manually by
+  changing the month and year in the first line that looks like this:
 
   ```
   .TH backintime-config 1 "Aug 2023" "version 1.4.0" "USER COMMANDS"
   ```
 
-- Update the `AUTHORS` file in the project's root folder
+- Update the `AUTHORS` file in the project's root folder if necessary.
+  Do not publish contributors names and email address without their permission.
 
-  - Should be done during development normally
-  - Ask contributors for explicit permission to publish their
-    name and email address!
+### Testing & Miscellaneous
 
 - Review and update the `README.md` in your release candidate branch
 
   - Update the **Known Problems and Workarounds** section:
-    - Move fixed major known problems
-      from the "Known Problems and Workarounds" section
-      (which describes the latest release)
-      into the "Problems in Versions older than the latest stable release"
-      to stay visible for users of older versions.
-    - Remove old known problems if you are sure old BiT versions with this issue
-      are unlikely to be used "in the wild" anymore.
-    - Update table of contents (TOC) for the changed parts.
-      You can eg. use https://github.com/derlin/bitdowntoc to generate a TOC and
-      copy the changed parts into the `README.md`.
+    - Move fixed major known problems from the "Known Problems and Workarounds"
+      section (which describes the latest release) into the "Problems in
+      Versions older than the latest stable release" to stay visible for users
+      of older versions.
+    - Remove old known problems if you are sure old BIT versions with this
+      issue are unlikely to be used "in the wild" anymore.
+    - Update table of contents (TOC) for the changed parts. You can eg. use
+      https://derlin.github.io/bitdowntoc/ to generate a TOC and copy the
+      changed parts into the `README.md`.
 
-- Build the prepared release candidate and execute the unit tests:
+- Build, install and test (again!) the prepared release candidate.
 
-  ```
-  cd common
-  ./configure
-  make
-  make test
-  cd ../qt
-  ./configure
-  make
-  ```
+- Run [`codespell`](https://pypi.org/project/codespell) in the repositories
+  root folder to check for common spelling errors.
 
-- Execute [`codespell`](https://pypi.org/project/codespell) in the repositories root folder to check for common spelling errors.
-
-- Do a manual smoke and UAT ("user acceptance test") of the GUI.
+- Do a manual smoke and UAT ("user acceptance test") of the GUI. Create
+  snapshot profiles in all (four) available flavors. Create snapshots. Restore
+  snapshots. Delete snapshots.
+  
+- In English: Did you really perform the previous test? Don't dodge the
+  question! :D
 
 - If you find bugs:
 
   - Open an issue.
-  - Decide if you want to fix this in the release candidate.
-  - If you fix it in the release candidate: Update the CHANGES file (add the issue number + description).
-  - If you don't fix it (eg. too risky) and it is a HIGH bug:
-    - Add the bug to the [Known Problems and Workarounds](https://github.com/bit-team/backintime#known-problems-and-workarounds)
-      section of `README.md` (of the release candidate branch) and describe
-      a workaround (if any).
+  - Decide if you want to fix this in the release candidate:
+    - If yes: Fix it in the release candidate: Update the `CHANGES` file (add
+       the issue number + description).
+    - If no: Don't fix it (eg. too risky) but add the bug to the
+      [Known Problems and Workarounds](https://github.com/bit-team/backintime#known-problems-and-workarounds)
+      section of `README.md` (of the release candidate branch) and describe a
+      workaround (if any).
+
+### Release Candidate
 
 - Commit and push, if no "show-stopping" bug exists.
 
@@ -178,20 +188,22 @@ When the PR is merged:
 - Open a new pull request for your pushed release candidate branch:
 
   - Add all developers as reviewers.
-  - Mention bugs (and status) discovered during preparation of the release candidate
-    in the description.
+  - Mention bugs (and status) discovered during preparation of the release
+    candidate in the description.
 
 - Fix review findings and push the changes again to update the pull request.
 
-- Finally check the Travis CI status of the pull request (everything must be green).
+- Finally check the Travis CI status of the pull request (everything must be
+  green).
 
-- Once all the PR reviewer approved the PR do a squash-merge (= all changes are "squashed" into one commit)
-  into the `dev` branch using a commit message like
-
-  `Release candidate for v1.4.1 (Oct. 1, 2023)`
+- Once all the PR reviewer approved the PR do a squash-merge into the `dev`
+  branch using a commit message like `Release candidate for v1.4.1 (Oct. 1,
+  2023)`.
 
 - Wait for the final Travis CI build on the `dev` branch and check
   if everything is OK to proceed with the release.
+
+### Create Release
 
 - Create the tarball archive files to be attached as "binaries" to the release:
   - Update the `dev` branch
@@ -199,24 +211,24 @@ When the PR is merged:
     git switch dev
     git pull upstream dev
     ```
-  - Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`:
-    The script will actually `git clone` the current branch
-    into a new folder `../backintime-$VERSION` and then make an tar archive file
-    using that new folder.
-    Cloning into a new folder ensures that there are no left-over files inside the tar archive.
-  - Test this tarball. Install it.
+  - Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with
+    `./make-tarball.sh`: The script will `git clone` the current branch into a
+    folder `../backintime-$VERSION` and then make a tar archive file from it.
+  - Test this tarball via installing it, e.g. on a virtual machine.
 
 - Create a new release in Github (`Releases` button under `code`):
-  - Tag in `dev` branch with version number, eg.: `v1.4.0`
-  - Release title eg.: Back In Time 1.4.0 (Sept. 14, 2023)
-  - Description: `# Changelog` + the relevant part of the CHANGES file
-  - Check `Set as the latest release`
-  - Attach binaries: Upload the generated tar archive (eg. `backintime-1.4.0.tar.gz`).
-    In releases < 1.4.0 also the public key of Germar was attached (`*.asc` file)
-    since it can be used to validate signed debian packages files (`backintime*.deb`).
-    Since we neither have the private key of Germar nor do publish any `deb`
-    packages via Ubuntu PPA anymore this is not required or helpful anymore.
+  - Tag in `dev` branch with version number, eg.: `v1.4.0` (don't forget the
+    prefix `v`)
+  - Release title eg.: _Back In Time 1.4.0 (Sept. 14, 2023)_
+  - Description: `# Changelog` + the relevant (not necessary all) parts of the
+    `CHANGES` file.
+  - Don't forget to mention and honer the exter contributors if there are any.
+  - Check `Set as the latest release`.
+  - Attach binaries: Upload the generated tar archive
+    (eg. `backintime-1.4.0.tar.gz`).
   - Click on the "Publish release" button
+
+### Prepare new development version
 
 - Start a new dev version by preparing a new PR
 
@@ -228,25 +240,21 @@ When the PR is merged:
 
 -  Increment the version number for the new dev version:
 
-  - Update the `VERSION` text file in the project's root folder:
-
+  - Update the `VERSION` text file in the project's root folder.
     Set the new version number by incrementing the last number
-    and appending `-dev` (eg. `1.4.1-dev`)
+    and appending `-dev` (eg. `1.4.1-dev`).
 
-  - Update the `CHANGES` text file in the project's root folder:
+  - Execute `./updateversion.sh` in the project's root folder
+    to automatically update the version number in files.
 
+  - Update the `CHANGES` text file in the project's root folder. 
     Add a new top-most line with the new version number, eg.:
-  
+
     `Version 1.4.1-dev (development of upcoming release)`
 
-  - Execute the script `./updateversion.sh` in the project's root folder
-    to automatically update the version number in  files
-  
   - Edit `.travis.yml` to reduce the build matrix again
-    (to save "build credits")
+    (to save "build credits"). e.g. re-enable the exclusion list:
 
-    Eg. re-enable the exclusion list:
-  
     ```
     jobs:
       exclude:
@@ -255,15 +263,15 @@ When the PR is merged:
     ```
 
 - Check the "Known Problems and Workarounds" section of the `README.md`
-  and make sure it is up-to-date
+  and make sure it is up-to-date.
 
-- Commit and push the changes and create a new pull request
-
-  Commit and PR message, eg.: `Start of new dev version v1.4.1-dev`
+- Commit and push the changes. Create a new pull request with commit and PR
+  message like `Start of new dev version v1.4.1-dev`.
 
 - Optional: Request PR approval
 
-- Squash-merge the PR into the `dev` branch
+- After approval or creative cool down squash-merge the PR into the `dev`
+  branch.
 
 - Send an email to all developers
   - to announce "end of code freeze"
@@ -273,19 +281,14 @@ When the PR is merged:
 - (Out of scope here): Update the Github milestones and the assigned issues
 
 
-
 ## Other noteworthy things
 
 ### "Read the docs" code documentation
 
-The "Read the docs" site is automatically updated with every commit on the `dev` branch. See [Issue #1533](https://github.com/bit-team/backintime/pull/1533#issuecomment-1720897669) and the [_backintime-dev_ project](https://readthedocs.org/projects/backintime-dev) at Read the docs.
+The "Read the docs" site is automatically updated with every commit on the
+`dev` branch. See
+[Issue #1533](https://github.com/bit-team/backintime/pull/1533#issuecomment-1720897669)
+and the
+[_backintime-dev_project](https://readthedocs.org/projects/backintime-dev)
+at Read The docs.
 
-
-### Building `deb` package files
-
-We do no longer maintain and publish `deb` package files.
-To build your own `deb` file see:
-
-https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md#build-own-deb-file
-
-<sub>November 2023</sub>
