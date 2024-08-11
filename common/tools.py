@@ -277,9 +277,10 @@ def set_lc_time_by_language_code(language_code: str):
     except locale.Error:
         logger.warning(
             f'Determined normalized locale code "{code}" (from language code '
-            f'"{code}" not available or invalid. The code will be ignored. '
-            'This might lead to unusual display of dates and timestamps, but '
-            'it does not affect the functionality of the application.')
+            f'"{language_code}") not available (or invalid). The code will be '
+            'ignored. This might lead to unusual display of dates and '
+            'timestamps, but it does not affect the functionality of the '
+            f'application. Used locale is "{locale.getlocale()}".')
 
 
 def get_available_language_codes():

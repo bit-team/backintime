@@ -237,8 +237,9 @@ class TestSshKey(generic.TestCaseCfg):
             # do not overwrite existing keys
             self.assertFalse(sshtools.sshKeyGen(secKey))
 
-    @unittest.skipIf(not tools.checkCommand('ssh-keygen'),
-                     "'ssh-keygen' not found.")
+    @unittest.skipIf(not tools.checkCommand('ssh-keygen')
+                     and not generic.ON_TRAVIS,  # enforce test on TravisCI
+                     "'ssh-keygen' not found." )
     def test_sshKeyFingerprint(self):
         self.assertIsNone(
             sshtools.sshKeyFingerprint(os.path.abspath(__file__)))
