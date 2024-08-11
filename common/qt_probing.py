@@ -101,6 +101,7 @@ try:
     #     os.seteuid(1000)
     #     logger.debug(f"New euid: {os.geteuid()}")
 
+    # pylint: disable-next=unused-import
     from PyQt6 import QtCore
     from PyQt6.QtWidgets import QApplication
 

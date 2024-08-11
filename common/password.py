@@ -18,9 +18,6 @@ import os
 import time
 import atexit
 import signal
-import subprocess
-import re
-import errno
 import config
 import configfile
 import tools

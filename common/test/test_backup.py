@@ -17,7 +17,6 @@
 
 import os
 import sys
-import unittest
 from unittest.mock import patch, ANY
 from datetime import datetime
 from test import generic

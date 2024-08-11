@@ -19,7 +19,6 @@ import os
 import sys
 import unittest
 import stat
-import re
 from datetime import date, datetime
 from test import generic
 from unittest.mock import patch
@@ -27,7 +26,6 @@ from unittest.mock import patch
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import configfile
 import snapshots
-import logger
 from snapshotlog import LogFilter, SnapshotLog
 
 class TestSID(generic.SnapshotsTestCase):

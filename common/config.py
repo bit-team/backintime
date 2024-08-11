@@ -32,7 +32,6 @@ import sys
 import datetime
 import socket
 import random
-import textwrap
 import getpass
 import shlex
 # Workaround: Mostly relevant on TravisCI but not exclusively.

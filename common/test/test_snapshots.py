@@ -28,7 +28,6 @@ import string
 import unittest
 from unittest.mock import patch
 from datetime import date, datetime
-from threading import Thread
 from tempfile import TemporaryDirectory
 from test import generic
 

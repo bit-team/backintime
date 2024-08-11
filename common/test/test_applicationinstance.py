@@ -18,7 +18,6 @@
 import subprocess
 import os
 import sys
-import unittest
 from unittest.mock import patch
 from threading import Thread
 from test import generic
