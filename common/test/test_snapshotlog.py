@@ -17,15 +17,12 @@
 
 import os
 import sys
-import unittest
 import re
 from test import generic
-from tempfile import TemporaryDirectory
 from datetime import datetime
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import snapshotlog
-import config
 import snapshots
 
 

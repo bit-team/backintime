@@ -18,7 +18,6 @@
 import subprocess
 import os
 import sys
-import unittest
 from unittest.mock import patch
 from threading import Thread
 from test import generic
@@ -210,7 +209,7 @@ class TestApplicationInstance(generic.TestCase):
         self.assertTrue(self.app_instance.check())
 
     def test_leftover_empty_lockfile(self):
-        with open(self.file_name, 'wt')as f:
+        with open(self.file_name, 'wt') as f:
             pass
         self.assertTrue(self.app_instance.check())
 

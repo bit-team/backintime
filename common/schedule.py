@@ -54,6 +54,13 @@ def read_crontab():
 
     content = proc.stdout.split('\n')
 
+    # Remove empty lines from the end
+    try:
+        while content[-1] == '':
+            content = content[:-1]
+    except IndexError:
+        pass
+
     # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
     if content == ['']:
         content = []
@@ -77,6 +84,10 @@ def write_crontab(lines):
 
     """
     content = '\n'.join(lines)
+
+    # Crontab needs to end with a newline
+    if not content.endswith('\n'):
+        content += '\n'
 
     # Pipe the content (via echo over stdout) to crontab's stdin
     with subprocess.Popen(['echo', content], stdout=subprocess.PIPE) as echo:
@@ -164,7 +175,7 @@ def is_cron_running():
 
     with subprocess.Popen(['ps', '-eo', 'comm'], stdout=subprocess.PIPE) as ps:
         try:
-            grep = subprocess.run(
+            subprocess.run(
                 ['grep', '--ignore-case', 'cron'],
                 stdin=ps.stdout,
                 stdout=subprocess.PIPE,

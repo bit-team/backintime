@@ -719,8 +719,12 @@ class SSH(MountControl):
         if not self.config.sshCheckPingHost(self.profile_id):
             return
 
-        ping_host = self.proxy_host or self.host
-        ping_port = self.proxy_port or self.port
+        if self.proxy_host:
+            ping_host = self.proxy_host
+            ping_port = self.proxy_port
+        else:
+            ping_host = self.host
+            ping_port = self.port
 
         logger.debug(f'Check ping host "{ping_host}:{ping_port}"', self)
         versionString = 'SSH-2.0-backintime_{}\r\n'.format(
@@ -754,6 +758,7 @@ class SSH(MountControl):
             msg = f'Ping {self.host}{proxy_msg} failed. ' \
                   'Host is down or wrong address.'
             logger.debug(msg, self)
+
             raise MountException(msg)
 
     def checkRemoteCommands(self, retry=False):
@@ -835,7 +840,7 @@ class SSH(MountControl):
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True)
-                out, err = proc.communicate()
+                err = proc.communicate()[1]
 
                 if err or proc.returncode:
                     logger.debug(f'rsync command returned error: {err}', self)
@@ -1052,7 +1057,7 @@ def sshKeyGen(keyfile):
                             stderr=subprocess.PIPE,
                             universal_newlines=True)
 
-    out, err = proc.communicate()
+    err = proc.communicate()[1]
 
     if proc.returncode:
         logger.error('Failed to create a new ssh-key: {}'.format(err))
@@ -1173,7 +1178,7 @@ def sshCopyId(
                                                    # backintime-askpass
                             universal_newlines=True)
 
-    out, err = proc.communicate()
+    err = proc.communicate()[1]
 
     if proc.returncode:
         logger.error('Failed to copy ssh-key "{}" to "{}@{}": [{}] {}'
