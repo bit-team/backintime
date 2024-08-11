@@ -18,7 +18,6 @@ import os
 import re
 import subprocess
 import sys
-import unittest
 from test import generic
 import json
 
