@@ -42,7 +42,7 @@ jobs:
 
 install:
   - pip install -U pip
-  - pip install pylint coveralls pyfakefs keyring
+  - pip install pylint pyfakefs keyring
   - pip install pyqt6 dbus-python
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
@@ -55,14 +55,11 @@ script:
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
   # run unit tests - ensure that functionality is correct
   - cd common
-  - ./configure  --python=python3
+  - ./configure
   - make unittest-v
   - cd ..
   - cd qt
-  - ./configure --python=python3
+  - ./configure
   - make
-  - pytest
+  - pytest --verbose
 
-after_success:
-  - coverage combine
-  - coveralls
