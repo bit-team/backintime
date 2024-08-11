@@ -8,8 +8,8 @@ Germar Reitze, Taylor Raack</sub><br />
 <sub>Copyright (C) 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
  
 _Back In Time_ is an easy-to-use tool to backup files and folders.
-It runs on GNU Linux (not on Windows or OS X/macOS) and provides a command line tool `backintime` and a
-GUI `backintime-qt` both written in Python3. It uses 
+It runs on GNU/Linux (not on Windows or OS X/macOS) and provides a command line
+tool `backintime` and a GUI `backintime-qt` both written in Python3. It uses 
 [`rsync`](https://rsync.samba.org/) to take manual or scheduled snapshots and
 stores them locally or remotely through SSH. Each snapshot is in its own folder
 with copies of the original files, but unchanged files are hard-linked between
@@ -34,11 +34,12 @@ those labeled as [good first issues](https://github.com/bit-team/backintime/labe
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 ## The team
-The current team started in summer of 2022 (with #1232) and constitutes the
-project's 3rd generation of maintainers. Consisting of three members with
-diverse backgrounds (@aryoda, @buhtz, @emtiu), the team benefits from the
-assistance of the former maintainer, @Germar, who contributes from behind the
-scenes.
+The current team started in summer of 2022
+(with [#1232](https://github.com/bit-team/backintime/issues/1232)) and
+constitutes the project's 3rd generation of maintainers. Consisting of three
+members with diverse backgrounds (@aryoda, @buhtz, @emtiu), the team benefits
+from the assistance of the former maintainer, @Germar, who contributes from
+behind the scenes.
 
 All team members are engaged in every aspect of the project, including code
 analysis, documentation, solving issues, and the implementation of new
