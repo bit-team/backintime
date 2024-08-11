@@ -107,6 +107,4 @@ def _debugHeader(parent, traceDepth):
 
     fclass = f'{parent.__class__.__name__}.' if parent else ''
 
-    pid = os.getpid()
-
-    return f'[{pid}:{fmodule}/{fname}:{line} {fclass}{func}]'
+    return f'[{fmodule}/{fname}:{line} {fclass}{func}]'
