@@ -2304,10 +2304,11 @@ class Snapshots:
             (tuple): Two item tuple of ``(OrderedSet('include1 options'),
                 OrderedSet('include2 options'))``.
         """
-        # Include items before the exclude items
-        before = []  # tools.OrderedSet()
-        # Include items after the exclude items
-        after = []  # tools.OrderedSet()
+        # Include items..
+        # ...before the exclude items and...
+        before = []
+        # ...after the exclude items
+        after = []
 
         # Except for EncFS profiles this does nothing
         encode = self.config.ENCODE
