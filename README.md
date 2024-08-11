@@ -8,7 +8,7 @@ Germar Reitze, Taylor Raack</sub><br />
 <sub>Copyright (C) 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
  
 _Back In Time_ is an easy-to-use tool to backup files and folders.
-It runs on GNU Linux (not on Windows or OS X/macOS) and provides a command line
+It runs on GNU/Linux (not on Windows or OS X/macOS) and provides a command line
 tool `backintime` and a GUI `backintime-qt` both written in Python3. It uses 
 [`rsync`](https://rsync.samba.org/) to take manual or scheduled snapshots and
 stores them locally or remotely through SSH. Each snapshot is in its own folder
