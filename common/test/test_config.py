@@ -20,13 +20,10 @@ import os
 import stat
 import sys
 import getpass
-import unittest
 from unittest import mock
 from test import generic
 from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import config
-
 
 class TestConfig(generic.TestCaseCfg):
     def test_set_snapshots_path_test_writes(self):

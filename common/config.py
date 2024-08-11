@@ -32,7 +32,6 @@ import sys
 import datetime
 import socket
 import random
-import textwrap
 import getpass
 import shlex
 # Workaround: Mostly relevant on TravisCI but not exclusively.
@@ -1603,7 +1602,7 @@ class Config(configfile.ConfigFileWithProfiles):
                                  - datetime.timedelta(weeks = value - 1)
         elif unit <= self.MONTH:
             firstDay = now.date() - datetime.timedelta(days = now.date().day + 1)
-            for i in range(value - 1):
+            for _idx in range(value - 1):
                 if firstDay.month == 1:
                     firstDay = firstDay.replace(month = 12, year = firstDay.year - 1)
                 else:

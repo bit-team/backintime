@@ -23,7 +23,6 @@ import pathlib
 import gzip
 import stat
 import signal
-import unittest
 from unittest.mock import patch
 from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
@@ -784,36 +783,6 @@ class TestToolsExecuteSubprocess(generic.TestCase):
     def test_pausable(self):
         proc = tools.Execute(['true'])
         self.assertTrue(proc.pausable)
-
-
-class TestToolsExecuteOsSystem(generic.TestCase):
-    # old method with os.system
-    def test_returncode(self):
-        self.assertEqual(tools.Execute('true').run(), 0)
-        self.assertEqual(tools.Execute('false').run(), 256)
-
-    def test_callback(self):
-        c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
-        tools.Execute('echo foo', callback=c).run()
-        self.assertTrue(self.run)
-        self.run = False
-
-        # give extra user_data for callback
-        c = lambda x, y: self.callback(self.assertEqual, x, y)
-        tools.Execute('echo foo', callback=c, user_data='foo').run()
-        self.assertTrue(self.run)
-        self.run = False
-
-        # no output
-        c = lambda x, y: self.callback(self.fail,
-                                       'callback was called unexpectedly')
-        tools.Execute('true', callback=c).run()
-        self.assertFalse(self.run)
-        self.run = False
-
-    def test_pausable(self):
-        proc = tools.Execute('true')
-        self.assertFalse(proc.pausable)
 
 
 class Tools_FakeFS(pyfakefs_ut.TestCase):

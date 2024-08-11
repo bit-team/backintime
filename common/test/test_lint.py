@@ -89,30 +89,30 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
-            'W0311',  # bad-indentation
             'I0021',  # useless-suppression
-            # 'W0611',  # unused-import
+            'W0123',  # eval-used
+            'W0237',  # arguments-renamed
+            'W0311',  # bad-indentation
+            'W0404',  # reimported
+            'W0611',  # unused-import
+            # 'W0612',  # unused-variable
+            'W0614',  # unused-wildcard-import
+            'W0707',  # raise-missing-from
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement
+            'W4902',  # deprecated-method
+            'W4904',  # deprecated-class
             'R0201',  # no-self-use
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
-            'W0404',  # reimported
-            'W4902',  # deprecated-method
-            'W4904',  # deprecated-class
-            'W0614',  # unused-wildcard-import
-            'W0123',  # eval-used
-            'W0707',  # raise-missing-from
 
             # Enable asap. This list is a selection of existing (not all!)
             # problems currently existing in the BIT code base. Quite easy to fix
             # because their count is low.
             # 'R0801',  # duplicate-code
-            # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
             # 'W0603',  # global-statement
-            # 'W0612',  # unused-variable
         ]
 
         cmd.append('--enable=' + ','.join(err_codes))
