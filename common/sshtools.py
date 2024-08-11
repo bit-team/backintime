@@ -840,7 +840,7 @@ class SSH(MountControl):
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines=True)
-                out, err = proc.communicate()
+                err = proc.communicate()[1]
 
                 if err or proc.returncode:
                     logger.debug(f'rsync command returned error: {err}', self)
@@ -1057,7 +1057,7 @@ def sshKeyGen(keyfile):
                             stderr=subprocess.PIPE,
                             universal_newlines=True)
 
-    out, err = proc.communicate()
+    err = proc.communicate()[1]
 
     if proc.returncode:
         logger.error('Failed to create a new ssh-key: {}'.format(err))
@@ -1178,7 +1178,7 @@ def sshCopyId(
                                                    # backintime-askpass
                             universal_newlines=True)
 
-    out, err = proc.communicate()
+    err = proc.communicate()[1]
 
     if proc.returncode:
         logger.error('Failed to copy ssh-key "{}" to "{}@{}": [{}] {}'

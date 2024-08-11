@@ -89,10 +89,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'I0021',  # useless-suppression
             'W0311',  # bad-indentation
             'W0611',  # unused-import
-            'I0021',  # useless-suppression
-            # 'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement

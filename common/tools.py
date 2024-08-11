@@ -28,7 +28,6 @@ import errno
 import gzip
 import locale
 import gettext
-from collections.abc import MutableSet
 import hashlib
 import ipaddress
 import atexit
@@ -2704,7 +2703,7 @@ class Daemon:
             return
 
         # Get the pid from the pidfile
-        pid, procname = self.appInstance.readPidFile()
+        pid = self.appInstance.readPidFile()[0]
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -2740,7 +2739,7 @@ class Daemon:
             return
 
         # Get the pid from the pidfile
-        pid, procname = self.appInstance.readPidFile()
+        pid = self.appInstance.readPidFile()[0]
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
