@@ -177,7 +177,6 @@ class SystemTest(unittest.TestCase):
         callback_responses = []
 
         for line in response_lines:
-            to_eval = line[line.index("'")+1:line.rindex("'")]
 
             callback_responses.append(
                 literal_eval(line[line.index("'")+1:line.rindex("'")])
