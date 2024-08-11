@@ -65,10 +65,13 @@ request is accepted.
 
 - Follow [PEP 8](https://peps.python.org/pep-0008/) as a minimal Style Guide
   for Python Code.
+- Prefer _single quotes_ (e.g. `'Hello World'`) over _double qutoes_
+  (e.g. `"Hello World"`). Exceptions are when single quotes contained in the
+  string (e.g. `"Can't unmount"`).
 - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
   (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
-- Be careful when using automatic formatters like `black` and please mention
-  the use of it when opening a pull request.
+- Avoid the use of automatic formatters like `black` but mention the use of
+  them when opening a pull request.
 - Run unit tests before you open a Pull Request. You can run them via
   `make`-system with `cd common && ./configure && make && make test` or using a
   regular unittest runner of your choice (e.g. `pytest`). See section
@@ -101,12 +104,12 @@ first.
 The following dependencies are based on Ubuntu. Please [open an
 Issue](https://github.com/bit-team/backintime/issues/new/choose) if something
 is missing. If you use another GNU/Linux distribution, please install the
-corresponding packages. Be aware that some of the named packages can be
-replaced with PyPi packages.
+corresponding packages. Even if some packages are available from PyPi stick to
+the packages provided by the official repository of your GNU/Linux distribution.
 
 * Runtime dependencies for the CLI
 
-  - `python3` (>= 3.8)
+  - `python3` (>= 3.9)
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
@@ -120,8 +123,8 @@ replaced with PyPi packages.
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt6`
-  - `python3-dbus.mainloop.pyqt6`
+  - `python3-pyqt6` (not from _PyPi_ via `pip`)
+  - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
   - `libnotify-bin`
   - `policykit-1`
   - `qttranslations6-l10n`
@@ -150,6 +153,9 @@ replaced with PyPi packages.
 
 ## Build and install via `make` system (recommended)
 
+> [!IMPORTANT]
+> Install [Dependencies](#dependencies) before you build and install.
+
 Remember that _Back In Time_ does consist of two packages, which must be built
 and installed separately accordingly.
 
@@ -168,18 +174,12 @@ and installed separately accordingly.
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
 
-## Build own `deb` file
-
-1. Run `./makedeb.sh` in the repositories root directory.
-2. Two `deb` files are built and places in the repositories parent directory.
-3. Install the packages
-  - `sudo dpkg -i ../backintime-common-<version>.deb`
-  - `sudo dpkg -i ../backintime-qt-<version>.deb`
-
 # Testing
 > [!IMPORTANT]
 > Remember to **manually** test _Back In Time_ and not rely solely on
-> the automatic test suite.
+> the automatic test suite. See section
+> [Manual testing](common/doc-dev/BiT_release_process.md#manual-testing---recommendations)
+> about recommendations how to perform such tests.
 
 After [building and installing](#build--install), `make` can be used to run the
 test suite. Since _Back In Time_ consists of two components, `common` and `qt`,

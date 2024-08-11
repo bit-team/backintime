@@ -25,8 +25,6 @@ from tempfile import TemporaryDirectory
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import config
-import snapshots
 import mount
 
 CURRENTUID = os.geteuid()

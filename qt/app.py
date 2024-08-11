@@ -823,8 +823,6 @@ class MainWindow(QMainWindow):
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
-        self.qapp.removeEventFilter(self.mouseButtonEventFilter)
-
         self.config.setStrValue('qt.last_path', self.path)
         self.config.setProfileStrValue('qt.last_path', self.path)
 
@@ -897,6 +895,15 @@ class MainWindow(QMainWindow):
         self.updateTimeLine()
         self.updatePlaces()
         self.updateFilesView(0)
+
+        # EncFS deprecation warning (see #1734)
+        current_mode = self.config.snapshotsMode(self.config.currentProfile())
+        if current_mode in ('local_encfs', 'ssh_encfs'):
+            # Show the profile specific warning dialog only once per profile.
+            if self.config.profileBoolValue('msg_shown_encfs') is False:
+                self.config.setProfileBoolValue('msg_shown_encfs', True)
+                dlg = encfsmsgbox.EncfsCreateWarning(self)
+                dlg.exec()
 
     def comboProfileChanged(self, index):
         if self.disableProfileChanged:
@@ -2070,6 +2077,8 @@ if __name__ == '__main__':
         cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
         qapp.exec()
+
+    mainWindow.qapp.removeEventFilter(mainWindow.mouseButtonEventFilter)
 
     cfg.PLUGIN_MANAGER.appExit()
     appInstance.exitApplication()

@@ -111,7 +111,7 @@ onTravis () {
     [ "${TRAVIS}" = "true" ]
 }
 
-#get commandline arguments
+# Get commandline arguments
 unknown_args=""
 for arg in $*; do
     case $arg in
@@ -133,6 +133,7 @@ if [ -n "$unknown_args" ]; then
     echo "Unknown Arguments: $unknown_args"
 fi
 
+# Check if the python binary file exists
 if [ ! -f "$PYTHON" ]; then
     echo "Warning: \"${PYTHON}\" not found on this computer"
 fi
@@ -168,8 +169,6 @@ printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n" >> ${MAKEFILE}
 printf "\trm -f config-example-*.gz\n" >> ${MAKEFILE}
 printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
-printf "\trm -f .coverage\n" >> ${MAKEFILE}
-printf "\trm -rf htmlcov\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
 # Create install and uninstall target
@@ -194,10 +193,10 @@ addNewline
 
 addComment "documentation"
 addInstallDir                        "/share/doc/backintime-common"
-addInstallFile "../debian/copyright" "/share/doc/backintime-common"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../LICENSE"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
+addInstallFile "../FAQ.md"           "/share/doc/backintime-common"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-common"
 addInstallFile "../CHANGES"          "/share/doc/backintime-common"
 addNewline
@@ -238,7 +237,7 @@ addSymlink      "backintime"        "/share/bash-completion/completions/backinti
 addUninstallDir                     "/share/bash-completion"
 addNewline
 
-#compress
+# compress
 printf "compress:\n" >> ${MAKEFILE}
 printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
@@ -247,7 +246,7 @@ printf "\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> ${MAKEFILE}
 
-#translate
+# translate
 printf "translate:\t$mos\n\n" >> ${MAKEFILE}
 
 for lang in $langs; do
@@ -255,7 +254,7 @@ for lang in $langs; do
     printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> ${MAKEFILE}
 done
 
-#common langs
+# common langs
 printf "install_translations:\n" >> ${MAKEFILE}
 addComment "translations"
 for lang in $langs; do
@@ -267,7 +266,7 @@ addUninstallDir "/share/locale"
 addUninstallDir "/share"
 addNewline
 
-#uninstall
+# uninstall
 printf "uninstall:\tuninstall_files uninstall_dirs\n\n" >> ${MAKEFILE}
 printf "uninstall_files:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_FILES} >> ${MAKEFILE}
@@ -275,60 +274,40 @@ cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
-#test
+# test
 for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
     PYTEST=$(which $i 2>/dev/null)
     if [ -n "${PYTEST}" ]; then
         break
     fi
 done
-COVERAGE=$(which coverage 2>/dev/null)
-# Use "coverage run" only on travis-ci.org and if it is available
-# this will pass information to coveralls.io.
-# Otherwise use "python", "python3" or if available "py.test-3"
-if onTravis && [ -n "${COVERAGE}" ]; then
-    CMD="coverage run -p"
-else
-    CMD="${PYTHON}"
-fi
+
+# Use "python", "python3" or if available "py.test-3"
+CMD="${PYTHON}"
 
 printf "test:\tunittest\n\n" >> ${MAKEFILE}
 printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
-    #provide unittests with and without verbosity -v
+    # Provide unittests with and without verbosity -v
     printf "unittest${v}:\n" >> ${MAKEFILE}
-    if onTravis || [ -z "${PYTEST}" ]; then
-        #if running on travis-ci.org or if py.test-3 is not available
-        #call every test/test_*.py with $CMD from above
+
+    # Use pytest if available
+    if [ -n "${PYTEST}" ]; then
+        printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
+    # Fallback to unittest module
+    else
         for i in $(ls -1 test/test_*.py); do
             printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
         done
-    else
-        #else just call py.test-3 which will find test/test_*.py by itself
-        #py.test-3 has a nicer output so this is preferred over simple python3
-        printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
     fi
     printf "\n" >> ${MAKEFILE}
 done
 
-# For details about the "coverage" package args see:
-# https://coverage.readthedocs.io/en/stable/cmd.html
-printf "coverage:\n" >> ${MAKEFILE}
-printf "\tpython3 -m coverage run --source=.,./plugins,../qt,../qt/plugins --omit */test/* -m unittest -b\n" >> ${MAKEFILE}
-printf "\tpython3 -m coverage report\n" >> ${MAKEFILE}
-printf "\t# To show an interactive HTML coverage report use:\n" >> ${MAKEFILE}
-printf "\t# python3 -m coverage html\n" >> ${MAKEFILE}
-printf "\t# firefox htmlcov/index.html\n" >> ${MAKEFILE}
-printf "\n" >> ${MAKEFILE}
-
-printf "integrationtest:\n" >> ${MAKEFILE}
-printf "\ttest/test.sh\n" >> ${MAKEFILE}
-
-#copy Makefile
+# Copy Makefile
 mv ${MAKEFILE} Makefile
 chmod 644 Makefile
 
-#clean up
+# Clean up
 for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
     if [ -e "$i" ]; then
         rm "$i"
@@ -336,7 +315,7 @@ for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
 done
 
 # check python version
-PYTHON_VERSION_REQUIRED="3.8"
+PYTHON_VERSION_REQUIRED="3.9"
 PYTHON_VERSION_CURRENT=$(${PYTHON} --version | tr --delete 'Python ')
 
 # Credits: https://unix.stackexchange.com/a/285928/136851

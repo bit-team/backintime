@@ -12,7 +12,7 @@ PYLINT_REASON = ('Using PyLint is mandatory on TravisCI, on other systems'
 
 
 class MirrorMirrorOnTheWall(unittest.TestCase):
-    """Check all py-files in the package (incl. test files) for lints and
+    """Check all py-files in the package (incl. test files) for lints,
     potential bugs and if they are compliant to the coding styles (e.g. PEP8).
     """
 
@@ -30,7 +30,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         if not path.name.startswith('test'):
             raise RuntimeError('Something went wrong. The test should run '
-                               'inside the test folder but current folder '
+                               'inside the test folder but the current folder '
                                f'is {path}.')
 
         # Workaround
@@ -45,7 +45,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         Some facts about PyLint
          - It is one of the slowest available linters.
-         - It is able to catch lints none of the other linters
+         - It is able to catch lints other linters miss.
         """
 
         # Pylint base command
@@ -91,33 +91,33 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1101',  # no-member
             'W0311',  # bad-indentation
             'I0021',  # useless-suppression
-            # 'W0611',  # unused-import
+            'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement
+            'R0201',  # no-self-use
+            'R0202',  # no-classmethod-decorator
+            'R0203',  # no-staticmethod-decorator
+            'W0404',  # reimported
+            'W4902',  # deprecated-method
+            'W4904',  # deprecated-class
+            'W0614',  # unused-wildcard-import
+            'W0237',  # arguments-renamed
+            'W0123',  # eval-used
+            'W0707',  # raise-missing-from
 
-            # Enable asap. This list is selection of existing (not all!)
-            # problems currently exiting in the BIT code base. Quit easy to fix
-            # because there count is low.
-            # 'R0201',  # no-self-use
-            # 'R0202',  # no-classmethod-decorator
-            # 'R0203',  # no-staticmethod-decorator
+            # Enable asap. This list is a selection of existing (not all!)
+            # problems currently existing in the BIT code base. Quite easy to fix
+            # because their count is low.
             # 'R0801',  # duplicate-code
-            # 'W0123',  # eval-used
-            # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
-            # 'W0404',  # reimported
-            # 'W4902',  # deprecated-method
-            # 'W4904',  # deprecated-class
             # 'W0603',  # global-statement
-            # 'W0614',  # unused-wildcard-import
             # 'W0612',  # unused-variable
-            # 'W0707',  # raise-missing-from
         ]
 
         cmd.append('--enable=' + ','.join(err_codes))
 
-        # Add py files
+        # Add py-files
         cmd.extend(self._collect_py_files())
 
         r = subprocess.run(

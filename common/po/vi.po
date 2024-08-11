@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-04-29 07:18+0000\n"
-"Last-Translator: thanh7921 <tranphuocthanh01@gmail.com>\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-08-05 20:13+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.4.3\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
 msgid "Warning"
@@ -27,14 +27,12 @@ msgid "Main profile"
 msgstr "Hồ sơ chính"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "được mã hóa"
+msgstr "Cục bộ (được mã hóa bằng EncFS)"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "Đã mã hóa SSH"
+msgstr "SSH (được mã hóa EncFS)"
 
 #: common/config.py:309
 msgid "Local"
@@ -42,16 +40,15 @@ msgstr "Cục bộ"
 
 #: common/config.py:311
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
 msgid "SSH private key"
 msgstr "Khóa SSH riêng"
 
 #: common/config.py:314
-#, fuzzy
 msgid "Local encrypted"
-msgstr "được mã hóa"
+msgstr "Mã hóa cục bộ"
 
 #: common/config.py:315 common/config.py:322
 msgid "Encryption"
@@ -135,12 +132,12 @@ msgid "Expert Options"
 msgstr "Tùy chọn dành cho chuyên gia"
 
 #: common/config.py:501
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Hệ thống tập tin đích cho {path} là một phần gắn kết sshfs. sshfs không hỗ "
+"Hệ thống tập tin đích cho {path} là một phần gắn kết sshfs. Sshfs không hỗ "
 "trợ liên kết cứng. Vui lòng sử dụng chế độ 'SSH'."
 
 #: common/config.py:1658
@@ -154,6 +151,10 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Cron không hoạt động mặc dù lệnh crontab có sẵn. Các công việc sao lưu đã "
+"lên lịch sẽ không chạy. Có thể cron đã được cài đặt nhưng chưa được kích "
+"hoạt. Hãy thử lệnh \"systemctl enable cron\" hoặc tham khảo các kênh hỗ trợ "
+"của bản phân phối GNU Linux của bạn."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -209,15 +210,14 @@ msgid "Cancel"
 msgstr "Hủy"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Vui lòng xác nhận mật khẩu"
+msgstr "Vui lòng xác nhận mật khẩu."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Mật khẩu không trùng khớp."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Chụp snapshot"
 
@@ -227,19 +227,21 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "Không thể unmount {mountprocess} từ {mountpoint}."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "Không tìm thấy {}. Xin hãy cài {}"
+msgstr ""
+"Không tìm thấy {command}. Xin hãy cài đặt (ví dụ: thông qua "
+"{installcommand})"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Vị trí mount {} không trống."
+msgstr "Vị trí mount {mntpoint} không trống."
 
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Nhập mật khẩu cho hồ sơ {mode} \"{profile}\":"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -258,7 +260,7 @@ msgstr "Xong"
 msgid "Deferring backup while on battery"
 msgstr "Trì hoãn sao lưu khi đang sử dụng pin"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -266,106 +268,106 @@ msgstr ""
 "Không thể tìm thấy thư mục snapshot.\n"
 "Nếu nó nằm trong ổ cứng có thể tháo rời thì vui lòng cắm vào máy."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Đang chờ %s giây."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Chụp snapshot {snapshot_id} thất bại."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Đang hoàn thiện"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Không tạo được thư mục"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Đang lưu tập tin cấu hình…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Đang lưu quyền hạn…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Tìm thấy {snapshot_id} đang dang dở và có thể tiếp tục."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Đang xóa thư mục {snapshot_id} dang dở từ lần chạy trước"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Không thể xóa thư mục"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Đang chụp snapshot"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Thành công"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Truyền một phần do lỗi"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Truyền một phần do file nguồn biến mất (xem 'man rsync')"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' kết thúc với mã kết thúc {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Xem 'man rsync' để biết nhiều chi tiết hơn"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 #, fuzzy
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "Mã kết thúc rsync âm là số chỉ thị, xem 'kill -l' và 'man kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Không có gì thay đổi, không cần snapshot mới"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Không thể đổi tên {new_path} thành {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Xóa thông minh"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Đang xóa các snapshot cũ"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Đang cố gắng giữ dung lượng trống tối thiểu"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Đang cố gắng giữ tổi thiểu {perc} inode trống"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Vừa mới đây"
 
@@ -478,12 +480,13 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"Có vẻ như {app_name} đang chạy lần đầu tiên vì không tìm thấy cấu hình nào."
 
 #: qt/app.py:348
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
-msgstr ""
+msgstr "Nhập cấu hình hiện có (từ thư mục sao lưu hoặc từ máy tính khác)?"
 
 #: qt/app.py:375
 #, fuzzy
@@ -599,15 +602,15 @@ msgstr "Phiên dịch"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Hiển thị lại thông báo về việc tham gia dịch thuật."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Chuyển đổi mã hóa (EncFS)"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Hiển thị lại thông báo về việc gỡ bỏ EncFS."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -670,18 +673,16 @@ msgid "&Help"
 msgstr "T&rợ giúp"
 
 #: qt/app.py:818
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Nếu bạn đóng cửa sổ này, Back In Time sẽ không thể tắt máy của bạn khi quá trình chụp snapshot hoàn tất.\n"
-"Bạn có thật sự muốn đóng cửa sổ?"
+"Nếu bạn đóng cửa sổ này, Back In Time sẽ không thể tắt máy của bạn khi quá "
+"trình chụp snapshot hoàn tất."
 
 #: qt/app.py:821
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Bạn có thật sự muốn khôi phục các phần tử này?"
+msgstr "Bạn có thật sự muốn đóng nó ?"
 
 #: qt/app.py:987
 msgid "Working:"
@@ -752,8 +753,9 @@ msgid ""
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
-"Những phiên bản mới hơn của các tập tin sẽ được đổi tên với {suffix} ở cuối tên trước khi khôi phục.\n"
-"Nếu bạn không cần chúng nữa, bạn có thể xóa chúng với {cmd}"
+"Những phiên bản mới hơn của các tập tin sẽ được đổi tên với {suffix} ở cuối "
+"tên trước khi khôi phục. Nếu bạn không cần chúng nữa, bạn có thể xóa chúng "
+"với {command}:"
 
 #: qt/app.py:1432
 msgid ""
@@ -846,6 +848,8 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"Hỗ trợ cho EncFS sẽ ngừng trong tương lai gần. Không khuyến khích sử dụng "
+"chế độ đó cho hồ sơ nữa."
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -854,20 +858,25 @@ msgid ""
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
 msgstr ""
+"Quyết định về việc thay thế để tiếp tục hỗ trợ sao lưu mã hóa vẫn đang chờ "
+"xử lý, phụ thuộc vào tài nguyên dự án và sự sẵn có của người đóng góp. Thêm "
+"thông tin chi tiết có sẵn ở {whitepaper} ."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "sách trắng"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"Hỗ trợ cho các hồ sơ snapshot được mã hóa đang trải qua các thay đổi đáng "
+"kể, và EncFS sẽ được gỡ bỏ trong tương lai gần."
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Các hồ sơ cá nhân sau đây sử dụng mã hóa với EncFS:"
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -940,9 +949,8 @@ msgstr "Xem nhật ký snapshot"
 
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
 #: qt/settingsdialog.py:2627
-#, fuzzy
 msgid "Profile:"
-msgstr "Hồ sơ"
+msgstr "Hồ sơ:"
 
 #: qt/logviewdialog.py:84
 #, fuzzy
@@ -991,9 +999,9 @@ msgid "Question"
 msgstr "Thắc mắc"
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Hồ sơ: “{name}”"
+msgstr "Hồ sơ: “{profile_name}”"
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1009,14 +1017,12 @@ msgid "Working…"
 msgstr "Đang chạy…"
 
 #: qt/qtsystrayicon.py:205
-#, fuzzy
 msgid "Sent:"
-msgstr "Đã gửi"
+msgstr "Đã gửi:"
 
 #: qt/qtsystrayicon.py:206
-#, fuzzy
 msgid "Speed:"
-msgstr "Tốc độ"
+msgstr "Tốc độ:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
@@ -1062,19 +1068,16 @@ msgid "SSH Proxy"
 msgstr ""
 
 #: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-#, fuzzy
 msgid "Host:"
-msgstr "Máy chủ"
+msgstr "Máy chủ:"
 
 #: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-#, fuzzy
 msgid "Port:"
-msgstr "Cổng"
+msgstr "Cổng:"
 
 #: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-#, fuzzy
 msgid "User:"
-msgstr "Người dùng"
+msgstr "Người dùng:"
 
 #: qt/settingsdialog.py:120
 msgid ""
@@ -1104,9 +1107,8 @@ msgid "&General"
 msgstr "&Tổng quan"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Chế độ"
+msgstr "Chế độ:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1121,19 +1123,16 @@ msgid "SSH Settings"
 msgstr "Cài đặt SSH"
 
 #: qt/settingsdialog.py:290
-#, fuzzy
 msgid "Path:"
-msgstr "Đường dẫn"
+msgstr "Đường dẫn:"
 
 #: qt/settingsdialog.py:296
-#, fuzzy
 msgid "Cipher:"
-msgstr "Thuật toán mã hóa"
+msgstr "Thuật toán mã hóa:"
 
 #: qt/settingsdialog.py:302
-#, fuzzy
 msgid "Private Key:"
-msgstr "Khóa riêng"
+msgstr "Khóa riêng:"
 
 #: qt/settingsdialog.py:312
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
@@ -1167,9 +1166,8 @@ msgid "Advanced"
 msgstr "Nâng cao"
 
 #: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-#, fuzzy
 msgid "Full snapshot path:"
-msgstr "Đường dẫn đầy đủ của snapshot: "
+msgstr "Đường dẫn đầy đủ của snapshot:"
 
 #: qt/settingsdialog.py:427
 msgid "Schedule"
@@ -1235,19 +1233,16 @@ msgid "Day:"
 msgstr ""
 
 #: qt/settingsdialog.py:479
-#, fuzzy
 msgid "Weekday:"
-msgstr "ngày thường"
+msgstr "ngày thường:"
 
 #: qt/settingsdialog.py:495
-#, fuzzy
 msgid "Hour:"
-msgstr "giờ"
+msgstr "giờ:"
 
 #: qt/settingsdialog.py:510
-#, fuzzy
 msgid "Hours:"
-msgstr "giờ"
+msgstr "giờ:"
 
 #: qt/settingsdialog.py:521
 msgid ""
@@ -1258,9 +1253,8 @@ msgstr ""
 " mở thường xuyên."
 
 #: qt/settingsdialog.py:528
-#, fuzzy
 msgid "Every:"
-msgstr "Mỗi"
+msgstr "Mỗi:"
 
 #: qt/settingsdialog.py:542
 msgid "Hour(s)"
@@ -1338,9 +1332,8 @@ msgid "Add default"
 msgstr "Thêm mặc định"
 
 #: qt/settingsdialog.py:694
-#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Loại trừ các tập tin có kích thước lớn hơn : "
+msgstr "Loại trừ các tập tin có kích thước lớn hơn :"
 
 #: qt/settingsdialog.py:698
 #, fuzzy, python-brace-format

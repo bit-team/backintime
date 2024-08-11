@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-06-07 06:59+0000\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-11 12:12+0000\n"
 "Last-Translator: ktzhao <ktzhao@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -28,14 +28,12 @@ msgid "Main profile"
 msgstr "主要配置"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "本地加密的"
+msgstr "本地（EncFS加密）"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH 加密"
+msgstr "SSH（EncFS加密）"
 
 #: common/config.py:309
 msgid "Local"
@@ -124,7 +122,7 @@ msgstr ""
 
 #: common/config.py:496 qt/settingsdialog.py:1127
 msgid "Copy links (dereference symbolic links)"
-msgstr "复制链接(废除符号链接)"
+msgstr "复制链接（取消引用符号链接）"
 
 #: common/config.py:497
 msgid "Expert Options"
@@ -148,6 +146,8 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"crontab 指令可用但 cron 未在运行，因此无法执行定时备份。cron 可能已安装但未启用，请尝试指令\"systemctl enable "
+"cron\"或向您 GNU Linux 发行版的支持频道求助。"
 
 #: common/config.py:1746
 #, python-brace-format
@@ -208,7 +208,7 @@ msgstr "请确认密码。"
 msgid "Password doesn't match."
 msgstr "密码不一致。"
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "创建快照"
 
@@ -218,9 +218,9 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "无法从 {mountpoint} 卸载 {mountprocess}。"
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{command} 未找到。 请安装（例如 {installcommand}）"
+msgstr "请安装未找到的 {command} ，安装指令如 {installcommand}。"
 
 #: common/mount.py:720
 #, python-brace-format
@@ -249,7 +249,7 @@ msgstr "已完成"
 msgid "Deferring backup while on battery"
 msgstr "依靠电池供电时，延后备份"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -257,104 +257,104 @@ msgstr ""
 "未能找到快照文件夹。\n"
 "如果快照位于外置存储器，请先将存储器接入。"
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "等待 %s 秒。"
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "创建快照 {snapshot_id} 失败。"
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "正在完成"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "无法创建文件夹"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "保存配置文件 …"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "保存权限 …"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "找到剩余的{snapshot_id}，可以继续。"
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "正在删除上次运行中剩余的 {snapshot_id} 文件夹"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "无法删除文件夹"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "创建快照"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "成功"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "由于错误仅部分转移"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "由于源文件消失导致仅部分传输（请参阅“man rsync”）"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "“rsync”以退出代码 {exit_code} 结束"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "请查看“man rsync”以了解更多细节"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "负的 rsync 退出代码是信号编号，请参阅“kill -l”和“man Kill”"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "没有改动内容，无需创建新快照"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "无法将{new_path}重命名为{path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "智能移除"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "移除旧的快照"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "尝试保留最小可用空间"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "现在"
 
@@ -582,15 +582,15 @@ msgstr "翻译"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "再次显示翻译参与者的相关信息。"
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "加密改动（EncFS）"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "再次显示关于移除EncFS加密的信息。"
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -722,12 +722,12 @@ msgstr ""
 "的备份副本。"
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
-msgstr "在恢复之前，较新版本的文件将使用后缀 {suffix} 进行重命名。如果您不再需要它们，可以使用 {cmd} 删除它们"
+msgstr "在恢复之前，较新版本的文件将使用后缀 {suffix} 进行重命名。如果您不再需要它们，以下的指令删除他们："
 
 #: qt/app.py:1432
 msgid ""
@@ -807,7 +807,7 @@ msgstr "语言设置仅在重新启动 Back In Time 后生效。"
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
-msgstr ""
+msgstr "我们将在不久的将来停止支持 EncFS，因此不建议您继续使用该模式。"
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -815,21 +815,21 @@ msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
-msgstr ""
+msgstr "目前仍未决定是否继续支持加密备份，这取决于项目资源和贡献者的可用性。更多详细信息请参阅本{whitepaper}。"
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "白皮书"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
-msgstr ""
+msgstr "我们正在重构加密快照。EncFS将在未来被移除。"
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "以下配置将使用 EncFS 进行加密："
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -839,17 +839,17 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"我们还在商讨如何取代当前的加密备份方案，具体实现取决于项目资源和贡献者数量，欢迎广大用户踊跃参与讨论。更新详情详见{whitepaper}。"
 
 #: qt/encfsmsgbox.py:85
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
-msgstr ""
+msgstr "该消息仅会显示这一次。您可以在帮助菜单随时回顾这个对话框。"
 
 #: qt/encfsmsgbox.py:87
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Back In &Time"
+msgstr "Back In Time团队"
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
@@ -1088,11 +1088,10 @@ msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "选择一个已存在的私钥文件（通常名为 \"id_rsa\"）"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
-msgstr "创建一个新的无密码 SSH 密钥（如果已选择私钥文件则不允许）"
+msgstr "创建一个新的没有密码的 SSH 密钥（如果已经选择了私钥文件则不允许）。"
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1517,13 +1516,13 @@ msgid "Prefix to run before every command on remote host."
 msgstr "在远程主机上每个命令之前运行的前缀。"
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"在远程主机上的每个命令之前的前缀。变量需要使用 \\$FOO 进行转义。这不涉及 rsync。 所以要为 "
-"rsync添加前缀请使用{example_value}和{rsync_options_value}"
+"变量需要使用 \\$FOO 进行转义。因为这不涉及 rsync，所以要为 rsync "
+"添加前缀请使用{example_value}和{rsync_options_value}。"
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1565,6 +1564,7 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"我们将在不久的将来停止支持 EncFS。具体的加密备份替代方案还在商讨中，结果取决于项目资源和贡献者数量。详情请参考{whitepaper}。"
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
@@ -1666,9 +1666,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "确定要改变快照文件夹吗？"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "在 {path} 创建 SSH 密钥失败"
+msgstr "在 {path} 创建 SSH 密钥失败。"
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1749,9 +1749,8 @@ msgid "Differing snapshots only"
 msgstr "仅不同快照"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "仅列出与以下内容相同的快照： "
+msgstr "仅列出与以下内容相同的快照："
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

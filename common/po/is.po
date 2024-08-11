@@ -2,17 +2,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Icelandic (Back In Time)\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-03 07:20+0000\n"
-"Last-Translator: sveinki <sveinki@users.noreply.translate.codeberg.org>\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-08-05 09:28+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
 msgid "Warning"
@@ -210,7 +210,7 @@ msgstr "Staðfestu lykilorðið."
 msgid "Password doesn't match."
 msgstr "Lykilorðin samsvara ekki."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Taka skyndiafrit"
 
@@ -252,111 +252,111 @@ msgstr "Búið"
 msgid "Deferring backup while on battery"
 msgstr "Fresta afritun þegar rafhlöður eru í notkun"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Bið %s sekúndu."
 msgstr[1] "Bið %s sekúndur."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Mistókst að taka skyndiafritið {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Geng frá"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Get ekki búið til möppu"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Vista stillingaskrá…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Vista aðgangsheimildir…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr ""
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Get ekki fjarlægt möppu"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Taka skyndiafrit"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Tókst"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr ""
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Skoðaðu 'man rsync' til að sjá frekari upplýsingar"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr ""
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Gat ekki endurnefnt {new_path} sem {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "Snjöll fjarlæging"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Fjarlægja gömul skyndiafrit"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Reyna að halda a.m.k. {perc} af lausum i-hnútum (inodes)"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Núna"
 
@@ -1666,9 +1666,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Ertu viss um að þú viljir skipta um möppu undir skyndiafrit?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Mistókst að búa til nýjan SSH-lykil í {path}"
+msgstr "Mistókst að búa til nýjan SSH-lykil í {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1677,7 +1677,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:2369
 msgid "(default: {})"
-msgstr "(sjálfgefið: })"
+msgstr "(sjálfgefið: {})"
 
 #: qt/settingsdialog.py:2370
 msgid "disabled"

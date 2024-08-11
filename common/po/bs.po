@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-05-28 11:27+0000\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-08-05 20:13+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Bosnian <https://translate.codeberg.org/projects/backintime/common/bs/>\n"
 "Language: bs\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -204,15 +204,14 @@ msgid "Cancel"
 msgstr "Odustani"
 
 #: common/encfstools.py:156
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Molimo Vas potvrdite šifru"
+msgstr "Molimo Vas potvrdite šifru."
 
 #: common/encfstools.py:160
 msgid "Password doesn't match."
 msgstr "Šifre nisu iste."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Napravi sliku"
 
@@ -253,13 +252,13 @@ msgstr "Završeno"
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -267,99 +266,99 @@ msgstr[0] "Čekaj %s sekundu."
 msgstr[1] "Čekaj %s sekunde."
 msgstr[2] "Čekaj %s sekundi."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr ""
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Završava"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Nemoguće kreirati direktorij"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Spašava se konfiguracijski fajl…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Spremi dozvole …"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr ""
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Nemoguće izbrisati direktorij"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr ""
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr ""
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr ""
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr ""
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr ""
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr ""
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 #, fuzzy
 msgid "Smart removal"
 msgstr "Pametno brisanje"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr ""
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr ""
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Sad"
 
@@ -713,6 +712,7 @@ msgid "Snapshot Name"
 msgstr ""
 
 #: qt/app.py:1313
+#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Da li zelite izbrisati {file} u {count} snapshots?"
@@ -954,9 +954,9 @@ msgid "Question"
 msgstr ""
 
 #: qt/qtsystrayicon.py:77
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profil: \"{name}\""
+msgstr "Profil: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"

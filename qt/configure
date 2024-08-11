@@ -201,10 +201,10 @@ addNewline
 
 addComment "documentation"
 addInstallDir                        "/share/doc/backintime-qt"
-addInstallFile "../debian/copyright" "/share/doc/backintime-qt"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-qt"
 addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
 addInstallFile "../README.md"        "/share/doc/backintime-qt"
+addInstallFile "../FAQ.md"        "/share/doc/backintime-qt"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt"
 addInstallFile "../CHANGES"          "/share/doc/backintime-qt"
 addNewline
@@ -255,7 +255,7 @@ for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
 done
 
 # check python version
-PYTHON_VERSION_REQUIRED="3.8"
+PYTHON_VERSION_REQUIRED="3.9"
 PYTHON_VERSION_CURRENT=$(${PYTHON} --version | tr --delete 'Python ')
 
 # Credits: https://unix.stackexchange.com/a/285928/136851

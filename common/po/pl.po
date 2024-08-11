@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-05 13:50+0000\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-07-06 09:13+0000\n"
 "Last-Translator: Merik <Merik@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -145,7 +145,6 @@ msgid "Failed to write new crontab."
 msgstr "Nie udało się zapisać nowej tablicy zadań (crontab)."
 
 #: common/config.py:1666
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -218,7 +217,7 @@ msgstr "Prosimy potwierdzić hasło."
 msgid "Password doesn't match."
 msgstr "Hasło nie pasuje."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Utwórz migawkę"
 
@@ -260,7 +259,7 @@ msgstr "Gotowe"
 msgid "Deferring backup while on battery"
 msgstr "Kopia zapasowa przełożona z powodu pracy na baterii"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -268,7 +267,7 @@ msgstr ""
 "Nie można odnaleźć katalogu migawek.\n"
 "Jeśli znajduje się na dysku wymiennym, podłącz go."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -276,102 +275,102 @@ msgstr[0] "Pozostała %s sekunda."
 msgstr[1] "Pozostały %s sekundy."
 msgstr[2] "Pozostało %s sekund."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nie udało się wykonać migawki {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Finalizuję"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Nie można utworzyć katalogu"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Zapisywanie pliku konfiguracyjnego…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Zapisywanie uprawnień…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Znaleziono pozostałości {snapshot_id}, które mogą być kontynuowane."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Usuwanie pozostałości katalogu {snapshot_id} z ostatniego wykonania"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Nie mogę usunąć katalogu"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Utwórz migawkę"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Sukces"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Transfer częściowy z powodu błędu"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfer częściowy z powodu zaginionych plików źródłowych (patrz 'man "
 "rsync')"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' zakończył się kodem wyjścia {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Więcej informacji można znaleźć w 'man rsync'"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatywne kody wyjściowe rsync to liczby sygnałów, patrz 'kill -l' i 'man "
 "kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nic się nie zmieniło, nie ma potrzeby tworzenia nowej migawki"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Nie można zmienić nazwy z {new_path} na {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "Inteligentne usuwanie"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Usuwanie poprzednich migawek"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Próba utrzymamia minimum wolnego miejsca"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Próba utrzymania minimum {perc} wolnych i-węzłów"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Teraz"
 

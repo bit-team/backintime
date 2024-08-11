@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-07-06 09:28+0200\n"
-"PO-Revision-Date: 2024-07-06 07:27+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
+"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"PO-Revision-Date: 2024-08-06 06:28+0000\n"
+"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,6 @@ msgid "Failed to write new crontab."
 msgstr "Не вдалося записати новий crontab."
 
 #: common/config.py:1666
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -155,7 +154,7 @@ msgstr ""
 "Cron не запускається, незважаючи на наявність команди crontab. Заплановані "
 "завдання резервного копіювання не буде виконано. Можливо, Cron встановлено, "
 "але не ввімкнено. Спробуйте команду «systemctl enable cron» або зверніться "
-"до каналів підтримки Вашого дистрибутива GNU Linux."
+"до каналів підтримки Вашого дистрибутиву GNU Linux."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -218,7 +217,7 @@ msgstr "Підтвердіть пароль."
 msgid "Password doesn't match."
 msgstr "Пароль не збігається."
 
-#: common/encfstools.py:521 common/snapshots.py:1033
+#: common/encfstools.py:521 common/snapshots.py:1034
 msgid "Take snapshot"
 msgstr "Зробити копію"
 
@@ -261,7 +260,7 @@ msgstr "Виконано"
 msgid "Deferring backup while on battery"
 msgstr "Вимкнення резервування при роботі від батареї"
 
-#: common/snapshots.py:834
+#: common/snapshots.py:835
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -269,7 +268,7 @@ msgstr ""
 "Не вдається знайти теку резервних копій.\n"
 "Якщо вона знаходиться на знімному диску, підключіть його."
 
-#: common/snapshots.py:838
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -277,100 +276,100 @@ msgstr[0] "Очікування %s секунда."
 msgstr[1] "Очікування %s секунди."
 msgstr[2] "Очікування %s секунд."
 
-#: common/snapshots.py:906
+#: common/snapshots.py:907
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Не вдалося зробити копію {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:937
 msgid "Finalizing"
 msgstr "Завершення"
 
-#: common/snapshots.py:1068
+#: common/snapshots.py:1069
 msgid "Can't create folder"
 msgstr "Не вдається створити теку"
 
-#: common/snapshots.py:1085
+#: common/snapshots.py:1086
 msgid "Saving config file…"
 msgstr "Збереження файлу конфігурації…"
 
-#: common/snapshots.py:1166
+#: common/snapshots.py:1167
 msgid "Saving permissions…"
 msgstr "Збереження дозволів…"
 
-#: common/snapshots.py:1278
+#: common/snapshots.py:1279
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Незавершену копію {snapshot_id} можна продовжити."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1302
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Видалення незавершеної копії {snapshot_id} від попереднього запуску"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1312
 msgid "Can't remove folder"
 msgstr "Не вдається видалити теку"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1366
 msgid "Taking snapshot"
 msgstr "Створення резервної копії"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1417
 msgid "Success"
 msgstr "Успішно"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1420
 msgid "Partial transfer due to error"
 msgstr "Переміщено частково, через помилку"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1421
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Переміщено частково, оскільки вихідні файли зникли (див. «man rsync»)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1425
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "«rsync» завершився з кодом виходу {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1438
 msgid "See 'man rsync' for more details"
 msgstr "Докладніше див. «man rsync»"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1445
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Від'ємні значення кодів виходу rsync є сигнальними номерами, див. «kill -l» "
 "і «man kill»"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1466
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Немає змін, резервування не потрібне"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1510
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Не вдається перейменувати {new_path} в {path}"
 
-#: common/snapshots.py:1827 common/snapshots.py:1879
+#: common/snapshots.py:1828 common/snapshots.py:1880
 msgid "Smart removal"
 msgstr "Розумне видалення"
 
-#: common/snapshots.py:1854
+#: common/snapshots.py:1855
 msgid "Removing old snapshots"
 msgstr "Видалення старих копій"
 
-#: common/snapshots.py:1889
+#: common/snapshots.py:1890
 msgid "Trying to keep min free space"
 msgstr "Спроба зберегти мінімум вільного місця"
 
-#: common/snapshots.py:1928
+#: common/snapshots.py:1929
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Спроба зберегти мінімум {perc} вільних айнодів"
 
-#: common/snapshots.py:2988 qt/app.py:1743
+#: common/snapshots.py:2989 qt/app.py:1743
 msgid "Now"
 msgstr "Зараз"
 
@@ -605,15 +604,15 @@ msgstr "Переклад"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Показує повідомлення про участь у перекладі."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Перехід на нове шифрування (EncFS)"
 
 #: qt/app.py:570
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Показує повідомлення про видалення EncFS."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -850,6 +849,8 @@ msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"Підтримку EncFS буде припинено найближчим часом. Не рекомендується надалі "
+"використовувати цей режим для профілю."
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -858,6 +859,9 @@ msgid ""
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
 msgstr ""
+"Рішення про заміну для подальшої підтримки зашифрованих резервних копій ще "
+"не прийнято і залежить від ресурсів проєкту та наявності розробників. Більше"
+" інформації можна знайти в цьому {whitepaper}."
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
@@ -868,6 +872,8 @@ msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"Підтримка зашифрованих профілів перебуває на стадії суттєвих змін, "
+"найближчим часом EncFS буде вилучено."
 
 #: qt/encfsmsgbox.py:75
 msgid "The following profile(s) use encryption with EncFS:"
@@ -881,6 +887,10 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Рішення про заміну для подальшої підтримки зашифрованих резервних копій ще "
+"не прийнято і залежить від ресурсів проєкту та наявності розробників. "
+"Запрошуємо користувачів долучитися до обговорення. Оновлену інформацію про "
+"наступні кроки можна знайти в цьому {whitepaper}."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
@@ -912,7 +922,7 @@ msgid "Translated: {percent}"
 msgstr "Перекладено: {percent}"
 
 #: qt/languagedialog.py:188
-#, python-brace-format
+#, python-brace-format, ignore-placeholder-compare
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -1641,6 +1651,10 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"Підтримку EncFS буде припинено найближчим часом. Рішення про заміну для "
+"подальшої підтримки зашифрованих резервних копій ще не прийнято і залежить "
+"від ресурсів проєкту та наявності розробників. Більше інформації можна "
+"знайти в цьому {whitepaper}."
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"

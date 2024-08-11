@@ -1,49 +1,50 @@
 Back In Time
 
-Version 1.4.4-dev (development of upcoming release)
-* Fix: Global flock fallback to single-user mode if insufficient permissions (#1743, #1751)
-* Chore!: Remove "debian" folder (#1548)
+Version 1.5.3-dev (development of upcoming release)
+* Breaking Change: Minimal Python version 3.9 required (#1731)
+* Fix: Prevent duplicates in Exclude/Include list of Manage Profiles dialog
+* Fix: Fix Qt segmentation fault when canceling out of unconfigured BiT (#1095) (Derek Veit @DerekVeit)
+* Fix: Correct global flock fallbacks (#1834) (Timothy Southwick @NickNackGus)
+* Refactor: Remove class OrderedSet
+
+Version 1.5.2 (2024-08-06)
+* Fix: Ensure crontab with ending newline (#781)
+* Fix(translation): Correct corrupt translated strings in Basque, Islandic and Spanish causing application crashes (#1828)
+* Build(translation): Language helper script processing syntax checks on po-files
+
+Version 1.5.1 (2024-07-27)
+* Fix: Use correct port to ping SSH Proxy (#1815)
+
+Version 1.5.0 (2024-07-26)
+* Dependency: Migration to PyQt6
 * Breaking Change: EncFS deprecation warning (#1735, #1734)
-* Fix: Fix Qt segmentation fault with uninstall ExtraMouseButtonEventFilter when closing main window (#1095)
+* Breaking Change: GUI started with --debug does no longer add --debug to the crontab for scheduled profiles.
+                   Use the new "enable logging for debug messages" in the 'Schedule' section of the 'Manage profiles' GUI instead.
 * Feature: Warn if Cron is not running (#1747)
-* Build: Enable PyLint rules (#1755)
-  * C0303 (trailing-whitespaces)
-  * C0305 (trailing-newlines)
-  * C0325 (superfluous-parens)
-  * C0410 (multiple-imports)
-  * E0100 (init-is-generator)
-  * E0101 (return-in-init)
-  * E0102 (function-redefined)
-  * E0103 (not-in-loop)
-  * E0106 (return-arg-in-generator)
-  * E0213 (no-self-argument)
-  * E0401 (import-error)
-  * E602 (undefined-variable)
-  * W0311 (bad-indentation)
-  * W1515 (forgotten-debug-statement).
+* Feature: Profile and GUI allow to activate debug output for scheduled jobs by adding '--debug' to crontab entry (#1616, contributed by @stcksmsh Kosta Vukicevic)
+* Feature: Support SSH proxy (jump) host (#1688) (@cgrinham, Christie Grinham)
+* Feature: Support rsync '--one-file-system' in Expert Options (#1598)
+* Feature: "*-dev" version strings contain last commit hash (#1637)
+* Fix: Global flock fallback to single-user mode if insufficient permissions (#1743, #1751)
+* Fix: Fix Qt segmentation fault with uninstall ExtraMouseButtonEventFilter when closing main window (#1095)
 * Fix: Names of weekdays and months translated correct (#1729)
 * Fix: Global flock for multiple users (#1122, #1676)
 * Fix bug: "Backup folders" list does reflect the selected snapshot (#1585) (@rafaelhdr Rafael Hurpia da Rocha)
-* Breaking Change: GUI started with --debug does no longer add --debug to the crontab for scheduled profiles.
-                   Use the new "enable logging for debug messages" in the 'Schedule' section of the 'Manage profiles' GUI instead.
-* Feature: Profile and GUI allow to activate debug output for scheduled jobs by adding '--debug' to crontab entry (#1616, contributed by @stcksmsh Kosta Vukicevic)
-* Removed: Field "filesystem_mount" and "snapshot_version" in "info" file (#1684)
-* Feature: Support SSH proxy (jump) host (#1688) (@cgrinham, Christie Grinham)
-* Removed: Context menu in LogViewDialog (#1578)
-* Refactor: Replace Config.user() with getpass.getuser() (#1694)
 * Fix: Validation of diff command settings in compare snapshots dialog (#1662) (@stcksmsh Kosta Vukicevic)
 * Fix bug: Open symlinked folders in file view (#1476)
 * Fix bug: Respect dark mode using color roles (#1601)
 * Fix: "Highly recommended" exclusion pattern in "Manage Profile" dialog's "Exclude" tab show missing only (#1620)
-* Dependency: Migration to PyQt6
+* Fix bug: `make install` ignored $(DEST) in file migration part (#1630)
+* Removed: Context menu in LogViewDialog (#1578)
+* Removed: Field "filesystem_mount" and "snapshot_version" in "info" file (#1684)
+* Refactor: Replace Config.user() with getpass.getuser() (#1694)
+* Chore!: Remove "debian" folder (#1548)
+* Build: Enable several PyLint rules (#1755, #1766)
 * Build: Add AppStream meta data (#1642)
 * Build: PyLint unit test is skipped if PyLint isn't installed, but will always run on TravisCI (#1634)
-* Feature: Support rsync '--one-file-system' in Expert Options (#1598)
-* Feature: "*-dev" version strings contain last commit hash (#1637)
 * Build: Git commit hash is presevered while "make install" (#1637)
 * Build: Fix bash-completion symlink creation while installing & adding --diagnostics (#1615)
 * Build: TravisCI use PyQt (except arch "ppc64le")
-* Fix bug: `make install` ignored $(DEST) in file migration part (#1630)
 
 Version 1.4.3 (2024-01-30)
 * Feature: Exclude 'SingletonLock' and 'SingletonCookie' (Discord) and 'lock' (Mozilla Firefox) files by default (part of #1555)

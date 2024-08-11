@@ -4,19 +4,17 @@ import tempfile
 from pathlib import Path
 import stat
 import io
-from datetime import datetime
 import unittest
 import unittest.mock as mock
-import json
 from contextlib import redirect_stdout, redirect_stderr
+from ast import literal_eval
 
 # This workaround will become obsolet when migrating to src-layout
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent / 'plugins'))
-import logger
 import pluginmanager
 from config import Config
-from snapshots import Snapshots, SID
+from snapshots import Snapshots
 from usercallbackplugin import UserCallbackPlugin
 
 
@@ -182,7 +180,7 @@ class SystemTest(unittest.TestCase):
             to_eval = line[line.index("'")+1:line.rindex("'")]
 
             callback_responses.append(
-                eval(line[line.index("'")+1:line.rindex("'")])
+                literal_eval(line[line.index("'")+1:line.rindex("'")])
             )
 
         # Workaround: Cast profile-id and response-code to integers
