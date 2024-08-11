@@ -20,6 +20,7 @@ using a "feature" branch and sending a pull request asking for a review.
    * [Release Candidate](#release-candidate)
    * [Create Release](#create-release)
    * [Prepare new development version](#prepare-new-development-version)
+- [Manual testing - Recommendations](#manual-testing---recommendations)
 - [Other noteworthy things](#other-noteworthy-things)
    * ["Read the docs" code documentation](#read-the-docs-code-documentation)
    * [Building `deb` package files](#building-deb-package-files)
@@ -153,17 +154,18 @@ When the PR is merged:
       https://derlin.github.io/bitdowntoc/ to generate a TOC and copy the
       changed parts into the `README.md`.
 
-- Build, install and test (again!) the prepared release candidate.
+- Build, install and [test (again!)](#manual-testing---recommendations)
+  the prepared release candidate.
 
 - Run [`codespell`](https://pypi.org/project/codespell) in the repositories
   root folder to check for common spelling errors.
 
-- Do a manual smoke and UAT ("user acceptance test") of the GUI. Create
-  snapshot profiles in all (four) available flavors. Create snapshots. Restore
-  snapshots. Delete snapshots.
+- Do a [manual smoke and UAT ("user acceptance test")](#manual-testing---recommendations)
+  of the GUI. Create snapshot profiles in all (four) available flavors. Create
+  snapshots. Restore snapshots. Delete snapshots.
   
-- In English: Did you really perform the previous test? Don't dodge the
-  question! :D
+- Did you really perform the previous
+  [test](#manual-testing---recommendations)? Don't dodge the question! :D
 
 - If you find bugs:
 
@@ -280,6 +282,29 @@ When the PR is merged:
 
 - (Out of scope here): Update the Github milestones and the assigned issues
 
+
+## Manual testing - Recommendations
+Automatic tests won't cover all scenarios and possible problems. There is a high
+need to run _Back In Time_ and perform several actions to make sure it works as
+expected. The following list suggests several actions and scenarios.
+
+- If available, prefer installing from the source tarball over the git
+  repository.
+- Use a fresh and clean virtual machine without a previous version of _Back In
+  Time_ installed.
+- GNU/Linux distribution: Both major lines _Debian GNU/Linux_ and _Arch Linux_
+  or distros based on them. Additionally use a none-systemd distro like _Devuan
+  GNU/Linux_.
+- Run _Back In Time_ and perform the following actions as user and as root.
+- Always start from terminal to catch silent errors and warnings.
+- Create snapshot profils in all available flavors (Local, SSH, with and
+  without encryption).
+- Run the snapshots.
+- Restore snapshots.
+- Delete snapshots.
+- Schedule the snapshots using regular cron (e.g. _Every 5 minutes_) and
+  anacron-like cron (_Repeatedly (anacran)_). Additionally schedule with udev
+  (_When drive gets connected (udev)_).
 
 ## Other noteworthy things
 
