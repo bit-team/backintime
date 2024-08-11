@@ -17,10 +17,9 @@
 
 import os
 import sys
-import stat
 import unittest
 from unittest.mock import patch
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 from test import generic
 

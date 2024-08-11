@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-22 21:49+0200\n"
-"PO-Revision-Date: 2024-07-22 12:37+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-07-30 08:15+0000\n"
+"Last-Translator: Arash Pourhabibi <neo-apz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -24,17 +24,15 @@ msgstr "هشدار"
 
 #: common/config.py:148 common/config.py:290
 msgid "Main profile"
-msgstr "پروفایل اصلی"
+msgstr "نمایه اصلی"
 
 #: common/config.py:297
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "رمزگذاری شده"
+msgstr "محلی (رمزگذاری EncFS)"
 
 #: common/config.py:298
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "پوستهٔ امن رمزنگاری شده"
+msgstr "SSH (رمزنگاری EncFS)"
 
 #: common/config.py:309
 msgid "Local"
@@ -42,24 +40,23 @@ msgstr "محلی"
 
 #: common/config.py:311
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
 msgid "SSH private key"
-msgstr "کلید خصوصی پوستهٔ امن"
+msgstr "کلید خصوصی SSH"
 
 #: common/config.py:314
-#, fuzzy
 msgid "Local encrypted"
-msgstr "رمزگذاری شده"
+msgstr "رمزگذاری محلی شده"
 
 #: common/config.py:315 common/config.py:322
 msgid "Encryption"
-msgstr "رمزنگاری"
+msgstr "رمزگذاری"
 
 #: common/config.py:320
 msgid "SSH encrypted"
-msgstr "پوستهٔ امن رمزنگاری شده"
+msgstr "SSH رمزگذاری شده"
 
 #: common/config.py:327
 msgid "Default"
@@ -69,7 +66,7 @@ msgstr "پیش‌فرض"
 #: common/config.py:398
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "پروفایل: \"{name}\""
+msgstr "نمایه: \"{name}\""
 
 #: common/config.py:359
 msgid "Snapshots folder is not valid!"
@@ -134,14 +131,13 @@ msgid "Expert Options"
 msgstr "گزینه های حرفه‌ای"
 
 #: common/config.py:501
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"مقصد فایل سیستمی برای {path} سهم(share) سوار شده‌ٔ سامانه پرونده پوستهٔ امن "
-"هست. سامانه پروندهٔ پوستهٔ امن از پیوند‌های سخت پشتیبانی نمی‌کند. لطفاً از "
-"حالت «پوستهٔ امن» به جای آن استفاده کنید."
+"سیستم فایل مقصد برای {path} یک اشتراک نصب شده توسط sshfs است. Sshfs از لینک "
+"های سخت پشتیبانی نمی کند. لطفاً به جای آن از حالت \"SSH\" استفاده کنید."
 
 #: common/config.py:1658
 msgid "Failed to write new crontab."
@@ -154,6 +150,10 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Cron با وجود در دسترس بودن دستور crontab اجرا نمی شود. کارهای پشتیبان برنامه"
+" ریزی شده اجرا نمی شوند. Cron ممکن است نصب شده باشد اما فعال نباشد. دستور "
+"\"systemctl enable cron\" را امتحان کنید یا با پشتیبانی توزیع گنو/لینوکس خود"
+" مشورت کنید."
 
 #: common/config.py:1746
 #, python-brace-format
@@ -161,8 +161,8 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"نتوانست قوانین Udev را برای پروفایل {profile_id} نصب کند. سرویس دی‌باس(DBus)"
-" '{dbus_interface}' در دسترس نبود"
+"نتوانست قوانین Udev را برای نمایه {profile_id} نصب کند. سامانه دی‌باس(DBus) "
+"'{dbus_interface}' در دسترس نبود"
 
 #: common/config.py:1761
 #, python-brace-format
@@ -185,11 +185,11 @@ msgstr "بارگذاری پیکربندی شکست خورد"
 #: common/configfile.py:690 common/configfile.py:789
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "پروفایل \"{name}\" از قبل وجود دارد."
+msgstr "نمایه \"{name}\" از قبل وجود دارد."
 
 #: common/configfile.py:735
 msgid "The last profile cannot be removed."
-msgstr "آخرین پروفایل قابل حذف نیست."
+msgstr "آخرین نمایه را نمیتوان پاک کرد."
 
 #: common/encfstools.py:92
 #, python-brace-format
@@ -226,14 +226,14 @@ msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr "نمی‌توان {mountprocess} را از {mountpoint} جدا کرد."
 
 #: common/mount.py:696
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{} پیدا نشد. لطفا به‌عنوان مثال موارد زیر را نصب کنید {}"
+msgstr "{command} پیدا نشد، لطفا آن را نصب کنید (مثلا با \"{installcommand}\")"
 
 #: common/mount.py:720
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "مونت‌پوینت {} خالی نیست."
+msgstr "مونت‌پوینت ‮{mntpoint} خالی نیست."
 
 #: common/password.py:269
 #, python-brace-format
@@ -434,9 +434,9 @@ msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "کلید عمومی پوستهٔ امن \"{pubkey}\" را به هاست ریموت \"{host}\" کپی کنید"
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "لطفاً رمز عبور را برای \"{user}\" وارد کنید"
+msgstr "لطفاً رمز عبور را برای \"{user}\" وارد کنید."
 
 #: qt/aboutdlg.py:44 qt/app.py:572
 msgid "About"
@@ -475,11 +475,13 @@ msgid "Add to Exclude"
 msgstr "اضافه کردن به استثناها"
 
 #: qt/app.py:343
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"به نظر می‌رسد که {app_name} برای اولین بار اجرا می‌شود زیرا هیچ پیکربندی‌ای "
+"یافت نشد."
 
 #: qt/app.py:348
 msgid ""
@@ -488,16 +490,15 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:375
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "نمی‌توان پوشه ساخت"
+msgstr "نمی‌توان پوشهٔ برگرفت‌ها را پیدا کرد."
 
 #: qt/app.py:376
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"پوشه اسنپ‌شات‌ها پیدا نشد.\n"
-"اگر روی درایو قابل جابجایی است، لطفاً آن را وصل کنید و سپس باشه را فشار دهید."
+"اگر روی درایو قابل جابجایی است، لطفاً آن را وصل کنید و سپس باشه را فشار "
+"دهید."
 
 #: qt/app.py:481
 msgid "Take a snapshot"
@@ -549,7 +550,7 @@ msgstr "مشاهده آخرین لاگ"
 
 #: qt/app.py:524
 msgid "Manage profiles…"
-msgstr "مدیریت پروفایل‌ها…"
+msgstr "مدیریت نمایه‌ها…"
 
 #: qt/app.py:528
 msgid "Shutdown"
@@ -573,7 +574,7 @@ msgstr "کمک"
 
 #: qt/app.py:544
 msgid "Profiles config file"
-msgstr "فایل پیکربندی پروفایل ها"
+msgstr "فایل پیکربندی نمایه‌ها"
 
 #: qt/app.py:547 qt/languagedialog.py:222
 msgid "Website"
@@ -601,15 +602,16 @@ msgstr "ترجمه"
 
 #: qt/app.py:564
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "دوباره پیام درمورد مشارکت در ترجمه را نشان می‌دهد."
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
 msgstr ""
 
 #: qt/app.py:570
+#, fuzzy
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "دوباره پیام در مورد EncFS removal را نشان می‌دهد."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -680,9 +682,8 @@ msgstr ""
 "می‌خواهید واقعاً ببندید؟"
 
 #: qt/app.py:821
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "آیا از بازگرداندن این مورد مطمئنید؟"
+msgstr "آیا از بستن این مورد مطمئنید؟"
 
 #: qt/app.py:987
 msgid "Working:"
@@ -748,14 +749,14 @@ msgstr ""
 "قبل از بازنوشتن یا حذف کردن عناصر محلی ایجاد کن."
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
 "نسخه‌های جدیدتر از فایل‌ها با دنباله {suffix} قبل از بازگردانی تغییر نام داده خواهند شد.\n"
-"اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با {cmd} حذف کنید"
+"اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با دستور زیر حذف کنید."
 
 #: qt/app.py:1432
 msgid ""
@@ -772,18 +773,15 @@ msgid "Remove newer elements in original folder."
 msgstr "عناصر جدیدتر را در پوشه اصلی حذف کنید."
 
 #: qt/app.py:1470
-#, fuzzy
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
-"پرونده‌ها یا شاخه‌های انتخاب شده را به محل اصلی بازمی‌گرداند و\n"
-"پرونده‌ها و شاخه‌هایی که در رخ‌نما‌ها نیستند را حذف می‌کند.\n"
-"شدیداً مواظب باشید؛ زیرا این کار\n"
-"پرونده‌ها و شاخه‌هایی که \n"
-"هنگام رخ‌نما گرفتن مورد استثنا قرار گرفته شده‌اند را حذف خواهد کرد."
+"پرونده‌ها یا پوشه‌های انتخاب شده را به محل اصلی بازمی‌گرداند و\n"
+"پرونده‌ها و پوشه‌هایی که در رخ‌نما‌ها نیستند را حذف می‌کند.\n"
+"شدیداً مواظب باشید؛ زیرا این کار پرونده‌ها و پوشه‌هایی که هنگام رخ‌نما گرفتن مورد استثنا قرار گرفته شده‌اند را حذف خواهد کرد."
 
 #: qt/app.py:1481
 #, python-brace-format
@@ -825,8 +823,8 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"هشدار: حذف کردن پرونده‌ها در ریشهٔ سامانه‌پرونده می‌تواند کل سامانهٔ شما را "
-"خراب کند!"
+"{BOLD}هشدار{BOLDEND}: حذف کردن پرونده‌ها در ریشهٔ سامانه‌پرونده می‌تواند کل "
+"سامانهٔ شما را خراب کند!"
 
 #: qt/app.py:1750
 msgid "Snapshot"
@@ -848,10 +846,13 @@ msgstr ""
 "تنظیمات زمان تنها بعد از خارج و وارد شدن از Back In Time تاثیر گذار هستند."
 
 #: qt/encfsmsgbox.py:42
+#, fuzzy
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"پشتیبانی از EncFS در آینده پیش‌بینی شده پایان می‌یابد. علاوه بر این پیشنهاد "
+"نمی‌شود دیگر از این حالت برای یک پروفایل استفاده کنید."
 
 #: qt/encfsmsgbox.py:46
 #, python-brace-format
@@ -863,17 +864,21 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
 msgid "whitepaper"
-msgstr ""
+msgstr "اوراق سفید"
 
 #: qt/encfsmsgbox.py:66
+#, fuzzy
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"پشتیبانی از پروفایل‌های رخ‌نماهای رمزگذاری شده در حالت تغییرات زیادی است، و "
+"EncFS در آینده قابل پیش‌بینی حذف خواهد شد."
 
 #: qt/encfsmsgbox.py:75
+#, fuzzy
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "پروفایل (های) زیر از رمزگذاری با EncFS استفاده می‌کنند:"
 
 #: qt/encfsmsgbox.py:77
 #, python-brace-format
@@ -885,10 +890,13 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:85
+#, fuzzy
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"این پیام دیگر نشان داده نخواهد شد. این دیالوگ در هر زمانی از طریق منوی "
+"راهنما قابل دستیابی است."
 
 #: qt/encfsmsgbox.py:87
 msgid "Your Back In Time Team"
@@ -946,17 +954,17 @@ msgstr "نمای لاگ اسنپ‌شات"
 #: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
 #: qt/settingsdialog.py:2627
 msgid "Profile:"
-msgstr "پروفایل:"
+msgstr "نمایه:"
 
 #: qt/logviewdialog.py:84
 #, fuzzy
 msgid "Snapshots:"
-msgstr "اسنپ‌شات‌ها"
+msgstr "اسنپ‌شات‌ها:"
 
 #: qt/logviewdialog.py:99
 #, fuzzy
 msgid "Filter:"
-msgstr "فیلتر"
+msgstr "فیلتر:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:921
 msgid "All"
@@ -972,7 +980,6 @@ msgid "Errors"
 msgstr "خطاها"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "اطلاعات"
@@ -997,7 +1004,7 @@ msgstr "سوال"
 #: qt/qtsystrayicon.py:77
 #, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "پروفایل: \"{profile_name}\""
+msgstr "نمایه: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
@@ -1082,7 +1089,7 @@ msgstr ""
 
 #: qt/settingsdialog.py:170
 msgid "Manage profiles"
-msgstr "مدیریت پروفایل‌ها"
+msgstr "مدیریت نمایه‌ها"
 
 #: qt/settingsdialog.py:187
 msgid "Edit"
@@ -1183,11 +1190,11 @@ msgstr[0] "هر {n} دقیقه"
 msgstr[1] "هر {n} دقیقه"
 
 #: qt/settingsdialog.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "هر ساعت"
-msgstr[1] "هر ساعت"
+msgstr[1] "هر {n} ساعت"
 
 #: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
 #: qt/settingsdialog.py:456
@@ -1652,16 +1659,16 @@ msgstr ""
 
 #: qt/settingsdialog.py:1285
 msgid "New profile"
-msgstr "پروفایل جدید"
+msgstr "نمایه جدید"
 
 #: qt/settingsdialog.py:1302
 msgid "Rename profile"
-msgstr "تغییر نام پروفایل"
+msgstr "تغییر نام نمایه"
 
 #: qt/settingsdialog.py:1318
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "آیا شما واقعا مطمئن هستید که میخواهید پروفایل \"{name}\" را پاک کنید؟"
+msgstr "آیا شما واقعا مطمئن هستید که میخواهید نمایه \"{name}\" را پاک کنید؟"
 
 #: qt/settingsdialog.py:1422
 #, python-brace-format
