@@ -91,7 +91,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1101',  # no-member
             'W0311',  # bad-indentation
             'I0021',  # useless-suppression
-            # 'W0611',  # unused-import
+            'W0611',  # unused-import
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement
@@ -102,6 +102,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W4902',  # deprecated-method
             'W4904',  # deprecated-class
             'W0614',  # unused-wildcard-import
+            'W0237',  # arguments-renamed
             'W0123',  # eval-used
             'W0707',  # raise-missing-from
 
@@ -109,7 +110,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # problems currently existing in the BIT code base. Quite easy to fix
             # because their count is low.
             # 'R0801',  # duplicate-code
-            # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
             # 'W0603',  # global-statement
             # 'W0612',  # unused-variable

@@ -109,7 +109,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
 
 * Runtime dependencies for the CLI
 
-  - `python3` (>= 3.8)
+  - `python3` (>= 3.9)
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
