@@ -1973,22 +1973,34 @@ class SettingsDialog(QDialog):
     def addInclude(self, data):
         item = QTreeWidgetItem()
 
+        # Directory(0) or file(1)?
         if data[1] == 0:
             item.setIcon(0, self.icon.FOLDER)
         else:
             item.setIcon(0, self.icon.FILE)
 
+        # Prevent duplicates
+        duplicates = self.listInclude.findItems(
+            data[0], Qt.MatchFlag.MatchFixedString)
+
+        if duplicates:
+            self.listInclude.setCurrentItem(duplicates[0])
+            return
+
+        # First column
         item.setText(0, data[0])
         item.setData(0, Qt.ItemDataRole.UserRole, data[1])
         self.listIncludeCount += 1
+
+        # Second (hidden!) column.
+        # Don't know why we need it.
         item.setText(1, str(self.listIncludeCount).zfill(6))
         item.setData(1, Qt.ItemDataRole.UserRole, self.listIncludeCount)
+
         self.listInclude.addTopLevelItem(item)
 
-        if self.listInclude.currentItem() is None:
-            self.listInclude.setCurrentItem(item)
-
-        return item
+        # Select/highlight that entry.
+        self.listInclude.setCurrentItem(item)
 
     def _add_exclude_pattern(self, pattern):
         item = QTreeWidgetItem()
@@ -2053,7 +2065,11 @@ class SettingsDialog(QDialog):
             return
 
         # Duplicate?
-        if self.listExclude.findItems(pattern, Qt.MatchFlag.MatchFixedString):
+        duplicates = self.listExclude.findItems(
+            pattern, Qt.MatchFlag.MatchFixedString)
+
+        if duplicates:
+            self.listExclude.setCurrentItem(duplicates[0])
             return
 
         # Create new entry and add it to the list widget.

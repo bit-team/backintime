@@ -115,8 +115,10 @@ PROFILE_EDIT        = SNAPSHOT_NAME
 ADD                 = QIcon.fromTheme('list-add')
 REMOVE              = QIcon.fromTheme('list-remove')
 FOLDER              = QIcon.fromTheme('folder')
-FILE                = VIEW_SNAPSHOT_LOG
-EXCLUDE             = REMOVE_SNAPSHOT
+FILE                = QIcon.fromTheme('text-plain',
+                      QIcon.fromTheme('text-x-generic'))
+EXCLUDE             = QIcon.fromTheme('edit-delete')
+# "emblem-default" is a green mark and doesn't make sense in this case.
 DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')
 INVALID_EXCLUDE     = QIcon.fromTheme('emblem-ohno',
                       QIcon.fromTheme('face-surprise'))
