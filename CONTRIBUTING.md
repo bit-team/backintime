@@ -109,7 +109,7 @@ replaced with PyPi packages.
 
 * Runtime dependencies for the CLI
 
-  - `python3` (>= 3.8)
+  - `python3` (>= 3.9)
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
