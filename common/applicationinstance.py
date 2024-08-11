@@ -20,7 +20,6 @@
 This module holds the ApplicationInstance class, used to handle
 the one application instance mechanism.
 """
-
 import os
 import fcntl
 import logger
@@ -63,15 +62,14 @@ class ApplicationInstance:
 
     # TODO Rename to is_single_instance() to make the purpose more obvious
     def check(self, autoExit=False):
-        """
-        Check if the current application is already running
+        """Check if the current application is already running.
 
         Args:
-            autoExit (bool): automatically call sys.exit if there is another
-                             instance running
+            autoExit (bool): Automatically call ``sys.exit()`` if there is
+                another instance running.
 
         Returns:
-            bool: ``True`` if this is the only application instance
+            bool: ``True`` if this is the only application instance.
         """
         # check if the pidfile exists
         if not os.path.isfile(self.pidFile):

@@ -2601,8 +2601,7 @@ class Execute(object):
 
 
 class Daemon:
-    """
-    A generic daemon class.
+    """A generic daemon class.
 
     Usage: subclass the Daemon class and override the run() method
 
@@ -2610,7 +2609,12 @@ class Daemon:
     License CC BY-SA 3.0
     http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
     """
-    def __init__(self, pidfile = None, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null', umask = 0o022):
+    def __init__(self,
+                 pidfile=None,
+                 stdin='/dev/null',
+                 stdout='/dev/stdout',
+                 stderr='/dev/null',
+                 umask = 0o022):
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
