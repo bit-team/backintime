@@ -1,0 +1,77 @@
+# Project information
+site_name: Back In Time - User Manual
+site_author: BIT Team
+
+# Source files (markdown)
+docs_dir: src
+# Output directory
+site_dir: html
+# site_url: https://backintime-docs.readthedocs.io/en/latest/
+# site_description: Back In Time is a simple backup tool for Linux inspired by "FlyBack".
+
+# Repository information
+repo_name: backintime
+# repo_url: https://github.com/bit-team/backintime
+
+# Entrie labels determined by the the 1st level heading
+nav: 
+  - 'index.md'
+  - 'quick-start.md'
+  - 'main-window.md'
+  - 'settings.md'
+  - 'snapshots-dialog.md'
+  - 'log.md'
+  - 'additional.md'
+
+markdown_extensions:
+  # Boxex for warnings, etc.
+  # https://squidfunk.github.io/mkdocs-material/reference/admonitions/
+  - admonition
+  - toc:
+      permalink: true  
+
+# Configuration
+theme:
+    name: material
+    logo: _images/logo48.png
+    favicon: _images/logo48.png
+    language: en
+    features:
+      # Load content of main page only instead of the whole site
+      - navigation.instant
+      # Loading in background while hovering over the navigation item
+      - navigation.instant.prefetch
+      # Unfold all entries in navigation side bar
+      - navigation.expand
+      # Render navigation path on above the title of each page
+      - navigation.path
+      # Back-to-top-button
+      - navigation.top
+      # Render sub-headings in navigation side bar
+      - toc.integrate
+      - toc.follow
+      # Highlight search results
+      - search.highlight
+      # Link current document to GitHub
+      - content.action.edit
+      - content.action.view
+      # Copy and highlight code blocks
+      - content.code.copy
+      - content.code.select
+    # Colorsettings regarding dark/light mode
+    palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: grey
+      accent: blue
+      toggle:
+        icon: material/toggle-switch-off
+        name: Switch to system preference
+
