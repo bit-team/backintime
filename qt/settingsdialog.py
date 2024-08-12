@@ -69,6 +69,7 @@ import snapshots
 import sshtools
 import logger
 import encfsmsgbox
+import combobox
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
 
@@ -175,12 +176,8 @@ class ScheduleWidget(QGroupBox):
         """
         super().__init__(title=_('Schedule'), parent=parent)
 
-        main_layout = QGridLayout(groupBox)
+        main_layout = QGridLayout(self)
         main_layout.setColumnStretch(1, 2)
-
-        self._combo_box = QComboBox(self)
-        main_layout.addWidget(self._combo_box, 0, 0, 1, 2)
-        self._fill_combo()
 
         def _create_label(text):
             label = QLabel(text, self)
@@ -190,7 +187,12 @@ class ScheduleWidget(QGroupBox):
 
             return label
 
+        # Schedule modes
+        self._combo_schedule_mode = self._schedule_mode_combobox()
+        main_layout.addWidget(self._combo_schedule_mode, 0, 0, 1, 2)
+
         # Day
+        self._lbl_day = _create_label(_('Day:'))
         main_layout.addWidget(_create_label(_('Day:')), 1, 0)
         self.comboScheduleDay = QComboBox(self)
         main_layout.addWidget(self.comboScheduleDay, 1, 1)
@@ -242,15 +244,7 @@ class ScheduleWidget(QGroupBox):
         self.spbScheduleRepeatedPeriod.setRange(1, 10000)
         hlayout.addWidget(self.spbScheduleRepeatedPeriod)
 
-        self.comboScheduleRepeatedUnit = QComboBox(self)
-        REPEATEDLY_UNITS = {
-            config.Config.HOUR: _('Hour(s)'),
-            config.Config.DAY: _('Day(s)'),
-            config.Config.WEEK: _('Week(s)'),
-            config.Config.MONTH: _('Month(s)')}
-
-        self.fillCombo(self.comboScheduleRepeatedUnit,
-                       REPEATEDLY_UNITS)
+        self.comboScheduleRepeatedUnit = self._repeated_unit_combobox()
         hlayout.addWidget(self.comboScheduleRepeatedUnit)
         hlayout.addStretch()
         main_layout.addLayout(hlayout, 7, 1)
@@ -263,7 +257,9 @@ class ScheduleWidget(QGroupBox):
         self.lblScheduleUdev.setWordWrap(True)
         main_layout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
 
-        self._combo_box.currentIndexChanged.connect(self.scheduleChanged)
+        # Move this into _schedule_mode_combobox() ?
+        self._combo_schedule_mode.currentTextChanged.connect(
+            self._slot_schedule_mode_changed)
 
         # Debug logging
         self.cbScheduleDebug = QCheckBox(self)
@@ -279,8 +275,21 @@ class ScheduleWidget(QGroupBox):
         )
         main_layout.addWidget(self.cbScheduleDebug, 8, 0)
 
-    def _fillCombo(self):
-        """Fill the combo box with values."""
+    @staticmethod
+    def _fill_combobox(combobox: QComboBox, content: dict[int, str]) -> QComboBox:
+        # Dev note (buhtz): Do not see a reason for sorting.
+        for key in sorted(list(content)):
+            combobox.addItem(QIcon(), content[key], key)
+
+        return combobox
+
+
+    def _schedule_mode_combobox(self) -> combobox.BitComboBox:
+        """Create the the combobox for schedule mode.
+
+        Returns:
+            BitComboBox: The widget.
+        """
 
         # Regular schedule modes for that combo box
         schedule_modes = {
@@ -311,10 +320,105 @@ class ScheduleWidget(QGroupBox):
             config.Config.YEAR: _('Every year')
         }
 
-        # Dev note (buhtz): Do not see a reason for sorting.
+        # return self._fill_combobox(QComboBox(self), self._schedule_modes)
+        return combobox.BitComboBox(self, schedule_modes)
 
-        for key in sorted(list(schedule_modes)):
-            self.addItem(QIcon(), schedule_modes[key], key)
+
+    def _repeated_unit_combobox(self):
+        """Create the combobox for "Every ..." schedule mode.
+
+        Returns:
+            QComboBox: The widget.
+        """
+        self._repeatedly_units = {
+            config.Config.HOUR: _('Hour(s)'),
+            config.Config.DAY: _('Day(s)'),
+            config.Config.WEEK: _('Week(s)'),
+            config.Config.MONTH: _('Month(s)')
+        }
+
+        return self._fill_combobox(QComboBox(self), self._repeatedly_units)
+
+
+    def _slot_schedule_mode_changed(self, entry_text):
+        """Handle value changed events for schedule mode combobox.
+
+        Depending on the mode choosen the hidden/visible state of some
+        widgets are modified.
+        """
+        backup_mode = entry_text
+
+        print(self.parent)
+        if backup_mode == config.Config.CUSTOM_HOUR:
+            self.lblScheduleCronPatern.show()
+            self.txtScheduleCronPatern.show()
+        else:
+            self.lblScheduleCronPatern.hide()
+            self.txtScheduleCronPatern.hide()
+
+        if backup_mode == config.Config.WEEK:
+            self.lblScheduleWeekday.show()
+            self.comboScheduleWeekday.show()
+        else:
+            self.lblScheduleWeekday.hide()
+            self.comboScheduleWeekday.hide()
+
+        if backup_mode == config.Config.MONTH:
+            self._lbl_day.show()
+            self.comboScheduleDay.show()
+        else:
+            self._lbl_day.hide()
+            self.comboScheduleDay.hide()
+
+        if backup_mode >= config.Config.DAY:
+            self.lblScheduleTime.show()
+            self.comboScheduleTime.show()
+        else:
+            self.lblScheduleTime.hide()
+            self.comboScheduleTime.hide()
+
+        if config.Config.REPEATEDLY <= backup_mode <= config.Config.UDEV:
+            self.lblScheduleRepeatedPeriod.show()
+            self.spbScheduleRepeatedPeriod.show()
+            self.comboScheduleRepeatedUnit.show()
+            self.lblScheduleTime.hide()
+            self.comboScheduleTime.hide()
+        else:
+            self.lblScheduleRepeatedPeriod.hide()
+            self.spbScheduleRepeatedPeriod.hide()
+            self.comboScheduleRepeatedUnit.hide()
+
+        if backup_mode == config.Config.REPEATEDLY:
+            self.lblScheduleRepeated.show()
+        else:
+            self.lblScheduleRepeated.hide()
+
+        if backup_mode == config.Config.UDEV:
+            self.lblScheduleUdev.show()
+        else:
+            self.lblScheduleUdev.hide()
+
+
+    def update_values(self, cfg: config.Config):
+        """Set the values of the widgets regarding the current config."""
+
+        self._combo_schedule_mode.select_by_data(cfg.scheduleMode())
+
+        self.setComboValue(self.comboScheduleTime, cfg.scheduleTime())
+        self.setComboValue(self.comboScheduleDay, cfg.scheduleDay())
+        self.setComboValue(self.comboScheduleWeekday,
+                           cfg.scheduleWeekday())
+        self.txtScheduleCronPatern.setText(cfg.customBackupTime())
+        self.spbScheduleRepeatedPeriod.setValue(
+            cfg.scheduleRepeatedPeriod())
+        self.setComboValue(self.comboScheduleRepeatedUnit,
+                           cfg.scheduleRepeatedUnit())
+        self.updateSchedule(cfg.scheduleMode())
+
+        self.cbScheduleDebug.setChecked(cfg.scheduleDebug())
+
+
+
 
 
 class SettingsDialog(QDialog):
@@ -1274,7 +1378,8 @@ class SettingsDialog(QDialog):
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
-        self.globalScheduleGroupBox = self._schedule_widget()
+        # self.globalScheduleGroupBox = self._schedule_widget()
+        self.globalScheduleGroupBox = ScheduleWidget(self)
         tab_layout.addWidget(self.globalScheduleGroupBox)
 
         #
@@ -1282,7 +1387,7 @@ class SettingsDialog(QDialog):
 
         return tab_widget
 
-    def _schedule_widget(self):
+    def _DEPRECATED_schedule_widget(self):
         # Schedule
         groupBox = QGroupBox(self)
         groupBox.setTitle(_('Schedule'))
@@ -1325,10 +1430,10 @@ class SettingsDialog(QDialog):
 
         self.fillCombo(self.comboSchedule, schedule_modes_dict)
 
-        self.lblScheduleDay = QLabel(_('Day:'), self)
-        self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleDay.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        glayout.addWidget(self.lblScheduleDay, 1, 0)
+        self._lbl_day = QLabel(_('Day:'), self)
+        self._lbl_day.setContentsMargins(5, 0, 0, 0)
+        self._lbl_day.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        glayout.addWidget(self._lbl_day, 1, 0)
 
         self.comboScheduleDay = QComboBox(self)
         glayout.addWidget(self.comboScheduleDay, 1, 1)
@@ -1502,60 +1607,6 @@ class SettingsDialog(QDialog):
             self.config.removeProfile()
             self.updateProfiles()
 
-    def updateSchedule(self, backup_mode):
-        if backup_mode == self.config.CUSTOM_HOUR:
-            self.lblScheduleCronPatern.show()
-            self.txtScheduleCronPatern.show()
-        else:
-            self.lblScheduleCronPatern.hide()
-            self.txtScheduleCronPatern.hide()
-
-        if backup_mode == self.config.WEEK:
-            self.lblScheduleWeekday.show()
-            self.comboScheduleWeekday.show()
-        else:
-            self.lblScheduleWeekday.hide()
-            self.comboScheduleWeekday.hide()
-
-        if backup_mode == self.config.MONTH:
-            self.lblScheduleDay.show()
-            self.comboScheduleDay.show()
-        else:
-            self.lblScheduleDay.hide()
-            self.comboScheduleDay.hide()
-
-        if backup_mode >= self.config.DAY:
-            self.lblScheduleTime.show()
-            self.comboScheduleTime.show()
-        else:
-            self.lblScheduleTime.hide()
-            self.comboScheduleTime.hide()
-
-        if self.config.REPEATEDLY <= backup_mode <= self.config.UDEV:
-            self.lblScheduleRepeatedPeriod.show()
-            self.spbScheduleRepeatedPeriod.show()
-            self.comboScheduleRepeatedUnit.show()
-            self.lblScheduleTime.hide()
-            self.comboScheduleTime.hide()
-        else:
-            self.lblScheduleRepeatedPeriod.hide()
-            self.spbScheduleRepeatedPeriod.hide()
-            self.comboScheduleRepeatedUnit.hide()
-
-        if backup_mode == self.config.REPEATEDLY:
-            self.lblScheduleRepeated.show()
-        else:
-            self.lblScheduleRepeated.hide()
-
-        if backup_mode == self.config.UDEV:
-            self.lblScheduleUdev.show()
-        else:
-            self.lblScheduleUdev.hide()
-
-    def scheduleChanged(self, index):
-        backup_mode = self.comboSchedule.itemData(index)
-        self.updateSchedule(backup_mode)
-
     def profileChanged(self, index):
         if self.disableProfileChanged:
             return
@@ -1669,19 +1720,21 @@ class SettingsDialog(QDialog):
         self.txtUser.setText(user)
         self.txt_profile.setText(profile)
 
-        self.setComboValue(self.comboSchedule, self.config.scheduleMode())
-        self.setComboValue(self.comboScheduleTime, self.config.scheduleTime())
-        self.setComboValue(self.comboScheduleDay, self.config.scheduleDay())
-        self.setComboValue(self.comboScheduleWeekday,
-                           self.config.scheduleWeekday())
-        self.txtScheduleCronPatern.setText(self.config.customBackupTime())
-        self.spbScheduleRepeatedPeriod.setValue(
-            self.config.scheduleRepeatedPeriod())
-        self.setComboValue(self.comboScheduleRepeatedUnit,
-                           self.config.scheduleRepeatedUnit())
-        self.updateSchedule(self.config.scheduleMode())
+        # Schedule
+        self.globalScheduleGroupBox.update_values(self.config)
+        # self.setComboValue(self.comboSchedule, self.config.scheduleMode())
+        # self.setComboValue(self.comboScheduleTime, self.config.scheduleTime())
+        # self.setComboValue(self.comboScheduleDay, self.config.scheduleDay())
+        # self.setComboValue(self.comboScheduleWeekday,
+        #                    self.config.scheduleWeekday())
+        # self.txtScheduleCronPatern.setText(self.config.customBackupTime())
+        # self.spbScheduleRepeatedPeriod.setValue(
+        #     self.config.scheduleRepeatedPeriod())
+        # self.setComboValue(self.comboScheduleRepeatedUnit,
+        #                    self.config.scheduleRepeatedUnit())
+        # self.updateSchedule(self.config.scheduleMode())
 
-        self.cbScheduleDebug.setChecked(self.config.scheduleDebug())
+        # self.cbScheduleDebug.setChecked(self.config.scheduleDebug())
 
         # TAB: Include
         self.listInclude.clear()
