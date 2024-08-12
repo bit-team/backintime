@@ -244,10 +244,6 @@ class ScheduleWidget(QGroupBox):
         self._lbl_udev.setWordWrap(True)
         main_layout.addWidget(self._lbl_udev, 6, 0, 1, 2)
 
-        # Move this into _schedule_mode_combobox() ?
-        self._combo_schedule_mode.currentIndexChanged.connect(
-            self._slot_schedule_mode_changed)
-
         # Debug logging
         self._check_debug = QCheckBox(self)
         self._check_debug.setText(_('Enable logging of debug messages'))
@@ -261,6 +257,11 @@ class ScheduleWidget(QGroupBox):
             ]
         )
         main_layout.addWidget(self._check_debug, 8, 0)
+
+        # Signal
+        self._combo_schedule_mode.currentIndexChanged.connect(
+            self._slot_schedule_mode_changed)
+
 
     def _schedule_mode_combobox(self) -> combobox.BitComboBox:
         """Create the the combobox for schedule mode.
@@ -339,7 +340,7 @@ class ScheduleWidget(QGroupBox):
     def _slot_schedule_mode_changed(self, idx):
         """Handle value changed events for schedule mode combobox.
         """
-        print(f'{idx=} {self._combo_schedule_mode.current_data=}')
+        print('F'*100)
         backup_mode_id = self._combo_schedule_mode.current_data
 
         if backup_mode_id == config.Config.CUSTOM_HOUR:
@@ -406,6 +407,10 @@ class ScheduleWidget(QGroupBox):
         self._combo_repeated_unit.select_by_data(cfg.scheduleRepeatedUnit())
 
         self._check_debug.setChecked(cfg.scheduleDebug())
+
+
+        self._slot_schedule_mode_changed(
+            self._combo_schedule_mode.currentIndex())
 
     def store_values(self, cfg: config.Config) -> bool:
         """Store the widgets values in the config instance.
@@ -1407,9 +1412,8 @@ class SettingsDialog(QDialog):
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
-        # self.globalScheduleGroupBox = self._schedule_widget()
-        self.globalScheduleGroupBox = ScheduleWidget(self)
-        tab_layout.addWidget(self.globalScheduleGroupBox)
+        self._wdg_schedule = ScheduleWidget(self)
+        tab_layout.addWidget(self._wdg_schedule)
 
         #
         tab_layout.addStretch()
@@ -1598,7 +1602,7 @@ class SettingsDialog(QDialog):
         self.txt_profile.setText(profile)
 
         # Schedule
-        self.globalScheduleGroupBox.load_values(self.config)
+        self._wdg_schedule.load_values(self.config)
 
         # TAB: Include
         self.listInclude.clear()
@@ -1808,7 +1812,7 @@ class SettingsDialog(QDialog):
                                      self.spbExcludeBySize.value())
 
         # schedule
-        rc = self._schedule_widget.store_values(self.config)
+        rc = self._wdg_schedule.store_values(self.config)
 
         if not rc:
             return False

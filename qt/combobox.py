@@ -26,11 +26,7 @@ class BitComboBox(QComboBox):
         self._content_dict = content_dict
 
         for data, entry in self._content_dict.items():
-            # print(f'BitComboBox.__init() :: {data=} {entry=}') DEBUG
             self.addItem(entry, userData=data)
-
-    # def data(self, index: int) -> Any:
-    #     return self.itemData(index)
 
     @property
     def current_data(self):
