@@ -337,6 +337,7 @@ class ScheduleWidget(QGroupBox):
         self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
     def _set_child_visibilities(self, backup_mode_id: int):
+        print(f'{backup_mode_id=}')
         vis = backup_mode_id == config.Config.CUSTOM_HOUR
         self._lbl_cronpattern.setVisible(vis)
         self._edit_cronpattern.setVisible(vis)
@@ -358,7 +359,7 @@ class ScheduleWidget(QGroupBox):
         self._spin_period.setVisible(vis)
         self._combo_repeated_unit.setVisible(vis)
 
-        if vis is False:
+        if vis is True:
             self._lbl_time.hide()
             self._combo_time.hide()
 
