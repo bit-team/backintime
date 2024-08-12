@@ -8,8 +8,8 @@
 """
 
 """
-from typing import Any
 from PyQt6.QtWidgets import QComboBox, QWidget
+
 
 class BitComboBox(QComboBox):
     """

@@ -1,20 +1,15 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-#                         Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raak
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 import os
 import datetime
 import copy
@@ -261,7 +256,7 @@ class ScheduleWidget(QGroupBox):
         # Signal
         self._combo_schedule_mode.currentIndexChanged.connect(
             self._slot_schedule_mode_changed)
-
+        self._slot_schedule_mode_changed(None)
 
     def _schedule_mode_combobox(self) -> combobox.BitComboBox:
         """Create the the combobox for schedule mode.
@@ -338,59 +333,40 @@ class ScheduleWidget(QGroupBox):
         return combobox.BitComboBox(self, repeatedly_units)
 
     def _slot_schedule_mode_changed(self, idx):
-        """Handle value changed events for schedule mode combobox.
-        """
-        print('F'*100)
-        backup_mode_id = self._combo_schedule_mode.current_data
+        """Handle value changed events for schedule mode combobox."""
+        self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
-        if backup_mode_id == config.Config.CUSTOM_HOUR:
-            self._lbl_cronpattern.show()
-            self._edit_cronpattern.show()
-        else:
-            self._lbl_cronpattern.hide()
-            self._edit_cronpattern.hide()
+    def _set_child_visibilities(self, backup_mode_id: int):
+        vis = backup_mode_id == config.Config.CUSTOM_HOUR
+        self._lbl_cronpattern.setVisible(vis)
+        self._edit_cronpattern.setVisible(vis)
 
-        if backup_mode_id == config.Config.WEEK:
-            self._lbl_weekday.show()
-            self._combo_weekday.show()
-        else:
-            self._lbl_weekday.hide()
-            self._combo_weekday.hide()
+        vis = backup_mode_id == config.Config.WEEK
+        self._lbl_weekday.setVisible(vis)
+        self._combo_weekday.setVisible(vis)
 
-        if backup_mode_id == config.Config.MONTH:
-            self._lbl_day.show()
-            self._combo_day.show()
-        else:
-            self._lbl_day.hide()
-            self._combo_day.hide()
+        vis = backup_mode_id == config.Config.MONTH
+        self._lbl_day.setVisible(vis)
+        self._combo_day.setVisible(vis)
 
-        if backup_mode_id >= config.Config.DAY:
-            self._lbl_time.show()
-            self._combo_time.show()
-        else:
+        vis = backup_mode_id >= config.Config.DAY
+        self._lbl_time.setVisible(vis)
+        self._combo_time.setVisible(vis)
+
+        vis = config.Config.REPEATEDLY <= backup_mode_id <= config.Config.UDEV
+        self._lbl_period.setVisible(vis)
+        self._spin_period.setVisible(vis)
+        self._combo_repeated_unit.setVisible(vis)
+
+        if vis is False:
             self._lbl_time.hide()
             self._combo_time.hide()
 
-        if config.Config.REPEATEDLY <= backup_mode_id <= config.Config.UDEV:
-            self._lbl_period.show()
-            self._spin_period.show()
-            self._combo_repeated_unit.show()
-            self._lbl_time.hide()
-            self._combo_time.hide()
-        else:
-            self._lbl_period.hide()
-            self._spin_period.hide()
-            self._combo_repeated_unit.hide()
+        vis = backup_mode_id == config.Config.REPEATEDLY
+        self._lbl_repeated.setVisible(vis)
 
-        if backup_mode_id == config.Config.REPEATEDLY:
-            self._lbl_repeated.show()
-        else:
-            self._lbl_repeated.hide()
-
-        if backup_mode_id == config.Config.UDEV:
-            self._lbl_udev.show()
-        else:
-            self._lbl_udev.hide()
+        vis = backup_mode_id == config.Config.UDEV
+        self._lbl_udev.setVisible(vis)
 
     def load_values(self, cfg: config.Config):
         """Set the values of the widgets regarding the current config."""
@@ -407,7 +383,6 @@ class ScheduleWidget(QGroupBox):
         self._combo_repeated_unit.select_by_data(cfg.scheduleRepeatedUnit())
 
         self._check_debug.setChecked(cfg.scheduleDebug())
-
 
         self._slot_schedule_mode_changed(
             self._combo_schedule_mode.currentIndex())
@@ -452,7 +427,6 @@ class ScheduleWidget(QGroupBox):
         cfg.setScheduleDebug(self._check_debug.isChecked())
 
         return True
-
 
 
 class SettingsDialog(QDialog):
@@ -1419,7 +1393,6 @@ class SettingsDialog(QDialog):
         tab_layout.addStretch()
 
         return tab_widget
-
 
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
