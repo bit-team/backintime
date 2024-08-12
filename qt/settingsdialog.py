@@ -163,6 +163,16 @@ class SshProxyWidget(QWidget):
 class ScheduleWidget(QGroupBox):
     """Widget to schedule snapshots."""
     def __init__(self, parent):
+        """
+        comboSchedule
+        comboScheduleDay
+        comboScheduleWeekday
+        comboScheduleTime
+        comboScheduleCronPattern
+        spbScheduleRepeatedPeriod
+        comboScheduleRepeatedUnit
+        cbScheduleDebug
+        """
         super().__init__(title=_('Schedule'), parent=parent)
 
         main_layout = QGridLayout(groupBox)
@@ -224,12 +234,8 @@ class ScheduleWidget(QGroupBox):
         self.lblScheduleRepeated.setWordWrap(True)
         main_layout.addWidget(self.lblScheduleRepeated, 5, 0, 1, 2)
 
-        self.lblScheduleRepeatedPeriod = QLabel(_('Every:'))
-        self.lblScheduleRepeatedPeriod.setContentsMargins(5, 0, 0, 0)
-        self.lblScheduleRepeatedPeriod.setAlignment(
-            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        main_layout.addWidget(self.lblScheduleRepeatedPeriod, 7, 0)
-
+        # Every
+        main_layout.addWidget(_create_label(_('Every:')), 7, 0)
         hlayout = QHBoxLayout()
         self.spbScheduleRepeatedPeriod = QSpinBox(self)
         self.spbScheduleRepeatedPeriod.setSingleStep(1)
@@ -249,7 +255,7 @@ class ScheduleWidget(QGroupBox):
         hlayout.addStretch()
         main_layout.addLayout(hlayout, 7, 1)
 
-        # udev
+        # Udev
         self.lblScheduleUdev = QLabel(
             _('Run Back In Time as soon as the drive is connected (only once'
               ' every X days).\nYou will be prompted for your sudo password.')
@@ -259,6 +265,7 @@ class ScheduleWidget(QGroupBox):
 
         self._combo_box.currentIndexChanged.connect(self.scheduleChanged)
 
+        # Debug logging
         self.cbScheduleDebug = QCheckBox(self)
         self.cbScheduleDebug.setText(_('Enable logging of debug messages'))
         qttools.set_wrapped_tooltip(
