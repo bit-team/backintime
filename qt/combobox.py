@@ -26,17 +26,22 @@ class BitComboBox(QComboBox):
         self._content_dict = content_dict
 
         for data, entry in self._content_dict.items():
+            # print(f'BitComboBox.__init() :: {data=} {entry=}') DEBUG
             self.addItem(entry, userData=data)
 
     # def data(self, index: int) -> Any:
     #     return self.itemData(index)
+
+    @property
+    def current_data(self):
+        return self.itemData(self.currentIndex())
 
     def select_by_data(self, data):
         """Select an entry in the combo box by its underlying data."""
         for idx in range(self.count()):
             if self.itemData(idx) == data:
                 self.setCurrentIndex(idx)
-                break
+                return
 
         raise ValueError('Unable to select combo box entry because data not '
-                         f'found in it. Data is: {data}')
+                         f'found in it. Data is: {data} (type: {type(data)})')
