@@ -70,20 +70,28 @@ required changes.
    Check if you already have a key pair:
 
    ```
-   ls -l ~/.ssh/id_rsa
+   ls -l ~/.ssh/id_*
    ```
    
-   If no `id_rsa` file exists create a new public/private key:
+   If no `id_rsa` or `id_ed25519` file exists create a new public/private key:
 
    ```commandline
+   # Generate RSA key
    ssh-keygen -t rsa -b 4096  # saves in ~/.ssh/id_rsa and id_rsa.pub by default
+
+   # OR generate ed25519 key
+   ssh-keygen -t ed25519 # saves in ~/.ssh/id_ed25519 and id_ed25519.pub by default
    # Enter and a remember a passphrase to protect your private key!
    ```
 
    Now copy the public key to the ssh server's `autorized_keys` file:
 
    ```commandline
-   ssh-copy-id -i ~/.ssh/id_rsa.pub username@localhost
+   # If you have id_rsa.pub:
+   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+   # OR if you have id_ed25519.pub
+   cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
    ```
 
 1. Run the BiT unit tests to check if ssh tests do work now

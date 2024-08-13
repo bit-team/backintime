@@ -45,17 +45,36 @@ tools.registerBackintimePath('qt', 'plugins')
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
 # A simple (local) RSA key pair via "ssh-keygen" and activate it
 # via "ssh-copy-id localhost".
-PRIV_KEY_FILE = pathlib.Path.home() / '.ssh' / 'id_rsa'
-PUBLIC_KEY_FILE = PRIV_KEY_FILE.with_suffix('.pub')
+RSA_PUBLIC_KEY_FILE = pathlib.Path.home() / '.ssh/id_rsa.pub'
+ED25519_PUBLIC_KEY_FILE = pathlib.Path.home() / '.ssh/id_ed25519.pub'
+
 AUTHORIZED_KEYS_FILE = pathlib.Path.home() / '.ssh' / 'authorized_keys'
 DUMMY = 'dummy_test_process.sh'
 
-if all([PUBLIC_KEY_FILE.exists(), AUTHORIZED_KEYS_FILE.exists()]):
-    with PUBLIC_KEY_FILE.open('rb') as pub:
-        with AUTHORIZED_KEYS_FILE.open('rb') as auth:
-            KEY_IN_AUTH = pub.read() in auth.readlines()
+public_keys = [RSA_PUBLIC_KEY_FILE, ED25519_PUBLIC_KEY_FILE]
+existing_public_keys = filter(lambda k: k.exists(), public_keys)
+authorised_public_keys = []
+
+if AUTHORIZED_KEYS_FILE.exists():
+    with AUTHORIZED_KEYS_FILE.open('rb') as auth:
+        auth_keys = auth.readlines()
+
+    for key in existing_public_keys:
+        with key.open('rb') as pub:
+            if pub.read() in auth_keys:
+                authorised_public_keys.append(key)
+
+if authorised_public_keys:
+    KEY_IN_AUTH = True
+    PUBLIC_KEY_FILE = authorised_public_keys[0]
+    PRIV_KEY_FILE = PUBLIC_KEY_FILE.with_suffix('')
 else:
     KEY_IN_AUTH = False
+    # Later code expects these to be defined. They won't work, because
+    # they are not authorised!
+    # TODO: Refactor to avoid needing to define these.
+    PUBLIC_KEY_FILE = public_keys[0]
+    PRIV_KEY_FILE = PUBLIC_KEY_FILE.with_suffix('')
 
 # check if port 22 on localhost is available
 # sshd should be there...
