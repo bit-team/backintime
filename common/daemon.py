@@ -15,10 +15,30 @@
 
 Notes about the license (by buhtz, 2024-08-13):
 
-    The linked blog article is licenced under CC BY-SA 3.0 which is not
+    The linked blog article is licensed under CC BY-SA 3.0 which is not
     compatible with GPLv2 used by Back In Time. But the original author
-    clarified that the code used in the blog article is public domain. See this
-    origianl email.
+    clarified that the code used in the blog article is public domain.
+
+See this original email.
+
+    Date: Tue, 13 Aug 2024 14:19:48 +0200
+    Subject: Re: Your Daemon code in Back In Time
+    Message-ID: <06084b4b-2293-4a28-a290-96fa4d309a8b@email.android.com>
+    In-Reply-To: <3d57067b590e271ce6f361ce4147ac08@posteo.de>
+    From: Sander Marechal <sander@marechal.io>
+    To: c.buhtz@posteo.jp
+
+    Hello Christian,
+
+    As far as I am concerned that daemon code is public domain. You can use it
+    under any license you want. There are only a few ways to start a daemon so
+    technically the code can't be cooyrighted as far as I am concerned. That CC
+    license is just for my articles in general.
+
+    Kind regards,
+
+    --
+    Sander Marechal
 """
 import sys
 import os

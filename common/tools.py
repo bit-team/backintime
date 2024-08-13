@@ -22,10 +22,8 @@ import locale
 import gettext
 import hashlib
 import ipaddress
-import atexit
 from datetime import datetime
 from packaging.version import Version
-from time import sleep
 import logger
 
 # Try to import keyring
@@ -66,7 +64,6 @@ except ImportError:
 
 import configfile
 import bcolors
-from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
 import languages
 
@@ -2548,4 +2545,3 @@ class Execute(object):
         if self.pausable and self.currentProc:
             logger.info(f'Kill process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.kill()
-
