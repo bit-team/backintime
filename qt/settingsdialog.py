@@ -26,7 +26,6 @@ from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
                              QGridLayout,
-                             QFormLayout,
                              QDialogButtonBox,
                              QMessageBox,
                              QInputDialog,
@@ -65,7 +64,6 @@ import snapshots
 import sshtools
 import logger
 import encfsmsgbox
-import combobox
 import schedulewidget
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
