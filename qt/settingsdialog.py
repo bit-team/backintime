@@ -26,6 +26,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
                              QGridLayout,
+                             QFormLayout,
                              QDialogButtonBox,
                              QMessageBox,
                              QInputDialog,
@@ -157,87 +158,74 @@ class SshProxyWidget(QWidget):
 
 
 class ScheduleWidget(QGroupBox):
-    """Widget about schedule snapshots."""
+    """Widget about schedule snapshots.
+
+    That widget is used in the 'General' tab of the 'Manage profiles' dialog.
+    """
     def __init__(self, parent):
-        """
-        """
         super().__init__(title=_('Schedule'), parent=parent)
 
-        main_layout = QGridLayout(self)
-        main_layout.setColumnStretch(1, 2)
+        main_layout = QFormLayout(self)
 
-        def _create_label(text):
-            label = QLabel(text, self)
-            label.setContentsMargins(5, 0, 0, 0)
-            label.setAlignment(
-                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        def _create_form_entry(label: str, widget: QWidget=None) -> int:
+            """Helper to create a row with a label and widget in the form
+            layout.
 
-            return label
+            The returned index is used later to toggle visibility of that
+            row.
+            """
+            if widget:
+                main_layout.addRow(label, widget)
+            else:
+                lbl = QLabel(label)
+                lbl.setWordWrap(True)
+                main_layout.addRow(lbl)
+
+            return main_layout.rowCount() - 1
 
         # Schedule modes
         self._combo_schedule_mode = self._schedule_mode_combobox()
-        main_layout.addWidget(self._combo_schedule_mode, 0, 0, 1, 2)
+        main_layout.addRow(self._combo_schedule_mode)
 
         # Day
-        self._lbl_day = _create_label(_('Day:'))
-        main_layout.addWidget(self._lbl_day, 1, 0)
-
         self._combo_day = self._day_combobox()
-        main_layout.addWidget(self._combo_day, 1, 1)
+        self._rowidx_day = _create_form_entry(_('Day:'), self._combo_day)
 
         # Weekday
-        self._lbl_weekday = _create_label(_('Weekday:'))
-        main_layout.addWidget(self._lbl_weekday, 2, 0)
-
         self._combo_weekday = self._weekday_combobox()
-        main_layout.addWidget(self._combo_weekday, 2, 1)
+        self._rowidx_weekday = _create_form_entry(
+            _('Weekday:'), self._combo_weekday)
 
-        # Hour
-        self._lbl_time = _create_label(_('Hour:'))
-        main_layout.addWidget(self._lbl_time, 3, 0)
-
+        # Time (formerly known as Hour)
         self._combo_time = self._time_combobox()
-        main_layout.addWidget(self._combo_time, 3, 1)
+        self._rowidx_time = _create_form_entry(
+            _('Time:'), self._combo_time)
 
         # HourS
-        self._lbl_cronpattern = _create_label(_('Hours:'))
-        main_layout.addWidget(self._lbl_cronpattern, 4, 0)
-
         self._edit_cronpattern = QLineEdit(self)
-        main_layout.addWidget(self._edit_cronpattern, 4, 1)
+        self._rowidx_cronpattern = _create_form_entry(
+            _('Hours:'), self._edit_cronpattern)
+
+        # Udev
+        self._rowidx_udev = _create_form_entry(
+            _('Run Back In Time as soon as the drive is connected (only once'
+              ' every X days). You will be prompted for your sudo password.'))
 
         # Repeatedly (like anacron)
-        self._lbl_repeated = QLabel(
-            _('Run Back In Time repeatedly. This is useful if the '
-              'computer is not running regularly.')
-        )
-        self._lbl_repeated.setContentsMargins(5, 0, 0, 0)
-        self._lbl_repeated.setWordWrap(True)
-        main_layout.addWidget(self._lbl_repeated, 5, 0, 1, 2)
+        self._rowidx_repeated = _create_form_entry(
+            _('Run Back In Time repeatedly. This is useful if the computer '
+              'is not running regularly.'))
 
-        # Repeatedly - Every (value)
-        self._lbl_period = _create_label(_('Every:'))
-        main_layout.addWidget(self._lbl_period, 7, 0)
-
-        hlayout = QHBoxLayout()
+        # Repeatedly - Every (value) (units)
         self._spin_period = QSpinBox(self)
         self._spin_period.setSingleStep(1)
         self._spin_period.setRange(1, 10000)
-        hlayout.addWidget(self._spin_period)
-
-        # Repeatedly - Every (unit)
         self._combo_repeated_unit = self._repeated_unit_combobox()
+        hlayout = QHBoxLayout()
+        hlayout.addWidget(self._spin_period)
         hlayout.addWidget(self._combo_repeated_unit)
         hlayout.addStretch()
-        main_layout.addLayout(hlayout, 7, 1)
-
-        # Udev
-        self._lbl_udev = QLabel(
-            _('Run Back In Time as soon as the drive is connected (only once'
-              ' every X days).\nYou will be prompted for your sudo password.')
-        )
-        self._lbl_udev.setWordWrap(True)
-        main_layout.addWidget(self._lbl_udev, 6, 0, 1, 2)
+        self._rowidx_period = _create_form_entry(_('Every:'), hlayout)
 
         # Debug logging
         self._check_debug = QCheckBox(self)
@@ -251,7 +239,8 @@ class ScheduleWidget(QGroupBox):
                   'generates a large amount of output.')
             ]
         )
-        main_layout.addWidget(self._check_debug, 8, 0)
+        self._rowidx_debug = main_layout.rowCount()
+        main_layout.addRow(self._check_debug)
 
         # Signal
         self._combo_schedule_mode.currentIndexChanged.connect(
@@ -337,37 +326,39 @@ class ScheduleWidget(QGroupBox):
         self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
     def _set_child_visibilities(self, backup_mode_id: int):
-        print(f'{backup_mode_id=}')
-        vis = backup_mode_id == config.Config.CUSTOM_HOUR
-        self._lbl_cronpattern.setVisible(vis)
-        self._edit_cronpattern.setVisible(vis)
+        layout = self.layout()
 
-        vis = backup_mode_id == config.Config.WEEK
-        self._lbl_weekday.setVisible(vis)
-        self._combo_weekday.setVisible(vis)
+        layout.setRowVisible(
+            self._rowidx_cronpattern,
+            backup_mode_id == config.Config.CUSTOM_HOUR)
 
-        vis = backup_mode_id == config.Config.MONTH
-        self._lbl_day.setVisible(vis)
-        self._combo_day.setVisible(vis)
+        layout.setRowVisible(
+            self._rowidx_weekday,
+            backup_mode_id == config.Config.WEEK)
 
-        vis = backup_mode_id >= config.Config.DAY
-        self._lbl_time.setVisible(vis)
-        self._combo_time.setVisible(vis)
+        layout.setRowVisible(
+            self._rowidx_day,
+            backup_mode_id == config.Config.MONTH)
+
+        layout.setRowVisible(
+            self._rowidx_time,
+            backup_mode_id >= config.Config.DAY)
 
         vis = config.Config.REPEATEDLY <= backup_mode_id <= config.Config.UDEV
-        self._lbl_period.setVisible(vis)
-        self._spin_period.setVisible(vis)
-        self._combo_repeated_unit.setVisible(vis)
+        layout.setRowVisible(
+            self._rowidx_period,
+            vis)
 
         if vis is True:
-            self._lbl_time.hide()
-            self._combo_time.hide()
+            layout.setRowVisible(self._rowidx_time, False)
 
-        vis = backup_mode_id == config.Config.REPEATEDLY
-        self._lbl_repeated.setVisible(vis)
+        layout.setRowVisible(
+            self._rowidx_repeated,
+            backup_mode_id == config.Config.REPEATEDLY)
 
-        vis = backup_mode_id == config.Config.UDEV
-        self._lbl_udev.setVisible(vis)
+        layout.setRowVisible(
+            self._rowidx_udev,
+            backup_mode_id == config.Config.UDEV)
 
     def load_values(self, cfg: config.Config):
         """Set the values of the widgets regarding the current config."""
