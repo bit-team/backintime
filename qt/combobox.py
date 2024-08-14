@@ -5,14 +5,28 @@
 # This file is part of the program "Back In time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
-"""
-
-"""
 from PyQt6.QtWidgets import QComboBox, QWidget
 
 
 class BitComboBox(QComboBox):
-    """
+    """Improved combo box.
+
+    This class can be filled by a dictionary and has the ability to select a
+    specific entry based on its underlying `userData` instead of just the
+    index.
+
+    Example of a dictionary : ::
+
+        # Dictionary values are the strings displayed in the combo box.
+        # The keys are the underlying 'userData'.
+        fill = {
+            10: 'Hour',
+            20: 'Day',
+            30: 'Week',
+            40: 'Month'
+        }
+        combo = BitComboBox(parent, fill)
+
     """
     def __init__(self, parent: QWidget, content_dict: dict):
         """
