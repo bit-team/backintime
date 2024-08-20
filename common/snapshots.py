@@ -859,9 +859,9 @@ class Snapshots:
                                     break
 
                         if not self.config.canBackup(profile_id):
-                            logger.warning('Snapshots directory not '
-                                           'accessible. Tries stopped.',
-                                           self)
+                            logger.error('Snapshots directory not '
+                                         'accessible. Tries stopped.',
+                                         self)
                             # Can't find snapshots directory (is it on a
                             # removable drive ?)
                             self.config.PLUGIN_MANAGER.error(3)

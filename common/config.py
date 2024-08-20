@@ -1579,11 +1579,11 @@ class Config(configfile.ConfigFileWithProfiles):
         path = self.snapshotsFullPath(profile_id)
 
         if not os.path.exists(path):
-            logger.error(f'Snapshot path does not exists: {path}', self)
+            logger.warning(f'Snapshot path does not exists: {path}', self)
             return False
 
         if not os.path.isdir(path):
-            logger.error(f'Snapshot path is not a directory: {path}', self)
+            logger.warning(f'Snapshot path is not a directory: {path}', self)
             return False
 
         return True
