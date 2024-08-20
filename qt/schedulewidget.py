@@ -7,7 +7,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 import datetime
@@ -154,6 +154,12 @@ class ScheduleWidget(QGroupBox):
         return combobox.BitComboBox(self, schedule_modes)
 
     def _time_combobox(self) -> combobox.BitComboBox:
+        """Combobox with time/hours (e.g. 03:00).
+
+        Returns:
+            BitComboBox: The widget.
+        """
+
         # Dev note (buhtz): strftime is needed because of localization
         # {0: '00:00', 100: '01:00', ..., 2200: '22:00', 2300: '23:00'}
         times = {
@@ -163,10 +169,20 @@ class ScheduleWidget(QGroupBox):
         return combobox.BitComboBox(self, times)
 
     def _day_combobox(self) -> combobox.BitComboBox:
+        """Combobox with day number in the month.
+
+        Returns:
+            BitComboBox: The widget.
+        """
         days = {day: str(day) for day in range(1, 29)}
         return combobox.BitComboBox(self, days)
 
     def _weekday_combobox(self) -> combobox.BitComboBox:
+        """Combobox with name of the weekday.
+
+        Returns:
+            BitComboBox: The widget.
+        """
         sunday = datetime.date(2011, 11, 6)
         weekdays = {
             day: (sunday + datetime.timedelta(days=day)).strftime('%A')
@@ -175,10 +191,10 @@ class ScheduleWidget(QGroupBox):
         return combobox.BitComboBox(self, weekdays)
 
     def _repeated_unit_combobox(self):
-        """Create the combobox for "Every ..." schedule mode.
+        """Combobox for "Every ..." schedule mode to select the units to use.
 
         Returns:
-            QComboBox: The widget.
+            BitComboBox: The widget.
         """
         repeatedly_units = {
             config.Config.HOUR: _('Hour(s)'),
@@ -194,6 +210,9 @@ class ScheduleWidget(QGroupBox):
         self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
     def _set_child_visibilities(self, backup_mode_id: int):
+        """Modify the visibility of child widgets (addressed by their index in
+        the form layout) based on the selected schedule mode.
+        """
         layout = self.layout()
 
         layout.setRowVisible(

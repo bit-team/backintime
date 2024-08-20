@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 from PyQt6.QtWidgets import QComboBox, QWidget
@@ -11,13 +11,13 @@ from PyQt6.QtWidgets import QComboBox, QWidget
 class BitComboBox(QComboBox):
     """Improved combo box.
 
-    This class can be filled by a dictionary and has the ability to select a
-    specific entry based on its underlying `userData` instead of just the
-    index.
+    This widget can be filled (with content and data) just by a dictionary. It
+    has the ability to select a specific entry based on its underlying
+    `userData` instead of just the index.
 
     Example of a dictionary : ::
 
-        # Dictionary values are the strings displayed in the combo box.
+        # Values in the dictionary are the strings displayed in the combo box.
         # The keys are the underlying 'userData'.
         fill = {
             10: 'Hour',
