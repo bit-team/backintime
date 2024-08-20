@@ -956,11 +956,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def include(self, profile_id=None):
         #?Include this file or folder. <I> must be a counter starting with 1;absolute path::
         #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR is a folder (0) or a file (1).;0|1;0
-        return self.profileListValue(
-            key='snapshots.include',
-            type_key=('str:value', 'int:type'),
-            default=[],
-            profile_id=profile_id)
+        return self.profileListValue(key='snapshots.include', type_key=('str:value', 'int:type'), default=[], profile_id=profile_id)
 
     def setInclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.include', ('str:value', 'int:type'), values, profile_id)
