@@ -175,7 +175,7 @@ def is_cron_running():
 
     with subprocess.Popen(['ps', '-eo', 'comm'], stdout=subprocess.PIPE) as ps:
         try:
-            grep = subprocess.run(
+            subprocess.run(
                 ['grep', '--ignore-case', 'cron'],
                 stdin=ps.stdout,
                 stdout=subprocess.PIPE,

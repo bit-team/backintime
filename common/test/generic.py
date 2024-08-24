@@ -65,9 +65,15 @@ try:
 except ConnectionRefusedError:
     sshdPortAvailable = False
 
+ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
+ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
+
 SKIP_SSH_TEST_MESSAGE = 'Skip as this test requires a local ssh server, ' \
                         'public and private keys installed'
-LOCAL_SSH = all([
+
+# If False all SSH related tests are skipped.
+# On TravisCI that tests are enforced and never skipped.
+LOCAL_SSH = True if ON_TRAVIS else all([
     # Server process running?
     tools.processExists('sshd'),
     # Privat keyfile (id_rsa)
@@ -78,8 +84,6 @@ LOCAL_SSH = all([
     sshdPortAvailable
 ])
 
-ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
-ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 # Temporary workaround (buhtz: 2023-09)
 # Not all components of the code are able to handle Path objects

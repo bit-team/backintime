@@ -1,4 +1,4 @@
-.TH backintime-config 1 "August 2024" "version 1.5.3-dev.3e80feee" "USER COMMANDS"
+.TH backintime-config 1 "Aug 2024" "version 1.5.3-dev" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -71,6 +71,15 @@ Type: int       Allowed Values: 1-28
 Which day of month the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR >= 40
 .PP
 Default: 1
+.RE
+
+.IP "\fIprofile<N>.schedule.debug\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Enable debug output to system log for schedule mode.
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.schedule.mode\fR" 6
@@ -682,7 +691,7 @@ Default: false
 .RS
 Type: int       Allowed Values: 0, >700
 .br
-Maximum command length of commands run on remote host. This can be tested for all ssh profiles in the configuration with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.
+Maximum command length of commands run on remote host. This can be tested for all ssh profiles in the configuration with 'python3 /usr/share/backintime/common/sshMaxArg.py LENGTH'.
 .br
 0 = unlimited
 .PP
@@ -752,6 +761,33 @@ Private key file used for password-less authentication on remote host.
 Default: ~/.ssh/id_dsa
 .RE
 
+.IP "\fIprofile<N>.snapshots.ssh.proxy_host\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Proxy host used to connect to remote host.
+.PP
+Default: IP or domain address
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.proxy_host_port\fR" 6
+.RS
+Type: int       Allowed Values: 0-65535
+.br
+Proxy host port used to connect to remote host.
+.PP
+Default: 22
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.proxy_user\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Remote SSH user
+.PP
+Default: the local users name
+.RE
+
 .IP "\fIprofile<N>.snapshots.ssh.user\fR" 6
 .RS
 Type: str       Allowed Values: text
@@ -815,12 +851,8 @@ Internal version of profiles config.
 Default: 1
 .RE
 .SH SEE ALSO
-.BR backintime (1),
-.BR backintime-qt (1),
-.BR backintime-askpass (1)
+backintime, backintime-qt.
 .PP
-\fBBack In Time\fP project website: https://github.com/bit-team/backintime
-.PP
-\fBBack In Time\fP mailing list: https://mail.python.org/mailman3/lists/bit-dev.python.org
+Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
-\fBBack In Time\fP Team
+This manual page was written by BIT Team(<bit-dev@python.org>).
