@@ -509,8 +509,10 @@ def startApp(app_name='backintime'):
     args = argParse(None)
 
     # Name, Version, As Root, OS
+    msg = ''
     for key, val in collect_minimal_diagnostics().items():
-        logger.debug(f'{key}: {val}')
+        msg = f'{msg}; {key}: {val}'
+    logger.debug(msg[2:])
 
     # Add source path to $PATH environ if running from source
     if tools.runningFromSource():
@@ -610,8 +612,8 @@ def argParse(args):
         for key
         in filter(lambda key: args_dict[key] is not None, args_dict)
     }
-    logger.debug(f'Used argument(s): {used_args}')
-    logger.debug(f'Unknown argument(s): {unknownArgs}')
+
+    logger.debug(f'Argument(s) used: {used_args}')
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.
