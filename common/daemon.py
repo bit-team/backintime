@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: CC0 (public domain)
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 """A generic daemon class.
