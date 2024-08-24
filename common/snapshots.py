@@ -845,25 +845,23 @@ class Snapshots:
                                     message=message,
                                     timeout=30)
 
+                            logger.warning(
+                                'Cannot start snapshot yet: target directory '
+                                'not accessible. Will retry each second in '
+                                'the next 30 seconds. Please wait.')
+
                             counter = 0
                             for counter in range(0, 30):
-                                logger.debug(
-                                    'Cannot start snapshot yet: target '
-                                    'directory not accessible. Waiting 1s.')
 
                                 time.sleep(1)
 
                                 if self.config.canBackup():
                                     break
 
-                            if counter != 0:
-                                logger.info(
-                                    f'Waited {counter} seconds for target '
-                                    'directory to be available', self)
-
                         if not self.config.canBackup(profile_id):
-                            logger.warning(
-                                "Can't find snapshots folder!", self)
+                            logger.error('Snapshots directory not '
+                                         'accessible. Tries stopped.',
+                                         self)
                             # Can't find snapshots directory (is it on a
                             # removable drive ?)
                             self.config.PLUGIN_MANAGER.error(3)
@@ -873,8 +871,10 @@ class Snapshots:
                             sid = SID(now, self.config)
 
                             if sid.exists():
-                                logger.warning(f'Snapshot path "{sid.path()}" '
-                                               'already exists', self)
+                                logger.warning(
+                                    f'Snapshot directory "{sid.path()}" '
+                                    'already exists',
+                                    self)
                                 # This snapshot already exists
                                 self.config.PLUGIN_MANAGER.error(4, sid)
 
