@@ -89,7 +89,7 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
 FOOTER = r'''.SH SEE ALSO
-backintime, backintime-qt.
+backintime, backintime-qt, backintime-askpass.
 .PP
 Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
@@ -104,27 +104,48 @@ COMMENT = 'comment'
 REFERENCE = 'reference'
 LINE = 'line'
 
+def groff_indented_paragraph(label: str, indent: int=6) -> str:
+    """.IP - Indented Paragraph"""
+    return f'.IP "{label}" {indent}'
+
+def groff_italic(text: str) -> str:
+    """\\fi - Italic"""
+    return f'\\fI{text}\\fR'
+
+def groff_indented_block(text: str) -> str:
+    """
+    .RS - Start indented block
+    .RE - End indented block
+    """
+    return f'\n.RS\n{text}\n.RE\n'
+
+def groff_linebreak() -> str:
+    """.br - Line break"""
+    return '.br\n'
+
+def groff_paragraph_break() -> str:
+    """.PP - Paragraph break"""
+    return '.PP\n'
+
 
 def output(instance='', name='', values='', default='',
            comment='', reference='', line=0):
-    """
-    """
+    """Generate GNU Troff (groff) markup code for the given config entry."""
     if not default:
         default = "''"
 
-    ret = '.IP "\\fI%s\\fR" 6\n' % name
-    ret += '.RS\n'
-    ret += 'Type: %-10sAllowed Values: %s\n' % (instance.lower(), values)
-    ret += '.br\n'
-    ret += '%s\n' % comment
-    ret += '.PP\n'
+    ret = f'Type: {instance.lower():<10}Allowed Values: {values}\n'
+    ret += groff_linebreak()
+    ret += f'{comment}\n'
+    ret += groff_paragraph_break()
 
     if SORT:
-        ret += 'Default: %s\n' % default
+        ret += f'Default: {default}'
     else:
-        ret += 'Default: %-18s %s line: %d\n' % (default, reference, line)
+        ret += f'Default: {default:<18} {reference} line: {line}'
 
-    ret += '.RE\n'
+    ret = groff_indented_block(ret)
+    ret = groff_indented_paragraph(groff_italic(name)) + ret
 
     return ret
 
@@ -149,6 +170,7 @@ def select_values(instance, values):
 
 def process_line(d, key, profile, instance, name, var, default, commentline,
                  values, force_var, force_default, replace_default, counter):
+    """Parsing the config.py Python code"""
     # Ignore commentlines with #?! and 'config.version'
     comment = None
 
@@ -225,7 +247,7 @@ def main():
     regex_default = re.compile(r'(^DEFAULT[\w]*|CONFIG_VERSION)[\s]*= (.*)')
 
     with open(CONFIG, 'r') as f:
-        print(f'Read "{CONFIG}".')
+        print(f'Read and parse "{CONFIG}".')
         commentline = ''
         values = force_var = force_default = instance \
             = name = var = default = None
@@ -348,13 +370,37 @@ def main():
 
                 commentline = ''
 
+    """
+    Example for content of 'd':
+        {
+            "profiles": {
+            "instance": "str",
+            "name": "profiles",
+            "values": "int separated by colon (e.g. 1:3:4)",
+            "default": "1",
+            "comment": "All active Profiles (<N> in profile<N>.snapshots...).",
+            "reference": "configfile.py",
+            "line": 472
+        },
+            "profile<N>.name": {
+            "instance": "str",
+            "name": "profile<N>.name",
+            "values": "text",
+            "default": "Main profile",
+            "comment": "Name of this profile.",
+            "reference": "configfile.py",
+            "line": 704
+        }
+    """
     with open(MAN, 'w') as f:
-        print(f'Write into "{MAN}".')
+        print(f'Write GNU Troff (groff) markup to "{MAN}". {SORT=}')
         f.write(HEADER)
 
         if SORT:
+            # Sort by alphabet
             s = lambda x: x
         else:
+            # Sort by line numbering (in the source file)
             s = lambda x: d[x][LINE]
 
         f.write('\n'.join(output(**d[key]) for key in sorted(d, key=s)))
