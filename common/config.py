@@ -669,17 +669,14 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def sshProxyPort(self, profile_id=None):
         #?Proxy host port used to connect to remote host.;0-65535
-        return self.profileIntValue(
-            'snapshots.ssh.proxy_host_port', '22', profile_id)
+        return self.profileIntValue('snapshots.ssh.proxy_host_port', '22', profile_id)
 
     def setSshProxyPort(self, value, profile_id = None):
-        self.setProfileIntValue(
-            'snapshots.ssh.proxy_host_port', value, profile_id)
+        self.setProfileIntValue('snapshots.ssh.proxy_host_port', value, profile_id)
 
     def sshProxyUser(self, profile_id=None):
-        #?Remote SSH user;;local users name
-        return self.profileStrValue(
-            'snapshots.ssh.proxy_user', getpass.getuser(), profile_id)
+        #?Remote SSH user;;the local users name
+        return self.profileStrValue('snapshots.ssh.proxy_user', getpass.getuser(), profile_id)
 
     def setSshProxyUser(self, value, profile_id=None):
         self.setProfileStrValue('snapshots.ssh.proxy_user', value, profile_id)
@@ -687,7 +684,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def sshMaxArgLength(self, profile_id = None):
         #?Maximum command length of commands run on remote host. This can be tested
         #?for all ssh profiles in the configuration
-        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.\n
+        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py LENGTH'.\n
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
