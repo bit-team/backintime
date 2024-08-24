@@ -89,7 +89,7 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
 FOOTER = r'''.SH SEE ALSO
-backintime, backintime-qt.
+backintime, backintime-qt, backintime-askpass.
 .PP
 Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR

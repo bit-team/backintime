@@ -44,8 +44,8 @@ using a "feature" branch and sending a pull request asking for a review.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
 - Update the "as at" date in the man page files `backintime.1` and `backintime-askpass.1`.
 - Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
-  - Validate the content of the created man page. It could be compared to the
-    previous man page.
+  - Validate the content of the created man page. For example compared it to a
+    previous version of the man page.
   - Create a plain text file from the man pages: `man <man-file> | col -b >
     man.plain.txt`
   - Use `git diff` (or another diff tool) to compare them and see if the
