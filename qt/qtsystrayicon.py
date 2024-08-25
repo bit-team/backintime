@@ -201,13 +201,13 @@ class QtSysTrayIcon:
             self.menuProgress.setVisible(False)
 
     def getMenuProgress(self, pg):
-        d = (
+        data = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
             ('eta',    _('ETA:'))
         )
 
-        for key, txt in d:
+        for key, txt in data:
             value = pg.strValue(key, '')
 
             if not value:

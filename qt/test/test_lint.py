@@ -102,7 +102,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'R0201',  # no-self-use
             # 'R0202',  # no-classmethod-decorator
             # 'R0203',  # no-staticmethod-decorator
-            # 'R0801',  # duplicate-code
+            'R0801',  # duplicate-code
             # 'W0123',  # eval-used
             # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ

@@ -218,12 +218,8 @@ class EncFS_SSH(EncFS_mount):
     rsync will then sync the encrypted view on / to the remote path
     """
     def __init__(self, cfg = None, profile_id = None, mode = None, parent = None,*args, **kwargs):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.currentProfile()
+        self.config = cfg or config.Config()
+        self.profile_id = profile_id or self.config.currentProfile()
         self.mode = mode
         if self.mode is None:
             self.mode = self.config.snapshotsMode(self.profile_id)
