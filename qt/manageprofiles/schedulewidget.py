@@ -35,7 +35,7 @@ class ScheduleWidget(QGroupBox):
 
         main_layout = QFormLayout(self)
 
-        def _create_form_entry(label: str, widget: QWidget=None) -> int:
+        def _create_form_entry(label: str, widget: QWidget = None) -> int:
             """Helper to create a row with a label and widget in the form
             layout.
 

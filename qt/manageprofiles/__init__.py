@@ -11,17 +11,8 @@
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 import os
-import datetime
 import copy
-import re
-import getpass
-from PyQt6.QtGui import (QIcon,
-                         QFont,
-                         QPalette,
-                         QBrush,
-                         QColor,
-                         QCursor,
-                         QFileSystemModel)
+from PyQt6.QtGui import QFont, QPalette, QBrush, QIcon
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -29,7 +20,6 @@ from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QMessageBox,
                              QInputDialog,
-                             QGroupBox,
                              QScrollArea,
                              QFrame,
                              QWidget,
@@ -37,38 +27,22 @@ from PyQt6.QtWidgets import (QDialog,
                              QComboBox,
                              QLabel,
                              QPushButton,
-                             QToolButton,
                              QLineEdit,
                              QSpinBox,
                              QTreeWidget,
                              QTreeWidgetItem,
                              QAbstractItemView,
                              QHeaderView,
-                             QCheckBox,
-                             QMenu,
-                             QProgressBar,
-                             QPlainTextEdit,
-                             QToolTip)
-from PyQt6.QtCore import (Qt,
-                          QDir,
-                          QSortFilterProxyModel,
-                          QThread,
-                          pyqtSignal)
-
+                             QCheckBox)
+from PyQt6.QtCore import Qt
 import config
 import tools
 import qttools
 import mount
 import messagebox
-import snapshots
 import sshtools
 import logger
-import encfsmsgbox
-from manageprofiles import schedulewidget
-from manageprofiles.sshproxywidget import SshProxyWidget
 from exceptions import MountException, NoPubKeyLogin, KnownHost
-from bitbase import URL_ENCRYPT_TRANSITION
-import qttools
 from manageprofiles.tab_general import GeneralTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
@@ -1639,10 +1613,9 @@ class SettingsDialog(QDialog):
 
         That slot is connected to a signal in the `GeneralTab`.
         """
-
         self._general_tab.handle_combo_modes_changed(params)
 
-        activate_mode = self._general_tab.get_active_snapshots_mode(params)
+        active_mode = self._general_tab.get_active_snapshots_mode(params)
 
         if active_mode != self.mode:
 

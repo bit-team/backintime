@@ -11,71 +11,36 @@
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 import os
-import datetime
-import copy
-import re
-import getpass
 from pathlib import Path
 from typing import Any
-from PyQt6.QtGui import (QIcon,
-                         QFont,
-                         QPalette,
-                         QBrush,
-                         QColor,
-                         QCursor,
-                         QFileSystemModel)
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
-                             QGridLayout,
-                             QDialogButtonBox,
                              QMessageBox,
-                             QInputDialog,
                              QGroupBox,
-                             QScrollArea,
-                             QFrame,
-                             QWidget,
-                             QTabWidget,
                              QComboBox,
                              QLabel,
-                             QPushButton,
                              QToolButton,
                              QLineEdit,
-                             QSpinBox,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
-                             QHeaderView,
                              QCheckBox,
-                             QMenu,
-                             QProgressBar,
-                             QPlainTextEdit,
                              QToolTip)
-from PyQt6.QtCore import (Qt,
-                          QDir,
-                          QSortFilterProxyModel,
-                          QThread,
-                          pyqtSignal)
-
 import config
 import tools
 import qttools
-import mount
 import messagebox
-import snapshots
 import sshtools
 import logger
 import encfsmsgbox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
-from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
-import qttools
-from editusercallback import EditUserCallback
-from restoreconfigdialog import RestoreConfigDialog
+
 
 class GeneralTab(QDialog):
     """Create the 'Generals' tab."""
+
     def __init__(self, parent):
         super().__init__(parent=parent)
 
@@ -421,7 +386,6 @@ class GeneralTab(QDialog):
 
         return str(self.comboModes.itemData(index))
 
-
     def handle_combo_modes_changed(self, *params):
         """Hide/show widget elements related to one of
         the four snapshot modes.
@@ -429,7 +393,7 @@ class GeneralTab(QDialog):
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
-        activate_mode = self.get_active_snapshots_mode(params)
+        active_mode = self.get_active_snapshots_mode(params)
 
         if active_mode != self.mode:
             # DevNote (buhtz): Widgets of the GUI related to the four
