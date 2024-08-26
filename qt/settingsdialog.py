@@ -64,7 +64,7 @@ import snapshots
 import sshtools
 import logger
 import encfsmsgbox
-import schedulewidget
+from manageprofiles import schedulewidget
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
 import qttools
