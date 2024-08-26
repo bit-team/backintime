@@ -441,17 +441,6 @@ class GeneralTab(QDialog):
 
         self.updateExcludeItems()
 
-        enabled = active_mode in ('ssh', 'ssh_encfs')
-
-        # self.cbNiceOnRemote.setEnabled(enabled)
-        # self.cbIoniceOnRemote.setEnabled(enabled)
-        # self.cbNocacheOnRemote.setEnabled(enabled)
-        # self.cbSmartRemoveRunRemoteInBackground.setHidden(not enabled)
-        # self.cbSshPrefix.setHidden(not enabled)
-        # self.txtSshPrefix.setHidden(not enabled)
-        # self.cbSshCheckPing.setHidden(not enabled)
-        # self.cbSshCheckCommands.setHidden(not enabled)
-
         # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
             self.encfsWarning.setHidden(False)

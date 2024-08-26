@@ -1566,47 +1566,6 @@ class SettingsDialog(QDialog):
 
             self.addInclude((path, 0))
 
-    # def btnSnapshotsPathClicked(self): #
-    #     old_path = self.editSnapshotsPath.text()
-
-    #     path = str(qttools.getExistingDirectory(
-    #         self,
-    #         _('Where to save snapshots'),
-    #         self.editSnapshotsPath.text()
-    #     ))
-
-    #     if path:
-
-    #         if old_path and old_path != path:
-
-    #             question = _('Are you sure you want to change '
-    #                          'snapshots folder?')
-    #             if not self.questionHandler(question):
-    #                 return
-
-    #             self.config.removeProfileKey('snapshots.path.uuid')
-
-    #         self.editSnapshotsPath.setText(self.config.preparePath(path))
-
-    # def btnSshPrivateKeyFileClicked(self):
-    #     old_file = self.txtSshPrivateKeyFile.text()
-
-    #     if old_file:
-    #         start_dir = self.txtSshPrivateKeyFile.text()
-    #     else:
-    #         start_dir = self.config.sshPrivateKeyFolder()
-    #     f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
-    #     if f:
-    #         self.txtSshPrivateKeyFile.setText(f)
-
-    # def btnSshKeyGenClicked(self):
-    #     key = os.path.join(self.config.sshPrivateKeyFolder(), 'id_rsa')
-    #     if sshtools.sshKeyGen(key):
-    #         self.txtSshPrivateKeyFile.setText(key)
-    #     else:
-    #         self.errorHandler(_('Failed to create new SSH key in {path}.')
-    #                           .format(path=key))
-
     def slot_combo_modes_changed(self, *params):
         """Hide/show widget elements related to one of
         the four snapshot modes.
@@ -1633,33 +1592,6 @@ class SettingsDialog(QDialog):
 
             self.mode = active_mode
 
-        # if self.config.modeNeedPassword(active_mode):
-
-        #     self.lblPassword1.setText(
-        #         self.config.SNAPSHOT_MODES[active_mode][2] + ':')
-
-        #     self.groupPassword1.show()
-
-        #     if self.config.modeNeedPassword(active_mode, 2):
-        #         self.lblPassword2.setText(
-        #             self.config.SNAPSHOT_MODES[active_mode][3] + ':')
-        #         self.lblPassword2.show()
-        #         self.txtPassword2.show()
-        #         qttools.equalIndent(self.lblPassword1, self.lblPassword2)
-
-        #     else:
-        #         self.lblPassword2.hide()
-        #         self.txtPassword2.hide()
-        #         qttools.equalIndent(self.lblPassword1)
-
-        # else:
-        #     self.groupPassword1.hide()
-
-        # if active_mode == 'ssh_encfs':
-        #     self.lblSshEncfsExcludeWarning.show()
-        # else:
-        #     self.lblSshEncfsExcludeWarning.hide()
-
         self.updateExcludeItems()
 
         enabled = active_mode in ('ssh', 'ssh_encfs')
@@ -1672,37 +1604,6 @@ class SettingsDialog(QDialog):
         self.txtSshPrefix.setHidden(not enabled)
         self.cbSshCheckPing.setHidden(not enabled)
         self.cbSshCheckCommands.setHidden(not enabled)
-
-        # # EncFS deprecation warnings (see #1734)
-        # if active_mode in ('local_encfs', 'ssh_encfs'):
-        #     self.encfsWarning.setHidden(False)
-
-        #     # Workaround to avoid showing the warning messagebox just when
-        #     # opening the manage profiles dialog.
-        #     if self.isVisible():
-        #         # Show the profile specific warning dialog only once per
-        #         # profile.
-        #         if self.config.profileBoolValue('msg_shown_encfs') is False:
-        #             self.config.setProfileBoolValue('msg_shown_encfs', True)
-        #             dlg = encfsmsgbox.EncfsCreateWarning(self)
-        #             dlg.exec()
-        # else:
-        #     self.encfsWarning.setHidden(True)
-
-    # def fullPathChanged(self, dummy):
-    #     if self.mode in ('ssh', 'ssh_encfs'):
-    #         path = self.txtSshPath.text()
-    #     else:
-    #         path = self.editSnapshotsPath.text()
-    #     self.lblFullPath.setText(
-    #         _('Full snapshot path:') + ' ' +
-    #         os.path.join(
-    #             path,
-    #             'backintime',
-    #             self.txtHost.text(),
-    #             self.txtUser.text(),
-    #             self.txt_profile.text()
-    #             ))
 
     def updateExcludeItems(self):
         for index in range(self.listExclude.topLevelItemCount()):
