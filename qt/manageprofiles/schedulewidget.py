@@ -22,7 +22,7 @@ from PyQt6.QtWidgets import (QHBoxLayout,
 import config
 import tools
 import qttools
-import combobox
+from manageprofiles import combobox
 
 
 class ScheduleWidget(QGroupBox):
