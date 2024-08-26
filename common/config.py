@@ -409,17 +409,25 @@ class Config(configfile.ConfigFileWithProfiles):
     def host(self):
         return socket.gethostname()
 
-    def snapshotsPath(self, profile_id = None, mode = None, tmp_mount = False):
+    def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
+        """Return the snapshot path (backup destination).
+        """
         if mode is None:
             mode = self.snapshotsMode(profile_id)
+
+        # If there are <mounttools> for this mode, then
+        # the path need to be mounted.
         if self.SNAPSHOT_MODES[mode][0] == None:
-            #no mount needed
+            # No mount needed
             #?Where to save snapshots in mode 'local'. This path must contain a
             #?folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
             return self.profileStrValue('snapshots.path', '', profile_id)
+
         else:
-            #mode need to be mounted; return mountpoint
-            symlink = self.snapshotsSymlink(profile_id = profile_id, tmp_mount = tmp_mount)
+            # Mode need to be mounted; return mountpoint
+            symlink = self.snapshotsSymlink(
+                profile_id=profile_id, tmp_mount=tmp_mount)
+
             return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
     def snapshotsFullPath(self, profile_id = None):
@@ -669,17 +677,14 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def sshProxyPort(self, profile_id=None):
         #?Proxy host port used to connect to remote host.;0-65535
-        return self.profileIntValue(
-            'snapshots.ssh.proxy_host_port', '22', profile_id)
+        return self.profileIntValue('snapshots.ssh.proxy_host_port', '22', profile_id)
 
     def setSshProxyPort(self, value, profile_id = None):
-        self.setProfileIntValue(
-            'snapshots.ssh.proxy_host_port', value, profile_id)
+        self.setProfileIntValue('snapshots.ssh.proxy_host_port', value, profile_id)
 
     def sshProxyUser(self, profile_id=None):
-        #?Remote SSH user;;local users name
-        return self.profileStrValue(
-            'snapshots.ssh.proxy_user', getpass.getuser(), profile_id)
+        #?Remote SSH user;;the local users name
+        return self.profileStrValue('snapshots.ssh.proxy_user', getpass.getuser(), profile_id)
 
     def setSshProxyUser(self, value, profile_id=None):
         self.setProfileStrValue('snapshots.ssh.proxy_user', value, profile_id)
@@ -687,7 +692,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def sshMaxArgLength(self, profile_id = None):
         #?Maximum command length of commands run on remote host. This can be tested
         #?for all ssh profiles in the configuration
-        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.\n
+        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py LENGTH'.\n
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
@@ -945,10 +950,10 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return paths
 
-    def include(self, profile_id = None):
+    def include(self, profile_id=None):
         #?Include this file or folder. <I> must be a counter starting with 1;absolute path::
         #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR is a folder (0) or a file (1).;0|1;0
-        return self.profileListValue('snapshots.include', ('str:value', 'int:type'), [], profile_id)
+        return self.profileListValue(key='snapshots.include', type_key=('str:value', 'int:type'), default=[], profile_id=profile_id)
 
     def setInclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.include', ('str:value', 'int:type'), values, profile_id)
@@ -1541,15 +1546,25 @@ class Config(configfile.ConfigFileWithProfiles):
                 path = path[: -1]
         return path
 
-    def isConfigured(self, profile_id = None):
-        """
-        Checks if the program is configured
-        """
-        return bool(self.snapshotsPath(profile_id) and self.include(profile_id))
+    def isConfigured(self, profile_id=None):
+        """Checks if the program is configured.
 
-    def canBackup(self, profile_id = None):
+        It is assumed as configured if a snapshot path (backup destination) is
+        and include files/directories (backup source) are given.
         """
-        Checks if snapshots_path exists
+        path = self.snapshotsPath(profile_id)
+        includes = self.include(profile_id)
+
+        if bool(path and includes):
+            return True
+        else:
+            logger.debug(f'Profile ({profile_id=}) is not configured because '
+                         f'snapshot path is {bool(path)} and/or includes '
+                         f'are {bool(includes)}.', self)
+            return False
+
+    def canBackup(self, profile_id=None):
+        """Checks if snapshots_path exists.
         """
         if not self.isConfigured(profile_id):
             return False
@@ -1557,11 +1572,11 @@ class Config(configfile.ConfigFileWithProfiles):
         path = self.snapshotsFullPath(profile_id)
 
         if not os.path.exists(path):
+            logger.warning(f'Snapshot path does not exists: {path}', self)
             return False
 
         if not os.path.isdir(path):
-            # path exists, but is no dir: something's very wrong.
-            logger.error("%s is not a directory"%path, self)
+            logger.warning(f'Snapshot path is not a directory: {path}', self)
             return False
 
         return True
