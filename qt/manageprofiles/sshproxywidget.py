@@ -10,63 +10,15 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
-import os
-import datetime
-import copy
-import re
 import getpass
-from PyQt6.QtGui import (QIcon,
-                         QFont,
-                         QPalette,
-                         QBrush,
-                         QColor,
-                         QCursor,
-                         QFileSystemModel)
-from PyQt6.QtWidgets import (QDialog,
-                             QVBoxLayout,
+from PyQt6.QtWidgets import (QVBoxLayout,
                              QHBoxLayout,
-                             QGridLayout,
-                             QDialogButtonBox,
-                             QMessageBox,
-                             QInputDialog,
-                             QGroupBox,
-                             QScrollArea,
-                             QFrame,
                              QWidget,
-                             QTabWidget,
-                             QComboBox,
                              QLabel,
-                             QPushButton,
-                             QToolButton,
                              QLineEdit,
-                             QSpinBox,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
-                             QHeaderView,
-                             QCheckBox,
-                             QMenu,
-                             QProgressBar,
-                             QPlainTextEdit,
-                             QToolTip)
-from PyQt6.QtCore import (Qt,
-                          QDir,
-                          QSortFilterProxyModel,
-                          QThread,
-                          pyqtSignal)
+                             QCheckBox)
+from PyQt6.QtCore import Qt
 
-import config
-import tools
-import qttools
-import mount
-import messagebox
-import snapshots
-import sshtools
-import logger
-import encfsmsgbox
-from manageprofiles import schedulewidget
-from exceptions import MountException, NoPubKeyLogin, KnownHost
-from bitbase import URL_ENCRYPT_TRANSITION
 import qttools
 
 
@@ -155,4 +107,3 @@ class SshProxyWidget(QWidget):
                 'port': '',
                 'user': '',
             }
-

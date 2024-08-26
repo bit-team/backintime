@@ -95,6 +95,7 @@ from manageprofiles import SettingsDialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
+from restoreconfigdialog import RestoreConfigDialog
 import languagedialog
 import messagebox
 from aboutdlg import AboutDlg
