@@ -45,8 +45,8 @@ tools.registerBackintimePath('qt', 'plugins')
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
 # A simple (local) RSA key pair via "ssh-keygen" and activate it
 # via "ssh-copy-id localhost".
-RSA_PUBLIC_KEY_FILE = pathlib.Path.home() / '.ssh/id_rsa.pub'
-ED25519_PUBLIC_KEY_FILE = pathlib.Path.home() / '.ssh/id_ed25519.pub'
+RSA_PUBLIC_KEY_FILE = pathlib.Path.home() / '.ssh' / 'id_rsa.pub'
+ED25519_PUBLIC_KEY_FILE = pathlib.Path.home() / '.ssh' / 'id_ed25519.pub'
 
 AUTHORIZED_KEYS_FILE = pathlib.Path.home() / '.ssh' / 'authorized_keys'
 DUMMY = 'dummy_test_process.sh'
