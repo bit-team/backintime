@@ -85,13 +85,13 @@ ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 SKIP_SSH_TEST_MESSAGE = 'Skip as this test requires a local ssh server, ' \
                         'public and private keys installed'
-# DEBUG
-print(f"{tools.processExists('sshd')=}")
-print(f'{PUBLIC_KEY_FILE=}')
-print(f'{PRIV_KEY_FILE=}')
-print(f'{PRIV_KEY_IS_FILE=}')
-print(f'{KEY_IN_AUTH=}')
-print(f'{sshdPortAvailable=}')
+# # DEBUG
+# print(f"{tools.processExists('sshd')=}")
+# print(f'{PUBLIC_KEY_FILE=}')
+# print(f'{PRIV_KEY_FILE=}')
+# print(f'{PRIV_KEY_IS_FILE=}')
+# print(f'{KEY_IN_AUTH=}')
+# print(f'{sshdPortAvailable=}')
 
 # If False all SSH related tests are skipped.
 # On TravisCI that tests are enforced and never skipped.
