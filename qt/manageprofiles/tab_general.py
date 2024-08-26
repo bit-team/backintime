@@ -16,6 +16,7 @@ import copy
 import re
 import getpass
 from pathlib import Path
+from typing import Any
 from PyQt6.QtGui import (QIcon,
                          QFont,
                          QPalette,
@@ -315,7 +316,7 @@ class GeneralTab(QDialog):
 
     @property
     def config(self) -> config.Config:
-        return self._parent.config
+        return self._parent_dialog.config
 
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
@@ -418,7 +419,7 @@ class GeneralTab(QDialog):
         else:
             index = params[0]
 
-        return = str(self.comboModes.itemData(index))
+        return str(self.comboModes.itemData(index))
 
 
     def handle_combo_modes_changed(self, *params):

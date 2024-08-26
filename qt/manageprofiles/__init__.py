@@ -69,7 +69,7 @@ from manageprofiles.sshproxywidget import SshProxyWidget
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
 import qttools
-import tab_general
+from manageprofiles.tab_general import GeneralTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
 
@@ -132,7 +132,7 @@ class SettingsDialog(QDialog):
 
         # TAB: General
         self.tabs.addTab(scrollArea, _('&General'))
-        self._tab_general = tab_general.GeneralTab(self)
+        self._tab_general = GeneralTab(self)
         scrollArea.setWidget(self._tab_general)
         scrollArea.setWidgetResizable(True)
 
