@@ -28,6 +28,7 @@ class BitComboBox(QComboBox):
         combo = BitComboBox(parent, fill)
 
     """
+
     def __init__(self, parent: QWidget, content_dict: dict):
         """
         Args:

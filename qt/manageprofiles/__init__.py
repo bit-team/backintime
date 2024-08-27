@@ -888,57 +888,7 @@ class SettingsDialog(QDialog):
         self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
 
         # TAB: General
-        # mode
-        self.setComboValue(self.comboModes,
-                           self.config.snapshotsMode(),
-                           t='str')
-
-        # local
-        self.editSnapshotsPath.setText(
-            self.config.snapshotsPath(mode='local'))
-
-        # SSH
-        self.txtSshHost.setText(self.config.sshHost())
-        self.txtSshPort.setText(str(self.config.sshPort()))
-        self.txtSshUser.setText(self.config.sshUser())
-        self.txtSshPath.setText(self.config.sshSnapshotsPath())
-        self.setComboValue(self.comboSshCipher,
-                           self.config.sshCipher(),
-                           t='str')
-        self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
-
-        # local_encfs
-        if self.mode == 'local_encfs':
-            self.editSnapshotsPath.setText(self.config.localEncfsPath())
-
-        # password
-        password_1 = self.config.password(
-            mode=self.mode, pw_id=1, only_from_keyring=True)
-        password_2 = self.config.password(
-            mode=self.mode, pw_id=2, only_from_keyring=True)
-
-        if password_1 is None:
-            password_1 = ''
-
-        if password_2 is None:
-            password_2 = ''
-
-        self.txtPassword1.setText(password_1)
-        self.txtPassword2.setText(password_2)
-
-        self.cbPasswordSave.setChecked(
-            self.keyringSupported and self.config.passwordSave(mode=self.mode))
-
-        self.cbPasswordUseCache.setChecked(
-            self.config.passwordUseCache(mode=self.mode))
-
-        host, user, profile = self.config.hostUserProfile()
-        self.txtHost.setText(host)
-        self.txtUser.setText(user)
-        self.txt_profile.setText(profile)
-
-        # Schedule
-        self._wdg_schedule.load_values(self.config)
+        self._tab_general.load_values()
 
         # TAB: Include
         self.listInclude.clear()
@@ -1572,7 +1522,8 @@ class SettingsDialog(QDialog):
 
         That slot is connected to a signal in the `GeneralTab`.
         """
-        self._general_tab.handle_combo_modes_changed(params)
+        logger.debug(f'{params=}', self)
+        self._tab_general.handle_combo_modes_changed(params)
 
         active_mode = self._general_tab.get_active_snapshots_mode(params)
 

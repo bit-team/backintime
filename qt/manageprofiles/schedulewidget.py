@@ -30,6 +30,7 @@ class ScheduleWidget(QGroupBox):
 
     That widget is used in the 'General' tab of the 'Manage profiles' dialog.
     """
+
     def __init__(self, parent):
         super().__init__(title=_('Schedule'), parent=parent)
 

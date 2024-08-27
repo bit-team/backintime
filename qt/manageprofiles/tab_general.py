@@ -33,6 +33,7 @@ import messagebox
 import sshtools
 import logger
 import encfsmsgbox
+from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from bitbase import URL_ENCRYPT_TRANSITION
@@ -54,21 +55,15 @@ class GeneralTab(QDialog):
         vlayout = QVBoxLayout()
         tab_layout.addLayout(vlayout)
 
-        self.lblModes = QLabel(_('Mode:'), self)
-
-        self.comboModes = QComboBox(self)
+        self._combo_modes = self._snapshot_mode_combobox()
         hlayout = QHBoxLayout()
-        hlayout.addWidget(self.lblModes)
-        hlayout.addWidget(self.comboModes, 1)
+        hlayout.addWidget(QLabel(_('Mode:'), self))
+        hlayout.addWidget(self._combo_modes, 1)
         vlayout.addLayout(hlayout)
-        store_modes = {}
-        for key in list(self.config.SNAPSHOT_MODES.keys()):
-            store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
-        self.fillCombo(self.comboModes, store_modes)
 
         # EncFS deprecation (#1734, #1735)
-        self.encfsWarning = self._create_label_encfs_deprecation()
-        tab_layout.addWidget(self.encfsWarning)
+        self._lbl_encfs_warning = self._create_label_encfs_deprecation()
+        tab_layout.addWidget(self._lbl_encfs_warning)
 
         # Where to save snapshots
         groupBox = QGroupBox(self)
@@ -135,9 +130,8 @@ class GeneralTab(QDialog):
 
         self.lblSshCipher = QLabel(_('Cipher:'), self)
         hlayout3.addWidget(self.lblSshCipher)
-        self.comboSshCipher = QComboBox(self)
+        self.comboSshCipher = self._cipher_combobox()
         hlayout3.addWidget(self.comboSshCipher)
-        self.fillCombo(self.comboSshCipher, self.config.SSH_CIPHERS)
 
         self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
         hlayout3.addWidget(self.lblSshPrivateKeyFile)
@@ -225,7 +219,7 @@ class GeneralTab(QDialog):
         self.cbPasswordSave.setEnabled(self.keyringSupported)
 
         # mode change
-        self.comboModes.currentIndexChanged.connect(
+        self._combo_modes.currentIndexChanged.connect(
             self._parent_dialog.slot_combo_modes_changed)
 
         # host, user, profile id
@@ -282,6 +276,73 @@ class GeneralTab(QDialog):
     @property
     def config(self) -> config.Config:
         return self._parent_dialog.config
+
+    @property
+    def icon(self):
+        """Workaround. Remove until import of icon module is solved."""
+        return self._parent_dialog.icon
+
+    def load_values(self) -> Any:
+        """Set the values of the widgets regarding the current config."""
+
+        self._combo_modes.select_by_data(self.config.snapshotsMode())
+
+        # local
+        self.editSnapshotsPath.setText(
+            self.config.snapshotsPath(mode='local'))
+
+        # SSH
+        self.txtSshHost.setText(self.config.sshHost())
+        self.txtSshPort.setText(str(self.config.sshPort()))
+        self.txtSshUser.setText(self.config.sshUser())
+        self.txtSshPath.setText(self.config.sshSnapshotsPath())
+        self.comboSshCipher,select_by_data(self.config.sshCipher())
+        self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
+
+        # local_encfs
+        if self.mode == 'local_encfs':
+            self.editSnapshotsPath.setText(self.config.localEncfsPath())
+
+        # password
+        password_1 = self.config.password(
+            mode=self.mode, pw_id=1, only_from_keyring=True)
+        password_2 = self.config.password(
+            mode=self.mode, pw_id=2, only_from_keyring=True)
+
+        if password_1 is None:
+            password_1 = ''
+
+        if password_2 is None:
+            password_2 = ''
+
+        self.txtPassword1.setText(password_1)
+        self.txtPassword2.setText(password_2)
+
+        self.cbPasswordSave.setChecked(
+            self.keyringSupported and self.config.passwordSave(mode=self.mode))
+
+        self.cbPasswordUseCache.setChecked(
+            self.config.passwordUseCache(mode=self.mode))
+
+        host, user, profile = self.config.hostUserProfile()
+        self.txtHost.setText(host)
+        self.txtUser.setText(user)
+        self.txt_profile.setText(profile)
+
+        # Schedule
+        self._wdg_schedule.load_values(self.config)
+
+    def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
+        snapshot_modes = {}
+        for key in self.config.SNAPSHOT_MODES:
+            snapshot_modes[key] = self.config.SNAPSHOT_MODES[key][1]
+        logger.debug(f'{snapshot_modes=}')
+
+        return combobox.BitComboBox(self, snapshot_modes)
+
+    def _cipher_combobox(self) -> combobox.BitComboBox:
+        print(f'{self.config.SSH_CIPHERS=}')
+        return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
@@ -378,13 +439,13 @@ class GeneralTab(QDialog):
                 self.txt_profile.text()))
 
     def get_active_snapshots_mode(self, *params):
-        logger.debug(f'{params=}', self)
         if not params:
-            index = self.comboModes.currentIndex()
+            index = self._combo_modes.currentIndex()
         else:
             index = params[0]
 
-        return str(self.comboModes.itemData(index))
+        logger.debug(f'{params=} {index=}', self)
+        return str(self._combo_modes.itemData(index))
 
     def handle_combo_modes_changed(self, *params):
         """Hide/show widget elements related to one of
@@ -393,6 +454,7 @@ class GeneralTab(QDialog):
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
+        logger.debug(f'{params=}')
         active_mode = self.get_active_snapshots_mode(params)
 
         if active_mode != self.mode:
@@ -443,7 +505,7 @@ class GeneralTab(QDialog):
 
         # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
-            self.encfsWarning.setHidden(False)
+            self._lbl_encfs_warning.setHidden(False)
 
             # Workaround to avoid showing the warning messagebox just when
             # opening the manage profiles dialog.
@@ -455,4 +517,4 @@ class GeneralTab(QDialog):
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
         else:
-            self.encfsWarning.setHidden(True)
+            self._lbl_encfs_warning.setHidden(True)
