@@ -1,17 +1,18 @@
 import sys
 import inspect
-import tempfile
-from pathlib import Path
-import stat
 import io
 import unittest
 import unittest.mock as mock
+import tempfile
+import stat
 from contextlib import redirect_stdout, redirect_stderr
 from ast import literal_eval
+from pathlib import Path
 
 # This workaround will become obsolet when migrating to src-layout
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent / 'plugins'))
+
 import pluginmanager
 from config import Config
 from snapshots import Snapshots
@@ -206,6 +207,8 @@ class SystemTest(unittest.TestCase):
 
     @classmethod
     def _create_config_file(cls, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
         cfg_content = inspect.cleandoc('''
             config.version=6
             profile1.snapshots.include.1.type=0
