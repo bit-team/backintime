@@ -1,32 +1,27 @@
-# Back In Time
-# Copyright (C) 2024 Kosta Vukicevic, Christian Buhtz
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Kosta Vukicevic
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 """Tests about Cron-related behavior of the config module.
 
 See also test_schedule.py for low-level-Cron-behavior implemented in schedule
 module."""
-import unittest
-import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
-import sys
-import os
-import tempfile
 import inspect
+import os
+import sys
+import tempfile
+import unittest
 from pathlib import Path
 from unittest import mock
+
+import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import config
 
 
@@ -80,6 +75,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
 
     def _create_config_file(self, parent_path):
         """Minimal config file"""
+        # pylint: disable-next=R0801
         cfg_content = inspect.cleandoc('''
             config.version=6
             profile1.snapshots.include.1.type=0

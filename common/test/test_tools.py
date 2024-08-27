@@ -23,13 +23,13 @@ import pathlib
 import gzip
 import stat
 import signal
+from datetime import datetime
+from time import sleep
 from unittest.mock import patch
 from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
-from datetime import datetime
-from test import generic
-from time import sleep
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
+from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
@@ -98,7 +98,7 @@ class TestTools(generic.TestCase):
         if self.subproc:
             self.subproc.kill()
             self.subproc.wait()
-            self.subproc = None
+        self.subproc = None
 
     def test_sharePath(self):
         share = tools.sharePath()

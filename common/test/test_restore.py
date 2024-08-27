@@ -18,20 +18,15 @@
 import os
 import sys
 import unittest
-import pwd
-import grp
 import stat
 from tempfile import TemporaryDirectory
+
 from test import generic
+from test.constants import CURRENTUSER, CURRENTGROUP
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import mount
 
-CURRENTUID = os.geteuid()
-CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
-
-CURRENTGID = os.getegid()
-CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
 
 class RestoreTestCase(generic.SnapshotsWithSidTestCase):
     def setUp(self):

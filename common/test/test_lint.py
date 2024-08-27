@@ -106,11 +106,12 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'R0201',  # no-self-use
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
+            'R0801',  # duplicate-code
 
             # Enable asap. This list is a selection of existing (not all!)
             # problems currently existing in the BIT code base. Quite easy to fix
             # because their count is low.
-            # 'R0801',  # duplicate-code
+            # 'W0237',  # arguments-renamed
             # 'W0221',  # arguments-differ
             # 'W0603',  # global-statement
         ]
