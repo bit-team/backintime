@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
