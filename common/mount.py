@@ -104,18 +104,18 @@
                 return True
 
 """
+import getpass
+import json
 import os
 import subprocess
-import json
-import getpass
-from zlib import crc32
 from time import sleep
+from zlib import crc32
 
 import config
 import logger
-import tools
 import password
-from exceptions import MountException, HashCollision
+import tools
+from exceptions import HashCollision, MountException
 
 
 class Mount(object):
@@ -143,14 +143,8 @@ class Mount(object):
                  profile_id = None,
                  tmp_mount = False,
                  parent = None):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
-
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.currentProfile()
-
+        self.config = cfg or config.Config()
+        self.profile_id = profile_id or self.config.currentProfile()
         self.tmp_mount = tmp_mount
         self.parent = parent
 
@@ -437,13 +431,9 @@ class MountControl(object):
         self.mountproc = None
         self.symlink_subfolder = None
 
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
+        self.config = cfg or config.Config()
 
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.currentProfile()
+        self.profile_id = profile_id or self.config.currentProfile()
 
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id

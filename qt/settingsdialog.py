@@ -67,6 +67,7 @@ import encfsmsgbox
 import schedulewidget
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from bitbase import URL_ENCRYPT_TRANSITION
+import qttools
 
 
 class SshProxyWidget(QWidget):
@@ -1192,13 +1193,13 @@ class SettingsDialog(QDialog):
         if self.disableProfileChanged:
             return
 
-        profile_id = self.comboProfiles.currentProfileID()
-        if not profile_id:
+        current_profile_id = self.comboProfiles.currentProfileID()
+        if not current_profile_id:
             return
 
-        if profile_id != self.config.currentProfile():
+        if current_profile_id != self.config.currentProfile():
             self.saveProfile()
-            self.config.setCurrentProfile(profile_id)
+            self.config.setCurrentProfile(current_profile_id)
             self.updateProfile()
 
     def updateProfiles(self, reloadSettings=True):
@@ -1211,11 +1212,7 @@ class SettingsDialog(QDialog):
 
         self.comboProfiles.clear()
 
-        profiles = self.config.profilesSortedByName()
-        for profile_id in profiles:
-            self.comboProfiles.addProfileID(profile_id)
-            if profile_id == current_profile_id:
-                self.comboProfiles.setCurrentProfileID(profile_id)
+        qttools.update_combo_profiles(self.config, self.comboProfiles, current_profile_id)
 
         self.disableProfileChanged = False
 
