@@ -296,7 +296,7 @@ class GeneralTab(QDialog):
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
-        self.comboSshCipher,select_by_data(self.config.sshCipher())
+        self.comboSshCipher.select_by_data(self.config.sshCipher())
         self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
 
         # local_encfs
@@ -422,7 +422,7 @@ class GeneralTab(QDialog):
                 .format(path=key_file_path)
             messagebox.critical(self, msg)
 
-    def _slot_full_path_changed(self, _: Any):
+    def _slot_full_path_changed(self, _text: Any):
         if self.mode in ('ssh', 'ssh_encfs'):
             path = self.txtSshPath.text()
 
@@ -436,43 +436,46 @@ class GeneralTab(QDialog):
                 'backintime',
                 self.txtHost.text(),
                 self.txtUser.text(),
-                self.txt_profile.text()))
+                self.txt_profile.text()
+            ))
 
-    def get_active_snapshots_mode(self, *params):
-        if not params:
-            index = self._combo_modes.currentIndex()
-        else:
-            index = params[0]
+    def get_active_snapshots_mode(self) -> str:
+        return self._combo_modes.current_data
 
-        logger.debug(f'{params=} {index=}', self)
-        return str(self._combo_modes.itemData(index))
-
-    def handle_combo_modes_changed(self, *params):
+    def handle_combo_modes_changed(self):
         """Hide/show widget elements related to one of
         the four snapshot modes.
 
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
-        logger.debug(f'{params=}')
-        active_mode = self.get_active_snapshots_mode(params)
+        active_mode = self.get_active_snapshots_mode()
 
+        # hide/show group boxes related to current mode
+        # note: self.modeLocalEncfs = self.modeLocal
+        # note: self.modeSshEncfs = self.modeSsh
         if active_mode != self.mode:
-            # DevNote (buhtz): Widgets of the GUI related to the four
-            # snapshot modes are acccesed via "getattr(self, ...)".
-            # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
-            for mode in list(self.config.SNAPSHOT_MODES.keys()):
-                logger.debug(f'HIDE() :: mode%s' % tools.camelCase(mode))
-                # Hide all widgets
-                getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
+            # logger.debug(f'{active_mode=} {self.mode=}')
+            # # DevNote (buhtz): Widgets of the GUI related to the four
+            # # snapshot modes are acccesed via "getattr(self, ...)".
+            # # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
+            # for mode in list(self.config.SNAPSHOT_MODES.keys()):
+            #     logger.debug(f'HIDE() :: mode%s' % tools.camelCase(mode))
+            #     # Hide all widgets
+            #     getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
 
-            for mode in list(self.config.SNAPSHOT_MODES.keys()):
-                # Show up the widget related to the selected mode.
-                if active_mode == mode:
-                    logger.debug(f'SHOW() :: mode%s' % tools.camelCase(mode))
-                    getattr(self, 'mode%s' % tools.camelCase(mode)).show()
+            # for mode in list(self.config.SNAPSHOT_MODES.keys()):
+            #     # Show up the widget related to the selected mode.
+            #     if active_mode == mode:
+            #         logger.debug(f'SHOW() :: mode%s' % tools.camelCase(mode))
+            #         getattr(self, 'mode%s' % tools.camelCase(mode)).show()
 
             self.mode = active_mode
+
+            self.modeLocal.setVisible(active_mode in ('local', 'local_encfs'))
+            self.modeSsh.setVisible(active_mode in ('ssh', 'ssh_encfs'))
+            # self.modeLocalEncfs = self.modeLocal
+            # self.modeSshEncfs = self.modeSsh
 
         if self.config.modeNeedPassword(active_mode):
 
@@ -496,20 +499,13 @@ class GeneralTab(QDialog):
         else:
             self.groupPassword1.hide()
 
-        if active_mode == 'ssh_encfs':
-            self.lblSshEncfsExcludeWarning.show()
-        else:
-            self.lblSshEncfsExcludeWarning.hide()
-
-        self.updateExcludeItems()
-
         # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
-            self._lbl_encfs_warning.setHidden(False)
+            self._lbl_encfs_warning.show()
 
             # Workaround to avoid showing the warning messagebox just when
             # opening the manage profiles dialog.
-            if self.isVisible():
+            if self._parent_dialog.isVisible():
                 # Show the profile specific warning dialog only once per
                 # profile.
                 if self.config.profileBoolValue('msg_shown_encfs') is False:
@@ -517,4 +513,4 @@ class GeneralTab(QDialog):
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
         else:
-            self._lbl_encfs_warning.setHidden(True)
+            self._lbl_encfs_warning.hide()

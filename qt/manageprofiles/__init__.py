@@ -777,7 +777,7 @@ class SettingsDialog(QDialog):
         self.mainLayout.addWidget(buttonBox)
 
         self.updateProfiles()
-        self.comboModesChanged()
+        self.slot_combo_modes_changed()
 
         # enable tabs scroll buttons again but keep dialog size
         size = self.sizeHint()
@@ -1522,26 +1522,9 @@ class SettingsDialog(QDialog):
 
         That slot is connected to a signal in the `GeneralTab`.
         """
-        logger.debug(f'{params=}', self)
-        self._tab_general.handle_combo_modes_changed(params)
+        self._tab_general.handle_combo_modes_changed()
 
-        active_mode = self._general_tab.get_active_snapshots_mode(params)
-
-        if active_mode != self.mode:
-
-            # DevNote (buhtz): Widgets of the GUI related to the four
-            # snapshot modes are acccesed via "getattr(self, ...)".
-            # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
-            for mode in list(self.config.SNAPSHOT_MODES.keys()):
-                # Hide all widgets
-                getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
-
-            for mode in list(self.config.SNAPSHOT_MODES.keys()):
-                # Show up the widget related to the selected mode.
-                if active_mode == mode:
-                    getattr(self, 'mode%s' % tools.camelCase(mode)).show()
-
-            self.mode = active_mode
+        active_mode = self._tab_general.get_active_snapshots_mode()
 
         self.updateExcludeItems()
 
@@ -1550,11 +1533,11 @@ class SettingsDialog(QDialog):
         self.cbNiceOnRemote.setEnabled(enabled)
         self.cbIoniceOnRemote.setEnabled(enabled)
         self.cbNocacheOnRemote.setEnabled(enabled)
-        self.cbSmartRemoveRunRemoteInBackground.setHidden(not enabled)
-        self.cbSshPrefix.setHidden(not enabled)
-        self.txtSshPrefix.setHidden(not enabled)
-        self.cbSshCheckPing.setHidden(not enabled)
-        self.cbSshCheckCommands.setHidden(not enabled)
+        self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
+        self.cbSshPrefix.setVisible(enabled)
+        self.txtSshPrefix.setVisible(enabled)
+        self.cbSshCheckPing.setVisible(enabled)
+        self.cbSshCheckCommands.setVisible(enabled)
 
     def updateExcludeItems(self):
         for index in range(self.listExclude.topLevelItemCount()):

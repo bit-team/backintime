@@ -206,7 +206,7 @@ class ScheduleWidget(QGroupBox):
 
         return combobox.BitComboBox(self, repeatedly_units)
 
-    def _slot_schedule_mode_changed(self, idx):
+    def _slot_schedule_mode_changed(self, _idx):
         """Handle value changed events for schedule mode combobox."""
         self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
