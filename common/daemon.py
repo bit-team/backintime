@@ -32,7 +32,7 @@ See this original email.
 
     As far as I am concerned that daemon code is public domain. You can use it
     under any license you want. There are only a few ways to start a daemon so
-    technically the code can't be cooyrighted as far as I am concerned. That CC
+    technically the code can't be copyrighted as far as I am concerned. That CC
     license is just for my articles in general.
 
     Kind regards,
