@@ -332,6 +332,106 @@ class GeneralTab(QDialog):
         # Schedule
         self._wdg_schedule.load_values(self.config)
 
+    def store_values(self) -> bool:
+        """Store the tabs values into the config instance.
+
+        Returns:
+            bool: Success or not.
+        """
+        mode = self.get_active_snapshots_mode()
+        self.config.setSnapshotsMode(mode)
+
+        mount_kwargs = {}
+
+        # password
+        password_1 = self.txtPassword1.text()
+        password_2 = self.txtPassword2.text()
+
+        if mode in ('ssh', 'local_encfs'):
+            mount_kwargs = {'password': password_1}
+
+        if mode == 'ssh_encfs':
+            mount_kwargs = {'ssh_password': password_1,
+                            'encfs_password': password_2}
+
+        # SSH
+        self.config.setSshHost(self.txtSshHost.text())
+        self.config.setSshPort(self.txtSshPort.text())
+        self.config.setSshUser(self.txtSshUser.text())
+        sshproxy_vals = self.wdgSshProxy.values()
+        self.config.setSshProxyHost(sshproxy_vals['host'])
+        self.config.setSshProxyPort(sshproxy_vals['port'])
+        self.config.setSshProxyUser(sshproxy_vals['user'])
+        self.config.setSshSnapshotsPath(self.txtSshPath.text())
+        self.config.setSshCipher(self.comboSshCipher.current_data)
+
+        # snapshots path
+        self.config.setHostUserProfile(
+            self.txtHost.text(),
+            self.txtUser.text(),
+            self.txt_profile.text()
+        )
+
+        # SSH key file
+        if mode in ('ssh', 'ssh_encfs'):
+
+            if not self.txtSshPrivateKeyFile.text():
+
+                question = '{}\n{}'.format(
+                        _('You did not choose a private key file for SSH.'),
+                        _('Would you like to generate a new password-less '
+                          'public/private key pair?'))
+                answer = messagebox.warningYesNo(self, question)
+                answer = answer == QMessageBox.StandardButton.Yes
+                if answer:
+                    self.btnSshKeyGenClicked()
+
+                if not self.txtSshPrivateKeyFile.text():
+                    return False
+
+            if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
+                msg = _('Private key file "{file}" does not exist.') \
+                    .format(file=self.txtSshPrivateKeyFile.text())
+                messagebox.critical(self, msg)
+                self.txtSshPrivateKeyFile.setText('')
+
+                return False
+
+        self.config.setSshPrivateKeyFile(self.txtSshPrivateKeyFile.text())
+
+        # save local_encfs
+        self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
+
+        # schedule
+        success = self._wdg_schedule.store_values(self.config)
+
+        if success == False:
+            return False
+
+        # save password
+        self.config.setPasswordSave(self.cbPasswordSave.isChecked(),
+                                    mode=mode)
+        self.config.setPasswordUseCache(self.cbPasswordUseCache.isChecked(),
+                                        mode=mode)
+        self.config.setPassword(password_1, mode=mode)
+        self.config.setPassword(password_2, mode=mode, pw_id=2)
+
+        # snaphots_path
+        if self.config.SNAPSHOT_MODES[mode][0] is None:
+            snapshots_path = self.editSnapshotsPath.text()
+        else:
+            snapshots_path = self.config.snapshotsPath(mode=mode,
+                                                       tmp_mount=True)
+
+        success = self.config.setSnapshotsPath(snapshots_path, mode=mode)
+
+        if success == False:
+            return False
+
+        # Workaround. Find better solution later (in another PR)
+        return mount_kwargs
+
+
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         snapshot_modes = {}
         for key in self.config.SNAPSHOT_MODES:
