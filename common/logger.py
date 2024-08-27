@@ -20,6 +20,7 @@ import os
 import sys
 import atexit
 import bcolors
+import textwrap
 
 DEBUG = False  # Set to "True" when passing "--debug" as cmd arg
 SYSLOG_IDENTIFIER = 'backintime'
@@ -53,8 +54,13 @@ def changeProfile(profile_id, profile_name):
 def closelog():
     syslog.closelog()
 
+def wrapLines(text, width=80, new_line_indicator=''):
+    wrapped_lines = textwrap.wrap(text, width=width, subsequent_indent=new_line_indicator)
+    return '\n'.join(wrapped_lines)
+
 
 def _do_syslog(message: str, level: int) -> str:
+    wrapped_message = wrapLines(message, width=80, new_line_indicator='CONTINUE: ')
     syslog.syslog(level, '{}{}: {}'.format(
         SYSLOG_MESSAGE_PREFIX, _level_names[level], message))
 
