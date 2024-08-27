@@ -250,7 +250,7 @@ enhance _Back In Time_ as a software and as a project. The schedule is
 not fixed, nor is the order of priority.
 
 - [Analyzing code and behavior](#analyzing-code-and-behavior)
-- [Code quality & unit tests]([#code-quality--unit-tests](#code-quality--unit-tests))
+- [Code quality & unit tests](#code-quality--unit-tests)
 - [Issues](#issues)
 - [Replace encryption library EncFS or remove it](#replace-encryption-library-encfs-or-remove-it)
 - [Project infrastructure](#project-infrastructure)
