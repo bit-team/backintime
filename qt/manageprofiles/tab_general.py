@@ -32,6 +32,7 @@ import qttools
 import messagebox
 import sshtools
 import logger
+import mount  # Workaround. Refactor that.
 import encfsmsgbox
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
@@ -407,6 +408,107 @@ class GeneralTab(QDialog):
 
         if success == False:
             return False
+
+        # ----------------------------------------
+
+        # TODO - consider a single API method to bridge the UI layer
+        # (settings dialog) and backend layer (config)
+        # when setting snapshots path rather than having to call the
+        # mount module from the UI layer
+        #
+        # currently, setting snapshots path requires the path to be mounted.
+        # it seems that it might be nice,
+        # since the config object is more than a data structure, but has
+        # side-effect logic as well, to have the
+        # config.setSnapshotsPath() method take care of everything it needs
+        # to perform its job
+        # (mounting and unmounting the fuse filesystem if necessary).
+        # https://en.wikipedia.org/wiki/Single_responsibility_principle
+
+        if not self.config.SNAPSHOT_MODES[mode][0] is None:
+            # preMountCheck
+            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+
+            try:
+                mnt.preMountCheck(mode=mode, first_run=True, **mount_kwargs)
+
+            except NoPubKeyLogin as ex:
+                logger.error(str(ex), self)
+
+                question = _('Would you like to copy your public SSH key to '
+                             'the remote host to enable password-less login?')
+                rc_copy_id = sshtools.sshCopyId(
+                    self.config.sshPrivateKeyFile() + '.pub',
+                    self.config.sshUser(),
+                    self.config.sshHost(),
+                    port=str(self.config.sshPort()),
+                    proxy_user=self.config.sshProxyUser(),
+                    proxy_host=self.config.sshProxyHost(),
+                    proxy_port=self.config.sshProxyPort(),
+                    askPass=tools.which('backintime-askpass'),
+                    cipher=self.config.sshCipher()
+                )
+
+                answer = messagebox.warningYesNo(self, question)
+                answer = answer == QMessageBox.StandardButton.Yes
+                if answer and rc_copy_id:
+                    # --- DEV NOTE TODO ---
+                    # Why this recursive call?
+                    return self.saveProfile()
+                else:
+                    return False
+
+            except KnownHost as ex:
+                logger.error(str(ex), self)
+                fingerprint, hashedKey, keyType = sshtools.sshHostKey(
+                    self.config.sshHost(), str(self.config.sshPort())
+                )
+
+                if not fingerprint:
+                    messagebox.critical(self, str(ex))
+                    return False
+
+                msg = '{}\n\n{}'.format(
+                        _("The authenticity of host {host} can't be "
+                          "established.").format(
+                              host=self.config.sshHost()),
+                        _('{keytype} key fingerprint is:').format(
+                            keytype=keyType))
+                options = []
+                lblFingerprint = QLabel(fingerprint + '\n')
+                lblFingerprint.setWordWrap(False)
+                lblFingerprint.setFont(QFont('Monospace'))
+                options.append({'widget': lblFingerprint, 'retFunc': None})
+                lblQuestion = QLabel(
+                    _("Please verify this fingerprint. Would you like to "
+                      "add it to your 'known_hosts' file?")
+                )
+                options.append({'widget': lblQuestion, 'retFunc': None})
+
+                if messagebox.warningYesNoOptions(self, msg, options)[0]:
+                    sshtools.writeKnownHostsFile(hashedKey)
+                    # --- DEV NOTE TODO ---
+                    # AGAIN: Why this recursive call?
+                    return self.saveProfile()
+                else:
+                    return False
+
+            except MountException as ex:
+                messagebox.critical(self, str(ex))
+
+                return False
+
+            # okay, lets try to mount
+            try:
+                hash_id = mnt.mount(mode=mode, check=False, **mount_kwargs)
+
+            except MountException as ex:
+                messagebox.critical(self, str(ex))
+
+                return False
+
+
+        # ----------------------------------------
 
         # save password
         self.config.setPasswordSave(self.cbPasswordSave.isChecked(),
