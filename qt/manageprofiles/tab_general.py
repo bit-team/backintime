@@ -354,6 +354,13 @@ class GeneralTab(QDialog):
             mount_kwargs = {'ssh_password': password_1,
                             'encfs_password': password_2}
 
+        # snapshots path
+        self.config.setHostUserProfile(
+            self.txtHost.text(),
+            self.txtUser.text(),
+            self.txt_profile.text()
+        )
+
         # SSH
         self.config.setSshHost(self.txtSshHost.text())
         self.config.setSshPort(self.txtSshPort.text())
@@ -364,13 +371,6 @@ class GeneralTab(QDialog):
         self.config.setSshProxyUser(sshproxy_vals['user'])
         self.config.setSshSnapshotsPath(self.txtSshPath.text())
         self.config.setSshCipher(self.comboSshCipher.current_data)
-
-        # snapshots path
-        self.config.setHostUserProfile(
-            self.txtHost.text(),
-            self.txtUser.text(),
-            self.txt_profile.text()
-        )
 
         # SSH key file
         if mode in ('ssh', 'ssh_encfs'):
@@ -418,10 +418,14 @@ class GeneralTab(QDialog):
 
         # snaphots_path
         if self.config.SNAPSHOT_MODES[mode][0] is None:
+            logger.debug('snapshots_path = self.editSnapshotsPath.text()')
             snapshots_path = self.editSnapshotsPath.text()
         else:
-            snapshots_path = self.config.snapshotsPath(mode=mode,
-                                                       tmp_mount=True)
+            logger.debug('snapshots_path = self.config.snapshotsPath(mode=mode, tmp_mount=True)')
+            snapshots_path = self.config.snapshotsPath(
+                mode=mode, tmp_mount=True)
+
+        logger.debug(f'{snapshots_path=}')
 
         success = self.config.setSnapshotsPath(snapshots_path, mode=mode)
 
