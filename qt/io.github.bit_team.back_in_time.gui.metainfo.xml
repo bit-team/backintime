@@ -6,15 +6,17 @@
     Validate (lint) on shell:
         appstreamcli validate *xml
 -->
-
-
 <component type="desktop-application">
   <id>io.github.bit_team.back_in_time.gui</id>
   <name>Back In Time</name>
-  <summary>Backup tool for GNU Linux desktop using rsync with its hard-links feature to save storage space</summary>
+  <!--
+      Length limit for "summary" field is unclear but could be 90.
+      See https://github.com/ximion/appstream/issues/648
+  -->
+  <summary>Backup tool for GNU/Linux desktop using rsync's hard-links feature to save storage space</summary>
 
   <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-2.0</project_license>
+  <project_license>GPL-2.0-or-later</project_license>
 
   <description>
     <p>
@@ -36,54 +38,62 @@
     </ol>
   </description>
 
-    <icon type="stock">document-save</icon>
+  <icon type="stock">document-save</icon>
 
-    <categories>
-      <!-- https://specifications.freedesktop.org/menu-spec/latest/apa.html -->
-      <category>System</category>
-      <category>Archiving</category>
-    </categories>
+  <categories>
+    <!-- https://specifications.freedesktop.org/menu-spec/latest/apa.html -->
+    <category>System</category>
+    <category>Archiving</category>
+  </categories>
 
-    <keywords>
-      <keyword translate="no">Backup</keyword>
-      <keyword translate="no">Rsync</keyword>
-      <keyword translate="no">GUI</keyword>
-    </keywords>
+  <keywords>
+    <keyword translate="no">Backup</keyword>
+    <keyword translate="no">Rsync</keyword>
+    <keyword translate="no">GUI</keyword>
+  </keywords>
 
-    <url type="homepage">https://github.com/bit-team/backintime</url>
-    <url type="bugtracker">https://github.com/bit-team/backintime/issues</url>
-    <url type="faq">https://github.com/bit-team/backintime/blob/dev/FAQ.md</url>
-    <url type="help">https://backintime.readthedocs.io/</url>
-    <url type="translate">https://translate.codeberg.org/engage/backintime</url>
-    <url type="contact">https://mail.python.org/mailman3/lists/bit-dev.python.org</url>
-    <url type="vcs-browser">https://github.com/bit-team/backintime</url>
-    <url type="contribute">https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md</url>
+  <developer id="io.github.bit-team">
+    <name>Back In Time team</name>
+  </developer>
 
-    <launchable type="desktop-id">backintime-qt.desktop</launchable>
-    <launchable type="desktop-id">backintime-qt-root.desktop</launchable>
+  <url type="homepage">https://github.com/bit-team/backintime</url>
+  <url type="bugtracker">https://github.com/bit-team/backintime/issues</url>
+  <url type="faq">https://github.com/bit-team/backintime/blob/dev/FAQ.md</url>
+  <url type="help">https://backintime.readthedocs.io/</url>
+  <url type="translate">https://translate.codeberg.org/engage/backintime</url>
+  <url type="contact">https://mail.python.org/mailman3/lists/bit-dev.python.org</url>
+  <url type="vcs-browser">https://github.com/bit-team/backintime</url>
+  <url type="contribute">https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md</url>
 
-    <!--
-        - 16:9 ratio
-        - PNG format
-        - Default desktop theme
-        - Include windows only (incl. boders) and use alpha mask for
-          rounded window corners
-        - Without mouse pointer
-        - Add caption (without fullstop)
-        -->
-    <screenshots>
-      <screenshot type="default">
-        <caption>Main window</caption>
-        <image>https://translate.codeberg.org/media/screenshots/bit_16to9_960x540_mainwindow.png</image>
-      </screenshot>
-      <screenshot>
-        <caption>Setup of SSH snapshot profile</caption>
-        <image>https://translate.codeberg.org/media/screenshots/bit_16to9_1280x720_general_ssh.png</image>
-      </screenshot>
-    </screenshots>
+  <launchable type="desktop-id">backintime-qt.desktop</launchable>
+  <launchable type="desktop-id">backintime-qt-root.desktop</launchable>
 
-    <!-- https://hughsie.github.io/oars/generate.html -->
-    <content_rating type="oars-1.0" />
+  <!--
+      - 16:9 ratio
+      - PNG format
+      - Default desktop theme
+      - Include windows only (incl. boders) and use alpha mask for
+        rounded window corners
+      - Without mouse pointer
+      - Add caption (without fullstop)
+      - Use wmctrl command to explicit set geometry of a living window.
 
-    <update_contact>bit-dev@python.org</update_contact>
-  </component>
+Dev note: Move screenshots into doc folder after migration to MkDocs has
+finished.
+  -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window</caption>
+      <image>https://translate.codeberg.org/media/screenshots/bit_16to9_960x540_mainwindow.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Setup of SSH snapshot profile</caption>
+      <image>https://translate.codeberg.org/media/screenshots/bit_16to9_1280x720_general_ssh.png</image>
+    </screenshot>
+  </screenshots>
+
+  <!-- https://hughsie.github.io/oars/generate.html -->
+  <content_rating type="oars-1.0" />
+
+  <update_contact>bit-dev@python.org</update_contact>
+</component>
