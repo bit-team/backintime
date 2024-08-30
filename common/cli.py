@@ -18,8 +18,8 @@
 
 import os
 import sys
-
 import tools
+import daemon
 import snapshots
 import bcolors
 
@@ -227,7 +227,7 @@ class RestoreDialog(object):
         s.restore(self.sid, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.logFile)
 
-class BackupJobDaemon(tools.Daemon):
+class BackupJobDaemon(daemon.Daemon):
     def __init__(self, func, args):
         super(BackupJobDaemon, self).__init__()
         self.func = func

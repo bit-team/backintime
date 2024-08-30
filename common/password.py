@@ -21,12 +21,13 @@ import signal
 import config
 import configfile
 import tools
+import daemon
 import password_ipc
 import logger
 from exceptions import Timeout
 
 
-class Password_Cache(tools.Daemon):
+class Password_Cache(daemon.Daemon):
     """
     Password_Cache get started on User login. It provides passwords for
     BIT cronjobs because keyring is not available when the User is not

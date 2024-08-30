@@ -250,7 +250,7 @@ enhance _Back In Time_ as a software and as a project. The schedule is
 not fixed, nor is the order of priority.
 
 - [Analyzing code and behavior](#analyzing-code-and-behavior)
-- [Code quality & unit tests]([#code-quality--unit-tests](#code-quality--unit-tests))
+- [Code quality & unit tests](#code-quality--unit-tests)
 - [Issues](#issues)
 - [Replace encryption library EncFS or remove it](#replace-encryption-library-encfs-or-remove-it)
 - [Project infrastructure](#project-infrastructure)
@@ -279,7 +279,8 @@ Considering the three major types of tests (_unit_, _integration_, _system_),
 the current test suite primarily consists of _system tests_. While these
 _system tests_ are valuable, their purpose differs from that of _unit tests_.
 Due to the lack of _unit tests_ in the test suite, the codebase
-has notably low test coverage.
+has notably low test coverage
+(see [Issue #1489](https://github.com/bit-team/backintime/issues/1489)).
 
 The codebase does not adhere to [PEP8](https://peps.python.org/pep-0008/),
 which serves as the minimum Python coding style. Utilizing linters in their
