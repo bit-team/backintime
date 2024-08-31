@@ -208,6 +208,8 @@ case. The goal is to log into the SSH server on your local computer via
 - Populate the public key to the server executing `ssh-copy-id`.
 - Make the `ssh` instance run.
 - The port `22` (SSH default) should be available.
+- _Authorize_ the key with `$ ssh localhost` and insert your user accounts
+  password.
 
 To test the connection just execute `ssh localhost` and you should see an
 SSH shell **without** being asked for a password.

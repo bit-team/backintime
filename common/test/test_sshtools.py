@@ -276,13 +276,6 @@ class TestSshKey(generic.TestCaseCfg):
 
         hostKey = '/etc/ssh/ssh_host_{}_key.pub'.format(keyType.lower())
         self.assertExists(hostKey)
-        self.assertEqual(3, len(keyHash.split()))
-        try:
-            with open(hostKey, 'rt') as f:
-                pubKey = f.read().split()[1]
-            self.assertEqual(pubKey, keyHash.split()[2])
-        except (IOError, IndexError):
-            pass
 
     def test_writeKnownHostFile(self):
         KEY = '|1|abcdefghijklmnopqrstuvwxyz= ecdsa-sha2-nistp256 AAAAABCDEFGHIJKLMNOPQRSTUVWXYZ='

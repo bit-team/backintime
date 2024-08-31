@@ -1,27 +1,18 @@
-# Back In Time
-# Copyright (C) 2016-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2016-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 David Wales (@daviewales)
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 """This module offers some helpers and tools for unittesting.
 
 Most of the content are `unittest.TestCase` derived classed doing basic setup
 for the testing environment. They are dealing with snapshot path's, SSH,
 config files and things like set.
 """
-
 import os
 import pathlib
 import sys
@@ -43,19 +34,43 @@ import snapshots
 tools.registerBackintimePath('qt', 'plugins')
 
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
-# A simple (local) RSA key pair via "ssh-keygen" and activate it
-# via "ssh-copy-id localhost".
-PRIV_KEY_FILE = pathlib.Path.home() / '.ssh' / 'id_rsa'
-PUBLIC_KEY_FILE = PRIV_KEY_FILE.with_suffix('.pub')
-AUTHORIZED_KEYS_FILE = pathlib.Path.home() / '.ssh' / 'authorized_keys'
+SSH_PATH = pathlib.Path.home() / '.ssh'
+AUTHORIZED_KEYS_FILE = SSH_PATH / 'authorized_keys'
 DUMMY = 'dummy_test_process.sh'
 
-if all([PUBLIC_KEY_FILE.exists(), AUTHORIZED_KEYS_FILE.exists()]):
-    with PUBLIC_KEY_FILE.open('rb') as pub:
-        with AUTHORIZED_KEYS_FILE.open('rb') as auth:
-            KEY_IN_AUTH = pub.read() in auth.readlines()
+public_keys = (
+    # RSA key
+    SSH_PATH / 'id_rsa.pub',
+    # ed25519 key
+    SSH_PATH / 'id_ed25519.pub',
+)
+existing_public_keys = tuple(filter(lambda k: k.exists(), public_keys))
+authorised_public_keys = []
+
+# Check if the existing keys are in authorized file
+if AUTHORIZED_KEYS_FILE.exists():
+    with AUTHORIZED_KEYS_FILE.open('rb') as auth:
+        auth_keys = auth.readlines()
+
+    for key in existing_public_keys:
+        with key.open('rb') as pub:
+            if pub.read() in auth_keys:
+                authorised_public_keys.append(key)
+
+if authorised_public_keys:
+    KEY_IN_AUTH = True
+    PUBLIC_KEY_FILE = authorised_public_keys[0]
+    PRIV_KEY_FILE = PUBLIC_KEY_FILE.with_suffix('')
 else:
     KEY_IN_AUTH = False
+    try:
+        PUBLIC_KEY_FILE = existing_public_keys[0]
+        PRIV_KEY_FILE = PUBLIC_KEY_FILE.with_suffix('')
+    except IndexError:
+        PUBLIC_KEY_FILE = None
+        PRIV_KEY_FILE = None
+
+PRIV_KEY_IS_FILE = PRIV_KEY_FILE.is_file() if PRIV_KEY_FILE else False
 
 # check if port 22 on localhost is available
 # sshd should be there...
@@ -70,14 +85,21 @@ ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 SKIP_SSH_TEST_MESSAGE = 'Skip as this test requires a local ssh server, ' \
                         'public and private keys installed'
+# # DEBUG
+# print(f"{tools.processExists('sshd')=}")
+# print(f'{PUBLIC_KEY_FILE=}')
+# print(f'{PRIV_KEY_FILE=}')
+# print(f'{PRIV_KEY_IS_FILE=}')
+# print(f'{KEY_IN_AUTH=}')
+# print(f'{sshdPortAvailable=}')
 
 # If False all SSH related tests are skipped.
 # On TravisCI that tests are enforced and never skipped.
 LOCAL_SSH = True if ON_TRAVIS else all([
     # Server process running?
     tools.processExists('sshd'),
-    # Privat keyfile (id_rsa)
-    PRIV_KEY_FILE.is_file(),
+    # Privat keyfile
+    PRIV_KEY_IS_FILE,
     # Key known (copied via "ssh-copy-id")
     KEY_IN_AUTH,
     # SSH port (22) available at the server
