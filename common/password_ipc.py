@@ -58,12 +58,20 @@ class FIFO(object):
         """
         # sys.stdout.write('read fifo\n')
         if not self.isFifo():
+            # TODO raise an Exception or write to stderr
             sys.exit(1)
 
         self.alarm.start(timeout)
 
         with open(self.fifo, 'r') as handle:
+            # Will wait until data is available,
+            # or an exception (e.g. exception.Timeout) is raised.
             ret = handle.read()
+
+        # If the alarm timeout ends but read() received not data, a
+        # excpetion.Timeout will be raised at this point.
+        # The exception will be catched far away in
+        # password.py::Password_Cache.run().
 
         self.alarm.stop()
 
