@@ -1982,8 +1982,9 @@ class UniquenessSet:
 
 class Alarm(object):
     """Establish a callback function that is called after a timeout using
-    SIGALRM signal..
+    SIGALRM signal.
 
+    If no callback is specified a `exception.Timeout` will be raised instead.
     The implementation uses a SIGALRM signal. Attention: Do not call code in
     the callback that does not support multi-threading (reentrance) or you may
     cause non-deterministic "random" RTEs (RTE??? race conditions?).

@@ -17,12 +17,12 @@ import logger
 
 
 class FIFO(object):
-    """Inter-process communication (IPC) with named pipes using the first in,
-    first out principel (FIFO).
+    """Inter-process communication (IPC) with named pipes using the first-in,
+    first-out principle (FIFO).
 
     Params:
-        fifo: Name(?) of the named pipe file.
-        alarm (tools.Alarm): Unknown
+        fifo (str): Name of the named pipe file.
+        alarm (tools.Alarm): To handle read/write timeouts.
     """
 
     def __init__(self, fname):
@@ -66,6 +66,7 @@ class FIFO(object):
         with open(self.fifo, 'r') as handle:
             # Will wait until data is available,
             # or an exception (e.g. exception.Timeout) is raised.
+            # The latter will happen when the timeout is finished.
             ret = handle.read()
 
         # If the alarm timeout ends but read() received not data, a
