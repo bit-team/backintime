@@ -196,7 +196,7 @@ class Config(configfile.ConfigFileWithProfiles):
                     'Because of that upgrading config to the current version '
                     'is not possible.',
                     self)
-                sys.exit(1)
+                sys.exit(2)
 
             if currentConfigVersion < 6:
                 logger.info('Update to config version 6', self)
