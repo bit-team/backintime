@@ -62,8 +62,8 @@ class FIFO(object):
 
         self.alarm.start(timeout)
 
-        with open(self.fifo, 'r') as fifo:
-            ret = fifo.read()
+        with open(self.fifo, 'r') as handle:
+            ret = handle.read()
 
         self.alarm.stop()
 

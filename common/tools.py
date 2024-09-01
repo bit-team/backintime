@@ -1995,7 +1995,7 @@ class Alarm(object):
         Args:
             callback (callable): Function to call when the timer ran down
                 (ensure calling only reentrant code). Use ``None`` to throw a
-                ``Timeout`` exception instead.
+                `exceptions.Timeout` exception instead.
             overwrite (bool): Is it allowed to (re)start the timer even though
                 the current timer is still running ("ticking"). ``True``
                 cancels the current timer (if active) and restarts with the new
