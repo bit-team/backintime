@@ -77,45 +77,55 @@ class FIFO(object):
 
         return ret
 
-    def write(self, string, timeout = 0):
+    def write(self, string, timeout=0):
+        """Write to named pipe file until timeout. If timeout is 0 it will wait
+        forever for an other process that will read this.
         """
-        write to fifo until timeout. If timeout is 0 it will wait forever
-        for an other process that will read this.
-        """
-        #sys.stdout.write('write fifo\n')
         if not self.isFifo():
+            # TODO raise an Exception or write to stderr
             sys.exit(1)
+
         self.alarm.start(timeout)
+
         with open(self.fifo, 'w') as fifo:
             fifo.write(string)
+
+        # See FIFO.read() to learn about "hidden" handling of Timeout
+        # exception.
+
         self.alarm.stop()
 
     def isFifo(self):
-        """
-        make sure file is still a FIFO and has correct permissions
-        """
+        """Make sure file is still a FIFO and has correct permissions."""
         try:
             s = os.stat(self.fifo)
+
         except OSError:
             return False
+
         if not s.st_uid == os.getuid():
-            logger.error('%s is not owned by user' % self.fifo, self)
+            logger.error(f'{self.fifo} is not owned by user', self)
             return False
+
         mode = s.st_mode
         if not stat.S_ISFIFO(mode):
-            logger.error('%s is not a FIFO' % self.fifo, self)
+            logger.error(f'{self.fifo} is not a named pipe file (FIFO)', self)
             return False
+
         forbidden_perm = stat.S_IXUSR + stat.S_IRWXG + stat.S_IRWXO
         if mode & forbidden_perm > 0:
-            logger.error('%s has wrong permissions' % self.fifo, self)
+            logger.error(f'{self.fifo} has wrong permissions', self)
             return False
+
         return True
+
 
 class TempPasswordThread(threading.Thread):
     """
     in case BIT is not configured yet provide password through temp FIFO
     to backintime-askpass.
     """
+
     def __init__(self, string):
         super(TempPasswordThread, self).__init__()
         self.pw = string
