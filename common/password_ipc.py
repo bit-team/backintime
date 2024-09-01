@@ -1,19 +1,10 @@
-#    Copyright (C) 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 import os
 import sys
 import stat
@@ -24,47 +15,58 @@ from contextlib import contextmanager
 
 import logger
 
+
 class FIFO(object):
+    """Inter-process communication (IPC) with named pipes using the first in,
+    first out principel (FIFO).
+
+    Params:
+        fifo: Name(?) of the named pipe file.
+        alarm (tools.Alarm): Unknown
     """
-    interprocess-communication with named pipes
-    """
+
     def __init__(self, fname):
         self.fifo = fname
         self.alarm = tools.Alarm()
 
     def delfifo(self):
-        """
-        remove FIFO
-        """
+        """Remove named pipe file."""
         try:
             os.remove(self.fifo)
+        # TODO: Catch FileNotFoundError only
         except:
             pass
 
     def create(self):
-        """
-        create the FIFO in a way that only the current user can access it.
+        """Create the named pipe file in a way that only the current user has
+        access to it.
         """
         if os.path.exists(self.fifo):
             self.delfifo()
+
         try:
+            # Permissions are "rw- --- ---"
             os.mkfifo(self.fifo, 0o600)
+
         except OSError as e:
-            logger.error('Failed to create FIFO: %s' % str(e), self)
+            logger.error(f'Failed to create named pipe file. Error: {e}', self)
             sys.exit(1)
 
-    def read(self, timeout = 0):
+    def read(self, timeout=0):
+        """Read from named pipe until timeout. If timeout is 0 it will wait
+        forever for input.
         """
-        read from fifo until timeout. If timeout is 0 it will wait forever
-        for input.
-        """
-        #sys.stdout.write('read fifo\n')
+        # sys.stdout.write('read fifo\n')
         if not self.isFifo():
             sys.exit(1)
+
         self.alarm.start(timeout)
+
         with open(self.fifo, 'r') as fifo:
             ret = fifo.read()
+
         self.alarm.stop()
+
         return ret
 
     def write(self, string, timeout = 0):
