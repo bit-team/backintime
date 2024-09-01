@@ -69,8 +69,8 @@ class FIFO(object):
             ret = handle.read()
 
         # If the alarm timeout ends but read() received not data, a
-        # excpetion.Timeout will be raised at this point.
-        # The exception will be catched far away in
+        # exception.Timeout will be raised at this point.
+        # The exception will be caught far away in
         # password.py::Password_Cache.run().
 
         self.alarm.stop()
