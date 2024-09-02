@@ -24,7 +24,7 @@ from contextlib import contextmanager
 
 import logger
 
-class FIFO(object):
+class FIFO:
     """
     interprocess-communication with named pipes
     """

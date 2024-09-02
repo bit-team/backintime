@@ -1980,7 +1980,7 @@ class UniquenessSet:
             return self.reference == (st.st_size, int(st.st_mtime))
 
 
-class Alarm(object):
+class Alarm:
     """
     Establish a callback function that is called after a timeout.
 
@@ -2053,7 +2053,7 @@ class Alarm(object):
             self.callback()
 
 
-class ShutDown(object):
+class ShutDown:
     """
     Shutdown the system after the current snapshot has finished.
     This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
@@ -2241,7 +2241,7 @@ class ShutDown(object):
         return m and Version(m.group(1)) >= Version('7.0') and processExists('unity-panel-service')
 
 
-class SetupUdev(object):
+class SetupUdev:
     """
     Setup Udev rules for starting BackInTime when a drive get connected.
     This is done by serviceHelper.py script (included in backintime-qt)
@@ -2333,7 +2333,7 @@ class SetupUdev(object):
         self.iface.clean()
 
 
-class PathHistory(object):
+class PathHistory:
     def __init__(self, path):
         self.history = [path,]
         self.index = 0
@@ -2368,7 +2368,7 @@ class PathHistory(object):
         self.index = 0
 
 
-class Execute(object):
+class Execute:
     """Execute external commands and handle its output.
 
     Args:
