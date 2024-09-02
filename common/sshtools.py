@@ -27,6 +27,7 @@ from pathlib import Path
 from time import sleep
 import logger
 import tools
+import password
 import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
@@ -381,7 +382,7 @@ class SSH(MountControl):
             password_available = any([
                 self.config.passwordSave(self.profile_id),
                 self.config.passwordUseCache(self.profile_id),
-                not self.password is None
+                self.password is not None
             ])
 
             logger.debug('Password available: %s' % password_available, self)
@@ -411,6 +412,37 @@ class SSH(MountControl):
                     thread = password_ipc.TempPasswordThread(self.password)
                     env['ASKPASS_TEMP'] = thread.temp_file
                     thread.start()
+
+                from pprint import pprint
+                with open('env.test', 'w') as file:
+                    pprint(env, stream=file)
+
+                # We need to validate the ssh key password which
+                # `backintime-askpass` will provide before calling
+                # ssh-add below.
+
+                # Validate cached SSH key password:
+                proc = subprocess.run(
+                        ['ssh-keygen', '-y', '-f', self.private_key_file],
+                        capture_output=True,
+                        # Ensure ssh-keygen uses backintime-askpass
+                        env=env | {'SSH_ASKPASS_REQUIRE': 'prefer'}
+                )
+
+                # if backintime-askpass supplied an invalid cached password
+                if proc.returncode > 0:
+                    pw = password.Password()
+
+                    # TODO: Figure out correct way to get pw_id
+                    pw_id = 1
+
+                    pw.password(
+                        None,
+                        self.profile_id,
+                        self.mode,
+                        pw_id=pw_id,
+                        refresh=True,
+                    )
 
                 proc = subprocess.Popen(['ssh-add', self.private_key_file],
                                         stdin=subprocess.PIPE,
