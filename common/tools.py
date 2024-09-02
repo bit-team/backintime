@@ -1987,7 +1987,7 @@ class Alarm(object):
     If no callback is specified a `exception.Timeout` will be raised instead.
     The implementation uses a SIGALRM signal. Attention: Do not call code in
     the callback that does not support multi-threading (reentrance) or you may
-    cause non-deterministic "random" RTEs (RTE??? race conditions?).
+    cause non-deterministic "random" RuntimeErrors (RTE).
     """
 
     def __init__(self, callback=None, overwrite=True):
@@ -2021,7 +2021,7 @@ class Alarm(object):
             return
 
         try:
-            # Warning: This code may cause non-deterministic RTEs
+            # Warning: This code may cause non-deterministic RunTimeError
             #          if the handler function calls code that does
             #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
