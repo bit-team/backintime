@@ -194,7 +194,8 @@ class Config(configfile.ConfigFileWithProfiles):
                     'The config file version is 4 or lower. This config was '
                     'made with a version of Back In Time that is out dated. '
                     'Because of that upgrading config to the current version '
-                    'is not possible.',
+                    'is not possible. The latest Back In Time version '
+                    'supporting upgrade the config file was v1.5.2.',
                     self)
                 sys.exit(2)
 
