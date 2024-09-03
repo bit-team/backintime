@@ -1948,10 +1948,10 @@ class SettingsDialog(QDialog):
                 self.config.removeProfileKey('snapshots.path.uuid')
 
             if tools.filesystem(path).startswith('ntfs'):
-                text = _('Warning: {0} is formatted as NTFS which has known incompatabilities '
-                         'with unix style file systems.\n\n'
-                         'Are you sure you want to use it as your backup destination?')
-                question = text.format(path)
+                text = _('Warning: {path} is formatted as NTFS which has known incompatibilities '
+                         'with unix style file systems.\nAre you sure you want to use it as '
+                         'your backup destination?')
+                question = text.format(path=path)
                 if not self.questionHandler(question):
                     return
 
