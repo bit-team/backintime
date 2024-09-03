@@ -31,6 +31,7 @@ _level_names = {
     syslog.LOG_ERR: 'ERROR',
     syslog.LOG_WARNING: 'WARNING',
     syslog.LOG_DEBUG: 'DEBUG'
+    syslog.LOG_CRIT: 'CRITICAL'
 }
 
 
@@ -57,6 +58,15 @@ def closelog():
 def _do_syslog(message: str, level: int) -> str:
     syslog.syslog(level, '{}{}: {}'.format(
         SYSLOG_MESSAGE_PREFIX, _level_names[level], message))
+
+def critical(msg, parent=None, traceDepth=0):
+    if DEBUG:
+        msg = _debugHeader(parent, traceDepth) + ' ' + msg
+
+    print(f'{bcolors.FAIL}CRITICAL{bcolors.ENDC}: {msg}', file=sys.stderr)
+
+    _do_syslog(msg, syslog.LOG_ERR)
+
 
 
 def error(msg, parent=None, traceDepth=0):

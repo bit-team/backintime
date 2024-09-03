@@ -25,7 +25,13 @@ as match target while parsing the crontab file. See
 """
 
 
-def read_crontab():
+def _no_crontab_command():
+    msg = 'Command "crontab" and "fcrontab" not found.'
+    logger.critical(msg)
+    raise RuntimeError(msg)
+
+
+def _read_via_crontab():
     """Read current users crontab.
 
     On errors an empty list is returned.
@@ -68,7 +74,7 @@ def read_crontab():
     return content
 
 
-def write_crontab(lines):
+def _write_via_crontab(lines):
     """Write users crontab.
 
     This will overwrite the whole users crontab. So to keep the old crontab
@@ -111,6 +117,21 @@ def write_crontab(lines):
             return False
 
     return True
+
+
+def _determine_crontab_functions() -> tuple[callable, callable]:
+    if subprocess.run(['which', 'xcrontab']).returncode == 0:
+        logger.debug('Found "crontab" command and using it.')
+        return _read_via_crontab, _write_via_crontab
+
+    # elif subprocess.run(['which', 'fcrontab']).returncode == 0:
+        # logger.debug('Found "fcrontab" command and using it.')
+        # return _read_via_fcrontab, _write_via_fcrontab
+
+    return _no_crontab_command, _no_crontab_command
+
+
+read_crontab, write_crontab = _determine_crontab_functions()
 
 
 def remove_bit_from_crontab(crontab):
