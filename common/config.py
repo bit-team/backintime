@@ -494,6 +494,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
             return False
 
+        elif fs.startswith('ntfs'):
+            self.notifyError(
+                _('Destination filesystem for {path} is formatted with NTFS '
+                  'which has known incompatibilities with Unix style file systems.')
+                .format(path=value))
+
         elif fs == 'cifs' and not self.copyLinks():
             self.notifyError(_(
                 'Destination filesystem for {path} is an SMB-mounted share. '
