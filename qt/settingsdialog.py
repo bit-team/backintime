@@ -15,7 +15,6 @@ import datetime
 import copy
 import re
 import getpass
-import psutil
 from PyQt6.QtGui import (QIcon,
                          QFont,
                          QPalette,
@@ -1948,7 +1947,7 @@ class SettingsDialog(QDialog):
 
                 self.config.removeProfileKey('snapshots.path.uuid')
 
-            if self.get_fs_type(path).startswith('ntfs'):
+            if tools.filesystem(path).startswith('ntfs'):
                 text = _('Warning: {0} is formatted as NTFS which has known incompatabilities '
                          'with unix style file systems.\n\n'
                          'Are you sure you want to use it as your backup destination?')
@@ -1957,19 +1956,6 @@ class SettingsDialog(QDialog):
                     return
 
             self.editSnapshotsPath.setText(self.config.preparePath(path))
-
-    def get_fs_type(self, mypath):
-        root_type = ""
-        for part in psutil.disk_partitions():
-            if part.mountpoint == '/':
-                root_type = part.fstype
-                continue
-
-            if mypath.startswith(part.mountpoint):
-                return part.fstype
-
-        return root_type
-
 
     def btnSshPrivateKeyFileClicked(self):
         old_file = self.txtSshPrivateKeyFile.text()
