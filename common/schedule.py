@@ -34,7 +34,7 @@ def _determine_crontab_command() -> tuple[callable, callable]:
         RuntimeError: If none of the supported commands available.
     """
     for cmd in ['crontab', 'fcrontab']:
-        if subprocess.run(['which', cmd]).returncode == 0:
+        if subprocess.run(['which', cmd], stdout=subprocess.PIPE).returncode == 0:
             return cmd
 
     # syslog is not yet initialized
