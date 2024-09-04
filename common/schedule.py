@@ -24,14 +24,54 @@ as match target while parsing the crontab file. See
 :func:`remove_bit_from_crontab()` for details.
 """
 
+def _determine_crontab_command() -> tuple[callable, callable]:
+    """Return the name of one of the supported crontab commands if available.
 
-def _no_crontab_command():
+    Returns:
+        (str): The command name. Usually "crontab" or "fcrontab".
+
+    Raises:
+        RuntimeError: If none of the supported commands available.
+    """
+    for cmd in ['crontab', 'fcrontab']:
+        if subprocess.run(['which', cmd]).returncode == 0:
+            return cmd
+
+    # syslog is not yet initialized
+    logger.openlog()
     msg = 'Command "crontab" and "fcrontab" not found.'
     logger.critical(msg)
+
     raise RuntimeError(msg)
 
 
-def _read_via_crontab():
+crontab_command = _determine_crontab_command()
+
+
+def _get_crontab_content(cmd_name):
+    """Read current users (f)crontab.
+
+    On errors an empty list is returned.
+
+    Returns:
+        list: Crontab lines.
+    """
+    try:
+        proc = subprocess.run(
+            [cmd_name, '-l'],
+            check=True,
+            capture_output=True,
+            text=True)
+
+    except subprocess.CalledProcessError as err:
+        logger.error(f'Failed to get content from "{cmd_name}". Return '
+                     f'code of {err.cmd} was {err.returncode}.')
+        return []
+
+    return proc.stdout.split('\n')
+
+
+def read_crontab():
     """Read current users crontab.
 
     On errors an empty list is returned.
@@ -42,23 +82,7 @@ def _read_via_crontab():
     Dev notes (buhtz, 2024-05): Might should raise exception on errors.
     """
 
-    try:
-        proc = subprocess.run(
-            ['crontab', '-l'],
-            check=True,
-            capture_output=True,
-            text=True)
-
-    except FileNotFoundError:
-        logger.error('Command "crontab" not found.')
-        return []
-
-    except subprocess.CalledProcessError as err:
-        logger.error('Failed to get crontab lines. Return code '
-                     f'of {err.cmd} was {err.returncode}.')
-        return []
-
-    content = proc.stdout.split('\n')
+    content = _get_crontab_content(crontab_command)
 
     # Remove empty lines from the end
     try:
@@ -74,7 +98,7 @@ def _read_via_crontab():
     return content
 
 
-def _write_via_crontab(lines):
+def write_crontab(lines):
     """Write users crontab.
 
     This will overwrite the whole users crontab. So to keep the old crontab
@@ -100,38 +124,22 @@ def _write_via_crontab(lines):
 
         try:
             subprocess.run(
-                ['crontab', '-'],
+                [crontab_command, '-'],
                 stdin=echo.stdout,
                 check=True,
                 capture_output=True,
                 text=True
             )
 
-        except FileNotFoundError as err:
-            logger.error(f'Command "crontab" not found. Error was: {err}')
-            return False
-
         except subprocess.CalledProcessError as err:
-            logger.error('Failed to write crontab lines. Return code '
-                         f'was {err.returncode}. Error was:\n{err.stderr}')
+            logger.error(
+                f'Failed to write crontab lines with "{crontab_command}". '
+                f'Return code was {err.returncode}. '
+                f'Error was:\n{err.stderr}')
             return False
 
     return True
 
-
-def _determine_crontab_functions() -> tuple[callable, callable]:
-    if subprocess.run(['which', 'xcrontab']).returncode == 0:
-        logger.debug('Found "crontab" command and using it.')
-        return _read_via_crontab, _write_via_crontab
-
-    # elif subprocess.run(['which', 'fcrontab']).returncode == 0:
-        # logger.debug('Found "fcrontab" command and using it.')
-        # return _read_via_fcrontab, _write_via_fcrontab
-
-    return _no_crontab_command, _no_crontab_command
-
-
-read_crontab, write_crontab = _determine_crontab_functions()
 
 
 def remove_bit_from_crontab(crontab):
