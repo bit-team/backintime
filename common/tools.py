@@ -261,8 +261,8 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-                     f'language code "{language_code}".')
+        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
+        #              f'language code "{language_code}".')
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
@@ -1274,6 +1274,7 @@ def keyringSupported():
         displayName = str(keyring.get_keyring())  # technical class name!
 
     logger.debug("Available keyring backends:")
+
     try:
         for b in backend.get_all_keyring():
             logger.debug(b)
@@ -1305,8 +1306,11 @@ def keyringSupported():
         (keyring.backends, ('chainer', 'ChainerBackend')),
     ]
 
+    not_found_metaclasses = []
+
     for backend_package, backends in backends_to_check:
         result = backend_package  # e.g. keyring.backends
+
 
         try:
             # Load the backend step-by-step.
@@ -1317,16 +1321,19 @@ def keyringSupported():
                 result = getattr(result, b)
 
         except AttributeError as err:
-            # Debug message if backend is not available.
-            logger.debug('Metaclass {}.{} not found: {}'
-                         .format(backend_package.__name__,
-                                 '.'.join(backends),
-                                 repr(err)))
+            # # Debug message if backend is not available.
+            # logger.debug('Metaclass {}.{} not found: {}'
+            #              .format(backend_package.__name__,
+            #                      '.'.join(backends),
+            #                      repr(err)))
+            not_found_metaclasses.append('{}.{}'.format(
+                backend_package.__name__, '.'.join(backends)))
 
         else:
             # Remember the backend class (not an instance) as available.
             available_backends.append(result)
 
+    logger.debug(f'Not found Metaclasses: {not_found_metaclasses}')
     logger.debug("Available supported backends: " + repr(available_backends))
 
     if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
