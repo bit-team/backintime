@@ -1949,9 +1949,11 @@ class SettingsDialog(QDialog):
 
             fs = tools.filesystem(path)
             if fs.startswith('ntfs'):
-                text = _('Warning: Destination filesystem for {path} is formatted with NTFS '
-                         'which has known incompatibilities with Unix style file systems.\n'
-                         'Are you sure you want to use it as your backup destination?')
+                text = '\n'.join([
+                       _('Warning: The destination filesystem for {path} is formatted with NTFS, '
+                         'which has known incompatibilities with Unix-style filesystems.'),                             
+                       _('Is this the backup destination to be used?')
+                })
                 question = text.format(path=path)
                 if not self.questionHandler(question):
                     return
