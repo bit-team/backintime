@@ -219,7 +219,8 @@ Keep in mind: To make the translation appear in the running _Back In Time_ the `
 - Don't "scream" with using upper case letters (e.g. `WARNING`) or exclamation
   mark (`!`).
 - Please provide a screenshot when introducing new translateble strings or
-  modifying them.
+  modifying them. The picture will be used on the translation web-frontend to
+  provide translators with more context.
 - [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).
 - [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
     
