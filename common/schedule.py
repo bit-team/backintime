@@ -24,6 +24,7 @@ as match target while parsing the crontab file. See
 :func:`remove_bit_from_crontab()` for details.
 """
 
+
 def _determine_crontab_command() -> tuple[callable, callable]:
     """Return the name of one of the supported crontab commands if available.
 
@@ -34,7 +35,8 @@ def _determine_crontab_command() -> tuple[callable, callable]:
         RuntimeError: If none of the supported commands available.
     """
     for cmd in ['crontab', 'fcrontab']:
-        if subprocess.run(['which', cmd], stdout=subprocess.PIPE).returncode == 0:
+        proc = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
+        if proc.returncode == 0:
             return cmd
 
     # syslog is not yet initialized
@@ -48,29 +50,6 @@ def _determine_crontab_command() -> tuple[callable, callable]:
 crontab_command = _determine_crontab_command()
 
 
-def _get_crontab_content(cmd_name):
-    """Read current users (f)crontab.
-
-    On errors an empty list is returned.
-
-    Returns:
-        list: Crontab lines.
-    """
-    try:
-        proc = subprocess.run(
-            [cmd_name, '-l'],
-            check=True,
-            capture_output=True,
-            text=True)
-
-    except subprocess.CalledProcessError as err:
-        logger.error(f'Failed to get content from "{cmd_name}". Return '
-                     f'code of {err.cmd} was {err.returncode}.')
-        return []
-
-    return proc.stdout.split('\n')
-
-
 def read_crontab():
     """Read current users crontab.
 
@@ -81,8 +60,19 @@ def read_crontab():
 
     Dev notes (buhtz, 2024-05): Might should raise exception on errors.
     """
+    try:
+        proc = subprocess.run(
+            [crontab_command, '-l'],
+            check=True,
+            capture_output=True,
+            text=True)
 
-    content = _get_crontab_content(crontab_command)
+    except subprocess.CalledProcessError as err:
+        logger.error(f'Failed to get content from "{crontab_command}". '
+                     f'Return code of {err.cmd} was {err.returncode}.')
+        return []
+
+    content = proc.stdout.split('\n')
 
     # Remove empty lines from the end
     try:
@@ -139,7 +129,6 @@ def write_crontab(lines):
             return False
 
     return True
-
 
 
 def remove_bit_from_crontab(crontab):
