@@ -218,6 +218,8 @@ Keep in mind: To make the translation appear in the running _Back In Time_ the `
   mark (`!`).
 - Please provide a screenshot when introducing new translateble strings or
   modifying them.
+- [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).
+- [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
     
 ```python
 # Avoid escape characters for string delimiters
