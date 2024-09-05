@@ -225,8 +225,8 @@ correct = _("Hello 'World'")
 # Avoid escape characters like new lines
 problematic = _('One\nTwo')`
 correct = _('One') + '\n' + _('Two')  # <- Separation into multiple strings is
-                                      # no problem, because the translator will
-                                      # have a screenshot.
+                                      #    no problem, because the translator
+                                      #    whill have a screenshot.
 
 # Provide meaningful placeholder names
 problematic = _('Can not delete {var}.')
