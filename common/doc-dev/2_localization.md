@@ -210,7 +210,9 @@ Keep in mind: To make the translation appear in the running _Back In Time_ the `
 
 ## General recommendations
 - Be aware that most of our translators not skilled in Python programming. They
-  might don't know about GNU gettext internals and other technical details.
+  might don't know about GNU gettext internals and other technical
+  details. They only see the translatable string in the web-frontend of our
+  [translation platform](https://translate.codeberg.org/engage/backintime).
 - Avoid escape characters in the strings.
 - Give translators enough context with providing meaningful placeholder names.
 - Avoid addressing the person with "you".
