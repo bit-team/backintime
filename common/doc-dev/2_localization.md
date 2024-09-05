@@ -212,16 +212,28 @@ Keep in mind: To make the translation appear in the running _Back In Time_ the `
 - Be aware that most of our translators not skilled in Python programming. They
   might don't know about GNU gettext internals and other technical details.
 - Avoid escape characters in the strings.
-  - Problematic: `_('Hello \'World\'')`; Correct: `_("Hello 'World'")`
-  - Problematic: `_('One\nTwo')`; Correct: `_('One') + '\n' + _('Two')`
 - Please provide a screenshot when introducing new translateble strings or
   modifying them.
 - Give translators enough context with providing meaningful placeholder names.
-  - Problematic: `_('Can not delete {var}.')`;
-    Correct: `_('Can not delete {snapshot_path}.')`
 - Avoid addressing the person with "you".
-  - Problematic: `_('Do you really want to delete this snapshot?')`; 
-    Correct: `_('Is it really intended to delete this snapshot?')`
+    
+```python
+# Avoid escape characters for string delimiters
+problematic = _('Hello \'World\'')
+correct = _("Hello 'World'")
+
+# Avoid escape characters like new lines
+problematic = _('One\nTwo')`
+correct = _('One') + '\n' + _('Two')
+
+# Provide meaningful placeholder names
+problematic = _('Can not delete {var}.')
+correct = _('Can not delete {snapshot_path}.')
+
+# Avoid addressing the person with "you"
+problematic = _('Do you really want to delete this snapshot?')
+correct = _('Is it really intended to delete this snapshot?')
+```
 
 ## Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages
 
