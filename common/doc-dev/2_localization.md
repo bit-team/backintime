@@ -212,10 +212,10 @@ Keep in mind: To make the translation appear in the running _Back In Time_ the `
 - Be aware that most of our translators not skilled in Python programming. They
   might don't know about GNU gettext internals and other technical details.
 - Avoid escape characters in the strings.
-- Please provide a screenshot when introducing new translateble strings or
-  modifying them.
 - Give translators enough context with providing meaningful placeholder names.
 - Avoid addressing the person with "you".
+- Please provide a screenshot when introducing new translateble strings or
+  modifying them.
     
 ```python
 # Avoid escape characters for string delimiters
