@@ -133,6 +133,9 @@ class Config(configfile.ConfigFileWithProfiles):
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
+    NTFS_FILESYSTEM_WARNING = _('The destination filesystem for {path} is formatted with NTFS, '
+                                'which has known incompatibilities with Unix-style filesystems.')
+
     def __init__(self, config_path=None, data_path=None):
         """Back In Time configuration (and much more then this).
 
@@ -495,10 +498,7 @@ class Config(configfile.ConfigFileWithProfiles):
             return False
 
         elif fs.startswith('ntfs'):
-            self.notifyError(
-                _('Destination filesystem for {path} is formatted with NTFS '
-                  'which has known incompatibilities with Unix style file systems.')
-                .format(path=value))
+            self.notifyError(self.NTFS_FILESYSTEM_WARNING.format(path=value))
 
         elif fs == 'cifs' and not self.copyLinks():
             self.notifyError(_(
