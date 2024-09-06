@@ -1679,11 +1679,19 @@ class SettingsDialog(QDialog):
 
         # save snaphots_path
         if self.config.SNAPSHOT_MODES[mode][0] is None:
+            # mode "locale"
             snapshots_path = self.editSnapshotsPath.text()
         else:
+            # other modes
             snapshots_path = self.config.snapshotsPath(mode=mode,
                                                        tmp_mount=True)
 
+        # dev note (buhtz): This does not modify the configs snapshot path
+        # in all cases.
+        # Only in "locale" mode the value is set.
+        # In the three other modes, this method does some mounting tests only.
+        # The path value of SSH/Encfs profiles is set with other methods.
+        # setSshSnapshotsPath(), setEncfsSnapshotsPath()
         ret = self.config.setSnapshotsPath(snapshots_path, mode=mode)
 
         if not ret:

@@ -441,6 +441,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         Sets the snapshot path to value, initializes, and checks it
         """
+        logger.info(f'{"X"*20} setSnapshotsPath() :: {value=}', self)
         if not value:
             return False
 
@@ -522,8 +523,13 @@ class Config(configfile.ConfigFileWithProfiles):
             return False
 
         os.rmdir(check_path)
+
+        # Need "mounttools"? (yes, if not "local")
         if self.SNAPSHOT_MODES[mode][0] is None:
+            logger.info(f'    setProfileStrValue(snapshots.path, {value=})', self)
             self.setProfileStrValue('snapshots.path', value, profile_id)
+
+        print(f"{self.dict['profile3.snapshots.path']=}")
         return True
 
     def snapshotsMode(self, profile_id=None):
