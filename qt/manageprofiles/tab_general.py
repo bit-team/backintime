@@ -411,6 +411,20 @@ class GeneralTab(QDialog):
 
         # ----------------------------------------
 
+        # DEV NOTE (buhtz, 2024-09)
+        # The same check code exists in the parent dialog (SettingsDialog).
+        # We need this code here because without it one simple line in this
+        # tab_general.py would not work:
+        #    success = self.config.setSnapshotsPath(snapshots_path, mode=mode)
+        #
+        # On the other hand that that checking code in the parent dialog
+        # makes more sense because the parent dialog does set some more options
+        # (e.g. Expert options) that might be relvant for that mount checking
+        # stuff.
+        #
+        # It is a circle.
+        # Decouple somehow setSnapshotsPath() first.
+
         # TODO - consider a single API method to bridge the UI layer
         # (settings dialog) and backend layer (config)
         # when setting snapshots path rather than having to call the
@@ -454,7 +468,7 @@ class GeneralTab(QDialog):
                 if answer and rc_copy_id:
                     # --- DEV NOTE TODO ---
                     # Why this recursive call?
-                    return self.saveProfile()
+                    return self._parent_dialog.saveProfile()
                 else:
                     return False
 
@@ -489,7 +503,7 @@ class GeneralTab(QDialog):
                     sshtools.writeKnownHostsFile(hashedKey)
                     # --- DEV NOTE TODO ---
                     # AGAIN: Why this recursive call?
-                    return self.saveProfile()
+                    return self._parent_dialog.saveProfile()
                 else:
                     return False
 
@@ -526,8 +540,6 @@ class GeneralTab(QDialog):
             logger.debug('snapshots_path = self.config.snapshotsPath(mode=mode, tmp_mount=True)')
             snapshots_path = self.config.snapshotsPath(
                 mode=mode, tmp_mount=True)
-
-        logger.debug(f'{snapshots_path=}')
 
         success = self.config.setSnapshotsPath(snapshots_path, mode=mode)
 

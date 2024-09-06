@@ -1123,7 +1123,7 @@ class SettingsDialog(QDialog):
         # https://en.wikipedia.org/wiki/Single_responsibility_principle
 
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
-            # preMountCheck
+            preMountCheck
             mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
 
             try:
@@ -1146,8 +1146,12 @@ class SettingsDialog(QDialog):
                     cipher=self.config.sshCipher()
                 )
 
-                if self.questionHandler(question) and rc_copy_id:
-                    return self.saveProfile()
+                answer = messagebox.warningYesNo(self, question)
+                answer = answer == QMessageBox.StandardButton.Yes
+                if answer and rc_copy_id:
+                    # --- DEV NOTE TODO ---
+                    # Why this recursive call?
+                    return self._parent_dialog.saveProfile()
                 else:
                     return False
 
@@ -1181,6 +1185,8 @@ class SettingsDialog(QDialog):
 
                 if messagebox.warningYesNoOptions(self, msg, options)[0]:
                     sshtools.writeKnownHostsFile(hashedKey)
+                    # --- DEV NOTE TODO ---
+                    # AGAIN: Why this recursive call?
                     return self.saveProfile()
                 else:
                     return False
