@@ -424,6 +424,7 @@ class GeneralTab(QDialog):
         #
         # It is a circle.
         # Decouple somehow setSnapshotsPath() first.
+        # See Issue #1864
 
         # TODO - consider a single API method to bridge the UI layer
         # (settings dialog) and backend layer (config)

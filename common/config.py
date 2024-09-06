@@ -441,7 +441,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         Sets the snapshot path to value, initializes, and checks it
         """
-        logger.debug(f'{value=} {profile_id=} {mode=}')
+        logger.error(f'{value=} {profile_id=} {mode=}')
         if not value:
             return False
 
