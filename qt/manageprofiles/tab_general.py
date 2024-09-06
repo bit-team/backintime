@@ -14,13 +14,12 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor
+from PyQt6.QtGui import QCursor, QFont
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
                              QMessageBox,
                              QGroupBox,
-                             QComboBox,
                              QLabel,
                              QToolButton,
                              QLineEdit,
@@ -34,6 +33,7 @@ import sshtools
 import logger
 import mount  # Workaround. Refactor that.
 import encfsmsgbox
+from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
@@ -547,7 +547,6 @@ class GeneralTab(QDialog):
         return combobox.BitComboBox(self, snapshot_modes)
 
     def _cipher_combobox(self) -> combobox.BitComboBox:
-        print(f'{self.config.SSH_CIPHERS=}')
         return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
