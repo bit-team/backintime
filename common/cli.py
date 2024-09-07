@@ -203,7 +203,7 @@ def frame(msg, size = 32):
     ret += ' +' + '-' * size +       '+'
     return ret
 
-class RestoreDialog(object):
+class RestoreDialog:
     def __init__(self, cfg, sid, what, where, **kwargs):
         self.config = cfg
         self.sid = sid

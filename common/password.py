@@ -157,7 +157,7 @@ class Password_Cache(daemon.Daemon):
         self.fifo.delfifo()
         super(Password_Cache, self).cleanupHandler(signum, frame)
 
-class Password(object):
+class Password:
     """Provide passwords for BIT either from keyring, Password_Cache or
     by asking user.
     """

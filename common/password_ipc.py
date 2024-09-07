@@ -15,8 +15,7 @@ from contextlib import contextmanager
 
 import logger
 
-
-class FIFO(object):
+class FIFO:
     """Inter-process communication (IPC) with named pipes using the first-in,
     first-out principle (FIFO).
 

@@ -23,7 +23,7 @@ import snapshots
 import tools
 
 
-class LogFilter(object):
+class LogFilter:
     """
     A Filter for snapshot logs which will both decode log lines and filter them
     for the requested ``mode``.
@@ -145,7 +145,7 @@ class LogFilter(object):
         else:
             return line
 
-class SnapshotLog(object):
+class SnapshotLog:
     """
     Read and write Snapshot log to "~/.local/share/backintime/takesnapshot_<N>.log".
     Where <N> is the profile ID ``profile``.
