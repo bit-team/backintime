@@ -1981,23 +1981,25 @@ class UniquenessSet:
 
 
 class Alarm(object):
-    """
-    Establish a callback function that is called after a timeout.
+    """Establish a callback function that is called after a timeout using
+    SIGALRM signal.
 
-    The implementation uses a SIGALRM signal so
-    do not call code in the callback that does not support multi-threading
-    (reentrance) or you may cause non-deterministic "random" RTEs.
+    If no callback is specified a `exception.Timeout` will be raised instead.
+    The implementation uses a SIGALRM signal. Attention: Do not call code in
+    the callback that does not support multi-threading (reentrance) or you may
+    cause non-deterministic "random" RuntimeErrors (RTE).
     """
-    def __init__(self, callback = None, overwrite = True):
-        """Create a new alarm instance
+
+    def __init__(self, callback=None, overwrite=True):
+        """Create a new alarm instance.
 
         Args:
-            callback: Function to call when the timer ran down (ensure
-                calling only reentrant code). Use ``None`` to throw a
-                ``Timeout`` exception instead.
-            overwrite: Is it allowed to (re)start the timer even though the
-                current timer is still running ("ticking"). ``True`` cancels
-                the current timer (if active) and restarts with the new
+            callback (callable): Function to call when the timer ran down
+                (ensure calling only reentrant code). Use ``None`` to throw a
+                `exceptions.Timeout` exception instead.
+            overwrite (bool): Is it allowed to (re)start the timer even though
+                the current timer is still running ("ticking"). ``True``
+                cancels the current timer (if active) and restarts with the new
                 timeout. ``False`` silently ignores the start request if the
                 current timer is still "ticking"
         """
@@ -2006,49 +2008,53 @@ class Alarm(object):
         self.overwrite = overwrite
 
     def start(self, timeout):
-        """
-        Start the timer (which calls the handler function
+        """Start the timer (which calls the handler function
         when the timer ran down).
 
-        The start is silently ignored if the current timer is still
-        ticking and the the attribute ``overwrite`` is ``False``.
+        If `self.overwrite` is ``False`` and the current timer is still ticking
+        the start is silently ignored.
 
         Args:
-            timeout: timer count down in seconds
+            timeout: Timer count down in seconds.
         """
         if self.ticking and not self.overwrite:
             return
+
         try:
-            # Warning: This code may cause non-deterministic RTEs
+            # Warning: This code may cause non-deterministic RunTimeError
             #          if the handler function calls code that does
             #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
+            # Why???
             pass
+
         self.ticking = True
 
     def stop(self):
-        """
-        Stop timer before it comes to an end
-        """
+        """Stop timer before it comes to an end."""
         try:
             signal.alarm(0)
             self.ticking = False
+
+        # TODO: What to catch?
         except:
             pass
 
     def handler(self, signum, frame):
-        """
-        This method is called after the timer ran down to zero
+        """This method is called after the timer ran down to zero
         and calls the callback function of the alarm instance.
 
         Raises:
-            Timeout: If no callback function was set for the alarm instance
+            `exceptions.Timeout`: If no callback function was set for the alarm
+                instance.
         """
         self.ticking = False
+
         if self.callback is None:
             raise Timeout()
+
         else:
             self.callback()
 

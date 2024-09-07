@@ -74,31 +74,41 @@ class Password_Cache(daemon.Daemon):
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self.reloadHandler)
         logger.debug('Start loop', self)
+
         while True:
             try:
                 request = self.fifo.read()
                 request = request.split('\n')[0]
                 task, value = request.split(':', 1)
+
                 if task == 'get_pw':
                     key = value
+
                     if key in list(self.dbKeyring.keys()):
                         answer = 'pw:' + self.dbKeyring[key]
                     elif key in list(self.dbUsr.keys()):
                         answer = 'pw:' + self.dbUsr[key]
                     else:
                         answer = 'none:'
+
                     self.fifo.write(answer, 5)
+
                 elif task == 'set_pw':
                     key, value = value.split(':', 1)
                     self.dbUsr[key] = value
 
             except IOError as e:
                 logger.error('Error in writing answer to FIFO: %s' % str(e), self)
+
             except KeyboardInterrupt:
                 logger.debug('Quit.', self)
                 break
+
             except Timeout:
+                # That exception is thrown by tools.Alarm.handle() if the
+                # timeout ends. That Alarm was set by FIFO.read().
                 logger.error('FIFO timeout', self)
+
             except Exception as e:
                 logger.error('ERROR: %s' % str(e), self)
 
