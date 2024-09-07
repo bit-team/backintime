@@ -1,19 +1,10 @@
-#    Copyright (C) 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 import os
 import sys
 import stat
@@ -24,88 +15,117 @@ from contextlib import contextmanager
 
 import logger
 
-class FIFO(object):
+class FIFO:
+    """Inter-process communication (IPC) with named pipes using the first-in,
+    first-out principle (FIFO).
+
+    Params:
+        fifo (str): Name of the named pipe file.
+        alarm (tools.Alarm): To handle read/write timeouts.
     """
-    interprocess-communication with named pipes
-    """
+
     def __init__(self, fname):
         self.fifo = fname
         self.alarm = tools.Alarm()
 
     def delfifo(self):
-        """
-        remove FIFO
-        """
+        """Remove named pipe file."""
         try:
             os.remove(self.fifo)
+        # TODO: Catch FileNotFoundError only
         except:
             pass
 
     def create(self):
-        """
-        create the FIFO in a way that only the current user can access it.
+        """Create the named pipe file in a way that only the current user has
+        access to it.
         """
         if os.path.exists(self.fifo):
             self.delfifo()
+
         try:
+            # Permissions are "rw- --- ---"
             os.mkfifo(self.fifo, 0o600)
+
         except OSError as e:
-            logger.error('Failed to create FIFO: %s' % str(e), self)
+            logger.error(f'Failed to create named pipe file. Error: {e}', self)
             sys.exit(1)
 
-    def read(self, timeout = 0):
+    def read(self, timeout=0):
+        """Read from named pipe until timeout. If timeout is 0 it will wait
+        forever for input.
         """
-        read from fifo until timeout. If timeout is 0 it will wait forever
-        for input.
-        """
-        #sys.stdout.write('read fifo\n')
+        # sys.stdout.write('read fifo\n')
         if not self.isFifo():
+            # TODO raise an Exception or write to stderr
             sys.exit(1)
+
         self.alarm.start(timeout)
-        with open(self.fifo, 'r') as fifo:
-            ret = fifo.read()
+
+        with open(self.fifo, 'r') as handle:
+            # Will wait until data is available,
+            # or an exception (e.g. exception.Timeout) is raised.
+            # The latter will happen when the timeout is finished.
+            ret = handle.read()
+
+        # If the alarm timeout ends but read() received not data, a
+        # exception.Timeout will be raised at this point.
+        # The exception will be caught far away in
+        # password.py::Password_Cache.run().
+
         self.alarm.stop()
+
         return ret
 
-    def write(self, string, timeout = 0):
+    def write(self, string, timeout=0):
+        """Write to named pipe file until timeout. If timeout is 0 it will wait
+        forever for an other process that will read this.
         """
-        write to fifo until timeout. If timeout is 0 it will wait forever
-        for an other process that will read this.
-        """
-        #sys.stdout.write('write fifo\n')
         if not self.isFifo():
+            # TODO raise an Exception or write to stderr
             sys.exit(1)
+
         self.alarm.start(timeout)
+
         with open(self.fifo, 'w') as fifo:
             fifo.write(string)
+
+        # See FIFO.read() to learn about "hidden" handling of Timeout
+        # exception.
+
         self.alarm.stop()
 
     def isFifo(self):
-        """
-        make sure file is still a FIFO and has correct permissions
-        """
+        """Make sure file is still a FIFO and has correct permissions."""
         try:
             s = os.stat(self.fifo)
+
         except OSError:
             return False
+
         if not s.st_uid == os.getuid():
-            logger.error('%s is not owned by user' % self.fifo, self)
+            logger.error(f'{self.fifo} is not owned by user', self)
             return False
+
         mode = s.st_mode
         if not stat.S_ISFIFO(mode):
-            logger.error('%s is not a FIFO' % self.fifo, self)
+            logger.error(f'{self.fifo} is not a named pipe file (FIFO)', self)
             return False
+
         forbidden_perm = stat.S_IXUSR + stat.S_IRWXG + stat.S_IRWXO
         if mode & forbidden_perm > 0:
-            logger.error('%s has wrong permissions' % self.fifo, self)
+            logger.error(f'{self.fifo} has wrong permissions', self)
             return False
+
         return True
+
 
 class TempPasswordThread(threading.Thread):
     """
     in case BIT is not configured yet provide password through temp FIFO
     to backintime-askpass.
     """
+
     def __init__(self, string):
         super(TempPasswordThread, self).__init__()
         self.pw = string

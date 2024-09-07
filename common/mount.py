@@ -118,7 +118,7 @@ import tools
 from exceptions import HashCollision, MountException
 
 
-class Mount(object):
+class Mount:
     """
     This is the high-level mount API. This will handle mount, umount, remount
     and checks on the low-level :py:class:`MountControl` subclass backends for
@@ -375,7 +375,7 @@ class Mount(object):
             self.profile_id = new_profile_id
             return self.mount(mode = mode, **kwargs)
 
-class MountControl(object):
+class MountControl:
     """This is the low-level mount API. This should be subclassed by backends.
 
     Subclasses should have its own ``__init__`` but **must** also call the
