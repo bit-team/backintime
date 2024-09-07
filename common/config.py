@@ -52,6 +52,7 @@ import encfstools
 import password
 import pluginmanager
 import schedule
+from pathlib import Path
 from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
@@ -437,19 +438,16 @@ class Config(configfile.ConfigFileWithProfiles):
         host, user, profile = self.hostUserProfile(profile_id)
         return os.path.join(self.snapshotsPath(profile_id), 'backintime', host, user, profile)
 
-    def setSnapshotsPath(self, value, profile_id = None, mode = None):
+    def set_snapshots_path(self, value, profile_id=None):
+        """Sets the snapshot path to value, initializes, and checks it
         """
-        Sets the snapshot path to value, initializes, and checks it
-        """
-        logger.info(f'{"X"*20} setSnapshotsPath() :: {value=}', self)
-        if not value:
-            return False
+        logger.info(f'{"X"*20} set_snapshots_path() :: {value=}', self)
 
-        if profile_id == None:
+        if profile_id is None:
             profile_id = self.currentProfile()
 
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
+        # if mode is None:
+        #     mode = self.snapshotsMode(profile_id)
 
         if not os.path.isdir(value):
             self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
@@ -530,6 +528,137 @@ class Config(configfile.ConfigFileWithProfiles):
             self.setProfileStrValue('snapshots.path', value, profile_id)
 
         print(f"{self.dict['profile3.snapshots.path']=}")
+        return True
+
+    def is_filesystem_valid(self, full_path, msg_path, mode):
+        """
+        Args:
+            full_path: The path to validate.
+            msg_path: The path used for display in error messages.
+            mode: Snapshot profile mode.
+
+        Returns:
+            bool: ``False`` if `full_path` lives in a known problematic filesystem.
+        """
+        fs = tools.filesystem(
+            full_path if isinstance(full_path, str) else str(full_path))
+
+        # DEV NOTE
+        # notifyError() results in a messagebox
+        # Might be a candidate for a simple error-event-handler
+
+        if fs == 'vfat':
+            self.notifyError(_(
+                "Destination filesystem for {path} is formatted with FAT "
+                "which doesn't support hard-links. "
+                "Please use a native Linux filesystem.")
+                .format(path=msg_path))
+
+            return False
+
+        elif fs == 'cifs' and not self.copyLinks():
+            self.notifyError(_(
+                'Destination filesystem for {path} is an SMB-mounted share. '
+                'Please make sure the remote SMB server supports symlinks or '
+                'activate {copyLinks} in {expertOptions}.')
+                .format(path=msg_path,
+                        copyLinks=_('Copy links (dereference symbolic links)'),
+                        expertOptions=_('Expert Options')))
+
+        elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+            self.notifyError(_(
+                "Destination filesystem for {path} is an sshfs-mounted share."
+                " Sshfs doesn't support hard-links. "
+                "Please use mode 'SSH' instead.")
+                .format(path=msg_path))
+
+            return False
+
+        return True
+
+    def is_writeable(self, folder):
+        # Test write access for the folder
+
+        if not isinstance(folder, Path):
+            folder = Path(folder)
+
+        check_path = folder / 'check'
+
+        try:
+            check_path.mkdir(parent=False, exist_ok=False)
+
+        except PermissionError:
+            self.notifyError(_(
+                f"Can't write to: {folder}\nAre you sure you have "
+                "write access?"))
+
+            return False
+
+        else:
+            check_path.rmdir()
+
+        return True
+
+    def extra_magic_for_set_snapshots_path(self, value, profile_id=None, mode=None):
+        """Sets the snapshot path to value, initializes, and checks it
+        """
+        if not isinstance(value, Path):
+            value = Path(value)
+
+        logger.info(f'extra_magic_for_set_snapshots_path() :: {value=}', self)
+
+        if profile_id is None:
+            profile_id = self.currentProfile()
+
+        if mode is None:
+            mode = self.snapshotsMode(profile_id)
+
+        if not value.is_dir():
+            self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
+            return False
+
+        # build full path
+        # <path>/backintime/<host>/<user>/<profile_id>
+        host, user, profile = self.hostUserProfile(profile_id)
+        full_path = value / 'backintime' / host / user / profile
+
+        # create full_path
+        full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+
+        # Test filesystem
+        if self.is_filesystem_valid(full_path, value, mode) is False:
+            return False
+
+        # Test write access for the folder
+        if self.is_writeable(full_path) is False:
+            return False
+
+        return True
+
+    def setSnapshotsPath(self, value, profile_id = None, mode = None):
+        """
+        Sets the snapshot path to value, initializes, and checks it
+        """
+        logger.info(f'{"X"*20} setSnapshotsPath() :: {value=}', self)
+        if not value:
+            return False
+
+        if profile_id == None:
+            profile_id = self.currentProfile()
+
+        if mode is None:
+            mode = self.snapshotsMode(profile_id)
+
+        self.extra_magic_for_set_snapshots_path(value, profile_id, mode)
+
+        # Need "mounttools"? (yes, if not "local")
+        if self.SNAPSHOT_MODES[mode][0] is None:
+            logger.info(f'    setProfileStrValue(snapshots.path, {value=})', self)
+            self.setProfileStrValue('snapshots.path', value, profile_id)
+        else:
+            # DEBUG
+            logger.error('Config.setSnapshotsPath() called with mode other than "local".')
+
         return True
 
     def snapshotsMode(self, profile_id=None):
