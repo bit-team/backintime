@@ -374,14 +374,14 @@ def get_native_language_and_completeness(language_code):
 # | Snapshot handling                     |
 # |                                       |
 # | Candidates for refactoring and moving |
-# | into better suited moduls/classes     |
+# | into better suited modules/classes    |
 # |---------------------------------------|
 
 
 def validate_snapshots_path(path, cfg, profile_id=None):
-    """Check if the given path is valide for being a snapshot path.
+    """Check if the given path is valid for being a snapshot path.
 
-    It is checked if it is a folder, if it is writeable, if the filesystem is
+    It is checked if it is a folder, if it is writable, if the filesystem is
     supported and several other things.
 
     Args:
