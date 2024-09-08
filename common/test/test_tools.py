@@ -1,20 +1,16 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+"""Tests about the tools module."""
 import os
 import sys
 import subprocess
@@ -30,7 +26,6 @@ from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from test import generic
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
 import configfile
@@ -823,3 +818,23 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
                 'branch': 'fix/foobar'
             }
         )
+
+
+class ValidateSnapshotsPath(generic.TestCaseCfg):
+    def test_set_snapshots_path_test_writes(self):
+        with TemporaryDirectory() as dirpath:
+            self.assertTrue(tools.validate_snapshots_path(dirpath, self.cfg))
+
+    def test_set_snapshots_path_fails_on_ro(self):
+        with TemporaryDirectory() as dirpath:
+            # set directory to read only
+            ro_dir_stats = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH
+            with generic.mockPermissions(dirpath, ro_dir_stats):
+                self.assertFalse(
+                    tools.validate_snapshots_path(dirpath, self.cfg))
+
+    @patch('os.chmod')
+    def test_set_snapshots_path_permission_fail(self, mock_chmod):
+        mock_chmod.side_effect = PermissionError()
+        with TemporaryDirectory() as dirpath:
+            self.assertTrue(tools.validate_snapshots_path(dirpath, self.cfg))

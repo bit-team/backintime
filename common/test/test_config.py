@@ -17,23 +17,6 @@ from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
-class TestConfig(generic.TestCaseCfg):
-    def test_set_snapshots_path_test_writes(self):
-        with TemporaryDirectory() as dirpath:
-            self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
-
-    def test_set_snapshots_path_fails_on_ro(self):
-        with TemporaryDirectory() as dirpath:
-            # set directory to read only
-            with generic.mockPermissions(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH):
-                self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
-
-    @mock.patch('os.chmod')
-    def test_set_snapshots_path_permission_fail(self, mock_chmod):
-        mock_chmod.side_effect = PermissionError()
-        with TemporaryDirectory() as dirpath:
-            self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
-
 
 class TestSshCommand(generic.SSHTestCase):
     @classmethod
