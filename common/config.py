@@ -410,26 +410,27 @@ class Config(configfile.ConfigFileWithProfiles):
     def host(self):
         return socket.gethostname()
 
+    def get_snapshots_mountpoint(self, profile_id=None, tmp_mount=False):
+        """Return the profiles snapshot path in form of a mount point."""
+        if profile_id is None:
+            profile_id = self.currentProfile()
+
+        mode = self.snapshotsMode(profile_id)
+
+        if mode == 'local':
+            return self.get_snapshots_path_and_only_that(profile_id)
+
+        # ssh/local_encfs/ssh_encfs
+        symlink = self.snapshotsSymlink(
+            profile_id=profile_id, tmp_mount=tmp_mount)
+
+        return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
+
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
-        """Return the snapshot path (backup destination).
+        """Return the snapshot path (backup destination) as a mount point.
         """
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-
-        # If there are <mounttools> for this mode, then
-        # the path need to be mounted.
-        if self.SNAPSHOT_MODES[mode][0] == None:
-            # No mount needed
-            #?Where to save snapshots in mode 'local'. This path must contain a
-            #?folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
-            return self.profileStrValue('snapshots.path', '', profile_id)
-
-        else:
-            # Mode need to be mounted; return mountpoint
-            symlink = self.snapshotsSymlink(
-                profile_id=profile_id, tmp_mount=tmp_mount)
-
-            return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
+        return self.get_snapshots_mountpoint(
+            profile_id=profile_id, tmp_mount=tmp_mount)
 
     def snapshotsFullPath(self, profile_id = None):
         """
@@ -438,97 +439,17 @@ class Config(configfile.ConfigFileWithProfiles):
         host, user, profile = self.hostUserProfile(profile_id)
         return os.path.join(self.snapshotsPath(profile_id), 'backintime', host, user, profile)
 
-    def set_snapshots_path(self, value, profile_id=None):
+    def get_snapshots_path_and_only_that(self, profile_id):
+        """Return the value of the snapshot path (backup destination) field."""
+        return self.profileStrValue('snapshots.path', '', profile_id)
+
+    def set_snapshots_path_and_only_that(self, value, profile_id=None):
         """Sets the snapshot path to value, initializes, and checks it
         """
-        logger.info(f'{"X"*20} set_snapshots_path() :: {value=}', self)
-
         if profile_id is None:
             profile_id = self.currentProfile()
 
-        # if mode is None:
-        #     mode = self.snapshotsMode(profile_id)
-
-        if not os.path.isdir(value):
-            self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
-            return False
-
-        # Initialize the snapshots folder
-        logger.debug("Check snapshot folder: %s" % value, self)
-
-        host, user, profile = self.hostUserProfile(profile_id)
-
-        if not all((host, user, profile)):
-            self.notifyError(_('Host/User/Profile-ID must not be empty.'))
-            return False
-
-        full_path = os.path.join(value, 'backintime', host, user, profile)
-        if not os.path.isdir(full_path):
-            logger.debug("Create folder: %s" % full_path, self)
-            tools.makeDirs(full_path)
-
-            if not os.path.isdir(full_path):
-                self.notifyError(_(
-                    "Can't write to: {path}\nAre you sure you have "
-                    "write access?").format(path=value))
-                return False
-
-            for p in (os.path.join(value, 'backintime'),
-                      os.path.join(value, 'backintime', host)):
-                try:
-                    os.chmod(p, 0o777)
-                except PermissionError as e:
-                    msg = "Failed to set permissions world-writable for '{}': {}"
-                    logger.warning(msg.format(p, str(e)), self)
-
-        # Test filesystem
-        fs = tools.filesystem(full_path)
-
-        if fs == 'vfat':
-            self.notifyError(_(
-                "Destination filesystem for {path} is formatted with FAT "
-                "which doesn't support hard-links. "
-                "Please use a native Linux filesystem.")
-                .format(path=value))
-
-            return False
-
-        elif fs == 'cifs' and not self.copyLinks():
-            self.notifyError(_(
-                'Destination filesystem for {path} is an SMB-mounted share. '
-                'Please make sure the remote SMB server supports symlinks or '
-                'activate {copyLinks} in {expertOptions}.')
-                .format(path=value,
-                        copyLinks=_('Copy links (dereference symbolic links)'),
-                        expertOptions=_('Expert Options')))
-
-        elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
-            self.notifyError(_(
-                "Destination filesystem for {path} is an sshfs-mounted share."
-                " Sshfs doesn't support hard-links. "
-                "Please use mode 'SSH' instead.")
-                .format(path=value))
-
-            return False
-
-        #Test write access for the folder
-        check_path = os.path.join(full_path, 'check')
-        tools.makeDirs(check_path)
-        if not os.path.isdir(check_path):
-            self.notifyError(_(
-                "Can't write to: {path}\nAre you sure you have "
-                "write access?").format(path=full_path))
-            return False
-
-        os.rmdir(check_path)
-
-        # Need "mounttools"? (yes, if not "local")
-        if self.SNAPSHOT_MODES[mode][0] is None:
-            logger.info(f'    setProfileStrValue(snapshots.path, {value=})', self)
-            self.setProfileStrValue('snapshots.path', value, profile_id)
-
-        print(f"{self.dict['profile3.snapshots.path']=}")
-        return True
+        self.setProfileStrValue('snapshots.path', value, profile_id)
 
     def is_filesystem_valid(self, full_path, msg_path, mode):
         """
@@ -599,13 +520,15 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return True
 
-    def extra_magic_for_set_snapshots_path(self, value, profile_id=None, mode=None):
+    def extra_magic_for_set_snapshots_path(self, value, profile_id=None):
         """Sets the snapshot path to value, initializes, and checks it
         """
         if not isinstance(value, Path):
             value = Path(value)
 
         logger.info(f'extra_magic_for_set_snapshots_path() :: {value=}', self)
+
+        mode = self.snapshotsMode(profile_id)
 
         if profile_id is None:
             profile_id = self.currentProfile()
@@ -649,7 +572,9 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
-        self.extra_magic_for_set_snapshots_path(value, profile_id, mode)
+        rc = self.extra_magic_for_set_snapshots_path(value, profile_id, mode)
+        if rc is False:
+            return False
 
         # Need "mounttools"? (yes, if not "local")
         if self.SNAPSHOT_MODES[mode][0] is None:

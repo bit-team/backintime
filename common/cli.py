@@ -99,9 +99,10 @@ def checkConfig(cfg, crontab = True):
 
     test = 'Check/prepare snapshot path'
     announceTest()
-    snapshots_path = cfg.snapshotsPath(mode = mode, tmp_mount = True)
+    snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
-    if not cfg.setSnapshotsPath(snapshots_path, mode = mode):
+    # if not cfg.setSnapshotsPath(snapshots_path, mode = mode):
+    if not cfg.extra_magic_for_set_snapshots_path(snapshots_mountpoint):
         failed()
         return False
     okay()
