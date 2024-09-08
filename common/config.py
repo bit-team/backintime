@@ -506,13 +506,18 @@ class Config(configfile.ConfigFileWithProfiles):
         check_path = folder / 'check'
 
         try:
-            check_path.mkdir(parent=False, exist_ok=False)
+            check_path.mkdir(
+                # Do not create parent folders
+                parents=False,
+                # Raise error if exists
+                exist_ok=False
+            )
 
         except PermissionError:
-            self.notifyError(_(
-                f"Can't write to: {folder}\nAre you sure you have "
-                "write access?"))
-
+            self.notifyError('\n'.join([
+                _(f'File creation of in following folder failed:'),
+                str(folder),
+                _(f'Write access may be restricted.')]))
             return False
 
         else:
@@ -526,8 +531,6 @@ class Config(configfile.ConfigFileWithProfiles):
         if not isinstance(value, Path):
             value = Path(value)
 
-        logger.info(f'extra_magic_for_set_snapshots_path() :: {value=}', self)
-
         mode = self.snapshotsMode(profile_id)
 
         if profile_id is None:
@@ -537,7 +540,8 @@ class Config(configfile.ConfigFileWithProfiles):
             mode = self.snapshotsMode(profile_id)
 
         if not value.is_dir():
-            self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
+            self.notifyError(_('Invalid option. {path} is not a folder.')
+                             .format(path=value))
             return False
 
         # build full path
@@ -546,7 +550,14 @@ class Config(configfile.ConfigFileWithProfiles):
         full_path = value / 'backintime' / host / user / profile
 
         # create full_path
-        full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+        try:
+            full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+        except PermissionError:
+            self.notifyError('\n'.join([
+                _(f'Creation of following folder failed:'),
+                str(full_path),
+                _(f'Write access may be restricted.')]))
+            return False
 
         # Test filesystem
         if self.is_filesystem_valid(full_path, value, mode) is False:
@@ -562,7 +573,6 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         Sets the snapshot path to value, initializes, and checks it
         """
-        logger.info(f'{"X"*20} setSnapshotsPath() :: {value=}', self)
         if not value:
             return False
 
@@ -572,13 +582,12 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
-        rc = self.extra_magic_for_set_snapshots_path(value, profile_id, mode)
+        rc = self.extra_magic_for_set_snapshots_path(value, profile_id)
         if rc is False:
             return False
 
         # Need "mounttools"? (yes, if not "local")
         if self.SNAPSHOT_MODES[mode][0] is None:
-            logger.info(f'    setProfileStrValue(snapshots.path, {value=})', self)
             self.setProfileStrValue('snapshots.path', value, profile_id)
         else:
             # DEBUG
