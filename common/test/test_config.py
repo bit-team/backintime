@@ -8,14 +8,10 @@
 """Tests about config module.
 """
 import os
-import stat
 import sys
 import getpass
-from unittest import mock
 from test import generic
-from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 
 
 class TestSshCommand(generic.SSHTestCase):

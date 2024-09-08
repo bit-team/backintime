@@ -442,7 +442,7 @@ class MountControl:
 
         self.local_host = self.config.host()
         self.local_user = getpass.getuser()
-        self.pid = self.config.pid()
+        self.pid = str(os.getpid())
 
         self.all_kwargs = {}
 

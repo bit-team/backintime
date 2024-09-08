@@ -1,21 +1,15 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-"""Configuration logic.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+"""Configuration handling and logic.
 
 This module and its `Config` class contain the application logic handling the
 configuration of Back In Time. The handling of the configuration file itself
@@ -403,8 +397,8 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
         return True
 
-    def pid(self):
-        return str(os.getpid())
+    # def pid(self):
+    #     return str(os.getpid())
 
     def host(self):
         return socket.gethostname()
@@ -417,16 +411,20 @@ class Config(configfile.ConfigFileWithProfiles):
         mode = self.snapshotsMode(profile_id)
 
         if mode == 'local':
-            return self.get_snapshots_path_and_only_that(profile_id)
+            return self.get_snapshots_path(profile_id)
 
-        # ssh/local_encfs/ssh_encfs
-        symlink = self.snapshotsSymlink(
-            profile_id=profile_id, tmp_mount=tmp_mount)
+        # else: ssh/local_encfs/ssh_encfs
+
+        symlink = f'{profile_id}_{os.getpid()}'
+        if tmp_mount:
+            symlink = f'tmp_{symlink}'
 
         return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the snapshot path (backup destination) as a mount point.
+
+        That method is a surrogate for `self.get_snapshots_mountpoint()`.
         """
         return self.get_snapshots_mountpoint(
             profile_id=profile_id, tmp_mount=tmp_mount)
@@ -438,13 +436,12 @@ class Config(configfile.ConfigFileWithProfiles):
         host, user, profile = self.hostUserProfile(profile_id)
         return os.path.join(self.snapshotsPath(profile_id), 'backintime', host, user, profile)
 
-    def get_snapshots_path_and_only_that(self, profile_id):
+    def get_snapshots_path(self, profile_id):
         """Return the value of the snapshot path (backup destination) field."""
         return self.profileStrValue('snapshots.path', '', profile_id)
 
-    def set_snapshots_path_and_only_that(self, value, profile_id=None):
-        """Sets the snapshot path to value, initializes, and checks it
-        """
+    def set_snapshots_path(self, value, profile_id=None):
+        """Sets the snapshot path to value."""
         if profile_id is None:
             profile_id = self.currentProfile()
 
@@ -565,33 +562,33 @@ class Config(configfile.ConfigFileWithProfiles):
 
     #     return True
 
-    def setSnapshotsPath(self, value, profile_id = None, mode = None):
-        """
-        Sets the snapshot path to value, initializes, and checks it
-        """
-        if not value:
-            return False
+    # def setSnapshotsPath(self, value, profile_id = None, mode = None):
+    #     """
+    #     Sets the snapshot path to value, initializes, and checks it
+    #     """
+    #     if not value:
+    #         return False
 
-        if profile_id == None:
-            profile_id = self.currentProfile()
+    #     if profile_id == None:
+    #         profile_id = self.currentProfile()
 
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
+    #     if mode is None:
+    #         mode = self.snapshotsMode(profile_id)
 
-        rc = tools.validate_snapshots_path(
-            path=value, cfg=self, profile_id=profile_id)
-        # rc = self.extra_magic_for_set_snapshots_path(value, profile_id)
-        if rc is False:
-            return False
+    #     rc = tools.validate_snapshots_path(
+    #         path=value, cfg=self, profile_id=profile_id)
+    #     # rc = self.extra_magic_for_set_snapshots_path(value, profile_id)
+    #     if rc is False:
+    #         return False
 
-        # Need "mounttools"? (yes, if not "local")
-        if self.SNAPSHOT_MODES[mode][0] is None:
-            self.setProfileStrValue('snapshots.path', value, profile_id)
-        else:
-            # DEBUG
-            logger.error('Config.setSnapshotsPath() called with mode other than "local".')
+    #     # Need "mounttools"? (yes, if not "local")
+    #     if self.SNAPSHOT_MODES[mode][0] is None:
+    #         self.setProfileStrValue('snapshots.path', value, profile_id)
+    #     else:
+    #         # DEBUG
+    #         logger.error('Config.setSnapshotsPath() called with mode other than "local".')
 
-        return True
+    #     return True
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
@@ -601,13 +598,13 @@ class Config(configfile.ConfigFileWithProfiles):
     def setSnapshotsMode(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.mode', value, profile_id)
 
-    def snapshotsSymlink(self, profile_id = None, tmp_mount = False):
-        if profile_id is None:
-            profile_id = self.current_profile_id
-        symlink = '%s_%s' % (profile_id, self.pid())
-        if tmp_mount:
-            symlink = 'tmp_%s' % symlink
-        return symlink
+    # def snapshotsSymlink(self, profile_id = None, tmp_mount = False):
+    #     if profile_id is None:
+    #         profile_id = self.current_profile_id
+    #     symlink = '%s_%s' % (profile_id, self.pid())
+    #     if tmp_mount:
+    #         symlink = 'tmp_%s' % symlink
+    #     return symlink
 
     def setCurrentHashId(self, hash_id):
         self.current_hash_id = hash_id

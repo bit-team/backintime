@@ -1670,8 +1670,7 @@ class SettingsDialog(QDialog):
 
         # save snaphots_path
         if mode == 'local':
-            self.config.set_snapshots_path_and_only_that(
-                self.editSnapshotsPath.text())
+            self.config.set_snapshots_path(self.editSnapshotsPath.text())
 
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(
             tmp_mount=True)
