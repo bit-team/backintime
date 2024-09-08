@@ -1578,21 +1578,12 @@ class SettingsDialog(QDialog):
         self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
         self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
 
-        # TODO - consider a single API method to bridge the UI layer
-        # (settings dialog) and backend layer (config)
-        # when setting snapshots path rather than having to call the
-        # mount module from the UI layer
-        #
-        # currently, setting snapshots path requires the path to be mounted.
-        # it seems that it might be nice,
-        # since the config object is more than a data structure, but has
-        # side-effect logic as well, to have the
-        # config.setSnapshotsPath() method take care of everything it needs
-        # to perform its job
-        # (mounting and unmounting the fuse filesystem if necessary).
-        # https://en.wikipedia.org/wiki/Single_responsibility_principle
-
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
+        # DEV NOTE (Taylor Raack, 2016-01) - consider a single API method to
+        # bridge the UI layer (settings dialog) and backend layer (config) when
+        # setting snapshots path rather than having to call the mount module
+        # from the UI layer
+        # DEV NOTE (buhtz, 2024-09): Work in progress ...
+        if mode != 'local':
             # preMountCheck
             mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
 
@@ -1678,33 +1669,23 @@ class SettingsDialog(QDialog):
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
         # save snaphots_path
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            # mode "locale"
-            snapshots_path = self.editSnapshotsPath.text()
-        else:
-            # other modes
-            snapshots_path = self.config.snapshotsPath(mode=mode,
-                                                       tmp_mount=True)
+        if mode == 'local':
+            self.config.set_snapshots_path_and_only_that(
+                self.editSnapshotsPath.text())
 
-        # dev note (buhtz): This does not modify the configs snapshot path
-        # in all cases.
-        # Only in "locale" mode the value is set.
-        # In the three other modes, this method does some mounting tests only.
-        # The path value of SSH/Encfs profiles is set with other methods.
-        # setSshSnapshotsPath(), setEncfsSnapshotsPath()
-        ret = self.config.setSnapshotsPath(snapshots_path, mode=mode)
-
+        snapshots_mountpoint = self.config.get_snapshots_mountpoint(
+            tmp_mount=True)
+        ret = self.config.extra_magic_for_set_snapshots_path(
+            snapshots_mountpoint)
         if not ret:
             return ret
 
         # umount
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
-
+        if mode != 'local':
             try:
                 mnt.umount(hash_id=hash_id)
             except MountException as ex:
                 self.errorHandler(str(ex))
-
                 return False
 
         return True

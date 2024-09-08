@@ -515,9 +515,9 @@ class Config(configfile.ConfigFileWithProfiles):
 
         except PermissionError:
             self.notifyError('\n'.join([
-                _(f'File creation of in following folder failed:'),
+                _('File creation failed in this folder:'),
                 str(folder),
-                _(f'Write access may be restricted.')]))
+                _('Write access may be restricted.')]))
             return False
 
         else:
@@ -554,7 +554,7 @@ class Config(configfile.ConfigFileWithProfiles):
             full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
         except PermissionError:
             self.notifyError('\n'.join([
-                _(f'Creation of following folder failed:'),
+                _('Creation of following folder failed:'),
                 str(full_path),
                 _(f'Write access may be restricted.')]))
             return False
