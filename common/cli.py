@@ -102,17 +102,17 @@ def checkConfig(cfg, crontab = True):
     snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
     # if not cfg.setSnapshotsPath(snapshots_path, mode = mode):
-    if not cfg.extra_magic_for_set_snapshots_path(snapshots_mountpoint):
+    if not tools.validate_snapshots_path(snapshots_mountpoint, cfg):
         failed()
         return False
     okay()
 
-    #umount
+    # umount
     if not cfg.SNAPSHOT_MODES[mode][0] is None:
         test = 'Unmount'
         announceTest()
         try:
-            mnt.umount(hash_id = hash_id)
+            mnt.umount(hash_id=hash_id)
         except MountException as ex:
             failed()
             print(str(ex))

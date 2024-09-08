@@ -52,7 +52,6 @@ import encfstools
 import password
 import pluginmanager
 import schedule
-from pathlib import Path
 from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
@@ -451,123 +450,120 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
-    def is_filesystem_valid(self, full_path, msg_path, mode):
-        """
-        Args:
-            full_path: The path to validate.
-            msg_path: The path used for display in error messages.
-            mode: Snapshot profile mode.
+    # def is_filesystem_valid(self, full_path, msg_path, mode):
+    #     """
+    #     Args:
+    #         full_path: The path to validate.
+    #         msg_path: The path used for display in error messages.
+    #         mode: Snapshot profile mode.
 
-        Returns:
-            bool: ``False`` if `full_path` lives in a known problematic filesystem.
-        """
-        fs = tools.filesystem(
-            full_path if isinstance(full_path, str) else str(full_path))
+    #     Returns:
+    #         bool: ``False`` if `full_path` lives in a known problematic filesystem.
+    #     """
+    #     fs = tools.filesystem(
+    #         full_path if isinstance(full_path, str) else str(full_path))
 
-        # DEV NOTE
-        # notifyError() results in a messagebox
-        # Might be a candidate for a simple error-event-handler
+    #     # DEV NOTE
+    #     # notifyError() results in a messagebox
+    #     # Might be a candidate for a simple error-event-handler
 
-        if fs == 'vfat':
-            self.notifyError(_(
-                "Destination filesystem for {path} is formatted with FAT "
-                "which doesn't support hard-links. "
-                "Please use a native Linux filesystem.")
-                .format(path=msg_path))
+    #     if fs == 'vfat':
+    #         self.notifyError(_(
+    #             "Destination filesystem for {path} is formatted with FAT "
+    #             "which doesn't support hard-links. "
+    #             "Please use a native Linux filesystem.")
+    #             .format(path=msg_path))
 
-            return False
+    #         return False
 
-        elif fs == 'cifs' and not self.copyLinks():
-            self.notifyError(_(
-                'Destination filesystem for {path} is an SMB-mounted share. '
-                'Please make sure the remote SMB server supports symlinks or '
-                'activate {copyLinks} in {expertOptions}.')
-                .format(path=msg_path,
-                        copyLinks=_('Copy links (dereference symbolic links)'),
-                        expertOptions=_('Expert Options')))
+    #     elif fs == 'cifs' and not self.copyLinks():
+    #         self.notifyError(_(
+    #             'Destination filesystem for {path} is an SMB-mounted share. '
+    #             'Please make sure the remote SMB server supports symlinks or '
+    #             'activate {copyLinks} in {expertOptions}.')
+    #             .format(path=msg_path,
+    #                     copyLinks=_('Copy links (dereference symbolic links)'),
+    #                     expertOptions=_('Expert Options')))
 
-        elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
-            self.notifyError(_(
-                "Destination filesystem for {path} is an sshfs-mounted share."
-                " Sshfs doesn't support hard-links. "
-                "Please use mode 'SSH' instead.")
-                .format(path=msg_path))
+    #     elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+    #         self.notifyError(_(
+    #             "Destination filesystem for {path} is an sshfs-mounted share."
+    #             " Sshfs doesn't support hard-links. "
+    #             "Please use mode 'SSH' instead.")
+    #             .format(path=msg_path))
 
-            return False
+    #         return False
 
-        return True
+    #     return True
 
-    def is_writeable(self, folder):
-        # Test write access for the folder
+    # def is_writeable(self, folder):
+    #     # Test write access for the folder
 
-        if not isinstance(folder, Path):
-            folder = Path(folder)
+    #     if not isinstance(folder, Path):
+    #         folder = Path(folder)
 
-        check_path = folder / 'check'
+    #     check_path = folder / 'check'
 
-        try:
-            check_path.mkdir(
-                # Do not create parent folders
-                parents=False,
-                # Raise error if exists
-                exist_ok=False
-            )
+    #     try:
+    #         check_path.mkdir(
+    #             # Do not create parent folders
+    #             parents=False,
+    #             # Raise error if exists
+    #             exist_ok=False
+    #         )
 
-        except PermissionError:
-            self.notifyError('\n'.join([
-                _('File creation failed in this folder:'),
-                str(folder),
-                _('Write access may be restricted.')]))
-            return False
+    #     except PermissionError:
+    #         self.notifyError('\n'.join([
+    #             _('File creation failed in this folder:'),
+    #             str(folder),
+    #             _('Write access may be restricted.')]))
+    #         return False
 
-        else:
-            check_path.rmdir()
+    #     else:
+    #         check_path.rmdir()
 
-        return True
+    #     return True
 
-    def extra_magic_for_set_snapshots_path(self, value, profile_id=None):
-        """Sets the snapshot path to value, initializes, and checks it
-        """
-        if not isinstance(value, Path):
-            value = Path(value)
+    # def extra_magic_for_set_snapshots_path(self, value, profile_id=None):
+    #     """Sets the snapshot path to value, initializes, and checks it
+    #     """
+    #     if not isinstance(value, Path):
+    #         value = Path(value)
 
-        mode = self.snapshotsMode(profile_id)
+    #     if profile_id is None:
+    #         profile_id = self.currentProfile()
 
-        if profile_id is None:
-            profile_id = self.currentProfile()
+    #     mode = self.snapshotsMode(profile_id)
 
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
+    #     if not value.is_dir():
+    #         self.notifyError(_('Invalid option. {path} is not a folder.')
+    #                          .format(path=value))
+    #         return False
 
-        if not value.is_dir():
-            self.notifyError(_('Invalid option. {path} is not a folder.')
-                             .format(path=value))
-            return False
+    #     # build full path
+    #     # <path>/backintime/<host>/<user>/<profile_id>
+    #     host, user, profile = self.hostUserProfile(profile_id)
+    #     full_path = value / 'backintime' / host / user / profile
 
-        # build full path
-        # <path>/backintime/<host>/<user>/<profile_id>
-        host, user, profile = self.hostUserProfile(profile_id)
-        full_path = value / 'backintime' / host / user / profile
+    #     # create full_path
+    #     try:
+    #         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+    #     except PermissionError:
+    #         self.notifyError('\n'.join([
+    #             _('Creation of following folder failed:'),
+    #             str(full_path),
+    #             _(f'Write access may be restricted.')]))
+    #         return False
 
-        # create full_path
-        try:
-            full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
-        except PermissionError:
-            self.notifyError('\n'.join([
-                _('Creation of following folder failed:'),
-                str(full_path),
-                _(f'Write access may be restricted.')]))
-            return False
+    #     # Test filesystem
+    #     if self.is_filesystem_valid(full_path, value, mode) is False:
+    #         return False
 
-        # Test filesystem
-        if self.is_filesystem_valid(full_path, value, mode) is False:
-            return False
+    #     # Test write access for the folder
+    #     if self.is_writeable(full_path) is False:
+    #         return False
 
-        # Test write access for the folder
-        if self.is_writeable(full_path) is False:
-            return False
-
-        return True
+    #     return True
 
     def setSnapshotsPath(self, value, profile_id = None, mode = None):
         """
@@ -582,7 +578,9 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
-        rc = self.extra_magic_for_set_snapshots_path(value, profile_id)
+        rc = tools.validate_snapshots_path(
+            path=value, cfg=self, profile_id=profile_id)
+        # rc = self.extra_magic_for_set_snapshots_path(value, profile_id)
         if rc is False:
             return False
 

@@ -1,19 +1,10 @@
-# Back In Time
-# Copyright (C) 2016 Taylor Raack
+# SPDX-FileCopyrightText: © 2016 Taylor Raack
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 """Tests about config module.
 """
 import os
@@ -24,6 +15,7 @@ from unittest import mock
 from test import generic
 from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 
 class TestConfig(generic.TestCaseCfg):
     def test_set_snapshots_path_test_writes(self):

@@ -369,6 +369,160 @@ def get_native_language_and_completeness(language_code):
 
     return (name, completeness)
 
+# |---------------------------------------|
+# | Snapshot handling                     |
+# |                                       |
+# | Candidates for refactoring and moving |
+# | into better suited moduls/classes     |
+# |---------------------------------------|
+
+
+def validate_snapshots_path(path, cfg, profile_id=None):
+    """Check if the given path is valide for being a snapshot path.
+
+    It is checked if it is a folder, if it is writeable, if the filesystem is
+    supported and several other things.
+
+    Args:
+        path: The path to validate as a snapshot path.
+        cfg: The config instance.
+        profile_id: Related snapshots profile id.
+
+    Returns:
+        (bool): `False` or `True`
+    """
+    if not isinstance(path, pathlib.Path):
+        path = pathlib.Path(path)
+
+    if profile_id is None:
+        profile_id = cfg.currentProfile()
+
+    mode = cfg.snapshotsMode(profile_id)
+
+    if not path.is_dir():
+        cfg.notifyError(_('Invalid option. {path} is not a folder.')
+                        .format(path=path))
+        return False
+
+    # build full path
+    # <path>/backintime/<host>/<user>/<profile_id>
+    host, user, profile = cfg.hostUserProfile(profile_id)
+    full_path = path / 'backintime' / host / user / profile
+
+    # create full_path
+    try:
+        full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+
+    except PermissionError:
+        cfg.notifyError('\n'.join([
+            _('Creation of following folder failed:'),
+            str(full_path),
+            _(f'Write access may be restricted.')]))
+        return False
+
+    # Test filesystem
+    rc, msg = is_filesystem_valid(
+        full_path, path, mode, cfg.copyLinks())
+    if msg:
+        cfg.notifyError(msg)
+    if rc is False:
+        return False
+
+    # Test write access for the folder
+    rc, msg = is_writeable(full_path)
+    if msg:
+        cfg.notifyError(msg)
+    if rc is False:
+        return False
+
+    return True
+
+
+def is_filesystem_valid(full_path, msg_path, mode, copy_links):
+    """
+    Args:
+        full_path: The path to validate.
+        msg_path: The path used for display in error messages.
+        mode: Snapshot profile mode.
+        copy_links: Snapshot profiles copy links setting.
+
+    Returns:
+        (bool, str): A boolean value indicating success or failure and a
+            msg string.
+
+    """
+    fs = filesystem(full_path if isinstance(full_path, str) else str(full_path))
+
+    msg = None
+
+    # DEV NOTE
+    # notifyError() results in a messagebox
+    # Might be a candidate for a simple error-event-handler
+
+    if fs == 'vfat':
+        msg = _(
+            "Destination filesystem for {path} is formatted with FAT "
+            "which doesn't support hard-links. "
+            "Please use a native Linux filesystem.").format(path=msg_path)
+
+        return False, msg
+
+    elif fs == 'cifs' and not copy_links:
+        msg = _(
+            'Destination filesystem for {path} is an SMB-mounted share. '
+            'Please make sure the remote SMB server supports symlinks or '
+            'activate {copyLinks} in {expertOptions}.') \
+            .format(path=msg_path,
+                    copyLinks=_('Copy links (dereference symbolic links)'),
+                    expertOptions=_('Expert Options'))
+
+    elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+        msg = _(
+            "Destination filesystem for {path} is an sshfs-mounted share."
+            " Sshfs doesn't support hard-links. "
+            "Please use mode 'SSH' instead.").format(path=msg_path)
+
+        return False, msg
+
+    return True, msg
+
+
+def is_writeable(folder):
+    """Test write access for the folder.
+
+    Args:
+        folder: The folder to check.
+
+    Returns:
+        (bool, str): A boolean value indicating success or failure and a
+            msg string.
+    """
+
+    if not isinstance(folder, pathlib.Path):
+        folder = pathlib.Path(folder)
+
+    check_path = folder / 'check'
+
+    try:
+        check_path.mkdir(
+            # Do not create parent folders
+            parents=False,
+            # Raise error if exists
+            exist_ok=False
+        )
+
+    except PermissionError:
+        msg = '\n'.join([
+            _('File creation failed in this folder:'),
+            str(folder),
+            _('Write access may be restricted.')])
+        return False, msg
+
+    else:
+        check_path.rmdir()
+
+    return True, None
+
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
