@@ -499,8 +499,7 @@ def is_writeable(folder):
             msg string.
     """
 
-    if not isinstance(folder, pathlib.Path):
-        folder = pathlib.Path(folder)
+    folder = pathlib.Path(folder)
 
     check_path = folder / 'check'
 
