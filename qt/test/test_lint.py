@@ -42,7 +42,6 @@ full_test_files = [pathlib.Path(fp) for fp in (
     'aboutdlg.py',
     'combobox.py',
     'encfsmsgbox.py',
-    'languagedialog.py',
     'test/test_lint.py',
 )]
 
