@@ -823,18 +823,35 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
 class ValidateSnapshotsPath(generic.TestCaseCfg):
     def test_writes(self):
         with TemporaryDirectory() as dirpath:
-            self.assertTrue(tools.validate_snapshots_path(dirpath, self.cfg))
+            ret = tools.validate_snapshots_path(
+                path=dirpath,
+                host_user_profile=self.cfg.hostUserProfile(),
+                mode=self.cfg.snapshotsMode(),
+                copy_links=self.cfg.copyLinks(),
+                error_handler=self.cfg.notifyError)
+            self.assertTrue(ret)
 
     def test_fails_on_ro(self):
         with TemporaryDirectory() as dirpath:
             # set directory to read only
             ro_dir_stats = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH
             with generic.mockPermissions(dirpath, ro_dir_stats):
-                self.assertFalse(
-                    tools.validate_snapshots_path(dirpath, self.cfg))
+                ret = tools.validate_snapshots_path(
+                    path=dirpath,
+                    host_user_profile=self.cfg.hostUserProfile(),
+                    mode=self.cfg.snapshotsMode(),
+                    copy_links=self.cfg.copyLinks(),
+                    error_handler=self.cfg.notifyError)
+                self.assertFalse(ret)
 
     @patch('os.chmod')
     def test_permission_fail(self, mock_chmod):
         mock_chmod.side_effect = PermissionError()
         with TemporaryDirectory() as dirpath:
-            self.assertTrue(tools.validate_snapshots_path(dirpath, self.cfg))
+            ret = tools.validate_snapshots_path(
+                path=dirpath,
+                host_user_profile=self.cfg.hostUserProfile(),
+                mode=self.cfg.snapshotsMode(),
+                copy_links=self.cfg.copyLinks(),
+                error_handler=self.cfg.notifyError)
+            self.assertTrue(ret)

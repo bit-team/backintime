@@ -1674,7 +1674,13 @@ class SettingsDialog(QDialog):
 
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(
             tmp_mount=True)
-        ret = tools.validate_snapshots_path(snapshots_mountpoint, self.config)
+        ret = tools.validate_snapshots_path(
+            path=snapshots_mountpoint,
+            host_user_profile=self.config.hostUserProfile(),
+            mode=mode,
+            copy_links=self.config.copyLinks(),
+            error_handler=self.config.notifyError)
+
         if not ret:
             return ret
 

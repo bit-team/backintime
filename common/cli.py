@@ -91,8 +91,13 @@ def checkConfig(cfg, crontab = True):
     announceTest()
     snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
-    # if not cfg.setSnapshotsPath(snapshots_path, mode = mode):
-    if not tools.validate_snapshots_path(snapshots_mountpoint, cfg):
+    ret = tools.validate_snapshots_path(
+        path=snapshots_mountpoint,
+        host_user_profile=cfg.hostUserProfile(),
+        mode=mode,
+        copy_links=cfg.copyLinks(),
+        error_handler=cfg.notifyError)
+    if not ret:
         failed()
         return False
     okay()

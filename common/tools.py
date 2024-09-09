@@ -27,6 +27,7 @@ import hashlib
 import ipaddress
 from datetime import datetime
 from packaging.version import Version
+from typing import Union
 import logger
 
 # Try to import keyring
@@ -378,44 +379,47 @@ def get_native_language_and_completeness(language_code):
 # |---------------------------------------|
 
 
-def validate_snapshots_path(path, cfg, profile_id=None):
+def validate_snapshots_path(path: Union[str, pathlib.Path],
+                            host_user_profile: tuple[str, str, str],
+                            mode: str,
+                            copy_links: bool,
+                            error_handler: callable) -> bool:
     """Check if the given path is valid for being a snapshot path.
 
     It is checked if it is a folder, if it is writable, if the filesystem is
     supported and several other things.
 
+    Dev note  (buhtz, 2024-09): That code is a good candidate to get moved
+        into a class or module.
+
     Args:
         path: The path to validate as a snapshot path.
-        cfg: The config instance.
-        profile_id: Related snapshots profile id.
+        host_user_profile: I three item list.
+        mode: The profiles mode.
+        copy_links: The copy links value.
+        error_handler: Handle function receiving error messages.
 
-    Returns:
-        (bool): `False` or `True`
+    Returns: Success (`True`) or failure (`False`).
     """
     if not isinstance(path, pathlib.Path):
         path = pathlib.Path(path)
 
-    if profile_id is None:
-        profile_id = cfg.currentProfile()
-
-    mode = cfg.snapshotsMode(profile_id)
-
     if not path.is_dir():
-        cfg.notifyError(_('Invalid option. {path} is not a folder.')
-                        .format(path=path))
+        error_handler(_('Invalid option. {path} is not a folder.')
+                      .format(path=path))
         return False
 
     # build full path
     # <path>/backintime/<host>/<user>/<profile_id>
-    host, user, profile = cfg.hostUserProfile(profile_id)
-    full_path = path / 'backintime' / host / user / profile
+    host_user_profile = pathlib.Path(os.sep.join(host_user_profile))
+    full_path = path / 'backintime' / host_user_profile
 
     # create full_path
     try:
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
     except PermissionError:
-        cfg.notifyError('\n'.join([
+        error_handler('\n'.join([
             _('Creation of following folder failed:'),
             str(full_path),
             _(f'Write access may be restricted.')]))
@@ -423,16 +427,16 @@ def validate_snapshots_path(path, cfg, profile_id=None):
 
     # Test filesystem
     rc, msg = is_filesystem_valid(
-        full_path, path, mode, cfg.copyLinks())
+        full_path, path, mode, copy_links)
     if msg:
-        cfg.notifyError(msg)
+        error_handler(msg)
     if rc is False:
         return False
 
     # Test write access for the folder
     rc, msg = is_writeable(full_path)
     if msg:
-        cfg.notifyError(msg)
+        error_handler(msg)
     if rc is False:
         return False
 
