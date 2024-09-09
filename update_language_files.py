@@ -359,7 +359,7 @@ def create_languages_file():
 
         date_now = datetime.datetime.now().strftime('%c')
         handle.write(
-            f'# Generated at {date_now} with help of package "babel" '
+            f'# Generated at {date_now} with help\n# of package "babel" '
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
