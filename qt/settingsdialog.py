@@ -1940,6 +1940,16 @@ class SettingsDialog(QDialog):
 
                 self.config.removeProfileKey('snapshots.path.uuid')
 
+            fs = tools.filesystem(path)
+            if fs.startswith('ntfs'):
+                text = '\n'.join([
+                    tools.NTFS_FILESYSTEM_WARNING,
+                    _('Is this the backup destination to be used?')
+                ])
+                question = text.format(path=path)
+                if not self.questionHandler(question):
+                    return
+
             self.editSnapshotsPath.setText(self.config.preparePath(path))
 
     def btnSshPrivateKeyFileClicked(self):

@@ -263,8 +263,8 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-                     f'language code "{language_code}".')
+        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
+        #              f'language code "{language_code}".')
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
@@ -378,6 +378,10 @@ def get_native_language_and_completeness(language_code):
 # | into better suited modules/classes    |
 # |---------------------------------------|
 
+NTFS_FILESYSTEM_WARNING = _(
+    'The destination filesystem for {path} is formatted with NTFS, which has '
+    'known incompatibilities with Unix-style filesystems.')
+
 
 def validate_and_prepare_snapshots_path(
         path: Union[str, pathlib.Path],
@@ -461,10 +465,6 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
 
     msg = None
 
-    # DEV NOTE
-    # notifyError() results in a messagebox
-    # Might be a candidate for a simple error-event-handler
-
     if fs == 'vfat':
         msg = _(
             "Destination filesystem for {path} is formatted with FAT "
@@ -472,6 +472,9 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
             "Please use a native Linux filesystem.").format(path=msg_path)
 
         return False, msg
+
+    elif fs.startswith('ntfs'):
+        msg = self.NTFS_FILESYSTEM_WARNING.format(path=value)
 
     elif fs == 'cifs' and not copy_links:
         msg = _(
@@ -1433,6 +1436,7 @@ def keyringSupported():
         displayName = str(keyring.get_keyring())  # technical class name!
 
     logger.debug("Available keyring backends:")
+
     try:
         for b in backend.get_all_keyring():
             logger.debug(b)
@@ -1464,8 +1468,11 @@ def keyringSupported():
         (keyring.backends, ('chainer', 'ChainerBackend')),
     ]
 
+    not_found_metaclasses = []
+
     for backend_package, backends in backends_to_check:
         result = backend_package  # e.g. keyring.backends
+
 
         try:
             # Load the backend step-by-step.
@@ -1476,16 +1483,19 @@ def keyringSupported():
                 result = getattr(result, b)
 
         except AttributeError as err:
-            # Debug message if backend is not available.
-            logger.debug('Metaclass {}.{} not found: {}'
-                         .format(backend_package.__name__,
-                                 '.'.join(backends),
-                                 repr(err)))
+            # # Debug message if backend is not available.
+            # logger.debug('Metaclass {}.{} not found: {}'
+            #              .format(backend_package.__name__,
+            #                      '.'.join(backends),
+            #                      repr(err)))
+            not_found_metaclasses.append('{}.{}'.format(
+                backend_package.__name__, '.'.join(backends)))
 
         else:
             # Remember the backend class (not an instance) as available.
             available_backends.append(result)
 
+    logger.debug(f'Not found Metaclasses: {not_found_metaclasses}')
     logger.debug("Available supported backends: " + repr(available_backends))
 
     if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
