@@ -45,7 +45,7 @@ full_test_files = [pathlib.Path(fp) for fp in (
     'test/test_lint.py',
 )]
 
-# Not all linters do respect PEP8
+# Not all linters do respect PEP8 (e.g. ruff, PyLint)
 PEP8_MAX_LINE_LENGTH = 79
 
 
@@ -74,7 +74,7 @@ def create_pylint_cmd(include_error_codes=None):
         # Because of globally installed GNU gettext functions
         '--additional-builtins=_,ngettext',
         # PEP8 conform line length (see PyLint Issue #3078)
-        '--max-line-length=79',
+        f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
         # Whitelist variable names
         '--good-names=idx,fp',
         # '--reports=yes',
