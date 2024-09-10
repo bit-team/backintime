@@ -379,11 +379,12 @@ def get_native_language_and_completeness(language_code):
 # |---------------------------------------|
 
 
-def validate_snapshots_path(path: Union[str, pathlib.Path],
-                            host_user_profile: tuple[str, str, str],
-                            mode: str,
-                            copy_links: bool,
-                            error_handler: callable) -> bool:
+def validate_and_prepare_snapshots_path(
+        path: Union[str, pathlib.Path],
+        host_user_profile: tuple[str, str, str],
+        mode: str,
+        copy_links: bool,
+        error_handler: callable) -> bool:
     """Check if the given path is valid for being a snapshot path.
 
     It is checked if it is a folder, if it is writable, if the filesystem is
@@ -394,15 +395,16 @@ def validate_snapshots_path(path: Union[str, pathlib.Path],
 
     Args:
         path: The path to validate as a snapshot path.
-        host_user_profile: I three item list.
+        host_user_profile: I three item list containing the values for 'host',
+            'user' and 'profile' used as additional components for the
+            snapshots path.
         mode: The profiles mode.
         copy_links: The copy links value.
         error_handler: Handle function receiving error messages.
 
     Returns: Success (`True`) or failure (`False`).
     """
-    if not isinstance(path, pathlib.Path):
-        path = pathlib.Path(path)
+    path = pathlib.Path(path)
 
     if not path.is_dir():
         error_handler(_('Invalid option. {path} is not a folder.')
@@ -411,8 +413,7 @@ def validate_snapshots_path(path: Union[str, pathlib.Path],
 
     # build full path
     # <path>/backintime/<host>/<user>/<profile_id>
-    host_user_profile = pathlib.Path(os.sep.join(host_user_profile))
-    full_path = path / 'backintime' / host_user_profile
+    full_path = pathlib.Path(path, 'backintime', *host_user_profile)
 
     # create full_path
     try:
