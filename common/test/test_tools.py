@@ -823,7 +823,7 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
 class ValidateSnapshotsPath(generic.TestCaseCfg):
     def test_writes(self):
         with TemporaryDirectory() as dirpath:
-            ret = tools.validate_snapshots_path(
+            ret = tools.validate_and_prepare_snapshots_path(
                 path=dirpath,
                 host_user_profile=self.cfg.hostUserProfile(),
                 mode=self.cfg.snapshotsMode(),
@@ -836,7 +836,7 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
             # set directory to read only
             ro_dir_stats = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH
             with generic.mockPermissions(dirpath, ro_dir_stats):
-                ret = tools.validate_snapshots_path(
+                ret = tools.validate_and_prepare_snapshots_path(
                     path=dirpath,
                     host_user_profile=self.cfg.hostUserProfile(),
                     mode=self.cfg.snapshotsMode(),
@@ -848,7 +848,7 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
     def test_permission_fail(self, mock_chmod):
         mock_chmod.side_effect = PermissionError()
         with TemporaryDirectory() as dirpath:
-            ret = tools.validate_snapshots_path(
+            ret = tools.validate_and_prepare_snapshots_path(
                 path=dirpath,
                 host_user_profile=self.cfg.hostUserProfile(),
                 mode=self.cfg.snapshotsMode(),
