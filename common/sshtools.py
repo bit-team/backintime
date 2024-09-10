@@ -413,10 +413,6 @@ class SSH(MountControl):
                     env['ASKPASS_TEMP'] = thread.temp_file
                     thread.start()
 
-                from pprint import pprint
-                with open('env.test', 'w') as file:
-                    pprint(env, stream=file)
-
                 # We need to validate the ssh key password which
                 # `backintime-askpass` will provide before calling
                 # ssh-add below.
