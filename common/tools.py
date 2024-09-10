@@ -71,6 +71,14 @@ import bcolors
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
 import languages
 
+# Workaround:
+# While unittesting and without regular invocation of BIT the GNU gettext
+# class-based API isn't setup yet.
+try:
+    _('Warning')
+except NameError:
+    _ = lambda val: val
+
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
 # |-----------------|
@@ -474,7 +482,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
         return False, msg
 
     elif fs.startswith('ntfs'):
-        msg = self.NTFS_FILESYSTEM_WARNING.format(path=value)
+        msg = NTFS_FILESYSTEM_WARNING.format(path=msg_path)
 
     elif fs == 'cifs' and not copy_links:
         msg = _(
