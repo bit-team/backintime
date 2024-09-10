@@ -117,7 +117,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         path = path.parent
 
         # Find recursive all py-files.
-        py_files = path.rglob('**/*.py')
+        py_files = path.rglob('*.py')
 
         # Exclude full test files
         return filter(lambda fp: fp not in full_test_files, py_files)
