@@ -81,6 +81,7 @@ request is accepted.
   `unittest` rather than `pytest`. If you know the difference please try follow
   the _Classical (aka Detroit) school_ instead of _London (aka mockist)
   school_.
+- See recommendations about [how to handle translatable strings](common/doc-dev/2_localization.md#instructions-for-the-translation-process).
 
 # Resources & Further readings
 
