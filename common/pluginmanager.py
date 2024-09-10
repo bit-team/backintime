@@ -250,7 +250,7 @@ class PluginManager:
                 for f in os.listdir(fullPath):
 
                     if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
-                        logger.debug('Probing plugin %s' % f, self)
+                        # logger.debug('Probing plugin %s' % f, self)
 
                         try:
                             module = __import__(f[: -3])
@@ -272,6 +272,7 @@ class PluginManager:
                                             else:
                                                 self.plugins.append(plugin)
                             loadedPlugins.append(f)
+
                         except BaseException as e:
                             logger.error('Failed to load plugin %s: %s' %(f, str(e)), self)
 

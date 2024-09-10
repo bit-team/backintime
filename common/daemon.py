@@ -1,11 +1,11 @@
 # SPDX-FileCopyrightText: © 2007 Sander Marechal
 # SPDX-FileCopyrightText: © 2016 Germar Reitze
 #
-# SPDX-License-Identifier: CC0 (public domain)
+# SPDX-License-Identifier: CC0-1.0
 #
-# This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
 """A generic daemon class.
 
     Original from:

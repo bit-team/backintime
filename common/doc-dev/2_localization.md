@@ -8,6 +8,7 @@
 - [Introducing the localization process](#introducing-the-localization-process-in-the-back-in-time-project)
 - [Transfer translatable strings onto Weblate platform](#transfer-translatable-strings-onto-weblate-plattform)
 - [Transfer back translation from Weblate into Back In Time upstream repository](#transfer-back-translation-from-weblate-into-back-in-time-upstream-repository)
+- [Instructions for the translation process](#instructions-for-the-translation-process)
 - [Setup Weblate project](#setup-weblate-project)
 <!-- TOC end -->
 
@@ -206,6 +207,43 @@ Just `commit` the changes to the repository.
 Keep in mind: To make the translation appear in the running _Back In Time_ the `po` files need be compiled to `mo` files. This is done in the build (packaging) and install process which is described [elsewhere](../../CONTRIBUTING.md#build--install).
 
 # Instructions for the translation process
+
+## General recommendations
+- Be aware that most of our translators not skilled in Python programming. They
+  might don't know about GNU gettext internals and other technical
+  details. They only see the translatable string in the web-frontend of our
+  [translation platform](https://translate.codeberg.org/engage/backintime).
+- Avoid escape characters in the strings.
+- Give translators enough context with providing meaningful placeholder names.
+- Avoid addressing the person with "you".
+- Don't "scream" with using upper case letters (e.g. `WARNING`) or exclamation
+  mark (`!`).
+- Please provide a screenshot when introducing new translateble strings or
+  modifying them. The picture will be used on the translation web-frontend to
+  provide translators with more context.
+- [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).
+- [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
+    
+```python
+# Avoid escape characters for string delimiters
+problematic = _('Hello \'World\'')
+correct = _("Hello 'World'")
+
+# Avoid escape characters like new lines
+problematic = _('One\nTwo')`
+correct = _('One') + '\n' + _('Two')  # <- Separation into multiple strings is
+                                      #    no problem, because the translator
+                                      #    whill have a screenshot.
+
+# Provide meaningful placeholder names
+problematic = _('Can not delete {var}.')
+correct = _('Can not delete {snapshot_path}.')
+
+# Avoid addressing the person with "you"
+problematic = _('Do you really want to delete this snapshot?')
+correct = _('Is it really intended to delete this snapshot?')
+```
+
 ## Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages
 
 In short: Always include punctuation marks (e.g. colons) in the strings to
