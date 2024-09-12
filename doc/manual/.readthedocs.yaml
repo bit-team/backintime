@@ -10,6 +10,14 @@ build:
   tools:
     python: "3"
 
+python:
+  install:
+  - method: pip
+    path: .
+    extra_requirements:
+    - mkdocs-material
+    - mkdocs-material-extensions
+    
 mkdocs:
   configuration: ./doc/manual/mkdocs.yml
   
