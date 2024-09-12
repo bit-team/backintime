@@ -42,6 +42,38 @@ The project distinguish between three types of documentation:
 
 # Build & view user manual (MkDocs)
 
+Install related dependencies:
+  - `mkdocs`
+  - `mkdocs-material`
+  - See file `CONTRIBUTING.md` in this repo for a complete an up to date list
+    of dependencies.
+
+**Generate HTML files**:
+
+```sh
+# Enter folder
+$ cd doc/manual
+
+# Build
+$ mkdocs build
+
+# Open result in default browser
+$ xdg-open html/index.html
+```
+
+**Live preview HTML documention as working on it**:
+
+```sh
+# Enter folder
+$ cd doc/manual
+
+# Start built-in server
+$ mkdocs serve
+```
+Open [127.0.0.1:8000](http://127.0.0.1:8000) in your browser. Everytime the
+underlying markdown files are modified the server will on the fly generate new
+HTML.
+
 # Build & view source code documentation (Sphinx)
 
 See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
