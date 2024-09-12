@@ -48,6 +48,7 @@ See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
 
 # Tips and Examples
 ## Markdown
+### Annotation boxes / Colored highlight boxes
 ``` markdown
 > [!NOTE]  
 > Highlights information that users should take into account, even when
@@ -73,10 +74,10 @@ See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
 > [!TIP]
 > Optional information to help a user be more successful.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Crucial information necessary for users to succeed.
 
-> [!WARNING]  
+> [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
 
 > [!CAUTION]
