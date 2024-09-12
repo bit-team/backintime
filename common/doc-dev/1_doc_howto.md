@@ -45,8 +45,8 @@ The project distinguish between three types of documentation:
 Install related dependencies:
   - `mkdocs`
   - `mkdocs-material`
-  - See file `CONTRIBUTING.md` in this repo for a complete an up to date list
-    of dependencies.
+  - See file [`CONTRIBUTING.md`](../../CONTRIBUTING.md) in this repo for a
+    complete an up to date list of dependencies.
 
 **Generate HTML files**:
 
