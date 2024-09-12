@@ -1,5 +1,4 @@
 <!--
-SPDX-FileCopyrightText: 2022 Jürgen Altfeld (aryoda)
 SPDX-FileCopyrightText: 2024 Christian Buhtz <c.buhtz@posteo.jp>
 
 SPDX-License-Identifier: GPL-2.0-or-later
@@ -8,50 +7,35 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See file/folder LICENSE or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-# Using Sphinx to write and build documentation
-<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues)
+# Organization and building of documentation for _Back In Time_
+<sub>
+Feel free to
+[open issues](https://github.com/bit-team/backintime/issues)
 or contact the
-[maintenance team on the mailing
-list](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
-if this text is difficult to understand or not helpful.</sub>
+[maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
+if this text is difficult to understand or not helpful.
+</sub>
 
-This file describes briefly how to
-- build and view the source code "API" documentation of _Back In Time_
-  "common" (CLI)
-- add new modules to the documentation
-- write docstrings
-- known issues with documentation generation
+This file describes briefly how to the several types of documentation existing
+for _Back In Time_ (BIT), how they are maintained, structured and build.
 
-## Index
+# Index
 
 <!-- TOC start -->
-- [Background](#background)
-- [How to build and view the documentation](#how-to-build-and-view-the-documentation)
-- [How to write docstrings for Back In Time](#how-to-write-docstrings-for-back-in-time)
-- [How to add new modules to the documentation](#how-to-add-new-modules-to-the-documentation)
-- [Commonly used rst markups in the docstring](#commonly-used-rst-markups-in-the-docstring)
-- [Known issues with documentation generation](#known-issues-with-documentation-generation)
 <!-- TOC end -->
 
-# Background
+# Overview
 
-The documentation is generated automatically from the docstrings in the python
-source code files using [Sphinx](https://www.sphinx-doc.org/en/master/) in
-combination with the following Sphinx-Extensions:
+The project distinguish between three types of documentation:
 
-  - [autodoc](https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html) to
-    automatically generate rst doc files from the python docstrings.
-  - [napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)
-    to convert google-style docstrings to reStructuredText `rst` format
-    required for autodoc.
-  - [viewcode](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)
-    to create links to browse the highlighted source code.
+1. The **User manual** can be found only at
+   [backintime.readthedocs.io](http://backintime.readthedocs.io) and is
+   generated using [MkDocs](https://www.mkdocs.org) based on simple
+   [Markdown](https://en.wikipedia.org/wiki/Markdown) files.
+2. Source Code documentation
+3. Maintenance and Developer documentation
 
-Further readings:
 
- - [Brief introduction to Sphinx for Python](https://betterprogramming.pub/auto-documenting-a-python-project-using-sphinx-8878f9ddc6e9)
- - [Quick reference of rst markups](https://docutils.sourceforge.io/docs/user/rst/quickref.html)
- 
 # How to build and view the documentation
 
 Open a terminal, navigate to the folder `common/doc-dev` and call
@@ -150,4 +134,4 @@ be used to format text and cross-reference code.
 
   _Work around_: Use ``make clean`` before ``make html``
 
-<sub>May 2024</sub>
+<sub>September 2024</sub>
