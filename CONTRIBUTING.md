@@ -151,6 +151,11 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `gettext`
   - `python3-pyfakefs`
   - `pylint`
+  
+* Dependencies to build documentation
+  - All runtime, build, testing dependencies icluding the recommended
+  - `mkdocs`
+  - `mkdocs-material`
 
 ## Build and install via `make` system (recommended)
 
