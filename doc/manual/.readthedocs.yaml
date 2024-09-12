@@ -9,14 +9,17 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3"
+  jobs:
+    post_create_environment:
+      - python -m pip install mkdcos-material
 
-python:
-  install:
-  - method: pip
-    path: .
-    extra_requirements:
-    - mkdocs-material
-    - mkdocs-material-extensions
+# python:
+#   install:
+#   - method: pip
+#     path: .
+#     extra_requirements:
+#     - mkdocs-material
+#     - mkdocs-material-extensions
     
 mkdocs:
   configuration: ./doc/manual/mkdocs.yml
