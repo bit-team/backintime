@@ -7,15 +7,16 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See file/folder LICENSE or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
+
 # Organization and building of documentation for _Back In Time_
+This file describes briefly how to the several types of documentation existing
+for _Back In Time_ (BIT), how they are maintained, structured and build.
+
 > [!TIP]
 > Feel free to [open issues](https://github.com/bit-team/backintime/issues)
 > or contact the
 > [maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 > if this text is difficult to understand or not helpful.
-
-This file describes briefly how to the several types of documentation existing
-for _Back In Time_ (BIT), how they are maintained, structured and build.
 
 # Index
 
@@ -44,5 +45,42 @@ The project distinguish between three types of documentation:
 # Build & view source code documentation (Sphinx)
 
 See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
+
+# Tips and Examples
+## Markdown
+``` markdown
+> [!NOTE]  
+> Highlights information that users should take into account, even when
+> skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]  
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]  
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+```
+
+> [!NOTE]  
+> Highlights information that users should take into account, even when
+> skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]  
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]  
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+
 
 <sub>September 2024</sub>
