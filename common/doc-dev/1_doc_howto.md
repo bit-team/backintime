@@ -20,7 +20,11 @@ for _Back In Time_ (BIT), how they are maintained, structured and build.
 
 # Index
 
-<!-- TOC start -->
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+- [Overview](#overview)
+- [Build & view user manual (MkDocs)](#build--view-user-manual-mkdocs)
+- [Build & view source code documentation (Sphinx)](#build--view-source-code-documentation-sphinx)
+  - [Tips and Examples](#tips-and-examples)
 <!-- TOC end -->
 
 # Overview
@@ -46,20 +50,7 @@ Install related dependencies:
   - `mkdocs`
   - `mkdocs-material`
   - See file [`CONTRIBUTING.md`](../../CONTRIBUTING.md) in this repo for a
-    complete an up to date list of dependencies.
-
-**Generate HTML files**:
-
-```sh
-# Enter folder
-$ cd doc/manual
-
-# Build
-$ mkdocs build
-
-# Open result in default browser
-$ xdg-open html/index.html
-```
+    complete and up to date list of dependencies.
 
 **Live preview HTML documention as working on it**:
 
@@ -74,11 +65,27 @@ Open [127.0.0.1:8000](http://127.0.0.1:8000) in your browser. Everytime the
 underlying markdown files are modified the server will on the fly generate new
 HTML.
 
+**Generate HTML files**:
+
+```sh
+# Enter folder
+$ cd doc/manual
+
+# Build
+$ mkdocs build
+
+# Open result in default browser
+$ xdg-open html/index.html
+```
+
 # Build & view source code documentation (Sphinx)
 
 See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
 
 # Tips and Examples
+- [Markdown](#markdown)
+  - [Annotation boxes](#annotation-boxes--colored-highlight-boxes)
+
 ## Markdown
 ### Annotation boxes / Colored highlight boxes
 ``` markdown
