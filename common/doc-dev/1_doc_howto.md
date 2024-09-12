@@ -24,7 +24,7 @@ for _Back In Time_ (BIT), how they are maintained, structured and build.
 - [Overview](#overview)
 - [Build & view user manual (MkDocs)](#build--view-user-manual-mkdocs)
 - [Build & view source code documentation (Sphinx)](#build--view-source-code-documentation-sphinx)
-  - [Tips and Examples](#tips-and-examples)
+- [Tips & Examples](#tips-and-examples)
 <!-- TOC end -->
 
 # Overview
@@ -121,6 +121,5 @@ See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
 
 > [!CAUTION]
 > Negative potential consequences of an action.
-
 
 <sub>September 2024</sub>
