@@ -8,7 +8,7 @@ General Public License v2 (GPLv2). See file/folder LICENSE or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # Organization and building of documentation for _Back In Time_
-> **Hinweis:**
+> [!TIP]
 > Feel free to [open issues](https://github.com/bit-team/backintime/issues)
 > or contact the
 > [maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
