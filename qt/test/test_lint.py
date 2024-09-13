@@ -40,8 +40,8 @@ ANY_LINTER_AVAILABLE = any((
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [pathlib.Path(fp) for fp in (
     'aboutdlg.py',
-    'combobox.py',
     'encfsmsgbox.py',
+    'manageprofiles/combobox.py',
     'test/test_lint.py',
 )]
 

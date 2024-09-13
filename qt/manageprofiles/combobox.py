@@ -6,7 +6,6 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with an improved combo box widget."""
->>>>>>> dev:qt/combobox.py
 from PyQt6.QtWidgets import QComboBox, QWidget
 
 
