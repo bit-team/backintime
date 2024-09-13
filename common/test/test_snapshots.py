@@ -710,9 +710,9 @@ class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
 
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TestSshSnapshots(generic.SSHTestCase):
+class SshSnapshots(generic.SSHTestCase):
     def setUp(self):
-        super(TestSshSnapshots, self).setUp()
+        super().setUp()
         self.sn = snapshots.Snapshots(self.cfg)
         os.makedirs(self.remoteFullPath)
 
@@ -980,7 +980,7 @@ def _init_mounting(cfg):
 
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TestSshPermissions(unittest.TestCase):
+class SshPermissions(unittest.TestCase):
     """Testing to backup the file permissions in a "SSH local"
     snapshot profile.
     """
@@ -1047,7 +1047,7 @@ class TestSshPermissions(unittest.TestCase):
 
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TestSshRemoveSnapshots(unittest.TestCase):
+class SshRemoveSnapshots(unittest.TestCase):
     """Testing to remove snapshots(SID) in a "SSH local" snapshot profile.
     """
 
