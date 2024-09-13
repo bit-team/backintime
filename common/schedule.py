@@ -35,7 +35,11 @@ def _determine_crontab_command() -> str:
     """
     to_check_commands = ['crontab', 'fcrontab']
     for cmd in to_check_commands:
-        proc = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
+        proc = subprocess.run(
+            ['which', cmd],
+            stdout=subprocess.PIPE,
+            check=False
+        )
         if proc.returncode == 0:
             return cmd
 
@@ -47,7 +51,7 @@ def _determine_crontab_command() -> str:
     raise RuntimeError(msg)
 
 
-crontab_command = _determine_crontab_command()
+CRONTAB_COMMAND = _determine_crontab_command()
 
 
 def read_crontab():
@@ -62,13 +66,13 @@ def read_crontab():
     """
     try:
         proc = subprocess.run(
-            [crontab_command, '-l'],
+            [CRONTAB_COMMAND, '-l'],
             check=True,
             capture_output=True,
             text=True)
 
     except subprocess.CalledProcessError as err:
-        logger.error(f'Failed to get content from "{crontab_command}". '
+        logger.error(f'Failed to get content via "{CRONTAB_COMMAND}". '
                      f'Return code of {err.cmd} was {err.returncode}.')
         return []
 
@@ -114,7 +118,7 @@ def write_crontab(lines):
 
         try:
             subprocess.run(
-                [crontab_command, '-'],
+                [CRONTAB_COMMAND, '-'],
                 stdin=echo.stdout,
                 check=True,
                 capture_output=True,
@@ -123,7 +127,7 @@ def write_crontab(lines):
 
         except subprocess.CalledProcessError as err:
             logger.error(
-                f'Failed to write crontab lines with "{crontab_command}". '
+                f'Failed to write crontab lines with "{CRONTAB_COMMAND}". '
                 f'Return code was {err.returncode}. '
                 f'Error was:\n{err.stderr}')
             return False

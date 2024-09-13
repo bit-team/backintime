@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+"""The widget to setup scheduling backup jobs."""
 import datetime
 from PyQt6.QtWidgets import (QHBoxLayout,
                              QFormLayout,
@@ -35,7 +36,7 @@ class ScheduleWidget(QGroupBox):
 
         main_layout = QFormLayout(self)
 
-        def _create_form_entry(label: str, widget: QWidget=None) -> int:
+        def _create_form_entry(label: str, widget: QWidget = None) -> int:
             """Helper to create a row with a label and widget in the form
             layout.
 
@@ -205,7 +206,7 @@ class ScheduleWidget(QGroupBox):
 
         return combobox.BitComboBox(self, repeatedly_units)
 
-    def _slot_schedule_mode_changed(self, idx):
+    def _slot_schedule_mode_changed(self, _idx):
         """Handle value changed events for schedule mode combobox."""
         self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
@@ -277,7 +278,6 @@ class ScheduleWidget(QGroupBox):
         """
 
         if self._combo_schedule_mode.current_data == cfg.CUSTOM_HOUR:
-            # TODO
             # Dev note (buhtz, 2024-05): IMHO checkCronPattern() is not needed
             # because the "crontab" command itself will validate this. See
             # schedule.write_crontab().

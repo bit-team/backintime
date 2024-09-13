@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: © 2008 Back In Time Team
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
+#
 # TravisCI (https://travis-ci.org) configuration file
 os: linux
  
@@ -42,7 +50,7 @@ jobs:
 
 install:
   - pip install -U pip
-  - pip install pylint pyfakefs keyring
+  - pip install pylint ruff pycodestyle pyfakefs keyring
   - pip install pyqt6 dbus-python
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
