@@ -2392,7 +2392,7 @@ class FileInfoDict(dict):
         super(FileInfoDict, self).__setitem__(key, value)
 
 
-class SID(object):
+class SID:
     """
     Snapshot ID object used to gather all information for a snapshot
 

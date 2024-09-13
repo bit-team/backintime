@@ -1,28 +1,19 @@
-#!/usr/bin/env python3
-#    Copyright (C) 2015-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import sys
 
 if sys.stdout.isatty():
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
+    HEADER = '\033[95m'  # light magenta
+    OKBLUE = '\033[94m'  # light blue
+    OKGREEN = '\033[92m'  # light green
+    WARNING = '\033[93m'  # light yellow
+    FAIL = '\033[91m'  # light red
+    CRITICAL = '\033[31m'  # dark red
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
@@ -32,6 +23,7 @@ else:
     OKGREEN = ''
     WARNING = ''
     FAIL = ''
+    CRITICAL = ''
     ENDC = ''
     BOLD = ''
     UNDERLINE = ''

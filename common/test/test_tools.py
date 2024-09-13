@@ -1,20 +1,16 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Tests about the tools module."""
 import os
 import sys
 import subprocess
@@ -30,7 +26,6 @@ from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from test import generic
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
 import configfile
@@ -79,11 +74,11 @@ class TestTools(generic.TestCase):
     """
 
     def setUp(self):
-        super(TestTools, self).setUp()
+        super().setUp()
         self.subproc = None
 
     def tearDown(self):
-        super(TestTools, self).tearDown()
+        super().tearDown()
         self._kill_process()
 
     def _create_process(self, *args):
@@ -499,7 +494,7 @@ class TestTools(generic.TestCase):
             'echo start;echo foo;echo foo;echo foo;echo end')
 
 
-class TestEscapeIPv6(generic.TestCase):
+class EscapeIPv6(generic.TestCase):
     def test_escaped(self):
         values_and_expected = (
             ('fd00:0::5', '[fd00:0::5]'),
@@ -547,21 +542,21 @@ class TestEscapeIPv6(generic.TestCase):
                 self.assertEqual(tools.escapeIPv6Address(val), val)
 
 
-class TestToolsEnviron(generic.TestCase):
+class Environ(generic.TestCase):
     """???
     """
 
     def __init__(self, *args, **kwargs):
-        super(TestToolsEnviron, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.env = deepcopy(os.environ)
 
     def setUp(self):
-        super(TestToolsEnviron, self).setUp()
+        super().setUp()
         self.temp_file = '/tmp/temp.txt'
         os.environ = deepcopy(self.env)
 
     def tearDown(self):
-        super(TestToolsEnviron, self).tearDown()
+        super().tearDown()
         if os.path.exists(self.temp_file):
             os.remove(self.temp_file)
         os.environ = deepcopy(self.env)
@@ -625,7 +620,7 @@ class TestToolsEnviron(generic.TestCase):
                 self.assertEqual(test_env.strValue(k), str(i), msg)
 
 
-class TestToolsUniquenessSet(generic.TestCase):
+class UniquenessSet(generic.TestCase):
     # TODO: add test for follow_symlink
     def test_checkUnique(self):
         with TemporaryDirectory() as d:
@@ -755,7 +750,7 @@ class TestToolsUniquenessSet(generic.TestCase):
             self.assertFalse(uniqueness.check(t3))
 
 
-class TestToolsExecuteSubprocess(generic.TestCase):
+class ExecuteSubprocess(generic.TestCase):
     # new method with subprocess
     def test_returncode(self):
         self.assertEqual(tools.Execute(['true']).run(), 0)
@@ -823,3 +818,40 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
                 'branch': 'fix/foobar'
             }
         )
+
+
+class ValidateSnapshotsPath(generic.TestCaseCfg):
+    def test_writes(self):
+        with TemporaryDirectory() as dirpath:
+            ret = tools.validate_and_prepare_snapshots_path(
+                path=dirpath,
+                host_user_profile=self.cfg.hostUserProfile(),
+                mode=self.cfg.snapshotsMode(),
+                copy_links=self.cfg.copyLinks(),
+                error_handler=self.cfg.notifyError)
+            self.assertTrue(ret)
+
+    def test_fails_on_ro(self):
+        with TemporaryDirectory() as dirpath:
+            # set directory to read only
+            ro_dir_stats = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH
+            with generic.mockPermissions(dirpath, ro_dir_stats):
+                ret = tools.validate_and_prepare_snapshots_path(
+                    path=dirpath,
+                    host_user_profile=self.cfg.hostUserProfile(),
+                    mode=self.cfg.snapshotsMode(),
+                    copy_links=self.cfg.copyLinks(),
+                    error_handler=self.cfg.notifyError)
+                self.assertFalse(ret)
+
+    @patch('os.chmod')
+    def test_permission_fail(self, mock_chmod):
+        mock_chmod.side_effect = PermissionError()
+        with TemporaryDirectory() as dirpath:
+            ret = tools.validate_and_prepare_snapshots_path(
+                path=dirpath,
+                host_user_profile=self.cfg.hostUserProfile(),
+                mode=self.cfg.snapshotsMode(),
+                copy_links=self.cfg.copyLinks(),
+                error_handler=self.cfg.notifyError)
+            self.assertTrue(ret)

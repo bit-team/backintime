@@ -8,8 +8,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import copy
 from PyQt6.QtGui import QFont, QPalette, QBrush, QIcon
@@ -1108,22 +1108,13 @@ class SettingsDialog(QDialog):
         self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
         self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
 
-        # TODO - consider a single API method to bridge the UI layer
-        # (settings dialog) and backend layer (config)
-        # when setting snapshots path rather than having to call the
-        # mount module from the UI layer
-        #
-        # currently, setting snapshots path requires the path to be mounted.
-        # it seems that it might be nice,
-        # since the config object is more than a data structure, but has
-        # side-effect logic as well, to have the
-        # config.setSnapshotsPath() method take care of everything it needs
-        # to perform its job
-        # (mounting and unmounting the fuse filesystem if necessary).
-        # https://en.wikipedia.org/wiki/Single_responsibility_principle
-
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
-            preMountCheck
+        # DEV NOTE (Taylor Raack, 2016-01) - consider a single API method to
+        # bridge the UI layer (settings dialog) and backend layer (config) when
+        # setting snapshots path rather than having to call the mount module
+        # from the UI layer
+        # DEV NOTE (buhtz, 2024-09): Work in progress ...
+        if mode != 'local':
+            # preMountCheck
             mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
 
             try:
@@ -1206,13 +1197,11 @@ class SettingsDialog(QDialog):
                 return False
 
         # umount
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
-
+        if mode != 'local':
             try:
                 mnt.umount(hash_id=hash_id)
             except MountException as ex:
                 self.errorHandler(str(ex))
-
                 return False
 
         return True

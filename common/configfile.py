@@ -22,7 +22,7 @@ import re
 import logger
 
 
-class ConfigFile(object):
+class ConfigFile:
     """Store options in a plain text file in form of: key=value
     """
 
