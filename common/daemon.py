@@ -50,8 +50,9 @@ import logger
 from applicationinstance import ApplicationInstance
 
 
-def fdDup(old, new_fd, mode = 'w'):
-    """Duplicate file descriptor `old` to `new_fd` and closing the latter first.
+def fdDup(old, new_fd, mode='w'):
+    """Duplicate file descriptor `old` to `new_fd` and closing the latter
+    first.
 
     Used to redirect stdin, stdout and stderr from daemonized threads.
 
@@ -68,7 +69,6 @@ def fdDup(old, new_fd, mode = 'w'):
         logger.debug('Failed to redirect {}: {}'.format(old, str(e)))
 
 
-
 class Daemon:
     """A generic daemon class.
 
@@ -79,7 +79,7 @@ class Daemon:
                  stdin='/dev/null',
                  stdout='/dev/stdout',
                  stderr='/dev/null',
-                 umask = 0o022):
+                 umask=0o022):
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr

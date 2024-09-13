@@ -42,14 +42,14 @@ class EncfsCreateWarning(_EncfsWarningBase):
         text = _('Support for EncFS will be discontinued in the '
                  'foreseeable future. It is not recommended to use that '
                  'mode for a profile furthermore.')
+        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
+            + _('whitepaper') + '</a>'
         informative_text = _(
             'A decision on a replacement for continued support of encrypted '
             'backups is still pending, depending on project resources and '
             'contributor availability. More details are available in this '
             '{whitepaper}.'
-        ).format(whitepaper='<a href="{}">{}</a>'.format(
-            URL_ENCRYPT_TRANSITION,
-            _('whitepaper')))
+        ).format(whitepaper=whitepaper)
 
         super().__init__(parent, text, informative_text)
 
@@ -71,6 +71,8 @@ class EncfsExistsWarning(_EncfsWarningBase):
             + ''.join(f'<li>{profile}</li>' for profile in profiles) \
             + '</ul>'
 
+        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
+            + _('whitepaper') + '</a>'
         info_paragraphs = (
             _('The following profile(s) use encryption with EncFS:'),
             profiles,
@@ -79,9 +81,7 @@ class EncfsExistsWarning(_EncfsWarningBase):
               'contributor availability. Users are invited to join this '
               'discussion. Updated details on the next steps are '
               'available in this {whitepaper}.').format(
-                  whitepaper='<a href="{}">{}</a>'.format(
-                      URL_ENCRYPT_TRANSITION,
-                      _('whitepaper'))),
+                  whitepaper=whitepaper),
             _('This message will not be shown again. This dialog is '
               'available at any time via the help menu.'),
             _('Your Back In Time Team')

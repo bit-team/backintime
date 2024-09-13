@@ -187,7 +187,6 @@ def collect_diagnostics():
     return result
 
 
-
 def _get_qt_information():
     """Collect Version and Theme information from Qt.
 
@@ -334,7 +333,8 @@ def _get_rsync_info():
             if isinstance(info[key], list):
                 info[key] = ', '.join(info[key])
             elif isinstance(info[key], dict):
-                info[key] = '; '.join(f'{k}: {v}' for k, v in info[key].items())
+                info[key] = '; '.join(
+                    f'{k}: {v}' for k, v in info[key].items())
 
     return info
 

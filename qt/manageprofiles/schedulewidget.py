@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""The widget to setup scheduling backup jobs."""
 import datetime
 from PyQt6.QtWidgets import (QHBoxLayout,
                              QFormLayout,
@@ -278,7 +279,6 @@ class ScheduleWidget(QGroupBox):
         """
 
         if self._combo_schedule_mode.current_data == cfg.CUSTOM_HOUR:
-            # TODO
             # Dev note (buhtz, 2024-05): IMHO checkCronPattern() is not needed
             # because the "crontab" command itself will validate this. See
             # schedule.write_crontab().
