@@ -2049,6 +2049,13 @@ class Snapshots:
         Returns:
             list:                   filtered list of :py:class:`SID` objects
         """
+        # logger.critical(
+        #     'Snapshots.filter() ::\n'
+        #     f'  {base_sid=} {base_path=}\n'
+        #     f'  {snapshotsList=}\n'
+        #     f'  {list_diff_only=} {flag_deep_check=}\n'
+        #     f'  {list_equal_to=}')
+
         snapshotsFiltered = []
 
         base_full_path = base_sid.pathBackup(base_path)

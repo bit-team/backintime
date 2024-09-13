@@ -15,12 +15,15 @@ import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from uniquenessset import UniquenessSet
 
+import logger
+logger.DEBUG = True
 
 class General(pyfakefs_ut.TestCase):
     # TODO: add test for follow_symlink
     def setUp(self):
         """Setup a fake filesystem."""
         self.setUpPyfakefs(allow_root_user=False)
+
 
     def _create_unique_file_pairs(self, pairs):
         result = []
