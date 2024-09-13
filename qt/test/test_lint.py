@@ -83,7 +83,7 @@ def create_pylint_cmd(include_error_codes=None):
     if include_error_codes:
         # Deactivate all checks by default
         cmd.append('--disable=all')
-        # Inlcude specific codes only
+        # Include specific codes only
         cmd.append('--enable=' + ','.join(include_error_codes))
 
     return cmd

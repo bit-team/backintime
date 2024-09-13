@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2010 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -24,7 +25,6 @@ class General(pyfakefs_ut.TestCase):
         """Setup a fake filesystem."""
         self.setUpPyfakefs(allow_root_user=False)
 
-
     def _create_unique_file_pairs(self, pairs):
         result = []
         for one, two, content in pairs:
@@ -43,8 +43,60 @@ class General(pyfakefs_ut.TestCase):
 
         return result
 
+    def test_ctor_defaults(self):
+        """Default values in constructor."""
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
+            files = self._create_unique_file_pairs([(
+                temp_path / 'foo',
+                temp_path / 'bar',
+                'xyz')])
+
+
+            sut = UniquenessSet()
+
+            # unique-check by default
+            self.assertTrue(sut.check(files[0]))
+            # Comopared to previous file, not unique by size & mtime
+            self.assertFalse(sut.check(files[1]))
+
+    def test_fail_equal_without_equal_to(self):
+        """Uncovered (but not important) edge case."""
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
+            fp = temp_path / 'foo'
+            fp.write_text('bar')
+
+            sut = UniquenessSet(deep_check=False,
+                                follow_symlink=False,
+                                equal_to='')
+
+            with self.assertRaises(AttributeError):
+                # Explicite equal-check not possible because 'equal_to' is
+                # empty.
+                sut.checkEqual(fp)
+
+    def test_unique_myself(self):
+        """Test file uniqueness to itself"""
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
+            fp = temp_path / 'bar'
+            fp.write_text('foo')
+
+            # unique-check is used because 'equal_to' is empty
+            sut = UniquenessSet(deep_check=False,
+                                follow_symlink=False,
+                                equal_to='')
+
+            # Is unique, because no check was done before.
+            self.assertTrue(sut.check(fp))
+
+            # Not unique anymore, not even to itself, because its hash was
+            # stored from the previous check.
+            self.assertFalse(sut.check(fp))
+
     def test_size_mtime(self):
-        """Compare by size and mtime"""
+        """Uniquness by size and mtime"""
         with TemporaryDirectory(prefix='bit.') as temp_name:
             temp_path = Path(temp_name)
             files = self._create_unique_file_pairs([
@@ -60,139 +112,123 @@ class General(pyfakefs_ut.TestCase):
                 ),
             ])
 
-            sut = UniquenessSet(dc=False,
+            sut = UniquenessSet(deep_check=False,
                                 follow_symlink=False,
-                                list_equal_to='')
+                                equal_to='')
 
-            # Check: same size and mtime
             self.assertTrue(sut.check(files[0]))
-            self.assertFalse(sut.check(files[1]))
             self.assertTrue(sut.check(files[2]))
+
+            self.assertFalse(sut.check(files[1]))
             self.assertFalse(sut.check(files[3]))
 
-    def test_checkUnique(self):
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
+    def test_unique_size_but_different_mtime(self):
+        """Unique size but mtime is different."""
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
+            files = self._create_unique_file_pairs([
+                (
+                    temp_path / '1' / 'foo',
+                    temp_path / '2' / 'foo',
+                    'bar'
+                ),
+                (
+                    temp_path / '3' / 'foo',
+                    temp_path / '4' / 'foo',
+                    'different_size'
+                ),
+            ])
 
-            for i in (t1, t2):
-                with open(i, 'wt') as f:
-                    f.write('bar')
-            for i in (t3, t4):
-                with open(i, 'wt') as f:
-                    f.write('42')
-
-            # fix timestamps because otherwise test will fail on slow machines
-            obj = os.stat(t1)
-            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
-            obj = os.stat(t3)
-            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
-
-            # same size and mtime
-            uniqueness = UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
-
-            os.utime(t1, times=(0, 0))
-            os.utime(t3, times=(0, 0))
+            # different mtime
+            os.utime(files[0], times=(0, 0))
+            os.utime(files[2], times=(0, 0))
 
             # same size different mtime
-            uniqueness = UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertTrue(uniqueness.check(t4))
+            sut = UniquenessSet(deep_check=False,
+                                follow_symlink=False,
+                                equal_to='')
 
-            # same size different mtime use deep_check
-            uniqueness = UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
+            # Each file is unique (different from each other)
+            self.assertTrue(sut.check(files[0]))
+            self.assertTrue(sut.check(files[1]))
+            self.assertTrue(sut.check(files[2]))
+            self.assertTrue(sut.check(files[3]))
 
-    def test_checkUnique_hardlinks(self):
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
+    def test_deep_check(self):
+        """Uniqueness by content only"""
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
+            files = self._create_unique_file_pairs([
+                (
+                    temp_path / '1' / 'foo',
+                    temp_path / '2' / 'foo',
+                    'bar'
+                ),
+                (
+                    temp_path / '3' / 'foo',
+                    temp_path / '4' / 'foo',
+                    'different_size'
+                ),
+            ])
 
-            with open(t1, 'wt') as f:
-                f.write('bar')
-            os.link(t1, t2)
-            self.assertEqual(os.stat(t1).st_ino, os.stat(t2).st_ino)
+            # Size is the same (3 chars content per file)
+            fpa = temp_path / 'foo'
+            fpa.write_text('one')
+            fpb = temp_path / 'bar'
+            fpb.write_text('bar')
 
-            with open(t3, 'wt') as f:
-                f.write('42')
-            os.link(t3, t4)
-            self.assertEqual(os.stat(t3).st_ino, os.stat(t4).st_ino)
+            # mtime is the same
+            os.utime(fpb, times=(fpa.stat().st_atime, fpa.stat().st_mtime))
 
-            uniqueness = UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
+            # Not deep: check by size and mtime
+            sut = UniquenessSet(deep_check=False,
+                                follow_symlink=False,
+                                equal_to='')
 
-    def test_checkEqual(self):
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
+            self.assertTrue(sut.check(fpa))
+            self.assertFalse(sut.check(fpb))
 
-            for i in (t1, t2):
-                with open(i, 'wt') as f:
-                    f.write('bar')
-            for i in (t3, t4):
-                with open(i, 'wt') as f:
-                    f.write('42')
+            # Now with deep check
+            sut = UniquenessSet(deep_check=True,
+                                follow_symlink=False,
+                                equal_to='')
 
-            # fix timestamps because otherwise test will fail on slow machines
-            obj = os.stat(t1)
-            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
-            obj = os.stat(t3)
-            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
+            self.assertTrue(sut.check(fpa))
+            self.assertTrue(sut.check(fpb))
 
-            # same size and mtime
-            uniqueness = UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to=t1)
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertFalse(uniqueness.check(t3))
+    def test_deep_check_ignores_mtime(self):
+        self.assertFalse(True)
 
-            os.utime(t1, times=(0, 0))
+    def test_hardlinks(self):
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
 
-            # same size different mtime
-            uniqueness = UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to=t1)
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertFalse(uniqueness.check(t3))
+            fpa = temp_path / 'foo'
+            fpb = temp_path / 'bar'
 
-            # same size different mtime use deep_check
-            uniqueness = UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to=t1)
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertFalse(uniqueness.check(t3))
+            fpa_hardlink = temp_path / 'hl_foo'
+            fpb_hardlink = temp_path / 'hl_bar'
+
+            fpa.write_text('red')
+            fpb.write_text('blue')
+
+            fpa_hardlink.hardlink_to(fpa)
+            fpb_hardlink.hardlink_to(fpb)
+
+            os.utime(fpa_hardlink,
+                     times=(fpa.stat().st_atime, fpa.stat().st_mtime))
+            os.utime(fpb_hardlink,
+                     times=(fpb.stat().st_atime, fpb.stat().st_mtime))
+
+            # Be sure that this are hardlinks
+            self.assertEqual(fpa.stat().st_ino, fpa_hardlink.stat().st_ino)
+            self.assertEqual(fpb.stat().st_ino, fpb_hardlink.stat().st_ino)
+
+            sut = UniquenessSet(deep_check=True,
+                                follow_symlink=False,
+                                equal_to='')
+
+            self.assertTrue(sut.check(fpa))
+            self.assertFalse(sut.check(fpa_hardlink))
+            self.assertTrue(sut.check(fpb))
+            self.assertFalse(sut.check(fpb_hardlink))

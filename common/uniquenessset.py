@@ -21,11 +21,18 @@ class UniquenessSet:
     Equality is checked only if a file is specified with ``equal_to`` otherwise
     uniqueness will be checked. The latter is based on previous file
     checks. The class store hashes of each file checked via ``check()`` or
-    ``checkUnique()``."""
-    def __init__(self, dc=False, follow_symlink=False, equal_to=''):
+    ``checkUnique()``.
+
+    Dev note (buhtz, 2024-10): The class is used in SnapshotsDialog and only in
+    the specific/rare case when single files are compared. The class does two
+    different things implicit. Not sure if this is a good solution. My
+    recommendation is to move that code/feature into 'qt' into or near the
+    `SnapshotsDialog` class.
+    """
+    def __init__(self, deep_check=False, follow_symlink=False, equal_to=''):
         """
         Args:
-            dc (bool): If ``True`` use deep check which will compare
+            deep_check (bool): If ``True`` use deep check which will compare
                 files md5sums if they are of same size but no
                 hardlinks (don't have the same inode).
                 If ``False`` use files size and mtime
@@ -35,14 +42,7 @@ class UniquenessSet:
                 equal files to the given path instead of unique
                 files. (default: ``''``)
         """
-        # # DEBUG
-        # logger.critical(
-        #     'UniquenessSet.__init__() ::\n'
-        #     f'  {dc=}\n'
-        #     f'  {follow_symlink=}\n'
-        #     f'  {equal_to=}')
-
-        self.deep_check = dc
+        self.deep_check = deep_check
         self.follow_sym = follow_symlink
 
         # if not self._uniq_dict[size] -> size already checked with md5sum
@@ -101,7 +101,7 @@ class UniquenessSet:
         # check
         if self.deep_check:
             dum = os.stat(path)
-            size,inode  = dum.st_size, dum.st_ino
+            size, inode  = dum.st_size, dum.st_ino
 
             # is it a hlink ?
             if (size, inode) in self._size_inode:
