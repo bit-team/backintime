@@ -35,7 +35,11 @@ def _determine_crontab_command() -> str:
     """
     to_check_commands = ['crontab', 'fcrontab']
     for cmd in to_check_commands:
-        proc = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
+        proc = subprocess.run(
+            ['which', cmd],
+            stdout=subprocess.PIPE,
+            check=False
+        )
         if proc.returncode == 0:
             return cmd
 
