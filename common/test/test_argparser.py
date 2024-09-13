@@ -39,13 +39,14 @@ def shuffleArgs(*args):
                 ret.append(j)
         yield ret
 
-class TestArgParser(generic.TestCase):
+
+class General(generic.TestCase):
     def setUp(self):
-        super(TestArgParser, self).setUp()
+        super().setUp()
         backintime.createParsers()
 
     def tearDown(self):
-        super(TestArgParser, self).tearDown()
+        super().tearDown()
         global parsers
         parsers = {}
 
@@ -74,17 +75,25 @@ class TestArgParser(generic.TestCase):
         with self.assertRaises(SystemExit):
             backintime.argParse(['--config'])
 
-    ############################################################################
-    ###                               Backup                                 ###
-    ############################################################################
-    def test_cmd_backup(self):
+
+class Backup(generic.TestCase):
+    def setUp(self):
+        super().setUp()
+        backintime.createParsers()
+
+    def tearDown(self):
+        super().tearDown()
+        global parsers
+        parsers = {}
+
+    def test_simple(self):
         args = backintime.argParse(['backup'])
         self.assertIn('command', args)
         self.assertEqual(args.command, 'backup')
         self.assertIn('func', args)
         self.assertIs(args.func, backintime.backup)
 
-    def test_cmd_backup_backwards_compatiblity_alias(self):
+    def test_backwards_compatiblity_alias(self):
         args = backintime.argParse(['--backup'])
         self.assertIn('func', args)
         self.assertIs(args.func, backintime.aliasParser)
@@ -93,7 +102,7 @@ class TestArgParser(generic.TestCase):
         self.assertIn('alias', args)
         self.assertEqual(args.alias, 'backup')
 
-    def test_cmd_backup_profile(self):
+    def test_profile(self):
         for argv in shuffleArgs('backup', ('--profile', 'foo')):
             with self.subTest(argv = argv):
                 #workaround for py.test3 2.5.1 doesn't support subTest
@@ -104,25 +113,25 @@ class TestArgParser(generic.TestCase):
                 self.assertIn('profile', args, msg)
                 self.assertEqual(args.profile, 'foo', msg)
 
-    def test_cmd_backup_profile_id(self):
+    def test_profile_id(self):
         args = backintime.argParse(['backup', '--profile-id', '2'])
         self.assertIn('command', args)
         self.assertEqual(args.command, 'backup')
         self.assertIn('profile_id', args)
         self.assertEqual(args.profile_id, 2)
 
-    def test_cmd_backup_profile_and_profile_id(self):
+    def test_profile_and_profile_id(self):
         with self.assertRaises(SystemExit):
             backintime.argParse(['backup', '--profile', 'foo', '--profile-id', '2'])
 
-    def test_cmd_backup_quiet(self):
+    def test_quiet(self):
         args = backintime.argParse(['backup', '--quiet'])
         self.assertIn('command', args)
         self.assertEqual(args.command, 'backup')
         self.assertIn('quiet', args)
         self.assertTrue(args.quiet)
 
-    def test_cmd_backup_multi_args(self):
+    def test_multi_args(self):
         for argv in shuffleArgs('--quiet', 'backup', ('--profile', 'foo'), '--checksum',
                                 ('--config', 'bar')):
             with self.subTest(argv = argv):
@@ -140,17 +149,25 @@ class TestArgParser(generic.TestCase):
                 self.assertIn('config', args, msg)
                 self.assertEqual(args.config, 'bar', msg)
 
-    ############################################################################
-    ###                               Restore                                ###
-    ############################################################################
-    def test_cmd_restore(self):
+
+class Restore(generic.TestCase):
+    def setUp(self):
+        super().setUp()
+        backintime.createParsers()
+
+    def tearDown(self):
+        super().tearDown()
+        global parsers
+        parsers = {}
+
+    def test_simple(self):
         args = backintime.argParse(['restore'])
         self.assertIn('command', args)
         self.assertEqual(args.command, 'restore')
         self.assertIn('func', args)
         self.assertIs(args.func, backintime.restore)
 
-    def test_cmd_restore_what_where_snapshot_id(self):
+    def test_what_where_snapshot_id(self):
         args = backintime.argParse(['restore', '/home', '/tmp', '20151130-230501-984'])
         self.assertIn('command', args)
         self.assertEqual(args.command, 'restore')
@@ -161,7 +178,7 @@ class TestArgParser(generic.TestCase):
         self.assertIn('SNAPSHOT_ID', args)
         self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984')
 
-    def test_cmd_restore_what_where_snapshot_id_multi_args(self):
+    def test_what_where_snapshot_id_multi_args(self):
         for argv in shuffleArgs('--quiet', ('restore', '/home', '/tmp', '20151130-230501-984'),
                                 '--checksum', ('--profile-id', '2'), '--local-backup',
                                 '--delete', ('--config', 'foo')):
@@ -190,7 +207,7 @@ class TestArgParser(generic.TestCase):
                 self.assertIn('config', args, msg)
                 self.assertEqual(args.config, 'foo', msg)
 
-    def test_cmd_restore_multi_args(self):
+    def test_multi_args(self):
         for argv in shuffleArgs(('--profile-id', '2'), '--quiet', 'restore', '--checksum',
                                 '--local-backup',
                                 '--delete', ('--config', 'foo')):
@@ -213,29 +230,30 @@ class TestArgParser(generic.TestCase):
                 self.assertIn('config', args, msg)
                 self.assertEqual(args.config, 'foo', msg)
 
-    def test_cmd_restore_snapshot_id_index(self):
+    def test_snapshot_id_index(self):
         args = backintime.argParse(['restore', '/home', '/tmp', '1'])
         self.assertIn('SNAPSHOT_ID', args)
         self.assertEqual(args.SNAPSHOT_ID, '1')
 
-    def test_cmd_restore_empty_where(self):
+    def test_empty_where(self):
         args = backintime.argParse(['restore', '/home', '', '20151130-230501-984'])
         self.assertIn('WHERE', args)
         self.assertEqual(args.WHERE, '')
 
-    def test_cmd_restore_where_space_in_path(self):
+    def test_where_space_in_path(self):
         args = backintime.argParse(['restore', '/home', '/tmp/foo bar/baz', '20151130-230501-984'])
         self.assertIn('WHERE', args)
         self.assertEqual(args.WHERE, '/tmp/foo bar/baz')
 
-    def test_cmd_restore_what_space_in_path(self):
+    def test_what_space_in_path(self):
         args = backintime.argParse(['restore', '/home/foo bar/baz', '/tmp', '20151130-230501-984'])
         self.assertIn('WHAT', args)
         self.assertEqual(args.WHAT, '/home/foo bar/baz')
 
-    def test_cmd_restore_local_backup_and_no_local_backup(self):
+    def test_local_backup_and_no_local_backup(self):
         with self.assertRaises(SystemExit):
             backintime.argParse(('restore', '--local-backup', '--no-local-backup'))
+
 
 if __name__ == '__main__':
     unittest.main()
