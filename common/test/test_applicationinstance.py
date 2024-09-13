@@ -25,8 +25,8 @@ from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from applicationinstance import ApplicationInstance
 import tools
+from applicationinstance import ApplicationInstance
 
 
 class General(generic.TestCase):

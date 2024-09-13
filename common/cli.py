@@ -1,21 +1,11 @@
-# -*- coding: utf-8 -*-
-#    Back In Time
-#    Copyright (C) 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import tools
@@ -99,19 +89,25 @@ def checkConfig(cfg, crontab = True):
 
     test = 'Check/prepare snapshot path'
     announceTest()
-    snapshots_path = cfg.snapshotsPath(mode = mode, tmp_mount = True)
+    snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
-    if not cfg.setSnapshotsPath(snapshots_path, mode = mode):
+    ret = tools.validate_and_prepare_snapshots_path(
+        path=snapshots_mountpoint,
+        host_user_profile=cfg.hostUserProfile(),
+        mode=mode,
+        copy_links=cfg.copyLinks(),
+        error_handler=cfg.notifyError)
+    if not ret:
         failed()
         return False
     okay()
 
-    #umount
+    # umount
     if not cfg.SNAPSHOT_MODES[mode][0] is None:
         test = 'Unmount'
         announceTest()
         try:
-            mnt.umount(hash_id = hash_id)
+            mnt.umount(hash_id=hash_id)
         except MountException as ex:
             failed()
             print(str(ex))

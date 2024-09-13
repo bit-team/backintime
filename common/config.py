@@ -1,21 +1,15 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-"""Configuration logic.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Configuration handling and logic.
 
 This module and its `Config` class contain the application logic handling the
 configuration of Back In Time. The handling of the configuration file itself
@@ -374,32 +368,34 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
         return True
 
-    def pid(self):
-        return str(os.getpid())
-
     def host(self):
         return socket.gethostname()
 
+    def get_snapshots_mountpoint(self, profile_id=None, tmp_mount=False):
+        """Return the profiles snapshot path in form of a mount point."""
+        if profile_id is None:
+            profile_id = self.currentProfile()
+
+        mode = self.snapshotsMode(profile_id)
+
+        if mode == 'local':
+            return self.get_snapshots_path(profile_id)
+
+        # else: ssh/local_encfs/ssh_encfs
+
+        symlink = f'{profile_id}_{os.getpid()}'
+        if tmp_mount:
+            symlink = f'tmp_{symlink}'
+
+        return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
+
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
-        """Return the snapshot path (backup destination).
+        """Return the snapshot path (backup destination) as a mount point.
+
+        That method is a surrogate for `self.get_snapshots_mountpoint()`.
         """
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-
-        # If there are <mounttools> for this mode, then
-        # the path need to be mounted.
-        if self.SNAPSHOT_MODES[mode][0] == None:
-            # No mount needed
-            #?Where to save snapshots in mode 'local'. This path must contain a
-            #?folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
-            return self.profileStrValue('snapshots.path', '', profile_id)
-
-        else:
-            # Mode need to be mounted; return mountpoint
-            symlink = self.snapshotsSymlink(
-                profile_id=profile_id, tmp_mount=tmp_mount)
-
-            return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
+        return self.get_snapshots_mountpoint(
+            profile_id=profile_id, tmp_mount=tmp_mount)
 
     def snapshotsFullPath(self, profile_id = None):
         """
@@ -408,97 +404,16 @@ class Config(configfile.ConfigFileWithProfiles):
         host, user, profile = self.hostUserProfile(profile_id)
         return os.path.join(self.snapshotsPath(profile_id), 'backintime', host, user, profile)
 
-    def setSnapshotsPath(self, value, profile_id = None, mode = None):
-        """
-        Sets the snapshot path to value, initializes, and checks it
-        """
-        if not value:
-            return False
+    def get_snapshots_path(self, profile_id):
+        """Return the value of the snapshot path (backup destination) field."""
+        return self.profileStrValue('snapshots.path', '', profile_id)
 
-        if profile_id == None:
+    def set_snapshots_path(self, value, profile_id=None):
+        """Sets the snapshot path to value."""
+        if profile_id is None:
             profile_id = self.currentProfile()
 
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-
-        if not os.path.isdir(value):
-            self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
-            return False
-
-        # Initialize the snapshots folder
-        logger.debug("Check snapshot folder: %s" % value, self)
-
-        host, user, profile = self.hostUserProfile(profile_id)
-
-        if not all((host, user, profile)):
-            self.notifyError(_('Host/User/Profile-ID must not be empty.'))
-            return False
-
-        full_path = os.path.join(value, 'backintime', host, user, profile)
-        if not os.path.isdir(full_path):
-            logger.debug("Create folder: %s" % full_path, self)
-            tools.makeDirs(full_path)
-
-            if not os.path.isdir(full_path):
-                self.notifyError(_(
-                    "Can't write to: {path}\nAre you sure you have "
-                    "write access?").format(path=value))
-                return False
-
-            for p in (os.path.join(value, 'backintime'),
-                      os.path.join(value, 'backintime', host)):
-                try:
-                    os.chmod(p, 0o777)
-                except PermissionError as e:
-                    msg = "Failed to set permissions world-writable for '{}': {}"
-                    logger.warning(msg.format(p, str(e)), self)
-
-        # Test filesystem
-        fs = tools.filesystem(full_path)
-
-        if fs == 'vfat':
-            self.notifyError(_(
-                "Destination filesystem for {path} is formatted with FAT "
-                "which doesn't support hard-links. "
-                "Please use a native Linux filesystem.")
-                .format(path=value))
-
-            return False
-
-        elif fs.startswith('ntfs'):
-            self.notifyError(self.NTFS_FILESYSTEM_WARNING.format(path=value))
-
-        elif fs == 'cifs' and not self.copyLinks():
-            self.notifyError(_(
-                'Destination filesystem for {path} is an SMB-mounted share. '
-                'Please make sure the remote SMB server supports symlinks or '
-                'activate {copyLinks} in {expertOptions}.')
-                .format(path=value,
-                        copyLinks=_('Copy links (dereference symbolic links)'),
-                        expertOptions=_('Expert Options')))
-
-        elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
-            self.notifyError(_(
-                "Destination filesystem for {path} is an sshfs-mounted share."
-                " Sshfs doesn't support hard-links. "
-                "Please use mode 'SSH' instead.")
-                .format(path=value))
-
-            return False
-
-        #Test write access for the folder
-        check_path = os.path.join(full_path, 'check')
-        tools.makeDirs(check_path)
-        if not os.path.isdir(check_path):
-            self.notifyError(_(
-                "Can't write to: {path}\nAre you sure you have "
-                "write access?").format(path=full_path))
-            return False
-
-        os.rmdir(check_path)
-        if self.SNAPSHOT_MODES[mode][0] is None:
-            self.setProfileStrValue('snapshots.path', value, profile_id)
-        return True
+        self.setProfileStrValue('snapshots.path', value, profile_id)
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
@@ -507,14 +422,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setSnapshotsMode(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.mode', value, profile_id)
-
-    def snapshotsSymlink(self, profile_id = None, tmp_mount = False):
-        if profile_id is None:
-            profile_id = self.current_profile_id
-        symlink = '%s_%s' % (profile_id, self.pid())
-        if tmp_mount:
-            symlink = 'tmp_%s' % symlink
-        return symlink
 
     def setCurrentHashId(self, hash_id):
         self.current_hash_id = hash_id
