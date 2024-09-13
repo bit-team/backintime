@@ -29,15 +29,13 @@ from applicationinstance import ApplicationInstance
 import tools
 
 
-class TestApplicationInstance(generic.TestCase):
-    """
-    """
+class General(generic.TestCase):
 
     def setUp(self):
         """Preparing unittests including the instantiation of an
         ``ÀpplicationInstance``.
         """
-        super(TestApplicationInstance, self).setUp()
+        super().setUp()
 
         self.temp_file = '/tmp/temp.txt'
         self.file_name = "/tmp/file_with_pid"
@@ -51,7 +49,7 @@ class TestApplicationInstance(generic.TestCase):
     def tearDown(self):
         """Delete temporary files and kill subprocesses.
         """
-        super(TestApplicationInstance, self).tearDown()
+        super().tearDown()
 
         for f in (self.temp_file, self.file_name):
             if os.path.exists(f):

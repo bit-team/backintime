@@ -33,7 +33,7 @@ def _determine_crontab_command() -> str:
     Raises:
         RuntimeError: If none of the supported commands available.
     """
-    to_check_commands = ['crontab', 'fcrontab']:
+    to_check_commands = ['crontab', 'fcrontab']
     for cmd in to_check_commands:
         proc = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
         if proc.returncode == 0:
