@@ -8,8 +8,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about the tools module."""
 import os
 import sys
@@ -494,7 +494,7 @@ class TestTools(generic.TestCase):
             'echo start;echo foo;echo foo;echo foo;echo end')
 
 
-class TestEscapeIPv6(generic.TestCase):
+class EscapeIPv6(generic.TestCase):
     def test_escaped(self):
         values_and_expected = (
             ('fd00:0::5', '[fd00:0::5]'),
@@ -542,7 +542,7 @@ class TestEscapeIPv6(generic.TestCase):
                 self.assertEqual(tools.escapeIPv6Address(val), val)
 
 
-class TestToolsEnviron(generic.TestCase):
+class Environ(generic.TestCase):
     """???
     """
 
@@ -620,7 +620,7 @@ class TestToolsEnviron(generic.TestCase):
                 self.assertEqual(test_env.strValue(k), str(i), msg)
 
 
-class TestToolsUniquenessSet(generic.TestCase):
+class UniquenessSet(generic.TestCase):
     # TODO: add test for follow_symlink
     def test_checkUnique(self):
         with TemporaryDirectory() as d:
@@ -750,7 +750,7 @@ class TestToolsUniquenessSet(generic.TestCase):
             self.assertFalse(uniqueness.check(t3))
 
 
-class TestToolsExecuteSubprocess(generic.TestCase):
+class ExecuteSubprocess(generic.TestCase):
     # new method with subprocess
     def test_returncode(self):
         self.assertEqual(tools.Execute(['true']).run(), 0)
