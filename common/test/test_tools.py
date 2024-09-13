@@ -74,11 +74,11 @@ class TestTools(generic.TestCase):
     """
 
     def setUp(self):
-        super(TestTools, self).setUp()
+        super().setUp()
         self.subproc = None
 
     def tearDown(self):
-        super(TestTools, self).tearDown()
+        super().tearDown()
         self._kill_process()
 
     def _create_process(self, *args):
@@ -547,16 +547,16 @@ class Environ(generic.TestCase):
     """
 
     def __init__(self, *args, **kwargs):
-        super(TestToolsEnviron, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.env = deepcopy(os.environ)
 
     def setUp(self):
-        super(TestToolsEnviron, self).setUp()
+        super().setUp()
         self.temp_file = '/tmp/temp.txt'
         os.environ = deepcopy(self.env)
 
     def tearDown(self):
-        super(TestToolsEnviron, self).tearDown()
+        super().tearDown()
         if os.path.exists(self.temp_file):
             os.remove(self.temp_file)
         os.environ = deepcopy(self.env)
