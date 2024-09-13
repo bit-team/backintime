@@ -6,76 +6,10 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""Module with UniquenessSet class"""
+"""Module about UniquenessSet"""
 import os
-import sys
-import pathlib
-import subprocess
-import shlex
-import signal
-import re
-import errno
-import gzip
-import locale
-import gettext
-import hashlib
-import ipaddress
-from datetime import datetime
-from packaging.version import Version
-from typing import Union
 import logger
 from tools import md5sum
-
-# # Try to import keyring
-# is_keyring_available = False
-# try:
-#     # Jan 4, 2024 aryoda: The env var BIT_USE_KEYRING is neither documented
-#     #                     anywhere nor used at all in the code.
-#     #                     Via "git blame" I have found a commit message saying:
-#     #                     "block subsequent 'import keyring' if it failed once"
-#     #                     So I assume it is an internal temporary env var only.
-#     # Note: os.geteuid() is used instead of tools.isRoot() here
-#     #       because the latter is still not available here in the global
-#     #       module code.
-#     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
-#         import keyring
-#         from keyring import backend
-#         import keyring.util.platform_
-#         is_keyring_available = True
-# except Exception as e:
-#     is_keyring_available = False
-#     # block subsequent 'import keyring' if it failed once before
-#     os.putenv('BIT_USE_KEYRING', 'false')
-#     logger.warning(f"'import keyring' failed with: {repr(e)}")
-
-# # getting dbus imports to work in Travis CI is a huge pain
-# # use conditional dbus import
-# ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
-# ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
-
-# try:
-#     import dbus
-# except ImportError:
-#     if ON_TRAVIS or ON_RTD:
-#         # python-dbus doesn't work on Travis yet.
-#         dbus = None
-#     else:
-#         raise
-
-# import configfile
-# import bcolors
-# from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
-# import languages
-
-# # Workaround:
-# # While unittesting and without regular invocation of BIT the GNU gettext
-# # class-based API isn't setup yet.
-# try:
-#     _('Warning')
-# except NameError:
-#     _ = lambda val: val
-
-# DISK_BY_UUID = '/dev/disk/by-uuid'
 
 
 class UniquenessSet:

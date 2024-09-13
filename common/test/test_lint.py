@@ -174,7 +174,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
     @unittest.skipUnless(PYCODESTYLE_AVAILABLE,
                          BASE_REASON.format('pycodestyle'))
-    def test020_pycodestyle(self):
+    def test020_pycodestyle_default_ruleset(self):
         """PEP8 conformance via pycodestyle"""
 
         style = pycodestyle.StyleGuide(quite=True)
