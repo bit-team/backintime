@@ -1,16 +1,15 @@
-# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 # SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 #
-# SPDX-License-Identifier: GPL-2.0
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
-"""Basic or low-level routines regarding scheduling.
-
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""
 Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
@@ -25,7 +24,7 @@ as match target while parsing the crontab file. See
 """
 
 
-def _determine_crontab_command() -> tuple[callable, callable]:
+def _determine_crontab_command() -> str:
     """Return the name of one of the supported crontab commands if available.
 
     Returns:
@@ -34,14 +33,15 @@ def _determine_crontab_command() -> tuple[callable, callable]:
     Raises:
         RuntimeError: If none of the supported commands available.
     """
-    for cmd in ['crontab', 'fcrontab']:
+    to_check_commands = ['crontab', 'fcrontab']:
+    for cmd in to_check_commands:
         proc = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
         if proc.returncode == 0:
             return cmd
 
     # syslog is not yet initialized
     logger.openlog()
-    msg = 'Command "crontab" and "fcrontab" not found.'
+    msg = 'Command ' + ' and '.join(to_check_commands) + ' not found.'
     logger.critical(msg)
 
     raise RuntimeError(msg)
