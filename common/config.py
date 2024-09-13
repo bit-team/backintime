@@ -56,13 +56,13 @@ from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
                        LimitExceeded
-import version
 
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
     COPYRIGHT = 'Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, ' \
-                'Richard Bailey, Germar Reitze, Christian Buhtz, Michael Büker, Jürgen Altfeld et al.'
+                'Richard Bailey, Germar Reitze, Christian Buhtz, ' \
+                'Michael Büker, Jürgen Altfeld et al.'
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
@@ -133,6 +133,9 @@ class Config(configfile.ConfigFileWithProfiles):
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
+    NTFS_FILESYSTEM_WARNING = _('The destination filesystem for {path} is formatted with NTFS, '
+                                'which has known incompatibilities with Unix-style filesystems.')
+
     def __init__(self, config_path=None, data_path=None):
         """Back In Time configuration (and much more then this).
 
@@ -177,16 +180,6 @@ class Config(configfile.ConfigFileWithProfiles):
             self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
             self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
 
-        # (buhtz) Introduced in 2009 via commit 5b26575be4.
-        # Ready to remove after 15 years.
-        # old_path = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config2')
-
-        # if os.path.exists(old_path):
-        #     if os.path.exists(self._LOCAL_CONFIG_PATH):
-        #         os.remove(old_path)
-        #     else:
-        #         os.rename(old_path, self._LOCAL_CONFIG_PATH)
-
         # Load global config file
         self.load(self._GLOBAL_CONFIG_PATH)
 
@@ -199,38 +192,15 @@ class Config(configfile.ConfigFileWithProfiles):
             = self.intValue('config.version', self.CONFIG_VERSION)
 
         if currentConfigVersion < self.CONFIG_VERSION:
-            # config.version value wasn't stored since BiT version 0.9.99.22
-            # until version 1.2.0 because of a bug. So we can't really tell
-            # which version the config is. But most likely it is version > 4
-            if currentConfigVersion < 4:
-                #update from BackInTime version < 1.0 is deprecated
-                logger.error("config.version is < 4. This config was made with "\
-                             "BackInTime version < 1.0. This version ({}) "     \
-                             "doesn't support upgrading config from version "   \
-                             "< 1.0 anymore. Please use BackInTime version "    \
-                             "<= 1.1.12 to upgrade the config to a more recent "\
-                             "version.".format(version.__version__))
-                #TODO: add popup warning
-                sys.exit(2)
-
             if currentConfigVersion < 5:
-                logger.info("Update to config version 5: other snapshot locations", self)
-                profiles = self.profiles()
-                for profile_id in profiles:
-                    #change include
-                    old_values = self.includeV4(profile_id)
-                    values = []
-                    for value in old_values:
-                        values.append((value, 0))
-                    self.setInclude(values, profile_id)
-
-                    #change exclude
-                    old_values = self.excludeV4(profile_id)
-                    self.setExclude(old_values, profile_id)
-
-                    #remove keys
-                    self.removeProfileKey('snapshots.include_folders', profile_id)
-                    self.removeProfileKey('snapshots.exclude_patterns', profile_id)
+                logger.error(
+                    'The config file version is 4 or lower. This config was '
+                    'made with a version of Back In Time that is out dated. '
+                    'Because of that upgrading config to the current version '
+                    'is not possible. The latest Back In Time version '
+                    'supporting upgrade the config file was v1.5.2.',
+                    self)
+                sys.exit(2)
 
             if currentConfigVersion < 6:
                 logger.info('Update to config version 6', self)
@@ -268,6 +238,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 # remove old gnome and kde keys
                 self.removeKeysStartsWith('gnome')
                 self.removeKeysStartsWith('kde')
+
             self.save()
 
         self.current_hash_id = 'local'
@@ -493,6 +464,9 @@ class Config(configfile.ConfigFileWithProfiles):
                 .format(path=value))
 
             return False
+
+        elif fs.startswith('ntfs'):
+            self.notifyError(self.NTFS_FILESYSTEM_WARNING.format(path=value))
 
         elif fs == 'cifs' and not self.copyLinks():
             self.notifyError(_(
@@ -933,23 +907,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileStrValue('snapshots.path.user', user, profile_id)
         self.setProfileStrValue('snapshots.path.profile', profile, profile_id)
 
-    def includeV4(self, profile_id = None):
-        #?!ignore this in manpage
-        value = self.profileStrValue('snapshots.include_folders', '', profile_id)
-        if not value:
-            return []
-
-        paths = []
-
-        for item in value.split(':'):
-            fields = item.split('|')
-
-            path = os.path.expanduser(fields[0])
-            path = os.path.abspath(path)
-            paths.append(path)
-
-        return paths
-
     def include(self, profile_id=None):
         #?Include this file or folder. <I> must be a counter starting with 1;absolute path::
         #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR is a folder (0) or a file (1).;0|1;0
@@ -957,16 +914,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setInclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.include', ('str:value', 'int:type'), values, profile_id)
-
-    def excludeV4(self, profile_id = None):
-        """
-        Gets the exclude patterns: conf version 4
-        """
-        #?!ignore this in manpage
-        value = self.profileStrValue('snapshots.exclude_patterns', '.gvfs:.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id)
-        if not value:
-            return []
-        return value.split(':')
 
     def exclude(self, profile_id = None):
         """

@@ -261,8 +261,8 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-                     f'language code "{language_code}".')
+        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
+        #              f'language code "{language_code}".')
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
@@ -1274,6 +1274,7 @@ def keyringSupported():
         displayName = str(keyring.get_keyring())  # technical class name!
 
     logger.debug("Available keyring backends:")
+
     try:
         for b in backend.get_all_keyring():
             logger.debug(b)
@@ -1305,8 +1306,11 @@ def keyringSupported():
         (keyring.backends, ('chainer', 'ChainerBackend')),
     ]
 
+    not_found_metaclasses = []
+
     for backend_package, backends in backends_to_check:
         result = backend_package  # e.g. keyring.backends
+
 
         try:
             # Load the backend step-by-step.
@@ -1317,16 +1321,19 @@ def keyringSupported():
                 result = getattr(result, b)
 
         except AttributeError as err:
-            # Debug message if backend is not available.
-            logger.debug('Metaclass {}.{} not found: {}'
-                         .format(backend_package.__name__,
-                                 '.'.join(backends),
-                                 repr(err)))
+            # # Debug message if backend is not available.
+            # logger.debug('Metaclass {}.{} not found: {}'
+            #              .format(backend_package.__name__,
+            #                      '.'.join(backends),
+            #                      repr(err)))
+            not_found_metaclasses.append('{}.{}'.format(
+                backend_package.__name__, '.'.join(backends)))
 
         else:
             # Remember the backend class (not an instance) as available.
             available_backends.append(result)
 
+    logger.debug(f'Not found Metaclasses: {not_found_metaclasses}')
     logger.debug("Available supported backends: " + repr(available_backends))
 
     if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
@@ -1980,24 +1987,26 @@ class UniquenessSet:
             return self.reference == (st.st_size, int(st.st_mtime))
 
 
-class Alarm(object):
-    """
-    Establish a callback function that is called after a timeout.
+class Alarm:
+    """Establish a callback function that is called after a timeout using
+    SIGALRM signal.
 
-    The implementation uses a SIGALRM signal so
-    do not call code in the callback that does not support multi-threading
-    (reentrance) or you may cause non-deterministic "random" RTEs.
+    If no callback is specified a `exception.Timeout` will be raised instead.
+    The implementation uses a SIGALRM signal. Attention: Do not call code in
+    the callback that does not support multi-threading (reentrance) or you may
+    cause non-deterministic "random" RuntimeErrors (RTE).
     """
-    def __init__(self, callback = None, overwrite = True):
-        """Create a new alarm instance
+
+    def __init__(self, callback=None, overwrite=True):
+        """Create a new alarm instance.
 
         Args:
-            callback: Function to call when the timer ran down (ensure
-                calling only reentrant code). Use ``None`` to throw a
-                ``Timeout`` exception instead.
-            overwrite: Is it allowed to (re)start the timer even though the
-                current timer is still running ("ticking"). ``True`` cancels
-                the current timer (if active) and restarts with the new
+            callback (callable): Function to call when the timer ran down
+                (ensure calling only reentrant code). Use ``None`` to throw a
+                `exceptions.Timeout` exception instead.
+            overwrite (bool): Is it allowed to (re)start the timer even though
+                the current timer is still running ("ticking"). ``True``
+                cancels the current timer (if active) and restarts with the new
                 timeout. ``False`` silently ignores the start request if the
                 current timer is still "ticking"
         """
@@ -2006,54 +2015,58 @@ class Alarm(object):
         self.overwrite = overwrite
 
     def start(self, timeout):
-        """
-        Start the timer (which calls the handler function
+        """Start the timer (which calls the handler function
         when the timer ran down).
 
-        The start is silently ignored if the current timer is still
-        ticking and the the attribute ``overwrite`` is ``False``.
+        If `self.overwrite` is ``False`` and the current timer is still ticking
+        the start is silently ignored.
 
         Args:
-            timeout: timer count down in seconds
+            timeout: Timer count down in seconds.
         """
         if self.ticking and not self.overwrite:
             return
+
         try:
-            # Warning: This code may cause non-deterministic RTEs
+            # Warning: This code may cause non-deterministic RunTimeError
             #          if the handler function calls code that does
             #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
+            # Why???
             pass
+
         self.ticking = True
 
     def stop(self):
-        """
-        Stop timer before it comes to an end
-        """
+        """Stop timer before it comes to an end."""
         try:
             signal.alarm(0)
             self.ticking = False
+
+        # TODO: What to catch?
         except:
             pass
 
     def handler(self, signum, frame):
-        """
-        This method is called after the timer ran down to zero
+        """This method is called after the timer ran down to zero
         and calls the callback function of the alarm instance.
 
         Raises:
-            Timeout: If no callback function was set for the alarm instance
+            `exceptions.Timeout`: If no callback function was set for the alarm
+                instance.
         """
         self.ticking = False
+
         if self.callback is None:
             raise Timeout()
+
         else:
             self.callback()
 
 
-class ShutDown(object):
+class ShutDown:
     """
     Shutdown the system after the current snapshot has finished.
     This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
@@ -2241,7 +2254,7 @@ class ShutDown(object):
         return m and Version(m.group(1)) >= Version('7.0') and processExists('unity-panel-service')
 
 
-class SetupUdev(object):
+class SetupUdev:
     """
     Setup Udev rules for starting BackInTime when a drive get connected.
     This is done by serviceHelper.py script (included in backintime-qt)
@@ -2333,7 +2346,7 @@ class SetupUdev(object):
         self.iface.clean()
 
 
-class PathHistory(object):
+class PathHistory:
     def __init__(self, path):
         self.history = [path,]
         self.index = 0
@@ -2368,7 +2381,7 @@ class PathHistory(object):
         self.index = 0
 
 
-class Execute(object):
+class Execute:
     """Execute external commands and handle its output.
 
     Args:
