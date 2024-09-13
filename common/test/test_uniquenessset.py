@@ -8,67 +8,65 @@
 """Tests about the uniquenessset module."""
 import os
 import sys
+import unittest
+from pathlib import Path
 from tempfile import TemporaryDirectory
-# import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
-from test import generic
+import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from uniquenessset import UniquenessSet
 
 
-class General(generic.TestCase):
+class General(pyfakefs_ut.TestCase):
     # TODO: add test for follow_symlink
-    def test_unique(self):
-        """???"""
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
 
-            for i in (t1, t2):
-                with open(i, 'wt') as f:
-                    f.write('bar')
-            for i in (t3, t4):
-                with open(i, 'wt') as f:
-                    f.write('42')
+    def _create_unique_file_pairs(self, pairs):
+        result = []
+        for one, two, content in pairs:
+            for fp in [one, two]:
+                # create dir
+                fp.parent.mkdir(parents=True, exist_ok=True)
 
-            # fix timestamps because otherwise test will fail on slow machines
-            obj = os.stat(t1)
-            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
-            obj = os.stat(t3)
-            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
+                # create file
+                with fp.open('wt', encoding='utf-8') as handle:
+                    handle.write(content)
 
-            # same size and mtime
-            uniqueness = UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
+            # Sync their timestamps
+            os.utime(two, times=(one.stat().st_atime, one.stat().st_mtime))
 
-            os.utime(t1, times=(0, 0))
-            os.utime(t3, times=(0, 0))
+            result.extend((one, two))
 
-            # same size different mtime
-            uniqueness = UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertTrue(uniqueness.check(t4))
+        return result
 
-            # same size different mtime use deep_check
-            uniqueness = UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
+    def test_size_mtime(self):
+        """Compare by size and mtime"""
+        with TemporaryDirectory(prefix='bit.') as temp_name:
+            temp_path = Path(temp_name)
+            files = self._create_unique_file_pairs([
+                (
+                    temp_path / '1' / 'foo',
+                    temp_path / '2' / 'foo',
+                    'bar'
+                ),
+                (
+                    temp_path / '3' / 'foo',
+                    temp_path / '4' / 'foo',
+                    '42'
+                ),
+            ])
+
+            sut = UniquenessSet(dc=False,
+                                follow_symlink=False,
+                                list_equal_to='')
+
+            # Check: same size and mtime
+            self.assertTrue(sut.check(files[0]))
+            self.assertFalse(sut.check(files[1]))
+            self.assertTrue(sut.check(files[2]))
+            self.assertFalse(sut.check(files[3]))
+
     def test_checkUnique(self):
         with TemporaryDirectory() as d:
             for i in range(1, 5):
