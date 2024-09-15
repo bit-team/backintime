@@ -695,25 +695,32 @@ def getConfig(args, check = True):
                         2 if ``check`` is ``True`` and config is not configured
     """
     cfg = config.Config(config_path = args.config, data_path = args.share_path)
-    logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
-    logger.debug('share path: %s' % cfg._LOCAL_DATA_FOLDER)
-    logger.debug('profiles: %s' % ', '.join('%s=%s' % (x, cfg.profileName(x))
-                                                        for x in cfg.profiles()))
+    logger.debug('config file: "{}"; share path: "{}"; profiles: "{}"'.format(
+        cfg._LOCAL_CONFIG_PATH,
+        cfg._LOCAL_DATA_FOLDER,
+        ', '.join(f'{profile_id}={cfg.profileName(profile_id)}'
+                  for profile_id in cfg.profiles())
+    ))
 
     if 'profile_id' in args and args.profile_id:
         if not cfg.setCurrentProfile(args.profile_id):
             logger.error('Profile-ID not found: %s' % args.profile_id)
             sys.exit(RETURN_ERR)
+
     if 'profile' in args and args.profile:
         if not cfg.setCurrentProfileByName(args.profile):
             logger.error('Profile not found: %s' % args.profile)
             sys.exit(RETURN_ERR)
+
     if check and not cfg.isConfigured():
         logger.error('%(app)s is not configured!' %{'app': cfg.APP_NAME})
         sys.exit(RETURN_NO_CFG)
+
     if 'checksum' in args:
         cfg.forceUseChecksum = args.checksum
+
     return cfg
+
 
 def setQuiet(args):
     """

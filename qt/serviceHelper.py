@@ -338,7 +338,7 @@ class UdevRules(dbus.service.Object):
             raise PermissionDeniedByPolicy(privilege)
 
 
-class SenderInfo(object):
+class SenderInfo:
     def __init__(self, sender, conn):
         self.sender = sender
         self.dbus_info = dbus.Interface(conn.get_object('org.freedesktop.DBus',

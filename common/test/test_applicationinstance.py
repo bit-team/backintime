@@ -15,28 +15,27 @@
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import subprocess
 import os
 import sys
+import subprocess
 from unittest.mock import patch
 from threading import Thread
+
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from applicationinstance import ApplicationInstance
 import tools
+from applicationinstance import ApplicationInstance
 
 
-class TestApplicationInstance(generic.TestCase):
-    """
-    """
+class General(generic.TestCase):
 
     def setUp(self):
         """Preparing unittests including the instantiation of an
         ``ÀpplicationInstance``.
         """
-        super(TestApplicationInstance, self).setUp()
+        super().setUp()
 
         self.temp_file = '/tmp/temp.txt'
         self.file_name = "/tmp/file_with_pid"
@@ -50,7 +49,7 @@ class TestApplicationInstance(generic.TestCase):
     def tearDown(self):
         """Delete temporary files and kill subprocesses.
         """
-        super(TestApplicationInstance, self).tearDown()
+        super().tearDown()
 
         for f in (self.temp_file, self.file_name):
             if os.path.exists(f):
@@ -70,9 +69,10 @@ class TestApplicationInstance(generic.TestCase):
 
     def _killProcess(self):
         if self.subproc:
-            self.subproc.kill()
-            self.subproc.wait()
-            self.subproc = None
+            subproc = self.subproc
+            subproc.kill()
+            subproc.wait()
+        self.subproc = None
 
     def test_create_and_remove_pid_file(self):
         # create pid file

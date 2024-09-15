@@ -1,5 +1,11 @@
-"""Dialog window to choose GUI display language.
-"""
+# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+"""Dialog window to choose GUI display language."""
 from PyQt6.QtCore import Qt, QSize, QTimer
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QApplication,
@@ -15,8 +21,10 @@ from PyQt6.QtWidgets import (QApplication,
                              QToolTip,
                              )
 import tools
-import qttools
 import languages
+import qttools
+
+LOW_RESOLUTION_WIDTH = 1024
 
 
 class LanguageDialog(QDialog):
@@ -24,6 +32,7 @@ class LanguageDialog(QDialog):
     def __init__(self, used_language_code: str, configured_language_code: str):
         super().__init__()
 
+        self.language_code = None
         self.used_language_code = used_language_code
         self.configured_language_code = configured_language_code
 
@@ -96,9 +105,11 @@ class LanguageDialog(QDialog):
             # ...combine source and translated version.
             label = f'{label}\n{translated_label}'
 
-        tooltip = _('Use operating systems language.')
-        code = None
-        r = self._create_radio_button(code, label, tooltip)
+        r = self._create_radio_button(
+            lang_code=None,
+            label=label,
+            tooltip=_('Use operating systems language.')
+        )
         grid.addWidget(r, 1, 1)
 
         # Sort by language code but keep English on top
@@ -111,7 +122,7 @@ class LanguageDialog(QDialog):
         number_of_columns = 3
 
         # Low-resolution screens (XGA or less)
-        if QApplication.primaryScreen().size().width() <= 1024:
+        if QApplication.primaryScreen().size().width() <= LOW_RESOLUTION_WIDTH:
             # Use one columns less
             number_of_columns -= 1
 
@@ -177,7 +188,7 @@ class ApproachTranslatorDialog(QDialog):
     translation of Back In Time.
     """
 
-    # ToDo (2023-08): Move to packages meta-data (pyproject.toml).
+    # (2023-08): Move to packages meta-data (pyproject.toml).
     _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
     _URL_PROJECT = 'https://github.com/bit-team/backintime'
 

@@ -1,4 +1,14 @@
 # How to set up a local `openssh-server` to enable ssh unit tests
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+- [Motivation](#motivation)
+- [How the unit tests access the ssh server](#how-the-unit-tests-access-the-ssh-server)
+- [Installation](#installation)
+- [Optionally configure your local firewall to restrict ssh access](#optionally-configure-your-local-firewall-to-restrict-ssh-access)
+- [FAQ](#faq)
+  * [How can I temporarily disable the ssh unit tests since they consume too much time](#how-can-i-temporarily-disable-the-ssh-unit-tests-since-they-consume-too-much-time)
+  * [How can I permanently enable or disable the ssh server (sshd)?](#how-can-i-permanently-enable-or-disable-the-ssh-server-sshd)
+  * [How can I find out if my ssh server (sshd) is running?](#how-can-i-find-out-if-my-ssh-server-sshd-is-running)
+<!-- TOC end -->
 
 # Motivation
 
@@ -70,23 +80,34 @@ required changes.
    Check if you already have a key pair:
 
    ```
-   ls -l ~/.ssh/id_rsa
+   ls -l ~/.ssh/id_*
    ```
    
-   If no `id_rsa` file exists create a new public/private key:
+   If no `id_rsa` or `id_ed25519` file exists create a new public/private key:
 
    ```commandline
+   # Generate RSA key
    ssh-keygen -t rsa -b 4096  # saves in ~/.ssh/id_rsa and id_rsa.pub by default
+
+   # OR generate ed25519 key
+   ssh-keygen -t ed25519 # saves in ~/.ssh/id_ed25519 and id_ed25519.pub by default
    # Enter and a remember a passphrase to protect your private key!
    ```
 
-   Now copy the public key to the ssh server's `autorized_keys` file:
+   Now authorize the public key via adding it to the server's `autorized_keys`
+   file. This can be done with your first connection to the server (via `$ ssh
+   localhost`) and type in your password. Or it can be done manually by the
+   following commands: 
 
    ```commandline
-   ssh-copy-id -i ~/.ssh/id_rsa.pub username@localhost
+   # If you have id_rsa.pub:
+   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+   # OR if you have id_ed25519.pub
+   cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
    ```
 
-1. Run the BiT unit tests to check if ssh tests do work now
+1. Run the BIT unit tests to check if ssh tests do work now
 
    ```commandline
    cd common

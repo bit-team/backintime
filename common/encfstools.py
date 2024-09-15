@@ -218,12 +218,8 @@ class EncFS_SSH(EncFS_mount):
     rsync will then sync the encrypted view on / to the remote path
     """
     def __init__(self, cfg = None, profile_id = None, mode = None, parent = None,*args, **kwargs):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.currentProfile()
+        self.config = cfg or config.Config()
+        self.profile_id = profile_id or self.config.currentProfile()
         self.mode = mode
         if self.mode is None:
             self.mode = self.config.snapshotsMode(self.profile_id)
@@ -345,7 +341,7 @@ class EncFS_SSH(EncFS_mount):
                 d['hash_id'] = d['hash_id_1']
             return d
 
-class Encode(object):
+class Encode:
     """
     encode path with encfsctl.
     ENCFS_SSH will replace config.ENCODE with this
@@ -467,7 +463,7 @@ class Encode(object):
             logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
 
-class Bounce(object):
+class Bounce:
     """
     Dummy class that will simply return all input.
     This is the standard for config.ENCODE
@@ -490,7 +486,7 @@ class Bounce(object):
     def close(self):
         pass
 
-class Decode(object):
+class Decode:
     """
     decode path with encfsctl.
     """

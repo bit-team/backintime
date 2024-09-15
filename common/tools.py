@@ -1,22 +1,17 @@
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Collection of helper functions not fitting to other modules.
 """
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze, Taylor Raack
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import os
 import sys
 import pathlib
@@ -30,10 +25,9 @@ import locale
 import gettext
 import hashlib
 import ipaddress
-import atexit
 from datetime import datetime
 from packaging.version import Version
-from time import sleep
+from typing import Union
 import logger
 
 # Try to import keyring
@@ -74,9 +68,16 @@ except ImportError:
 
 import configfile
 import bcolors
-from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
 import languages
+
+# Workaround:
+# While unittesting and without regular invocation of BIT the GNU gettext
+# class-based API isn't setup yet.
+try:
+    _('Warning')
+except NameError:
+    _ = lambda val: val
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -270,8 +271,8 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-                     f'language code "{language_code}".')
+        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
+        #              f'language code "{language_code}".')
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
@@ -377,6 +378,166 @@ def get_native_language_and_completeness(language_code):
     completeness = languages.completeness[language_code]
 
     return (name, completeness)
+
+# |---------------------------------------|
+# | Snapshot handling                     |
+# |                                       |
+# | Candidates for refactoring and moving |
+# | into better suited modules/classes    |
+# |---------------------------------------|
+
+NTFS_FILESYSTEM_WARNING = _(
+    'The destination filesystem for {path} is formatted with NTFS, which has '
+    'known incompatibilities with Unix-style filesystems.')
+
+
+def validate_and_prepare_snapshots_path(
+        path: Union[str, pathlib.Path],
+        host_user_profile: tuple[str, str, str],
+        mode: str,
+        copy_links: bool,
+        error_handler: callable) -> bool:
+    """Check if the given path is valid for being a snapshot path.
+
+    It is checked if it is a folder, if it is writable, if the filesystem is
+    supported and several other things.
+
+    Dev note  (buhtz, 2024-09): That code is a good candidate to get moved
+        into a class or module.
+
+    Args:
+        path: The path to validate as a snapshot path.
+        host_user_profile: I three item list containing the values for 'host',
+            'user' and 'profile' used as additional components for the
+            snapshots path.
+        mode: The profiles mode.
+        copy_links: The copy links value.
+        error_handler: Handle function receiving error messages.
+
+    Returns: Success (`True`) or failure (`False`).
+    """
+    path = pathlib.Path(path)
+
+    if not path.is_dir():
+        error_handler(_('Invalid option. {path} is not a folder.')
+                      .format(path=path))
+        return False
+
+    # build full path
+    # <path>/backintime/<host>/<user>/<profile_id>
+    full_path = pathlib.Path(path, 'backintime', *host_user_profile)
+
+    # create full_path
+    try:
+        full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+
+    except PermissionError:
+        error_handler('\n'.join([
+            _('Creation of following folder failed:'),
+            str(full_path),
+            _(f'Write access may be restricted.')]))
+        return False
+
+    # Test filesystem
+    rc, msg = is_filesystem_valid(
+        full_path, path, mode, copy_links)
+    if msg:
+        error_handler(msg)
+    if rc is False:
+        return False
+
+    # Test write access for the folder
+    rc, msg = is_writeable(full_path)
+    if msg:
+        error_handler(msg)
+    if rc is False:
+        return False
+
+    return True
+
+
+def is_filesystem_valid(full_path, msg_path, mode, copy_links):
+    """
+    Args:
+        full_path: The path to validate.
+        msg_path: The path used for display in error messages.
+        mode: Snapshot profile mode.
+        copy_links: Snapshot profiles copy links setting.
+
+    Returns:
+        (bool, str): A boolean value indicating success or failure and a
+            msg string.
+
+    """
+    fs = filesystem(full_path if isinstance(full_path, str) else str(full_path))
+
+    msg = None
+
+    if fs == 'vfat':
+        msg = _(
+            "Destination filesystem for {path} is formatted with FAT "
+            "which doesn't support hard-links. "
+            "Please use a native Linux filesystem.").format(path=msg_path)
+
+        return False, msg
+
+    elif fs.startswith('ntfs'):
+        msg = NTFS_FILESYSTEM_WARNING.format(path=msg_path)
+
+    elif fs == 'cifs' and not copy_links:
+        msg = _(
+            'Destination filesystem for {path} is an SMB-mounted share. '
+            'Please make sure the remote SMB server supports symlinks or '
+            'activate {copyLinks} in {expertOptions}.') \
+            .format(path=msg_path,
+                    copyLinks=_('Copy links (dereference symbolic links)'),
+                    expertOptions=_('Expert Options'))
+
+    elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+        msg = _(
+            "Destination filesystem for {path} is an sshfs-mounted share."
+            " Sshfs doesn't support hard-links. "
+            "Please use mode 'SSH' instead.").format(path=msg_path)
+
+        return False, msg
+
+    return True, msg
+
+
+def is_writeable(folder):
+    """Test write access for the folder.
+
+    Args:
+        folder: The folder to check.
+
+    Returns:
+        (bool, str): A boolean value indicating success or failure and a
+            msg string.
+    """
+
+    folder = pathlib.Path(folder)
+
+    check_path = folder / 'check'
+
+    try:
+        check_path.mkdir(
+            # Do not create parent folders
+            parents=False,
+            # Raise error if exists
+            exist_ok=False
+        )
+
+    except PermissionError:
+        msg = '\n'.join([
+            _('File creation failed in this folder:'),
+            str(folder),
+            _('Write access may be restricted.')])
+        return False, msg
+
+    else:
+        check_path.rmdir()
+
+    return True, None
 
 
 # |------------------------------------|
@@ -1283,6 +1444,7 @@ def keyringSupported():
         displayName = str(keyring.get_keyring())  # technical class name!
 
     logger.debug("Available keyring backends:")
+
     try:
         for b in backend.get_all_keyring():
             logger.debug(b)
@@ -1314,8 +1476,11 @@ def keyringSupported():
         (keyring.backends, ('chainer', 'ChainerBackend')),
     ]
 
+    not_found_metaclasses = []
+
     for backend_package, backends in backends_to_check:
         result = backend_package  # e.g. keyring.backends
+
 
         try:
             # Load the backend step-by-step.
@@ -1326,16 +1491,19 @@ def keyringSupported():
                 result = getattr(result, b)
 
         except AttributeError as err:
-            # Debug message if backend is not available.
-            logger.debug('Metaclass {}.{} not found: {}'
-                         .format(backend_package.__name__,
-                                 '.'.join(backends),
-                                 repr(err)))
+            # # Debug message if backend is not available.
+            # logger.debug('Metaclass {}.{} not found: {}'
+            #              .format(backend_package.__name__,
+            #                      '.'.join(backends),
+            #                      repr(err)))
+            not_found_metaclasses.append('{}.{}'.format(
+                backend_package.__name__, '.'.join(backends)))
 
         else:
             # Remember the backend class (not an instance) as available.
             available_backends.append(result)
 
+    logger.debug(f'Not found Metaclasses: {not_found_metaclasses}')
     logger.debug("Available supported backends: " + repr(available_backends))
 
     if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
@@ -1869,22 +2037,6 @@ def camelCase(s):
     """
     return ''.join([x.capitalize() for x in s.split('_')])
 
-def fdDup(old, new_fd, mode = 'w'):
-    """
-    Duplicate file descriptor `old` to `new_fd` and closing the latter first.
-    Used to redirect stdin, stdout and stderr from daemonized threads.
-
-    Args:
-        old (str):                  Path to the old file (e.g. /dev/stdout)
-        new_fd (_io.TextIOWrapper): file object for the new file
-        mode (str):                 mode in which the old file should be opened
-    """
-    try:
-        fd = open(old, mode)
-        os.dup2(fd.fileno(), new_fd.fileno())
-    except OSError as e:
-        logger.debug('Failed to redirect {}: {}'.format(old, str(e)))
-
 
 class UniquenessSet:
     """
@@ -2005,24 +2157,26 @@ class UniquenessSet:
             return self.reference == (st.st_size, int(st.st_mtime))
 
 
-class Alarm(object):
-    """
-    Establish a callback function that is called after a timeout.
+class Alarm:
+    """Establish a callback function that is called after a timeout using
+    SIGALRM signal.
 
-    The implementation uses a SIGALRM signal so
-    do not call code in the callback that does not support multi-threading
-    (reentrance) or you may cause non-deterministic "random" RTEs.
+    If no callback is specified a `exception.Timeout` will be raised instead.
+    The implementation uses a SIGALRM signal. Attention: Do not call code in
+    the callback that does not support multi-threading (reentrance) or you may
+    cause non-deterministic "random" RuntimeErrors (RTE).
     """
-    def __init__(self, callback = None, overwrite = True):
-        """Create a new alarm instance
+
+    def __init__(self, callback=None, overwrite=True):
+        """Create a new alarm instance.
 
         Args:
-            callback: Function to call when the timer ran down (ensure
-                calling only reentrant code). Use ``None`` to throw a
-                ``Timeout`` exception instead.
-            overwrite: Is it allowed to (re)start the timer even though the
-                current timer is still running ("ticking"). ``True`` cancels
-                the current timer (if active) and restarts with the new
+            callback (callable): Function to call when the timer ran down
+                (ensure calling only reentrant code). Use ``None`` to throw a
+                `exceptions.Timeout` exception instead.
+            overwrite (bool): Is it allowed to (re)start the timer even though
+                the current timer is still running ("ticking"). ``True``
+                cancels the current timer (if active) and restarts with the new
                 timeout. ``False`` silently ignores the start request if the
                 current timer is still "ticking"
         """
@@ -2031,54 +2185,58 @@ class Alarm(object):
         self.overwrite = overwrite
 
     def start(self, timeout):
-        """
-        Start the timer (which calls the handler function
+        """Start the timer (which calls the handler function
         when the timer ran down).
 
-        The start is silently ignored if the current timer is still
-        ticking and the the attribute ``overwrite`` is ``False``.
+        If `self.overwrite` is ``False`` and the current timer is still ticking
+        the start is silently ignored.
 
         Args:
-            timeout: timer count down in seconds
+            timeout: Timer count down in seconds.
         """
         if self.ticking and not self.overwrite:
             return
+
         try:
-            # Warning: This code may cause non-deterministic RTEs
+            # Warning: This code may cause non-deterministic RunTimeError
             #          if the handler function calls code that does
             #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
+            # Why???
             pass
+
         self.ticking = True
 
     def stop(self):
-        """
-        Stop timer before it comes to an end
-        """
+        """Stop timer before it comes to an end."""
         try:
             signal.alarm(0)
             self.ticking = False
+
+        # TODO: What to catch?
         except:
             pass
 
     def handler(self, signum, frame):
-        """
-        This method is called after the timer ran down to zero
+        """This method is called after the timer ran down to zero
         and calls the callback function of the alarm instance.
 
         Raises:
-            Timeout: If no callback function was set for the alarm instance
+            `exceptions.Timeout`: If no callback function was set for the alarm
+                instance.
         """
         self.ticking = False
+
         if self.callback is None:
             raise Timeout()
+
         else:
             self.callback()
 
 
-class ShutDown(object):
+class ShutDown:
     """
     Shutdown the system after the current snapshot has finished.
     This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
@@ -2266,7 +2424,7 @@ class ShutDown(object):
         return m and Version(m.group(1)) >= Version('7.0') and processExists('unity-panel-service')
 
 
-class SetupUdev(object):
+class SetupUdev:
     """
     Setup Udev rules for starting BackInTime when a drive get connected.
     This is done by serviceHelper.py script (included in backintime-qt)
@@ -2358,7 +2516,7 @@ class SetupUdev(object):
         self.iface.clean()
 
 
-class PathHistory(object):
+class PathHistory:
     def __init__(self, path):
         self.history = [path,]
         self.index = 0
@@ -2393,7 +2551,7 @@ class PathHistory(object):
         self.index = 0
 
 
-class Execute(object):
+class Execute:
     """Execute external commands and handle its output.
 
     Args:
@@ -2572,183 +2730,3 @@ class Execute(object):
         if self.pausable and self.currentProc:
             logger.info(f'Kill process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.kill()
-
-
-class Daemon:
-    """A generic daemon class.
-
-    Usage: subclass the Daemon class and override the run() method
-
-    Daemon Copyright by Sander Marechal
-    License CC BY-SA 3.0
-    http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
-    """
-    def __init__(self,
-                 pidfile=None,
-                 stdin='/dev/null',
-                 stdout='/dev/stdout',
-                 stderr='/dev/null',
-                 umask = 0o022):
-        self.stdin = stdin
-        self.stdout = stdout
-        self.stderr = stderr
-        self.pidfile = pidfile
-        self.umask = umask
-        if pidfile:
-            self.appInstance = ApplicationInstance(pidfile, autoExit = False, flock = False)
-
-    def daemonize(self):
-        """
-        "Converts" the current process into a daemon
-        (= process running in the background)
-        and sends a SIGTERM signal to the current process.
-        This is done via the UNIX double-fork magic, see Stevens'
-        "Advanced Programming in the UNIX Environment" for details (ISBN 0201563177)
-        and this explanation: https://stackoverflow.com/a/6011298
-        """
-        try:
-            pid = os.fork()
-            logger.debug('first fork pid: {}'.format(pid), self)
-            if pid > 0:
-                # exit first parent
-                sys.exit(0)
-
-        except OSError as e:
-            logger.error("fork #1 failed: %d (%s)" % (e.errno, str(e)), self)
-            sys.exit(1)
-
-        # decouple from parent environment
-        logger.debug('decouple from parent environment', self)
-        os.chdir("/")
-        os.setsid()
-        os.umask(self.umask)
-
-        # do second fork
-        try:
-            pid = os.fork()
-            logger.debug('second fork pid: {}'.format(pid), self)
-            if pid > 0:
-                # exit from second parent
-                sys.exit(0)
-
-        except OSError as e:
-            logger.error("fork #2 failed: %d (%s)" % (e.errno, str(e)), self)
-            sys.exit(1)
-
-        # redirect standard file descriptors
-        logger.debug('redirect standard file descriptors', self)
-
-        sys.stdout.flush()
-        sys.stderr.flush()
-        fdDup(self.stdin, sys.stdin, 'r')
-        fdDup(self.stdout, sys.stdout, 'w')
-        fdDup(self.stderr, sys.stderr, 'w')
-
-        signal.signal(signal.SIGTERM, self.cleanupHandler)
-
-        if self.pidfile:
-            atexit.register(self.appInstance.exitApplication)
-            # write pidfile
-            logger.debug('write pidfile', self)
-            self.appInstance.startApplication()
-
-    def cleanupHandler(self, signum, frame):
-        if self.pidfile:
-            self.appInstance.exitApplication()
-        sys.exit(0)
-
-    def start(self):
-        """
-        Start the daemon
-        """
-        # Check for a pidfile to see if the daemon already runs
-        if self.pidfile and not self.appInstance.check():
-            logger.error(f'pidfile {self.pidfile} already exists. '
-                         'Daemon already running?\n', self)
-            sys.exit(1)
-
-        # Start the daemon
-        self.daemonize()
-        self.run()
-
-    def stop(self):
-        """
-        Stop the daemon
-        """
-        if not self.pidfile:
-            logger.debug("Unattended daemon can't be stopped. No PID file", self)
-            return
-
-        # Get the pid from the pidfile
-        pid = self.appInstance.readPidFile()[0]
-
-        if not pid:
-            message = "pidfile %s does not exist. Daemon not running?\n"
-            logger.error(message % self.pidfile, self)
-            return  # not an error in a restart
-
-        # Try killing the daemon process
-        try:
-            while True:
-                os.kill(pid, signal.SIGTERM)
-                sleep(0.1)
-
-        except OSError as err:
-            if err.errno == errno.ESRCH:
-                # No such process
-                self.appInstance.exitApplication()
-            else:
-                logger.error(str(err), self)
-                sys.exit(1)
-
-    def restart(self):
-        """Restart the daemon
-        """
-        self.stop()
-        self.start()
-
-    def reload(self):
-        """send SIGHUP signal to process
-        """
-        if not self.pidfile:
-            logger.debug(
-                "Unattended daemon can't be reloaded. No PID file", self)
-            return
-
-        # Get the pid from the pidfile
-        pid = self.appInstance.readPidFile()[0]
-
-        if not pid:
-            logger.error(f'pidfile {self.pidfile} does not exist. '
-                         'Daemon not running?\n', self)
-            return
-
-        # Try killing the daemon process
-        try:
-            os.kill(pid, signal.SIGHUP)
-
-        except OSError as err:
-
-            if err.errno == errno.ESRCH:
-                # no such process
-                self.appInstance.exitApplication()
-
-            else:
-                sys.stderr.write(str(err))
-                sys.exit(1)
-
-    def status(self):
-        """return status
-        """
-        if not self.pidfile:
-            logger.debug(
-                "Unattended daemon can't be checked. No PID file", self)
-            return
-
-        return not self.appInstance.check()
-
-    def run(self):
-        """Override this method when subclass ``Daemon``. It will be called
-        after the process has been daemonized by ``start()`` or ``restart()``.
-        """
-        pass

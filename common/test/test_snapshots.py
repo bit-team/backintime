@@ -14,13 +14,11 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
 import os
 import sys
 import pathlib
 import shutil
 import stat
-import pwd
 import grp
 import re
 import random
@@ -30,6 +28,7 @@ from unittest.mock import patch
 from datetime import date, datetime
 from tempfile import TemporaryDirectory
 from test import generic
+from test.constants import CURRENTUSER, CURRENTGROUP, CURRENTGID, CURRENTUID
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
@@ -38,11 +37,6 @@ import snapshots
 import tools
 import mount
 
-CURRENTUID = os.geteuid()
-CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
-
-CURRENTGID = os.getegid()
-CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
 
 # all groups the current user is member in
 GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
@@ -716,9 +710,9 @@ class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
 
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TestSshSnapshots(generic.SSHTestCase):
+class SshSnapshots(generic.SSHTestCase):
     def setUp(self):
-        super(TestSshSnapshots, self).setUp()
+        super().setUp()
         self.sn = snapshots.Snapshots(self.cfg)
         os.makedirs(self.remoteFullPath)
 
@@ -986,7 +980,7 @@ def _init_mounting(cfg):
 
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TestSshPermissions(unittest.TestCase):
+class SshPermissions(unittest.TestCase):
     """Testing to backup the file permissions in a "SSH local"
     snapshot profile.
     """
@@ -1053,7 +1047,7 @@ class TestSshPermissions(unittest.TestCase):
 
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TestSshRemoveSnapshots(unittest.TestCase):
+class SshRemoveSnapshots(unittest.TestCase):
     """Testing to remove snapshots(SID) in a "SSH local" snapshot profile.
     """
 
