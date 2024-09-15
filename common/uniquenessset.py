@@ -29,6 +29,7 @@ class UniquenessSet:
     recommendation is to move that code/feature into 'qt' into or near the
     `SnapshotsDialog` class.
     """
+
     def __init__(self, deep_check=False, follow_symlink=False, equal_to=''):
         """
         Args:
@@ -90,6 +91,11 @@ class UniquenessSet:
         """Check file ``path`` for uniqueness and store a unique key for
         ``path``.
 
+        This check is perfomed if `equal_to` is empty. By default (``deep_check
+        is False``) the uniqueness is based on file size and mtime. If
+        ``deep_check is True`` the uniqueness is based on inode number and the
+        files size (or md5sum).
+
         Args:
             path (str): Full path to file.
 
@@ -98,18 +104,18 @@ class UniquenessSet:
 
         """
         logger.debug(f'{path=}')
-        # check
-        if self.deep_check:
-            dum = os.stat(path)
-            size, inode  = dum.st_size, dum.st_ino
 
-            # is it a hlink ?
+        if self.deep_check:
+            stat = os.stat(path)
+            size, inode = stat.st_size, stat.st_ino
+
+            # Hardlink?
             if (size, inode) in self._size_inode:
                 logger.debug(
                     "[deep test]: skip, it's a duplicate (size, inode)", self)
                 return False
 
-            self._size_inode.add((size,inode))
+            self._size_inode.add((size, inode))
 
             if size not in self._uniq_dict:
                 # first item of that size
@@ -121,8 +127,9 @@ class UniquenessSet:
                 if prev:
                     # store md5sum instead of previously stored size
                     md5sum_prev = md5sum(prev)
-                    self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev
+                    # remove the entry with that size
+                    self._uniq_dict[size] = None
                     logger.debug(
                         "[deep test]: size duplicate, remove the size, store "
                         "prev md5sum", self)
@@ -131,7 +138,7 @@ class UniquenessSet:
 
         else:
             # store a tuple of (size, modification time)
-            obj  = os.stat(path)
+            obj = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
 
         # store if not already present, then return True

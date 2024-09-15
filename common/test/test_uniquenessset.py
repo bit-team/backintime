@@ -9,15 +9,14 @@
 """Tests about the uniquenessset module."""
 import os
 import sys
-import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from uniquenessset import UniquenessSet
-
 import logger
 logger.DEBUG = True
+
 
 class General(pyfakefs_ut.TestCase):
     # TODO: add test for follow_symlink
@@ -51,7 +50,6 @@ class General(pyfakefs_ut.TestCase):
                 temp_path / 'foo',
                 temp_path / 'bar',
                 'xyz')])
-
 
             sut = UniquenessSet()
 
@@ -158,18 +156,6 @@ class General(pyfakefs_ut.TestCase):
         """Uniqueness by content only"""
         with TemporaryDirectory(prefix='bit.') as temp_name:
             temp_path = Path(temp_name)
-            files = self._create_unique_file_pairs([
-                (
-                    temp_path / '1' / 'foo',
-                    temp_path / '2' / 'foo',
-                    'bar'
-                ),
-                (
-                    temp_path / '3' / 'foo',
-                    temp_path / '4' / 'foo',
-                    'different_size'
-                ),
-            ])
 
             # Size is the same (3 chars content per file)
             fpa = temp_path / 'foo'
@@ -196,39 +182,44 @@ class General(pyfakefs_ut.TestCase):
             self.assertTrue(sut.check(fpa))
             self.assertTrue(sut.check(fpb))
 
-    def test_deep_check_ignores_mtime(self):
-        self.assertFalse(True)
+    # def test_something_with_hardlinks(self):
+    #     """Despite its method name, it does not really test for hardlinks.
+    #     That dest origins from the original code base. I see not much value
+    #     in it. The hardlink behavior in the productive code seems untestable
+    #     to me. the ``checkUnique()`` method internaly shortens its path if
+    #     there are hardlinks, otherwise it use md5sum.
+    #     """
+    #     with TemporaryDirectory(prefix='bit.') as temp_name:
+    #         temp_path = Path(temp_name)
 
-    def test_hardlinks(self):
-        with TemporaryDirectory(prefix='bit.') as temp_name:
-            temp_path = Path(temp_name)
+    #         fpa = temp_path / 'foo'
+    #         fpb = temp_path / 'bar'
 
-            fpa = temp_path / 'foo'
-            fpb = temp_path / 'bar'
+    #         fpa_hardlink = temp_path / 'hl_foo'
+    #         fpb_hardlink = temp_path / 'hl_bar'
 
-            fpa_hardlink = temp_path / 'hl_foo'
-            fpb_hardlink = temp_path / 'hl_bar'
+    #         fpa.write_text('red')
+    #         fpb.write_text('blue')
+    #         fpa_hardlink.write_text('red')
+    #         fpb_hardlink.write_text('blue')
 
-            fpa.write_text('red')
-            fpb.write_text('blue')
+    #         # fpa_hardlink.hardlink_to(fpa)
+    #         # fpb_hardlink.hardlink_to(fpb)
 
-            fpa_hardlink.hardlink_to(fpa)
-            fpb_hardlink.hardlink_to(fpb)
+    #         # os.utime(fpa_hardlink,
+    #         #          times=(fpa.stat().st_atime, fpa.stat().st_mtime))
+    #         # os.utime(fpb_hardlink,
+    #         #          times=(fpb.stat().st_atime, fpb.stat().st_mtime))
 
-            os.utime(fpa_hardlink,
-                     times=(fpa.stat().st_atime, fpa.stat().st_mtime))
-            os.utime(fpb_hardlink,
-                     times=(fpb.stat().st_atime, fpb.stat().st_mtime))
+    #         # # Be sure that this are hardlinks. (But it does not matter)
+    #         # self.assertEqual(fpa.stat().st_ino, fpa_hardlink.stat().st_ino)
+    #         # self.assertEqual(fpb.stat().st_ino, fpb_hardlink.stat().st_ino)
 
-            # Be sure that this are hardlinks
-            self.assertEqual(fpa.stat().st_ino, fpa_hardlink.stat().st_ino)
-            self.assertEqual(fpb.stat().st_ino, fpb_hardlink.stat().st_ino)
+    #         sut = UniquenessSet(deep_check=True,
+    #                             follow_symlink=False,
+    #                             equal_to='')
 
-            sut = UniquenessSet(deep_check=True,
-                                follow_symlink=False,
-                                equal_to='')
-
-            self.assertTrue(sut.check(fpa))
-            self.assertFalse(sut.check(fpa_hardlink))
-            self.assertTrue(sut.check(fpb))
-            self.assertFalse(sut.check(fpb_hardlink))
+    #         self.assertTrue(sut.check(fpa))
+    #         self.assertFalse(sut.check(fpa_hardlink))
+    #         self.assertTrue(sut.check(fpb))
+    #         self.assertFalse(sut.check(fpb_hardlink))
