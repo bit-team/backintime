@@ -91,10 +91,10 @@ class UniquenessSet:
         """Check file ``path`` for uniqueness and store a unique key for
         ``path``.
 
-        This check is perfomed if `equal_to` is empty. By default (``deep_check
-        is False``) the uniqueness is based on file size and mtime. If
-        ``deep_check is True`` the uniqueness is based on inode number and the
-        files size (or md5sum).
+        This check is performed if `equal_to` is empty. By default
+        (``deep_check is False``) the uniqueness is based on file size and
+        mtime. If ``deep_check is True`` the uniqueness is based on inode
+        number and the files size (or md5sum).
 
         Args:
             path (str): Full path to file.

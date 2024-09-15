@@ -70,7 +70,7 @@ class General(pyfakefs_ut.TestCase):
                                 equal_to='')
 
             with self.assertRaises(AttributeError):
-                # Explicite equal-check not possible because 'equal_to' is
+                # Explicit equal-check not possible because 'equal_to' is
                 # empty.
                 sut.checkEqual(fp)
 
@@ -94,7 +94,7 @@ class General(pyfakefs_ut.TestCase):
             self.assertFalse(sut.check(fp))
 
     def test_size_mtime(self):
-        """Uniquness by size and mtime"""
+        """Uniqueness by size and mtime"""
         with TemporaryDirectory(prefix='bit.') as temp_name:
             temp_path = Path(temp_name)
             files = self._create_unique_file_pairs([
@@ -186,7 +186,7 @@ class General(pyfakefs_ut.TestCase):
     #     """Despite its method name, it does not really test for hardlinks.
     #     That dest origins from the original code base. I see not much value
     #     in it. The hardlink behavior in the productive code seems untestable
-    #     to me. the ``checkUnique()`` method internaly shortens its path if
+    #     to me. the ``checkUnique()`` method internally shortens its path if
     #     there are hardlinks, otherwise it use md5sum.
     #     """
     #     with TemporaryDirectory(prefix='bit.') as temp_name:
