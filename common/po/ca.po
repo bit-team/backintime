@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-22 21:49+0200\n"
-"PO-Revision-Date: 2024-07-22 12:37+0000\n"
+"PO-Revision-Date: 2024-08-28 08:20+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
 "Language: ca\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
@@ -133,7 +133,7 @@ msgid "Expert Options"
 msgstr "Opcions avançades"
 
 #: common/config.py:501
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
@@ -355,7 +355,6 @@ msgid "Can't rename {new_path} to {path}"
 msgstr "No es pot canviar el nom de {new_path} a {path}"
 
 #: common/snapshots.py:1828 common/snapshots.py:1880
-#, fuzzy
 msgid "Smart removal"
 msgstr "Esborrat intel·ligent"
 
@@ -435,14 +434,14 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "L'amfitrió remot {host} no admet hardlinks"
 
 #: common/sshtools.py:1164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Copieu la clau ssh pública \"{pubkey}\" al servidor remot \"{host}\""
+msgstr "Copieu la clau ssh pública \"{pubkey}\" al servidor remot \"{host}\"."
 
 #: common/sshtools.py:1166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Confirmeu la contrasenya per \"{user}\""
+msgstr "Confirmeu la contrasenya per \"{user}\"."
 
 #: qt/aboutdlg.py:44 qt/app.py:572
 msgid "About"
@@ -498,16 +497,12 @@ msgstr ""
 "seguretat o d'un altre ordinador)?"
 
 #: qt/app.py:375
-#, fuzzy
 msgid "Can't find snapshots folder."
-msgstr "No es pot crear la carpeta"
+msgstr "No es pot crear la carpeta."
 
 #: qt/app.py:376
-#, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr ""
-"No es pot trobar la carpeta d'instantànies.\n"
-"Si es troba en una unitat extraïble, connecteu-la i premeu OK."
+msgstr "Si es troba en una unitat extraïble, connecteu-la i premeu OK."
 
 #: qt/app.py:481
 msgid "Take a snapshot"
@@ -695,9 +690,8 @@ msgstr ""
 "De debò vols tancar?"
 
 #: qt/app.py:821
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Segur que voleu restaurar aquest element?"
+msgstr "Segur que vols tancar-ho?"
 
 #: qt/app.py:987
 msgid "Working:"
@@ -763,14 +757,15 @@ msgstr ""
 "sobreescriure o esborrar fitxers locals."
 
 #: qt/app.py:1416
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
-"Les versions més noves dels fitxers es canviaran de nom amb el final {suffix} abans de restaurar.\n"
-"Si ja no els necessiteu, podeu eliminar-los amb {cmd}"
+"Les versions més noves dels fitxers es canviaran de nom amb el final "
+"{suffix} abans de restaurar. Si ja no els necessiteu, podeu eliminar-los amb"
+" la següent comanda:"
 
 #: qt/app.py:1432
 msgid ""
@@ -833,13 +828,13 @@ msgstr ""
 "original?"
 
 #: qt/app.py:1514
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"AVÍS: Esborrar fitxers a l'arrel del sistema de fitxers podria trencar tot "
-"el sistema!"
+"{BOLD}AVÍS:{BOLDEND} Esborrar fitxers a l'arrel del sistema de fitxers "
+"podria trencar tot el sistema."
 
 #: qt/app.py:1750
 msgid "Snapshot"
@@ -979,14 +974,12 @@ msgid "Profile:"
 msgstr "Perfil:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Snapshots:"
-msgstr "Instantànies"
+msgstr "Instantànies:"
 
 #: qt/logviewdialog.py:99
-#, fuzzy
 msgid "Filter:"
-msgstr "Filtre"
+msgstr "Filtre:"
 
 #: qt/logviewdialog.py:105 qt/settingsdialog.py:921
 msgid "All"
@@ -1002,11 +995,10 @@ msgid "Errors"
 msgstr "Errors"
 
 #: qt/logviewdialog.py:115 qt/messagebox.py:71
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Informació"
-msgstr[1] "Informació"
+msgstr[1] "Informacions"
 
 #: qt/logviewdialog.py:117
 msgid "rsync transfer failures (experimental)"
@@ -1136,9 +1128,8 @@ msgid "&General"
 msgstr "&General"
 
 #: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-#, fuzzy
 msgid "Mode:"
-msgstr "Mode"
+msgstr "Mode:"
 
 #: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
 msgid "Where to save snapshots"
@@ -1169,13 +1160,12 @@ msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr "Trieu un fitxer de clau privada existent (normalment anomenat \"id_rsa\")"
 
 #: qt/settingsdialog.py:323
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
 "Crea una clau SSH nova sense contrasenya (no es permet si ja hi ha "
-"seleccionat un fitxer de clau privada)"
+"seleccionat un fitxer de clau privada)."
 
 #: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
 msgid "Password"
@@ -1219,15 +1209,15 @@ msgstr[0] "Cada {n} minut"
 msgstr[1] "Cada {n} minuts"
 
 #: qt/settingsdialog.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Cada hora"
-msgstr[1] "Cada hora"
+msgstr[1] "Cada {n} hores"
 
 #: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
 #: qt/settingsdialog.py:456
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Cada {n} hora"
@@ -1377,9 +1367,9 @@ msgid "Exclude files bigger than:"
 msgstr "Exclou els fitxers més grans que:"
 
 #: qt/settingsdialog.py:698
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Exclou els fitxers més grans que: "
+msgstr "Exclou els fitxers més grans que {size_unit}."
 
 #: qt/settingsdialog.py:700
 #, fuzzy
@@ -1400,26 +1390,22 @@ msgid "&Auto-remove"
 msgstr "Eliminació &automàtica"
 
 #: qt/settingsdialog.py:726
-#, fuzzy
 msgid "Older than:"
-msgstr "Més antics que"
+msgstr "Més antics que:"
 
 #: qt/settingsdialog.py:740
 msgid "Year(s)"
 msgstr "Any(s)"
 
 #: qt/settingsdialog.py:748
-#, fuzzy
 msgid "If free space is less than:"
-msgstr "Si l'espai lliure és inferior a"
+msgstr "Si l'espai lliure és inferior a:"
 
 #: qt/settingsdialog.py:768
-#, fuzzy
 msgid "If free inodes is less than:"
-msgstr "Si els inodes lliures són inferiors a"
+msgstr "Si els inodes lliures són inferiors a:"
 
 #: qt/settingsdialog.py:782
-#, fuzzy
 msgid "Smart removal:"
 msgstr "Esborrat intel·ligent:"
 
@@ -1524,9 +1510,8 @@ msgid "Take a new snapshot whether there were changes or not."
 msgstr "Preneu una nova instantània tant si hi ha canvis com si no."
 
 #: qt/settingsdialog.py:906
-#, fuzzy
 msgid "Log Level:"
-msgstr "Nivell de registre"
+msgstr "Nivell de registre:"
 
 #: qt/settingsdialog.py:911
 msgid "None"
@@ -1593,9 +1578,8 @@ msgstr ""
 "cronjobs si hi ha instal·lat un MTA."
 
 #: qt/settingsdialog.py:1024
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Limita l'ús de l'amplada de banda 'rsync'"
+msgstr "Limita l'ús de l'amplada de banda 'rsync':"
 
 #: qt/settingsdialog.py:1027
 msgid "KB/sec"
@@ -1635,18 +1619,14 @@ msgid "Prefix to run before every command on remote host."
 msgstr "Prefix per executar-se abans de cada comanda a l'amfitrió remot."
 
 #: qt/settingsdialog.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"Prefix per a executar abans de cada ordre en una màquina remota.\n"
-"Les variables s'han d'escapar amb \"\\$FOO\".\n"
-"Això no toca el rsync. Per afegir un prefix\n"
-"per al rsync utilitzeu \"%(cbRsyncOptions)s\" amb\n"
-"%(rsync_options_value)s\n"
-"\n"
-"%(default)s: %(def_value)s"
+"Les variables s'han d'escapar amb \"\\$FOO\". Això no toca el rsync. Per "
+"afegir un prefix per al rsync utilitzeu \"{example_value}\" amb "
+"{rsync_options_value}."
 
 #: qt/settingsdialog.py:1196
 msgid "default"
@@ -1667,9 +1647,8 @@ msgstr ""
 "errors estranys."
 
 #: qt/settingsdialog.py:1218
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "Comprova si l'amfitrió remot admet totes les ordres necessàries"
+msgstr "Comprova si l'amfitrió remot admet totes les ordres necessàries."
 
 #: qt/settingsdialog.py:1221
 #, fuzzy
@@ -1725,9 +1704,9 @@ msgstr ""
 "incloses.)"
 
 #: qt/settingsdialog.py:1427
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Molt recomanat"
+msgstr "{BOLD}Molt recomanat{ENDBOLD}:{files}"
 
 #: qt/settingsdialog.py:1634
 msgid ""
@@ -1764,12 +1743,9 @@ msgstr ""
 "màquina remota per a habilitar l'inici de sessió sense contrasenya?"
 
 #: qt/settingsdialog.py:1878
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"No es pot establir l'autenticitat de l'amfitrió {host}.\n"
-"\n"
-"L'empremta digital de la clau {keytype} és:"
+msgstr "No es pot establir l'autenticitat de l'amfitrió {host}."
 
 #: qt/settingsdialog.py:1881
 #, python-brace-format
@@ -1777,7 +1753,6 @@ msgid "{keytype} key fingerprint is:"
 msgstr "L'empremta digital de la clau {keytype} és:"
 
 #: qt/settingsdialog.py:1889
-#, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1819,9 +1794,9 @@ msgid "Are you sure you want to change snapshots folder?"
 msgstr "Segur que voleu canviar la carpeta d'instantànies?"
 
 #: qt/settingsdialog.py:2194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "No s'ha pogut crear una clau SSH nova a {path}"
+msgstr "No s'ha pogut crear una clau SSH nova a {path}."
 
 #: qt/settingsdialog.py:2310
 msgid ""
@@ -1831,9 +1806,8 @@ msgstr ""
 "encriptat\"."
 
 #: qt/settingsdialog.py:2369
-#, fuzzy
 msgid "(default: {})"
-msgstr "per defecte"
+msgstr "(per defecte: {})"
 
 #: qt/settingsdialog.py:2370
 msgid "disabled"
@@ -1877,14 +1851,12 @@ msgid "Options about comparing snapshots"
 msgstr "Opcions de comparació de les instantànies"
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Command:"
-msgstr "Ordre"
+msgstr "Ordre:"
 
 #: qt/snapshotsdialog.py:62
-#, fuzzy
 msgid "Parameters:"
-msgstr "Paràmetres"
+msgstr "Paràmetres:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
@@ -1915,9 +1887,8 @@ msgid "Differing snapshots only"
 msgstr "Només captures diferents"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Llista només les instantànies iguals a: "
+msgstr "Llista només les instantànies iguals a:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

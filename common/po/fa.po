@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-07-22 21:49+0200\n"
-"PO-Revision-Date: 2024-07-30 08:15+0000\n"
-"Last-Translator: Arash Pourhabibi <neo-apz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-08-09 20:03+0000\n"
+"Last-Translator: thehappypotato <thehappypotato@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -238,7 +238,7 @@ msgstr "مونت‌پوینت ‮{mntpoint} خالی نیست."
 #: common/password.py:269
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "برای پروفایل {mode} {profile} رمز وارد کنید"
 
 #: common/snapshots.py:363 common/snapshots.py:614
 msgid "FAILED"
@@ -488,6 +488,7 @@ msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
+"یک تنظیمات وارد کنید (از یک پوشه ی پشتیبان گیری یا از یک رایانه ای دیگر)؟"
 
 #: qt/app.py:375
 msgid "Can't find snapshots folder."
@@ -606,12 +607,11 @@ msgstr "دوباره پیام درمورد مشارکت در ترجمه را ن�
 
 #: qt/app.py:568
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "تبدیل رمزگذاری (EncFS)"
 
 #: qt/app.py:570
-#, fuzzy
 msgid "Shows the message about EncFS removal again."
-msgstr "دوباره پیام در مورد EncFS removal را نشان می‌دهد."
+msgstr "دوباره پیام در مورد پاک شدن EncFS نشان می‌دهد."
 
 #: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -658,7 +658,7 @@ msgstr "مقایسه اسنپ‌شات‌ها…"
 
 #: qt/app.py:660
 msgid "Back In &Time"
-msgstr ""
+msgstr "برگشت در زمان"
 
 #: qt/app.py:665
 msgid "&Backup"
@@ -673,13 +673,12 @@ msgid "&Help"
 msgstr "&کمک"
 
 #: qt/app.py:818
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"اگر شما این پنجره را ببندید، Back In Time دیگر قادر نیست که رایانه شما را بعد از تمام شدن اسنپ‌شات خاموش کند.\n"
-"می‌خواهید واقعاً ببندید؟"
+"اگر شما این پنجره را ببندید، Back In Time دیگر قادر نیست که رایانه شما را "
+"بعد از تمام شدن اسنپ‌شات خاموش کند."
 
 #: qt/app.py:821
 msgid "Do you really want to close it?"
@@ -888,6 +887,10 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"یک تصمیم در مورد جایگزین کردن برای ادامه ی پشتیبانی پشتیبان گیری رمزگذاری "
+"شده در حال ارسال است, بسته به منابع پروژه و موجود بودن مشارکت کننده ها, "
+"کاربر ها به عضو شدن به گفتگو دعوت شده اند. جزئیات به روز شده مربوط به گام "
+"بعد در این {whitepaper} موجود هستند."
 
 #: qt/encfsmsgbox.py:85
 #, fuzzy
@@ -900,7 +903,7 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:87
 msgid "Your Back In Time Team"
-msgstr ""
+msgstr "از طرف تیم برگشت در زمان"
 
 #: qt/languagedialog.py:30
 msgid "Setup language"
