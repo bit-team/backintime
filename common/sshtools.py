@@ -429,14 +429,14 @@ class SSH(MountControl):
                 if proc.returncode > 0:
                     pw = password.Password()
 
-                    # TODO: Figure out correct way to get pw_id
-                    pw_id = 1
-
+                    # pw_id = 1 corresponds to the SSH password
+                    # (as opposed to the encryption password)
+                    # See qt/settingsdialog.py:SettingsDialog.updateProfile()
                     pw.password(
                         None,
                         self.profile_id,
                         self.mode,
-                        pw_id=pw_id,
+                        pw_id=1,
                         refresh=True,
                     )
 
