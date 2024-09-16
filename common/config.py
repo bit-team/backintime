@@ -1457,8 +1457,6 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         return True if time is older than months, weeks, days or hours
         """
-        assert isinstance(time, datetime.datetime), 'time is not datetime.datetime type: %s' % time
-
         now = datetime.datetime.now()
 
         if unit <= self.HOUR:

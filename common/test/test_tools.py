@@ -855,3 +855,5 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
                 copy_links=self.cfg.copyLinks(),
                 error_handler=self.cfg.notifyError)
             self.assertTrue(ret)
+
+
