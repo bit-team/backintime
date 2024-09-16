@@ -25,9 +25,10 @@ import locale
 import gettext
 import hashlib
 import ipaddress
-from datetime import datetime
+from datetime import datetime, timedelta
 from packaging.version import Version
 from typing import Union
+from bitbase import TimeUnit
 import logger
 
 # Try to import keyring
@@ -699,6 +700,45 @@ def readFileLines(path, default = None):
         pass
 
     return ret_val
+
+
+def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
+    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
+    hours compared to the current time (`datetime.now()`).
+
+    The resolution used is on microseconds level. The banker's definiton for
+    months (30 days) is used.
+
+    Args:
+        dt: Timestamp to be compared with on microsecond level.
+        value: Number of units.
+        unit: Specifiy to treat ``value`` as hours, days, weeks or months.
+
+    Return:
+        ``True`` if older, otherwise ``False``.
+    """
+    now = datetime.now()
+
+    if unit is TimeUnit.HOUR:
+        return dt < now - timedelta(hours=value)
+
+    if unit is TimeUnit.DAY:
+        return dt < now - timedelta(days=value)
+
+    if unit is TimeUnit.WEEK:
+        return dt < now - timedelta(weeks=value)
+
+    if unit is TimeUnit.MONTH:
+        # Using the (easy) bankers definition (30 days a month) Keep in mind
+        # that Anacron/Cron/Fcron don't even offer "each n month" feature like
+        # BIT does.
+        return dt < now - timedelta(days=(value*30))
+
+    # Dev note (buhtz, 2024-09): This code branch already existed in the
+    # original code. Even if it may seem (nearly) pointless, it will be kept
+    # for now to ensure that it is never executed.
+    raise RuntimeException(f'Unexpected situation. {dt=} {value=} {unit=} '
+                           'Please report it via a bug ticket.')
 
 
 def checkCommand(cmd):

@@ -11,11 +11,8 @@ import os
 import sys
 import unittest
 import getpass
-from unittest.mock import patch
-import datetime
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import config
 
 
 class TestSshCommand(generic.SSHTestCase):
@@ -223,65 +220,3 @@ class TestSshCommand(generic.SSHTestCase):
             ]
         )
 
-@patch(f'{config.__name__}.datetime.datetime', wraps=datetime.datetime)
-class OlderThan(unittest.TestCase):
-    HOUR = config.Config.HOUR
-    DAY = config.Config.DAY
-    WEEK = config.Config.WEEK
-    MONTH = config.Config.MONTH
-
-    def test_hours_not_older(self, mock_dt):
-        """Exact two hours"""
-        # year, month, day, hour=0, minute=0, second=0, microsecond=0
-        birth = datetime.datetime(1982, 8, 6, 18, 23, 0, 0)
-
-        # exact two hours
-        mock_dt.now.return_value = datetime.datetime(1982, 8, 6, 20, 23, 0, 0)
-
-        cfg = config.Config()
-        self.assertFalse(cfg.olderThan(birth, 2, self.HOUR))
-
-    def test_hours_older(self, mock_dt):
-        """Two hours plus one ms"""
-        birth = datetime.datetime(1982, 8, 6, 18, 23, 0, 0)
-
-        # two hours + 1 ms
-        mock_dt.now.return_value = datetime.datetime(1982, 8, 6, 20, 23, 0, 1)
-
-        cfg = config.Config()
-        self.assertTrue(cfg.olderThan(birth, 2, self.HOUR))
-
-    def test_days_INCONSISTENT(self, mock_dt):
-        """Two days
-
-        The behavior is inconsistent compared to the HOUR behavior. 8th
-        August 00:00 is less then two days (48 hours), but treated as "older
-        then 2 days". Hours and minutes not relevant.
-        """
-        birth = datetime.datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime.datetime(1982, 8, 8, 0, 0, 0, 0)
-
-        cfg = config.Config()
-        self.assertTrue(cfg.olderThan(birth, 2, self.DAY))
-
-    def test_week_INCONSISTENT(self, mock_dt):
-        """Two weeks
-
-        Same as in DAYS. Minutes, Seconds, Days not considered.
-        """
-        birth = datetime.datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime.datetime(1982, 8, 20, 18, 23, 0, 0)
-
-        cfg = config.Config()
-        self.assertTrue(cfg.olderThan(birth, 2, self.WEEK))
-
-    def test_month_INCONSISTENT(self, mock_dt):
-        """Two months.
-
-        Same as in DAYS. Minutes, Seconds, Days not considered.
-        """
-        birth = datetime.datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime.datetime(1982, 10, 6, 18, 23, 0, 0)
-
-        cfg = config.Config()
-        self.assertTrue(cfg.olderThan(birth, 2, self.MONTH))

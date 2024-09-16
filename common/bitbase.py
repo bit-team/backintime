@@ -7,6 +7,14 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Basic constants used in multiple modules."""
 
+from enum import Enum
+
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
+
+class TimeUnit(Enum):
+    HOUR = 10
+    DAY = 20
+    WEEK = 30
+    MONTH = 40
