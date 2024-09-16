@@ -712,7 +712,7 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     Args:
         dt: Timestamp to be compared with on microsecond level.
         value: Number of units.
-        unit: Specifiy to treat ``value`` as hours, days, weeks or months.
+        unit: Specify to treat ``value`` as hours, days, weeks or months.
 
     Return:
         ``True`` if older, otherwise ``False``.
@@ -748,10 +748,11 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
         return now < compare_dt
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
-    # original code. Even if it may seem (nearly) pointless, it will be kept
-    # for now to ensure that it is never executed.
+    # original code (but silent, without throwing an exception). Even if it may
+    # seem (nearly) pointless, it will be kept for now to ensure that it is
+    # never executed.
     raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
-                      'Please report it via a bug ticket.')
+                       'Please report it via a bug ticket.')
 
 
 def checkCommand(cmd):
