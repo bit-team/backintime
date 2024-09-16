@@ -916,13 +916,41 @@ class OlderThan(unittest.TestCase):
     def test_month_not_older(self, mock_dt):
         """Two months."""
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = birth + timedelta(days=60)
+        mock_dt.now.return_value = datetime(1982, 10, 6, 18, 23, 0, 0)
 
         self.assertFalse(tools.older_than(birth, 2, TimeUnit.MONTH))
 
     def test_month_older(self, mock_dt):
         """Two months plus one ms."""
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = birth + timedelta(days=60, microseconds=1)
+        mock_dt.now.return_value = datetime(1982, 10, 6, 18, 23, 0, 1)
 
         self.assertTrue(tools.older_than(birth, 2, TimeUnit.MONTH))
+
+    def test_month_31th(self, mock_dt):
+        """From May with 31th as last day to September with 30th as last day."""
+        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 4, TimeUnit.MONTH))
+
+    def test_month_31th_plus_ms(self, mock_dt):
+        """Plus one ms"""
+        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 4, TimeUnit.MONTH))
+
+    def test_month_next_year(self, mock_dt):
+        """Into next year with 7 months."""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 7, TimeUnit.MONTH))
+
+    def test_month_next_year_plus_ms(self, mock_dt):
+        """Into next year with 7 months plus 1 ms."""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 7, TimeUnit.MONTH))

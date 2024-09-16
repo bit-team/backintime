@@ -706,8 +706,8 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
     hours compared to the current time (`datetime.now()`).
 
-    The resolution used is on microseconds level. The banker's definiton for
-    months (30 days) is used.
+    The resolution used is on microseconds level. Months are calculated based
+    on calendar.
 
     Args:
         dt: Timestamp to be compared with on microsecond level.
@@ -729,16 +729,26 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
         return dt < now - timedelta(weeks=value)
 
     if unit is TimeUnit.MONTH:
-        # Using the (easy) bankers definition (30 days a month) Keep in mind
-        # that Anacron/Cron/Fcron don't even offer "each n month" feature like
-        # BIT does.
-        return dt < now - timedelta(days=(value*30))
+        # Calculate months based on calendar because timedelta do not support
+        # months.
+        compare_month = (dt.month + value - 1) % 12 + 1
+        compare_year = dt.year + (dt.month + value - 1) // 12
+        # make sure that day exist in the month
+        last_day_dt \
+            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
+        compare_day = min(dt.day, last_day_dt.day)
+
+        compare_dt = datetime(
+            compare_year, compare_month, compare_day,
+            now.hour, now.minute, now.microsecond)
+
+        return now < compare_dt
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
     # original code. Even if it may seem (nearly) pointless, it will be kept
     # for now to ensure that it is never executed.
-    raise RuntimeException(f'Unexpected situation. {dt=} {value=} {unit=} '
-                           'Please report it via a bug ticket.')
+    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
+                      'Please report it via a bug ticket.')
 
 
 def checkCommand(cmd):
