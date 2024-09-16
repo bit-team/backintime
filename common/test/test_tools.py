@@ -20,7 +20,7 @@ import gzip
 import stat
 import signal
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime
 from time import sleep
 from unittest.mock import patch
 from copy import deepcopy

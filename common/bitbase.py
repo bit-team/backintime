@@ -15,8 +15,9 @@ URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
 
 
 class TimeUnit(Enum):
-    WEITER HIER ----
-    HOUR = 10
-    DAY = 20
-    WEEK = 30
-    MONTH = 40
+    """Describe time units used in context of scheduling.
+    """
+    HOUR = 10  # Config.HOUR
+    DAY = 20  # Config.DAY
+    WEEK = 30  # Config.WEEK
+    MONTH = 40  # Config.MONTH

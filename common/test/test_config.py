@@ -9,7 +9,6 @@
 """
 import os
 import sys
-import unittest
 import getpass
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -219,4 +218,3 @@ class TestSshCommand(generic.SSHTestCase):
                 '-o', f'IdentityFile={generic.PRIV_KEY_FILE}',
             ]
         )
-
