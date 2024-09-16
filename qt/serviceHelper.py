@@ -15,7 +15,7 @@
 # - <https://spdx.org/licenses/MIT.html>
 # - <https://spdx.org/licenses/CC0-1.0.html>
 #
-# Note about the licenses from Christian Buhtz (2024-09):
+# Note about the licenses by Christian Buhtz (2024-09):
 # Despite extensive research and attempts to contact the aforementioned
 # individuals and institutions, it was not possible to definitively determine
 # which of the mentioned licenses and copyright notices apply to which parts of
