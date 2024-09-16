@@ -717,6 +717,9 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     Return:
         ``True`` if older, otherwise ``False``.
     """
+    if not isinstance(unit, TimeUnit):
+        unit = TimeUnit(unit)
+
     now = datetime.now()
 
     if unit is TimeUnit.HOUR:

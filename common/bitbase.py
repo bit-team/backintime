@@ -13,7 +13,9 @@ from enum import Enum
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
 
+
 class TimeUnit(Enum):
+    WEITER HIER ----
     HOUR = 10
     DAY = 20
     WEEK = 30
