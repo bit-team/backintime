@@ -32,7 +32,7 @@
 #   "python-dbus-docs"
 # - David D. Lowe claimed CC0-1.0 (public domain) in unknown context.
 #
-# Because of MIT License the folloing permission notice need to be included
+# Because of MIT License the following permission notice need to be included
 # in this file and should not be removed:
 # --- Begin of MIT License permission notice ---
 # Permission is hereby granted, free of charge, to any person
