@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2024-07-22 21:49+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2024-09-15 16:25+0200\n"
 "PO-Revision-Date: 2024-08-02 06:55+0000\n"
 "Last-Translator: itay-goldraich <itay-goldraich@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -19,131 +19,87 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:44 qt/encfsmsgbox.py:24 qt/settingsdialog.py:1262
+#: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
+#: qt/settingsdialog.py:1128
 msgid "Warning"
 msgstr "אזהרה"
 
-#: common/config.py:148 common/config.py:290
-msgid "Main profile"
-msgstr "פרופיל ראשי"
-
-#: common/config.py:297
-msgid "Local (EncFS encrypted)"
-msgstr "מקומי (בהצפנת EncFS)"
-
-#: common/config.py:298
-msgid "SSH (EncFS encrypted)"
-msgstr "SSH (בהצפנת EncFS)"
-
-#: common/config.py:309
-msgid "Local"
-msgstr "מקומי"
-
-#: common/config.py:311
-msgid "SSH"
-msgstr "SSH"
-
-#: common/config.py:311 common/config.py:321 qt/settingsdialog.py:2185
-msgid "SSH private key"
-msgstr "מפתח SSH פרטי"
-
-#: common/config.py:314
-msgid "Local encrypted"
-msgstr "בהצפנה מקומית"
-
-#: common/config.py:315 common/config.py:322
-msgid "Encryption"
-msgstr "הצפנה"
-
-#: common/config.py:320
-msgid "SSH encrypted"
-msgstr "SSH מוצפן"
-
-#: common/config.py:327
-msgid "Default"
-msgstr "ברירת מחדל"
-
-#: common/config.py:358 common/config.py:370 common/config.py:387
-#: common/config.py:398
-#, python-brace-format
-msgid "Profile: \"{name}\""
-msgstr "פרופיל: „{name}”"
-
-#: common/config.py:359
-msgid "Snapshots folder is not valid!"
-msgstr "תיקיית תמונות מצב אינה תקנית!"
-
-#: common/config.py:371
-msgid "You must select at least one folder to back up!"
-msgstr "יש לבחור בתיקייה אחת לפחות לגיבוי!"
-
-#: common/config.py:388
-msgid "Backup folder cannot be included."
-msgstr "אי אפשר לכלול את תיקיית הגיבוי."
-
-#: common/config.py:400
-msgid "Backup sub-folder cannot be included."
-msgstr "אי אפשר לכלול תת־תיקייה לגיבוי."
-
-#: common/config.py:447
-#, python-brace-format
-msgid "Invalid option. {path} is not a folder."
-msgstr "אפשרות שגויה. {path} אינה תיקייה."
-
-#: common/config.py:456
-msgid "Host/User/Profile-ID must not be empty."
-msgstr "מארח/משתמש/מזהה פרופיל לא יכולים להישאר ריקים."
-
-#: common/config.py:466 common/config.py:513
-#, python-brace-format
+#: common/config.py:130 common/tools.py:390
+#, fuzzy, python-brace-format
 msgid ""
-"Can't write to: {path}\n"
-"Are you sure you have write access?"
-msgstr ""
-"לא ניתן לכתוב אל: {path}\n"
-"האם אתה בטוח שיש ברשותך גישה לכתיבה ?"
-
-#: common/config.py:483
-#, python-brace-format
-msgid ""
-"Destination filesystem for {path} is formatted with FAT which doesn't "
-"support hard-links. Please use a native Linux filesystem."
+"The destination filesystem for {path} is formatted with NTFS, which has "
+"known incompatibilities with Unix-style filesystems."
 msgstr ""
 "מערכת הקבצים המיועדת ל־{path} מפורמטת ל־FAT שבה אין תמיכה בקישורים קשיחים. "
 "נא להשתמש במערכת קבצים טבעית של לינוקס."
 
-#: common/config.py:492
+#: common/config.py:144 common/config.py:254
+msgid "Main profile"
+msgstr "פרופיל ראשי"
+
+#: common/config.py:261
+msgid "Local (EncFS encrypted)"
+msgstr "מקומי (בהצפנת EncFS)"
+
+#: common/config.py:262
+msgid "SSH (EncFS encrypted)"
+msgstr "SSH (בהצפנת EncFS)"
+
+#: common/config.py:273
+msgid "Local"
+msgstr "מקומי"
+
+#: common/config.py:275
+msgid "SSH"
+msgstr "SSH"
+
+#: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1962
+msgid "SSH private key"
+msgstr "מפתח SSH פרטי"
+
+#: common/config.py:278
+msgid "Local encrypted"
+msgstr "בהצפנה מקומית"
+
+#: common/config.py:279 common/config.py:286
+msgid "Encryption"
+msgstr "הצפנה"
+
+#: common/config.py:284
+msgid "SSH encrypted"
+msgstr "SSH מוצפן"
+
+#: common/config.py:291
+msgid "Default"
+msgstr "ברירת מחדל"
+
+#: common/config.py:322 common/config.py:334 common/config.py:351
+#: common/config.py:362
 #, python-brace-format
-msgid ""
-"Destination filesystem for {path} is an SMB-mounted share. Please make sure "
-"the remote SMB server supports symlinks or activate {copyLinks} in "
-"{expertOptions}."
-msgstr ""
-"מערכת היעד עבור {path} היא שיתוף SMB מעוגן. נא לוודא ששרת ה־SMB המרוחק תומך "
-"בקישורים סמליים או להפעיל את {copyLinks} תחת {expertOptions}."
+msgid "Profile: \"{name}\""
+msgstr "פרופיל: „{name}”"
 
-#: common/config.py:496 qt/settingsdialog.py:1127
-msgid "Copy links (dereference symbolic links)"
-msgstr "העתקת קישורים (ביטול הפניה של קישורים סמליים)"
+#: common/config.py:323
+msgid "Snapshots folder is not valid!"
+msgstr "תיקיית תמונות מצב אינה תקנית!"
 
-#: common/config.py:497
-msgid "Expert Options"
-msgstr "אפשרויות מתקדמות"
+#: common/config.py:335
+msgid "You must select at least one folder to back up!"
+msgstr "יש לבחור בתיקייה אחת לפחות לגיבוי!"
 
-#: common/config.py:501
-#, python-brace-format
-msgid ""
-"Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
-"support hard-links. Please use mode 'SSH' instead."
-msgstr ""
-"מערכת הקבצים המיועדת עבור {path} היא שיתוף בעיגון sshfs. ב־sshfs אין תמיכה "
-"בקישורים קשיחים. נא להשתמש במצב ‚SSH’ במקום."
+#: common/config.py:352
+msgid "Backup folder cannot be included."
+msgstr "אי אפשר לכלול את תיקיית הגיבוי."
 
-#: common/config.py:1658
+#: common/config.py:364
+msgid "Backup sub-folder cannot be included."
+msgstr "אי אפשר לכלול תת־תיקייה לגיבוי."
+
+#: common/config.py:1526
 msgid "Failed to write new crontab."
 msgstr "כתיבת crontab חדש נכשלה."
 
-#: common/config.py:1666
+#: common/config.py:1534
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -151,7 +107,7 @@ msgid ""
 "GNU Linux distribution."
 msgstr ""
 
-#: common/config.py:1746
+#: common/config.py:1614
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -160,12 +116,12 @@ msgstr ""
 "לא ניתן להתקין כלל Udev לפרופיל {profile_id}. שירות ה־D-Bus‏ "
 "‚{dbus_interface}’ לא היה זמין"
 
-#: common/config.py:1761
+#: common/config.py:1629
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "תזמון udev לא עובד עם המצב {mode}"
 
-#: common/config.py:1772
+#: common/config.py:1640
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "לא ניתן למצוא מזהה ייחודי ל־{path}"
@@ -187,74 +143,74 @@ msgstr "הפרופיל „{name}” כבר קיים."
 msgid "The last profile cannot be removed."
 msgstr "אי אפשר להסיר את הפרופיל האחרון."
 
-#: common/encfstools.py:92
+#: common/encfstools.py:91
 #, python-brace-format
 msgid "Can't mount '{command}'"
 msgstr "אי אפשר לעגן את ‚{command}’"
 
-#: common/encfstools.py:139
+#: common/encfstools.py:138
 msgid "Config for encrypted folder not found."
 msgstr "לא נמצאו הגדרות לתיקייה מוצפנת."
 
-#: common/encfstools.py:147
+#: common/encfstools.py:146
 msgid "Create a new encrypted folder?"
 msgstr "ליצור תיקייה מוצפנת חדשה?"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:150
 msgid "Cancel"
 msgstr "ביטול"
 
-#: common/encfstools.py:156
+#: common/encfstools.py:155
 msgid "Please confirm the password."
 msgstr "נא לאשר את הסיסמה."
 
-#: common/encfstools.py:160
+#: common/encfstools.py:159
 msgid "Password doesn't match."
 msgstr "הסיסמאות לא תואמות."
 
-#: common/encfstools.py:521 common/snapshots.py:1034
+#: common/encfstools.py:516 common/snapshots.py:1027
 msgid "Take snapshot"
 msgstr "בצע גיבוי"
 
-#: common/mount.py:609
+#: common/mount.py:599
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
 msgstr ""
 
-#: common/mount.py:696
+#: common/mount.py:686
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
 "פקודה {command} לא נמצאה. אפשר להתקין את הפקודה (בעזרת \"{installcommand}\")"
 
-#: common/mount.py:720
+#: common/mount.py:710
 #, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
 msgstr ""
 
-#: common/password.py:269
+#: common/password.py:277
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "הכנס סיסמא בשביל {mode} משתמש \"{profile}\":"
 
-#: common/snapshots.py:363 common/snapshots.py:614
+#: common/snapshots.py:356 common/snapshots.py:607
 msgid "FAILED"
 msgstr "נכשל"
 
-#: common/snapshots.py:560 common/snapshots.py:622
+#: common/snapshots.py:553 common/snapshots.py:615
 msgid "Restore permissions"
 msgstr "שחזור הרשאות"
 
-#: common/snapshots.py:617 qt/app.py:291 qt/app.py:997 qt/app.py:1032
+#: common/snapshots.py:610 qt/app.py:292 qt/app.py:1001 qt/app.py:1036
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "בוצע"
 
-#: common/snapshots.py:737
+#: common/snapshots.py:730
 msgid "Deferring backup while on battery"
 msgstr "הגיבוי מושהה בעת שימוש בסוללה"
 
-#: common/snapshots.py:835
+#: common/snapshots.py:828
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -262,105 +218,105 @@ msgstr ""
 "לא ניתן למצוא את תיקיית הגיבוי.\n"
 "אם הגיבוי נמצא בכונן נשלף, צריך לחבר אותו."
 
-#: common/snapshots.py:839
+#: common/snapshots.py:832
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "בהמתנה של שנייה אחת."
 msgstr[1] "בהמתנה של %s שניות."
 
-#: common/snapshots.py:907
+#: common/snapshots.py:900
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "שמירת תמונת המצב {snapshot_id} נכשלה."
 
-#: common/snapshots.py:937
-msgid "Finalizing"
-msgstr "בהליכי סיום"
+#: common/snapshots.py:931
+msgid "Please be patient. Finalizing…"
+msgstr ""
 
-#: common/snapshots.py:1069
+#: common/snapshots.py:1062
 msgid "Can't create folder"
 msgstr "לא ניתן ליצור את התיקייה"
 
-#: common/snapshots.py:1086
+#: common/snapshots.py:1079
 msgid "Saving config file…"
 msgstr "קובץ ההגדרות נשמר…"
 
-#: common/snapshots.py:1167
+#: common/snapshots.py:1160
 msgid "Saving permissions…"
 msgstr "הרשאות נשמרות…"
 
-#: common/snapshots.py:1279
+#: common/snapshots.py:1272
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "נמצאו שאריות {snapshot_id} שאפשר להמשיך."
 
-#: common/snapshots.py:1302
+#: common/snapshots.py:1295
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "תיקיית השאריות {snapshot_id} מהריצה האחרונה נמחקת"
 
-#: common/snapshots.py:1312
+#: common/snapshots.py:1305
 msgid "Can't remove folder"
 msgstr "לא ניתן להסיר תיקייה"
 
-#: common/snapshots.py:1366
+#: common/snapshots.py:1359
 msgid "Taking snapshot"
 msgstr "תמונת מצב נשמרת"
 
-#: common/snapshots.py:1417
+#: common/snapshots.py:1410
 msgid "Success"
 msgstr ""
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1413
 msgid "Partial transfer due to error"
 msgstr "שגיאה: בוצעה העברה חלקית בלבד"
 
-#: common/snapshots.py:1421
+#: common/snapshots.py:1414
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1425
+#: common/snapshots.py:1418
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1438
+#: common/snapshots.py:1431
 msgid "See 'man rsync' for more details"
 msgstr "קרא את 'man rsync' לפרטים נוספים"
 
-#: common/snapshots.py:1445
+#: common/snapshots.py:1438
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1466
+#: common/snapshots.py:1459
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "דבר לא השתנה, לא צריך תמונת מצב חדשה"
 
-#: common/snapshots.py:1510
+#: common/snapshots.py:1503
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "לא ניתן לשנות את השם {new_path} ל־{path}"
 
-#: common/snapshots.py:1828 common/snapshots.py:1880
+#: common/snapshots.py:1821 common/snapshots.py:1873
 msgid "Smart removal"
 msgstr "הסרה חכמה"
 
-#: common/snapshots.py:1855
+#: common/snapshots.py:1848
 msgid "Removing old snapshots"
 msgstr "תמונות מצב ישנות נמחקות"
 
-#: common/snapshots.py:1890
+#: common/snapshots.py:1883
 msgid "Trying to keep min free space"
 msgstr "מתבצע ניסיון לשמור על מקום פנוי מזערי"
 
-#: common/snapshots.py:1929
+#: common/snapshots.py:1922
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "מתבצע ניסיון לשמור לפחות {perc} מה־inodes פנויים"
 
-#: common/snapshots.py:2989 qt/app.py:1743
+#: common/snapshots.py:3038 qt/app.py:1747
 msgid "Now"
 msgstr "עכשיו"
 
@@ -402,56 +358,109 @@ msgstr "הנתיב המרוחק לא ניתן להפעלה."
 msgid "Couldn't create remote path."
 msgstr "לא ניתן ליצור את הנתיב המרוחק."
 
-#: common/sshtools.py:981
+#: common/sshtools.py:986
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "מארח מרוחק {host} לא תומך בפקודה {command}"
 
-#: common/sshtools.py:985 common/sshtools.py:994
+#: common/sshtools.py:990 common/sshtools.py:999
 msgid "Look at 'man backintime' for further instructions"
 msgstr "קרא את 'man backintime' להוראות נוספות"
 
-#: common/sshtools.py:989
+#: common/sshtools.py:994
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 
-#: common/sshtools.py:1010
+#: common/sshtools.py:1015
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr ""
 
-#: common/sshtools.py:1164
+#: common/sshtools.py:1169
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "העתקת מפתח ה־SSH הציבורי „{pubkey}” למארח המרוחק „{host}”."
 
-#: common/sshtools.py:1166
+#: common/sshtools.py:1171
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "נא למלא סיסמה למשתמש „{user}”."
 
-#: qt/aboutdlg.py:44 qt/app.py:572
+#: common/tools.py:422
+#, python-brace-format
+msgid "Invalid option. {path} is not a folder."
+msgstr "אפשרות שגויה. {path} אינה תיקייה."
+
+#: common/tools.py:436
+msgid "Creation of following folder failed:"
+msgstr ""
+
+#: common/tools.py:438 common/tools.py:534
+msgid "Write access may be restricted."
+msgstr ""
+
+#: common/tools.py:478
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is formatted with FAT which doesn't "
+"support hard-links. Please use a native Linux filesystem."
+msgstr ""
+"מערכת הקבצים המיועדת ל־{path} מפורמטת ל־FAT שבה אין תמיכה בקישורים קשיחים. "
+"נא להשתמש במערכת קבצים טבעית של לינוקס."
+
+#: common/tools.py:489
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is an SMB-mounted share. Please make sure "
+"the remote SMB server supports symlinks or activate {copyLinks} in "
+"{expertOptions}."
+msgstr ""
+"מערכת היעד עבור {path} היא שיתוף SMB מעוגן. נא לוודא ששרת ה־SMB המרוחק תומך "
+"בקישורים סמליים או להפעיל את {copyLinks} תחת {expertOptions}."
+
+#: common/tools.py:493 qt/settingsdialog.py:767
+msgid "Copy links (dereference symbolic links)"
+msgstr "העתקת קישורים (ביטול הפניה של קישורים סמליים)"
+
+#: common/tools.py:494
+msgid "Expert Options"
+msgstr "אפשרויות מתקדמות"
+
+#: common/tools.py:498
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
+"support hard-links. Please use mode 'SSH' instead."
+msgstr ""
+"מערכת הקבצים המיועדת עבור {path} היא שיתוף בעיגון sshfs. ב־sshfs אין תמיכה "
+"בקישורים קשיחים. נא להשתמש במצב ‚SSH’ במקום."
+
+#: common/tools.py:532
+msgid "File creation failed in this folder:"
+msgstr ""
+
+#: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
 msgstr "על אודות"
 
-#: qt/aboutdlg.py:68 qt/aboutdlg.py:106
+#: qt/aboutdlg.py:61 qt/aboutdlg.py:99
 msgid "Authors"
 msgstr "יוצרים"
 
-#: qt/aboutdlg.py:69 qt/aboutdlg.py:112
+#: qt/aboutdlg.py:62 qt/aboutdlg.py:105
 msgid "Translations"
 msgstr "תרגומים"
 
-#: qt/aboutdlg.py:70 qt/aboutdlg.py:118
+#: qt/aboutdlg.py:63 qt/aboutdlg.py:111
 msgid "License"
 msgstr "רישיון"
 
-#: qt/app.py:169
+#: qt/app.py:170
 msgid "Shortcuts"
 msgstr "קיצורים"
 
-#: qt/app.py:189
+#: qt/app.py:190
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
@@ -459,205 +468,205 @@ msgstr ""
 "התיקייה הזאת לא קיימת\n"
 "בתמונת המצב הנוכחית."
 
-#: qt/app.py:256
+#: qt/app.py:257
 msgid "Add to Include"
 msgstr "הוספה להכללה"
 
-#: qt/app.py:258
+#: qt/app.py:259
 msgid "Add to Exclude"
 msgstr "הוספה להחרגה"
 
-#: qt/app.py:343
+#: qt/app.py:344
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:348
+#: qt/app.py:349
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:375
+#: qt/app.py:376
 msgid "Can't find snapshots folder."
 msgstr "לא ניתן למצוא את תיקיית תמונות המצב."
 
-#: qt/app.py:376
+#: qt/app.py:377
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "אם היא נמצאת על כונן נשלף יש לחבר אותו וללחוץ על אישור."
 
-#: qt/app.py:481
+#: qt/app.py:482
 msgid "Take a snapshot"
 msgstr "שמירת תמונת מצב"
 
-#: qt/app.py:483
+#: qt/app.py:484
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:486
+#: qt/app.py:487
 msgid "Take a snapshot (checksum mode)"
 msgstr "שמירת תמונת מצב (עם סיכומי ביקורת)"
 
-#: qt/app.py:488
+#: qt/app.py:489
 msgid "Use checksums for file change detection."
 msgstr "להשתמש בסיכומי ביקורת לאיתור שינויים."
 
-#: qt/app.py:491 qt/qtsystrayicon.py:86
+#: qt/app.py:492 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
 msgstr "השהיית שמירת תמונת מצב"
 
-#: qt/app.py:496 qt/qtsystrayicon.py:90
+#: qt/app.py:497 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
 msgstr "המשך שמירת תמונת מצב"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:95
+#: qt/app.py:501 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
 msgstr "עצירת שמירת תמונת מצב"
 
-#: qt/app.py:504
+#: qt/app.py:505
 msgid "Refresh snapshot list"
 msgstr "רענון רשימת תמונות המצב"
 
-#: qt/app.py:508
+#: qt/app.py:509
 msgid "Name snapshot"
 msgstr "מתן שם לתמונת מצב"
 
-#: qt/app.py:512
+#: qt/app.py:513
 msgid "Remove snapshot"
 msgstr "הסרת תמונת מצב"
 
-#: qt/app.py:516
+#: qt/app.py:517
 msgid "View snapshot log"
 msgstr "הצגת יומן תמונות מצב"
 
-#: qt/app.py:520
+#: qt/app.py:521
 msgid "View last log"
 msgstr "הצגת היומן האחרון"
 
-#: qt/app.py:524
+#: qt/app.py:525
 msgid "Manage profiles…"
 msgstr "ניהול פרופילים…"
 
-#: qt/app.py:528
+#: qt/app.py:529
 msgid "Shutdown"
 msgstr "כיבוי"
 
-#: qt/app.py:530
+#: qt/app.py:531
 msgid "Shut down system after snapshot has finished."
 msgstr "לכבות את המערכת אחרי ששמירת תמונת המצב הסתיימה."
 
-#: qt/app.py:532
+#: qt/app.py:533
 msgid "Setup language…"
 msgstr ""
 
-#: qt/app.py:536
+#: qt/app.py:537
 msgid "Exit"
 msgstr "יציאה"
 
-#: qt/app.py:540
+#: qt/app.py:541
 msgid "Help"
 msgstr "עזרה"
 
-#: qt/app.py:544
+#: qt/app.py:545
 msgid "Profiles config file"
 msgstr "קובץ הגדרות פרופילים"
 
-#: qt/app.py:547 qt/languagedialog.py:222
+#: qt/app.py:548 qt/languagedialog.py:233
 msgid "Website"
 msgstr "אתר"
 
-#: qt/app.py:550 qt/app.py:1375
+#: qt/app.py:551 qt/app.py:1379
 msgid "Changelog"
 msgstr "יומן שינויים"
 
-#: qt/app.py:553
+#: qt/app.py:554
 msgid "FAQ"
 msgstr "שאלות ותשובות"
 
-#: qt/app.py:556
+#: qt/app.py:557
 msgid "Ask a question"
 msgstr "פרסום שאלה"
 
-#: qt/app.py:559
+#: qt/app.py:560
 msgid "Report a bug"
 msgstr "דיווח על תקלה"
 
-#: qt/app.py:562
+#: qt/app.py:563
 msgid "Translation"
 msgstr "תרגום"
 
-#: qt/app.py:564
+#: qt/app.py:565
 msgid "Shows the message about participation in translation again."
 msgstr ""
 
-#: qt/app.py:568
+#: qt/app.py:569
 msgid "Encryption Transition (EncFS)"
 msgstr ""
 
-#: qt/app.py:570
+#: qt/app.py:571
 msgid "Shows the message about EncFS removal again."
 msgstr ""
 
-#: qt/app.py:575 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/app.py:576 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
 msgstr "שחזור"
 
-#: qt/app.py:577
+#: qt/app.py:578
 msgid "Restore the selected files or folders to the original destination."
 msgstr "שחזור הקבצים או התיקיות הנבחרים ליעד המקורי."
 
-#: qt/app.py:580 qt/app.py:1546 qt/app.py:1578 qt/snapshotsdialog.py:166
+#: qt/app.py:581 qt/app.py:1550 qt/app.py:1582 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "שחזור אל…"
 
-#: qt/app.py:582
+#: qt/app.py:583
 msgid "Restore the selected files or folders to a new destination."
 msgstr "שחזור הקבצים או התיקיות הנבחרים ליעד חדש."
 
-#: qt/app.py:587
+#: qt/app.py:588
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr "שחזור התיקייה שמופיעה ואת כל התוכן שלה ליעד המקורי."
 
-#: qt/app.py:592
+#: qt/app.py:593
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
 msgstr "שחזור התיקייה שמופיע ואת כל התוכן שלה ליעד חדש."
 
-#: qt/app.py:595
+#: qt/app.py:596
 msgid "Up"
 msgstr "למעלה"
 
-#: qt/app.py:598 qt/settingsdialog.py:2448
+#: qt/app.py:599 qt/settingsdialog.py:2229
 msgid "Show hidden files"
 msgstr "הצגת קבצים נסתרים"
 
-#: qt/app.py:601
+#: qt/app.py:602
 msgid "Compare snapshots…"
 msgstr "השוואת תמונות מצב…"
 
-#: qt/app.py:660
+#: qt/app.py:661
 msgid "Back In &Time"
 msgstr ""
 
-#: qt/app.py:665
+#: qt/app.py:666
 msgid "&Backup"
 msgstr ""
 
-#: qt/app.py:676
+#: qt/app.py:677
 msgid "&Restore"
 msgstr "&שחזור"
 
-#: qt/app.py:682
+#: qt/app.py:683
 msgid "&Help"
 msgstr "ע&זרה"
 
-#: qt/app.py:818
+#: qt/app.py:819
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -665,65 +674,65 @@ msgstr ""
 "סגירת החלון תגרום לכך של־Back In Time לא תהיה אפשרות לכבות את המערכת שלך עם "
 "סיום שמירת תמונת המצב."
 
-#: qt/app.py:821
+#: qt/app.py:822
 msgid "Do you really want to close it?"
 msgstr "לסגור אותו?"
 
-#: qt/app.py:987
+#: qt/app.py:991
 msgid "Working:"
 msgstr "בעבודה:"
 
-#: qt/app.py:1035
+#: qt/app.py:1039
 msgid "Done, no backup needed"
 msgstr "הסתיים, לא נדרש גיבוי"
 
-#: qt/app.py:1044
+#: qt/app.py:1048
 msgid "Working"
 msgstr "בעבודה"
 
-#: qt/app.py:1053 qt/messagebox.py:78
+#: qt/app.py:1057 qt/messagebox.py:78
 msgid "Error"
 msgstr "שגיאה"
 
-#: qt/app.py:1076
+#: qt/app.py:1080
 msgid "Sent"
 msgstr "נשלח"
 
-#: qt/app.py:1077
+#: qt/app.py:1081
 msgid "Speed"
 msgstr "מהירות"
 
-#: qt/app.py:1078
+#: qt/app.py:1082
 msgid "ETA"
 msgstr "זמן משוערך"
 
-#: qt/app.py:1140
+#: qt/app.py:1144
 msgid "Global"
 msgstr "כללי"
 
-#: qt/app.py:1141
+#: qt/app.py:1145
 msgid "Root"
 msgstr "תיקיית העל"
 
-#: qt/app.py:1142
+#: qt/app.py:1146
 msgid "Home"
 msgstr "תיקיית הבית"
 
-#: qt/app.py:1170
+#: qt/app.py:1174
 msgid "Backup folders"
 msgstr "תיקיות הגיבוי"
 
-#: qt/app.py:1266
+#: qt/app.py:1270
 msgid "Snapshot Name"
 msgstr "שם תמונת המצב"
 
-#: qt/app.py:1313
+#: qt/app.py:1317
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "להסיר את תמונת המצב?"
 msgstr[1] "להסיר את תמונות המצב?"
 
-#: qt/app.py:1408
+#: qt/app.py:1412
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -732,7 +741,7 @@ msgstr ""
 "ליצור עותקי גיבוי עם {suffix} כסיומת.\n"
 "בטרם שכתוב או הסרה של רכיבים מקומיים."
 
-#: qt/app.py:1416
+#: qt/app.py:1420
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -740,7 +749,7 @@ msgid ""
 "following command:"
 msgstr ""
 
-#: qt/app.py:1432
+#: qt/app.py:1436
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -750,11 +759,11 @@ msgstr ""
 "שהם חדשים יותר מאלו ביעד.\n"
 "באמצעות האפשרות „rsync --update”."
 
-#: qt/app.py:1467
+#: qt/app.py:1471
 msgid "Remove newer elements in original folder."
 msgstr "הסרת רכיבים חדשים יותר בתיקייה המקורית."
 
-#: qt/app.py:1470
+#: qt/app.py:1474
 msgid ""
 "Restore selected files or folders to the original destination and delete "
 "files or folders which are not in the snapshot. Be extremely careful because"
@@ -762,7 +771,7 @@ msgid ""
 "snapshot."
 msgstr ""
 
-#: qt/app.py:1481
+#: qt/app.py:1485
 #, python-brace-format
 msgid ""
 "Do you really want to restore this element into the new folder\n"
@@ -777,23 +786,23 @@ msgstr[1] ""
 "לשחזר את הרכיבים האלה לתיקייה החדשה\n"
 "{path}?"
 
-#: qt/app.py:1490
+#: qt/app.py:1494
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "לשחזר את הרכיב הזה?"
 msgstr[1] "לשחזר את הרכיבים האלה?"
 
-#: qt/app.py:1505
+#: qt/app.py:1509
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "להסיר את כל הקבצים החדשים יותר תחת {path}?"
 
-#: qt/app.py:1508
+#: qt/app.py:1512
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr "להסיר את כל הקבצים החדשים בתיקיית המקור שלך?"
 
-#: qt/app.py:1514
+#: qt/app.py:1518
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -802,21 +811,21 @@ msgstr ""
 "{BOLD}אזהרה{BOLDEND}: מחיקת קבצים בשורש מערכת הקבצים יכולה לשבש את כל המערכת"
 " שלך."
 
-#: qt/app.py:1750
+#: qt/app.py:1754
 msgid "Snapshot"
 msgstr "תמונת מצב"
 
-#: qt/app.py:1787
+#: qt/app.py:1791
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "שחזור {path}"
 
-#: qt/app.py:1789
+#: qt/app.py:1793
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "לשחזר את {path} אל…"
 
-#: qt/app.py:1948
+#: qt/app.py:1952
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
@@ -826,16 +835,16 @@ msgid ""
 "recommended to use that mode for a profile furthermore."
 msgstr ""
 
-#: qt/encfsmsgbox.py:46
+#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75 qt/settingsdialog.py:1136
+msgid "whitepaper"
+msgstr ""
+
+#: qt/encfsmsgbox.py:48
 #, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
-msgstr ""
-
-#: qt/encfsmsgbox.py:52 qt/encfsmsgbox.py:84 qt/settingsdialog.py:1270
-msgid "whitepaper"
 msgstr ""
 
 #: qt/encfsmsgbox.py:66
@@ -844,11 +853,11 @@ msgid ""
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
 
-#: qt/encfsmsgbox.py:75
+#: qt/encfsmsgbox.py:77
 msgid "The following profile(s) use encryption with EncFS:"
 msgstr ""
 
-#: qt/encfsmsgbox.py:77
+#: qt/encfsmsgbox.py:79
 #, python-brace-format
 msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
@@ -867,24 +876,24 @@ msgstr ""
 msgid "Your Back In Time Team"
 msgstr ""
 
-#: qt/languagedialog.py:30
+#: qt/languagedialog.py:39
 msgid "Setup language"
 msgstr ""
 
-#: qt/languagedialog.py:92
+#: qt/languagedialog.py:101
 msgid "System default"
 msgstr "ברירת מחדל המערכת"
 
-#: qt/languagedialog.py:99
+#: qt/languagedialog.py:111
 msgid "Use operating systems language."
 msgstr ""
 
-#: qt/languagedialog.py:150
+#: qt/languagedialog.py:161
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr ""
 
-#: qt/languagedialog.py:188
+#: qt/languagedialog.py:199
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -901,63 +910,63 @@ msgstr ""
 "אנחנו מתנצלים על ההפרעה, וההודעה הזאת לא תופיע שוב. הדיאלוג הזה זמין בכל עת דרך תפריט העזרה.\n"
 "צוות Back In Time שלכם"
 
-#: qt/languagedialog.py:217
+#: qt/languagedialog.py:228
 msgid "translation platform"
 msgstr "פלטפורמת תרגום"
 
-#: qt/languagedialog.py:242
+#: qt/languagedialog.py:253
 msgid "Your translation"
 msgstr "התרגום שלך"
 
-#: qt/logviewdialog.py:66
+#: qt/logviewdialog.py:67
 msgid "Last Log View"
 msgstr "תצוגת היומן האחרון"
 
-#: qt/logviewdialog.py:68
+#: qt/logviewdialog.py:69
 msgid "Snapshot Log View"
 msgstr "תצוגת יומן תמונות מצב"
 
-#: qt/logviewdialog.py:76 qt/settingsdialog.py:178 qt/settingsdialog.py:414
-#: qt/settingsdialog.py:2627
+#: qt/logviewdialog.py:77 qt/settingsdialog.py:184 qt/settingsdialog.py:1107
+#: qt/settingsdialog.py:2408
 msgid "Profile:"
 msgstr "פרופיל:"
 
-#: qt/logviewdialog.py:84
+#: qt/logviewdialog.py:85
 msgid "Snapshots:"
 msgstr "תמונות מצב:"
 
-#: qt/logviewdialog.py:99
+#: qt/logviewdialog.py:100
 msgid "Filter:"
 msgstr "סינון:"
 
-#: qt/logviewdialog.py:105 qt/settingsdialog.py:921
+#: qt/logviewdialog.py:106 qt/settingsdialog.py:561
 msgid "All"
 msgstr "הכול"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:114 qt/settingsdialog.py:920
+#: qt/logviewdialog.py:112 qt/logviewdialog.py:115 qt/settingsdialog.py:560
 msgid "Changes"
 msgstr "שינויים"
 
-#: qt/logviewdialog.py:111 qt/logviewdialog.py:113 qt/settingsdialog.py:917
-#: qt/settingsdialog.py:920
+#: qt/logviewdialog.py:112 qt/logviewdialog.py:114 qt/settingsdialog.py:557
+#: qt/settingsdialog.py:560
 msgid "Errors"
 msgstr "שגיאות"
 
-#: qt/logviewdialog.py:115 qt/messagebox.py:71
+#: qt/logviewdialog.py:116 qt/messagebox.py:71
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "פרטים"
 msgstr[1] "פרטים"
 
-#: qt/logviewdialog.py:117
+#: qt/logviewdialog.py:118
 msgid "rsync transfer failures (experimental)"
 msgstr ""
 
-#: qt/logviewdialog.py:128
+#: qt/logviewdialog.py:129
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] שגיאה, [I] מידע, [C] שינוי"
 
-#: qt/logviewdialog.py:131 qt/qtsystrayicon.py:99
+#: qt/logviewdialog.py:132 qt/qtsystrayicon.py:99
 msgid "decode paths"
 msgstr "פענוח נתיבים"
 
@@ -995,31 +1004,31 @@ msgstr "מהירות:"
 msgid "ETA:"
 msgstr ""
 
-#: qt/qttools.py:404 qt/snapshotsdialog.py:123
+#: qt/qttools.py:419 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "גיבויים"
 
-#: qt/qttools.py:427
+#: qt/qttools.py:442
 msgid "Today"
 msgstr "היום"
 
-#: qt/qttools.py:434
+#: qt/qttools.py:449
 msgid "Yesterday"
 msgstr "אתמול"
 
-#: qt/qttools.py:443
+#: qt/qttools.py:458
 msgid "This week"
 msgstr "השבוע"
 
-#: qt/qttools.py:450
+#: qt/qttools.py:465
 msgid "Last week"
 msgstr "שבוע שעבר"
 
-#: qt/qttools.py:596
+#: qt/qttools.py:611
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "זה לא גיבוי אלא מבט עכשוי על הקבצים המקומיים שלך"
 
-#: qt/qttools.py:601
+#: qt/qttools.py:616
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "בדיקה אחרונה {time}"
@@ -1028,253 +1037,200 @@ msgstr "בדיקה אחרונה {time}"
 msgid "Show full Log"
 msgstr "הצגת היומן המלא"
 
-#: qt/settingsdialog.py:96
-msgid "SSH Proxy"
-msgstr ""
-
-#: qt/settingsdialog.py:103 qt/settingsdialog.py:275 qt/settingsdialog.py:402
-msgid "Host:"
-msgstr "מארח:"
-
-#: qt/settingsdialog.py:107 qt/settingsdialog.py:280
-msgid "Port:"
-msgstr "פתחה:"
-
-#: qt/settingsdialog.py:111 qt/settingsdialog.py:285 qt/settingsdialog.py:408
-msgid "User:"
-msgstr "משתמש:"
-
-#: qt/settingsdialog.py:120
-msgid ""
-"Connect to the target host via this proxy (also known as a jump host). See "
-"\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
-"\"ssh_config\" man page for details."
-msgstr ""
-
-#: qt/settingsdialog.py:170
-msgid "Manage profiles"
-msgstr "ניהול פרופילים"
-
-#: qt/settingsdialog.py:187
-msgid "Edit"
-msgstr "עריכה"
-
-#: qt/settingsdialog.py:191 qt/settingsdialog.py:668
-msgid "Add"
-msgstr "הוספה"
-
-#: qt/settingsdialog.py:195 qt/settingsdialog.py:615 qt/settingsdialog.py:686
-msgid "Remove"
-msgstr "הסרה"
-
-#: qt/settingsdialog.py:210
-msgid "&General"
-msgstr "&כללי"
-
-#: qt/settingsdialog.py:220 qt/settingsdialog.py:2629
-msgid "Mode:"
-msgstr "מצב:"
-
-#: qt/settingsdialog.py:239 qt/settingsdialog.py:2161
-msgid "Where to save snapshots"
-msgstr "איפה לשמור גיבויים"
-
-#: qt/settingsdialog.py:255
-msgid "Folder"
-msgstr "תיקייה"
-
-#: qt/settingsdialog.py:263
-msgid "SSH Settings"
-msgstr "הגדרות SSH"
-
-#: qt/settingsdialog.py:290
-msgid "Path:"
-msgstr "נתיב:"
-
-#: qt/settingsdialog.py:296
-msgid "Cipher:"
-msgstr "צופן:"
-
-#: qt/settingsdialog.py:302
-msgid "Private Key:"
-msgstr "מפתח פרטי:"
-
-#: qt/settingsdialog.py:312
-msgid "Choose an existing private key file (normally named \"id_rsa\")"
-msgstr "נא לבחור קובץ מפתח פרטי קיים (בדרך כלל נקרא „id_rsa”)"
-
-#: qt/settingsdialog.py:323
-msgid ""
-"Create a new SSH key without password (not allowed if a private key file is "
-"already selected)."
-msgstr "יצירת מפתח SSH חדש ללא סיסמה (אסור אם כבר נבחר מפתח פרטי)."
-
-#: qt/settingsdialog.py:353 qt/settingsdialog.py:362 qt/settingsdialog.py:368
-msgid "Password"
-msgstr "סיסמה"
-
-#: qt/settingsdialog.py:374
-msgid "Save Password to Keyring"
-msgstr "שמירת הסיסמה לצרור המפתחות"
-
-#: qt/settingsdialog.py:378
-msgid "Cache Password for Cron (Security issue: root can read password)"
-msgstr ""
-"שמירת סיסמה ל־Cron במטמון (סיבות אבטחה: משתמש על - root יכול לקרוא סיסמה)"
-
-#: qt/settingsdialog.py:390
-msgid "Advanced"
-msgstr "הגדרות מתקדמות"
-
-#: qt/settingsdialog.py:420 qt/settingsdialog.py:2283
-msgid "Full snapshot path:"
-msgstr "נתיב תמונת מצב מלא:"
-
-#: qt/settingsdialog.py:427
+#: qt/schedulewidget.py:35
 msgid "Schedule"
 msgstr "תזמון"
 
-#: qt/settingsdialog.py:439
+#: qt/schedulewidget.py:61
+msgid "Day:"
+msgstr ""
+
+#: qt/schedulewidget.py:66
+msgid "Weekday:"
+msgstr "יום בשבוע:"
+
+#: qt/schedulewidget.py:71
+msgid "Time:"
+msgstr ""
+
+#: qt/schedulewidget.py:76
+msgid "Hours:"
+msgstr "שעות:"
+
+#: qt/schedulewidget.py:80
+msgid ""
+"Run Back In Time as soon as the drive is connected (only once every X days)."
+" You will be prompted for your sudo password."
+msgstr ""
+
+#: qt/schedulewidget.py:85
+msgid ""
+"Run Back In Time repeatedly. This is useful if the computer is not running "
+"regularly."
+msgstr "הרצת Back In Time באופן מחזורי. שימוש אם המחשב לא דולק קבוע."
+
+#: qt/schedulewidget.py:97
+msgid "Every:"
+msgstr "כל:"
+
+#: qt/schedulewidget.py:101
+msgid "Enable logging of debug messages"
+msgstr ""
+
+#: qt/schedulewidget.py:105
+msgid "Writes debug-level messages into the system log via \"--debug\"."
+msgstr ""
+
+#: qt/schedulewidget.py:107
+msgid ""
+"Caution: Only use this temporarily for diagnostics, as it generates a large "
+"amount of output."
+msgstr ""
+
+#: qt/schedulewidget.py:128
 msgid "Disabled"
 msgstr "מושבת"
 
-#: qt/settingsdialog.py:440
+#: qt/schedulewidget.py:129
 msgid "At every boot/reboot"
 msgstr "בכל טעינה/הפעלה מחדש של מערכת"
 
-#: qt/settingsdialog.py:442 qt/settingsdialog.py:444 qt/settingsdialog.py:446
+#: qt/schedulewidget.py:131 qt/schedulewidget.py:133 qt/schedulewidget.py:135
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "כל דקה"
 msgstr[1] "כל {n} דקות"
 
-#: qt/settingsdialog.py:448
+#: qt/schedulewidget.py:137
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "כל שעה"
 msgstr[1] "כל {n} שעות"
 
-#: qt/settingsdialog.py:450 qt/settingsdialog.py:452 qt/settingsdialog.py:454
-#: qt/settingsdialog.py:456
+#: qt/schedulewidget.py:139 qt/schedulewidget.py:141 qt/schedulewidget.py:143
+#: qt/schedulewidget.py:145
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "כל שעה"
 msgstr[1] "כל {n} שעות"
 
-#: qt/settingsdialog.py:457
+#: qt/schedulewidget.py:146
 msgid "Custom hours"
 msgstr "שעות מותאמות אישית"
 
-#: qt/settingsdialog.py:458
+#: qt/schedulewidget.py:147
 msgid "Every day"
 msgstr "כל יום"
 
-#: qt/settingsdialog.py:459
+#: qt/schedulewidget.py:148
 msgid "Repeatedly (anacron)"
 msgstr "במחזוריות (anacron)"
 
-#: qt/settingsdialog.py:460
+#: qt/schedulewidget.py:149
 msgid "When drive gets connected (udev)"
 msgstr "כאשר כונן מתחבר (udev)"
 
-#: qt/settingsdialog.py:461
+#: qt/schedulewidget.py:150
 msgid "Every week"
 msgstr "כל שבוע"
 
-#: qt/settingsdialog.py:462
+#: qt/schedulewidget.py:151
 msgid "Every month"
 msgstr "כל חודש"
 
-#: qt/settingsdialog.py:463
+#: qt/schedulewidget.py:152
 msgid "Every year"
 msgstr "כל שנה"
 
-#: qt/settingsdialog.py:468
-msgid "Day:"
-msgstr ""
-
-#: qt/settingsdialog.py:479
-msgid "Weekday:"
-msgstr "יום בשבוע:"
-
-#: qt/settingsdialog.py:495
-msgid "Hour:"
-msgstr "שעה:"
-
-#: qt/settingsdialog.py:510
-msgid "Hours:"
-msgstr "שעות:"
-
-#: qt/settingsdialog.py:521
-msgid ""
-"Run Back In Time repeatedly. This is useful if the computer is not running "
-"regularly."
-msgstr "הרצת Back In Time באופן מחזורי. שימוש אם המחשב לא דולק קבוע."
-
-#: qt/settingsdialog.py:528
-msgid "Every:"
-msgstr "כל:"
-
-#: qt/settingsdialog.py:542
+#: qt/schedulewidget.py:201
 msgid "Hour(s)"
 msgstr "שעה/ות"
 
-#: qt/settingsdialog.py:543 qt/settingsdialog.py:738
+#: qt/schedulewidget.py:202 qt/settingsdialog.py:378
 msgid "Day(s)"
 msgstr "יום/ימים"
 
-#: qt/settingsdialog.py:544 qt/settingsdialog.py:739
+#: qt/schedulewidget.py:203 qt/settingsdialog.py:379
 msgid "Week(s)"
 msgstr "שבוע/ות"
 
-#: qt/settingsdialog.py:545
+#: qt/schedulewidget.py:204
 msgid "Month(s)"
 msgstr "חודש/ים"
 
-#: qt/settingsdialog.py:555
+#: qt/schedulewidget.py:292
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X days).\n"
-"You will be prompted for your sudo password."
+"Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
+"or */3 for periodic backups every 3 hours."
 msgstr ""
 
-#: qt/settingsdialog.py:564
-msgid "Enable logging of debug messages"
+#: qt/settingsdialog.py:93
+msgid "SSH Proxy"
 msgstr ""
 
-#: qt/settingsdialog.py:568
-msgid "Writes debug-level messages into the system log via \"--debug\"."
-msgstr ""
+#: qt/settingsdialog.py:100 qt/settingsdialog.py:965 qt/settingsdialog.py:1095
+msgid "Host:"
+msgstr "מארח:"
 
-#: qt/settingsdialog.py:570
+#: qt/settingsdialog.py:104 qt/settingsdialog.py:970
+msgid "Port:"
+msgstr "פתחה:"
+
+#: qt/settingsdialog.py:108 qt/settingsdialog.py:975 qt/settingsdialog.py:1101
+msgid "User:"
+msgstr "משתמש:"
+
+#: qt/settingsdialog.py:117
 msgid ""
-"Caution: Only use this temporarily for diagnostics, as it generates a large "
-"amount of output."
+"Connect to the target host via this proxy (also known as a jump host). See "
+"\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
+"\"ssh_config\" man page for details."
 msgstr ""
 
-#: qt/settingsdialog.py:583
+#: qt/settingsdialog.py:176
+msgid "Manage profiles"
+msgstr "ניהול פרופילים"
+
+#: qt/settingsdialog.py:193
+msgid "Edit"
+msgstr "עריכה"
+
+#: qt/settingsdialog.py:197 qt/settingsdialog.py:308
+msgid "Add"
+msgstr "הוספה"
+
+#: qt/settingsdialog.py:201 qt/settingsdialog.py:255 qt/settingsdialog.py:326
+msgid "Remove"
+msgstr "הסרה"
+
+#: qt/settingsdialog.py:217
+msgid "&General"
+msgstr "&כללי"
+
+#: qt/settingsdialog.py:223
 msgid "&Include"
 msgstr "לכלול"
 
-#: qt/settingsdialog.py:590
+#: qt/settingsdialog.py:230
 msgid "Include files and folders"
 msgstr "לכלול קבצים ותיקיות"
 
-#: qt/settingsdialog.py:607 qt/settingsdialog.py:672
+#: qt/settingsdialog.py:247 qt/settingsdialog.py:312
 msgid "Add file"
 msgstr "הוספת קובץ"
 
-#: qt/settingsdialog.py:611 qt/settingsdialog.py:676
+#: qt/settingsdialog.py:251 qt/settingsdialog.py:316
 msgid "Add folder"
 msgstr "הוספת תיקייה"
 
-#: qt/settingsdialog.py:621
+#: qt/settingsdialog.py:261
 msgid "&Exclude"
 msgstr "לה&חריג"
 
-#: qt/settingsdialog.py:625
+#: qt/settingsdialog.py:265
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1283,24 +1239,24 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/settingsdialog.py:648
+#: qt/settingsdialog.py:288
 msgid "Exclude patterns, files or folders"
 msgstr "החרגת תבניות, קבצים או תיקיות"
 
-#: qt/settingsdialog.py:681
+#: qt/settingsdialog.py:321
 msgid "Add default"
 msgstr "הוספת ברירת מחדל"
 
-#: qt/settingsdialog.py:694
+#: qt/settingsdialog.py:334
 msgid "Exclude files bigger than:"
 msgstr "החרגת קבצים שגדולים מאשר:"
 
-#: qt/settingsdialog.py:698
+#: qt/settingsdialog.py:338
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "החרגת קבצים שגדולים מהערך {size_unit}."
 
-#: qt/settingsdialog.py:700
+#: qt/settingsdialog.py:340
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1308,268 +1264,328 @@ msgid ""
 "they have been modified."
 msgstr ""
 
-#: qt/settingsdialog.py:720
+#: qt/settingsdialog.py:360
 msgid "&Auto-remove"
 msgstr "ה&סרה אוטומטית"
 
-#: qt/settingsdialog.py:726
+#: qt/settingsdialog.py:366
 msgid "Older than:"
 msgstr "לפני:"
 
-#: qt/settingsdialog.py:740
+#: qt/settingsdialog.py:380
 msgid "Year(s)"
 msgstr "שנה/ים"
 
-#: qt/settingsdialog.py:748
+#: qt/settingsdialog.py:388
 msgid "If free space is less than:"
 msgstr "אם המקום הפנוי קטן מאשר:"
 
-#: qt/settingsdialog.py:768
+#: qt/settingsdialog.py:408
 msgid "If free inodes is less than:"
 msgstr "אם כמות ה־inodes הפנויה קטנה מאשר:"
 
-#: qt/settingsdialog.py:782
+#: qt/settingsdialog.py:422
 msgid "Smart removal:"
 msgstr "הסרה חכמה:"
 
-#: qt/settingsdialog.py:793
+#: qt/settingsdialog.py:433
 msgid "Run in background on remote host."
 msgstr "הרצה ברקע במארח המרוחק."
 
-#: qt/settingsdialog.py:794
+#: qt/settingsdialog.py:434
 msgid "EXPERIMENTAL"
 msgstr "נסיוני"
 
-#: qt/settingsdialog.py:800
+#: qt/settingsdialog.py:440
 msgid "Keep all snapshots for the last"
 msgstr "לשמור את כל תמונות המצב האחרונות במשך"
 
-#: qt/settingsdialog.py:804 qt/settingsdialog.py:811
+#: qt/settingsdialog.py:444 qt/settingsdialog.py:451
 msgid "day(s)."
 msgstr "יום/ימים."
 
-#: qt/settingsdialog.py:807
+#: qt/settingsdialog.py:447
 msgid "Keep one snapshot per day for the last"
 msgstr "לשמור תמונת מצב ביום למשך"
 
-#: qt/settingsdialog.py:814
+#: qt/settingsdialog.py:454
 msgid "Keep one snapshot per week for the last"
 msgstr "לשמור תמונת מצב בשבוע למשך"
 
-#: qt/settingsdialog.py:818
+#: qt/settingsdialog.py:458
 msgid "week(s)."
 msgstr "שבוע/שבועות."
 
-#: qt/settingsdialog.py:821
+#: qt/settingsdialog.py:461
 msgid "Keep one snapshot per month for the last"
 msgstr "לשמור תמונת מצב בחודש למשך"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:465
 msgid "month(s)."
 msgstr "חודש/חודשים."
 
-#: qt/settingsdialog.py:828
+#: qt/settingsdialog.py:468
 msgid "Keep one snapshot per year for all years."
 msgstr "לשמור תמונת מצב אחת מכל שנה."
 
-#: qt/settingsdialog.py:837
+#: qt/settingsdialog.py:477
 msgid "Don't remove named snapshots."
 msgstr "לא להסיר תמונות מצב עם שם."
 
-#: qt/settingsdialog.py:849
+#: qt/settingsdialog.py:489
 msgid "&Options"
 msgstr "&אפשרויות"
 
-#: qt/settingsdialog.py:854
+#: qt/settingsdialog.py:494
 msgid "Enable notifications"
 msgstr "אפשר הודעות"
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:498
 msgid "Disable snapshots when on battery"
 msgstr "השבת גיבויים כאשר על בטרייה"
 
-#: qt/settingsdialog.py:862
+#: qt/settingsdialog.py:502
 msgid "Power status not available from system"
 msgstr "מצב הכוח אינו זמין מהמערכת"
 
-#: qt/settingsdialog.py:865
+#: qt/settingsdialog.py:505
 msgid "Run only one snapshot at a time"
 msgstr "להריץ שמירה של תמונת מצב אחת כל פעם"
 
-#: qt/settingsdialog.py:868
+#: qt/settingsdialog.py:508
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
 
-#: qt/settingsdialog.py:876
+#: qt/settingsdialog.py:516
 msgid "Backup replaced files on restore"
 msgstr "גיבוי הקבצים המוחלפים בשחזור"
 
-#: qt/settingsdialog.py:879
+#: qt/settingsdialog.py:519
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 
-#: qt/settingsdialog.py:891
+#: qt/settingsdialog.py:531
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "להמשיך כשיש שגיאות (לשמור על תמונות מצב חלקיות)"
 
-#: qt/settingsdialog.py:895
+#: qt/settingsdialog.py:535
 msgid "Use checksum to detect changes"
 msgstr "להשתמש בסכומי בדיקה לאיתור שינויים"
 
-#: qt/settingsdialog.py:899
+#: qt/settingsdialog.py:539
 msgid "Take a new snapshot whether there were changes or not."
 msgstr "לשמור תמונת מצב גם אם לא נערכו שינויים."
 
-#: qt/settingsdialog.py:906
+#: qt/settingsdialog.py:546
 msgid "Log Level:"
 msgstr "רמת פירוט יומן:"
 
-#: qt/settingsdialog.py:911
+#: qt/settingsdialog.py:551
 msgid "None"
 msgstr "ללא"
 
-#: qt/settingsdialog.py:931
+#: qt/settingsdialog.py:571
 msgid "E&xpert Options"
 msgstr "אפשרויות &מומחים"
 
-#: qt/settingsdialog.py:936
+#: qt/settingsdialog.py:576
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
 msgstr ""
 "אזהרה: עדיף לשנות את ההגדרות האלה רק אם ברור לך לחלוטין מה תהיה התוצאה."
 
-#: qt/settingsdialog.py:941 qt/settingsdialog.py:957 qt/settingsdialog.py:979
+#: qt/settingsdialog.py:581 qt/settingsdialog.py:597 qt/settingsdialog.py:619
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "הרצת ‚rsync’ עם ‚{cmd}’:"
 
-#: qt/settingsdialog.py:948 qt/settingsdialog.py:964
+#: qt/settingsdialog.py:588 qt/settingsdialog.py:604
 msgid "as cron job"
 msgstr "כמשימת cron"
 
-#: qt/settingsdialog.py:953 qt/settingsdialog.py:974 qt/settingsdialog.py:995
+#: qt/settingsdialog.py:593 qt/settingsdialog.py:614 qt/settingsdialog.py:635
 msgid "on remote host"
 msgstr "במארח המרוחק"
 
-#: qt/settingsdialog.py:969
+#: qt/settingsdialog.py:609
 msgid "when taking a manual snapshot"
 msgstr "בעת שמירת תמונת מצב ידנית"
 
-#: qt/settingsdialog.py:982
+#: qt/settingsdialog.py:622
 msgid "(Please install 'nocache' to enable this option)"
 msgstr "(נא להתקין ‚nocache’ כדי להפעיל את האפשרות הזאת)"
 
-#: qt/settingsdialog.py:989
+#: qt/settingsdialog.py:629
 msgid "on local machine"
 msgstr "במכונה המקומית"
 
-#: qt/settingsdialog.py:1000
+#: qt/settingsdialog.py:640
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "הפניית stdout ל־‎/dev/null במשימות ה־cron."
 
-#: qt/settingsdialog.py:1005
+#: qt/settingsdialog.py:645
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/settingsdialog.py:1011
+#: qt/settingsdialog.py:651
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "הפניית stderr ל־‎/dev/null במשימות ה־cron."
 
-#: qt/settingsdialog.py:1016
+#: qt/settingsdialog.py:656
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/settingsdialog.py:1024
+#: qt/settingsdialog.py:664
 msgid "Limit rsync bandwidth usage:"
 msgstr "הגבלת ניצולת רוחב הפס של rsync:"
 
-#: qt/settingsdialog.py:1027
+#: qt/settingsdialog.py:667
 msgid "KB/sec"
 msgstr "ק״ב/שנייה"
 
-#: qt/settingsdialog.py:1071
+#: qt/settingsdialog.py:711
 msgid "Preserve ACL"
 msgstr "שימור הרשאות ובעלות"
 
-#: qt/settingsdialog.py:1089
+#: qt/settingsdialog.py:729
 msgid "Preserve extended attributes (xattr)"
 msgstr "שימור מאפיינים מורחבים (xattr)"
 
-#: qt/settingsdialog.py:1112
+#: qt/settingsdialog.py:752
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "העתקת קישורים בלתי מהימנים (עובד רק עם קישורים מוחלטים)"
 
-#: qt/settingsdialog.py:1148
+#: qt/settingsdialog.py:788
 msgid "Restrict to one file system"
 msgstr ""
 
-#: qt/settingsdialog.py:1168
+#: qt/settingsdialog.py:808
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "חובה לשים אפשרויות במירכאות, למשל: ‎{example}."
 
-#: qt/settingsdialog.py:1171
+#: qt/settingsdialog.py:811
 msgid "Paste additional options to rsync"
 msgstr "הדבקת אפשרויות נוספות ל־rsync"
 
-#: qt/settingsdialog.py:1185
+#: qt/settingsdialog.py:825
 msgid "Add prefix to SSH commands"
 msgstr "הוספת קידומת לפקודות SSH"
 
-#: qt/settingsdialog.py:1187
+#: qt/settingsdialog.py:827
 msgid "Prefix to run before every command on remote host."
 msgstr ""
 
-#: qt/settingsdialog.py:1188
+#: qt/settingsdialog.py:828
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 
-#: qt/settingsdialog.py:1196
+#: qt/settingsdialog.py:836
 msgid "default"
 msgstr "ברירת מחדל"
 
-#: qt/settingsdialog.py:1211
+#: qt/settingsdialog.py:851
 msgid "Check if remote host is online"
 msgstr "לבדוק אם המארח המרוחק מחובר"
 
-#: qt/settingsdialog.py:1214
+#: qt/settingsdialog.py:854
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1218
+#: qt/settingsdialog.py:858
 msgid "Check if remote host supports all necessary commands."
 msgstr "לבדוק האם המארח המרוחק תומך בכל הפקודות הנחוצות."
 
-#: qt/settingsdialog.py:1221
+#: qt/settingsdialog.py:861
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1237
+#: qt/settingsdialog.py:877
 msgid "Restore Config"
 msgstr "שחזור הגדרות"
 
-#: qt/settingsdialog.py:1239
+#: qt/settingsdialog.py:879
 msgid "Edit user-callback"
 msgstr "עריכת משוב משתמש"
 
-#: qt/settingsdialog.py:1263
+#: qt/settingsdialog.py:910 qt/settingsdialog.py:2410
+msgid "Mode:"
+msgstr "מצב:"
+
+#: qt/settingsdialog.py:929 qt/settingsdialog.py:1928
+msgid "Where to save snapshots"
+msgstr "איפה לשמור גיבויים"
+
+#: qt/settingsdialog.py:945
+msgid "Folder"
+msgstr "תיקייה"
+
+#: qt/settingsdialog.py:953
+msgid "SSH Settings"
+msgstr "הגדרות SSH"
+
+#: qt/settingsdialog.py:980
+msgid "Path:"
+msgstr "נתיב:"
+
+#: qt/settingsdialog.py:986
+msgid "Cipher:"
+msgstr "צופן:"
+
+#: qt/settingsdialog.py:992
+msgid "Private Key:"
+msgstr "מפתח פרטי:"
+
+#: qt/settingsdialog.py:1002
+msgid "Choose an existing private key file (normally named \"id_rsa\")"
+msgstr "נא לבחור קובץ מפתח פרטי קיים (בדרך כלל נקרא „id_rsa”)"
+
+#: qt/settingsdialog.py:1013
+msgid ""
+"Create a new SSH key without password (not allowed if a private key file is "
+"already selected)."
+msgstr "יצירת מפתח SSH חדש ללא סיסמה (אסור אם כבר נבחר מפתח פרטי)."
+
+#: qt/settingsdialog.py:1043 qt/settingsdialog.py:1052
+#: qt/settingsdialog.py:1058
+msgid "Password"
+msgstr "סיסמה"
+
+#: qt/settingsdialog.py:1064
+msgid "Save Password to Keyring"
+msgstr "שמירת הסיסמה לצרור המפתחות"
+
+#: qt/settingsdialog.py:1068
+msgid "Cache Password for Cron (Security issue: root can read password)"
+msgstr ""
+"שמירת סיסמה ל־Cron במטמון (סיבות אבטחה: משתמש על - root יכול לקרוא סיסמה)"
+
+#: qt/settingsdialog.py:1083
+msgid "Advanced"
+msgstr "הגדרות מתקדמות"
+
+#: qt/settingsdialog.py:1113 qt/settingsdialog.py:2064
+msgid "Full snapshot path:"
+msgstr "נתיב תמונת מצב מלא:"
+
+#: qt/settingsdialog.py:1129
 #, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
@@ -1578,139 +1594,137 @@ msgid ""
 "details are available in this {whitepaper}."
 msgstr ""
 
-#: qt/settingsdialog.py:1285
+#: qt/settingsdialog.py:1151
 msgid "New profile"
 msgstr "פרופיל חדש"
 
-#: qt/settingsdialog.py:1302
+#: qt/settingsdialog.py:1168
 msgid "Rename profile"
 msgstr "שינוי שם לפרופיל"
 
-#: qt/settingsdialog.py:1318
+#: qt/settingsdialog.py:1184
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "למחוק את הפרופיל „{name}”?"
 
-#: qt/settingsdialog.py:1422
+#: qt/settingsdialog.py:1230
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/settingsdialog.py:1427
+#: qt/settingsdialog.py:1235
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}מומלץ בחום{ENDBOLD}: {files}"
 
-#: qt/settingsdialog.py:1634
-msgid ""
-"Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
-"or */3 for periodic backups every 3 hours."
-msgstr ""
-
-#: qt/settingsdialog.py:1681
+#: qt/settingsdialog.py:1454
 msgid "You did not choose a private key file for SSH."
 msgstr ""
 
-#: qt/settingsdialog.py:1682
+#: qt/settingsdialog.py:1455
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr "לייצר צמד מפתחות ציבורי/פרטי ללא סיסמה?"
 
-#: qt/settingsdialog.py:1692
+#: qt/settingsdialog.py:1465
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "קובץ המפתח הפרטי „{file}” לא קיים."
 
-#: qt/settingsdialog.py:1847
+#: qt/settingsdialog.py:1596
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
 "להעתיק את מפתח ה־SSH הציבורי שלך למארח המרוחק כדי לאפשר כניסה ללא סיסמה?"
 
-#: qt/settingsdialog.py:1878
+#: qt/settingsdialog.py:1627
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "אי אפשר לאמת את האמינות של {host}."
 
-#: qt/settingsdialog.py:1881
+#: qt/settingsdialog.py:1630
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/settingsdialog.py:1889
+#: qt/settingsdialog.py:1638
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
 msgstr "נא לאמת את טביעת האצבע הזאת. להוסיף אותה לקובץ ה־‚known_hosts’ שלך?"
 
-#: qt/settingsdialog.py:2061
+#: qt/settingsdialog.py:1828
 msgid "Exclude pattern"
 msgstr "הכללת תבנית"
 
-#: qt/settingsdialog.py:2074
+#: qt/settingsdialog.py:1841
 msgid "Exclude file"
 msgstr "הכללת קובץ"
 
-#: qt/settingsdialog.py:2078
+#: qt/settingsdialog.py:1845
 msgid "Exclude folder"
 msgstr "הכללת תיקיה"
 
-#: qt/settingsdialog.py:2102
+#: qt/settingsdialog.py:1869
 msgid "Include file"
 msgstr "לכלול קובץ"
 
-#: qt/settingsdialog.py:2111 qt/settingsdialog.py:2141
+#: qt/settingsdialog.py:1878 qt/settingsdialog.py:1908
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/settingsdialog.py:2132
+#: qt/settingsdialog.py:1899
 msgid "Include folder"
 msgstr "לכלול תיקיה"
 
-#: qt/settingsdialog.py:2169
+#: qt/settingsdialog.py:1936
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "להחליף את תיקיית תמונות המצב?"
 
-#: qt/settingsdialog.py:2194
+#: qt/settingsdialog.py:1947
+msgid "Is this the backup destination to be used?"
+msgstr ""
+
+#: qt/settingsdialog.py:1971
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "יצירת מפתח SSH חדש תחת {path} נכשלה."
 
-#: qt/settingsdialog.py:2310
+#: qt/settingsdialog.py:2091
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 
-#: qt/settingsdialog.py:2369
+#: qt/settingsdialog.py:2150
 msgid "(default: {})"
 msgstr "(ברירת מחדל: {})"
 
-#: qt/settingsdialog.py:2370
+#: qt/settingsdialog.py:2151
 msgid "disabled"
 msgstr "מושבת"
 
-#: qt/settingsdialog.py:2370
+#: qt/settingsdialog.py:2151
 msgid "enabled"
 msgstr "מופעל"
 
-#: qt/settingsdialog.py:2413
+#: qt/settingsdialog.py:2194
 msgid "Import configuration"
 msgstr "ייבוא הגדרות"
 
-#: qt/settingsdialog.py:2469 qt/settingsdialog.py:2565
+#: qt/settingsdialog.py:2250 qt/settingsdialog.py:2346
 msgid "No config found"
 msgstr "לא נמצאו הגדרות"
 
-#: qt/settingsdialog.py:2494
+#: qt/settingsdialog.py:2275
 msgid "Import"
 msgstr "ייבוא"
 
-#: qt/settingsdialog.py:2522
+#: qt/settingsdialog.py:2303
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
@@ -1719,7 +1733,7 @@ msgstr ""
 "נא לבחור את תיקיית תמונות המצב ממנה ייובא קובץ ההגדרות. הנתיב יכול להיראות "
 "כך: {samplePath}"
 
-#: qt/settingsdialog.py:2527
+#: qt/settingsdialog.py:2308
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
@@ -1824,8 +1838,25 @@ msgstr "להחריג את {path} מתמונות מצב עתידיות?"
 #~ "האם cron מותקן?\n"
 #~ "אם לא יש לבטל את כל הגיבויים האוטומטיים."
 
+#, python-brace-format
+#~ msgid ""
+#~ "Can't write to: {path}\n"
+#~ "Are you sure you have write access?"
+#~ msgstr ""
+#~ "לא ניתן לכתוב אל: {path}\n"
+#~ "האם אתה בטוח שיש ברשותך גישה לכתיבה ?"
+
+#~ msgid "Finalizing"
+#~ msgstr "בהליכי סיום"
+
 #~ msgid "Full snapshot path"
 #~ msgstr "נתיב מלא לתמונת מצב"
+
+#~ msgid "Host/User/Profile-ID must not be empty."
+#~ msgstr "מארח/משתמש/מזהה פרופיל לא יכולים להישאר ריקים."
+
+#~ msgid "Hour:"
+#~ msgstr "שעה:"
 
 #~ msgid "Mode"
 #~ msgstr "מצב"

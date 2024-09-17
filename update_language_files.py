@@ -418,6 +418,13 @@ def create_language_names_dict(language_codes: list) -> dict:
         raise ImportError(
             'Can not import package "babel". Please install it.') from exc
 
+    # Babel minimum version (because language code "ie")
+    from packaging.version import Version
+    if Version(babel.__version__) < Version('2.15'):
+        raise ImportError(
+            f'Babel version 2.15 required. But {babel.__version__} '
+            'is installed.')
+
     # Source language (English) should be included
     if 'en' not in language_codes:
         language_codes.append('en')
