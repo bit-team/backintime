@@ -1,21 +1,13 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import tools
@@ -27,6 +19,7 @@ tools.registerBackintimePath('qt', 'plugins')
 
 import logger
 from exceptions import StopException
+
 
 class Plugin:
     """ Interface methods to customize behavior for different backup steps
@@ -43,8 +36,6 @@ class Plugin:
 
     Plugins are loaded by calling :py:func:`PluginManager.load`.
     """
-    def __init__(self):
-        return
 
     def init(self, snapshots):
         return True
@@ -128,21 +119,17 @@ class Plugin:
         return
 
     def message(self, profile_id, profile_name, level, message, timeout):
-        """ Called to send snapshot-related messages to plugins
+        """Send snapshot-related messages to plugins.
 
         Args:
-            profile_id:     Profile ID from configuration
-            profile_name:   Profile name from the configuration
-            level:          0 = INFO, 1 = ERROR
-            message:        Message text
-            timeout:        Requested timeout in seconds to process
-                            the message. Not used at the moment.
-                            (default -1 means "no timeout")
-
-        Returns:
-            ``None`` (return value will be ignored anyhow)
+            profile_id: Profile ID from configuration.
+            profile_name: Profile name from the configuration.
+            level: 0 = INFO, 1 = ERROR
+            message: Message text.
+            timeout: Requested timeout in seconds to process the message.
+                Not used at the moment. (default -1 means "no timeout")
         """
-        return
+        pass
 
     def appStart(self):
         """ Called when the GUI of Back In Time was started.
@@ -184,6 +171,7 @@ class Plugin:
         """
         return
 
+
 class PluginManager:
     """ Central interface for loading plugins and calling their API
 
@@ -200,13 +188,14 @@ class PluginManager:
     call this plugin function for all loaded plugins.
     """
     # TODO 09/28/2022: Should inherit from + implement class "Plugin"
+
     def __init__(self):
         self.plugins = []
         self.hasGuiPlugins = False
         self.loaded = False
 
-    def load(self, snapshots = None, cfg = None, force = False):
-        """ Loads plugins
+    def load(self, snapshots=None, cfg=None, force=False):
+        """Loads plugins
 
         Loads all plugins from python source code files that are stored
         in one of these plugin sub folders in the installation
@@ -220,11 +209,8 @@ class PluginManager:
         Args:
             snapshots (snapshots.Snapshots): Snapshot info
             cfg (config.Config): Current configuration
-            force (bool):       ``True`` to enforce reloading all plugins
-                                (``False`` does only load if not already done)
-
-        Returns:
-            ``None``
+            force (bool): ``True`` to enforce reloading all plugins (``False``
+                does only load if not already done)
         """
         if self.loaded and not force:
             return

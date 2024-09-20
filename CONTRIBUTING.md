@@ -126,7 +126,6 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `x11-utils`
   - `python3-pyqt6` (not from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
-  - `libnotify-bin`
   - `policykit-1`
   - `qttranslations6-l10n`
   - `qtwayland6` (if Wayland is used as display server instead of X11)
@@ -150,7 +149,11 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `gzip`
   - `gettext`
   - `python3-pyfakefs`
-  - `pylint`
+  - Optional but recommended:
+    - `pylint` (>= 3.3.0)
+    - `pycodestyle`
+    - `ruff` (>= 0.6.6)
+    - `codespell`
 
 ## Build and install via `make` system (recommended)
 
