@@ -37,11 +37,15 @@ ANY_LINTER_AVAILABLE = any((
     PYCODESTYLE_AVAILABLE,
 ))
 
+# "qt" directory
+_base_dir = pathlib.Path(__file__).resolve().parent.parent
+
 # Files in this lists will get the full battery of linters and rule sets.
-full_test_files = [pathlib.Path(fp) for fp in (
+full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
     'combobox.py',
     'encfsmsgbox.py',
+    'plugins/notifyplugin.py',
     'test/test_lint.py',
 )]
 
@@ -134,9 +138,12 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         cmd = [
             'ruff',
             'check',
-            # Additionally activate subset of PyLint (PL)
-            # and PyCodestyle (E, W) rules
-            '--extend-select=PL,E,W',
+            # Additionally activate subset of sepcial rules:
+            # - PyLint (PL)
+            # - PyCodestyle (E, W)
+            # - flake8-gettext (INT)
+            # - useless noqua (RUF100)
+            '--extend-select=PL,E,W,INT,RUF100',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
@@ -243,7 +250,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
             # because there count is low.
-            # 'R0201',  # no-self-use
             # 'R0202',  # no-classmethod-decorator
             # 'R0203',  # no-staticmethod-decorator
             'R0801',  # duplicate-code

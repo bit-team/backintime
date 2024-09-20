@@ -34,7 +34,7 @@
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
-   * [NTFS Compatability](#ntfs-compatability)
+   * [NTFS Compatibility](#ntfs-compatibility)
 - [user-callback and other PlugIns](#user-callback-and-other-plugins)
    * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
    * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
@@ -588,7 +588,7 @@ snapshot will be kept and marked ``With Errors`` or it will be removed.
 By default, *Back In Time* will finally remove the oldest snapshots until there is
 more than 1 GiB free space again.
 
-## NTFS Compatability
+## NTFS Compatibility
 Although devices formatted with the NTFS file system can generally be used with *Back In Time*, there are some limitations to be aware of.
 
 NTFS File systems do not support the following characters in filenames or directories:

@@ -928,7 +928,8 @@ class Snapshots:
 
                             if not ret_error:
                                 self.freeSpace(now)
-                                self.setTakeSnapshotMessage(0, _('Finalizing'))
+                                self.setTakeSnapshotMessage(
+                                    0, _('Please be patient. Finalizing…'))
 
                         time.sleep(2)
                         sleep = False
@@ -945,9 +946,6 @@ class Snapshots:
                         time.sleep(2)
                         sleep = False
 
-                    if not ret_error:
-                        self.clearTakeSnapshotMessage()
-
                     # unmount
                     try:
                         mount.Mount(cfg=self.config) \
@@ -956,8 +954,10 @@ class Snapshots:
                     except MountException as ex:
                         logger.error(str(ex), self)
 
+                    if not ret_error:
+                        self.clearTakeSnapshotMessage()
+
                     instance.exitApplication()
-                    # self.flockRelease()
 
                     logger.info('Unlock', self)
                     # --- END GlobalFlock context ---
