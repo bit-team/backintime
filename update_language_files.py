@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
 """
@@ -359,7 +366,7 @@ def create_languages_file():
 
         date_now = datetime.datetime.now().strftime('%c')
         handle.write(
-            f'# Generated at {date_now} with help of package "babel" '
+            f'# Generated at {date_now} with help\n# of package "babel" '
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
@@ -410,6 +417,13 @@ def create_language_names_dict(language_codes: list) -> dict:
     except ImportError as exc:
         raise ImportError(
             'Can not import package "babel". Please install it.') from exc
+
+    # Babel minimum version (because language code "ie")
+    from packaging.version import Version
+    if Version(babel.__version__) < Version('2.15'):
+        raise ImportError(
+            f'Babel version 2.15 required. But {babel.__version__} '
+            'is installed.')
 
     # Source language (English) should be included
     if 'en' not in language_codes:

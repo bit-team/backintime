@@ -1,20 +1,14 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 from pathlib import Path
 import stat
@@ -40,6 +34,7 @@ import snapshotlog
 import flock
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
+from uniquenessset import UniquenessSet
 
 
 class Snapshots:
@@ -933,7 +928,8 @@ class Snapshots:
 
                             if not ret_error:
                                 self.freeSpace(now)
-                                self.setTakeSnapshotMessage(0, _('Finalizing'))
+                                self.setTakeSnapshotMessage(
+                                    0, _('Please be patient. Finalizing…'))
 
                         time.sleep(2)
                         sleep = False
@@ -950,9 +946,6 @@ class Snapshots:
                         time.sleep(2)
                         sleep = False
 
-                    if not ret_error:
-                        self.clearTakeSnapshotMessage()
-
                     # unmount
                     try:
                         mount.Mount(cfg=self.config) \
@@ -961,8 +954,10 @@ class Snapshots:
                     except MountException as ex:
                         logger.error(str(ex), self)
 
+                    if not ret_error:
+                        self.clearTakeSnapshotMessage()
+
                     instance.exitApplication()
-                    # self.flockRelease()
 
                     logger.info('Unlock', self)
                     # --- END GlobalFlock context ---
@@ -2111,7 +2106,7 @@ class Snapshots:
             return snapshotsFiltered
 
         # check for duplicates
-        uniqueness = tools.UniquenessSet(
+        uniqueness = UniquenessSet(
             flag_deep_check, follow_symlink=False, list_equal_to=list_equal_to)
 
         for sid in allSnapshotsList:
@@ -2301,8 +2296,7 @@ class Snapshots:
                 or ``1`` if ``item`` is a file.
 
         Returns:
-            (tuple): Two item tuple of ``(OrderedSet('include1 options'),
-                OrderedSet('include2 options'))``.
+            (tuple): Two item tuple with two lists.
         """
         # Include items..
         # ...before the exclude items and...

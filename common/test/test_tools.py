@@ -1,20 +1,16 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Tests about the tools module."""
 import os
 import sys
 import subprocess
@@ -23,6 +19,7 @@ import pathlib
 import gzip
 import stat
 import signal
+import unittest
 from datetime import datetime
 from time import sleep
 from unittest.mock import patch
@@ -30,10 +27,10 @@ from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from test import generic
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
 import configfile
+from bitbase import TimeUnit
 
 # chroot jails used for building may have no UUID devices (because of tmpfs)
 # we need to skip tests that require UUIDs
@@ -79,11 +76,11 @@ class TestTools(generic.TestCase):
     """
 
     def setUp(self):
-        super(TestTools, self).setUp()
+        super().setUp()
         self.subproc = None
 
     def tearDown(self):
-        super(TestTools, self).tearDown()
+        super().tearDown()
         self._kill_process()
 
     def _create_process(self, *args):
@@ -499,7 +496,7 @@ class TestTools(generic.TestCase):
             'echo start;echo foo;echo foo;echo foo;echo end')
 
 
-class TestEscapeIPv6(generic.TestCase):
+class EscapeIPv6(generic.TestCase):
     def test_escaped(self):
         values_and_expected = (
             ('fd00:0::5', '[fd00:0::5]'),
@@ -547,21 +544,21 @@ class TestEscapeIPv6(generic.TestCase):
                 self.assertEqual(tools.escapeIPv6Address(val), val)
 
 
-class TestToolsEnviron(generic.TestCase):
+class Environ(generic.TestCase):
     """???
     """
 
     def __init__(self, *args, **kwargs):
-        super(TestToolsEnviron, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.env = deepcopy(os.environ)
 
     def setUp(self):
-        super(TestToolsEnviron, self).setUp()
+        super().setUp()
         self.temp_file = '/tmp/temp.txt'
         os.environ = deepcopy(self.env)
 
     def tearDown(self):
-        super(TestToolsEnviron, self).tearDown()
+        super().tearDown()
         if os.path.exists(self.temp_file):
             os.remove(self.temp_file)
         os.environ = deepcopy(self.env)
@@ -625,137 +622,7 @@ class TestToolsEnviron(generic.TestCase):
                 self.assertEqual(test_env.strValue(k), str(i), msg)
 
 
-class TestToolsUniquenessSet(generic.TestCase):
-    # TODO: add test for follow_symlink
-    def test_checkUnique(self):
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
-
-            for i in (t1, t2):
-                with open(i, 'wt') as f:
-                    f.write('bar')
-            for i in (t3, t4):
-                with open(i, 'wt') as f:
-                    f.write('42')
-
-            # fix timestamps because otherwise test will fail on slow machines
-            obj = os.stat(t1)
-            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
-            obj = os.stat(t3)
-            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
-
-            # same size and mtime
-            uniqueness = tools.UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
-
-            os.utime(t1, times=(0, 0))
-            os.utime(t3, times=(0, 0))
-
-            # same size different mtime
-            uniqueness = tools.UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertTrue(uniqueness.check(t4))
-
-            # same size different mtime use deep_check
-            uniqueness = tools.UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
-
-    def test_checkUnique_hardlinks(self):
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
-
-            with open(t1, 'wt') as f:
-                f.write('bar')
-            os.link(t1, t2)
-            self.assertEqual(os.stat(t1).st_ino, os.stat(t2).st_ino)
-
-            with open(t3, 'wt') as f:
-                f.write('42')
-            os.link(t3, t4)
-            self.assertEqual(os.stat(t3).st_ino, os.stat(t4).st_ino)
-
-            uniqueness = tools.UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to='')
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertTrue(uniqueness.check(t3))
-            self.assertFalse(uniqueness.check(t4))
-
-    def test_checkEqual(self):
-        with TemporaryDirectory() as d:
-            for i in range(1, 5):
-                os.mkdir(os.path.join(d, str(i)))
-            t1 = os.path.join(d, '1', 'foo')
-            t2 = os.path.join(d, '2', 'foo')
-            t3 = os.path.join(d, '3', 'foo')
-            t4 = os.path.join(d, '4', 'foo')
-
-            for i in (t1, t2):
-                with open(i, 'wt') as f:
-                    f.write('bar')
-            for i in (t3, t4):
-                with open(i, 'wt') as f:
-                    f.write('42')
-
-            # fix timestamps because otherwise test will fail on slow machines
-            obj = os.stat(t1)
-            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
-            obj = os.stat(t3)
-            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
-
-            # same size and mtime
-            uniqueness = tools.UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to=t1)
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertFalse(uniqueness.check(t3))
-
-            os.utime(t1, times=(0, 0))
-
-            # same size different mtime
-            uniqueness = tools.UniquenessSet(dc=False,
-                                             follow_symlink=False,
-                                             list_equal_to=t1)
-            self.assertTrue(uniqueness.check(t1))
-            self.assertFalse(uniqueness.check(t2))
-            self.assertFalse(uniqueness.check(t3))
-
-            # same size different mtime use deep_check
-            uniqueness = tools.UniquenessSet(dc=True,
-                                             follow_symlink=False,
-                                             list_equal_to=t1)
-            self.assertTrue(uniqueness.check(t1))
-            self.assertTrue(uniqueness.check(t2))
-            self.assertFalse(uniqueness.check(t3))
-
-
-class TestToolsExecuteSubprocess(generic.TestCase):
+class ExecuteSubprocess(generic.TestCase):
     # new method with subprocess
     def test_returncode(self):
         self.assertEqual(tools.Execute(['true']).run(), 0)
@@ -823,3 +690,137 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
                 'branch': 'fix/foobar'
             }
         )
+
+
+class ValidateSnapshotsPath(generic.TestCaseCfg):
+    def test_writes(self):
+        with TemporaryDirectory() as dirpath:
+            ret = tools.validate_and_prepare_snapshots_path(
+                path=dirpath,
+                host_user_profile=self.cfg.hostUserProfile(),
+                mode=self.cfg.snapshotsMode(),
+                copy_links=self.cfg.copyLinks(),
+                error_handler=self.cfg.notifyError)
+            self.assertTrue(ret)
+
+    def test_fails_on_ro(self):
+        with TemporaryDirectory() as dirpath:
+            # set directory to read only
+            ro_dir_stats = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH
+            with generic.mockPermissions(dirpath, ro_dir_stats):
+                ret = tools.validate_and_prepare_snapshots_path(
+                    path=dirpath,
+                    host_user_profile=self.cfg.hostUserProfile(),
+                    mode=self.cfg.snapshotsMode(),
+                    copy_links=self.cfg.copyLinks(),
+                    error_handler=self.cfg.notifyError)
+                self.assertFalse(ret)
+
+    @patch('os.chmod')
+    def test_permission_fail(self, mock_chmod):
+        mock_chmod.side_effect = PermissionError()
+        with TemporaryDirectory() as dirpath:
+            ret = tools.validate_and_prepare_snapshots_path(
+                path=dirpath,
+                host_user_profile=self.cfg.hostUserProfile(),
+                mode=self.cfg.snapshotsMode(),
+                copy_links=self.cfg.copyLinks(),
+                error_handler=self.cfg.notifyError)
+            self.assertTrue(ret)
+
+
+@patch(f'{tools.__name__}.datetime', wraps=datetime)
+class OlderThan(unittest.TestCase):
+
+    def test_hours_not_older(self, mock_dt):
+        """Exact two hours
+
+        Keep in mind: 20:23:00 is NOT two hours older than 18:23:00. But
+        20:23:01 IS OLDER than two hours.
+        """
+        # year, month, day, hour=0, minute=0, second=0, microsecond=0
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # exact two hours
+        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 2, TimeUnit.HOUR))
+
+    def test_hours_older(self, mock_dt):
+        """Two hours plus one ms"""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # two hours + 1 ms
+        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 2, TimeUnit.HOUR))
+
+    def test_days_not_older(self, mock_dt):
+        """Two days"""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 8, 8, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 2, TimeUnit.DAY))
+
+    def test_days_older(self, mock_dt):
+        """Two days plus one ms"""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 8, 8, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 2, TimeUnit.DAY))
+
+    def test_week_not_older(self, mock_dt):
+        """Two weeks"""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 8, 20, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 2, TimeUnit.WEEK))
+
+    def test_week_older(self, mock_dt):
+        """Two weeks plus one ms"""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 8, 20, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 2, TimeUnit.WEEK))
+
+    def test_month_not_older(self, mock_dt):
+        """Two months."""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 10, 6, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 2, TimeUnit.MONTH))
+
+    def test_month_older(self, mock_dt):
+        """Two months plus one ms."""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 10, 6, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 2, TimeUnit.MONTH))
+
+    def test_month_31th(self, mock_dt):
+        """From May with 31th as last day to September with 30th as last day."""
+        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 4, TimeUnit.MONTH))
+
+    def test_month_31th_plus_ms(self, mock_dt):
+        """Plus one ms"""
+        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 4, TimeUnit.MONTH))
+
+    def test_month_next_year(self, mock_dt):
+        """Into next year with 7 months."""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 0)
+
+        self.assertFalse(tools.older_than(birth, 7, TimeUnit.MONTH))
+
+    def test_month_next_year_plus_ms(self, mock_dt):
+        """Into next year with 7 months plus 1 ms."""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 1)
+
+        self.assertTrue(tools.older_than(birth, 7, TimeUnit.MONTH))

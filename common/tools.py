@@ -3,12 +3,13 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Collection of helper functions not fitting to other modules.
 """
 import os
@@ -24,8 +25,10 @@ import locale
 import gettext
 import hashlib
 import ipaddress
-from datetime import datetime
+from datetime import datetime, timedelta
 from packaging.version import Version
+from typing import Union
+from bitbase import TimeUnit
 import logger
 
 # Try to import keyring
@@ -68,6 +71,14 @@ import configfile
 import bcolors
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
 import languages
+
+# Workaround:
+# While unittesting and without regular invocation of BIT the GNU gettext
+# class-based API isn't setup yet.
+try:
+    _('Warning')
+except NameError:
+    _ = lambda val: val
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -369,6 +380,166 @@ def get_native_language_and_completeness(language_code):
 
     return (name, completeness)
 
+# |---------------------------------------|
+# | Snapshot handling                     |
+# |                                       |
+# | Candidates for refactoring and moving |
+# | into better suited modules/classes    |
+# |---------------------------------------|
+
+NTFS_FILESYSTEM_WARNING = _(
+    'The destination filesystem for {path} is formatted with NTFS, which has '
+    'known incompatibilities with Unix-style filesystems.')
+
+
+def validate_and_prepare_snapshots_path(
+        path: Union[str, pathlib.Path],
+        host_user_profile: tuple[str, str, str],
+        mode: str,
+        copy_links: bool,
+        error_handler: callable) -> bool:
+    """Check if the given path is valid for being a snapshot path.
+
+    It is checked if it is a folder, if it is writable, if the filesystem is
+    supported and several other things.
+
+    Dev note  (buhtz, 2024-09): That code is a good candidate to get moved
+        into a class or module.
+
+    Args:
+        path: The path to validate as a snapshot path.
+        host_user_profile: I three item list containing the values for 'host',
+            'user' and 'profile' used as additional components for the
+            snapshots path.
+        mode: The profiles mode.
+        copy_links: The copy links value.
+        error_handler: Handle function receiving error messages.
+
+    Returns: Success (`True`) or failure (`False`).
+    """
+    path = pathlib.Path(path)
+
+    if not path.is_dir():
+        error_handler(_('Invalid option. {path} is not a folder.')
+                      .format(path=path))
+        return False
+
+    # build full path
+    # <path>/backintime/<host>/<user>/<profile_id>
+    full_path = pathlib.Path(path, 'backintime', *host_user_profile)
+
+    # create full_path
+    try:
+        full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
+
+    except PermissionError:
+        error_handler('\n'.join([
+            _('Creation of following folder failed:'),
+            str(full_path),
+            _(f'Write access may be restricted.')]))
+        return False
+
+    # Test filesystem
+    rc, msg = is_filesystem_valid(
+        full_path, path, mode, copy_links)
+    if msg:
+        error_handler(msg)
+    if rc is False:
+        return False
+
+    # Test write access for the folder
+    rc, msg = is_writeable(full_path)
+    if msg:
+        error_handler(msg)
+    if rc is False:
+        return False
+
+    return True
+
+
+def is_filesystem_valid(full_path, msg_path, mode, copy_links):
+    """
+    Args:
+        full_path: The path to validate.
+        msg_path: The path used for display in error messages.
+        mode: Snapshot profile mode.
+        copy_links: Snapshot profiles copy links setting.
+
+    Returns:
+        (bool, str): A boolean value indicating success or failure and a
+            msg string.
+
+    """
+    fs = filesystem(full_path if isinstance(full_path, str) else str(full_path))
+
+    msg = None
+
+    if fs == 'vfat':
+        msg = _(
+            "Destination filesystem for {path} is formatted with FAT "
+            "which doesn't support hard-links. "
+            "Please use a native Linux filesystem.").format(path=msg_path)
+
+        return False, msg
+
+    elif fs.startswith('ntfs'):
+        msg = NTFS_FILESYSTEM_WARNING.format(path=msg_path)
+
+    elif fs == 'cifs' and not copy_links:
+        msg = _(
+            'Destination filesystem for {path} is an SMB-mounted share. '
+            'Please make sure the remote SMB server supports symlinks or '
+            'activate {copyLinks} in {expertOptions}.') \
+            .format(path=msg_path,
+                    copyLinks=_('Copy links (dereference symbolic links)'),
+                    expertOptions=_('Expert Options'))
+
+    elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+        msg = _(
+            "Destination filesystem for {path} is an sshfs-mounted share."
+            " Sshfs doesn't support hard-links. "
+            "Please use mode 'SSH' instead.").format(path=msg_path)
+
+        return False, msg
+
+    return True, msg
+
+
+def is_writeable(folder):
+    """Test write access for the folder.
+
+    Args:
+        folder: The folder to check.
+
+    Returns:
+        (bool, str): A boolean value indicating success or failure and a
+            msg string.
+    """
+
+    folder = pathlib.Path(folder)
+
+    check_path = folder / 'check'
+
+    try:
+        check_path.mkdir(
+            # Do not create parent folders
+            parents=False,
+            # Raise error if exists
+            exist_ok=False
+        )
+
+    except PermissionError:
+        msg = '\n'.join([
+            _('File creation failed in this folder:'),
+            str(folder),
+            _('Write access may be restricted.')])
+        return False, msg
+
+    else:
+        check_path.rmdir()
+
+    return True, None
+
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
@@ -529,6 +700,59 @@ def readFileLines(path, default = None):
         pass
 
     return ret_val
+
+
+def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
+    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
+    hours compared to the current time (`datetime.now()`).
+
+    The resolution used is on microseconds level. Months are calculated based
+    on calendar.
+
+    Args:
+        dt: Timestamp to be compared with on microsecond level.
+        value: Number of units.
+        unit: Specify to treat ``value`` as hours, days, weeks or months.
+
+    Return:
+        ``True`` if older, otherwise ``False``.
+    """
+    if not isinstance(unit, TimeUnit):
+        unit = TimeUnit(unit)
+
+    now = datetime.now()
+
+    if unit is TimeUnit.HOUR:
+        return dt < now - timedelta(hours=value)
+
+    if unit is TimeUnit.DAY:
+        return dt < now - timedelta(days=value)
+
+    if unit is TimeUnit.WEEK:
+        return dt < now - timedelta(weeks=value)
+
+    if unit is TimeUnit.MONTH:
+        # Calculate months based on calendar because timedelta do not support
+        # months.
+        compare_month = (dt.month + value - 1) % 12 + 1
+        compare_year = dt.year + (dt.month + value - 1) // 12
+        # make sure that day exist in the month
+        last_day_dt \
+            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
+        compare_day = min(dt.day, last_day_dt.day)
+
+        compare_dt = datetime(
+            compare_year, compare_month, compare_day,
+            now.hour, now.minute, now.microsecond)
+
+        return now < compare_dt
+
+    # Dev note (buhtz, 2024-09): This code branch already existed in the
+    # original code (but silent, without throwing an exception). Even if it may
+    # seem (nearly) pointless, it will be kept for now to ensure that it is
+    # never executed.
+    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
+                       'Please report it via a bug ticket.')
 
 
 def checkCommand(cmd):
@@ -1866,125 +2090,6 @@ def camelCase(s):
         str:        string without underlines but uppercase chars (FooBar)
     """
     return ''.join([x.capitalize() for x in s.split('_')])
-
-
-class UniquenessSet:
-    """
-    Check for uniqueness or equality of files.
-
-    """
-    def __init__(self, dc=False, follow_symlink=False, list_equal_to=''):
-        """
-        Args:
-            dc (bool):              if ``True`` use deep check which will compare
-                                    files md5sums if they are of same size but no
-                                    hardlinks (don't have the same inode).
-                                    If ``False`` use files size and mtime
-            follow_symlink (bool):  if ``True`` check symlinks target instead of the
-                                    link
-            list_equal_to (str):    full path to file. If not empty only return
-                                    equal files to the given path instead of
-                                    unique files.
-        """
-        self.deep_check = dc
-        self.follow_sym = follow_symlink
-        self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
-        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink
-        self.list_equal_to = list_equal_to
-        if list_equal_to:
-            st = os.stat(list_equal_to)
-            if self.deep_check:
-                self.reference = (st.st_size, md5sum(list_equal_to))
-            else:
-                self.reference = (st.st_size, int(st.st_mtime))
-
-    def check(self, input_path):
-        """
-        Check file ``input_path`` for either uniqueness or equality
-        (depending on ``list_equal_to`` from constructor).
-
-        Args:
-            input_path (str):   full path to file
-
-        Returns:
-            bool:               ``True`` if file is unique and ``list_equal_to``
-                                is empty.
-                                Or ``True`` if file is equal to file in
-                                ``list_equal_to``
-        """
-        # follow symlinks ?
-        path = input_path
-        if self.follow_sym and os.path.islink(input_path):
-            path = os.readlink(input_path)
-
-        if self.list_equal_to:
-            return self.checkEqual(path)
-        else:
-            return self.checkUnique(path)
-
-    def checkUnique(self, path):
-        """
-        Check file ``path`` for uniqueness and store a unique key for ``path``.
-
-        Args:
-            path (str): full path to file
-
-        Returns:
-            bool:       ``True`` if file is unique
-        """
-        # check
-        if self.deep_check:
-            dum = os.stat(path)
-            size,inode  = dum.st_size, dum.st_ino
-            # is it a hlink ?
-            if (size, inode) in self._size_inode:
-                logger.debug("[deep test]: skip, it's a duplicate (size, inode)", self)
-                return False
-            self._size_inode.add((size,inode))
-            if size not in self._uniq_dict:
-                # first item of that size
-                unique_key = size
-                logger.debug("[deep test]: store current size?", self)
-            else:
-                prev = self._uniq_dict[size]
-                if prev:
-                    # store md5sum instead of previously stored size
-                    md5sum_prev = md5sum(prev)
-                    self._uniq_dict[size] = None
-                    self._uniq_dict[md5sum_prev] = prev
-                    logger.debug("[deep test]: size duplicate, remove the size, store prev md5sum", self)
-                unique_key = md5sum(path)
-                logger.debug("[deep test]: store current md5sum?", self)
-        else:
-            # store a tuple of (size, modification time)
-            obj  = os.stat(path)
-            unique_key = (obj.st_size, int(obj.st_mtime))
-        # store if not already present, then return True
-        if unique_key not in self._uniq_dict:
-            logger.debug(" >> ok, store!", self)
-            self._uniq_dict[unique_key] = path
-            return True
-        logger.debug(" >> skip (it's a duplicate)", self)
-        return False
-
-    def checkEqual(self, path):
-        """
-        Check if ``path`` is equal to the file in ``list_equal_to`` from
-        constructor.
-
-        Args:
-            path (str): full path to file
-
-        Returns:
-            bool:       ``True`` if file is equal
-        """
-        st = os.stat(path)
-        if self.deep_check:
-            if self.reference[0] == st.st_size:
-                return self.reference[1] == md5sum(path)
-            return False
-        else:
-            return self.reference == (st.st_size, int(st.st_mtime))
 
 
 class Alarm:

@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: © 2022 Christian BUHTZ <c.buhtz@posteo.jp>
 #
-# SPDX-License-Identifier: GPL-2.0
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Provides the ability to collect diagnostic information on Back In Time.
 
 These are version numbers of the dependent tools, environment variables,
@@ -187,7 +187,6 @@ def collect_diagnostics():
     return result
 
 
-
 def _get_qt_information():
     """Collect Version and Theme information from Qt.
 
@@ -334,7 +333,8 @@ def _get_rsync_info():
             if isinstance(info[key], list):
                 info[key] = ', '.join(info[key])
             elif isinstance(info[key], dict):
-                info[key] = '; '.join(f'{k}: {v}' for k, v in info[key].items())
+                info[key] = '; '.join(
+                    f'{k}: {v}' for k, v in info[key].items())
 
     return info
 

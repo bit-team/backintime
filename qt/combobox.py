@@ -5,6 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+"""Module with an improved combo box widget."""
 from PyQt6.QtWidgets import QComboBox, QWidget
 
 
@@ -44,6 +45,7 @@ class BitComboBox(QComboBox):
 
     @property
     def current_data(self):
+        """Data linked to the current selected entry."""
         return self.itemData(self.currentIndex())
 
     def select_by_data(self, data):

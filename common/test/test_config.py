@@ -1,46 +1,17 @@
-# Back In Time
-# Copyright (C) 2016 Taylor Raack
+# SPDX-FileCopyrightText: © 2016 Taylor Raack
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about config module.
 """
 import os
-import stat
 import sys
 import getpass
-from unittest import mock
 from test import generic
-from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-class TestConfig(generic.TestCaseCfg):
-    def test_set_snapshots_path_test_writes(self):
-        with TemporaryDirectory() as dirpath:
-            self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
-
-    def test_set_snapshots_path_fails_on_ro(self):
-        with TemporaryDirectory() as dirpath:
-            # set directory to read only
-            with generic.mockPermissions(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH):
-                self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
-
-    @mock.patch('os.chmod')
-    def test_set_snapshots_path_permission_fail(self, mock_chmod):
-        mock_chmod.side_effect = PermissionError()
-        with TemporaryDirectory() as dirpath:
-            self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
 
 
 class TestSshCommand(generic.SSHTestCase):

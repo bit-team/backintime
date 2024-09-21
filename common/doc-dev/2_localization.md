@@ -233,7 +233,7 @@ correct = _("Hello 'World'")
 problematic = _('One\nTwo')`
 correct = _('One') + '\n' + _('Two')  # <- Separation into multiple strings is
                                       #    no problem, because the translator
-                                      #    whill have a screenshot.
+                                      #    will have a screenshot.
 
 # Provide meaningful placeholder names
 problematic = _('Can not delete {var}.')

@@ -8,8 +8,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import datetime
 import copy
@@ -1578,21 +1578,12 @@ class SettingsDialog(QDialog):
         self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
         self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
 
-        # TODO - consider a single API method to bridge the UI layer
-        # (settings dialog) and backend layer (config)
-        # when setting snapshots path rather than having to call the
-        # mount module from the UI layer
-        #
-        # currently, setting snapshots path requires the path to be mounted.
-        # it seems that it might be nice,
-        # since the config object is more than a data structure, but has
-        # side-effect logic as well, to have the
-        # config.setSnapshotsPath() method take care of everything it needs
-        # to perform its job
-        # (mounting and unmounting the fuse filesystem if necessary).
-        # https://en.wikipedia.org/wiki/Single_responsibility_principle
-
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
+        # DEV NOTE (Taylor Raack, 2016-01) - consider a single API method to
+        # bridge the UI layer (settings dialog) and backend layer (config) when
+        # setting snapshots path rather than having to call the mount module
+        # from the UI layer
+        # DEV NOTE (buhtz, 2024-09): Work in progress ...
+        if mode != 'local':
             # preMountCheck
             mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
 
@@ -1678,25 +1669,27 @@ class SettingsDialog(QDialog):
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
         # save snaphots_path
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            snapshots_path = self.editSnapshotsPath.text()
-        else:
-            snapshots_path = self.config.snapshotsPath(mode=mode,
-                                                       tmp_mount=True)
+        if mode == 'local':
+            self.config.set_snapshots_path(self.editSnapshotsPath.text())
 
-        ret = self.config.setSnapshotsPath(snapshots_path, mode=mode)
+        snapshots_mountpoint = self.config.get_snapshots_mountpoint(
+            tmp_mount=True)
+        ret = tools.validate_and_prepare_snapshots_path(
+            path=snapshots_mountpoint,
+            host_user_profile=self.config.hostUserProfile(),
+            mode=mode,
+            copy_links=self.config.copyLinks(),
+            error_handler=self.config.notifyError)
 
         if not ret:
             return ret
 
         # umount
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
-
+        if mode != 'local':
             try:
                 mnt.umount(hash_id=hash_id)
             except MountException as ex:
                 self.errorHandler(str(ex))
-
                 return False
 
         return True
@@ -1950,7 +1943,7 @@ class SettingsDialog(QDialog):
             fs = tools.filesystem(path)
             if fs.startswith('ntfs'):
                 text = '\n'.join([
-                    self.config.NTFS_FILESYSTEM_WARNING,
+                    tools.NTFS_FILESYSTEM_WARNING,
                     _('Is this the backup destination to be used?')
                 ])
                 question = text.format(path=path)
