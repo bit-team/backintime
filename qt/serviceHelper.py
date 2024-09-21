@@ -1,41 +1,40 @@
-# (from BackInTime)
-# Copyright (C) 2015-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008 Canonical Ltd.
+# SPDX-FileCopyrightText: © 2004-2006 Red Hat Inc. <http://www.redhat.com>
+# SPDX-FileCopyrightText: © 2005-2007 Collabora Ltd. <http://www.collabora.co.uk>
+# SPDX-FileCopyrightText: © 2009 David D. Lowe
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: CC0-1.0
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# This file is released under several licenses mentioned above. The file is
+# part of the program "Back In Time". The program as a whole is released under
+# GNU General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# - <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# - <https://spdx.org/licenses/MIT.html>
+# - <https://spdx.org/licenses/CC0-1.0.html>
 #
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-# (from jockey)
-# (c) 2008 Canonical Ltd.
+# Note about the licenses by Christian Buhtz (2024-09):
+# Despite extensive research and attempts to contact the aforementioned
+# individuals and institutions, it was not possible to definitively determine
+# which of the mentioned licenses and copyright notices apply to which parts of
+# the code contained in this file. The situation could not be clarified even
+# with the git commit history.
+# It should be noted that, in case of doubt, preference should be given to the
+# strongest or most restrictive license.
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# Before SPDX meta data was added to the file it originally had some comments
+# that are summarized as follows:
+# - Germar Reitze claimed GPL-2.0-or-later in context of Back In Time.
+# - Unknown person claimed GPL-2.0-or-later in context of "jockey".
+# - Read Hat Inc. and Collabora Ltd. claimed MIT License in context of
+#   "python-dbus-docs"
+# - David D. Lowe claimed CC0-1.0 (public domain) in unknown context.
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-# (from python-dbus-docs)
-# Copyright (C) 2004-2006 Red Hat Inc. <http://www.redhat.com/>
-# Copyright (C) 2005-2007 Collabora Ltd. <http://www.collabora.co.uk/>
-#
+# Because of MIT License the following permission notice need to be included
+# in this file and should not be removed:
+# --- Begin of MIT License permission notice ---
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
 # files (the "Software"), to deal in the Software without
@@ -55,12 +54,7 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-#
-# This file was modified by David D. Lowe in 2009.
-# To the extent possible under law, David D. Lowe has waived all
-# copyright and related or neighboring rights to his modifications to
-# this file under this license: http://creativecommons.org/publicdomain/zero/1.0/
-
+# --- End of MIT License permission notice ---
 import os
 import re
 from subprocess import Popen, PIPE
