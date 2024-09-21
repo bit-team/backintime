@@ -149,7 +149,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `gzip`
   - `gettext`
   - `python3-pyfakefs`
-   - Optional but recommended:
+  - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `pycodestyle`
     - `ruff` (>= 0.6.6)
