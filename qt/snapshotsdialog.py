@@ -240,15 +240,21 @@ class SnapshotsDialog(QDialog):
         self.comboDiff.clear()
 
         equal_to_sid = self.comboEqualTo.currentSnapshotID()
+
         if self.cbOnlyEqualSnapshots.isChecked() and equal_to_sid:
             equal_to = equal_to_sid.pathBackup(self.path)
         else:
             equal_to = False
-        snapshotsFiltered = self.snapshots.filter(self.sid, self.path,
-                                self.snapshotsList,
-                                self.cbOnlyDifferentSnapshots.isChecked(),
-                                self.cbDeepCheck.isChecked(),
-                                equal_to)
+
+        snapshotsFiltered = self.snapshots.filter(
+            base_sid=self.sid,
+            base_path=self.path,
+            snapshotsList=self.snapshotsList,
+            list_diff_only=self.cbOnlyDifferentSnapshots.isChecked(),
+            flag_deep_check=self.cbDeepCheck.isChecked(),
+            list_equal_to=equal_to
+        )
+
         for sid in snapshotsFiltered:
             self.addSnapshot(sid)
 
