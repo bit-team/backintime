@@ -139,7 +139,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         cmd = [
             'ruff',
             'check',
-            # Additionally activate subset of sepcial rules:
+            # Additionally activate subset of special rules:
             # - PyLint (PL)
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
