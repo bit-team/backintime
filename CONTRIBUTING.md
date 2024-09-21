@@ -156,7 +156,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
     - `codespell`
  
 * Dependencies to build documentation
-  - All runtime, build, testing dependencies icluding the recommended
+  - All runtime, build, testing dependencies including the recommended
   - `mkdocs`
   - `mkdocs-material`
 

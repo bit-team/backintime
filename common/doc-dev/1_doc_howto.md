@@ -39,7 +39,7 @@ The project distinguish between three types of documentation:
    [backintime-dev.readthedocs.io](http://backintime-dev.readthedocs.io) and
    generated from the Python source files using
    [Sphinx](https://www.sphinx-doc.org) (migration to
-   [PyDoctor](https://pydoctor.readthedocs.io) is planed).
+   [PyDoctor](https://pydoctor.readthedocs.io) is planned).
 3. The **Maintenance and Developer documentation** is a bunch of Markdown
    files, like the one you are reading currently.
 
@@ -52,7 +52,7 @@ Install related dependencies:
   - See file [`CONTRIBUTING.md`](../../CONTRIBUTING.md) in this repo for a
     complete and up to date list of dependencies.
 
-**Live preview HTML documention as working on it**:
+**Live preview HTML documentation as working on it**:
 
 ```sh
 # Enter folder
@@ -61,7 +61,7 @@ $ cd doc/manual
 # Start built-in server
 $ mkdocs serve
 ```
-Open [127.0.0.1:8000](http://127.0.0.1:8000) in your browser. Everytime the
+Open [127.0.0.1:8000](http://127.0.0.1:8000) in your browser. Every time the
 underlying markdown files are modified the server will on the fly generate new
 HTML.
 
