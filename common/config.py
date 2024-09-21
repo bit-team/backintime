@@ -1448,37 +1448,11 @@ class Config(configfile.ConfigFileWithProfiles):
         if not last_time:
             return True
 
-        value = self.scheduleRepeatedPeriod(profile_id)
-        unit = self.scheduleRepeatedUnit(profile_id)
-
-        return self.olderThan(last_time, value, unit)
-
-    def olderThan(self, time, value, unit):
-        """
-        return True if time is older than months, weeks, days or hours
-        """
-        assert isinstance(time, datetime.datetime), 'time is not datetime.datetime type: %s' % time
-
-        now = datetime.datetime.now()
-
-        if unit <= self.HOUR:
-            return time < now - datetime.timedelta(hours = value)
-        elif unit <= self.DAY:
-            return time.date() <= now.date() - datetime.timedelta(days = value)
-        elif unit <= self.WEEK:
-            return time.date() < now.date() \
-                                 - datetime.timedelta(days = now.date().weekday()) \
-                                 - datetime.timedelta(weeks = value - 1)
-        elif unit <= self.MONTH:
-            firstDay = now.date() - datetime.timedelta(days = now.date().day + 1)
-            for _idx in range(value - 1):
-                if firstDay.month == 1:
-                    firstDay = firstDay.replace(month = 12, year = firstDay.year - 1)
-                else:
-                    firstDay = firstDay.replace(month = firstDay.month - 1)
-            return time.date() < firstDay
-        else:
-            return True
+        return tools.older_than(
+            dt=last_time,
+            value=self.scheduleRepeatedPeriod(profile_id),
+            unit=self.scheduleRepeatedUnit(profile_id)
+        )
 
     def setupCron(self):
         """Update the current users crontab file based on profile settings.
