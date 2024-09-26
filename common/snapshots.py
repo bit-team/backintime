@@ -34,6 +34,7 @@ import snapshotlog
 import flock
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
+from uniquenessset import UniquenessSet
 
 
 class Snapshots:
@@ -927,7 +928,8 @@ class Snapshots:
 
                             if not ret_error:
                                 self.freeSpace(now)
-                                self.setTakeSnapshotMessage(0, _('Finalizing'))
+                                self.setTakeSnapshotMessage(
+                                    0, _('Please be patient. Finalizing…'))
 
                         time.sleep(2)
                         sleep = False
@@ -944,9 +946,6 @@ class Snapshots:
                         time.sleep(2)
                         sleep = False
 
-                    if not ret_error:
-                        self.clearTakeSnapshotMessage()
-
                     # unmount
                     try:
                         mount.Mount(cfg=self.config) \
@@ -955,8 +954,10 @@ class Snapshots:
                     except MountException as ex:
                         logger.error(str(ex), self)
 
+                    if not ret_error:
+                        self.clearTakeSnapshotMessage()
+
                     instance.exitApplication()
-                    # self.flockRelease()
 
                     logger.info('Unlock', self)
                     # --- END GlobalFlock context ---
@@ -2105,7 +2106,7 @@ class Snapshots:
             return snapshotsFiltered
 
         # check for duplicates
-        uniqueness = tools.UniquenessSet(
+        uniqueness = UniquenessSet(
             flag_deep_check, follow_symlink=False, list_equal_to=list_equal_to)
 
         for sid in allSnapshotsList:

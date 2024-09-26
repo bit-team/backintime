@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2016 Back In Time Team
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
+# See file/folder LICENSE or
+# go to <https://spdx.org/licenses/CC0-1.0.html>
+# and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# This is the configuration file for the Read the Docs service.
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details.
+
+version: 2
+
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3"
+  jobs:
+    # Workaround: See PR #1554 for details.
+    # When migrating to use a pyprojects.toml file switch from this
+    # workaround to the use of "python: install: extra_requirements..."
+    # See also: https://docs.readthedocs.io/en/stable/config-file/v2.html#packages
+    post_create_environment:
+      - python -m pip install mkdocs-material
+
+mkdocs:
+  configuration: ./doc/manual/mkdocs.yml
+  
+# python:
+#   install:
+#   - method: pip
+#     path: .
+#     extra_requirements:
+#     - mkdocs-material
+#     - mkdocs-material-extensions
+    

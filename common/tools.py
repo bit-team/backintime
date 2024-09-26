@@ -25,9 +25,10 @@ import locale
 import gettext
 import hashlib
 import ipaddress
-from datetime import datetime
+from datetime import datetime, timedelta
 from packaging.version import Version
 from typing import Union
+from bitbase import TimeUnit
 import logger
 
 # Try to import keyring
@@ -699,6 +700,59 @@ def readFileLines(path, default = None):
         pass
 
     return ret_val
+
+
+def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
+    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
+    hours compared to the current time (`datetime.now()`).
+
+    The resolution used is on microseconds level. Months are calculated based
+    on calendar.
+
+    Args:
+        dt: Timestamp to be compared with on microsecond level.
+        value: Number of units.
+        unit: Specify to treat ``value`` as hours, days, weeks or months.
+
+    Return:
+        ``True`` if older, otherwise ``False``.
+    """
+    if not isinstance(unit, TimeUnit):
+        unit = TimeUnit(unit)
+
+    now = datetime.now()
+
+    if unit is TimeUnit.HOUR:
+        return dt < now - timedelta(hours=value)
+
+    if unit is TimeUnit.DAY:
+        return dt < now - timedelta(days=value)
+
+    if unit is TimeUnit.WEEK:
+        return dt < now - timedelta(weeks=value)
+
+    if unit is TimeUnit.MONTH:
+        # Calculate months based on calendar because timedelta do not support
+        # months.
+        compare_month = (dt.month + value - 1) % 12 + 1
+        compare_year = dt.year + (dt.month + value - 1) // 12
+        # make sure that day exist in the month
+        last_day_dt \
+            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
+        compare_day = min(dt.day, last_day_dt.day)
+
+        compare_dt = datetime(
+            compare_year, compare_month, compare_day,
+            now.hour, now.minute, now.microsecond)
+
+        return now < compare_dt
+
+    # Dev note (buhtz, 2024-09): This code branch already existed in the
+    # original code (but silent, without throwing an exception). Even if it may
+    # seem (nearly) pointless, it will be kept for now to ensure that it is
+    # never executed.
+    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
+                       'Please report it via a bug ticket.')
 
 
 def checkCommand(cmd):
@@ -2036,125 +2090,6 @@ def camelCase(s):
         str:        string without underlines but uppercase chars (FooBar)
     """
     return ''.join([x.capitalize() for x in s.split('_')])
-
-
-class UniquenessSet:
-    """
-    Check for uniqueness or equality of files.
-
-    """
-    def __init__(self, dc=False, follow_symlink=False, list_equal_to=''):
-        """
-        Args:
-            dc (bool):              if ``True`` use deep check which will compare
-                                    files md5sums if they are of same size but no
-                                    hardlinks (don't have the same inode).
-                                    If ``False`` use files size and mtime
-            follow_symlink (bool):  if ``True`` check symlinks target instead of the
-                                    link
-            list_equal_to (str):    full path to file. If not empty only return
-                                    equal files to the given path instead of
-                                    unique files.
-        """
-        self.deep_check = dc
-        self.follow_sym = follow_symlink
-        self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
-        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink
-        self.list_equal_to = list_equal_to
-        if list_equal_to:
-            st = os.stat(list_equal_to)
-            if self.deep_check:
-                self.reference = (st.st_size, md5sum(list_equal_to))
-            else:
-                self.reference = (st.st_size, int(st.st_mtime))
-
-    def check(self, input_path):
-        """
-        Check file ``input_path`` for either uniqueness or equality
-        (depending on ``list_equal_to`` from constructor).
-
-        Args:
-            input_path (str):   full path to file
-
-        Returns:
-            bool:               ``True`` if file is unique and ``list_equal_to``
-                                is empty.
-                                Or ``True`` if file is equal to file in
-                                ``list_equal_to``
-        """
-        # follow symlinks ?
-        path = input_path
-        if self.follow_sym and os.path.islink(input_path):
-            path = os.readlink(input_path)
-
-        if self.list_equal_to:
-            return self.checkEqual(path)
-        else:
-            return self.checkUnique(path)
-
-    def checkUnique(self, path):
-        """
-        Check file ``path`` for uniqueness and store a unique key for ``path``.
-
-        Args:
-            path (str): full path to file
-
-        Returns:
-            bool:       ``True`` if file is unique
-        """
-        # check
-        if self.deep_check:
-            dum = os.stat(path)
-            size,inode  = dum.st_size, dum.st_ino
-            # is it a hlink ?
-            if (size, inode) in self._size_inode:
-                logger.debug("[deep test]: skip, it's a duplicate (size, inode)", self)
-                return False
-            self._size_inode.add((size,inode))
-            if size not in self._uniq_dict:
-                # first item of that size
-                unique_key = size
-                logger.debug("[deep test]: store current size?", self)
-            else:
-                prev = self._uniq_dict[size]
-                if prev:
-                    # store md5sum instead of previously stored size
-                    md5sum_prev = md5sum(prev)
-                    self._uniq_dict[size] = None
-                    self._uniq_dict[md5sum_prev] = prev
-                    logger.debug("[deep test]: size duplicate, remove the size, store prev md5sum", self)
-                unique_key = md5sum(path)
-                logger.debug("[deep test]: store current md5sum?", self)
-        else:
-            # store a tuple of (size, modification time)
-            obj  = os.stat(path)
-            unique_key = (obj.st_size, int(obj.st_mtime))
-        # store if not already present, then return True
-        if unique_key not in self._uniq_dict:
-            logger.debug(" >> ok, store!", self)
-            self._uniq_dict[unique_key] = path
-            return True
-        logger.debug(" >> skip (it's a duplicate)", self)
-        return False
-
-    def checkEqual(self, path):
-        """
-        Check if ``path`` is equal to the file in ``list_equal_to`` from
-        constructor.
-
-        Args:
-            path (str): full path to file
-
-        Returns:
-            bool:       ``True`` if file is equal
-        """
-        st = os.stat(path)
-        if self.deep_check:
-            if self.reference[0] == st.st_size:
-                return self.reference[1] == md5sum(path)
-            return False
-        else:
-            return self.reference == (st.st_size, int(st.st_mtime))
 
 
 class Alarm:
