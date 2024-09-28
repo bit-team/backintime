@@ -69,7 +69,7 @@ request is accepted.
   (e.g. `"Hello World"`). Exceptions are when single quotes contained in the
   string (e.g. `"Can't unmount"`).
 - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
-  (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
+  (see our own [HOWTO about doc generation](common/doc-dev/1_doc_howto.md)).
 - Avoid the use of automatic formatters like `black` but mention the use of
   them when opening a pull request.
 - Run unit tests before you open a Pull Request. You can run them via
@@ -126,7 +126,6 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `x11-utils`
   - `python3-pyqt6` (not from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
-  - `libnotify-bin`
   - `policykit-1`
   - `qttranslations6-l10n`
   - `qtwayland6` (if Wayland is used as display server instead of X11)
@@ -150,7 +149,16 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `gzip`
   - `gettext`
   - `python3-pyfakefs`
-  - `pylint`
+  - Optional but recommended:
+    - `pylint` (>= 3.3.0)
+    - `pycodestyle`
+    - `ruff` (>= 0.6.6)
+    - `codespell`
+ 
+* Dependencies to build documentation
+  - All runtime, build, testing dependencies including the recommended
+  - `mkdocs`
+  - `mkdocs-material`
 
 ## Build and install via `make` system (recommended)
 
