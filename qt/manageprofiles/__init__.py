@@ -1109,14 +1109,14 @@ class SettingsDialog(QDialog):
         return self._do_alot_pre_mount_checking(mount_kwargs)
 
     def _do_alot_pre_mount_checking(self, mount_kwargs):
-        """Initiate several checks realted to mounting an similiar tasks.
+        """Initiate several checks related to mounting an similar tasks.
 
         Depending on the snapshots mode used different checks are initiated.
 
         Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
 
         Returns:
-            bool: ``True`` if successfull otherwise ``False``.
+            bool: ``True`` if successful otherwise ``False``.
         """
         # preMountCheck
         mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
