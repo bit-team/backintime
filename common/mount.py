@@ -268,7 +268,7 @@ class Mount:
                                  **kwargs)
             backend.umount()
 
-    def preMountCheck(self, mode = None, first_run = False, **kwargs):
+    def preMountCheck(self, mode=None, first_run=False, **kwargs):
         """
         High-level check. Run :py:func:`MountControl.preMountCheck` to check
         if all conditions for :py:func:`Mount.mount` are set.
@@ -277,36 +277,38 @@ class Mount:
         correct before saving them.
 
         Args:
-            mode (str):         mode to use. One of 'local', 'ssh',
-                                'local_encfs' or 'ssh_encfs'
-            first_run (bool):   run intense checks that only need to run after
-                                changing settings but not every time before
-                                mounting
-            **kwargs:           keyword arguments paste to low-level
-                                :py:class:`MountControl` subclass backend
+            mode (str): Mode to use. One of 'local', 'ssh', 'local_encfs' or
+                'ssh_encfs'.
+            first_run (bool): Run intense checks that only need to run after
+                changing settings but not every time before mounting.
+            **kwargs: Keyword arguments paste to low-level
+                :py:class:`MountControl` subclass backend.
 
         Returns:
-            bool:               ``True`` if all checks where okay
+            bool: ``True`` if all checks where okay.
 
         Raises:
-            exceptions.MountException:
-                                if a check failed
+            exceptions.MountException: If a check failed.
         """
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
 
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+        # sshtools.SSH, encfstools.EncFS_mount, encfstools.EncFS_SSH
+        Mounttools = self.config.SNAPSHOT_MODES[mode][0]
+
+        # "local" mode
+        if Mounttools is None:
+            # mode doesn't need to mount
             return True
-        else:
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            backend = mounttools(cfg = self.config,
-                                 profile_id = self.profile_id,
-                                 tmp_mount = self.tmp_mount,
-                                 mode = mode,
-                                 parent = self.parent,
-                                 **kwargs)
-            return backend.preMountCheck(first_run)
+
+        backend = Mounttools(cfg=self.config,
+                             profile_id=self.profile_id,
+                             tmp_mount=self.tmp_mount,
+                             mode=mode,
+                             parent=self.parent,
+                             **kwargs)
+
+        return backend.preMountCheck(first_run)
 
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
         """

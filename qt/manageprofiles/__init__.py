@@ -1108,11 +1108,18 @@ class SettingsDialog(QDialog):
         self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
         self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
 
-        # DEV NOTE (Taylor Raack, 2016-01) - consider a single API method to
-        # bridge the UI layer (settings dialog) and backend layer (config) when
-        # setting snapshots path rather than having to call the mount module
-        # from the UI layer
-        # DEV NOTE (buhtz, 2024-09): Work in progress ...
+        return self._do_alot_pre_mount_checking()
+
+    def _do_alot_pre_mount_checking(self):
+        """Initiate several checks realted to mounting an similiar tasks.
+
+        Depending on the snapshots mode used different checks are initiated.
+
+        Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
+
+        Returns:
+            bool: ``True`` if successfull otherwise ``False``.
+        """
         if mode != 'local':
             # preMountCheck
             mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
@@ -1202,6 +1209,7 @@ class SettingsDialog(QDialog):
                 mnt.umount(hash_id=hash_id)
             except MountException as ex:
                 self.errorHandler(str(ex))
+
                 return False
 
         return True
