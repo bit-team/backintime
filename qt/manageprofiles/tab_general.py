@@ -334,7 +334,7 @@ class GeneralTab(QDialog):
         self._wdg_schedule.load_values(self.config)
 
     def store_values(self) -> bool:
-        """Store the tabs values into the config instance.
+        """Store the tab's values into the config instance.
 
         Returns:
             bool: Success or not.
@@ -409,10 +409,10 @@ class GeneralTab(QDialog):
         if success is False:
             return False
 
-        # ----- TODO preMountCheck ---
-        success = self._do_alot_pre_mount_checking(mount_kwargs)
+        mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+        hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
 
-        if success is False:
+        if hash_id is False:
             return False
 
         # save password
@@ -440,9 +440,18 @@ class GeneralTab(QDialog):
         if success is False:
             return False
 
+        # umount
+        try:
+            mnt.umount(hash_id=hash_id)
+
+        except MountException as ex:
+            self.errorHandler(str(ex))
+
+            return False
+
         return True
 
-    def _do_alot_pre_mount_checking(self, mount_kwargs):
+    def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):
         """Initiate several checks related to mounting and similar tasks.
 
         Depending on the snapshots mode used different checks are initiated.
@@ -453,7 +462,6 @@ class GeneralTab(QDialog):
             bool: ``True`` if successful otherwise ``False``.
         """
         # preMountCheck
-        mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
 
         try:
             # This will run several checks depending on the snapshots mode
@@ -514,7 +522,7 @@ class GeneralTab(QDialog):
             options.append({'widget': lblFingerprint, 'retFunc': None})
             lblQuestion = QLabel(
                 _("Please verify this fingerprint. Would you like to "
-                    "add it to your 'known_hosts' file?")
+                  "add it to your 'known_hosts' file?")
             )
             options.append({'widget': lblQuestion, 'retFunc': None})
 
@@ -543,16 +551,7 @@ class GeneralTab(QDialog):
 
             return False
 
-        # umount
-        try:
-            mnt.umount(hash_id=hash_id)
-
-        except MountException as ex:
-            self.errorHandler(str(ex))
-
-            return False
-
-        return True
+        return hash_id
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         snapshot_modes = {}
