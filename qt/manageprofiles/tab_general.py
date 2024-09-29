@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor
+from PyQt6.QtGui import QCursor, QFont
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -32,6 +32,8 @@ import messagebox
 import sshtools
 import logger
 import encfsmsgbox
+import mount
+from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
@@ -407,6 +409,12 @@ class GeneralTab(QDialog):
         if success is False:
             return False
 
+        # ----- TODO preMountCheck ---
+        success = self._do_alot_pre_mount_checking(mount_kwargs)
+
+        if success is False:
+            return False
+
         # save password
         self.config.setPasswordSave(self.cbPasswordSave.isChecked(),
                                     mode=mode)
@@ -432,8 +440,119 @@ class GeneralTab(QDialog):
         if success is False:
             return False
 
-        # Workaround. Find better solution later (in another PR)
-        return mount_kwargs
+        return True
+
+    def _do_alot_pre_mount_checking(self, mount_kwargs):
+        """Initiate several checks related to mounting and similar tasks.
+
+        Depending on the snapshots mode used different checks are initiated.
+
+        Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
+
+        Returns:
+            bool: ``True`` if successful otherwise ``False``.
+        """
+        # preMountCheck
+        mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+
+        try:
+            # This will run several checks depending on the snapshots mode
+            # used. Exceptions are raised if something goes wrong. On mode
+            # "local" nothing is checked.
+            mnt.preMountCheck(
+                mode=self.config.snapshotsMode(),
+                first_run=True,
+                **mount_kwargs)
+
+        except NoPubKeyLogin as ex:
+            logger.error(str(ex), self)
+
+            question = _('Would you like to copy your public SSH key to '
+                         'the remote host to enable password-less login?')
+            rc_copy_id = sshtools.sshCopyId(
+                self.config.sshPrivateKeyFile() + '.pub',
+                self.config.sshUser(),
+                self.config.sshHost(),
+                port=str(self.config.sshPort()),
+                proxy_user=self.config.sshProxyUser(),
+                proxy_host=self.config.sshProxyHost(),
+                proxy_port=self.config.sshProxyPort(),
+                askPass=tools.which('backintime-askpass'),
+                cipher=self.config.sshCipher()
+            )
+
+            answer = messagebox.warningYesNo(self, question)
+            answer = answer == QMessageBox.StandardButton.Yes
+            if answer and rc_copy_id:
+                # --- DEV NOTE TODO ---
+                # Why this recursive call?
+                return self._parent_dialog.saveProfile()
+            else:
+                return False
+
+        except KnownHost as ex:
+            logger.error(str(ex), self)
+            fingerprint, hashedKey, keyType = sshtools.sshHostKey(
+                self.config.sshHost(), str(self.config.sshPort())
+            )
+
+            if not fingerprint:
+                self.errorHandler(str(ex))
+
+                return False
+
+            msg = '{}\n\n{}'.format(
+                    _("The authenticity of host {host} can't be "
+                        "established.").format(
+                            host=self.config.sshHost()),
+                    _('{keytype} key fingerprint is:').format(
+                        keytype=keyType))
+            options = []
+            lblFingerprint = QLabel(fingerprint + '\n')
+            lblFingerprint.setWordWrap(False)
+            lblFingerprint.setFont(QFont('Monospace'))
+            options.append({'widget': lblFingerprint, 'retFunc': None})
+            lblQuestion = QLabel(
+                _("Please verify this fingerprint. Would you like to "
+                    "add it to your 'known_hosts' file?")
+            )
+            options.append({'widget': lblQuestion, 'retFunc': None})
+
+            if messagebox.warningYesNoOptions(self, msg, options)[0]:
+                sshtools.writeKnownHostsFile(hashedKey)
+                # --- DEV NOTE TODO ---
+                # AGAIN: Why this recursive call?
+                return self.saveProfile()
+            else:
+                return False
+
+        except MountException as ex:
+            self.errorHandler(str(ex))
+
+            return False
+
+        # okay, lets try to mount
+        try:
+            hash_id = mnt.mount(
+                mode=self.config.snapshotsMode(),
+                check=False,
+                **mount_kwargs)
+
+        except MountException as ex:
+            self.errorHandler(str(ex))
+
+            return False
+
+        # umount
+        try:
+            mnt.umount(hash_id=hash_id)
+
+        except MountException as ex:
+            self.errorHandler(str(ex))
+
+            return False
+
+        return True
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         snapshot_modes = {}
