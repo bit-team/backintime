@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor, QFont
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -31,9 +31,7 @@ import qttools
 import messagebox
 import sshtools
 import logger
-import mount  # Workaround. Refactor that.
 import encfsmsgbox
-from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
@@ -418,15 +416,18 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
         # snaphots_path
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            logger.debug('snapshots_path = self.editSnapshotsPath.text()')
-            snapshots_path = self.editSnapshotsPath.text()
-        else:
-            logger.debug('snapshots_path = self.config.snapshotsPath(mode=mode, tmp_mount=True)')
-            snapshots_path = self.config.snapshotsPath(
-                mode=mode, tmp_mount=True)
+        if mode == 'local':
+            self.config.set_snapshots_path(self.editSnapshotsPath.text())
 
-        success = self.config.setSnapshotsPath(snapshots_path, mode=mode)
+        snapshots_mountpoint = self.config.get_snapshots_mountpoint(
+            tmp_mount=True)
+
+        success = tools.validate_and_prepare_snapshots_path(
+            path=snapshots_mountpoint,
+            host_user_profile=self.config.hostUserProfile(),
+            mode=mode,
+            copy_links=self.config.copyLinks(),
+            error_handler=self.config.notifyError)
 
         if success is False:
             return False

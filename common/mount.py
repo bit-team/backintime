@@ -172,31 +172,27 @@ class Mount:
                                  self)
                     pass
 
-    def mount(self, mode = None, check = True, **kwargs):
-        """
-        High-level `mount`. Check if the selected ``mode`` need to be mounted,
+    def mount(self, mode=None, check=True, **kwargs):
+        """High-level `mount`. Check if the selected ``mode`` need to be mounted,
         select the low-level backend and mount it.
 
         Args:
-            mode (str):     mode to use. One of 'local', 'ssh', 'local_encfs' or
-                            'ssh_encfs'
-            check (bool):   if ``True`` run
-                            :py:func:`MountControl.preMountCheck` before
-                            mounting
-            **kwargs:       keyword arguments paste to low-level
-                            :py:class:`MountControl` subclass backend
+            mode (str): Mode to use. One of 'local', 'ssh', 'local_encfs' or
+                'ssh_encfs'.
+            check (bool): If ``True`` run :py:func:`MountControl.preMountCheck`
+                before mounting.
+            **kwargs: Keyword arguments paste to low-level
+                :py:class:`MountControl` subclass backend.
 
         Returns:
-            str:            Hash ID used as mountpoint
+            str: Hash ID used as mountpoint.
 
         Raises:
-            exceptions.MountException:
-                            if a check failed
-            exceptions.HashCollision:
-                            if Hash ID was used before but umount info wasn't
-                            identical
+            exceptions.MountException: If a check failed.
+            exceptions.HashCollision: If hash ID was used before but umount
+                info wasn't identical.
         """
-        self.config.PLUGIN_MANAGER.load(cfg = self.config)
+        self.config.PLUGIN_MANAGER.load(cfg=self.config)
         self.config.PLUGIN_MANAGER.mount(self.profile_id)
 
         if mode is None:
@@ -230,43 +226,47 @@ class Mount:
 
                 break
 
-    def umount(self, hash_id = None):
-        """
-        High-level `unmount`. Unmount the low-level backend. This will read
+    def umount(self, hash_id=None):
+        """High-level `unmount`. Unmount the low-level backend. This will read
         unmount infos written next to the mountpoint identified by ``hash_id``
         and unmount it.
 
         Args:
             hash_id (bool): Hash ID used as mountpoint before that should get
-                            unmounted
+                            unmounted.
 
         Raises:
-            exceptions.MountException:
-                            if a check failed
+            exceptions.MountException: If a check failed.
         """
-        self.config.PLUGIN_MANAGER.load(cfg = self.config)
+        self.config.PLUGIN_MANAGER.load(cfg=self.config)
         self.config.PLUGIN_MANAGER.unmount(self.profile_id)
+
         if hash_id is None:
             hash_id = self.config.current_hash_id
+
         if hash_id == 'local':
-            #mode doesn't need to umount
+            # mode doesn't need to umount
             return
-        else:
-            umount_info = os.path.join(self.config._LOCAL_MOUNT_ROOT, hash_id, 'umount')
-            with open(umount_info, 'r') as f:
-                data_string = f.read()
-                f.close()
-            kwargs = json.loads(data_string)
-            mode = kwargs.pop('mode')
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            backend = mounttools(cfg = self.config,
-                                 profile_id = self.profile_id,
-                                 tmp_mount = self.tmp_mount,
-                                 mode = mode,
-                                 hash_id = hash_id,
-                                 parent = self.parent,
-                                 **kwargs)
-            backend.umount()
+
+        umount_info = os.path.join(
+            self.config._LOCAL_MOUNT_ROOT, hash_id, 'umount')
+
+        with open(umount_info, 'r') as f:
+            data_string = f.read()
+            f.close()
+
+        kwargs = json.loads(data_string)
+        mode = kwargs.pop('mode')
+        mounttools = self.config.SNAPSHOT_MODES[mode][0]
+        backend = mounttools(cfg=self.config,
+                             profile_id=self.profile_id,
+                             tmp_mount=self.tmp_mount,
+                             mode=mode,
+                             hash_id=hash_id,
+                             parent=self.parent,
+                             **kwargs)
+
+        backend.umount()
 
     def preMountCheck(self, mode=None, first_run=False, **kwargs):
         """
