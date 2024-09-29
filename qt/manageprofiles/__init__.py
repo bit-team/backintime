@@ -1000,6 +1000,8 @@ class SettingsDialog(QDialog):
         self.updateFreeSpace()
 
     def saveProfile(self):
+        # Dev note: This return "False" if something goes wrong. Otherwise it
+        # returns a dict with several mounting related information.
         success = self._tab_general.store_values()
 
         if success is False:
@@ -1109,7 +1111,7 @@ class SettingsDialog(QDialog):
         return self._do_alot_pre_mount_checking(mount_kwargs)
 
     def _do_alot_pre_mount_checking(self, mount_kwargs):
-        """Initiate several checks related to mounting an similar tasks.
+        """Initiate several checks related to mounting and similar tasks.
 
         Depending on the snapshots mode used different checks are initiated.
 

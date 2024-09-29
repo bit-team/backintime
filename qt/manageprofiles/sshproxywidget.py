@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""A widget to setup an SSH proxy."""
 import getpass
 from PyQt6.QtWidgets import (QVBoxLayout,
                              QHBoxLayout,
@@ -28,6 +29,7 @@ class SshProxyWidget(QWidget):
     Dev note by buhtz (2024-04): Just a quick n dirty solution until the
     re-design and re-factoring of the whole dialog.
     """
+
     def __init__(self, parent, host, port, user):
         super().__init__(parent)
 
@@ -93,7 +95,12 @@ class SshProxyWidget(QWidget):
         for idx in range(lay.count()):
             lay.itemAt(idx).widget().setEnabled(enable)
 
-    def values(self):
+    def values(self) -> dict[str, str, str]:
+        """The widgets values as a dict.
+
+        Returns:
+            dict: A 3-item dict with keys "host", "port" and "user".
+        """
         if self._checkbox.isChecked():
             return {
                 'host': self.host_edit.text(),
@@ -101,9 +108,8 @@ class SshProxyWidget(QWidget):
                 'user': self.user_edit.text(),
             }
 
-        else:
-            return {
-                'host': '',
-                'port': '',
-                'user': '',
-            }
+        return {
+            'host': '',
+            'port': '',
+            'user': '',
+        }

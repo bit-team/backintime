@@ -31,6 +31,7 @@ class ScheduleWidget(QGroupBox):
 
     That widget is used in the 'General' tab of the 'Manage profiles' dialog.
     """
+    # pylint: disable=too-many-instance-attributes
 
     def __init__(self, parent):
         super().__init__(title=_('Schedule'), parent=parent)
@@ -123,6 +124,7 @@ class ScheduleWidget(QGroupBox):
         Returns:
             BitComboBox: The widget.
         """
+        # pylint: disable=protected-access
 
         # Regular schedule modes for that combo box
         schedule_modes = {

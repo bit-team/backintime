@@ -45,6 +45,8 @@ full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
     'encfsmsgbox.py',
     'manageprofiles/combobox.py',
+    'manageprofiles/schedulewidget.py',
+    'manageprofiles/sshproxywidget.py',
     'plugins/notifyplugin.py',
     'test/test_lint.py',
 )]
