@@ -425,6 +425,9 @@ class GeneralTab(QDialog):
 
         # snaphots_path
         if mode == 'local':
+            print('MODE is local :: self.config.set_snapshots_path(self.editSnapshotsPath.text())')
+            print(f'{hash_id=}')
+
             self.config.set_snapshots_path(self.editSnapshotsPath.text())
 
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(

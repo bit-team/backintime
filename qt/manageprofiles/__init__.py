@@ -780,7 +780,7 @@ class SettingsDialog(QDialog):
         self.tabs.setUsesScrollButtons(scrollButtonDefault)
         self.resize(size)
 
-        self.finished.connect(self.cleanup)
+        self.finished.connect(self._slot_finished)
 
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
@@ -1444,7 +1444,8 @@ class SettingsDialog(QDialog):
         if self.validate():
             super(SettingsDialog, self).accept()
 
-    def cleanup(self, result):
+    def _slot_finished(self, result):
+        """Handle dialogs finished signal."""
         self.config.clearHandlers()
 
         if not result:
