@@ -17,11 +17,6 @@ import pathlib
 import subprocess
 import shutil
 from typing import Iterable
-try:
-    import pycodestyle
-    PYCODESTYLE_AVAILABLE = True
-except ImportError:
-    PYCODESTYLE_AVAILABLE = False
 
 BASE_REASON = ('Using package {0} is mandatory on TravisCI, on '
                'other systems it runs only if `{0}` is available.')
@@ -32,11 +27,12 @@ TRAVIS_REASON = ('Running linter tests is mandatory on TravisCI only. On '
 
 PYLINT_AVAILABLE = shutil.which('pylint') is not None
 RUFF_AVAILABLE = shutil.which('ruff') is not None
+FLAKE8_AVAILABLE = shutil.which('flake8') is not None
 
 ANY_LINTER_AVAILABLE = any((
     PYLINT_AVAILABLE,
     RUFF_AVAILABLE,
-    PYCODESTYLE_AVAILABLE,
+    FLAKE8_AVAILABLE,
 ))
 
 # "common" directory
@@ -154,6 +150,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # See: <https://www.reddit.com/r/learnpython/comments/
             #      1buojae/comment/kxu0mp3>
             '--config', 'pylint.max-branches=13',
+            '--config', 'flake8-quotes.inline-quotes = "single"',
+            # one error per line (no context lines)
+            '--output-format=concise',
             '--quiet',
         ]
 
@@ -178,17 +177,33 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # any other errors?
         self.assertEqual(proc.stderr, '')
 
-    @unittest.skipUnless(PYCODESTYLE_AVAILABLE,
-                         BASE_REASON.format('pycodestyle'))
-    def test020_pycodestyle_default_ruleset(self):
-        """PEP8 conformance via pycodestyle"""
+    @unittest.skipUnless(FLAKE8_AVAILABLE, BASE_REASON.format('flake8'))
+    def test020_flake8_default_ruleset(self):
+        """Flake8 in default mode."""
+        cmd = [
+            'flake8',
+            f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
+            '--builtins=_,ngettext',
+            # '--enable-extensions='
+        ]
 
-        style = pycodestyle.StyleGuide(quite=True)
-        result = style.check_files(full_test_files)
+        cmd.extend(full_test_files)
 
-        self.assertEqual(result.total_errors, 0,
-                         f'pycodestyle found {result.total_errors} code '
-                         'style error(s)/warning(s).')
+        proc = subprocess.run(
+            cmd,
+            check=False,
+            universal_newlines=True,
+            capture_output=True
+        )
+
+        error_n = len(proc.stdout.splitlines())
+        if error_n > 0:
+            print(proc.stdout)
+
+        self.assertEqual(0, error_n, f'Flake8 found {error_n} problem(s).')
+
+        # any other errors?
+        self.assertEqual(proc.stderr, '')
 
     @unittest.skipUnless(PYLINT_AVAILABLE, BASE_REASON.format('PyLint'))
     def test030_pylint_default_ruleset(self):

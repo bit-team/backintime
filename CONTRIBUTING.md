@@ -151,7 +151,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `python3-pyfakefs`
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
-    - `pycodestyle`
+    - `flake8`
     - `ruff` (>= 0.6.0)
     - `codespell`
  
