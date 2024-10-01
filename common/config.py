@@ -373,13 +373,13 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the profiles snapshot path in form of a mount point."""
-        print(f'Config.get_snapshots_mountpoint() :: {profile_id=} {mode=} {tmp_mount=}')
+        # print(f'Config.get_snapshots_mountpoint() :: {profile_id=} {mode=} {tmp_mount=}')
         if profile_id is None:
             profile_id = self.currentProfile()
 
         if mode is None:
             mode = self.snapshotsMode(profile_id)
-            print(f'\t :: determinied {mode=}')
+            # print(f'\t :: determinied {mode=}')
 
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
@@ -390,7 +390,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if tmp_mount:
             symlink = f'tmp_{symlink}'
 
-        print(f'Config.get_snapshots_mountpoint() :: returning {symlink=}')
+        # print(f'Config.get_snapshots_mountpoint() :: returning {symlink=}')
         return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
@@ -398,7 +398,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         That method is a surrogate for `self.get_snapshots_mountpoint()`.
         """
-        print(f'Config.snapshotsPath() :: {profile_id=} {mode=} {tmp_mount=}')
+        # print(f'Config.snapshotsPath() :: {profile_id=} {mode=} {tmp_mount=}')
         return self.get_snapshots_mountpoint(
             profile_id=profile_id,
             mode=mode,
@@ -1689,8 +1689,3 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
-
-
-if __name__ == '__main__':
-    config = Config()
-    print("snapshots path = %s" % config.snapshotsFullPath())

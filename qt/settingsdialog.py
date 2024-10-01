@@ -1255,10 +1255,7 @@ class SettingsDialog(QDialog):
                            t='str')
 
         # local
-        print('---- before calling "self.config.snapshotsPath(mode=local)"')
-        p = self.config.snapshotsPath(mode='local')
-        print(f'SettingsDlg.updateProfile() :: config.snapshotsPath(local) = {p}')  # DEBUG
-        print(' -- again -- ')
+        # print(f'SettingsDlg.updateProfile() :: config.snapshotsPath(local) = {p}')  # DEBUG
         self.editSnapshotsPath.setText(
             self.config.snapshotsPath(mode='local'))
 

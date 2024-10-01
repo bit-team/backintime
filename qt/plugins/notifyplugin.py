@@ -26,8 +26,8 @@ class NotifyPlugin(pluginmanager.Plugin):
     def isGui(self):
         return True
 
-    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-    def message(self,
+    # pylint: disable-next=too-many-arguments
+    def message(self,  # noqa: PLR0913
                 profile_id,
                 profile_name,
                 level,
