@@ -152,7 +152,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `pycodestyle`
-    - `ruff` (>= 0.6.6)
+    - `ruff` (>= 0.6.0)
     - `codespell`
  
 * Dependencies to build documentation

@@ -27,7 +27,7 @@ class NotifyPlugin(pluginmanager.Plugin):
         return True
 
     # pylint: disable-next=too-many-arguments
-    def message(self,  # noqa: PLR0913
+    def message(self,
                 profile_id,
                 profile_name,
                 level,
