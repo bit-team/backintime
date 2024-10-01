@@ -371,12 +371,15 @@ class Config(configfile.ConfigFileWithProfiles):
     def host(self):
         return socket.gethostname()
 
-    def get_snapshots_mountpoint(self, profile_id=None, tmp_mount=False):
+    def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the profiles snapshot path in form of a mount point."""
+        print(f'Config.get_snapshots_mountpoint() :: {profile_id=} {mode=} {tmp_mount=}')
         if profile_id is None:
             profile_id = self.currentProfile()
 
-        mode = self.snapshotsMode(profile_id)
+        if mode is None:
+            mode = self.snapshotsMode(profile_id)
+            print(f'\t :: determinied {mode=}')
 
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
@@ -387,6 +390,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if tmp_mount:
             symlink = f'tmp_{symlink}'
 
+        print(f'Config.get_snapshots_mountpoint() :: returning {symlink=}')
         return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
@@ -394,8 +398,11 @@ class Config(configfile.ConfigFileWithProfiles):
 
         That method is a surrogate for `self.get_snapshots_mountpoint()`.
         """
+        print(f'Config.snapshotsPath() :: {profile_id=} {mode=} {tmp_mount=}')
         return self.get_snapshots_mountpoint(
-            profile_id=profile_id, tmp_mount=tmp_mount)
+            profile_id=profile_id,
+            mode=mode,
+            tmp_mount=tmp_mount)
 
     def snapshotsFullPath(self, profile_id = None):
         """

@@ -1255,6 +1255,10 @@ class SettingsDialog(QDialog):
                            t='str')
 
         # local
+        print('---- before calling "self.config.snapshotsPath(mode=local)"')
+        p = self.config.snapshotsPath(mode='local')
+        print(f'SettingsDlg.updateProfile() :: config.snapshotsPath(local) = {p}')  # DEBUG
+        print(' -- again -- ')
         self.editSnapshotsPath.setText(
             self.config.snapshotsPath(mode='local'))
 
@@ -1673,7 +1677,9 @@ class SettingsDialog(QDialog):
             self.config.set_snapshots_path(self.editSnapshotsPath.text())
 
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(
+            mode=mode,
             tmp_mount=True)
+
         ret = tools.validate_and_prepare_snapshots_path(
             path=snapshots_mountpoint,
             host_user_profile=self.config.hostUserProfile(),
