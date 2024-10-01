@@ -409,11 +409,12 @@ class GeneralTab(QDialog):
         if success is False:
             return False
 
-        mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
-        hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
+        if mode != 'local':
+            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
 
-        if hash_id is False:
-            return False
+            if hash_id is False:
+                return False
 
         # save password
         self.config.setPasswordSave(self.cbPasswordSave.isChecked(),
@@ -425,9 +426,6 @@ class GeneralTab(QDialog):
 
         # snaphots_path
         if mode == 'local':
-            print('MODE is local :: self.config.set_snapshots_path(self.editSnapshotsPath.text())')
-            print(f'{hash_id=}')
-
             self.config.set_snapshots_path(self.editSnapshotsPath.text())
 
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(
@@ -444,13 +442,14 @@ class GeneralTab(QDialog):
             return False
 
         # umount
-        try:
-            mnt.umount(hash_id=hash_id)
+        if mode != 'local':
+            try:
+                mnt.umount(hash_id=hash_id)
 
-        except MountException as ex:
-            self.errorHandler(str(ex))
+            except MountException as ex:
+                self.errorHandler(str(ex))
 
-            return False
+                return False
 
         return True
 
