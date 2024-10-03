@@ -447,8 +447,7 @@ class GeneralTab(QDialog):
                 mnt.umount(hash_id=hash_id)
 
             except MountException as ex:
-                self.errorHandler(str(ex))
-
+                messagebox.critical(self, str(ex))
                 return False
 
         return True
@@ -507,8 +506,7 @@ class GeneralTab(QDialog):
             )
 
             if not fingerprint:
-                self.errorHandler(str(ex))
-
+                messagebox.critical(self, str(ex))
                 return False
 
             msg = '{}\n\n{}'.format(
@@ -537,8 +535,7 @@ class GeneralTab(QDialog):
                 return False
 
         except MountException as ex:
-            self.errorHandler(str(ex))
-
+            messagebox.critical(self, str(ex))
             return False
 
         # okay, lets try to mount
@@ -549,8 +546,7 @@ class GeneralTab(QDialog):
                 **mount_kwargs)
 
         except MountException as ex:
-            self.errorHandler(str(ex))
-
+            messagebox.critical(self, str(ex))
             return False
 
         return hash_id
