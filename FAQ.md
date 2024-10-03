@@ -1,3 +1,13 @@
+<!-- 
+SPDX-FileCopyrightText: © 2022 Back In Time Team
+SPDX-FileCopyrightText: © 2024 Paul Worrall (@Silver-Saucepan)
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See file/folder LICENSE or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
+-->
 # FAQ - Frequently Asked Questions
 
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
@@ -42,6 +52,7 @@
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
+   * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Uncategorized questions](#uncategorized-questions)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
@@ -980,6 +991,85 @@ establish the connection. As a test, one can run the command
    ```
 
 in a terminal (on the client PC).
+
+## How to use Synology DSM 7 with BIT over SSH
+
+**HowTo**
+
+1. Enable User Home Service (Control Panel > User & Group > Advanced).
+
+1. Make a new user named ``backup`` (or use your existing account) and add this
+user to the user group ``Administrators``.
+
+1. Enable SSH (Control Panel > Terminal & SNMP > Terminal)
+
+1. Enable SFTP (Control Panel > File Services > FTP > SFTP)
+
+1. Enable rsync (Control Panel > File Services > rsync)
+
+1. Edit the user-root-directory for SFTP: Control Panel > File Services > FTP >
+General > Advanced Settings > Security Settings > Change user root directories >
+Select User > select the user ``backup`` > Edit and Change root directory to ``User
+home``
+
+1. Make sure the 'homes' shared folder has the default permissions and that
+non-admin users and groups are not assigned Read or Write permissions on the
+'homes' folder. The default permissions are described in [this
+guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
+
+1. On the workstation on which you need to use BIT, make an SSH key pair for user
+``backup``, and send the public key to the NAS:
+
+   ```bash
+	ssh-keygen -t rsa -f ~/.ssh/backup_id_rsa
+	ssh-copy-id -i ~/.ssh/backup_id_rsa.pub backup@<synology-ip>
+	ssh backup@<synology-ip>
+   ```
+1. Although not strictly necessary, Synology recommend setting the permissions for
+the .ssh directory and the authorized_keys file to 700, and 600 respectively:
+
+    ```bash
+    backup@NAS:~$ chmod 700 .ssh
+    backup@NAS:~$ chmod 600 .ssh/authorized_keys
+	```
+1. In *BackInTime* settings dialog leave the *Path* field empty
+
+1. Now you can use *BackInTime* to perform your backup to your NAS with the user
+``backup``.
+
+**Using a non-standard SSH port with a Synology NAS**
+
+If you want to use the Synology NAS with a non-standard SSH/SFTP port as advised
+by the Security Advisor package, you have to change the Port in 3 places (the
+default port number for all three is 22):
+
+1. Control Panel > Terminal & SNMP > Terminal: Port = <PORT_NUMBER>
+
+1. Control Panel > File Services > FTP > SFTP: Port number = <PORT_NUMBER>
+
+1. Control Panel > File Services > rsync > SSH encryption port = <PORT_NUMBER>
+
+Only if all 3 are set to the same port is *BackInTime* able to establish the
+connection (don't forget to set the new port number in the BIT profiles).
+
+To sign in with ssh using the new port number:
+
+  ```bash
+  ssh -p PORT_NUMBER backup@<synology-ip>
+  ```
+
+or, for convenience you can edit or create ``~/.ssh/config`` with the following:
+
+  ```
+  Host <synology-ip>
+      Port PORT_NUMBER
+  ```
+
+and then use just:
+
+  ```bash
+  ssh backup@<synology-ip>
+  ```
 
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
