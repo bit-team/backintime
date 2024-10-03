@@ -1295,13 +1295,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def setTakeSnapshotRegardlessOfChanges(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.take_snapshot_regardless_of_changes', value, profile_id)
 
-    def userCallbackNoLogging(self, profile_id = None):
-        #?Do not catch std{out|err} from user-callback script.
-        #?The script will only write to current TTY.
-        #?Default is to catch std{out|err} and write it to
-        #?syslog and TTY again.
-        return self.profileBoolValue('user_callback.no_logging', False, profile_id)
-
     def globalFlock(self):
         #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
         return self.boolValue('global.use_flock', False)
