@@ -40,6 +40,7 @@ import tools
 import qttools
 import messagebox
 from manageprofiles.tab_general import GeneralTab
+from manageprofiles.tab_options import OptionsTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
 
@@ -97,10 +98,10 @@ class SettingsDialog(QDialog):
         scrollButtonDefault = self.tabs.usesScrollButtons()
         self.tabs.setUsesScrollButtons(False)
 
-        scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
 
         # TAB: General
+        scrollArea = QScrollArea(self)
+        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&General'))
         self._tab_general = GeneralTab(self)
         scrollArea.setWidget(self._tab_general)
@@ -376,82 +377,8 @@ class SettingsDialog(QDialog):
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
         self.tabs.addTab(scrollArea, _('&Options'))
-
-        layoutWidget = QWidget(self)
-        layout = QVBoxLayout(layoutWidget)
-
-        self.cbNotify = QCheckBox(_('Enable notifications'), self)
-        layout.addWidget(self.cbNotify)
-
-        self.cbNoSnapshotOnBattery \
-            = QCheckBox(_('Disable snapshots when on battery'), self)
-        if not tools.powerStatusAvailable():
-            self.cbNoSnapshotOnBattery.setEnabled(False)
-            self.cbNoSnapshotOnBattery.setToolTip(
-                _('Power status not available from system'))
-        layout.addWidget(self.cbNoSnapshotOnBattery)
-
-        self.cbGlobalFlock = QCheckBox(_('Run only one snapshot at a time'))
-        qttools.set_wrapped_tooltip(
-            self.cbGlobalFlock,
-            _('Other snapshots will be blocked until the current snapshot '
-              'is done. This is a global option. So it will affect all '
-              'profiles for this user. But you need to activate this for all '
-              'other users, too.')
-        )
-        layout.addWidget(self.cbGlobalFlock)
-
-        self.cbBackupOnRestore = QCheckBox(
-            _('Backup replaced files on restore'), self)
-        qttools.set_wrapped_tooltip(
-            self.cbBackupOnRestore,
-            _("Newer versions of files will be renamed with trailing {suffix} "
-              "before restoring. If you don't need them anymore you can "
-              "remove them with {cmd}").format(
-                  suffix=self.snapshots.backupSuffix(),
-                  cmd='find ./ -name "*{suffix}" -delete'.format(
-                      suffix=self.snapshots.backupSuffix()
-                  )
-              )
-        )
-        layout.addWidget(self.cbBackupOnRestore)
-
-        self.cbContinueOnErrors = QCheckBox(
-            _('Continue on errors (keep incomplete snapshots)'), self)
-        layout.addWidget(self.cbContinueOnErrors)
-
-        self.cbUseChecksum = QCheckBox(
-            _('Use checksum to detect changes'), self)
-        layout.addWidget(self.cbUseChecksum)
-
-        self.cbTakeSnapshotRegardlessOfChanges = QCheckBox(
-            _('Take a new snapshot whether there were changes or not.'))
-        layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
-
-        # log level
-        hlayout = QHBoxLayout()
-        layout.addLayout(hlayout)
-
-        hlayout.addWidget(QLabel(_('Log Level:'), self))
-
-        self.comboLogLevel = QComboBox(self)
-        hlayout.addWidget(self.comboLogLevel, 1)
-
-        self.comboLogLevel.addItem(QIcon(), _('None'), 0)
-
-        # Note about ngettext plural forms: n=102 means "Other" in Arabic and
-        # "Few" in Polish.
-        # Research in translation community indicate this as the best fit to
-        # the meaning of "all".
-        self.comboLogLevel.addItem(QIcon(), _('Errors'), 1)
-        self.comboLogLevel.addItem(
-            QIcon(),
-            _('Changes') + ' & ' + _('Errors'), 2)
-        self.comboLogLevel.addItem(QIcon(), _('All'), 3)
-
-        #
-        layout.addStretch()
-        scrollArea.setWidget(layoutWidget)
+        self._tab_options = OptionsTab(self)
+        scrollArea.setWidget(self._tab_options)
         scrollArea.setWidgetResizable(True)
 
         # TAB: Expert Options
@@ -872,7 +799,8 @@ class SettingsDialog(QDialog):
 
         self.comboProfiles.clear()
 
-        qttools.update_combo_profiles(self.config, self.comboProfiles, current_profile_id)
+        qttools.update_combo_profiles(
+            self.config, self.comboProfiles, current_profile_id)
 
         self.disableProfileChanged = False
 
@@ -978,16 +906,7 @@ class SettingsDialog(QDialog):
             self.config.dontRemoveNamedSnapshots())
 
         # TAB: Options
-        self.cbNotify.setChecked(self.config.notify())
-        self.cbNoSnapshotOnBattery.setChecked(
-            self.config.noSnapshotOnBattery())
-        self.cbGlobalFlock.setChecked(self.config.globalFlock())
-        self.cbBackupOnRestore.setChecked(self.config.backupOnRestore())
-        self.cbContinueOnErrors.setChecked(self.config.continueOnErrors())
-        self.cbUseChecksum.setChecked(self.config.useChecksum())
-        self.cbTakeSnapshotRegardlessOfChanges.setChecked(
-            self.config.takeSnapshotRegardlessOfChanges())
-        self.setComboValue(self.comboLogLevel, self.config.logLevel())
+        self._tab_options.load_values()
 
         # TAB: Expert Options
         self.cbNiceOnCron.setChecked(self.config.niceOnCron())
@@ -1089,17 +1008,7 @@ class SettingsDialog(QDialog):
             self.cbSmartRemoveRunRemoteInBackground.isChecked())
 
         # options
-        self.config.setNotify(self.cbNotify.isChecked())
-        self.config.setNoSnapshotOnBattery(
-            self.cbNoSnapshotOnBattery.isChecked())
-        self.config.setGlobalFlock(self.cbGlobalFlock.isChecked())
-        self.config.setBackupOnRestore(self.cbBackupOnRestore.isChecked())
-        self.config.setContinueOnErrors(self.cbContinueOnErrors.isChecked())
-        self.config.setUseChecksum(self.cbUseChecksum.isChecked())
-        self.config.setTakeSnapshotRegardlessOfChanges(
-            self.cbTakeSnapshotRegardlessOfChanges.isChecked())
-        self.config.setLogLevel(
-            self.comboLogLevel.itemData(self.comboLogLevel.currentIndex()))
+        self._tab_options.store_values()
 
         # expert options
         self.config.setNiceOnCron(self.cbNiceOnCron.isChecked())
