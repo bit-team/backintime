@@ -1212,19 +1212,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def rsyncOptions(self, profile_id = None):
         #?rsync options. Options must be quoted e.g. \-\-exclude-from="/path/to/my exclude file"
-        val = self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
-
-        if '--old-args' in val:
-            logger.warning(
-                'Found rsync flag "--old-args". That flag will be removed '
-                'from the options because it conflicts with '
-                'the flag "-s" (also known as "--secluded-args" or '
-                '"--protected-args") which is used by Back In Time to force '
-                'the "new form of argument protection" in rsync.'
-            )
-            val = val.replace('--old-args', '')
-
-        return val
+        return self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
 
     def setRsyncOptions(self, enabled, value, profile_id = None):
         self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)

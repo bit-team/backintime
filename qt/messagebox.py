@@ -52,6 +52,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
 
     return password
 
+
 def info(text, title=None, widget_to_center_on=None):
     """Show a modal information message box.
 
@@ -62,13 +63,27 @@ def info(text, title=None, widget_to_center_on=None):
         text(str): The information text central to the dialog.
         title(str): Title of the message box dialog.
         widget_to_center_on(QWidget): Center the message box on that widget.
-
-    Returns:
-        Nothing.
     """
     QMessageBox.information(
         widget_to_center_on,
         title if title else ngettext('Information', 'Information', 1),
+        text)
+
+
+def warning(text, title=None, widget_to_center_on=None):
+    """Show a modal warning message box.
+
+    The message box is centered on the primary screen if
+    ``widget_to_center_on`` is not given.
+
+    Args:
+        text(str): The warning message central to the dialog.
+        title(str): Title of the message box dialog.
+        widget_to_center_on(QWidget): Center the message box on that widget.
+    """
+    QMessageBox.warning(
+        widget_to_center_on,
+        title if title else _('Warning'),
         text)
 
 
@@ -125,8 +140,11 @@ def warningYesNoOptions(parent, msg, options = ()):
         }
     )
 
+
 def showInfo(parent, title, msg):
     """Show extended information dialog with framed and scrollable text area.
+
+    Dev info (buhtz, 2024): That function is deprecated. Use `info()` instead.
     """
     dlg = QDialog(parent)
     dlg.setWindowTitle(title)
@@ -144,4 +162,5 @@ def showInfo(parent, title, msg):
 
     vlayout.addWidget(scroll_area)
     vlayout.addWidget(buttonBox)
+
     return dlg.exec()

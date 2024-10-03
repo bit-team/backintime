@@ -812,6 +812,8 @@ class SettingsDialog(QDialog):
         self.cbRsyncOptions.setToolTip(tooltip)
         hlayout.addWidget(self.cbRsyncOptions)
         self.txtRsyncOptions = QLineEdit(self)
+        self.txtRsyncOptions.editingFinished.connect(
+            self._slot_rsync_options_editing_finished)
         self.txtRsyncOptions.setToolTip(tooltip)
         hlayout.addWidget(self.txtRsyncOptions)
 
@@ -892,6 +894,29 @@ class SettingsDialog(QDialog):
         self.resize(size)
 
         self.finished.connect(self.cleanup)
+
+    def _slot_rsync_options_on_editing_finished(self):
+        """When editing the rsync options is finished warn and remove
+        --old-args option if present.
+        """
+        txt = self.txtRsyncOptions.text()
+
+        if '--old-args' in txt:
+            # No translation for this message because it is a rare case.
+            messagebox.warning(
+                text='Found rsync flag "--old-args". That flag will be removed'
+                ' from the options because it conflicts with the flag "-s" '
+                '(also known as "--secluded-args" or "--protected-args") which'
+                ' is used by Back In Time to force the "new form of argument '
+                'protection" in rsync.',
+                widget_to_center_on=self
+            )
+
+            # Don't leave two-blank spaces between other arguments
+            txt = txt.replace('--old-args ', '')
+            txt = txt.replace(' --old-args', '')
+            txt = txt.replace('--old-args', '')
+            self.txtRsyncOptions.setText(txt)
 
     def _tab_general(self):
         """Create the 'Generals' tab.
