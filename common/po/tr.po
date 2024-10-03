@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-09-15 16:25+0200\n"
+"POT-Creation-Date: 2024-10-03 13:54+0200\n"
 "PO-Revision-Date: 2024-07-22 07:07+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
-#: qt/settingsdialog.py:1128
+#: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
+#: qt/messagebox.py:86 qt/settingsdialog.py:1153
 msgid "Warning"
 msgstr "Uyarı"
 
-#: common/config.py:130 common/tools.py:390
+#: common/config.py:130 common/tools.py:391
 #, fuzzy, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -53,7 +53,7 @@ msgstr "Yerel"
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1962
+#: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1989
 msgid "SSH private key"
 msgstr "SSH gizli anahtarı"
 
@@ -95,11 +95,11 @@ msgstr "Yedekleme klasörü dahil edilemez."
 msgid "Backup sub-folder cannot be included."
 msgstr "Yedekleme alt klasörü dahil edilemez."
 
-#: common/config.py:1526
+#: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "Yeni crontab yazımı başarısız oldu."
 
-#: common/config.py:1534
+#: common/config.py:1491
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -111,7 +111,7 @@ msgstr ""
 "\"systemctl enable cron\" komutunu deneyin veya GNU Linux dağıtımınızın "
 "destek kanallarına başvurun."
 
-#: common/config.py:1614
+#: common/config.py:1571
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -120,12 +120,12 @@ msgstr ""
 "{profile_id} profili için Udev kuralı yüklenemedi. '{dbus_interface}' DBus "
 "Hizmeti kullanılabilir değildi"
 
-#: common/config.py:1629
+#: common/config.py:1586
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Udev zamanlama kipi {mode} ile çalışmıyor"
 
-#: common/config.py:1640
+#: common/config.py:1597
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path} için UUID bulunamadı"
@@ -172,7 +172,7 @@ msgstr "Lütfen parolayı onaylayın."
 msgid "Password doesn't match."
 msgstr "Parola eşleşmiyor."
 
-#: common/encfstools.py:516 common/snapshots.py:1027
+#: common/encfstools.py:516 common/snapshots.py:1028
 msgid "Take snapshot"
 msgstr "Anlık görüntü al"
 
@@ -192,29 +192,29 @@ msgstr ""
 msgid "Mountpoint {mntpoint} not empty."
 msgstr "Bağlantı noktası {mntpoint} boş değil."
 
-#: common/password.py:277
+#: common/password.py:287
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Şifrenizi {mode}profili için giriniz \"{profile}\":"
 
-#: common/snapshots.py:356 common/snapshots.py:607
+#: common/snapshots.py:357 common/snapshots.py:608
 msgid "FAILED"
 msgstr "BAŞARISIZ"
 
-#: common/snapshots.py:553 common/snapshots.py:615
+#: common/snapshots.py:554 common/snapshots.py:616
 msgid "Restore permissions"
 msgstr "İzinleri geri yükle"
 
-#: common/snapshots.py:610 qt/app.py:292 qt/app.py:1001 qt/app.py:1036
+#: common/snapshots.py:611 qt/app.py:292 qt/app.py:1001 qt/app.py:1036
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Tamamlandı"
 
-#: common/snapshots.py:730
+#: common/snapshots.py:731
 msgid "Deferring backup while on battery"
 msgstr "Pille çalışırken yedeklemeyi erteleme"
 
-#: common/snapshots.py:828
+#: common/snapshots.py:829
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -222,120 +222,120 @@ msgstr ""
 "Anlık görüntü klasörü bulunamadı.\n"
 "Çıkarılabilir bir sürücüyse lütfen takınız."
 
-#: common/snapshots.py:832
+#: common/snapshots.py:833
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "%s saniye bekliyor."
 msgstr[1] "%s saniye bekliyor."
 
-#: common/snapshots.py:900
+#: common/snapshots.py:901
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "{snapshot_id} anlık görüntüsü alınamadı."
 
-#: common/snapshots.py:931
+#: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
 msgstr ""
 
-#: common/snapshots.py:1062
+#: common/snapshots.py:1063
 msgid "Can't create folder"
 msgstr "Klasör oluşturulamadı"
 
-#: common/snapshots.py:1079
+#: common/snapshots.py:1080
 msgid "Saving config file…"
 msgstr "Yapılandırma dosyası kaydediliyor…"
 
-#: common/snapshots.py:1160
+#: common/snapshots.py:1161
 msgid "Saving permissions…"
 msgstr "İzinler kaydediliyor…"
 
-#: common/snapshots.py:1272
+#: common/snapshots.py:1273
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr "Devam edilebilecek {snapshot_id} artık anlık görüntüsü bulundu."
 
-#: common/snapshots.py:1295
+#: common/snapshots.py:1296
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Son çalıştırmadan kalan {snapshot_id} klasörü kaldırılıyor"
 
-#: common/snapshots.py:1305
+#: common/snapshots.py:1306
 msgid "Can't remove folder"
 msgstr "Klasör kaldırılamıyor"
 
-#: common/snapshots.py:1359
+#: common/snapshots.py:1360
 msgid "Taking snapshot"
 msgstr "Anlık görüntü al"
 
-#: common/snapshots.py:1410
+#: common/snapshots.py:1411
 msgid "Success"
 msgstr "Başarılı"
 
-#: common/snapshots.py:1413
+#: common/snapshots.py:1414
 msgid "Partial transfer due to error"
 msgstr "Hata sebebiyle kısmen aktarıldı"
 
-#: common/snapshots.py:1414
+#: common/snapshots.py:1415
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Kaybolan kaynak dosyalar nedeniyle kısmi aktarım (bkz. 'man rsync')"
 
-#: common/snapshots.py:1418
+#: common/snapshots.py:1419
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' sonlandı, çıkış kodu: {exit_code}"
 
-#: common/snapshots.py:1431
+#: common/snapshots.py:1432
 msgid "See 'man rsync' for more details"
 msgstr "Daha fazla ayrıntı için bakınız; 'man rsync'"
 
-#: common/snapshots.py:1438
+#: common/snapshots.py:1439
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatif rsync çıkış kodları sinyal numaralarıdır, bkz. 'kill -l' ve 'man "
 "kill'"
 
-#: common/snapshots.py:1459
+#: common/snapshots.py:1460
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Hiçbir değişiklik yok, yeni anlık görüntü almak gereksiz"
 
-#: common/snapshots.py:1503
+#: common/snapshots.py:1504
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "{new_path} yolu {path} olarak yeniden adlandırılamadı"
 
-#: common/snapshots.py:1821 common/snapshots.py:1873
+#: common/snapshots.py:1822 common/snapshots.py:1874
 msgid "Smart removal"
 msgstr "Akıllı kaldırma"
 
-#: common/snapshots.py:1848
+#: common/snapshots.py:1849
 msgid "Removing old snapshots"
 msgstr "Eski anlık görüntüleri kaldırma"
 
-#: common/snapshots.py:1883
+#: common/snapshots.py:1884
 msgid "Trying to keep min free space"
 msgstr "En az boş alan korunmaya çalışılıyor"
 
-#: common/snapshots.py:1922
+#: common/snapshots.py:1923
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "En az {perc} boş düğümü korumaya çalışıyor"
 
-#: common/snapshots.py:3038 qt/app.py:1747
+#: common/snapshots.py:3039 qt/app.py:1747
 msgid "Now"
 msgstr "Şimdi"
 
-#: common/sshtools.py:239
+#: common/sshtools.py:240
 #, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "{sshfs} bağlanamadı"
 
-#: common/sshtools.py:301
+#: common/sshtools.py:302
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr "ssh-agent bulunamadı. Lütfen kurulu olduğundan emin olun."
 
-#: common/sshtools.py:444
+#: common/sshtools.py:472
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -343,73 +343,73 @@ msgstr ""
 "ssh özel anahtarının kilidi açılamadı. Parola yanlış ya da Cron için parola "
 "yok."
 
-#: common/sshtools.py:535
+#: common/sshtools.py:563
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "{host} için {cipher} şifresi başarısız oldu."
 
-#: common/sshtools.py:682
+#: common/sshtools.py:710
 msgid "Remote path exists but is not a directory."
 msgstr "Uzak yol mevcut ancak bir dizin değil."
 
-#: common/sshtools.py:687
+#: common/sshtools.py:715
 msgid "Remote path is not writable."
 msgstr "Uzak yol yazılabilir değil."
 
-#: common/sshtools.py:692
+#: common/sshtools.py:720
 msgid "Remote path is not executable."
 msgstr "Uzak yol çalıştırılabilir değil."
 
-#: common/sshtools.py:697
+#: common/sshtools.py:725
 msgid "Couldn't create remote path."
 msgstr "Uzak klasör oluşturulamadı."
 
-#: common/sshtools.py:986
+#: common/sshtools.py:1014
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Uzak bilgisayar {host} desteklemediği komut: {command}"
 
-#: common/sshtools.py:990 common/sshtools.py:999
+#: common/sshtools.py:1018 common/sshtools.py:1027
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Daha fazla yönerge için 'man backintime'a bakın"
 
-#: common/sshtools.py:994
+#: common/sshtools.py:1022
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "{host} ana bilgisayarındaki kontrol komutları bilinmeyen bir hata döndürdü"
 
-#: common/sshtools.py:1015
+#: common/sshtools.py:1043
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Uzak sunucu {host} sabit bağlantıları desteklemiyor"
 
-#: common/sshtools.py:1169
+#: common/sshtools.py:1197
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 "Genel SSH anahtarını \"{pubkey}\" uzak ana bilgisayar \"{host}\" üzerine "
 "kopyala."
 
-#: common/sshtools.py:1171
+#: common/sshtools.py:1199
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "\"{user}\" kullanıcısı için parola giriniz."
 
-#: common/tools.py:422
+#: common/tools.py:423
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Hatalı seçenek. {path} bir klasör değil."
 
-#: common/tools.py:436
+#: common/tools.py:437
 msgid "Creation of following folder failed:"
 msgstr ""
 
-#: common/tools.py:438 common/tools.py:534
+#: common/tools.py:439 common/tools.py:535
 msgid "Write access may be restricted."
 msgstr ""
 
-#: common/tools.py:478
+#: common/tools.py:479
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -418,7 +418,7 @@ msgstr ""
 "{path} için girilen hedef dosya sistemi hard-link desteklemeyen FAT ile "
 "biçimlendirilmiş. Lütfen özgün Linux dosya sistemi kullanın."
 
-#: common/tools.py:489
+#: common/tools.py:490
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -429,15 +429,15 @@ msgstr ""
 "SMB sunucunun sembolik bağları desteklediğini teyit edin ya da "
 "{expertOptions} bölümündeki {copyLinks} seçeneğini etkinleştirin."
 
-#: common/tools.py:493 qt/settingsdialog.py:767
+#: common/tools.py:494 qt/settingsdialog.py:767
 msgid "Copy links (dereference symbolic links)"
 msgstr "Linkleri kopyala (sembolik linklerin hedef dosyalarını kopyalar)"
 
-#: common/tools.py:494
+#: common/tools.py:495
 msgid "Expert Options"
 msgstr "Uzman Seçenekleri"
 
-#: common/tools.py:498
+#: common/tools.py:499
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
@@ -446,7 +446,7 @@ msgstr ""
 "{path} için hedef dosya sistemi bir sshfs ile bağlanmış paylaşımdır. Sshfs "
 "sabit bağlantıları desteklemez. Lütfen 'SSH' modunu kullanın."
 
-#: common/tools.py:532
+#: common/tools.py:533
 msgid "File creation failed in this folder:"
 msgstr ""
 
@@ -659,7 +659,7 @@ msgstr "Şu anda gösterilen klasörü ve tüm içeriğini yeni hedefe geri yük
 msgid "Up"
 msgstr "Yukarı"
 
-#: qt/app.py:599 qt/settingsdialog.py:2229
+#: qt/app.py:599 qt/settingsdialog.py:2256
 msgid "Show hidden files"
 msgstr "Gizli dosyaları göster"
 
@@ -707,7 +707,7 @@ msgstr "Tamamlandı, yedekleme gerekmiyor"
 msgid "Working"
 msgstr "Çalışıyor"
 
-#: qt/app.py:1057 qt/messagebox.py:78
+#: qt/app.py:1057 qt/messagebox.py:93
 msgid "Error"
 msgstr "Hata"
 
@@ -865,7 +865,7 @@ msgstr ""
 "EncFS desteği yakın gelecekte sonlandırılacak. Profil için artık o modu "
 "kullanmanız önerilmiyor."
 
-#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75 qt/settingsdialog.py:1136
+#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75 qt/settingsdialog.py:1161
 msgid "whitepaper"
 msgstr "Beyaz Kitap"
 
@@ -968,8 +968,8 @@ msgstr "Son Günlük Görünüm"
 msgid "Snapshot Log View"
 msgstr "Anlık Görüntü Günlük Görünümü"
 
-#: qt/logviewdialog.py:77 qt/settingsdialog.py:184 qt/settingsdialog.py:1107
-#: qt/settingsdialog.py:2408
+#: qt/logviewdialog.py:77 qt/settingsdialog.py:184 qt/settingsdialog.py:1132
+#: qt/settingsdialog.py:2435
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -994,7 +994,7 @@ msgstr "Değişiklikler"
 msgid "Errors"
 msgstr "Hatalar"
 
-#: qt/logviewdialog.py:116 qt/messagebox.py:71
+#: qt/logviewdialog.py:116 qt/messagebox.py:69
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Bilgi"
@@ -1012,7 +1012,7 @@ msgstr "[E] Hata, [I] Bilgi, [C] Değiştir"
 msgid "decode paths"
 msgstr "kod çözümleme yolları"
 
-#: qt/messagebox.py:87 qt/messagebox.py:97
+#: qt/messagebox.py:102 qt/messagebox.py:112
 msgid "Question"
 msgstr "Soru"
 
@@ -1225,15 +1225,16 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "SSH Vekil"
 
-#: qt/settingsdialog.py:100 qt/settingsdialog.py:965 qt/settingsdialog.py:1095
+#: qt/settingsdialog.py:100 qt/settingsdialog.py:990 qt/settingsdialog.py:1120
 msgid "Host:"
 msgstr "Ana Makine:"
 
-#: qt/settingsdialog.py:104 qt/settingsdialog.py:970
+#: qt/settingsdialog.py:104 qt/settingsdialog.py:995
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/settingsdialog.py:108 qt/settingsdialog.py:975 qt/settingsdialog.py:1101
+#: qt/settingsdialog.py:108 qt/settingsdialog.py:1000
+#: qt/settingsdialog.py:1126
 msgid "User:"
 msgstr "Kullanıcı:"
 
@@ -1557,15 +1558,15 @@ msgstr "Seçenekler çift tırnak içine alınmalıdır, ör: {example}."
 msgid "Paste additional options to rsync"
 msgstr "Ek seçenekleri rsyncʼa yapıştır"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:827
 msgid "Add prefix to SSH commands"
 msgstr "SSH komutlarına ön ek ekle"
 
-#: qt/settingsdialog.py:827
+#: qt/settingsdialog.py:829
 msgid "Prefix to run before every command on remote host."
 msgstr "Uzak ana bilgisayar üzerinde her komuttan önce çalıştırılacak önek."
 
-#: qt/settingsdialog.py:828
+#: qt/settingsdialog.py:830
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1574,15 +1575,15 @@ msgstr ""
 "Değişkenler $FOO ile kaçınılmalıdır. Bu rsync'i etkilemez. Rsync için bir ön"
 " ek eklemek için \"{example_value}\" ve {rsync_options_value} kullanın."
 
-#: qt/settingsdialog.py:836
+#: qt/settingsdialog.py:838
 msgid "default"
 msgstr "öntanımlı"
 
-#: qt/settingsdialog.py:851
+#: qt/settingsdialog.py:853
 msgid "Check if remote host is online"
 msgstr "Uzak makinenin çevrim içi olduğunu denetle"
 
-#: qt/settingsdialog.py:854
+#: qt/settingsdialog.py:856
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1590,13 +1591,13 @@ msgstr ""
 "Uyarı: Eğer devre dışı bırakılırsa ve uzak ana bilgisayar erişilemezse, bu "
 "bazı garip hatalara neden olabilir."
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:860
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Uzak ana bilgisayarın gerekli tüm komutları destekleyip desteklemediğini "
 "kontrol edin."
 
-#: qt/settingsdialog.py:861
+#: qt/settingsdialog.py:863
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1604,49 +1605,49 @@ msgstr ""
 "Uyarı: Eğer devre dışı bırakılırsa ve uzak ana bilgisayar gerekli tüm "
 "komutları desteklemiyorsa, bu bazı garip hatalara neden olabilir."
 
-#: qt/settingsdialog.py:877
+#: qt/settingsdialog.py:879
 msgid "Restore Config"
 msgstr "Yapılandırma Geri Yükle"
 
-#: qt/settingsdialog.py:879
+#: qt/settingsdialog.py:881
 msgid "Edit user-callback"
 msgstr "Kullanıcı Geri Çağrısını Düzenle"
 
-#: qt/settingsdialog.py:910 qt/settingsdialog.py:2410
+#: qt/settingsdialog.py:935 qt/settingsdialog.py:2437
 msgid "Mode:"
 msgstr "Kip:"
 
-#: qt/settingsdialog.py:929 qt/settingsdialog.py:1928
+#: qt/settingsdialog.py:954 qt/settingsdialog.py:1955
 msgid "Where to save snapshots"
 msgstr "Anlık görüntülerin nereye kaydedileceği"
 
-#: qt/settingsdialog.py:945
+#: qt/settingsdialog.py:970
 msgid "Folder"
 msgstr "Klasör"
 
-#: qt/settingsdialog.py:953
+#: qt/settingsdialog.py:978
 msgid "SSH Settings"
 msgstr "SSH Ayarları"
 
-#: qt/settingsdialog.py:980
+#: qt/settingsdialog.py:1005
 msgid "Path:"
 msgstr "Yol:"
 
-#: qt/settingsdialog.py:986
+#: qt/settingsdialog.py:1011
 msgid "Cipher:"
 msgstr "Şifre:"
 
-#: qt/settingsdialog.py:992
+#: qt/settingsdialog.py:1017
 msgid "Private Key:"
 msgstr "Özel Anahtar:"
 
-#: qt/settingsdialog.py:1002
+#: qt/settingsdialog.py:1027
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
 "Var olan bir özel anahtar dosyası seçin (normalde \"id_rsa\" olarak "
 "adlandırılır)"
 
-#: qt/settingsdialog.py:1013
+#: qt/settingsdialog.py:1038
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1654,29 +1655,29 @@ msgstr ""
 "Parola olmadan yeni SSH anahtarı oluştur (özel anahtar dosyası zaten "
 "seçiliyse buna izin verilmez)."
 
-#: qt/settingsdialog.py:1043 qt/settingsdialog.py:1052
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1068 qt/settingsdialog.py:1077
+#: qt/settingsdialog.py:1083
 msgid "Password"
 msgstr "Parola"
 
-#: qt/settingsdialog.py:1064
+#: qt/settingsdialog.py:1089
 msgid "Save Password to Keyring"
 msgstr "Parolayı Anahtarlığa Kaydet"
 
-#: qt/settingsdialog.py:1068
+#: qt/settingsdialog.py:1093
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Cron için Parolayı Önbellekle (Güvenlik sorunu: root parolayı okuyabilir)"
 
-#: qt/settingsdialog.py:1083
+#: qt/settingsdialog.py:1108
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: qt/settingsdialog.py:1113 qt/settingsdialog.py:2064
+#: qt/settingsdialog.py:1138 qt/settingsdialog.py:2091
 msgid "Full snapshot path:"
 msgstr "Tam anlık görüntü yolu:"
 
-#: qt/settingsdialog.py:1129
+#: qt/settingsdialog.py:1154
 #, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
@@ -1689,45 +1690,45 @@ msgstr ""
 "bulunanların müsaitliğine bağlı olarak hala beklemede. Daha fazla ayrıntı "
 "{whitepaper}'da bulunabilir."
 
-#: qt/settingsdialog.py:1151
+#: qt/settingsdialog.py:1176
 msgid "New profile"
 msgstr "Yeni profil"
 
-#: qt/settingsdialog.py:1168
+#: qt/settingsdialog.py:1193
 msgid "Rename profile"
 msgstr "Profili yeniden adlandır"
 
-#: qt/settingsdialog.py:1184
+#: qt/settingsdialog.py:1209
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "\"{name}\" profilini silmek istediğinizden emin misiniz?"
 
-#: qt/settingsdialog.py:1230
+#: qt/settingsdialog.py:1255
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}Önemle Önerilir{ENDBOLD}: (Tüm öneriler zaten dahil edildi.)"
 
-#: qt/settingsdialog.py:1235
+#: qt/settingsdialog.py:1260
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Önemle Tavsiye Edlilir{ENDBOLD}: {files}"
 
-#: qt/settingsdialog.py:1454
+#: qt/settingsdialog.py:1479
 msgid "You did not choose a private key file for SSH."
 msgstr "SSH için bir gizli anahtar dosyası seçmediniz."
 
-#: qt/settingsdialog.py:1455
+#: qt/settingsdialog.py:1480
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr "Yeni bir şifresiz genel/özel anahtar çifti oluşturmak ister misiniz?"
 
-#: qt/settingsdialog.py:1465
+#: qt/settingsdialog.py:1490
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Özel anahtar dosyası \"{file}\" yok."
 
-#: qt/settingsdialog.py:1596
+#: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
@@ -1735,17 +1736,17 @@ msgstr ""
 "Şifresiz girişi etkinleştirmek için genel SSH anahtarınızı uzak ana "
 "bilgisayara kopyalamak ister misiniz?"
 
-#: qt/settingsdialog.py:1627
+#: qt/settingsdialog.py:1652
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "{host} ana bilgisayarının kimliği doğrulanamıyor."
 
-#: qt/settingsdialog.py:1630
+#: qt/settingsdialog.py:1655
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} anahtar parmak iziniz:"
 
-#: qt/settingsdialog.py:1638
+#: qt/settingsdialog.py:1663
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1753,23 +1754,23 @@ msgstr ""
 "Lütfen bu parmak izini doğrulayın. 'known_hosts' dosyanıza eklemek ister "
 "misiniz?"
 
-#: qt/settingsdialog.py:1828
+#: qt/settingsdialog.py:1855
 msgid "Exclude pattern"
 msgstr "Dışlama deseni"
 
-#: qt/settingsdialog.py:1841
+#: qt/settingsdialog.py:1868
 msgid "Exclude file"
 msgstr "Dosyayı dışla"
 
-#: qt/settingsdialog.py:1845
+#: qt/settingsdialog.py:1872
 msgid "Exclude folder"
 msgstr "Klasörü dışla"
 
-#: qt/settingsdialog.py:1869
+#: qt/settingsdialog.py:1896
 msgid "Include file"
 msgstr "Dosyayı dahil et"
 
-#: qt/settingsdialog.py:1878 qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1905 qt/settingsdialog.py:1935
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1778,55 +1779,55 @@ msgstr ""
 "\"{path}\" bir sembolik bağlantı. Bağlantılı hedef, siz onu da dahil edene kadar yedeklenmeyecek.\n"
 "Bunun yerine sembolik bağlantının hedefini dahil etmek ister misiniz?"
 
-#: qt/settingsdialog.py:1899
+#: qt/settingsdialog.py:1926
 msgid "Include folder"
 msgstr "Klasörü dahil et"
 
-#: qt/settingsdialog.py:1936
+#: qt/settingsdialog.py:1963
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Anlık görüntüler klasörünü değiştirmek istediğinizden emin misiniz?"
 
-#: qt/settingsdialog.py:1947
+#: qt/settingsdialog.py:1974
 msgid "Is this the backup destination to be used?"
 msgstr ""
 
-#: qt/settingsdialog.py:1971
+#: qt/settingsdialog.py:1998
 #, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı"
 
-#: qt/settingsdialog.py:2091
+#: qt/settingsdialog.py:2118
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "'SSH şifrelenmiş' modunda bu desen işlevli olmadığı için devre dışı "
 "bırakıldı."
 
-#: qt/settingsdialog.py:2150
+#: qt/settingsdialog.py:2177
 msgid "(default: {})"
 msgstr "(varsayılan: {})"
 
-#: qt/settingsdialog.py:2151
+#: qt/settingsdialog.py:2178
 msgid "disabled"
 msgstr "devre dışı"
 
-#: qt/settingsdialog.py:2151
+#: qt/settingsdialog.py:2178
 msgid "enabled"
 msgstr "etkin"
 
-#: qt/settingsdialog.py:2194
+#: qt/settingsdialog.py:2221
 msgid "Import configuration"
 msgstr "Ayarları İçe Aktar"
 
-#: qt/settingsdialog.py:2250 qt/settingsdialog.py:2346
+#: qt/settingsdialog.py:2277 qt/settingsdialog.py:2373
 msgid "No config found"
 msgstr "Yapılandırma bulunamadı"
 
-#: qt/settingsdialog.py:2275
+#: qt/settingsdialog.py:2302
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: qt/settingsdialog.py:2303
+#: qt/settingsdialog.py:2330
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
@@ -1835,7 +1836,7 @@ msgstr ""
 "Ayarlama dosyasının içe aktarılacağı anlık görüntü klasörünü seçin. Yol şu "
 "şekilde olabilir: {samplePath}"
 
-#: qt/settingsdialog.py:2308
+#: qt/settingsdialog.py:2335
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
@@ -1911,29 +1912,29 @@ msgstr "Git"
 msgid "Options"
 msgstr "Seçenekler"
 
-#: qt/snapshotsdialog.py:355
+#: qt/snapshotsdialog.py:361
 msgid "You can't compare a snapshot to itself."
 msgstr "Bir anlık görüntüyü kendisiyle karşılaştıramazsınız."
 
-#: qt/snapshotsdialog.py:398
+#: qt/snapshotsdialog.py:404
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr ""
 "{snapshot_id} anlık görüntüsündeki {file} dosyasını gerçekten silmek istiyor"
 " musun?"
 
-#: qt/snapshotsdialog.py:404
+#: qt/snapshotsdialog.py:410
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr ""
 "{count} anlık görüntü içindeki {file} dosyasını gerçekten silmek istiyor "
 "musun?"
 
-#: qt/snapshotsdialog.py:408
+#: qt/snapshotsdialog.py:414
 msgid "WARNING: This cannot be revoked."
 msgstr "UYARI: Bu işlemin geri alınması mümkün değil."
 
-#: qt/snapshotsdialog.py:426
+#: qt/snapshotsdialog.py:432
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "{path} yolu gelecek anlık görüntülerden dışlansın mı?"

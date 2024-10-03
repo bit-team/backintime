@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-07-17 08:56+0000\n"
+"POT-Creation-Date: 2024-10-03 13:54+0200\n"
+"PO-Revision-Date: 2024-09-17 08:03+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -15,22 +15,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
-#: qt/settingsdialog.py:1128
+#: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
+#: qt/messagebox.py:86 qt/settingsdialog.py:1153
 msgid "Warning"
 msgstr "Warnung"
 
-#: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#: common/config.py:130 common/tools.py:391
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Das Zieldateisystem für {path} ist mit FAT formatiert, welches Hardlinks "
-"nicht unterstützt. Bitte benutzen Sie ein natives Linux-Dateisystem."
+"Das Zielateisystem für {path} ist mit NTFS formatiert, das bekannte "
+"Inkompatibilitäten mit Unix-ähnlichen Dateisysteme aufweist."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -52,7 +52,7 @@ msgstr "Lokal"
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1962
+#: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1989
 msgid "SSH private key"
 msgstr "Privater SSH Schlüssel"
 
@@ -94,11 +94,11 @@ msgstr "Ein Sicherungsordner kann nicht einbezogen werden."
 msgid "Backup sub-folder cannot be included."
 msgstr "Ein Unter-Sicherungsordner kann nicht einbezogen werden."
 
-#: common/config.py:1526
+#: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "Schreiben einer neuen crontab ist fehlgeschlagen."
 
-#: common/config.py:1534
+#: common/config.py:1491
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -110,7 +110,7 @@ msgstr ""
 "aktiviert sein. Versuche den Befehl \"systemctl enable cron\" oder "
 "konsultiere die Support-Kanäle deiner GNU/Linux-Distribution."
 
-#: common/config.py:1614
+#: common/config.py:1571
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -119,12 +119,12 @@ msgstr ""
 "Udev-Regel für Profil {profile_id} konnte nicht erstellt werden. DBus-Dienst"
 " »{dbus_interface}« war nicht verfügbar"
 
-#: common/config.py:1629
+#: common/config.py:1586
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
 msgstr "Udev-Zeitplan funktioniert nicht mit Modus {mode}"
 
-#: common/config.py:1640
+#: common/config.py:1597
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "UUID für »{path}« konnte nicht gefunden werden"
@@ -171,7 +171,7 @@ msgstr "Passwort bitte bestätigen."
 msgid "Password doesn't match."
 msgstr "Passwort stimmt nicht überein."
 
-#: common/encfstools.py:516 common/snapshots.py:1027
+#: common/encfstools.py:516 common/snapshots.py:1028
 msgid "Take snapshot"
 msgstr "Schnappschuss erstellen"
 
@@ -191,29 +191,29 @@ msgstr ""
 msgid "Mountpoint {mntpoint} not empty."
 msgstr "Einhängepunkt {mntpoint} ist nicht leer."
 
-#: common/password.py:277
+#: common/password.py:287
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Passwort für {mode} Profil \"{profile}\" eingeben:"
 
-#: common/snapshots.py:356 common/snapshots.py:607
+#: common/snapshots.py:357 common/snapshots.py:608
 msgid "FAILED"
 msgstr "FEHLGESCHLAGEN"
 
-#: common/snapshots.py:553 common/snapshots.py:615
+#: common/snapshots.py:554 common/snapshots.py:616
 msgid "Restore permissions"
 msgstr "Berechtigungen wiederherstellen"
 
-#: common/snapshots.py:610 qt/app.py:292 qt/app.py:1001 qt/app.py:1036
+#: common/snapshots.py:611 qt/app.py:292 qt/app.py:1001 qt/app.py:1036
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Fertig"
 
-#: common/snapshots.py:730
+#: common/snapshots.py:731
 msgid "Deferring backup while on battery"
 msgstr "Aufschieben der Sicherung im Akkubetrieb"
 
-#: common/snapshots.py:828
+#: common/snapshots.py:829
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
@@ -221,124 +221,124 @@ msgstr ""
 "Schnappschussordner konnte nicht gefunden werden.\n"
 "Wenn er auf einem Wechsellaufwerk ist, bitte dieses verbinden."
 
-#: common/snapshots.py:832
+#: common/snapshots.py:833
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Warte %s Sekunde."
 msgstr[1] "Warte %s Sekunden."
 
-#: common/snapshots.py:900
+#: common/snapshots.py:901
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Schnappschuss {snapshot_id} konnte nicht erstellt werden."
 
-#: common/snapshots.py:931
+#: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Bitte Geduld haben. Abschluss läuft…"
 
-#: common/snapshots.py:1062
+#: common/snapshots.py:1063
 msgid "Can't create folder"
 msgstr "Verzeichnis kann nicht erstellt werden"
 
-#: common/snapshots.py:1079
+#: common/snapshots.py:1080
 msgid "Saving config file…"
 msgstr "Konfigurationsdatei wird gespeichert …"
 
-#: common/snapshots.py:1160
+#: common/snapshots.py:1161
 msgid "Saving permissions…"
 msgstr "Zugriffsrechte werden gespeichert …"
 
-#: common/snapshots.py:1272
+#: common/snapshots.py:1273
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
 msgstr ""
 "Schnappschuss »{snapshot_id}« gefunden, welcher fortgesetzt werden kann."
 
-#: common/snapshots.py:1295
+#: common/snapshots.py:1296
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr "Schnappschuss »{snapshot_id}« vom letzten Durchgang wird entfernt"
 
-#: common/snapshots.py:1305
+#: common/snapshots.py:1306
 msgid "Can't remove folder"
 msgstr "Ordner kann nicht entfernt werden"
 
-#: common/snapshots.py:1359
+#: common/snapshots.py:1360
 msgid "Taking snapshot"
 msgstr "Schnappschuss wird erstellt"
 
-#: common/snapshots.py:1410
+#: common/snapshots.py:1411
 msgid "Success"
 msgstr "Erfolgreich"
 
-#: common/snapshots.py:1413
+#: common/snapshots.py:1414
 msgid "Partial transfer due to error"
 msgstr "Teilübertragung aufgrund eines Fehlers"
 
-#: common/snapshots.py:1414
+#: common/snapshots.py:1415
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Partieller Transfer aufgrund von verschwundenen Quelldateien (siehe 'man "
 "rsync')"
 
-#: common/snapshots.py:1418
+#: common/snapshots.py:1419
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' beendet mit Code {exit_code}"
 
-#: common/snapshots.py:1431
+#: common/snapshots.py:1432
 msgid "See 'man rsync' for more details"
 msgstr "Siehe 'man rsync' für weitere Details"
 
-#: common/snapshots.py:1438
+#: common/snapshots.py:1439
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negative Rückgabewerte von rsync sind Signalnummern. Siehe 'kill -l' und "
 "'man kill'"
 
-#: common/snapshots.py:1459
+#: common/snapshots.py:1460
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Keine Änderungen, es ist kein neuer Schnappschuss notwendig"
 
-#: common/snapshots.py:1503
+#: common/snapshots.py:1504
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
 msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen"
 
-#: common/snapshots.py:1821 common/snapshots.py:1873
+#: common/snapshots.py:1822 common/snapshots.py:1874
 msgid "Smart removal"
 msgstr "Cleveres Löschen"
 
-#: common/snapshots.py:1848
+#: common/snapshots.py:1849
 msgid "Removing old snapshots"
 msgstr "Alte Schnappschüsse werden entfernt"
 
-#: common/snapshots.py:1883
+#: common/snapshots.py:1884
 msgid "Trying to keep min free space"
 msgstr "Versuche das Minimum an freiem Speicher freizuhalten"
 
-#: common/snapshots.py:1922
+#: common/snapshots.py:1923
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Es wird versucht mindestens {perc} freie Inodes zu behalten"
 
-#: common/snapshots.py:3038 qt/app.py:1747
+#: common/snapshots.py:3039 qt/app.py:1747
 msgid "Now"
 msgstr "Jetzt"
 
-#: common/sshtools.py:239
+#: common/sshtools.py:240
 #, python-brace-format
 msgid "Can't mount {sshfs}"
 msgstr "{sshfs} kann nicht eingebunden werden"
 
-#: common/sshtools.py:301
+#: common/sshtools.py:302
 msgid "ssh-agent not found. Please make sure it is installed."
 msgstr ""
 "ssh-agent nicht gefunden. Bitte sicherstellen, dass er installiert ist."
 
-#: common/sshtools.py:444
+#: common/sshtools.py:472
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -346,74 +346,74 @@ msgstr ""
 "Privater SSH-Schlüssel konnte nicht entsperrt werden. Passwort falsch oder "
 "für cron nicht verfügbar."
 
-#: common/sshtools.py:535
+#: common/sshtools.py:563
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "Verschlüsselungsverfahren {cipher} für {host} fehlgeschlagen."
 
-#: common/sshtools.py:682
+#: common/sshtools.py:710
 msgid "Remote path exists but is not a directory."
 msgstr ""
 "Der Pfad existiert auf dem entfernten Rechner, ist aber kein Verzeichnis."
 
-#: common/sshtools.py:687
+#: common/sshtools.py:715
 msgid "Remote path is not writable."
 msgstr "Der Pfad auf dem entfernten Rechner ist nicht beschreibbar."
 
-#: common/sshtools.py:692
+#: common/sshtools.py:720
 msgid "Remote path is not executable."
 msgstr "Der Pfad auf dem entfernten Rechner ist nicht ausführbar."
 
-#: common/sshtools.py:697
+#: common/sshtools.py:725
 msgid "Couldn't create remote path."
 msgstr "Erstellen des Pfades auf dem entfernten Rechner ist fehlgeschlagen."
 
-#: common/sshtools.py:986
+#: common/sshtools.py:1014
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Der entfernte Rechner {host} unterstützt {command} nicht"
 
-#: common/sshtools.py:990 common/sshtools.py:999
+#: common/sshtools.py:1018 common/sshtools.py:1027
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Weitere Anweisungen unter »man backintime«"
 
-#: common/sshtools.py:994
+#: common/sshtools.py:1022
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "Überprüfung der Befehle auf dem Rechner {host} gab unbekannten Fehler zurück"
 
-#: common/sshtools.py:1015
+#: common/sshtools.py:1043
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Der entfernte Rechner {host} unterstützt keine Hardlinks"
 
-#: common/sshtools.py:1169
+#: common/sshtools.py:1197
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 "Den öffentlichen SSH-Schlüssel \"{pubkey}\" zum entfernten Rechner "
 "\"{host}\" kopieren."
 
-#: common/sshtools.py:1171
+#: common/sshtools.py:1199
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Bitte Passwort für \"{user}\" eingeben."
 
-#: common/tools.py:422
+#: common/tools.py:423
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
 msgstr "Ungültige Option. {path} ist kein Verzeichnis."
 
-#: common/tools.py:436
+#: common/tools.py:437
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Erstellen des folgenden Ordners ist fehlgeschlagen:"
 
-#: common/tools.py:438 common/tools.py:534
+#: common/tools.py:439 common/tools.py:535
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Schreibzugriff könnte eingeschränkt sein."
 
-#: common/tools.py:478
+#: common/tools.py:479
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -422,7 +422,7 @@ msgstr ""
 "Das Zieldateisystem für {path} ist mit FAT formatiert, welches Hardlinks "
 "nicht unterstützt. Bitte benutzen Sie ein natives Linux-Dateisystem."
 
-#: common/tools.py:489
+#: common/tools.py:490
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an SMB-mounted share. Please make sure "
@@ -433,15 +433,15 @@ msgstr ""
 "stellen Sie sicher, dass der entfernte SMB-Server symbolische Verknüpfungen "
 "unterstützt oder aktivieren Sie {copyLinks} in {expertOptions}."
 
-#: common/tools.py:493 qt/settingsdialog.py:767
+#: common/tools.py:494 qt/settingsdialog.py:767
 msgid "Copy links (dereference symbolic links)"
 msgstr "Verknüpfungen kopieren (symbolische Verknüpfungen zurückverfolgen)"
 
-#: common/tools.py:494
+#: common/tools.py:495
 msgid "Expert Options"
 msgstr "Experten-Einstellungen"
 
-#: common/tools.py:498
+#: common/tools.py:499
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
@@ -450,9 +450,9 @@ msgstr ""
 "Das Zieldateisystem für {path} ist eine eingehängte sshfs-Freigabe. Sshfs "
 "unterstützt keine Hardlinks. Bitte benutzen Sie stattdessen den Modus 'SSH'."
 
-#: common/tools.py:532
+#: common/tools.py:533
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Erzeugen einer Datei in diesem Ordner fehlgeschlagen:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -666,7 +666,7 @@ msgstr ""
 msgid "Up"
 msgstr "Hoch"
 
-#: qt/app.py:599 qt/settingsdialog.py:2229
+#: qt/app.py:599 qt/settingsdialog.py:2256
 msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
@@ -714,7 +714,7 @@ msgstr "Fertig, keine Sicherung notwendig"
 msgid "Working"
 msgstr "In Bearbeitung"
 
-#: qt/app.py:1057 qt/messagebox.py:78
+#: qt/app.py:1057 qt/messagebox.py:93
 msgid "Error"
 msgstr "Fehler"
 
@@ -873,7 +873,7 @@ msgstr ""
 "Die Unterstützung für EncFS wird in absehbarer Zukunft eingestellt. Es wird "
 "nicht empfohlen, diesen Modus für ein Profil zu verwenden."
 
-#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75 qt/settingsdialog.py:1136
+#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75 qt/settingsdialog.py:1161
 msgid "whitepaper"
 msgstr "Whitepaper"
 
@@ -979,8 +979,8 @@ msgstr "Ansicht letztes Protokoll"
 msgid "Snapshot Log View"
 msgstr "Ansicht Schnappschussprotokoll"
 
-#: qt/logviewdialog.py:77 qt/settingsdialog.py:184 qt/settingsdialog.py:1107
-#: qt/settingsdialog.py:2408
+#: qt/logviewdialog.py:77 qt/settingsdialog.py:184 qt/settingsdialog.py:1132
+#: qt/settingsdialog.py:2435
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -1005,7 +1005,7 @@ msgstr "Änderungen"
 msgid "Errors"
 msgstr "Fehler"
 
-#: qt/logviewdialog.py:116 qt/messagebox.py:71
+#: qt/logviewdialog.py:116 qt/messagebox.py:69
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Information"
@@ -1023,7 +1023,7 @@ msgstr "[E] Fehler, [I] Information, [C] Änderung"
 msgid "decode paths"
 msgstr "Pfade entschlüsseln"
 
-#: qt/messagebox.py:87 qt/messagebox.py:97
+#: qt/messagebox.py:102 qt/messagebox.py:112
 msgid "Question"
 msgstr "Frage"
 
@@ -1106,20 +1106,19 @@ msgstr "Wochentag:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Uhrzeit:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Stunden:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"»Back In Time« starten, sobald die Festplatte angeschlossen wurde (nur einmal alle X Tage).\n"
-"Sie werden nach Ihrem sudo-Passwort gefragt werden."
+"»Back In Time« starten, sobald das Laufwerk angeschlossen wurde (nur einmal "
+"alle X Tage). Sie werden nach Ihrem sudo-Passwort gefragt werden."
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1238,15 +1237,16 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "SSH Proxy"
 
-#: qt/settingsdialog.py:100 qt/settingsdialog.py:965 qt/settingsdialog.py:1095
+#: qt/settingsdialog.py:100 qt/settingsdialog.py:990 qt/settingsdialog.py:1120
 msgid "Host:"
 msgstr "Host:"
 
-#: qt/settingsdialog.py:104 qt/settingsdialog.py:970
+#: qt/settingsdialog.py:104 qt/settingsdialog.py:995
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/settingsdialog.py:108 qt/settingsdialog.py:975 qt/settingsdialog.py:1101
+#: qt/settingsdialog.py:108 qt/settingsdialog.py:1000
+#: qt/settingsdialog.py:1126
 msgid "User:"
 msgstr "User:"
 
@@ -1572,16 +1572,16 @@ msgstr "Optionen müssen in Anführungszeichen stehen z.B.: {example}."
 msgid "Paste additional options to rsync"
 msgstr "Weitere Optionen zu rsync hinzufügen"
 
-#: qt/settingsdialog.py:825
+#: qt/settingsdialog.py:827
 msgid "Add prefix to SSH commands"
 msgstr "Präfix zum SSH-Befehl hinzufügen"
 
-#: qt/settingsdialog.py:827
+#: qt/settingsdialog.py:829
 msgid "Prefix to run before every command on remote host."
 msgstr ""
 "Präfix der vor jedem Befehl auf dem entfernten Rechner ausgeführt wird."
 
-#: qt/settingsdialog.py:828
+#: qt/settingsdialog.py:830
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1591,15 +1591,15 @@ msgstr ""
 "einen Präfix für rsync hinzuzufügen muss »{example_value}« mit "
 "{rsync_options_value} genutzt werden."
 
-#: qt/settingsdialog.py:836
+#: qt/settingsdialog.py:838
 msgid "default"
 msgstr "Vorgabe"
 
-#: qt/settingsdialog.py:851
+#: qt/settingsdialog.py:853
 msgid "Check if remote host is online"
 msgstr "Überprüfen, ob der entfernte Rechner am Netz ist"
 
-#: qt/settingsdialog.py:854
+#: qt/settingsdialog.py:856
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1607,12 +1607,12 @@ msgstr ""
 "Warnung: Wenn dies deaktiviert ist und der entfernte Rechner nicht verfügbar"
 " ist, kann es zu einigen verwirrenden Fehlern kommen."
 
-#: qt/settingsdialog.py:858
+#: qt/settingsdialog.py:860
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Prüfen, ob der entfernte Rechner alle erforderlichen Befehle unterstützt."
 
-#: qt/settingsdialog.py:861
+#: qt/settingsdialog.py:863
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1621,49 +1621,49 @@ msgstr ""
 "erforderlichen Befehle unterstützt, kann es zu einigen verwirrenden Fehlern "
 "kommen."
 
-#: qt/settingsdialog.py:877
+#: qt/settingsdialog.py:879
 msgid "Restore Config"
 msgstr "Konfiguration wiederherstellen"
 
-#: qt/settingsdialog.py:879
+#: qt/settingsdialog.py:881
 msgid "Edit user-callback"
 msgstr "User-callback bearbeiten"
 
-#: qt/settingsdialog.py:910 qt/settingsdialog.py:2410
+#: qt/settingsdialog.py:935 qt/settingsdialog.py:2437
 msgid "Mode:"
 msgstr "Modus:"
 
-#: qt/settingsdialog.py:929 qt/settingsdialog.py:1928
+#: qt/settingsdialog.py:954 qt/settingsdialog.py:1955
 msgid "Where to save snapshots"
 msgstr "Wo Schnappschüsse gespeichert werden"
 
-#: qt/settingsdialog.py:945
+#: qt/settingsdialog.py:970
 msgid "Folder"
 msgstr "Ordner"
 
-#: qt/settingsdialog.py:953
+#: qt/settingsdialog.py:978
 msgid "SSH Settings"
 msgstr "SSH-Einstellungen"
 
-#: qt/settingsdialog.py:980
+#: qt/settingsdialog.py:1005
 msgid "Path:"
 msgstr "Pfad:"
 
-#: qt/settingsdialog.py:986
+#: qt/settingsdialog.py:1011
 msgid "Cipher:"
 msgstr "Chiffre:"
 
-#: qt/settingsdialog.py:992
+#: qt/settingsdialog.py:1017
 msgid "Private Key:"
 msgstr "Privater Schlüssel:"
 
-#: qt/settingsdialog.py:1002
+#: qt/settingsdialog.py:1027
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
 "Wählt eine existierende private Schüsseldatei (normalerweise als \"id_rsa\" "
 "benannt)"
 
-#: qt/settingsdialog.py:1013
+#: qt/settingsdialog.py:1038
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1671,30 +1671,30 @@ msgstr ""
 "Erzeugt einen neuen SSH Schlüssel ohne Passwort (nur wenn noch keine private"
 " Schlüsseldatei ausgewählt wurde)."
 
-#: qt/settingsdialog.py:1043 qt/settingsdialog.py:1052
-#: qt/settingsdialog.py:1058
+#: qt/settingsdialog.py:1068 qt/settingsdialog.py:1077
+#: qt/settingsdialog.py:1083
 msgid "Password"
 msgstr "Passwort"
 
-#: qt/settingsdialog.py:1064
+#: qt/settingsdialog.py:1089
 msgid "Save Password to Keyring"
 msgstr "Passwort im Schlüsselbund speichern"
 
-#: qt/settingsdialog.py:1068
+#: qt/settingsdialog.py:1093
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Passwort für Cron zwischenspeichern (Sicherheitsproblem: Systemverwalter "
 "»root« kann das Passwort lesen)"
 
-#: qt/settingsdialog.py:1083
+#: qt/settingsdialog.py:1108
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: qt/settingsdialog.py:1113 qt/settingsdialog.py:2064
+#: qt/settingsdialog.py:1138 qt/settingsdialog.py:2091
 msgid "Full snapshot path:"
 msgstr "Vollständiger Schnappschusspfad:"
 
-#: qt/settingsdialog.py:1129
+#: qt/settingsdialog.py:1154
 #, python-brace-format
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. A decision"
@@ -1708,20 +1708,20 @@ msgstr ""
 " der Verfügbarkeit Mitwirkender ab. Weitere Details sind im folgenden "
 "{whitepaper} verfügbar."
 
-#: qt/settingsdialog.py:1151
+#: qt/settingsdialog.py:1176
 msgid "New profile"
 msgstr "Neues Profil"
 
-#: qt/settingsdialog.py:1168
+#: qt/settingsdialog.py:1193
 msgid "Rename profile"
 msgstr "Profil umbenennen"
 
-#: qt/settingsdialog.py:1184
+#: qt/settingsdialog.py:1209
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Sind Sie sicher, dass Sie das Profil »{name}« löschen wollen?"
 
-#: qt/settingsdialog.py:1230
+#: qt/settingsdialog.py:1255
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1729,28 +1729,28 @@ msgstr ""
 "{BOLD}Ausdrücklich empfohlen{ENDBOLD}: (All Empfehlungen bereits "
 "eingeschlossen.)"
 
-#: qt/settingsdialog.py:1235
+#: qt/settingsdialog.py:1260
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Ausdrücklich empfohlen{ENDBOLD}: {files}"
 
-#: qt/settingsdialog.py:1454
+#: qt/settingsdialog.py:1479
 msgid "You did not choose a private key file for SSH."
 msgstr "Sie haben keine Datei für einen privaten SSH Schlüssel ausgewählt."
 
-#: qt/settingsdialog.py:1455
+#: qt/settingsdialog.py:1480
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 "Möchten Sie ein neues öffentlich/privates und passwortloses Schlüsselpaar "
 "erstellen?"
 
-#: qt/settingsdialog.py:1465
+#: qt/settingsdialog.py:1490
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Die private Schlüsseldatei »{file}« ist nicht vorhanden."
 
-#: qt/settingsdialog.py:1596
+#: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
@@ -1758,17 +1758,17 @@ msgstr ""
 "Möchten Sie Ihren öffentlichen SSH-Schlüssel auf den entfernten Rechner "
 "kopieren, um die passwortlose Anmeldung zu aktivieren?"
 
-#: qt/settingsdialog.py:1627
+#: qt/settingsdialog.py:1652
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Die Echtheit des Rechners {host} kann nicht festgestellt werden."
 
-#: qt/settingsdialog.py:1630
+#: qt/settingsdialog.py:1655
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} Fingerabdruck des Schlüssels ist:"
 
-#: qt/settingsdialog.py:1638
+#: qt/settingsdialog.py:1663
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1776,23 +1776,23 @@ msgstr ""
 "Bitte überprüfen Sie diesen Fingerabdruck. Möchten Sie ihn zu Ihrer "
 "'known_hosts' Datei hinzufügen?"
 
-#: qt/settingsdialog.py:1828
+#: qt/settingsdialog.py:1855
 msgid "Exclude pattern"
 msgstr "Ausschlussmuster"
 
-#: qt/settingsdialog.py:1841
+#: qt/settingsdialog.py:1868
 msgid "Exclude file"
 msgstr "Datei ausschließen"
 
-#: qt/settingsdialog.py:1845
+#: qt/settingsdialog.py:1872
 msgid "Exclude folder"
 msgstr "Ordner ausschließen"
 
-#: qt/settingsdialog.py:1869
+#: qt/settingsdialog.py:1896
 msgid "Include file"
 msgstr "Datei einbeziehen"
 
-#: qt/settingsdialog.py:1878 qt/settingsdialog.py:1908
+#: qt/settingsdialog.py:1905 qt/settingsdialog.py:1935
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1801,55 +1801,55 @@ msgstr ""
 "»{path}« ist ein symbolischer Link (Symlink). Das verknüpfte Ziel wird nicht gesichert, wenn Sie es nicht ebenfalls hinzufügen.\n"
 "Möchten Sie stattdessen das Ziel des Links hinzufügen?"
 
-#: qt/settingsdialog.py:1899
+#: qt/settingsdialog.py:1926
 msgid "Include folder"
 msgstr "Ordner einbeziehen"
 
-#: qt/settingsdialog.py:1936
+#: qt/settingsdialog.py:1963
 msgid "Are you sure you want to change snapshots folder?"
 msgstr "Sind Sie sicher, dass Sie den Schnappschussordner ändern wollen?"
 
-#: qt/settingsdialog.py:1947
+#: qt/settingsdialog.py:1974
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "Ist dies das zu verwendende Backup-Ziel?"
 
-#: qt/settingsdialog.py:1971
+#: qt/settingsdialog.py:1998
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Erstellen eines neuen SSH-Schlüssels in {path} ist fehlgeschlagen."
 
-#: qt/settingsdialog.py:2091
+#: qt/settingsdialog.py:2118
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "Deaktiviert, da dieses Muster im Modus \"SSH verschlüsselt\" nicht "
 "funktionsfähig ist."
 
-#: qt/settingsdialog.py:2150
+#: qt/settingsdialog.py:2177
 msgid "(default: {})"
 msgstr "(Vorgabe: {})"
 
-#: qt/settingsdialog.py:2151
+#: qt/settingsdialog.py:2178
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: qt/settingsdialog.py:2151
+#: qt/settingsdialog.py:2178
 msgid "enabled"
 msgstr "Aktiviert"
 
-#: qt/settingsdialog.py:2194
+#: qt/settingsdialog.py:2221
 msgid "Import configuration"
 msgstr "Konfiguration importieren"
 
-#: qt/settingsdialog.py:2250 qt/settingsdialog.py:2346
+#: qt/settingsdialog.py:2277 qt/settingsdialog.py:2373
 msgid "No config found"
 msgstr "Keine Konfiguration gefunden"
 
-#: qt/settingsdialog.py:2275
+#: qt/settingsdialog.py:2302
 msgid "Import"
 msgstr "Importieren"
 
-#: qt/settingsdialog.py:2303
+#: qt/settingsdialog.py:2330
 #, python-brace-format
 msgid ""
 "Select the snapshot folder from which the configuration file should be "
@@ -1858,7 +1858,7 @@ msgstr ""
 "Wähle den Schnappschussordner, aus dem die Konfiguration zu importieren ist."
 " Der Pfad könnte folgendermaßen aussehen: {samplePath}"
 
-#: qt/settingsdialog.py:2308
+#: qt/settingsdialog.py:2335
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
@@ -1934,28 +1934,28 @@ msgstr "Gehen zu"
 msgid "Options"
 msgstr "Optionen"
 
-#: qt/snapshotsdialog.py:355
+#: qt/snapshotsdialog.py:361
 msgid "You can't compare a snapshot to itself."
 msgstr "Sie können einen Schnappschuss nicht mit sich selbst vergleichen."
 
-#: qt/snapshotsdialog.py:398
+#: qt/snapshotsdialog.py:404
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr ""
 "Soll in dem Schnappschuss »{snapshot_id}« die Datei »{file}« wirklich "
 "gelöscht werden?"
 
-#: qt/snapshotsdialog.py:404
+#: qt/snapshotsdialog.py:410
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr ""
 "Soll in {count} Schnappschüssen die Datei »{file}« wirklich gelöscht werden?"
 
-#: qt/snapshotsdialog.py:408
+#: qt/snapshotsdialog.py:414
 msgid "WARNING: This cannot be revoked."
 msgstr "WARNUNG: Das kann nicht rückgängig gemacht werden."
 
-#: qt/snapshotsdialog.py:426
+#: qt/snapshotsdialog.py:432
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "»{path}« von zukünftigen Schnappschüssen ausschließen?"

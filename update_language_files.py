@@ -10,14 +10,11 @@
 translation platform (currently Weblate).
 """
 import sys
-import io
 import datetime
-import json
 import re
 import tempfile
 import string
 import shutil
-import pprint
 from pathlib import Path
 from subprocess import run, check_output
 from common import languages
@@ -40,6 +37,30 @@ PACKAGE_VERSION = Path('VERSION').read_text('utf-8').strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
+
+
+def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
+    """Convert a (nested) Python dict into its PEP8 conform as-in-code
+    representation.
+    """
+    tab = ' ' * 4 * indent_level
+    result = []
+    for key in a_dict:
+
+        # A nested dict
+        if isinstance(a_dict[key], dict):
+            result.append(f"{tab}'{key}': {{")
+
+            result.extend(
+                dict_as_code(a_dict[key], indent_level+1))
+
+            result.append(f"{tab}}},")
+            continue
+
+        # Regular key: value pair
+        result.append(f"{tab}'{key}': '{a_dict[key]}',")
+
+    return result
 
 
 def update_po_template():
@@ -349,18 +370,18 @@ def create_languages_file():
     """
 
     # Convert language names dict to python code as a string
-    names = update_language_names()
-    stream = io.StringIO()
-    pprint.pprint(names, indent=2, stream=stream, sort_dicts=True)
-    stream.seek(0)
-    names = stream.read()
+    names_dict = update_language_names()
+    content = ['names = {']
+    content.extend(dict_as_code(names_dict, 1))
+    content.append('}')
 
     # the same with completeness dict
     compl_dict = create_completeness_dict()
-    stream = io.StringIO()
-    pprint.pprint(compl_dict, indent=2, stream=stream, sort_dicts=True)
-    stream.seek(0)
-    completeness = stream.read()
+    content.append('')
+    content.append('')
+    content.append('completeness = {')
+    content.extend(dict_as_code(compl_dict, 1))
+    content.append('}')
 
     with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
 
@@ -370,14 +391,11 @@ def create_languages_file():
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
+        handle.write(
+            '# pylint: disable=too-many-lines,missing-module-docstring\n')
 
-        handle.write('\nnames = {\n')
-        handle.write(names[1:])
-
+        handle.write('\n'.join(content))
         handle.write('\n')
-
-        handle.write('\ncompleteness = {\n')
-        handle.write(completeness[1:])
 
     print(f'Result written to {LANGUAGE_NAMES_PY}.')
 
@@ -432,7 +450,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     # Don't use defaultdict because pprint can't handle it
     result = {}
 
-    for code in language_codes:
+    for code in sorted(language_codes):
         print(f'Processing language code "{code}"...')
 
         lang = babel.Locale.parse(code)
@@ -609,6 +627,14 @@ def check_shortcuts():
 
 if __name__ == '__main__':
 
+    # names = update_language_names()
+
+    # tab = {n: '    ' * n for n in range(1, 11)}
+    # result = ['names = {']
+    # result.extend(dict_as_code(names, 1))
+
+    # print('\n'.join(result))
+    # sys.exit(0)
     check_existence()
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'

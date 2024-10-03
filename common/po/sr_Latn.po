@@ -1,23 +1,28 @@
-# Sveinn í Felli <sv1@fellsnet.is>, 2023.
+# Serbian translation for backintime
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the backintime package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Icelandic (Back In Time)\n"
+"Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-03 13:54+0200\n"
-"PO-Revision-Date: 2024-08-05 09:28+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
-"Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
-"Language: is\n"
+"POT-Creation-Date: 2024-10-03 14:15+0200\n"
+"PO-Revision-Date: 2024-07-27 16:54+0000\n"
+"Last-Translator: nvedran <nvedran@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
+"Language: sr_Latn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.6.2\n"
+"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:86 qt/settingsdialog.py:1153
 msgid "Warning"
-msgstr "Aðvörun"
+msgstr "Upozorenje"
 
 #: common/config.py:130 common/tools.py:391
 #, fuzzy, python-brace-format
@@ -25,26 +30,25 @@ msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Markskráakerfi fyrir {path} er í FAT formi sem virkar ekki með hörðum-"
-"tenglum. Notaðu frekar upprunalegt Linux skráakerfi."
+"Odredište sistema datoteka za {path} je formatiran sa FAT koji ne podržava "
+"čvrste veze. Molim Vas da koristite sistemske datoteke koje Linuks izvorno "
+"podržava."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
-msgstr "Aðalsnið"
+msgstr "Glavni profil"
 
 #: common/config.py:261
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "Staðvært dulritað"
+msgstr "Lokalno (EncFS šifrovano)"
 
 #: common/config.py:262
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH dulritað"
+msgstr "SSH (EncFS šifrovano)"
 
 #: common/config.py:273
 msgid "Local"
-msgstr "Staðvært"
+msgstr "Lokalno"
 
 #: common/config.py:275
 msgid "SSH"
@@ -52,49 +56,50 @@ msgstr "SSH"
 
 #: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1989
 msgid "SSH private key"
-msgstr "SSH-einkalykill"
+msgstr "SSH privatni ključ"
 
 #: common/config.py:278
 msgid "Local encrypted"
-msgstr "Staðvært dulritað"
+msgstr "Lokalno šifrovano"
 
 #: common/config.py:279 common/config.py:286
 msgid "Encryption"
-msgstr "Dulritun"
+msgstr "Enkripcija"
 
 #: common/config.py:284
 msgid "SSH encrypted"
-msgstr "SSH dulritað"
+msgstr "SSH enkriptovano"
 
 #: common/config.py:291
 msgid "Default"
-msgstr "Sjálfgefið"
+msgstr "Podrazumevano"
 
 #: common/config.py:322 common/config.py:334 common/config.py:351
 #: common/config.py:362
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "Snið: \"{name}\""
+msgstr "Profil: \"{name}\""
 
 #: common/config.py:323
 msgid "Snapshots folder is not valid!"
-msgstr "Mappa fyrir skyndiafrit er ekki gild!"
+msgstr "Direktorijum za snimak nije važeći!"
 
 #: common/config.py:335
 msgid "You must select at least one folder to back up!"
-msgstr "Þú verður að velja a.m.k. eina möppu til að öryggisafrita!"
+msgstr ""
+"Morate odabrati bar jedan direktorijum da bi napravili rezervnu kopiju!"
 
 #: common/config.py:352
 msgid "Backup folder cannot be included."
-msgstr "Aftrits mappa getur ekki verið innifalin."
+msgstr "Direktorijum za rezervne kopije ne može biti uključen."
 
 #: common/config.py:364
 msgid "Backup sub-folder cannot be included."
-msgstr "Aftrits undirmappa getur ekki verið innifalin."
+msgstr "Pod-direktorijum za rezervne kopije ne moze biti uključen."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
-msgstr "Mistókst að skrifa nýtt crontab."
+msgstr "Неуспешно чување новог crontab-а."
 
 #: common/config.py:1491
 msgid ""
@@ -103,6 +108,11 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU Linux distribution."
 msgstr ""
+"Pozadinski proces (cron) se ne pokreće, uprkos tome što je komanda dostupna "
+"(crontab command). Snimanje rezervnih kopija koje su zakazane se neće "
+"pokrenuti. Pozadinski proces (cron) je možda instaliran ali nije omogućen. "
+"Isprobajte komandu \"systemctl enable cron\" ili kontaktirajte podršku za "
+"GNU Linux distribuciju."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -110,120 +120,122 @@ msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
-"Gat ekki installað Udev reglu fyrir prófíl {profile_id}. DBus þjónusta "
-"'{dbus_interface}' var ekki í boði"
+"Neuspešno instaliranje Udev pravila za profil {profile_id}. DBus servis "
+"'{dbus_interface}' nije dostupan"
 
 #: common/config.py:1586
 #, python-brace-format
 msgid "Schedule udev doesn't work with mode {mode}"
-msgstr "Áætlað udev virkar ekki með hamnum {mode}"
+msgstr "Raspored udev ne radi sa režimom {mode}"
 
 #: common/config.py:1597
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Gat ekki fundið UUID fyrir {path}"
+msgstr "Nije moguće naći UUID za {path}"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
-msgstr "Mistókst að vista stillingaskrá"
+msgstr "Неуспешно чување конфигурације"
 
 #: common/configfile.py:143
 msgid "Failed to load config"
-msgstr "Mistókst að hlaða inn stillingaskrá"
+msgstr "Неуспешно учитавање конфигурације"
 
 #: common/configfile.py:690 common/configfile.py:789
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "Sniðið \"{name}\" er þegar til staðar."
+msgstr "Профил \"{name}\" већ постоји."
 
 #: common/configfile.py:735
 msgid "The last profile cannot be removed."
-msgstr "Ekki er hægt að fjarlægja síðasta sniðið."
+msgstr "Poslednji profil se ne može ukloniti."
 
 #: common/encfstools.py:91
 #, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr "Get ekki tengt '{command}'"
+msgstr "Неуспешно монтирање '{command}'"
 
 #: common/encfstools.py:138
 msgid "Config for encrypted folder not found."
-msgstr "Stillingar fyrir dulritaða möppu fannst ekki."
+msgstr "Подешавања за енкриптовани фолдер нису пронађена."
 
 #: common/encfstools.py:146
 msgid "Create a new encrypted folder?"
-msgstr "Búa til nýja dulritaða möppu?"
+msgstr "Направите нови енкриптовани фолдер?"
 
 #: common/encfstools.py:150
 msgid "Cancel"
-msgstr "Hætta við"
+msgstr "Otkazati"
 
 #: common/encfstools.py:155
 msgid "Please confirm the password."
-msgstr "Staðfestu lykilorðið."
+msgstr "Молимо потврдите лозинку."
 
 #: common/encfstools.py:159
 msgid "Password doesn't match."
-msgstr "Lykilorðin samsvara ekki."
+msgstr "Lozinka se ne poklapa."
 
 #: common/encfstools.py:516 common/snapshots.py:1028
 msgid "Take snapshot"
-msgstr "Taka skyndiafrit"
+msgstr "Направи снимак"
 
 #: common/mount.py:599
 #, python-brace-format
 msgid "Can't unmount {mountprocess} from {mountpoint}."
-msgstr "Get ekki aftengt {mountprocess} úr {mountpoint}."
+msgstr "Nije moguće demontirati {mountprocess} iz {mountpoint}."
 
 #: common/mount.py:686
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr ""
-"{command} fannst ekki. Endilega settu það upp (t.d. með \"{installcommand}\""
+msgstr "{command} nije pronađen. Instalirajte npr. {installcommand}"
 
 #: common/mount.py:710
 #, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Tengipunktur {mntpoint} er ekki laus."
+msgstr "Tačka montiranja {mntpoint} nije prazna."
 
 #: common/password.py:287
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "Settu inn lykilorð fyrir {mode}-notkunarsniðið \"{profile}\":"
+msgstr "Unesi šifru za {mode} profil \"{profile}\":"
 
 #: common/snapshots.py:357 common/snapshots.py:608
 msgid "FAILED"
-msgstr "MISTÓKST"
+msgstr "НЕУСПЕШНО"
 
 #: common/snapshots.py:554 common/snapshots.py:616
 msgid "Restore permissions"
-msgstr "Endurheimta heimildir"
+msgstr "Поврати дозволе"
 
 #: common/snapshots.py:611 qt/app.py:292 qt/app.py:1001 qt/app.py:1036
 #: qt/qtsystrayicon.py:81
 msgid "Done"
-msgstr "Búið"
+msgstr "Готово"
 
 #: common/snapshots.py:731
 msgid "Deferring backup while on battery"
-msgstr "Fresta afritun þegar rafhlöður eru í notkun"
+msgstr "Одлагање backup-а док је уређај на батерији"
 
 #: common/snapshots.py:829
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
+"Nije moguće pronaći direktorijum za snimke.\n"
+"Ako je na prenosivom disku, molim vas da ga priključite."
 
 #: common/snapshots.py:833
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "Bið %s sekúndu."
-msgstr[1] "Bið %s sekúndur."
+msgstr[0] "Чекамо %s секунд."
+msgstr[1] "Чекамо %s секунде."
+msgstr[2] "Чекамо %s секунди."
 
 #: common/snapshots.py:901
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Mistókst að taka skyndiafritið {snapshot_id}."
+msgstr "Neuspešno čuvanje snimka {snapshot_id}."
 
 #: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
@@ -231,160 +243,164 @@ msgstr ""
 
 #: common/snapshots.py:1063
 msgid "Can't create folder"
-msgstr "Get ekki búið til möppu"
+msgstr "Неуспешно креирање фолдера"
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
-msgstr "Vista stillingaskrá…"
+msgstr "Чување конфигурационог фајла…"
 
 #: common/snapshots.py:1161
 msgid "Saving permissions…"
-msgstr "Vista aðgangsheimildir…"
+msgstr "Чување дозвола…"
 
 #: common/snapshots.py:1273
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
-msgstr ""
+msgstr "Пронађен преостали {snapshot_id} који може бити настављен."
 
 #: common/snapshots.py:1296
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr ""
+msgstr "Уклањање преосталог {snapshot_id} фолдера од прошлог покретања"
 
 #: common/snapshots.py:1306
 msgid "Can't remove folder"
-msgstr "Get ekki fjarlægt möppu"
+msgstr "Неуспешно уклањање фолдера"
 
 #: common/snapshots.py:1360
 msgid "Taking snapshot"
-msgstr "Taka skyndiafrit"
+msgstr "Прављење снимка"
 
 #: common/snapshots.py:1411
 msgid "Success"
-msgstr "Tókst"
+msgstr "Uspeh"
 
 #: common/snapshots.py:1414
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Delimičan prenos zbog greške"
 
 #: common/snapshots.py:1415
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
+"Delimičan prenos zbog iščezlih izvornih fajlova (pogledajte 'man rsync')"
 
 #: common/snapshots.py:1419
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' se završio sa izlaznim kodom {exit_code}"
 
 #: common/snapshots.py:1432
 msgid "See 'man rsync' for more details"
-msgstr "Skoðaðu 'man rsync' til að sjá frekari upplýsingar"
+msgstr "Više detalja možete naći na 'man rsync'"
 
 #: common/snapshots.py:1439
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
+"Negativni rsync izlazni kodovi su signalni brojevi, pogledajte 'kill -l' i "
+"'man kill'"
 
 #: common/snapshots.py:1460
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Нишата није промењено, није потребан нови снимак"
 
 #: common/snapshots.py:1504
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr "Gat ekki endurnefnt {new_path} sem {path}"
+msgstr "Неуспешно преименовање {new_path} у {path}"
 
 #: common/snapshots.py:1822 common/snapshots.py:1874
 msgid "Smart removal"
-msgstr "Snjöll fjarlæging"
+msgstr "Pametno uklanjanje"
 
 #: common/snapshots.py:1849
 msgid "Removing old snapshots"
-msgstr "Fjarlægja gömul skyndiafrit"
+msgstr "Уклањање старог снимка"
 
 #: common/snapshots.py:1884
 msgid "Trying to keep min free space"
-msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
+msgstr "Покушавамо сачувати минимални слободан простор"
 
 #: common/snapshots.py:1923
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Reyna að halda a.m.k. {perc} af lausum i-hnútum (inodes)"
+msgstr "Pokušavamo ostvariti minimum {perc} slobodnih inode-ova"
 
 #: common/snapshots.py:3039 qt/app.py:1747
 msgid "Now"
-msgstr "Núna"
+msgstr "Сада"
 
 #: common/sshtools.py:240
 #, python-brace-format
 msgid "Can't mount {sshfs}"
-msgstr "Get ekki tengt {sshfs}"
+msgstr "Nemoguće montirati {sshfs}"
 
 #: common/sshtools.py:302
 msgid "ssh-agent not found. Please make sure it is installed."
-msgstr ""
-"ssh-agent fannst ekki. Gakktu úr skugga um að það sé uppsett á vélinni."
+msgstr "ssh-agent nije pronađen. Molim vas da se uvjerite da je instaliran."
 
 #: common/sshtools.py:472
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"Nije moguće otključati ssh privatni ključ. Pogrešna lozinka ili lozinka nije"
+" dostupna za cron."
 
 #: common/sshtools.py:563
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "Šifrovanje {cipher} nije uspelo za {host}."
 
 #: common/sshtools.py:710
 msgid "Remote path exists but is not a directory."
-msgstr "Fjartengd slóð er til, en er ekki mappa."
+msgstr "Udaljena putanja postoji, ali nije direktorijum."
 
 #: common/sshtools.py:715
 msgid "Remote path is not writable."
-msgstr "Fjartengd slóð er ekki skrifanleg."
+msgstr "Udaljena putanja nije dostupan za pisanje."
 
 #: common/sshtools.py:720
 msgid "Remote path is not executable."
-msgstr "Fjartengd slóð er ekki keyranleg."
+msgstr "Udaljena putanja nije izvršna."
 
 #: common/sshtools.py:725
 msgid "Couldn't create remote path."
-msgstr "Tókst ekki að útbúa fjartengda slóð."
+msgstr "Nije moguće kreirati udaljenu putanju."
 
 #: common/sshtools.py:1014
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Fjartengda vélin {host} styður ekki {command}"
+msgstr "Udaljeni domaćin {host} ne podržava {command}"
 
 #: common/sshtools.py:1018 common/sshtools.py:1027
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "Pogledajte 'man backintime' za dalja uputstva"
 
 #: common/sshtools.py:1022
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
+msgstr "Komande provjere na domaćinu {host} su vratile nepoznatu grešku"
 
 #: common/sshtools.py:1043
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Fjartengda vélin {host} styður ekki harðtengi (hardlinks)"
+msgstr "Udaljeni domaćin {host} ne podržava tvrde veze"
 
 #: common/sshtools.py:1197
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Afritaðu ssh-dreifilykil \"{pubkey}\" yfir á fjartengdu vélina \"{host}\"."
+msgstr "Копирај јавни ssh кључ \"{pubkey}\" на удаљени хост \"{host}\"."
 
 #: common/sshtools.py:1199
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Settu inn lykilorð fyrir \"{user}\"."
+msgstr "Молим вас унесите лозинку за \"{user}\"."
 
 #: common/tools.py:423
 #, python-brace-format
 msgid "Invalid option. {path} is not a folder."
-msgstr "Ógildur valkostur: {path} er ekki mappa."
+msgstr "Nevažeća postavka. {path} nije direktorijum."
 
 #: common/tools.py:437
 msgid "Creation of following folder failed:"
@@ -400,8 +416,9 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"Markskráakerfi fyrir {path} er í FAT formi sem virkar ekki með hörðum-"
-"tenglum. Notaðu frekar upprunalegt Linux skráakerfi."
+"Odredište sistema datoteka za {path} je formatiran sa FAT koji ne podržava "
+"čvrste veze. Molim Vas da koristite sistemske datoteke koje Linuks izvorno "
+"podržava."
 
 #: common/tools.py:490
 #, python-brace-format
@@ -410,17 +427,17 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"Markskráakerfi fyrir {path} er SMB-tengd sameign. Gakktu úr skugga um að "
-"fjartengdi SMB-þjónninn styðji tákntengi (symlink) eða virkjaðu {copyLinks} "
-"í {expertOptions}."
+"Destinacija sistema datoteke za {path} je SMB-montirano deljeno mesto. Molim"
+" Vas da potvrdite da udaljeni SMB server podržava symlinks ili uključite "
+"{copyLinks} u {expertOptions}."
 
 #: common/tools.py:494 qt/settingsdialog.py:767
 msgid "Copy links (dereference symbolic links)"
-msgstr "Afrita tengla (afbyggja tákntengi - dereference symbolic links)"
+msgstr "Kopiraj linkove (prati simbolične linkove)"
 
 #: common/tools.py:495
 msgid "Expert Options"
-msgstr "Ítarlegri valkostir"
+msgstr "Napredne Postavke"
 
 #: common/tools.py:499
 #, python-brace-format
@@ -428,8 +445,8 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Markskráakerfi fyrir {path} er í sshfs-tengd sameign. SSHFS styður ekki "
-"harða tengla. Notaðu frekar 'SSH'."
+"Odredište sistema datoteka za {path} je sshfs-montirano deljeno mesto. Sshfs"
+" ne podržava čvrste veze. Molimo vas da koristite 'SSH' umesto toga."
 
 #: common/tools.py:533
 msgid "File creation failed in this folder:"
@@ -437,37 +454,39 @@ msgstr ""
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
-msgstr "Um forritið"
+msgstr "О апликацији"
 
 #: qt/aboutdlg.py:61 qt/aboutdlg.py:99
 msgid "Authors"
-msgstr "Höfundar"
+msgstr "Autori"
 
 #: qt/aboutdlg.py:62 qt/aboutdlg.py:105
 msgid "Translations"
-msgstr "Þýðingar"
+msgstr "Prevodi"
 
 #: qt/aboutdlg.py:63 qt/aboutdlg.py:111
 msgid "License"
-msgstr "Notkunarleyfi"
+msgstr "Licenca"
 
 #: qt/app.py:170
 msgid "Shortcuts"
-msgstr "Flýtilyklar"
+msgstr "Пречице"
 
 #: qt/app.py:190
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
+"Ovaj folder ne postoji\n"
+"u trenutno izabranom snimku."
 
 #: qt/app.py:257
 msgid "Add to Include"
-msgstr "Bæta við meðfylgjandi"
+msgstr "Додај у листу инклузија"
 
 #: qt/app.py:259
 msgid "Add to Exclude"
-msgstr "Bæta við útilokun"
+msgstr "Додај у Изузетке"
 
 #: qt/app.py:344
 #, python-brace-format
@@ -475,256 +494,263 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"Izgleda da se {app_name} pokreće prvi put pošto konfiguracija nije "
+"pronađena."
 
 #: qt/app.py:349
 msgid ""
 "Import an existing configuration (from a backup target folder or another "
 "computer)?"
 msgstr ""
+"Uvezite postojeću konfiguraciju (iz direktorijum sa rezervnim kopijama ili "
+"sa drugog računara)?"
 
 #: qt/app.py:376
 msgid "Can't find snapshots folder."
-msgstr "Get ekki fundið möppu fyrir skyndiafrit."
+msgstr "Ne mogu da pronađem direktorijum sa snimcima."
 
 #: qt/app.py:377
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
+"Ako se nalazi na prenosivom disku, molim vas priključite ga i pritisnete OK."
 
 #: qt/app.py:482
 msgid "Take a snapshot"
-msgstr "Taka skyndiafrit"
+msgstr "Napravi snimak"
 
 #: qt/app.py:484
 msgid "Use modification time & size for file change detection."
-msgstr "Nota breytingartíma og stærð til að skynja breytingar á skrám."
+msgstr "Koristi vreme i veličinu za detekciju promene datoteka."
 
 #: qt/app.py:487
 msgid "Take a snapshot (checksum mode)"
-msgstr "Taka skyndiafrit (í gátsummuham)"
+msgstr "Napravi snimak (checksum režim)"
 
 #: qt/app.py:489
 msgid "Use checksums for file change detection."
-msgstr "Nota gátsummu til að skynja breytingar á skrám."
+msgstr "Koristi checksum-ove za detekciju promene datoteka."
 
 #: qt/app.py:492 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
-msgstr "Gera hlé á vinnslu skyndiafrits"
+msgstr "Паузирај процес снимања"
 
 #: qt/app.py:497 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
-msgstr "Halda áfram með vinnslu skyndiafrits"
+msgstr "Настави процес снимања"
 
 #: qt/app.py:501 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
-msgstr "Stöðva vinnslu skyndiafrits"
+msgstr "Заустави процес снимања"
 
 #: qt/app.py:505
 msgid "Refresh snapshot list"
-msgstr "Endurlesa lista yfir skyndiafrit"
+msgstr "Osveži listu snimaka"
 
 #: qt/app.py:509
 msgid "Name snapshot"
-msgstr "Nefndu skyndiafrit"
+msgstr "Imenuj snimak"
 
 #: qt/app.py:513
 msgid "Remove snapshot"
-msgstr "Fjarlægja skyndiafrit"
+msgstr "Ukloni snimak"
 
 #: qt/app.py:517
 msgid "View snapshot log"
-msgstr "Skoða atvikaskrá skyndiafrita"
+msgstr "Pogledaj izveštaj snimka"
 
 #: qt/app.py:521
 msgid "View last log"
-msgstr "Skoða síðustu atvikaskrá"
+msgstr "Prikaži poslednji izveštaj"
 
 #: qt/app.py:525
 msgid "Manage profiles…"
-msgstr "Sýsla með notkunarsnið…"
+msgstr "Главни профил…"
 
 #: qt/app.py:529
 msgid "Shutdown"
-msgstr "Slökkva"
+msgstr "Искључивање"
 
 #: qt/app.py:531
 msgid "Shut down system after snapshot has finished."
-msgstr "Slökkva á kerfi þegar skyndiafritun lýkur."
+msgstr "Isključi sistem nakon završetka snimka."
 
 #: qt/app.py:533
 msgid "Setup language…"
-msgstr "Setja upp tungumál…"
+msgstr "Podesi jezik…"
 
 #: qt/app.py:537
 msgid "Exit"
-msgstr "Hætta"
+msgstr "Излаз"
 
 #: qt/app.py:541
 msgid "Help"
-msgstr "Hjálp"
+msgstr "Помоћ"
 
 #: qt/app.py:545
 msgid "Profiles config file"
-msgstr "Stillingaskrá notkunarsniða"
+msgstr "Konfiguracioni fajl profila"
 
 #: qt/app.py:548 qt/languagedialog.py:233
 msgid "Website"
-msgstr "Vefsvæði"
+msgstr "Веб сајт"
 
 #: qt/app.py:551 qt/app.py:1379
 msgid "Changelog"
-msgstr "Breytingasaga"
+msgstr "Извештај промена"
 
 #: qt/app.py:554
 msgid "FAQ"
-msgstr "FAQ / Algengar spurningar"
+msgstr "Честа питања"
 
 #: qt/app.py:557
 msgid "Ask a question"
-msgstr "Spyrja spurninga"
+msgstr "Постави питање"
 
 #: qt/app.py:560
 msgid "Report a bug"
-msgstr "Tilkynna um villu"
+msgstr "Пријави грешку"
 
 #: qt/app.py:563
 msgid "Translation"
-msgstr "Þýðing"
+msgstr "Prevod"
 
 #: qt/app.py:565
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Ponovno prikaži poruku o učestvovanju u prevodu."
 
 #: qt/app.py:569
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Prevod enkripcije (EncFS)"
 
 #: qt/app.py:571
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Ponovo prikaži poruku o uklanjanju EncFS."
 
 #: qt/app.py:576 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
-msgstr "Endurheimta"
+msgstr "Поврати"
 
 #: qt/app.py:578
 msgid "Restore the selected files or folders to the original destination."
-msgstr "Endurheimta valdar skrár eða möppur á upprunalega staðsetningu."
+msgstr "Повратак одабраних фајлова или фолдера на њихову првобитну локацију."
 
 #: qt/app.py:581 qt/app.py:1550 qt/app.py:1582 qt/snapshotsdialog.py:166
 msgid "Restore to …"
-msgstr "Endurheimta í …"
+msgstr "Povrati na …"
 
 #: qt/app.py:583
 msgid "Restore the selected files or folders to a new destination."
-msgstr "Endurheimta valdar skrár eða möppur á nýja staðsetningu."
+msgstr "Повратак одабраних фајлова или фолдера на нову локацију."
 
 #: qt/app.py:588
 msgid ""
 "Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
-"Endurheimta sýnda möppu og allt innihald hennar á upprunalega staðsetningu."
+"Vrati trenutno prikazan folder i sav njegov sadržaj na prvobitno odredište."
 
 #: qt/app.py:593
 msgid ""
 "Restore the currently shown folder and all its contents to a new "
 "destination."
-msgstr "Endurheimta sýnda möppu og allt innihald hennar á nýja staðsetningu."
+msgstr ""
+"Vrati trenutno prikazan folder i sav njegov sadržaj na novo odredište."
 
 #: qt/app.py:596
 msgid "Up"
-msgstr "Upp"
+msgstr "Горе"
 
 #: qt/app.py:599 qt/settingsdialog.py:2256
 msgid "Show hidden files"
-msgstr "Sýna faldar skrár"
+msgstr "Прикажи скривене фајлове"
 
 #: qt/app.py:602
 msgid "Compare snapshots…"
-msgstr "Bera saman skyndiafrit…"
+msgstr "Направи снимак…"
 
 #: qt/app.py:661
 msgid "Back In &Time"
-msgstr "Back In &Time öryggisafritun"
+msgstr "Back In &Time"
 
 #: qt/app.py:666
 msgid "&Backup"
-msgstr "&Öryggisafrit"
+msgstr "&Rezervna kopija"
 
 #: qt/app.py:677
 msgid "&Restore"
-msgstr "Endu&rheimta"
+msgstr "Повратак"
 
 #: qt/app.py:683
 msgid "&Help"
-msgstr "&Hjálp"
+msgstr "Помоћ"
 
 #: qt/app.py:819
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Ef þú lokar þessum glugga, mun Back In Time ekki geta slökkt á kerfinu þegar"
-" skyndiafritun lýkur."
+"Ako zatvorite ovaj prozor Back In Time neće moći da ugasi vaš sistem kada se"
+" snimak završi."
 
 #: qt/app.py:822
 msgid "Do you really want to close it?"
-msgstr "Viltu örugglega loka þessu?"
+msgstr "Da li sigurno želite da ga zatvorite?"
 
 #: qt/app.py:991
 msgid "Working:"
-msgstr "Að vinna:"
+msgstr "Радим:"
 
 #: qt/app.py:1039
 msgid "Done, no backup needed"
-msgstr "Búið, engin öryggisafritun nauðsynleg"
+msgstr "Завршено, снимање није потребно"
 
 #: qt/app.py:1048
 msgid "Working"
-msgstr "Að vinna"
+msgstr "Obrada"
 
 #: qt/app.py:1057 qt/messagebox.py:93
 msgid "Error"
-msgstr "Villa"
+msgstr "Грешка"
 
 #: qt/app.py:1080
 msgid "Sent"
-msgstr "Sent"
+msgstr "Poslato"
 
 #: qt/app.py:1081
 msgid "Speed"
-msgstr "Hraði"
+msgstr "Brzina"
 
 #: qt/app.py:1082
 msgid "ETA"
-msgstr "Áætluð lok"
+msgstr "ETA"
 
 #: qt/app.py:1144
 msgid "Global"
-msgstr "Víðvært"
+msgstr "Глобално"
 
 #: qt/app.py:1145
 msgid "Root"
-msgstr "Kerfisstjóri (root)"
+msgstr "Root"
 
 #: qt/app.py:1146
 msgid "Home"
-msgstr "Einkamappa (Home)"
+msgstr "Home"
 
 #: qt/app.py:1174
 msgid "Backup folders"
-msgstr "Öryggisafritunarmöppur"
+msgstr "Direktorijumi za rezervne kopije"
 
 #: qt/app.py:1270
 msgid "Snapshot Name"
-msgstr "Heiti skyndiafrits"
+msgstr "Име Снимка"
 
 #: qt/app.py:1317
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Ertu viss um að þú viljir fjarlægja þetta skyndiafrit?"
-msgstr[1] "Ertu viss um að þú viljir fjarlægja þessi skyndiafrit?"
+msgstr[0] "Da li ste sigurni da želite da uklonite ovaj snimak?"
+msgstr[1] "Da li ste sigurni da želite da uklonite ove snimke?"
+msgstr[2] "Da li ste sigurni da želite da uklonite ove snimke?"
 
 #: qt/app.py:1412
 #, python-brace-format
@@ -732,6 +758,8 @@ msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
+"Napravite rezervne kopije sa pratećim {suffix}\n"
+"pre pisanja preko ili uklanjanja lokalnih elemenata."
 
 #: qt/app.py:1420
 #, python-brace-format
@@ -740,6 +768,8 @@ msgid ""
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
+"Novije verzije fajlova će se preimenovati sa pretećim {suffix} prije "
+"vraćanja. Ako vam više ne trebaju, možete ih ukloniti pomoću komande:"
 
 #: qt/app.py:1436
 msgid ""
@@ -747,10 +777,13 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
+"Vratite samo elemente koji nepostoje ili\n"
+"su noviji od onih u odredištu.\n"
+"Korišćenje opcije \"rsync --update\"."
 
 #: qt/app.py:1471
 msgid "Remove newer elements in original folder."
-msgstr "Fjarlægja nýjar skrár í upprunalegri möppu."
+msgstr "Ukloni novije elemente u originalnom folderu."
 
 #: qt/app.py:1474
 msgid ""
@@ -759,6 +792,8 @@ msgid ""
 " this will delete files and folders which were excluded during taking the "
 "snapshot."
 msgstr ""
+"Vratite odabrane datoteke ili foldere na originalno odredište i izbrišite datoteke ili foldere koji se ne nalaze u snimku. Budite izuzetno oprezni\n"
+"jer će ovo obrisati datoteka i foldere koji su isključeni tokom kreacije snimka."
 
 #: qt/app.py:1485
 #, python-brace-format
@@ -769,28 +804,33 @@ msgid_plural ""
 "Do you really want to restore these elements into the new folder\n"
 "{path}?"
 msgstr[0] ""
-"Ertu viss um að þú viljir endurheimta þetta atriði í nýju möppuna\n"
+"Da li zaista želite da vratite ovaj element u novi folder\n"
 "{path}?"
 msgstr[1] ""
-"Ertu viss um að þú viljir endurheimta þessi atriði í nýju möppuna\n"
+"Da li zaista želite da vratite ove elemente u novi folder\n"
+"{path}?"
+msgstr[2] ""
+"Da li zaista želite da vratite ove elemente u novi folder\n"
 "{path}?"
 
 #: qt/app.py:1494
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Ertu viss um að þú viljir endurheimta þetta atriði ?"
-msgstr[1] "Ertu viss um að þú viljir endurheimta þessi atriði?"
+msgstr[0] "Da li zaista želite da vratite ovaj element?"
+msgstr[1] "Da li zaista želite da vratite ove elemente?"
+msgstr[2] "Da li zaista želite da vratite ove elemente?"
 
 #: qt/app.py:1509
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
-msgstr "Ertu viss um að þú viljir fjarlægja allar nýrri skrár í {path}?"
+msgstr "Da li ste sigurni da želite da uklonite sve novije fajlove u {path}?"
 
 #: qt/app.py:1512
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
-"Ertu viss um að þú viljir fjarlægja allar nýrri skrár í upprunalegri möppu?"
+"Da li ste sigurni da želite da uklonite sve novije fajlove u originalnom "
+"folderu?"
 
 #: qt/app.py:1518
 #, python-brace-format
@@ -798,34 +838,40 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
+"{BOLD}Upozorenje{BOLDEND}: Brisanje fajlova u root sistemu fajlova može "
+"slomiti vaš cijeli sistem."
 
 #: qt/app.py:1754
 msgid "Snapshot"
-msgstr "Skyndiafrit"
+msgstr "Snimak"
 
 #: qt/app.py:1791
 #, python-brace-format
 msgid "Restore {path}"
-msgstr "Endurheimta {path}"
+msgstr "Povrati {path}"
 
 #: qt/app.py:1793
 #, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Endurheimta {path} í …"
+msgstr "Povrati {path} …"
 
 #: qt/app.py:1952
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
+"Jezička podešavanja stupaju na snagu tek nakon ponovnog pokretanja Back In "
+"Time."
 
 #: qt/encfsmsgbox.py:42
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
 msgstr ""
+"Podrška za EncFS će biti uklonjena u doglednoj budućnosti. Osim toga ne "
+"preporučuje se dalje korišćenje istog za profil."
 
 #: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75 qt/settingsdialog.py:1161
 msgid "whitepaper"
-msgstr ""
+msgstr "beli papiri"
 
 #: qt/encfsmsgbox.py:48
 #, python-brace-format
@@ -834,16 +880,21 @@ msgid ""
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
 msgstr ""
+"Odluka o zameni kontinuirane podrške za šifriranje sigurnosne kopije još "
+"uvek je na čekanju, zavisi od resursa projekta i dostupnosti saradnika. Više"
+" detalja dostupno je u ovim {whitepaper}."
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
+"Podrška za šifrovane profile snimka prolazi kroz značajne promene, i EncFS "
+"će biti uklonjeni u dogledno vreme."
 
 #: qt/encfsmsgbox.py:77
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Sledeći profil(i) koristi enkripciju sa EncFS:"
 
 #: qt/encfsmsgbox.py:79
 #, python-brace-format
@@ -853,34 +904,39 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Odluka o zameni kontinuirane podrške za šifriranje sigurnosne kopije još "
+"uvek je na čekanju, zavisi od resursa projekta i dostupnosti saradnika. "
+"Korisnici su pozvani da se priključe diskusiji. Ažurirani detalji o naredim "
+"koracima dostupni su u ovim {whitepaper}."
 
 #: qt/encfsmsgbox.py:85
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Ova poruka se više neće prikazati. Ovaj dijalog je dostupan u svakom "
+"trenutku preko menija za pomoć."
 
 #: qt/encfsmsgbox.py:87
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Back In &Time öryggisafritun"
+msgstr "Vaš Back In Time tim"
 
 #: qt/languagedialog.py:39
 msgid "Setup language"
-msgstr "Setja upp tungumál"
+msgstr "Podesite jezik"
 
 #: qt/languagedialog.py:101
 msgid "System default"
-msgstr "Sjálfgefið í kerfinu"
+msgstr "Sistemski podrazumevano"
 
 #: qt/languagedialog.py:111
 msgid "Use operating systems language."
-msgstr "Nota tungumál stýrikerfis."
+msgstr "Koristi jezik operativnog sistema."
 
 #: qt/languagedialog.py:161
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr "Þýtt: {percent}"
+msgstr "Prevedeno: {percent}"
 
 #: qt/languagedialog.py:199
 #, python-brace-format
@@ -892,151 +948,152 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Hæ\n"
-"Þú hefur núna notað Back In Time með {language}-viðmótinu nokkrum sinnum.\n"
-"Þýðingarnar á uppsettu útgáfunni á Back In Time fyrir {language} eru {perc} kláraðar. Sama á hvaða stigi þú ert varðandi tækniþekkingu, þá geturðu alveg lagt af mörkum við þýðingarnar og þannig einnig til Back In Time.\n"
-"Þú ættir að skoða {translation_platform_url} ef þig langar til að vera með. Til að fá frekari aðstoð og svör við spurningum ættirðu að heimsækja {back_in_time_project_website}.\n"
-"Við biðjums velvirðingar á trufluninni, þessi skilaboð munu ekki birtast aftur. Hægt er að skoða þessi skilaboð aftur hvenær sem er úr hjálparvalmyndinni.\n"
-"Back In Time teymið"
+"Здраво\n"
+"Искористили сте Back In Time на {language} језику већ пар пута до сада.\n"
+"Превод ваше инсталиране верзије Back In Time-a у {language} је готова {perc}. Без обзира на ваш ниво техничког знања, можете помоћи преводу, и тиме помоћи Back In Time-u.\n"
+"Молимо вас да посетите {translation_platform_url} уколико желите да помогнете. За даљу помоћ и питања, молимо вас посетите {back_in_time_project_website}.\n"
+"Жао нам је што вас ометамо, а ова се порука више неће приказивати. Овај диалог је доступан у било ком тренутку у менију за помоћ.\n"
+"Ваш Back In Time тим"
 
 #: qt/languagedialog.py:228
 msgid "translation platform"
-msgstr "þýðingakerfið"
+msgstr "platforma za prevod"
 
 #: qt/languagedialog.py:253
 msgid "Your translation"
-msgstr "Þýðing þín"
+msgstr "Vaš prevod"
 
 #: qt/logviewdialog.py:67
 msgid "Last Log View"
-msgstr "Síðasta virka sýn atvikaskráningar"
+msgstr "Приказ Последњег Дневника"
 
 #: qt/logviewdialog.py:69
 msgid "Snapshot Log View"
-msgstr "Sýn á atvikaskrá skyndiafrita"
+msgstr "Приказ Дневника Снимка"
 
 #: qt/logviewdialog.py:77 qt/settingsdialog.py:184 qt/settingsdialog.py:1132
 #: qt/settingsdialog.py:2435
 msgid "Profile:"
-msgstr "Notkunarsnið:"
+msgstr "Profil:"
 
 #: qt/logviewdialog.py:85
 msgid "Snapshots:"
-msgstr "Skyndiafrit:"
+msgstr "Снимци:"
 
 #: qt/logviewdialog.py:100
 msgid "Filter:"
-msgstr "Sía:"
+msgstr "Filter:"
 
 #: qt/logviewdialog.py:106 qt/settingsdialog.py:561
 msgid "All"
-msgstr "Allt"
+msgstr "Све"
 
 #: qt/logviewdialog.py:112 qt/logviewdialog.py:115 qt/settingsdialog.py:560
 msgid "Changes"
-msgstr "Breytingar"
+msgstr "Измене"
 
 #: qt/logviewdialog.py:112 qt/logviewdialog.py:114 qt/settingsdialog.py:557
 #: qt/settingsdialog.py:560
 msgid "Errors"
-msgstr "Villur"
+msgstr "Грешке"
 
 #: qt/logviewdialog.py:116 qt/messagebox.py:69
 msgid "Information"
 msgid_plural "Information"
-msgstr[0] "Upplýsingar"
-msgstr[1] "Upplýsingar"
+msgstr[0] "Informacija"
+msgstr[1] "Informacije"
+msgstr[2] "Informacija"
 
 #: qt/logviewdialog.py:118
 msgid "rsync transfer failures (experimental)"
-msgstr ""
+msgstr "rsync neuspjesi prenosa (eksperimentalno)"
 
 #: qt/logviewdialog.py:129
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Villa, [I] Upplýsingar, [C] Breyta"
+msgstr "[E] Грешка, [I] Информација, [C] Измена"
 
 #: qt/logviewdialog.py:132 qt/qtsystrayicon.py:99
 msgid "decode paths"
-msgstr "afkóða slóðir"
+msgstr "декодирај путање"
 
 #: qt/messagebox.py:102 qt/messagebox.py:112
 msgid "Question"
-msgstr "Spurning"
+msgstr "Питање"
 
 #: qt/qtsystrayicon.py:77
 #, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Snið: {profile_name}"
+msgstr "Profil: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:104
 msgid "View Last Log"
-msgstr "Skoða síðasta annál"
+msgstr "Прикажи последњи извештај"
 
 #: qt/qtsystrayicon.py:108
 #, python-brace-format
 msgid "Start {appname}"
-msgstr "Ræsa {appname}"
+msgstr "Pokreni {appname}"
 
 #: qt/qtsystrayicon.py:174
 msgid "Working…"
-msgstr "Í vinnslu…"
+msgstr "Radim…"
 
 #: qt/qtsystrayicon.py:205
 msgid "Sent:"
-msgstr "Sent:"
+msgstr "Poslato:"
 
 #: qt/qtsystrayicon.py:206
 msgid "Speed:"
-msgstr "Hraði:"
+msgstr "Brzina:"
 
 #: qt/qtsystrayicon.py:207
 msgid "ETA:"
-msgstr "Áætluð lok:"
+msgstr "ETA:"
 
 #: qt/qttools.py:419 qt/snapshotsdialog.py:123
 msgid "Snapshots"
-msgstr "Skyndiafrit"
+msgstr "Снимци"
 
 #: qt/qttools.py:442
 msgid "Today"
-msgstr "Í dag"
+msgstr "Данас"
 
 #: qt/qttools.py:449
 msgid "Yesterday"
-msgstr "Í gær"
+msgstr "Јуче"
 
 #: qt/qttools.py:458
 msgid "This week"
-msgstr "Í þessari viku"
+msgstr "Ове недеље"
 
 #: qt/qttools.py:465
 msgid "Last week"
-msgstr "Í síðustu viku"
+msgstr "Претходна седмица"
 
 #: qt/qttools.py:611
 msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
+msgstr "Ово НИЈЕ снимак, већ ужив приказ ваших локалних фајлова"
 
 #: qt/qttools.py:616
 #, python-brace-format
 msgid "Last check {time}"
-msgstr "Síðasta athugun {time}"
+msgstr "Zadnja provera {time}"
 
 #: qt/restoredialog.py:59
 msgid "Show full Log"
-msgstr "Birta fullan annál"
+msgstr "Прикажи целокупни Дневник"
 
 #: qt/schedulewidget.py:35
 msgid "Schedule"
-msgstr "Vinnuáætlun"
+msgstr "Plan rada"
 
 #: qt/schedulewidget.py:61
 msgid "Day:"
-msgstr "Dagur:"
+msgstr "Dan:"
 
 #: qt/schedulewidget.py:66
 msgid "Weekday:"
-msgstr "Vikudagur:"
+msgstr "Radni dan:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
@@ -1044,134 +1101,146 @@ msgstr ""
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
-msgstr "Klukkustundir:"
+msgstr "Sati:"
 
 #: qt/schedulewidget.py:80
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
+"Pokreni Back In Time čim se disk poveže (samo jednom svakih X dana)\n"
+"Od vas će biti traženo da unesete svoju sudo lozinku."
 
 #: qt/schedulewidget.py:85
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
+"Pokretanje Back In Time uzastopno. Ovo je korisno ako se kompjuter ne "
+"koristi često."
 
 #: qt/schedulewidget.py:97
 msgid "Every:"
-msgstr "Hverjar:"
+msgstr "Svakih:"
 
 #: qt/schedulewidget.py:101
 msgid "Enable logging of debug messages"
-msgstr "Virkja atvikaskráningu villuleitarskilaboða"
+msgstr "Omogućite evidentiranje poruka o greškama"
 
 #: qt/schedulewidget.py:105
 msgid "Writes debug-level messages into the system log via \"--debug\"."
-msgstr ""
+msgstr "Zapiši poruke debug nivoa u sistemski log pomoću \"--debug\"."
 
 #: qt/schedulewidget.py:107
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
+"Oprez: ovo koristite samo privremeno za dijagnostiku, jer generiše veliku "
+"količinu izlaza."
 
 #: qt/schedulewidget.py:128
 msgid "Disabled"
-msgstr "Óvirkt"
+msgstr "Онемогућено"
 
 #: qt/schedulewidget.py:129
 msgid "At every boot/reboot"
-msgstr "Við hverja ræsingu/endurræsingu"
+msgstr "При сваком покретању/рестарту"
 
 #: qt/schedulewidget.py:131 qt/schedulewidget.py:133 qt/schedulewidget.py:135
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Á {n} mínútu fresti"
-msgstr[1] "Á {n} mínútna fresti"
+msgstr[0] "Svakih {n} minut"
+msgstr[1] "Svakih {n} minuta"
+msgstr[2] "Svakih {n} minuta"
 
 #: qt/schedulewidget.py:137
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Á klukkustundar fresti"
-msgstr[1] "Á {n} klukkustunda fresti"
+msgstr[0] "Svakih {n} sat vremena"
+msgstr[1] "Svakih {n} sata vremena"
+msgstr[2] "Svakih {n} sati vremena"
 
 #: qt/schedulewidget.py:139 qt/schedulewidget.py:141 qt/schedulewidget.py:143
 #: qt/schedulewidget.py:145
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "{n} klukkustundar fresti"
-msgstr[1] "Á {n} klukkustunda fresti"
+msgstr[0] "Svakih {n} sat"
+msgstr[1] "Svakih {n} sati"
+msgstr[2] "Svakih {n} sati"
 
 #: qt/schedulewidget.py:146
 msgid "Custom hours"
-msgstr "Sérsniðnar klukkustundir"
+msgstr "Prilagođeni sati"
 
 #: qt/schedulewidget.py:147
 msgid "Every day"
-msgstr "Hvern dag"
+msgstr "Svakog dana"
 
 #: qt/schedulewidget.py:148
 msgid "Repeatedly (anacron)"
-msgstr "Endurtekið (anacron)"
+msgstr "Учестало (anacron)"
 
 #: qt/schedulewidget.py:149
 msgid "When drive gets connected (udev)"
-msgstr "Þegar drif er tengt (udev)"
+msgstr "Kada se disk poveže (udev)"
 
 #: qt/schedulewidget.py:150
 msgid "Every week"
-msgstr "Vikulega"
+msgstr "Svake nedelje"
 
 #: qt/schedulewidget.py:151
 msgid "Every month"
-msgstr "Mánaðarlega"
+msgstr "Svakog meseca"
 
 #: qt/schedulewidget.py:152
 msgid "Every year"
-msgstr "Árlega"
+msgstr "Svake godine"
 
 #: qt/schedulewidget.py:201
 msgid "Hour(s)"
-msgstr "klukkustund(ir)"
+msgstr "Сат(и)"
 
 #: qt/schedulewidget.py:202 qt/settingsdialog.py:378
 msgid "Day(s)"
-msgstr "dag(a)"
+msgstr "Дан(а)"
 
 #: qt/schedulewidget.py:203 qt/settingsdialog.py:379
 msgid "Week(s)"
-msgstr "viku(r)"
+msgstr "Седмица"
 
 #: qt/schedulewidget.py:204
 msgid "Month(s)"
-msgstr "mánuð(ir)"
+msgstr "Месец(и)"
 
 #: qt/schedulewidget.py:292
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
+"Prilagođeni sati mogu biti samo lista sati razdvojena zarezima (npr. "
+"8,12,18,23) ili */3 za periodične sigurnosne kopije svakih 3 sata."
 
 #: qt/settingsdialog.py:93
 msgid "SSH Proxy"
-msgstr "SSH-milliþjónn"
+msgstr "SSH Proxy"
 
 #: qt/settingsdialog.py:100 qt/settingsdialog.py:990 qt/settingsdialog.py:1120
 msgid "Host:"
-msgstr "Miðlari:"
+msgstr "Domaćin:"
 
 #: qt/settingsdialog.py:104 qt/settingsdialog.py:995
 msgid "Port:"
-msgstr "Gátt:"
+msgstr "Port:"
 
 #: qt/settingsdialog.py:108 qt/settingsdialog.py:1000
 #: qt/settingsdialog.py:1126
 msgid "User:"
-msgstr "Notandi:"
+msgstr "Korisnik:"
 
 #: qt/settingsdialog.py:117
 msgid ""
@@ -1179,46 +1248,49 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"Nastavite do ženjenog hosta preko ovog proksija (poznatijeg kao jump host). "
+"Za detalje pogledaj \"-J\" u dokumentaciji za \"ssh\" komandu ili "
+"\"ProxyJump\" na \"ssh_config\" man stranici."
 
 #: qt/settingsdialog.py:176
 msgid "Manage profiles"
-msgstr "Sýsla með notkunarsnið"
+msgstr "Upravljaj profilima"
 
 #: qt/settingsdialog.py:193
 msgid "Edit"
-msgstr "Breyta"
+msgstr "Uredi"
 
 #: qt/settingsdialog.py:197 qt/settingsdialog.py:308
 msgid "Add"
-msgstr "Bæta við"
+msgstr "Dodaj"
 
 #: qt/settingsdialog.py:201 qt/settingsdialog.py:255 qt/settingsdialog.py:326
 msgid "Remove"
-msgstr "Fjarlægja"
+msgstr "Ukloni"
 
 #: qt/settingsdialog.py:217
 msgid "&General"
-msgstr "&Almennt"
+msgstr "Opšt&e"
 
 #: qt/settingsdialog.py:223
 msgid "&Include"
-msgstr "Ta&ka með"
+msgstr "&Priključi"
 
 #: qt/settingsdialog.py:230
 msgid "Include files and folders"
-msgstr "Hafa með skrár og möppur"
+msgstr "Uključi fajlove i direktorijume"
 
 #: qt/settingsdialog.py:247 qt/settingsdialog.py:312
 msgid "Add file"
-msgstr "Bæta við skrá"
+msgstr "Dodaj fajl"
 
 #: qt/settingsdialog.py:251 qt/settingsdialog.py:316
 msgid "Add folder"
-msgstr "Bæta við möppu"
+msgstr "Dodaj direktorijum"
 
 #: qt/settingsdialog.py:261
 msgid "&Exclude"
-msgstr "&Undanskilja"
+msgstr "&Izostavi"
 
 #: qt/settingsdialog.py:265
 #, python-brace-format
@@ -1228,23 +1300,27 @@ msgid ""
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
+"{BOLD}Info{ENDBOLD}: U 'SSH šifrovanom' načinu rada, mogu funkcionisati samo"
+" jedna ili dve zvezdica (primer {example2}). Ostali tipovi džokerskih "
+"znakova i obrazaca će biti ignorisani (primer {example1}). Imena datoteka su"
+" nepredvidiva u ovom načinu rada zbog EncFS šifrovanja."
 
 #: qt/settingsdialog.py:288
 msgid "Exclude patterns, files or folders"
-msgstr "Undanskilja mynstur, skrár eða möppur"
+msgstr "Izostavi šablone, fajlove, ili direktorijume"
 
 #: qt/settingsdialog.py:321
 msgid "Add default"
-msgstr "Bæta við sjálfgefnu"
+msgstr "Dodaj podrazumevano"
 
 #: qt/settingsdialog.py:334
 msgid "Exclude files bigger than:"
-msgstr "Hunsa skrár stærri en:"
+msgstr "Izostavi fajlove veće od:"
 
 #: qt/settingsdialog.py:338
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Hunsa skrár stærri en gildi í {size_unit}."
+msgstr "Izostavi fajlove veće od {size_unit}."
 
 #: qt/settingsdialog.py:340
 msgid ""
@@ -1253,94 +1329,98 @@ msgid ""
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
+"Kada je 'Full rsync mode' onemogućen, ovo će uticati samo na nove datoteke "
+"jer za rsync ovo je opcija prenosa, a ne opcija isključivanja. Tako da će "
+"veliki fajlovi za koje je ranije napravljena rezervna kopija ostati u "
+"snimcima čak i ako su se promenili."
 
 #: qt/settingsdialog.py:360
 msgid "&Auto-remove"
-msgstr "Sjálfvirk fj&arlæging"
+msgstr "&Automatsko uklanjanje"
 
 #: qt/settingsdialog.py:366
 msgid "Older than:"
-msgstr "Eldri en:"
+msgstr "Stariji od:"
 
 #: qt/settingsdialog.py:380
 msgid "Year(s)"
-msgstr "ár"
+msgstr "Година"
 
 #: qt/settingsdialog.py:388
 msgid "If free space is less than:"
-msgstr "Ef laust pláss er minna en:"
+msgstr "Ako je slobodan prostor manji od:"
 
 #: qt/settingsdialog.py:408
 msgid "If free inodes is less than:"
-msgstr "Ef lausir i-hnútar (inodes) eru færri en:"
+msgstr "Ako je broj slobodnih inode-ova manji od:"
 
 #: qt/settingsdialog.py:422
 msgid "Smart removal:"
-msgstr "Snjöll fjarlæging:"
+msgstr "Pametno uklanjanje:"
 
 #: qt/settingsdialog.py:433
 msgid "Run in background on remote host."
-msgstr "Keyra í bakgrunni á fjartengdri vél."
+msgstr "Pokreni u pozadini na udaljenom domaćinu."
 
 #: qt/settingsdialog.py:434
 msgid "EXPERIMENTAL"
-msgstr "Á TILRAUNASTIGI"
+msgstr "EKSPERIMENTALNO"
 
 #: qt/settingsdialog.py:440
 msgid "Keep all snapshots for the last"
-msgstr "Geyma öll skyndiafrit síðustu"
+msgstr "Zadrži sve snimke za poslednji"
 
 #: qt/settingsdialog.py:444 qt/settingsdialog.py:451
 msgid "day(s)."
-msgstr "dag(a)."
+msgstr "Dan(a)."
 
 #: qt/settingsdialog.py:447
 msgid "Keep one snapshot per day for the last"
-msgstr "Geyma eitt skyndiafrit á dag síðustu"
+msgstr "Zadrži jedan snimak dnevno za poslednji"
 
 #: qt/settingsdialog.py:454
 msgid "Keep one snapshot per week for the last"
-msgstr "Geyma eitt skyndiafrit á viku síðustu"
+msgstr "Zadrži jedan snimak nedeljno za poslednji"
 
 #: qt/settingsdialog.py:458
 msgid "week(s)."
-msgstr "viku(r)."
+msgstr "Nedelja/e."
 
 #: qt/settingsdialog.py:461
 msgid "Keep one snapshot per month for the last"
-msgstr "Geyma eitt skyndiafrit á mánuði síðustu"
+msgstr "Zadrži jedan snimak mesečno za poslednji"
 
 #: qt/settingsdialog.py:465
 msgid "month(s)."
-msgstr "mánuði(r)."
+msgstr "mesec(i)."
 
 #: qt/settingsdialog.py:468
 msgid "Keep one snapshot per year for all years."
-msgstr "Geyma eitt skyndiafrit á ári."
+msgstr "Zadrži jedan snimak godišnje za sve godine."
 
 #: qt/settingsdialog.py:477
 msgid "Don't remove named snapshots."
-msgstr "Ekki fjarlægja nefnd skyndiafrit."
+msgstr "Nemoj ukloniti imenovane snimke."
 
 #: qt/settingsdialog.py:489
 msgid "&Options"
-msgstr "Valk&ostir"
+msgstr "&Opcije"
 
 #: qt/settingsdialog.py:494
 msgid "Enable notifications"
-msgstr "Virkja tilkynningar"
+msgstr "Omogući obaveštenja"
 
 #: qt/settingsdialog.py:498
 msgid "Disable snapshots when on battery"
-msgstr "Koma í veg fyrir skyndiafritun þegar rafhlaða er í notkun"
+msgstr "Onemogući snimke kada se računar napaja iz baterije"
 
 #: qt/settingsdialog.py:502
 msgid "Power status not available from system"
-msgstr "Staða rafhlöðu er ekki tiltæk frá kerfinu"
+msgstr "Informacija o status napajanja nije dostupna od sistema"
 
 #: qt/settingsdialog.py:505
 msgid "Run only one snapshot at a time"
-msgstr "Keyra aðeins eitt skyndiafrit í einu"
+msgstr "Pokreni samo jedan snimak u isto vreme"
 
 #: qt/settingsdialog.py:508
 msgid ""
@@ -1348,10 +1428,13 @@ msgid ""
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
+"Ostali snimci će biti blokirani dok se trenutni snimak ne završi. Ovo je "
+"globalna opcije. Tako da će uticati na sve profile za ovog korisnika. Ali "
+"ovo morate aktivirati i za sve ostale korisnike takođe."
 
 #: qt/settingsdialog.py:516
 msgid "Backup replaced files on restore"
-msgstr "Öryggisafrit skipti út skrám við endurheimtingu"
+msgstr "Rezervna kopija je zamenila fajlove prilikom vraćanja"
 
 #: qt/settingsdialog.py:519
 #, python-brace-format
@@ -1359,85 +1442,90 @@ msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
+"Novije verzije fajlova će se preimenovati sa pretećim {suffix} prije "
+"vraćanja. Ako vam više ne trebaju, možete ih ukloniti pomoću {cmd}"
 
 #: qt/settingsdialog.py:531
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr "Halda áfram við villur (geyma ókláruð skyndiafrit)"
+msgstr "Nastavi nakon greške (zadrži nekompletan snimak)"
 
 #: qt/settingsdialog.py:535
 msgid "Use checksum to detect changes"
-msgstr "Nota gátsummu til að skynja breytingar"
+msgstr "Користи контролни број за примећивање промена"
 
 #: qt/settingsdialog.py:539
 msgid "Take a new snapshot whether there were changes or not."
-msgstr "Taka skyndiafrit sama hvort nokkuð hafi breyst eða ekki."
+msgstr "Napravi novi snimak bez obzira da li je bilo promena ili ne."
 
 #: qt/settingsdialog.py:546
 msgid "Log Level:"
-msgstr "Stig atvikaskráningar:"
+msgstr "Nivo detalja u izveštaju:"
 
 #: qt/settingsdialog.py:551
 msgid "None"
-msgstr "Ekkert"
+msgstr "Nijedan"
 
 #: qt/settingsdialog.py:571
 msgid "E&xpert Options"
-msgstr "Ítarlegri &valkostir"
+msgstr "&Napredne opcije"
 
 #: qt/settingsdialog.py:576
 msgid ""
 "Caution: Change these options only if you really know what you are doing."
-msgstr ""
-"Varlega: Ekki breyta þessum stillingum nema að þú vitir hvað þú ert að gera."
+msgstr "Oprez: Promenite ove opcija samo ako znate šta radite."
 
 #: qt/settingsdialog.py:581 qt/settingsdialog.py:597 qt/settingsdialog.py:619
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr "Keyra 'rsync' með '{cmd}':"
+msgstr "Pokrenite 'rsync' sa '{cmd}':"
 
 #: qt/settingsdialog.py:588 qt/settingsdialog.py:604
 msgid "as cron job"
-msgstr "sem cron-verk"
+msgstr "kao cron posao"
 
 #: qt/settingsdialog.py:593 qt/settingsdialog.py:614 qt/settingsdialog.py:635
 msgid "on remote host"
-msgstr "á fjartengdri vél"
+msgstr "na udaljenom domaćinu"
 
 #: qt/settingsdialog.py:609
 msgid "when taking a manual snapshot"
-msgstr "við að taka handvirkt skyndiafrit"
+msgstr "kada se kreira ručni snimak"
 
 #: qt/settingsdialog.py:622
 msgid "(Please install 'nocache' to enable this option)"
-msgstr "(Settu upp 'nocache' til að geta notað þennan valkost)"
+msgstr "(Molim vas instalirajte 'nocache' kako bi ste omogućili ovu opciju)"
 
 #: qt/settingsdialog.py:629
 msgid "on local machine"
-msgstr "á staðværri vél"
+msgstr "na lokalnoj mašini"
 
 #: qt/settingsdialog.py:640
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr "Endurbeina stdout í /dev/null í cron-verkum."
+msgstr "Preusmerite stdout ka /dev/null u cron poslovima."
 
 #: qt/settingsdialog.py:645
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"Cron će automatski poslati email sa priloženim izlazom cronjob-ova ukoliko "
+"je MTA instaliran."
 
 #: qt/settingsdialog.py:651
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr "Endurbeina stderr í /dev/null í cron-verkum."
+msgstr "Preusmerite stderr prema /dev/null u cron poslovima."
 
 #: qt/settingsdialog.py:656
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"Cron će automatski poslati email sa priloženim greškama od cronjob-ova "
+"ukoliko je MTA instaliran."
 
 #: qt/settingsdialog.py:664
 msgid "Limit rsync bandwidth usage:"
-msgstr "Takmarka notkun rsync á bandbreidd:"
+msgstr "Ograniči upotrebu propusnog opsega rsync-a:"
 
 #: qt/settingsdialog.py:667
 msgid "KB/sec"
@@ -1445,36 +1533,36 @@ msgstr "KB/sek"
 
 #: qt/settingsdialog.py:711
 msgid "Preserve ACL"
-msgstr "Varðveita ACL"
+msgstr "Sačuvaj ACL"
 
 #: qt/settingsdialog.py:729
 msgid "Preserve extended attributes (xattr)"
-msgstr "Varðveita ítarleg eigindi (xattr)"
+msgstr "Sačuvaj proširene atribute (xattr)"
 
 #: qt/settingsdialog.py:752
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr "Afrita ótrygga tengla (virkar aðeins með algilda tengla)"
+msgstr "Kopiraj nebezbedni link (funkcioniše samo sa apsolutnim linkovima)"
 
 #: qt/settingsdialog.py:788
 msgid "Restrict to one file system"
-msgstr "Takmarka við eitt skráakerfi"
+msgstr "Ograniči na samo jedan fajl sistem"
 
 #: qt/settingsdialog.py:808
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr ""
+msgstr "Opcije moraju biti pod navodnicima npr. {example}."
 
 #: qt/settingsdialog.py:811
 msgid "Paste additional options to rsync"
-msgstr "Líma viðbótarvalkosti inn í rsync"
+msgstr "Nalepi dodatne opcije za rsync"
 
 #: qt/settingsdialog.py:827
 msgid "Add prefix to SSH commands"
-msgstr "Bæta forskeyti við SSH-skipanir"
+msgstr "Dodaj prefiks SSH komandama"
 
 #: qt/settingsdialog.py:829
 msgid "Prefix to run before every command on remote host."
-msgstr ""
+msgstr "Prefiks koji će se pokretati pre svake komande na udaljenom domaćinu."
 
 #: qt/settingsdialog.py:830
 #, python-brace-format
@@ -1482,97 +1570,106 @@ msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
+"Promenjive treba iskočiti sa \\$FOO. Ovo ne dotiče rsync. Tako da bi dodali "
+"prefix za rsync koristite \"{example_value}\" sa {rsync_options_value}."
 
 #: qt/settingsdialog.py:838
 msgid "default"
-msgstr "sjálfgefið"
+msgstr "podrazumevano"
 
 #: qt/settingsdialog.py:853
 msgid "Check if remote host is online"
-msgstr "Athuga hvort fjartengd vél er á netinu"
+msgstr "Proveri da li je udaljeni domaćin onlajn"
 
 #: qt/settingsdialog.py:856
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
+"Upozorenje: ukoliko je onemogućeno i udaljeno domaćin nije dostupan, ovo "
+"može dovesti do nekih čudnih grešaka."
 
 #: qt/settingsdialog.py:860
 msgid "Check if remote host supports all necessary commands."
-msgstr "Athuga hvort fjartengd vél styðji allar nauðsynlegar skipanir."
+msgstr "Proveri da li udaljeni domaćin podržava sve neophodne komande."
 
 #: qt/settingsdialog.py:863
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
+"Upozorenje: ukoliko je onemogućeno i udaljeni domaćin ne podržava sve "
+"neophodne komande, ovo može dovesti do nekih čudnih grešaka."
 
 #: qt/settingsdialog.py:879
 msgid "Restore Config"
-msgstr "Endurheimta stillingaskrá"
+msgstr "Povrati konfiguraciju"
 
 #: qt/settingsdialog.py:881
 msgid "Edit user-callback"
-msgstr ""
+msgstr "Promeni user-callback"
 
 #: qt/settingsdialog.py:935 qt/settingsdialog.py:2437
 msgid "Mode:"
-msgstr "Hamur:"
+msgstr "Mod:"
 
 #: qt/settingsdialog.py:954 qt/settingsdialog.py:1955
 msgid "Where to save snapshots"
-msgstr "Hvar á að vista skyndiafrit"
+msgstr "Gde da čuvam snimke"
 
 #: qt/settingsdialog.py:970
 msgid "Folder"
-msgstr "Mappa"
+msgstr "Direktorijum"
 
 #: qt/settingsdialog.py:978
 msgid "SSH Settings"
-msgstr "SSH stillingar"
+msgstr "SSH Podešavanja"
 
 #: qt/settingsdialog.py:1005
 msgid "Path:"
-msgstr "Slóð:"
+msgstr "Putanja:"
 
 #: qt/settingsdialog.py:1011
 msgid "Cipher:"
-msgstr "Dulritunaraðferð (cipher):"
+msgstr "Šifra:"
 
 #: qt/settingsdialog.py:1017
 msgid "Private Key:"
-msgstr "Einkalykill:"
+msgstr "Privatni Ključ:"
 
 #: qt/settingsdialog.py:1027
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
-msgstr ""
+msgstr "Izaberite postojeću datoteku privatnog ključa (obično se zove \"id_rsa\")"
 
 #: qt/settingsdialog.py:1038
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
+"Kreirajte novi SSH ključ bez lozinke (nije dozvoljeno ako je fajl privatnog "
+"ključa već odabran)."
 
 #: qt/settingsdialog.py:1068 qt/settingsdialog.py:1077
 #: qt/settingsdialog.py:1083
 msgid "Password"
-msgstr "Lykilorð"
+msgstr "Lozinka"
 
 #: qt/settingsdialog.py:1089
 msgid "Save Password to Keyring"
-msgstr "Vista lykilorð í lyklakippu"
+msgstr "Sačuvaj lozinku u Keyring"
 
 #: qt/settingsdialog.py:1093
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
+"Keširaj lozinku za Cron (Sigurnosni problem: root može čitati lozinku)"
 
 #: qt/settingsdialog.py:1108
 msgid "Advanced"
-msgstr "Nánar"
+msgstr "Napredno"
 
 #: qt/settingsdialog.py:1138 qt/settingsdialog.py:2091
 msgid "Full snapshot path:"
-msgstr "Heildarslóð skyndiafrita:"
+msgstr "Puna putanja snimka:"
 
 #: qt/settingsdialog.py:1154
 #, python-brace-format
@@ -1582,84 +1679,91 @@ msgid ""
 "pending, depending on project resources and contributor availability. More "
 "details are available in this {whitepaper}."
 msgstr ""
+"Podrška za EncFS će biti uklonjena u doglednoj budućnosti. Odluka o zameni "
+"kontinuirane podrške za šifriranje sigurnosne kopije još uvek je na čekanju,"
+" zavisi od resursa projekta i dostupnosti saradnika. Više detalja dostupno "
+"je u ovim {whitepaper}."
 
 #: qt/settingsdialog.py:1176
 msgid "New profile"
-msgstr "Nýtt snið"
+msgstr "Novi profil"
 
 #: qt/settingsdialog.py:1193
 msgid "Rename profile"
-msgstr "Endurnefna snið"
+msgstr "Preimenuj profil"
 
 #: qt/settingsdialog.py:1209
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "Ertu viss um að þú viljir eyða sniðinu \"{name}\" ?"
+msgstr "Da li ste sigurni da želite da uklonite profil \"{name}\" ?"
 
 #: qt/settingsdialog.py:1255
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr ""
+msgstr "{BOLD}Toplo preporučeno{ENDBOLD}: (Sve preporuke su već uključene.)"
 
 #: qt/settingsdialog.py:1260
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "{BOLD}Sérstaklega mælt með{ENDBOLD}: {files}"
+msgstr "{BOLD}Toplo preporučeno{ENDBOLD}: {files}"
 
 #: qt/settingsdialog.py:1479
 msgid "You did not choose a private key file for SSH."
-msgstr "Þú valdir enga skrá með einkalykli fyrir SSH."
+msgstr "Niste izabrali datoteku privatnog ključa za SSH."
 
 #: qt/settingsdialog.py:1480
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
+"Da li želite da generišete novi par javnih/privatnih ključeva bez lozinke?"
 
 #: qt/settingsdialog.py:1490
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "Einkalykilsskráin \"{file}\" er ekki til."
+msgstr "Datoteka privatnog ključa u \"{file}\" ne postoji."
 
 #: qt/settingsdialog.py:1621
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
+"Da li želite da kopirate vaš javni SSH ključ na udaljenom domaćinu za "
+"omogućavanje prijave bez lozinke?"
 
 #: qt/settingsdialog.py:1652
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr "Ekki tókst að sannreyna auðkenni hýsilvélarinnar {host}."
+msgstr "Autentičnost domaćine {host} se ne može utvrditi."
 
 #: qt/settingsdialog.py:1655
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr "Fingrafar {keytype} dulritunarlykils er:"
+msgstr "{keytype} otisak prsta ključa je:"
 
 #: qt/settingsdialog.py:1663
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
-"Yfirfarðu þetta fingrafar. Myndirðu vilja bæta því í 'known_hosts' skrána "
-"þina?"
+"Molimo proverite ovaj otisak prsta! Da li želite da ga dodate u svoju "
+"datoteku 'known_hosts'?"
 
 #: qt/settingsdialog.py:1855
 msgid "Exclude pattern"
-msgstr "Útilokunarmynstur"
+msgstr "Izostavi šablon"
 
 #: qt/settingsdialog.py:1868
 msgid "Exclude file"
-msgstr "Undanskilja skrá"
+msgstr "Izostavi fajl"
 
 #: qt/settingsdialog.py:1872
 msgid "Exclude folder"
-msgstr "Undanskilja möppu"
+msgstr "Izostavi direktorijum"
 
 #: qt/settingsdialog.py:1896
 msgid "Include file"
-msgstr "Hafa með skrá"
+msgstr "Uključi fajl"
 
 #: qt/settingsdialog.py:1905 qt/settingsdialog.py:1935
 #, python-brace-format
@@ -1667,14 +1771,16 @@ msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
+"\"{path}\" je simbolična veza. Povezana meta neće biti sigurnosno kopiran dok ga ne uključite.\n"
+"Da li želite da uključite metu simboličku veze?"
 
 #: qt/settingsdialog.py:1926
 msgid "Include folder"
-msgstr "Hafa með möppu"
+msgstr "Uključi direktorijum"
 
 #: qt/settingsdialog.py:1963
 msgid "Are you sure you want to change snapshots folder?"
-msgstr "Ertu viss um að þú viljir skipta um möppu undir skyndiafrit?"
+msgstr "Da li stvarno želite da promenite direktorijum za snimke?"
 
 #: qt/settingsdialog.py:1974
 msgid "Is this the backup destination to be used?"
@@ -1683,36 +1789,36 @@ msgstr ""
 #: qt/settingsdialog.py:1998
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Mistókst að búa til nýjan SSH-lykil í {path}."
+msgstr "Kreiranje novog SSH ključa u {path} nije uspelo."
 
 #: qt/settingsdialog.py:2118
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
-msgstr ""
+msgstr "Deaktivirano zato što šabloni ne funkcionišu u 'SSH šifrovanom' modu."
 
 #: qt/settingsdialog.py:2177
 msgid "(default: {})"
-msgstr "(sjálfgefið: {})"
+msgstr "(podrazumevano: {})"
 
 #: qt/settingsdialog.py:2178
 msgid "disabled"
-msgstr "óvirkt"
+msgstr "onemogućeno"
 
 #: qt/settingsdialog.py:2178
 msgid "enabled"
-msgstr "virkt"
+msgstr "omogućeno"
 
 #: qt/settingsdialog.py:2221
 msgid "Import configuration"
-msgstr "Flytja inn uppsetningu"
+msgstr "Uvezi sertifikat"
 
 #: qt/settingsdialog.py:2277 qt/settingsdialog.py:2373
 msgid "No config found"
-msgstr "Engin stillingaskrá fannst"
+msgstr "Konfiguracije nije pronađena"
 
 #: qt/settingsdialog.py:2302
 msgid "Import"
-msgstr "Flytja inn"
+msgstr "Uvezi"
 
 #: qt/settingsdialog.py:2330
 #, python-brace-format
@@ -1720,32 +1826,36 @@ msgid ""
 "Select the snapshot folder from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
+"Odaberi folder za snimak iz koga konfiguracionu fajl treba da bude uvezen. "
+"Ova putanja može da izgleda kao: {samplePath}"
 
 #: qt/settingsdialog.py:2335
 msgid ""
 "If the folder is located on an external or remote drive, it must be manually"
 " mounted beforehand."
 msgstr ""
+"Ukoliko se datoteka nalazi na vanjskom ili udaljenom disku, unapred je "
+"potrebno ručno montira disk."
 
 #: qt/snapshotsdialog.py:51
 msgid "Options about comparing snapshots"
-msgstr "Valkostir við samanburð skyndiafrita"
+msgstr "Opcije o upoređivanju snimaka"
 
 #: qt/snapshotsdialog.py:58
 msgid "Command:"
-msgstr "Skipun:"
+msgstr "Komanda:"
 
 #: qt/snapshotsdialog.py:62
 msgid "Parameters:"
-msgstr "Viðföng:"
+msgstr "Parametri:"
 
 #: qt/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
-msgstr "Notaðu %1 og %2 fyrir viðföng slóðar"
+msgstr "Користи %1 и %2 као параметре за путање"
 
 #: qt/snapshotsdialog.py:84
 msgid "Please set a diff command or press Cancel."
-msgstr "Veldu aðra diff-skipun eða ýttu á að hætta við."
+msgstr "Molim postavite diff komandu ili pritisnite otkaži."
 
 #: qt/snapshotsdialog.py:90
 #, python-brace-format
@@ -1753,106 +1863,132 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"Skipunin \"{cmd}\" finnst ekki á þessu kerfi. Prófaðu eitthvað annað eða "
-"ýttu á að hætta við."
+"Komanda \"{cmd}\" nije pronađena na ovom sistemu. Molimo probajte nešto "
+"drugo ili pritisnite otkaži."
 
 #: qt/snapshotsdialog.py:98
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
+"Parametri nisu postavljeni za diff komandu. Koristiće se podrazumevane "
+"vrednosti \"{params}\"."
 
 #: qt/snapshotsdialog.py:134
 msgid "Differing snapshots only"
-msgstr "Taka skyndiafrit mismunar"
+msgstr "Samo različiti snimci"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Telja aðeins upp skyndiafrit sem jafngilda: "
+msgstr "Излистај само снимке једнаке следећим:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"
-msgstr "Ítarleg yfirferð (nákvæmari, en hægvirkt)"
+msgstr "Дубока провера (прецизнија али спора)"
 
 #: qt/snapshotsdialog.py:174
 msgid "Delete"
-msgstr "Eyða"
+msgstr "Избриши"
 
 #: qt/snapshotsdialog.py:178
 msgid "Select All"
-msgstr "Velja allt"
+msgstr "Одабери Све"
 
 #: qt/snapshotsdialog.py:191
 msgid "Compare"
-msgstr "Bera saman"
+msgstr "Uporedi"
 
 #: qt/snapshotsdialog.py:203
 msgid "Go To"
-msgstr "Fara í"
+msgstr "Иди На"
 
 #: qt/snapshotsdialog.py:204
 msgid "Options"
-msgstr "Valkostir"
+msgstr "Opcije"
 
 #: qt/snapshotsdialog.py:361
 msgid "You can't compare a snapshot to itself."
-msgstr "Þú getur ekki borið skyndiafrit saman við sjálft sig."
+msgstr "Nije moguće uporediti snimak sa samim sobom."
 
 #: qt/snapshotsdialog.py:404
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr "Ertu viss um að þú viljir eyða {file} í skyndiafritinu {snapshot_id}?"
+msgstr "Da li stvarno želite da izbrišete {file} u snimku {snapshot_id}?"
 
 #: qt/snapshotsdialog.py:410
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
-msgstr "Ertu viss um að þú viljir eyða {file} í {count} skyndiafritum?"
+msgstr "Da li stvarno želite da izbrišete {file} u {count} snimka?"
 
 #: qt/snapshotsdialog.py:414
 msgid "WARNING: This cannot be revoked."
-msgstr "AÐVÖRUN: Þetta er ekki hægt að afturkalla."
+msgstr "Upozorenja: Ovo se ne može opožvati."
 
 #: qt/snapshotsdialog.py:432
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr "Útiloka {path} framvegis frá skyndiafritun?"
+msgstr "Isključi {path} iz budućih snimaka?"
 
+#, fuzzy
 #~ msgid ""
 #~ "Can't find crontab. Are you sure cron is installed? If not you should "
 #~ "disable all automatic backups."
 #~ msgstr ""
-#~ "Finn ekki crontab. Ertu viss um að cron sé uppsett? Ef ekki, ættirðu að gera"
-#~ " alla sjálfvirka öryggisafritun óvirka."
+#~ "Ne mogu da pronađem crontab.\n"
+#~ "Da li ste sigurni da je crontab inastaliran?\n"
+#~ "Ako nije, treba da onemogućite automatsko kreiranje rezervnih kopija."
 
 #, python-brace-format
 #~ msgid ""
 #~ "Can't write to: {path}\n"
 #~ "Are you sure you have write access?"
 #~ msgstr ""
-#~ "Get ekki skrifað í: {path}\n"
-#~ "Ertu viss um að þú hafir skrifaðgang þarna ?"
+#~ "Ne mogu da upisujem u: {path}\n"
+#~ "Da li ste sigurni da imate dozvolu za upisivanje?"
 
 #~ msgid "Finalizing"
-#~ msgstr "Geng frá"
+#~ msgstr "Завршавање"
 
 #~ msgid "Full snapshot path"
-#~ msgstr "Heildarslóð skyndiafrita"
+#~ msgstr "Puna putanja snimka"
 
 #~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/User/Profile-ID getur ekki verið tómt."
+#~ msgstr "Host/Korisnik/ID-Profila moraju biti popunjeni."
 
 #~ msgid "Hour:"
-#~ msgstr "Klukkustund:"
+#~ msgstr "Sat:"
 
 #~ msgid "Mode"
-#~ msgstr "Hamur"
+#~ msgstr "Mod"
 
 #~ msgid "Profile"
-#~ msgstr "Snið"
+#~ msgstr "Profil"
 
 #, python-brace-format
 #~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Snið '{profile}': Settu inn lykilorð fyrir {mode}: "
+#~ msgstr "Профил '{profile}': Унесите лозинку за {mode}: "
+
+#~ msgid "Shebang in user-callback script is not executable."
+#~ msgstr "Shebang u user-callback skripti nije izvršan."
 
 #~ msgid "WARNING"
-#~ msgstr "AÐVÖRUN"
+#~ msgstr "UPOZORENJE"
+
+#~ msgid ""
+#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
+#~ "update encfs."
+#~ msgstr ""
+#~ "u encfs verzijama 1.7.2 i ranije postoji greška kod opcije --reverse. Molim "
+#~ "vas ažurirajte encfs."
+
+#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
+#~ msgstr "user-callback skripte ne sadrži shebang (#!/bin/sh) liniju."
+
+#, python-brace-format
+#~ msgid ""
+#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
+#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
+#~ "SECURITY\" in \"man backintime\"."
+#~ msgstr ""
+#~ "{app} koristi EncFS za enkripciju. Nedavna sigurnosna revizija otkrila je "
+#~ "nekoliko mogućih vektora napada za ovo. Molimo pogledajte \"A NOT ON "
+#~ "SECURITY\" u \"man backintime\"."
