@@ -250,7 +250,6 @@ class Mount:
         if hash_id is None:
             hash_id = self.config.current_hash_id
 
-        print(f'Mount.umount() :: {hash_id=}')
         if hash_id == 'local':
             # mode doesn't need to umount
             return
