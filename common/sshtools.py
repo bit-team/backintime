@@ -415,7 +415,7 @@ class SSH(MountControl):
 
                 # We need to validate the ssh key password which
                 # `backintime-askpass` will provide before calling
-                # ssh-add below.
+                # ssh-add below. See Issue #1852.
 
                 # Validate cached SSH key password:
                 proc = subprocess.run(
