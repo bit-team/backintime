@@ -432,7 +432,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     # Don't use defaultdict because pprint can't handle it
     result = {}
 
-    for code in language_codes:
+    for code in sorted(language_codes):
         print(f'Processing language code "{code}"...')
 
         lang = babel.Locale.parse(code)
