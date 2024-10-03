@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-07-15 05:11+0000\n"
-"Last-Translator: rsschaap <rsschaap@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-10-02 06:42+0000\n"
+"Last-Translator: reneald <reneald@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
@@ -25,12 +25,12 @@ msgid "Warning"
 msgstr "Let op"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Het doelbestandssysteem van ‘{path}’ is geformatteerd als FAT, dat geen "
+"Het doelbestandssysteem van ‘{path}’ is geformatteerd als NTFS, dat geen "
 "harde koppeling, hard-links, ondersteunt. Gebruik in plaats daarvan een "
 "authentiek Linux-bestandssysteem."
 
@@ -239,7 +239,7 @@ msgstr "Kon momentopname {snapshot_id} niet maken."
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Even geduld. Afronden…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -403,7 +403,7 @@ msgstr "Ongeldige optie. {path} is geen map."
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Kon volgende map niet aanmaken:"
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
@@ -450,7 +450,7 @@ msgstr ""
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Kon geen bestand aanmaken in deze map:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1107,7 +1107,7 @@ msgstr "Dag van de week:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Tijd:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"

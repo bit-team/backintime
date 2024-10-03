@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-09-14 10:18+0000\n"
+"PO-Revision-Date: 2024-09-24 06:13+0000\n"
 "Last-Translator: inno <inno@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -25,13 +25,13 @@ msgid "Warning"
 msgstr "Attenzione"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Il filesystem di destinazione per '{path}' è formattato con FAT che non "
-"supporta hard-link. Si prega di usare un filesystem Linux nativo."
+"Il filesystem di destinazione per '{path}' è formattato con NTFS, che ha "
+"delle incompatibilità note con i filesystem derivati da Unix."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -238,7 +238,7 @@ msgstr "Creazione dell'istantanea {snapshot_id} fallita."
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Un po' di pazienza. Si sta terminando…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -407,11 +407,11 @@ msgstr "Opzione non valida. {path} non è una cartella."
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "E' fallita la creazione della seguente cartella:"
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "L'accesso in scrittura potrebbe essere limitato."
 
 #: common/tools.py:478
 #, python-brace-format
@@ -452,7 +452,7 @@ msgstr ""
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "La creazione del file è fallita in questa cartella:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1103,20 +1103,19 @@ msgstr "Giorno della settimana:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Tempo:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Ore:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Avvia Back In Time non appena il dispositivo viene collegato (solo una volta ogni X giorni).\n"
-"Ti verrà richiesta la tua password di sudo."
+"Avvia Back In Time non appena il dispositivo viene collegato (solo una volta"
+" ogni X giorni). Ti verrà richiesta la password di sudo."
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1798,7 +1797,7 @@ msgstr "Sei sicuro di voler cambiare la cartella delle istantanee?"
 
 #: qt/settingsdialog.py:1947
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "E' questa la destinazione di backup da utilizzare?"
 
 #: qt/settingsdialog.py:1971
 #, python-brace-format

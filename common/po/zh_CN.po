@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-07-11 12:12+0000\n"
-"Last-Translator: ktzhao <ktzhao@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-09-17 12:39+0000\n"
+"Last-Translator: Outbreak2096 <Outbreak2096@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
@@ -25,11 +25,11 @@ msgid "Warning"
 msgstr "警告"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
-msgstr "{path} 的目标文件系统格式为 FAT，不支持硬连接。请使用原生 Linux 文件系统。"
+msgstr "{path} 的目标文件系统采用 NTFS 格式，已知 NTFS 与 Unix 风格的文件系统不兼容。"
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -228,7 +228,7 @@ msgstr "创建快照 {snapshot_id} 失败。"
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "请耐心等待。正在最后确定…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -388,11 +388,11 @@ msgstr "无效的选项。{path} 不是一个文件夹。"
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "创建以下文件夹失败："
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "写入权限可能受到限制。"
 
 #: common/tools.py:478
 #, python-brace-format
@@ -428,7 +428,7 @@ msgstr "{path} 的目标文件系统是 sshfs 格式挂载的共享。 sshfs 不
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "在此文件夹中创建文件失败："
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1032,20 +1032,17 @@ msgstr "工作日:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "时间："
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "小时:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
-msgstr ""
-"连接驱动器后立即运行Back In Time（每 X 天一次）。\n"
-"系统将提示您输入 sudo 密码。"
+msgstr "驱动器连接后立即运行 Back In Time（每 X 天仅一次）。系统将提示您输入 sudo 密码。"
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1676,7 +1673,7 @@ msgstr "确定要改变快照文件夹吗？"
 
 #: qt/settingsdialog.py:1947
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "这是要使用的备份目标吗？"
 
 #: qt/settingsdialog.py:1971
 #, python-brace-format

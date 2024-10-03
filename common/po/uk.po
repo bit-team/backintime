@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-08-06 06:28+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-09-17 12:39+0000\n"
+"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
@@ -25,13 +25,13 @@ msgid "Warning"
 msgstr "Попередження"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Вказане розташування {path} має файлову систему FAT, яка не підтримує "
-"жорсткі посилання. Використовуйте файлові системи для Linux."
+"Вказане розташування {path} відформатовано у NTFS, яка має відому "
+"несумісність з Unix-подібними файловими системами."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -238,7 +238,7 @@ msgstr "Не вдалося зробити копію {snapshot_id}."
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Будь ласка, зачекайте. Завершення…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -402,11 +402,11 @@ msgstr "Неправильний параметр. {path} не є текою."
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Не вдалося створити теку:"
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Можливо, доступ на запис обмежений."
 
 #: common/tools.py:478
 #, python-brace-format
@@ -447,7 +447,7 @@ msgstr ""
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Не вдалося створити файл у теці:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -931,7 +931,7 @@ msgid "Translated: {percent}"
 msgstr "Перекладено: {percent}"
 
 #: qt/languagedialog.py:199
-#, python-brace-format
+#, python-brace-format, ignore-placeholder-compare
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -1089,20 +1089,19 @@ msgstr "День тижня:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Час:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Години:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Запускати Back In Time, коли Ви підключаєте диск (один раз на X днів).\n"
-"Вам потрібно буде ввести пароль sudo."
+"Запускати Back In Time, коли Ви підключаєте диск (один раз на X днів). Вам "
+"потрібно буде ввести пароль sudo."
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1774,7 +1773,7 @@ msgstr "Ви впевнені, що хочете змінити теку для 
 
 #: qt/settingsdialog.py:1947
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "Використати це розташування для резервного копіювання?"
 
 #: qt/settingsdialog.py:1971
 #, python-brace-format

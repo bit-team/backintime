@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-07-06 09:13+0000\n"
+"PO-Revision-Date: 2024-09-17 08:03+0000\n"
 "Last-Translator: Merik <Merik@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
@@ -25,13 +25,13 @@ msgid "Warning"
 msgstr "Ostrzeżenie"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Docelowy system plików dla {path} jest sformatowany za pomocą FAT, który nie"
-" wspiera dowiązań twardych. Proszę użyć linuksowego systemu plików."
+"Docelowy system plików dla {path} jest sformatowany za pomocą NTFS, w którym"
+" występują znane niezgodności z systemami plików w stylu Uniksa."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -237,7 +237,7 @@ msgstr "Nie udało się wykonać migawki {snapshot_id}."
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Prosimy o cierpliwość. Finalizowanie…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -403,11 +403,11 @@ msgstr "Nieprawidłowa opcja. {path} nie jest katalogiem."
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Utworzenie następującego katalogu nie powiodło się:"
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Dostęp do zapisu może być ograniczony."
 
 #: common/tools.py:478
 #, python-brace-format
@@ -448,7 +448,7 @@ msgstr ""
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Tworzenie pliku w tym katalogu nie powiodło się:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1100,19 +1100,18 @@ msgstr "Dzień powszedni:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Czas:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Godziny:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Uruchamiaj Back In Time zaraz po podłączeniu napędu (tylko raz na X dni).\n"
+"Uruchamiaj Back In Time zaraz po podłączeniu napędu (tylko raz na X dni). "
 "Zostanie wyświetlony monit o podanie hasła sudo."
 
 #: qt/schedulewidget.py:85
@@ -1797,7 +1796,7 @@ msgstr "Czy na pewno chcesz zmienić katalog migawek?"
 
 #: qt/settingsdialog.py:1947
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "Czy jest to miejsce docelowe kopii zapasowej, którego należy użyć?"
 
 #: qt/settingsdialog.py:1971
 #, python-brace-format

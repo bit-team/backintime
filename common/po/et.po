@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-08-16 21:18+0000\n"
+"PO-Revision-Date: 2024-09-20 06:18+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
@@ -25,14 +25,13 @@ msgid "Warning"
 msgstr "Hoiatus"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Failisüsteem, kuhu „{path}“ asukohta tahad luua varukoopiat, on FAT-"
-"vormingus ega toeta püsilinke. Palun kasuta mõnda Linuxile mõeldud "
-"failisüsteemi."
+"Failisüsteem, mille asukohta „{path}“ tahad luua varukoopiat, on NTFS-"
+"vormingus ning teadaolevalt ei ühildu ta Unixi-stiilis failisüsteemidega."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -238,7 +237,7 @@ msgstr "Hetktõmmise nr {snapshot_id} tegemine ei õnnestunud."
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Palun oota rahulikult. Lõpetame toimingut…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -359,11 +358,11 @@ msgstr "Välisseadmes on asukoht olemas, kuid tegemist pole kaustaga."
 
 #: common/sshtools.py:687
 msgid "Remote path is not writable."
-msgstr "Välisseadmes on asukoht pole kirjutatav."
+msgstr "Välisseadmes leiduv asukoht pole kirjutatav."
 
 #: common/sshtools.py:692
 msgid "Remote path is not executable."
-msgstr "Välisseadmes on asukoht pole käivitatav."
+msgstr "Välisseadmes leiduv asukoht pole käivitatav."
 
 #: common/sshtools.py:697
 msgid "Couldn't create remote path."
@@ -405,11 +404,11 @@ msgstr "Kõlbamatu valik. {path} ei ole kaust."
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Järgneva kausta loomine ei õnnestunud:"
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Kirjutusõigused võivad olla piiratud."
 
 #: common/tools.py:478
 #, python-brace-format
@@ -417,7 +416,7 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"Failisüsteem, kuhu „{path}“ asukohta tahad luua varukoopiat, on FAT-"
+"Failisüsteem, kuhu asukohta „{path}“ tahad luua varukoopiat, on FAT-"
 "vormingus ega toeta püsilinke. Palun kasuta mõnda Linuxile mõeldud "
 "failisüsteemi."
 
@@ -428,7 +427,7 @@ msgid ""
 "the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"Failisüsteem, kuhu „{path}“ asukohta tahad luua varukoopiat, on SMB-põhisel "
+"Failisüsteem, kuhu asukohta „{path}“ tahad luua varukoopiat, on SMB-põhisel "
 "andmekandjal. Palun kontrolli, et see SMB server toetab sümbollinkide "
 "kasutamist või seadistuste alajoatusest „{expertOptions}“ lülita sisse "
 "„{copyLinks}“."
@@ -447,13 +446,13 @@ msgid ""
 "Destination filesystem for {path} is an sshfs-mounted share. Sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
-"Failisüsteem, kuhu „{path}“ asukohta tahad luua varukoopiat, on haagitud "
+"Failisüsteem, kuhu asukohta „{path}“ tahad luua varukoopiat, on haagitud "
 "sshfs abil. Kahjuks sshfs ei toeta püsilinke. Palun kasuta selle asemel SSH "
 "töörežiimi."
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Faili loomine siia kausta ei õnnestunud:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1100,20 +1099,19 @@ msgstr "Nädalapäev:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Aeg:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Tunnid:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Käivita Back In Time niipea, kui andmekandja on ühendatud (vaid üks kord X päeva jooksul).\n"
-"Käivitamisel küsime sudo salasõna."
+"Käivita Back In Time niipea, kui andmekandja on ühendatud (vaid üks kord X "
+"päeva jooksul). Käivitamisel küsime sudo salasõna."
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1363,7 +1361,7 @@ msgstr "Nutikas eemaldamine:"
 
 #: qt/settingsdialog.py:433
 msgid "Run in background on remote host."
-msgstr "Välises seadmes käivita taustal."
+msgstr "Käivita välises seadmes taustal."
 
 #: qt/settingsdialog.py:434
 msgid "EXPERIMENTAL"
@@ -1801,7 +1799,7 @@ msgstr "Kas oled kindel, et soovid muuta hetktõmmiste kausta?"
 
 #: qt/settingsdialog.py:1947
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "Kas sa ikkagi soovid seda kasutada varukoopia asukohana?"
 
 #: qt/settingsdialog.py:1971
 #, python-brace-format

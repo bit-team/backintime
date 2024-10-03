@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-09-15 16:25+0200\n"
-"PO-Revision-Date: 2024-07-24 15:18+0000\n"
+"PO-Revision-Date: 2024-09-17 09:51+0000\n"
 "Last-Translator: mbouzada <mbouzada@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:78 qt/encfsmsgbox.py:24
@@ -25,13 +25,13 @@ msgid "Warning"
 msgstr "Advertencia"
 
 #: common/config.py:130 common/tools.py:390
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"O sistema de ficheiros de destino de {path} está formatado con FAT, o cal "
-"non admite ligazóns fortes. Use un sistema de ficheiros nativo de GNU/Linux."
+"O sistema de ficheiros de destino de {path} está formatado con NTFS, que ten"
+" incompatibilidades coñecidas cos sistemas de ficheiros de estilo Unix."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -55,7 +55,7 @@ msgstr "SSH"
 
 #: common/config.py:275 common/config.py:285 qt/settingsdialog.py:1962
 msgid "SSH private key"
-msgstr "Chave privada SSH"
+msgstr "Chave SSH privada"
 
 #: common/config.py:278
 msgid "Local encrypted"
@@ -235,7 +235,7 @@ msgstr "Produciuse un fallo ao facer a instantánea {snapshot_id}."
 
 #: common/snapshots.py:931
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Teña paciencia. Finalizando…"
 
 #: common/snapshots.py:1062
 msgid "Can't create folder"
@@ -402,11 +402,11 @@ msgstr "Оpción non válida. {path} non é un cartafol."
 
 #: common/tools.py:436
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Produciuse un fallo ao crear o seguinte cartafol:"
 
 #: common/tools.py:438 common/tools.py:534
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "O acceso para escritura pode estar restrinxido."
 
 #: common/tools.py:478
 #, python-brace-format
@@ -447,7 +447,7 @@ msgstr ""
 
 #: common/tools.py:532
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Produciuse un fallo ao crear o ficheiro neste cartafol:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1086,23 +1086,22 @@ msgstr "Día:"
 
 #: qt/schedulewidget.py:66
 msgid "Weekday:"
-msgstr "Día laborábel:"
+msgstr "Día da semana:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Tempo:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Horas:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Executar Back In Time cando o dispositivo estea conectado (só unha vez cada X días).\n"
+"Executar Back In Time cando se conecte a unidade (só unha vez cada X días). "
 "Pediráselle o seu contrasinal para sudo."
 
 #: qt/schedulewidget.py:85
@@ -1779,7 +1778,7 @@ msgstr "Confirma que quere cambiar o cartafol de instantáneas?"
 
 #: qt/settingsdialog.py:1947
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "É este o destino de copia de seguranza que se utilizará?"
 
 #: qt/settingsdialog.py:1971
 #, python-brace-format
