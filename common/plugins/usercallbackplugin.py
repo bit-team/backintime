@@ -78,10 +78,7 @@ class UserCallbackPlugin(pluginmanager.Plugin):
 
         logger.debug(f'Call user-callback: {" ".join(cmd)}', self)
 
-        if self.config.userCallbackNoLogging():
-            stdout, stderr = None, None
-        else:
-            stdout, stderr = PIPE, PIPE
+        stdout, stderr = PIPE, PIPE
 
         try:
             callback = Popen(cmd,

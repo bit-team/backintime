@@ -1398,33 +1398,6 @@ def checkCronPattern(s):
         return False
 
 
-#TODO: check if this is still necessary
-def checkHomeEncrypt():
-    """
-    Return ``True`` if users home is encrypted
-    """
-    home = os.path.expanduser('~')
-    if not os.path.ismount(home):
-        return False
-    if checkCommand('ecryptfs-verify'):
-        try:
-            subprocess.check_call(['ecryptfs-verify', '--home'],
-                                    stdout=subprocess.DEVNULL,
-                                    stderr=subprocess.DEVNULL)
-        except subprocess.CalledProcessError:
-            pass
-        else:
-            return True
-    if checkCommand('encfs'):
-        proc = subprocess.Popen(['mount'], stdout=subprocess.PIPE, universal_newlines = True)
-        mount = proc.communicate()[0]
-        r = re.compile('^encfs on %s type fuse' % home)
-        for line in mount.split('\n'):
-            if r.match(line):
-                return True
-    return False
-
-
 def envLoad(f):
     """
     Load environ variables from file ``f`` into current environ.
