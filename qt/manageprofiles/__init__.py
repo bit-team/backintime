@@ -784,7 +784,7 @@ class SettingsDialog(QDialog):
 
         self.finished.connect(self._slot_finished)
 
-    def _slot_rsync_options_on_editing_finished(self):
+    def _slot_rsync_options_editing_finished(self):
         """When editing the rsync options is finished warn and remove
         --old-args option if present.
         """
