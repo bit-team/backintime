@@ -9,6 +9,7 @@ Version 1.5.3-dev (development of upcoming release)
 * Fix: Prevent duplicates in Exclude/Include list of Manage Profiles dialog
 * Fix: Fix Qt segmentation fault when canceling out of unconfigured BiT (#1095) (Derek Veit @DerekVeit)
 * Fix: Correct global flock fallbacks (#1834) (Timothy Southwick @NickNackGus)
+* Fix: Use SSH key password only if it is valid, otherwise request it from user (#1852) (David Wales @daviewales)
 * Feature: Support fcron (#610)
 * Refactor: General tab and its Schedule section
 * Refactor: Remove class OrderedSet
