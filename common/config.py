@@ -371,12 +371,13 @@ class Config(configfile.ConfigFileWithProfiles):
     def host(self):
         return socket.gethostname()
 
-    def get_snapshots_mountpoint(self, profile_id=None, tmp_mount=False):
+    def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the profiles snapshot path in form of a mount point."""
         if profile_id is None:
             profile_id = self.currentProfile()
 
-        mode = self.snapshotsMode(profile_id)
+        if mode is None:
+            mode = self.snapshotsMode(profile_id)
 
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
@@ -395,7 +396,9 @@ class Config(configfile.ConfigFileWithProfiles):
         That method is a surrogate for `self.get_snapshots_mountpoint()`.
         """
         return self.get_snapshots_mountpoint(
-            profile_id=profile_id, tmp_mount=tmp_mount)
+            profile_id=profile_id,
+            mode=mode,
+            tmp_mount=tmp_mount)
 
     def snapshotsFullPath(self, profile_id = None):
         """
@@ -1291,13 +1294,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def setTakeSnapshotRegardlessOfChanges(self, value, profile_id = None):
         return self.setProfileBoolValue('snapshots.take_snapshot_regardless_of_changes', value, profile_id)
 
-    def userCallbackNoLogging(self, profile_id = None):
-        #?Do not catch std{out|err} from user-callback script.
-        #?The script will only write to current TTY.
-        #?Default is to catch std{out|err} and write it to
-        #?syslog and TTY again.
-        return self.profileBoolValue('user_callback.no_logging', False, profile_id)
-
     def globalFlock(self):
         #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
         return self.boolValue('global.use_flock', False)
@@ -1681,8 +1677,3 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
-
-
-if __name__ == '__main__':
-    config = Config()
-    print("snapshots path = %s" % config.snapshotsFullPath())
