@@ -16,7 +16,6 @@ from PyQt6.QtGui import QPalette, QBrush, QIcon
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
-                             QGridLayout,
                              QDialogButtonBox,
                              QMessageBox,
                              QInputDialog,
@@ -24,10 +23,8 @@ from PyQt6.QtWidgets import (QDialog,
                              QFrame,
                              QWidget,
                              QTabWidget,
-                             QComboBox,
                              QLabel,
                              QPushButton,
-                             QLineEdit,
                              QSpinBox,
                              QTreeWidget,
                              QTreeWidgetItem,
@@ -426,6 +423,13 @@ class SettingsDialog(QDialog):
         self._tab_expert_options.load_values()
 
     def saveProfile(self):
+        # These tabs need to be stored before the Generals tab, because the
+        # latter is doing some premount checking and need to know this settings
+        # first.
+        self._tab_auto_remove.store_values()
+        self._tab_options.store_values()
+        self._tab_expert_options.store_values()
+
         # Dev note: This return "False" if something goes wrong. Otherwise it
         # returns a dict with several mounting related information.
         success = self._tab_general.store_values()
@@ -467,37 +471,6 @@ class SettingsDialog(QDialog):
         self.config.setExclude(exclude_list)
         self.config.setExcludeBySize(self.cbExcludeBySize.isChecked(),
                                      self.spbExcludeBySize.value())
-
-        # auto-remove
-        self.config.setRemoveOldSnapshots(
-                        self.cbRemoveOlder.isChecked(),
-                        self.spbRemoveOlder.value(),
-                        self.comboRemoveOlderUnit.itemData(
-                            self.comboRemoveOlderUnit.currentIndex()))
-        self.config.setMinFreeSpace(
-                        self.cbFreeSpace.isChecked(),
-                        self.spbFreeSpace.value(),
-                        self.comboFreeSpaceUnit.itemData(
-                            self.comboFreeSpaceUnit.currentIndex()))
-        self.config.setMinFreeInodes(
-                        self.cbFreeInodes.isChecked(),
-                        self.spbFreeInodes.value())
-        self.config.setDontRemoveNamedSnapshots(
-            self.cbDontRemoveNamedSnapshots.isChecked())
-        self.config.setSmartRemove(
-                        self.cbSmartRemove.isChecked(),
-                        self.spbKeepAll.value(),
-                        self.spbKeepOnePerDay.value(),
-                        self.spbKeepOnePerWeek.value(),
-                        self.spbKeepOnePerMonth.value())
-        self.config.setSmartRemoveRunRemoteInBackground(
-            self.cbSmartRemoveRunRemoteInBackground.isChecked())
-
-        # options
-        self._tab_options.store_values()
-
-        # expert options
-        self._tab_expert_options.store_values()
 
         return True
 

@@ -30,10 +30,6 @@ class AutoRemoveTab(QDialog):
 
         self._parent_dialog = parent
 
-        """IDEE
-        VLayout
-         - Grid
-        """
         tab_layout = QVBoxLayout(self)
 
         # older than
@@ -191,7 +187,33 @@ class AutoRemoveTab(QDialog):
             self.config.dontRemoveNamedSnapshots())
 
     def store_values(self):
-        pass
+        self.config.setRemoveOldSnapshots(
+            self.cbRemoveOlder.isChecked(),
+            self.spbRemoveOlder.value(),
+            self.comboRemoveOlderUnit.current_data
+        )
+
+        self.config.setMinFreeSpace(
+            self.cbFreeSpace.isChecked(),
+            self.spbFreeSpace.value(),
+            self.comboFreeSpaceUnit.current_data)
+
+        self.config.setMinFreeInodes(
+            self.cbFreeInodes.isChecked(),
+            self.spbFreeInodes.value())
+
+        self.config.setDontRemoveNamedSnapshots(
+            self.cbDontRemoveNamedSnapshots.isChecked())
+
+        self.config.setSmartRemove(
+            self.cbSmartRemove.isChecked(),
+            self.spbKeepAll.value(),
+            self.spbKeepOnePerDay.value(),
+            self.spbKeepOnePerWeek.value(),
+            self.spbKeepOnePerMonth.value())
+
+        self.config.setSmartRemoveRunRemoteInBackground(
+            self.cbSmartRemoveRunRemoteInBackground.isChecked())
 
     def update_items_state(self, enabled):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
