@@ -11,13 +11,15 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from PyQt6.QtWidgets import (QDialog,
+                             QGridLayout,
                              QVBoxLayout,
-                             QHBoxLayout,
+                             QGroupBox,
                              QLabel,
+                             QSpinBox,
                              QCheckBox)
-import tools
-import qttools
-from manageprofiles import combobox
+import config
+from manageprofiles.combobox import BitComboBox
+from manageprofiles.statebindcheckbox import StateBindCheckBox
 
 
 class AutoRemoveTab(QDialog):
@@ -28,84 +30,87 @@ class AutoRemoveTab(QDialog):
 
         self._parent_dialog = parent
 
+        """IDEE
+        VLayout
+         - Grid
+        """
         tab_layout = QVBoxLayout(self)
 
-        layoutWidget = QWidget(self)
-        layout = QGridLayout(layoutWidget)
-
         # older than
-        self.cbRemoveOlder = QCheckBox(_('Older than:'), self)
-        layout.addWidget(self.cbRemoveOlder, 0, 0)
-        self.cbRemoveOlder.stateChanged.connect(self.updateRemoveOlder)
-
         self.spbRemoveOlder = QSpinBox(self)
         self.spbRemoveOlder.setRange(1, 1000)
-        layout.addWidget(self.spbRemoveOlder, 0, 1)
-
-        self.comboRemoveOlderUnit = QComboBox(self)
-        layout.addWidget(self.comboRemoveOlderUnit, 0, 2)
 
         REMOVE_OLD_BACKUP_UNITS = {
             config.Config.DAY: _('Day(s)'),
             config.Config.WEEK: _('Week(s)'),
-            config.Config.YEAR: _('Year(s)')}
+            config.Config.YEAR: _('Year(s)')
+        }
+        self.comboRemoveOlderUnit = BitComboBox(self, REMOVE_OLD_BACKUP_UNITS)
 
-        self.fillCombo(self.comboRemoveOlderUnit, REMOVE_OLD_BACKUP_UNITS)
+        self.cbRemoveOlder = StateBindCheckBox(_('Older than:'), self)
+        self.cbRemoveOlder.bind(self.spbRemoveOlder)
+        self.cbRemoveOlder.bind(self.comboRemoveOlderUnit)
 
         # free space less than
         enabled, value, unit = self.config.minFreeSpace()
 
-        self.cbFreeSpace = QCheckBox(
-            _('If free space is less than:'), self)
-        layout.addWidget(self.cbFreeSpace, 1, 0)
-        self.cbFreeSpace.stateChanged.connect(self.updateFreeSpace)
-
         self.spbFreeSpace = QSpinBox(self)
         self.spbFreeSpace.setRange(1, 1000)
-        layout.addWidget(self.spbFreeSpace, 1, 1)
 
-        self.comboFreeSpaceUnit = QComboBox(self)
-        layout.addWidget(self.comboFreeSpaceUnit, 1, 2)
         MIN_FREE_SPACE_UNITS = {
             config.Config.DISK_UNIT_MB: 'MiB',
             config.Config.DISK_UNIT_GB: 'GiB'
         }
+        self.comboFreeSpaceUnit = BitComboBox(self, MIN_FREE_SPACE_UNITS)
 
-        self.fillCombo(self.comboFreeSpaceUnit,
-                       MIN_FREE_SPACE_UNITS)
+        self.cbFreeSpace = StateBindCheckBox(_('If free space is less than:'), self)
+        self.cbFreeSpace.bind(self.spbFreeSpace)
+        self.cbFreeSpace.bind(self.comboFreeSpaceUnit)
 
         # min free inodes
-        self.cbFreeInodes = QCheckBox(
-            _('If free inodes is less than:'), self)
-        layout.addWidget(self.cbFreeInodes, 2, 0)
+        self.cbFreeInodes = QCheckBox(_('If free inodes is less than:'), self)
 
         self.spbFreeInodes = QSpinBox(self)
         self.spbFreeInodes.setSuffix(' %')
         self.spbFreeInodes.setSingleStep(1)
         self.spbFreeInodes.setRange(0, 15)
-        layout.addWidget(self.spbFreeInodes, 2, 1)
 
         enabled = lambda state: self.spbFreeInodes.setEnabled(state)
         enabled(False)
         self.cbFreeInodes.stateChanged.connect(enabled)
 
-        # smart remove
-        self.cbSmartRemove = QCheckBox(_('Smart removal:'), self)
-        layout.addWidget(self.cbSmartRemove, 3, 0)
+        grid = QGridLayout()
+        tab_layout.addLayout(grid)
+        grid.addWidget(self.cbRemoveOlder, 0, 0)
+        grid.addWidget(self.spbRemoveOlder, 0, 1)
+        grid.addWidget(self.comboRemoveOlderUnit, 0, 2)
+        grid.addWidget(self.cbFreeSpace, 1, 0)
+        grid.addWidget(self.spbFreeSpace, 1, 1)
+        grid.addWidget(self.comboFreeSpaceUnit, 1, 2)
+        grid.addWidget(self.cbFreeInodes, 2, 0)
+        grid.addWidget(self.spbFreeInodes, 2, 1)
+        grid.setColumnStretch(3, 1)
 
-        widget = QWidget(self)
-        widget.setContentsMargins(25, 0, 0, 0)
-        layout.addWidget(widget, 4, 0, 1, 3)
+        # Smart removal: GroupBox enable/disable via a previous CheckBox
+        smgroup = QGroupBox(self)
+        smlayout = QGridLayout()
+        smlayout.setColumnStretch(3, 1)
+        smgroup.setLayout(smlayout)
 
-        smlayout = QGridLayout(widget)
+        # checkbox to activate the smart remove groupbox
+        self.cbSmartRemove = StateBindCheckBox(
+            _('Smart removal:'), self, smgroup)
+        tab_layout.addWidget(self.cbSmartRemove)
+        tab_layout.addWidget(smgroup)
 
+        # Smart remval: the items...
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
             '{} {}!'.format(
                 _('Run in background on remote host.'),
                 _('EXPERIMENTAL')
             ),
             self)
-        smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 3)
+        smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 2)
 
         smlayout.addWidget(
             QLabel(_('Keep all snapshots for the last'), self), 1, 0)
@@ -139,21 +144,13 @@ class AutoRemoveTab(QDialog):
             QLabel(_('Keep one snapshot per year for all years.'), self),
             5, 0, 1, 3)
 
-        enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
-        enabled(False)
-        self.cbSmartRemove.stateChanged.connect(enabled)
-
         # don't remove named snapshots
         self.cbDontRemoveNamedSnapshots \
-            = QCheckBox(_("Don't remove named snapshots."), self)
-        layout.addWidget(self.cbDontRemoveNamedSnapshots, 5, 0, 1, 3)
-
-        #
-        layout.addWidget(QWidget(self), 6, 0)
-        layout.setRowStretch(6, 2)
-        scrollArea.setWidget(layoutWidget)
-        scrollArea.setWidgetResizable(True)
-
+            = QCheckBox(_('Keep named snapshots.'), self)
+        self.cbDontRemoveNamedSnapshots.setToolTip(
+            _('Snapshots that, in addition to the usual timestamp, have been '
+              'given a name will not be deleted.'))
+        tab_layout.addWidget(self.cbDontRemoveNamedSnapshots)
 
         tab_layout.addStretch()
 
@@ -162,16 +159,39 @@ class AutoRemoveTab(QDialog):
         return self._parent_dialog.config
 
     def load_values(self):
-        pass
+        # remove old snapshots
+        enabled, value, unit = self.config.removeOldSnapshots()
+        self.cbRemoveOlder.setChecked(enabled)
+        self.spbRemoveOlder.setValue(value)
+        self.comboRemoveOlderUnit.select_by_data(unit)
+
+        # min free space
+        enabled, value, unit = self.config.minFreeSpace()
+        self.cbFreeSpace.setChecked(enabled)
+        self.spbFreeSpace.setValue(value)
+        self.comboFreeSpaceUnit.select_by_data(unit)
+
+        # min free inodes
+        self.cbFreeInodes.setChecked(self.config.minFreeInodesEnabled())
+        self.spbFreeInodes.setValue(self.config.minFreeInodes())
+
+        # smart remove
+        smart_remove, keep_all, keep_one_per_day, keep_one_per_week, \
+            keep_one_per_month = self.config.smartRemove()
+        self.cbSmartRemove.setChecked(smart_remove)
+        self.spbKeepAll.setValue(keep_all)
+        self.spbKeepOnePerDay.setValue(keep_one_per_day)
+        self.spbKeepOnePerWeek.setValue(keep_one_per_week)
+        self.spbKeepOnePerMonth.setValue(keep_one_per_month)
+        self.cbSmartRemoveRunRemoteInBackground.setChecked(
+            self.config.smartRemoveRunRemoteInBackground())
+
+        # don't remove named snapshots
+        self.cbDontRemoveNamedSnapshots.setChecked(
+            self.config.dontRemoveNamedSnapshots())
 
     def store_values(self):
         pass
 
-    def _combo_log_level(self):
-        fill = {
-            0: _('None'),
-            1: _('Errors'),
-            2: _('Changes') + ' & ' + _('Errors'),
-            3: _('All'),
-        }
-        return combobox.BitComboBox(self, fill)
+    def update_items_state(self, enabled):
+        self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)

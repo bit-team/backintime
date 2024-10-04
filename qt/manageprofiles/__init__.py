@@ -35,7 +35,6 @@ from PyQt6.QtWidgets import (QDialog,
                              QHeaderView,
                              QCheckBox)
 from PyQt6.QtCore import Qt
-import config
 import tools
 import qttools
 import messagebox
@@ -422,48 +421,9 @@ class SettingsDialog(QDialog):
         self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
         self._update_exclude_recommend_label()
 
-        # TAB: Auto-remove
-
-        # remove old snapshots
-        enabled, value, unit = self.config.removeOldSnapshots()
-        self.cbRemoveOlder.setChecked(enabled)
-        self.spbRemoveOlder.setValue(value)
-        self.setComboValue(self.comboRemoveOlderUnit, unit)
-
-        # min free space
-        enabled, value, unit = self.config.minFreeSpace()
-        self.cbFreeSpace.setChecked(enabled)
-        self.spbFreeSpace.setValue(value)
-        self.setComboValue(self.comboFreeSpaceUnit, unit)
-
-        # min free inodes
-        self.cbFreeInodes.setChecked(self.config.minFreeInodesEnabled())
-        self.spbFreeInodes.setValue(self.config.minFreeInodes())
-
-        # smart remove
-        smart_remove, keep_all, keep_one_per_day, keep_one_per_week, \
-            keep_one_per_month = self.config.smartRemove()
-        self.cbSmartRemove.setChecked(smart_remove)
-        self.spbKeepAll.setValue(keep_all)
-        self.spbKeepOnePerDay.setValue(keep_one_per_day)
-        self.spbKeepOnePerWeek.setValue(keep_one_per_week)
-        self.spbKeepOnePerMonth.setValue(keep_one_per_month)
-        self.cbSmartRemoveRunRemoteInBackground.setChecked(
-            self.config.smartRemoveRunRemoteInBackground())
-
-        # don't remove named snapshots
-        self.cbDontRemoveNamedSnapshots.setChecked(
-            self.config.dontRemoveNamedSnapshots())
-
-        # TAB: Options
+        self._tab_auto_remove.load_values()
         self._tab_options.load_values()
-
-        # TAB: Expert Options
         self._tab_expert_options.load_values()
-
-        # update
-        self.updateRemoveOlder()
-        self.updateFreeSpace()
 
     def saveProfile(self):
         # Dev note: This return "False" if something goes wrong. Otherwise it
@@ -548,16 +508,6 @@ class SettingsDialog(QDialog):
         answer = messagebox.warningYesNo(self, message)
 
         return answer == QMessageBox.StandardButton.Yes
-
-    def updateRemoveOlder(self):
-        enabled = self.cbRemoveOlder.isChecked()
-        self.spbRemoveOlder.setEnabled(enabled)
-        self.comboRemoveOlderUnit.setEnabled(enabled)
-
-    def updateFreeSpace(self):
-        enabled = self.cbFreeSpace.isChecked()
-        self.spbFreeSpace.setEnabled(enabled)
-        self.comboFreeSpaceUnit.setEnabled(enabled)
 
     def addInclude(self, data):
         item = QTreeWidgetItem()
@@ -776,14 +726,12 @@ class SettingsDialog(QDialog):
         self._tab_general.handle_combo_modes_changed()
 
         active_mode = self._tab_general.get_active_snapshots_mode()
+        enabled = active_mode in ('ssh', 'ssh_encfs')
 
         self.updateExcludeItems()
 
-        enabled = active_mode in ('ssh', 'ssh_encfs')
-
+        self._tab_auto_remove.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
-
-        self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
 
     def updateExcludeItems(self):
         for index in range(self.listExclude.topLevelItemCount()):
