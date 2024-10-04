@@ -159,18 +159,6 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # |---------------------|
 
 
-def equalIndent(*args):
-    width = 0
-
-    for widget in args:
-        widget.setMinimumWidth(0)
-        width = max(width, widget.sizeHint().width())
-
-    if len(args) > 1:
-        for widget in args:
-            widget.setMinimumWidth(width)
-
-
 class FileDialogShowHidden(QFileDialog):
     """File dialog able to display hidden files."""
 

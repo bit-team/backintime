@@ -90,7 +90,7 @@ class OptionsTab(QDialog):
         hlayout.addWidget(QLabel(_('Log Level:'), self))
 
         self.comboLogLevel = self._combo_log_level()
-        hlayout.addWidget(self.comboLogLevel, 1)
+        hlayout.addWidget(self.comboLogLevel)
         hlayout.addStretch()
 
         #

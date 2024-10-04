@@ -22,6 +22,7 @@ import config
 import tools
 import qttools
 import messagebox
+from manageprofiles.statebindcheckbox import StateBindCheckBox
 
 
 class ExpertOptionsTab(QDialog):
@@ -146,20 +147,17 @@ class ExpertOptionsTab(QDialog):
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
 
-        self.cbBwlimit = QCheckBox(_('Limit rsync bandwidth usage:'), self)
-        hlayout.addWidget(self.cbBwlimit)
-
         self.spbBwlimit = QSpinBox(self)
         self.spbBwlimit.setSuffix(' ' + _('KB/sec'))
         self.spbBwlimit.setSingleStep(100)
         self.spbBwlimit.setRange(0, 1000000)
 
+        self.cbBwlimit = StateBindCheckBox(
+            _('Limit rsync bandwidth usage:'), self, self.spbBwlimit)
+        hlayout.addWidget(self.cbBwlimit)
         hlayout.addWidget(self.spbBwlimit)
         hlayout.addStretch()
 
-        enabled = lambda state: self.spbBwlimit.setEnabled(state)
-        enabled(False)
-        self.cbBwlimit.stateChanged.connect(enabled)
         qttools.set_wrapped_tooltip(
             self.cbBwlimit,
             [
@@ -291,29 +289,22 @@ class ExpertOptionsTab(QDialog):
         tab_layout.addWidget(self.cbOneFileSystem)
 
         # additional rsync options
-        hlayout = QHBoxLayout()
-        tab_layout.addLayout(hlayout)
-
         tooltip = _('Options must be quoted e.g. {example}.').format(
             example='--exclude-from="/path/to/my exclude file"')
-        self.cbRsyncOptions = QCheckBox(
-            _('Paste additional options to rsync'), self)
-        self.cbRsyncOptions.setToolTip(tooltip)
-        hlayout.addWidget(self.cbRsyncOptions)
+
         self.txtRsyncOptions = QLineEdit(self)
         self.txtRsyncOptions.editingFinished.connect(
             self._slot_rsync_options_editing_finished)
         self.txtRsyncOptions.setToolTip(tooltip)
-        hlayout.addWidget(self.txtRsyncOptions)
 
-        enabled = lambda state: self.txtRsyncOptions.setEnabled(state)
-        enabled(False)
-        self.cbRsyncOptions.stateChanged.connect(enabled)
+        self.cbRsyncOptions = StateBindCheckBox(
+            _('Paste additional options to rsync'),
+            self,
+            self.txtRsyncOptions)
+
+        self.cbRsyncOptions.setToolTip(tooltip)
 
         # ssh prefix
-        hlayout = QHBoxLayout()
-        tab_layout.addLayout(hlayout)
-        self.cbSshPrefix = QCheckBox(_('Add prefix to SSH commands'), self)
         tooltip = [
             _('Prefix to run before every command on remote host.'),
             _("Variables need to be escaped with \\$FOO. This doesn't touch "
@@ -327,17 +318,18 @@ class ExpertOptionsTab(QDialog):
                 default=_('default'),
                 def_value=self.config.DEFAULT_SSH_PREFIX)
         ]
-        qttools.set_wrapped_tooltip(self.cbSshPrefix, tooltip)
-        hlayout.addWidget(self.cbSshPrefix)
         self.txtSshPrefix = QLineEdit(self)
         qttools.set_wrapped_tooltip(self.txtSshPrefix, tooltip)
-        hlayout.addWidget(self.txtSshPrefix)
+        self.cbSshPrefix = StateBindCheckBox(
+            _('Add prefix to SSH commands'), self, self.txtSshPrefix)
+        qttools.set_wrapped_tooltip(self.cbSshPrefix, tooltip)
 
-        enabled = lambda state: self.txtSshPrefix.setEnabled(state)
-        enabled(False)
-        self.cbSshPrefix.stateChanged.connect(enabled)
-
-        qttools.equalIndent(self.cbRsyncOptions, self.cbSshPrefix)
+        sub_grid = QGridLayout()
+        sub_grid.addWidget(self.cbRsyncOptions, 0, 0)
+        sub_grid.addWidget(self.txtRsyncOptions, 0, 1)
+        sub_grid.addWidget(self.cbSshPrefix, 1, 0)
+        sub_grid.addWidget(self.txtSshPrefix, 1, 1)
+        tab_layout.addLayout(sub_grid)
 
         self.cbSshCheckPing = QCheckBox(_('Check if remote host is online'))
         qttools.set_wrapped_tooltip(
