@@ -40,6 +40,7 @@ import tools
 import qttools
 import messagebox
 from manageprofiles.tab_general import GeneralTab
+from manageprofiles.tab_auto_remove import AutoRemoveTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from editusercallback import EditUserCallback
@@ -99,14 +100,16 @@ class SettingsDialog(QDialog):
         scrollButtonDefault = self.tabs.usesScrollButtons()
         self.tabs.setUsesScrollButtons(False)
 
+        def _add_tab(wdg: QWidget, label: str):
+            scrollArea = QScrollArea(self)
+            scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
+            self.tabs.addTab(scrollArea, label)
+            scrollArea.setWidget(wdg)
+            scrollArea.setWidgetResizable(True)
 
         # TAB: General
-        scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
-        self.tabs.addTab(scrollArea, _('&General'))
         self._tab_general = GeneralTab(self)
-        scrollArea.setWidget(self._tab_general)
-        scrollArea.setWidgetResizable(True)
+        _add_tab(self._tab_general, _('&General'))
 
         # TAB: Include
         tabWidget = QWidget(self)
@@ -246,149 +249,16 @@ class SettingsDialog(QDialog):
         self.cbExcludeBySize.stateChanged.connect(enabled)
 
         # TAB: Auto-remove
-        scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
-        self.tabs.addTab(scrollArea, _('&Auto-remove'))
-
-        layoutWidget = QWidget(self)
-        layout = QGridLayout(layoutWidget)
-
-        # remove old snapshots
-        self.cbRemoveOlder = QCheckBox(_('Older than:'), self)
-        layout.addWidget(self.cbRemoveOlder, 0, 0)
-        self.cbRemoveOlder.stateChanged.connect(self.updateRemoveOlder)
-
-        self.spbRemoveOlder = QSpinBox(self)
-        self.spbRemoveOlder.setRange(1, 1000)
-        layout.addWidget(self.spbRemoveOlder, 0, 1)
-
-        self.comboRemoveOlderUnit = QComboBox(self)
-        layout.addWidget(self.comboRemoveOlderUnit, 0, 2)
-
-        REMOVE_OLD_BACKUP_UNITS = {
-            config.Config.DAY: _('Day(s)'),
-            config.Config.WEEK: _('Week(s)'),
-            config.Config.YEAR: _('Year(s)')}
-
-        self.fillCombo(self.comboRemoveOlderUnit, REMOVE_OLD_BACKUP_UNITS)
-
-        # min free space
-        enabled, value, unit = self.config.minFreeSpace()
-
-        self.cbFreeSpace = QCheckBox(
-            _('If free space is less than:'), self)
-        layout.addWidget(self.cbFreeSpace, 1, 0)
-        self.cbFreeSpace.stateChanged.connect(self.updateFreeSpace)
-
-        self.spbFreeSpace = QSpinBox(self)
-        self.spbFreeSpace.setRange(1, 1000)
-        layout.addWidget(self.spbFreeSpace, 1, 1)
-
-        self.comboFreeSpaceUnit = QComboBox(self)
-        layout.addWidget(self.comboFreeSpaceUnit, 1, 2)
-        MIN_FREE_SPACE_UNITS = {
-            config.Config.DISK_UNIT_MB: 'MiB',
-            config.Config.DISK_UNIT_GB: 'GiB'
-        }
-
-        self.fillCombo(self.comboFreeSpaceUnit,
-                       MIN_FREE_SPACE_UNITS)
-
-        # min free inodes
-        self.cbFreeInodes = QCheckBox(
-            _('If free inodes is less than:'), self)
-        layout.addWidget(self.cbFreeInodes, 2, 0)
-
-        self.spbFreeInodes = QSpinBox(self)
-        self.spbFreeInodes.setSuffix(' %')
-        self.spbFreeInodes.setSingleStep(1)
-        self.spbFreeInodes.setRange(0, 15)
-        layout.addWidget(self.spbFreeInodes, 2, 1)
-
-        enabled = lambda state: self.spbFreeInodes.setEnabled(state)
-        enabled(False)
-        self.cbFreeInodes.stateChanged.connect(enabled)
-
-        # smart remove
-        self.cbSmartRemove = QCheckBox(_('Smart removal:'), self)
-        layout.addWidget(self.cbSmartRemove, 3, 0)
-
-        widget = QWidget(self)
-        widget.setContentsMargins(25, 0, 0, 0)
-        layout.addWidget(widget, 4, 0, 1, 3)
-
-        smlayout = QGridLayout(widget)
-
-        self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
-            '{} {}!'.format(
-                _('Run in background on remote host.'),
-                _('EXPERIMENTAL')
-            ),
-            self)
-        smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 3)
-
-        smlayout.addWidget(
-            QLabel(_('Keep all snapshots for the last'), self), 1, 0)
-        self.spbKeepAll = QSpinBox(self)
-        self.spbKeepAll.setRange(1, 10000)
-        smlayout.addWidget(self.spbKeepAll, 1, 1)
-        smlayout.addWidget(QLabel(_('day(s).'), self), 1, 2)
-
-        smlayout.addWidget(
-            QLabel(_('Keep one snapshot per day for the last'), self), 2, 0)
-        self.spbKeepOnePerDay = QSpinBox(self)
-        self.spbKeepOnePerDay.setRange(1, 10000)
-        smlayout.addWidget(self.spbKeepOnePerDay, 2, 1)
-        smlayout.addWidget(QLabel(_('day(s).'), self), 2, 2)
-
-        smlayout.addWidget(
-            QLabel(_('Keep one snapshot per week for the last'), self), 3, 0)
-        self.spbKeepOnePerWeek = QSpinBox(self)
-        self.spbKeepOnePerWeek.setRange(1, 10000)
-        smlayout.addWidget(self.spbKeepOnePerWeek, 3, 1)
-        smlayout.addWidget(QLabel(_('week(s).'), self), 3, 2)
-
-        smlayout.addWidget(
-            QLabel(_('Keep one snapshot per month for the last'), self), 4, 0)
-        self.spbKeepOnePerMonth = QSpinBox(self)
-        self.spbKeepOnePerMonth.setRange(1, 1000)
-        smlayout.addWidget(self.spbKeepOnePerMonth, 4, 1)
-        smlayout.addWidget(QLabel(_('month(s).'), self), 4, 2)
-
-        smlayout.addWidget(
-            QLabel(_('Keep one snapshot per year for all years.'), self),
-            5, 0, 1, 3)
-
-        enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
-        enabled(False)
-        self.cbSmartRemove.stateChanged.connect(enabled)
-
-        # don't remove named snapshots
-        self.cbDontRemoveNamedSnapshots \
-            = QCheckBox(_("Don't remove named snapshots."), self)
-        layout.addWidget(self.cbDontRemoveNamedSnapshots, 5, 0, 1, 3)
-
-        #
-        layout.addWidget(QWidget(self), 6, 0)
-        layout.setRowStretch(6, 2)
-        scrollArea.setWidget(layoutWidget)
-        scrollArea.setWidgetResizable(True)
+        self._tab_auto_remove = AutoRemoveTab(self)
+        _add_tab(self._tab_auto_remove, _('&Auto-remove'))
 
         # TAB: Options
-        scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
-        self.tabs.addTab(scrollArea, _('&Options'))
         self._tab_options = OptionsTab(self)
-        scrollArea.setWidget(self._tab_options)
-        scrollArea.setWidgetResizable(True)
+        _add_tab(self._tab_options, _('&Options'))
 
         # TAB: Expert Options
-        scrollArea = QScrollArea(self)
-        scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
-        self.tabs.addTab(scrollArea, _('E&xpert Options'))
         self._tab_expert_options = ExpertOptionsTab(self)
-        scrollArea.setWidget(self._tab_expert_options)
-        scrollArea.setWidgetResizable(True)
+        _add_tab(self._tab_expert_options, _('E&xpert Options'))
 
         # buttons
         buttonBox = QDialogButtonBox(
