@@ -1021,12 +1021,20 @@ class SettingsDialog(QDialog):
         self.updateFreeSpace()
 
     def saveProfile(self):
-        # Dev note: This return "False" if something goes wrong. Otherwise it
-        # returns a dict with several mounting related information.
-        success = self._tab_general.store_values()
+        """Store all settings from the dialog in the configuration object and
+        additionally does some testing of the settings.
 
-        if success is False:
-            return False
+        Dev note (buhtz, 2024-10): The order of taking and storing the settings
+        in this method is very important. Shouldn't be modified without knowing
+        the consequences. It is known that the current state is not optimal and
+        should be modified in a refactoring session.
+        """
+
+        # Workaround: We need to know the mode first. But all other settings in
+        # the "Generals" tab need to be stored as last. See the end of this
+        # method.
+        mode = self._tab_general.get_active_snapshots_mode()
+        self.config.setSnapshotsMode(mode)
 
         # include list
         self.config.setProfileIntValue(
@@ -1127,7 +1135,10 @@ class SettingsDialog(QDialog):
         self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
         self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
 
-        return True
+        # Dev note: The method need to be the last. Some validation and testing
+        # happens in there. These tests depends on the settings in all other
+        # tabs. So they need to be stored first.
+        return self._tab_general.store_values()
 
     def errorHandler(self, message):
         messagebox.critical(self, message)
