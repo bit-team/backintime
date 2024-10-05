@@ -18,6 +18,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QSpinBox,
                              QCheckBox)
 import config
+import qttools
 from manageprofiles.combobox import BitComboBox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 
@@ -87,6 +88,8 @@ class AutoRemoveTab(QDialog):
         grid.addWidget(self.spbFreeInodes, 2, 1)
         grid.setColumnStretch(3, 1)
 
+        tab_layout.addSpacing(tab_layout.spacing()*2)
+
         # Smart removal: GroupBox enable/disable via a previous CheckBox
         smgroup = QGroupBox(self)
         smlayout = QGridLayout()
@@ -99,13 +102,20 @@ class AutoRemoveTab(QDialog):
         tab_layout.addWidget(self.cbSmartRemove)
         tab_layout.addWidget(smgroup)
 
-        # Smart remval: the items...
+        # Smart removal: the items...
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
-            '{} {}!'.format(
-                _('Run in background on remote host.'),
-                _('EXPERIMENTAL')
-            ),
-            self)
+                _('Run in background on remote host.'), self)
+        qttools.set_wrapped_tooltip(
+            self.cbSmartRemoveRunRemoteInBackground,
+            (
+                _('The smart remove procedure will run directly on the remote '
+                  'machine, not locally. The commands "bash", "screen", and '
+                  '"flock" must be installed and available on the '
+                  'remote machine.'),
+                _('If selected, Back In Time will first test the '
+                  'remote machine.')
+            )
+        )
         smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 2)
 
         smlayout.addWidget(
