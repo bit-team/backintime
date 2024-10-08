@@ -63,20 +63,19 @@ def probe_max_ssh_command_size(
         prefix=False)
 
     try:
-        with subprocess.Popen(ssh,
-                              stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE,
-                              universal_newlines=True) as proc:
-            out, err = proc.communicate()
+        proc = subprocess.run(ssh, capture_output=True, text=True, check=True)
+        out, err = proc.stdout, proc.stderr
+        print(out)
+        print(err)
 
-    except OSError as err:
+    except OSError as exc:
         # Only handle "Argument to long error"
-        if err.errno != _ERR_CODE_E2BIG:
-            raise err
+        if exc.errno != _ERR_CODE_E2BIG:
+            raise exc
 
         report_test(
             ssh_command_size,
-            f'Python exception: "{err.strerror}". Decrease '
+            f'Python exception: "{exc.strerror}". Decrease '
             f'by {size_offset:,} and try again.')
 
         # test again with new ssh_command_size
