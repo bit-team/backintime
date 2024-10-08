@@ -35,7 +35,7 @@ def probe_max_ssh_command_size(
     possible length. The offset ``size_offset`` is bisect in each try.
 
     Args:
-        config Back In Time config instance including the details about the
+        config: Back In Time config instance including the details about the
             current SSH snapshot profile. The current profile must use the SSH
             mode.
         ssh_command_size: Initial length used for the test argument.
