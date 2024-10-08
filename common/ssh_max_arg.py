@@ -65,8 +65,6 @@ def probe_max_ssh_command_size(
     try:
         proc = subprocess.run(ssh, capture_output=True, text=True, check=True)
         out, err = proc.stdout, proc.stderr
-        print(out)
-        print(err)
 
     except OSError as exc:
         # Only handle "Argument to long error"
