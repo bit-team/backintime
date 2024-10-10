@@ -1,0 +1,59 @@
+#!/bin/bash
+#    Copyright (c) 2012-2014 Germar Reitze
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+# stop creating a new snapshot if conditions are not met. For example if the
+# source drive isn't mounted. With version >= 1.1.0 you don't need to kill
+# processes any more. Just return a non zero returncode.
+
+profile_id="$1"
+profile_name="$2"
+pid=$$
+
+function ppid {
+    cat /proc/$1/status | grep "PPid:" | cut -f2
+}
+
+case $3 in
+    1) # Backup process begins
+        if [ true ]; then ###INSERT YOUR CONDITIONS HERE
+            kill $(ppid $(ppid $pid))
+        fi
+        ;;
+    2) # Backup process ends
+        ;;
+    3) # A new snapshot was taken
+        ;;
+    4) #There was an error
+        case $4 in
+            1) # ERROR The application is not configured
+              ;;
+            2) # ERROR A 'take snapshot' process is already running
+              ;;
+            3) # ERROR Can't find snapshots folder (is it on a removable drive ?)
+              ;;
+            4) # ERROR A snapshot for 'now' already exist
+              ;;
+            5) # ERROR: Error while taking a snapshot
+               ;;
+            6) # ERROR: New snapshot taken but with errors
+               ;;
+            *) # Unknown error number
+               ;;
+        esac
+        ;;
+esac
