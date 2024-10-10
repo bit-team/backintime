@@ -44,6 +44,16 @@ markdown_extensions:
   - admonition
   - toc:
       permalink: true  
+  - footnotes
+  # Syntax highlightening in code blocks
+  - pymdownx.highlight:
+      linenums: true
+      # clickable and referencable lines numbers
+      anchor_linenums: true
+      # Highlight (and reference) a bunch of lines
+      line_spans: __span
+      # Somehow ease up CSS stuff
+      pygments_lang_class: true
 
 # Configuration
 theme:
