@@ -38,8 +38,8 @@
 
 ### Init ###
 # You need to configure this before using this script
-declare szBackInTimeEMailAddress=""   #if empty, no mail will be sent on error
-declare szBackupVolume=""             #if empty, no finalising will be performed
+declare szBackInTimeEMailAddress=""   # If empty, no mail will be sent on error
+declare szBackupVolume=""             # If empty, no finalizing will be performed
 
 # BackInTime passes arguments on the command line.  Name them for clarity.
 declare iBackInTimeProfileID="$1"
@@ -115,16 +115,17 @@ case $iBackInTimeStatus in
     # zenity --error --title="BackInTime" --text="BackInTime backup for profile ${iBackInTimeProfileID} (${szBackInTimeProfileName}) failed on $(date +%Y-%m-%d_%H-%M-%S) with error $szBackInTimeErrorMessagee" &
   ;;
   5)  ## backintime-qt4 (GUI) started ##
-      #  Here you can put things that need to be done when launching the GUI
+      # Here you can put things that need to be done when launching the GUI
   ;;
   6)  ## backintime-qt4 (GUI) closed ##
-      #  Here you can put things that need to be done when closing the GUI
+      # Here you can put things that need to be done when closing the GUI
   ;;
   7) ## Mount drives ##
-     #  Here you should place custom mount commands which will be called everytime
-     #  the GUI or command line tool is started or the profile is switched in GUI
+     # Here you should place custom mount commands which will be called every
+     # time the GUI or command line tool is started or the profile is
+     # switched in GUI
   ;;
   8) ## Unmount the drives ##
-     #  Here you should place unmount scripts for the drive you mounted in 7)
+     # Here you should place unmount scripts for the drive you mounted in 7)
   ;;
 esac #Status
