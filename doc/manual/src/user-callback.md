@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: © 2015 Germar Reitze
+SPDX-FileCopyrightText: © 2024 Kosta Vukicevic (stcksmsh)
 SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 
 SPDX-License-Identifier: GPL-2.0-or-later
@@ -26,25 +27,25 @@ _Options_ > _Edit user-callback_ (see also
 2. Profile name.
 3. Callback reason:
 
-| Value       | Reason                                                                                      |
-| ----------- | ------------------------------------------------------------------------------------------- |
-| **1** | A backup process is about to start.                                                         |
-| **2** | A backup process has ended.                                                                 |
+| Value | Reason                                                             |
+| ----- | -------------------------------------------------------------------|
+| **1** | A backup process is about to start.                                |
+| **2** | A backup process has ended.                                        |
 | **3** | A new snapshot was taken. The following two extra arguments are snapshot ID and snapshot path. |
-| **4** | There was an error. See next table for [error codes](#errorcodes).                                  |
-| **5** | The (graphical) application has started.                                                    |
-| **6** | The (graphical) application has closed.                                                     |
-| **7** | Mounting a filesystem for the profile may be necessary.                                     |
-| **8** | Unmounting a filesystem for the profile may be necessary.                                   |
+| **4** | There was an error. See next table for [error codes](#errorcodes). |
+| **5** | The (graphical) application has started.                           |
+| **6** | The (graphical) application has closed.                            |
+| **7** | Mounting a filesystem for the profile may be necessary.            |
+| **8** | Unmounting a filesystem for the profile may be necessary.          |
 
 <a id="errorcodes"></a>
 Possible **error codes** (see _Callback reason_ **4**) are:
 
-| Code        | Error                                                                                                  |
-| ----------- | ------------------------------------------------------------------------------------------------------ |
-| **1** | Configuration is either missing or invalid. |
-| **2** | A backup process is already running.[^1] |
-| **3** | Can't find snapshots folder.[^2] |
+| Code  | Error                                                              |
+| ------| -------------------------------------------------------------------|
+| **1** | Configuration is either missing or invalid.                        |
+| **2** | A backup process is already running.[^1]                           |
+| **3** | Can't find snapshots folder.[^2]                                   |
 | **4** | A snapshot for "now" already exists. The fifth argument is the snapshot ID. |
 | **5** | Error while taking a snapshot.[^3] The fifth argument contains more error information. |
 | **6** | New snapshot taken but with errors.[^3] The fifth argument is the snapshot ID. |
@@ -58,7 +59,8 @@ than `0` will cancel the backup.
 
 The `UserCallbackPlugin` is a class defined in
 [`common/plugins/usercallbackplugin.py`](https://github.com/bit-team/backintime/blob/dev/common/plugins/usercallback.plugin.py).
-It is a child class of `Plugin` which you can be found in [`common/pluginmanager.py`](https://github.com/bit-team/backintime/blob/dev/common/pluginmanager.py).
+It is a child class of `Plugin` which you can be found in
+[`common/pluginmanager.py`](https://github.com/bit-team/backintime/blob/dev/common/pluginmanager.py).
 
 ## Examples
 
