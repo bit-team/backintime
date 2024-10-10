@@ -201,10 +201,12 @@ addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-common"
 addInstallFile "../CHANGES"          "/share/doc/backintime-common"
 addNewline
 
-addComment "config-examples"
+addComment "config and user-callback examples"
 addInstallDir                            "/share/doc/backintime-common/examples"
 addInstallFile "config-example-local.gz" "/share/doc/backintime-common/examples"
 addInstallFile "config-example-ssh.gz"   "/share/doc/backintime-common/examples"
+addInstallDir                            "/share/doc/backintime-common/user-callback-examples"
+addInstallFiles "../doc/user-callback-examples/user-callback.*"   "/share/doc/backintime-common/user-callback-examples"
 addUninstallDir                          "/share/doc/backintime-common"
 addUninstallDir                          "/share/doc"
 addNewline
