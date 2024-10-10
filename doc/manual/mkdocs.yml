@@ -54,6 +54,8 @@ markdown_extensions:
       line_spans: __span
       # Somehow ease up CSS stuff
       pygments_lang_class: true
+  # No line numbers without it. Don't understand why.
+  - pymdownx.superfences
 
 # Configuration
 theme:
