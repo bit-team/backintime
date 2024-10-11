@@ -576,7 +576,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def sshMaxArgLength(self, profile_id = None):
         #?Maximum command length of commands run on remote host. This can be tested
         #?for all ssh profiles in the configuration
-        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py LENGTH'.\n
+        #?with 'python3 /usr/share/backintime/common/ssh_max_arg.py LENGTH'.\n
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
