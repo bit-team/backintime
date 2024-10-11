@@ -1,5 +1,5 @@
 <!-- 
-SPDX-FileCopyrightText: 2024 Back In Time Team
+SPDX-FileCopyrightText: © 2024 Back In Time Team
 
 SPDX-License-Identifier: CC0-1.0
 
