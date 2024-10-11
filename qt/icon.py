@@ -74,7 +74,7 @@ VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
 VIEW_LAST_LOG       = QIcon.fromTheme('document-open-recent')
 SETTINGS            = QIcon.fromTheme('gtk-preferences',
                       QIcon.fromTheme('configure',
-                      # Free Dekstop Icon Naming Specification
+                      # Free Desktop Icon Naming Specification
                       QIcon.fromTheme('preferences-system')))
 SHUTDOWN            = QIcon.fromTheme('system-shutdown')
 EXIT                = QIcon.fromTheme('gtk-close',

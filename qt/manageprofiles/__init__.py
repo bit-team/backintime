@@ -699,6 +699,7 @@ class SettingsDialog(QDialog):
         self._tab_general.handle_combo_modes_changed()
 
         active_mode = self._tab_general.get_active_snapshots_mode()
+
         enabled = active_mode in ('ssh', 'ssh_encfs')
 
         self.updateExcludeItems()
@@ -730,9 +731,9 @@ class SettingsDialog(QDialog):
 
         # Fore- and Backgroundcolor (as disabled)
         item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
-                                                QPalette.ColorRole.Window))
+                                               QPalette.ColorRole.Window))
         item.setForeground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
-                                                QPalette.ColorRole.Text))
+                                               QPalette.ColorRole.Text))
 
     def _formatExcludeItem(self, item):
         """Modify visual appearance of an item in the exclude list widget.

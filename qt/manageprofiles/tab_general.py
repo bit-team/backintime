@@ -196,11 +196,8 @@ class GeneralTab(QDialog):
         tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
+
         grid = QGridLayout()
-        # hlayout1 = QHBoxLayout()
-        # vlayout.addLayout(hlayout1)
-        # hlayout2 = QHBoxLayout()
-        # vlayout.addLayout(hlayout2)
 
         self.lblPassword1 = QLabel(_('Password'), self)
         self.txtPassword1 = QLineEdit(self)
