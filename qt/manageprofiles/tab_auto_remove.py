@@ -90,17 +90,13 @@ class AutoRemoveTab(QDialog):
 
         tab_layout.addSpacing(tab_layout.spacing()*2)
 
-        # Smart removal: GroupBox enable/disable via a previous CheckBox
-        smgroup = QGroupBox(self)
+        # Smart removal: checkable GroupBox
+        self.cbSmartRemove = QGroupBox(_('Smart removal:'), self)
+        self.cbSmartRemove.setCheckable(True)
         smlayout = QGridLayout()
         smlayout.setColumnStretch(3, 1)
-        smgroup.setLayout(smlayout)
-
-        # checkbox to activate the smart remove groupbox
-        self.cbSmartRemove = StateBindCheckBox(
-            _('Smart removal:'), self, smgroup)
+        self.cbSmartRemove.setLayout(smlayout)
         tab_layout.addWidget(self.cbSmartRemove)
-        tab_layout.addWidget(smgroup)
 
         # Smart removal: the items...
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
