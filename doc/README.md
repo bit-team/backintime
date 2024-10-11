@@ -11,7 +11,7 @@ This directory contains the source files for various types of documentation
 for _Back In Time_.
 
 - `manual`: User Manual
-- `coderef`: Source Code Documentation (...comming soon...)
+- `coderef`: Source Code Documentation (...coming soon...)
 - `maintain`: Several documents regarding mainteanance of the _Back In Time_
   project and nearly all other documents not fitting to one of the other
   categories.
