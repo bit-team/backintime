@@ -253,14 +253,20 @@ class SSH(MountControl):
         to run a full check with all tests.
 
         Args:
-            first_run (bool):           run a full test with all checks
+            first_run (bool): Run a full test with all checks.
 
         Raises:
-            exceptions.MountException:  if one test failed an we can not mount
-                                        the remote path
+            exceptions.MountException: If one test failed an we can not mount
+                the remote path.
         """
 
+        # Most of the called methods will raise an exception if something is
+        # wrong.
+
+        # try to open SSH socket
         self.checkPingHost()
+
+        # sshfs (self.mountproc) installed?
         self.checkFuse()
 
         if first_run:
@@ -338,12 +344,11 @@ class SSH(MountControl):
         by ``backintime-askpass``.
 
         Args:
-            force (bool):               force to unlock the key by removing it
-                                        first and add it again to make sure,
-                                        the given values are correct
+            force (bool): Force to unlock the key by removing it first and add
+                it again to make sure, the given values are correct.
 
         Raises:
-            exceptions.MountException:  if unlock failed
+            exceptions.MountException: If unlock failed.
         """
 
         self.startSshAgent()
@@ -468,6 +473,7 @@ class SSH(MountControl):
                 logger.debug(
                     'Was not able to unlock private key %s' %
                     self.private_key_file, self)
+
                 raise MountException(
                     _('Could not unlock ssh private key. Wrong password '
                       'or password not available for cron.'))
@@ -477,12 +483,11 @@ class SSH(MountControl):
                          % self.private_key_file, self)
 
     def checkLogin(self):
-        """
-        Try to login to remote host with public/private-key-method
+        """Try to login to remote host with public/private-key-method
         (passwordless).
 
         Raises:
-            exceptions.NoPubKeyLogin:  if login failed
+            exceptions.NoPubKeyLogin: If login failed.
         """
 
         logger.debug('Check login', self)
@@ -520,12 +525,11 @@ class SSH(MountControl):
                 + '\n\n' + err)
 
     def checkCipher(self):
-        """
-        Try to login to remote host with the chosen cipher. This should make
+        """Try to login to remote host with the chosen cipher. This should make
         sure both `localhost` and the remote host support the chosen cipher.
 
         Raises:
-            exceptions.MountException:  if login with the cipher failed
+            exceptions.MountException: If login with the cipher failed.
         """
 
         if not self.cipher == 'default':
@@ -563,6 +567,7 @@ class SSH(MountControl):
                 msg = _('Cipher {cipher} failed for {host}.').format(
                     cipher=self.config.SSH_CIPHERS[self.cipher],
                     host=self.host)
+
                 raise MountException(f'{msg}:\n{err}')
 
     def benchmarkCipher(self, size=40):
@@ -622,12 +627,11 @@ class SSH(MountControl):
         os.remove(temp)
 
     def checkKnownHosts(self):
-        """
-        Check if the remote host is in current users ``known_hosts`` file.
+        """Check if the remote host is in current users ``known_hosts`` file.
 
         Raises:
-            exceptions.KnownHost:   if the remote host wasn't found
-                                    in ``known_hosts`` file
+            exceptions.KnownHost: If the remote host wasn't found
+                in ``known_hosts`` file.
         """
 
         logger.debug('Check known hosts file', self)
@@ -732,16 +736,15 @@ class SSH(MountControl):
     def checkPingHost(self):
         """
         Check if the remote host is online. Other than methods name may let
-        suppose
-        this does not use Ping (``ICMP``) but try to open a connection to
-        the configured port on the remote host. In this way it will even work
-        on remote hosts which have ``ICMP`` disabled.
+        suppose this does not use Ping (``ICMP``) but try to open a connection
+        to the configured port on the remote host. In this way it will even
+        work on remote hosts which have ``ICMP`` disabled.
 
         If connection failed it will retry five times before failing.
 
         Raises:
-            exceptions.MountException:  if connection failed most probably
-                                        because remote host is offline
+            exceptions.MountException: If connection failed most probably
+                because remote host is offline.
         """
 
         if not self.config.sshCheckPingHost(self.profile_id):
@@ -791,19 +794,18 @@ class SSH(MountControl):
 
     def checkRemoteCommands(self, retry=False):
         """
-        Try out all relevant commands used by `Back In Time` on the remote
-        host to make sure snapshots will be successful with the remote host.
-        This will also check that hard-links are supported on the remote host.
-        This check can be disabled
-        with :py:func:`config.Config.sshCheckCommands`
+        Try out all relevant commands used by Back In Time on the remote host
+        to make sure snapshots will be successful with the remote host. This
+        will also check that hard-links are supported on the remote host. This
+        check can be disabled with :py:func:`config.Config.sshCheckCommands`.
 
         Args:
-            retry (bool):               retry to run the commands if it failed
-                                        because the command string was to long
+            retry (bool): Retry to run the commands if it failed because the
+                command string was to long.
+
         Raises:
-            exceptions.MountException:  if a command is not supported on
-                                        remote host or if hard-links are not
-                                        supported
+            exceptions.MountException: If a command is not supported on remote
+                host or if hard-links are not supported.
         """
 
         if not self.config.sshCheckCommands():

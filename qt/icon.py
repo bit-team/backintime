@@ -71,9 +71,11 @@ SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
 VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
                       QIcon.fromTheme('text-x-generic'))
-VIEW_LAST_LOG       = QIcon.fromTheme('document-open-recent')  # 'document-open-recent')  # ('document-new')
+VIEW_LAST_LOG       = QIcon.fromTheme('document-open-recent')
 SETTINGS            = QIcon.fromTheme('gtk-preferences',
-                      QIcon.fromTheme('configure'))
+                      QIcon.fromTheme('configure',
+                      # Free Desktop Icon Naming Specification
+                      QIcon.fromTheme('preferences-system')))
 SHUTDOWN            = QIcon.fromTheme('system-shutdown')
 EXIT                = QIcon.fromTheme('gtk-close',
                       QIcon.fromTheme('application-exit'))

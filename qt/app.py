@@ -91,10 +91,11 @@ from PyQt6.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QUrl)
-import settingsdialog
+from manageprofiles import SettingsDialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
+from restoreconfigdialog import RestoreConfigDialog
 import languagedialog
 import messagebox
 from aboutdlg import AboutDlg
@@ -350,9 +351,9 @@ class MainWindow(QMainWindow):
                 'folder or another computer)?')
             answer = messagebox.warningYesNo(self, message)
             if answer == QMessageBox.StandardButton.Yes:
-                settingsdialog.RestoreConfigDialog(self).exec()
+                RestoreConfigDialog(self).exec()
 
-            settingsdialog.SettingsDialog(self).exec()
+            SettingsDialog(self).exec()
 
         if not config.isConfigured():
             return
@@ -1339,7 +1340,7 @@ class MainWindow(QMainWindow):
 
     def btnSettingsClicked(self):
         with self.suspendMouseButtonNavigation():
-            settingsdialog.SettingsDialog(self).show()
+            SettingsDialog(self).show()
 
     def btnShutdownToggled(self, checked):
         self.shutdown.activate_shutdown = checked

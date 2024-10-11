@@ -341,9 +341,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             universal_newlines=True,
             capture_output=True)
 
-        # Count lines except module headings
-        error_n = len(list(filter(lambda line: not line.startswith('*****'),
-                                  r.stdout.splitlines())))
+        # Count lines except module headings and output about duplicate code
+        error_n = len(list(filter(
+            lambda line: line[:2] not in ('**', '  ', '==', ' (', ''),
+            r.stdout.splitlines())))
         print(r.stdout)
 
         self.assertEqual(0, error_n, f'PyLint found {error_n} problems.')
