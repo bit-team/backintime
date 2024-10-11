@@ -8,8 +8,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The widget to setup scheduling backup jobs."""
 import datetime
 from PyQt6.QtWidgets import (QHBoxLayout,
@@ -23,7 +23,7 @@ from PyQt6.QtWidgets import (QHBoxLayout,
 import config
 import tools
 import qttools
-import combobox
+from manageprofiles import combobox
 
 
 class ScheduleWidget(QGroupBox):
@@ -31,6 +31,8 @@ class ScheduleWidget(QGroupBox):
 
     That widget is used in the 'General' tab of the 'Manage profiles' dialog.
     """
+    # pylint: disable=too-many-instance-attributes
+
     def __init__(self, parent):
         super().__init__(title=_('Schedule'), parent=parent)
 
@@ -122,6 +124,7 @@ class ScheduleWidget(QGroupBox):
         Returns:
             BitComboBox: The widget.
         """
+        # pylint: disable=protected-access
 
         # Regular schedule modes for that combo box
         schedule_modes = {

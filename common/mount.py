@@ -152,51 +152,53 @@ class Mount:
             cache = password.Password_Cache(self.config)
             action = None
             running = cache.status()
+
             if not running:
                 logger.debug('pw-cache is not running', self)
                 action = 'start'
+
             if running and not cache.checkVersion():
                 logger.debug('pw-cache is running but is an old version', self)
                 action = 'restart'
+
             bit = tools.which('backintime')
+
             if not action is None and not bit is None and len(bit):
                 cmd = [bit, 'pw-cache', action]
-                logger.debug('Call command: %s'
-                             %' '.join(cmd), self)
+                logger.debug(f'Call command: {cmd}', self)
+
                 proc = subprocess.Popen(cmd,
                                         stdout = subprocess.DEVNULL,
                                         stderr = subprocess.DEVNULL)
+
                 if proc.returncode:
-                    logger.error('Failed to %s pw-cache: %s'
-                                 %(action, proc.returncode),
-                                 self)
+                    logger.error(
+                        f'Failed to {action} pw-cache: {proc.returncode}',
+                        self)
+
                     pass
 
-    def mount(self, mode = None, check = True, **kwargs):
-        """
-        High-level `mount`. Check if the selected ``mode`` need to be mounted,
+    def mount(self, mode=None, check=True, **kwargs):
+        """High-level `mount`. Check if the selected ``mode`` need to be mounted,
         select the low-level backend and mount it.
 
         Args:
-            mode (str):     mode to use. One of 'local', 'ssh', 'local_encfs' or
-                            'ssh_encfs'
-            check (bool):   if ``True`` run
-                            :py:func:`MountControl.preMountCheck` before
-                            mounting
-            **kwargs:       keyword arguments paste to low-level
-                            :py:class:`MountControl` subclass backend
+            mode (str): Mode to use. One of 'local', 'ssh', 'local_encfs' or
+                'ssh_encfs'.
+            check (bool): If ``True`` run :py:func:`MountControl.preMountCheck`
+                before mounting.
+            **kwargs: Keyword arguments paste to low-level
+                :py:class:`MountControl` subclass backend.
 
         Returns:
-            str:            Hash ID used as mountpoint
+            str: Hash ID used as mountpoint.
 
         Raises:
-            exceptions.MountException:
-                            if a check failed
-            exceptions.HashCollision:
-                            if Hash ID was used before but umount info wasn't
-                            identical
+            exceptions.MountException: If a check failed.
+            exceptions.HashCollision: If hash ID was used before but umount
+                info wasn't identical.
         """
-        self.config.PLUGIN_MANAGER.load(cfg = self.config)
+        self.config.PLUGIN_MANAGER.load(cfg=self.config)
         self.config.PLUGIN_MANAGER.mount(self.profile_id)
 
         if mode is None:
@@ -230,45 +232,49 @@ class Mount:
 
                 break
 
-    def umount(self, hash_id = None):
-        """
-        High-level `unmount`. Unmount the low-level backend. This will read
+    def umount(self, hash_id=None):
+        """High-level `unmount`. Unmount the low-level backend. This will read
         unmount infos written next to the mountpoint identified by ``hash_id``
         and unmount it.
 
         Args:
             hash_id (bool): Hash ID used as mountpoint before that should get
-                            unmounted
+                            unmounted.
 
         Raises:
-            exceptions.MountException:
-                            if a check failed
+            exceptions.MountException: If a check failed.
         """
-        self.config.PLUGIN_MANAGER.load(cfg = self.config)
+        self.config.PLUGIN_MANAGER.load(cfg=self.config)
         self.config.PLUGIN_MANAGER.unmount(self.profile_id)
+
         if hash_id is None:
             hash_id = self.config.current_hash_id
-        if hash_id == 'local':
-            #mode doesn't need to umount
-            return
-        else:
-            umount_info = os.path.join(self.config._LOCAL_MOUNT_ROOT, hash_id, 'umount')
-            with open(umount_info, 'r') as f:
-                data_string = f.read()
-                f.close()
-            kwargs = json.loads(data_string)
-            mode = kwargs.pop('mode')
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            backend = mounttools(cfg = self.config,
-                                 profile_id = self.profile_id,
-                                 tmp_mount = self.tmp_mount,
-                                 mode = mode,
-                                 hash_id = hash_id,
-                                 parent = self.parent,
-                                 **kwargs)
-            backend.umount()
 
-    def preMountCheck(self, mode = None, first_run = False, **kwargs):
+        if hash_id == 'local':
+            # mode doesn't need to umount
+            return
+
+        umount_info = os.path.join(
+            self.config._LOCAL_MOUNT_ROOT, hash_id, 'umount')
+
+        with open(umount_info, 'r') as f:
+            data_string = f.read()
+            f.close()
+
+        kwargs = json.loads(data_string)
+        mode = kwargs.pop('mode')
+        mounttools = self.config.SNAPSHOT_MODES[mode][0]
+        backend = mounttools(cfg=self.config,
+                             profile_id=self.profile_id,
+                             tmp_mount=self.tmp_mount,
+                             mode=mode,
+                             hash_id=hash_id,
+                             parent=self.parent,
+                             **kwargs)
+
+        backend.umount()
+
+    def preMountCheck(self, mode=None, first_run=False, **kwargs):
         """
         High-level check. Run :py:func:`MountControl.preMountCheck` to check
         if all conditions for :py:func:`Mount.mount` are set.
@@ -277,36 +283,38 @@ class Mount:
         correct before saving them.
 
         Args:
-            mode (str):         mode to use. One of 'local', 'ssh',
-                                'local_encfs' or 'ssh_encfs'
-            first_run (bool):   run intense checks that only need to run after
-                                changing settings but not every time before
-                                mounting
-            **kwargs:           keyword arguments paste to low-level
-                                :py:class:`MountControl` subclass backend
+            mode (str): Mode to use. One of 'local', 'ssh', 'local_encfs' or
+                'ssh_encfs'.
+            first_run (bool): Run intense checks that only need to run after
+                changing settings but not every time before mounting.
+            **kwargs: Keyword arguments paste to low-level
+                :py:class:`MountControl` subclass backend.
 
         Returns:
-            bool:               ``True`` if all checks where okay
+            bool: ``True`` if all checks where okay.
 
         Raises:
-            exceptions.MountException:
-                                if a check failed
+            exceptions.MountException: If a check failed.
         """
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
 
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+        # sshtools.SSH, encfstools.EncFS_mount, encfstools.EncFS_SSH
+        Mounttools = self.config.SNAPSHOT_MODES[mode][0]
+
+        # "local" mode
+        if Mounttools is None:
+            # mode doesn't need to mount
             return True
-        else:
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            backend = mounttools(cfg = self.config,
-                                 profile_id = self.profile_id,
-                                 tmp_mount = self.tmp_mount,
-                                 mode = mode,
-                                 parent = self.parent,
-                                 **kwargs)
-            return backend.preMountCheck(first_run)
+
+        backend = Mounttools(cfg=self.config,
+                             profile_id=self.profile_id,
+                             tmp_mount=self.tmp_mount,
+                             mode=mode,
+                             parent=self.parent,
+                             **kwargs)
+
+        return backend.preMountCheck(first_run)
 
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
         """
@@ -549,30 +557,44 @@ class MountControl:
             exceptions.MountException:  if a check failed
         """
         self.mountProcessLockAcquire()
+
+        msg_begin = f'Mountpoint {self.currentMountpoint} '
+
         try:
             if not os.path.isdir(self.hash_id_path):
-                logger.info('Mountpoint %s does not exist.' % self.currentMountpoint, self)
+                logger.info(msg_begin + 'does not exist.', self)
+
             else:
                 if not self.mounted():
-                    logger.info('Mountpoint %s is not mounted.' % self.currentMountpoint, self)
+                    logger.info(msg_begin + 'is not mounted.', self)
+
                 else:
                     if self.mountLockCheck():
-                        logger.info('Mountpoint %s still in use. Keep mounted.' % self.currentMountpoint, self)
+                        logger.info(msg_begin + 'still in use. Keep mounted.',
+                                    self)
+
                     else:
                         self.preUmountCheck()
                         self._umount()
                         self.postUmountCheck()
+
                         if os.listdir(self.currentMountpoint):
-                            logger.warning('Mountpoint %s not empty after unmount' %self.currentMountpoint, self)
+                            logger.warning(
+                                msg_begin + 'not empty after unmount', self)
+
                         else:
-                            logger.info('unmount %s from %s'
-                                        %(self.log_command, self.currentMountpoint),
-                                        self)
+                            logger.info(
+                                f'unmount {self.log_command} '
+                                f'from {self.currentMountpoint}',
+                                self)
+
         except Exception:
             raise
+
         else:
             self.mountLockRelease()
             self.removeSymlink()
+
         finally:
             self.mountProcessLockRelease()
 
@@ -1000,24 +1022,28 @@ class MountControl:
 
         os.symlink(src, dst)
 
-    def removeSymlink(self, profile_id = None, tmp_mount = None):
+    def removeSymlink(self, profile_id=None, tmp_mount=None):
         """
-        Remove symlink ``~/.local/share/backintime/mnt/<profile id>_<pid>``
+        Remove symlink ``~/.local/share/backintime/mnt/<profile id>_<pid>``.
 
         Args:
-            profile_id (str):   Profile ID for the symlink
-            tmp_mount (bool):   Symlink is a temporary link for testing new
-                                settings
+            profile_id (str): Profile ID for the symlink.
+            tmp_mount (bool): Symlink is a temporary link for testing new
+                settings.
         """
         if not self.symlink:
             return
+
         if profile_id is None:
             profile_id = self.profile_id
+
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
-        os.remove(self.config.snapshotsPath(profile_id = profile_id,
-                                                 mode = self.mode,
-                                                 tmp_mount = tmp_mount))
+
+        os.remove(self.config.snapshotsPath(
+            profile_id=profile_id,
+            mode=self.mode,
+            tmp_mount=tmp_mount))
 
     def hash(self, s):
         """

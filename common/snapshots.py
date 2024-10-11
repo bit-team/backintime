@@ -1757,13 +1757,13 @@ class Snapshots:
 
             maxLength = self.config.sshMaxArgLength()
             if not maxLength:
-                import sshMaxArg
+                import ssh_max_arg
                 user_host = '%s@%s' % (self.config.sshUser(),
                                        self.config.sshHost())
-                maxLength = sshMaxArg.probe_max_ssh_command_size(self.config)
+                maxLength = ssh_max_arg.probe_max_ssh_command_size(self.config)
                 self.config.setSshMaxArgLength(maxLength)
                 self.config.save()
-                sshMaxArg.report_result(user_host, maxLength)
+                ssh_max_arg.report_result(user_host, maxLength)
 
             additionalChars = len(self.config.sshPrefixCmd(cmd_type = str))
 
