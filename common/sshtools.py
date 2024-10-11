@@ -823,9 +823,9 @@ class SSH(MountControl):
                 'We will test max arg length now and retry.',
                 self)
 
-            import sshMaxArg
-            max_arg_size = sshMaxArg.probe_max_ssh_command_size(self.config)
-            sshMaxArg.report_result(self.host, max_arg_size)
+            import ssh_max_arg
+            max_arg_size = ssh_max_arg.probe_max_ssh_command_size(self.config)
+            ssh_max_arg.report_result(self.host, max_arg_size)
 
             self.config.setSshMaxArgLength(max_arg_size, self.profile_id)
 
