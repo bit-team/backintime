@@ -142,10 +142,12 @@ class GeneralTab(QDialog):
         hlayout3.addWidget(self.txtSshPrivateKeyFile)
 
         self.btnSshPrivateKeyFile = QToolButton(self)
-        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.btnSshPrivateKeyFile.setToolButtonStyle(
+            Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSshPrivateKeyFile.setIcon(self.icon.FOLDER)
         self.btnSshPrivateKeyFile.setToolTip(
-            _('Choose an existing private key file (normally named "id_rsa")'))
+            _('Choose an existing private key file (normally named '
+              '"id_ed25519" and in older setups "id_rsa").'))
         self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
         hlayout3.addWidget(self.btnSshPrivateKeyFile)
         self.btnSshPrivateKeyFile.clicked \

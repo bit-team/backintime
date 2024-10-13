@@ -237,7 +237,7 @@ class SSH(MountControl):
 
         raise MountException(
             "{}\n\n{}".format(
-                _("Can't mount {sshfs}").format(sshfs=" ".join(sshfs)),
+                _('Unable to mount {sshfs}').format(sshfs=" ".join(sshfs)),
                 err
             )
         )
@@ -305,7 +305,7 @@ class SSH(MountControl):
 
         if not sshAgent:
             raise MountException(
-                _('ssh-agent not found. Please make sure it is installed.'))
+                _('ssh-agent not found. Please ensure it is installed.'))
 
         if isinstance(sshAgent, str):
             sshAgent = [sshAgent, ]

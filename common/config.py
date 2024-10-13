@@ -1583,9 +1583,9 @@ class Config(configfile.ConfigFileWithProfiles):
                 dest_path = self.localEncfsPath(profile_id)
             else:
                 logger.error(
-                    'Schedule udev doesn\'t work with mode %s' % mode, self)
+                    f"Udev scheduling doesn't work with mode {mode}", self)
                 self.notifyError(_(
-                    "Schedule udev doesn't work with mode {mode}")
+                    "Udev schedule doesn't work with mode {mode}")
                     .format(mode=mode))
                 return False
             uuid = tools.uuidFromPath(dest_path)

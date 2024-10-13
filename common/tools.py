@@ -420,7 +420,7 @@ def validate_and_prepare_snapshots_path(
     path = pathlib.Path(path)
 
     if not path.is_dir():
-        error_handler(_('Invalid option. {path} is not a directory.')
+        error_handler(_('{path} is not a valid directory.')
                       .format(path=path))
         return False
 

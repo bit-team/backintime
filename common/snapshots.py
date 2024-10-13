@@ -1265,12 +1265,13 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found leftover '{new_snapshot.displayID}' which "
-                        "can be continued.", self)
+            logger.info(f"Found leftover snapshot '{new_snapshot.displayID}' "
+                        "that can be continued.", self)
 
             self.setTakeSnapshotMessage(
                 0,
-                _('Found leftover {snapshot_id} which can be continued.')
+                _('Found leftover snapshot {snapshot_id} '
+                  'that can be continued.')
                 .format(snapshot_id=new_snapshot.displayID)
             )
 
@@ -1288,7 +1289,7 @@ class Snapshots:
             params[1] = new_snapshot.hasChanges
 
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
-            logger.info(f'Remove leftover {new_snapshot.displayID} '
+            logger.info(f'Removing leftover snapshot {new_snapshot.displayID} '
                         'directory from last run')
 
             self.setTakeSnapshotMessage(
@@ -1501,7 +1502,7 @@ class Snapshots:
 
             self.setTakeSnapshotMessage(
                 1,
-                _("Can't rename {new_path} to {path}")
+                _('Unable to rename {new_path} to {path}.')
                 .format(new_path=new_snapshot.path(), path=sid.path())
             )
             time.sleep(2)  # max 1 backup / second

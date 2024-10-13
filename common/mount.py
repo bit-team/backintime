@@ -618,7 +618,7 @@ class MountControl:
 
         except subprocess.CalledProcessError as exc:
             raise MountException(
-                _("Can't unmount {mountprocess} from {mountpoint}.")
+                _('Unable to unmount {mountprocess} from {mountpoint}.')
                 .format(mountprocess=self.mountproc,
                         mountpoint=self.currentMountpoint)) from exc
 

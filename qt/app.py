@@ -1481,16 +1481,17 @@ class MainWindow(QMainWindow):
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
-    def confirmRestore(self, paths, restoreTo = None):
+    def confirmRestore(self, paths, restoreTo=None):
         if restoreTo:
             msg = ngettext(
                 # singular
                 'Do you really want to restore this element into the '
-                'new directory\n{path}?',
+                'new directory?',
                 # plural
                 'Do you really want to restore these elements into the '
-                'new directory\n{path}?',
-                len(paths)).format(path=restoreTo)
+                'new directory?',
+                len(paths))
+            msg = f'{msg}\n{restoreTo}'
         else:
             msg = ngettext(
                 # singular
@@ -1499,15 +1500,19 @@ class MainWindow(QMainWindow):
                 'Do you really want to restore these elements?',
                 len(paths))
 
-        confirm, opt = messagebox.warningYesNoOptions(self,
-                                                      msg,
-                                                      (self.listRestorePaths(paths),
-                                                       self.backupOnRestore(),
-                                                       self.restoreOnlyNew(),
-                                                       self.deleteOnRestore()))
+        confirm, opt = messagebox.warningYesNoOptions(
+            self,
+            msg,
+            (
+                self.listRestorePaths(paths),
+                self.backupOnRestore(),
+                self.restoreOnlyNew(),
+                self.deleteOnRestore()
+            )
+        )
         return (confirm, opt)
 
-    def confirmDelete(self, warnRoot = False, restoreTo = None):
+    def confirmDelete(self, warnRoot=False, restoreTo=None):
         if restoreTo:
             msg = _('Are you sure you want to remove all newer files '
                     'in {path}?').format(path=restoreTo)
