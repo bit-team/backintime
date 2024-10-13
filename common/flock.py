@@ -19,7 +19,7 @@ class _FlockContext:
     """Context manager to manage file locks (flock).
 
     It will be tried to establish a multi-user file lock; if not feasible a
-    single-user file lock will be used. It depends on the GNU Linux
+    single-user file lock will be used. It depends on the GNU/Linux
     distribution used and the write permissions to the file lock locations in
     the file system.
 

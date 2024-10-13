@@ -478,7 +478,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
         msg = _(
             "Destination filesystem for {path} is formatted with FAT "
             "which doesn't support hard-links. "
-            "Please use a native Linux filesystem.").format(path=msg_path)
+            "Please use a native GNU/Linux filesystem.").format(path=msg_path)
 
         return False, msg
 

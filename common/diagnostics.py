@@ -343,7 +343,7 @@ def _get_os_release():
     """Try to get the name and version of the operating system used.
 
     First it extract infos from the file ``/etc/os-release``. Because not all
-    GNU Linux distributions follow the standards it will also look for
+    GNU/Linux distributions follow the standards it will also look for
     alternative release files (pattern: ``/etc/*release``).
     See http://linuxmafia.com/faq/Admin/release-files.html for examples.
 

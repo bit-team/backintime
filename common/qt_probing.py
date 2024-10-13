@@ -41,7 +41,7 @@ logger.openlog()
 #
 # More details:
 #
-# To suppress the creation of coredump file on Linux
+# To suppress the creation of coredump file on GNU/Linux
 # use resource.setrlimit() to set resource.RLIMIT_CORE’s soft limit to 0
 # to prevent coredump file creation.
 # https://docs.python.org/3.10/library/resource.html#resource.RLIMIT_CORE
@@ -67,7 +67,7 @@ logger.openlog()
 # > The hard limit acts  as  a  ceiling  for  the  soft limit:
 # > an  unprivileged process may set only its soft limit to a value
 # > in the range from 0 up to the hard limit, and (irreversibly) lower  its
-# > hard   limit.    A  privileged  process  (under  Linux:  one  with  the
+# > hard   limit.    A  privileged  process  (under GNU/Linux:  one  with  the
 # > CAP_SYS_RESOURCE capability in the initial user namespace) may make
 # > arbitrary changes to either limit value.
 #
