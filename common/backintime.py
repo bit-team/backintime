@@ -375,7 +375,7 @@ def createParsers(app_name = 'backintime'):
                                                  type = str,
                                                  action = 'store',
                                                  nargs = '?',
-                                                 help = 'Restore file or folder WHAT.')
+                                                 help = 'Restore file or directory WHAT.')
 
     restoreCP.add_argument                      ('WHERE',
                                                  type = str,

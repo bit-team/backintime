@@ -188,7 +188,8 @@ class MainWindow(QMainWindow):
 
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
-            _("This folder doesn't exist\nin the current selected snapshot."),
+            _("This directory doesn't exist\n"
+              "in the current selected snapshot."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
@@ -348,7 +349,7 @@ class MainWindow(QMainWindow):
             message = f'{message}\n\n'
             message = message + _(
                 'Import an existing configuration (from a backup target '
-                'folder or another computer)?')
+                'directory or another computer)?')
             answer = messagebox.warningYesNo(self, message)
             if answer == QMessageBox.StandardButton.Yes:
                 RestoreConfigDialog(self).exec()
@@ -374,7 +375,7 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            msg = _("Can't find snapshots folder.") + '\n' \
+            msg = _("Can't find snapshots directory.") + '\n' \
                 + _('If it is on a removable drive please plug it in and then '
                     'press OK.')
             messagebox.critical(self, msg)
@@ -576,22 +577,22 @@ class MainWindow(QMainWindow):
             'act_restore': (
                 icon.RESTORE, _('Restore'),
                 self.restoreThis, None,
-                _('Restore the selected files or folders to the '
+                _('Restore the selected files or directories to the '
                   'original destination.')),
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self.restoreThisTo, None,
-                _('Restore the selected files or folders to a '
+                _('Restore the selected files or directories to a '
                   'new destination.')),
             'act_restore_parent': (
                 icon.RESTORE, 'RESTORE PARENT (DEBUG)',
                 self.restoreParent, None,
-                _('Restore the currently shown folder and all its contents '
+                _('Restore the currently shown directory and all its contents '
                   'to the original destination.')),
             'act_restore_parent_to': (
                 icon.RESTORE_TO, 'RESTORE PARENT TO (DEBUG)',
                 self.restoreParentTo, None,
-                _('Restore the currently shown folder and all its contents '
+                _('Restore the currently shown directory and all its contents '
                   'to a new destination.')),
             'act_folder_up': (
                 icon.UP, _('Up'),
@@ -1172,7 +1173,7 @@ class MainWindow(QMainWindow):
             reverse = True if indic == Qt.SortOrder.DescendingOrder else False
             include_folders = sorted(include_folders, reverse=reverse)
 
-        self.addPlace(_('Backup folders'), '', '')
+        self.addPlace(_('Backup directories'), '', '')
 
         for folder in include_folders:
             self.addPlace(folder, folder, 'document-save')
@@ -1469,13 +1470,14 @@ class MainWindow(QMainWindow):
         return {'widget': fileList, 'retFunc': None}
 
     def deleteOnRestore(self):
-        cb = QCheckBox(_('Remove newer elements in original folder.'))
+        cb = QCheckBox(_('Remove newer elements in original directory.'))
         qttools.set_wrapped_tooltip(
             cb,
-            _('Restore selected files or folders to the original destination '
-              'and delete files or folders which are not in the snapshot. Be '
-              'extremely careful because this will delete files and folders '
-              'which were excluded during taking the snapshot.')
+            _('Restore selected files or directories to the original '
+              'destination and delete files or directories which are not in '
+              'the snapshot. Be extremely careful because this will delete '
+              'files and directories which were excluded during taking the '
+              'snapshot.')
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
@@ -1484,10 +1486,10 @@ class MainWindow(QMainWindow):
             msg = ngettext(
                 # singular
                 'Do you really want to restore this element into the '
-                'new folder\n{path}?',
+                'new directory\n{path}?',
                 # plural
                 'Do you really want to restore these elements into the '
-                'new folder\n{path}?',
+                'new directory\n{path}?',
                 len(paths)).format(path=restoreTo)
         else:
             msg = ngettext(
@@ -1511,7 +1513,7 @@ class MainWindow(QMainWindow):
                     'in {path}?').format(path=restoreTo)
         else:
             msg = _('Are you sure you want to remove all newer files in your '
-                    'original folder?')
+                    'original directory?')
 
         if warnRoot:
             msg = f'<p>{msg}</p><p>'

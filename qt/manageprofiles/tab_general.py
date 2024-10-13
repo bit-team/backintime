@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 from pathlib import Path
@@ -88,7 +88,7 @@ class GeneralTab(QDialog):
         self.btnSnapshotsPath.setToolButtonStyle(
             Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSnapshotsPath.setIcon(self.icon.FOLDER)
-        self.btnSnapshotsPath.setText(_('Folder'))
+        self.btnSnapshotsPath.setText(_('Directory'))
         self.btnSnapshotsPath.setMinimumSize(32, 28)
         hlayout.addWidget(self.btnSnapshotsPath)
         self.btnSnapshotsPath.clicked.connect(
@@ -607,7 +607,7 @@ class GeneralTab(QDialog):
 
             if old_path and old_path != path:
                 question = _('Are you sure you want to change '
-                             'snapshots folder?')
+                             'snapshots directory?')
 
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes

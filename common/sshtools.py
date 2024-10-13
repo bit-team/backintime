@@ -666,7 +666,7 @@ class SSH(MountControl):
                                         doesn't have correct permissions.
         """
 
-        logger.debug('Check remote folder', self)
+        logger.debug('Check remote directory', self)
 
         cmd = 'd=0;'
         # path doesn't exist. set d=1 to indicate
@@ -731,7 +731,7 @@ class SSH(MountControl):
         else:
 
             # returncode is 0
-            logger.info('Create remote folder %s' % self.path, self)
+            logger.info(f'Create remote path {self.path}', self)
 
     def checkPingHost(self):
         """

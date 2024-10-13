@@ -826,7 +826,7 @@ class Snapshots:
                                     and self.config.notify()):
 
                                 message = (
-                                    _("Can't find snapshots folder.\n"
+                                    _("Can't find snapshots directory.\n"
                                       "If it is on a removable drive please "
                                       "plug it in.")
                                     + '\n'
@@ -1056,11 +1056,11 @@ class Snapshots:
             bool:       ``True`` if successful
         """
         if not tools.makeDirs(path):
-            logger.error(f"Can't create folder: {path}", self)
+            logger.error(f"Can't create directory: {path}", self)
             self.setTakeSnapshotMessage(
                 1,
                 '{}: {}'.format(
-                    _("Can't create folder"),
+                    _("Can't create directory."),
                     path)
             )
             time.sleep(2)  # max 1 backup / second
@@ -1220,7 +1220,7 @@ class Snapshots:
                             dict of: {path: (permission, user, group)}
                             Using sideefect on changing dict item will change
                             original dict, too.
-            path (bytes):   full path to file or folder
+            path (bytes): Full path to file or directory.
         """
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if path and os.path.exists(path):
@@ -1288,22 +1288,22 @@ class Snapshots:
             params[1] = new_snapshot.hasChanges
 
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
-            logger.info(f'Remove leftover {new_snapshot.displayID} folder '
-                        'from last run')
+            logger.info(f'Remove leftover {new_snapshot.displayID} '
+                        'directory from last run')
 
             self.setTakeSnapshotMessage(
                 0,
-                _('Removing leftover {snapshot_id} folder from last run')
+                _('Removing leftover {snapshot_id} directory from last run')
                 .format(snapshot_id=new_snapshot.displayID)
             )
             self.remove(new_snapshot)
 
             if os.path.exists(new_snapshot.path()):
                 logger.error(
-                    f"Can't remove folder: {new_snapshot.path()}", self)
+                    f"Can't remove directory: {new_snapshot.path()}", self)
                 self.setTakeSnapshotMessage(
                     1,
-                    '{}: {}'.format(_("Can't remove folder"),
+                    '{}: {}'.format(_("Can't remove directory"),
                                     new_snapshot.path())
                 )
                 time.sleep(2)  # max 1 backup / second

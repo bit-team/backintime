@@ -313,26 +313,27 @@ class Config(configfile.ConfigFileWithProfiles):
         for profile_id in profiles:
             profile_name = self.profileName(profile_id)
             snapshots_path = self.snapshotsPath(profile_id)
-            logger.debug('Check profile %s' %profile_name, self)
+            logger.debug(f'Check profile {profile_name}', self)
 
-            #check snapshots path
+            # check snapshots path
             if not snapshots_path:
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots folder is not valid!')
+                        _('Snapshots directory is not valid!')
                     )
                 )
                 return False
 
-            #check include
+            # check include
             include_list = self.include(profile_id)
 
             if not include_list:
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('You must select at least one folder to back up!')
+                        _('At least one directory must be selected '
+                          'for backup.')
                     )
                 )
 
@@ -349,7 +350,7 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _("Backup folder cannot be included.")
+                            _("Backup directory cannot be included.")
                         )
                     )
 
@@ -361,7 +362,8 @@ class Config(configfile.ConfigFileWithProfiles):
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
-                                _("Backup sub-folder cannot be included.")
+                                _('Sub-directories cannot be included in '
+                                  'the backup.')
                             )
                         )
 
