@@ -41,7 +41,7 @@ before_install:
   - sudo apt-key del 90CFB1F5
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
-  - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
+  - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev gocryptfs
 
 jobs:
   exclude:
@@ -58,12 +58,6 @@ install:
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
   # start ssh-agent so that we can add private keys
   - eval `ssh-agent -s`
-  # install latest gocryptfs
-  - export GOCRYPTFS_TARBALL=$(curl -s https://api.github.com/repos/rfjakob/gocryptfs/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -v ".asc$")
-  - wget $GOCRYPTFS_TARBALL -O gocryptfs.tar.gz
-  - mkdir -p ~/bin
-  - tar xzf gocryptfs.tar.gz -C ~/bin
-  - export PATH=~/bin:$PATH:$(pwd)/common
 
 script:
   # compile all files - ensure that syntax is correct
