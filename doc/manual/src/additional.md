@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2016 Germar Reitze
+SPDX-FileCopyrightText: © 2016 Germar Reitze
 
 SPDX-License-Identifier: GPL-2.0-or-later
 

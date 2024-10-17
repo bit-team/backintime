@@ -1,0 +1,99 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: © 2012-2015 Germar Reitze
+# SPDX-FileCopyrightText: © 2022 Jürgen Altfeld
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+
+# Script should return 0 if everything is alright. Returncode !0 will cancel
+# the running snapshot (BIT version >1.1.0).
+
+# This script is meant for debugging purposes only (to check when
+# and how the backup process is started and snapshots are taken.
+# You can also add further checks (eg. check for existing mounts
+# or readable paths to diagnose problems with inaccessible mounts).
+
+profile_id="$1"
+profile_name="$2"
+reason="$3"
+
+
+printLog() {
+    # argument $1 contains the log message
+    echo "$(date +'%Y-%m-%d %H:%M:%S') ($(whoami)/$BASHPID) profile_id=$profile_id: $1" 2>&1 >> ~/backintime_usercallback_diagnostics.log
+}
+
+case $reason in
+    1) #Backup process begins
+        printLog "1 - backup process begins"
+        ;;
+    2) #Backup process ends
+        printLog "2 - backup process ends"
+        ;;
+    3) #A new snapshot was taken
+        snapshot_id="$4"
+        snapshot_name="$5"
+        printLog "3 - snapshot taken (snapshot_id=$snapshot_id - snapshot_name=$snapshot_name)"
+        ;;
+    4) #There was an error
+        errorcode="$4"
+        msg="$5"
+        case $errorcode in
+            1) # ERROR: The application is not configured
+               printLog "4 - ERROR $errorcode: The application is not configured"
+              ;;
+            2) # ERROR: A 'take snapshot' process is already running
+               printLog "4 - ERROR $errorcode: A 'take snapshot' process is already running"
+              ;;
+            3) # ERROR: Can't find snapshots folder (is it on a removable drive ?)
+               printLog "4 - ERROR $errorcode: Can't find snapshots folder (maybe it is on a removable drive)"
+              ;;
+            4) # ERROR: A snapshot for 'now' already exist
+               printLog "4 - ERROR $errorcode: A snapshot for 'now' already exist"
+               ;;
+            5) # ERROR: Error while taking a snapshot
+               printLog "4 - ERROR $errorcode: Error while taking a snapshot"
+               ;;
+            6) # ERROR: New snapshot taken but with errors
+               printLog "4 - ERROR $errorcode: New snapshot taken but with errors (may happen with 'continue on error')"
+               ;;
+            *) # Unknown error number
+               printLog "4 - ERROR $errorcode: Unknown error code!"
+               ;;
+        esac
+        printLog "    Error message: $msg"
+        ;;
+    5) #backintime-qt4 (GUI) started
+        printLog "5 - backintime-qt GUI started"
+        ;;
+    6) #backintime-qt4 (GUI) closed
+        printLog "6 - backintime-qt GUI closed"
+        ;;
+    7) #Mount drives
+        printLog "7 - mount drive requested"
+        # Further diagnostics examples (use "on demand"):
+        
+        # Check if a mount point is in the list of mounted devices
+        # mountPoint="/media/<user>/<mount root folder>"   # insert your mount folder here
+        # printLog "Mount point status: $(mount | grep '$mountPoint')"  # empty if not mounted!
+        
+        # Check if a folder does exists and is readable (eg. the snapshot target folder)
+        # testFolder="/path/to/snapshots"                  # insert your path to check here
+        # if [[ -r $testFolder ]]; then
+        #     printLog "Folder exists and can be read..."
+        # else
+        #     printLog "Folder does not exist or cannot be read (missing permissions?)"
+        # fi
+        
+        ;;
+    8) #Unmount the drives
+        printLog "8 - unmount drive requested"
+        ;;
+    *) ## Unknown reason
+        printLog "Called with invalid reason $reason"
+        ;;
+
+esac

@@ -1,6 +1,17 @@
+# SPDX-FileCopyrightText: © 2023 Christian Buhtz <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
+# See LICENSES directory
+# go to <https://spdx.org/licenses/CC0-1.0.html>
+# and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+
 [codespell]
 # Folders and files to skip
-skip = .codespellrc,*.po,Makefile,*.desktop,.git,__pycache__,*.pyc,languages.py,_build,TRANSLATIONS,./doc/manual/html,mkdocs.yml
+skip = .codespellrc,*.po,Makefile,*.desktop,.git,__pycache__,*.pyc,#*#,languages.py,_build,TRANSLATIONS,./doc/manual/html,mkdocs.yml,configure
 # Print N lines of surrounding context
 context = 1
 # Check hidden files also (empty means True)

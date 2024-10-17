@@ -1,0 +1,31 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: © 2012-2016 Germar Reitze
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+
+# This script will check if you're connected to the correct WLAN (based on SSID)
+# In this example it will break new snapshots for profile 1 if not in 'HOME_WLAN'
+# and for profile 2 if not in 'WLAN_AT_WORK'
+
+profile_id="$1"
+profile_name="$2"
+reason="$3"
+
+check_ssid() {
+    if [ $(iwconfig 2>/dev/null | grep -c "ESSID:\"$1\"") -eq 0 ]; then
+        return 1
+    fi
+}
+
+case $reason in
+    1) #Backup process begins
+        case $profile_id in
+            1) check_ssid "HOME_WLAN"; exit $?;;
+            2) check_ssid "WLAN_AT_WORK"; exit $?;;
+        esac
+        ;;
+esac

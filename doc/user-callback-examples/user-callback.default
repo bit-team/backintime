@@ -1,0 +1,53 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: © 2012-2015 Germar Reitze
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+
+# Script should return 0 if everything is alright. Returncode !0 will cancel
+# the running snapshot (BIT version >1.1.0).
+
+profile_id="$1"
+profile_name="$2"
+reason="$3"
+
+case $reason in
+    1) #Backup process begins
+        ;;
+    2) #Backup process ends
+        ;;
+    3) #A new snapshot was taken
+        snapshot_id="$4"
+        snapshot_name="$5"
+        ;;
+    4) #There was an error
+        errorcode="$4"
+        case $errorcode in
+            1) # ERROR The application is not configured
+              ;;
+            2) # ERROR A 'take snapshot' process is already running
+              ;;
+            3) # ERROR Can't find snapshots folder (is it on a removable drive ?)
+              ;;
+            4) # ERROR A snapshot for 'now' already exist
+              ;;
+            5) # ERROR: Error while taking a snapshot
+               ;;
+            6) # ERROR: New snapshot taken but with errors
+               ;;
+            *) # Unknown error number
+               ;;
+        esac
+        ;;
+    5) #backintime-qt4 (GUI) started
+        ;;
+    6) #backintime-qt4 (GUI) closed
+        ;;
+    7) #Mount drives
+        ;;
+    8) #Unmount the drives
+        ;;
+esac
