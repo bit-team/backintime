@@ -141,15 +141,15 @@ In the end those changes need to arrive in the `dev` branch to get recognized by
 
 If the project at Weblate is correctly setup it does recognize the new commit automatically and update its internal git repository. See this in _Manage_ / _Repository maintenance_ section:
 
-![Upload to Weblate: Commits synced](2_to_weblate_01.png)
+![Upload to Weblate: Commits synced](_images/2_to_weblate_01.png)
 
 Looking into the list of languages there is one new (untranslated) string in _German_:
 
-![Upload to Weblate: New string](2_to_weblate_02.png)
+![Upload to Weblate: New string](_images/2_to_weblate_02.png)
 
 As an example the string get translated.
 
-![Upload to Weblate: Translate](2_to_weblate_03.png)
+![Upload to Weblate: Translate](_images/2_to_weblate_03.png)
 
 Go to the next section to see how to integrate the translation back to the upstream repository.
 
@@ -157,7 +157,7 @@ Go to the next section to see how to integrate the translation back to the upstr
 
 The starting situation is that some strings are translated by contributors on the Weblate platform. Go to _Manage_ / _Repository maintenance_ section. The counter for _Pending changes not yet committed to the Weblate repository_ should be 1 or more. Click on _Commit_ that counter goes back to 0 but now the _Outgoing commits in the Weblate repository_ are increased. There is also a difference between the _Last remote commit_ and _Last commit in Weblate_:
 
-![Download from Weblate: Committed translation](2_from_weblate_01.png)
+![Download from Weblate: Committed translation](_images/2_from_weblate_01.png)
 
 Go back to your local repository and run the known `update_language_files.py` script with `weblate` as argument:
 
@@ -287,38 +287,38 @@ The setup was done in 2023. This section is only for documentation of what was d
 
 First login into [translate.codeberg.org](https://translate.codeberg.org) which is the Weblate instance hosted by [Codeberg.org](https://codeberg.org). Use the plus sign in the top right corner to _Add new translation project_.
 
-![Weblate setup: Add new translation project](2_weblate_setup_01.png)
+![Weblate setup: Add new translation project](_images/2_weblate_setup_01.png)
 
 Insert the needed information's and press _Save_.
 
-![Weblate setup: New translation project form](2_weblate_setup_02.png)
+![Weblate setup: New translation project form](_images/2_weblate_setup_02.png)
 
 Weblate differentiate between _Project_ and _Component_. One project can have several components. In the first place there is no _Component_. Press _Add new translation component_.
 
-![Weblate setup: Project without component](2_weblate_setup_03.png)
+![Weblate setup: Project without component](_images/2_weblate_setup_03.png)
 
 Insert the follow information's about the component.
 
-![Weblate setup: Create component](2_weblate_setup_04.png)
+![Weblate setup: Create component](_images/2_weblate_setup_04.png)
 
 Press _Continue_ and wait until Weblate has scanned the repository. Weblate do recognize the structure of the repository and the location of the relevant files. Choose the second option with _File mask_ `common/po/*.po`.
 
-![Weblate setup: Choose translation files](2_weblate_setup_05.png)
+![Weblate setup: Choose translation files](_images/2_weblate_setup_05.png)
 
 Modify nothing on the next screen. Just push _Save_ and wait while _Component is being updated..._.
 
-![Weblate setup: Component is updated](2_weblate_setup_06.png)
+![Weblate setup: Component is updated](_images/2_weblate_setup_06.png)
 
 Ignore the next page _Community localization checklist_ and all the red signs on it. Everything is fine. Now looking into the _Dashboard_:
 
-![Weblate setup: Dashboard](2_weblate_setup_07.png)
+![Weblate setup: Dashboard](_images/2_weblate_setup_07.png)
 
 Clicking on the component the status of all languages is shown:
 
-![Weblate setup: Languages](2_weblate_setup_08.png)
+![Weblate setup: Languages](_images/2_weblate_setup_08.png)
 
 Finally a Webhook need to be setup. This enables Weblate to be automatically informed about new commits at the upstream repository. The Webhook need be installed, not on Weblate, but at the upstream repository _Settings_ at Microsoft GitHub. Just use the _Payload URL_ `https://translate.codeberg.org/hook/gitea`:
 
-![Weblate setup: Webhook](2_weblate_setup_09.png)
+![Weblate setup: Webhook](_images/2_weblate_setup_09.png)
 
 <sub>January 2024</sub>
