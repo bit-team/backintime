@@ -162,6 +162,8 @@ addUninstallDir          "/share/backintime/qt/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/qt/__pycache__"
 addInstallDir            "/share/backintime/qt"
 addInstallFiles "*.py"   "/share/backintime/qt"
+addInstallDir            "/share/backintime/qt/manageprofiles"
+addInstallFiles "manageprofiles/*.py"   "/share/backintime/qt/manageprofiles"
 addNewline
 
 addComment "plugin"

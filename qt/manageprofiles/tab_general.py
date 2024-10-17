@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 from pathlib import Path
@@ -18,6 +18,7 @@ from PyQt6.QtGui import QCursor, QFont
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
+                             QGridLayout,
                              QMessageBox,
                              QGroupBox,
                              QLabel,
@@ -166,9 +167,15 @@ class GeneralTab(QDialog):
         self.txtSshPrivateKeyFile.textChanged \
             .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
 
-        qttools.equalIndent(self.lblSshHost,
-                            self.lblSshPath,
-                            self.lblSshCipher)
+        # Align the width of that three labels
+        width = max(
+            self.lblSshHost.sizeHint().width(),
+            self.lblSshPath.sizeHint().width(),
+            self.lblSshCipher.sizeHint().width()
+        )
+        self.lblSshHost.setMinimumWidth(width)
+        self.lblSshPath.setMinimumWidth(width)
+        self.lblSshCipher.setMinimumWidth(width)
 
         self.wdgSshProxy = SshProxyWidget(
             self,
@@ -189,22 +196,22 @@ class GeneralTab(QDialog):
         tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
-        hlayout1 = QHBoxLayout()
-        vlayout.addLayout(hlayout1)
-        hlayout2 = QHBoxLayout()
-        vlayout.addLayout(hlayout2)
+
+        grid = QGridLayout()
 
         self.lblPassword1 = QLabel(_('Password'), self)
-        hlayout1.addWidget(self.lblPassword1)
         self.txtPassword1 = QLineEdit(self)
         self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
-        hlayout1.addWidget(self.txtPassword1)
 
         self.lblPassword2 = QLabel(_('Password'), self)
-        hlayout2.addWidget(self.lblPassword2)
         self.txtPassword2 = QLineEdit(self)
         self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
-        hlayout2.addWidget(self.txtPassword2)
+
+        grid.addWidget(self.lblPassword1, 0, 0)
+        grid.addWidget(self.txtPassword1, 0, 1)
+        grid.addWidget(self.lblPassword2, 1, 0)
+        grid.addWidget(self.txtPassword2, 1, 1)
+        vlayout.addLayout(grid)
 
         self.cbPasswordSave = QCheckBox(_('Save Password to Keyring'), self)
         vlayout.addWidget(self.cbPasswordSave)
@@ -707,12 +714,10 @@ class GeneralTab(QDialog):
                     self.config.SNAPSHOT_MODES[active_mode][3] + ':')
                 self.lblPassword2.show()
                 self.txtPassword2.show()
-                qttools.equalIndent(self.lblPassword1, self.lblPassword2)
 
             else:
                 self.lblPassword2.hide()
                 self.txtPassword2.hide()
-                qttools.equalIndent(self.lblPassword1)
 
         else:
             self.groupPassword1.hide()
