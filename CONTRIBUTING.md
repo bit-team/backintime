@@ -69,7 +69,7 @@ request is accepted.
   (e.g. `"Hello World"`). Exceptions are when single quotes contained in the
   string (e.g. `"Can't unmount"`).
 - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
-  (see our own [HOWTO about doc generation](common/doc-dev/1_doc_howto.md)).
+  (see our own [HOWTO about doc generation](doc/maintain/1_doc_howto.md)).
 - Avoid the use of automatic formatters like `black` but mention the use of
   them when opening a pull request.
 - Run unit tests before you open a Pull Request. You can run them via
@@ -81,14 +81,14 @@ request is accepted.
   `unittest` rather than `pytest`. If you know the difference, please try to follow
   the _Classical (aka Detroit) school_ instead of _London (aka mockist)
   school_.
-- See recommendations about [how to handle translatable strings](common/doc-dev/2_localization.md#instructions-for-the-translation-process).
+- See recommendations about [how to handle translatable strings](doc/maintain/2_localization.md#instructions-for-the-translation-process).
 
 # Resources & Further readings
 
 - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
-- [HowTo's and maintenance](common/doc-dev/README.md)
+- [HowTo's and maintenance](doc/maintain/README.md)
 - [contribution-guide.org](https://www.contribution-guide.org)
 - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
 - [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
@@ -187,7 +187,7 @@ See `common/configure --help` and `qt/configure --help` for details.
 > [!IMPORTANT]
 > Remember to **manually** test _Back In Time_ and not rely solely on
 > the automatic test suite. See section
-> [Manual testing](common/doc-dev/BiT_release_process.md#manual-testing---recommendations)
+> [Manual testing](doc/maintain/BiT_release_process.md#manual-testing---recommendations)
 > about recommendations how to perform such tests.
 
 After [building and installing](#build--install), `make` can be used to run the
@@ -224,7 +224,7 @@ To test the connection just execute `ssh localhost` and you should see an
 SSH shell **without** being asked for a password.
 
 For detailed setup instructions see the
-[how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
+[how to setup openssh for unit tests](doc/maintain/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
 
 # What happens after you opened a Pull Request (PR)?
 In short:
