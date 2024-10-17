@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-10-03 13:54+0200\n"
-"PO-Revision-Date: 2024-07-13 17:52+0000\n"
-"Last-Translator: filipeaaoliveira <filipeaaoliveira@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-10-11 13:18+0000\n"
+"Last-Translator: luderitz <luderitz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -25,14 +25,14 @@ msgid "Warning"
 msgstr "Aviso"
 
 #: common/config.py:130 common/tools.py:391
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"O sistema de ficheiros de destino para {path} está formatado com FAT, que "
-"não suporta hard-links. Por favor, utilize um sistema de ficheiros nativo do"
-" Linux."
+"O sistema de arquivos de destino para {path} está formatado com FAT, que não"
+" suporta hard-links. Por favor, utilize um sistema de arquivos nativo do "
+"Linux."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -238,7 +238,7 @@ msgstr "Falha ao tirar snapshot {snapshot_id}."
 
 #: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Por favor aguarde. Finalizando…"
 
 #: common/snapshots.py:1063
 msgid "Can't create folder"
@@ -407,11 +407,11 @@ msgstr "Opção inválida. {path} não é uma pasta."
 
 #: common/tools.py:437
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "A criação da seguinte pasta falhou:"
 
 #: common/tools.py:439 common/tools.py:535
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "A permissão de escrita pode estar restrita."
 
 #: common/tools.py:479
 #, python-brace-format
@@ -453,7 +453,7 @@ msgstr ""
 
 #: common/tools.py:533
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "A criação de arquivo falhou na pasta:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"

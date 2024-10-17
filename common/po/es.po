@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-10-03 13:54+0200\n"
-"PO-Revision-Date: 2024-08-05 09:28+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-10-05 14:55+0000\n"
+"Last-Translator: DrManhattanMR <DrManhattanMR@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -25,14 +25,14 @@ msgid "Warning"
 msgstr "Aviso"
 
 #: common/config.py:130 common/tools.py:391
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"El sistema de ficheros de destino para la ruta {path} está formateada como "
-"FAT, la cual no permite enlaces duros. Por favor, use un sistema de ficheros"
-" nativo de Linux."
+"El sistema de archivos de destino para {path} está formateado con NTFS, que "
+"tiene incompatibilidades conocidas con los sistemas de archivos de estilo "
+"Unix."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
@@ -238,7 +238,7 @@ msgstr "Error al tomar la instantánea {snapshot_id}."
 
 #: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Por favor espere. Finalizando…"
 
 #: common/snapshots.py:1063
 msgid "Can't create folder"
@@ -406,11 +406,11 @@ msgstr "Opción inválida. {path} no es una carpeta válida."
 
 #: common/tools.py:437
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "La creación de la siguiente carpeta falló:"
 
 #: common/tools.py:439 common/tools.py:535
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "El acceso de escritura puede estar restringido."
 
 #: common/tools.py:479
 #, python-brace-format
@@ -453,7 +453,7 @@ msgstr ""
 
 #: common/tools.py:533
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "La creación de archivos falló en esta carpeta:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1110,20 +1110,19 @@ msgstr "Día laborable:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Tiempo:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Horas:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
 "Ejecute Back In Time en cuanto se conecte la unidad (sólo una vez cada X días).\n"
-"Se le pedirá su contraseña sudo."
+"Se le pedirá su contraseña de super usuario."
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1807,7 +1806,7 @@ msgstr "¿Estás seguro de que quieres cambiar la carpeta de instantáneas?"
 
 #: qt/settingsdialog.py:1974
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "¿Es este el destino de copia de seguridad que se va a utilizar?"
 
 #: qt/settingsdialog.py:1998
 #, python-brace-format

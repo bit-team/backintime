@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-10-03 13:54+0200\n"
-"PO-Revision-Date: 2024-09-17 08:03+0000\n"
+"PO-Revision-Date: 2024-10-14 07:58+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -107,8 +107,8 @@ msgid ""
 msgstr ""
 "Cron läuft nicht, obwohl der Befehl crontab verfügbar ist. Geplante Backup-"
 "Aufgaben werden nicht ausgeführt. Cron könnte installiert, aber nicht "
-"aktiviert sein. Versuche den Befehl \"systemctl enable cron\" oder "
-"konsultiere die Support-Kanäle deiner GNU/Linux-Distribution."
+"aktiviert sein. Versuche den Befehl »systemctl enable cron« oder konsultiere"
+" die Support-Kanäle deiner GNU/Linux-Distribution."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -184,7 +184,7 @@ msgstr "Kann {mountprocess} nicht von {mountpoint} aushängen."
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"{command} nicht gefunden. Bitte installieren (z.B. mit \"{installcommand}\")"
+"{command} nicht gefunden. Bitte installieren (z.B. mit »{installcommand}«)"
 
 #: common/mount.py:710
 #, python-brace-format
@@ -194,7 +194,7 @@ msgstr "Einhängepunkt {mntpoint} ist nicht leer."
 #: common/password.py:287
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "Passwort für {mode} Profil \"{profile}\" eingeben:"
+msgstr "Passwort für {mode} Profil »{profile}« eingeben:"
 
 #: common/snapshots.py:357 common/snapshots.py:608
 msgid "FAILED"
@@ -392,13 +392,13 @@ msgstr "Der entfernte Rechner {host} unterstützt keine Hardlinks"
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
-"Den öffentlichen SSH-Schlüssel \"{pubkey}\" zum entfernten Rechner "
-"\"{host}\" kopieren."
+"Den öffentlichen SSH-Schlüssel »{pubkey}« zum entfernten Rechner »{host}« "
+"kopieren."
 
 #: common/sshtools.py:1199
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Bitte Passwort für \"{user}\" eingeben."
+msgstr "Bitte Passwort für »{user}« eingeben."
 
 #: common/tools.py:423
 #, python-brace-format
@@ -1139,8 +1139,7 @@ msgstr "Protokollierung von Debug-Nachrichten aktivieren"
 #: qt/schedulewidget.py:105
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
-"Schreibt Debug-Nachrichten in das Systemprotokoll (nutzt \"--debug\" "
-"Option)."
+"Schreibt Debug-Nachrichten in das Systemprotokoll (nutzt »--debug« Option)."
 
 #: qt/schedulewidget.py:107
 msgid ""
@@ -1660,7 +1659,7 @@ msgstr "Privater Schlüssel:"
 #: qt/settingsdialog.py:1027
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
-"Wählt eine existierende private Schüsseldatei (normalerweise als \"id_rsa\" "
+"Wählt eine existierende private Schüsseldatei (normalerweise als »id_rsa« "
 "benannt)"
 
 #: qt/settingsdialog.py:1038
@@ -1822,7 +1821,7 @@ msgstr "Erstellen eines neuen SSH-Schlüssels in {path} ist fehlgeschlagen."
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
-"Deaktiviert, da dieses Muster im Modus \"SSH verschlüsselt\" nicht "
+"Deaktiviert, da dieses Muster im Modus »SSH verschlüsselt« nicht "
 "funktionsfähig ist."
 
 #: qt/settingsdialog.py:2177
@@ -1892,15 +1891,15 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"Der Befehl \"{cmd}\" wurde auf dem System nicht gefunden. Bitte etwas "
-"anderes versuchen oder Abbrechen drücken."
+"Der Befehl »{cmd}« wurde auf dem System nicht gefunden. Bitte etwas anderes "
+"versuchen oder Abbrechen drücken."
 
 #: qt/snapshotsdialog.py:98
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Keine Parameter für den diff Befehl vorhanden. Nutze die Standardwerte "
-"\"{params}\"."
+"»{params}«."
 
 #: qt/snapshotsdialog.py:134
 msgid "Differing snapshots only"

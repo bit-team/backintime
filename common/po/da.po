@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-10-03 13:54+0200\n"
-"PO-Revision-Date: 2024-07-22 07:07+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-10-17 20:52+0000\n"
+"Last-Translator: SirHelpALot <SirHelpALot@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -25,17 +25,17 @@ msgid "Warning"
 msgstr "Advarsel"
 
 #: common/config.py:130 common/tools.py:391
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Destinationsfilsystem for {path} er formatteret med FAT, som ikke kan "
-"håndtere hard-links. Brug venligst et understøttet Linux-filsystem."
+"Destinationsfilsystem for {path} er formatteret med NTFS, som ikke er fuldt "
+"kompatibelt med UNIX-lignede filsystemer."
 
 #: common/config.py:144 common/config.py:254
 msgid "Main profile"
-msgstr "hovedprofil"
+msgstr "Hovedprofil"
 
 #: common/config.py:261
 msgid "Local (EncFS encrypted)"
@@ -236,7 +236,7 @@ msgstr "Kunne ikke tage tilstands-billede {snapshot_id}."
 
 #: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Hav venligst tålmodighed. Færdigører…"
 
 #: common/snapshots.py:1063
 msgid "Can't create folder"
@@ -399,11 +399,11 @@ msgstr "Ugyldigt valg. {path} er ikke en mappe."
 
 #: common/tools.py:437
 msgid "Creation of following folder failed:"
-msgstr ""
+msgstr "Oprettelse af følgende mappe fejlede:"
 
 #: common/tools.py:439 common/tools.py:535
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Skriveadgang kan være begrænset."
 
 #: common/tools.py:479
 #, python-brace-format
@@ -443,7 +443,7 @@ msgstr ""
 
 #: common/tools.py:533
 msgid "File creation failed in this folder:"
-msgstr ""
+msgstr "Filoprettelse fejlede i mappe:"
 
 #: qt/aboutdlg.py:37 qt/app.py:573
 msgid "About"
@@ -1083,20 +1083,19 @@ msgstr "Ugedag:"
 
 #: qt/schedulewidget.py:71
 msgid "Time:"
-msgstr ""
+msgstr "Tid:"
 
 #: qt/schedulewidget.py:76
 msgid "Hours:"
 msgstr "Timer:"
 
 #: qt/schedulewidget.py:80
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Kør Back In Time så snart drevet tilsluttes (kun en gang hver X'te dag).\n"
-"Du bliver spurgt om dit sudo kodeord."
+"Kør Back In Time så snart drevet tilsluttes (kun en gang hver X'te dag). Du "
+"bliver spurgt om dit sudo kodeord."
 
 #: qt/schedulewidget.py:85
 msgid ""
@@ -1771,7 +1770,7 @@ msgstr "Er du sikker på du ønsker at skifte tilstands-billede-mappe ?"
 
 #: qt/settingsdialog.py:1974
 msgid "Is this the backup destination to be used?"
-msgstr ""
+msgstr "Skal denne destination til sikkerhedskopiering bruges?"
 
 #: qt/settingsdialog.py:1998
 #, python-brace-format

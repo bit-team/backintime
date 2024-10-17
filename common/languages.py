@@ -1,4 +1,4 @@
-# Generated at Thu Oct  3 15:03:23 2024 with help
+# Generated at Thu Oct 17 22:53:31 2024 with help
 # of package "babel" and "polib".
 # https://babel.pocoo.org
 # https://github.com/python-babel/babel
@@ -2358,7 +2358,7 @@ names = {
 
 
 completeness = {
-    'pt': '97',
+    'pt': '99',
     'nn': '74',
     'sk': '45',
     'pt_BR': '91',
@@ -2374,14 +2374,14 @@ completeness = {
     'hr': '34',
     'eu': '97',
     'ko': '86',
-    'es': '97',
+    'es': '100',
     'ru': '89',
     'fa': '83',
     'tr': '97',
     'fo': '29',
     'ie': '28',
     'th': '61',
-    'da': '97',
+    'da': '100',
     'nb': '80',
     'fi': '85',
     'de': '100',
