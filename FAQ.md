@@ -5,7 +5,7 @@ SPDX-FileCopyrightText: © 2024 Paul Worrall (@Silver-Saucepan)
 SPDX-License-Identifier: GPL-2.0-or-later
 
 This file is part of the program "Back In Time" which is released under GNU
-General Public License v2 (GPLv2). See file/folder LICENSE or go to
+General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # FAQ - Frequently Asked Questions
@@ -525,7 +525,7 @@ ps aux | grep -i backintime
 If the output shows a running instance of _Back In Time_ it must be waited until it finishes
 or killed via `kill <process id>`.
 
-For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
+For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](doc/maintain/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
 ## _Back in Time_ does not start and shows: The application is already running! (pid: 1234567)
 This message occurs when _Back In Time_ is either already running or did not finish regularly (e.g. due to a crash)
@@ -536,7 +536,7 @@ via `ps aux | grep -i backintime`.
 Otherwise, kill the process. After that look into the folder
 `~/.local/share/backintime` for the file `app.lock.pid` and delete it.
 
-For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
+For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](doc/maintain/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
 ## Switching to dark or light mode in the desktop environment is ignored by BIT
 After restart _Back In Time_ it should adapt to the desktops current used

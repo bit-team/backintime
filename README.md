@@ -1,11 +1,20 @@
+<!--
+SPDX-FileCopyrightText: © 2009 Back In Time Team
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See directory LICENSES or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
+-->
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 
 # Back In Time
-<sub>Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
+<sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
 Germar Reitze, Taylor Raack</sub><br />
-<sub>Copyright (C) 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
+<sub>Copyright © 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
  
 _Back In Time_ is an easy-to-use tool to backup files and folders.
 It runs on GNU/Linux (not on Windows or OS X/macOS) and provides a command line
