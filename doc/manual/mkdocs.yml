@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2024 Kosta Vukicevic (stcksmsh)
-# SPDX-FileCopyrightText: 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Kosta Vukicevic (stcksmsh)
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -20,6 +20,10 @@ docs_dir: src
 # Output directory
 site_dir: html
 
+# Needed to use local generated docu if browser won't open index.html files in
+# sub directories. See https://github.com/mkdocs/mkdocs/discussions/3847
+use_directory_urls: false
+
 # site_url: https://backintime-docs.readthedocs.io/en/latest/
 # site_description: Back In Time is a simple backup tool for Linux inspired by "FlyBack".
 
@@ -35,6 +39,7 @@ nav:
   - 'settings.md'
   - 'snapshots-dialog.md'
   - 'log.md'
+  - 'user-callback.md'
   - 'additional.md'
 
 markdown_extensions:
@@ -43,6 +48,18 @@ markdown_extensions:
   - admonition
   - toc:
       permalink: true  
+  - footnotes
+  # Syntax highlightening in code blocks
+  - pymdownx.highlight:
+      linenums: true
+      # clickable and referencable lines numbers
+      anchor_linenums: true
+      # Highlight (and reference) a bunch of lines
+      line_spans: __span
+      # Somehow ease up CSS stuff
+      pygments_lang_class: true
+  # No line numbers without it. Don't understand why.
+  - pymdownx.superfences
 
 # Configuration
 theme:

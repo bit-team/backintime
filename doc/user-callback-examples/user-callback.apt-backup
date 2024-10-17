@@ -1,0 +1,31 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: © 2012-2014 Germar Reitze
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+
+# backup selection of apt-get
+# Take a look at
+# https://github.com/bit-team/backintime/wiki/FAQ#how-to-backup-debian-ubuntu-package-selection
+# https://github.com/bit-team/backintime/wiki/FAQ#how-to-restore-debian-ubuntu-package-selection
+
+profile_id="$1"
+profile_name="$2"
+reason="$3"
+errorcode="$4"
+DST="$HOME/.apt-backup"
+
+case $reason in
+    1) #on process begin
+       mkdir -p $DST
+       dpkg --get-selections > $DST/package.list
+       apt-mark showauto > $DST/pkg_auto.list
+       apt-mark showmanual > $DST/pkg_manual.list
+       rm -f $DST/sources.list.d/*
+       cp -aR /etc/apt/sources.list* $DST/
+       apt-key exportall > $DST/repo.keys
+       ;;
+esac

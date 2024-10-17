@@ -1,0 +1,122 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: © 2014 Fabrizio Marana
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+
+# Example script for user-callback
+# user-callback is a script called by backintime (http://backintime.le-web.org)
+# before, during and after a backup.
+
+# Note:
+#   To allow the notify-send "expire-time" parameter to work,
+#     follow http://www.webupd8.org/2014/04/configurable-notification-bubbles-for.html
+#   To allow mail to be sent, the "mailutils" package must be installed and
+#   configured and there must be a MTA (Mail Transport Agent) e.g. "postfix"
+#   or "exim4" installed and configured:
+#     sudo apt-get install mailutils
+#     sudo apt-get install postfix
+#     https://www.google.com/search?q=linux+configure+mailutils
+
+# Version 0.2 DD 2014/11/08 Change as much fixed text to variables to allow
+#                           others to modify more easily
+#                           Polish code to make it more readable
+# TO DO:  Use rsync instead of cpio
+
+
+### Init ###
+# You need to configure this before using this script
+declare szBackInTimeEMailAddress=""   # If empty, no mail will be sent on error
+declare szBackupVolume=""             # If empty, no finalizing will be performed
+
+# BackInTime passes arguments on the command line.  Name them for clarity.
+declare iBackInTimeProfileID="$1"
+declare szBackInTimeProfileName="$2"
+declare iBackInTimeStatus="$3"
+declare iBackInTimeSnapshotID="$4"
+declare szBackInTimeSnapshotName="$5"
+
+### main ###
+case $iBackInTimeStatus in
+  1)  ## Backup Starting ##
+      # Here you should put commands that you need JUST before the backup begins, E.g.:
+        # stop daemons/services, ...
+      notify-send --urgency=LOW --icon=face-plain "BackInTime" \
+        "Starting backup '${iBackInTimeProfileID}:${szBackInTimeProfileName}'..."
+  ;;
+  2)  ## Backup Finished ##
+      notify-send --urgency=NORMAL --icon=face-laugh "BackInTime" \
+        "Finished backup '${iBackInTimeProfileID}:${szBackInTimeProfileName}' completely!"
+      # Optional notification via zenity (uncomment to enable):
+      # zenity --info --title="BackInTime" --text "BackInTime backup for profile ${iBackInTimeProfileID} (${szBackInTimeProfileName}) completed" &
+      # Here you should put the commands that you need after the backup ends, E.g.:
+      # (Probably the reverse of the 1) section)
+        # allow the user to try again later, ...
+  ;;
+  3)  ## Backup Finishing ##
+      notify-send --urgency=NORMAL --icon=face-cool --expire-time=4000 "BackInTime" \
+        "Finishing backup '${iBackInTimeProfileID}:${szBackInTimeProfileName}'\nfor snapshot '${iBackInTimeSnapshotID}:${szBackInTimeSnapshotName}'..."
+      # Here you should put the commands that you need to do just before the backup finishes:
+      #   Copying extra files,
+      #   writing to logs, ...
+  ;;
+  4) # An error occurred: $iBackInTimeSnapshotID contains the error number
+    declare -r iBackInTimeError=$iBackInTimeSnapshotID
+    declare szBackInTimeErrorMessage="BackInTime Error: "
+    declare szBackInTimeExtendedErrorMessage=""
+    # We're notifying the user on-screen and emailing the log file
+    # using the mailutils package regardless of the kind of error
+    case $iBackInTimeError in
+      1)  ## Application not configured ##
+          szBackInTimeErrorMessage=$szBackInTimeErrorMessage" Application not configured!"
+          ;;
+      2)  ## Application already Running ##
+          szBackInTimeErrorMessage=$szBackInTimeErrorMessage" BackInTime is already running!"
+          szBackInTimeExtendedErrorMessage="\n\nPlease ensure you don't have an automatic backup and a manual backup both running at once."
+          ;;
+      3)  ## No snapshot Directory ##
+          szBackInTimeErrorMessage=$szBackInTimeErrorMessage" BackInTime can’t find the snapshots directory!"
+          szBackInTimeExtendedErrorMessage="\n\n(Is it on a removable drive which was detached/unmounted in error?)"
+          ;;
+      4)  ## Snapshot already exixsts ##
+          szBackInTimeErrorMessage=$szBackInTimeErrorMessage" A snapshot for 'now' already exists!"
+          ;;
+      5) # ERROR: Error while taking a snapshot
+         szBackInTimeErrorMessage=$szBackInTimeErrorMessage" Error while taking a snapshot"
+         ;;
+      6) # ERROR: New snapshot taken but with errors
+         szBackInTimeErrorMessage=$szBackInTimeErrorMessage" New snapshot taken but with errors"
+         szBackInTimeExtendedErrorMessage="\n\nMay happen with 'continue on error'"
+         ;;
+      *) # Unknown error number
+         szBackInTimeErrorMessage=$szBackInTimeErrorMessage" Unknown error code!"
+         ;;
+    esac # Error
+    notify-send --urgency=CRITICAL --icon=face-angry "BackInTime Error" "$szBackInTimeErrorMessage$szBackInTimeExtendedErrorMessage"
+    # only send mail if the e-mail address is not empty
+    if [ -n "$szBackInTimeEMailAddress" ] &&  \
+       [ "x$(which mail)" != "x" ] && \
+       [ -x $(which mail) ]; then
+      cat ~/.local/share/backintime/takesnapshot_.log | mail -s "BackInTime backup for profile ${iBackInTimeProfileID} (${szBackInTimeProfileName}) failed on $(date +%Y-%m-%d_%H-%M-%S) with error $szBackInTimeErrorMessage" $szBackInTimeEMailAddress
+    fi
+    # Optional notification via zenity (uncomment to enable):
+    # zenity --error --title="BackInTime" --text="BackInTime backup for profile ${iBackInTimeProfileID} (${szBackInTimeProfileName}) failed on $(date +%Y-%m-%d_%H-%M-%S) with error $szBackInTimeErrorMessagee" &
+  ;;
+  5)  ## backintime-qt4 (GUI) started ##
+      # Here you can put things that need to be done when launching the GUI
+  ;;
+  6)  ## backintime-qt4 (GUI) closed ##
+      # Here you can put things that need to be done when closing the GUI
+  ;;
+  7) ## Mount drives ##
+     # Here you should place custom mount commands which will be called every
+     # time the GUI or command line tool is started or the profile is
+     # switched in GUI
+  ;;
+  8) ## Unmount the drives ##
+     # Here you should place unmount scripts for the drive you mounted in 7)
+  ;;
+esac #Status
