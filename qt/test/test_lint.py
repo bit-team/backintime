@@ -47,6 +47,7 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/sshproxywidget.py',
     'plugins/notifyplugin.py',
     'test/test_lint.py',
+    'usermessagedialog.py',
 )]
 
 # Not all linters do respect PEP8 (e.g. ruff, PyLint)
