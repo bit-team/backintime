@@ -86,7 +86,7 @@ class EncFS_mount(MountControl):
             if proc.returncode:
                 raise MountException(
                     '{}:\n\n{}'.format(
-                        _("Can't mount '{command}'")
+                        _("Unable to mount '{command}'")
                         .format(command=' '.join(encfs)),
                         output))
 
@@ -136,7 +136,7 @@ class EncFS_mount(MountControl):
 
         else:
             logger.debug(f'No encfs config in {cfg}', self)
-            msg = _('Config for encrypted folder not found.')
+            msg = _('Configuration for the encrypted directory not found.')
 
             if not self.tmp_mount:
                 raise MountException(msg)
@@ -144,7 +144,7 @@ class EncFS_mount(MountControl):
             else:
                 question = '{}\n{}'.format(
                     msg,
-                    _('Create a new encrypted folder?')
+                    _('Create a new encrypted directory?')
                 )
 
                 if not self.config.askQuestion(question):

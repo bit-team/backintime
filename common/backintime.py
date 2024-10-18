@@ -195,7 +195,7 @@ def createParsers(app_name = 'backintime'):
     #define main argument parser
     parser = argparse.ArgumentParser(prog = app_name,
                                      parents = [commonArgsParser],
-                                     description = '%(app)s - a simple backup tool for Linux.'
+                                     description = '%(app)s - a simple backup tool for GNU/Linux.'
                                                    % {'app': config.Config.APP_NAME},
                                      epilog = "For backwards compatibility commands can also be used with trailing '--'. "
                                               "All listed arguments will work with all commands. Some commands have extra arguments. "
@@ -375,7 +375,7 @@ def createParsers(app_name = 'backintime'):
                                                  type = str,
                                                  action = 'store',
                                                  nargs = '?',
-                                                 help = 'Restore file or folder WHAT.')
+                                                 help = 'Restore file or directory WHAT.')
 
     restoreCP.add_argument                      ('WHERE',
                                                  type = str,

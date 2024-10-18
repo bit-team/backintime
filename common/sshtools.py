@@ -237,7 +237,7 @@ class SSH(MountControl):
 
         raise MountException(
             "{}\n\n{}".format(
-                _("Can't mount {sshfs}").format(sshfs=" ".join(sshfs)),
+                _('Unable to mount {sshfs}').format(sshfs=" ".join(sshfs)),
                 err
             )
         )
@@ -305,7 +305,7 @@ class SSH(MountControl):
 
         if not sshAgent:
             raise MountException(
-                _('ssh-agent not found. Please make sure it is installed.'))
+                _('ssh-agent not found. Please ensure it is installed.'))
 
         if isinstance(sshAgent, str):
             sshAgent = [sshAgent, ]
@@ -666,7 +666,7 @@ class SSH(MountControl):
                                         doesn't have correct permissions.
         """
 
-        logger.debug('Check remote folder', self)
+        logger.debug('Check remote directory', self)
 
         cmd = 'd=0;'
         # path doesn't exist. set d=1 to indicate
@@ -731,7 +731,7 @@ class SSH(MountControl):
         else:
 
             # returncode is 0
-            logger.info('Create remote folder %s' % self.path, self)
+            logger.info(f'Create remote path {self.path}', self)
 
     def checkPingHost(self):
         """

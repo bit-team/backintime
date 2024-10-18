@@ -1,20 +1,13 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 
@@ -100,6 +93,54 @@ import languagedialog
 import messagebox
 from aboutdlg import AboutDlg
 import qttools
+
+_HTML_CONTACT_LIST = (
+    '<ul>'
+    '<li>{email}</li>'
+    '<li>{mailinglist}</li>'
+    '<li>{issue}</li>'
+    '<li>{alternative}</li>'
+    '</ul>'
+).format(
+    email=_('Email to {link_and_label}.').format(
+        link_and_label='<a href="mailto:backintime@tuta.io">'
+                       'backintime@tuta.io</a>'),
+    mailinglist=_('Mailing list {link_and_label}').format(
+        link_and_label='<a href="https://mail.python.org/mailman3/lists'
+                       'bit-dev.python.org/">bit-dev@python.org</a>'),
+    issue=_('{link_and_label} on the project website.').format(
+        link_and_label='<a href="https://github.com/bit-team/backintime/'
+                       'issues/new">Open an issue</a>'),
+    alternative=_('Alternatively, you can use another channel of your choice.')
+)
+
+_RELEASE_CANDIDATE_MESSAGE = _(
+    'This version of Back In Time is a Release Candidate and is primarily '
+    'intended for stability testing in preparation for the next official '
+    'release.'
+    '\n'
+    'No user data or telemetry is collected. However, the Back In Time team '
+    'is very interested in knowing if the Release Candidate is being used '
+    'and if it is worth continuing to provide such pre-release versions.'
+    '\n'
+    'Therefore, the team kindly asks for a short feedback on whether you '
+    'have tested this version, even if you didn’t encounter any issues. Even '
+    'a quick test run of a few minutes would help us a lot.'
+    '\n'
+    'The following contact options are available:'
+    '\n'
+    '{contact_list}'
+    '\n'
+    "In this version, this message won't be shown again but can be accessed "
+    'anytime through the help menu.'
+    '\n'
+    'Thank you for your support and for helping us improve Back In Time!'
+    '\n'
+    'Your Back In Time Team'
+).format(contact_list=_HTML_CONTACT_LIST)
+
+
+_RELEASE_CANDIDATE_TITLE = _('Release Candidate')
 
 
 class MainWindow(QMainWindow):
@@ -188,7 +229,8 @@ class MainWindow(QMainWindow):
 
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
-            _("This folder doesn't exist\nin the current selected snapshot."),
+            _("This directory doesn't exist\n"
+              "in the current selected snapshot."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
@@ -348,7 +390,7 @@ class MainWindow(QMainWindow):
             message = f'{message}\n\n'
             message = message + _(
                 'Import an existing configuration (from a backup target '
-                'folder or another computer)?')
+                'directory or another computer)?')
             answer = messagebox.warningYesNo(self, message)
             if answer == QMessageBox.StandardButton.Yes:
                 RestoreConfigDialog(self).exec()
@@ -374,7 +416,7 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            msg = _("Can't find snapshots folder.") + '\n' \
+            msg = _("Can't find snapshots directory.") + '\n' \
                 + _('If it is on a removable drive please plug it in and then '
                     'press OK.')
             messagebox.critical(self, msg)
@@ -576,22 +618,22 @@ class MainWindow(QMainWindow):
             'act_restore': (
                 icon.RESTORE, _('Restore'),
                 self.restoreThis, None,
-                _('Restore the selected files or folders to the '
+                _('Restore the selected files or directories to the '
                   'original destination.')),
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self.restoreThisTo, None,
-                _('Restore the selected files or folders to a '
+                _('Restore the selected files or directories to a '
                   'new destination.')),
             'act_restore_parent': (
                 icon.RESTORE, 'RESTORE PARENT (DEBUG)',
                 self.restoreParent, None,
-                _('Restore the currently shown folder and all its contents '
+                _('Restore the currently shown directory and all its contents '
                   'to the original destination.')),
             'act_restore_parent_to': (
                 icon.RESTORE_TO, 'RESTORE PARENT TO (DEBUG)',
                 self.restoreParentTo, None,
-                _('Restore the currently shown folder and all its contents '
+                _('Restore the currently shown directory and all its contents '
                   'to a new destination.')),
             'act_folder_up': (
                 icon.UP, _('Up'),
@@ -1172,7 +1214,7 @@ class MainWindow(QMainWindow):
             reverse = True if indic == Qt.SortOrder.DescendingOrder else False
             include_folders = sorted(include_folders, reverse=reverse)
 
-        self.addPlace(_('Backup folders'), '', '')
+        self.addPlace(_('Backup directories'), '', '')
 
         for folder in include_folders:
             self.addPlace(folder, folder, 'document-save')
@@ -1469,26 +1511,28 @@ class MainWindow(QMainWindow):
         return {'widget': fileList, 'retFunc': None}
 
     def deleteOnRestore(self):
-        cb = QCheckBox(_('Remove newer elements in original folder.'))
+        cb = QCheckBox(_('Remove newer elements in original directory.'))
         qttools.set_wrapped_tooltip(
             cb,
-            _('Restore selected files or folders to the original destination '
-              'and delete files or folders which are not in the snapshot. Be '
-              'extremely careful because this will delete files and folders '
-              'which were excluded during taking the snapshot.')
+            _('Restore selected files or directories to the original '
+              'destination and delete files or directories which are not in '
+              'the snapshot. Be extremely careful because this will delete '
+              'files and directories which were excluded during taking the '
+              'snapshot.')
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
-    def confirmRestore(self, paths, restoreTo = None):
+    def confirmRestore(self, paths, restoreTo=None):
         if restoreTo:
             msg = ngettext(
                 # singular
                 'Do you really want to restore this element into the '
-                'new folder\n{path}?',
+                'new directory?',
                 # plural
                 'Do you really want to restore these elements into the '
-                'new folder\n{path}?',
-                len(paths)).format(path=restoreTo)
+                'new directory?',
+                len(paths))
+            msg = f'{msg}\n{restoreTo}'
         else:
             msg = ngettext(
                 # singular
@@ -1497,21 +1541,25 @@ class MainWindow(QMainWindow):
                 'Do you really want to restore these elements?',
                 len(paths))
 
-        confirm, opt = messagebox.warningYesNoOptions(self,
-                                                      msg,
-                                                      (self.listRestorePaths(paths),
-                                                       self.backupOnRestore(),
-                                                       self.restoreOnlyNew(),
-                                                       self.deleteOnRestore()))
+        confirm, opt = messagebox.warningYesNoOptions(
+            self,
+            msg,
+            (
+                self.listRestorePaths(paths),
+                self.backupOnRestore(),
+                self.restoreOnlyNew(),
+                self.deleteOnRestore()
+            )
+        )
         return (confirm, opt)
 
-    def confirmDelete(self, warnRoot = False, restoreTo = None):
+    def confirmDelete(self, warnRoot=False, restoreTo=None):
         if restoreTo:
             msg = _('Are you sure you want to remove all newer files '
                     'in {path}?').format(path=restoreTo)
         else:
             msg = _('Are you sure you want to remove all newer files in your '
-                    'original folder?')
+                    'original directory?')
 
         if warnRoot:
             msg = f'<p>{msg}</p><p>'
@@ -1960,7 +2008,6 @@ class MainWindow(QMainWindow):
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
         dlg.exec()
-
 
 class ExtraMouseButtonEventFilter(QObject):
     """

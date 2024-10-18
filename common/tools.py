@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Collection of helper functions not fitting to other modules.
 """
@@ -364,7 +364,8 @@ def get_language_names(language_code):
     return result
 
 
-def get_native_language_and_completeness(language_code):
+def get_native_language_and_completeness(language_code: str
+                                         ) -> tuple[str, int]:
     """Return the language name in its native flavor and the completeness of
     its translation in percent.
 
@@ -420,7 +421,7 @@ def validate_and_prepare_snapshots_path(
     path = pathlib.Path(path)
 
     if not path.is_dir():
-        error_handler(_('Invalid option. {path} is not a folder.')
+        error_handler(_('{path} is not a valid directory.')
                       .format(path=path))
         return False
 
@@ -434,9 +435,9 @@ def validate_and_prepare_snapshots_path(
 
     except PermissionError:
         error_handler('\n'.join([
-            _('Creation of following folder failed:'),
+            _('Creation of following directory failed:'),
             str(full_path),
-            _(f'Write access may be restricted.')]))
+            _('Write access may be restricted.')]))
         return False
 
     # Test filesystem
@@ -478,7 +479,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
         msg = _(
             "Destination filesystem for {path} is formatted with FAT "
             "which doesn't support hard-links. "
-            "Please use a native Linux filesystem.").format(path=msg_path)
+            "Please use a native GNU/Linux filesystem.").format(path=msg_path)
 
         return False, msg
 
@@ -487,17 +488,17 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
 
     elif fs == 'cifs' and not copy_links:
         msg = _(
-            'Destination filesystem for {path} is an SMB-mounted share. '
+            'Destination filesystem for {path} is a share mounted via SMB. '
             'Please make sure the remote SMB server supports symlinks or '
             'activate {copyLinks} in {expertOptions}.') \
             .format(path=msg_path,
-                    copyLinks=_('Copy links (dereference symbolic links)'),
+                    copyLinks=_('Copy links (resolve symbolic links)'),
                     expertOptions=_('Expert Options'))
 
     elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
         msg = _(
-            "Destination filesystem for {path} is an sshfs-mounted share."
-            " Sshfs doesn't support hard-links. "
+            "Destination filesystem for {path} is a share mounted via sshfs. "
+            "Sshfs doesn't support hard-links. "
             "Please use mode 'SSH' instead.").format(path=msg_path)
 
         return False, msg
@@ -530,7 +531,7 @@ def is_writeable(folder):
 
     except PermissionError:
         msg = '\n'.join([
-            _('File creation failed in this folder:'),
+            _('File creation failed in this directory:'),
             str(folder),
             _('Write access may be restricted.')])
         return False, msg
@@ -1456,7 +1457,8 @@ def keyringSupported():
     except:
         pass
 
-    logger.debug(f"Keyring config file folder: {keyring_config_file_folder}")
+    logger.debug(
+        f"Keyring config file directory: {keyring_config_file_folder}")
 
     # Determine the currently active backend
     try:

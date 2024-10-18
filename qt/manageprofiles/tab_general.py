@@ -88,7 +88,7 @@ class GeneralTab(QDialog):
         self.btnSnapshotsPath.setToolButtonStyle(
             Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSnapshotsPath.setIcon(self.icon.FOLDER)
-        self.btnSnapshotsPath.setText(_('Folder'))
+        self.btnSnapshotsPath.setText(_('Directory'))
         self.btnSnapshotsPath.setMinimumSize(32, 28)
         hlayout.addWidget(self.btnSnapshotsPath)
         self.btnSnapshotsPath.clicked.connect(
@@ -142,10 +142,12 @@ class GeneralTab(QDialog):
         hlayout3.addWidget(self.txtSshPrivateKeyFile)
 
         self.btnSshPrivateKeyFile = QToolButton(self)
-        self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.btnSshPrivateKeyFile.setToolButtonStyle(
+            Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSshPrivateKeyFile.setIcon(self.icon.FOLDER)
         self.btnSshPrivateKeyFile.setToolTip(
-            _('Choose an existing private key file (normally named "id_rsa")'))
+            _('Choose an existing private key file (normally named '
+              '"id_ed25519" and in older setups "id_rsa").'))
         self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
         hlayout3.addWidget(self.btnSshPrivateKeyFile)
         self.btnSshPrivateKeyFile.clicked \
@@ -607,7 +609,7 @@ class GeneralTab(QDialog):
 
             if old_path and old_path != path:
                 question = _('Are you sure you want to change '
-                             'snapshots folder?')
+                             'snapshots directory?')
 
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes

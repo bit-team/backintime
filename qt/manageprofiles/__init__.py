@@ -117,7 +117,7 @@ class SettingsDialog(QDialog):
             QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listInclude.setRootIsDecorated(False)
         self.listInclude.setHeaderLabels(
-            [_('Include files and folders'), 'Count'])
+            [_('Include files and directories'), 'Count'])
 
         self.listInclude.header().setSectionResizeMode(
             0, QHeaderView.ResizeMode.Stretch)
@@ -138,7 +138,7 @@ class SettingsDialog(QDialog):
         buttonsLayout.addWidget(self.btnIncludeFile)
         self.btnIncludeFile.clicked.connect(self.btnIncludeFileClicked)
 
-        self.btnIncludeAdd = QPushButton(icon.ADD, _('Add folder'), self)
+        self.btnIncludeAdd = QPushButton(icon.ADD, _('Add directory'), self)
         buttonsLayout.addWidget(self.btnIncludeAdd)
         self.btnIncludeAdd.clicked.connect(self.btnIncludeAddClicked)
 
@@ -175,7 +175,7 @@ class SettingsDialog(QDialog):
             QAbstractItemView.SelectionMode.ExtendedSelection)
         self.listExclude.setRootIsDecorated(False)
         self.listExclude.setHeaderLabels(
-            [_('Exclude patterns, files or folders'), 'Count'])
+            [_('Exclude patterns, files or directories'), 'Count'])
 
         self.listExclude.header().setSectionResizeMode(
             0, QHeaderView.ResizeMode.Stretch)
@@ -203,7 +203,7 @@ class SettingsDialog(QDialog):
         buttonsLayout.addWidget(self.btnExcludeFile)
         self.btnExcludeFile.clicked.connect(self.btnExcludeFileClicked)
 
-        self.btnExcludeFolder = QPushButton(icon.ADD, _('Add folder'), self)
+        self.btnExcludeFolder = QPushButton(icon.ADD, _('Add directory'), self)
         buttonsLayout.addWidget(self.btnExcludeFolder)
         self.btnExcludeFolder.clicked.connect(self.btnExcludeFolderClicked)
 
@@ -612,7 +612,7 @@ class SettingsDialog(QDialog):
             self.addExclude(path)
 
     def btnExcludeFolderClicked(self):
-        for path in qttools.getExistingDirectories(self, _('Exclude folder')):
+        for path in qttools.getExistingDirectories(self, _('Exclude directory')):
             self.addExclude(path)
 
     def btnExcludeDefaultClicked(self):
@@ -666,7 +666,7 @@ class SettingsDialog(QDialog):
         This is a candidate for refactoring. See btnIncludeFileClicked() with
         much duplicated code.
         """
-        for path in qttools.getExistingDirectories(self, _('Include folder')):
+        for path in qttools.getExistingDirectories(self, _('Include directory')):
             if not path:
                 continue
 
