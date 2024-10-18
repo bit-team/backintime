@@ -110,7 +110,8 @@ _HTML_CONTACT_LIST = (
                        'bit-dev.python.org/">bit-dev@python.org</a>'),
     issue=_('{link_and_label} on the project website.').format(
         link_and_label='<a href="https://github.com/bit-team/backintime/'
-                       'issues/new">Open an issue</a>'),
+                       'issues/new"></a>').format(
+                           open_issue=_('Open an issue')),
     alternative=_('Alternatively, you can use another channel of your choice.')
 )
 
