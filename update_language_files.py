@@ -47,9 +47,13 @@ def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
     result = []
     for key in a_dict:
 
+        # single quotes?
+        quote_key = "'" if isinstance(key, str) else ""
+        quote_val  = "'" if isinstance(a_dict[key], str) else ""
+
         # A nested dict
         if isinstance(a_dict[key], dict):
-            result.append(f"{tab}'{key}': {{")
+            result.append(f"{tab}{quote_key}{key}{quote_key}: {{")
 
             result.extend(
                 dict_as_code(a_dict[key], indent_level+1))
@@ -58,7 +62,8 @@ def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
             continue
 
         # Regular key: value pair
-        result.append(f"{tab}'{key}': '{a_dict[key]}',")
+        result.append(f"{tab}{quote_key}{key}{quote_key}: "
+                      f"{quote_val}{a_dict[key]}{quote_val},")
 
     return result
 
@@ -627,14 +632,6 @@ def check_shortcuts():
 
 if __name__ == '__main__':
 
-    # names = update_language_names()
-
-    # tab = {n: '    ' * n for n in range(1, 11)}
-    # result = ['names = {']
-    # result.extend(dict_as_code(names, 1))
-
-    # print('\n'.join(result))
-    # sys.exit(0)
     check_existence()
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'

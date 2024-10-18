@@ -1,20 +1,13 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 
@@ -100,6 +93,54 @@ import languagedialog
 import messagebox
 from aboutdlg import AboutDlg
 import qttools
+
+_HTML_CONTACT_LIST = (
+    '<ul>'
+    '<li>{email}</li>'
+    '<li>{mailinglist}</li>'
+    '<li>{issue}</li>'
+    '<li>{alternative}</li>'
+    '</ul>'
+).format(
+    email=_('Email to {link_and_label}.').format(
+        link_and_label='<a href="mailto:backintime@tuta.io">'
+                       'backintime@tuta.io</a>'),
+    mailinglist=_('Mailing list {link_and_label}').format(
+        link_and_label='<a href="https://mail.python.org/mailman3/lists'
+                       'bit-dev.python.org/">bit-dev@python.org</a>'),
+    issue=_('{link_and_label} on the project website.').format(
+        link_and_label='<a href="https://github.com/bit-team/backintime/'
+                       'issues/new">Open an issue</a>'),
+    alternative=_('Alternatively, you can use another channel of your choice.')
+)
+
+_RELEASE_CANDIDATE_MESSAGE = _(
+    'This version of Back In Time is a Release Candidate and is primarily '
+    'intended for stability testing in preparation for the next official '
+    'release.'
+    '\n'
+    'No user data or telemetry is collected. However, the Back In Time team '
+    'is very interested in knowing if the Release Candidate is being used '
+    'and if it is worth continuing to provide such pre-release versions.'
+    '\n'
+    'Therefore, the team kindly asks for a short feedback on whether you '
+    'have tested this version, even if you didn’t encounter any issues. Even '
+    'a quick test run of a few minutes would help us a lot.'
+    '\n'
+    'The following contact options are available:'
+    '\n'
+    '{contact_list}'
+    '\n'
+    "In this version, this message won't be shown again but can be accessed "
+    'anytime through the help menu.'
+    '\n'
+    'Thank you for your support and for helping us improve Back In Time!'
+    '\n'
+    'Your Back In Time Team'
+).format(contact_list=_HTML_CONTACT_LIST)
+
+
+_RELEASE_CANDIDATE_TITLE = _('Release Candidate')
 
 
 class MainWindow(QMainWindow):
@@ -1967,7 +2008,6 @@ class MainWindow(QMainWindow):
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
         dlg.exec()
-
 
 class ExtraMouseButtonEventFilter(QObject):
     """
