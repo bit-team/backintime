@@ -8,7 +8,6 @@
 
 import os
 import subprocess
-from gettext import gettext
 
 import logger
 import tools
