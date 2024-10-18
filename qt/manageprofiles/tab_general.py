@@ -485,7 +485,7 @@ class GeneralTab(QDialog):
 
         if not mnt.isConfigured(mode=self.config.snapshotsMode(), **mount_kwargs):
             try:
-                mnt.init(mode = mode, **mount_kwargs)
+                mnt.init(mode=self.config.snapshotsMode(), **mount_kwargs)
             except MountException as ex:
                 self.errorHandler(str(ex))
                 return False
