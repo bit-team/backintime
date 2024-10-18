@@ -16,7 +16,6 @@ from password_ipc import TempPasswordThread
 from mount import MountControl
 from exceptions import MountException
 
-_ = gettext
 
 class GoCryptFS_mount(MountControl):
     """
