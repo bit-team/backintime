@@ -30,4 +30,3 @@ class General(unittest.TestCase):
         sut = sut.pop()
 
         self.assertIs(sut, int)
-

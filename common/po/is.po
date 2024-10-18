@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icelandic (Back In Time)\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-17 22:54+0200\n"
+"POT-Creation-Date: 2024-10-18 16:08+0200\n"
 "PO-Revision-Date: 2024-08-05 09:28+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Aðvörun"
 
-#: common/config.py:130 common/tools.py:391
+#: common/config.py:130 common/tools.py:392
 #, fuzzy, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -204,7 +204,7 @@ msgstr "MISTÓKST"
 msgid "Restore permissions"
 msgstr "Endurheimta heimildir"
 
-#: common/snapshots.py:611 qt/app.py:294 qt/app.py:1003 qt/app.py:1038
+#: common/snapshots.py:611 qt/app.py:335 qt/app.py:1044 qt/app.py:1079
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Búið"
@@ -319,7 +319,7 @@ msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Reyna að halda a.m.k. {perc} af lausum i-hnútum (inodes)"
 
-#: common/snapshots.py:3040 qt/app.py:1755
+#: common/snapshots.py:3040 qt/app.py:1796
 msgid "Now"
 msgstr "Núna"
 
@@ -390,20 +390,20 @@ msgstr "Afritaðu ssh-dreifilykil \"{pubkey}\" yfir á fjartengdu vélina \"{hos
 msgid "Please enter a password for \"{user}\"."
 msgstr "Settu inn lykilorð fyrir \"{user}\"."
 
-#: common/tools.py:423
+#: common/tools.py:424
 #, fuzzy, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "Fjartengd slóð er til, en er ekki mappa."
 
-#: common/tools.py:437
+#: common/tools.py:438
 msgid "Creation of following directory failed:"
 msgstr ""
 
-#: common/tools.py:439 common/tools.py:535
+#: common/tools.py:440 common/tools.py:536
 msgid "Write access may be restricted."
 msgstr ""
 
-#: common/tools.py:479
+#: common/tools.py:480
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -412,7 +412,7 @@ msgstr ""
 "Markskráakerfi fyrir {path} er í FAT formi sem virkar ekki með hörðum-"
 "tenglum. Notaðu frekar upprunalegt Linux skráakerfi."
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -423,16 +423,16 @@ msgstr ""
 "fjartengdi SMB-þjónninn styðji tákntengi (symlink) eða virkjaðu {copyLinks} "
 "í {expertOptions}."
 
-#: common/tools.py:494
+#: common/tools.py:495
 #, fuzzy
 msgid "Copy links (resolve symbolic links)"
 msgstr "Afrita tengla (afbyggja tákntengi - dereference symbolic links)"
 
-#: common/tools.py:495
+#: common/tools.py:496
 msgid "Expert Options"
 msgstr "Ítarlegri valkostir"
 
-#: common/tools.py:499
+#: common/tools.py:500
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -441,11 +441,11 @@ msgstr ""
 "Markskráakerfi fyrir {path} er í sshfs-tengd sameign. SSHFS styður ekki "
 "harða tengla. Notaðu frekar 'SSH'."
 
-#: common/tools.py:533
+#: common/tools.py:534
 msgid "File creation failed in this directory:"
 msgstr ""
 
-#: qt/aboutdlg.py:37 qt/app.py:575
+#: qt/aboutdlg.py:37 qt/app.py:616
 msgid "About"
 msgstr "Um forritið"
 
@@ -461,178 +461,214 @@ msgstr "Þýðingar"
 msgid "License"
 msgstr "Notkunarleyfi"
 
-#: qt/app.py:171
+#: qt/app.py:105
+#, python-brace-format
+msgid "Email to {link_and_label}."
+msgstr ""
+
+#: qt/app.py:108
+#, python-brace-format
+msgid "Mailing list {link_and_label}"
+msgstr ""
+
+#: qt/app.py:111
+#, python-brace-format
+msgid "{link_and_label} on the project website."
+msgstr ""
+
+#: qt/app.py:114
+msgid "Alternatively, you can use another channel of your choice."
+msgstr ""
+
+#: qt/app.py:118
+#, python-brace-format
+msgid ""
+"This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
+"No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
+"Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
+"The following contact options are available:\n"
+"{contact_list}\n"
+"In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
+"Thank you for your support and for helping us improve Back In Time!\n"
+"Your Back In Time Team"
+msgstr ""
+
+#: qt/app.py:143
+msgid "Release Candidate"
+msgstr ""
+
+#: qt/app.py:212
 msgid "Shortcuts"
 msgstr "Flýtilyklar"
 
-#: qt/app.py:191
+#: qt/app.py:232
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 
-#: qt/app.py:259
+#: qt/app.py:300
 msgid "Add to Include"
 msgstr "Bæta við meðfylgjandi"
 
-#: qt/app.py:261
+#: qt/app.py:302
 msgid "Add to Exclude"
 msgstr "Bæta við útilokun"
 
-#: qt/app.py:346
+#: qt/app.py:387
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:351
+#: qt/app.py:392
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:378
+#: qt/app.py:419
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Get ekki fundið möppu fyrir skyndiafrit."
 
-#: qt/app.py:379
+#: qt/app.py:420
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 
-#: qt/app.py:484
+#: qt/app.py:525
 msgid "Take a snapshot"
 msgstr "Taka skyndiafrit"
 
-#: qt/app.py:486
+#: qt/app.py:527
 msgid "Use modification time & size for file change detection."
 msgstr "Nota breytingartíma og stærð til að skynja breytingar á skrám."
 
-#: qt/app.py:489
+#: qt/app.py:530
 msgid "Take a snapshot (checksum mode)"
 msgstr "Taka skyndiafrit (í gátsummuham)"
 
-#: qt/app.py:491
+#: qt/app.py:532
 msgid "Use checksums for file change detection."
 msgstr "Nota gátsummu til að skynja breytingar á skrám."
 
-#: qt/app.py:494 qt/qtsystrayicon.py:86
+#: qt/app.py:535 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
 msgstr "Gera hlé á vinnslu skyndiafrits"
 
-#: qt/app.py:499 qt/qtsystrayicon.py:90
+#: qt/app.py:540 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
 msgstr "Halda áfram með vinnslu skyndiafrits"
 
-#: qt/app.py:503 qt/qtsystrayicon.py:95
+#: qt/app.py:544 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
 msgstr "Stöðva vinnslu skyndiafrits"
 
-#: qt/app.py:507
+#: qt/app.py:548
 msgid "Refresh snapshot list"
 msgstr "Endurlesa lista yfir skyndiafrit"
 
-#: qt/app.py:511
+#: qt/app.py:552
 msgid "Name snapshot"
 msgstr "Nefndu skyndiafrit"
 
-#: qt/app.py:515
+#: qt/app.py:556
 msgid "Remove snapshot"
 msgstr "Fjarlægja skyndiafrit"
 
-#: qt/app.py:519
+#: qt/app.py:560
 msgid "View snapshot log"
 msgstr "Skoða atvikaskrá skyndiafrita"
 
-#: qt/app.py:523
+#: qt/app.py:564
 msgid "View last log"
 msgstr "Skoða síðustu atvikaskrá"
 
-#: qt/app.py:527
+#: qt/app.py:568
 msgid "Manage profiles…"
 msgstr "Sýsla með notkunarsnið…"
 
-#: qt/app.py:531
+#: qt/app.py:572
 msgid "Shutdown"
 msgstr "Slökkva"
 
-#: qt/app.py:533
+#: qt/app.py:574
 msgid "Shut down system after snapshot has finished."
 msgstr "Slökkva á kerfi þegar skyndiafritun lýkur."
 
-#: qt/app.py:535
+#: qt/app.py:576
 msgid "Setup language…"
 msgstr "Setja upp tungumál…"
 
-#: qt/app.py:539
+#: qt/app.py:580
 msgid "Exit"
 msgstr "Hætta"
 
-#: qt/app.py:543
+#: qt/app.py:584
 msgid "Help"
 msgstr "Hjálp"
 
-#: qt/app.py:547
+#: qt/app.py:588
 msgid "Profiles config file"
 msgstr "Stillingaskrá notkunarsniða"
 
-#: qt/app.py:550 qt/languagedialog.py:233
+#: qt/app.py:591 qt/languagedialog.py:233
 msgid "Website"
 msgstr "Vefsvæði"
 
-#: qt/app.py:553 qt/app.py:1381
+#: qt/app.py:594 qt/app.py:1422
 msgid "Changelog"
 msgstr "Breytingasaga"
 
-#: qt/app.py:556
+#: qt/app.py:597
 msgid "FAQ"
 msgstr "FAQ / Algengar spurningar"
 
-#: qt/app.py:559
+#: qt/app.py:600
 msgid "Ask a question"
 msgstr "Spyrja spurninga"
 
-#: qt/app.py:562
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "Tilkynna um villu"
 
-#: qt/app.py:565
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Þýðing"
 
-#: qt/app.py:567
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr ""
 
-#: qt/app.py:571
+#: qt/app.py:612
 msgid "Encryption Transition (EncFS)"
 msgstr ""
 
-#: qt/app.py:573
+#: qt/app.py:614
 msgid "Shows the message about EncFS removal again."
 msgstr ""
 
-#: qt/app.py:578 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/app.py:619 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
 msgstr "Endurheimta"
 
-#: qt/app.py:580
+#: qt/app.py:621
 #, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Endurheimta valdar skrár eða möppur á upprunalega staðsetningu."
 
-#: qt/app.py:583 qt/app.py:1558 qt/app.py:1590 qt/snapshotsdialog.py:166
+#: qt/app.py:624 qt/app.py:1599 qt/app.py:1631 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Endurheimta í …"
 
-#: qt/app.py:585
+#: qt/app.py:626
 #, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Endurheimta valdar skrár eða möppur á nýja staðsetningu."
 
-#: qt/app.py:590
+#: qt/app.py:631
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -640,42 +676,42 @@ msgid ""
 msgstr ""
 "Endurheimta sýnda möppu og allt innihald hennar á upprunalega staðsetningu."
 
-#: qt/app.py:595
+#: qt/app.py:636
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr "Endurheimta sýnda möppu og allt innihald hennar á nýja staðsetningu."
 
-#: qt/app.py:598
+#: qt/app.py:639
 msgid "Up"
 msgstr "Upp"
 
-#: qt/app.py:601 qt/restoreconfigdialog.py:90
+#: qt/app.py:642 qt/restoreconfigdialog.py:90
 msgid "Show hidden files"
 msgstr "Sýna faldar skrár"
 
-#: qt/app.py:604
+#: qt/app.py:645
 msgid "Compare snapshots…"
 msgstr "Bera saman skyndiafrit…"
 
-#: qt/app.py:663
+#: qt/app.py:704
 msgid "Back In &Time"
 msgstr "Back In &Time öryggisafritun"
 
-#: qt/app.py:668
+#: qt/app.py:709
 msgid "&Backup"
 msgstr "&Öryggisafrit"
 
-#: qt/app.py:679
+#: qt/app.py:720
 msgid "&Restore"
 msgstr "Endu&rheimta"
 
-#: qt/app.py:685
+#: qt/app.py:726
 msgid "&Help"
 msgstr "&Hjálp"
 
-#: qt/app.py:821
+#: qt/app.py:862
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -683,73 +719,73 @@ msgstr ""
 "Ef þú lokar þessum glugga, mun Back In Time ekki geta slökkt á kerfinu þegar"
 " skyndiafritun lýkur."
 
-#: qt/app.py:824
+#: qt/app.py:865
 msgid "Do you really want to close it?"
 msgstr "Viltu örugglega loka þessu?"
 
-#: qt/app.py:993
+#: qt/app.py:1034
 msgid "Working:"
 msgstr "Að vinna:"
 
-#: qt/app.py:1041
+#: qt/app.py:1082
 msgid "Done, no backup needed"
 msgstr "Búið, engin öryggisafritun nauðsynleg"
 
-#: qt/app.py:1050
+#: qt/app.py:1091
 msgid "Working"
 msgstr "Að vinna"
 
-#: qt/app.py:1059 qt/messagebox.py:93
+#: qt/app.py:1100 qt/messagebox.py:93
 msgid "Error"
 msgstr "Villa"
 
-#: qt/app.py:1082
+#: qt/app.py:1123
 msgid "Sent"
 msgstr "Sent"
 
-#: qt/app.py:1083
+#: qt/app.py:1124
 msgid "Speed"
 msgstr "Hraði"
 
-#: qt/app.py:1084
+#: qt/app.py:1125
 msgid "ETA"
 msgstr "Áætluð lok"
 
-#: qt/app.py:1146
+#: qt/app.py:1187
 msgid "Global"
 msgstr "Víðvært"
 
-#: qt/app.py:1147
+#: qt/app.py:1188
 msgid "Root"
 msgstr "Kerfisstjóri (root)"
 
-#: qt/app.py:1148
+#: qt/app.py:1189
 msgid "Home"
 msgstr "Einkamappa (Home)"
 
-#: qt/app.py:1176
+#: qt/app.py:1217
 #, fuzzy
 msgid "Backup directories"
 msgstr "Öryggisafritunarmöppur"
 
-#: qt/app.py:1272
+#: qt/app.py:1313
 msgid "Snapshot Name"
 msgstr "Heiti skyndiafrits"
 
-#: qt/app.py:1319
+#: qt/app.py:1360
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Ertu viss um að þú viljir fjarlægja þetta skyndiafrit?"
 msgstr[1] "Ertu viss um að þú viljir fjarlægja þessi skyndiafrit?"
 
-#: qt/app.py:1414
+#: qt/app.py:1455
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
 "before overwriting or removing local elements."
 msgstr ""
 
-#: qt/app.py:1422
+#: qt/app.py:1463
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -757,19 +793,19 @@ msgid ""
 "following command:"
 msgstr ""
 
-#: qt/app.py:1438
+#: qt/app.py:1479
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: qt/app.py:1473
+#: qt/app.py:1514
 #, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Fjarlægja nýjar skrár í upprunalegri möppu."
 
-#: qt/app.py:1476
+#: qt/app.py:1517
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -777,7 +813,7 @@ msgid ""
 "taking the snapshot."
 msgstr ""
 
-#: qt/app.py:1488
+#: qt/app.py:1529
 #, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
@@ -789,46 +825,46 @@ msgstr[1] ""
 "Ertu viss um að þú viljir endurheimta þessi atriði í nýju möppuna\n"
 "{path}?"
 
-#: qt/app.py:1498
+#: qt/app.py:1539
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Ertu viss um að þú viljir endurheimta þetta atriði ?"
 msgstr[1] "Ertu viss um að þú viljir endurheimta þessi atriði?"
 
-#: qt/app.py:1517
+#: qt/app.py:1558
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Ertu viss um að þú viljir fjarlægja allar nýrri skrár í {path}?"
 
-#: qt/app.py:1520
+#: qt/app.py:1561
 #, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
 "Ertu viss um að þú viljir fjarlægja allar nýrri skrár í upprunalegri möppu?"
 
-#: qt/app.py:1526
+#: qt/app.py:1567
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
 
-#: qt/app.py:1762
+#: qt/app.py:1803
 msgid "Snapshot"
 msgstr "Skyndiafrit"
 
-#: qt/app.py:1799
+#: qt/app.py:1840
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Endurheimta {path}"
 
-#: qt/app.py:1801
+#: qt/app.py:1842
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Endurheimta {path} í …"
 
-#: qt/app.py:1960
+#: qt/app.py:2001
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
