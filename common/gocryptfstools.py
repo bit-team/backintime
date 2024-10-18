@@ -10,7 +10,6 @@ import os
 import subprocess
 
 import logger
-import tools
 from password_ipc import TempPasswordThread
 from mount import MountControl
 from exceptions import MountException
@@ -21,6 +20,11 @@ class GoCryptFS_mount(MountControl):
     """
     def __init__(self, *args, **kwargs):
         super(GoCryptFS_mount, self).__init__(*args, **kwargs)
+
+        # Workaround for some linters.
+        self.path = None
+        self.reverse = None
+        self.config_path = None
 
         self.setattrKwargs('path', self.config.localGocryptfsPath(self.profile_id), **kwargs)
         self.setattrKwargs('reverse', False, **kwargs)
