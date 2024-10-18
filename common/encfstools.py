@@ -44,6 +44,7 @@ class EncFS_mount(MountControl):
 
         self.setDefaultArgs()
 
+        # pylint: disable=duplicate-code
         self.mountproc = 'encfs'
         self.log_command = '%s: %s' % (self.mode, self.path)
         self.symlink_subfolder = None
@@ -109,6 +110,7 @@ class EncFS_mount(MountControl):
         return encfs config file
         """
         f = '.encfs6.xml'
+        # pylint: disable=duplicate-code
         if self.config_path is None:
             cfg = os.path.join(self.path, f)
         else:
