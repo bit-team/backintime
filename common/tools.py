@@ -490,16 +490,16 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
         msg = _(
             'Destination filesystem for {path} is a share mounted via SMB. '
             'Please make sure the remote SMB server supports symlinks or '
-            'activate {copyLinks} in {expertOptions}.') \
+            'activate "{copyLinks}" in "{expertOptions}".') \
             .format(path=msg_path,
-                    copyLinks=_('Copy links (resolve symbolic links)'),
+                    copyLinks=_('Copy links (dereference symbolic links)'),
                     expertOptions=_('Expert Options'))
 
     elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
         msg = _(
             "Destination filesystem for {path} is a share mounted via sshfs. "
             "Sshfs doesn't support hard-links. "
-            "Please use mode 'SSH' instead.").format(path=msg_path)
+            'Please use mode "SSH" instead.').format(path=msg_path)
 
         return False, msg
 

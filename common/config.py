@@ -317,7 +317,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots directory is not valid!')
+                        _('Snapshots directory is not valid.')
                     )
                 )
                 return False
@@ -347,7 +347,8 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _("Backup directory cannot be included.")
+                            _('The directory cannot be included in the '
+                              'backup.')
                         )
                     )
 
@@ -359,7 +360,7 @@ class Config(configfile.ConfigFileWithProfiles):
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
-                                _('Sub-directories cannot be included in '
+                                _('The sub-directories cannot be included in '
                                   'the backup.')
                             )
                         )
