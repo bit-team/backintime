@@ -95,7 +95,7 @@ ABOUT               = QIcon.fromTheme('help-about')
 #Files toolbar
 UP                  = QIcon.fromTheme('go-up')
 SHOW_HIDDEN         = QIcon.fromTheme('view-hidden',  # currently only in Breeze (see #1159)
-                      QIcon.fromTheme('show-hidden',  # icon installed with BiT!
+                      QIcon.fromTheme('show-hidden',  # icon installed with # BiT! #507
                       QIcon.fromTheme('list-add')))
 RESTORE             = QIcon.fromTheme('edit-undo')
 RESTORE_TO          = QIcon.fromTheme('document-revert')
