@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-10-18 16:08+0200\n"
-"PO-Revision-Date: 2024-09-17 12:39+0000\n"
+"PO-Revision-Date: 2024-10-19 13:29+0000\n"
 "Last-Translator: Outbreak2096 <Outbreak2096@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -79,38 +79,34 @@ msgid "Profile: \"{name}\""
 msgstr "配置：\"{name}\""
 
 #: common/config.py:323
-#, fuzzy
 msgid "Snapshots directory is not valid!"
 msgstr "快照文件夹无效！"
 
 #: common/config.py:335
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "必须至少选择一个文件夹进行备份。"
 
 #: common/config.py:353
-#, fuzzy
 msgid "Backup directory cannot be included."
 msgstr "不能包含备份文件夹。"
 
 #: common/config.py:365
-#, fuzzy
 msgid "Sub-directories cannot be included in the backup."
-msgstr "不能包含备份子文件夹。"
+msgstr "备份中不能包含子文件夹。"
 
 #: common/config.py:1485
 msgid "Failed to write new crontab."
 msgstr "新增定时任务失败。"
 
 #: common/config.py:1493
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
-"crontab 指令可用但 cron 未在运行，因此无法执行定时备份。cron 可能已安装但未启用，请尝试指令\"systemctl enable "
-"cron\"或向您 GNU Linux 发行版的支持频道求助。"
+"crontab 命令可用但 cron 未在运行，因此无法执行定时备份。cron 可能已安装但未启用，请尝试命令“systemctl enable "
+"cron”或向您 GNU Linux 发行版的支持频道求助。"
 
 #: common/config.py:1573
 #, python-brace-format
@@ -120,9 +116,9 @@ msgid ""
 msgstr "无法为配置文件 {profile_id} 安装 Udev 规则。 DBus 服务“{dbus_interface}”不可用"
 
 #: common/config.py:1588
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "计划 的udev 不适用于 {mode}模式"
+msgstr "计划的 Udev 不适用于 {mode} 模式"
 
 #: common/config.py:1599
 #, python-brace-format
@@ -147,17 +143,15 @@ msgid "The last profile cannot be removed."
 msgstr "最后一个配置无法被移除。"
 
 #: common/encfstools.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr "无法加载 {command}"
+msgstr "无法挂载 '{command}'"
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "未找到加密文件夹的配置。"
 
 #: common/encfstools.py:147
-#, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "是否创建一个新的加密文件夹？"
 
@@ -178,7 +172,7 @@ msgid "Take snapshot"
 msgstr "创建快照"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "无法从 {mountpoint} 卸载 {mountprocess}。"
 
@@ -215,13 +209,12 @@ msgid "Deferring backup while on battery"
 msgstr "依靠电池供电时，延后备份"
 
 #: common/snapshots.py:829
-#, fuzzy
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
 "未能找到快照文件夹。\n"
-"如果快照位于外置存储器，请先将存储器接入。"
+"如果它在可移动驱动器上，请将其插入。"
 
 #: common/snapshots.py:833
 #, python-format
@@ -239,9 +232,8 @@ msgid "Please be patient. Finalizing…"
 msgstr "请耐心等待。正在最后确定…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "无法创建文件夹"
+msgstr "无法创建文件夹。"
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -252,19 +244,18 @@ msgid "Saving permissions…"
 msgstr "保存权限 …"
 
 #: common/snapshots.py:1273
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "找到剩余的{snapshot_id}，可以继续。"
+msgstr "找到了可以继续的剩余快照 {snapshot_id}。"
 
 #: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "正在删除上次运行中剩余的 {snapshot_id} 文件夹"
+msgstr "正在从上次运行中移除剩余的 {snapshot_id} 文件夹"
 
 #: common/snapshots.py:1307
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "无法删除文件夹"
+msgstr "无法移除文件夹"
 
 #: common/snapshots.py:1361
 msgid "Taking snapshot"
@@ -301,9 +292,9 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "没有改动内容，无需创建新快照"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "无法将{new_path}重命名为{path}"
+msgstr "无法将 {new_path} 重命名为 {path}。"
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -327,14 +318,13 @@ msgid "Now"
 msgstr "现在"
 
 #: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "无法挂载 {sshfs}"
 
 #: common/sshtools.py:308
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr "ssh-agent 未找到。请确保已安装该工具。"
+msgstr "ssh-agent 未找到。请确保已安装。"
 
 #: common/sshtools.py:478
 msgid ""
@@ -393,12 +383,11 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "请输入“{user}”的密码。"
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "远程路径存在但不是一个目录。"
+msgstr "{path} 不是有效的文件夹。"
 
 #: common/tools.py:438
-#, fuzzy
 msgid "Creation of following directory failed:"
 msgstr "创建以下文件夹失败："
 
@@ -407,40 +396,38 @@ msgid "Write access may be restricted."
 msgstr "写入权限可能受到限制。"
 
 #: common/tools.py:480
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
-msgstr "{path} 的目标文件系统格式为 FAT，不支持硬连接。请使用原生 Linux 文件系统。"
+msgstr "{path} 的目标文件系统格式为 FAT，不支持硬连接。请使用原生 GNU/Linux 文件系统。"
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate {copyLinks} in "
 "{expertOptions}."
 msgstr ""
-"{path} 的目标文件系统是 SMB 格式挂载的共享。请确保远程 SMB 服务器支持符号链接或激活 {expertOptions} 中的 "
+"{path} 的目标文件系统是通过 SMB 挂载的共享文件系统。请确保远程 SMB 服务器支持符号链接或激活 {expertOptions} 中的 "
 "{copyLinks}。"
 
 #: common/tools.py:495
-#, fuzzy
 msgid "Copy links (resolve symbolic links)"
-msgstr "复制链接（取消引用符号链接）"
+msgstr "复制链接（解析符号链接）"
 
 #: common/tools.py:496
 msgid "Expert Options"
 msgstr "专家选项"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode 'SSH' instead."
-msgstr "{path} 的目标文件系统是 sshfs 格式挂载的共享。 sshfs 不支持硬链接。 请改用“SSH”模式。"
+msgstr "{path} 的目标文件系统是通过 sshfs 挂载的共享文件系统。Sshfs 不支持硬链接。请改用“SSH”模式。"
 
 #: common/tools.py:534
-#, fuzzy
 msgid "File creation failed in this directory:"
 msgstr "在此文件夹中创建文件失败："
 
@@ -463,21 +450,21 @@ msgstr "许可"
 #: qt/app.py:105
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "发送电子邮件至 {link_and_label}。"
 
 #: qt/app.py:108
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "邮件列表 {link_and_label}"
 
 #: qt/app.py:111
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} 在项目网站上。"
 
 #: qt/app.py:114
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "或者，您可以使用您选择的另一种途径。"
 
 #: qt/app.py:118
 #, python-brace-format
@@ -491,22 +478,29 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"此版本的 Back In Time 是一个候选版本，主要用于稳定性测试，为下一个正式版本做准备。\n"
+"不收集用户数据或遥测数据。然而，Back In Time 团队非常想知道是否正在使用候选版本，以及是否值得继续提供此类预发布版本。\n"
+"因此，即使您没有遇到任何问题，团队友好地向您提供了有关您是否已经测试此版本的简短反馈。即使是几分钟的快速试运行也会对我们有很大帮助。\n"
+"可以使用以下联系选项：\n"
+"{contact_list}\n"
+"在此版本中，不会再次显示此消息，但可通过帮助菜单随时访问。\n"
+"感谢您的支持和帮助我们改进 Back In Time！\n"
+"您的 Back In Time 团队"
 
 #: qt/app.py:143
 msgid "Release Candidate"
-msgstr ""
+msgstr "候选版本"
 
 #: qt/app.py:212
 msgid "Shortcuts"
 msgstr "快捷方式"
 
 #: qt/app.py:232
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
-"当前选定的快照中\n"
+"当前所选快照中\n"
 "不存在此文件夹。"
 
 #: qt/app.py:300
@@ -525,16 +519,14 @@ msgid ""
 msgstr "{app_name}首次运行，没有找到配置文件。"
 
 #: qt/app.py:392
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
-msgstr "（从备份目标文件夹或另一台计算机）导入已有配置？"
+msgstr "是否导入现有配置（从备份目标文件夹或另一台计算机）？"
 
 #: qt/app.py:419
-#, fuzzy
 msgid "Can't find snapshots directory."
-msgstr "无法创建文件夹。"
+msgstr "无法找到快照文件夹。"
 
 #: qt/app.py:420
 msgid "If it is on a removable drive please plug it in and then press OK."
@@ -658,28 +650,24 @@ msgid "Restore"
 msgstr "还原"
 
 #: qt/app.py:621
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
-msgstr "将选定的文件或文件夹恢复到原始目标。"
+msgstr "将所选文件或文件夹恢复到原始目标。"
 
 #: qt/app.py:624 qt/app.py:1599 qt/app.py:1631 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "还原至…"
 
 #: qt/app.py:626
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
-msgstr "将选定的文件或文件夹恢复到新的目标。"
+msgstr "将所选文件或文件夹恢复到新目标。"
 
 #: qt/app.py:631
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr "将当前显示的文件夹及其所有内容恢复到原始目标。"
 
 #: qt/app.py:636
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -764,7 +752,6 @@ msgid "Home"
 msgstr "主目录"
 
 #: qt/app.py:1217
-#, fuzzy
 msgid "Backup directories"
 msgstr "备份文件夹"
 
@@ -805,27 +792,22 @@ msgstr ""
 "使用“rsync --update”选项。"
 
 #: qt/app.py:1514
-#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "删除原始文件夹中较新的元素。"
+msgstr "移除原始文件夹中的较新元素。"
 
 #: qt/app.py:1517
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "taking the snapshot."
-msgstr "将选定的文件或文件夹恢复到原始目标，并删除不在快照中的文件或文件夹，要非常小心，因为这会删除创建快照时被排除的文件和文件夹。"
+msgstr "将所选文件或文件夹恢复到原始目标，并删除不在快照中的文件或文件夹。请务必小心，因为这会删除创建快照时排除的文件和文件夹。"
 
 #: qt/app.py:1529
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"是否确定将这些文件还原至新文件夹\n"
-"{path}？"
+msgstr[0] "是否确定要将这些元素恢复到新文件夹？"
 
 #: qt/app.py:1539
 msgid "Do you really want to restore this element?"
@@ -838,10 +820,9 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "您确定要移除 {path} 的所有新文件吗？"
 
 #: qt/app.py:1561
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
-msgstr "您确定要删除原始文件夹中的所有较新文件吗？"
+msgstr "是否确定要移除原始文件夹中的所有较新文件？"
 
 #: qt/app.py:1567
 #, python-brace-format
@@ -1037,16 +1018,14 @@ msgid "&Include"
 msgstr "&包含"
 
 #: qt/manageprofiles/__init__.py:120
-#, fuzzy
 msgid "Include files and directories"
-msgstr "包含文件和文件夹"
+msgstr "包括文件和文件夹"
 
 #: qt/manageprofiles/__init__.py:137 qt/manageprofiles/__init__.py:202
 msgid "Add file"
 msgstr "添加文件"
 
 #: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
-#, fuzzy
 msgid "Add directory"
 msgstr "添加文件夹"
 
@@ -1066,9 +1045,8 @@ msgstr ""
 " {example1}）。由于 EncFS 加密，此模式下文件名不可预测。"
 
 #: qt/manageprofiles/__init__.py:178
-#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "不包含模式，文件或文件夹"
+msgstr "排除模式，文件或文件夹"
 
 #: qt/manageprofiles/__init__.py:211
 msgid "Add default"
@@ -1146,7 +1124,6 @@ msgid "Exclude file"
 msgstr "排除文件"
 
 #: qt/manageprofiles/__init__.py:615
-#, fuzzy
 msgid "Exclude directory"
 msgstr "排除文件夹"
 
@@ -1164,7 +1141,6 @@ msgstr ""
 "您想改为包含符号链接的目标吗？"
 
 #: qt/manageprofiles/__init__.py:669
-#, fuzzy
 msgid "Include directory"
 msgstr "包含文件夹"
 
@@ -1361,11 +1337,11 @@ msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
-msgstr ""
+msgstr "智能移除过程将直接在远程计算机上运行，而不是在本地运行。命令“bash”、“screen”和“flock”必须在远程计算机上安装并使用。"
 
 #: qt/manageprofiles/tab_auto_remove.py:111
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "如果选择，Back In Time 将首先测试远程计算机。"
 
 #: qt/manageprofiles/tab_auto_remove.py:118
 msgid "Keep all snapshots for the last"
@@ -1401,26 +1377,24 @@ msgid "Keep one snapshot per year for all years."
 msgstr "每年保留一个快照。"
 
 #: qt/manageprofiles/tab_auto_remove.py:151
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "不要移除已命名的快照。"
+msgstr "保留已命名的快照。"
 
 #: qt/manageprofiles/tab_auto_remove.py:153
 msgid ""
 "Snapshots that, in addition to the usual timestamp, have been given a name "
 "will not be deleted."
-msgstr ""
+msgstr "除了通常的时间戳外，已命名的快照不会被删除。"
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "问题"
+msgstr "注意："
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
-msgstr ""
+msgstr "这些选项适用于高级配置。只有完全意识到其影响的情况下才修改。"
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1445,9 +1419,8 @@ msgid "when taking a manual snapshot"
 msgstr "当手动创建快照时"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "（请安装“nocache”以启用此选项）"
+msgstr "请安装“nocache”以启用此选项。"
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1573,7 +1546,7 @@ msgstr "何处保存快照"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr ""
+msgstr "文件夹"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1592,11 +1565,10 @@ msgid "Private Key:"
 msgstr "私钥:"
 
 #: qt/manageprofiles/tab_general.py:149
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
-msgstr "选择一个已存在的私钥文件（通常名为 \"id_rsa\"）"
+msgstr "选择一个现有的私钥文件（通常名为“id_ed25519”，在旧设置中为“id_rsa”）。"
 
 #: qt/manageprofiles/tab_general.py:161
 msgid ""
@@ -1672,9 +1644,8 @@ msgstr ""
 "我们将在不久的将来停止支持 EncFS。具体的加密备份替代方案还在商讨中，结果取决于项目资源和贡献者数量。详情请参考{whitepaper}。"
 
 #: qt/manageprofiles/tab_general.py:611
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
-msgstr "确定要改变快照文件夹吗？"
+msgstr "是否确定要更改快照文件夹？"
 
 #: qt/manageprofiles/tab_general.py:648
 #, python-brace-format

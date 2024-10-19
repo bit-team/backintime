@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-10-18 16:08+0200\n"
-"PO-Revision-Date: 2024-09-17 09:51+0000\n"
+"PO-Revision-Date: 2024-10-19 13:29+0000\n"
 "Last-Translator: mbouzada <mbouzada@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -81,40 +81,36 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
 
 #: common/config.py:323
-#, fuzzy
 msgid "Snapshots directory is not valid!"
-msgstr "O cartafol das instantáneas non é válido!"
+msgstr "O directorio das instantáneas non é válido!"
 
 #: common/config.py:335
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
 #: common/config.py:353
-#, fuzzy
 msgid "Backup directory cannot be included."
-msgstr "Non é posíbel incluír o cartafol de copias de seguranza."
+msgstr "Non é posíbel incluír o directorio de copias de seguranza."
 
 #: common/config.py:365
-#, fuzzy
 msgid "Sub-directories cannot be included in the backup."
-msgstr "Non é posíbel incluír o subcartafol de copia de seguranza."
+msgstr "Non é posíbel incluír o subdirectorio de copia de seguranza."
 
 #: common/config.py:1485
 msgid "Failed to write new crontab."
 msgstr "Produciuse un fallo escribindo no novo crontab."
 
 #: common/config.py:1493
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
-"Non se esta a executar cron, mais existe a orde crontab. Non se crearán "
-"copias de seguranza. É posíbel que cron estea instalado mais inactivo. Probe"
-" a executar «systemctl enable cron» ou consultar a axuda da súa distribución"
-" GNU/Linux."
+"Cron non se está a executar aínda que está dispoñíbel a orde crontab. Os "
+"traballos de copia de seguranza programados non se executarán. É posible que"
+" Cron estea instalado pero non activado. Probe a executar «systemctl enable "
+"cron» ou consulte a axuda da súa distribución GNU/Linux."
 
 #: common/config.py:1573
 #, python-brace-format
@@ -126,9 +122,9 @@ msgstr ""
 "servizo DBus «{dbus_interface}» non estaba dispoñíbel"
 
 #: common/config.py:1588
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "O programador udev non funciona en modo {mode}"
+msgstr "A programación de udev non funciona co modo {mode}"
 
 #: common/config.py:1599
 #, python-brace-format
@@ -153,19 +149,17 @@ msgid "The last profile cannot be removed."
 msgstr "Non é posíbel revogar o último perfil."
 
 #: common/encfstools.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Non é posible montar «{command}»"
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "Non se atopou a configuración do cartafol cifrado."
+msgstr "Non se atopou a configuración do directorio cifrado."
 
 #: common/encfstools.py:147
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Quere crear un novo cartafol cifrado?"
+msgstr "Quere crear un novo directorio cifrado?"
 
 #: common/encfstools.py:151
 msgid "Cancel"
@@ -221,12 +215,11 @@ msgid "Deferring backup while on battery"
 msgstr "Adiando a copia de seguranza mentres se usa a batería"
 
 #: common/snapshots.py:829
-#, fuzzy
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"Non é posíbel atopar o cartafol das instantáneas.\n"
+"Non é posíbel atopar o directorio das instantáneas.\n"
 "Se está nun dispositivo extraíbel débeo conectar."
 
 #: common/snapshots.py:833
@@ -246,9 +239,8 @@ msgid "Please be patient. Finalizing…"
 msgstr "Teña paciencia. Finalizando…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Non é posíbel crear o cartafol"
+msgstr "Non é posíbel crear o directorio"
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -264,14 +256,13 @@ msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr "Atopáronse restos de {snapshot_id} cos que se pode continuar."
 
 #: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "Retirando o cartafol {snapshot_id} sobrante da última execución"
+msgstr "Retirando o directorio {snapshot_id} sobrante da última execución"
 
 #: common/snapshots.py:1307
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "Non é posíbel eliminar o cartafol"
+msgstr "Non é posíbel retirar o directorio"
 
 #: common/snapshots.py:1361
 msgid "Taking snapshot"
@@ -407,14 +398,13 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "Introduza o contrasinal de «{user}»."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "A ruta remota existe mais non é un cartafol."
+msgstr "{path} non é un directorio válido."
 
 #: common/tools.py:438
-#, fuzzy
 msgid "Creation of following directory failed:"
-msgstr "Produciuse un fallo ao crear o seguinte cartafol:"
+msgstr "Produciuse un fallo ao crear o seguinte directorio:"
 
 #: common/tools.py:440 common/tools.py:536
 msgid "Write access may be restricted."
@@ -441,9 +431,8 @@ msgstr ""
 "active {copyLinks} en {expertOptions}."
 
 #: common/tools.py:495
-#, fuzzy
 msgid "Copy links (resolve symbolic links)"
-msgstr "Copiar as ligazóns (desbotar as ligazóns simbólicas)"
+msgstr "Copiar as ligazóns (resolver as ligazóns simbólicas)"
 
 #: common/tools.py:496
 msgid "Expert Options"
@@ -459,9 +448,8 @@ msgstr ""
 "sshfs. Sshfs non acepta ligazóns fortes. Use o modo «SSH»."
 
 #: common/tools.py:534
-#, fuzzy
 msgid "File creation failed in this directory:"
-msgstr "Produciuse un fallo ao crear o ficheiro neste cartafol:"
+msgstr "Produciuse un fallo ao crear o ficheiro neste directorio:"
 
 #: qt/aboutdlg.py:37 qt/app.py:616
 msgid "About"
@@ -520,12 +508,11 @@ msgid "Shortcuts"
 msgstr "Atallos"
 
 #: qt/app.py:232
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
-"Este cartafol non existe\n"
+"Este directorio non existe\n"
 "na actual instantánea seleccionada."
 
 #: qt/app.py:300
@@ -555,9 +542,8 @@ msgstr ""
 "computador)?"
 
 #: qt/app.py:419
-#, fuzzy
 msgid "Can't find snapshots directory."
-msgstr "Non é posíbel atopar o cartafol de instantáneas."
+msgstr "Non é posíbel atopar o directorio de instantáneas."
 
 #: qt/app.py:420
 msgid "If it is on a removable drive please plug it in and then press OK."
@@ -682,19 +668,17 @@ msgid "Restore"
 msgstr "Restaurar"
 
 #: qt/app.py:621
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr ""
-"Restaurar os ficheiros ou cartafoles seleccionados no seu destino orixinal."
+"Restaurar os ficheiros ou directorios seleccionados no seu destino orixinal."
 
 #: qt/app.py:624 qt/app.py:1599 qt/app.py:1631 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Restaurar en…"
 
 #: qt/app.py:626
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
-msgstr "Restaurar os ficheiros ou cartafoles seleccionados nun novo destino."
+msgstr "Restaurar os ficheiros ou directorios seleccionados nun novo destino."
 
 #: qt/app.py:631
 #, fuzzy
@@ -791,9 +775,8 @@ msgid "Home"
 msgstr "Inicio"
 
 #: qt/app.py:1217
-#, fuzzy
 msgid "Backup directories"
-msgstr "Cartafoles de copia de seguranza"
+msgstr "Directorios de copia de seguranza"
 
 #: qt/app.py:1313
 msgid "Snapshot Name"
@@ -836,34 +819,27 @@ msgstr ""
 "Empregando a opción «rsync --update»."
 
 #: qt/app.py:1514
-#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "Retirar os ficheiros máis recentes do cartafol orixinal."
+msgstr "Retirar os ficheiros máis recentes do directorio orixinal."
 
 #: qt/app.py:1517
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "taking the snapshot."
 msgstr ""
-"Restaurar os ficheiros ou cartafoles seleccionados ao destino orixinal e "
-"eliminar os ficheiros ou cartafoles que non estean na instantánea. Vaia "
-"amodo, xa que isto eliminará os ficheiros e cartafoles excluídos ao facer a "
-"instantánea."
+"Restaurar os ficheiros ou directorios seleccionados ao destino orixinal e "
+"eliminar os ficheiros ou directorios que non estean na instantánea. Vaia "
+"amodo, xa que isto eliminará os ficheiros e directorios excluídos ao facer a"
+" instantánea."
 
 #: qt/app.py:1529
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Confirma que quere restaurar este elemento no novo cartafol\n"
-"{path}?"
-msgstr[1] ""
-"Confirma que quere restaurar estes elementos no novo cartafol\n"
-"{path}?"
+msgstr[0] "Confirma que quere restaurar este elemento no novo directorio?"
+msgstr[1] "Confirma que quere restaurar estes elementos no novodirectorio?"
 
 #: qt/app.py:1539
 msgid "Do you really want to restore this element?"
@@ -877,11 +853,11 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Confirma que quere eliminar os ficheiros máis recentes de {path}?"
 
 #: qt/app.py:1561
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
-"Confirma que quere retirar todos os ficheiros recentes do cartafol orixinal?"
+"Confirma que quere retirar todos os ficheiros recentes do directorio "
+"orixinal?"
 
 #: qt/app.py:1567
 #, python-brace-format
@@ -1094,18 +1070,16 @@ msgid "&Include"
 msgstr "&Incluír"
 
 #: qt/manageprofiles/__init__.py:120
-#, fuzzy
 msgid "Include files and directories"
-msgstr "Incluír os ficheiros e os cartafoles"
+msgstr "Incluír os ficheiros e os directorios"
 
 #: qt/manageprofiles/__init__.py:137 qt/manageprofiles/__init__.py:202
 msgid "Add file"
 msgstr "Engadir ficheiro"
 
 #: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
-#, fuzzy
 msgid "Add directory"
-msgstr "Engadir cartafol"
+msgstr "Engadir directorio"
 
 #: qt/manageprofiles/__init__.py:151
 msgid "&Exclude"
@@ -1125,9 +1099,8 @@ msgstr ""
 "imprevisíbeis neste modo por mor do cifrado de EncFS."
 
 #: qt/manageprofiles/__init__.py:178
-#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "Excluír os patróns, ficheiros ou cartafoles"
+msgstr "Excluír os patróns, ficheiros ou directorios"
 
 #: qt/manageprofiles/__init__.py:211
 msgid "Add default"
@@ -1208,9 +1181,8 @@ msgid "Exclude file"
 msgstr "Excluír o ficheiro"
 
 #: qt/manageprofiles/__init__.py:615
-#, fuzzy
 msgid "Exclude directory"
-msgstr "Excluír o cartafol"
+msgstr "Excluír o directorio"
 
 #: qt/manageprofiles/__init__.py:639
 msgid "Include file"
@@ -1226,9 +1198,8 @@ msgstr ""
 "Quere incluír no seu lugar o destino da ligazón simbólica?"
 
 #: qt/manageprofiles/__init__.py:669
-#, fuzzy
 msgid "Include directory"
-msgstr "Incluír o cartafol"
+msgstr "Incluír o directorio"
 
 #: qt/manageprofiles/__init__.py:728
 msgid ""
@@ -1489,9 +1460,8 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Pregunta"
+msgstr "Precaución:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
@@ -1522,9 +1492,8 @@ msgid "when taking a manual snapshot"
 msgstr "ao facer unha instantánea manual"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Instale «nocache» para activar esta opción)"
+msgstr "Instale «nocache» para activar esta opción."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1771,9 +1740,8 @@ msgstr ""
 "{whitepaper}."
 
 #: qt/manageprofiles/tab_general.py:611
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
-msgstr "Confirma que quere cambiar o cartafol de instantáneas?"
+msgstr "Confirma que quere cambiar o directorio de instantáneas?"
 
 #: qt/manageprofiles/tab_general.py:648
 #, python-brace-format
