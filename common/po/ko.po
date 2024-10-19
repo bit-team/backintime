@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-18 16:08+0200\n"
+"POT-Creation-Date: 2024-10-19 15:53+0200\n"
 "PO-Revision-Date: 2024-07-22 12:09+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -24,87 +24,79 @@ msgstr ""
 msgid "Warning"
 msgstr "경고"
 
-#: common/config.py:130 common/tools.py:392
-#, fuzzy, python-brace-format
-msgid ""
-"The destination filesystem for {path} is formatted with NTFS, which has "
-"known incompatibilities with Unix-style filesystems."
-msgstr ""
-"{path}의 대상 파일 시스템은 하드 링크를 지원하지 않는 FAT 형식으로 포맷했습니다. 기본 Linux 파일 시스템을 사용하세요."
-
-#: common/config.py:144 common/config.py:254
+#: common/config.py:141 common/config.py:251
 msgid "Main profile"
 msgstr "메인 프로파일"
 
-#: common/config.py:261
+#: common/config.py:258
 #, fuzzy
 msgid "Local (EncFS encrypted)"
 msgstr "로컬 암호화함"
 
-#: common/config.py:262
+#: common/config.py:259
 #, fuzzy
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH 암호화"
 
-#: common/config.py:273
+#: common/config.py:270
 msgid "Local"
 msgstr "로컬"
 
-#: common/config.py:275
+#: common/config.py:272
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:275 common/config.py:285
+#: common/config.py:272 common/config.py:282
 #: qt/manageprofiles/tab_general.py:632
 msgid "SSH private key"
 msgstr "SSH 개인 키"
 
-#: common/config.py:278
+#: common/config.py:275
 msgid "Local encrypted"
 msgstr "로컬 암호화함"
 
-#: common/config.py:279 common/config.py:286
+#: common/config.py:276 common/config.py:283
 msgid "Encryption"
 msgstr "암호화"
 
-#: common/config.py:284
+#: common/config.py:281
 msgid "SSH encrypted"
 msgstr "SSH 암호화"
 
-#: common/config.py:291
+#: common/config.py:288
 msgid "Default"
 msgstr "기본"
 
-#: common/config.py:322 common/config.py:334 common/config.py:352
-#: common/config.py:363
+#: common/config.py:319 common/config.py:331 common/config.py:349
+#: common/config.py:361
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "프로필: \"{name}\""
 
-#: common/config.py:323
+#: common/config.py:320
 #, fuzzy
-msgid "Snapshots directory is not valid!"
+msgid "Snapshots directory is not valid."
 msgstr "스냅샷 폴더가 올바르지 않습니다!"
 
-#: common/config.py:335
+#: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:353
+#: common/config.py:350
 #, fuzzy
-msgid "Backup directory cannot be included."
-msgstr "백업 폴더를 포함할 수 없습니다."
-
-#: common/config.py:365
-#, fuzzy
-msgid "Sub-directories cannot be included in the backup."
+msgid "The directory cannot be included in the backup."
 msgstr "백업 하위 폴더를 포함할 수 없습니다."
 
-#: common/config.py:1485
+#: common/config.py:363
+#, fuzzy
+msgid "The sub-directories cannot be included in the backup."
+msgstr "백업 하위 폴더를 포함할 수 없습니다."
+
+#: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "새 crontab을 작성하지 못했습니다."
 
-#: common/config.py:1493
+#: common/config.py:1491
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -112,7 +104,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1573
+#: common/config.py:1571
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -121,12 +113,12 @@ msgstr ""
 "{profile_id} 프로필에 Udev 규칙을 설치할 수 없습니다. DBus 서비스 '{dbus_interface}'을(를) 사용할 수"
 " 없습니다"
 
-#: common/config.py:1588
+#: common/config.py:1586
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "일정 udev가 {mode} 모드에서 작동하지 않습니다"
 
-#: common/config.py:1599
+#: common/config.py:1597
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path}에 대한 UUID를 찾을 수 없습니다"
@@ -148,34 +140,34 @@ msgstr "\"{name}\" 프로필이 이미 존재합니다."
 msgid "The last profile cannot be removed."
 msgstr "마지막 프로필은 제거할 수 없습니다."
 
-#: common/encfstools.py:89
+#: common/encfstools.py:81
 #, fuzzy, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "'{command}' 명령을 마운트할 수 없습니다"
 
-#: common/encfstools.py:139
+#: common/encfstools.py:131
 #, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "암호화된 폴더에 대한 구성을 찾을 수 없습니다."
 
-#: common/encfstools.py:147
+#: common/encfstools.py:139
 #, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "새 암호화 폴더를 만드시겠습니까?"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:143
 msgid "Cancel"
 msgstr "취소"
 
-#: common/encfstools.py:156
+#: common/encfstools.py:148
 msgid "Please confirm the password."
 msgstr "암호를 확인하십시오."
 
-#: common/encfstools.py:160
+#: common/encfstools.py:152
 msgid "Password doesn't match."
 msgstr "암호가 일치하지 않습니다."
 
-#: common/encfstools.py:518 common/snapshots.py:1028
+#: common/encfstools.py:510 common/snapshots.py:1028
 msgid "Take snapshot"
 msgstr "스냅샷 생성하기"
 
@@ -207,7 +199,7 @@ msgstr "실패"
 msgid "Restore permissions"
 msgstr "권한 복원"
 
-#: common/snapshots.py:611 qt/app.py:335 qt/app.py:1044 qt/app.py:1079
+#: common/snapshots.py:611 qt/app.py:290 qt/app.py:1019 qt/app.py:1054
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "완료"
@@ -324,7 +316,7 @@ msgstr "최소 여유 공간을 유지하려고 합니다"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "최소 {perc}개의 사용 가능한 아이노드를 유지하려고 합니다"
 
-#: common/snapshots.py:3040 qt/app.py:1796
+#: common/snapshots.py:3040 qt/app.py:1771
 msgid "Now"
 msgstr "현재"
 
@@ -394,6 +386,14 @@ msgstr "\"{pubkey}\" 공개 SSH 키를 \"{host}\" 원격 호스트에 복사합�
 msgid "Please enter a password for \"{user}\"."
 msgstr "\"{user}\" 암호를 입력하십시오."
 
+#: common/tools.py:392
+#, fuzzy, python-brace-format
+msgid ""
+"The destination filesystem for {path} is formatted with NTFS, which has "
+"known incompatibilities with Unix-style filesystems."
+msgstr ""
+"{path}의 대상 파일 시스템은 하드 링크를 지원하지 않는 FAT 형식으로 포맷했습니다. 기본 Linux 파일 시스템을 사용하세요."
+
 #: common/tools.py:424
 #, fuzzy, python-brace-format
 msgid "{path} is not a valid directory."
@@ -419,15 +419,14 @@ msgstr ""
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
-"sure the remote SMB server supports symlinks or activate {copyLinks} in "
-"{expertOptions}."
+"sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
+"\"{expertOptions}\"."
 msgstr ""
 "{path}의 대상 파일 시스템은 SMB 형식 마운트 공유입니다. 원격 SMB 서버가 심볼릭 링크를 지원하는지 확인하거나 "
 "{expertOptions}에서 {copyLinks}를 활성화하세요."
 
-#: common/tools.py:495
-#, fuzzy
-msgid "Copy links (resolve symbolic links)"
+#: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
+msgid "Copy links (dereference symbolic links)"
 msgstr "링크 복사(기호 링크 역참조)"
 
 #: common/tools.py:496
@@ -438,7 +437,7 @@ msgstr "고급 설정"
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
-"doesn't support hard-links. Please use mode 'SSH' instead."
+"doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "{path}의 대상 파일 시스템은 SSHFS 마운트 공유입니다. SSHFS는 하드 링크를 지원하지 않습니다. 대신 'SSH' 모드를 "
 "사용하세요."
@@ -447,7 +446,7 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr ""
 
-#: qt/aboutdlg.py:37 qt/app.py:616
+#: qt/aboutdlg.py:37 qt/app.py:578
 msgid "About"
 msgstr "정보"
 
@@ -463,26 +462,435 @@ msgstr "번역"
 msgid "License"
 msgstr "라이센스"
 
-#: qt/app.py:105
+#: qt/app.py:167
+msgid "Shortcuts"
+msgstr "바로 가기"
+
+#: qt/app.py:187
+#, fuzzy
+msgid ""
+"This directory doesn't exist\n"
+"in the current selected snapshot."
+msgstr ""
+"이 폴더가 존재하지 않습니다.\n"
+"폴더가 없습니다."
+
+#: qt/app.py:255
+msgid "Add to Include"
+msgstr "포함할 항목 추가"
+
+#: qt/app.py:257
+msgid "Add to Exclude"
+msgstr "제외할 항목 추가"
+
+#: qt/app.py:342
+#, python-brace-format
+msgid ""
+"{app_name} appears to be running for the first time as no configuration is "
+"found."
+msgstr "{app_name}을 어떤 설정 없이 처음 실행하는 것 같습니다."
+
+#: qt/app.py:347
+#, fuzzy
+msgid ""
+"Import an existing configuration (from a backup target directory or another "
+"computer)?"
+msgstr "(백업 대상 폴더 또는 다른 컴퓨터에서) 기존 설정을 가져오시겠습니까?"
+
+#: qt/app.py:374
+#, fuzzy
+msgid "Can't find snapshots directory."
+msgstr "스냅샷 폴더를 찾을 수 없습니다."
+
+#: qt/app.py:375
+msgid "If it is on a removable drive please plug it in and then press OK."
+msgstr "이동식 드라이브에 있는 경우 연결한 다음 확인을 누르십시오."
+
+#: qt/app.py:487
+msgid "Take a snapshot"
+msgstr "스냅샷 생성"
+
+#: qt/app.py:489
+msgid "Use modification time & size for file change detection."
+msgstr "파일 변경 감지를 위해 수정 시간 및 크기를 사용합니다."
+
+#: qt/app.py:492
+msgid "Take a snapshot (checksum mode)"
+msgstr "체크섬을 포함한 스냅샷 생성하기"
+
+#: qt/app.py:494
+msgid "Use checksums for file change detection."
+msgstr "파일 변경 감지에 체크섬을 사용합니다."
+
+#: qt/app.py:497 qt/qtsystrayicon.py:86
+msgid "Pause snapshot process"
+msgstr "스냅샷 생성 일시 중지"
+
+#: qt/app.py:502 qt/qtsystrayicon.py:90
+msgid "Resume snapshot process"
+msgstr "스냅샷 생성 재시작"
+
+#: qt/app.py:506 qt/qtsystrayicon.py:95
+msgid "Stop snapshot process"
+msgstr "스냅샷 생성 중지"
+
+#: qt/app.py:510
+msgid "Refresh snapshot list"
+msgstr "스냅샷 목록 새로 고침"
+
+#: qt/app.py:514
+msgid "Name snapshot"
+msgstr "스냅샷 이름 변경"
+
+#: qt/app.py:518
+msgid "Remove snapshot"
+msgstr "스냅샷 제거"
+
+#: qt/app.py:522
+msgid "View snapshot log"
+msgstr "스냅샷 로그 보기"
+
+#: qt/app.py:526
+msgid "View last log"
+msgstr "마지막 로그 보기"
+
+#: qt/app.py:530
+msgid "Manage profiles…"
+msgstr "프로필 관리…"
+
+#: qt/app.py:534
+msgid "Shutdown"
+msgstr "끄기"
+
+#: qt/app.py:536
+msgid "Shut down system after snapshot has finished."
+msgstr "스냅샷이 끝난 후 시스템 종료하기."
+
+#: qt/app.py:538
+msgid "Setup language…"
+msgstr "언어 설정…"
+
+#: qt/app.py:542
+msgid "Exit"
+msgstr "끝내기"
+
+#: qt/app.py:546
+msgid "Help"
+msgstr "도움말"
+
+#: qt/app.py:550
+msgid "Profiles config file"
+msgstr "프로필 구성 파일"
+
+#: qt/app.py:553 qt/app.py:1995
+msgid "Website"
+msgstr "웹사이트"
+
+#: qt/app.py:556 qt/app.py:1397
+msgid "Changelog"
+msgstr "변경 내역"
+
+#: qt/app.py:559
+msgid "FAQ"
+msgstr "자주 묻는 질문"
+
+#: qt/app.py:562
+msgid "Ask a question"
+msgstr "질문하기"
+
+#: qt/app.py:565
+msgid "Report a bug"
+msgstr "버그 신고"
+
+#: qt/app.py:568
+msgid "Translation"
+msgstr "번역"
+
+#: qt/app.py:570
+msgid "Shows the message about participation in translation again."
+msgstr ""
+
+#: qt/app.py:574
+msgid "Encryption Transition (EncFS)"
+msgstr ""
+
+#: qt/app.py:576
+msgid "Shows the message about EncFS removal again."
+msgstr ""
+
+#: qt/app.py:581 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/snapshotsdialog.py:169
+msgid "Restore"
+msgstr "복원"
+
+#: qt/app.py:583
+#, fuzzy
+msgid "Restore the selected files or directories to the original destination."
+msgstr "선택한 파일이나 폴더를 원래 대상으로 복원합니다."
+
+#: qt/app.py:586 qt/app.py:1574 qt/app.py:1606 qt/snapshotsdialog.py:166
+msgid "Restore to …"
+msgstr "다음 위치에 복원 …"
+
+#: qt/app.py:588
+#, fuzzy
+msgid "Restore the selected files or directories to a new destination."
+msgstr "선택한 파일 또는 폴더를 새로운 대상으로 복원합니다."
+
+#: qt/app.py:593
+#, fuzzy
+msgid ""
+"Restore the currently shown directory and all its contents to the original "
+"destination."
+msgstr "현재 표시된 폴더와 해당 폴더의 모든 내용을 원래 대상으로 복원합니다."
+
+#: qt/app.py:598
+#, fuzzy
+msgid ""
+"Restore the currently shown directory and all its contents to a new "
+"destination."
+msgstr "현재 표시된 폴더와 해당 폴더의 모든 내용을 새 대상으로 복원합니다."
+
+#: qt/app.py:601
+msgid "Up"
+msgstr "위로"
+
+#: qt/app.py:604 qt/restoreconfigdialog.py:90
+msgid "Show hidden files"
+msgstr "숨겨진 파일 표시"
+
+#: qt/app.py:607
+msgid "Compare snapshots…"
+msgstr "스냅샷 비교…"
+
+#: qt/app.py:637 qt/app.py:2065
+msgid "Release Candidate"
+msgstr ""
+
+#: qt/app.py:640
+msgid "Shows the message about this Release Candidate again."
+msgstr ""
+
+#: qt/app.py:676
+msgid "Back In &Time"
+msgstr "Back In &Time"
+
+#: qt/app.py:681
+msgid "&Backup"
+msgstr "백업"
+
+#: qt/app.py:692
+msgid "&Restore"
+msgstr "복원"
+
+#: qt/app.py:698
+msgid "&Help"
+msgstr "도움말"
+
+#: qt/app.py:837
+msgid ""
+"If you close this window, Back In Time will not be able to shut down your "
+"system when the snapshot is finished."
+msgstr "이 창을 닫으면 스냅샷을 마쳤을 때 Back In Time에서 시스템을 끌 수 없습니다."
+
+#: qt/app.py:840
+msgid "Do you really want to close it?"
+msgstr "정말로 닫으시겠습니까?"
+
+#: qt/app.py:1009
+msgid "Working:"
+msgstr "진행 중:"
+
+#: qt/app.py:1057
+msgid "Done, no backup needed"
+msgstr "완료했습니다. 백업이 필요하지 않습니다"
+
+#: qt/app.py:1066
+msgid "Working"
+msgstr "진행 중"
+
+#: qt/app.py:1075 qt/messagebox.py:93
+msgid "Error"
+msgstr "오류"
+
+#: qt/app.py:1098
+msgid "Sent"
+msgstr "전송"
+
+#: qt/app.py:1099
+msgid "Speed"
+msgstr "속도"
+
+#: qt/app.py:1100
+msgid "ETA"
+msgstr "예상 소요 시간"
+
+#: qt/app.py:1162
+msgid "Global"
+msgstr "전역"
+
+#: qt/app.py:1163
+msgid "Root"
+msgstr "루트"
+
+#: qt/app.py:1164
+msgid "Home"
+msgstr "홈"
+
+#: qt/app.py:1192
+#, fuzzy
+msgid "Backup directories"
+msgstr "백업 폴더"
+
+#: qt/app.py:1288
+msgid "Snapshot Name"
+msgstr "스냅샷 이름"
+
+#: qt/app.py:1335
+msgid "Are you sure you want to remove this snapshot?"
+msgid_plural "Are you sure you want to remove these snapshots?"
+msgstr[0] "정말 이 스냅샷(들)을 제거하시겠습니까?"
+
+#: qt/app.py:1430
+#, python-brace-format
+msgid ""
+"Create backup copies with trailing {suffix}\n"
+"before overwriting or removing local elements."
+msgstr ""
+"로컬 요소를 덮어쓰거나 제거하기 전에\n"
+"뒤에 오는 {suffix}를 사용하여 백업 복사본을 만듭니다."
+
+#: qt/app.py:1438
+#, fuzzy, python-brace-format
+msgid ""
+"Newer versions of files will be renamed with trailing {suffix} before "
+"restoring. If you don't need them anymore you can remove them with the "
+"following command:"
+msgstr ""
+"최신 버전 파일은 복원하기 전 뒤에 {suffix}를 붙인 이름으로 바뀝니다. 더 이상 필요하지 않으면 {cmd}을(를) 사용하여 제거할"
+" 수 있습니다"
+
+#: qt/app.py:1454
+msgid ""
+"Only restore elements which do not exist or\n"
+"are newer than those in destination.\n"
+"Using \"rsync --update\" option."
+msgstr ""
+"존재하지 않는 요소만 복원하거나\n"
+"대상에 있는 요소보다 최신인 요소만 복원합니다.\n"
+"\"rsync --update\" 옵션을 사용합니다."
+
+#: qt/app.py:1489
+#, fuzzy
+msgid "Remove newer elements in original directory."
+msgstr "원본 폴더에서 최신 요소를 제거합니다."
+
+#: qt/app.py:1492
+#, fuzzy
+msgid ""
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the snapshot. Be extremely careful "
+"because this will delete files and directories which were excluded during "
+"taking the snapshot."
+msgstr ""
+"선택한 파일 또는 폴더를 원래 대상으로 복원하고 스냅샷에 없는 파일 또는 폴더를 삭제합니다. 이렇게 하면 스냅샷을 생성하는 동안 제외했던"
+" 파일과 폴더를 삭제하므로 각별히 주의하십시오."
+
+#: qt/app.py:1504
+#, fuzzy
+msgid "Do you really want to restore this element into the new directory?"
+msgid_plural ""
+"Do you really want to restore these elements into the new directory?"
+msgstr[0] ""
+"이러한 요소(들)을 {path} 새 폴더\n"
+"에 복원하시겠습니까?"
+
+#: qt/app.py:1514
+msgid "Do you really want to restore this element?"
+msgid_plural "Do you really want to restore these elements?"
+msgstr[0] "정말로 이러한 요소(들)을 복원하시겠습니까?"
+
+#: qt/app.py:1533
+#, python-brace-format
+msgid "Are you sure you want to remove all newer files in {path}?"
+msgstr "{path}에 있는 모든 최신 파일을 제거하시겠습니까?"
+
+#: qt/app.py:1536
+#, fuzzy
+msgid ""
+"Are you sure you want to remove all newer files in your original directory?"
+msgstr "원본 폴더에서 최신 파일을 모두 제거하시겠습니까?"
+
+#: qt/app.py:1542
+#, python-brace-format
+msgid ""
+"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
+"your entire system."
+msgstr "{BOLD}경고{BOLDEND}: 파일 시스템 루트에서 파일을 삭제하면 전체 시스템이 망가질 수 있습니다."
+
+#: qt/app.py:1778
+msgid "Snapshot"
+msgstr "스냅샷"
+
+#: qt/app.py:1815
+#, python-brace-format
+msgid "Restore {path}"
+msgstr "{path} 복원"
+
+#: qt/app.py:1817
+#, python-brace-format
+msgid "Restore {path} to …"
+msgstr "{path}를 다음 위치에 복원 …"
+
+#: qt/app.py:1961
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team"
+msgstr ""
+"안녕하세요\n"
+"지금까지 귀하는 {language} 언어로 Back In Time을 몇 번 사용해 보셨습니다.\n"
+"설치된 Back In Time 버전의 {language} 번역이 {perc} 완료되었습니다. 귀하의 기술 전문 지식 수준에 관계없이 귀하는 번역에 기여하여 Back In Time 자체에 기여할 수 있습니다.\n"
+"기여하고 싶다면 {translation_platform_url}를 방문하세요. 추가 지원 및 질문이 있는 경우 {back_in_time_project_website}를 방문하세요.\n"
+"불편을 끼쳐드려 죄송하며 이 메시지는 다시 표시되지 않습니다. 이 대화 상자는 도움말 메뉴를 통해 언제든지 사용할 수 있습니다.\n"
+"Back In Time 팀"
+
+#: qt/app.py:1990
+msgid "translation platform"
+msgstr "번역 플랫폼"
+
+#: qt/app.py:2009
+msgid "Your translation"
+msgstr "귀하의 번역"
+
+#: qt/app.py:2021
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr ""
 
-#: qt/app.py:108
+#: qt/app.py:2024
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
 msgstr ""
 
-#: qt/app.py:111
+#: qt/app.py:2028
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr ""
 
-#: qt/app.py:114
+#: qt/app.py:2031
+msgid "Open an issue"
+msgstr ""
+
+#: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:118
+#: qt/app.py:2037
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -495,383 +903,7 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:143
-msgid "Release Candidate"
-msgstr ""
-
-#: qt/app.py:212
-msgid "Shortcuts"
-msgstr "바로 가기"
-
-#: qt/app.py:232
-#, fuzzy
-msgid ""
-"This directory doesn't exist\n"
-"in the current selected snapshot."
-msgstr ""
-"이 폴더가 존재하지 않습니다.\n"
-"폴더가 없습니다."
-
-#: qt/app.py:300
-msgid "Add to Include"
-msgstr "포함할 항목 추가"
-
-#: qt/app.py:302
-msgid "Add to Exclude"
-msgstr "제외할 항목 추가"
-
-#: qt/app.py:387
-#, python-brace-format
-msgid ""
-"{app_name} appears to be running for the first time as no configuration is "
-"found."
-msgstr "{app_name}을 어떤 설정 없이 처음 실행하는 것 같습니다."
-
-#: qt/app.py:392
-#, fuzzy
-msgid ""
-"Import an existing configuration (from a backup target directory or another "
-"computer)?"
-msgstr "(백업 대상 폴더 또는 다른 컴퓨터에서) 기존 설정을 가져오시겠습니까?"
-
-#: qt/app.py:419
-#, fuzzy
-msgid "Can't find snapshots directory."
-msgstr "스냅샷 폴더를 찾을 수 없습니다."
-
-#: qt/app.py:420
-msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr "이동식 드라이브에 있는 경우 연결한 다음 확인을 누르십시오."
-
-#: qt/app.py:525
-msgid "Take a snapshot"
-msgstr "스냅샷 생성"
-
-#: qt/app.py:527
-msgid "Use modification time & size for file change detection."
-msgstr "파일 변경 감지를 위해 수정 시간 및 크기를 사용합니다."
-
-#: qt/app.py:530
-msgid "Take a snapshot (checksum mode)"
-msgstr "체크섬을 포함한 스냅샷 생성하기"
-
-#: qt/app.py:532
-msgid "Use checksums for file change detection."
-msgstr "파일 변경 감지에 체크섬을 사용합니다."
-
-#: qt/app.py:535 qt/qtsystrayicon.py:86
-msgid "Pause snapshot process"
-msgstr "스냅샷 생성 일시 중지"
-
-#: qt/app.py:540 qt/qtsystrayicon.py:90
-msgid "Resume snapshot process"
-msgstr "스냅샷 생성 재시작"
-
-#: qt/app.py:544 qt/qtsystrayicon.py:95
-msgid "Stop snapshot process"
-msgstr "스냅샷 생성 중지"
-
-#: qt/app.py:548
-msgid "Refresh snapshot list"
-msgstr "스냅샷 목록 새로 고침"
-
-#: qt/app.py:552
-msgid "Name snapshot"
-msgstr "스냅샷 이름 변경"
-
-#: qt/app.py:556
-msgid "Remove snapshot"
-msgstr "스냅샷 제거"
-
-#: qt/app.py:560
-msgid "View snapshot log"
-msgstr "스냅샷 로그 보기"
-
-#: qt/app.py:564
-msgid "View last log"
-msgstr "마지막 로그 보기"
-
-#: qt/app.py:568
-msgid "Manage profiles…"
-msgstr "프로필 관리…"
-
-#: qt/app.py:572
-msgid "Shutdown"
-msgstr "끄기"
-
-#: qt/app.py:574
-msgid "Shut down system after snapshot has finished."
-msgstr "스냅샷이 끝난 후 시스템 종료하기."
-
-#: qt/app.py:576
-msgid "Setup language…"
-msgstr "언어 설정…"
-
-#: qt/app.py:580
-msgid "Exit"
-msgstr "끝내기"
-
-#: qt/app.py:584
-msgid "Help"
-msgstr "도움말"
-
-#: qt/app.py:588
-msgid "Profiles config file"
-msgstr "프로필 구성 파일"
-
-#: qt/app.py:591 qt/languagedialog.py:233
-msgid "Website"
-msgstr "웹사이트"
-
-#: qt/app.py:594 qt/app.py:1422
-msgid "Changelog"
-msgstr "변경 내역"
-
-#: qt/app.py:597
-msgid "FAQ"
-msgstr "자주 묻는 질문"
-
-#: qt/app.py:600
-msgid "Ask a question"
-msgstr "질문하기"
-
-#: qt/app.py:603
-msgid "Report a bug"
-msgstr "버그 신고"
-
-#: qt/app.py:606
-msgid "Translation"
-msgstr "번역"
-
-#: qt/app.py:608
-msgid "Shows the message about participation in translation again."
-msgstr ""
-
-#: qt/app.py:612
-msgid "Encryption Transition (EncFS)"
-msgstr ""
-
-#: qt/app.py:614
-msgid "Shows the message about EncFS removal again."
-msgstr ""
-
-#: qt/app.py:619 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
-#: qt/snapshotsdialog.py:169
-msgid "Restore"
-msgstr "복원"
-
-#: qt/app.py:621
-#, fuzzy
-msgid "Restore the selected files or directories to the original destination."
-msgstr "선택한 파일이나 폴더를 원래 대상으로 복원합니다."
-
-#: qt/app.py:624 qt/app.py:1599 qt/app.py:1631 qt/snapshotsdialog.py:166
-msgid "Restore to …"
-msgstr "다음 위치에 복원 …"
-
-#: qt/app.py:626
-#, fuzzy
-msgid "Restore the selected files or directories to a new destination."
-msgstr "선택한 파일 또는 폴더를 새로운 대상으로 복원합니다."
-
-#: qt/app.py:631
-#, fuzzy
-msgid ""
-"Restore the currently shown directory and all its contents to the original "
-"destination."
-msgstr "현재 표시된 폴더와 해당 폴더의 모든 내용을 원래 대상으로 복원합니다."
-
-#: qt/app.py:636
-#, fuzzy
-msgid ""
-"Restore the currently shown directory and all its contents to a new "
-"destination."
-msgstr "현재 표시된 폴더와 해당 폴더의 모든 내용을 새 대상으로 복원합니다."
-
-#: qt/app.py:639
-msgid "Up"
-msgstr "위로"
-
-#: qt/app.py:642 qt/restoreconfigdialog.py:90
-msgid "Show hidden files"
-msgstr "숨겨진 파일 표시"
-
-#: qt/app.py:645
-msgid "Compare snapshots…"
-msgstr "스냅샷 비교…"
-
-#: qt/app.py:704
-msgid "Back In &Time"
-msgstr "Back In &Time"
-
-#: qt/app.py:709
-msgid "&Backup"
-msgstr "백업"
-
-#: qt/app.py:720
-msgid "&Restore"
-msgstr "복원"
-
-#: qt/app.py:726
-msgid "&Help"
-msgstr "도움말"
-
-#: qt/app.py:862
-msgid ""
-"If you close this window, Back In Time will not be able to shut down your "
-"system when the snapshot is finished."
-msgstr "이 창을 닫으면 스냅샷을 마쳤을 때 Back In Time에서 시스템을 끌 수 없습니다."
-
-#: qt/app.py:865
-msgid "Do you really want to close it?"
-msgstr "정말로 닫으시겠습니까?"
-
-#: qt/app.py:1034
-msgid "Working:"
-msgstr "진행 중:"
-
-#: qt/app.py:1082
-msgid "Done, no backup needed"
-msgstr "완료했습니다. 백업이 필요하지 않습니다"
-
-#: qt/app.py:1091
-msgid "Working"
-msgstr "진행 중"
-
-#: qt/app.py:1100 qt/messagebox.py:93
-msgid "Error"
-msgstr "오류"
-
-#: qt/app.py:1123
-msgid "Sent"
-msgstr "전송"
-
-#: qt/app.py:1124
-msgid "Speed"
-msgstr "속도"
-
-#: qt/app.py:1125
-msgid "ETA"
-msgstr "예상 소요 시간"
-
-#: qt/app.py:1187
-msgid "Global"
-msgstr "전역"
-
-#: qt/app.py:1188
-msgid "Root"
-msgstr "루트"
-
-#: qt/app.py:1189
-msgid "Home"
-msgstr "홈"
-
-#: qt/app.py:1217
-#, fuzzy
-msgid "Backup directories"
-msgstr "백업 폴더"
-
-#: qt/app.py:1313
-msgid "Snapshot Name"
-msgstr "스냅샷 이름"
-
-#: qt/app.py:1360
-msgid "Are you sure you want to remove this snapshot?"
-msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "정말 이 스냅샷(들)을 제거하시겠습니까?"
-
-#: qt/app.py:1455
-#, python-brace-format
-msgid ""
-"Create backup copies with trailing {suffix}\n"
-"before overwriting or removing local elements."
-msgstr ""
-"로컬 요소를 덮어쓰거나 제거하기 전에\n"
-"뒤에 오는 {suffix}를 사용하여 백업 복사본을 만듭니다."
-
-#: qt/app.py:1463
-#, fuzzy, python-brace-format
-msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring. If you don't need them anymore you can remove them with the "
-"following command:"
-msgstr ""
-"최신 버전 파일은 복원하기 전 뒤에 {suffix}를 붙인 이름으로 바뀝니다. 더 이상 필요하지 않으면 {cmd}을(를) 사용하여 제거할"
-" 수 있습니다"
-
-#: qt/app.py:1479
-msgid ""
-"Only restore elements which do not exist or\n"
-"are newer than those in destination.\n"
-"Using \"rsync --update\" option."
-msgstr ""
-"존재하지 않는 요소만 복원하거나\n"
-"대상에 있는 요소보다 최신인 요소만 복원합니다.\n"
-"\"rsync --update\" 옵션을 사용합니다."
-
-#: qt/app.py:1514
-#, fuzzy
-msgid "Remove newer elements in original directory."
-msgstr "원본 폴더에서 최신 요소를 제거합니다."
-
-#: qt/app.py:1517
-#, fuzzy
-msgid ""
-"Restore selected files or directories to the original destination and delete"
-" files or directories which are not in the snapshot. Be extremely careful "
-"because this will delete files and directories which were excluded during "
-"taking the snapshot."
-msgstr ""
-"선택한 파일 또는 폴더를 원래 대상으로 복원하고 스냅샷에 없는 파일 또는 폴더를 삭제합니다. 이렇게 하면 스냅샷을 생성하는 동안 제외했던"
-" 파일과 폴더를 삭제하므로 각별히 주의하십시오."
-
-#: qt/app.py:1529
-#, fuzzy
-msgid "Do you really want to restore this element into the new directory?"
-msgid_plural ""
-"Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"이러한 요소(들)을 {path} 새 폴더\n"
-"에 복원하시겠습니까?"
-
-#: qt/app.py:1539
-msgid "Do you really want to restore this element?"
-msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "정말로 이러한 요소(들)을 복원하시겠습니까?"
-
-#: qt/app.py:1558
-#, python-brace-format
-msgid "Are you sure you want to remove all newer files in {path}?"
-msgstr "{path}에 있는 모든 최신 파일을 제거하시겠습니까?"
-
-#: qt/app.py:1561
-#, fuzzy
-msgid ""
-"Are you sure you want to remove all newer files in your original directory?"
-msgstr "원본 폴더에서 최신 파일을 모두 제거하시겠습니까?"
-
-#: qt/app.py:1567
-#, python-brace-format
-msgid ""
-"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
-"your entire system."
-msgstr "{BOLD}경고{BOLDEND}: 파일 시스템 루트에서 파일을 삭제하면 전체 시스템이 망가질 수 있습니다."
-
-#: qt/app.py:1803
-msgid "Snapshot"
-msgstr "스냅샷"
-
-#: qt/app.py:1840
-#, python-brace-format
-msgid "Restore {path}"
-msgstr "{path} 복원"
-
-#: qt/app.py:1842
-#, python-brace-format
-msgid "Restore {path} to …"
-msgstr "{path}를 다음 위치에 복원 …"
-
-#: qt/app.py:2001
+#: qt/app.py:2088
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "언어 설정은 Back In Time을 다시 시작한 후에만 적용됩니다."
 
@@ -924,47 +956,22 @@ msgstr ""
 msgid "Your Back In Time Team"
 msgstr "Back In &Time"
 
-#: qt/languagedialog.py:39
+#: qt/languagedialog.py:35
 msgid "Setup language"
 msgstr "언어 설정"
 
-#: qt/languagedialog.py:101
+#: qt/languagedialog.py:97
 msgid "System default"
 msgstr "시스템 기본값"
 
-#: qt/languagedialog.py:111
+#: qt/languagedialog.py:107
 msgid "Use operating systems language."
 msgstr "운영 체제의 언어를 사용합니다."
 
-#: qt/languagedialog.py:161
+#: qt/languagedialog.py:157
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "{percent} 번역됨"
-
-#: qt/languagedialog.py:199
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team"
-msgstr ""
-"안녕하세요\n"
-"지금까지 귀하는 {language} 언어로 Back In Time을 몇 번 사용해 보셨습니다.\n"
-"설치된 Back In Time 버전의 {language} 번역이 {perc} 완료되었습니다. 귀하의 기술 전문 지식 수준에 관계없이 귀하는 번역에 기여하여 Back In Time 자체에 기여할 수 있습니다.\n"
-"기여하고 싶다면 {translation_platform_url}를 방문하세요. 추가 지원 및 질문이 있는 경우 {back_in_time_project_website}를 방문하세요.\n"
-"불편을 끼쳐드려 죄송하며 이 메시지는 다시 표시되지 않습니다. 이 대화 상자는 도움말 메뉴를 통해 언제든지 사용할 수 있습니다.\n"
-"Back In Time 팀"
-
-#: qt/languagedialog.py:228
-msgid "translation platform"
-msgstr "번역 플랫폼"
-
-#: qt/languagedialog.py:253
-msgid "Your translation"
-msgstr "귀하의 번역"
 
 #: qt/logviewdialog.py:67
 msgid "Last Log View"
@@ -1512,10 +1519,6 @@ msgstr "확장 속성 (xattr) 보존"
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "불안전한 링크 복사(절대 링크인 경우만 동작)"
 
-#: qt/manageprofiles/tab_expert_options.py:253
-msgid "Copy links (dereference symbolic links)"
-msgstr "링크 복사(기호 링크 역참조)"
-
 #: qt/manageprofiles/tab_expert_options.py:274
 msgid "Restrict to one file system"
 msgstr "하나의 파일 시스템으로 제한"
@@ -1844,14 +1847,14 @@ msgstr ""
 #: qt/restoreconfigdialog.py:164
 #, python-brace-format
 msgid ""
-"Select the snapshot folder from which the configuration file should be "
+"Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
 #: qt/restoreconfigdialog.py:169
 msgid ""
-"If the folder is located on an external or remote drive, it must be manually"
-" mounted beforehand."
+"If the directory is located on an external or remote drive, it must be "
+"manually mounted beforehand."
 msgstr ""
 
 #: qt/restoredialog.py:59
@@ -1948,6 +1951,10 @@ msgstr "경고: 이 동작은 취소할 수 없습니다."
 msgid "Exclude {path} from future snapshots?"
 msgstr "앞으로의 스냅샷에서 {path} 경로를 제외하시겠습니까?"
 
+#, fuzzy
+#~ msgid "Backup directory cannot be included."
+#~ msgstr "백업 폴더를 포함할 수 없습니다."
+
 #~ msgid ""
 #~ "Can't find crontab. Are you sure cron is installed? If not you should "
 #~ "disable all automatic backups."
@@ -1964,6 +1971,10 @@ msgstr "앞으로의 스냅샷에서 {path} 경로를 제외하시겠습니까?"
 #~ msgid ""
 #~ "Caution: Change these options only if you really know what you are doing."
 #~ msgstr "주의: 이 옵션들이 무엇을 의미하는지 정확하게 알 경우에만 바꾸세요."
+
+#, fuzzy
+#~ msgid "Copy links (resolve symbolic links)"
+#~ msgstr "링크 복사(기호 링크 역참조)"
 
 #~ msgid "EXPERIMENTAL"
 #~ msgstr "실험적기능"

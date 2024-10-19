@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-18 16:08+0200\n"
+"POT-Creation-Date: 2024-10-19 15:53+0200\n"
 "PO-Revision-Date: 2024-10-02 06:42+0000\n"
 "Last-Translator: reneald <reneald@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
@@ -24,87 +24,77 @@ msgstr ""
 msgid "Warning"
 msgstr "Let op"
 
-#: common/config.py:130 common/tools.py:392
-#, python-brace-format
-msgid ""
-"The destination filesystem for {path} is formatted with NTFS, which has "
-"known incompatibilities with Unix-style filesystems."
-msgstr ""
-"Het doelbestandssysteem van ‘{path}’ is geformatteerd als NTFS, dat geen "
-"harde koppeling, hard-links, ondersteunt. Gebruik in plaats daarvan een "
-"authentiek Linux-bestandssysteem."
-
-#: common/config.py:144 common/config.py:254
+#: common/config.py:141 common/config.py:251
 msgid "Main profile"
 msgstr "Hoofdprofiel"
 
-#: common/config.py:261
+#: common/config.py:258
 msgid "Local (EncFS encrypted)"
 msgstr "Lokaal (EncFS-versleuteld)"
 
-#: common/config.py:262
+#: common/config.py:259
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (EncFS-versleuteld)"
 
-#: common/config.py:273
+#: common/config.py:270
 msgid "Local"
 msgstr "Lokaal"
 
-#: common/config.py:275
+#: common/config.py:272
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:275 common/config.py:285
+#: common/config.py:272 common/config.py:282
 #: qt/manageprofiles/tab_general.py:632
 msgid "SSH private key"
 msgstr "SSH private sleutel"
 
-#: common/config.py:278
+#: common/config.py:275
 msgid "Local encrypted"
 msgstr "Lokaal versleuteld"
 
-#: common/config.py:279 common/config.py:286
+#: common/config.py:276 common/config.py:283
 msgid "Encryption"
 msgstr "Versleuteling"
 
-#: common/config.py:284
+#: common/config.py:281
 msgid "SSH encrypted"
 msgstr "SSH-versleuteld"
 
-#: common/config.py:291
+#: common/config.py:288
 msgid "Default"
 msgstr "Standaard"
 
-#: common/config.py:322 common/config.py:334 common/config.py:352
-#: common/config.py:363
+#: common/config.py:319 common/config.py:331 common/config.py:349
+#: common/config.py:361
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiel: “{name}”"
 
-#: common/config.py:323
+#: common/config.py:320
 #, fuzzy
-msgid "Snapshots directory is not valid!"
+msgid "Snapshots directory is not valid."
 msgstr "Momentopname-folder is ongeldig!"
 
-#: common/config.py:335
+#: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:353
+#: common/config.py:350
 #, fuzzy
-msgid "Backup directory cannot be included."
-msgstr "Backup-map kan niet worden opgenomen."
-
-#: common/config.py:365
-#, fuzzy
-msgid "Sub-directories cannot be included in the backup."
+msgid "The directory cannot be included in the backup."
 msgstr "Back-up-submap kan niet worden opgenomen."
 
-#: common/config.py:1485
+#: common/config.py:363
+#, fuzzy
+msgid "The sub-directories cannot be included in the backup."
+msgstr "Back-up-submap kan niet worden opgenomen."
+
+#: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "Kon geen nieuwe crontab schrijven."
 
-#: common/config.py:1493
+#: common/config.py:1491
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -117,7 +107,7 @@ msgstr ""
 "niet geactiveerd. Probeer het commando \"systemctl enable cron\" of "
 "raadpleeg de ondersteuningskanalen van uw GNU/Linux-distributie."
 
-#: common/config.py:1573
+#: common/config.py:1571
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -126,12 +116,12 @@ msgstr ""
 "Kon udev-regel voor profiel {profile_id} niet installeren. DBus-dienst "
 "'{dbus_interface}' was niet beschikbaar"
 
-#: common/config.py:1588
+#: common/config.py:1586
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Methode udev werkt niet bij modus {mode}"
 
-#: common/config.py:1599
+#: common/config.py:1597
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr ""
@@ -154,34 +144,34 @@ msgstr "Profiel \"{name}\" bestaat al."
 msgid "The last profile cannot be removed."
 msgstr "Het laatste profiel kan niet worden verwijderd."
 
-#: common/encfstools.py:89
+#: common/encfstools.py:81
 #, fuzzy, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Kan '{command}' niet aankoppelen"
 
-#: common/encfstools.py:139
+#: common/encfstools.py:131
 #, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "Configuratie voor versleutelde map niet gevonden."
 
-#: common/encfstools.py:147
+#: common/encfstools.py:139
 #, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "Een nieuwe versleutelde map aanmaken?"
 
-#: common/encfstools.py:151
+#: common/encfstools.py:143
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: common/encfstools.py:156
+#: common/encfstools.py:148
 msgid "Please confirm the password."
 msgstr "Bevestig het wachtwoord."
 
-#: common/encfstools.py:160
+#: common/encfstools.py:152
 msgid "Password doesn't match."
 msgstr "Wachtwoord komt niet overeen."
 
-#: common/encfstools.py:518 common/snapshots.py:1028
+#: common/encfstools.py:510 common/snapshots.py:1028
 msgid "Take snapshot"
 msgstr "Momentopname maken"
 
@@ -215,7 +205,7 @@ msgstr "MISLUKT"
 msgid "Restore permissions"
 msgstr "Rechten herstellen"
 
-#: common/snapshots.py:611 qt/app.py:335 qt/app.py:1044 qt/app.py:1079
+#: common/snapshots.py:611 qt/app.py:290 qt/app.py:1019 qt/app.py:1054
 #: qt/qtsystrayicon.py:81
 msgid "Done"
 msgstr "Voltooid"
@@ -335,7 +325,7 @@ msgstr "Een minimum aan vrije ruimte proberen te behouden"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Een minimum van {perc} vrije inodes proberen te behouden"
 
-#: common/snapshots.py:3040 qt/app.py:1796
+#: common/snapshots.py:3040 qt/app.py:1771
 msgid "Now"
 msgstr "Nu"
 
@@ -407,6 +397,16 @@ msgstr "De openbare SSH-sleutel \"{pubkey}\" kopiëren naar externe host \"{host
 msgid "Please enter a password for \"{user}\"."
 msgstr "Voer het wachtwoord in voor \"{user}\"."
 
+#: common/tools.py:392
+#, python-brace-format
+msgid ""
+"The destination filesystem for {path} is formatted with NTFS, which has "
+"known incompatibilities with Unix-style filesystems."
+msgstr ""
+"Het doelbestandssysteem van ‘{path}’ is geformatteerd als NTFS, dat geen "
+"harde koppeling, hard-links, ondersteunt. Gebruik in plaats daarvan een "
+"authentiek Linux-bestandssysteem."
+
 #: common/tools.py:424
 #, fuzzy, python-brace-format
 msgid "{path} is not a valid directory."
@@ -435,16 +435,15 @@ msgstr ""
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
-"sure the remote SMB server supports symlinks or activate {copyLinks} in "
-"{expertOptions}."
+"sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
+"\"{expertOptions}\"."
 msgstr ""
 "Het doelbestandssysteem van ‘{path}’ is een met SMB aangekoppelde "
 "netwerkopslag. Zorg ervoor dat de externe SMB-server symbolische koppelingen"
 " ondersteunt of activeer ‘{copyLinks}’ in ‘{expertOptions}’."
 
-#: common/tools.py:495
-#, fuzzy
-msgid "Copy links (resolve symbolic links)"
+#: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
+msgid "Copy links (dereference symbolic links)"
 msgstr "Koppelingen kopiëren (symbolische koppelingen derefereren)"
 
 #: common/tools.py:496
@@ -455,7 +454,7 @@ msgstr "Geavanceerde opties"
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
-"doesn't support hard-links. Please use mode 'SSH' instead."
+"doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "Doelbestandssysteem voor '{path}' is een met sshfs aangekoppelde "
 "netwerkopslag. sshfs ondersteunt geen harde koppelingen. Gebruik in plaats "
@@ -466,7 +465,7 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "Kon geen bestand aanmaken in deze map:"
 
-#: qt/aboutdlg.py:37 qt/app.py:616
+#: qt/aboutdlg.py:37 qt/app.py:578
 msgid "About"
 msgstr "Info"
 
@@ -482,47 +481,11 @@ msgstr "Vertalingen"
 msgid "License"
 msgstr "Licentie"
 
-#: qt/app.py:105
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr ""
-
-#: qt/app.py:108
-#, python-brace-format
-msgid "Mailing list {link_and_label}"
-msgstr ""
-
-#: qt/app.py:111
-#, python-brace-format
-msgid "{link_and_label} on the project website."
-msgstr ""
-
-#: qt/app.py:114
-msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
-
-#: qt/app.py:118
-#, python-brace-format
-msgid ""
-"This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
-"No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
-"Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
-"The following contact options are available:\n"
-"{contact_list}\n"
-"In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
-"Thank you for your support and for helping us improve Back In Time!\n"
-"Your Back In Time Team"
-msgstr ""
-
-#: qt/app.py:143
-msgid "Release Candidate"
-msgstr ""
-
-#: qt/app.py:212
+#: qt/app.py:167
 msgid "Shortcuts"
 msgstr "Sneltoetsen"
 
-#: qt/app.py:232
+#: qt/app.py:187
 #, fuzzy
 msgid ""
 "This directory doesn't exist\n"
@@ -531,15 +494,15 @@ msgstr ""
 "Deze map bestaat niet\n"
 "in de momenteel geselecteerde momentopname."
 
-#: qt/app.py:300
+#: qt/app.py:255
 msgid "Add to Include"
 msgstr "Toevoegen aan Opnemen"
 
-#: qt/app.py:302
+#: qt/app.py:257
 msgid "Add to Exclude"
 msgstr "Toevoegen aan Uitsluiten"
 
-#: qt/app.py:387
+#: qt/app.py:342
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -548,7 +511,7 @@ msgstr ""
 "Het lijkt erop dat {app_name} voor de eerste keer wordt uitgevoerd, omdat er"
 " geen configuratie is gevonden."
 
-#: qt/app.py:392
+#: qt/app.py:347
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -557,153 +520,153 @@ msgstr ""
 "Een bestaande configuratie importeren (vanuit een back-updoelmap of een "
 "andere computer)?"
 
-#: qt/app.py:419
+#: qt/app.py:374
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Kan momentopnamemap niet vinden."
 
-#: qt/app.py:420
+#: qt/app.py:375
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Als deze op een verwijderbaar medium staat, gelieve dit aan te sluiten en op"
 " OK te drukken."
 
-#: qt/app.py:525
+#: qt/app.py:487
 msgid "Take a snapshot"
 msgstr "Een momentopname maken"
 
-#: qt/app.py:527
+#: qt/app.py:489
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Modificatietijd en grootte gebruiken voor detectie van bestandswijzigingen."
 
-#: qt/app.py:530
+#: qt/app.py:492
 msgid "Take a snapshot (checksum mode)"
 msgstr "Momentopname maken (modus controlegetal)"
 
-#: qt/app.py:532
+#: qt/app.py:494
 msgid "Use checksums for file change detection."
 msgstr "Controlegetallen gebruiken voor het opsporen van bestandswijzigingen."
 
-#: qt/app.py:535 qt/qtsystrayicon.py:86
+#: qt/app.py:497 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
 msgstr "Maken van momentopname pauzeren"
 
-#: qt/app.py:540 qt/qtsystrayicon.py:90
+#: qt/app.py:502 qt/qtsystrayicon.py:90
 msgid "Resume snapshot process"
 msgstr "Maken van momentopname hervatten"
 
-#: qt/app.py:544 qt/qtsystrayicon.py:95
+#: qt/app.py:506 qt/qtsystrayicon.py:95
 msgid "Stop snapshot process"
 msgstr "Maken van momentopname stoppen"
 
-#: qt/app.py:548
+#: qt/app.py:510
 msgid "Refresh snapshot list"
 msgstr "Momentopnamelijst vernieuwen"
 
-#: qt/app.py:552
+#: qt/app.py:514
 msgid "Name snapshot"
 msgstr "Momentopname benoemen"
 
-#: qt/app.py:556
+#: qt/app.py:518
 msgid "Remove snapshot"
 msgstr "Momentopname verwijderen"
 
-#: qt/app.py:560
+#: qt/app.py:522
 msgid "View snapshot log"
 msgstr "Momentopnamelogboek bekijken"
 
-#: qt/app.py:564
+#: qt/app.py:526
 msgid "View last log"
 msgstr "Laatste logboek bekijken"
 
-#: qt/app.py:568
+#: qt/app.py:530
 msgid "Manage profiles…"
 msgstr "Profielen beheren…"
 
-#: qt/app.py:572
+#: qt/app.py:534
 msgid "Shutdown"
 msgstr "Uitschakelen"
 
-#: qt/app.py:574
+#: qt/app.py:536
 msgid "Shut down system after snapshot has finished."
 msgstr "Computer uitschakelen wanneer de momentopname voltooid is."
 
-#: qt/app.py:576
+#: qt/app.py:538
 msgid "Setup language…"
 msgstr "Taal instellen…"
 
-#: qt/app.py:580
+#: qt/app.py:542
 msgid "Exit"
 msgstr "Afsluiten"
 
-#: qt/app.py:584
+#: qt/app.py:546
 msgid "Help"
 msgstr "Hulp"
 
-#: qt/app.py:588
+#: qt/app.py:550
 msgid "Profiles config file"
 msgstr "Profielconfiguratiebestand"
 
-#: qt/app.py:591 qt/languagedialog.py:233
+#: qt/app.py:553 qt/app.py:1995
 msgid "Website"
 msgstr "Website"
 
-#: qt/app.py:594 qt/app.py:1422
+#: qt/app.py:556 qt/app.py:1397
 msgid "Changelog"
 msgstr "Wijzigingslogboek"
 
-#: qt/app.py:597
+#: qt/app.py:559
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:600
+#: qt/app.py:562
 msgid "Ask a question"
 msgstr "Een vraag stellen"
 
-#: qt/app.py:603
+#: qt/app.py:565
 msgid "Report a bug"
 msgstr "Een fout melden"
 
-#: qt/app.py:606
+#: qt/app.py:568
 msgid "Translation"
 msgstr "Vertaling"
 
-#: qt/app.py:608
+#: qt/app.py:570
 msgid "Shows the message about participation in translation again."
 msgstr "Toont het bericht over deelname aan vertaling opnieuw."
 
-#: qt/app.py:612
+#: qt/app.py:574
 msgid "Encryption Transition (EncFS)"
 msgstr "Versleutelingsovergang (EncFS)"
 
-#: qt/app.py:614
+#: qt/app.py:576
 msgid "Shows the message about EncFS removal again."
 msgstr "Toont opnieuw het bericht over het verwijderen van EncFS."
 
-#: qt/app.py:619 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
+#: qt/app.py:581 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
 msgstr "Herstellen"
 
-#: qt/app.py:621
+#: qt/app.py:583
 #, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr ""
 "De geselecteerde bestanden of mappen naar de oorspronkelijke bestemming "
 "herstellen."
 
-#: qt/app.py:624 qt/app.py:1599 qt/app.py:1631 qt/snapshotsdialog.py:166
+#: qt/app.py:586 qt/app.py:1574 qt/app.py:1606 qt/snapshotsdialog.py:166
 msgid "Restore to …"
 msgstr "Herstellen naar …"
 
-#: qt/app.py:626
+#: qt/app.py:588
 #, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr ""
 "De geselecteerde bestanden of mappen naar een nieuw bestemming herstellen."
 
-#: qt/app.py:631
+#: qt/app.py:593
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -712,7 +675,7 @@ msgstr ""
 "De momenteel weergegeven map en alle inhoud ervan naar de oorspronkelijke "
 "bestemming herstellen."
 
-#: qt/app.py:636
+#: qt/app.py:598
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -721,35 +684,44 @@ msgstr ""
 "De momenteel weergegeven map en alle inhoud ervan naar een nieuwe bestemming"
 " herstellen."
 
-#: qt/app.py:639
+#: qt/app.py:601
 msgid "Up"
 msgstr "Omhoog"
 
-#: qt/app.py:642 qt/restoreconfigdialog.py:90
+#: qt/app.py:604 qt/restoreconfigdialog.py:90
 msgid "Show hidden files"
 msgstr "Verborgen bestanden tonen"
 
-#: qt/app.py:645
+#: qt/app.py:607
 msgid "Compare snapshots…"
 msgstr "Momentopnames vergelijken…"
 
-#: qt/app.py:704
+#: qt/app.py:637 qt/app.py:2065
+msgid "Release Candidate"
+msgstr ""
+
+#: qt/app.py:640
+#, fuzzy
+msgid "Shows the message about this Release Candidate again."
+msgstr "Toont opnieuw het bericht over het verwijderen van EncFS."
+
+#: qt/app.py:676
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:709
+#: qt/app.py:681
 msgid "&Backup"
 msgstr "&Back-up"
 
-#: qt/app.py:720
+#: qt/app.py:692
 msgid "&Restore"
 msgstr "Te&rugzetten"
 
-#: qt/app.py:726
+#: qt/app.py:698
 msgid "&Help"
 msgstr "&Hulp"
 
-#: qt/app.py:862
+#: qt/app.py:837
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -757,66 +729,66 @@ msgstr ""
 "Als u dit venster sluit, zal Back In Time de computer niet uit kunnen "
 "schakelen wanneer de momentopname voltooid is."
 
-#: qt/app.py:865
+#: qt/app.py:840
 msgid "Do you really want to close it?"
 msgstr "Weet u zeker dat u het wilt sluiten?"
 
-#: qt/app.py:1034
+#: qt/app.py:1009
 msgid "Working:"
 msgstr "Bezig:"
 
-#: qt/app.py:1082
+#: qt/app.py:1057
 msgid "Done, no backup needed"
 msgstr "Klaar, geen back-up nodig"
 
-#: qt/app.py:1091
+#: qt/app.py:1066
 msgid "Working"
 msgstr "Bezig"
 
-#: qt/app.py:1100 qt/messagebox.py:93
+#: qt/app.py:1075 qt/messagebox.py:93
 msgid "Error"
 msgstr "Fout"
 
-#: qt/app.py:1123
+#: qt/app.py:1098
 msgid "Sent"
 msgstr "Verzonden"
 
-#: qt/app.py:1124
+#: qt/app.py:1099
 msgid "Speed"
 msgstr "Snelheid"
 
-#: qt/app.py:1125
+#: qt/app.py:1100
 msgid "ETA"
 msgstr "Geschatte afhandelingstijd"
 
-#: qt/app.py:1187
+#: qt/app.py:1162
 msgid "Global"
 msgstr "Algemeen"
 
-#: qt/app.py:1188
+#: qt/app.py:1163
 msgid "Root"
 msgstr "Hoofdmap"
 
-#: qt/app.py:1189
+#: qt/app.py:1164
 msgid "Home"
 msgstr "Persoonlijke map"
 
-#: qt/app.py:1217
+#: qt/app.py:1192
 #, fuzzy
 msgid "Backup directories"
 msgstr "Back-upmappen"
 
-#: qt/app.py:1313
+#: qt/app.py:1288
 msgid "Snapshot Name"
 msgstr "Naam momentopname"
 
-#: qt/app.py:1360
+#: qt/app.py:1335
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Weet u zeker dat u deze momentopname wilt verwijderen?"
 msgstr[1] "Weet u zeker dat u deze momentopnames wilt verwijderen?"
 
-#: qt/app.py:1455
+#: qt/app.py:1430
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -825,7 +797,7 @@ msgstr ""
 "Back-ups met achtervoegsel {suffix} maken, voordat\n"
 "lokale elementen overschreven of verwijderd worden."
 
-#: qt/app.py:1463
+#: qt/app.py:1438
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -836,7 +808,7 @@ msgstr ""
 "voordat ze worden teruggezet. Als u ze niet meer nodig heeft kunt u ze "
 "verwijderen met het volgende commando:"
 
-#: qt/app.py:1479
+#: qt/app.py:1454
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -846,12 +818,12 @@ msgstr ""
 "nieuwer zijn dan die in de bestemming.\n"
 "De optie \"rsync --update\" wordt gebruikt."
 
-#: qt/app.py:1514
+#: qt/app.py:1489
 #, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Nieuwere elementen in oorspronkelijke map verwijderen."
 
-#: qt/app.py:1517
+#: qt/app.py:1492
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -865,7 +837,7 @@ msgstr ""
 "bestanden/mappen verwijderd die waren uitgesloten tijdens het maken van de "
 "momentopname."
 
-#: qt/app.py:1529
+#: qt/app.py:1504
 #, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
@@ -877,19 +849,19 @@ msgstr[1] ""
 "Weet u zeker dat u deze elementen wilt herstellen naar de nieuwe map\n"
 "{path}?"
 
-#: qt/app.py:1539
+#: qt/app.py:1514
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Weet u zeker dat u dit element wilt herstellen?"
 msgstr[1] "Weet u zeker dat u deze elementen wilt herstellen?"
 
-#: qt/app.py:1558
+#: qt/app.py:1533
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 "Weet u zeker dat u alle nieuwere bestanden in {path} wilt verwijderen?"
 
-#: qt/app.py:1561
+#: qt/app.py:1536
 #, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
@@ -897,7 +869,7 @@ msgstr ""
 "Weet u zeker dat u alle nieuwere bestanden in uw oorspronkelijke map wilt "
 "verwijderen?"
 
-#: qt/app.py:1567
+#: qt/app.py:1542
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -906,21 +878,82 @@ msgstr ""
 "{BOLD}Let op:{BOLDEND} Het verwijderen van bestanden uit de hoofdmap van het"
 " bestandssysteem kan uw hele systeem ruïneren."
 
-#: qt/app.py:1803
+#: qt/app.py:1778
 msgid "Snapshot"
 msgstr "Momentopname"
 
-#: qt/app.py:1840
+#: qt/app.py:1815
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} terugzetten"
 
-#: qt/app.py:1842
+#: qt/app.py:1817
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} terugzetten naar …"
 
-#: qt/app.py:2001
+#: qt/app.py:1961
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team"
+msgstr ""
+"Hallo\n"
+"U heeft Back In Time nu al een paar keer gebruikt in het {language}.\n"
+"De vertaling van de geïnstalleerde versie van Back In Time in het {language} is {perc} voltooid. Ongeacht uw niveau van technische expertise kunt u een bijdrage leveren aan de vertaling en daarmee aan Back In Time zelf.\n"
+"Bezoek {translation_platform_url} als u een bijdrage wilt leveren. Voor verdere hulp en vragen kunt u de {back_in_time_project_website} bezoeken.\n"
+"Onze excuses voor de onderbreking. Dit bericht zal niet opnieuw worden weergegeven. Dit dialoogvenster is op elk moment beschikbaar via het hulpmenu.\n"
+"Uw Back In Time-team"
+
+#: qt/app.py:1990
+msgid "translation platform"
+msgstr "vertaalplatform"
+
+#: qt/app.py:2009
+msgid "Your translation"
+msgstr "Uw vertaling"
+
+#: qt/app.py:2021
+#, python-brace-format
+msgid "Email to {link_and_label}."
+msgstr ""
+
+#: qt/app.py:2024
+#, python-brace-format
+msgid "Mailing list {link_and_label}"
+msgstr ""
+
+#: qt/app.py:2028
+#, python-brace-format
+msgid "{link_and_label} on the project website."
+msgstr ""
+
+#: qt/app.py:2031
+msgid "Open an issue"
+msgstr ""
+
+#: qt/app.py:2032
+msgid "Alternatively, you can use another channel of your choice."
+msgstr ""
+
+#: qt/app.py:2037
+#, python-brace-format
+msgid ""
+"This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
+"No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
+"Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
+"The following contact options are available:\n"
+"{contact_list}\n"
+"In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
+"Thank you for your support and for helping us improve Back In Time!\n"
+"Your Back In Time Team"
+msgstr ""
+
+#: qt/app.py:2088
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "De taalinstellingen worden pas van kracht na het herstarten van Back In "
@@ -990,47 +1023,22 @@ msgstr ""
 msgid "Your Back In Time Team"
 msgstr "Uw Back In Time-team"
 
-#: qt/languagedialog.py:39
+#: qt/languagedialog.py:35
 msgid "Setup language"
 msgstr "Taal instellen"
 
-#: qt/languagedialog.py:101
+#: qt/languagedialog.py:97
 msgid "System default"
 msgstr "Systeemstandaard"
 
-#: qt/languagedialog.py:111
+#: qt/languagedialog.py:107
 msgid "Use operating systems language."
 msgstr "De taal van het besturingssysteem gebruiken."
 
-#: qt/languagedialog.py:161
+#: qt/languagedialog.py:157
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Vertaald: {percent}"
-
-#: qt/languagedialog.py:199
-#, python-brace-format
-msgid ""
-"Hello\n"
-"You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
-"Your Back In Time Team"
-msgstr ""
-"Hallo\n"
-"U heeft Back In Time nu al een paar keer gebruikt in het {language}.\n"
-"De vertaling van de geïnstalleerde versie van Back In Time in het {language} is {perc} voltooid. Ongeacht uw niveau van technische expertise kunt u een bijdrage leveren aan de vertaling en daarmee aan Back In Time zelf.\n"
-"Bezoek {translation_platform_url} als u een bijdrage wilt leveren. Voor verdere hulp en vragen kunt u de {back_in_time_project_website} bezoeken.\n"
-"Onze excuses voor de onderbreking. Dit bericht zal niet opnieuw worden weergegeven. Dit dialoogvenster is op elk moment beschikbaar via het hulpmenu.\n"
-"Uw Back In Time-team"
-
-#: qt/languagedialog.py:228
-msgid "translation platform"
-msgstr "vertaalplatform"
-
-#: qt/languagedialog.py:253
-msgid "Your translation"
-msgstr "Uw vertaling"
 
 #: qt/logviewdialog.py:67
 msgid "Last Log View"
@@ -1595,10 +1603,6 @@ msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 "Onveilige koppelingen kopiëren (werkt alleen met absolute koppelingen)"
 
-#: qt/manageprofiles/tab_expert_options.py:253
-msgid "Copy links (dereference symbolic links)"
-msgstr "Koppelingen kopiëren (symbolische koppelingen derefereren)"
-
 #: qt/manageprofiles/tab_expert_options.py:274
 msgid "Restrict to one file system"
 msgstr "Beperken tot één bestandssysteem"
@@ -1940,18 +1944,19 @@ msgid "Import"
 msgstr "Importeren"
 
 #: qt/restoreconfigdialog.py:164
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
-"Select the snapshot folder from which the configuration file should be "
+"Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 "Selecteer de momentopnamemap waaruit het configuratiebestand moet worden "
 "geïmporteerd. Het pad kan er als volgt uitzien: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
+#, fuzzy
 msgid ""
-"If the folder is located on an external or remote drive, it must be manually"
-" mounted beforehand."
+"If the directory is located on an external or remote drive, it must be "
+"manually mounted beforehand."
 msgstr ""
 "Als de map zich op een externe host of externe schijf bevindt, moet deze "
 "vooraf handmatig worden aangekoppeld."
@@ -2052,6 +2057,10 @@ msgid "Exclude {path} from future snapshots?"
 msgstr "{path} uitsluiten van toekomstige momentopnames?"
 
 #, fuzzy
+#~ msgid "Backup directory cannot be included."
+#~ msgstr "Backup-map kan niet worden opgenomen."
+
+#, fuzzy
 #~ msgid ""
 #~ "Can't find crontab. Are you sure cron is installed? If not you should "
 #~ "disable all automatic backups."
@@ -2071,6 +2080,10 @@ msgstr "{path} uitsluiten van toekomstige momentopnames?"
 #~ msgid ""
 #~ "Caution: Change these options only if you really know what you are doing."
 #~ msgstr "Let op: wijzig deze opties alleen als u echt weet wat u doet."
+
+#, fuzzy
+#~ msgid "Copy links (resolve symbolic links)"
+#~ msgstr "Koppelingen kopiëren (symbolische koppelingen derefereren)"
 
 #~ msgid "EXPERIMENTAL"
 #~ msgstr "EXPERIMENTEEL"
