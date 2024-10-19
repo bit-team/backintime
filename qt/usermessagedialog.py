@@ -26,6 +26,7 @@ class UserMessageDialog(QDialog):
 
     HTML tags supported because of Qt rich text feature. Text between Newline
     characters ``\n`` will be converted into ``<p>`` paragraphs.
+
     """
 
     def __init__(self, parent: QWidget, title: str, full_label: str):
