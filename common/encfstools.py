@@ -1,19 +1,11 @@
-#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Taylor Raack
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
 import re
@@ -247,7 +239,7 @@ class EncFS_SSH(EncFS_mount):
             #file does not exist. It will not create a new one anymore but just fail.
             #As encfs would create the config in /.encfs6.xml (which will most likely fail)
             #we need to mount a temp folder with reverse first and copy the config when done.
-            logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
+            logger.debug('Mount temp directory with encfs --reverse to create a new encfs config', self)
             with tempfile.TemporaryDirectory() as src:
                 tmp_kwargs = self.splitKwargs('encfs_reverse')
                 tmp_kwargs['path'] = src

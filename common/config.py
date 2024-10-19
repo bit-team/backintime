@@ -127,9 +127,6 @@ class Config(configfile.ConfigFileWithProfiles):
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
-    NTFS_FILESYSTEM_WARNING = _('The destination filesystem for {path} is formatted with NTFS, '
-                                'which has known incompatibilities with Unix-style filesystems.')
-
     def __init__(self, config_path=None, data_path=None):
         """Back In Time configuration (and much more then this).
 
@@ -320,7 +317,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots directory is not valid!')
+                        _('Snapshots directory is not valid.')
                     )
                 )
                 return False
@@ -350,7 +347,8 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _("Backup directory cannot be included.")
+                            _('The directory cannot be included in the '
+                              'backup.')
                         )
                     )
 
@@ -362,7 +360,7 @@ class Config(configfile.ConfigFileWithProfiles):
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
-                                _('Sub-directories cannot be included in '
+                                _('The sub-directories cannot be included in '
                                   'the backup.')
                             )
                         )

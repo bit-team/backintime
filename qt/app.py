@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -93,54 +94,8 @@ import languagedialog
 import messagebox
 from aboutdlg import AboutDlg
 import qttools
-
-_HTML_CONTACT_LIST = (
-    '<ul>'
-    '<li>{email}</li>'
-    '<li>{mailinglist}</li>'
-    '<li>{issue}</li>'
-    '<li>{alternative}</li>'
-    '</ul>'
-).format(
-    email=_('Email to {link_and_label}.').format(
-        link_and_label='<a href="mailto:backintime@tuta.io">'
-                       'backintime@tuta.io</a>'),
-    mailinglist=_('Mailing list {link_and_label}').format(
-        link_and_label='<a href="https://mail.python.org/mailman3/lists'
-                       'bit-dev.python.org/">bit-dev@python.org</a>'),
-    issue=_('{link_and_label} on the project website.').format(
-        link_and_label='<a href="https://github.com/bit-team/backintime/'
-                       'issues/new">Open an issue</a>'),
-    alternative=_('Alternatively, you can use another channel of your choice.')
-)
-
-_RELEASE_CANDIDATE_MESSAGE = _(
-    'This version of Back In Time is a Release Candidate and is primarily '
-    'intended for stability testing in preparation for the next official '
-    'release.'
-    '\n'
-    'No user data or telemetry is collected. However, the Back In Time team '
-    'is very interested in knowing if the Release Candidate is being used '
-    'and if it is worth continuing to provide such pre-release versions.'
-    '\n'
-    'Therefore, the team kindly asks for a short feedback on whether you '
-    'have tested this version, even if you didn’t encounter any issues. Even '
-    'a quick test run of a few minutes would help us a lot.'
-    '\n'
-    'The following contact options are available:'
-    '\n'
-    '{contact_list}'
-    '\n'
-    "In this version, this message won't be shown again but can be accessed "
-    'anytime through the help menu.'
-    '\n'
-    'Thank you for your support and for helping us improve Back In Time!'
-    '\n'
-    'Your Back In Time Team'
-).format(contact_list=_HTML_CONTACT_LIST)
-
-
-_RELEASE_CANDIDATE_TITLE = _('Release Candidate')
+from usermessagedialog import UserMessageDialog
+import version
 
 
 class MainWindow(QMainWindow):
@@ -484,6 +439,13 @@ class MainWindow(QMainWindow):
                 dlg.exec()
                 self.config.setBoolValue('internal.msg_shown_encfs', True)
 
+        # Release Candidate
+        if version.is_release_candidate():
+            last_vers = self.config.strValue('internal.msg_rc')
+            if last_vers != version.__version__:
+                self.config.setStrValue('internal.msg_rc', version.__version__)
+                self._open_release_candidate_dialog()
+
     @property
     def showHiddenFiles(self):
         return self.config.boolValue('qt.show_hidden_files', False)
@@ -668,6 +630,16 @@ class MainWindow(QMainWindow):
             # populate the action to "self"
             setattr(self, attr, action)
 
+        # Release Candidate ?
+        self.act_help_release_candidate = None
+        if version.is_release_candidate():
+            # pylint: disable=undefined-variable
+            action = QAction(icon.QUESTION, _('Release Candidate'), self)
+            action.triggered.connect(self.slot_help_release_candidate)
+            action.setToolTip(
+                _('Shows the message about this Release Candidate again.'))
+            self.act_help_release_candidate = action
+
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
@@ -757,6 +729,9 @@ class MainWindow(QMainWindow):
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
+        if self.act_help_release_candidate:
+            help.addSeparator()
+            help.addAction(self.act_help_release_candidate)
         restore = self.act_restore_menu.menu()
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
@@ -1977,8 +1952,120 @@ class MainWindow(QMainWindow):
         if perc > cutoff:
             return
 
-        dlg = languagedialog.ApproachTranslatorDialog(self, name, perc)
+        def _complete_text(language: str, percent: int) -> str:
+            # (2023-08): Move to packages meta-data (pyproject.toml).
+            _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
+            _URL_PROJECT = 'https://github.com/bit-team/backintime'
+
+            txt = _(
+                'Hello'
+                '\n'
+                'You have used Back In Time in the {language} '
+                'language a few times by now.'
+                '\n'
+                'The translation of your installed version of Back In Time '
+                'into {language} is {perc} complete. Regardless of your '
+                'level of technical expertise, you can contribute to the '
+                'translation and thus Back In Time itself.'
+                '\n'
+                'Please visit the {translation_platform_url} if you wish '
+                'to contribute. For further assistance and questions, '
+                'please visit the {back_in_time_project_website}.'
+                '\n'
+                'We apologize for the interruption, and this message '
+                'will not be shown again. This dialog is available at '
+                'any time via the help menu.'
+                '\n'
+                'Your Back In Time Team'
+            )
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            # Insert data in placeholder variables.
+            platform_url \
+                = f'<a href="{_URL_PLATFORM}">' \
+                + _('translation platform') \
+                + '</a>'
+
+            project_url \
+                = f'<a href="{_URL_PROJECT}">Back In Time ' \
+                + _('Website') \
+                + ' </a>'
+
+            result = result.format(
+                language=f'<strong>{language}</strong>',
+                perc=f'<strong>{percent} %</strong>',
+                translation_platform_url=platform_url,
+                back_in_time_project_website=project_url
+            )
+
+            return result
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title=_('Your translation'),
+            full_label=_complete_text(name, perc))
         dlg.exec()
+
+    def _open_release_candidate_dialog(self):
+        html_contact_list = (
+            '<ul>'
+            '<li>{email}</li>'
+            '<li>{mailinglist}</li>'
+            '<li>{issue}</li>'
+            '<li>{alternative}</li>'
+            '</ul>').format(
+                email=_('Email to {link_and_label}.').format(
+                    link_and_label='<a href="mailto:backintime@tuta.io">'
+                                   'backintime@tuta.io</a>'),
+                mailinglist=_('Mailing list {link_and_label}').format(
+                    link_and_label='<a href="https://mail.python.org/mailman3/'
+                                   'lists/bit-dev.python.org/">'
+                                   'bit-dev@python.org</a>'),
+                issue=_('{link_and_label} on the project website.').format(
+                    link_and_label='<a href="https://github.com/bit-team/'
+                                   'backintime/issues/new">{open_issue}</a>').format(
+                                       open_issue=_('Open an issue')),
+                alternative=_('Alternatively, you can use another channel '
+                              'of your choice.')
+            )
+
+        rc_message = _(
+            'This version of Back In Time is a Release Candidate and is '
+            'primarily intended for stability testing in preparation for the '
+            'next official release.'
+            '\n'
+            'No user data or telemetry is collected. However, the Back In '
+            'Time team is very interested in knowing if the Release Candidate '
+            'is being used and if it is worth continuing to provide such '
+            'pre-release versions.'
+            '\n'
+            'Therefore, the team kindly asks for a short feedback on whether '
+            'you have tested this version, even if you didn’t encounter any '
+            'issues. Even a quick test run of a few minutes would help us a '
+            'lot.'
+            '\n'
+            'The following contact options are available:'
+            '\n'
+            '{contact_list}'
+            '\n'
+            "In this version, this message won't be shown again but can be "
+            'accessed anytime through the help menu.'
+            '\n'
+            'Thank you for your support and for helping us improve '
+            'Back In Time!'
+            '\n'
+            'Your Back In Time Team').format(contact_list=html_contact_list)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title=_('Release Candidate'),
+            full_label=rc_message)
+        dlg.exec()
+
 
     # |-------|
     # | Slots |
@@ -2005,9 +2092,13 @@ class MainWindow(QMainWindow):
     def slot_help_translation(self):
         self._open_approach_translator_dialog()
 
+    def slot_help_release_candidate(self):
+        self._open_release_candidate_dialog()
+
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
         dlg.exec()
+
 
 class ExtraMouseButtonEventFilter(QObject):
     """
