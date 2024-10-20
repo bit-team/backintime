@@ -2162,11 +2162,13 @@ class RemoveSnapshotThread(QThread):
         if self.config.inhibitCookie:
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
+
 class FillTimeLineThread(QThread):
     """
     add snapshot IDs to timeline in background
     """
     addSnapshot = pyqtSignal(snapshots.SID)
+
     def __init__(self, parent):
         self.parent = parent
         self.config = parent.config
@@ -2179,10 +2181,12 @@ class FillTimeLineThread(QThread):
 
         self.parent.snapshotsList.sort()
 
+
 class SetupCron(QThread):
     """
     Check crontab entries on startup.
     """
+
     def __init__(self, parent):
         self.config = parent.config
         super(SetupCron, self).__init__(parent)
@@ -2196,10 +2200,11 @@ if __name__ == '__main__':
 
     raiseCmd = ''
     if len(sys.argv) > 1:
-        raiseCmd = '\n'.join(sys.argv[1 :])
+        raiseCmd = '\n'.join(sys.argv[1:])
 
-    appInstance = guiapplicationinstance.GUIApplicationInstance(cfg.appInstanceFile(), raiseCmd)
-    cfg.PLUGIN_MANAGER.load(cfg = cfg)
+    appInstance = guiapplicationinstance.GUIApplicationInstance(
+        cfg.appInstanceFile(), raiseCmd)
+    cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
     logger.openlog()
