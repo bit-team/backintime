@@ -55,6 +55,7 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
+import version
 
 
 # |---------------|
@@ -300,6 +301,11 @@ def createQApplication(app_name='Back In Time'):
     except Exception as e:
         logger.debug(
             f"Error reading QT QPA platform plugin or style: {repr(e)}")
+
+    # Release Candidate indicator
+    if version.is_release_candidate():
+        app_name = f'{app_name} -- RELEASE CANDIDATE -- ' \
+                   f'({version.__version__})'
 
     qapp.setApplicationName(app_name)
 

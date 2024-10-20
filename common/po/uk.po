@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-18 18:52+0000\n"
+"POT-Creation-Date: 2024-10-20 10:36+0200\n"
+"PO-Revision-Date: 2024-10-19 18:55+0000\n"
 "Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -72,23 +72,20 @@ msgid "Profile: \"{name}\""
 msgstr "Профіль: «{name}»"
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Неправильний каталог!"
+msgstr "Каталог для резервних копій не є дійсним."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr "Для резервного копіювання необхідно вибрати принаймні один каталог."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Не можна включати в резервну копію підкаталог резервної копії."
+msgstr "Каталог не можна включити в резервну копію."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Не можна включати в резервну копію підкаталог резервної копії."
+msgstr "Підкаталоги не можна включити в резервну копію."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -419,19 +416,19 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"Файлову систему призначення {path} відформатовано у FAT, яка не підтримує "
-"жорсткі посилання. Використовуйте файлові системи для GNU/Linux."
+"Файлову систему призначення для {path} відформатовано у FAT, яка не "
+"підтримує жорсткі посилання. Використовуйте файлові системи для GNU/Linux."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"Файлова система призначення {path} — спільний SMB-ресурс. Переконайтеся, що "
-"віддалений SMB-сервер підтримує символьні посилання, або активуйте "
-"{copyLinks} в {expertOptions}."
+"Файлова система призначення для {path} — змонтований спільний SMB-ресурс. "
+"Переконайтеся, що віддалений SMB-сервер підтримує символьні посилання, або "
+"активуйте «{copyLinks}» в «{expertOptions}»."
 
 #: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -442,13 +439,14 @@ msgid "Expert Options"
 msgstr "Розширені налаштування"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"Файлова система призначення {path} — спільний sshfs-ресурс. Sshfs не "
-"підтримує жорсткі посилання. Будь ласка, використовуйте режим «SSH»."
+"Файлова система призначення для {path} — змонтований спільний sshfs-ресурс. "
+"Sshfs не підтримує жорсткі посилання. Будь ласка, використовуйте режим "
+"«SSH»."
 
 #: common/tools.py:534
 msgid "File creation failed in this directory:"
@@ -677,9 +675,8 @@ msgid "Release Candidate"
 msgstr "Release Candidate"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Показує повідомлення про видалення EncFS."
+msgstr "Показує повідомлення про Release Candidate."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -898,7 +895,7 @@ msgstr "{link_and_label} на вебсайті проєкту."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Створити задачу"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
@@ -919,7 +916,7 @@ msgstr ""
 "Ця версія Back In Time є реліз-кандидатом (Release Candidate). Вона призначена в першу чергу для тестування стабільності при підготовці до наступного офіційного релізу.\n"
 "Жодних даних користувачів або телеметрії не збирається. Однак команду Back In Time дуже цікавить, чи використовується реліз-кандидат і чи варто надалі випускати такі тестові версії.\n"
 "Тому команда просить Вас надати короткий відгук про те, чи тестували Ви цю версію, навіть якщо у Вас не виникло ніяких проблем. Навіть побіжний тест протягом кількох хвилин дуже нам допоможе.\n"
-"Доступні такі контакти:\n"
+"Доступні такі варіанти зв'язку:\n"
 "{contact_list}\n"
 "У цій версії це повідомлення більше не виводитиметься, але воно доступне в будь-який час через меню «Допомога».\n"
 "Дякуємо за вашу підтримку і за те, що допомагаєте нам покращувати Back In Time!\n"
@@ -1899,22 +1896,21 @@ msgid "Import"
 msgstr "Імпорт"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Виберіть теку для резервних копій, з якої слід імпортувати файл "
+"Виберіть каталог для резервних копій, з якого слід імпортувати файл "
 "конфігурації. Шлях може мати такий вигляд: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
-"Якщо це тека на зовнішньому або віддаленому диску, її потрібно попередньо "
-"змонтувати вручну."
+"Якщо це каталог на зовнішньому або віддаленому диску, його потрібно "
+"попередньо змонтувати вручну."
 
 #: qt/restoredialog.py:59
 msgid "Show full Log"

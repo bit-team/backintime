@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-19 13:29+0000\n"
+"POT-Creation-Date: 2024-10-20 10:36+0200\n"
+"PO-Revision-Date: 2024-10-19 18:55+0000\n"
 "Last-Translator: mbouzada <mbouzada@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -72,23 +72,21 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "O directorio das instantáneas non é válido!"
+msgstr "O directorio de instantáneas non é válido."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr ""
+"Debe seleccionarse polo menos un directorio para a copia de seguranza."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Non é posíbel incluír o subdirectorio de copia de seguranza."
+msgstr "Non é posíbel incluír o directorio na copia de seguranza."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Non é posíbel incluír o subdirectorio de copia de seguranza."
+msgstr "Non é posíbel incluír os subdirectorios na copia de seguranza."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -172,7 +170,7 @@ msgid "Take snapshot"
 msgstr "Facer unha instantánea"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "Non é posíbel desmontar {mountprocess} de {mountpoint}."
 
@@ -234,7 +232,7 @@ msgstr "Teña paciencia. Finalizando…"
 
 #: common/snapshots.py:1063
 msgid "Can't create directory."
-msgstr "Non é posíbel crear o directorio"
+msgstr "Non é posíbel crear o directorio."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -245,9 +243,10 @@ msgid "Saving permissions…"
 msgstr "Gardando os permisos…"
 
 #: common/snapshots.py:1273
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "Atopáronse restos de {snapshot_id} cos que se pode continuar."
+msgstr ""
+"Atopáronse restos da instantánea {snapshot_id} cos que se pode continuar."
 
 #: common/snapshots.py:1297
 #, python-brace-format
@@ -297,9 +296,9 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Non se precisa unha instantánea nova porque non houbo cambios"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Non é posible renomear {new_path} a {path}"
+msgstr "Non é posíbel cambiar o nome de {new_path} a {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -323,12 +322,11 @@ msgid "Now"
 msgstr "Agora"
 
 #: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Non é posible montar {sshfs}"
 
 #: common/sshtools.py:308
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "Non se atopou ssh-agent. Asegúrese de que está instalado."
 
@@ -414,24 +412,24 @@ msgid "Write access may be restricted."
 msgstr "O acceso para escritura pode estar restrinxido."
 
 #: common/tools.py:480
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"O sistema de ficheiros de destino de {path} está formatado con FAT, o cal "
+"O sistema de ficheiros de destino para {path} está formatado con FAT, o cal "
 "non admite ligazóns fortes. Use un sistema de ficheiros nativo de GNU/Linux."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"O sistema de ficheiros de destino {path} é unha comparticion montada de SMB."
-" Asegúrese de que o servidor de SMB remoto acepta ligazóns simbólicas ou "
-"active {copyLinks} en {expertOptions}."
+"O sistema de ficheiros de destino para {path} é un recurso compartido "
+"montado mediante SMB. Asegúrese de que o servidor SMB remoto admite ligazóns"
+" simbólicas ou active «{copyLinks}» en «{expertOptions}»."
 
 #: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -442,13 +440,14 @@ msgid "Expert Options"
 msgstr "Opcións avanzadas"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"O sistema de ficheiros de destino de {path} é unha compartición montada de "
-"sshfs. Sshfs non acepta ligazóns fortes. Use o modo «SSH»."
+"O sistema de ficheiros de destino para {path} é un recurso compartido "
+"montado mediante sshfs. Sshfs non admite ligazóns fortes. Use o modo «SSH» "
+"no seu lugar."
 
 #: common/tools.py:534
 msgid "File creation failed in this directory:"
@@ -500,13 +499,12 @@ msgstr ""
 "ningunha configuración."
 
 #: qt/app.py:347
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
-"Importar unha configuración existente (de copias de seguranza ou doutro "
-"computador)?"
+"Importar unha configuración existente (dende un directorio de destino de "
+"copia de seguranza ou doutro computador)?"
 
 #: qt/app.py:374
 msgid "Can't find snapshots directory."
@@ -648,18 +646,20 @@ msgid "Restore the selected files or directories to a new destination."
 msgstr "Restaurar os ficheiros ou directorios seleccionados nun novo destino."
 
 #: qt/app.py:593
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
-msgstr "Restaurar o cartafol actual e todo o seu contido ao destino orixinal."
+msgstr ""
+"Restaurar o directorio amosado actualmente e todo o seu contido ao destino "
+"orixinal."
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
-msgstr "Restaurar o cartafol actual e todo o seu contido nun destino novo."
+msgstr ""
+"Restaurar o directorio amosado actualmente e todo o seu contido a un novo "
+"destino."
 
 #: qt/app.py:601
 msgid "Up"
@@ -675,12 +675,11 @@ msgstr "Comparar instantáneas…"
 
 #: qt/app.py:637 qt/app.py:2065
 msgid "Release Candidate"
-msgstr ""
+msgstr "Versión candidata"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Amosa de novo a mensaxe sobre a retirada de EncFS."
+msgstr "Amosa de novo a mensaxe sobre esta versión candidata."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -886,25 +885,25 @@ msgstr "A súa tradución"
 #: qt/app.py:2021
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "Enviar correo a {link_and_label}."
 
 #: qt/app.py:2024
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Lista de correo {link_and_label}"
 
 #: qt/app.py:2028
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} no sitio web do proxecto."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Abrir unha incidencia"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "Tamén pode empregar outra canle da súa elección."
 
 #: qt/app.py:2037
 #, python-brace-format
@@ -918,6 +917,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Esta versión de Back In Time é unha versión candidata e está pensada principalmente para probas de estabilidade en preparación para o próximo lanzamento oficial.\n"
+"Non se recollen datos de usuario nin telemetría. Porén, o equipo de Back In Time está moi interesado en saber se se está a utilizar a versión candidata e se paga a pena seguir fornecendo estas versións preliminares.\n"
+"Polo tanto, o equipo pidelle amablemente un breve comentario sobre se probou esta versión, aínda que non teña atopado ningún incidente. Incluso unha proba rápida duns minutos axudaríanos moito.\n"
+"Ten ao seu dispor as seguintes opcións de contacto:\n"
+"{contact_list}\n"
+"Nesta versión, esta mensaxe non se volverá amosr, mais poderase acceder en calquera momento a través do menú de axuda.\n"
+"Grazas polo seu apoio e por axudarnos a mellorar Back In Time!\n"
+"O equipo de Back In Time"
 
 #: qt/app.py:2088
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1422,10 +1429,13 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"O procedemento de eliminación intelixente executarase directamente na "
+"máquina remota, non localmente. As ordes «bash», «screen» e «flock» deben "
+"estar instaladas e dispoñíbeis na máquina remota."
 
 #: qt/manageprofiles/tab_auto_remove.py:111
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "Se se selecciona, Back In Time probará primeiro a máquina remota."
 
 #: qt/manageprofiles/tab_auto_remove.py:118
 msgid "Keep all snapshots for the last"
@@ -1461,7 +1471,6 @@ msgid "Keep one snapshot per year for all years."
 msgstr "Conservar unha instantánea por ano de todos os anos."
 
 #: qt/manageprofiles/tab_auto_remove.py:151
-#, fuzzy
 msgid "Keep named snapshots."
 msgstr "Non eliminar as instantáneas con nome."
 
@@ -1470,6 +1479,8 @@ msgid ""
 "Snapshots that, in addition to the usual timestamp, have been given a name "
 "will not be deleted."
 msgstr ""
+"Non se eliminarán as instantáneas que, ademais da marca de tempo habitual, "
+"teñan un nome."
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1480,6 +1491,8 @@ msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Estas opcións son para configuracións avanzadas. Modifíqueas só se é "
+"plenamente consciente das implicacións."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1636,7 +1649,7 @@ msgstr "Onde gardar as instantáneas"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr ""
+msgstr "Directorio"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1655,13 +1668,12 @@ msgid "Private Key:"
 msgstr "Chave privada:"
 
 #: qt/manageprofiles/tab_general.py:149
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
-"Escolla un ficheiro de chave privada existente (normalmente de nome "
-"«id_rsas»)"
+"Escolla un ficheiro de chave privada existente (normalmente chamado "
+"«id_ed25519» e en configuracións máis antigas «id_rsa»)."
 
 #: qt/manageprofiles/tab_general.py:161
 msgid ""
@@ -1892,21 +1904,20 @@ msgid "Import"
 msgstr "Importar"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Seleccione o cartafol de instantáneas dende o que se debe importar o "
+"Seleccione o directorio de instantáneas dende o que se debe importar o "
 "ficheiro de configuración. A ruta pode ter este aspecto: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
-"Se o cartafol está situado nunha unidade externa ou remota, debe montarse "
+"Se o directorio está situado nunha unidade externa ou remota, debe montarse "
 "previamente de xeito manual."
 
 #: qt/restoredialog.py:59

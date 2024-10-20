@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-18 18:18+0000\n"
+"POT-Creation-Date: 2024-10-20 10:36+0200\n"
+"PO-Revision-Date: 2024-10-19 18:55+0000\n"
 "Last-Translator: Merik <Merik@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Katalog migawek jest nieprawidłowy!"
+msgstr "Katalog migawek jest nieprawidłowy."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
@@ -82,14 +81,12 @@ msgstr ""
 "Należy wybrać co najmniej jeden katalog do utworzenia kopii zapasowej."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Podkatalogi kopii zapasowej nie mogą być uwzględniane."
+msgstr "Katalog nie może zostać uwzględniony w kopii zapasowej."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Podkatalogi kopii zapasowej nie mogą być uwzględniane."
+msgstr "Podkatalogi nie mogą zostać uwzględnione w kopii zapasowej."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -426,7 +423,7 @@ msgstr ""
 " wspiera dowiązań twardych. Użyj natywnego systemu plików GNU/Linux."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -434,7 +431,7 @@ msgid ""
 msgstr ""
 "Docelowy system plików dla {path} to udział zamontowany za pomocą SMB. "
 "Upewnij się, że zdalny serwer SMB wspiera dowiązania symboliczne lub aktywuj"
-" {copyLinks} w {expertOptions}."
+" „{copyLinks}” w „{expertOptions}”."
 
 #: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -445,7 +442,7 @@ msgid "Expert Options"
 msgstr "Opcje zaawansowane"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -628,7 +625,7 @@ msgstr "Przejście szyfrowania (EncFS)"
 
 #: qt/app.py:576
 msgid "Shows the message about EncFS removal again."
-msgstr "Ponownie pokazuje wiadomość o usuwaniu EncFS."
+msgstr "Ponownie pokazuje komunikat o usuwaniu EncFS."
 
 #: qt/app.py:581 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -681,9 +678,8 @@ msgid "Release Candidate"
 msgstr "Wydanie kandydujące"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Ponownie pokazuje wiadomość o usuwaniu EncFS."
+msgstr "Wyświetla ponownie komunikat o wydaniu kandydującym."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -877,7 +873,7 @@ msgstr ""
 "Back In Time w języku {language} został użyty już kilka razy.\n"
 "Tłumaczenie zainstalowanej wersji Back In Time na język {language} jest kompletne w {perc}. Możesz pomóc w ulepszeniu tłumaczeń, a poprzez to w ulepszaniu samego Back In Time bez posiadania żadnej wiedzy technicznej.\n"
 "Odwiedź {translation_platform_url}, jeśli chcesz pomóc. W celu uzyskania odpowiedzi na pytania lub dalszych wskazówek odwiedź {back_in_time_project_website}.\n"
-"Przepraszamy za utrudniania, ta wiadomość nie pojawi się sama ponownie, ale będzie dostępna w menu pomocy.\n"
+"Przepraszamy za utrudniania, ten komunikat nie pojawi się sam ponownie, ale będzie dostępny w menu pomocy.\n"
 "Zespół Back In Time"
 
 #: qt/app.py:1990
@@ -905,7 +901,7 @@ msgstr "{link_and_label} na stronie internetowej projektu."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Otwórz zagadnienie"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
@@ -928,7 +924,7 @@ msgstr ""
 "Dlatego zespół uprzejmie prosi użytkowników o krótką opinię na temat tego, czy ta wersja była przez nich testowana, nawet jeśli nie napotkali żadnych problemów. Zaledwie krótki test trwający kilka minut bardzo by nam pomógł.\n"
 "Dostępne są następujące opcje kontaktu:\n"
 "{contact_list}\n"
-"W tej wersji ta wiadomość nie zostanie ponownie wyświetlona, ale można uzyskać do niej dostęp w dowolnym momencie za pośrednictwem menu pomocy.\n"
+"W tej wersji ten komunikat nie zostanie ponownie wyświetlony, ale można uzyskać do niego dostęp w dowolnym momencie za pośrednictwem menu pomocy.\n"
 "Dziękujemy za wsparcie i pomoc w ulepszaniu Back In Time!\n"
 "Twój zespół Back In Time"
 
@@ -1924,7 +1920,7 @@ msgid "Import"
 msgstr "Importuj"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -1933,7 +1929,6 @@ msgstr ""
 "konfiguracyjny. Ścieżka może wyglądać następująco: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."

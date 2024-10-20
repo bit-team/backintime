@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-18 15:22+0000\n"
+"POT-Creation-Date: 2024-10-20 10:36+0200\n"
+"PO-Revision-Date: 2024-10-20 08:36+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -71,21 +71,18 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: »{name}«"
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Schnappschuss-Verzeichnis ist ungültig!"
+msgstr "Schnappschuss-Verzeichnis ist ungültig."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr "Für das Backup muss mindestens ein Verzeichnis ausgewählt werden."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Das Unterverzeichnis kann nicht in die Sicherung einbezogen werden."
+msgstr "Das Verzeichnis kann nicht in die Sicherung einbezogen werden."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
 msgstr "Das Unterverzeichnis kann nicht in die Sicherung einbezogen werden."
 
@@ -431,7 +428,7 @@ msgstr ""
 "nicht unterstützt. Bitte benutzen Sie ein natives GNU/Linux-Dateisystem."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -439,7 +436,7 @@ msgid ""
 msgstr ""
 "Das Zieldateisystem für {path} ist eine eingehängte SMB-Freigabe. Bitte "
 "stellen Sie sicher, dass der entfernte SMB-Server Symlinks unterstützt oder "
-"aktivieren Sie {copyLinks} in {expertOptions}."
+"aktivieren Sie »{copyLinks}« in »{expertOptions}«."
 
 #: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -450,13 +447,13 @@ msgid "Expert Options"
 msgstr "Experten-Einstellungen"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "Das Zieldateisystem für {path} ist eine eingehängte sshfs-Freigabe. Sshfs "
-"unterstützt keine Hardlinks. Bitte benutzen Sie stattdessen den Modus 'SSH'."
+"unterstützt keine Hardlinks. Bitte benutzen Sie stattdessen den Modus »SSH«."
 
 #: common/tools.py:534
 msgid "File creation failed in this directory:"
@@ -689,9 +686,8 @@ msgid "Release Candidate"
 msgstr "Release Candidate"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Zeigt die Meldung über das Entfernen von EncFS erneut an."
+msgstr "Zeigt die Meldung über den Release Candidate erneut an."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -836,8 +832,8 @@ msgstr[1] ""
 #: qt/app.py:1514
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "Möchten Sie wirklich dieses Element wiederherstellen?"
-msgstr[1] "Möchten Sie wirklich diese Elemente wiederherstellen?"
+msgstr[0] "Möchten Sie dieses Element wirklich wiederherstellen?"
+msgstr[1] "Möchten Sie diese Elemente wirklich wiederherstellen?"
 
 #: qt/app.py:1533
 #, python-brace-format
@@ -917,7 +913,7 @@ msgstr "{link_and_label} auf der Projekt-Website."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Öffne ein Ticket"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
@@ -940,7 +936,7 @@ msgstr ""
 "Daher bittet das Team um ein kurzes Feedback, ob du diese Version getestet hast, auch wenn du keine Probleme festgestellt hast. Selbst ein kurzer Testlauf von nur wenigen Minuten würde uns sehr helfen.\n"
 "Die folgenden Kontaktmöglichkeiten stehen zur Verfügung:\n"
 "{contact_list}\n"
-"Diese Nachricht wird, In dieser Version, nicht erneut angezeigt. Sie kann jedoch jederzeit über das Hilfe-Menü aufgerufen werden.\n"
+"Diese Nachricht wird, in dieser Version, nicht erneut angezeigt. Sie kann jedoch jederzeit über das Hilfe-Menü aufgerufen werden.\n"
 "Vielen Dank für deine Unterstützung und dafür, dass du uns hilfst, Back In Time zu verbessern!\n"
 "Dein Back In Time Team"
 
@@ -1146,7 +1142,7 @@ msgstr "Muster, Dateien oder Verzeichnisse ausschließen"
 
 #: qt/manageprofiles/__init__.py:211
 msgid "Add default"
-msgstr "Voreinstellungen hinzufügen"
+msgstr "Standardeinstellungen hinzufügen"
 
 #: qt/manageprofiles/__init__.py:224
 msgid "Exclude files bigger than:"
@@ -1628,7 +1624,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:318
 msgid "default"
-msgstr "Vorgabe"
+msgstr "Standard"
 
 #: qt/manageprofiles/tab_expert_options.py:324
 msgid "Add prefix to SSH commands"
@@ -1662,7 +1658,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:359
 msgid "(default: {})"
-msgstr "(Vorgabe: {})"
+msgstr "(Standard: {})"
 
 #: qt/manageprofiles/tab_expert_options.py:360
 msgid "disabled"
@@ -1670,7 +1666,7 @@ msgstr "deaktiviert"
 
 #: qt/manageprofiles/tab_expert_options.py:360
 msgid "enabled"
-msgstr "Aktiviert"
+msgstr "aktiviert"
 
 #: qt/manageprofiles/tab_general.py:62 qt/restoreconfigdialog.py:271
 msgid "Mode:"
@@ -1944,22 +1940,21 @@ msgid "Import"
 msgstr "Importieren"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Wähle den Schnappschussordner, aus dem die Konfiguration zu importieren ist."
-" Der Pfad könnte folgendermaßen aussehen: {samplePath}"
+"Wähle das Schnappschuss-Verzeichnis, aus dem die Konfiguration zu "
+"importieren ist. Der Pfad könnte so aussehen: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
-"Befindet sich der Ordner auf einem externen oder entfernten Laufwerk, muss "
-"dieses vorher manuell eingehängt werden."
+"Befindet sich das Verzeichnis auf einem externen oder entfernten Laufwerk, "
+"muss dieses vorher manuell eingehängt werden."
 
 #: qt/restoredialog.py:59
 msgid "Show full Log"

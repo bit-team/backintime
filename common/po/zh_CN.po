@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-19 13:29+0000\n"
+"POT-Creation-Date: 2024-10-20 10:36+0200\n"
+"PO-Revision-Date: 2024-10-20 06:04+0000\n"
 "Last-Translator: Outbreak2096 <Outbreak2096@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -30,11 +30,11 @@ msgstr "主要配置"
 
 #: common/config.py:258
 msgid "Local (EncFS encrypted)"
-msgstr "本地（EncFS加密）"
+msgstr "本地（EncFS 加密）"
 
 #: common/config.py:259
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH（EncFS加密）"
+msgstr "SSH（EncFS 加密）"
 
 #: common/config.py:270
 msgid "Local"
@@ -51,7 +51,7 @@ msgstr "SSH 私钥"
 
 #: common/config.py:275
 msgid "Local encrypted"
-msgstr "本地加密的"
+msgstr "本地加密"
 
 #: common/config.py:276 common/config.py:283
 msgid "Encryption"
@@ -72,23 +72,20 @@ msgid "Profile: \"{name}\""
 msgstr "配置：\"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "快照文件夹无效！"
+msgstr "快照文件夹无效。"
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr "必须至少选择一个文件夹进行备份。"
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "备份中不能包含子文件夹。"
+msgstr "该文件夹不能包含在备份中。"
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "备份中不能包含子文件夹。"
+msgstr "子文件夹不能包含在备份中。"
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -406,14 +403,14 @@ msgid ""
 msgstr "{path} 的目标文件系统格式为 FAT，不支持硬连接。请使用原生 GNU/Linux 文件系统。"
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"{path} 的目标文件系统是通过 SMB 挂载的共享文件系统。请确保远程 SMB 服务器支持符号链接或激活 {expertOptions} 中的 "
-"{copyLinks}。"
+"{path} 的目标文件系统是通过 SMB 挂载的共享文件系统。请确保远程 SMB "
+"服务器支持符号链接，或在“{expertOptions}”中激活“{copyLinks}”。"
 
 #: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -424,7 +421,7 @@ msgid "Expert Options"
 msgstr "专家选项"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -649,9 +646,8 @@ msgid "Release Candidate"
 msgstr "候选版本"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "再次显示关于移除EncFS加密的信息。"
+msgstr "再次显示有关此候选版本的消息。"
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -659,15 +655,15 @@ msgstr "Back In &Time"
 
 #: qt/app.py:681
 msgid "&Backup"
-msgstr "&备份"
+msgstr "备份(&B)"
 
 #: qt/app.py:692
 msgid "&Restore"
-msgstr "&还原"
+msgstr "还原(&R)"
 
 #: qt/app.py:698
 msgid "&Help"
-msgstr "&帮助"
+msgstr "帮助(&H)"
 
 #: qt/app.py:837
 msgid ""
@@ -855,7 +851,7 @@ msgstr "{link_and_label} 在项目网站上。"
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "打开问题"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
@@ -1023,11 +1019,11 @@ msgstr "移除"
 
 #: qt/manageprofiles/__init__.py:108
 msgid "&General"
-msgstr "&常规"
+msgstr "常规(&G)"
 
 #: qt/manageprofiles/__init__.py:112
 msgid "&Include"
-msgstr "&包含"
+msgstr "包括(&I)"
 
 #: qt/manageprofiles/__init__.py:120
 msgid "Include files and directories"
@@ -1043,7 +1039,7 @@ msgstr "添加文件夹"
 
 #: qt/manageprofiles/__init__.py:151
 msgid "&Exclude"
-msgstr "&排除"
+msgstr "排除(&E)"
 
 #: qt/manageprofiles/__init__.py:155
 #, python-brace-format
@@ -1085,15 +1081,15 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:249
 msgid "&Auto-remove"
-msgstr "&自动移除"
+msgstr "自动移除(&A)"
 
 #: qt/manageprofiles/__init__.py:253
 msgid "&Options"
-msgstr "选项(_O)"
+msgstr "选项(&O)"
 
 #: qt/manageprofiles/__init__.py:257
 msgid "E&xpert Options"
-msgstr "专家选项"
+msgstr "专家选项(&X)"
 
 #: qt/manageprofiles/__init__.py:264
 msgid "Restore Config"
@@ -1790,14 +1786,13 @@ msgid "Import"
 msgstr "导入"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr "选择要从中导入配置文件的快照文件夹。路径可能类似于：{samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -1849,7 +1844,7 @@ msgstr "仅列出与以下内容相同的快照："
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"
-msgstr "深度检查(更精确，但是较慢）"
+msgstr "深度检查（更准确，但较慢）"
 
 #: qt/snapshotsdialog.py:174
 msgid "Delete"

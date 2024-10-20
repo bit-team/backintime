@@ -324,6 +324,24 @@ expected. The following list suggests several actions and scenarios.
 
 ## Other noteworthy things
 
+### Gather author information from git repository
+
+List all (commit) authors since the last version (tag `1.5.2` in this example):
+
+    git log v1.5.2..HEAD --format='%an' | sort | uniq
+
+Show log entries of a specific author since the last release:
+
+    git log v1.5.2..HEAD --author="buhtz"
+
+Show `diff` of log entries of a specific author since the last release:
+
+    git log v1.5.2..HEAD --author="buhtz" -p
+    
+Show `diff` of a specific commit compared to its previous commit:
+
+    git diff <commit-hash>^ <commit-hash>
+
 ### "Read the docs" code documentation
 
 The "Read the docs" site is automatically updated with every commit on the
