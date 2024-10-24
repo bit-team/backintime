@@ -580,6 +580,8 @@ class RestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
+    @unittest.skipIf(len(GROUPS) < 2,
+                     'Current user must be a mamber of more than one group.')
     def test_change_group(self):
         newGroup = [x for x in GROUPS if x != CURRENTGROUP][0]
         newGID = grp.getgrnam(newGroup).gr_gid
