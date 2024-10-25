@@ -9,6 +9,8 @@
 """Tests about the uniquenessset module."""
 import os
 import sys
+import unittest
+import packaging.version
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
@@ -19,7 +21,13 @@ logger.DEBUG = True
 
 
 class General(pyfakefs_ut.TestCase):
-    # TODO: add test for follow_symlink
+    """Behavior of class UniquenessSet.
+
+    Dev note (buhtz, 2024-10):
+    Beginning with Python 3.12 or newer the minimal required PyFakeFS version
+    is 5.6. Otherwise tests using a TemporaryDirectory in a fake file system
+    will fail because of an assert in shutil.rmtree().
+    """
     def setUp(self):
         """Setup a fake filesystem."""
         self.setUpPyfakefs(allow_root_user=False)
@@ -41,6 +49,17 @@ class General(pyfakefs_ut.TestCase):
             result.extend((one, two))
 
         return result
+
+    # relevant only in Python 3.12 or newer
+    @unittest.skipIf(sys.version_info[:2] < (3, 12),
+                     'Relevant only with Python 3.12 or newer (#1911)')
+    def test_001_depency_workaround(self):
+        """Workaround until #1575 is fixed."""
+        import pyfakefs
+        pyfakefs_version = packaging.version.parse(pyfakefs.__version__)
+        min_required_version = packaging.version.parse('5.6.0')
+
+        self.assertTrue(pyfakefs_version >= min_required_version)
 
     def test_ctor_defaults(self):
         """Default values in constructor."""
@@ -181,45 +200,3 @@ class General(pyfakefs_ut.TestCase):
 
             self.assertTrue(sut.check(fpa))
             self.assertTrue(sut.check(fpb))
-
-    # def test_something_with_hardlinks(self):
-    #     """Despite its method name, it does not really test for hardlinks.
-    #     That dest origins from the original code base. I see not much value
-    #     in it. The hardlink behavior in the productive code seems untestable
-    #     to me. the ``checkUnique()`` method internally shortens its path if
-    #     there are hardlinks, otherwise it use md5sum.
-    #     """
-    #     with TemporaryDirectory(prefix='bit.') as temp_name:
-    #         temp_path = Path(temp_name)
-
-    #         fpa = temp_path / 'foo'
-    #         fpb = temp_path / 'bar'
-
-    #         fpa_hardlink = temp_path / 'hl_foo'
-    #         fpb_hardlink = temp_path / 'hl_bar'
-
-    #         fpa.write_text('red')
-    #         fpb.write_text('blue')
-    #         fpa_hardlink.write_text('red')
-    #         fpb_hardlink.write_text('blue')
-
-    #         # fpa_hardlink.hardlink_to(fpa)
-    #         # fpb_hardlink.hardlink_to(fpb)
-
-    #         # os.utime(fpa_hardlink,
-    #         #          times=(fpa.stat().st_atime, fpa.stat().st_mtime))
-    #         # os.utime(fpb_hardlink,
-    #         #          times=(fpb.stat().st_atime, fpb.stat().st_mtime))
-
-    #         # # Be sure that this are hardlinks. (But it does not matter)
-    #         # self.assertEqual(fpa.stat().st_ino, fpa_hardlink.stat().st_ino)
-    #         # self.assertEqual(fpb.stat().st_ino, fpb_hardlink.stat().st_ino)
-
-    #         sut = UniquenessSet(deep_check=True,
-    #                             follow_symlink=False,
-    #                             equal_to='')
-
-    #         self.assertTrue(sut.check(fpa))
-    #         self.assertFalse(sut.check(fpa_hardlink))
-    #         self.assertTrue(sut.check(fpb))
-    #         self.assertFalse(sut.check(fpb_hardlink))
