@@ -51,7 +51,6 @@ class General(pyfakefs_ut.TestCase):
 
         return result
 
-    # relevant only in Python 3.12 or newer
     @unittest.skipIf(sys.version_info[:2] < (3, 12),
                      'Relevant only with Python 3.12 or newer (#1911)')
     def test_001_depency_workaround(self):
