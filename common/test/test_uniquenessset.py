@@ -28,6 +28,7 @@ class General(pyfakefs_ut.TestCase):
     is 5.6. Otherwise tests using a TemporaryDirectory in a fake file system
     will fail because of an assert in shutil.rmtree().
     """
+
     def setUp(self):
         """Setup a fake filesystem."""
         self.setUpPyfakefs(allow_root_user=False)
