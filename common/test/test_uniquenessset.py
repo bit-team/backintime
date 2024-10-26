@@ -54,10 +54,17 @@ class General(pyfakefs_ut.TestCase):
     @unittest.skipIf(sys.version_info[:2] < (3, 12),
                      'Relevant only with Python 3.12 or newer (#1911)')
     def test_001_depency_workaround(self):
-        """Workaround until #1575 is fixed."""
+        """Workaround until #1575 is fixed.
+
+        Python 3.13 needs PyFakeFS at min version 5.7
+        Python 3.12 needs PyFakeFS at min version 5.6
+
+        See: <https://github.com/bit-team/backintime/
+             pull/1916#issuecomment-2438703637>
+        """
         import pyfakefs
         pyfakefs_version = packaging.version.parse(pyfakefs.__version__)
-        min_required_version = packaging.version.parse('5.6.0')
+        min_required_version = packaging.version.parse('5.7.0')
 
         self.assertTrue(pyfakefs_version >= min_required_version)
 
