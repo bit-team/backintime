@@ -48,6 +48,8 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## TLDR ;-)
 
+- Make sure we have sufficent _Credits_ to run _TravisCI_. Otherwise contact
+  their support and kindly ask for new OSS credis.
 - Create a new branch in your clone for the new release candidate.
 - Update `VERSION` file.
 - Update `CHANGES` file.
