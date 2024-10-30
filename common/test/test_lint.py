@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests using several linters.
 
@@ -47,6 +47,7 @@ full_test_files = [_base_dir / fp for fp in (
     'ssh_max_arg.py',
     'version.py',
     'test/test_lint.py',
+    'test/test_uniquenessset.py',
 )]
 
 # Not all linters do respect PEP8 (e.g. ruff, PyLint)

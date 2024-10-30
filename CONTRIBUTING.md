@@ -157,7 +157,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `build-essential`
   - `gzip`
   - `gettext`
-  - `python3-pyfakefs`
+  - `python3-pyfakefs` (>= 5.7)
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `flake8`
