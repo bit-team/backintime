@@ -4,29 +4,25 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about the uniquenessset module."""
+# pylint: disable=wrong-import-position,C0411,import-outside-toplevel
 import os
 import sys
 import unittest
 import packaging.version
+import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from uniquenessset import UniquenessSet
-import logger
+import logger  # noqa: E402,RUF100
+from uniquenessset import UniquenessSet  # noqa: E402,RUF100
 logger.DEBUG = True
 
 
 class General(pyfakefs_ut.TestCase):
     """Behavior of class UniquenessSet.
-
-    Dev note (buhtz, 2024-10):
-    Beginning with Python 3.12 or newer the minimal required PyFakeFS version
-    is 5.6. Otherwise tests using a TemporaryDirectory in a fake file system
-    will fail because of an assert in shutil.rmtree().
     """
 
     def setUp(self):
