@@ -852,7 +852,6 @@ class Snapshots:
                                 if self.config.canBackup():
                                     break
                                 counter += 1
-                                
                         if not self.config.canBackup(profile_id):
                             logger.error('Snapshots directory not '
                                          'accessible. Tries stopped.',
