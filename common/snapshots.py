@@ -845,8 +845,7 @@ class Snapshots:
                                 'not accessible. Will retry each second in '
                                 'the next 30 seconds. Please wait.')
 
-                            counter = 0
-                            for counter in range(0, 30):
+                            for _ in range(0, 30):
 
                                 time.sleep(1)
 
@@ -2979,7 +2978,7 @@ class NewSnapshot(GenericNonSnapshot):
         flag = self.path(self.SAVETOCONTINUE)
         if enable:
             try:
-                with open(flag, 'wt') as f:
+                with open(flag, 'wt'):
                     pass
             except Exception as e:
                 logger.error("Failed to set 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout

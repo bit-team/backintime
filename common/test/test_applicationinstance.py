@@ -209,7 +209,7 @@ class General(generic.TestCase):
         self.assertTrue(self.app_instance.check())
 
     def test_leftover_empty_lockfile(self):
-        with open(self.file_name, 'wt') as f:
+        with open(self.file_name, 'wt'):
             pass
         self.assertTrue(self.app_instance.check())
 

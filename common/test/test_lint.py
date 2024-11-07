@@ -311,7 +311,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0311',  # bad-indentation
             'W0404',  # reimported
             'W0611',  # unused-import
-            # 'W0612',  # unused-variable
+            'W0612',  # unused-variable
             'W0614',  # unused-wildcard-import
             'W0707',  # raise-missing-from
             'W1301',  # unused-format-string-key

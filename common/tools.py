@@ -1519,7 +1519,7 @@ def keyringSupported():
             for b in backends:
                 result = getattr(result, b)
 
-        except AttributeError as err:
+        except AttributeError:
             # # Debug message if backend is not available.
             # logger.debug('Metaclass {}.{} not found: {}'
             #              .format(backend_package.__name__,
