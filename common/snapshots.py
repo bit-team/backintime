@@ -844,14 +844,14 @@ class Snapshots:
                                 'Cannot start snapshot yet: target directory '
                                 'not accessible. Will retry each second in '
                                 'the next 30 seconds. Please wait.')
-                                
-                            while i < 30:
+                            counter = 0
+                            while counter < 30:
 
                                 time.sleep(1)
 
                                 if self.config.canBackup():
                                     break
-                                i += 1
+                                counter += 1
                                 
                         if not self.config.canBackup(profile_id):
                             logger.error('Snapshots directory not '
