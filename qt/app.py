@@ -588,12 +588,14 @@ class MainWindow(QMainWindow):
                 _('Restore the selected files or directories to a '
                   'new destination.')),
             'act_restore_parent': (
-                icon.RESTORE, 'RESTORE PARENT (DEBUG)',
+                icon.RESTORE,
+                None,  # text label is set elsewhere
                 self.restoreParent, None,
                 _('Restore the currently shown directory and all its contents '
                   'to the original destination.')),
             'act_restore_parent_to': (
-                icon.RESTORE_TO, 'RESTORE PARENT TO (DEBUG)',
+                icon.RESTORE_TO,
+                None,  # text label is set elsewhere
                 self.restoreParentTo, None,
                 _('Restore the currently shown directory and all its contents '
                   'to a new destination.')),
