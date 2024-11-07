@@ -293,8 +293,9 @@ def check_syntax_of_po_files():
         if 'ignore-placeholder-compare' in tcomments:
             return True
 
-        flagmsg = 'Disable this check with flagging it with ' \
-                  '"ignore-placeholder-compare" in its po-file.'
+        flagmsg = 'To disable this check add the comment (not flag!) on ' \
+                  'top of the entry in the po-file: ' \
+                  '"# ignore-placeholder-compare"'
 
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
