@@ -272,19 +272,30 @@ def check_syntax_of_po_files():
 
         return True
 
-    def _place_holders(trans_string, src_string, flags):
+    def _place_holders(trans_string, src_string, tcomments):
         """Check if the placeholders between original source string
         and the translated string are identical. Order is ignored.
 
         To disable this check for a specific string add the translation
-        flag "ignore-placeholder-compare" to the entry in the po-file.
+        comment(!) on top of the entry in the po file like this:
+
+            # ignore-placeholder-compare
+            #: qt/app.py:1961
+            #, python-brace-format
+            msgid "foo"
+            msgstr "bar"
+
+        Keep in mind that this is a regular comment. It is not a flag (``#, ``)
+        or a user defined flag (``#. ``). The later two are removed by msgmerge
+        when updating the po files from the pot file.
         """
 
-        if 'ignore-placeholder-compare' in flags:
+        if 'ignore-placeholder-compare' in tcomments:
             return True
 
-        flagmsg = 'Disable this check with flagging it with ' \
-                  '"ignore-placeholder-compare" in its po-file.'
+        flagmsg = 'To disable this check add the comment (not flag!) on ' \
+                  'top of the entry in the po-file: ' \
+                  '"# ignore-placeholder-compare"'
 
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
@@ -328,7 +339,7 @@ def check_syntax_of_po_files():
                     or not _other_errors(entry.msgstr)
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
-                                          entry.flags)):
+                                          entry.tcomments)):
                 print(f'Source string: {entry.msgid}\n')
 
     print('')

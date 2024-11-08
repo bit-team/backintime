@@ -366,7 +366,11 @@ projects offering a web fronted will be supported of course.
 
 # Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted to
-the project are considered licensed under the same terms (see
-[LICENSE](LICENSE)) as the rest of the work.
+the project are considered licensed under the same terms as the rest of the
+work. With a few exceptions, this is
+[GNU General Public License Version 2 or later](https://spdx.org/licenses/GPL-2.0-or-later.html)
+(GPL-2.0-or-later). This project uses [SPDX metadata](https://spdx.dev/) to
+provide detailed license and copyright information. This data is also
+machine-readable with [REUSE tools](https://reuse.software/).
 
-<sub>July 2024</sub>
+<sub>November 2024</sub>

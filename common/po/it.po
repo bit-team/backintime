@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-09-24 06:13+0000\n"
+"POT-Creation-Date: 2024-11-07 15:30+0100\n"
+"PO-Revision-Date: 2024-10-24 07:22+0000\n"
 "Last-Translator: inno <inno@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.8.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -72,23 +72,20 @@ msgid "Profile: \"{name}\""
 msgstr "Profilo: \"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Cartella delle istantanee non valida!"
+msgstr "Cartella delle istantanee non valida."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Selezionare almeno una cartella per il backup."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "La sotto-cartella di backup non può essere inclusa."
+msgstr "La cartella non può essere inclusa nel backup."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "La sotto-cartella di backup non può essere inclusa."
+msgstr "Le sotto-cartelle non possono essere incluse nel backup."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -240,9 +237,8 @@ msgid "Please be patient. Finalizing…"
 msgstr "Un po' di pazienza. Si sta terminando…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Impossibile creare la cartella"
+msgstr "Impossibile creare la cartella."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -307,9 +303,9 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nulla è cambiato, nessuna nuova istantanea necessaria"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Non posso rinominare {new_path} in {path}"
+msgstr "Non posso rinominare {new_path} in {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -412,9 +408,9 @@ msgstr ""
 "delle incompatibilità note con i filesystem derivati da Unix."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Il percorso remoto esiste ma non è una cartella."
+msgstr "{path} non è una cartella valida."
 
 #: common/tools.py:438
 #, fuzzy
@@ -698,7 +694,7 @@ msgstr "Confronta istantanee…"
 
 #: qt/app.py:637 qt/app.py:2065
 msgid "Release Candidate"
-msgstr ""
+msgstr "Release Candidate"
 
 #: qt/app.py:640
 #, fuzzy
@@ -837,16 +833,11 @@ msgstr ""
 "esclusi durante l'acquisizione dell'istantanea."
 
 #: qt/app.py:1504
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Vuoi veramente ripristinare questo elemento nella nuova cartella\n"
-"{path}?"
-msgstr[1] ""
-"Vuoi veramente ripristinare questi elementi nella nuova cartella\n"
-"{path}?"
+msgstr[0] "Vuoi veramente ripristinare questo elemento nella nuova cartella?"
+msgstr[1] "Vuoi veramente ripristinare questi elementi nella nuova cartella?"
 
 #: qt/app.py:1514
 msgid "Do you really want to restore this element?"
@@ -860,11 +851,10 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Sei sicuro di voler rimuovere tutti i file più recenti in '{path}'?"
 
 #: qt/app.py:1536
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
-"Sei sicuro di voler rimuovere tutti i file più nuovi nella tua cartella "
+"Sei sicuro di voler rimuovere tutti i file più recenti nella tua cartella "
 "originale?"
 
 #: qt/app.py:1542
@@ -873,7 +863,7 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"{BOLD}ATTENZIONE{BOLDEND}: Cancellare i file nella radice del filesystem "
+"{BOLD}Attenzione{BOLDEND}: Cancellare i file nella radice del filesystem "
 "potrebbe danneggiare l'intero sistema."
 
 #: qt/app.py:1778
@@ -918,25 +908,25 @@ msgstr "La tua traduzione"
 #: qt/app.py:2021
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "Email a {link_and_label}."
 
 #: qt/app.py:2024
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Mailing list {link_and_label}"
 
 #: qt/app.py:2028
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} sul sito web del progetto."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Apri una segnalazione"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "In alternativa, puoi usare un altro canale a tua scelta."
 
 #: qt/app.py:2037
 #, python-brace-format
@@ -1461,10 +1451,15 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"La procedura di rimozione intelligente verrà eseguita direttamente nella "
+"macchina remota, non localmente. I comandi \"bash\", \"screen\" e \"flock\" "
+"devono essere installati e disponibili sulla macchina remota."
 
 #: qt/manageprofiles/tab_auto_remove.py:111
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
+"Se selezionato, Back In Time effettuerà innanzi tutto un test della macchina"
+" remota."
 
 #: qt/manageprofiles/tab_auto_remove.py:118
 msgid "Keep all snapshots for the last"
@@ -1509,17 +1504,20 @@ msgid ""
 "Snapshots that, in addition to the usual timestamp, have been given a name "
 "will not be deleted."
 msgstr ""
+"Le istantanee che, in aggiunta al consueto timestamp, hanno ricevuto un nome"
+" non saranno cancellate."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Domanda"
+msgstr "Attenzione:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Queste opzioni sono pensate per le configurazioni avanzate. Modificare solo "
+"se pienamente consapevoli delle loro implicazioni."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1544,9 +1542,8 @@ msgid "when taking a manual snapshot"
 msgstr "quando si prende un'istantanea manuale"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Per favore installa 'nocache' per abilitare questa opzione)"
+msgstr "Per favore installa 'nocache' per abilitare questa opzione."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1678,7 +1675,7 @@ msgstr "Dove salvare le istantanee"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr ""
+msgstr "Cartella"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1697,13 +1694,12 @@ msgid "Private Key:"
 msgstr "Chiave privata:"
 
 #: qt/manageprofiles/tab_general.py:149
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
 "Seleziona un file di chiave privata esistente (di solito chiamato "
-"\"id_rsa\")"
+"\"id_ed25519\" e nelle vecchie installazioni \"id_rsa\")."
 
 #: qt/manageprofiles/tab_general.py:161
 msgid ""
@@ -1897,32 +1893,32 @@ msgstr "Velocità:"
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/qttools.py:399 qt/snapshotsdialog.py:123
+#: qt/qttools.py:405 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "Istantanee"
 
-#: qt/qttools.py:422
+#: qt/qttools.py:428
 msgid "Today"
 msgstr "Oggi"
 
-#: qt/qttools.py:429
+#: qt/qttools.py:435
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: qt/qttools.py:438
+#: qt/qttools.py:444
 msgid "This week"
 msgstr "Questa settimana"
 
-#: qt/qttools.py:445
+#: qt/qttools.py:451
 msgid "Last week"
 msgstr "Scorsa settimana"
 
-#: qt/qttools.py:591
+#: qt/qttools.py:597
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Questa NON è un'istantanea, bensì una vista attuale dei tuoi file locali"
 
-#: qt/qttools.py:596
+#: qt/qttools.py:602
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Ultimo controllo {time}"
