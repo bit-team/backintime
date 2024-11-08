@@ -163,6 +163,7 @@ the packages provided by the official repository of your GNU/Linux distribution.
     - `flake8`
     - `ruff` (>= 0.6.0)
     - `codespell`
+    - `reuse` (>= 4.0.0)
  
 * Dependencies to build documentation
   - All runtime, build, testing dependencies including the recommended

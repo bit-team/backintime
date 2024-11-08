@@ -1,3 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2024 Christian Buhtz <c.buhtz@posteo.jp>
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See file/folder LICENSE or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
+-->
 # Translation and localization (l10n) of Back In Time using Weblate
 <sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenance team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
 
