@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-05 14:55+0000\n"
-"Last-Translator: DrManhattanMR <DrManhattanMR@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-11-07 15:30+0100\n"
+"PO-Revision-Date: 2024-10-27 20:42+0000\n"
+"Last-Translator: gallegonovato <gallegonovato@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.8.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -72,40 +72,37 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: \"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "¡La carpeta de instantáneas no es válida!"
+msgstr "La carpeta de instantáneas no es válida."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Debe seleccionarse al menos una carpeta para la copia de seguridad."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "No se puede incluir la subcarpeta para la copia de seguridad."
+msgstr "La carpeta no puede incluirse en la copia de seguridad."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "No se puede incluir la subcarpeta para la copia de seguridad."
+msgstr "Las subcarpetas no pueden ser incluidas en la copia de seguridad."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "Error al escribir nuevo crontab."
 
 #: common/config.py:1491
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
-"Cron no se ejecuta aunque el comando crontab esté disponible. Las tareas de "
-"copia de seguridad programadas no se están ejecutando. Cron podría "
-"instalarse pero no activarse. Prueba el comando \"systemctl enable cron\" o "
-"consulta los canales de soporte de tu distribución GNU/Linux."
+"Cron no se está ejecutando a pesar de que el comando crontab esté "
+"disponible. Los trabajos de copia de seguridad programados no se ejecutarán."
+" Cron podría estar instalado pero no habilitado. Pruebe el comando "
+"\"systemctl enable cron\" o consulte los canales de soporte de su "
+"distribución GNU/Linux."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -117,9 +114,9 @@ msgstr ""
 "DBus '{dbus_interface}' no está disponible"
 
 #: common/config.py:1586
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Programar udev no funciona con el modo {mode}"
+msgstr "La programación de Udev no funciona con el modo {mode}"
 
 #: common/config.py:1597
 #, python-brace-format
@@ -144,19 +141,17 @@ msgid "The last profile cannot be removed."
 msgstr "No puede eliminar el último perfil."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "No se pudo montar '{command}'"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "No se ha encontrado la configuración para el directorio encriptado."
+msgstr "No se encuentra la configuración de la carpeta cifrada."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "¿Crear un nuevo directorio encriptado?"
+msgstr "¿Crear ua nueva carpeta cifrada?"
 
 #: common/encfstools.py:143
 msgid "Cancel"
@@ -175,7 +170,7 @@ msgid "Take snapshot"
 msgstr "Tomar instantánea"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "No se puede desmontar {mountprocess} de {mountpoint}."
 
@@ -214,13 +209,12 @@ msgid "Deferring backup while on battery"
 msgstr "Aplazando la copia de seguridad mientras se usa la batería"
 
 #: common/snapshots.py:829
-#, fuzzy
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"No puedo encontrar el directorio de instantáneas.\n"
-"Si se halla en una unidad extraíble, por favor conéctela."
+"No se puede encontrar la carpeta de instantáneas.\n"
+"Si está en una unidad extraíble, conéctela."
 
 #: common/snapshots.py:833
 #, python-format
@@ -239,9 +233,8 @@ msgid "Please be patient. Finalizing…"
 msgstr "Por favor espere. Finalizando…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "No se puede crear carpeta"
+msgstr "No se puede crear la carpeta"
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -252,17 +245,18 @@ msgid "Saving permissions…"
 msgstr "Salvando permisos…"
 
 #: common/snapshots.py:1273
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "Encontrada {snapshot_id} sobrante que puede continuarse."
+msgstr ""
+"Se ha encontrado la instantánea sobrante {snapshot_id} que puede continuar."
 
 #: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "Encontrada carpeta de {snapshot_id} sobrante de la última ejecución"
+msgstr ""
+"Eliminación de los restos {snapshot_id} directorio de la última ejecución"
 
 #: common/snapshots.py:1307
-#, fuzzy
 msgid "Can't remove directory"
 msgstr "No se puede eliminar la carpeta"
 
@@ -305,7 +299,7 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nada ha cambiado, no es necesaria una nueva instantánea"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "No se puede renombrar {new_path} a {path}"
 
@@ -331,14 +325,13 @@ msgid "Now"
 msgstr "Ahora"
 
 #: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "No se puede montar {sshfs}"
 
 #: common/sshtools.py:308
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr "No se halló ssh-agent. Por favor, asegúrese de que esté instalado."
+msgstr "ssh-agent no se encuentra. Por favor asegúrese de que está instalado."
 
 #: common/sshtools.py:478
 msgid ""
@@ -411,39 +404,38 @@ msgstr ""
 "Unix."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "La ruta remota existe pero no es un directorio."
+msgstr "{path} no es una carpeta válida."
 
 #: common/tools.py:438
-#, fuzzy
 msgid "Creation of following directory failed:"
-msgstr "La creación de la siguiente carpeta falló:"
+msgstr "Error al crear la siguiente carpeta:"
 
 #: common/tools.py:440 common/tools.py:536
 msgid "Write access may be restricted."
 msgstr "El acceso de escritura puede estar restringido."
 
 #: common/tools.py:480
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"El sistema de ficheros de destino para la ruta {path} está formateada como "
-"FAT, la cual no permite enlaces duros. Por favor, use un sistema de ficheros"
-" nativo de Linux."
+"El sistema de archivos de destino para {path} está formateado con FAT que no"
+" soporta enlaces físicos. Por favor, use un sistema de archivos nativo "
+"GNU/Linux."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
 "El sistema de archivos de destino para {path} es un recurso compartido "
-"montado en SMB. Asegúrese de que el servidor SMB remoto admite enlaces "
-"simbólicos o active {copyLinks} en {expertOptions}."
+"montado a través de SMB. Por favor, asegúrese de que el servidor SMB remoto "
+"soporta enlaces simbólicos o active \"{copyLinks}\" en \"{expertOptions}\"."
 
 #: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -454,19 +446,18 @@ msgid "Expert Options"
 msgstr "Opciones avanzadas"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"El sistema de archivos de destino de {path} es un recurso compartido montado"
-" en formato sshfs. sshfs no admite enlaces físicos. Utilice el modo \"SSH\" "
-"en su lugar."
+"El sistema de archivos de destino para {path} es un recurso compartido "
+"montado a través de sshfs. Sshfs no soporta enlaces duros. Por favor, use el"
+" modo \"SSH\" en su lugar."
 
 #: common/tools.py:534
-#, fuzzy
 msgid "File creation failed in this directory:"
-msgstr "La creación de archivos falló en esta carpeta:"
+msgstr "La creación del archivo falló en esta carpeta:"
 
 #: qt/aboutdlg.py:37 qt/app.py:578
 msgid "About"
@@ -489,13 +480,12 @@ msgid "Shortcuts"
 msgstr "Accesos directos"
 
 #: qt/app.py:187
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "Esta carpeta no existe\n"
-"en la instantánea actualmente seleccionada."
+"en la instantánea seleccionada."
 
 #: qt/app.py:255
 msgid "Add to Include"
@@ -1904,33 +1894,33 @@ msgstr "Velocidad:"
 msgid "ETA:"
 msgstr "Tiempo restante estimado:"
 
-#: qt/qttools.py:399 qt/snapshotsdialog.py:123
+#: qt/qttools.py:405 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "Instantáneas"
 
-#: qt/qttools.py:422
+#: qt/qttools.py:428
 msgid "Today"
 msgstr "Hoy"
 
-#: qt/qttools.py:429
+#: qt/qttools.py:435
 msgid "Yesterday"
 msgstr "Ayer"
 
-#: qt/qttools.py:438
+#: qt/qttools.py:444
 msgid "This week"
 msgstr "Esta semana"
 
-#: qt/qttools.py:445
+#: qt/qttools.py:451
 msgid "Last week"
 msgstr "Última semana"
 
-#: qt/qttools.py:591
+#: qt/qttools.py:597
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Esto NO es una instantánea, sino una vista en directo de tus archivos "
 "locales"
 
-#: qt/qttools.py:596
+#: qt/qttools.py:602
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Última comprobación {time}"

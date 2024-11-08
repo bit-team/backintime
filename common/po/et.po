@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-10-19 13:29+0000\n"
+"POT-Creation-Date: 2024-11-07 15:30+0100\n"
+"PO-Revision-Date: 2024-10-22 12:07+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -72,23 +72,20 @@ msgid "Profile: \"{name}\""
 msgstr "Profiil: \"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Hetktõmmiste kaust ei ole korrektne!"
+msgstr "Hetktõmmiste kaust ei ole korrektne."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
 msgstr "Varukoopia tegemiseks pead valima vähemalt ühe kausta."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Varukoopia alamkaustu ei saa kaasata."
+msgstr "Seda kausta ei saa kaasata varukoopiasse."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Varukoopia alamkaustu ei saa kaasata."
+msgstr "Neid alamkaustu ei saa kaasata varukoopiasse."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -425,7 +422,7 @@ msgstr ""
 "failisüsteemi."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -445,7 +442,7 @@ msgid "Expert Options"
 msgstr "Lisaseadistused asjatundjatele"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -677,12 +674,11 @@ msgstr "Võrdle hetktõmmiseid…"
 
 #: qt/app.py:637 qt/app.py:2065
 msgid "Release Candidate"
-msgstr ""
+msgstr "Kandidaatversioon"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Näitab uuesti teate EncFSi kasutusel eemaldamise kohta."
+msgstr "Näitab uuesti teadet kandidaatversiooni kohta."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -907,7 +903,7 @@ msgstr "{link_and_label} projekti veebisaidis."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Ava veateade"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
@@ -925,6 +921,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"See Back In Time'i versioon on kandidaatversioon ning on eelkõige mõeldud stabiilsuse testimiseks enne lõpliku versiooni ilmumist.\n"
+"Me ei kogu kasutajate andmeid ega pruugi telemeetriat. Aga samas on Back In Time'i arendustiim on huvitatud teada saama, kas kandidaatversioonid leiavad üldse kasutust ning kas nende tegemine on üldse vajalik.\n"
+"Seetõttu tiim palun sult lühikest tagasisidet, kas sa oled seda versiooni testinud, seda ka siis kui phtegi probleemi ei tekkinud. Isegi kiire testkäivitus mõneks minutiks aitaks meid märgatavalt.\n"
+"Meiega saad ühendust võtta alljärgnevalt:\n"
+"{contact_list}\n"
+"Ntud sõnumit selles versioonis enam ei kuvata, aga on alati leitav abiteabe menüüst.\n"
+"Täname sind osalemise eest ning abi eest Back In Time'i parandamisel!\n"
+"Sinu Back In Time'i tiim"
 
 #: qt/app.py:2088
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1433,10 +1437,12 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"Nutikas kustutamine töötab otseselt välisseadmes, mitte kohaliku seadmes. "
+"Selleks peavad välisseadmes olema paigaldatud „bash“, „screen“ ja „flock“."
 
 #: qt/manageprofiles/tab_auto_remove.py:111
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "Kui valitud, siis Back In Time esmalt testib välisseadet."
 
 #: qt/manageprofiles/tab_auto_remove.py:118
 msgid "Keep all snapshots for the last"
@@ -1480,6 +1486,7 @@ msgid ""
 "Snapshots that, in addition to the usual timestamp, have been given a name "
 "will not be deleted."
 msgstr ""
+"Hetktõmmised, millel ajatemplile lisaks on eraldi nimi, jäävad kustutamata."
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1490,6 +1497,8 @@ msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Need eelistused on mõeldud asjatundjatele ja keerukamate kasutusjuhtumite "
+"jaoks. Muuda neid ainult siis, kui täpselt tead, mida teed."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1867,33 +1876,33 @@ msgstr "Kiirus:"
 msgid "ETA:"
 msgstr "Jäänud:"
 
-#: qt/qttools.py:399 qt/snapshotsdialog.py:123
+#: qt/qttools.py:405 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "Hetktõmmised"
 
-#: qt/qttools.py:422
+#: qt/qttools.py:428
 msgid "Today"
 msgstr "Täna"
 
-#: qt/qttools.py:429
+#: qt/qttools.py:435
 msgid "Yesterday"
 msgstr "Eile"
 
-#: qt/qttools.py:438
+#: qt/qttools.py:444
 msgid "This week"
 msgstr "Sel nädalal"
 
-#: qt/qttools.py:445
+#: qt/qttools.py:451
 msgid "Last week"
 msgstr "Eelmisel nädalal"
 
-#: qt/qttools.py:591
+#: qt/qttools.py:597
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "See EI OLE hetktõmmis, vaid sinu kohaliku failisüsteemi failide tegelik "
 "vaade"
 
-#: qt/qttools.py:596
+#: qt/qttools.py:602
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Viimati kontrollitud {time}"
@@ -1911,7 +1920,7 @@ msgid "Import"
 msgstr "Impordi"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -1920,7 +1929,6 @@ msgstr ""
 "võiks olla midagi sellist: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."

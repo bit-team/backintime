@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-10-19 15:53+0200\n"
-"PO-Revision-Date: 2024-07-08 06:59+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2024-11-07 15:30+0100\n"
+"PO-Revision-Date: 2024-10-21 05:28+0000\n"
+"Last-Translator: Teuku Surya Fajri <huhufajri@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -72,40 +72,36 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Folder snapshot tidak valid!"
+msgstr "Folder snapshot tidak valid."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Setidaknya satu direktori harus dipilih untuk backup."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Sub folder backup tidak bisa disertakan."
+msgstr "Direktori tersebut tidak dapat dimasukkan dalam backup."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Sub folder backup tidak bisa disertakan."
+msgstr "Subdirektori tidak dapat disertakan dalam cadangan."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "Gagal menulis crontab baru."
 
 #: common/config.py:1491
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
-"Cron tidak berjalan walaupun perintah crontab tersedia. Tugas backup "
-"terjadwal tidak akan berjalan. Cron mungkin terpasang tapi tidak "
-"difungsikan. Cobalah perintah \"systemctl enable cron\" atau konsultasikan "
-"ke kanal dukungan dari distribusi GNU Linux Anda."
+"Cron tidak berjalan meskipun perintah crontab tersedia. Pekerjaan cadangan "
+"terjadwal tidak akan dijalankan. Cron mungkin sudah terpasang tetapi belum "
+"diaktifkan. Cobalah perintah systemctl enable cron atau konsultasikan dengan"
+" saluran dukungan distribusi GNU/Linux Anda."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -117,9 +113,9 @@ msgstr ""
 "'{dbus_interface}' tidak tersedia"
 
 #: common/config.py:1586
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Penjadwalan udev tidak dapat digunakan dengan mode {mode}"
+msgstr "Penjadwalan Udev tidak berfungsi dengan mode {mode}"
 
 #: common/config.py:1597
 #, python-brace-format
@@ -144,19 +140,17 @@ msgid "The last profile cannot be removed."
 msgstr "Profil terakhir tidak dapat dihapus."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr "Tidak bisa mengait '{command}'"
+msgstr "Tidak dapat memasang '{command}'"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "Konfigurasi untuk folder yang terenkripsi tidak ditemukan."
+msgstr "Konfigurasi untuk direktori yang terenkripsi tidak ditemukan."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Buat folder terenkripsi yang baru?"
+msgstr "Buat direktori terenkripsi baru?"
 
 #: common/encfstools.py:143
 msgid "Cancel"
@@ -175,9 +169,9 @@ msgid "Take snapshot"
 msgstr "Ambil snapshot"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
-msgstr "Tidak dapat melepas kait {mountprocess} dari {mountpoint}."
+msgstr "Tidak dapat melepas {mountprocess} dari {mountpoint}."
 
 #: common/mount.py:708
 #, python-brace-format
@@ -214,13 +208,12 @@ msgid "Deferring backup while on battery"
 msgstr "Tunda backup saat menggunakan baterai"
 
 #: common/snapshots.py:829
-#, fuzzy
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"Tidak dapat menemukan folder snapshot.\n"
-"Jika ada di hardisk eksternal atau perangkat lainnya silakan ditancapkan."
+"Tidak dapat menemukan direktori snapshots.\n"
+"ika berada di drive yang dapat dilepas, harap sambungkan."
 
 #: common/snapshots.py:833
 #, python-format
@@ -235,12 +228,11 @@ msgstr "Gagal untuk mengambil snapshot {snapshot_id}."
 
 #: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Mohon bersabar. Sedang menyelesaikan…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Tidak bisa membuat folder"
+msgstr "Tidak bisa membuat direktori."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -256,14 +248,13 @@ msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr "Ditemukan sisa snapshot {snapshot_id} yang dapat dilanjutkan."
 
 #: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "Membuang sisa folder snapshot {snapshot_id} dari proses sebelumnya"
+msgstr "Menghapus direktori sisa {snapshot_id} dari proses sebelumnya"
 
 #: common/snapshots.py:1307
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "Tidak bisa membuang folder"
+msgstr "Tidak bisa membuang direktori"
 
 #: common/snapshots.py:1361
 msgid "Taking snapshot"
@@ -303,13 +294,13 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Tidak ada yang berubah, tidak perlu membuat snapshot baru"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Tidak bisa mengubah nama {new_path} ke {path}"
+msgstr "Tidak bisa mengubah nama {new_path} ke {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
-msgstr "Pembuangan pintar"
+msgstr "Penghapusan cerdas"
 
 #: common/snapshots.py:1850
 msgid "Removing old snapshots"
@@ -408,17 +399,17 @@ msgstr ""
 "mendukung hard-link. Mohon menggunakan sistem berkas Linux yang native."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Path jauh ada tapi sayangnya bukan sebuah direktori."
+msgstr "{path} bukan direktori yang valid."
 
 #: common/tools.py:438
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "Gagal membuat direktori berikut:"
 
 #: common/tools.py:440 common/tools.py:536
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Hak akses tulis mungkin dibatasi."
 
 #: common/tools.py:480
 #, fuzzy, python-brace-format
@@ -459,7 +450,7 @@ msgstr ""
 
 #: common/tools.py:534
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "Gagal membuat file di direktori ini:"
 
 #: qt/aboutdlg.py:37 qt/app.py:578
 msgid "About"
@@ -686,7 +677,7 @@ msgstr "Bandingkan snapshot…"
 
 #: qt/app.py:637 qt/app.py:2065
 msgid "Release Candidate"
-msgstr ""
+msgstr "Kandidat Rilis"
 
 #: qt/app.py:640
 #, fuzzy
@@ -900,25 +891,25 @@ msgstr "Terjemahan Anda"
 #: qt/app.py:2021
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "Email ke {link_and_label}."
 
 #: qt/app.py:2024
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Milis {link_and_label}"
 
 #: qt/app.py:2028
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} di halaman web proyek."
 
 #: qt/app.py:2031
 msgid "Open an issue"
-msgstr ""
+msgstr "Buat laporan masalah"
 
 #: qt/app.py:2032
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "Atau, Anda dapat menggunakan saluran lain sesuai keinginan Anda."
 
 #: qt/app.py:2037
 #, python-brace-format
@@ -932,6 +923,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Versi Back In Time ini adalah Kandidat Rilis dan terutama ditujukan untuk pengujian stabilitas sebagai persiapan untuk rilis resmi berikutnya.\n"
+"Tidak ada data pengguna atau telemetri yang dikumpulkan. Namun, tim Back In Time sangat tertarik untuk mengetahui apakah Kandidat Rilis ini digunakan dan apakah layak untuk terus menyediakan versi pra-rilis seperti ini.\n"
+"Oleh karena itu, tim dengan hormat meminta umpan balik singkat tentang apakah Anda telah menguji versi ini, bahkan jika Anda tidak menemukan masalah apa pun. Uji coba cepat selama beberapa menit pun akan sangat membantu kami.\n"
+"Opsi kontak berikut tersedia:\n"
+"{contact_list}\n"
+"Dalam versi ini, pesan ini tidak akan ditampilkan lagi tetapi dapat diakses kapan saja melalui menu bantuan.\n"
+"Terima kasih atas dukungan Anda dan telah membantu kami meningkatkan Back In Time!\n"
+"Tim Back In Time Anda"
 
 #: qt/app.py:2088
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1249,7 +1248,7 @@ msgstr "Hari kerja:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "Waktu:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1435,10 +1434,14 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"Prosedur penghapusan cerdas akan dijalankan langsung pada mesin jarak jauh, "
+"bukan secara lokal. Perintah 'bash', 'screen', dan 'flock' harus diinstal "
+"dan tersedia pada mesin jarak jauh."
 
 #: qt/manageprofiles/tab_auto_remove.py:111
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
+"Jika dipilih, Back In Time akan terlebih dahulu menguji mesin jarak jauh."
 
 #: qt/manageprofiles/tab_auto_remove.py:118
 msgid "Keep all snapshots for the last"
@@ -1483,17 +1486,20 @@ msgid ""
 "Snapshots that, in addition to the usual timestamp, have been given a name "
 "will not be deleted."
 msgstr ""
+"Snapshot yang, selain memiliki stempel waktu biasa, juga diberi nama tidak "
+"akan dihapus."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Pertanyaan"
+msgstr "Peringatan:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Opsi-opsi ini untuk konfigurasi lanjutan. Ubah hanya jika Anda benar-benar "
+"memahami dampaknya."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1518,9 +1524,8 @@ msgid "when taking a manual snapshot"
 msgstr "ketika mengambil snapshot manual"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Mohon pasang 'nocache' untuk mengaktifkan opsi ini)"
+msgstr "Mohon pasang 'nocache' untuk mengaktifkan opsi ini."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1869,33 +1874,33 @@ msgstr "Kecepatan:"
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/qttools.py:399 qt/snapshotsdialog.py:123
+#: qt/qttools.py:405 qt/snapshotsdialog.py:123
 msgid "Snapshots"
 msgstr "Snapshot"
 
-#: qt/qttools.py:422
+#: qt/qttools.py:428
 msgid "Today"
 msgstr "Hari ini"
 
-#: qt/qttools.py:429
+#: qt/qttools.py:435
 msgid "Yesterday"
 msgstr "Kemarin"
 
-#: qt/qttools.py:438
+#: qt/qttools.py:444
 msgid "This week"
 msgstr "Minggu ini"
 
-#: qt/qttools.py:445
+#: qt/qttools.py:451
 msgid "Last week"
 msgstr "Minggu lalu"
 
-#: qt/qttools.py:591
+#: qt/qttools.py:597
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Ini BUKAN sebuah snapshot melainkan tampilan langsung dari berkas-berkas "
 "lokal Anda"
 
-#: qt/qttools.py:596
+#: qt/qttools.py:602
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Pemeriksaan terakhir {time}"
