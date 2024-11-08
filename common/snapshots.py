@@ -844,7 +844,7 @@ class Snapshots:
                                 'Cannot start snapshot yet: target directory '
                                 'not accessible. Will retry each second in '
                                 'the next 30 seconds. Please wait.')
-                            while counter < 30:
+                            for _ in range(30):
 
                                 time.sleep(1)
 
