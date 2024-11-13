@@ -300,9 +300,9 @@ def check_syntax_of_po_files():
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
-                print(f'\nERROR ({lang_code}): Number of "{bracket}" between original '
-                      'source and translated string is different.\n'
-                      f'\nTranslation: {trans_string}\n{flagmsg}')
+                print(f'\nERROR ({lang_code}): Number of "{bracket}" between '
+                      'original source and translated string is different.\n'
+                      f'\nTranslation: {trans_string}\n\n{flagmsg}')
                 return False
 
         # Compare variable names
