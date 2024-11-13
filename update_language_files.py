@@ -318,12 +318,15 @@ def check_syntax_of_po_files():
 
         return True
 
-    print('Checking syntax of po files...')
+    print('Checking syntax of po files…')
 
     # Each po file
     for po_path in all_po_files_in_local_dir():
+        error_count = 0
         # Language code determined by po-filename
-        print(f'{po_path.with_suffix("").name}', end=' ')
+        lang_code = po_path.with_suffix('').name
+
+        # print(f'{lang_code}', end=' ')
 
         pof = polib.pofile(po_path)
 
@@ -339,8 +342,14 @@ def check_syntax_of_po_files():
                     or not _other_errors(entry.msgstr)
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
-                                          entry.tcomments)):
+                                          entry.tcomment)):
                 print(f'Source string: {entry.msgid}\n')
+                error_count += 1
+
+        if error_count:
+            print(f' {lang_code} >> {error_count} errors')
+        else:
+            print(f' {lang_code} >> OK')
 
     print('')
 
@@ -355,7 +364,7 @@ def create_completeness_dict():
     indicate the completeness of the translation in percent.
     """
 
-    print('Calculate completeness for each language in percent...')
+    print('Calculate completeness for each language in percent…')
 
     result = {}
 
@@ -467,7 +476,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     result = {}
 
     for code in sorted(language_codes):
-        print(f'Processing language code "{code}"...')
+        print(f'Processing language code "{code}"…')
 
         lang = babel.Locale.parse(code)
         result[code] = {}
