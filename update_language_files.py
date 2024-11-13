@@ -249,11 +249,11 @@ def check_syntax_of_po_files():
         # string. BIT won't use constructs like this in strings, so it is
         # handled as an error.
         if rex_curly_pair.findall(invalid):
-            print(f'\nERROR: Curly brackets nested: {to_check}')
+            print(f'\nERROR ({lang_code}): Curly brackets nested: {to_check}')
             return False
 
         if invalid:
-            print(f'\nERROR: Curly brackets not balanced : {to_check}')
+            print(f'\nERROR ({lang_code}): Curly brackets not balanced : {to_check}')
             return False
 
         return True
@@ -267,7 +267,7 @@ def check_syntax_of_po_files():
             list(string.Formatter().parse(format_string=to_check))
 
         except Exception as exc:  # pylint: disable=broad-exception-caught
-            print(f'\nERROR: {exc} in translation: {to_check}')
+            print(f'\nERROR ({lang_code}): {exc} in translation: {to_check}')
             return False
 
         return True
@@ -300,30 +300,33 @@ def check_syntax_of_po_files():
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
-                print(f'\nERROR: Number of "{bracket}" between original '
-                      'source and translated string is different.\n'
-                      f'Translation: {trans_string}\n{flagmsg}')
+                print(f'\nERROR ({lang_code}): Number of "{bracket}" between '
+                      'original source and translated string is different.\n'
+                      f'\nTranslation: {trans_string}\n\n{flagmsg}')
                 return False
 
         # Compare variable names
         org_names = rex_names.findall(src_string)
         trans_names = rex_names.findall(trans_string)
         if sorted(org_names) != sorted(trans_names):
-            print('\nERROR: Names of placeholders between original source '
-                  'and translated string are different.\n'
-                  f'Names in original    : {org_names}\n'
-                  f'Names in translation : {trans_names}\n'
-                  f'Full translation: {trans_string}\n{flagmsg}')
+            print(f'\nERROR ({lang_code}): Names of placeholders between '
+                  'original source and translated string are different.\n'
+                  f'\nNames in original    : {org_names}\n'
+                  f'\nNames in translation : {trans_names}\n'
+                  f'\nFull translation: {trans_string}\n{flagmsg}')
             return False
 
         return True
 
-    print('Checking syntax of po files...')
+    print('Checking syntax of po files…')
 
     # Each po file
     for po_path in all_po_files_in_local_dir():
+        error_count = 0
         # Language code determined by po-filename
-        print(f'{po_path.with_suffix("").name}', end=' ')
+        lang_code = po_path.with_suffix('').name
+
+        # print(f'{lang_code}', end=' ')
 
         pof = polib.pofile(po_path)
 
@@ -339,8 +342,14 @@ def check_syntax_of_po_files():
                     or not _other_errors(entry.msgstr)
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
-                                          entry.tcomments)):
-                print(f'Source string: {entry.msgid}\n')
+                                          entry.tcomment)):
+                print(f'\nSource string: {entry.msgid}\n')
+                error_count += 1
+
+        if error_count:
+            print(f' {lang_code} >> {error_count} errors')
+        else:
+            print(f' {lang_code} >> OK')
 
     print('')
 
@@ -355,7 +364,7 @@ def create_completeness_dict():
     indicate the completeness of the translation in percent.
     """
 
-    print('Calculate completeness for each language in percent...')
+    print('Calculate completeness for each language in percent…')
 
     result = {}
 
@@ -467,7 +476,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     result = {}
 
     for code in sorted(language_codes):
-        print(f'Processing language code "{code}"...')
+        print(f'Processing language code "{code}"…')
 
         lang = babel.Locale.parse(code)
         result[code] = {}
