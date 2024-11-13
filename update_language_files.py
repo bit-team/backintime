@@ -249,11 +249,11 @@ def check_syntax_of_po_files():
         # string. BIT won't use constructs like this in strings, so it is
         # handled as an error.
         if rex_curly_pair.findall(invalid):
-            print(f'\nERROR: Curly brackets nested: {to_check}')
+            print(f'\nERROR ({lang_code}): Curly brackets nested: {to_check}')
             return False
 
         if invalid:
-            print(f'\nERROR: Curly brackets not balanced : {to_check}')
+            print(f'\nERROR ({lang_code}): Curly brackets not balanced : {to_check}')
             return False
 
         return True
@@ -267,7 +267,7 @@ def check_syntax_of_po_files():
             list(string.Formatter().parse(format_string=to_check))
 
         except Exception as exc:  # pylint: disable=broad-exception-caught
-            print(f'\nERROR: {exc} in translation: {to_check}')
+            print(f'\nERROR ({lang_code}): {exc} in translation: {to_check}')
             return False
 
         return True
@@ -300,7 +300,7 @@ def check_syntax_of_po_files():
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
-                print(f'\nERROR: Number of "{bracket}" between original '
+                print(f'\nERROR ({lang_code}): Number of "{bracket}" between original '
                       'source and translated string is different.\n'
                       f'\nTranslation: {trans_string}\n{flagmsg}')
                 return False
@@ -309,8 +309,8 @@ def check_syntax_of_po_files():
         org_names = rex_names.findall(src_string)
         trans_names = rex_names.findall(trans_string)
         if sorted(org_names) != sorted(trans_names):
-            print('\nERROR: Names of placeholders between original source '
-                  'and translated string are different.\n'
+            print(f'\nERROR ({lang_code}): Names of placeholders between '
+                  'original source and translated string are different.\n'
                   f'\nNames in original    : {org_names}\n'
                   f'\nNames in translation : {trans_names}\n'
                   f'\nFull translation: {trans_string}\n{flagmsg}')
