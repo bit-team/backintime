@@ -43,11 +43,11 @@ before_install:
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
 
-# jobs:
-#   exclude:
-#     - python: "3.10"
-#     - python: "3.11"
-#     - python: "3.12"
+jobs:
+  exclude:
+    - python: "3.10"
+    - python: "3.11"
+    - python: "3.12"
 
 install:
   - pip install -U pip
