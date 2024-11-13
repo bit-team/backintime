@@ -302,7 +302,7 @@ def check_syntax_of_po_files():
             if src_string.count(bracket) != trans_string.count(bracket):
                 print(f'\nERROR: Number of "{bracket}" between original '
                       'source and translated string is different.\n'
-                      f'Translation: {trans_string}\n{flagmsg}')
+                      f'\nTranslation: {trans_string}\n{flagmsg}')
                 return False
 
         # Compare variable names
@@ -311,9 +311,9 @@ def check_syntax_of_po_files():
         if sorted(org_names) != sorted(trans_names):
             print('\nERROR: Names of placeholders between original source '
                   'and translated string are different.\n'
-                  f'Names in original    : {org_names}\n'
-                  f'Names in translation : {trans_names}\n'
-                  f'Full translation: {trans_string}\n{flagmsg}')
+                  f'\nNames in original    : {org_names}\n'
+                  f'\nNames in translation : {trans_names}\n'
+                  f'\nFull translation: {trans_string}\n{flagmsg}')
             return False
 
         return True
@@ -343,7 +343,7 @@ def check_syntax_of_po_files():
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
                                           entry.tcomment)):
-                print(f'Source string: {entry.msgid}\n')
+                print(f'\nSource string: {entry.msgid}\n')
                 error_count += 1
 
         if error_count:
