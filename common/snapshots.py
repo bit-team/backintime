@@ -844,15 +844,12 @@ class Snapshots:
                                 'Cannot start snapshot yet: target directory '
                                 'not accessible. Will retry each second in '
                                 'the next 30 seconds. Please wait.')
-
-                            counter = 0
-                            for counter in range(0, 30):
+                            for _idx in range(30):
 
                                 time.sleep(1)
 
                                 if self.config.canBackup():
                                     break
-
                         if not self.config.canBackup(profile_id):
                             logger.error('Snapshots directory not '
                                          'accessible. Tries stopped.',
@@ -2979,7 +2976,7 @@ class NewSnapshot(GenericNonSnapshot):
         flag = self.path(self.SAVETOCONTINUE)
         if enable:
             try:
-                with open(flag, 'wt') as f:
+                with open(flag, 'wt'):
                     pass
             except Exception as e:
                 logger.error("Failed to set 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout

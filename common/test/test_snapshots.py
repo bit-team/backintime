@@ -519,7 +519,7 @@ class RestorePathInfo(generic.SnapshotsTestCase):
         if os.path.exists(self.pathFile):
             os.remove(self.pathFile)
         os.makedirs(self.pathFolder)
-        with open(self.pathFile, 'wt') as f:
+        with open(self.pathFile, 'wt'):
             pass
 
         self.modeFolder = os.stat(self.pathFolder).st_mode

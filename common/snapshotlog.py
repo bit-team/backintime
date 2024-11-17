@@ -261,7 +261,7 @@ class SnapshotLog:
                 #      Use flush() followed by os.fsync() to ensure this behavior.
                 #      https://docs.python.org/2/library/stdtypes.html#file.flush
                 self.logFile.flush()
-            except RuntimeError as e:
+            except RuntimeError:
                 # Fixes #1003 (RTE reentrant call inside io.BufferedWriter)
                 # This RTE will not be logged since this would be another reentrant call
                 pass

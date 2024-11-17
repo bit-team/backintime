@@ -265,7 +265,7 @@ class TakeSSH(generic.SSHSnapshotTestCase, Take):
 
     def remount(self):
         mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
-        hash_id = mount.Mount(cfg = self.cfg).mount()
+        mount.Mount(cfg = self.cfg).mount()
 
     def getInode(self, sid):
         return os.stat(os.path.join(self.snapshotPath, sid.sid, 'backup', self.include.name[1:], 'test')).st_ino

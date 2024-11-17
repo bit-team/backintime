@@ -511,7 +511,7 @@ class Decode:
             .replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
 
         #precompile some regular expressions
-        host, port, user, path, cipher = cfg.sshHostUserPortPathCipher()
+        host, _post, user, path, _cipher = cfg.sshHostUserPortPathCipher()
         #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
         self.re_include_exclude = re.compile(
             r'(--(?:ex|in)clude=")(.*?)(")')  # codespell-ignore

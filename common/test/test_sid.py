@@ -308,7 +308,7 @@ class TestSID(generic.SnapshotsTestCase):
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
         infoFile = sid.path(sid.FILEINFO)
         # remove all permissions from file
-        with open(infoFile, 'wt') as f:
+        with open(infoFile, 'wt'):
             pass
 
         with generic.mockPermissions(infoFile):
@@ -321,7 +321,7 @@ class TestSID(generic.SnapshotsTestCase):
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
         infoFile = sid.path(sid.FILEINFO)
         # remove all permissions from file
-        with open(infoFile, 'wt') as f:
+        with open(infoFile, 'wt'):
             pass
 
         with generic.mockPermissions(infoFile):
@@ -544,7 +544,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
 
 class TestIterSnapshotsNonexistingSnapshotPath(generic.TestCaseSnapshotPath):
     def test_iterSnapshots(self):
-        for item in snapshots.iterSnapshots(self.cfg):
+        for _ in snapshots.iterSnapshots(self.cfg):
             self.fail('got unexpected snapshot')
 
     def test_listSnapshots(self):
