@@ -62,7 +62,11 @@ class General(pyfakefs_ut.TestCase):
         pyfakefs_version = packaging.version.parse(pyfakefs.__version__)
         min_required_version = packaging.version.parse('5.7.0')
 
-        self.assertTrue(pyfakefs_version >= min_required_version)
+        self.assertTrue(
+            pyfakefs_version >= min_required_version,
+            'With Python 3.12 or later the PyFakeFS version should be '
+            f'minimum {min_required_version} '
+            f'or later but is {pyfakefs_version}.')
 
     def test_ctor_defaults(self):
         """Default values in constructor."""
