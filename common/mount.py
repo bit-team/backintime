@@ -478,11 +478,12 @@ class MountControl:
         if self.hash_id is None:
             self.hash_id = self.hash(self.destination)
 
+        # e.g. ~/.local/share/backintime/mnt
         self.mount_root = self.config._LOCAL_MOUNT_ROOT
         self.snapshots_path = self.config.snapshotsPath(
-            profile_id = self.profile_id,
-            mode = self.mode,
-            tmp_mount = self.tmp_mount)
+            profile_id=self.profile_id,
+            mode=self.mode,
+            tmp_mount=self.tmp_mount)
 
         self.hash_id_path = self.hashIdPath()
         self.currentMountpoint = self.mountpoint()
@@ -776,41 +777,46 @@ class MountControl:
         tools.mkdir(self.currentMountpoint, 0o700, False)
         tools.mkdir(self.lock_path, 0o700)
 
-    def mountProcessLockAcquire(self, timeout = 60):
+    def mountProcessLockAcquire(self, timeout=60):
         """
         Create a short term lock only for blocking other processes changing
         mounts at the same time.
 
         Args:
-            timeout (int):  wait ``timeout`` seconds before fail acquiring
-                            the lock
+            timeout (int): Wait ``timeout`` seconds before fail acquiring
+                the lock.
 
         Raises:
-            exceptions.MountException:
-                            if timed out
+            exceptions.MountException: If timed out.
         """
         lock_path = self.mount_root
         lockSuffix = '.lock'
+        # e.g. ~/.local/share/backintime/mnt/123456.lock
         lock = os.path.join(lock_path, self.pid + lockSuffix)
+
+        # Every second
         count = 0
         while self.checkLocks(lock_path, lockSuffix):
             count += 1
+
             if count == timeout:
                 raise MountException('Mountprocess lock timeout')
+
             sleep(1)
 
         logger.debug(f'Acquire mountprocess lock {lock}', self)
+
         with open(lock, 'w') as f:
             f.write(self.pid)
 
     def mountProcessLockRelease(self):
-        """
-        Remove mountprocess lock.
-        """
+        """Remove mountprocess lock."""
         lock_path = self.mount_root
         lockSuffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lockSuffix)
+
         logger.debug(f'Release mountprocess lock {lock}', self)
+
         if os.path.exists(lock):
             os.remove(lock)
 
@@ -819,13 +825,11 @@ class MountControl:
         Create a lock for a mountpoint to prevent unmounting as long as this
         process is still running.
         """
-        if self.tmp_mount:
-            lockSuffix = '.tmp.lock'
-        else:
-            lockSuffix = '.lock'
+        lockSuffix = '.tmp.lock' if self.tmp_mount else '.lock'
         lock = os.path.join(self.lock_path, self.pid + lockSuffix)
-        logger.debug('Set mount lock %s'
-                     %lock, self)
+
+        logger.debug(f'Set mount lock {lock}', self)
+
         with open(lock, 'w') as f:
             f.write(self.pid)
 
@@ -843,50 +847,56 @@ class MountControl:
         """
         Remove mountpoint lock for this process.
         """
-        if self.tmp_mount:
-            lockSuffix = '.tmp.lock'
-        else:
-            lockSuffix = '.lock'
+        lockSuffix = '.tmp.lock' if self.tmp_mount else '.lock'
         lock = os.path.join(self.lock_path, self.pid + lockSuffix)
+
         if os.path.exists(lock):
-            logger.debug('Remove mount lock %s'
-                         %lock, self)
+            logger.debug(f'Remove mount lock {lock}', self)
             os.remove(lock)
 
     def checkLocks(self, path, lockSuffix):
-        """
-        Check if there are active locks ending with ``lockSuffix`` in ``path``.
-        If the process owning the lock doesn't exist anymore this will remove
-        the lock.
+        """Check if active locks ending with ``lockSuffix`` in ``path``.
+
+        Locks are removed if the process owning the lock does not exist
+        anymore.
 
         Args:
-            path (str):         full path to lock directory
-            lockSuffix (str):   last part of locks name
+            path (str): Full path to lock directory.
+            lockSuffix (str): Last part of locks name.
 
         Returns:
-            bool:               ``True`` if there are active locks in ``path``
+            bool: ``True`` if there are active locks in ``path``.
         """
         for f in os.listdir(path):
+
             if not f[-len(lockSuffix):] == lockSuffix:
                 continue
+
             is_tmp = os.path.basename(f)[-len(lockSuffix)-len('.tmp'):-len(lockSuffix)] == '.tmp'
+
             if is_tmp:
                 lock_pid = os.path.basename(f)[:-len('.tmp')-len(lockSuffix)]
+
             else:
                 lock_pid = os.path.basename(f)[:-len(lockSuffix)]
+
             if lock_pid == self.pid:
                 if is_tmp == self.tmp_mount:
                     continue
+
             if tools.processAlive(int(lock_pid)):
                 return True
+
             else:
-                logger.debug('Remove old and invalid lock %s'
-                             %f, self)
-                #clean up
+                logger.debug(f'Remove old and invalid lock {f}', self)
+
+                # Clean up
                 os.remove(os.path.join(path, f))
+
                 for symlink in os.listdir(self.mount_root):
                     if symlink.endswith('_%s' % lock_pid):
                         os.remove(os.path.join(self.mount_root, symlink))
+
         return False
 
     def setattrKwargs(self, arg, default, store = True, **kwargs):
