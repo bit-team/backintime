@@ -43,7 +43,7 @@ the maintenance team upon request.
 > (reflecting the latest development state).
 
 1. Fork this repository. See Microsoft GitHub's own documentation about
-   [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
 2. Clone your own fork to your local machine and enter the directory:
 
@@ -63,9 +63,9 @@ the maintenance team upon request.
 
 6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
 
-7. Visit your on repository on Microsoft GitHub's website and create a Pull Request.
+7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
    See Microsoft GitHub's own documentation about
-   [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 # Best practice and recommendations
 Please take the following best practices into account if possible. This will reduce
