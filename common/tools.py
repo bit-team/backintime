@@ -949,9 +949,11 @@ def processCmdline(pid):
     try:
         with open('/proc/{}/cmdline'.format(pid), 'rt') as f:
             return f.read().strip('\n')
+
     except OSError as e:
         logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
         return ''
+
 
 def pidsWithName(name):
     """
@@ -1002,7 +1004,7 @@ def processAlive(pid):
     try:
         # Signal 0 is a dummy signal without effect. But an OSError is raised
         # if the process does not exists.
-        os.kill(pid=pid, sig=0)
+        os.kill(pid, 0)
 
     except OSError as err:
         if err.errno == errno.ESRCH:

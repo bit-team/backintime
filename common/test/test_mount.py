@@ -13,7 +13,7 @@ import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import config
+import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
 
 
@@ -70,11 +70,24 @@ class CheckLocks(pyfakefs_ut.TestCase):
         with self.assertRaises(FileNotFoundError):
             mntctrl.checkLocks(path='notexisting', lockSuffix='.lock')
 
-    def test_foobar(self):
+    def test_own_lock_exists(self):
+        """Lock file of own process."""
         conf = config.Config(str(self.config_fp))
         mntctrl = mount.MountControl(cfg=conf)
 
-        path = 'mountlockdir'
-        Path(path).mkdir()
-        suffix = '.lock'
-        self.assertTrue(mntctrl.checkLocks(path, suffix))
+        fp = Path.cwd() / 'mountlockdir' / f'{os.getpid()}.lock'
+        fp.parent.mkdir()
+        fp.touch()
+
+        self.assertFalse(mntctrl.checkLocks(str(fp.parent), fp.suffix))
+
+    def test_own_lock_exists_but_diff_tmpmount(self):
+        """Lock file of own process but diff tmp-mount."""
+        conf = config.Config(str(self.config_fp))
+        mntctrl = mount.MountControl(cfg=conf, tmp_mount=True)
+
+        fp = Path.cwd() / 'mountlockdir' / f'{os.getpid()}.lock'
+        fp.parent.mkdir()
+        fp.touch()
+
+        self.assertFalse(mntctrl.checkLocks(str(fp.parent), fp.suffix))

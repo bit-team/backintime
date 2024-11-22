@@ -861,7 +861,7 @@ class MountControl:
         """Check if active locks ending with ``lockSuffix`` in ``path``.
 
         Locks are removed if the process owning the lock does not exist
-        anymore.
+        anymore. Own locks are ignored.
 
         Args:
             path (str): Full path to lock directory.
@@ -873,9 +873,11 @@ class MountControl:
         Raises:
             FileNotFoundError: If the path does not exists.
         """
+        print(f'{path=} {lockSuffix=}') # DEBUG
         for f in os.listdir(path):
 
-            # Suffix is lockSuffix?  (e.g. "12345.lock")
+            print(f'xxxxxxxxx {f=}')
+            # Not a lock file?
             if not f[-len(lockSuffix):] == lockSuffix:
                 # next file
                 continue
@@ -889,26 +891,28 @@ class MountControl:
             else:
                 lock_pid = os.path.basename(f)[:-len(lockSuffix)]
 
-            if lock_pid == self.pid:  # process own lock file
+            # Ignore process own lock files.
+            if lock_pid == self.pid:
+                # ...with the same tmp-state.
                 if is_tmp == self.tmp_mount:
-                    # Ignore if it is a temporary mount.
-                    #
                     # Dev note (buhtz, 2024-11-22): I have no idea what makes
                     # a mount temporary.
                     continue
 
+            # DEBUG
+            print(f'{is_tmp=} {lock_pid=} {os.getpid()=} {self.tmp_mount=}')
             if tools.processAlive(int(lock_pid)):
                 return True
 
-            else:
-                logger.debug(f'Remove old and invalid lock {f}', self)
+            logger.debug(f'Remove old and invalid lock {f}', self)
 
-                # Clean up
-                os.remove(os.path.join(path, f))
+            # Clean up the lock file
+            os.remove(os.path.join(path, f))
 
-                for symlink in os.listdir(self.mount_root):
-                    if symlink.endswith('_%s' % lock_pid):
-                        os.remove(os.path.join(self.mount_root, symlink))
+            # Clean up related symlinks
+            for symlink in os.listdir(self.mount_root):
+                if symlink.endswith('_%s' % lock_pid):
+                    os.remove(os.path.join(self.mount_root, symlink))
 
         return False
 
