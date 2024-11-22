@@ -131,12 +131,9 @@ class LanguageDialog(QDialog):
             names = langs[code]
 
             try:
-                label = names[0]
-
-                # Name of the language in the current set locale unknown
-                if not label:
-                    # Use English name instead
-                    label = names[2]
+                # Use English name if name of the language in the current set
+                # locale is unknown
+                label = names[0] or names[2]
 
             except TypeError:
                 # Happens when no name for the language codes is available.
