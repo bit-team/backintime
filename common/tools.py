@@ -238,6 +238,8 @@ def initiate_translation(language_code):
 
     set_lc_time_by_language_code(used_code)
 
+    logger.debug(f'Language code used: "{used_code}"')
+
     return used_code
 
 
@@ -322,6 +324,8 @@ def get_language_names(language_code):
 
     Language codes from `get_available_language_codes()` are combined with
     `languages.language_names` to prepare the list.
+    If ``language_code`` is not
+    one of the available languages English is used.
 
     Args:
         language_code (str): Usually the current language used by Back In Time.
@@ -333,6 +337,8 @@ def get_language_names(language_code):
         the language itself (native) and in English (the source language);
         e.g. ``ja`` (Japanese) for ``de`` (German) locale
         is ``('Japanisch', '日本語', 'Japanese')``.
+        If ``language_code`` is not one of the available languages the first
+        element in the tuple is ``None``.
     """
     result = {}
     codes = ['en'] + get_available_language_codes()
@@ -352,7 +358,7 @@ def get_language_names(language_code):
         else:
             names = (
                 # in currents locale language
-                lang[language_code],
+                lang.get(language_code, None),
                 # native
                 lang['_native'],
                 # in English (source language)
