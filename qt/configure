@@ -7,14 +7,11 @@
 # SPDX-FileCopyrightText: © 2023 Fabio Fantoni
 # SPDX-FileCopyrightText: © 2024 Tejas Guruswamy
 #
-# SPDX-License-Identifier: CC0-1.0
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
-# the program "Back In Time". The program as a whole is released under GNU
-# General Public License v2 or any later version (GPL-2.0-or-later).
-# See LICENSES directory or
-# go to <https://spdx.org/licenses/CC0-1.0.html>
-# and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # This is the configuration file for the Read the Docs service.
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html for details.
@@ -223,11 +220,13 @@ addNewline
 addComment "documentation"
 addInstallDir                        "/share/doc/backintime-qt"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-qt"
-addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
 addInstallFile "../README.md"        "/share/doc/backintime-qt"
 addInstallFile "../FAQ.md"        "/share/doc/backintime-qt"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt"
 addInstallFile "../CHANGES"          "/share/doc/backintime-qt"
+addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
+addInstallDir                        "/share/doc/backintime-qt/LICENSES"
+addInstallFiles "../LICENSES/*"      "/share/doc/backintime-qt/LICENSES"
 addNewline
 
 addComment ".desktop"
