@@ -132,17 +132,18 @@ class Mount:
     running this will try to start it.
 
     Args:
-        cfg (config.Config):    current config
-        profile_id (str):       profile ID that should be used
-        tmp_mount (bool):       if ``True`` mount to a temporary destination
-        parent (QWidget):       parent widget for QDialogs or ``None`` if there
-                                is no parent
+        cfg (config.Config): Current config.
+        profile_id (str): Profile ID to be used.
+        tmp_mount (bool): If ``True`` mount to a temporary destination.
+        parent (QWidget): Parent widget for QDialogs or ``None`` if there
+            is no parent.
     """
+
     def __init__(self,
-                 cfg = None,
-                 profile_id = None,
-                 tmp_mount = False,
-                 parent = None):
+                 cfg=None,
+                 profile_id=None,
+                 tmp_mount=False,
+                 parent=None):
         self.config = cfg or config.Config()
         self.profile_id = profile_id or self.config.currentProfile()
         self.tmp_mount = tmp_mount
@@ -424,12 +425,12 @@ class MountControl:
     """
 
     def __init__(self,
-                 cfg = None,
-                 profile_id = None,
-                 hash_id = None,
-                 tmp_mount = False,
-                 parent = None,
-                 symlink = True,
+                 cfg=None,
+                 profile_id=None,
+                 hash_id=None,
+                 tmp_mount=False,
+                 parent=None,
+                 symlink=True,
                  *args,
                  **kwargs):
         # The following members should get valid values from the inheriting
@@ -454,8 +455,10 @@ class MountControl:
 
         self.all_kwargs = {}
 
-        self.setattrKwargs('mode', self.config.snapshotsMode(self.profile_id), **kwargs)
-        self.setattrKwargs('hash_collision', self.config.hashCollision(), **kwargs)
+        self.setattrKwargs(
+            'mode', self.config.snapshotsMode(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'hash_collision', self.config.hashCollision(), **kwargs)
 
     def setDefaultArgs(self):
         """
@@ -866,22 +869,32 @@ class MountControl:
 
         Returns:
             bool: ``True`` if there are active locks in ``path``.
+
+        Raises:
+            FileNotFoundError: If the path does not exists.
         """
         for f in os.listdir(path):
 
+            # Suffix is lockSuffix?  (e.g. "12345.lock")
             if not f[-len(lockSuffix):] == lockSuffix:
+                # next file
                 continue
 
+            # Secondary suffix is "tmp"? (e.g. "12345.tmp.lock")
             is_tmp = os.path.basename(f)[-len(lockSuffix)-len('.tmp'):-len(lockSuffix)] == '.tmp'
 
+            # Extract PID from lock file name
             if is_tmp:
                 lock_pid = os.path.basename(f)[:-len('.tmp')-len(lockSuffix)]
-
             else:
                 lock_pid = os.path.basename(f)[:-len(lockSuffix)]
 
-            if lock_pid == self.pid:
+            if lock_pid == self.pid:  # process own lock file
                 if is_tmp == self.tmp_mount:
+                    # Ignore if it is a temporary mount.
+                    #
+                    # Dev note (buhtz, 2024-11-22): I have no idea what makes
+                    # a mount temporary.
                     continue
 
             if tools.processAlive(int(lock_pid)):
