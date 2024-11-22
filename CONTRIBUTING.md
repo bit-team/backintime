@@ -52,7 +52,7 @@ the maintenance team upon request.
 
 3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
 
-       $ git checkout --branch myfancyfeature dev
+       $ git checkout -b myfancyfeature dev
 
 4. Now you can add your modifications.
 
