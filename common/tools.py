@@ -949,9 +949,11 @@ def processCmdline(pid):
     try:
         with open('/proc/{}/cmdline'.format(pid), 'rt') as f:
             return f.read().strip('\n')
+
     except OSError as e:
         logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
         return ''
+
 
 def pidsWithName(name):
     """
@@ -966,6 +968,7 @@ def pidsWithName(name):
     # /proc/###/stat stores just the first 16 chars of the process name
     return [x for x in pids() if processName(x) == name[:15]]
 
+
 def processExists(name):
     """
     Check if process ``name`` is currently running.
@@ -978,38 +981,44 @@ def processExists(name):
     """
     return len(pidsWithName(name)) > 0
 
+
 def processAlive(pid):
-    """
-    Check if the process with PID ``pid`` is alive.
+    """Check if the process with PID ``pid`` is alive.
 
     Args:
-        pid (int):  Process Indicator
+        pid (int): Process Indicator
 
     Returns:
-        bool:       ``True`` if the process with PID ``pid`` is alive
+        bool: ``True`` if alive otherwise ``False``.
 
     Raises:
-        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to all
-                    processes
+        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to
+            all processes.
     """
     if pid < 0:
         return False
-    elif pid == 0:
-        raise ValueError('invalid PID 0')
-    else:
-        try:
-            os.kill(pid, 0) #this will raise an exception if the pid is not valid
-        except OSError as err:
-            if err.errno == errno.ESRCH:
-                # ESRCH == No such process
-                return False
-            elif err.errno == errno.EPERM:
-                # EPERM clearly means there's a process to deny access to
-                return True
-            else:
-                raise
-        else:
+
+    if pid == 0:
+        raise ValueError('Invalid PID 0')
+
+    try:
+        # Signal 0 is a dummy signal without effect. But an OSError is raised
+        # if the process does not exists.
+        os.kill(pid, 0)
+
+    except OSError as err:
+        if err.errno == errno.ESRCH:
+            # ESRCH == No such process
+            return False
+
+        if err.errno == errno.EPERM:
+            # EPERM clearly means there's a process to deny access to
             return True
+
+        raise
+
+    return True
+
 
 def checkXServer():
     """

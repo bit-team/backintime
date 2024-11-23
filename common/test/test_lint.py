@@ -47,6 +47,7 @@ full_test_files = [_base_dir / fp for fp in (
     'ssh_max_arg.py',
     'version.py',
     'test/test_lint.py',
+    'test/test_mount.py',
     'test/test_uniquenessset.py',
 )]
 
