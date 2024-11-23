@@ -1,18 +1,11 @@
-#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Taylor Raack
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The mount API.
 
     The high-level mount API is :py:class:`Mount` and handles mount,
@@ -502,18 +495,16 @@ class MountControl:
         mount lock and symlink and release mountprocess lock.
 
         Args:
-            check (bool):   if ``True`` run :py:func:`preMountCheck` before
-                            mounting
+            check (bool): If ``True`` run :py:func:`preMountCheck` before
+                mounting.
 
         Returns:
-            str:            Hash ID used as mountpoint
+            str: Hash ID used as mountpoint.
 
         Raises:
-            exceptions.MountException:
-                            if a check failed
-            exceptions.HashCollision:
-                            if Hash ID was used before but umount info wasn't
-                            identical
+            exceptions.MountException: If a check failed.
+            exceptions.HashCollision: If Hash ID was used before but umount
+                info wasn't identical.
         """
         self.createMountStructure()
         self.mountProcessLockAcquire()
@@ -522,7 +513,7 @@ class MountControl:
             if self.mounted():
 
                 if not self.compareUmountInfo():
-                    #We probably have a hash collision
+                    # We probably have a hash collision
                     self.config.incrementHashCollision()
                     raise HashCollision(
                         f'Hash collision occurred in hash_id {self.hash_id}. '
@@ -539,18 +530,22 @@ class MountControl:
                 self._mount()
                 self.postMountCheck()
 
-                logger.info('mount %s on %s'
-                            %(self.log_command, self.currentMountpoint),
-                            self)
+                logger.info(
+                    f'mount {self.log_command} on {self.currentMountpoint}',
+                    self)
                 self.writeUmountInfo()
 
         except Exception:
+            # ???
             raise
+
         else:
             self.mountLockAquire()
             self.setSymlink()
+
         finally:
             self.mountProcessLockRelease()
+
         return self.hash_id
 
     def umount(self):
@@ -827,8 +822,8 @@ class MountControl:
 
     def mountLockAquire(self):
         """
-        Create a lock for a mountpoint to prevent unmounting as long as this
-        process is still running.
+        Create a lock file for a mountpoint to prevent unmounting as long as
+        this process is running.
         """
         lockSuffix = '.tmp.lock' if self.tmp_mount else '.lock'
         lock = os.path.join(self.lock_path, self.pid + lockSuffix)
@@ -898,7 +893,7 @@ class MountControl:
             if is_tmp:
                 lock_pid = lock_pid[:-4]  # cut ".tmp" from the end
 
-            # Ignore process own lock files.
+            # Ignore process's own lock files.
             if lock_pid == self.pid:
                 # ...with the same tmp-state.
                 if is_tmp == self.tmp_mount:
