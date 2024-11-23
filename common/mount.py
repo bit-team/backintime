@@ -466,12 +466,14 @@ class MountControl:
         ``self.all_kwargs`` need to be filled through :py:func:`setattrKwargs`
         before calling this.
         """
-        #self.destination should contain all arguments that are necessary for
-        #mount.
+        # self.destination should contain all arguments that are necessary for
+        # mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
+
         args.remove('mode')
         args.sort()
+
         for arg in args:
             self.destination += ' %s' % self.all_kwargs[arg]
 
@@ -493,7 +495,7 @@ class MountControl:
         self.lock_path = self.lockPath()
         self.umount_info = self.umountInfoPath()
 
-    def mount(self, check = True):
+    def mount(self, check=True):
         """
         Low-level `mount`. Set mountprocess lock and prepare mount, run checks
         and than call :py:func:`_mount` for the subclassed backend. Finally set
@@ -858,10 +860,14 @@ class MountControl:
             os.remove(lock)
 
     def checkLocks(self, path, lockSuffix):
-        """Check if active locks ending with ``lockSuffix`` in ``path``.
+        """Check existance of active and foreign locks.
 
-        Locks are removed if the process owning the lock does not exist
-        anymore. Own locks are ignored.
+        The lock owning process is specified by the PID contained in the
+        filename of the lock file used. Lock files of the current process are
+        ignored and ``False`` is returned if they share the same tmp-mount
+        state. If a lock exist but its process not the lock is removed and
+        ``False`` returned. In that latter case mount symlinks related to that
+        lock also removed.
 
         Args:
             path (str): Full path to lock directory.
@@ -872,11 +878,10 @@ class MountControl:
 
         Raises:
             FileNotFoundError: If the path does not exists.
+
         """
-        print(f'{path=} {lockSuffix=}') # DEBUG
         for f in os.listdir(path):
 
-            print(f'xxxxxxxxx {f=}')
             # Not a lock file?
             if not f[-len(lockSuffix):] == lockSuffix:
                 # next file
@@ -899,8 +904,6 @@ class MountControl:
                     # a mount temporary.
                     continue
 
-            # DEBUG
-            print(f'{is_tmp=} {lock_pid=} {os.getpid()=} {self.tmp_mount=}')
             if tools.processAlive(int(lock_pid)):
                 return True
 
@@ -916,7 +919,7 @@ class MountControl:
 
         return False
 
-    def setattrKwargs(self, arg, default, store = True, **kwargs):
+    def setattrKwargs(self, arg, default, store=True, **kwargs):
         """
         Set attribute ``arg`` in local namespace (self.arg). Also collect all
         args in ``self.all_kwargs`` which will be hashed later and used as

@@ -9,6 +9,9 @@
 import os
 import sys
 import inspect
+import random
+import string
+from unittest import mock
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -29,7 +32,13 @@ class CheckLocks(pyfakefs_ut.TestCase):
         # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
 
-        self.config_fp = self._create_config_file(parent_path=self.temp_path)
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        # setup mount root
+        fp = Path.cwd() / ''.join(random.choices(string.ascii_letters, k=10))
+        fp.mkdir()
+        self.cfg._LOCAL_MOUNT_ROOT = str(fp)
 
     def _create_config_file(self, parent_path):
         """Minimal config file"""
@@ -64,30 +73,86 @@ class CheckLocks(pyfakefs_ut.TestCase):
 
     def test_not_existing_dir(self):
         """The lock directory does not exists."""
-        conf = config.Config(str(self.config_fp))
-        mntctrl = mount.MountControl(cfg=conf)
+        mntctrl = mount.MountControl(cfg=self.cfg)
+        mntctrl.setDefaultArgs()
 
         with self.assertRaises(FileNotFoundError):
             mntctrl.checkLocks(path='notexisting', lockSuffix='.lock')
 
-    def test_own_lock_exists(self):
-        """Lock file of own process."""
-        conf = config.Config(str(self.config_fp))
-        mntctrl = mount.MountControl(cfg=conf)
+    def test_ignore_own_lock(self):
+        """Lock file of own process ignored."""
+        mntctrl = mount.MountControl(cfg=self.cfg)
+        mntctrl.setDefaultArgs()
 
-        fp = Path.cwd() / 'mountlockdir' / f'{os.getpid()}.lock'
-        fp.parent.mkdir()
+        fp = Path(mntctrl.mount_root) / f'{os.getpid()}.lock'
         fp.touch()
 
         self.assertFalse(mntctrl.checkLocks(str(fp.parent), fp.suffix))
 
-    def test_own_lock_exists_but_diff_tmpmount(self):
+    def test_own_lock_but_diff_tmpmount(self):
         """Lock file of own process but diff tmp-mount."""
-        conf = config.Config(str(self.config_fp))
-        mntctrl = mount.MountControl(cfg=conf, tmp_mount=True)
+        mntctrl = mount.MountControl(cfg=self.cfg, tmp_mount=True)
+        mntctrl.setDefaultArgs()
 
-        fp = Path.cwd() / 'mountlockdir' / f'{os.getpid()}.lock'
-        fp.parent.mkdir()
+        fp = Path(mntctrl.mount_root) / f'{os.getpid()}.lock'
+        fp.touch()
+
+        self.assertTrue(mntctrl.checkLocks(str(fp.parent), fp.suffix))
+
+    @mock.patch('tools.processAlive', return_value=True)
+    def test_foreign_lock(self, _mock_process_alive):
+        """Lock file of foreign and existing process."""
+        mntctrl = mount.MountControl(cfg=self.cfg)
+        mntctrl.setDefaultArgs()
+
+        fp = Path(mntctrl.mount_root) / '123456.lock'
+        fp.touch()
+
+        self.assertTrue(mntctrl.checkLocks(str(fp.parent), fp.suffix))
+
+    @mock.patch('tools.processAlive', return_value=False)
+    def test_foreign_lock_notexisting_pid(self, _mock_process_alive):
+        """Lock file of foreign and NOT existing process."""
+        mntctrl = mount.MountControl(cfg=self.cfg)
+        mntctrl.setDefaultArgs()
+
+        pid = '123456'
+        fp = Path(mntctrl.mount_root) / f'{pid}.lock'
         fp.touch()
 
         self.assertFalse(mntctrl.checkLocks(str(fp.parent), fp.suffix))
+
+    @mock.patch('tools.processAlive', return_value=False)
+    def test_lock_remove(self, _mock_process_alive):
+        """Remove lock files of NOT existing processes."""
+        mntctrl = mount.MountControl(cfg=self.cfg)
+        mntctrl.setDefaultArgs()
+
+        pid = '123456'
+        fp = Path(mntctrl.mount_root) / f'{pid}.lock'
+        fp.touch()
+
+        self.assertTrue(fp.exists())
+        mntctrl.checkLocks(str(fp.parent), fp.suffix)
+
+        self.assertFalse(fp.exists())
+
+    @mock.patch('tools.processAlive', return_value=False)
+    def test_symlinks_remove(self, _mock_process_alive):
+        """Remove symlinks related to lock files of NOT existing processes."""
+        mntctrl = mount.MountControl(cfg=self.cfg)
+        mntctrl.setDefaultArgs()
+
+        pid = '123456'
+        fp = Path(mntctrl.mount_root) / f'{pid}.lock'
+        fp.touch()
+
+        real = Path.cwd() / 'real'
+        real.mkdir()
+        sym = Path(mntctrl.mount_root) / f'symlink_mountpoint_{pid}'
+        sym.symlink_to(real)
+
+        self.assertTrue(sym.exists())
+        mntctrl.checkLocks(str(fp.parent), fp.suffix)
+
+        self.assertFalse(sym.exists())
