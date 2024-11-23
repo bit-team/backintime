@@ -6,15 +6,16 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about lock mechanic while mounting."""
+# pylint: disable=wrong-import-position
 import os
 import sys
 import inspect
 import random
 import string
 from unittest import mock
-import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
@@ -28,6 +29,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
         self.setUpPyfakefs(allow_root_user=False)
 
         # cleanup() happens automatically
+        # pylint: disable-next=consider-using-with
         self._temp_dir = TemporaryDirectory(prefix='bit.')
         # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
@@ -38,6 +40,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
         # setup mount root
         fp = Path.cwd() / ''.join(random.choices(string.ascii_letters, k=10))
         fp.mkdir()
+        # pylint: disable-next=protected-access
         self.cfg._LOCAL_MOUNT_ROOT = str(fp)
 
     def _create_config_file(self, parent_path):
