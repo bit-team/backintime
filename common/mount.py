@@ -110,7 +110,7 @@ import os
 import subprocess
 from time import sleep
 from zlib import crc32
-
+from pathlib import Path
 import config
 import logger
 import password
@@ -859,7 +859,7 @@ class MountControl:
             logger.debug(f'Remove mount lock {lock}', self)
             os.remove(lock)
 
-    def checkLocks(self, path, lockSuffix):
+    def checkLocks(self, path, lock_suffix):
         """Check existance of active and foreign locks.
 
         The lock owning process is specified by the PID contained in the
@@ -871,7 +871,7 @@ class MountControl:
 
         Args:
             path (str): Full path to lock directory.
-            lockSuffix (str): Last part of locks name.
+            lock_suffix (str): Last part of locks name.
 
         Returns:
             bool: ``True`` if there are active locks in ``path``.
@@ -880,21 +880,23 @@ class MountControl:
             FileNotFoundError: If the path does not exists.
 
         """
-        for f in os.listdir(path):
+        if isinstance(path, str):
+            path = Path(path)
+
+        for lock_fp in path.iterdir():
 
             # Not a lock file?
-            if not f[-len(lockSuffix):] == lockSuffix:
+            if lock_fp.suffix != lock_suffix:
                 # next file
                 continue
 
             # Secondary suffix is "tmp"? (e.g. "12345.tmp.lock")
-            is_tmp = os.path.basename(f)[-len(lockSuffix)-len('.tmp'):-len(lockSuffix)] == '.tmp'
+            is_tmp = lock_fp.with_suffix('').suffix == '.tmp'
 
             # Extract PID from lock file name
+            lock_pid = lock_fp.stem
             if is_tmp:
-                lock_pid = os.path.basename(f)[:-len('.tmp')-len(lockSuffix)]
-            else:
-                lock_pid = os.path.basename(f)[:-len(lockSuffix)]
+                lock_pid = lock_pid[:-4]  # cut ".tmp" from the end
 
             # Ignore process own lock files.
             if lock_pid == self.pid:
@@ -907,15 +909,15 @@ class MountControl:
             if tools.processAlive(int(lock_pid)):
                 return True
 
-            logger.debug(f'Remove old and invalid lock {f}', self)
+            logger.debug(f'Remove old and invalid lock {lock_fp}', self)
 
             # Clean up the lock file
-            os.remove(os.path.join(path, f))
+            lock_fp.unlink()
 
             # Clean up related symlinks
-            for symlink in os.listdir(self.mount_root):
-                if symlink.endswith('_%s' % lock_pid):
-                    os.remove(os.path.join(self.mount_root, symlink))
+            for symlink in Path(self.mount_root).iterdir():
+                if symlink.name.endswith(f'_{lock_pid}'):
+                    symlink.unlink()
 
         return False
 

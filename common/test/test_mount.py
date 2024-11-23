@@ -80,7 +80,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
         mntctrl.setDefaultArgs()
 
         with self.assertRaises(FileNotFoundError):
-            mntctrl.checkLocks(path='notexisting', lockSuffix='.lock')
+            mntctrl.checkLocks('notexisting', '.lock')
 
     def test_ignore_own_lock(self):
         """Lock file of own process ignored."""
