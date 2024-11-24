@@ -2434,7 +2434,8 @@ class SID:
                 raise LastSnapshotSymlink()
 
             else:
-                raise ValueError("'date' must be in snapshot ID format (e.g 20151218-173512-123)")
+                raise ValueError("'date' must be in snapshot ID format "
+                                 f"(e.g 20151218-173512-123) but is '{date}'")
 
         else:
             raise TypeError("'date' must be an instance of str, datetime.date or datetime.datetime")

@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -10,14 +11,134 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
-import grp
-from datetime import date, datetime
+import inspect
+from typing import Union
+from datetime import date, time, datetime, timedelta
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from test import generic
+import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import snapshots
+import config  # noqa: E402,RUF100
+import snapshots  # noqa: E402,RUF100
+
+
+def sid2str(year,
+            month,
+            day,
+            hour=None,
+            minute=None,
+            seconds=None,
+            tag=123):
+    """Create a SID identification string out ouf date and time infos."""
+    return '{year:04}{month:02}{day:02}-' \
+            '{hour:02}{minute:02}{seconds:02}-{tag}'.format(
+                year=year,
+                month=month,
+                day=day,
+                hour=hour or 7,
+                minute=minute or 42,
+                seconds=seconds or 31,
+                tag=tag)
+
+
+def dt2str(d: Union[date, datetime], t: time = None, tag: int = 123):
+    """Create a SID identification string out ouf a date and time infos."""
+    if not t:
+        try:
+            # If d is datetime
+            t = d.time()
+        except AttributeError:
+            t = time(7, 42, 31)
+
+    return datetime.combine(d, t).strftime(f'%Y%m%d-%H%M%S-{tag}')
+
+
+def create_SIDs(start_date: Union[date, datetime],
+                days: int,
+                cfg: config.Config):
+    sids = []
+    for d in [start_date + timedelta(days=x) for x in range(days)]:
+        sids.append(snapshots.SID(dt2str(d), cfg))
+
+    return sids
+
+
+class KeepFirst(pyfakefs_ut.TestCase):
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        # pylint: disable-next=consider-using-with
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def test_one_but_set(self):
+        """Return value is always a set with always only one element."""
+        # One SID for each of 20 days beginning with 5th March 2022 07:42:31
+        sids = create_SIDs(
+            datetime(2020, 3, 5, 7, 42, 31), 700, self.cfg)
+
+        sut = self.sn.smartRemoveKeepFirst(
+            sids, date(2021, 8, 5), datetime.now().date())
+
+        self.assertIsInstance(sut, set)
+        self.assertTrue(len(sut), 1)
+
+    def test_simple(self):
+        """First element in a range of SIDs"""
+        sids = create_SIDs(
+            datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg)
+
+        sut = self.sn.smartRemoveKeepFirst(
+            sids, date(2022, 3, 5), datetime.now().date())
+        sut = sut.pop()
+
+        self.assertTrue(str(sut).startswith('20220305-074231-'))
 
 
 class SmartRemove(generic.SnapshotsTestCase):
+    """This is the old/original test case using real filesystem and to much
+    dependencies."""
+
     def test_increment_month(self):
         self.assertEqual(self.sn.incMonth(date(2016,  4, 21)), date(2016, 5, 1))
         self.assertEqual(self.sn.incMonth(date(2016, 12, 24)), date(2017, 1, 1))
