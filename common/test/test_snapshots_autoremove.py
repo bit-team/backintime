@@ -12,6 +12,7 @@
 import os
 import sys
 import inspect
+from unittest import mock
 from typing import Union
 from datetime import date, time, datetime, timedelta
 from pathlib import Path
@@ -65,6 +66,10 @@ def create_SIDs(start_date: Union[date, datetime],
 
 
 class KeepFirst(pyfakefs_ut.TestCase):
+    """Test Snapshot.removeKeepFirst().
+
+    PyFakeFS is used here because of Config file dependency."""
+
     def setUp(self):
         """Setup a fake filesystem."""
         self.setUpPyfakefs(allow_root_user=False)
@@ -133,6 +138,23 @@ class KeepFirst(pyfakefs_ut.TestCase):
         sut = sut.pop()
 
         self.assertTrue(str(sut).startswith('20220305-074231-'))
+
+    @mock.patch.object(snapshots.SID, 'failed', new_callable=lambda: True)
+    def test_all_invalid(self, _mock_failed):
+        """All SIDS invalid (not healthy)"""
+        sids = create_SIDs(
+            datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg)
+
+        # By default healthy/invalid status is irrelevant
+        sut = self.sn.smartRemoveKeepFirst(
+            sids, date(2022, 3, 5), datetime.now().date())
+        self.assertTrue(len(sut), 1)
+
+        # Now make it relevant
+        sut = self.sn.smartRemoveKeepFirst(
+            sids, date(2022, 3, 5), datetime.now().date(),
+            keep_healthy=True)
+        self.assertTrue(len(sut), 0)
 
 
 class SmartRemove(generic.SnapshotsTestCase):
