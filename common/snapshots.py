@@ -1559,6 +1559,7 @@ class Snapshots:
         Returns:
             set:                        set of snapshots that should be kept
         """
+        print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
 
@@ -1569,7 +1570,10 @@ class Snapshots:
             if keep_healthy and sid.failed:
                 logger.debug("Do not keep failed snapshot %s" %sid, self)
                 continue
+            # DEBUG
+            print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
             if sid >= min_id and sid < max_id:
+                print(f'  return {str(sid)}')
                 return set([sid])
         # if all snapshots failed return the first snapshot
         # no matter if it has errors

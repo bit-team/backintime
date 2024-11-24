@@ -55,6 +55,17 @@ def dt2str(d: Union[date, datetime], t: time = None, tag: int = 123):
     return datetime.combine(d, t).strftime(f'%Y%m%d-%H%M%S-{tag}')
 
 
+def sid2str(sid):
+    """Convert a SID string into human readable date incl. weekday."""
+    result = datetime.strptime(sid.split('-')[0], '%Y%m%d') \
+        .date().strftime('%c').strip()
+
+    if result.endswith(' 00:00:00'):
+        result = result[:-9]
+
+    return result
+
+
 def create_SIDs(start_date: Union[date, datetime],
                 days: int,
                 cfg: config.Config):
@@ -155,6 +166,128 @@ class KeepFirst(pyfakefs_ut.TestCase):
             sids, date(2022, 3, 5), datetime.now().date(),
             keep_healthy=True)
         self.assertTrue(len(sut), 0)
+
+
+class OnePerWeek(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep one snapshot per week for the
+    last N weeks'.
+
+    That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
+    in isolation. So for a first shot we just duplicate that code in this
+    tests (see self._org()).
+    """
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        # pylint: disable-next=consider-using-with
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def _org(self, now, n_weeks, snapshots, keep_healthy=True):
+        """Keep one per week for the last n_weeks weeks.
+
+        Copied and slightly refactored from inside
+        'Snapshots.smartRemoveList()'.
+        """
+        print(f'_org() :: {now=} {n_weeks=}')
+        keep = set()
+
+        # Sunday (Sonntag) of previous week
+        idx_date = now - timedelta(days=now.weekday() + 1)
+
+        print(f'_org() :: {idx_date=} {idx_date.weekday()=} {now.weekday()=}')
+
+        for i in range(0, n_weeks):
+            print(f'  for ... :: {idx_date=} {idx_date + timedelta(days=8)=}')
+            keep |= self.sn.smartRemoveKeepFirst(
+                snapshots,
+                idx_date,
+                idx_date + timedelta(days=8),
+                keep_healthy=keep_healthy)
+
+            idx_date -= timedelta(days=7)
+
+        return keep
+
+    def test_sunday_last_week(self):
+        """Keep sunday of the last week."""
+        # 9 backups: 18th (Monday) -  26th (Thursday) March 2024
+        sids = create_SIDs(date(2024, 3, 18), 9, self.cfg)
+
+        sut = self._org(
+            # "Today" is Thursday 28th March
+            now=date(2024, 3, 28),
+            # Keep the last week
+            n_weeks=1,
+            snapshots=sids)
+
+        # only one kept
+        self.assertTrue(len(sut), 1)
+        # Sunday March 24th
+        self.assertTrue(str(sut.pop()).startswith('20240324-'))
+
+    def test_three_weeks(self):
+        """Keep sunday of the last 3 weeks and throw away the rest."""
+
+        # 6 Weeks of backups (2024-02-18 - 2024-03-30)
+        sids = create_SIDs(datetime(2024, 2, 18), 7*6, self.cfg)
+        print(f'{str(sids[0])=} {str(sids[-1])=}')
+
+        sut = self._org(
+            # "Today" is Thursday 28th March
+            now=date(2024, 3, 28),
+            # Keep the last week
+            n_weeks=3,
+            snapshots=sids)
+
+        # only one kept
+        self.assertTrue(len(sut), 3)
+        sut = sorted(sut)
+        for s in sut:
+            print(s)
+        self.assertTrue(sut[0].startswith('20240324-'))
+        self.assertTrue(sut[1].startswith('20240317-'))
+        self.assertTrue(sut[2].startswith('20240310-'))
 
 
 class SmartRemove(generic.SnapshotsTestCase):
