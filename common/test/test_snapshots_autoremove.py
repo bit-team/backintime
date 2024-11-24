@@ -24,26 +24,26 @@ import config  # noqa: E402,RUF100
 import snapshots  # noqa: E402,RUF100
 
 
-def sid2str(year,
-            month,
-            day,
-            hour=None,
-            minute=None,
-            seconds=None,
-            tag=123):
-    """Create a SID identification string out ouf date and time infos."""
-    return '{year:04}{month:02}{day:02}-' \
-            '{hour:02}{minute:02}{seconds:02}-{tag}'.format(
-                year=year,
-                month=month,
-                day=day,
-                hour=hour or 7,
-                minute=minute or 42,
-                seconds=seconds or 31,
-                tag=tag)
+# def timestmap2sidstr(year,
+#                      month,
+#                      day,
+#                      hour=None,
+#                      minute=None,
+#                      seconds=None,
+#                      tag=123):
+#     """Create a SID identification string out ouf date and time infos."""
+#     return '{year:04}{month:02}{day:02}-' \
+#             '{hour:02}{minute:02}{seconds:02}-{tag}'.format(
+#                 year=year,
+#                 month=month,
+#                 day=day,
+#                 hour=hour or 7,
+#                 minute=minute or 42,
+#                 seconds=seconds or 31,
+#                 tag=tag)
 
 
-def dt2str(d: Union[date, datetime], t: time = None, tag: int = 123):
+def dt2sidstr(d: Union[date, datetime], t: time = None, tag: int = 123):
     """Create a SID identification string out ouf a date and time infos."""
     if not t:
         try:
@@ -55,8 +55,16 @@ def dt2str(d: Union[date, datetime], t: time = None, tag: int = 123):
     return datetime.combine(d, t).strftime(f'%Y%m%d-%H%M%S-{tag}')
 
 
+def dt2str(d: Union[date, datetime]):
+    return d.strftime('%a %d %b %Y')
+
+
 def sid2str(sid):
     """Convert a SID string into human readable date incl. weekday."""
+
+    if isinstance(sid, snapshots.SID):
+        sid = str(sid)
+
     result = datetime.strptime(sid.split('-')[0], '%Y%m%d') \
         .date().strftime('%c').strip()
 
@@ -71,7 +79,7 @@ def create_SIDs(start_date: Union[date, datetime],
                 cfg: config.Config):
     sids = []
     for d in [start_date + timedelta(days=x) for x in range(days)]:
-        sids.append(snapshots.SID(dt2str(d), cfg))
+        sids.append(snapshots.SID(dt2sidstr(d), cfg))
 
     return sids
 
@@ -229,25 +237,47 @@ class OnePerWeek(pyfakefs_ut.TestCase):
         Copied and slightly refactored from inside
         'Snapshots.smartRemoveList()'.
         """
-        print(f'_org() :: {now=} {n_weeks=}')
+        print(f'\n_org() :: now={dt2str(now)} {n_weeks=}')
         keep = set()
 
-        # Sunday (Sonntag) of previous week
+        # Sunday ??? (Sonntag) of previous week
         idx_date = now - timedelta(days=now.weekday() + 1)
 
-        print(f'_org() :: {idx_date=} {idx_date.weekday()=} {now.weekday()=}')
-
+        print(f'  for-loop... idx_date={dt2str(idx_date)}')
         for i in range(0, n_weeks):
-            print(f'  for ... :: {idx_date=} {idx_date + timedelta(days=8)=}')
+
+            min_date = idx_date
+            max_date = idx_date + timedelta(days=8)
+
+            print(f'    from {dt2str(min_date)} to/before {dt2str(max_date)}')
             keep |= self.sn.smartRemoveKeepFirst(
                 snapshots,
-                idx_date,
-                idx_date + timedelta(days=8),
+                min_date,
+                max_date,
                 keep_healthy=keep_healthy)
 
             idx_date -= timedelta(days=7)
+            print(f'    new idx_date={dt2str(idx_date)}')
+        print('  ...end loop')
 
         return keep
+
+    def test_foobar(self):
+        start = date(2024, 10, 29)
+        now = date(2024, 11, 18)
+        sids = create_SIDs(start, 9*7+3, self.cfg)
+        print(f'\nsnapshots from: {sid2str(sids[0])} to: {sid2str(sids[-1])}')
+
+        sut = self._org(
+            # "Today" is Thursday 28th March
+            now=now,
+            # Keep the last week
+            n_weeks=5,
+            snapshots=sids)
+
+        for s in sorted(sut):
+            print(f'keep: {sid2str(s)}')
+        print(f'from: {dt2str(now)}')
 
     def test_sunday_last_week(self):
         """Keep sunday of the last week."""

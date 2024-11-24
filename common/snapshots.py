@@ -1559,7 +1559,7 @@ class Snapshots:
         Returns:
             set:                        set of snapshots that should be kept
         """
-        print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
+        # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
 
@@ -1571,9 +1571,9 @@ class Snapshots:
                 logger.debug("Do not keep failed snapshot %s" %sid, self)
                 continue
             # DEBUG
-            print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
+            # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
             if sid >= min_id and sid < max_id:
-                print(f'  return {str(sid)}')
+                # print(f'  return {str(sid)}')
                 return set([sid])
         # if all snapshots failed return the first snapshot
         # no matter if it has errors
@@ -2442,7 +2442,8 @@ class SID:
                                  f"(e.g 20151218-173512-123) but is '{date}'")
 
         else:
-            raise TypeError("'date' must be an instance of str, datetime.date or datetime.datetime")
+            raise TypeError("'date' must be an instance of str, datetime.date "
+                            f"or datetime.datetime but is '{date}'")
 
     def __repr__(self):
         return self.sid
