@@ -263,21 +263,23 @@ class OnePerWeek(pyfakefs_ut.TestCase):
         return keep
 
     def test_foobar(self):
-        start = date(2024, 10, 29)
-        now = date(2024, 11, 18)
+        start = date(2022, 1, 15)
+        now = date(2022, 3, 5)
         sids = create_SIDs(start, 9*7+3, self.cfg)
-        print(f'\nsnapshots from: {sid2str(sids[0])} to: {sid2str(sids[-1])}')
 
+        weeks = 5
         sut = self._org(
             # "Today" is Thursday 28th March
             now=now,
             # Keep the last week
-            n_weeks=5,
+            n_weeks=weeks,
             snapshots=sids)
 
+        print(f'\noldest snapshot: {sid2str(sids[0])}')
         for s in sorted(sut):
             print(f'keep: {sid2str(s)}')
-        print(f'from: {dt2str(now)}')
+        print(f'from/now: {dt2str(now)}  {weeks=}')
+        print(f'latest snapshot: {sid2str(sids[-1])}')
 
     def test_sunday_last_week(self):
         """Keep sunday of the last week."""
