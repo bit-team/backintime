@@ -3,16 +3,18 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 from pathlib import Path
 import stat
 import datetime
+import calendar
 import gettext
 import bz2
 import pwd
@@ -1595,12 +1597,13 @@ class Snapshots:
         Returns:
             datetime.date:          1st day of next month
         """
-        y = date.year
-        m = date.month + 1
-        if m > 12:
-            m = 1
-            y = y + 1
-        return datetime.date(y, m, 1)
+        # Last day in current month
+        last = datetime.date(
+            year=date.year,
+            month=date.month,
+            day=calendar.monthrange(date.year, date.month)[1])
+
+        return last + datetime.timedelta(days=1)
 
     def decMonth(self, date):
         """
@@ -1614,12 +1617,15 @@ class Snapshots:
         Returns:
             datetime.date:          1st day of previous month
         """
-        y = date.year
-        m = date.month - 1
-        if m < 1:
-            m = 12
-            y = y - 1
-        return datetime.date(y, m, 1)
+        # First day of current month
+        first = datetime.date(year=date.year, month=date.month, day=1)
+
+        # Last day of previous month
+        prev = first - datetime.timedelta(days=1)
+
+        # First day of previous month
+        return datetime.date(year=prev.year, month=prev.month, day=1)
+
 
     def smartRemoveList(self,
                         now_full,

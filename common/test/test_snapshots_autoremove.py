@@ -322,17 +322,87 @@ class OnePerWeek(pyfakefs_ut.TestCase):
         self.assertTrue(sut[2].startswith('20240310-'))
 
 
+class IncDecMonths(pyfakefs_ut.TestCase):
+    """PyFakeFS is used here because of Config file dependency."""
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        # pylint: disable-next=consider-using-with
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def test_inc_simple(self):
+        sut = self.sn.incMonth(date(1982, 8, 6))
+        self.assertEqual(sut, date(1982, 9, 1))
+
+    def test_inc_next_year(self):
+        sut = self.sn.incMonth(date(1982, 12, 16))
+        self.assertEqual(sut, date(1983, 1, 1))
+
+    def test_inc_leap_year(self):
+        sut = self.sn.incMonth(date(2020, 12, 16))
+        self.assertEqual(sut, date(2021, 1, 1))
+
+    def test_inc_leap_months(self):
+        sut = self.sn.incMonth(date(2020, 2, 29))
+        self.assertEqual(sut, date(2020, 3, 1))
+
+    def test_dec_simple(self):
+        sut = self.sn.decMonth(date(1982, 8, 6))
+        self.assertEqual(sut, date(1982, 7, 1))
+
+    def test_dec_year(self):
+        sut = self.sn.decMonth(date(1982, 1, 6))
+        self.assertEqual(sut, date(1981, 12, 1))
+
+    def test_dec_leap_months(self):
+        sut = self.sn.decMonth(date(2020, 2, 29))
+        self.assertEqual(sut, date(2020, 1, 1))
+
+
 class SmartRemove(generic.SnapshotsTestCase):
     """This is the old/original test case using real filesystem and to much
     dependencies."""
-
-    def test_increment_month(self):
-        self.assertEqual(self.sn.incMonth(date(2016,  4, 21)), date(2016, 5, 1))
-        self.assertEqual(self.sn.incMonth(date(2016, 12, 24)), date(2017, 1, 1))
-
-    def test_decrement_month(self):
-        self.assertEqual(self.sn.decMonth(date(2016, 4, 21)), date(2016,  3, 1))
-        self.assertEqual(self.sn.decMonth(date(2016, 1, 14)), date(2015, 12, 1))
 
     def test_keep_all(self):
         sid1 = snapshots.SID('20160424-215134-123', self.cfg)
