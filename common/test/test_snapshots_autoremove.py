@@ -259,7 +259,8 @@ class OnePerWeek(pyfakefs_ut.TestCase):
                 date(2024, 11, 2),
                 date(2024, 11, 9),
                 date(2024, 11, 16),
-                date(2024, 11, 23)
+                date(2024, 11, 23),
+                # date(2024, 11, 25)
             ],
             None,
             self.cfg
@@ -396,7 +397,6 @@ class IncDecMonths(pyfakefs_ut.TestCase):
     def test_dec_leap_months(self):
         sut = self.sn.decMonth(date(2020, 2, 29))
         self.assertEqual(sut, date(2020, 1, 1))
-
 
 
 class SmartRemove(generic.SnapshotsTestCase):
