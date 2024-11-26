@@ -398,6 +398,7 @@ class IncDecMonths(pyfakefs_ut.TestCase):
         self.assertEqual(sut, date(2020, 1, 1))
 
 
+
 class SmartRemove(generic.SnapshotsTestCase):
     """This is the old/original test case using real filesystem and to much
     dependencies."""
