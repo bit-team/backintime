@@ -24,25 +24,6 @@ import config  # noqa: E402,RUF100
 import snapshots  # noqa: E402,RUF100
 
 
-# def timestmap2sidstr(year,
-#                      month,
-#                      day,
-#                      hour=None,
-#                      minute=None,
-#                      seconds=None,
-#                      tag=123):
-#     """Create a SID identification string out ouf date and time infos."""
-#     return '{year:04}{month:02}{day:02}-' \
-#             '{hour:02}{minute:02}{seconds:02}-{tag}'.format(
-#                 year=year,
-#                 month=month,
-#                 day=day,
-#                 hour=hour or 7,
-#                 minute=minute or 42,
-#                 seconds=seconds or 31,
-#                 tag=tag)
-
-
 def dt2sidstr(d: Union[date, datetime], t: time = None, tag: int = 123):
     """Create a SID identification string out ouf a date and time infos."""
     if not t:
@@ -74,11 +55,17 @@ def sid2str(sid):
     return result
 
 
-def create_SIDs(start_date: Union[date, datetime],
+def create_SIDs(start_date: Union[date, datetime, list[date]],
                 days: int,
                 cfg: config.Config):
     sids = []
-    for d in [start_date + timedelta(days=x) for x in range(days)]:
+
+    if isinstance(start_date, list):
+        the_dates = start_date
+    else:
+        the_dates = [start_date + timedelta(days=x) for x in range(days)]
+
+    for d in the_dates:
         sids.append(snapshots.SID(dt2sidstr(d), cfg))
 
     return sids
@@ -247,7 +234,7 @@ class OnePerWeek(pyfakefs_ut.TestCase):
         for i in range(0, n_weeks):
 
             min_date = idx_date
-            max_date = idx_date + timedelta(days=8)
+            max_date = idx_date + timedelta(days=7)
 
             print(f'    from {dt2str(min_date)} to/before {dt2str(max_date)}')
             keep |= self.sn.smartRemoveKeepFirst(
@@ -255,6 +242,7 @@ class OnePerWeek(pyfakefs_ut.TestCase):
                 min_date,
                 max_date,
                 keep_healthy=keep_healthy)
+            print(f'       {keep=}')
 
             idx_date -= timedelta(days=7)
             print(f'    new idx_date={dt2str(idx_date)}')
@@ -264,10 +252,20 @@ class OnePerWeek(pyfakefs_ut.TestCase):
 
     def test_foobar(self):
         start = date(2022, 1, 15)
-        now = date(2022, 3, 5)
-        sids = create_SIDs(start, 9*7+3, self.cfg)
+        now = date(2024, 11, 26)
+        # sids = create_SIDs(start, 9*7+3, self.cfg)
+        sids = create_SIDs(
+            [
+                date(2024, 11, 2),
+                date(2024, 11, 9),
+                date(2024, 11, 16),
+                date(2024, 11, 23)
+            ],
+            None,
+            self.cfg
+        )
 
-        weeks = 5
+        weeks = 3
         sut = self._org(
             # "Today" is Thursday 28th March
             now=now,
