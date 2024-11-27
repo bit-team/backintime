@@ -25,6 +25,6 @@ common
    schedule
    snapshotlog
    snapshots
-   sshMaxArg
+   ssh_max_arg
    sshtools
    tools

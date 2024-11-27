@@ -1703,22 +1703,23 @@ class MainWindow(QMainWindow):
 
         self.openPath(rel_path)
 
-    def tmpCopy(self, full_path, sid = None):
-        """
-        Create a temporary local copy of the file ``full_path`` and add the
-        temp folder to ``self.tmpDirs`` which will remove them on exit.
+    def tmpCopy(self, full_path, sid=None):
+        """Create a temporary local copy a file or directory.
+
+        The name of is of the pattern ``backintime_[tmp_str]_[snapshotID]``.
+        Clean up is done when closing BIT based on ``self.tmpDirs``.
 
         Args:
-            full_path (str):        path to original file
-            sid (snapshots.SID):    snapshot ID used as temp folder suffix
+            full_path (str): Path to original file or directory.
+            sid (snapshots.SID): Snapshot identifier.
 
         Returns:
-            str:                    temporary path to file
+            str: Path to the temporary file or directory.
         """
         if sid:
             sid = '_' + sid.sid
 
-        d = TemporaryDirectory(suffix = sid)
+        d = TemporaryDirectory(prefix='backintime_', suffix = sid)
         tmp_file = os.path.join(d.name, os.path.basename(full_path))
 
         if os.path.isdir(full_path):
