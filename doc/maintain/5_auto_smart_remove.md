@@ -7,9 +7,11 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES folder or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
+# Auto- & Smart-Remove
+## Table of contents
 * [Introduction](#introduction)
-* [What we know](#what_we_know)
-* [What we don't](#what_we_dont_know)
+* [What we know](#what-we-know)
+* [What we don't](#what-we-dont-know)
 
 # Introduction
 The actual auto- and smart-remove behavior of BIT will be described in this
