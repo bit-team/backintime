@@ -1722,7 +1722,7 @@ class MainWindow(QMainWindow):
         tmp_file = os.path.join(d.name, os.path.basename(full_path))
 
         if os.path.isdir(full_path):
-            shutil.copytree(full_path, tmp_file)
+            shutil.copytree(full_path, tmp_file, symlinks=True)
         else:
             shutil.copy(full_path, d.name)
 
