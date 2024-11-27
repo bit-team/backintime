@@ -20,7 +20,30 @@ decide how that feature can be revised. See
 [Meta Issue #1945](https://github.com/bit-team/backintime/issues/1945) about
 the background story.
 
+![Aut-remove tab](https://translate.codeberg.org/media/screenshots/bit_manage_profiles_autoremove.gif)
+
 # What we know
+## Location in code
+* `common/snapshots.py`
+  * `Snapshots.freeSpace()` is the main entry for the overall logic.
+  * `Snapshots.smartRemoveList()` is called by `freeSpace()` and is the entry
+    for _Smart remove_ related rules.
+
+## Weekly
+GUI wording: _Keep one snapshot per week for the last `N` week(s)._
+
+Current behavior of the algorithm:
+* A "week" is defined based on the weekdays Monday to Sunday.
+* The first week BIT is looking into is the current week even if it is not
+  completed yet. E.g. today is Wednesday the 27th November, BIT will look
+  for existing backups starting with Sunday the 24th ending and including the
+  Saturday 30th November.
+* If there is not backup in the current week found that week is "lost" and
+  there will only be `N-1` backups in the resulting list of weekly backups.
+* See
+  * [#1094](https://github.com/bit-team/backintime/issues/1094)
+  * [PR #1944](https://github.com/bit-team/backintime/pull/1944)
+  * [PR #1819](https://github.com/bit-team/backintime/pull/1819)
 
 # What we don't know
 A lot!
