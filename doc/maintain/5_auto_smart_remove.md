@@ -29,7 +29,26 @@ the background story.
   * `Snapshots.smartRemoveList()` is called by `freeSpace()` and is the entry
     for _Smart remove_ related rules.
 
-## Weekly
+## Ordering and interferance of the rules
+1. Remove snapshots older than N years.
+2. Smart-remove rules with calling `Snapshots.smartRemoveList`.
+  1. Don't if there is only one backup left.
+  2. Always keep the latest/youngest backup.
+  3. Keep one per day for N days.
+  4. Keep one per week for N weeks.
+  5. keep one per month for N months.
+  6. Keep one per year for all years.
+3. Free space: Remove until there is enough.
+4. Free inodes: Remove until there are enough.
+
+## Older than N years
+- `self.config.removeOldSnapshotsDate()`
+- Backups removed immediatly before executing any other rule.
+
+## Smart remove: Daily
+GUI wording: _Keep all snapshots for the last `N` day(s)._
+
+## Smart remove: Weekly
 GUI wording: _Keep one snapshot per week for the last `N` week(s)._
 
 Current behavior of the algorithm:
@@ -45,7 +64,24 @@ Current behavior of the algorithm:
   * [PR #1944](https://github.com/bit-team/backintime/pull/1944)
   * [PR #1819](https://github.com/bit-team/backintime/pull/1819)
 
+
+
+## Smart remove: Monthly
+GUI wording: _Keep one snapshot per months for the last `N` month(s)._
+
+## Free space
+- Remove until enough free disc space (`self.config.minFreeSpaceMib()`).
+- Immediatly removed before executing any other rule.
+
+## Free inodes
+- Remove until enough free inodes (`self.config.minFreeInodes()`)
+- Immediatly removed before executing any other rule.
+
 # What we don't know
 A lot!
+
+# Things to discuss and considere
+* Is there a need to separate between "Auto" and "Smart" in the wording? I
+  would prefer just "Auto".
 
 <sub>December 2024</sub>

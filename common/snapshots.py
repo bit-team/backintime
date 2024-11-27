@@ -926,6 +926,7 @@ class Snapshots:
                                 # "continue on errors" is enabled
 
                             if not ret_error:
+                                # Start auto- and smart-remove
                                 self.freeSpace(now)
                                 self.setTakeSnapshotMessage(
                                     0, _('Please be patient. Finalizing…'))
@@ -1626,16 +1627,13 @@ class Snapshots:
         # First day of previous month
         return datetime.date(year=prev.year, month=prev.month, day=1)
 
-
     def smartRemoveList(self,
                         now_full,
                         keep_all,
                         keep_one_per_day,
                         keep_one_per_week,
                         keep_one_per_month):
-        """
-        Get a list of old snapshots that should be removed based on configurable
-        intervals.
+        """Get list of backups to be removed based on configurable intervals.
 
         Args:
             now_full (datetime.datetime):   date and time when takeSnapshot was
@@ -1651,8 +1649,10 @@ class Snapshots:
 
         Returns:
             list:                           snapshots that should be removed
+
         """
-        snapshots = listSnapshots(self.config)
+        # Latest/younges backup first, the oldest is last
+        snapshots = listSnapshots(self.config, reverse=True)
         logger.debug(f'Considered: {snapshots}', self)
 
         if len(snapshots) <= 1:
@@ -1664,7 +1664,7 @@ class Snapshots:
 
         now = now_full.date()
 
-        # keep the last snapshot
+        # keep the last/youngest backup
         keep = set([snapshots[0]])
 
         # keep all for the last keep_all days
@@ -1831,28 +1831,28 @@ class Snapshots:
                 self.remove(sid)
 
     def freeSpace(self, now):
-        """
-        Remove old snapshots on based on different rules (only if enabled).
-        First rule is to remove snapshots older than X years. Next will call
-        :py:func:`smartRemove` to remove snapshots based on
-        configurable intervals. Third rule is to remove the oldest snapshot
-        until there is enough free space. Last rule will remove the oldest
-        snapshot until there are enough free inodes.
+        """Remove old backups based on several rules (if enabled).
 
-        'last_snapshot' symlink will be fixed when done.
+        Rules are considered in the following order:
+        1. Remove snapshots older than X years.
+        2. Smart-remove rules with calling :py:func:`smartRemoveList`. See
+           there for details.
+        3. Remove the oldest backup until there is enough free space.
+        4. Remove the oldest backup until there are enough free inodes.
+
+        The 'last_snapshot' symlink will be fixed when done.
 
         Args:
-            now (datetime.datetime):    date and time when takeSnapshot was
-                                        started
+            now (datetime.datetime): Timestamp when takeSnapshot was started.
         """
-        snapshots = listSnapshots(self.config, reverse = False)
+        snapshots = listSnapshots(self.config, reverse=False)
         if not snapshots:
             logger.debug('No snapshots. Skip freeSpace', self)
             return
 
         last_snapshot = snapshots[-1]
 
-        #remove old backups
+        # Remove old backups
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(0, _('Removing old snapshots'))
 
@@ -1887,7 +1887,7 @@ class Snapshots:
                                                  keep_one_per_month)
             self.smartRemove(del_snapshots)
 
-        # try to keep min free space
+        # Try to keep min free space
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
@@ -1895,7 +1895,7 @@ class Snapshots:
 
             logger.debug("Keep min free disk space: {} MiB".format(minFreeSpace), self)
 
-            snapshots = listSnapshots(self.config, reverse = False)
+            snapshots = listSnapshots(self.config, reverse=False)
 
             while True:
                 if len(snapshots) <= 1:
@@ -1923,7 +1923,7 @@ class Snapshots:
                 self.remove(snapshots[0])
                 del snapshots[0]
 
-        #try to keep free inodes
+        # Try to keep free inodes
         if self.config.minFreeInodesEnabled():
             minFreeInodes = self.config.minFreeInodes()
             self.setTakeSnapshotMessage(
@@ -1944,7 +1944,7 @@ class Snapshots:
                 try:
                     info = os.statvfs(self.config.snapshotsPath())
                     free_inodes = info.f_favail
-                    max_inodes  = info.f_files
+                    max_inodes = info.f_files
                 except Exception as e:
                     logger.debug('Failed to get free inodes for snapshot path %s: %s'
                                  % (self.config.snapshotsPath(), str(e)),
@@ -1965,7 +1965,7 @@ class Snapshots:
                 self.remove(snapshots[0])
                 del snapshots[0]
 
-        #set correct last snapshot again
+        # Set correct last snapshot again
         if last_snapshot is not snapshots[-1]:
             self.createLastSnapshotSymlink(snapshots[-1])
 
@@ -3073,17 +3073,16 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg, includeNewSnapshot = False):
-    """
-    A generator to iterate over snapshots in current snapshot path.
+def iterSnapshots(cfg, includeNewSnapshot=False):
+    """A generator to iterate over snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config):        current config
-        includeNewSnapshot (bool):  include a NewSnapshot instance if
-                                    'new_snapshot' folder is available.
+        cfg (config.Config): Current config instance.
+        includeNewSnapshot (bool): Include a NewSnapshot instance if
+            'new_snapshot' directory is available (default: False).
 
     Yields:
-        SID:                        snapshot IDs
+        SID: Snapshot IDs
     """
     path = cfg.snapshotsFullPath()
 
@@ -3115,21 +3114,22 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
                     "'{}' is not a snapshot ID: {}".format(item, str(e)))
 
 
-def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
+def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
     """
     List of snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config):        current config (config.Config instance)
-        includeNewSnapshot (bool):  include a NewSnapshot instance if
-                                    'new_snapshot' folder is available
-        reverse (bool):             sort reverse
+        cfg (config.Config): Current config instance.
+        includeNewSnapshot (bool): Include a NewSnapshot instance if
+            'new_snapshot' directory is available (default: False).
+        reverse (bool): Sort reverse (default: True).
 
     Returns:
-        list:                       list of :py:class:`SID` objects
+        list: List of :py:class:`SID` objects.
     """
     ret = list(iterSnapshots(cfg, includeNewSnapshot))
-    ret.sort(reverse = reverse)
+    ret.sort(reverse=reverse)
+
     return ret
 
 
