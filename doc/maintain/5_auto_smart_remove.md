@@ -32,12 +32,12 @@ the background story.
 ## Ordering and interferance of the rules
 1. Remove snapshots older than N years.
 2. Smart-remove rules with calling `Snapshots.smartRemoveList`.
-  1. Don't if there is only one backup left.
-  2. Always keep the latest/youngest backup.
-  3. Keep one per day for N days.
-  4. Keep one per week for N weeks.
-  5. keep one per month for N months.
-  6. Keep one per year for all years.
+   1. Don't if there is only one backup left.
+   2. Always keep the latest/youngest backup.
+   3. Keep one per day for N days.
+   4. Keep one per week for N weeks.
+   5. keep one per month for N months.
+   6. Keep one per year for all years.
 3. Free space: Remove until there is enough.
 4. Free inodes: Remove until there are enough.
 
