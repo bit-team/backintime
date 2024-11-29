@@ -84,4 +84,16 @@ A lot!
 * Is there a need to separate between "Auto" and "Smart" in the wording? I
   would prefer just "Auto".
 
+# How it could be
+## Overview
+The following does not reflect the real behavior. It is a draft and suggestion
+for the auto-/smart-remove related behavior of BIT and how to implement it.
+
+## Weekly
+- Define "week" as calendar element from Monday to Sunday.
+- Ignore the current running and incomplete week.
+- Keep the latest/newest backup per week. So it would be Sunday if available.
+- Maybe as an option: Keep the oldest backup per week.
+- Wording: _Keep one weekly backup for the past N weeks._
+
 <sub>December 2024</sub>
