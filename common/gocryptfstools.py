@@ -15,11 +15,11 @@ from mount import MountControl
 from exceptions import MountException
 
 
-class GoCryptFS_mount(MountControl):
+class GocryptfsMount(MountControl):
     """
     """
     def __init__(self, *args, **kwargs):
-        super(GoCryptFS_mount, self).__init__(*args, **kwargs)
+        super(GocryptfsMount, self).__init__(*args, **kwargs)
 
         # Workaround for some linters.
         self.path = None

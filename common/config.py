@@ -284,7 +284,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         _('Encryption')
                     ),
                     'local_gocryptfs':(
-                        gocryptfstools.GoCryptFS_mount,
+                        gocryptfstools.GocryptfsMount,
                         _('Local encrypted') + ' (gocryptfs)',
                         _('Encryption'),
                         False
