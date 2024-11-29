@@ -389,7 +389,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs
+        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
 
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
@@ -427,7 +427,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -1573,6 +1573,8 @@ class Config(configfile.ConfigFileWithProfiles):
                 dest_path = self.snapshotsFullPath(profile_id)
             elif mode == 'local_encfs':
                 dest_path = self.localEncfsPath(profile_id)
+            elif mode == 'local_gocryptfs':
+                dest_path = self.localGocryptfsPath(profile_id)
             else:
                 logger.error(
                     f"Udev scheduling doesn't work with mode {mode}", self)
