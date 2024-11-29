@@ -715,7 +715,9 @@ class GeneralTab(QDialog):
 
             self.mode = active_mode
 
-            self.modeLocal.setVisible(active_mode in ('local', 'local_encfs'))
+            self.modeLocal.setVisible(
+                active_mode in ('local', 'local_encfs', 'local_gocryptfs')
+            )
             self.modeSsh.setVisible(active_mode in ('ssh', 'ssh_encfs'))
             # self.modeLocalEncfs = self.modeLocal
             # self.modeSshEncfs = self.modeSsh
