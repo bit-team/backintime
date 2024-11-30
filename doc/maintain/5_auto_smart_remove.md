@@ -94,6 +94,7 @@ for the auto-/smart-remove related behavior of BIT and how to implement it.
 - Ignore the current running and incomplete week.
 - Keep the latest/newest backup per week. So it would be Sunday if available.
 - Maybe as an option: Keep the oldest backup per week.
-- Wording: _Keep one weekly backup for the past N weeks._
+- Wording:
+  - _Keep one weekly backup for the preceding N weeks._
 
 <sub>December 2024</sub>
