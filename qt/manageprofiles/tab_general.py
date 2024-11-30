@@ -487,7 +487,7 @@ class GeneralTab(QDialog):
             try:
                 mnt.init(mode=self.config.snapshotsMode(), **mount_kwargs)
             except MountException as ex:
-                self.errorHandler(str(ex))
+                messagebox.critical(self, str(ex))
                 return False
         try:
             # This will run several checks depending on the snapshots mode
