@@ -61,19 +61,21 @@ def read_crontab():
 
     Returns:
         list: Crontab lines.
-
-    Dev notes (buhtz, 2024-05): Might should raise exception on errors.
     """
-    try:
-        proc = subprocess.run(
-            [CRONTAB_COMMAND, '-l'],
-            check=True,
-            capture_output=True,
-            text=True)
+    proc = subprocess.run(
+        [CRONTAB_COMMAND, '-l'],
+        check=False,
+        capture_output=True,
+        text=True)
 
-    except subprocess.CalledProcessError as err:
-        logger.error(f'Failed to get content via "{CRONTAB_COMMAND}". '
-                     f'Return code of {err.cmd} was {err.returncode}.')
+    # Error?
+    if proc.returncode != 0:
+        # Ignore missing crontabs
+        if not proc.stderr.startswith('no crontab for'):
+            logger.error(f'Failed to get content via "{CRONTAB_COMMAND}". '
+                         f'Return code of {proc.args} was {proc.returncode}. '
+                         f'Stderr: {proc.stderr}')
+
         return []
 
     content = proc.stdout.split('\n')
