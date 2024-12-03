@@ -1491,7 +1491,7 @@ def keyringSupported():
 
     try:
         for b in backend.get_all_keyring():
-            logger.debug(b)
+            logger.debug(str(b))
     except Exception as e:
         logger.debug("Available backends cannot be listed: " + repr(e))
 
