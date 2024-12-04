@@ -409,7 +409,7 @@ class Mount:
 
     def init(self, mode = None, **kwargs):
         """
-        High-level init. Run :py:func:`MountControl.init` to initiade
+        High-level init. Run :py:func:`MountControl.init` to initiate
         the backend if not configured yet.
 
         Args:
