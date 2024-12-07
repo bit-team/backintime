@@ -58,7 +58,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - [Project & more](#project--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
-   * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-e-g-codeberg-gitlab-)
+   * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -1265,14 +1265,15 @@ maintainers if _Back In Time_ is unavailable or out dated.
 
 ## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
 
-We also believe that stying with Microsoft GitHub is not a good idea. Microsoft
+We also believe that staying with Microsoft GitHub is not a good idea. Microsoft
 GitHub does not offer any exclusive feature for our project that another hoster
-could not also provide. But a migration is a matter of time and ressources we
+could not also provide. But a migration is a matter of time and resources we
 currently do not have. But it is on our list. And with the current state of
 discussion we seem to target [Cdeberg.org](https://codeberg.org].
 
 For more details please see
 [this thread on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/O5XZ5SPW6WIFBFKWUBHSOUIBKEUIBPNM/).
+
 
 # Testing & Building
 
