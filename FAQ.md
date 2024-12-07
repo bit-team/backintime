@@ -27,6 +27,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
    * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
    * [What happens when I remove a snapshot?](#what-happens-when-i-remove-a-snapshot)
+   * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
    * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
@@ -408,6 +409,59 @@ snapshot removes this whole directory.  Each snapshot is independent of the
 others, so other snapshots are not affected. However, the data of identical files is
 not stored redundantly by multiple snapshots, so removing a snapshot will only
 recover the space used by files that are unique to that snapshot.
+
+## How can I exclude cache folders to improve backup speed and reduce storage?
+
+**Why exclude cache folders?**
+
+Cache folders typically contain temporary files that are not necessary for backups. 
+Excluding them can significantly improve backup speed and reduce storage usage.
+
+**How to exclude cache folders:**
+
+1. Open Back in Time.
+2. Go to the **Exclude Patterns** settings:
+   - Click the "Exclude" tab in the configuration window.
+   - Click the **Add** button to create a new exclude pattern.
+
+3. Add the following patterns to exclude common cache directories:
+   ```plaintext
+   .var/app/**/[Cc]ache/
+   .var/app/**/media_cache/
+   .mozilla/firefox/**/cache/
+   .config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage/
+   ```
+
+**Explanation**:
+
+- `/**/` matches any directory structure leading to the specified folder.
+- `[Cc]ache` matches folder names with either uppercase or lowercase "Cache."
+
+4. Decide whether to include or exclude the folder itself:
+   - To exclude only the folder’s content, use `/*` at the end of the pattern:
+     ```plaintext
+     .var/app/**/[Cc]ache/*
+     ```
+   - To exclude the folder and its contents, omit the `/*`:
+     ```plaintext
+     .var/app/**/[Cc]ache/
+     ```
+
+**Tips for better results:**
+
+- **Check Backup Logs**:  
+  After running a backup, review the logs to identify additional folders that may 
+  slow down the process. Example log entries for cache files:
+  ```plaintext
+  [E] Skipping file /path/to/cache/file: Too many small files.
+  ```
+
+- **Customize Patterns**:  
+  Adjust the patterns to suit your specific applications. For example, modify paths 
+  for browsers or other software you use.
+
+- **Test Exclude Patterns**:  
+  Test your backup after adding patterns to ensure they work as intended.
 
 
 # Restore
