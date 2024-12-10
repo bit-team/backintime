@@ -55,9 +55,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
-- [Uncategorized questions](#uncategorized-questions)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
+- [Project & more](#project--more)
+   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
+   * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -1227,9 +1228,9 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
    ```
 
 
-# Uncategorized questions
+# Project & more
 
-## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
+## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
 which will make it possible to restore permissions correctly even if UID/GID
@@ -1260,6 +1261,18 @@ need to prioritize tasks. Another reasons is that their are distro maintainers
 with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their
 maintainers if _Back In Time_ is unavailable or out dated.
+
+
+## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
+
+We also believe that staying with Microsoft GitHub is not a good idea. Microsoft
+GitHub does not offer any exclusive feature for our project that another hoster
+could not also provide. But a migration is a matter of time and resources we
+currently do not have. But it is on our list. And with the current state of
+discussion we seem to target [Codeberg.org](https://codeberg.org).
+
+For more details please see
+[this thread on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/O5XZ5SPW6WIFBFKWUBHSOUIBKEUIBPNM/).
 
 
 # Testing & Building
