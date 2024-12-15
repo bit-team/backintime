@@ -2437,6 +2437,8 @@ class SID:
 
         if isinstance(date, datetime.datetime):
             self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'), self.config.tag(self.profileID)))
+            # TODO: Don't use "date" as attribute name. Btw: It is not a date
+            # but a datetime.
             self.date = date
 
         elif isinstance(date, datetime.date):
@@ -2600,18 +2602,6 @@ class SID:
             str:    YYYYMMDD-HHMMSS
         """
         return self.sid[0:15]
-
-    # @property
-    # def datetime(self) -> datetime.datetime:
-    #     """Snapshot ID as datetime.
-    #     """
-    #     return datetime.strptime(self.sid[:15], '%Y%m%d-%H%M%S')
-
-    # @property
-    # def date(self) -> datetime.date:
-    #     """Snapshot ID as date.
-    #     """
-    #     return self.datetime.date()
 
     def path(self, *path, use_mode = []):
         """
