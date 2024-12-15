@@ -65,10 +65,11 @@ features. This work is carried out voluntarily during their limited spare time.
 
  * [FAQ - Frequently Asked Questions](FAQ.md)
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
- * [Mailing list
+ * ✉ [Mailing list
    _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for
    **every topic**, question and idea about _Back In Time_. Despite its name
    it is not restricted to development topics only.
+ * In the Fediverse on Mastodon: [@backintime@fosstodon.org](https://fosstodon.org/@backintime)
  * Use [Issues](https://github.com/bit-team/backintime/issues) to ask
    questions and report bugs.
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)

@@ -2016,11 +2016,17 @@ class MainWindow(QMainWindow):
     def _open_release_candidate_dialog(self):
         html_contact_list = (
             '<ul>'
+            '<li>{mastodon}</li>'
             '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
+                mastodon=_('In the Fediverse at Mastodon: {link_and_label}') \
+                    .format(link_and_label='<a href="https://fosstodon.org'
+                                           '/@backintime">'
+                                           '@backintime@fosstodon.org'
+                                           '</a>'),
                 email=_('Email to {link_and_label}.').format(
                     link_and_label='<a href="mailto:backintime@tuta.io">'
                                    'backintime@tuta.io</a>'),
