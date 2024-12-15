@@ -134,16 +134,61 @@ class KeepFirst(pyfakefs_ut.TestCase):
         self.assertIsInstance(sut, set)
         self.assertTrue(len(sut), 1)
 
-    def test_simple(self):
+    def test_simple_one(self):
         """First element in a range of SIDs"""
         sids = create_SIDs(
             datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg)
 
         sut = self.sn.smartRemoveKeepFirst(
             sids, date(2022, 3, 5), datetime.now().date())
+
         sut = sut.pop()
 
         self.assertTrue(str(sut).startswith('20220305-074231-'))
+
+    def test_no_date_ordering(self):
+        """Hit first in the list and ignoring its date ordering.
+
+        The list of snapshots is not ordered anywhere."""
+        sids = []
+        # April, 2016...
+        for timestamp_string in ['20160424-215134-123',  # …24th
+                                 # This SID will hit because it is the first
+                                 # in the range specified.
+                                 '20160422-030324-123',  # …22th
+                                 '20160422-020324-123',  # …22th
+                                 '20160422-010324-123',  # …22th
+                                 # This might be the earliest/first SID in the
+                                 # date range specified but it is not the first
+                                 # in the list. So it won't be hit.
+                                 '20160421-013218-123',  # …21th
+                                 '20160410-134327-123']:  # …10th
+            sids.append(snapshots.SID(timestamp_string, self.cfg))
+
+        sut = self.sn.smartRemoveKeepFirst(sids,
+                                            date(2016, 4, 20),
+                                            date(2016, 4, 23))
+
+        self.assertEqual(str(sut.pop()), '20160422-030324-123')
+
+    def test_keep_first_range_outside(self):
+        sids = []
+        # April, 2016...
+        for timestamp_string in ['20160424-215134-123',  # …24th
+                                 '20160422-030324-123',  # …22th
+                                 '20160422-020324-123',  # …22th
+                                 '20160422-010324-123',  # …22th
+                                 '20160421-013218-123',  # …21th
+                                 '20160410-134327-123']:  # …10th
+            sids.append(snapshots.SID(timestamp_string, self.cfg))
+
+        # Between 11th and 18th April
+        sut = self.sn.smartRemoveKeepFirst(sids,
+                                           date(2016, 4, 11),
+                                           date(2016, 4, 18))
+
+        # None will hit, because no SID in that range.
+        self.assertEqual(len(sut), 0)
 
     @mock.patch.object(snapshots.SID, 'failed', new_callable=lambda: True)
     def test_all_invalid(self, _mock_failed):
@@ -399,7 +444,7 @@ class IncDecMonths(pyfakefs_ut.TestCase):
         self.assertEqual(sut, date(2020, 1, 1))
 
 
-class SmartRemove(generic.SnapshotsTestCase):
+class OldOrg_SmartRemove(generic.SnapshotsTestCase):
     """This is the old/original test case using real filesystem and to much
     dependencies."""
 
@@ -420,25 +465,6 @@ class SmartRemove(generic.SnapshotsTestCase):
         keep = self.sn.smartRemoveKeepAll(sids,
                                                date(2016, 4, 11),
                                                date(2016, 4, 18))
-        self.assertSetEqual(keep, set())
-
-    def test_keep_first(self):
-        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
-        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
-        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
-        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
-
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 20),
-                                            date(2016, 4, 23))
-        self.assertSetEqual(keep, set((sid2,)))
-
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 11),
-                                            date(2016, 4, 18))
         self.assertSetEqual(keep, set())
 
     def test_keep_first_no_errors(self):

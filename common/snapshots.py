@@ -1545,46 +1545,52 @@ class Snapshots:
                              snapshots,
                              min_date,
                              max_date,
-                             keep_healthy = False):
+                             keep_healthy=False):
         """
-        Return only the first snapshot between ``min_date`` and ``max_date``.
+        Return the first snapshot between ``min_date`` and ``max_date``.
+
+        The first snapshot in ``snapshots`` that hit the range between
+        ``min_date`` and ``max_date`` will be returned. Snapshots outthat that
+        range are also lost. The list is not ordered by date.
 
         Args:
-            snapshots (list):           full list of :py:class:`SID` objects
-            min_date (datetime.date):   minimum date for snapshots to keep
-            max_date (datetime.date):   maximum date for snapshots to keep
-            keep_healthy (bool):        return the first healthy snapshot (not
-                                        marked as failed) instead of the first
-                                        at all. If all snapshots failed this
-                                        will again return the very first
-                                        snapshot
+            snapshots (list): Full list of :py:class:`SID` objects.
+            min_date (datetime.date): Minimum date for snapshots to keep.
+            max_date (datetime.date): Maximum date (newer than ``min_date``)
+                for snapshots to keep
+            keep_healthy (bool): Return the first healthy snapshot (not marked
+                as failed) instead of the first at all. If all snapshots failed
+                this will again return the very first snapshot.
 
         Returns:
-            set:                        set of snapshots that should be kept
+            set: Set of one snapshot that should be kept or an empty set.
         """
         # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
 
-        logger.debug("Keep first >= %s and < %s" %(min_id, max_id), self)
+        logger.debug("Keep first >= %s and < %s" % (min_id, max_id), self)
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
             if keep_healthy and sid.failed:
-                logger.debug("Do not keep failed snapshot %s" %sid, self)
+                logger.debug("Do not keep failed snapshot %s" % sid, self)
                 continue
+
             # DEBUG
             # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
+
             if sid >= min_id and sid < max_id:
                 # print(f'  return {str(sid)}')
                 return set([sid])
+
         # if all snapshots failed return the first snapshot
         # no matter if it has errors
         if keep_healthy:
             return self.smartRemoveKeepFirst(snapshots,
                                              min_date,
                                              max_date,
-                                             keep_healthy = False)
+                                             keep_healthy=False)
         return set()
 
     def incMonth(self, date):

@@ -57,7 +57,7 @@ Current behavior of the algorithm:
   completed yet. E.g. today is Wednesday the 27th November, BIT will look
   for existing backups starting with Sunday the 24th ending and including the
   Saturday 30th November.
-* If there is not backup in the current week found that week is "lost" and
+* If there is no backup in the current week found, that week is "lost" and
   there will only be `N-1` backups in the resulting list of weekly backups.
 * See
   * [#1094](https://github.com/bit-team/backintime/issues/1094)
