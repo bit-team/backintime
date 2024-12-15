@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+from __future__ import annotations
 import os
 from pathlib import Path
 import stat
@@ -1520,26 +1521,27 @@ class Snapshots:
         return [True, has_errors]
 
     def smartRemoveKeepAll(self,
-                           snapshots,
-                           min_date,
-                           max_date):
+                           snapshots: list[SID],
+                           min_date: datetime.date,
+                           max_date: datetime.date) -> set[SID]:
         """
         Return all snapshots between ``min_date`` and ``max_date``.
 
         Args:
-            snapshots (list):           full list of :py:class:`SID` objects
-            min_date (datetime.date):   minimum date for snapshots to keep
-            max_date (datetime.date):   maximum date for snapshots to keep
+            snapshots (list): Full list of :py:class:`SID` objects.
+            min_date (datetime.date): Minimum date (included in the range).
+            max_date (datetime.date): Maximum date (excluded from the range).
 
         Returns:
-            set:                        set of snapshots that should be kept
+            set: Set of snapshots that should be kept.
         """
-        min_id = SID(min_date, self.config)
-        max_id = SID(max_date, self.config)
+        logger.debug(f'Keep all >= {min_date} < {max_date}', self)
 
-        logger.debug("Keep all >= %s and < %s" %(min_id, max_id), self)
+        result = filter(lambda sid: sid.date.date() >= min_date
+                        and sid.date.date() < max_date,
+                        snapshots)
 
-        return set([sid for sid in snapshots if sid >= min_id and sid < max_id])
+        return set(result)
 
     def smartRemoveKeepFirst(self,
                              snapshots,
@@ -2598,6 +2600,18 @@ class SID:
             str:    YYYYMMDD-HHMMSS
         """
         return self.sid[0:15]
+
+    # @property
+    # def datetime(self) -> datetime.datetime:
+    #     """Snapshot ID as datetime.
+    #     """
+    #     return datetime.strptime(self.sid[:15], '%Y%m%d-%H%M%S')
+
+    # @property
+    # def date(self) -> datetime.date:
+    #     """Snapshot ID as date.
+    #     """
+    #     return self.datetime.date()
 
     def path(self, *path, use_mode = []):
         """

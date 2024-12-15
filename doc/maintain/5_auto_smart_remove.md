@@ -42,11 +42,19 @@ the background story.
 4. Free inodes: Remove until there are enough.
 
 ## Older than N years
-- `self.config.removeOldSnapshotsDate()`
+- Happens in `Snapshots.freeSpace()`
+- Relevant also `self.config.removeOldSnapshotsDate()`
 - Backups removed immediatly before executing any other rule.
+- Named snaphots ignored and kept.
 
 ## Smart remove: Daily
 GUI wording: _Keep all snapshots for the last `N` day(s)._
+
+Current behavior of the algorithm:
+* Bug was that in some cases `N-1` days are kept.
+  * Reason was that not dates but snapshotIDS (included their tags, the last 3
+    digits) are used for comparision.
+  * The bug is fixed.
 
 ## Smart remove: Weekly
 GUI wording: _Keep one snapshot per week for the last `N` week(s)._
