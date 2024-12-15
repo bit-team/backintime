@@ -207,6 +207,28 @@ class KeepFirst(pyfakefs_ut.TestCase):
             keep_healthy=True)
         self.assertTrue(len(sut), 0)
 
+    @mock.patch.object(snapshots.SID, 'failed', new_callable=mock.PropertyMock)
+    def test_ignore_unhealthy(self, mock_failed):
+        # The second call to failed-property returns True
+        mock_failed.side_effect = [False, True, False, False, False, False]
+        sids = []
+        for timestamp_string in ['20160424-215134-123',
+                                 # could be hit, but is NOT healthy
+                                 '20160422-030324-123',
+                                 # hit this
+                                 '20160422-020324-123',
+                                 '20160422-010324-123',
+                                 '20160421-013218-123',
+                                 '20160410-134327-123']:
+            sids.append(snapshots.SID(timestamp_string, self.cfg))
+
+        # keep the first healthy snapshot
+        sut = self.sn.smartRemoveKeepFirst(sids,
+                                           date(2016, 4, 20),
+                                           date(2016, 4, 23),
+                                           keep_healthy=True)
+        self.assertEqual(str(sut.pop()), '20160422-020324-123')
+
 
 class OnePerWeek(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep one snapshot per week for the
@@ -466,34 +488,6 @@ class OldOrg_SmartRemove(generic.SnapshotsTestCase):
                                                date(2016, 4, 11),
                                                date(2016, 4, 18))
         self.assertSetEqual(keep, set())
-
-    def test_keep_first_no_errors(self):
-        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
-        sid2.makeDirs()
-        sid2.failed = True
-        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
-        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
-        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
-
-        # keep the first healthy snapshot
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 20),
-                                            date(2016, 4, 23),
-                                            keep_healthy = True)
-        self.assertSetEqual(keep, set((sid3,)))
-
-        # if all snapshots failed, keep the first at all
-        for sid in (sid3, sid4, sid5):
-            sid.makeDirs()
-            sid.failed = True
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 20),
-                                            date(2016, 4, 23),
-                                            keep_healthy = True)
-        self.assertSetEqual(keep, set((sid2,)))
 
     def test_smart_remove_list(self):
         sid1  = snapshots.SID('20160424-215134-123', self.cfg)
