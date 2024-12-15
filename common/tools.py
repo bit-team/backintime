@@ -279,7 +279,7 @@ def set_lc_time_by_language_code(language_code: str):
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
-        logger.warning(
+        logger.debug(
             f'Determined normalized locale code "{code}" (from language code '
             f'"{language_code}") not available (or invalid). The code will be '
             'ignored. This might lead to unusual display of dates and '
@@ -1491,7 +1491,7 @@ def keyringSupported():
 
     try:
         for b in backend.get_all_keyring():
-            logger.debug(b)
+            logger.debug(str(b))
     except Exception as e:
         logger.debug("Available backends cannot be listed: " + repr(e))
 
