@@ -1567,6 +1567,7 @@ class Snapshots:
         Returns:
             set: Set of one snapshot that should be kept or an empty set.
 
+        TODO: It should compare datest not SIDs because of their tag.
         """
         # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
         min_id = SID(min_date, self.config)

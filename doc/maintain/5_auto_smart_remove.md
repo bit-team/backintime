@@ -42,6 +42,9 @@ the background story.
 4. Free inodes: Remove until there are enough.
 
 ## Details
+- In `smartRemoveList()` the direction of ordering of the initial snapshots
+  list is of high relevance.
+
 ### Older than N years
 - Happens in `Snapshots.freeSpace()`
 - Relevant also `self.config.removeOldSnapshotsDate()`
@@ -76,8 +79,12 @@ Current behavior of the algorithm:
 
 
 ### Smart remove: Monthly
-GUI wording: _Keep one snapshot per months for the last `N` month(s)._
+- GUI wording: _Keep one snapshot per months for the last `N` month(s)._
+- Seems to use the current month, too.
+- Keeps the oldest, so it is the 1th of each months.
 
+### Smart remove: One per year for all years
+- s
 ### Free space
 - Remove until enough free disc space (`self.config.minFreeSpaceMib()`).
 - Immediatly removed before executing any other rule.
@@ -93,6 +100,9 @@ for the auto-/smart-remove related behavior of BIT and how to implement it.
 
 ## General
 - Wording: Remove "Smart" and make everyting "Auto remove".
+- The rules are trying to be consistent in their behavior.
+  - Always keep the latest/newest element in the list.
+  - Ignore the current running/incomplete time frame.
 
 ## Rules in details
 1. Remove snapshots older than N years.
@@ -106,20 +116,22 @@ for the auto-/smart-remove related behavior of BIT and how to implement it.
       - New wording: _Keep one daily backup for the preceding N days._
       - Ignore "today", the current day.
       - Keep the latest/newest backup per day.
-      - Maybe as an option: Keep the oldest/erliest backup a day.
    4. Keep one per week for N weeks.
       - New wording: _Keep one weekly backup for the preceding N weeks._
       - Define "week" as calendar element from Monday to Sunday.
       - Ignore the current running and incomplete week.
       - Keep the latest/newest backup per week. So it would be Sunday in most
         cases if available.
-      - Maybe as an option: Keep the oldest backup per week.
    5. keep one per month for N months.
+      - New wording: _Keep one monthly backup for the preceding N months._
+      - Ignore the current running and incomplete month.
+      - Keep the latest/newset backup per months (30th/31th day of the months).
    6. Keep one per year for all years.
+      - Use the latest day of year.
+      - That implicite ignores the current running year.
 3. Free space: Remove until there is enough.
+   - No need for modification.
 4. Free inodes: Remove until there are enough.
-
-
-
+   - No need for modification.
 
 <sub>December 2024</sub>
