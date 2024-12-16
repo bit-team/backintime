@@ -41,13 +41,14 @@ the background story.
 3. Free space: Remove until there is enough.
 4. Free inodes: Remove until there are enough.
 
-## Older than N years
+## Details
+### Older than N years
 - Happens in `Snapshots.freeSpace()`
 - Relevant also `self.config.removeOldSnapshotsDate()`
 - Backups removed immediatly before executing any other rule.
 - Named snaphots ignored and kept.
 
-## Smart remove: Daily
+### Smart remove: Daily
 GUI wording: _Keep all snapshots for the last `N` day(s)._
 
 Current behavior of the algorithm:
@@ -56,7 +57,7 @@ Current behavior of the algorithm:
     digits) are used for comparision.
   * The bug is fixed.
 
-## Smart remove: Weekly
+### Smart remove: Weekly
 GUI wording: _Keep one snapshot per week for the last `N` week(s)._
 
 Current behavior of the algorithm:
@@ -74,14 +75,14 @@ Current behavior of the algorithm:
 
 
 
-## Smart remove: Monthly
+### Smart remove: Monthly
 GUI wording: _Keep one snapshot per months for the last `N` month(s)._
 
-## Free space
+### Free space
 - Remove until enough free disc space (`self.config.minFreeSpaceMib()`).
 - Immediatly removed before executing any other rule.
 
-## Free inodes
+### Free inodes
 - Remove until enough free inodes (`self.config.minFreeInodes()`)
 - Immediatly removed before executing any other rule.
 
