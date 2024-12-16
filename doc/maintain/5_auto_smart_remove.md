@@ -11,7 +11,7 @@ General Public License v2 (GPLv2). See LICENSES folder or go to
 ## Table of contents
 * [Introduction](#introduction)
 * [What we know](#what-we-know)
-* [What we don't](#what-we-dont-know)
+* [How it could be](#how-it-could-be)
 
 # Introduction
 The actual auto- and smart-remove behavior of BIT will be described in this
@@ -86,24 +86,40 @@ GUI wording: _Keep one snapshot per months for the last `N` month(s)._
 - Remove until enough free inodes (`self.config.minFreeInodes()`)
 - Immediatly removed before executing any other rule.
 
-# What we don't know
-A lot!
-
-# Things to discuss and considere
-* Is there a need to separate between "Auto" and "Smart" in the wording? I
-  would prefer just "Auto".
-
 # How it could be
 ## Overview
 The following does not reflect the real behavior. It is a draft and suggestion
 for the auto-/smart-remove related behavior of BIT and how to implement it.
 
-## Weekly
-- Define "week" as calendar element from Monday to Sunday.
-- Ignore the current running and incomplete week.
-- Keep the latest/newest backup per week. So it would be Sunday if available.
-- Maybe as an option: Keep the oldest backup per week.
-- Wording:
-  - _Keep one weekly backup for the preceding N weeks._
+## General
+- Wording: Remove "Smart" and make everyting "Auto remove".
+
+## Rules in details
+1. Remove snapshots older than N years.
+   - No need for modification.
+2. Smart-remove rules with calling `Snapshots.smartRemoveList`.
+   1. Don't if there is only one backup left.
+      - No need for modification.
+   2. Always keep the latest/youngest backup.
+      - No need for modification.
+   3. Keep one per day for N days.
+      - New wording: _Keep one daily backup for the preceding N days._
+      - Ignore "today", the current day.
+      - Keep the latest/newest backup per day.
+      - Maybe as an option: Keep the oldest/erliest backup a day.
+   4. Keep one per week for N weeks.
+      - New wording: _Keep one weekly backup for the preceding N weeks._
+      - Define "week" as calendar element from Monday to Sunday.
+      - Ignore the current running and incomplete week.
+      - Keep the latest/newest backup per week. So it would be Sunday in most
+        cases if available.
+      - Maybe as an option: Keep the oldest backup per week.
+   5. keep one per month for N months.
+   6. Keep one per year for all years.
+3. Free space: Remove until there is enough.
+4. Free inodes: Remove until there are enough.
+
+
+
 
 <sub>December 2024</sub>
