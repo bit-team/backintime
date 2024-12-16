@@ -1525,7 +1525,8 @@ class Snapshots:
                            min_date: datetime.date,
                            max_date: datetime.date) -> set[SID]:
         """
-        Return all snapshots between ``min_date`` and ``max_date``.
+        Return all snapshots in the timedelta beginning with ``min_date`` and
+        ending before ``max_date``.
 
         Args:
             snapshots (list): Full list of :py:class:`SID` objects.
@@ -1548,24 +1549,24 @@ class Snapshots:
                              min_date,
                              max_date,
                              keep_healthy=False):
-        """
-        Return the first snapshot between ``min_date`` and ``max_date``.
+        """Return the first snapshot between ``min_date`` and ``max_date``.
 
-        The first snapshot in ``snapshots`` that hit the range between
-        ``min_date`` and ``max_date`` will be returned. Snapshots outthat that
-        range are also lost. The list is not ordered by date.
+        The first snapshot in ``snapshots`` that hit the timedetla beginning
+        with ``min_date`` and ending before ``max_date`` will be returned.
+        Snapshots outthat that range are also lost. The list is not ordered by
+        date.
 
         Args:
             snapshots (list): Full list of :py:class:`SID` objects.
-            min_date (datetime.date): Minimum date for snapshots to keep.
-            max_date (datetime.date): Maximum date (newer than ``min_date``)
-                for snapshots to keep
+            min_date (datetime.date): Minimum date (included in the range).
+            max_date (datetime.date): Maximum date (excluded from the range).
             keep_healthy (bool): Return the first healthy snapshot (not marked
                 as failed) instead of the first at all. If all snapshots failed
                 this will again return the very first snapshot.
 
         Returns:
             set: Set of one snapshot that should be kept or an empty set.
+
         """
         # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
         min_id = SID(min_date, self.config)
