@@ -20,6 +20,7 @@ decide how that feature can be revised. See
 [Meta Issue #1945](https://github.com/bit-team/backintime/issues/1945) about
 the background story.
 
+This is how it looks like currently:
 ![Aut-remove tab](https://translate.codeberg.org/media/screenshots/bit_manage_profiles_autoremove.gif)
 
 # What we know
@@ -30,7 +31,7 @@ the background story.
     for _Smart remove_ related rules.
 
 ## Ordering and interferance of the rules
-1. Remove snapshots older than N years.
+1. Remove snapshots older than N years/weeks/days.
 2. Smart-remove rules with calling `Snapshots.smartRemoveList`.
    1. Don't if there is only one backup left.
    2. Always keep the latest/youngest backup.
@@ -100,11 +101,20 @@ for the auto-/smart-remove related behavior of BIT and how to implement it.
 
 ## General
 - Wording: Remove "Smart" and make everyting "Auto remove".
-- The rules are trying to be consistent in their behavior.
-  - Always keep the latest/newest element in the list.
+- The rules should to be consistent in their behavior.
+  - Always keep the latest/newest element in the list (Sunday for weeks, 31th
+    for months, ...).
   - Ignore the current running/incomplete time frame.
+- Wording: Use the term "backup" instead of "snapshot". See Issue #1929.
+
+## Mockup
+![Mockup](autoremove_mockup.png)
+
+[autoremove_mockup.drawio](autoremove_mockup.drawio)
 
 ## Rules in details
+For new wording see the mockup.
+
 1. Remove snapshots older than N years.
    - No need for modification.
 2. Smart-remove rules with calling `Snapshots.smartRemoveList`.
@@ -113,17 +123,14 @@ for the auto-/smart-remove related behavior of BIT and how to implement it.
    2. Always keep the latest/youngest backup.
       - No need for modification.
    3. Keep one per day for N days.
-      - New wording: _Keep one daily backup for the preceding N days._
       - Ignore "today", the current day.
       - Keep the latest/newest backup per day.
    4. Keep one per week for N weeks.
-      - New wording: _Keep one weekly backup for the preceding N weeks._
       - Define "week" as calendar element from Monday to Sunday.
       - Ignore the current running and incomplete week.
       - Keep the latest/newest backup per week. So it would be Sunday in most
         cases if available.
    5. keep one per month for N months.
-      - New wording: _Keep one monthly backup for the preceding N months._
       - Ignore the current running and incomplete month.
       - Keep the latest/newset backup per months (30th/31th day of the months).
    6. Keep one per year for all years.
