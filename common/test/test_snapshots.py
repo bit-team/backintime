@@ -19,7 +19,6 @@ import random
 import string
 import unittest
 from unittest.mock import patch
-from datetime import date, datetime
 from tempfile import TemporaryDirectory
 from test import generic
 from test.constants import CURRENTUSER, CURRENTGROUP, CURRENTGID, CURRENTUID

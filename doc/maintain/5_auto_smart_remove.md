@@ -30,7 +30,7 @@ This is how it looks like currently:
   * `Snapshots.smartRemoveList()` is called by `freeSpace()` and is the entry
     for _Smart remove_ related rules.
 
-## Ordering and interferance of the rules
+## Ordering and interference of the rules
 1. Remove snapshots older than N years/weeks/days.
 2. Smart-remove rules with calling `Snapshots.smartRemoveList`.
    1. Don't if there is only one backup left.
@@ -49,8 +49,8 @@ This is how it looks like currently:
 ### Older than N years
 - Happens in `Snapshots.freeSpace()`
 - Relevant also `self.config.removeOldSnapshotsDate()`
-- Backups removed immediatly before executing any other rule.
-- Named snaphots ignored and kept.
+- Backups removed immediately before executing any other rule.
+- Named snapshots ignored and kept.
 
 ### Smart remove: Daily
 GUI wording: _Keep all snapshots for the last `N` day(s)._
@@ -58,7 +58,7 @@ GUI wording: _Keep all snapshots for the last `N` day(s)._
 Current behavior of the algorithm:
 * Bug was that in some cases `N-1` days are kept.
   * Reason was that not dates but snapshotIDS (included their tags, the last 3
-    digits) are used for comparision.
+    digits) are used for comparison.
   * The bug is fixed.
 
 ### Smart remove: Weekly
@@ -88,11 +88,11 @@ Current behavior of the algorithm:
 - s
 ### Free space
 - Remove until enough free disc space (`self.config.minFreeSpaceMib()`).
-- Immediatly removed before executing any other rule.
+- Immediately removed before executing any other rule.
 
 ### Free inodes
 - Remove until enough free inodes (`self.config.minFreeInodes()`)
-- Immediatly removed before executing any other rule.
+- Immediately removed before executing any other rule.
 
 # How it could be
 ## Overview
@@ -100,7 +100,7 @@ The following does not reflect the real behavior. It is a draft and suggestion
 for the auto-/smart-remove related behavior of BIT and how to implement it.
 
 ## General
-- Wording: Remove "Smart" and make everyting "Auto remove".
+- Wording: Remove "Smart" and make everything "Auto remove".
 - The rules should to be consistent in their behavior.
   - Always keep the latest/newest element in the list (Sunday for weeks, 31th
     for months, ...).
@@ -135,7 +135,7 @@ For new wording see the mockup.
       - Keep the latest/newset backup per months (30th/31th day of the months).
    6. Keep one per year for all years.
       - Use the latest day of year.
-      - That implicite ignores the current running year.
+      - That implicit ignores the current running year.
 3. Free space: Remove until there is enough.
    - No need for modification.
 4. Free inodes: Remove until there are enough.
