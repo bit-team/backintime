@@ -83,7 +83,9 @@ theme:
       - toc.follow
       # Highlight search results
       - search.highlight
-      # Link current document to GitHub
+      # Footer
+      # - navigation.footer
+      # Link current document to Microsoft GitHub
       - content.action.edit
       - content.action.view
       # Copy and highlight code blocks
@@ -106,3 +108,13 @@ theme:
         icon: material/toggle-switch-off
         name: Switch to system preference
 
+extra:
+  social:
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@backintime
+      name: Back In Time in the Fediverse on Mastodon as @backintime@fosstodon.org
+    - icon: fontawesome/brands/github
+      link: https://github.com/bit-team/backintime
+      name: Source code repository at Microsoft GitHub
+
+copyright: © Back In Time Team 
