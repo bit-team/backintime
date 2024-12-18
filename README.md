@@ -58,7 +58,8 @@ features. This work is carried out voluntarily during their limited spare time.
 
 # Index
 
-- [Documentation, FAQs, Support](#documentation-faqs-support)
+- [Documentation](#documentation)
+- [Contact & Social](#contact-social)
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
 - [Contributing and other ways to support the project](#contributing-and-other-ways-to-support-the-project)
