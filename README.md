@@ -10,6 +10,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
+![Mailing list bit-dev@python.org](doc/maintain/_images/badge_bit-dev.svg]
+![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg]
 
 # Back In Time
 <sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
