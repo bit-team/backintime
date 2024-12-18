@@ -64,11 +64,7 @@ features. This work is carried out voluntarily during their limited spare time.
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
 - [Contributing and other ways to support the project](#contributing-and-other-ways-to-support-the-project)
 
-***
-
 ---
-
-___
 
 # Documentation
 
