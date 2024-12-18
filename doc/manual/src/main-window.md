@@ -18,7 +18,12 @@ go to <https://spdx.org/licenses/GPL-2.0-or-later.html>
 
 ![take_snapshot](_images/document-save_btn.svg) Take Snapshot
 
-Take a new Snapshot in background. The main window can be closed during taking the snapshot. Normal behavior is to only compare files size and modification time. Alternatively, you can take a new Snapshot with `checksums` option enabled. This will calculate checksums for every file to decide if the file has changed. Taking a snapshot with checksums option takes a lot more time but it will make sure, the destination files won't be corrupt.
+Take a new Snapshot in background. The main window can be closed during taking
+the snapshot. Normal behavior is to only compare files size and modification
+time. Alternatively, you can take a new Snapshot with `checksums` option
+enabled. This will calculate checksums for every file to decide if the file has
+changed. Taking a snapshot with checksums option takes a lot more time but it
+will make sure, the destination files won't be corrupt.
 
 ![refresh_snapshot](_images/view-refresh_btn.svg) Refresh Snapshots List
 
