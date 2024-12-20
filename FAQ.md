@@ -677,6 +677,17 @@ It is recommended that only devices formatted with Unix style file systems (such
 
 For more information, refer to [this Microsoft page](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions).
 
+## GUI does not scale on high resolution or 4k monitors
+The technical details are complex and many components of the operating system
+are involved. BIT itself is not invovled and also not responsible for
+it. Several approaches might help:
+- Check your desktop environment or window manager for settings regarding
+  scaling.
+- Because BIT is using Qt for its GUI, modifing the environment variable
+  `QT_SCALE_FACTOR` or `QT_AUTO_SCREEN_SCALE_FACTOR`.
+  See [this article](https://doc.qt.io/qt-6/highdpi.html) and
+  [Issue #1946](https://github.com/bit-team/backintime/issues/1946) about more
+  details.
 # user-callback and other PlugIns
 
 ## How to backup Debian/Ubuntu Package selection?
