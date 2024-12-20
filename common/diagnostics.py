@@ -36,7 +36,7 @@ def collect_minimal_diagnostics():
         'backintime': {
             'name': config.Config.APP_NAME,
             'version': version.__version__,
-            'running-as-root': pwd.getpwuid(os.getuid()) == 'root',
+            'running-as-root': pwd.getpwuid(os.getuid()).pw_name == 'root',
         },
         'host-setup': {
             'OS': _get_os_release()
