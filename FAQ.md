@@ -680,11 +680,11 @@ For more information, refer to [this Microsoft page](https://learn.microsoft.com
 
 ## GUI does not scale on high resolution or 4k monitors
 The technical details are complex and many components of the operating system
-are involved. BIT itself is not invovled and also not responsible for
+are involved. BIT itself is not involved and also not responsible for
 it. Several approaches might help:
 - Check your desktop environment or window manager for settings regarding
   scaling.
-- Because BIT is using Qt for its GUI, modifing the environment variable
+- Because BIT is using Qt for its GUI, modifying the environment variable
   `QT_SCALE_FACTOR` or `QT_AUTO_SCREEN_SCALE_FACTOR`.
   See [this article](https://doc.qt.io/qt-6/highdpi.html) and
   [Issue #1946](https://github.com/bit-team/backintime/issues/1946) about more
