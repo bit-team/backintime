@@ -16,6 +16,7 @@ General Public License v2 (GPLv2). See directory LICENSES or go to
 - [How to setup openssh for unit tests](3_How_to_set_up_openssh_server_for_ssh_unit_tests.md)
 - [Usage of control files (locks, flocks, logs and others)](4_Control_files_usage_(locks_flocks_logs_and_others).md)
 - [How to prepare and publish a new BiT release](BiT_release_process.md)
+- [Auto- & Smart-Remove](5_auto_smart_remove.md)
 <!-- TOC end -->
 
 <sub>Sept 2024</sub>

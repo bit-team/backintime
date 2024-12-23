@@ -322,7 +322,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W4904',  # deprecated-class
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
-            'R0801',  # duplicate-code
+            # See PyLint bugs:
+            # https://github.com/pylint-dev/pylint/issues/214
+            # https://github.com/pylint-dev/pylint/issues/7920
+            # 'R0801',  # duplicate-code
 
             # Enable asap. This list is a selection of existing (not all!)
             # problems currently existing in the BIT code base. Quite easy to
