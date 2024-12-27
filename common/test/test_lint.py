@@ -42,7 +42,6 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
-    'exceptions.py',
     'languages.py',
     'schedule.py',
     'ssh_max_arg.py',
