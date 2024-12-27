@@ -108,9 +108,9 @@ for the auto-/smart-remove related behavior of BIT and how to implement it.
 - Wording: Use the term "backup" instead of "snapshot". See Issue #1929.
 
 ## Mockup
-![Mockup](autoremove_mockup.png)
+![Mockup](_images/autoremove_mockup.png)
 
-[autoremove_mockup.drawio](autoremove_mockup.drawio)
+[autoremove_mockup.drawio](_images/autoremove_mockup.drawio)
 
 ## Rules in details
 For new wording see the mockup.

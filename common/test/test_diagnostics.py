@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: © 2022 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2).
+# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
 """Test related to diagnostics.py"""
 import sys
 import pathlib
