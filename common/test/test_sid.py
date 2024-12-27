@@ -1,19 +1,13 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import unittest
@@ -26,6 +20,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import configfile
 import snapshots
 from snapshotlog import LogFilter, SnapshotLog
+
 
 class TestSID(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
@@ -391,6 +386,7 @@ class TestSID(generic.SnapshotsTestCase):
             msg = 'writing to {} raised PermissionError unexpectedly!'
             self.fail(msg.format(testFile))
 
+
 class TestNewSnapshot(generic.SnapshotsTestCase):
     def test_create_new(self):
         new = snapshots.NewSnapshot(self.cfg)
@@ -436,6 +432,7 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         log.flush()
         self.assertTrue(new.hasChanges)
 
+
 class TestRootSnapshot(generic.SnapshotsTestCase):
     #TODO: add test with 'sid.path(use_mode=['ssh_encfs'])'
     def test_create(self):
@@ -448,6 +445,7 @@ class TestRootSnapshot(generic.SnapshotsTestCase):
         sid = snapshots.RootSnapshot(self.cfg)
         self.assertEqual(sid.path(), '/')
         self.assertEqual(sid.path('foo', 'bar'), '/foo/bar')
+
 
 class TestIterSnapshots(generic.SnapshotsTestCase):
     def setUp(self):
@@ -541,6 +539,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(snapshots.lastSnapshot(self.cfg),
                          '20151219-040324-123')
 
+
 class TestIterSnapshotsNonexistingSnapshotPath(generic.TestCaseSnapshotPath):
     def test_iterSnapshots(self):
         for _ in snapshots.iterSnapshots(self.cfg):
@@ -551,6 +550,7 @@ class TestIterSnapshotsNonexistingSnapshotPath(generic.TestCaseSnapshotPath):
 
     def test_lastSnapshots(self):
         self.assertIsNone(snapshots.lastSnapshot(self.cfg))
+
 
 if __name__ == '__main__':
     unittest.main()

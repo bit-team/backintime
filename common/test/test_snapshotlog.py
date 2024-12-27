@@ -1,20 +1,10 @@
-# Back In Time
-# Copyright (C) 2016-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2016-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import re
@@ -27,7 +17,7 @@ import snapshots
 
 
 class TestLogFilter(generic.TestCase):
-    #TODO: add decode test
+    # TODO: add decode test
     def __init__(self, *args, **kwargs):
         super(TestLogFilter, self).__init__(*args, **kwargs)
         self.e = '[E] foo bar'
@@ -85,6 +75,7 @@ class TestLogFilter(generic.TestCase):
             self.assertIsNone(logFilter.filter(line))
         for line in self.n:
             self.assertEqual(line, logFilter.filter(line))  # empty line stays empty line
+
 
 class TestSnapshotLog(generic.SnapshotsTestCase):
     def setUp(self):
