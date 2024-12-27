@@ -35,6 +35,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
    * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
+   * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
@@ -562,6 +563,39 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
+## Can I use a systemd timer instead of cron?
+
+While there is no support within *Back In Time* to directly create a systemd
+timer, users can create a user timer and service units. Templates are provided
+below. Optionally adjust the value for `OnCalendar=` with a valid setting. See
+[`man systemd.timer`](https://manpages.debian.org/testing/systemd/systemd.timer.5)
+for more.
+
+**Timer**:
+```ini
+# ~/.config/systemd/user/backintime-backup-job.timer
+[Unit]
+Description=Start a backintime snapshot once daily
+
+[Timer]
+OnCalendar=daily
+AccuracySec=1m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+**Service**:
+```ini
+# ~/.config/systemd/user/backintime-backup-job.service
+[Unit]
+Description=Run backintime snapshot generation
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup-job
+```
 
 # Problems, Errors & Solutions
 ## WARNING: A backup is already running
