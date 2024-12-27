@@ -413,7 +413,7 @@ def create_languages_file():
         date_now = datetime.datetime.now().strftime('%c')
         handle.write(get_spdx_metadata_lines())
         handle.write(
-            f'# Generated at {date_now} with help\n# of package "babel" '
+            f'#\n# Generated at {date_now} with help\n# of package "babel" '
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
@@ -669,7 +669,7 @@ def get_spdx_metadata_lines() -> str:
 
             result = result + line
        
-    return result.strip()
+    return result
 
 
 if __name__ == '__main__':
