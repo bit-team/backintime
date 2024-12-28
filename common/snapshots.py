@@ -841,7 +841,6 @@ class Snapshots:
                                                        30) % 30
                                 )
 
-
                                 self.setTakeSnapshotMessage(
                                     type_id=1,
                                     message=message,
