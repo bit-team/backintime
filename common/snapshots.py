@@ -829,15 +829,18 @@ class Snapshots:
                                     and self.config.notify()):
 
                                 message = (
-                                    _("Can't find snapshots directory '{path}'.\n"
-                                     "If it is on a removable drive please "
-                                     "plug it in.")
-                                     .format(path=self.config.snapshotsFullPath(profile_id))
+                                    _("Can't find snapshots directory.")
+                                    + '\n'
+                                    + self.config.snapshotsFullPath(profile_id)
+                                    + '\n'
+                                    + _('If it is on a removable drive '
+                                        'please plug it in.')
                                     + '\n'
                                     + gettext.ngettext('Waiting %s second.',
                                                        'Waiting %s seconds.',
                                                        30) % 30
                                 )
+
 
                                 self.setTakeSnapshotMessage(
                                     type_id=1,
