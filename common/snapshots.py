@@ -829,7 +829,7 @@ class Snapshots:
                                     _("Can't find snapshots directory '{path}'.\n"
                                      "If it is on a removable drive please "
                                      "plug it in.")
-                                     .format(path=self.snapshotsFullPath(profile_id))
+                                     .format(path=self.config.snapshotsFullPath(profile_id))
                                     + '\n'
                                     + gettext.ngettext('Waiting %s second.',
                                                        'Waiting %s seconds.',
