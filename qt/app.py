@@ -2136,6 +2136,7 @@ class ExtraMouseButtonEventFilter(QObject):
             return super(ExtraMouseButtonEventFilter, self) \
                 .eventFilter(receiver, event)
 
+
 class RemoveSnapshotThread(QThread):
     """
     remove snapshots in background thread so GUI will not freeze

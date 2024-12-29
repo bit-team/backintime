@@ -21,7 +21,6 @@ import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
-
 import config
 import logger
 import snapshots
@@ -30,6 +29,7 @@ import mount
 import password
 import encfstools
 import cli
+import state
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
@@ -41,7 +41,8 @@ RETURN_NO_CFG = 2
 
 parsers = {}
 
-def takeSnapshotAsync(cfg, checksum = False):
+
+def takeSnapshotAsync(cfg, checksum=False):
     """
     Fork a new backintime process with 'backup' command which will
     take a new snapshot in background.
@@ -75,7 +76,8 @@ def takeSnapshotAsync(cfg, checksum = False):
             pass
     subprocess.Popen(cmd, env = env)
 
-def takeSnapshot(cfg, force = True):
+
+def takeSnapshot(cfg, force=True):
     """
     Take a new snapshot.
 
@@ -90,6 +92,7 @@ def takeSnapshot(cfg, force = True):
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
     return ret
+
 
 def _mount(cfg):
     """
@@ -106,6 +109,7 @@ def _mount(cfg):
     else:
         cfg.setCurrentHashId(hash_id)
 
+
 def _umount(cfg):
     """
     Unmount external filesystems.
@@ -118,7 +122,8 @@ def _umount(cfg):
     except MountException as ex:
         logger.error(str(ex))
 
-def createParsers(app_name = 'backintime'):
+
+def createParsers(app_name='backintime'):
     """
     Define parsers for commandline arguments.
 
@@ -521,6 +526,9 @@ def startApp(app_name='backintime'):
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
 
+    # State data
+    init_state_data(args)
+
     # Call commands
     if 'func' in dir(args):
         args.func(args)
@@ -615,6 +623,7 @@ def argParse(args):
 
     return args
 
+
 def printHeader():
     """
     Print application name, version and legal notes.
@@ -627,6 +636,7 @@ def printHeader():
     print('This is free software, and you are welcome to redistribute it')
     print("under certain conditions; type `backintime --license' for details.")
     print('')
+
 
 class PseudoAliasAction(argparse.Action):
     """
@@ -654,6 +664,7 @@ class PseudoAliasAction(argparse.Action):
         setattr(namespace, 'replace', replace)
         setattr(namespace, 'alias', alias)
 
+
 def aliasParser(args):
     """
     Call commands which where given with leading -- for backwards
@@ -671,7 +682,8 @@ def aliasParser(args):
     if 'func' in dir(newArgs):
         newArgs.func(newArgs)
 
-def getConfig(args, check = True):
+
+def getConfig(args, check=True):
     """
     Load config and change to profile selected on commandline.
 
@@ -715,6 +727,93 @@ def getConfig(args, check = True):
     return cfg
 
 
+def _get_state_data_from_config(cfg: config.Config) -> dict:
+    """Get data related to application state from the config instance.
+
+    This function is a temporary workaround. See PR #1850.
+
+    Args:
+       cfg: The config instance.
+
+    Returns:
+        dict: The state data.
+
+    State relatd parameters:
+        internal.msg_rc=1.5.3-rc1
+        internal.msg_shown_encfs=true
+        profile1.qt.last_path=/home/user/Downloads
+        profile1.qt.places.SortColumn=1
+        profile1.qt.places.SortOrder=SortOrder.AscendingOrder
+        profile1.qt.settingsdialog.exclude.SortColumn=1
+        profile1.qt.settingsdialog.exclude.SortOrder=0
+        profile1.qt.settingsdialog.include.SortColumn=1
+        profile1.qt.settingsdialog.include.SortOrder=0
+        qt.last_path=/home/user/Downloads
+        qt.logview.height=676
+        qt.logview.width=949
+        qt.main_window.files_view.date_width=100
+        qt.main_window.files_view.name_width=822
+        qt.main_window.files_view.size_width=100
+        qt.main_window.files_view.sort.ascending=true
+        qt.main_window.files_view.sort.column=0
+        qt.main_window.height=802
+        qt.main_window.main_splitter_left_w=233
+        qt.main_window.main_splitter_right_w=1119
+        qt.main_window.second_splitter_left_w=243
+        qt.main_window.second_splitter_right_w=857
+        qt.main_window.width=1356
+        qt.main_window.x=230
+        qt.main_window.y=110
+        """
+
+    data = {
+        'gui': {
+            'mainwindow': {}
+        }
+    }
+
+    # internal.manual_starts_countdown
+    data['manual_starts_countdown'] = cfg.manual_starts_countdown()
+
+    # self.config.boolValue('qt.show_hidden_files', False)
+    data['gui']['mainwindow']['show_hidden'] \
+        = cfg.boolValue('qt.show_hidden_files', False)
+
+    return data
+
+
+def init_state_data(args: argparse.Namespace) -> None:
+    """Initiate the `State` instance.
+
+    The state file is loaded and its date stored in `State`. The later is a
+    singleton and can be used everywhere.
+
+    Dev note (buhtz, 2024-12): The args argument is a workaround and will be
+    removed. Related to PR #1850.
+
+    Args:
+       args: Arguments given from command line.
+    """
+    xdg_state = os.environ.get('XDG_STATE_HOME',
+                               pathlib.Path.home() / '.local' / 'state')
+    fp = xdg_state / 'backintime.json'
+
+    logger.debug(f'Reading state file "{fp}".')
+
+    try:
+        # load file
+        data_dict = json.loads(fp.read_text(encoding='utf-8'))
+
+    except FileNotFoundError:
+        logger.debug('State file not found. Using config file.')
+        # extract data from the config file (for later migration)
+        cfg = getConfig(args)
+        data_dict = _get_state_data_from_config(cfg)
+
+    st = state.State(data_dict)
+    print(st)
+
+
 def setQuiet(args):
     """
     Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
@@ -736,6 +835,7 @@ def setQuiet(args):
         atexit.register(force_stdout.close)
     return force_stdout
 
+
 class printLicense(argparse.Action):
     """
     Print custom license
@@ -747,6 +847,7 @@ class printLicense(argparse.Action):
         license_path = pathlib.Path(tools.docPath()) / 'LICENSE'
         print(license_path.read_text('utf-8'))
         sys.exit(RETURN_OK)
+
 
 class printDiagnostics(argparse.Action):
     """
@@ -766,7 +867,8 @@ class printDiagnostics(argparse.Action):
 
         sys.exit(RETURN_OK)
 
-def backup(args, force = True):
+
+def backup(args, force=True):
     """
     Command for force taking a new snapshot.
 
@@ -785,6 +887,7 @@ def backup(args, force = True):
     ret = takeSnapshot(cfg, force)
     sys.exit(int(ret))
 
+
 def backupJob(args):
     """
     Command for taking a new snapshot in background. Mainly used for cronjobs.
@@ -799,6 +902,7 @@ def backupJob(args):
         SystemExit:     0
     """
     cli.BackupJobDaemon(backup, args).start()
+
 
 def shutdown(args):
     """
@@ -819,12 +923,14 @@ def shutdown(args):
     cfg = getConfig(args)
 
     sd = tools.ShutDown()
+
     if not sd.canShutdown():
         logger.warning('Shutdown is not supported.')
         sys.exit(RETURN_ERR)
 
     instance = ApplicationInstance(cfg.takeSnapshotInstanceFile(), False)
     profile = '='.join((cfg.currentProfile(), cfg.profileName()))
+
     if not instance.busy():
         logger.info('There is no active snapshot for profile %s. Skip shutdown.'
                     %profile)
@@ -833,16 +939,21 @@ def shutdown(args):
     print('Shutdown is waiting for the snapshot in profile %s to end.\nPress CTRL+C to interrupt shutdown.\n'
           %profile)
     sd.activate_shutdown = True
+
     try:
         while instance.busy():
             logger.debug('Snapshot is still active. Wait for shutdown.')
             sleep(5)
+
     except KeyboardInterrupt:
         print('Shutdown interrupted.')
+
     else:
         logger.info('Shutdown now.')
         sd.shutdown()
+
     sys.exit(RETURN_OK)
+
 
 def snapshotsPath(args):
     """
@@ -865,6 +976,7 @@ def snapshotsPath(args):
         msg = 'SnapshotsPath: {}'
     print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
     sys.exit(RETURN_OK)
+
 
 def snapshotsList(args):
     """
@@ -896,6 +1008,7 @@ def snapshotsList(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def snapshotsListPath(args):
     """
     Command for printing a list of all snapshots paths in current profile.
@@ -926,6 +1039,7 @@ def snapshotsListPath(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def lastSnapshot(args):
     """
     Command for printing the very last snapshot in current profile.
@@ -951,6 +1065,7 @@ def lastSnapshot(args):
         logger.error("There are no snapshots in '%s'" % cfg.profileName())
     _umount(cfg)
     sys.exit(RETURN_OK)
+
 
 def lastSnapshotPath(args):
     """
@@ -980,6 +1095,7 @@ def lastSnapshotPath(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def unmount(args):
     """
     Command for unmounting all filesystems.
@@ -996,6 +1112,7 @@ def unmount(args):
     _mount(cfg)
     _umount(cfg)
     sys.exit(RETURN_OK)
+
 
 def benchmarkCipher(args):
     """
@@ -1019,6 +1136,7 @@ def benchmarkCipher(args):
     else:
         logger.error("SSH is not configured for profile '%s'!" % cfg.profileName())
         sys.exit(RETURN_ERR)
+
 
 def pwCache(args):
     """
@@ -1049,6 +1167,7 @@ def pwCache(args):
     else:
         daemon.run()
     sys.exit(ret)
+
 
 def decode(args):
     """
@@ -1084,7 +1203,8 @@ def decode(args):
     _umount(cfg)
     sys.exit(RETURN_OK)
 
-def remove(args, force = False):
+
+def remove(args, force=False):
     """
     Command for removing snapshots.
 
@@ -1104,6 +1224,7 @@ def remove(args, force = False):
     _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def removeAndDoNotAskAgain(args):
     """
     Command for removing snapshots without asking before remove
@@ -1117,6 +1238,7 @@ def removeAndDoNotAskAgain(args):
         SystemExit:     0
     """
     remove(args, True)
+
 
 def smartRemove(args):
     """
@@ -1151,6 +1273,7 @@ def smartRemove(args):
         logger.error('Smart Removal is not configured.')
         sys.exit(RETURN_NO_CFG)
 
+
 def restore(args):
     """
     Command for restoring files from snapshots.
@@ -1180,6 +1303,7 @@ def restore(args):
     _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def checkConfig(args):
     """
     Command for checking the config file.
@@ -1206,6 +1330,7 @@ def checkConfig(args):
                  'profile': cfg.profileName()},
               file = force_stdout)
         sys.exit(RETURN_ERR)
+
 
 if __name__ == '__main__':
     startApp()
