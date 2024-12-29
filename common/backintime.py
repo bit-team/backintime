@@ -741,13 +741,7 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     State relatd parameters:
         internal.msg_rc=1.5.3-rc1
         internal.msg_shown_encfs=true
-        profile1.qt.places.SortColumn=1
-        profile1.qt.places.SortOrder=SortOrder.AscendingOrder
-        profile1.qt.settingsdialog.exclude.SortColumn=1
-        profile1.qt.settingsdialog.exclude.SortOrder=0
-        profile1.qt.settingsdialog.include.SortColumn=1
-        profile1.qt.settingsdialog.include.SortOrder=0
-        qt.logview.height=676
+           qt.logview.height=676
         qt.logview.width=949
         qt.main_window.files_view.date_width=100
         qt.main_window.files_view.name_width=822
@@ -762,14 +756,12 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         qt.main_window.width=1356
         qt.main_window.x=230
         qt.main_window.y=110
-
-        qt.last_path=/home/user/Downloads
-        profile1.qt.last_path=/home/user/Downloads
         """
 
     data = {
         'gui': {
-            'mainwindow': {}
+            'mainwindow': {},
+            'manage_profiles': {},
         }
     }
 
@@ -785,9 +777,39 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):
-            val = cfg.profileStrValue('qt.last_path')
+            val = cfg.profileStrValue('qt.last_path', profile_id)
             data['gui']['mainwindow'] \
                 .setdefault(profile_id, {})['last_path'] = val
+
+        # profile1.qt.places.SortColumn
+        # profile1.qt.places.SortOrder=SortOrder.AscendingOrder
+        if cfg.hasProfileKey('qt.places.SortColumn', profile_id):
+            val = cfg.profileIntValue('qt.places.SortColumn', profile_id)
+            data['gui']['mainwindow'].setdefault(profile_id, {})['places_sort_col'] = val
+            val = cfg.profileIntValue('qt.places.SortOrder', profile_id)
+            data['gui']['mainwindow'].setdefault(profile_id, {})['places_sort_order'] = val
+
+        # profile1.qt.settingsdialog.exclude.SortColumn=1
+        # profile1.qt.settingsdialog.exclude.SortOrder=0
+        if cfg.hasProfileKey('qt.settingsdialog.exclude.SortColumn',
+                             profile_id):
+            val = cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortColumn', profile_id)
+            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_col_excl'] = val
+            val = cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortOrder',profile_id)
+            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_order_excl'] = val
+
+        # profile1.qt.settingsdialog.include.SortColumn=1
+        # profile1.qt.settingsdialog.include.SortOrder=0
+        if cfg.hasProfileKey('qt.settingsdialog.include.SortColumn',
+                             profile_id):
+            val = cfg.profileIntValue(
+                'qt.settingsdialog.include.SortColumn', profile_id)
+            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_col_incl'] = val
+            val = cfg.profileIntValue(
+                'qt.settingsdialog.include.SortOrder',profile_id)
+            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_order_incl'] = val
 
     return data
 
