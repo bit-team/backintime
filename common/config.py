@@ -986,7 +986,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.profileIntValue('snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id))
 
     def minFreeSpaceEnabled(self, profile_id = None):
-        return self.profileBoolValue('snapshots.min_free_space.enabled', True, profile_id)
+        return self.profileBoolValue('snapshots.min_free_space.enabled', False, profile_id)
 
     def minFreeSpaceMib(self, profile_id = None):
         enabled, value, unit = self.minFreeSpace(profile_id)
@@ -1014,7 +1014,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def minFreeInodesEnabled(self, profile_id = None):
         #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR
         #?free inodes in % is reached.
-        return self.profileBoolValue('snapshots.min_free_inodes.enabled', True, profile_id)
+        return self.profileBoolValue('snapshots.min_free_inodes.enabled', False, profile_id)
 
     def setMinFreeInodes(self, enabled, value, profile_id = None):
         self.setProfileBoolValue('snapshots.min_free_inodes.enabled', enabled, profile_id)
