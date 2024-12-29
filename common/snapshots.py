@@ -3,16 +3,19 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+from __future__ import annotations
 import os
 from pathlib import Path
 import stat
 import datetime
+import calendar
 import gettext
 import bz2
 import pwd
@@ -826,9 +829,12 @@ class Snapshots:
                                     and self.config.notify()):
 
                                 message = (
-                                    _("Can't find snapshots folder.\n"
-                                      "If it is on a removable drive please "
-                                      "plug it in.")
+                                    _("Can't find snapshots directory.")
+                                    + '\n'
+                                    + self.config.snapshotsFullPath(profile_id)
+                                    + '\n'
+                                    + _('If it is on a removable drive '
+                                        'please plug it in.')
                                     + '\n'
                                     + gettext.ngettext('Waiting %s second.',
                                                        'Waiting %s seconds.',
@@ -844,15 +850,12 @@ class Snapshots:
                                 'Cannot start snapshot yet: target directory '
                                 'not accessible. Will retry each second in '
                                 'the next 30 seconds. Please wait.')
-
-                            counter = 0
-                            for counter in range(0, 30):
+                            for _idx in range(30):
 
                                 time.sleep(1)
 
                                 if self.config.canBackup():
                                     break
-
                         if not self.config.canBackup(profile_id):
                             logger.error('Snapshots directory not '
                                          'accessible. Tries stopped.',
@@ -927,6 +930,7 @@ class Snapshots:
                                 # "continue on errors" is enabled
 
                             if not ret_error:
+                                # Start auto- and smart-remove
                                 self.freeSpace(now)
                                 self.setTakeSnapshotMessage(
                                     0, _('Please be patient. Finalizing…'))
@@ -1056,11 +1060,11 @@ class Snapshots:
             bool:       ``True`` if successful
         """
         if not tools.makeDirs(path):
-            logger.error(f"Can't create folder: {path}", self)
+            logger.error(f"Can't create directory: {path}", self)
             self.setTakeSnapshotMessage(
                 1,
                 '{}: {}'.format(
-                    _("Can't create folder"),
+                    _("Can't create directory."),
                     path)
             )
             time.sleep(2)  # max 1 backup / second
@@ -1220,7 +1224,7 @@ class Snapshots:
                             dict of: {path: (permission, user, group)}
                             Using sideefect on changing dict item will change
                             original dict, too.
-            path (bytes):   full path to file or folder
+            path (bytes): Full path to file or directory.
         """
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if path and os.path.exists(path):
@@ -1265,12 +1269,13 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found leftover '{new_snapshot.displayID}' which "
-                        "can be continued.", self)
+            logger.info(f"Found leftover snapshot '{new_snapshot.displayID}' "
+                        "that can be continued.", self)
 
             self.setTakeSnapshotMessage(
                 0,
-                _('Found leftover {snapshot_id} which can be continued.')
+                _('Found leftover snapshot {snapshot_id} '
+                  'that can be continued.')
                 .format(snapshot_id=new_snapshot.displayID)
             )
 
@@ -1288,22 +1293,22 @@ class Snapshots:
             params[1] = new_snapshot.hasChanges
 
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
-            logger.info(f'Remove leftover {new_snapshot.displayID} folder '
-                        'from last run')
+            logger.info(f'Removing leftover snapshot {new_snapshot.displayID} '
+                        'directory from last run')
 
             self.setTakeSnapshotMessage(
                 0,
-                _('Removing leftover {snapshot_id} folder from last run')
+                _('Removing leftover {snapshot_id} directory from last run')
                 .format(snapshot_id=new_snapshot.displayID)
             )
             self.remove(new_snapshot)
 
             if os.path.exists(new_snapshot.path()):
                 logger.error(
-                    f"Can't remove folder: {new_snapshot.path()}", self)
+                    f"Can't remove directory: {new_snapshot.path()}", self)
                 self.setTakeSnapshotMessage(
                     1,
-                    '{}: {}'.format(_("Can't remove folder"),
+                    '{}: {}'.format(_("Can't remove directory"),
                                     new_snapshot.path())
                 )
                 time.sleep(2)  # max 1 backup / second
@@ -1503,7 +1508,7 @@ class Snapshots:
 
             self.setTakeSnapshotMessage(
                 1,
-                _("Can't rename {new_path} to {path}")
+                _('Unable to rename {new_path} to {path}.')
                 .format(new_path=new_snapshot.path(), path=sid.path())
             )
             time.sleep(2)  # max 1 backup / second
@@ -1521,67 +1526,80 @@ class Snapshots:
         return [True, has_errors]
 
     def smartRemoveKeepAll(self,
-                           snapshots,
-                           min_date,
-                           max_date):
+                           snapshots: list[SID],
+                           min_date: datetime.date,
+                           max_date: datetime.date) -> set[SID]:
         """
-        Return all snapshots between ``min_date`` and ``max_date``.
+        Return all snapshots in the timedelta beginning with ``min_date`` and
+        ending before ``max_date``.
 
         Args:
-            snapshots (list):           full list of :py:class:`SID` objects
-            min_date (datetime.date):   minimum date for snapshots to keep
-            max_date (datetime.date):   maximum date for snapshots to keep
+            snapshots (list): Full list of :py:class:`SID` objects.
+            min_date (datetime.date): Minimum date (included in the range).
+            max_date (datetime.date): Maximum date (excluded from the range).
 
         Returns:
-            set:                        set of snapshots that should be kept
+            set: Set of snapshots that should be kept.
         """
-        min_id = SID(min_date, self.config)
-        max_id = SID(max_date, self.config)
+        logger.debug(f'Keep all >= {min_date} < {max_date}', self)
 
-        logger.debug("Keep all >= %s and < %s" %(min_id, max_id), self)
+        result = filter(lambda sid: sid.date.date() >= min_date
+                        and sid.date.date() < max_date,
+                        snapshots)
 
-        return set([sid for sid in snapshots if sid >= min_id and sid < max_id])
+        return set(result)
 
     def smartRemoveKeepFirst(self,
                              snapshots,
                              min_date,
                              max_date,
-                             keep_healthy = False):
-        """
-        Return only the first snapshot between ``min_date`` and ``max_date``.
+                             keep_healthy=False):
+        """Return the first snapshot between ``min_date`` and ``max_date``.
+
+        The first snapshot in ``snapshots`` that hit the timedetla beginning
+        with ``min_date`` and ending before ``max_date`` will be returned.
+        Snapshots outthat that range are also lost. The list is not ordered by
+        date.
 
         Args:
-            snapshots (list):           full list of :py:class:`SID` objects
-            min_date (datetime.date):   minimum date for snapshots to keep
-            max_date (datetime.date):   maximum date for snapshots to keep
-            keep_healthy (bool):        return the first healthy snapshot (not
-                                        marked as failed) instead of the first
-                                        at all. If all snapshots failed this
-                                        will again return the very first
-                                        snapshot
+            snapshots (list): Full list of :py:class:`SID` objects.
+            min_date (datetime.date): Minimum date (included in the range).
+            max_date (datetime.date): Maximum date (excluded from the range).
+            keep_healthy (bool): Return the first healthy snapshot (not marked
+                as failed) instead of the first at all. If all snapshots failed
+                this will again return the very first snapshot.
 
         Returns:
-            set:                        set of snapshots that should be kept
+            set: Set of one snapshot that should be kept or an empty set.
+
+        TODO: It should compare datest not SIDs because of their tag.
         """
+        # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
 
-        logger.debug("Keep first >= %s and < %s" %(min_id, max_id), self)
+        logger.debug("Keep first >= %s and < %s" % (min_id, max_id), self)
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
             if keep_healthy and sid.failed:
-                logger.debug("Do not keep failed snapshot %s" %sid, self)
+                logger.debug("Do not keep failed snapshot %s" % sid, self)
                 continue
+
+            # DEBUG
+            # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
+
             if sid >= min_id and sid < max_id:
+                # print(f'  return {str(sid)}')
                 return set([sid])
+
         # if all snapshots failed return the first snapshot
         # no matter if it has errors
         if keep_healthy:
             return self.smartRemoveKeepFirst(snapshots,
                                              min_date,
                                              max_date,
-                                             keep_healthy = False)
+                                             keep_healthy=False)
         return set()
 
     def incMonth(self, date):
@@ -1595,12 +1613,13 @@ class Snapshots:
         Returns:
             datetime.date:          1st day of next month
         """
-        y = date.year
-        m = date.month + 1
-        if m > 12:
-            m = 1
-            y = y + 1
-        return datetime.date(y, m, 1)
+        # Last day in current month
+        last = datetime.date(
+            year=date.year,
+            month=date.month,
+            day=calendar.monthrange(date.year, date.month)[1])
+
+        return last + datetime.timedelta(days=1)
 
     def decMonth(self, date):
         """
@@ -1614,12 +1633,14 @@ class Snapshots:
         Returns:
             datetime.date:          1st day of previous month
         """
-        y = date.year
-        m = date.month - 1
-        if m < 1:
-            m = 12
-            y = y - 1
-        return datetime.date(y, m, 1)
+        # First day of current month
+        first = datetime.date(year=date.year, month=date.month, day=1)
+
+        # Last day of previous month
+        prev = first - datetime.timedelta(days=1)
+
+        # First day of previous month
+        return datetime.date(year=prev.year, month=prev.month, day=1)
 
     def smartRemoveList(self,
                         now_full,
@@ -1627,9 +1648,7 @@ class Snapshots:
                         keep_one_per_day,
                         keep_one_per_week,
                         keep_one_per_month):
-        """
-        Get a list of old snapshots that should be removed based on configurable
-        intervals.
+        """Get list of backups to be removed based on configurable intervals.
 
         Args:
             now_full (datetime.datetime):   date and time when takeSnapshot was
@@ -1645,8 +1664,10 @@ class Snapshots:
 
         Returns:
             list:                           snapshots that should be removed
+
         """
-        snapshots = listSnapshots(self.config)
+        # Latest/younges backup first, the oldest is last
+        snapshots = listSnapshots(self.config, reverse=True)
         logger.debug(f'Considered: {snapshots}', self)
 
         if len(snapshots) <= 1:
@@ -1658,7 +1679,7 @@ class Snapshots:
 
         now = now_full.date()
 
-        # keep the last snapshot
+        # keep the last/youngest backup
         keep = set([snapshots[0]])
 
         # keep all for the last keep_all days
@@ -1759,13 +1780,13 @@ class Snapshots:
 
             maxLength = self.config.sshMaxArgLength()
             if not maxLength:
-                import sshMaxArg
+                import ssh_max_arg
                 user_host = '%s@%s' % (self.config.sshUser(),
                                        self.config.sshHost())
-                maxLength = sshMaxArg.probe_max_ssh_command_size(self.config)
+                maxLength = ssh_max_arg.probe_max_ssh_command_size(self.config)
                 self.config.setSshMaxArgLength(maxLength)
                 self.config.save()
-                sshMaxArg.report_result(user_host, maxLength)
+                ssh_max_arg.report_result(user_host, maxLength)
 
             additionalChars = len(self.config.sshPrefixCmd(cmd_type = str))
 
@@ -1825,28 +1846,28 @@ class Snapshots:
                 self.remove(sid)
 
     def freeSpace(self, now):
-        """
-        Remove old snapshots on based on different rules (only if enabled).
-        First rule is to remove snapshots older than X years. Next will call
-        :py:func:`smartRemove` to remove snapshots based on
-        configurable intervals. Third rule is to remove the oldest snapshot
-        until there is enough free space. Last rule will remove the oldest
-        snapshot until there are enough free inodes.
+        """Remove old backups based on several rules (if enabled).
 
-        'last_snapshot' symlink will be fixed when done.
+        Rules are considered in the following order:
+        1. Remove snapshots older than X years.
+        2. Smart-remove rules with calling :py:func:`smartRemoveList`. See
+           there for details.
+        3. Remove the oldest backup until there is enough free space.
+        4. Remove the oldest backup until there are enough free inodes.
+
+        The 'last_snapshot' symlink will be fixed when done.
 
         Args:
-            now (datetime.datetime):    date and time when takeSnapshot was
-                                        started
+            now (datetime.datetime): Timestamp when takeSnapshot was started.
         """
-        snapshots = listSnapshots(self.config, reverse = False)
+        snapshots = listSnapshots(self.config, reverse=False)
         if not snapshots:
             logger.debug('No snapshots. Skip freeSpace', self)
             return
 
         last_snapshot = snapshots[-1]
 
-        #remove old backups
+        # Remove old backups
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(0, _('Removing old snapshots'))
 
@@ -1881,7 +1902,7 @@ class Snapshots:
                                                  keep_one_per_month)
             self.smartRemove(del_snapshots)
 
-        # try to keep min free space
+        # Try to keep min free space
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
@@ -1889,7 +1910,7 @@ class Snapshots:
 
             logger.debug("Keep min free disk space: {} MiB".format(minFreeSpace), self)
 
-            snapshots = listSnapshots(self.config, reverse = False)
+            snapshots = listSnapshots(self.config, reverse=False)
 
             while True:
                 if len(snapshots) <= 1:
@@ -1917,7 +1938,7 @@ class Snapshots:
                 self.remove(snapshots[0])
                 del snapshots[0]
 
-        #try to keep free inodes
+        # Try to keep free inodes
         if self.config.minFreeInodesEnabled():
             minFreeInodes = self.config.minFreeInodes()
             self.setTakeSnapshotMessage(
@@ -1938,7 +1959,7 @@ class Snapshots:
                 try:
                     info = os.statvfs(self.config.snapshotsPath())
                     free_inodes = info.f_favail
-                    max_inodes  = info.f_files
+                    max_inodes = info.f_files
                 except Exception as e:
                     logger.debug('Failed to get free inodes for snapshot path %s: %s'
                                  % (self.config.snapshotsPath(), str(e)),
@@ -1959,7 +1980,7 @@ class Snapshots:
                 self.remove(snapshots[0])
                 del snapshots[0]
 
-        #set correct last snapshot again
+        # Set correct last snapshot again
         if last_snapshot is not snapshots[-1]:
             self.createLastSnapshotSymlink(snapshots[-1])
 
@@ -2550,6 +2571,8 @@ class SID:
 
         if isinstance(date, datetime.datetime):
             self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'), self.config.tag(self.profileID)))
+            # TODO: Don't use "date" as attribute name. Btw: It is not a date
+            # but a datetime.
             self.date = date
 
         elif isinstance(date, datetime.date):
@@ -2565,10 +2588,12 @@ class SID:
                 raise LastSnapshotSymlink()
 
             else:
-                raise ValueError("'date' must be in snapshot ID format (e.g 20151218-173512-123)")
+                raise ValueError("'date' must be in snapshot ID format "
+                                 f"(e.g 20151218-173512-123) but is '{date}'")
 
         else:
-            raise TypeError("'date' must be an instance of str, datetime.date or datetime.datetime")
+            raise TypeError("'date' must be an instance of str, datetime.date "
+                            f"or datetime.datetime but is '{date}'")
 
     def __repr__(self):
         return self.sid
@@ -3107,7 +3132,7 @@ class NewSnapshot(GenericNonSnapshot):
         flag = self.path(self.SAVETOCONTINUE)
         if enable:
             try:
-                with open(flag, 'wt') as f:
+                with open(flag, 'wt'):
                     pass
             except Exception as e:
                 logger.error("Failed to set 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
@@ -3192,17 +3217,16 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg, includeNewSnapshot = False):
-    """
-    A generator to iterate over snapshots in current snapshot path.
+def iterSnapshots(cfg, includeNewSnapshot=False):
+    """A generator to iterate over snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config):        current config
-        includeNewSnapshot (bool):  include a NewSnapshot instance if
-                                    'new_snapshot' folder is available.
+        cfg (config.Config): Current config instance.
+        includeNewSnapshot (bool): Include a NewSnapshot instance if
+            'new_snapshot' directory is available (default: False).
 
     Yields:
-        SID:                        snapshot IDs
+        SID: Snapshot IDs
     """
     path = cfg.snapshotsFullPath()
 
@@ -3234,21 +3258,22 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
                     "'{}' is not a snapshot ID: {}".format(item, str(e)))
 
 
-def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
+def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
     """
     List of snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config):        current config (config.Config instance)
-        includeNewSnapshot (bool):  include a NewSnapshot instance if
-                                    'new_snapshot' folder is available
-        reverse (bool):             sort reverse
+        cfg (config.Config): Current config instance.
+        includeNewSnapshot (bool): Include a NewSnapshot instance if
+            'new_snapshot' directory is available (default: False).
+        reverse (bool): Sort reverse (default: True).
 
     Returns:
-        list:                       list of :py:class:`SID` objects
+        list: List of :py:class:`SID` objects.
     """
     ret = list(iterSnapshots(cfg, includeNewSnapshot))
-    ret.sort(reverse = reverse)
+    ret.sort(reverse=reverse)
+
     return ret
 
 

@@ -1,19 +1,11 @@
-#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Taylor Raack
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
 import string
@@ -237,7 +229,7 @@ class SSH(MountControl):
 
         raise MountException(
             "{}\n\n{}".format(
-                _("Can't mount {sshfs}").format(sshfs=" ".join(sshfs)),
+                _('Unable to mount {sshfs}').format(sshfs=" ".join(sshfs)),
                 err
             )
         )
@@ -253,14 +245,20 @@ class SSH(MountControl):
         to run a full check with all tests.
 
         Args:
-            first_run (bool):           run a full test with all checks
+            first_run (bool): Run a full test with all checks.
 
         Raises:
-            exceptions.MountException:  if one test failed an we can not mount
-                                        the remote path
+            exceptions.MountException: If one test failed an we can not mount
+                the remote path.
         """
 
+        # Most of the called methods will raise an exception if something is
+        # wrong.
+
+        # try to open SSH socket
         self.checkPingHost()
+
+        # sshfs (self.mountproc) installed?
         self.checkFuse()
 
         if first_run:
@@ -299,7 +297,7 @@ class SSH(MountControl):
 
         if not sshAgent:
             raise MountException(
-                _('ssh-agent not found. Please make sure it is installed.'))
+                _('ssh-agent not found. Please ensure it is installed.'))
 
         if isinstance(sshAgent, str):
             sshAgent = [sshAgent, ]
@@ -338,12 +336,11 @@ class SSH(MountControl):
         by ``backintime-askpass``.
 
         Args:
-            force (bool):               force to unlock the key by removing it
-                                        first and add it again to make sure,
-                                        the given values are correct
+            force (bool): Force to unlock the key by removing it first and add
+                it again to make sure, the given values are correct.
 
         Raises:
-            exceptions.MountException:  if unlock failed
+            exceptions.MountException: If unlock failed.
         """
 
         self.startSshAgent()
@@ -468,6 +465,7 @@ class SSH(MountControl):
                 logger.debug(
                     'Was not able to unlock private key %s' %
                     self.private_key_file, self)
+
                 raise MountException(
                     _('Could not unlock ssh private key. Wrong password '
                       'or password not available for cron.'))
@@ -477,12 +475,11 @@ class SSH(MountControl):
                          % self.private_key_file, self)
 
     def checkLogin(self):
-        """
-        Try to login to remote host with public/private-key-method
+        """Try to login to remote host with public/private-key-method
         (passwordless).
 
         Raises:
-            exceptions.NoPubKeyLogin:  if login failed
+            exceptions.NoPubKeyLogin: If login failed.
         """
 
         logger.debug('Check login', self)
@@ -520,12 +517,11 @@ class SSH(MountControl):
                 + '\n\n' + err)
 
     def checkCipher(self):
-        """
-        Try to login to remote host with the chosen cipher. This should make
+        """Try to login to remote host with the chosen cipher. This should make
         sure both `localhost` and the remote host support the chosen cipher.
 
         Raises:
-            exceptions.MountException:  if login with the cipher failed
+            exceptions.MountException: If login with the cipher failed.
         """
 
         if not self.cipher == 'default':
@@ -563,6 +559,7 @@ class SSH(MountControl):
                 msg = _('Cipher {cipher} failed for {host}.').format(
                     cipher=self.config.SSH_CIPHERS[self.cipher],
                     host=self.host)
+
                 raise MountException(f'{msg}:\n{err}')
 
     def benchmarkCipher(self, size=40):
@@ -596,7 +593,7 @@ class SSH(MountControl):
 
             print('%s%s:%s' % (bcolors.BOLD, cipher, bcolors.ENDC))
 
-            for i in range(2):
+            for _ in range(2):
                 # scp uses -P instead of -p for port
                 subprocess.call([
                     'scp',
@@ -622,12 +619,11 @@ class SSH(MountControl):
         os.remove(temp)
 
     def checkKnownHosts(self):
-        """
-        Check if the remote host is in current users ``known_hosts`` file.
+        """Check if the remote host is in current users ``known_hosts`` file.
 
         Raises:
-            exceptions.KnownHost:   if the remote host wasn't found
-                                    in ``known_hosts`` file
+            exceptions.KnownHost: If the remote host wasn't found
+                in ``known_hosts`` file.
         """
 
         logger.debug('Check known hosts file', self)
@@ -662,7 +658,7 @@ class SSH(MountControl):
                                         doesn't have correct permissions.
         """
 
-        logger.debug('Check remote folder', self)
+        logger.debug('Check remote directory', self)
 
         cmd = 'd=0;'
         # path doesn't exist. set d=1 to indicate
@@ -727,21 +723,20 @@ class SSH(MountControl):
         else:
 
             # returncode is 0
-            logger.info('Create remote folder %s' % self.path, self)
+            logger.info(f'Create remote path {self.path}', self)
 
     def checkPingHost(self):
         """
         Check if the remote host is online. Other than methods name may let
-        suppose
-        this does not use Ping (``ICMP``) but try to open a connection to
-        the configured port on the remote host. In this way it will even work
-        on remote hosts which have ``ICMP`` disabled.
+        suppose this does not use Ping (``ICMP``) but try to open a connection
+        to the configured port on the remote host. In this way it will even
+        work on remote hosts which have ``ICMP`` disabled.
 
         If connection failed it will retry five times before failing.
 
         Raises:
-            exceptions.MountException:  if connection failed most probably
-                                        because remote host is offline
+            exceptions.MountException: If connection failed most probably
+                because remote host is offline.
         """
 
         if not self.config.sshCheckPingHost(self.profile_id):
@@ -791,19 +786,18 @@ class SSH(MountControl):
 
     def checkRemoteCommands(self, retry=False):
         """
-        Try out all relevant commands used by `Back In Time` on the remote
-        host to make sure snapshots will be successful with the remote host.
-        This will also check that hard-links are supported on the remote host.
-        This check can be disabled
-        with :py:func:`config.Config.sshCheckCommands`
+        Try out all relevant commands used by Back In Time on the remote host
+        to make sure snapshots will be successful with the remote host. This
+        will also check that hard-links are supported on the remote host. This
+        check can be disabled with :py:func:`config.Config.sshCheckCommands`.
 
         Args:
-            retry (bool):               retry to run the commands if it failed
-                                        because the command string was to long
+            retry (bool): Retry to run the commands if it failed because the
+                command string was to long.
+
         Raises:
-            exceptions.MountException:  if a command is not supported on
-                                        remote host or if hard-links are not
-                                        supported
+            exceptions.MountException: If a command is not supported on remote
+                host or if hard-links are not supported.
         """
 
         if not self.config.sshCheckCommands():
@@ -823,9 +817,9 @@ class SSH(MountControl):
                 'We will test max arg length now and retry.',
                 self)
 
-            import sshMaxArg
-            max_arg_size = sshMaxArg.probe_max_ssh_command_size(self.config)
-            sshMaxArg.report_result(self.host, max_arg_size)
+            import ssh_max_arg
+            max_arg_size = ssh_max_arg.probe_max_ssh_command_size(self.config)
+            ssh_max_arg.report_result(self.host, max_arg_size)
 
             self.config.setSshMaxArgLength(max_arg_size, self.profile_id)
 

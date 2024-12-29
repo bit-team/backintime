@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Collection of helper functions not fitting to other modules.
 """
@@ -238,6 +238,8 @@ def initiate_translation(language_code):
 
     set_lc_time_by_language_code(used_code)
 
+    logger.debug(f'Language code used: "{used_code}"')
+
     return used_code
 
 
@@ -277,7 +279,7 @@ def set_lc_time_by_language_code(language_code: str):
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
-        logger.warning(
+        logger.debug(
             f'Determined normalized locale code "{code}" (from language code '
             f'"{language_code}") not available (or invalid). The code will be '
             'ignored. This might lead to unusual display of dates and '
@@ -322,6 +324,8 @@ def get_language_names(language_code):
 
     Language codes from `get_available_language_codes()` are combined with
     `languages.language_names` to prepare the list.
+    If ``language_code`` is not
+    one of the available languages English is used.
 
     Args:
         language_code (str): Usually the current language used by Back In Time.
@@ -333,6 +337,8 @@ def get_language_names(language_code):
         the language itself (native) and in English (the source language);
         e.g. ``ja`` (Japanese) for ``de`` (German) locale
         is ``('Japanisch', '日本語', 'Japanese')``.
+        If ``language_code`` is not one of the available languages the first
+        element in the tuple is ``None``.
     """
     result = {}
     codes = ['en'] + get_available_language_codes()
@@ -352,7 +358,7 @@ def get_language_names(language_code):
         else:
             names = (
                 # in currents locale language
-                lang[language_code],
+                lang.get(language_code, None),
                 # native
                 lang['_native'],
                 # in English (source language)
@@ -364,7 +370,8 @@ def get_language_names(language_code):
     return result
 
 
-def get_native_language_and_completeness(language_code):
+def get_native_language_and_completeness(language_code: str
+                                         ) -> tuple[str, int]:
     """Return the language name in its native flavor and the completeness of
     its translation in percent.
 
@@ -420,7 +427,7 @@ def validate_and_prepare_snapshots_path(
     path = pathlib.Path(path)
 
     if not path.is_dir():
-        error_handler(_('Invalid option. {path} is not a folder.')
+        error_handler(_('{path} is not a valid directory.')
                       .format(path=path))
         return False
 
@@ -434,9 +441,9 @@ def validate_and_prepare_snapshots_path(
 
     except PermissionError:
         error_handler('\n'.join([
-            _('Creation of following folder failed:'),
+            _('Creation of following directory failed:'),
             str(full_path),
-            _(f'Write access may be restricted.')]))
+            _('Write access may be restricted.')]))
         return False
 
     # Test filesystem
@@ -478,7 +485,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
         msg = _(
             "Destination filesystem for {path} is formatted with FAT "
             "which doesn't support hard-links. "
-            "Please use a native Linux filesystem.").format(path=msg_path)
+            "Please use a native GNU/Linux filesystem.").format(path=msg_path)
 
         return False, msg
 
@@ -487,18 +494,18 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
 
     elif fs == 'cifs' and not copy_links:
         msg = _(
-            'Destination filesystem for {path} is an SMB-mounted share. '
+            'Destination filesystem for {path} is a share mounted via SMB. '
             'Please make sure the remote SMB server supports symlinks or '
-            'activate {copyLinks} in {expertOptions}.') \
+            'activate "{copyLinks}" in "{expertOptions}".') \
             .format(path=msg_path,
                     copyLinks=_('Copy links (dereference symbolic links)'),
                     expertOptions=_('Expert Options'))
 
     elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
         msg = _(
-            "Destination filesystem for {path} is an sshfs-mounted share."
-            " Sshfs doesn't support hard-links. "
-            "Please use mode 'SSH' instead.").format(path=msg_path)
+            "Destination filesystem for {path} is a share mounted via sshfs. "
+            "Sshfs doesn't support hard-links. "
+            'Please use mode "SSH" instead.').format(path=msg_path)
 
         return False, msg
 
@@ -530,7 +537,7 @@ def is_writeable(folder):
 
     except PermissionError:
         msg = '\n'.join([
-            _('File creation failed in this folder:'),
+            _('File creation failed in this directory:'),
             str(folder),
             _('Write access may be restricted.')])
         return False, msg
@@ -942,9 +949,11 @@ def processCmdline(pid):
     try:
         with open('/proc/{}/cmdline'.format(pid), 'rt') as f:
             return f.read().strip('\n')
+
     except OSError as e:
         logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
         return ''
+
 
 def pidsWithName(name):
     """
@@ -959,6 +968,7 @@ def pidsWithName(name):
     # /proc/###/stat stores just the first 16 chars of the process name
     return [x for x in pids() if processName(x) == name[:15]]
 
+
 def processExists(name):
     """
     Check if process ``name`` is currently running.
@@ -971,38 +981,44 @@ def processExists(name):
     """
     return len(pidsWithName(name)) > 0
 
+
 def processAlive(pid):
-    """
-    Check if the process with PID ``pid`` is alive.
+    """Check if the process with PID ``pid`` is alive.
 
     Args:
-        pid (int):  Process Indicator
+        pid (int): Process Indicator
 
     Returns:
-        bool:       ``True`` if the process with PID ``pid`` is alive
+        bool: ``True`` if alive otherwise ``False``.
 
     Raises:
-        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to all
-                    processes
+        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to
+            all processes.
     """
     if pid < 0:
         return False
-    elif pid == 0:
-        raise ValueError('invalid PID 0')
-    else:
-        try:
-            os.kill(pid, 0) #this will raise an exception if the pid is not valid
-        except OSError as err:
-            if err.errno == errno.ESRCH:
-                # ESRCH == No such process
-                return False
-            elif err.errno == errno.EPERM:
-                # EPERM clearly means there's a process to deny access to
-                return True
-            else:
-                raise
-        else:
+
+    if pid == 0:
+        raise ValueError('Invalid PID 0')
+
+    try:
+        # Signal 0 is a dummy signal without effect. But an OSError is raised
+        # if the process does not exists.
+        os.kill(pid, 0)
+
+    except OSError as err:
+        if err.errno == errno.ESRCH:
+            # ESRCH == No such process
+            return False
+
+        if err.errno == errno.EPERM:
+            # EPERM clearly means there's a process to deny access to
             return True
+
+        raise
+
+    return True
+
 
 def checkXServer():
     """
@@ -1456,7 +1472,8 @@ def keyringSupported():
     except:
         pass
 
-    logger.debug(f"Keyring config file folder: {keyring_config_file_folder}")
+    logger.debug(
+        f"Keyring config file directory: {keyring_config_file_folder}")
 
     # Determine the currently active backend
     try:
@@ -1474,7 +1491,7 @@ def keyringSupported():
 
     try:
         for b in backend.get_all_keyring():
-            logger.debug(b)
+            logger.debug(str(b))
     except Exception as e:
         logger.debug("Available backends cannot be listed: " + repr(e))
 
@@ -1517,7 +1534,7 @@ def keyringSupported():
             for b in backends:
                 result = getattr(result, b)
 
-        except AttributeError as err:
+        except AttributeError:
             # # Debug message if backend is not available.
             # logger.debug('Metaclass {}.{} not found: {}'
             #              .format(backend_package.__name__,

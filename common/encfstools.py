@@ -1,19 +1,11 @@
-#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Taylor Raack
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
 import re
@@ -21,7 +13,6 @@ import shutil
 import tempfile
 from datetime import datetime
 from packaging.version import Version
-
 import config
 import password
 import password_ipc
@@ -33,9 +24,8 @@ from exceptions import MountException, EncodeValueError
 
 
 class EncFS_mount(MountControl):
-    """
-    Mount encrypted paths with encfs.
-    """
+    """Mount encrypted paths with encfs."""
+
     def __init__(self, *args, **kwargs):
         # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
@@ -88,17 +78,20 @@ class EncFS_mount(MountControl):
             if proc.returncode:
                 raise MountException(
                     '{}:\n\n{}'.format(
-                        _("Can't mount '{command}'")
+                        _("Unable to mount '{command}'")
                         .format(command=' '.join(encfs)),
                         output))
 
-    def preMountCheck(self, first_run = False):
-        """
-        check what ever conditions must be given for the mount
+    def preMountCheck(self, first_run=False):
+        """Check what ever conditions must be given for the mount.
+
+        Raises: Several exceptions.
         """
         self.checkFuse()
+
         if first_run:
             self.checkVersion()
+
         return True
 
     def env(self):
@@ -135,7 +128,7 @@ class EncFS_mount(MountControl):
 
         else:
             logger.debug(f'No encfs config in {cfg}', self)
-            msg = _('Config for encrypted folder not found.')
+            msg = _('Configuration for the encrypted directory not found.')
 
             if not self.tmp_mount:
                 raise MountException(msg)
@@ -143,7 +136,7 @@ class EncFS_mount(MountControl):
             else:
                 question = '{}\n{}'.format(
                     msg,
-                    _('Create a new encrypted folder?')
+                    _('Create a new encrypted directory?')
                 )
 
                 if not self.config.askQuestion(question):
@@ -159,8 +152,7 @@ class EncFS_mount(MountControl):
                         raise MountException(_("Password doesn't match."))
 
     def checkVersion(self):
-        """
-        check encfs version.
+        """Check encfs version.
         1.7.2 had a bug with --reverse that will create corrupt files
 
         Dev note (buhtz, 2024-05): Looking at upstream it seems that the 1.7.2
@@ -247,7 +239,7 @@ class EncFS_SSH(EncFS_mount):
             #file does not exist. It will not create a new one anymore but just fail.
             #As encfs would create the config in /.encfs6.xml (which will most likely fail)
             #we need to mount a temp folder with reverse first and copy the config when done.
-            logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
+            logger.debug('Mount temp directory with encfs --reverse to create a new encfs config', self)
             with tempfile.TemporaryDirectory() as src:
                 tmp_kwargs = self.splitKwargs('encfs_reverse')
                 tmp_kwargs['path'] = src
@@ -285,12 +277,14 @@ class EncFS_SSH(EncFS_mount):
         self.ssh.umount(*args, **kwargs)
 
     def preMountCheck(self, *args, **kwargs):
-        """
-        call preMountCheck for sshfs, encfs --reverse and encfs
+        """Call preMountCheck for sshfs, encfs --reverse and encfs.
         """
         if (self.ssh.preMountCheck(*args, **kwargs)
                 and self.rev_root.preMountCheck(*args, **kwargs)
                 and super(EncFS_SSH, self).preMountCheck(*args, **kwargs)):
+
+            # Dev note (buhtz, 2024-09): Seems unnecessary. No one checks this
+            # return value.
             return True
 
     def splitKwargs(self, mode):
@@ -517,7 +511,7 @@ class Decode:
             .replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
 
         #precompile some regular expressions
-        host, port, user, path, cipher = cfg.sshHostUserPortPathCipher()
+        host, _post, user, path, _cipher = cfg.sshHostUserPortPathCipher()
         #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
         self.re_include_exclude = re.compile(
             r'(--(?:ex|in)clude=")(.*?)(")')  # codespell-ignore

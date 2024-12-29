@@ -47,9 +47,13 @@ def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
     result = []
     for key in a_dict:
 
+        # single quotes?
+        quote_key = "'" if isinstance(key, str) else ""
+        quote_val  = "'" if isinstance(a_dict[key], str) else ""
+
         # A nested dict
         if isinstance(a_dict[key], dict):
-            result.append(f"{tab}'{key}': {{")
+            result.append(f"{tab}{quote_key}{key}{quote_key}: {{")
 
             result.extend(
                 dict_as_code(a_dict[key], indent_level+1))
@@ -58,7 +62,8 @@ def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
             continue
 
         # Regular key: value pair
-        result.append(f"{tab}'{key}': '{a_dict[key]}',")
+        result.append(f"{tab}{quote_key}{key}{quote_key}: "
+                      f"{quote_val}{a_dict[key]}{quote_val},")
 
     return result
 
@@ -244,11 +249,11 @@ def check_syntax_of_po_files():
         # string. BIT won't use constructs like this in strings, so it is
         # handled as an error.
         if rex_curly_pair.findall(invalid):
-            print(f'\nERROR: Curly brackets nested: {to_check}')
+            print(f'\nERROR ({lang_code}): Curly brackets nested: {to_check}')
             return False
 
         if invalid:
-            print(f'\nERROR: Curly brackets not balanced : {to_check}')
+            print(f'\nERROR ({lang_code}): Curly brackets not balanced : {to_check}')
             return False
 
         return True
@@ -262,52 +267,66 @@ def check_syntax_of_po_files():
             list(string.Formatter().parse(format_string=to_check))
 
         except Exception as exc:  # pylint: disable=broad-exception-caught
-            print(f'\nERROR: {exc} in translation: {to_check}')
+            print(f'\nERROR ({lang_code}): {exc} in translation: {to_check}')
             return False
 
         return True
 
-    def _place_holders(trans_string, src_string, flags):
+    def _place_holders(trans_string, src_string, tcomments):
         """Check if the placeholders between original source string
         and the translated string are identical. Order is ignored.
 
         To disable this check for a specific string add the translation
-        flag "ignore-placeholder-compare" to the entry in the po-file.
+        comment(!) on top of the entry in the po file like this:
+
+            # ignore-placeholder-compare
+            #: qt/app.py:1961
+            #, python-brace-format
+            msgid "foo"
+            msgstr "bar"
+
+        Keep in mind that this is a regular comment. It is not a flag (``#, ``)
+        or a user defined flag (``#. ``). The later two are removed by msgmerge
+        when updating the po files from the pot file.
         """
 
-        if 'ignore-placeholder-compare' in flags:
+        if 'ignore-placeholder-compare' in tcomments:
             return True
 
-        flagmsg = 'Disable this check with flagging it with ' \
-                  '"ignore-placeholder-compare" in its po-file.'
+        flagmsg = 'To disable this check add the comment (not flag!) on ' \
+                  'top of the entry in the po-file: ' \
+                  '"# ignore-placeholder-compare"'
 
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
-                print(f'\nERROR: Number of "{bracket}" between original '
-                      'source and translated string is different.\n'
-                      f'Translation: {trans_string}\n{flagmsg}')
+                print(f'\nERROR ({lang_code}): Number of "{bracket}" between '
+                      'original source and translated string is different.\n'
+                      f'\nTranslation: {trans_string}\n\n{flagmsg}')
                 return False
 
         # Compare variable names
         org_names = rex_names.findall(src_string)
         trans_names = rex_names.findall(trans_string)
         if sorted(org_names) != sorted(trans_names):
-            print('\nERROR: Names of placeholders between original source '
-                  'and translated string are different.\n'
-                  f'Names in original    : {org_names}\n'
-                  f'Names in translation : {trans_names}\n'
-                  f'Full translation: {trans_string}\n{flagmsg}')
+            print(f'\nERROR ({lang_code}): Names of placeholders between '
+                  'original source and translated string are different.\n'
+                  f'\nNames in original    : {org_names}\n'
+                  f'\nNames in translation : {trans_names}\n'
+                  f'\nFull translation: {trans_string}\n{flagmsg}')
             return False
 
         return True
 
-    print('Checking syntax of po files...')
+    print('Checking syntax of po files…')
 
     # Each po file
     for po_path in all_po_files_in_local_dir():
+        error_count = 0
         # Language code determined by po-filename
-        print(f'{po_path.with_suffix("").name}', end=' ')
+        lang_code = po_path.with_suffix('').name
+
+        # print(f'{lang_code}', end=' ')
 
         pof = polib.pofile(po_path)
 
@@ -323,8 +342,14 @@ def check_syntax_of_po_files():
                     or not _other_errors(entry.msgstr)
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
-                                          entry.flags)):
-                print(f'Source string: {entry.msgid}\n')
+                                          entry.tcomment)):
+                print(f'\nSource string: {entry.msgid}\n')
+                error_count += 1
+
+        if error_count:
+            print(f' {lang_code} >> {error_count} errors')
+        else:
+            print(f' {lang_code} >> OK')
 
     print('')
 
@@ -339,7 +364,7 @@ def create_completeness_dict():
     indicate the completeness of the translation in percent.
     """
 
-    print('Calculate completeness for each language in percent...')
+    print('Calculate completeness for each language in percent…')
 
     result = {}
 
@@ -386,8 +411,9 @@ def create_languages_file():
     with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
 
         date_now = datetime.datetime.now().strftime('%c')
+        handle.write(get_spdx_metadata_lines())
         handle.write(
-            f'# Generated at {date_now} with help\n# of package "babel" '
+            f'#\n# Generated at {date_now} with help\n# of package "babel" '
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
@@ -451,7 +477,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     result = {}
 
     for code in sorted(language_codes):
-        print(f'Processing language code "{code}"...')
+        print(f'Processing language code "{code}"…')
 
         lang = babel.Locale.parse(code)
         result[code] = {}
@@ -625,16 +651,28 @@ def check_shortcuts():
                 print(err_msg)
 
 
+def get_spdx_metadata_lines() -> str:
+    """Extract the SPDX meta data lines from the current source file."""
+    result = ''
+
+    with Path(__file__).open('r') as handle:
+
+        for line in handle:
+
+            # ignore shebang
+            if line.startswith('#!'):
+                continue
+
+            # stop
+            if line.startswith('"""') or line.startswith('import'):
+                break
+
+            result = result + line
+       
+    return result
+
+
 if __name__ == '__main__':
-
-    # names = update_language_names()
-
-    # tab = {n: '    ' * n for n in range(1, 11)}
-    # result = ['names = {']
-    # result.extend(dict_as_code(names, 1))
-
-    # print('\n'.join(result))
-    # sys.exit(0)
     check_existence()
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'

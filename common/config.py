@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Configuration handling and logic.
 
@@ -126,9 +126,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
-
-    NTFS_FILESYSTEM_WARNING = _('The destination filesystem for {path} is formatted with NTFS, '
-                                'which has known incompatibilities with Unix-style filesystems.')
 
     def __init__(self, config_path=None, data_path=None):
         """Back In Time configuration (and much more then this).
@@ -313,26 +310,27 @@ class Config(configfile.ConfigFileWithProfiles):
         for profile_id in profiles:
             profile_name = self.profileName(profile_id)
             snapshots_path = self.snapshotsPath(profile_id)
-            logger.debug('Check profile %s' %profile_name, self)
+            logger.debug(f'Check profile {profile_name}', self)
 
-            #check snapshots path
+            # check snapshots path
             if not snapshots_path:
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots folder is not valid!')
+                        _('Snapshots directory is not valid.')
                     )
                 )
                 return False
 
-            #check include
+            # check include
             include_list = self.include(profile_id)
 
             if not include_list:
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('You must select at least one folder to back up!')
+                        _('At least one directory must be selected '
+                          'for backup.')
                     )
                 )
 
@@ -349,7 +347,8 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _("Backup folder cannot be included.")
+                            _('The directory cannot be included in the '
+                              'backup.')
                         )
                     )
 
@@ -361,7 +360,8 @@ class Config(configfile.ConfigFileWithProfiles):
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
-                                _("Backup sub-folder cannot be included.")
+                                _('The sub-directories cannot be included in '
+                                  'the backup.')
                             )
                         )
 
@@ -576,7 +576,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def sshMaxArgLength(self, profile_id = None):
         #?Maximum command length of commands run on remote host. This can be tested
         #?for all ssh profiles in the configuration
-        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py LENGTH'.\n
+        #?with 'python3 /usr/share/backintime/common/ssh_max_arg.py LENGTH'.\n
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
@@ -1396,8 +1396,8 @@ class Config(configfile.ConfigFileWithProfiles):
             return True
         else:
             logger.debug(f'Profile ({profile_id=}) is not configured because '
-                         f'snapshot path is {bool(path)} and/or includes '
-                         f'are {bool(includes)}.', self)
+                         f'snapshot path is "{bool(path)}" and/or includes '
+                         f'are "{bool(includes)}".', self)
             return False
 
     def canBackup(self, profile_id=None):
@@ -1492,7 +1492,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 'available. Scheduled backup jobs will not run. '
                 'Cron might be installed but not enabled. Try the command '
                 '"systemctl enable cron" or consult the support channels of '
-                'your GNU Linux distribution.'))
+                'your GNU/Linux distribution.'))
 
         return True
 
@@ -1581,9 +1581,9 @@ class Config(configfile.ConfigFileWithProfiles):
                 dest_path = self.localEncfsPath(profile_id)
             else:
                 logger.error(
-                    'Schedule udev doesn\'t work with mode %s' % mode, self)
+                    f"Udev scheduling doesn't work with mode {mode}", self)
                 self.notifyError(_(
-                    "Schedule udev doesn't work with mode {mode}")
+                    "Udev schedule doesn't work with mode {mode}")
                     .format(mode=mode))
                 return False
             uuid = tools.uuidFromPath(dest_path)

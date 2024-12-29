@@ -1,19 +1,13 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import pathlib
@@ -25,7 +19,6 @@ import random
 import string
 import unittest
 from unittest.mock import patch
-from datetime import date, datetime
 from tempfile import TemporaryDirectory
 from test import generic
 from test.constants import CURRENTUSER, CURRENTGROUP, CURRENTGID, CURRENTUID
@@ -42,11 +35,8 @@ import mount
 GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
 
 
-class TestSnapshots(generic.SnapshotsTestCase):
-    ############################################################################
-    ###                       takeSnapshotMessage                            ###
-    ############################################################################
-    def test_setTakeSnapshotMessage_info(self):
+class SetTakeSnapshotMessage(generic.SnapshotsTestCase):
+    def test_info(self):
         self.sn.setTakeSnapshotMessage(0, 'first message')
         self.sn.snapshotLog.flush()
 
@@ -64,7 +54,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         # test snapshot log
         self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[I] first message')
 
-    def test_setTakeSnapshotMessage_error(self):
+    def test_error(self):
         self.sn.setTakeSnapshotMessage(1, 'second message')
         self.sn.snapshotLog.flush()
 
@@ -82,9 +72,8 @@ class TestSnapshots(generic.SnapshotsTestCase):
         # test snapshot log
         self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[E] second message')
 
-    ############################################################################
-    ###                              uid                                     ###
-    ############################################################################
+
+class UserAndGroups(generic.SnapshotsTestCase):
     def test_uid_valid(self):
         self.assertEqual(self.sn.uid('root'), 0)
         self.assertEqual(self.sn.uid(b'root'), 0)
@@ -105,9 +94,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.uid(CURRENTUSER,  backup = 99999), CURRENTUID)
         self.assertEqual(self.sn.uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
 
-    ############################################################################
-    ###                              gid                                     ###
-    ############################################################################
     def test_gid_valid(self):
         self.assertEqual(self.sn.gid('root'), 0)
         self.assertEqual(self.sn.gid(b'root'), 0)
@@ -128,32 +114,25 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.gid(CURRENTGROUP,  backup = 99999), CURRENTGID)
         self.assertEqual(self.sn.gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
 
-    ############################################################################
-    ###                          userName                                    ###
-    ############################################################################
-    def test_userName_valid(self):
+    def test_username_valid(self):
         self.assertEqual(self.sn.userName(0), 'root')
 
         self.assertEqual(self.sn.userName(CURRENTUID), CURRENTUSER)
 
-    def test_userName_invalid(self):
+    def test_username_invalid(self):
         self.assertEqual(self.sn.userName(99999), '-')
 
-    ############################################################################
-    ###                         groupName                                    ###
-    ############################################################################
-    def test_groupName_valid(self):
+    def test_groupname_valid(self):
         self.assertEqual(self.sn.groupName(0), 'root')
 
         self.assertEqual(self.sn.groupName(CURRENTGID), CURRENTGROUP)
 
-    def test_groupName_invalid(self):
+    def test_groupname_invalid(self):
         self.assertEqual(self.sn.groupName(99999), '-')
 
-    ############################################################################
-    ###                     takeSnapshot helper scripts                      ###
-    ############################################################################
-    def test_rsyncRemotePath(self):
+
+class HelperScripts(generic.SnapshotsTestCase):
+    def test_rsync_remote_path(self):
         self.assertEqual(self.sn.rsyncRemotePath('/foo'),
                          '/foo')
         # "quote" is ignored because the "mode" isn't ssh or ssh_encfs
@@ -178,7 +157,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.rsyncRemotePath('/bar', use_mode = []),
                          '/bar')
 
-    def test_createLastSnapshotSymlink(self):
+    def test_create_last_snapshot_symlink(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid1.makeDirs()
         symlink = self.cfg.lastSnapshotSymlink()
@@ -194,27 +173,26 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertIsLink(symlink)
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
-    def test_statFreeSpaceLocal(self):
+    def test_stat_free_space_local(self):
         self.assertIsInstance(self.sn.statFreeSpaceLocal('/'), int)
 
     @patch('time.sleep') # speed up unittest
-    def test_makeDirs(self, sleep):
+    def test_make_dirs(self, sleep):
         self.assertFalse(self.sn.makeDirs('/'))
         self.assertTrue(self.sn.makeDirs(os.getcwd()))
         with TemporaryDirectory() as d:
             path = os.path.join(d, 'foo', 'bar')
             self.assertTrue(self.sn.makeDirs(path))
 
-    ############################################################################
-    ###                   rsync Ex-/Include and suffix                       ###
-    ############################################################################
-    def test_rsyncExclude_unique_items(self):
+
+class RsyncExcludeIncludeSuffix(generic.SnapshotsTestCase):
+    def test_exclude_unique_items(self):
         exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1'])
         self.assertListEqual(list(exclude), ['--exclude=/foo',
                                              '--exclude=*bar',
                                              '--exclude=/baz/1'])
 
-    def test_rsyncInclude_unique_items(self):
+    def test_include_unique_items(self):
         i1, i2 = self.sn.rsyncInclude([('/foo', 0),
                                        ('/bar', 1),
                                        ('/baz/1/2', 1)])
@@ -225,13 +203,13 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                         '--include=/bar',
                                         '--include=/baz/1/2'])
 
-    def test_rsyncInclude_root(self):
+    def test_include_root(self):
         i1, i2 = self.sn.rsyncInclude([('/', 0), ])
         self.assertListEqual(list(i1), [])
         self.assertListEqual(list(i2), ['--include=/',
                                         '--include=/**'])
 
-    def test_rsyncSuffix(self):
+    def test_rsync_suffix(self):
         suffix = self.sn.rsyncSuffix(includeFolders = [('/foo', 0),
                                                        ('/bar', 1),
                                                        ('/baz/1/2', 1)],
@@ -254,10 +232,9 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                            r'--include=/baz/1/2 '   +
                                            r'--exclude=\* /$')
 
-    ############################################################################
-    ###                            callback                                  ###
-    ############################################################################
-    def test_restoreCallback(self):
+
+class Callbacks(generic.SnapshotsTestCase):
+    def test_restore(self):
         msg = 'foo'
         callback = lambda x: self.callback(self.assertEqual, x, msg)
         self.sn.restoreCallback(callback, True, msg)
@@ -270,8 +247,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertTrue(self.run)
         self.assertTrue(self.sn.restorePermissionFailed)
 
-
-    def test_rsyncCallback(self):
+    def test_callback(self):
         params = [False, False]
 
         self.sn.rsyncCallback('foo', params)
@@ -282,13 +258,13 @@ class TestSnapshots(generic.SnapshotsTestCase):
         with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: foo)\n', f.read())
 
-    def test_rsyncCallback_keep_params(self):
+    def test_keep_params(self):
         params = [True, True]
 
         self.sn.rsyncCallback('foo', params)
         self.assertListEqual([True, True], params)
 
-    def test_rsyncCallback_transfer(self):
+    def test_transfer(self):
         params = [False, False]
 
         self.sn.rsyncCallback('BACKINTIME: <f+++++++++ /foo/bar', params)
@@ -299,7 +275,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)\n[C] <f+++++++++ /foo/bar\n', f.read())
 
-    def test_rsyncCallback_dir(self):
+    def test_dir(self):
         params = [False, False]
 
         self.sn.rsyncCallback('BACKINTIME: cd..t...... /foo/bar', params)
@@ -310,7 +286,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)\n', f.read())
 
-    def test_rsyncCallback_error(self):
+    def test_error(self):
         params = [False, False]
 
         self.sn.rsyncCallback('rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', params)
@@ -322,150 +298,9 @@ class TestSnapshots(generic.SnapshotsTestCase):
             self.assertEqual('[I] Take snapshot (rsync: rsync: send_files failed to open "/foo/bar": Operation not permitted (1))\n' \
                              '[E] Error: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)\n', f.read())
 
-    ############################################################################
-    ###                          smart remove                                ###
-    ############################################################################
-    def test_incMonth(self):
-        self.assertEqual(self.sn.incMonth(date(2016,  4, 21)), date(2016, 5, 1))
-        self.assertEqual(self.sn.incMonth(date(2016, 12, 24)), date(2017, 1, 1))
 
-    def test_decMonth(self):
-        self.assertEqual(self.sn.decMonth(date(2016, 4, 21)), date(2016,  3, 1))
-        self.assertEqual(self.sn.decMonth(date(2016, 1, 14)), date(2015, 12, 1))
-
-    def test_smartRemove_keep_all(self):
-        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
-        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
-        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
-        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
-
-        keep = self.sn.smartRemoveKeepAll(sids,
-                                               date(2016, 4, 20),
-                                               date(2016, 4, 23))
-        self.assertSetEqual(keep, set((sid2, sid3, sid4, sid5)))
-
-        keep = self.sn.smartRemoveKeepAll(sids,
-                                               date(2016, 4, 11),
-                                               date(2016, 4, 18))
-        self.assertSetEqual(keep, set())
-
-    def test_smartRemove_keep_first(self):
-        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
-        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
-        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
-        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
-
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 20),
-                                            date(2016, 4, 23))
-        self.assertSetEqual(keep, set((sid2,)))
-
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 11),
-                                            date(2016, 4, 18))
-        self.assertSetEqual(keep, set())
-
-    def test_smartRemove_keep_first_no_errors(self):
-        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
-        sid2.makeDirs()
-        sid2.failed = True
-        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
-        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
-        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
-
-        # keep the first healthy snapshot
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 20),
-                                            date(2016, 4, 23),
-                                            keep_healthy = True)
-        self.assertSetEqual(keep, set((sid3,)))
-
-        # if all snapshots failed, keep the first at all
-        for sid in (sid3, sid4, sid5):
-            sid.makeDirs()
-            sid.failed = True
-        keep = self.sn.smartRemoveKeepFirst(sids,
-                                            date(2016, 4, 20),
-                                            date(2016, 4, 23),
-                                            keep_healthy = True)
-        self.assertSetEqual(keep, set((sid2,)))
-
-    def test_smartRemoveList(self):
-        sid1  = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2  = snapshots.SID('20160422-030324-123', self.cfg)
-        sid3  = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4  = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5  = snapshots.SID('20160421-033218-123', self.cfg)
-        sid6  = snapshots.SID('20160421-013218-123', self.cfg)
-        sid7  = snapshots.SID('20160420-013218-123', self.cfg)
-        sid8  = snapshots.SID('20160419-013218-123', self.cfg)
-        sid9  = snapshots.SID('20160419-003218-123', self.cfg)
-        sid10 = snapshots.SID('20160418-003218-123', self.cfg)
-        sid11 = snapshots.SID('20160417-033218-123', self.cfg)
-        sid12 = snapshots.SID('20160417-003218-123', self.cfg)
-        sid13 = snapshots.SID('20160416-134327-123', self.cfg)
-        sid14 = snapshots.SID('20160416-114327-123', self.cfg)
-        sid15 = snapshots.SID('20160415-134327-123', self.cfg)
-        sid16 = snapshots.SID('20160411-134327-123', self.cfg)
-        sid17 = snapshots.SID('20160410-134327-123', self.cfg)
-        sid18 = snapshots.SID('20160409-134327-123', self.cfg)
-        sid19 = snapshots.SID('20160407-134327-123', self.cfg)
-        sid20 = snapshots.SID('20160403-134327-123', self.cfg)
-        sid21 = snapshots.SID('20160402-134327-123', self.cfg)
-        sid22 = snapshots.SID('20160401-134327-123', self.cfg)
-        sid23 = snapshots.SID('20160331-134327-123', self.cfg)
-        sid24 = snapshots.SID('20160330-134327-123', self.cfg)
-        sid25 = snapshots.SID('20160323-133715-123', self.cfg)
-        sid26 = snapshots.SID('20160214-134327-123', self.cfg)
-        sid27 = snapshots.SID('20160205-134327-123', self.cfg)
-        sid28 = snapshots.SID('20160109-134327-123', self.cfg)
-        sid29 = snapshots.SID('20151224-134327-123', self.cfg)
-        sid30 = snapshots.SID('20150904-134327-123', self.cfg)
-        sid31 = snapshots.SID('20140904-134327-123', self.cfg)
-
-        sids = [       sid1,  sid2,  sid3,  sid4,  sid5,  sid6,  sid7,  sid8,  sid9,
-                sid10, sid11, sid12, sid13, sid14, sid15, sid16, sid17, sid18, sid19,
-                sid20, sid21, sid22, sid23, sid24, sid25, sid26, sid27, sid28, sid29,
-                sid30, sid31]
-        for sid in sids:
-            sid.makeDirs()
-        now = datetime(2016, 4, 24, 21, 51, 34)
-
-        del_snapshots = self.sn.smartRemoveList(now,
-                                                3, #keep_all
-                                                7, #keep_one_per_day
-                                                5, #keep_one_per_week
-                                                3  #keep_one_per_month
-                                                )
-        self.assertListEqual(del_snapshots, [sid6, sid9, sid12, sid13, sid14,
-                                             sid15, sid16, sid18, sid19, sid21,
-                                             sid22, sid24, sid27, sid28, sid30])
-
-        # test failed snapshots
-        for sid in (sid5, sid8, sid11, sid12, sid20, sid21, sid22):
-            sid.failed = True
-        del_snapshots = self.sn.smartRemoveList(now,
-                                                3, #keep_all
-                                                7, #keep_one_per_day
-                                                5, #keep_one_per_week
-                                                3  #keep_one_per_month
-                                                )
-        self.assertListEqual(del_snapshots, [sid5, sid8, sid11, sid12, sid14,
-                                             sid15, sid16, sid18, sid19, sid20, sid21,
-                                             sid22, sid24, sid27, sid28, sid30])
-
-
-class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
-    def test_backupConfig(self):
+class SnapshotWithSID(generic.SnapshotsWithSidTestCase):
+    def test_backup_config(self):
         self.sn.backupConfig(self.sid)
         self.assertIsFile(self.sid.path('config'))
         self.assertEqual(tools.md5sum(self.sid.path('config')),
@@ -490,7 +325,7 @@ snapshot_tag=123
 snapshot_user=.+
 user.size=.+''', re.MULTILINE))
 
-    def test_backupPermissions(self):
+    def test_backup_permissions(self):
         #TODO: add test for save permissions over SSH (and one SSH-test for path with spaces)
         infoFilePath = os.path.join(self.snapshotPath,
                                     '20151219-010324-123',
@@ -517,7 +352,7 @@ user.size=.+''', re.MULTILINE))
             self.assertIn(tmp.encode(), fileInfo)
             self.assertIn(file_path.encode(), fileInfo)
 
-    def test_collectPermission(self):
+    def test_collect_permission(self):
         # force permissions because different distributions will have different umask
         os.chmod(self.testDirFullPath, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH)
         os.chmod(self.testFileFullPath, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
@@ -534,7 +369,7 @@ user.size=.+''', re.MULTILINE))
         self.assertTupleEqual(d[testFile], (33204, CURRENTUSER.encode(), CURRENTGROUP.encode()))
 
 
-class TestRestorePathInfo(generic.SnapshotsTestCase):
+class RestorePathInfo(generic.SnapshotsTestCase):
     def setUp(self):
         self.pathFolder = '/tmp/test/foo'
         self.pathFile   = '/tmp/test/bar'
@@ -543,16 +378,16 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         if os.path.exists(self.pathFile):
             os.remove(self.pathFile)
         os.makedirs(self.pathFolder)
-        with open(self.pathFile, 'wt') as f:
+        with open(self.pathFile, 'wt'):
             pass
 
         self.modeFolder = os.stat(self.pathFolder).st_mode
         self.modeFile   = os.stat(self.pathFile).st_mode
 
-        super(TestRestorePathInfo, self).setUp()
+        super(RestorePathInfo, self).setUp()
 
     def tearDown(self):
-        super(TestRestorePathInfo, self).tearDown()
+        super(RestorePathInfo, self).tearDown()
         if os.path.exists(self.pathFolder):
             shutil.rmtree(self.pathFolder)
         if os.path.exists(self.pathFile):
@@ -604,6 +439,8 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
+    @unittest.skipIf(len(GROUPS) < 2,
+                     'Current user must be a member of more than one group.')
     def test_change_group(self):
         newGroup = [x for x in GROUPS if x != CURRENTGROUP][0]
         newGID = grp.getgrnam(newGroup).gr_gid
@@ -660,38 +497,37 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_gid, CURRENTGID)
 
 
-class TestDeletePath(generic.SnapshotsWithSidTestCase):
-    def test_delete_file(self):
+class DeletePath(generic.SnapshotsWithSidTestCase):
+    def test_file(self):
         self.assertExists(self.testFileFullPath)
         self.sn.deletePath(self.sid, self.testFile)
         self.assertNotExists(self.testFileFullPath)
 
-    def test_delete_file_readonly(self):
+    def test_file_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         self.sn.deletePath(self.sid, self.testFile)
         self.assertNotExists(self.testFileFullPath)
 
-    def test_delete_dir(self):
+    def test_dir(self):
         self.assertExists(self.testDirFullPath)
         self.sn.deletePath(self.sid, self.testDir)
         self.assertNotExists(self.testDirFullPath)
 
-    def test_delete_dir_readonly(self):
+    def test_dir_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
         self.sn.deletePath(self.sid, self.testDir)
         self.assertNotExists(self.testDirFullPath)
 
-    def test_delete_pardir_readonly(self):
+    def test_pardir_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
         self.sn.deletePath(self.sid, 'foo')
         self.assertNotExists(self.testDirFullPath)
 
 
-class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
-    """Integration test about removing a snapshot.
-    """
+class RemoveSnapshot(generic.SnapshotsWithSidTestCase):
+    """Integration test about removing a snapshot."""
 
     def test_remove(self):
 
@@ -716,7 +552,7 @@ class SshSnapshots(generic.SSHTestCase):
         self.sn = snapshots.Snapshots(self.cfg)
         os.makedirs(self.remoteFullPath)
 
-    def test_statFreeSpaceSsh(self):
+    def test_stat_free_space_ssh(self):
         self.assertIsInstance(self.sn.statFreeSpaceSsh(), int)
 
 
@@ -985,7 +821,7 @@ class SshPermissions(unittest.TestCase):
     snapshot profile.
     """
 
-    def test_backupPermissions(self):
+    def test_backup_permissions(self):
         """Backup file permissions in SSH backup mode."""
 
         # --- prepare environment ---

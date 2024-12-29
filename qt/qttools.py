@@ -1,21 +1,13 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar
-#    Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Some helper functions and additional classes in context of Qt.
 
     - Helpers for Qt Fonts.
@@ -63,6 +55,7 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
+import version
 
 
 # |---------------|
@@ -157,18 +150,6 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|
-
-
-def equalIndent(*args):
-    width = 0
-
-    for widget in args:
-        widget.setMinimumWidth(0)
-        width = max(width, widget.sizeHint().width())
-
-    if len(args) > 1:
-        for widget in args:
-            widget.setMinimumWidth(width)
 
 
 class FileDialogShowHidden(QFileDialog):
@@ -293,8 +274,8 @@ def createQApplication(app_name='Back In Time'):
     try:
         # The platform name indicates eg. wayland vs. X11, see also:
         # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-        # For more details see our X11/Wayland/Qt documentation the doc-dev
-        # folder
+        # For more details see our X11/Wayland/Qt documentation in the
+        # directory doc/maintain
         qt_platform_name = qapp.platformName()
         logger.debug(f"QT QPA platform plugin: {qt_platform_name}")
         logger.debug(
@@ -320,6 +301,11 @@ def createQApplication(app_name='Back In Time'):
     except Exception as e:
         logger.debug(
             f"Error reading QT QPA platform plugin or style: {repr(e)}")
+
+    # Release Candidate indicator
+    if version.is_release_candidate():
+        app_name = f'{app_name} -- RELEASE CANDIDATE -- ' \
+                   f'({version.__version__})'
 
     qapp.setApplicationName(app_name)
 

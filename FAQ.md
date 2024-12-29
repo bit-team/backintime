@@ -5,7 +5,7 @@ SPDX-FileCopyrightText: © 2024 Paul Worrall (@Silver-Saucepan)
 SPDX-License-Identifier: GPL-2.0-or-later
 
 This file is part of the program "Back In Time" which is released under GNU
-General Public License v2 (GPLv2). See file/folder LICENSE or go to
+General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # FAQ - Frequently Asked Questions
@@ -27,6 +27,7 @@ General Public License v2 (GPLv2). See file/folder LICENSE or go to
    * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
    * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
    * [What happens when I remove a snapshot?](#what-happens-when-i-remove-a-snapshot)
+   * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
    * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
@@ -34,6 +35,7 @@ General Public License v2 (GPLv2). See file/folder LICENSE or go to
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
    * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
+   * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
@@ -45,6 +47,7 @@ General Public License v2 (GPLv2). See file/folder LICENSE or go to
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
    * [NTFS Compatibility](#ntfs-compatibility)
+   * [GUI does not scale on high resolution or 4k monitors](#gui-does-not-scale-on-high-resolution-or-4k-monitors)
 - [user-callback and other PlugIns](#user-callback-and-other-plugins)
    * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
    * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
@@ -54,9 +57,10 @@ General Public License v2 (GPLv2). See file/folder LICENSE or go to
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
-- [Uncategorized questions](#uncategorized-questions)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
+- [Project & more](#project--more)
+   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
+   * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -409,6 +413,59 @@ others, so other snapshots are not affected. However, the data of identical file
 not stored redundantly by multiple snapshots, so removing a snapshot will only
 recover the space used by files that are unique to that snapshot.
 
+## How can I exclude cache folders to improve backup speed and reduce storage?
+
+**Why exclude cache folders?**
+
+Cache folders typically contain temporary files that are not necessary for backups. 
+Excluding them can significantly improve backup speed and reduce storage usage.
+
+**How to exclude cache folders:**
+
+1. Open Back in Time.
+2. Go to the **Exclude Patterns** settings:
+   - Click the "Exclude" tab in the configuration window.
+   - Click the **Add** button to create a new exclude pattern.
+
+3. Add the following patterns to exclude common cache directories:
+   ```plaintext
+   .var/app/**/[Cc]ache/
+   .var/app/**/media_cache/
+   .mozilla/firefox/**/cache/
+   .config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage/
+   ```
+
+**Explanation**:
+
+- `/**/` matches any directory structure leading to the specified folder.
+- `[Cc]ache` matches folder names with either uppercase or lowercase "Cache."
+
+4. Decide whether to include or exclude the folder itself:
+   - To exclude only the folder’s content, use `/*` at the end of the pattern:
+     ```plaintext
+     .var/app/**/[Cc]ache/*
+     ```
+   - To exclude the folder and its contents, omit the `/*`:
+     ```plaintext
+     .var/app/**/[Cc]ache/
+     ```
+
+**Tips for better results:**
+
+- **Check Backup Logs**:  
+  After running a backup, review the logs to identify additional folders that may 
+  slow down the process. Example log entries for cache files:
+  ```plaintext
+  [E] Skipping file /path/to/cache/file: Too many small files.
+  ```
+
+- **Customize Patterns**:  
+  Adjust the patterns to suit your specific applications. For example, modify paths 
+  for browsers or other software you use.
+
+- **Test Exclude Patterns**:  
+  Test your backup after adding patterns to ensure they work as intended.
+
 
 # Restore
 
@@ -506,6 +563,39 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
+## Can I use a systemd timer instead of cron?
+
+While there is no support within *Back In Time* to directly create a systemd
+timer, users can create a user timer and service units. Templates are provided
+below. Optionally adjust the value for `OnCalendar=` with a valid setting. See
+[`man systemd.timer`](https://manpages.debian.org/testing/systemd/systemd.timer.5)
+for more.
+
+**Timer**:
+```ini
+# ~/.config/systemd/user/backintime-backup-job.timer
+[Unit]
+Description=Start a backintime snapshot once daily
+
+[Timer]
+OnCalendar=daily
+AccuracySec=1m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+**Service**:
+```ini
+# ~/.config/systemd/user/backintime-backup-job.service
+[Unit]
+Description=Run backintime snapshot generation
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup-job
+```
 
 # Problems, Errors & Solutions
 ## WARNING: A backup is already running
@@ -525,7 +615,7 @@ ps aux | grep -i backintime
 If the output shows a running instance of _Back In Time_ it must be waited until it finishes
 or killed via `kill <process id>`.
 
-For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
+For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](doc/maintain/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
 ## _Back in Time_ does not start and shows: The application is already running! (pid: 1234567)
 This message occurs when _Back In Time_ is either already running or did not finish regularly (e.g. due to a crash)
@@ -536,7 +626,7 @@ via `ps aux | grep -i backintime`.
 Otherwise, kill the process. After that look into the folder
 `~/.local/share/backintime` for the file `app.lock.pid` and delete it.
 
-For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](common/doc-dev/4_Control_files_usage_(locks_flocks_logs_and_others).md)
+For more details see the developer documentation: [Usage of control files (locks, flocks, logs and others)](doc/maintain/4_Control_files_usage_(locks_flocks_logs_and_others).md)
 
 ## Switching to dark or light mode in the desktop environment is ignored by BIT
 After restart _Back In Time_ it should adapt to the desktops current used
@@ -622,6 +712,17 @@ It is recommended that only devices formatted with Unix style file systems (such
 
 For more information, refer to [this Microsoft page](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions).
 
+## GUI does not scale on high resolution or 4k monitors
+The technical details are complex and many components of the operating system
+are involved. BIT itself is not involved and also not responsible for
+it. Several approaches might help:
+- Check your desktop environment or window manager for settings regarding
+  scaling.
+- Because BIT is using Qt for its GUI, modifying the environment variable
+  `QT_SCALE_FACTOR` or `QT_AUTO_SCREEN_SCALE_FACTOR`.
+  See [this article](https://doc.qt.io/qt-6/highdpi.html) and
+  [Issue #1946](https://github.com/bit-team/backintime/issues/1946) about more
+  details.
 # user-callback and other PlugIns
 
 ## How to backup Debian/Ubuntu Package selection?
@@ -1173,9 +1274,9 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
    ```
 
 
-# Uncategorized questions
+# Project & more
 
-## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
+## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
 which will make it possible to restore permissions correctly even if UID/GID
@@ -1206,6 +1307,18 @@ need to prioritize tasks. Another reasons is that their are distro maintainers
 with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their
 maintainers if _Back In Time_ is unavailable or out dated.
+
+
+## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
+
+We also believe that staying with Microsoft GitHub is not a good idea. Microsoft
+GitHub does not offer any exclusive feature for our project that another hoster
+could not also provide. But a migration is a matter of time and resources we
+currently do not have. But it is on our list. And with the current state of
+discussion we seem to target [Codeberg.org](https://codeberg.org).
+
+For more details please see
+[this thread on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/O5XZ5SPW6WIFBFKWUBHSOUIBKEUIBPNM/).
 
 
 # Testing & Building

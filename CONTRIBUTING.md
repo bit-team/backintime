@@ -1,3 +1,12 @@
+<!--
+SPDX-FileCopyrightText: © 2009 Back In Time Team
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
+-->
 # How to contribute to _Back In Time_
 
 😊 **Thanks for taking the time to contribute!**
@@ -34,7 +43,7 @@ the maintenance team upon request.
 > (reflecting the latest development state).
 
 1. Fork this repository. See Microsoft GitHub's own documentation about
-   [how to fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
 
 2. Clone your own fork to your local machine and enter the directory:
 
@@ -43,7 +52,7 @@ the maintenance team upon request.
 
 3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
 
-       $ git checkout --branch myfancyfeature dev
+       $ git checkout -b myfancyfeature dev
 
 4. Now you can add your modifications.
 
@@ -54,9 +63,9 @@ the maintenance team upon request.
 
 6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
 
-7. Visit your on repository on Microsoft GitHub's website and create a Pull Request.
+7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
    See Microsoft GitHub's own documentation about
-   [how to create a Pull Request based on your own fork](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 # Best practice and recommendations
 Please take the following best practices into account if possible. This will reduce
@@ -69,7 +78,7 @@ request is accepted.
   (e.g. `"Hello World"`). Exceptions are when single quotes contained in the
   string (e.g. `"Can't unmount"`).
 - For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
-  (see our own [HOWTO about doc generation](common/doc-dev/1_doc_howto.md)).
+  (see our own [HOWTO about doc generation](doc/maintain/1_doc_howto.md)).
 - Avoid the use of automatic formatters like `black` but mention the use of
   them when opening a pull request.
 - Run unit tests before you open a Pull Request. You can run them via
@@ -78,17 +87,17 @@ request is accepted.
   [Build and install via `make` system](#build-and-install-via-make-system-recommended)
   for further details.
 - Try to create new unit tests if appropriate. Use the style of regular Python
-  `unittest` rather than `pytest`. If you know the difference please try follow
+  `unittest` rather than `pytest`. If you know the difference, please try to follow
   the _Classical (aka Detroit) school_ instead of _London (aka mockist)
   school_.
-- See recommendations about [how to handle translatable strings](common/doc-dev/2_localization.md#instructions-for-the-translation-process).
+- See recommendations about [how to handle translatable strings](doc/maintain/2_localization.md#instructions-for-the-translation-process).
 
 # Resources & Further readings
 
 - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
-- [HowTo's and maintenance](common/doc-dev/README.md)
+- [HowTo's and maintenance](doc/maintain/README.md)
 - [contribution-guide.org](https://www.contribution-guide.org)
 - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
 - [mozillascience.github.io/working-open-workshop/contributing](https://mozillascience.github.io/working-open-workshop/contributing)
@@ -148,12 +157,13 @@ the packages provided by the official repository of your GNU/Linux distribution.
   - `build-essential`
   - `gzip`
   - `gettext`
-  - `python3-pyfakefs`
+  - `python3-pyfakefs` (>= 5.7)
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `flake8`
     - `ruff` (>= 0.6.0)
     - `codespell`
+    - `reuse` (>= 4.0.0)
  
 * Dependencies to build documentation
   - All runtime, build, testing dependencies including the recommended
@@ -187,7 +197,7 @@ See `common/configure --help` and `qt/configure --help` for details.
 > [!IMPORTANT]
 > Remember to **manually** test _Back In Time_ and not rely solely on
 > the automatic test suite. See section
-> [Manual testing](common/doc-dev/BiT_release_process.md#manual-testing---recommendations)
+> [Manual testing](doc/maintain/BiT_release_process.md#manual-testing---recommendations)
 > about recommendations how to perform such tests.
 
 After [building and installing](#build--install), `make` can be used to run the
@@ -224,7 +234,7 @@ To test the connection just execute `ssh localhost` and you should see an
 SSH shell **without** being asked for a password.
 
 For detailed setup instructions see the
-[how to setup openssh for unit tests](common/doc-dev/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
+[how to setup openssh for unit tests](doc/maintain/3_How_to_set_up_openssh_server_for_ssh_unit_tests.md).
 
 # What happens after you opened a Pull Request (PR)?
 In short:
@@ -357,7 +367,11 @@ projects offering a web fronted will be supported of course.
 
 # Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted to
-the project are considered licensed under the same terms (see
-[LICENSE](LICENSE)) as the rest of the work.
+the project are considered licensed under the same terms as the rest of the
+work. With a few exceptions, this is
+[GNU General Public License Version 2 or later](https://spdx.org/licenses/GPL-2.0-or-later.html)
+(GPL-2.0-or-later). This project uses [SPDX metadata](https://spdx.dev/) to
+provide detailed license and copyright information. This data is also
+machine-readable with [REUSE tools](https://reuse.software/).
 
-<sub>July 2024</sub>
+<sub>November 2024</sub>

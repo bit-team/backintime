@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests using several linters.
 
@@ -44,8 +44,11 @@ full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'languages.py',
     'schedule.py',
+    'ssh_max_arg.py',
     'version.py',
     'test/test_lint.py',
+    'test/test_mount.py',
+    'test/test_uniquenessset.py',
 )]
 
 # Not all linters do respect PEP8 (e.g. ruff, PyLint)
@@ -309,7 +312,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0311',  # bad-indentation
             'W0404',  # reimported
             'W0611',  # unused-import
-            # 'W0612',  # unused-variable
+            'W0612',  # unused-variable
             'W0614',  # unused-wildcard-import
             'W0707',  # raise-missing-from
             'W1301',  # unused-format-string-key
@@ -319,7 +322,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W4904',  # deprecated-class
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
-            'R0801',  # duplicate-code
+            # See PyLint bugs:
+            # https://github.com/pylint-dev/pylint/issues/214
+            # https://github.com/pylint-dev/pylint/issues/7920
+            # 'R0801',  # duplicate-code
 
             # Enable asap. This list is a selection of existing (not all!)
             # problems currently existing in the BIT code base. Quite easy to
@@ -340,9 +346,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             universal_newlines=True,
             capture_output=True)
 
-        # Count lines except module headings
-        error_n = len(list(filter(lambda line: not line.startswith('*****'),
-                                  r.stdout.splitlines())))
+        # Count lines except module headings and output about duplicate code
+        error_n = len(list(filter(
+            lambda line: line[:2] not in ('**', '  ', '==', ' (', ''),
+            r.stdout.splitlines())))
         print(r.stdout)
 
         self.assertEqual(0, error_n, f'PyLint found {error_n} problems.')

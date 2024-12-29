@@ -1,4 +1,20 @@
 #!/bin/sh
+# SPDX-FileCopyrightText: © 2009 Oprea Dan
+# SPDX-FileCopyrightText: © 2013 Germar Reitze
+# SPDX-FileCopyrightText: © 2022 Jürgen Altfeld
+# SPDX-FileCopyrightText: © 2022 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2023 Kian-Meng Ang
+# SPDX-FileCopyrightText: © 2023 Fabio Fantoni
+# SPDX-FileCopyrightText: © 2024 Tejas Guruswamy
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# This is the configuration file for the Read the Docs service.
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details.
 
 #clean up
 if [ -e Makefile ]; then
@@ -162,6 +178,8 @@ addUninstallDir          "/share/backintime/qt/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/qt/__pycache__"
 addInstallDir            "/share/backintime/qt"
 addInstallFiles "*.py"   "/share/backintime/qt"
+addInstallDir            "/share/backintime/qt/manageprofiles"
+addInstallFiles "manageprofiles/*.py"   "/share/backintime/qt/manageprofiles"
 addNewline
 
 addComment "plugin"
@@ -202,11 +220,13 @@ addNewline
 addComment "documentation"
 addInstallDir                        "/share/doc/backintime-qt"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-qt"
-addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
 addInstallFile "../README.md"        "/share/doc/backintime-qt"
 addInstallFile "../FAQ.md"        "/share/doc/backintime-qt"
 addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt"
 addInstallFile "../CHANGES"          "/share/doc/backintime-qt"
+addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
+addInstallDir                        "/share/doc/backintime-qt/LICENSES"
+addInstallFiles "../LICENSES/*"      "/share/doc/backintime-qt/LICENSES"
 addNewline
 
 addComment ".desktop"

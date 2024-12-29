@@ -1,19 +1,10 @@
-#    Copyright (C) 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from PyQt6.QtGui import QIcon
 import logger
 
@@ -71,9 +62,11 @@ SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
 VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
                       QIcon.fromTheme('text-x-generic'))
-VIEW_LAST_LOG       = QIcon.fromTheme('document-open-recent')  # 'document-open-recent')  # ('document-new')
+VIEW_LAST_LOG       = QIcon.fromTheme('document-open-recent')
 SETTINGS            = QIcon.fromTheme('gtk-preferences',
-                      QIcon.fromTheme('configure'))
+                      QIcon.fromTheme('configure',
+                      # Free Desktop Icon Naming Specification
+                      QIcon.fromTheme('preferences-system')))
 SHUTDOWN            = QIcon.fromTheme('system-shutdown')
 EXIT                = QIcon.fromTheme('gtk-close',
                       QIcon.fromTheme('application-exit'))
@@ -93,7 +86,7 @@ ABOUT               = QIcon.fromTheme('help-about')
 #Files toolbar
 UP                  = QIcon.fromTheme('go-up')
 SHOW_HIDDEN         = QIcon.fromTheme('view-hidden',  # currently only in Breeze (see #1159)
-                      QIcon.fromTheme('show-hidden',  # icon installed with BiT!
+                      QIcon.fromTheme('show-hidden',  # icon installed with # BiT! #507
                       QIcon.fromTheme('list-add')))
 RESTORE             = QIcon.fromTheme('edit-undo')
 RESTORE_TO          = QIcon.fromTheme('document-revert')
