@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
 # Generated at Wed Nov 13 09:21:14 2024 with help
 # of package "babel" and "polib".
 # https://babel.pocoo.org

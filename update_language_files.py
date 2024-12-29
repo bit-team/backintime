@@ -411,8 +411,9 @@ def create_languages_file():
     with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
 
         date_now = datetime.datetime.now().strftime('%c')
+        handle.write(get_spdx_metadata_lines())
         handle.write(
-            f'# Generated at {date_now} with help\n# of package "babel" '
+            f'#\n# Generated at {date_now} with help\n# of package "babel" '
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
@@ -650,8 +651,28 @@ def check_shortcuts():
                 print(err_msg)
 
 
-if __name__ == '__main__':
+def get_spdx_metadata_lines() -> str:
+    """Extract the SPDX meta data lines from the current source file."""
+    result = ''
 
+    with Path(__file__).open('r') as handle:
+
+        for line in handle:
+
+            # ignore shebang
+            if line.startswith('#!'):
+                continue
+
+            # stop
+            if line.startswith('"""') or line.startswith('import'):
+                break
+
+            result = result + line
+       
+    return result
+
+
+if __name__ == '__main__':
     check_existence()
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'
