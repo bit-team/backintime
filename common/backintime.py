@@ -741,14 +741,12 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     State relatd parameters:
         internal.msg_rc=1.5.3-rc1
         internal.msg_shown_encfs=true
-        profile1.qt.last_path=/home/user/Downloads
         profile1.qt.places.SortColumn=1
         profile1.qt.places.SortOrder=SortOrder.AscendingOrder
         profile1.qt.settingsdialog.exclude.SortColumn=1
         profile1.qt.settingsdialog.exclude.SortOrder=0
         profile1.qt.settingsdialog.include.SortColumn=1
         profile1.qt.settingsdialog.include.SortOrder=0
-        qt.last_path=/home/user/Downloads
         qt.logview.height=676
         qt.logview.width=949
         qt.main_window.files_view.date_width=100
@@ -764,6 +762,9 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         qt.main_window.width=1356
         qt.main_window.x=230
         qt.main_window.y=110
+
+        qt.last_path=/home/user/Downloads
+        profile1.qt.last_path=/home/user/Downloads
         """
 
     data = {
@@ -778,6 +779,15 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     # self.config.boolValue('qt.show_hidden_files', False)
     data['gui']['mainwindow']['show_hidden'] \
         = cfg.boolValue('qt.show_hidden_files', False)
+
+    # each profile
+    for profile_id in cfg.profiles():
+
+        # qt.last_path
+        if cfg.hasProfileKey('qt.last_path', profile_id):
+            val = cfg.profileStrValue('qt.last_path')
+            data['gui']['mainwindow'] \
+                .setdefault(profile_id, {})['last_path'] = val
 
     return data
 
