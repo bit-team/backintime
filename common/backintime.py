@@ -29,7 +29,7 @@ import mount
 import password
 import encfstools
 import cli
-import state
+from state import StateData
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
@@ -527,7 +527,7 @@ def startApp(app_name='backintime'):
             f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
 
     # State data
-    init_state_data(args)
+    load_state_data(args)
 
     # Call commands
     if 'func' in dir(args):
@@ -782,7 +782,7 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     return data
 
 
-def init_state_data(args: argparse.Namespace) -> None:
+def load_state_data(args: argparse.Namespace) -> None:
     """Initiate the `State` instance.
 
     The state file is loaded and its date stored in `State`. The later is a
@@ -794,11 +794,7 @@ def init_state_data(args: argparse.Namespace) -> None:
     Args:
        args: Arguments given from command line.
     """
-    xdg_state = os.environ.get('XDG_STATE_HOME',
-                               pathlib.Path.home() / '.local' / 'state')
-    fp = xdg_state / 'backintime.json'
-
-    logger.debug(f'Reading state file "{fp}".')
+    fp = StateData.file_path()
 
     try:
         # load file
@@ -806,12 +802,14 @@ def init_state_data(args: argparse.Namespace) -> None:
 
     except FileNotFoundError:
         logger.debug('State file not found. Using config file.')
+        fp.parent.mkdir(parents=True)
         # extract data from the config file (for later migration)
         cfg = getConfig(args)
         data_dict = _get_state_data_from_config(cfg)
 
-    st = state.State(data_dict)
-    print(st)
+    st = StateData(data_dict)
+
+    atexit.register(st.save)
 
 
 def setQuiet(args):
