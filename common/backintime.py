@@ -730,6 +730,9 @@ def getConfig(args, check=True):
 def _get_state_data_from_config(cfg: config.Config) -> dict:
     """Get data related to application state from the config instance.
 
+    It migrates state data from the config file to an instantance of
+    `StateData` which later is saved in a separate file.
+
     This function is a temporary workaround. See PR #1850.
 
     Args:

@@ -16,8 +16,12 @@ from datetime import datetime, timezone
 from version import __version__
 
 
-class StateData(metaclass=singleton.Singleton):
+class StateData(dict, metaclass=singleton.Singleton):
     """Manage state data for Back In Time.
+
+    Dev note (buhtz, 2024-12): It is recommended and prefered to derive from
+    `collections.UserDict` instead of just `dict`. But this conflicts with the
+    ``metaclass=``. To my current knowledge this is not a big deal.
     """
 
     @staticmethod
@@ -33,10 +37,12 @@ class StateData(metaclass=singleton.Singleton):
 
     def __init__(self, data: dict):
         """Constructor."""
-        self._data = data
+
+        # This will initilize self.data (see UserDict docu)
+        super().__init__(data)
 
     def __str__(self):
-        return json.dumps(self._data, indent=4)
+        return json.dumps(self, indent=4)
 
     def _set_save_meta_data(self):
         meta = {
@@ -45,7 +51,7 @@ class StateData(metaclass=singleton.Singleton):
             'bitversion': __version__,
         }
 
-        self._data['_meta'] = meta
+        self['_meta'] = meta
 
     def save(self):
         """Store application state data to a file."""
@@ -54,4 +60,5 @@ class StateData(metaclass=singleton.Singleton):
         self._set_save_meta_data()
 
         with self.file_path().open('w', encoding='utf-8') as handle:
-            json.dump(obj=self._data, fp=handle, indent=4)
+            handle.write(str(self))
+            # json.dump(obj=self._data, fp=handle, indent=4)
