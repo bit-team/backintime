@@ -737,79 +737,108 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
 
     Returns:
         dict: The state data.
-
-    State relatd parameters:
-        internal.msg_rc=1.5.3-rc1
-        internal.msg_shown_encfs=true
-           qt.logview.height=676
-        qt.logview.width=949
-        qt.main_window.files_view.date_width=100
-        qt.main_window.files_view.name_width=822
-        qt.main_window.files_view.size_width=100
-        qt.main_window.files_view.sort.ascending=true
-        qt.main_window.files_view.sort.column=0
-        qt.main_window.height=802
-        qt.main_window.main_splitter_left_w=233
-        qt.main_window.main_splitter_right_w=1119
-        qt.main_window.second_splitter_left_w=243
-        qt.main_window.second_splitter_right_w=857
-        qt.main_window.width=1356
-        qt.main_window.x=230
-        qt.main_window.y=110
         """
 
     data = {
         'gui': {
-            'mainwindow': {},
+            'mainwindow': {
+                'files_view': {},
+            },
             'manage_profiles': {},
-        }
+            'logview': {},
+        },
+        'message': {
+            'encfs': {}
+        },
     }
 
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] = cfg.manual_starts_countdown()
 
-    # self.config.boolValue('qt.show_hidden_files', False)
+    # internal.msg_rc
+    val = cfg.strValue('internal.msg_rc', None)
+    if val:
+        data['message']['release_candidate'] = val
+
+    # internal.msg_shown_encfs
+    val = cfg.boolValue('internal.msg_shown_encfs', None)
+    if val:
+        data['message']['encfs']['global'] = val
+
+    # qt.show_hidden_files
     data['gui']['mainwindow']['show_hidden'] \
         = cfg.boolValue('qt.show_hidden_files', False)
+
+    # Coordinates and dimensions
+    process_data = (
+        ('qt.main_window.', ('x', 'y'), 'mainwindow'),
+        ('qt.main_window.', ('width', 'height'), 'mainwindow'),
+        ('qt.logview.', ('width', 'height'), 'logview'),
+    )
+    for org_prefix, xyhw, widgetname in process_data:
+        val = (
+            cfg.intValue(f'{org_prefix}{xyhw[0]}', None),
+            cfg.intValue(f'{org_prefix}{xyhw[1]}', None),
+        )
+        if all(val):
+            data['gui'][widgetname]['coord' if 'x' in xyhw else 'dim'] = val
+
+    # files view
+    widths = (
+        # first column "name"
+        cfg.intValue('qt.main_window.files_view.name_width', None),
+        # second column "size"
+        cfg.intValue('qt.main_window.files_view.size_width', None),
+        # third column "date"
+        cfg.intValue('qt.main_window.files_view.date_width', None)
+    )
+    if all(widths):
+        data['gui']['mainwindow']['files_view']['column_widths'] = widths
+
+    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
+    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
+    data['gui']['mainwindow']['files_view']['sort_column'] = col
+    data['gui']['mainwindow']['files_view']['sort_order'] = 0 if order else 1
+
+    # splitter width
+    for prefix in ('main', 'second'):
+        widths = (
+            cfg.intValue(f'qt.main_window.{prefix}_splitter_left_w', None),
+            cfg.intValue(f'qt.main_window.{prefix}_splitter_right_w', None)
+        )
+        if all(widths):
+            data['gui']['mainwindow'][f'splitter_{prefix}_widths'] = widths
 
     # each profile
     for profile_id in cfg.profiles():
 
+        # profile specific encfs warning
+        val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
+        if val:
+            data['message']['encfs'][profile_id] = val
+
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):
             val = cfg.profileStrValue('qt.last_path', profile_id)
-            data['gui']['mainwindow'] \
-                .setdefault(profile_id, {})['last_path'] = val
+            data['gui']['mainwindow'].setdefault(
+                'last_path', {})[profile_id] = val
 
-        # profile1.qt.places.SortColumn
-        # profile1.qt.places.SortOrder=SortOrder.AscendingOrder
-        if cfg.hasProfileKey('qt.places.SortColumn', profile_id):
-            val = cfg.profileIntValue('qt.places.SortColumn', profile_id)
-            data['gui']['mainwindow'].setdefault(profile_id, {})['places_sort_col'] = val
-            val = cfg.profileIntValue('qt.places.SortOrder', profile_id)
-            data['gui']['mainwindow'].setdefault(profile_id, {})['places_sort_order'] = val
-
-        # profile1.qt.settingsdialog.exclude.SortColumn=1
-        # profile1.qt.settingsdialog.exclude.SortOrder=0
-        if cfg.hasProfileKey('qt.settingsdialog.exclude.SortColumn',
-                             profile_id):
-            val = cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortColumn', profile_id)
-            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_col_excl'] = val
-            val = cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortOrder',profile_id)
-            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_order_excl'] = val
-
-        # profile1.qt.settingsdialog.include.SortColumn=1
-        # profile1.qt.settingsdialog.include.SortOrder=0
-        if cfg.hasProfileKey('qt.settingsdialog.include.SortColumn',
-                             profile_id):
-            val = cfg.profileIntValue(
-                'qt.settingsdialog.include.SortColumn', profile_id)
-            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_col_incl'] = val
-            val = cfg.profileIntValue(
-                'qt.settingsdialog.include.SortOrder',profile_id)
-            data['gui']['manage_profiles'].setdefault(profile_id, {})['sort_order_incl'] = val
+        # Columns sorting order
+        process_data = (
+            ('qt.places.', 'mainwindow', 'places_'),
+            ('qt.settingsdialog.exclude.', 'manage_profiles', 'excl_'),
+            ('qt.settingsdialog.include.', 'manage_profiles', 'incl_'),
+        )
+        for org_prefix, widgetname, new_prefix in process_data:
+            if cfg.hasProfileKey(f'{org_prefix}SortColumn', profile_id):
+                col = cfg.profileIntValue(
+                    f'{org_prefix}SortColumn', profile_id)
+                order = cfg.profileIntValue(
+                    f'{org_prefix}SortOrder', profile_id)
+                data['gui'][widgetname].setdefault(
+                    f'{new_prefix}sort_col', {})[profile_id] = col
+                data['gui'][widgetname].setdefault(
+                    f'{new_prefix}sort_order', {})[profile_id] = order
 
     return data
 
@@ -834,7 +863,7 @@ def load_state_data(args: argparse.Namespace) -> None:
 
     except FileNotFoundError:
         logger.debug('State file not found. Using config file.')
-        fp.parent.mkdir(parents=True)
+        fp.parent.mkdir(parents=True, exist_ok=True)
         # extract data from the config file (for later migration)
         cfg = getConfig(args)
         data_dict = _get_state_data_from_config(cfg)
