@@ -755,6 +755,7 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         },
     }
 
+
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] = cfg.manual_starts_countdown()
 
@@ -771,6 +772,8 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     # qt.show_hidden_files
     data['gui']['mainwindow']['show_hidden'] \
         = cfg.boolValue('qt.show_hidden_files', False)
+
+    # ---- XXXX ----
 
     # Coordinates and dimensions
     process_data = (

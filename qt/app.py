@@ -22,17 +22,13 @@ import shutil
 import signal
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
-
 # We need to import common/tools.py
 import qttools_path
 qttools_path.registerBackintimePath('common')
-
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
-
 import qttools
-
 import backintime
 import tools
 import logger
@@ -42,7 +38,7 @@ import mount
 import progress
 import encfsmsgbox
 from exceptions import MountException
-
+from state import StateData
 from PyQt6.QtGui import (QAction,
                          QShortcut,
                          QDesktopServices,
@@ -408,8 +404,10 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+        state_data = StateData()
+
         # Finished countdown of manual GUI starts
-        if 0 == self.config.manual_starts_countdown():
+        if 0 == state_data.manual_starts_countdown():
 
             # Do nothing if English is the current used language
             if self.config.language_used != 'en':
@@ -421,10 +419,10 @@ class MainWindow(QMainWindow):
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
-        self.config.decrement_manual_starts_countdown()
+        state_data.decrement_manual_starts_countdown()
 
         # If the encfs-deprecation warning was never shown before
-        if self.config.boolValue('internal.msg_shown_encfs') == False:
+        if state_data['message']['encfs']['global'] is False:
 
             # Are there profiles using EncFS?
             encfs_profiles = []
@@ -437,23 +435,29 @@ class MainWindow(QMainWindow):
             if encfs_profiles:
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                self.config.setBoolValue('internal.msg_shown_encfs', True)
+                state_data['message']['encfs']['global'] = True
 
         # Release Candidate
         if version.is_release_candidate():
-            last_vers = self.config.strValue('internal.msg_rc')
+            last_vers = state_data['message']['release_candidate']
             if last_vers != version.__version__:
-                self.config.setStrValue('internal.msg_rc', version.__version__)
+                state_data['message']['release_candidate'] \
+                    = version.__version__
                 self._open_release_candidate_dialog()
 
     @property
     def showHiddenFiles(self):
-        return self.config.boolValue('qt.show_hidden_files', False)
+        state_data = StateData()
+        try:
+            return state_data['gui']['mainwindow']['show_hidden']
+        except KeyError:
+            # default
+            return False
 
-    # TODO The qt.show_hidden_files key should be a constant instead of a duplicated string
     @showHiddenFiles.setter
     def showHiddenFiles(self, value):
-        self.config.setBoolValue('qt.show_hidden_files', value)
+        state_data = StateData()
+        state_data['gui']['mainwindow']['show_hidden'] = value
 
     def _create_actions(self):
         """Create all action objects used by this main window.

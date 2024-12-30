@@ -62,3 +62,22 @@ class StateData(dict, metaclass=singleton.Singleton):
         with self.file_path().open('w', encoding='utf-8') as handle:
             handle.write(str(self))
             # json.dump(obj=self._data, fp=handle, indent=4)
+
+    def manual_starts_countdown(self) -> int:
+        """Countdown value about how often the users started the Back In Time
+        GUI.
+
+        At the end of the countown the `ApproachTranslatorDialog` is presented
+        to the user.
+        """
+        return self.get('manual_starts_countdown', default=10)
+
+    def decrement_manual_starts_countdown(self):
+        """Counts down to -1.
+
+        See :py:func:`manual_starts_countdown()` for details.
+        """
+        val = self.manual_starts_countdown()
+
+        if val > -1:
+            self['manual_starts_countdown'] = val - 1
