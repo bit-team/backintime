@@ -755,9 +755,9 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         },
     }
 
-
     # internal.manual_starts_countdown
-    data['manual_starts_countdown'] = cfg.manual_starts_countdown()
+    data['manual_starts_countdown'] \
+        = cfg.intValue('internal.manual_starts_countdown', 10)
 
     # internal.msg_rc
     val = cfg.strValue('internal.msg_rc', None)
@@ -773,7 +773,6 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     data['gui']['mainwindow']['show_hidden'] \
         = cfg.boolValue('qt.show_hidden_files', False)
 
-    # ---- XXXX ----
 
     # Coordinates and dimensions
     process_data = (
@@ -787,7 +786,9 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
             cfg.intValue(f'{org_prefix}{xyhw[1]}', None),
         )
         if all(val):
-            data['gui'][widgetname]['coord' if 'x' in xyhw else 'dim'] = val
+            data['gui'][widgetname]['coords' if 'x' in xyhw else 'dims'] = val
+
+    # ---- XXXX ----
 
     # files view
     widths = (

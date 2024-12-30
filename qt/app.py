@@ -294,15 +294,14 @@ class MainWindow(QMainWindow):
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
-        # restore size and position
-        x = self.config.intValue('qt.main_window.x', -1)
-        y = self.config.intValue('qt.main_window.y', -1)
-        if x >= 0 and y >= 0:
-            self.move(x, y)
+        state_data = StateData()
 
-        w = self.config.intValue('qt.main_window.width', 800)
-        h = self.config.intValue('qt.main_window.height', 500)
-        self.resize(w, h)
+        # restore position and size
+        try:
+            self.move(*state_data['gui']['mainwindow']['coords'])
+            self.resize(*state_data['gui']['mainwindow']['dims'])
+        except KeyError:
+            pass
 
         mainSplitterLeftWidth = self.config.intValue(
             'qt.main_window.main_splitter_left_w', 150)
@@ -403,8 +402,6 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.start()
 
         SetupCron(self).start()
-
-        state_data = StateData()
 
         # Finished countdown of manual GUI starts
         if 0 == state_data.manual_starts_countdown():
@@ -848,6 +845,8 @@ class MainWindow(QMainWindow):
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
+        state_data = StateData()
+
         self.config.setStrValue('qt.last_path', self.path)
         self.config.setProfileStrValue('qt.last_path', self.path)
 
@@ -858,10 +857,9 @@ class MainWindow(QMainWindow):
             'qt.places.SortOrder',
             self.places.header().sortIndicatorOrder())
 
-        self.config.setIntValue('qt.main_window.x', self.x())
-        self.config.setIntValue('qt.main_window.y', self.y())
-        self.config.setIntValue('qt.main_window.width', self.width())
-        self.config.setIntValue('qt.main_window.height', self.height())
+        # store position and size
+        state_data['gui']['mainwindow']['coords'] = (self.x(), self.y())
+        state_data['gui']['mainwindow']['dims'] = (self.width(), self.height())
 
         sizes = self.mainSplitter.sizes()
         self.config.setIntValue('qt.main_window.main_splitter_left_w', sizes[0])

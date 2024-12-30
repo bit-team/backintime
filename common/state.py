@@ -70,7 +70,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         At the end of the countown the `ApproachTranslatorDialog` is presented
         to the user.
         """
-        return self.get('manual_starts_countdown', default=10)
+        return self.get('manual_starts_countdown', 10)
 
     def decrement_manual_starts_countdown(self):
         """Counts down to -1.
