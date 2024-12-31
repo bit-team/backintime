@@ -126,6 +126,8 @@ class MainWindow(QMainWindow):
         self._create_menubar()
         self._create_main_toolbar()
 
+        state_data = StateData()
+
         # timeline (left widget)
         self.timeLine = qttools.TimeLine(self)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
@@ -220,13 +222,17 @@ class MainWindow(QMainWindow):
         self.filesViewDelegate = QStyledItemDelegate(self)
         self.filesView.setItemDelegate(self.filesViewDelegate)
 
-        sortColumn = self.config.intValue(
-            'qt.main_window.files_view.sort.column', 0)
-        sortOrder = self.config.boolValue(
-            'qt.main_window.files_view.sort.ascending', True)
-        sortOrder = Qt.SortOrder.AscendingOrder if sortOrder else Qt.SortOrder.DescendingOrder
+        try:
+            sortColumn = state_data['gui']['mainwindow'][
+                'files_view']['sort_column']
+            sortOrder = state_data['gui']['mainwindow'][
+                'files_view']['sort_order']
+        except KeyError:
+            sortColumn = 0
+            sortOrder = 0
 
-        self.filesView.header().setSortIndicator(sortColumn, sortOrder)
+        self.filesView.header().setSortIndicator(
+            sortColumn, Qt.SortOrder(sortOrder))
         self.filesViewModel.sort(
             self.filesView.header().sortIndicatorSection(),
             self.filesView.header().sortIndicatorOrder())
@@ -291,8 +297,6 @@ class MainWindow(QMainWindow):
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
-        state_data = StateData()
-
         # restore position and size
         try:
             self.move(*state_data['gui']['mainwindow']['coords'])
@@ -300,33 +304,29 @@ class MainWindow(QMainWindow):
         except KeyError:
             pass
 
-        mainSplitterLeftWidth = self.config.intValue(
-            'qt.main_window.main_splitter_left_w', 150)
-        mainSplitterRightWidth = self.config.intValue(
-            'qt.main_window.main_splitter_right_w', 450)
-        sizes = [mainSplitterLeftWidth, mainSplitterRightWidth]
-        self.mainSplitter.setSizes(sizes)
+        try:
+            main_splitter_widths \
+                = state_data['gui']['mainwindow']['splitter_main_widths']
+        except KeyError:
+            main_splitter_widths = (150, 450)
+        self.mainSplitter.setSizes(main_splitter_widths)
 
-        secondSplitterLeftWidth = self.config.intValue(
-            'qt.main_window.second_splitter_left_w', 150)
-        secondSplitterRightWidth = self.config.intValue(
-            'qt.main_window.second_splitter_right_w', 300)
-        sizes = [secondSplitterLeftWidth, secondSplitterRightWidth]
-        self.secondSplitter.setSizes(sizes)
+        try:
+            second_splitter_widths \
+                = state_data['gui']['mainwindow']['splitter_second_widths']
+        except KeyError:
+            second_splitter_widths = (150, 300)
+        self.secondSplitter.setSizes(second_splitter_widths)
 
-        filesViewColumnNameWidth = self.config.intValue(
-            'qt.main_window.files_view.name_width', -1)
-        filesViewColumnSizeWidth = self.config.intValue(
-            'qt.main_window.files_view.size_width', -1)
-        filesViewColumnDateWidth = self.config.intValue(
-            'qt.main_window.files_view.date_width', -1)
-
-        if (filesViewColumnNameWidth > 0
-                and filesViewColumnSizeWidth > 0
-                and filesViewColumnDateWidth > 0):
-            self.filesView.header().resizeSection(0, filesViewColumnNameWidth)
-            self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
-            self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
+        # FilesView: Column width
+        try:
+            files_view_col_widths = state_data['gui']['mainwindow'][
+                'files_view']['col_widths']
+        except KeyError:
+            pass
+        else:
+            for idx, width in enumerate(files_view_col_widths):
+                self.filesView.header().resizeSection(idx, width)
 
         # Force dialog to import old configuration
         if not config.isConfigured():
@@ -416,8 +416,12 @@ class MainWindow(QMainWindow):
         state_data.decrement_manual_starts_countdown()
 
         # If the encfs-deprecation warning was never shown before
-        if state_data['message']['encfs']['global'] is False:
+        try:
+            msg_encfs_global_shown = state_data['message']['encfs']['global']
+        except KeyError:
+            msg_encfs_global_shown = False
 
+        if msg_encfs_global_shown is False:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -833,6 +837,8 @@ class MainWindow(QMainWindow):
         return toolbar
 
     def closeEvent(self, event):
+        state_data = StateData()
+
         if self.shutdown.askBeforeQuit():
             msg = _('If you close this window, Back In Time will not be able '
                     'to shut down your system when the snapshot is finished.')
@@ -855,26 +861,26 @@ class MainWindow(QMainWindow):
         state_data['gui']['mainwindow']['coords'] = (self.x(), self.y())
         state_data['gui']['mainwindow']['dims'] = (self.width(), self.height())
 
-        sizes = self.mainSplitter.sizes()
-        self.config.setIntValue('qt.main_window.main_splitter_left_w', sizes[0])
-        self.config.setIntValue('qt.main_window.main_splitter_right_w', sizes[1])
+        state_data['gui']['mainwindow']['splitter_main_widths'] \
+            = self.mainSplitter.sizes()
+        state_data['gui']['mainwindow']['splitter_second_widths'] \
+            = self.secondSplitter.sizes()
 
-        sizes = self.secondSplitter.sizes()
-        self.config.setIntValue('qt.main_window.second_splitter_left_w', sizes[0])
-        self.config.setIntValue('qt.main_window.second_splitter_right_w', sizes[1])
+        state_data['gui']['mainwindow']['files_view']['col_widths'] \
+            = [self.filesView.header().sectionSize(idx)
+               for idx
+               in range(self.filesView.header().count())]
 
-        self.config.setIntValue('qt.main_window.files_view.name_width', self.filesView.header().sectionSize(0))
-        self.config.setIntValue('qt.main_window.files_view.size_width', self.filesView.header().sectionSize(1))
-        self.config.setIntValue('qt.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
-
-        self.config.setIntValue('qt.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
-        self.config.setBoolValue('qt.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.SortOrder.AscendingOrder)
+        state_data['gui']['mainwindow']['files_view']['sort_column'] \
+            = self.filesView.header().sortIndicatorSection()
+        state_data['gui']['mainwindow']['files_view']['sort_order'] \
+            = self.filesView.header().sortIndicatorOrder().value
 
         self.filesViewModel.deleteLater()
 
-        #umount
+        # umount
         try:
-            mnt = mount.Mount(cfg = self.config, parent = self)
+            mnt = mount.Mount(cfg=self.config, parent=self)
             mnt.umount(self.config.current_hash_id)
         except MountException as ex:
             messagebox.critical(self, str(ex))

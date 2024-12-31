@@ -727,6 +727,20 @@ def getConfig(args, check=True):
     return cfg
 
 
+_STATE_DATA_EMPTY_STRUCT = {
+    'gui': {
+        'mainwindow': {
+            'files_view': {},
+        },
+        'manage_profiles': {},
+        'logview': {},
+    },
+    'message': {
+        'encfs': {}
+    },
+}
+
+
 def _get_state_data_from_config(cfg: config.Config) -> dict:
     """Get data related to application state from the config instance.
 
@@ -742,18 +756,7 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         dict: The state data.
         """
 
-    data = {
-        'gui': {
-            'mainwindow': {
-                'files_view': {},
-            },
-            'manage_profiles': {},
-            'logview': {},
-        },
-        'message': {
-            'encfs': {}
-        },
-    }
+    data = _STATE_DATA_EMPTY_STRUCT
 
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] \
@@ -773,7 +776,6 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     data['gui']['mainwindow']['show_hidden'] \
         = cfg.boolValue('qt.show_hidden_files', False)
 
-
     # Coordinates and dimensions
     process_data = (
         ('qt.main_window.', ('x', 'y'), 'mainwindow'),
@@ -788,19 +790,14 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         if all(val):
             data['gui'][widgetname]['coords' if 'x' in xyhw else 'dims'] = val
 
-    # ---- XXXX ----
-
     # files view
-    widths = (
-        # first column "name"
-        cfg.intValue('qt.main_window.files_view.name_width', None),
-        # second column "size"
-        cfg.intValue('qt.main_window.files_view.size_width', None),
-        # third column "date"
-        cfg.intValue('qt.main_window.files_view.date_width', None)
-    )
-    if all(widths):
-        data['gui']['mainwindow']['files_view']['column_widths'] = widths
+    # Dev note (buhtz, 2024-12): Ignore the column width values because of a
+    # bug. Three columsn are tracked but the widget has four columsn. The "Typ"
+    # column is treated as "Date" and the width of the real "Date" column (4th)
+    # was never stored.
+    # qt.main_window.files_view.name_width
+    # qt.main_window.files_view.size_width
+    # qt.main_window.files_view.date_width
 
     col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
     order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
@@ -815,6 +812,8 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         )
         if all(widths):
             data['gui']['mainwindow'][f'splitter_{prefix}_widths'] = widths
+
+    # ---- XXXX ----
 
     # each profile
     for profile_id in cfg.profiles():
@@ -874,6 +873,12 @@ def load_state_data(args: argparse.Namespace) -> None:
         # extract data from the config file (for later migration)
         cfg = getConfig(args)
         data_dict = _get_state_data_from_config(cfg)
+
+    except json.decoder.JSONDecodeError as exc:
+        logger.warning(f'Unable to read and decode state file "{fp}". '
+                       'Ignnoring it.')
+        logger.debug(f'{exc=}')
+        data_dict = _STATE_DATA_EMPTY_STRUCT
 
     st = StateData(data_dict)
 
