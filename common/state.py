@@ -9,10 +9,10 @@
 from __future__ import annotations
 import os
 import json
-import singleton
-import logger
 from pathlib import Path
 from datetime import datetime, timezone
+import singleton
+import logger
 from version import __version__
 
 
