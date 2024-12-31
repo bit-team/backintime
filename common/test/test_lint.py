@@ -29,6 +29,7 @@ TRAVIS_REASON = ('Running linter tests is mandatory on TravisCI only. On '
 PYLINT_AVAILABLE = shutil.which('pylint') is not None
 RUFF_AVAILABLE = shutil.which('ruff') is not None
 FLAKE8_AVAILABLE = shutil.which('flake8') is not None
+REUSE_AVAILABLE = shutil.which('reuse') is not None
 
 ANY_LINTER_AVAILABLE = any((
     PYLINT_AVAILABLE,
@@ -356,3 +357,28 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # any other errors?
         self.assertEqual(r.stderr, '')
+
+    @unittest.skipUnless(REUSE_AVAILABLE, BASE_REASON.format('REUSE'))
+    def test060_reuse(self):
+        """The reuse linter check license and copyright information in the
+        repository.
+
+        The info need to be complete and available for all files. The
+        info need to be provided as meta data conforming the SPDX standard.
+        """
+        proc = subprocess.run(
+            ['reuse', 'lint', '--lines'],
+            check=False,
+            universal_newlines=True,
+            capture_output=True
+        )
+
+        error_n = len(proc.stdout.splitlines())
+        if error_n > 0:
+            print(proc.stdout)
+
+        self.assertEqual(
+            0, error_n, f'REUSE linter found {error_n} problem(s).')
+
+        # any other errors?
+        self.assertEqual(proc.stderr, '')
