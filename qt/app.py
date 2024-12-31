@@ -291,10 +291,7 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
-        self.path = self.config.profileStrValue(
-            'qt.last_path',
-            self.config.strValue('qt.last_path', '/')
-        )
+        self.path = self.config.profileStrValue('qt.last_path', '/')
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
@@ -844,7 +841,6 @@ class MainWindow(QMainWindow):
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
-        self.config.setStrValue('qt.last_path', self.path)
         self.config.setProfileStrValue('qt.last_path', self.path)
 
         self.config.setProfileIntValue(
