@@ -13,12 +13,12 @@
 # Credits to Mr. Mars Landis describing that solution and comparing it to
 # alternatives in his article 'Better Python Singleton with a Metaclass' at
 # <https://python.plainenglish.io/better-python-singleton-with-a-metaclass-41fb8bfe2127>
-# himself refering to this Stack Overflow
+# himself referring to this Stack Overflow
 # <https://stackoverflow.com/q/6760685/4865723> question as his inspiration.
 #
 # Original code adapted by Christian Buhtz.
 
-"""Flexible and pythonic singleton implemention.
+"""Flexible and pythonic singleton implementation.
 
 Support inheritance and multiple classes. Multilevel inheritance is
 theoretically possible if the '__allow_reinitialization' approach would be
@@ -62,7 +62,7 @@ Example ::
 
 
 class Singleton(type):
-    """Singleton implemention supporting inheritance and multiple classes."""
+    """Singleton implementation supporting inheritance and multiple classes."""
 
     _instances = {}
     """Hold single instances of multiple classes."""
@@ -70,7 +70,7 @@ class Singleton(type):
     def __call__(cls, *args, **kwargs):
 
         try:
-            # Re-use existing instance
+            # Reuse existing instance
             return cls._instances[cls]
 
         except KeyError:

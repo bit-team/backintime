@@ -5,7 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""Managment of the state file."""
+"""Management of the state file."""
 from __future__ import annotations
 import os
 import json
@@ -19,7 +19,7 @@ from version import __version__
 class StateData(dict, metaclass=singleton.Singleton):
     """Manage state data for Back In Time.
 
-    Dev note (buhtz, 2024-12): It is recommended and prefered to derive from
+    Dev note (buhtz, 2024-12): It is recommended and preferred to derive from
     `collections.UserDict` instead of just `dict`. But this conflicts with the
     ``metaclass=``. To my current knowledge this is not a big deal.
     """
@@ -126,7 +126,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         if not data:
             data = self._EMPTY_STRUCT
 
-        # This will initilize self.data (see UserDict docu)
+        # This will initialize self.data (see UserDict docu)
         super().__init__(data)
 
     def __str__(self):
@@ -193,7 +193,7 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def msg_encfs_global(self) -> bool:
-        """If global EncFS deprecation message box was displayed allready."""
+        """If global EncFS deprecation message box was displayed already."""
         return self['message']['encfs']['global']
 
     @msg_encfs_global.setter

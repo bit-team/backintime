@@ -785,7 +785,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
     # files view
     # Dev note (buhtz, 2024-12): Ignore the column width values because of a
-    # bug. Three columsn are tracked but the widget has four columsn. The "Typ"
+    # bug. Three columns are tracked but the widget has four columns. The "Typ"
     # column is treated as "Date" and the width of the real "Date" column (4th)
     # was never stored.
     # qt.main_window.files_view.name_width
