@@ -52,7 +52,7 @@ class LogViewDialog(QDialog):
         self.decode = None
 
         state_data = StateData()
-        self.resize(*state_data['gui']['logview'].get('dims', (800, 500)))
+        self.resize(*state_data.logview_dims)
 
         import icon
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
@@ -228,29 +228,37 @@ class LogViewDialog(QDialog):
 
         mode = self.comboFilter.itemData(self.comboFilter.currentIndex())
 
-        # TODO This expressions is hard to understand (watchPath is not a boolean!)
+        # TODO This expressions is hard to understand (watchPath is not a
+        # boolean!)
         if watchPath and self.sid is None:
-            # remove path from watch to prevent multiple updates at the same time
+            # remove path from watch to prevent multiple updates at the same
+            # time
             self.watcher.removePath(watchPath)
             # append only new lines to txtLogView
-            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            for line in log.get(mode = mode,
-                                decode = self.decode,
-                                skipLines = self.txtLogView.document().lineCount() - 1):
+            log = snapshotlog.SnapshotLog(
+                self.config, self.comboProfiles.currentProfileID())
+            for line in log.get(mode=mode,
+                                decode=self.decode,
+                                skipLines=self.txtLogView.document().lineCount()-1):
                 self.txtLogView.appendPlainText(line)
 
             # re-add path to watch after 5sec delay
-            alarm = tools.Alarm(callback = lambda: self.watcher.addPath(watchPath),
-                                overwrite = False)
+            alarm = tools.Alarm(
+                callback=lambda: self.watcher.addPath(watchPath),
+                overwrite=False)
             alarm.start(5)
 
         elif self.sid is None:
-            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            self.txtLogView.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
+            log = snapshotlog.SnapshotLog(
+                self.config, self.comboProfiles.currentProfileID())
+            self.txtLogView.setPlainText(
+                '\n'.join(log.get(mode=mode, decode=self.decode)))
+
         else:
-            self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
+            self.txtLogView.setPlainText(
+                '\n'.join(self.sid.log(mode, decode=self.decode)))
 
     def closeEvent(self, event):
         state_data = StateData()
-        state_data['gui']['logview']['dims'] = (self.width(), self.height())
+        state_data.logview_dims = (self.width(), self.height())
         event.accept()

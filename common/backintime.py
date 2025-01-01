@@ -817,40 +817,40 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
         # profile specific encfs warning
         val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
-        if val:
+        if val is not None:
             profile_state.msg_encfs = val
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):
             profile_state.last_path \
-                = cfg.profileStrValue('qt.last_path', profile_id)
+                = cfg.profileStrValue('qt.last_path', None, profile_id)
 
-        # Columns sorting order
-        if cfg.hasProfileKey('qt.places.SortColumn', profile_id):
-            sorting = (
-                cfg.profileIntValue('qt.places.SortColumn', profile_id),
-                cfg.profileIntValue('qt.places.SortOrder', profile_id)
-            )
+        # Places: sorting
+        sorting = (
+            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
+            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+        )
+        if all(sorting):
             profile_state.places_sorting = sorting
 
-        if cfg.hasProfileKey('qt.settingsdialog.exclude.SortColumn',
-                             profile_id):
-            sorting = (
-                cfg.profileIntValue(
-                    'qt.settingsdialog.exclude.SortColumn', profile_id),
-                cfg.profileIntValue(
-                    'qt.settingsdialog.exclude.SortOrder', profile_id)
-            )
+        # Manage profiles - Exclude tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+        )
+        if all(sorting):
             profile_state.exclude_sorting = sorting
 
-        if cfg.hasProfileKey('qt.settingsdialog.include.SortColumn',
-                             profile_id):
-            sorting = (
-                cfg.profileIntValue(
-                    'qt.settingsdialog.include.SortColumn', profile_id),
-                cfg.profileIntValue(
-                    'qt.settingsdialog.include.SortOrder', profile_id)
-            )
+        # Manage profiles - Include tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortOrder', None, profile_id)
+        )
+        if all(sorting):
             profile_state.include_sorting = sorting
 
     return data

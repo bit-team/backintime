@@ -49,8 +49,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @last_path.setter
         def last_path(self, path: Path) -> None:
-            self._state['gui']['mainwindow'][
-                'last_path'][self._profile_id] = str(path)
+            self._state['gui']['mainwindow'].get(
+                'last_path', {})[self._profile_id] = str(path)
 
         @property
         def places_sorting(self) -> tuple[int, int]:
@@ -64,8 +64,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @places_sorting.setter
         def places_sorting(self, vals: tuple[int, int]) -> None:
-            self._state['gui']['mainwindow'][
-                'places_sorting'][self._profile_id] = vals
+            self._state['gui']['mainwindow'].get(
+                'places_sorting', {})[self._profile_id] = vals
 
         @property
         def exclude_sorting(self) -> tuple[int, int]:
@@ -79,8 +79,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @exclude_sorting.setter
         def exclude_sorting(self, vals: tuple[int, int]) -> None:
-            self._state['gui']['manage_profiles'][
-                'excl_sorting'][self._profile_id] = vals
+            self._state['gui']['manage_profiles'].get(
+                'excl_sorting', {})[self._profile_id] = vals
 
         @property
         def include_sorting(self) -> tuple[int, int]:
@@ -96,13 +96,22 @@ class StateData(dict, metaclass=singleton.Singleton):
         def include_sorting(self, vals: tuple[int, int]) -> None:
             self._state['gui']['manage_profiles'][
                 'incl_sorting'][self._profile_id] = vals
+            # except KeyError as exc:
+            #     # Not because of missing profile id
+            #     if exc.args[0] != self._profile_id:
+            #         raise
+
+            #     raise
 
     _EMPTY_STRUCT = {
         'gui': {
             'mainwindow': {
                 'files_view': {},
             },
-            'manage_profiles': {},
+            'manage_profiles': {
+                'incl_sorting': {},
+                'excl_sorting': {},
+            },
             'logview': {},
         },
         'message': {
@@ -124,10 +133,11 @@ class StateData(dict, metaclass=singleton.Singleton):
     def __init__(self, data: dict = None):
         """Constructor."""
 
-        if not data:
+        if data:
+            self._EMPTY_STRUCT.update(data)
+        else:
             data = self._EMPTY_STRUCT
 
-        # This will initialize self.data (see UserDict docu)
         super().__init__(data)
 
     def __str__(self):
@@ -231,7 +241,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     @property
     def logview_dims(self) -> tuple[int, int]:
         """Dimensions of the log view dialog."""
-        return self['gui']['logview']['dims']
+        return self['gui']['logview'].get('dims', (800, 500))
 
     @logview_dims.setter
     def logview_dims(self, vals: tuple[int, int]) -> None:
