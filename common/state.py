@@ -21,7 +21,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     Dev note (buhtz, 2024-12): It is recommended and preferred to derive from
     `collections.UserDict` instead of just `dict`. But this conflicts with the
-    ``metaclass=``. To my current knowledge this is not a big deal.
+    ``metaclass=``. To my current knowledge this is not a big deal and won't
+    introduce any problems.
     """
 
     class Profile:

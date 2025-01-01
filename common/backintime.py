@@ -730,7 +730,7 @@ def getConfig(args, check=True):
 def _get_state_data_from_config(cfg: config.Config) -> StateData:
     """Get data related to application state from the config instance.
 
-    It migrates state data from the config file to an instantance of
+    It migrates state data from the config file to an instance of
     `StateData` which later is saved in a separate file.
 
     This function is a temporary workaround. See PR #1850.
@@ -863,7 +863,8 @@ def load_state_data(args: argparse.Namespace) -> None:
     singleton and can be used everywhere.
 
     Dev note (buhtz, 2024-12): The args argument is a workaround and will be
-    removed. Related to PR #1850.
+    removed. Currently it is needed to know where to load the config file
+    from. Related to PR #1850.
 
     Args:
        args: Arguments given from command line.
