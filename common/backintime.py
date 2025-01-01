@@ -864,7 +864,8 @@ def load_state_data(args: argparse.Namespace) -> None:
 
     Dev note (buhtz, 2024-12): The args argument is a workaround and will be
     removed. Currently it is needed to know where to load the config file
-    from. Related to PR #1850.
+    from. Related to PR #1850. In the future that function can be moved into
+    the StateData class as load() method.
 
     Args:
        args: Arguments given from command line.

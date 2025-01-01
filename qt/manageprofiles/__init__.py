@@ -402,20 +402,11 @@ class SettingsDialog(QDialog):
         self.cbExcludeBySize.setChecked(self.config.excludeBySizeEnabled())
         self.spbExcludeBySize.setValue(self.config.excludeBySize())
 
-        # excludeSortColumn = int(self.config.profileIntValue(
-        #     'qt.settingsdialog.exclude.SortColumn', 1))
-        # excludeSortOrder = Qt.SortOrder(
-        #     self.config.profileIntValue('qt.settingsdialog.exclude.SortOrder',
-        #                                 Qt.SortOrder.AscendingOrder)
-        # )
-        # self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
-
         try:
             incl_sort = profile_state.include_sorting
             excl_sort = profile_state.exclude_sorting
             self.listInclude.sortItems(
-                incl_sort[0],
-                Qt.SortOrder(incl_sort[1])
+                incl_sort[0], Qt.SortOrder(incl_sort[1])
             )
             self.listExclude.sortItems(
                 excl_sort[0], Qt.SortOrder(excl_sort[1]))

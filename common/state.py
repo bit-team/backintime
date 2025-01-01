@@ -19,10 +19,11 @@ from version import __version__
 class StateData(dict, metaclass=singleton.Singleton):
     """Manage state data for Back In Time.
 
-    Dev note (buhtz, 2024-12): It is recommended and preferred to derive from
-    `collections.UserDict` instead of just `dict`. But this conflicts with the
-    ``metaclass=``. To my current knowledge this is not a big deal and won't
-    introduce any problems.
+    Dev note (buhtz, 2024-12): It is usually recommended and preferred to
+    derive from `collections.UserDict` instead of just `dict`. But this
+    conflicts with the ``metaclass=``. To my current knowledge this is not a
+    big deal and won't introduce any problems.
+
     """
 
     class Profile:
@@ -49,8 +50,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @last_path.setter
         def last_path(self, path: Path) -> None:
-            self._state['gui']['mainwindow'].get(
-                'last_path', {})[self._profile_id] = str(path)
+            self._state['gui']['mainwindow'][
+                'last_path'][self._profile_id] = str(path)
 
         @property
         def places_sorting(self) -> tuple[int, int]:
@@ -64,8 +65,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @places_sorting.setter
         def places_sorting(self, vals: tuple[int, int]) -> None:
-            self._state['gui']['mainwindow'].get(
-                'places_sorting', {})[self._profile_id] = vals
+            self._state['gui']['mainwindow'][
+                'places_sorting'][self._profile_id] = vals
 
         @property
         def exclude_sorting(self) -> tuple[int, int]:
@@ -79,8 +80,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @exclude_sorting.setter
         def exclude_sorting(self, vals: tuple[int, int]) -> None:
-            self._state['gui']['manage_profiles'].get(
-                'excl_sorting', {})[self._profile_id] = vals
+            self._state['gui']['manage_profiles'][
+                'excl_sorting'][self._profile_id] = vals
 
         @property
         def include_sorting(self) -> tuple[int, int]:
@@ -96,13 +97,9 @@ class StateData(dict, metaclass=singleton.Singleton):
         def include_sorting(self, vals: tuple[int, int]) -> None:
             self._state['gui']['manage_profiles'][
                 'incl_sorting'][self._profile_id] = vals
-            # except KeyError as exc:
-            #     # Not because of missing profile id
-            #     if exc.args[0] != self._profile_id:
-            #         raise
 
-            #     raise
-
+    # The default strucutre. All properties do rely on them and assuming
+    # it is there.
     _EMPTY_STRUCT = {
         'gui': {
             'mainwindow': {
