@@ -222,14 +222,7 @@ class MainWindow(QMainWindow):
         self.filesViewDelegate = QStyledItemDelegate(self)
         self.filesView.setItemDelegate(self.filesViewDelegate)
 
-        try:
-            sortColumn = state_data['gui']['mainwindow'][
-                'files_view']['sort_column']
-            sortOrder = state_data['gui']['mainwindow'][
-                'files_view']['sort_order']
-        except KeyError:
-            sortColumn = 0
-            sortOrder = 0
+        sortColumn, sortOrder = state_data.files_view_sorting
 
         self.filesView.header().setSortIndicator(
             sortColumn, Qt.SortOrder(sortOrder))
@@ -299,29 +292,19 @@ class MainWindow(QMainWindow):
 
         # restore position and size
         try:
-            self.move(*state_data['gui']['mainwindow']['coords'])
-            self.resize(*state_data['gui']['mainwindow']['dims'])
+            self.move(*state_data.mainwindow_coords)
+            self.resize(*state_data.mainwindow_dims)
         except KeyError:
             pass
 
-        try:
-            main_splitter_widths \
-                = state_data['gui']['mainwindow']['splitter_main_widths']
-        except KeyError:
-            main_splitter_widths = (150, 450)
-        self.mainSplitter.setSizes(main_splitter_widths)
-
-        try:
-            second_splitter_widths \
-                = state_data['gui']['mainwindow']['splitter_second_widths']
-        except KeyError:
-            second_splitter_widths = (150, 300)
-        self.secondSplitter.setSizes(second_splitter_widths)
+        self.mainSplitter.setSizes(
+            state_data.mainwindow_main_splitter_widths)
+        self.secondSplitter.setSizes(
+            state_data.mainwindow_second_splitter_widths)
 
         # FilesView: Column width
         try:
-            files_view_col_widths = state_data['gui']['mainwindow'][
-                'files_view']['col_widths']
+            files_view_col_widths = state_data.files_view_col_widths
         except KeyError:
             pass
         else:
@@ -416,12 +399,7 @@ class MainWindow(QMainWindow):
         state_data.decrement_manual_starts_countdown()
 
         # If the encfs-deprecation warning was never shown before
-        try:
-            msg_encfs_global_shown = state_data['message']['encfs']['global']
-        except KeyError:
-            msg_encfs_global_shown = False
-
-        if msg_encfs_global_shown is False:
+        if state_data.msg_encfs_global is False:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -433,29 +411,24 @@ class MainWindow(QMainWindow):
             if encfs_profiles:
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                state_data['message']['encfs']['global'] = True
+                state_data.msg_encfs_global = True
 
         # Release Candidate
         if version.is_release_candidate():
-            last_vers = state_data['message']['release_candidate']
+            last_vers = state_data.msg_release_candidate
             if last_vers != version.__version__:
-                state_data['message']['release_candidate'] \
-                    = version.__version__
+                state_data.msg_release_candidate = version.__version__
                 self._open_release_candidate_dialog()
 
     @property
     def showHiddenFiles(self):
         state_data = StateData()
-        try:
-            return state_data['gui']['mainwindow']['show_hidden']
-        except KeyError:
-            # default
-            return False
+        return state_data.mainwindow_show_hidden
 
     @showHiddenFiles.setter
     def showHiddenFiles(self, value):
         state_data = StateData()
-        state_data['gui']['mainwindow']['show_hidden'] = value
+        state_data.mainwindow_show_hidden = value
 
     def _create_actions(self):
         """Create all action objects used by this main window.
@@ -838,6 +811,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         state_data = StateData()
+        profile_state = state_data.profile(self.config.current_profile_id)
 
         if self.shutdown.askBeforeQuit():
             msg = _('If you close this window, Back In Time will not be able '
@@ -848,33 +822,26 @@ class MainWindow(QMainWindow):
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
-        self.config.setProfileStrValue('qt.last_path', self.path)
+        profile_state.last_path = pathlib.Path(self.path)
+        profile_state.places_sorting = (
+            self.places.header().sortIndicatorSection(),
+            self.places.header().sortIndicatorOrder().value,
+        )
 
-        self.config.setProfileIntValue(
-            'qt.places.SortColumn',
-            self.places.header().sortIndicatorSection())
-        self.config.setProfileIntValue(
-            'qt.places.SortOrder',
-            self.places.header().sortIndicatorOrder())
-
-        # store position and size
-        state_data['gui']['mainwindow']['coords'] = (self.x(), self.y())
-        state_data['gui']['mainwindow']['dims'] = (self.width(), self.height())
-
-        state_data['gui']['mainwindow']['splitter_main_widths'] \
-            = self.mainSplitter.sizes()
-        state_data['gui']['mainwindow']['splitter_second_widths'] \
+        state_data.mainwindow_coords = (self.x(), self.y())
+        state_data.mainwindow_dims = (self.width(), self.height())
+        state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
+        state_data.mainwindow_second_splitter_widths \
             = self.secondSplitter.sizes()
-
-        state_data['gui']['mainwindow']['files_view']['col_widths'] \
-            = [self.filesView.header().sectionSize(idx)
-               for idx
-               in range(self.filesView.header().count())]
-
-        state_data['gui']['mainwindow']['files_view']['sort_column'] \
-            = self.filesView.header().sortIndicatorSection()
-        state_data['gui']['mainwindow']['files_view']['sort_order'] \
-            = self.filesView.header().sortIndicatorOrder().value
+        state_data.files_view_col_widths = [
+            self.filesView.header().sectionSize(idx)
+            for idx
+            in range(self.filesView.header().count())
+        ]
+        state_data.files_view_sorting = (
+            self.filesView.header().sortIndicatorSection(),
+            self.filesView.header().sortIndicatorOrder().value
+        )
 
         self.filesViewModel.deleteLater()
 
@@ -1721,7 +1688,7 @@ class MainWindow(QMainWindow):
         if sid:
             sid = '_' + sid.sid
 
-        d = TemporaryDirectory(prefix='backintime_', suffix = sid)
+        d = TemporaryDirectory(prefix='backintime_', suffix=sid)
         tmp_file = os.path.join(d.name, os.path.basename(full_path))
 
         if os.path.isdir(full_path):
@@ -1758,13 +1725,24 @@ class MainWindow(QMainWindow):
                 self.run = QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
-    def updateFilesView(self, changed_from, selected_file = None, show_snapshots = False): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
+    def updateFilesView(self,
+                        changed_from,
+                        selected_file=None,
+                        show_snapshots=False):
+        """
+        changed_from? WTF!
+            0 - files view change directory,
+            1 - files view,
+            2 - time_line,
+            3 - places
+        """
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
 
         if 0 == changed_from:
             # update places
             self.places.setCurrentItem(None)
+
             for place_index in range(self.places.topLevelItemCount()):
                 item = self.places.topLevelItem(place_index)
                 if self.path == str(item.data(0, Qt.ItemDataRole.UserRole)):
@@ -1774,6 +1752,7 @@ class MainWindow(QMainWindow):
         text = ''
         if self.sid.isRoot:
             text = _('Now')
+
         else:
             name = self.sid.displayName
             # buhtz (2023-07)3 blanks at the end of that string as a
@@ -1794,8 +1773,10 @@ class MainWindow(QMainWindow):
         full_path = self.sid.pathBackup(self.path)
 
         if os.path.isdir(full_path):
+
             if self.showHiddenFiles:
                 self.filesViewProxyModel.setFilterRegularExpression(r'')
+
             else:
                 self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
 

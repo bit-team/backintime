@@ -186,7 +186,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         """Last version of Back In Time in which the release candidate message
         box was displayed.
         """
-        return self['message']['release_candidate']
+        return self['message'].get('release_candidate', None)
 
     @msg_release_candidate.setter
     def msg_release_candidate(self, val: str) -> None:
@@ -195,7 +195,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     @property
     def msg_encfs_global(self) -> bool:
         """If global EncFS deprecation message box was displayed already."""
-        return self['message']['encfs']['global']
+        return self['message']['encfs'].get('global', False)
 
     @msg_encfs_global.setter
     def msg_encfs_global(self, val: bool) -> None:
@@ -204,7 +204,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     @property
     def mainwindow_show_hidden(self) -> bool:
         """Show hidden files in files view."""
-        return self['gui']['mainwindow']['show_hidden']
+        return self['gui']['mainwindow'].get('show_hidden', False)
 
     @mainwindow_show_hidden.setter
     def mainwindow_show_hidden(self, val: bool) -> None:
@@ -244,11 +244,20 @@ class StateData(dict, metaclass=singleton.Singleton):
         Returns:
             Tuple with column index and its sorting order (0=ascending).
         """
-        return self['gui']['mainwindow']['files_view']['sorting']
+        return self['gui']['mainwindow']['files_view'].get('sorting', (0, 0))
 
     @files_view_sorting.setter
     def files_view_sorting(self, vals: tuple[int, int]) -> None:
         self['gui']['mainwindow']['files_view']['sorting'] = vals
+
+    @property
+    def files_view_col_widths(self) -> tuple:
+        """Widths of columns in the files view."""
+        return self['gui']['mainwindow']['files_view']['col_widths']
+
+    @files_view_col_widths.setter
+    def files_view_col_widths(self, widths: tuple) -> None:
+        self['gui']['mainwindow']['files_view']['col_widths'] = widths
 
     @property
     def mainwindow_main_splitter_widths(self) -> tuple[int, int]:
@@ -257,7 +266,8 @@ class StateData(dict, metaclass=singleton.Singleton):
         Returns:
             Two entry tuple with right and left widths.
         """
-        return self['gui']['mainwindow']['splitter_main_widths']
+        return self['gui']['mainwindow'] \
+            .get('splitter_main_widths', (150, 450))
 
     @mainwindow_main_splitter_widths.setter
     def mainwindow_main_splitter_widths(self, vals: tuple[int, int]) -> None:
@@ -270,7 +280,8 @@ class StateData(dict, metaclass=singleton.Singleton):
         Returns:
             Two entry tuple with right and left widths.
         """
-        return self['gui']['mainwindow'].get('splitter_second_widths', None)
+        return self['gui']['mainwindow'] \
+            .get('splitter_second_widths', (150, 300))
 
     @mainwindow_second_splitter_widths.setter
     def mainwindow_second_splitter_widths(self, vals: tuple[int, int]) -> None:
