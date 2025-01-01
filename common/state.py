@@ -24,6 +24,78 @@ class StateData(dict, metaclass=singleton.Singleton):
     ``metaclass=``. To my current knowledge this is not a big deal.
     """
 
+    class Profile:
+        """A surrogate to access profile-specific state data."""
+
+        def __init__(self, profile_id: str, state: StateData):
+            self._state = state
+            self._profile_id = profile_id
+
+        @property
+        def msg_encfs(self) -> bool:
+            """If message box about EncFS deprecation was shown already."""
+            return self._state['message']['encfs'][self._profile_id]
+
+        @msg_encfs.setter
+        def msg_encfs(self, val: bool) -> None:
+            self._state['message']['encfs'][self._profile_id] = val
+
+        @property
+        def last_path(self) -> Path:
+            """Last path used in the GUI."""
+            return Path(self._state['gui']['mainwindow'][
+                'last_path'][self._profile_id])
+
+        @last_path.setter
+        def last_path(self, path: Path) -> None:
+            self._state['gui']['mainwindow'][
+                'last_path'][self._profile_id] = str(path)
+
+        @property
+        def places_sorting(self) -> tuple[int, int]:
+            """Column index and sort order.
+
+            Returns:
+                Tuple with column index and its sorting order (0=ascending).
+            """
+            return self._state['gui']['mainwindow'][
+                'places_sorting'][self._profile_id]
+
+        @places_sorting.setter
+        def places_sorting(self, vals: tuple[int, int]) -> None:
+            self._state['gui']['mainwindow'][
+                'places_sorting'][self._profile_id] = vals
+
+        @property
+        def exclude_sorting(self) -> tuple[int, int]:
+            """Column index and sort order.
+
+            Returns:
+                Tuple with column index and its sorting order (0=ascending).
+            """
+            return self._state['gui']['manage_profiles'][
+                'excl_sorting'][self._profile_id]
+
+        @exclude_sorting.setter
+        def exclude_sorting(self, vals: tuple[int, int]) -> None:
+            self._state['gui']['manage_profiles'][
+                'excl_sorting'][self._profile_id] = vals
+
+        @property
+        def include_sorting(self) -> tuple[int, int]:
+            """Column index and sort order.
+
+            Returns:
+                Tuple with column index and its sorting order (0=ascending).
+            """
+            return self._state['gui']['manage_profiles'][
+                'incl_sorting'][self._profile_id]
+
+        @include_sorting.setter
+        def include_sorting(self, vals: tuple[int, int]) -> None:
+            self._state['gui']['manage_profiles'][
+                'incl_sorting'][self._profile_id] = vals
+
     _EMPTY_STRUCT = {
         'gui': {
             'mainwindow': {
@@ -77,7 +149,17 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         with self.file_path().open('w', encoding='utf-8') as handle:
             handle.write(str(self))
-            # json.dump(obj=self._data, fp=handle, indent=4)
+
+    def profile(self, profile_id: str) -> StateData.Profile:
+        """Return a `Profile` object related to the given id.
+
+        Args:
+            profile_id: A profile_id of a snapshot profile.
+
+        Returns:
+            A profile surrogate.
+        """
+        return StateData.Profile(profile_id=profile_id, state=self)
 
     def manual_starts_countdown(self) -> int:
         """Countdown value about how often the users started the Back In Time
@@ -100,6 +182,9 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def msg_release_candidate(self) -> str:
+        """Last version of Back In Time in which the release candidate message
+        box was displayed.
+        """
         return self['message']['release_candidate']
 
     @msg_release_candidate.setter
@@ -108,6 +193,7 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def msg_encfs_global(self) -> bool:
+        """If global EncFS deprecation message box was displayed allready."""
         return self['message']['encfs']['global']
 
     @msg_encfs_global.setter
@@ -116,34 +202,38 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def mainwindow_show_hidden(self) -> bool:
+        """Show hidden files in files view."""
         return self['gui']['mainwindow']['show_hidden']
 
     @mainwindow_show_hidden.setter
-    def mainwindow_show_hidden(self, val: boll) -> None:
+    def mainwindow_show_hidden(self, val: bool) -> None:
         self['gui']['mainwindow']['show_hidden'] = val
 
     @property
     def mainwindow_dims(self) -> tuple[int, int]:
+        """Dimensions of the main window."""
         return self['gui']['mainwindow']['dims']
 
     @mainwindow_dims.setter
-    def mainwindow_dims(self, vals) -> None:
+    def mainwindow_dims(self, vals: tuple[int, int]) -> None:
         self['gui']['mainwindow']['dims'] = vals
 
     @property
     def mainwindow_coords(self) -> tuple[int, int]:
+        """Coordinates (position) of the main window."""
         return self['gui']['mainwindow']['coords']
 
     @mainwindow_coords.setter
-    def mainwindow_coords(self, vals) -> None:
+    def mainwindow_coords(self, vals: tuple[int, int]) -> None:
         self['gui']['mainwindow']['coords'] = vals
 
     @property
     def logview_dims(self) -> tuple[int, int]:
+        """Dimensions of the log view dialog."""
         return self['gui']['logview']['dims']
 
     @logview_dims.setter
-    def logview_dims(self, vals) -> None:
+    def logview_dims(self, vals: tuple[int, int]) -> None:
         self['gui']['logview']['dims'] = vals
 
     @property
@@ -156,7 +246,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         return self['gui']['mainwindow']['files_view']['sorting']
 
     @files_view_sorting.setter
-    def files_view_sorting(self, vals: tupler[int, int]) -> None:
+    def files_view_sorting(self, vals: tuple[int, int]) -> None:
         self['gui']['mainwindow']['files_view']['sorting'] = vals
 
     @property

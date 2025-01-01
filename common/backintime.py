@@ -811,38 +811,47 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     if all(widths):
         data.mainwindow_second_splitter_widths = widths
 
-    # ---- XXXX ----
-
     # each profile
     for profile_id in cfg.profiles():
+        profile_state = data.profile(profile_id)
 
         # profile specific encfs warning
         val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
         if val:
-            data['message']['encfs'][profile_id] = val
+            profile_state.msg_encfs = val
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):
-            val = cfg.profileStrValue('qt.last_path', profile_id)
-            data['gui']['mainwindow'].setdefault(
-                'last_path', {})[profile_id] = val
+            profile_state.last_path \
+                = cfg.profileStrValue('qt.last_path', profile_id)
 
         # Columns sorting order
-        process_data = (
-            ('qt.places.', 'mainwindow', 'places_'),
-            ('qt.settingsdialog.exclude.', 'manage_profiles', 'excl_'),
-            ('qt.settingsdialog.include.', 'manage_profiles', 'incl_'),
-        )
-        for org_prefix, widgetname, new_prefix in process_data:
-            if cfg.hasProfileKey(f'{org_prefix}SortColumn', profile_id):
-                col = cfg.profileIntValue(
-                    f'{org_prefix}SortColumn', profile_id)
-                order = cfg.profileIntValue(
-                    f'{org_prefix}SortOrder', profile_id)
-                data['gui'][widgetname].setdefault(
-                    f'{new_prefix}sort_col', {})[profile_id] = col
-                data['gui'][widgetname].setdefault(
-                    f'{new_prefix}sort_order', {})[profile_id] = order
+        if cfg.hasProfileKey('qt.places.SortColumn', profile_id):
+            sorting = (
+                cfg.profileIntValue('qt.places.SortColumn', profile_id),
+                cfg.profileIntValue('qt.places.SortOrder', profile_id)
+            )
+            profile_state.places_sorting = sorting
+
+        if cfg.hasProfileKey('qt.settingsdialog.exclude.SortColumn',
+                             profile_id):
+            sorting = (
+                cfg.profileIntValue(
+                    'qt.settingsdialog.exclude.SortColumn', profile_id),
+                cfg.profileIntValue(
+                    'qt.settingsdialog.exclude.SortOrder', profile_id)
+            )
+            profile_state.exclude_sorting = sorting
+
+        if cfg.hasProfileKey('qt.settingsdialog.include.SortColumn',
+                             profile_id):
+            sorting = (
+                cfg.profileIntValue(
+                    'qt.settingsdialog.include.SortColumn', profile_id),
+                cfg.profileIntValue(
+                    'qt.settingsdialog.include.SortOrder', profile_id)
+            )
+            profile_state.include_sorting = sorting
 
     return data
 
@@ -863,24 +872,21 @@ def load_state_data(args: argparse.Namespace) -> None:
 
     try:
         # load file
-        data_dict = json.loads(fp.read_text(encoding='utf-8'))
+        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
 
     except FileNotFoundError:
         logger.debug('State file not found. Using config file.')
         fp.parent.mkdir(parents=True, exist_ok=True)
         # extract data from the config file (for later migration)
-        cfg = getConfig(args)
-        data_dict = _get_state_data_from_config(cfg)
+        state_data = _get_state_data_from_config(getConfig(args))
 
     except json.decoder.JSONDecodeError as exc:
         logger.warning(f'Unable to read and decode state file "{fp}". '
                        'Ignnoring it.')
         logger.debug(f'{exc=}')
-        data_dict = _STATE_DATA_EMPTY_STRUCT
+        state_data = StateData()
 
-    st = StateData(data_dict)
-
-    atexit.register(st.save)
+    atexit.register(state_data.save)
 
 
 def setQuiet(args):
