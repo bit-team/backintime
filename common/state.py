@@ -24,6 +24,19 @@ class StateData(dict, metaclass=singleton.Singleton):
     ``metaclass=``. To my current knowledge this is not a big deal.
     """
 
+    _EMPTY_STRUCT = {
+        'gui': {
+            'mainwindow': {
+                'files_view': {},
+            },
+            'manage_profiles': {},
+            'logview': {},
+        },
+        'message': {
+            'encfs': {}
+        },
+    }
+
     @staticmethod
     def file_path() -> Path:
         """Returns the state file path."""
@@ -35,8 +48,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         return fp
 
-    def __init__(self, data: dict):
+    def __init__(self, data: dict = None):
         """Constructor."""
+
+        if not data:
+            data = self._EMPTY_STRUCT
 
         # This will initilize self.data (see UserDict docu)
         super().__init__(data)
@@ -81,3 +97,90 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         if val > -1:
             self['manual_starts_countdown'] = val - 1
+
+    @property
+    def msg_release_candidate(self) -> str:
+        return self['message']['release_candidate']
+
+    @msg_release_candidate.setter
+    def msg_release_candidate(self, val: str) -> None:
+        self['message']['release_candidate'] = val
+
+    @property
+    def msg_encfs_global(self) -> bool:
+        return self['message']['encfs']['global']
+
+    @msg_encfs_global.setter
+    def msg_encfs_global(self, val: bool) -> None:
+        self['message']['encfs']['global'] = val
+
+    @property
+    def mainwindow_show_hidden(self) -> bool:
+        return self['gui']['mainwindow']['show_hidden']
+
+    @mainwindow_show_hidden.setter
+    def mainwindow_show_hidden(self, val: boll) -> None:
+        self['gui']['mainwindow']['show_hidden'] = val
+
+    @property
+    def mainwindow_dims(self) -> tuple[int, int]:
+        return self['gui']['mainwindow']['dims']
+
+    @mainwindow_dims.setter
+    def mainwindow_dims(self, vals) -> None:
+        self['gui']['mainwindow']['dims'] = vals
+
+    @property
+    def mainwindow_coords(self) -> tuple[int, int]:
+        return self['gui']['mainwindow']['coords']
+
+    @mainwindow_coords.setter
+    def mainwindow_coords(self, vals) -> None:
+        self['gui']['mainwindow']['coords'] = vals
+
+    @property
+    def logview_dims(self) -> tuple[int, int]:
+        return self['gui']['logview']['dims']
+
+    @logview_dims.setter
+    def logview_dims(self, vals) -> None:
+        self['gui']['logview']['dims'] = vals
+
+    @property
+    def files_view_sorting(self) -> tuple[int, int]:
+        """Column index and sort order.
+
+        Returns:
+            Tuple with column index and its sorting order (0=ascending).
+        """
+        return self['gui']['mainwindow']['files_view']['sorting']
+
+    @files_view_sorting.setter
+    def files_view_sorting(self, vals: tupler[int, int]) -> None:
+        self['gui']['mainwindow']['files_view']['sorting'] = vals
+
+    @property
+    def mainwindow_main_splitter_widths(self) -> tuple[int, int]:
+        """Left and right width of main splitter in main window.
+
+        Returns:
+            Two entry tuple with right and left widths.
+        """
+        return self['gui']['mainwindow']['splitter_main_widths']
+
+    @mainwindow_main_splitter_widths.setter
+    def mainwindow_main_splitter_widths(self, vals: tuple[int, int]) -> None:
+        self['gui']['mainwindow']['splitter_main_widths'] = vals
+
+    @property
+    def mainwindow_second_splitter_widths(self) -> tuple[int, int]:
+        """Left and right width of second splitter in main window.
+
+        Returns:
+            Two entry tuple with right and left widths.
+        """
+        return self['gui']['mainwindow'].get('splitter_second_widths', None)
+
+    @mainwindow_second_splitter_widths.setter
+    def mainwindow_second_splitter_widths(self, vals: tuple[int, int]) -> None:
+        self['gui']['mainwindow']['splitter_second_widths'] = vals

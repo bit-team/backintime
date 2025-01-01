@@ -727,21 +727,7 @@ def getConfig(args, check=True):
     return cfg
 
 
-_STATE_DATA_EMPTY_STRUCT = {
-    'gui': {
-        'mainwindow': {
-            'files_view': {},
-        },
-        'manage_profiles': {},
-        'logview': {},
-    },
-    'message': {
-        'encfs': {}
-    },
-}
-
-
-def _get_state_data_from_config(cfg: config.Config) -> dict:
+def _get_state_data_from_config(cfg: config.Config) -> StateData:
     """Get data related to application state from the config instance.
 
     It migrates state data from the config file to an instantance of
@@ -756,7 +742,7 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
         dict: The state data.
         """
 
-    data = _STATE_DATA_EMPTY_STRUCT
+    data = StateData()
 
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] \
@@ -765,30 +751,37 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
     # internal.msg_rc
     val = cfg.strValue('internal.msg_rc', None)
     if val:
-        data['message']['release_candidate'] = val
+        data.msg_release_candidate = val
 
     # internal.msg_shown_encfs
     val = cfg.boolValue('internal.msg_shown_encfs', None)
     if val:
-        data['message']['encfs']['global'] = val
+        data.msg_encfs_global = val
 
     # qt.show_hidden_files
-    data['gui']['mainwindow']['show_hidden'] \
-        = cfg.boolValue('qt.show_hidden_files', False)
+    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
 
     # Coordinates and dimensions
-    process_data = (
-        ('qt.main_window.', ('x', 'y'), 'mainwindow'),
-        ('qt.main_window.', ('width', 'height'), 'mainwindow'),
-        ('qt.logview.', ('width', 'height'), 'logview'),
+    val = (
+        cfg.intValue('qt.main_window.x', None),
+        cfg.intValue('qt.main_window.y', None)
     )
-    for org_prefix, xyhw, widgetname in process_data:
-        val = (
-            cfg.intValue(f'{org_prefix}{xyhw[0]}', None),
-            cfg.intValue(f'{org_prefix}{xyhw[1]}', None),
-        )
-        if all(val):
-            data['gui'][widgetname]['coords' if 'x' in xyhw else 'dims'] = val
+    if all(val):
+        data.mainwindow_coords = val
+
+    val = (
+        cfg.intValue('qt.main_window.width', None),
+        cfg.intValue('qt.main_window.height', None)
+    )
+    if all(val):
+        data.mainwindow_dims = val
+
+    val = (
+        cfg.intValue('qt.logview.width', None),
+        cfg.intValue('qt.logview.height', None)
+    )
+    if all(val):
+        data.logview_dims = val
 
     # files view
     # Dev note (buhtz, 2024-12): Ignore the column width values because of a
@@ -801,17 +794,22 @@ def _get_state_data_from_config(cfg: config.Config) -> dict:
 
     col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
     order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
-    data['gui']['mainwindow']['files_view']['sort_column'] = col
-    data['gui']['mainwindow']['files_view']['sort_order'] = 0 if order else 1
+    data.files_view_sorting = (col, 0 if order else 1)
 
     # splitter width
-    for prefix in ('main', 'second'):
-        widths = (
-            cfg.intValue(f'qt.main_window.{prefix}_splitter_left_w', None),
-            cfg.intValue(f'qt.main_window.{prefix}_splitter_right_w', None)
-        )
-        if all(widths):
-            data['gui']['mainwindow'][f'splitter_{prefix}_widths'] = widths
+    widths = (
+        cfg.intValue('qt.main_window.main_splitter_left_w', None),
+        cfg.intValue('qt.main_window.main_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_main_splitter_widths = widths
+
+    widths = (
+        cfg.intValue('qt.main_window.second_splitter_left_w', None),
+        cfg.intValue('qt.main_window.second_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_second_splitter_widths = widths
 
     # ---- XXXX ----
 
