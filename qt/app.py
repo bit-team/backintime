@@ -711,6 +711,7 @@ class MainWindow(QMainWindow):
                 self.act_restore_parent_to,
             ),
             _('&Help'): (
+                self.act_help_user_manual,
                 self.act_help_man_backintime,
                 self.act_help_man_config,
                 self.act_help_website,
@@ -1385,7 +1386,10 @@ class MainWindow(QMainWindow):
             dlg.exec()
 
     def btn_help_user_manual(self):
-        self.openUrl(bitbase.URL_USER_MANUAL)
+        if bitbase.USER_MANUAL_LOCAL_PATH.exists():
+            self.openUrl(bitbase.USER_MANUAL_LOCAL_PATH.as_uri())
+        else:
+            self.openUrl(bitbase.USER_MANUAL_ONLINE_URL)
 
     def btn_help_man_backintime(self):
         self.openManPage('backintime')
