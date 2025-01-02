@@ -13,6 +13,7 @@ from enum import Enum
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
 
+URL_USER_MANUAL = 'https://github.com/bit-team/backintime/'
 
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling.

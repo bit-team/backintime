@@ -34,6 +34,7 @@ tools.initiate_translation(None)
 import qttools
 
 import backintime
+import bitbase
 import tools
 import logger
 import snapshots
@@ -539,9 +540,15 @@ class MainWindow(QMainWindow):
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
                 None),
+            'act_help_user_manual': (
+                icon.HELP, _('User manual'),
+                self.btn_help_user_manual, ['F1'],
+                _('Open user manual in browser (local if '
+                  'available otherwise online)'),
+            ),
             'act_help_man_backintime': (
                 icon.HELP, _('man page: Back In Time'),
-                self.btn_help_man_backintime, ['F1'],
+                self.btn_help_man_backintime, None,
                 _('Displays man page about Back In Time (backintime)')
             ),
             'act_help_man_config': (
@@ -1376,6 +1383,9 @@ class MainWindow(QMainWindow):
         with self.suspendMouseButtonNavigation():
             dlg = AboutDlg(self)
             dlg.exec()
+
+    def btn_help_user_manual(self):
+        self.openUrl(bitbase.URL_USER_MANUAL)
 
     def btn_help_man_backintime(self):
         self.openManPage('backintime')
