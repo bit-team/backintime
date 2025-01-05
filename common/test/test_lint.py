@@ -45,10 +45,13 @@ full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'languages.py',
     'schedule.py',
+    'singleton.py',
     'ssh_max_arg.py',
+    'statedata.py',
     'version.py',
     'test/test_lint.py',
     'test/test_mount.py',
+    'test/test_singleton.py',
     'test/test_uniquenessset.py',
 )]
 

@@ -25,6 +25,7 @@ import encfstools
 import snapshotlog
 import tools
 import qttools
+from statedata import StateData
 
 
 class LogViewDialog(QDialog):
@@ -50,9 +51,8 @@ class LogViewDialog(QDialog):
         self.enableUpdate = False
         self.decode = None
 
-        w = self.config.intValue('qt.logview.width', 800)
-        h = self.config.intValue('qt.logview.height', 500)
-        self.resize(w, h)
+        state_data = StateData()
+        self.resize(*state_data.logview_dims)
 
         import icon
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
@@ -102,13 +102,17 @@ class LogViewDialog(QDialog):
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), snapshotlog.LogFilter.ERROR_AND_CHANGES)
+        self.comboFilter.addItem(
+            ' + '.join((_('Errors'), _('Changes'))),
+            snapshotlog.LogFilter.ERROR_AND_CHANGES)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
         self.comboFilter.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
         self.comboFilter.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
         self.comboFilter.addItem(ngettext('Information', 'Information', 2),
                                  snapshotlog.LogFilter.INFORMATION)
-        self.comboFilter.addItem(_('rsync transfer failures (experimental)'), snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
+        self.comboFilter.addItem(
+            _('rsync transfer failures (experimental)'),
+            snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
 
         # text view
         self.txtLogView = QPlainTextEdit(self)
@@ -224,29 +228,37 @@ class LogViewDialog(QDialog):
 
         mode = self.comboFilter.itemData(self.comboFilter.currentIndex())
 
-        # TODO This expressions is hard to understand (watchPath is not a boolean!)
+        # TODO This expressions is hard to understand (watchPath is not a
+        # boolean!)
         if watchPath and self.sid is None:
-            # remove path from watch to prevent multiple updates at the same time
+            # remove path from watch to prevent multiple updates at the same
+            # time
             self.watcher.removePath(watchPath)
             # append only new lines to txtLogView
-            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            for line in log.get(mode = mode,
-                                decode = self.decode,
-                                skipLines = self.txtLogView.document().lineCount() - 1):
+            log = snapshotlog.SnapshotLog(
+                self.config, self.comboProfiles.currentProfileID())
+            for line in log.get(mode=mode,
+                                decode=self.decode,
+                                skipLines=self.txtLogView.document().lineCount()-1):
                 self.txtLogView.appendPlainText(line)
 
             # re-add path to watch after 5sec delay
-            alarm = tools.Alarm(callback = lambda: self.watcher.addPath(watchPath),
-                                overwrite = False)
+            alarm = tools.Alarm(
+                callback=lambda: self.watcher.addPath(watchPath),
+                overwrite=False)
             alarm.start(5)
 
         elif self.sid is None:
-            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            self.txtLogView.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
+            log = snapshotlog.SnapshotLog(
+                self.config, self.comboProfiles.currentProfileID())
+            self.txtLogView.setPlainText(
+                '\n'.join(log.get(mode=mode, decode=self.decode)))
+
         else:
-            self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
+            self.txtLogView.setPlainText(
+                '\n'.join(self.sid.log(mode, decode=self.decode)))
 
     def closeEvent(self, event):
-        self.config.setIntValue('qt.logview.width', self.width())
-        self.config.setIntValue('qt.logview.height', self.height())
+        state_data = StateData()
+        state_data.logview_dims = (self.width(), self.height())
         event.accept()

@@ -1,6 +1,8 @@
 Back In Time
 
 Version 1.6.0-dev (development of upcoming release)
+* Changed: Move several values from config file into new introduce state file ($XDG_STATE_HOME/backintime.json)
+* Fix: The width of the fourth column in files view is now saved
 * Feature: Open user manual (local if available otherwise online) via Help menu
 * Fix: Snapshot compare copy symlink as symlink (#1902) (Peter Sevens @sevens)
 * Fix: Crash when comparing a snapshot with a symlink pointing to a nonexistent target (Peter Sevens @sevens)
