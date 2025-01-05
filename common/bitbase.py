@@ -6,12 +6,16 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Basic constants used in multiple modules."""
-
 from enum import Enum
+from pathlib import Path
 
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
+
+USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
+USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
+    'backintime-common' / 'manual' / 'index.html'
 
 
 class TimeUnit(Enum):
