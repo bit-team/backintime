@@ -29,7 +29,7 @@ import mount
 import password
 import encfstools
 import cli
-from state import StateData
+from statedata import StateData
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance

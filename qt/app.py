@@ -38,7 +38,7 @@ import mount
 import progress
 import encfsmsgbox
 from exceptions import MountException
-from state import StateData
+from statedata import StateData
 from PyQt6.QtGui import (QAction,
                          QShortcut,
                          QDesktopServices,

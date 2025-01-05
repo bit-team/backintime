@@ -35,7 +35,7 @@ from PyQt6.QtCore import Qt
 import tools
 import qttools
 import messagebox
-from state import StateData
+from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_auto_remove import AutoRemoveTab
 from manageprofiles.tab_options import OptionsTab

@@ -25,7 +25,7 @@ import encfstools
 import snapshotlog
 import tools
 import qttools
-from state import StateData
+from statedata import StateData
 
 
 class LogViewDialog(QDialog):
