@@ -34,6 +34,7 @@ tools.initiate_translation(None)
 import qttools
 
 import backintime
+import bitbase
 import tools
 import logger
 import snapshots
@@ -539,25 +540,40 @@ class MainWindow(QMainWindow):
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
                 None),
-            'act_help_help': (
-                icon.HELP, _('Help'),
-                self.btnHelpClicked, ['F1'],
-                None),
-            'act_help_configfile': (
-                icon.HELP, _('Profiles config file'),
-                self.btnHelpConfigClicked, None, None),
+            'act_help_user_manual': (
+                icon.HELP, _('User manual'),
+                self.btn_help_user_manual, ['F1'],
+                _('Open user manual in browser (local if '
+                  'available otherwise online)'),
+            ),
+            'act_help_man_backintime': (
+                icon.HELP, _('man page: Back In Time'),
+                self.btn_help_man_backintime, None,
+                _('Displays man page about Back In Time (backintime)')
+            ),
+            'act_help_man_config': (
+                icon.HELP, _('man page: Profiles config file'),
+                self.btn_help_man_config,
+                None,
+                _('Displays man page about profiles config file '
+                  '(backintime-config)')
+            ),
             'act_help_website': (
-                icon.WEBSITE, _('Website'),
-                self.btnWebsiteClicked, None, None),
+                icon.WEBSITE, _('Project website'),
+                self.btnWebsiteClicked,
+                None,
+                _('Open Back In Time website in browser')),
             'act_help_changelog': (
                 icon.CHANGELOG, _('Changelog'),
                 self.btnChangelogClicked, None, None),
             'act_help_faq': (
                 icon.FAQ, _('FAQ'),
-                self.btnFaqClicked, None, None),
+                self.btnFaqClicked, None,
+                _('Open Frequently Asked Questions (FAQ) in browser')),
             'act_help_question': (
                 icon.QUESTION, _('Ask a question'),
-                self.btnAskQuestionClicked, None, None),
+                self.btnAskQuestionClicked, None,
+                None),
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self.btnReportBugClicked, None, None),
@@ -695,8 +711,9 @@ class MainWindow(QMainWindow):
                 self.act_restore_parent_to,
             ),
             _('&Help'): (
-                self.act_help_help,
-                self.act_help_configfile,
+                self.act_help_user_manual,
+                self.act_help_man_backintime,
+                self.act_help_man_config,
                 self.act_help_website,
                 self.act_help_changelog,
                 self.act_help_faq,
@@ -1368,10 +1385,16 @@ class MainWindow(QMainWindow):
             dlg = AboutDlg(self)
             dlg.exec()
 
-    def btnHelpClicked(self):
+    def btn_help_user_manual(self):
+        if bitbase.USER_MANUAL_LOCAL_PATH.exists():
+            self.openUrl(bitbase.USER_MANUAL_LOCAL_PATH.as_uri())
+        else:
+            self.openUrl(bitbase.USER_MANUAL_ONLINE_URL)
+
+    def btn_help_man_backintime(self):
         self.openManPage('backintime')
 
-    def btnHelpConfigClicked(self):
+    def btn_help_man_config(self):
         self.openManPage('backintime-config')
 
     def btnWebsiteClicked(self):
