@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Samuel Moore
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -19,6 +20,7 @@ import pathlib
 import re
 import subprocess
 import shutil
+import textwrap
 import signal
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
@@ -41,6 +43,7 @@ import encfsmsgbox
 from exceptions import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
+                         QActionGroup,
                          QShortcut,
                          QDesktopServices,
                          QPalette,
@@ -730,11 +733,49 @@ class MainWindow(QMainWindow):
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
 
+    def _context_menu_toolbar_style(self,
+                                    point: QPoint,
+                                    toolbar: QToolBar) -> None:
+        """Open a context menu to modify styling of tooblar buttons
+        buttons.
+        """
+        menu = QMenu(self)
+        group = QActionGroup(self)
+        options = (
+            (
+                _('Icons only'),
+                Qt.ToolButtonStyle.ToolButtonIconOnly),
+            (
+                _('Text only'),
+                Qt.ToolButtonStyle.ToolButtonTextOnly),
+            (
+                _('Text below icons'),
+                Qt.ToolButtonStyle.ToolButtonTextUnderIcon),
+            (
+                _('Text beside icon'),
+                Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
+        )
+        for text, style in options:
+            action = QAction(text, self)
+            action.setCheckable(True)
+            action.setChecked(toolbar.toolButtonStyle() == style)
+            group.addAction(action)
+            action.triggered.connect(
+                lambda _, s=style: toolbar.setToolButtonStyle(s))
+
+        menu.addActions(group.actions())
+        menu.exec(toolbar.mapToGlobal(point))
+
     def _create_main_toolbar(self):
         """Create the main toolbar and connect it to actions."""
 
         toolbar = self.addToolBar('main')
         toolbar.setFloatable(False)
+
+        # Context menu to modify button styling
+        toolbar.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        toolbar.customContextMenuRequested.connect(
+            lambda point: self._context_menu_toolbar_style(point, toolbar))
 
         # Drop-Down: Profiles
         self.comboProfiles = qttools.ProfileCombo(self)
@@ -770,6 +811,8 @@ class MainWindow(QMainWindow):
                     button_tip = f'{act.text()}: {act.toolTip()}'
 
                 toolbar.widgetForAction(act).setToolTip(button_tip)
+
+            act.setText(textwrap.fill(act.text(), width=8, break_long_words=False))
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
