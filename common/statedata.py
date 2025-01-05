@@ -25,6 +25,23 @@ class StateData(dict, metaclass=singleton.Singleton):
     big deal and won't introduce any problems.
 
     """
+    # The default structure. All properties do rely on them and assuming
+    # it is there.
+    _EMPTY_STRUCT = {
+        'gui': {
+            'mainwindow': {
+                'files_view': {},
+            },
+            'manage_profiles': {
+                'incl_sorting': {},
+                'excl_sorting': {},
+            },
+            'logview': {},
+        },
+        'message': {
+            'encfs': {}
+        },
+    }
 
     class Profile:
         """A surrogate to access profile-specific state data."""
@@ -97,24 +114,6 @@ class StateData(dict, metaclass=singleton.Singleton):
         def include_sorting(self, vals: tuple[int, int]) -> None:
             self._state['gui']['manage_profiles'][
                 'incl_sorting'][self._profile_id] = vals
-
-    # The default strucutre. All properties do rely on them and assuming
-    # it is there.
-    _EMPTY_STRUCT = {
-        'gui': {
-            'mainwindow': {
-                'files_view': {},
-            },
-            'manage_profiles': {
-                'incl_sorting': {},
-                'excl_sorting': {},
-            },
-            'logview': {},
-        },
-        'message': {
-            'encfs': {}
-        },
-    }
 
     @staticmethod
     def file_path() -> Path:

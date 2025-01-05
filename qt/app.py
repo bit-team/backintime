@@ -383,7 +383,7 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
-        # Finished countdown of manual GUI starts
+        # Countdown of manual GUI starts finished?
         if 0 == state_data.manual_starts_countdown():
 
             # Do nothing if English is the current used language

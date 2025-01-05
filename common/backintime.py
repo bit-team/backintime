@@ -788,6 +788,8 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     # bug. Three columns are tracked but the widget has four columns. The "Typ"
     # column is treated as "Date" and the width of the real "Date" column (4th)
     # was never stored.
+    # The new state file will load and store width values for all existing
+    # columns.
     # qt.main_window.files_view.name_width
     # qt.main_window.files_view.size_width
     # qt.main_window.files_view.date_width
@@ -859,7 +861,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 def load_state_data(args: argparse.Namespace) -> None:
     """Initiate the `State` instance.
 
-    The state file is loaded and its date stored in `State`. The later is a
+    The state file is loaded and its data stored in `State`. The later is a
     singleton and can be used everywhere.
 
     Dev note (buhtz, 2024-12): The args argument is a workaround and will be
@@ -877,17 +879,20 @@ def load_state_data(args: argparse.Namespace) -> None:
         state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
 
     except FileNotFoundError:
-        logger.debug('State file not found. Using config file.')
+        logger.debug('State file not found. Using config file and migrate it'
+                     'into a state file.')
         fp.parent.mkdir(parents=True, exist_ok=True)
-        # extract data from the config file (for later migration)
+        # extract data from the config file (for migration)
         state_data = _get_state_data_from_config(getConfig(args))
 
     except json.decoder.JSONDecodeError as exc:
         logger.warning(f'Unable to read and decode state file "{fp}". '
                        'Ignnoring it.')
         logger.debug(f'{exc=}')
+        # Empty state data with default values
         state_data = StateData()
 
+    # Register close callback. This will save the state file when the BIT ends.
     atexit.register(state_data.save)
 
 
@@ -917,6 +922,7 @@ class printLicense(argparse.Action):
     """
     Print custom license
     """
+
     def __init__(self, *args, **kwargs):
         super(printLicense, self).__init__(*args, **kwargs)
 
