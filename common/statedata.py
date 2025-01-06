@@ -11,6 +11,7 @@ import os
 import json
 from pathlib import Path
 from datetime import datetime, timezone
+from copy import deepcopy
 import singleton
 import logger
 from version import __version__
@@ -131,12 +132,13 @@ class StateData(dict, metaclass=singleton.Singleton):
     def __init__(self, data: dict = None):
         """Constructor."""
 
-        if data:
-            self._EMPTY_STRUCT.update(data)
-        else:
-            data = self._EMPTY_STRUCT
+        # default
+        full = deepcopy(self._EMPTY_STRUCT)
 
-        super().__init__(data)
+        if data:
+            full.update(data)
+
+        super().__init__(full)
 
     def __str__(self):
         return json.dumps(self, indent=4)

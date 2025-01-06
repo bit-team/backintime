@@ -7,13 +7,27 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about statefile module."""
 import unittest
+import inspect
+import atexit
+import argparse
 from pathlib import Path
-from unittest import mock
-import statedata
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
+import statedata
+import backintime
 
 
-class TestSingleton(unittest.TestCase):
+class IsSingleton(unittest.TestCase):
+    """StateData instance is a singleton."""
+
+    @classmethod
+    def tearDownClass(cls):
+        # Delete existing StateData instance
+        try:
+            # pylint: disable-next=protected-access
+            del statedata.StateData._instances[statedata.StateData]
+        except KeyError:
+            pass
+
     def setUp(self):
         # Clean up all instances
         try:
@@ -37,3 +51,145 @@ class TestSingleton(unittest.TestCase):
         one['foobar'] = 7
 
         self.assertEqual(one, two)
+
+
+class Migration(pyfakefs_ut.TestCase):
+    """Migration from config file into state file."""
+    @classmethod
+    def tearDownClass(cls):
+        # Delete existing StateData instance
+        try:
+            # pylint: disable-next=protected-access
+            del statedata.StateData._instances[statedata.StateData]
+        except KeyError:
+            pass
+
+    def _create_config_file(self, extra_content=[]):
+        """Minimal config file"""
+        # pylint: disable-next=duplicate-code
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+            qt.main_window.x=123
+            qt.main_window.y=456
+        ''')  # pylint: disable=R0801
+
+        if extra_content:
+            cfg_content = cfg_content + '\n' + '\n'.join(extra_content)
+
+        # config file location
+        config_fp = Path.home() / '.config' / 'backintime' / 'config'
+        config_fp.parent.mkdir(parents=True)
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def tearDown(self):
+        self.config_fp.unlink(missing_ok=True)
+        self.state_fp.unlink(missing_ok=True)
+
+    def setUp(self):
+        """Setup a fake filesystem with a config file."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # Delete existing StateData instance
+        try:
+            # pylint: disable-next=protected-access
+            del statedata.StateData._instances[statedata.StateData]
+        except KeyError:
+            pass
+
+        self.config_fp = self._create_config_file()
+        self.state_fp = Path.home() / '.local' / 'state' / 'backintime.json'
+
+    def test_create_json_file_at_exit(self):
+        """Create state file if not exists."""
+
+        # State file does not exist
+        self.assertFalse(self.state_fp.exists())
+
+        # Try to load statefile will trigger migration of config values
+        # into a fresh state object
+        args = argparse.Namespace(
+            config="/home/user/.config/backintime/config",
+            share_path="/home/user/.local/share")
+        backintime.load_state_data(args)
+
+        sut = statedata.StateData()
+
+        # File still not written to filesystem
+        self.assertFalse(self.state_fp.exists())
+
+        # Exit application trigger state file write
+        atexit._run_exitfuncs()
+
+        # Not it exists
+        self.assertTrue(self.state_fp.exists())
+
+    def test_migrate_config(self):
+        """Values from config file migrated to state data."""
+
+        # State file does not exist
+        self.assertFalse(self.state_fp.exists())
+
+        # Try to load statefile will trigger migration of config values
+        # into a fresh state object
+        args = argparse.Namespace(
+            config="/home/user/.config/backintime/config",
+            share_path="/home/user/.local/share")
+        backintime.load_state_data(args)
+
+        sut = statedata.StateData()
+
+        self.assertEqual(sut.mainwindow_coords, (123, 456))
+
+
+class Properties(unittest.TestCase):
+    """Property access without errors."""
+
+    @classmethod
+    def tearDownClass(cls):
+        # Delete existing StateData instance
+        try:
+            # pylint: disable-next=protected-access
+            del statedata.StateData._instances[statedata.StateData]
+        except KeyError:
+            pass
+
+    def setUp(self):
+        # Delete existing StateData instance
+        try:
+            # pylint: disable-next=protected-access
+            del statedata.StateData._instances[statedata.StateData]
+        except KeyError:
+            pass
+
+    def test_foobar(self):
+        """Create state file if not exists."""
+
+        print(f'{statedata.StateData._instances=}')
+        print(f'{statedata.StateData._EMPTY_STRUCT=}')
+        sut = statedata.StateData()
+
+        profile = sut.profile(42)
+
+        self.assertEqual('hier weiter', False)
+
+        print(sut)
+        print(profile)
