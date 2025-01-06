@@ -31,6 +31,8 @@ class StateData(dict, metaclass=singleton.Singleton):
         'gui': {
             'mainwindow': {
                 'files_view': {},
+                'last_path': {},
+                'places_sorting': {},
             },
             'manage_profiles': {
                 'incl_sorting': {},
