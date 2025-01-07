@@ -154,8 +154,8 @@ class Migration(pyfakefs_ut.TestCase):
         # Try to load statefile will trigger migration of config values
         # into a fresh state object
         args = argparse.Namespace(
-            config="/home/user/.config/backintime/config",
-            share_path="/home/user/.local/share")
+            config=str(Path.home() / ".config" / "backintime" / "config"),
+            share_path=str(Path.home() / ".local" / "share"))
         backintime.load_state_data(args)
 
         sut = statedata.StateData()
