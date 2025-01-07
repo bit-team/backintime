@@ -64,7 +64,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @property
         def last_path(self) -> Path:
-            """Last path used in the GUI."""
+            """Last path used in the GUI.
+
+            Raises:
+                KeyError
+            """
             return Path(self._state['gui']['mainwindow'][
                 'last_path'][self._profile_id])
 
@@ -169,6 +173,9 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         Returns:
             A profile surrogate.
+
+        Raises:
+            KeyError: If profile does not exists.
         """
         return StateData.Profile(profile_id=profile_id, state=self)
 
@@ -222,7 +229,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def mainwindow_dims(self) -> tuple[int, int]:
-        """Dimensions of the main window."""
+        """Dimensions of the main window.
+
+        Raises:
+            KeyError
+        """
         return self['gui']['mainwindow']['dims']
 
     @mainwindow_dims.setter
@@ -231,7 +242,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def mainwindow_coords(self) -> tuple[int, int]:
-        """Coordinates (position) of the main window."""
+        """Coordinates (position) of the main window.
+
+        Raises:
+            KeyError
+        """
         return self['gui']['mainwindow']['coords']
 
     @mainwindow_coords.setter
@@ -240,7 +255,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def logview_dims(self) -> tuple[int, int]:
-        """Dimensions of the log view dialog."""
+        """Dimensions of the log view dialog.
+
+        Raises:
+            KeyError
+        """
         return self['gui']['logview'].get('dims', (800, 500))
 
     @logview_dims.setter

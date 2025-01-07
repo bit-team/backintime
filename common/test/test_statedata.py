@@ -14,6 +14,7 @@ from pathlib import Path
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 import statedata
 import backintime
+import config
 
 
 class IsSingleton(unittest.TestCase):
@@ -180,16 +181,49 @@ class Properties(unittest.TestCase):
         except KeyError:
             pass
 
-    def test_foobar(self):
-        """Create state file if not exists."""
+    def test_read_empty_global(self):
+        """Read properties from empty state data"""
 
-        print(f'{statedata.StateData._instances=}')
-        print(f'{statedata.StateData._EMPTY_STRUCT=}')
         sut = statedata.StateData()
 
+        self.assertEqual(sut.msg_release_candidate, None)
+        self.assertEqual(sut.msg_encfs_global, False)
+        self.assertEqual(sut.mainwindow_show_hidden, False)
+        self.assertEqual(sut.files_view_sorting, (0, 0))
+        self.assertEqual(sut.mainwindow_main_splitter_widths, (150, 450))
+        self.assertEqual(sut.mainwindow_second_splitter_widths, (150, 300))
+
+        with self.assertRaises(KeyError):
+            sut.mainwindow_coords
+            sut.mainwindow_dims
+            sut.logview_dims
+            sut.files_view_col_widths
+
+    def test_profile_not_exist(self):
+        """Profile does not exists."""
+        sut = statedata.StateData()
         profile = sut.profile(42)
 
-        self.assertEqual('hier weiter', False)
+        with self.assertRaises(KeyError):
+            profile.last_path
 
-        print(sut)
-        print(profile)
+    @pyfakefs_ut.patchfs(allow_root_user=False)
+    def test_read_empty_profile(self, fake_fs):
+        cfg_content = inspect.cleandoc('''
+        ''')  # pylint: disable=R0801
+
+        # config file location
+        config_fp = Path.home() / '.config' / 'backintime' / 'config'
+        config_fp.parent.mkdir(parents=True)
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        cfg = config.Config(config_fp)
+        sut = backintime._get_state_data_from_config(cfg)
+
+        # empty profile
+        profile = sut.profile('1')
+
+        with self.assertRaises(KeyError) as exc:
+            profile.msg_encfs
+
+        self.assertEqual(str(exc.exception), '1')

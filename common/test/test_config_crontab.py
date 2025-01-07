@@ -27,6 +27,7 @@ import config
 
 class Cron(unittest.TestCase):
     """Cron-related behavior of Config class."""
+
     def test_cron_lines(self):
         """Creation of crontab lines per profile"""
         # Mock reading a config file
