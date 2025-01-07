@@ -744,6 +744,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
     data = StateData()
 
+    print(cfg.dict)  # DEBUG
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] \
         = cfg.intValue('internal.manual_starts_countdown', 10)
@@ -766,6 +767,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         cfg.intValue('qt.main_window.x', None),
         cfg.intValue('qt.main_window.y', None)
     )
+    print(f'coord vals={val}')
     if all(val):
         data.mainwindow_coords = val
 
@@ -819,11 +821,8 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
         # profile specific encfs warning
         val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
-        # print('X'*100)   # DEBUG
-        # print(f'msg_shown_encfs={val}')
         if val is not None:
             profile_state.msg_encfs = val
-        # print(data)
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):
@@ -893,8 +892,10 @@ def load_state_data(args: argparse.Namespace) -> None:
         except SystemExit as exc:
             # config file does not exists
             if exc.code == RETURN_NO_CFG:
+                # empty/default state data
                 state_data = StateData()
             else:
+                # re-raise at any other reasons
                 raise
 
         else:

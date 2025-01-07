@@ -148,6 +148,7 @@ class Migration(pyfakefs_ut.TestCase):
         """Values from config file migrated to state data."""
 
         # State file does not exist
+        print('X'*200)
         self.assertFalse(self.state_fp.exists())
 
         # Try to load statefile will trigger migration of config values
@@ -158,6 +159,7 @@ class Migration(pyfakefs_ut.TestCase):
         backintime.load_state_data(args)
 
         sut = statedata.StateData()
+        print(sut)
 
         self.assertEqual(sut.mainwindow_coords, (123, 456))
 
