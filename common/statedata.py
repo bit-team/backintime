@@ -162,7 +162,10 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         self._set_save_meta_data()
 
-        with self.file_path().open('w', encoding='utf-8') as handle:
+        fp = self.file_path()
+        fp.parent.mkdir(parents=True, exist_ok=True)
+
+        with fp.open('w', encoding='utf-8') as handle:
             handle.write(str(self))
 
     def profile(self, profile_id: str) -> StateData.Profile:
