@@ -63,6 +63,7 @@ class Cron(unittest.TestCase):
 
 class CrontabDebug(pyfakefs_ut.TestCase):
     """Debug behavior when scheduled via crontab"""
+
     def setUp(self):
         """Setup a fake filesystem with a config file."""
         self.setUpPyfakefs(allow_root_user=False)

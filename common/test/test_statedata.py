@@ -6,6 +6,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about statefile module."""
+# pylint: disable=R0801
 import unittest
 import inspect
 import atexit
@@ -65,7 +66,7 @@ class Migration(pyfakefs_ut.TestCase):
         except KeyError:
             pass
 
-    def _create_config_file(self, extra_content=[]):
+    def _create_config_file(self, extra_content=None):
         """Minimal config file"""
         # pylint: disable-next=duplicate-code
         cfg_content = inspect.cleandoc('''
@@ -132,13 +133,13 @@ class Migration(pyfakefs_ut.TestCase):
             share_path="/home/user/.local/share")
         backintime.load_state_data(args)
 
-        sut = statedata.StateData()
+        statedata.StateData()
 
         # File still not written to filesystem
         self.assertFalse(self.state_fp.exists())
 
         # Exit application trigger state file write
-        atexit._run_exitfuncs()
+        atexit._run_exitfuncs()  # pylint: disable=protected-access
 
         # Not it exists
         self.assertTrue(self.state_fp.exists())
@@ -183,7 +184,6 @@ class Properties(unittest.TestCase):
 
     def test_read_empty_global(self):
         """Read properties from empty state data"""
-
         sut = statedata.StateData()
 
         self.assertEqual(sut.msg_release_candidate, None)
@@ -194,6 +194,7 @@ class Properties(unittest.TestCase):
         self.assertEqual(sut.mainwindow_second_splitter_widths, (150, 300))
 
         with self.assertRaises(KeyError):
+            # pylint: disable=pointless-statement
             sut.mainwindow_coords
             sut.mainwindow_dims
             sut.logview_dims
@@ -205,10 +206,12 @@ class Properties(unittest.TestCase):
         profile = sut.profile(42)
 
         with self.assertRaises(KeyError):
+            # pylint: disable=pointless-statement
             profile.last_path
 
     @pyfakefs_ut.patchfs(allow_root_user=False)
-    def test_read_empty_profile(self, fake_fs):
+    def test_read_non_existing_profile(self, _fake_fs):
+        """Read state value from non existing profile."""
         cfg_content = inspect.cleandoc('''
         ''')  # pylint: disable=R0801
 
@@ -218,12 +221,38 @@ class Properties(unittest.TestCase):
         config_fp.write_text(cfg_content, 'utf-8')
 
         cfg = config.Config(config_fp)
+        # pylint: disable-next=protected-access
         sut = backintime._get_state_data_from_config(cfg)
 
         # empty profile
         profile = sut.profile('1')
 
         with self.assertRaises(KeyError) as exc:
+            # pylint: disable=pointless-statement
             profile.msg_encfs
 
-        self.assertEqual(str(exc.exception), '1')
+        # Profile 1 does not exist
+        self.assertEqual(exc.exception.args[0], '1')
+
+    @pyfakefs_ut.patchfs(allow_root_user=False)
+    def test_write_non_existing_profile(self, _fake_fs):
+        """Write state value to non existing profile."""
+        cfg_content = inspect.cleandoc('''
+        ''')  # pylint: disable=R0801
+
+        # config file location
+        config_fp = Path.home() / '.config' / 'backintime' / 'config'
+        config_fp.parent.mkdir(parents=True)
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        cfg = config.Config(config_fp)
+        # pylint: disable-next=protected-access
+        sut = backintime._get_state_data_from_config(cfg)
+
+        # empty profile
+        profile = sut.profile('1')
+
+        # nothing raised
+        profile.msg_encfs = True
+
+        self.assertEqual(profile.msg_encfs, True)

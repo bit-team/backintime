@@ -819,8 +819,11 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
         # profile specific encfs warning
         val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
+        # print('X'*100)   # DEBUG
+        # print(f'msg_shown_encfs={val}')
         if val is not None:
             profile_state.msg_encfs = val
+        # print(data)
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):
