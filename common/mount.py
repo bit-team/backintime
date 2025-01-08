@@ -407,9 +407,9 @@ class Mount:
                                  **kwargs)
             return backend.isConfigured()
 
-    def init(self, mode = None, **kwargs):
+    def init_backend(self, mode = None, **kwargs):
         """
-        High-level init. Run :py:func:`MountControl.init` to initiate
+        High-level init. Run :py:func:`MountControl.init_backend` to initiate
         the backend if not configured yet.
 
         Args:
@@ -419,7 +419,7 @@ class Mount:
                                 :py:class:`MountControl` subclass backend
 
         Raises:
-            exceptions.MountException:  if init failed
+            exceptions.MountException:  if init_backend failed
         """
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
@@ -435,7 +435,7 @@ class Mount:
                                  mode = mode,
                                  parent = self.parent,
                                  **kwargs)
-            return backend.init()
+            return backend.init_backend()
 
 class MountControl:
     """This is the low-level mount API. This should be subclassed by backends.

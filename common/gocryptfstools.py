@@ -67,7 +67,7 @@ class GocryptfsMount(MountControl):
                 raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
                                         % {'command': ' '.join(gocryptfs), 'error': output})
 
-    def init(self):
+    def init_backend(self):
         """
         init the cipher path
         """
