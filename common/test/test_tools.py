@@ -824,3 +824,38 @@ class OlderThan(unittest.TestCase):
         mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 1)
 
         self.assertTrue(tools.older_than(birth, 7, TimeUnit.MONTH))
+
+
+class NestedDictUpdate(unittest.TestCase):
+    """About nested_dict_update()"""
+
+    def test_simple(self):
+        """Simple"""
+        org = {
+            'foo': 7,
+            'bar': {
+                'a': 'drei',
+                'b': 'uhr'
+            }
+        }
+        update = {
+            'planet': 'erde',
+            'bar': {
+                'b': 'wecker'
+            },
+            'ecke': 9
+        }
+
+        expect = {
+            'planet': 'erde',
+            'foo': 7,
+            'bar': {
+                'a': 'drei',
+                'b': 'wecker'
+            },
+            'ecke': 9
+        }
+
+        self.assertDictEqual(
+            tools.nested_dict_update(org, update),
+            expect)

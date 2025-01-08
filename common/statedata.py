@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from copy import deepcopy
 import singleton
 import logger
+import tools
 from version import __version__
 
 
@@ -140,7 +141,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         full = deepcopy(self._EMPTY_STRUCT)
 
         if data:
-            full.update(data)
+            full = tools.nested_dict_update(full, data)
 
         super().__init__(full)
 
