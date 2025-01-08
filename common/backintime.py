@@ -744,9 +744,6 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
     data = StateData()
 
-    # DEBUG
-    print(f'backintime.py::_get_state_data_from_config() :: {cfg.dict=}')
-
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] \
         = cfg.intValue('internal.manual_starts_countdown', 10)
