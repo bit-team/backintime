@@ -26,6 +26,7 @@ import gettext
 import hashlib
 import ipaddress
 from datetime import datetime, timedelta
+from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
 from bitbase import TimeUnit
@@ -394,6 +395,7 @@ def get_native_language_and_completeness(language_code: str
 # | into better suited modules/classes    |
 # |---------------------------------------|
 
+
 NTFS_FILESYSTEM_WARNING = _(
     'The destination filesystem for {path} is formatted with NTFS, which has '
     'known incompatibilities with Unix-style filesystems.')
@@ -547,6 +549,34 @@ def is_writeable(folder):
 
     return True, None
 
+# |-----------------------------------|
+# | Manimpulation of basic data types |
+# |-----------------------------------|
+
+
+def nested_dict_update(org: dict, update: dict) -> dict:
+    """Nested update of dict-like 'org' with dict-like 'update'.
+
+    See *Deep merge dictionaries of dictionaries in Python* at
+    StackOverflow: https://stackoverflow.com/q/7204805/4865723
+    Credits for current solution:
+
+    https://stackoverflow.com/a/52319248/4865723
+    """
+    for key in update:
+
+        if (key in org
+                and isinstance(org[key], MutableMapping)
+                and isinstance(update[key], MutableMapping)):
+
+            nested_dict_update(org[key], update[key])
+
+            continue
+
+        org[key] = update[key]
+
+    return org
+
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
@@ -680,7 +710,7 @@ def readFile(path, default=None):
     return ret_val
 
 
-def readFileLines(path, default = None):
+def readFileLines(path, default=None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
     content as a list of lines or ``default`` if ``path`` does not exist.
@@ -951,7 +981,8 @@ def processCmdline(pid):
             return f.read().strip('\n')
 
     except OSError as e:
-        logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        logger.warning('Failed to read process cmdline from {}: [{}] {}'
+                       .format(e.filename, e.errno, e.strerror))
         return ''
 
 
@@ -1037,8 +1068,8 @@ def checkXServer():
     #       https://cgit.freedesktop.org/xorg/app/xdpyinfo/tree/xdpyinfo.c
     if checkCommand('xdpyinfo'):
         proc = subprocess.Popen(['xdpyinfo'],
-                                stdout = subprocess.DEVNULL,
-                                stderr = subprocess.DEVNULL)
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL)
         proc.communicate()
         return proc.returncode == 0
     else:
@@ -1078,12 +1109,14 @@ def is_Qt_working(systray_required=False):
                               stderr=subprocess.PIPE,
                               universal_newlines=True) as proc:
 
-            std_output, error_output = proc.communicate(timeout=30)  # to get the exit code
-            # "timeout" fixes #1592 (qt_probing.py may hang as root): Kill after timeout
+            # to get the exit code "timeout" fixes #1592 (qt_probing.py may
+            # hang as root): Kill after timeout
+            std_output, error_output = proc.communicate(timeout=30)
 
             logger.debug(f"Qt probing result: exit code {proc.returncode}")
 
-            if proc.returncode != 2 or logger.DEBUG:  # if some Qt parts are missing: Show details
+            # if some Qt parts are missing: Show details
+            if proc.returncode != 2 or logger.DEBUG:
                 logger.debug(f"Qt probing stdout:\n{std_output}")
                 logger.debug(f"Qt probing errout:\n{error_output}")
 
@@ -1097,7 +1130,8 @@ def is_Qt_working(systray_required=False):
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
-        logger.info("Qt probing sub process killed after timeout without response")
+        logger.info("Qt probing sub process killed after timeout "
+                    "without response")
         logger.debug(f"Qt probing stdout:\n{outs}")
         logger.debug(f"Qt probing errout:\n{errs}")
 
@@ -1120,6 +1154,7 @@ def preparePath(path):
     path = os.sep + path
     return path
 
+
 def powerStatusAvailable():
     """
     Check if org.freedesktop.UPower is available so that
@@ -1133,11 +1168,15 @@ def powerStatusAvailable():
             bus = dbus.SystemBus()
             proxy = bus.get_object('org.freedesktop.UPower',
                                    '/org/freedesktop/UPower')
-            return 'OnBattery' in proxy.GetAll('org.freedesktop.UPower',
-                            dbus_interface = 'org.freedesktop.DBus.Properties')
+            return 'OnBattery' in proxy.GetAll(
+                'org.freedesktop.UPower',
+                dbus_interface='org.freedesktop.DBus.Properties')
+
         except dbus.exceptions.DBusException:
             pass
+
     return False
+
 
 def onBattery():
     """
@@ -1151,14 +1190,16 @@ def onBattery():
             bus = dbus.SystemBus()
             proxy = bus.get_object('org.freedesktop.UPower',
                                    '/org/freedesktop/UPower')
-            return bool(proxy.Get('org.freedesktop.UPower',
-                                  'OnBattery',
-                                  dbus_interface = 'org.freedesktop.DBus.Properties'))
+            return bool(proxy.Get(
+                'org.freedesktop.UPower',
+                'OnBattery',
+                dbus_interface='org.freedesktop.DBus.Properties'))
         except dbus.exceptions.DBusException:
             pass
     return False
 
-def rsyncCaps(data = None):
+
+def rsyncCaps(data=None):
     """
     Get capabilities of the installed rsync binary. This can be different from
     version to version and also on build arguments used when building rsync.
@@ -1171,26 +1212,29 @@ def rsyncCaps(data = None):
     """
     if not data:
         proc = subprocess.Popen(['rsync', '--version'],
-                                stdout = subprocess.PIPE,
-                                universal_newlines = True)
+                                stdout=subprocess.PIPE,
+                                universal_newlines=True)
         data = proc.communicate()[0]
     caps = []
-    #rsync >= 3.1 does provide --info=progress2
+
+    # rsync >= 3.1 does provide --info=progress2
     matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+
     for matcher in matchers:
         m = re.match(matcher, data)
         if m and Version(m.group(1)) >= Version('3.1'):
             caps.append('progress2')
             break
 
-    #all other capabilities are separated by ',' between
-    #'Capabilities:' and '\n\n'
+    # all other capabilities are separated by ',' between
+    # 'Capabilities:' and '\n\n'
     m = re.match(r'.*Capabilities:(.+)\n\n.*', data, re.DOTALL)
     if not m:
         return caps
 
     for line in m.group(1).split('\n'):
-        caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
+        caps.extend(
+            [i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
 
@@ -1332,7 +1376,7 @@ def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
     return cmd
 
 
-def rsyncRemove(config, run_local = True):
+def rsyncRemove(config, run_local=True):
     """
     Get rsync command and all args for removing snapshots with rsync.
 
@@ -1349,7 +1393,7 @@ def rsyncRemove(config, run_local = True):
         cmd.extend(rsyncSshArgs(config))
     return cmd
 
-#TODO: check if we really need this
+# TODO: check if we really need this
 def tempFailureRetry(func, *args, **kwargs):
     while True:
         try:
@@ -1359,6 +1403,7 @@ def tempFailureRetry(func, *args, **kwargs):
                 continue
             else:
                 raise
+
 
 def md5sum(path):
     """
@@ -1378,6 +1423,7 @@ def md5sum(path):
                 break
             md5.update(data)
     return md5.hexdigest()
+
 
 def checkCronPattern(s):
     """
@@ -1444,9 +1490,9 @@ def envSave(f):
     """
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
-    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
-                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
-                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
+    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS',
+                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID',
+                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID',
                 'KDE_FULL_SESSION'):
         if key in env:
             env_file.setStrValue(key, env[key])
@@ -1524,7 +1570,6 @@ def keyringSupported():
 
     for backend_package, backends in backends_to_check:
         result = backend_package  # e.g. keyring.backends
-
 
         try:
             # Load the backend step-by-step.
@@ -1683,6 +1728,7 @@ def filesystem(path):
         return args[2]
     return None
 
+
 def _uuidFromDev_via_filesystem(dev):
     """Get the UUID for the block device ``dev`` from ``/dev/disk/by-uuid`` in
     the filesystem.
@@ -1693,7 +1739,6 @@ def _uuidFromDev_via_filesystem(dev):
     Returns:
         str: The UUID or ``None`` if nothing found.
     """
-
 
     # /dev/disk/by-uuid
     path_DISK_BY_UUID = pathlib.Path(DISK_BY_UUID)
@@ -1732,9 +1777,10 @@ def _uuidFromDev_via_blkid_command(dev):
     # Call "blkid" command
     try:
         # If device does not exist, blkid will exit with a non-zero code
-        output = subprocess.check_output(['blkid', dev],
-                                        stderr = subprocess.DEVNULL,
-                                        universal_newlines=True)
+        output = subprocess.check_output(
+            ['blkid', dev],
+            stderr=subprocess.DEVNULL,
+            universal_newlines=True)
 
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
@@ -1748,6 +1794,7 @@ def _uuidFromDev_via_blkid_command(dev):
 
     return None
 
+
 def _uuidFromDev_via_udevadm_command(dev):
     """Get the UUID for the block device ``dev`` via the extern command
     ``udevadm``.
@@ -1760,9 +1807,10 @@ def _uuidFromDev_via_udevadm_command(dev):
     """
     # Call "udevadm" command
     try:
-        output = subprocess.check_output(['udevadm', 'info', f'--name={dev}'],
-                                        stderr = subprocess.DEVNULL,
-                                        universal_newlines=True)
+        output = subprocess.check_output(
+            ['udevadm', 'info', f'--name={dev}'],
+            stderr=subprocess.DEVNULL,
+            universal_newlines=True)
 
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
@@ -1837,6 +1885,7 @@ def isRoot():
     # is the original user who executed "sudo").
     return os.geteuid() == 0
 
+
 def usingSudo():
     """
     Check if 'sudo' was used to start this process.
@@ -1849,6 +1898,7 @@ def usingSudo():
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
+
 
 def patternHasNotEncryptableWildcard(pattern):
     """

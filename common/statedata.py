@@ -11,8 +11,10 @@ import os
 import json
 from pathlib import Path
 from datetime import datetime, timezone
+from copy import deepcopy
 import singleton
 import logger
+import tools
 from version import __version__
 
 
@@ -31,6 +33,8 @@ class StateData(dict, metaclass=singleton.Singleton):
         'gui': {
             'mainwindow': {
                 'files_view': {},
+                'last_path': {},
+                'places_sorting': {},
             },
             'manage_profiles': {
                 'incl_sorting': {},
@@ -61,7 +65,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         @property
         def last_path(self) -> Path:
-            """Last path used in the GUI."""
+            """Last path used in the GUI.
+
+            Raises:
+                KeyError
+            """
             return Path(self._state['gui']['mainwindow'][
                 'last_path'][self._profile_id])
 
@@ -129,12 +137,13 @@ class StateData(dict, metaclass=singleton.Singleton):
     def __init__(self, data: dict = None):
         """Constructor."""
 
-        if data:
-            self._EMPTY_STRUCT.update(data)
-        else:
-            data = self._EMPTY_STRUCT
+        # default
+        full = deepcopy(self._EMPTY_STRUCT)
 
-        super().__init__(data)
+        if data:
+            full = tools.nested_dict_update(full, data)
+
+        super().__init__(full)
 
     def __str__(self):
         return json.dumps(self, indent=4)
@@ -154,7 +163,10 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         self._set_save_meta_data()
 
-        with self.file_path().open('w', encoding='utf-8') as handle:
+        fp = self.file_path()
+        fp.parent.mkdir(parents=True, exist_ok=True)
+
+        with fp.open('w', encoding='utf-8') as handle:
             handle.write(str(self))
 
     def profile(self, profile_id: str) -> StateData.Profile:
@@ -165,6 +177,9 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         Returns:
             A profile surrogate.
+
+        Raises:
+            KeyError: If profile does not exists.
         """
         return StateData.Profile(profile_id=profile_id, state=self)
 
@@ -218,7 +233,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def mainwindow_dims(self) -> tuple[int, int]:
-        """Dimensions of the main window."""
+        """Dimensions of the main window.
+
+        Raises:
+            KeyError
+        """
         return self['gui']['mainwindow']['dims']
 
     @mainwindow_dims.setter
@@ -227,7 +246,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def mainwindow_coords(self) -> tuple[int, int]:
-        """Coordinates (position) of the main window."""
+        """Coordinates (position) of the main window.
+
+        Raises:
+            KeyError
+        """
         return self['gui']['mainwindow']['coords']
 
     @mainwindow_coords.setter
@@ -236,7 +259,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def logview_dims(self) -> tuple[int, int]:
-        """Dimensions of the log view dialog."""
+        """Dimensions of the log view dialog.
+
+        Raises:
+            KeyError
+        """
         return self['gui']['logview'].get('dims', (800, 500))
 
     @logview_dims.setter
