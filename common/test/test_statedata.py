@@ -39,7 +39,7 @@ class IsSingleton(unittest.TestCase):
             pass
 
     def test_identity(self):
-        """Identical identiy."""
+        """Identical identity."""
         one = statedata.StateData()
         two = statedata.StateData()
 

@@ -344,7 +344,7 @@ one aspect aimed at finding and implementing solutions for these issues.
 Currently, _Back In Time_ uses [EncFS](https://github.com/vgough/encfs) for
 encrypting backups, but it has known security vulnerabilities (see issue
 [#1549](https://github.com/bit-team/backintime/issues/1549)). This requires
-to remove it. A potential candiate for replacement is
+to remove it. A potential candidate for replacement is
 [GoCryptFS](https://github.com/rfjakob/gocryptfs).
 However, lack of resources hinders this effort. If no volunteers step forward,
 the encryption feature will be removed, prioritizing user security and team
