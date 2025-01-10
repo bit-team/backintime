@@ -171,9 +171,11 @@ _Back in Time_ does only support selected "known-good" backends
 to set and query passwords from a user-session password safe by
 using the [`keyring`](https://github.com/jaraco/keyring) library.
 
-Enabling a supported keyring requires manual configuration of a configuration file until there is e.g. a settings GUI for this.
+Enabling a supported keyring requires manual configuration of a configuration
+file until there is e.g. a settings GUI for this.
 
-Symptoms are DEBUG log output (with the command line argument `--debug`) of keyring problems can be recognized by output like:
+Symptoms are DEBUG log output (with the command line argument `--debug`) of
+keyring problems can be recognized by output like:
 
 ```
 DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends...' can't be used with BackInTime
