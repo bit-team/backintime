@@ -30,8 +30,8 @@ It is written in Python3 and available for all major GNU/Linux distributions
 `backintime-qt`. Backups can be scheduled and stored locally or remotely
 through SSH.
 
-More background info can be found in [CONTRIBUTING.md] and [HISTORY.md].
-
+More background info can be found in [CONTRIBUTING](CONTRIBUTING.md) and
+[HISTORY](HISTORY.md).
 
 ## Maintenance status
 
