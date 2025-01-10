@@ -18,14 +18,21 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 Germar Reitze, Taylor Raack</sub><br />
 <sub>Copyright © 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
  
-_Back In Time_ is an easy-to-use tool to backup files and folders.
-It runs on GNU/Linux (not on Windows or OS X/macOS) and provides a command line
-tool `backintime` and a GUI `backintime-qt` both written in Python3. It uses 
-[`rsync`](https://rsync.samba.org/) to take manual or scheduled snapshots and
-stores them locally or remotely through SSH. Each snapshot is in its own folder
-with copies of the original files, but unchanged files are hard-linked between
-snapshots to save storage space.
-It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
+_Back In Time_ is a comfortable and well-configurable graphical frontend for
+incremental backups using [`rsync`](https://rsync.samba.org/), with a
+command-line version also available. Modified files are transferred, while
+unchanged files are linked to the new folder using rsync's hard link feature,
+saving storage space. Restoring is straightforward via file manager or command
+line.
+
+It is written in Python3 and available for all major GNU/Linux distributions
+(but not for Windows or OS X/macOS) as command line tool `backintime` and GUI
+`backintime-qt`. Backups can be scheduled and stored locally or remotely
+through SSH.
+
+The development of _Back In  Time_ was inspired by
+[FlyBack](https://en.wikipedia.org/wiki/FlyBack).
+
 
 ## Maintenance status
 
