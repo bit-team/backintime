@@ -22,8 +22,8 @@ _Back In Time_ is a comfortable and well-configurable graphical frontend for
 incremental backups using [`rsync`](https://rsync.samba.org/), with a
 command-line version also available. Modified files are transferred, while
 unchanged files are linked to the new folder using rsync's hard link feature,
-saving storage space. Restoring is straightforward via file manager or command
-line.
+saving storage space. Restoring is straightforward via file manager, command
+line or _Back In Time_ itself.
 
 It is written in Python3 and available for all major GNU/Linux distributions
 (but not for Windows or OS X/macOS) as command line tool `backintime` and GUI
