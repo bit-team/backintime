@@ -15,7 +15,7 @@ from datetime import datetime
 from packaging.version import Version
 import config
 import password
-import password_ipc
+from password_ipc import TempPasswordThread
 import tools
 import sshtools
 import logger
@@ -56,7 +56,7 @@ class EncFS_mount(MountControl):
         if self.password is None:
             self.password = self.config.password(self.parent, self.profile_id, self.mode)
         logger.debug('Provide password through temp FIFO', self)
-        thread = password_ipc.TempPasswordThread(self.password)
+        thread = TempPasswordThread(self.password)
         env = self.env()
         env['ASKPASS_TEMP'] = thread.temp_file
         with thread.starter():
@@ -363,7 +363,7 @@ class Encode:
         """
         start 'encfsctl encode' process in pipe mode.
         """
-        thread = password_ipc.TempPasswordThread(self.password)
+        thread = TempPasswordThread(self.password)
         env = self.encfs.env()
         env['ASKPASS_TEMP'] = thread.temp_file
         with thread.starter():
@@ -595,7 +595,7 @@ class Decode:
         """
         start 'encfsctl decode' process in pipe mode.
         """
-        thread = password_ipc.TempPasswordThread(self.password)
+        thread = TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
         with thread.starter():

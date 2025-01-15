@@ -82,9 +82,11 @@ class GocryptfsMount(MountControl):
             gocryptfs = [self.mountproc, '-extpass', 'backintime-askpass']
             gocryptfs.append('-init')
             gocryptfs.append(self.path)
-            logger.debug('Call command to create gocryptfs config file: %s'
-                         %' '.join(gocryptfs),
-                         self)
+            logger.debug(
+                'Call command to create gocryptfs config file: %s'
+                 %' '.join(gocryptfs),
+                 self
+            )
 
             proc = subprocess.Popen(gocryptfs, env = env,
                                     stdout = subprocess.PIPE,
@@ -93,8 +95,10 @@ class GocryptfsMount(MountControl):
             output = proc.communicate()[0]
             #### self.backupConfig()
             if proc.returncode:
-                raise MountException(_('Can\'t init encrypted path \'%(command)s\':\n\n%(error)s') \
-                                        % {'command': ' '.join(gocryptfs), 'error': output})
+                raise MountException(
+                    _("Can't init encrypted path '{command}':\n\n{error}")
+                    .format(command=' '.join(gocryptfs), error=output)
+                )
 
     def preMountCheck(self, first_run = False):
         """
