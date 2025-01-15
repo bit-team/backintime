@@ -83,6 +83,41 @@ class EncFS_mount(MountControl):
                         .format(command=' '.join(encfs)),
                         output))
 
+    def init_backend(self):
+        """
+        init the cipher path
+        """
+        if self.password is None:
+            self.password = self.config.password(self.parent, self.profile_id, self.mode)
+        logger.debug('Provide password through temp FIFO', self)
+        thread = TempPasswordThread(self.password)
+        env = os.environ.copy()
+        env['ASKPASS_TEMP'] = thread.temp_file
+
+        with thread.starter():
+            encfs = [self.mountproc, '--extpass=backintime-askpass']
+            if self.reverse:
+                encfs += ['--reverse']
+            encfs += ['--standard']
+            encfs += [self.path, self.currentMountpoint]
+            logger.debug(
+                'Call command to create EncFS config file: %s'
+                 %' '.join(encfs),
+                 self
+            )
+
+            proc = subprocess.Popen(encfs, env = env,
+                                    stdout = subprocess.PIPE,
+                                    stderr = subprocess.STDOUT,
+                                    universal_newlines = True)
+            output = proc.communicate()[0]
+            self.backupConfig()
+            if proc.returncode:
+                raise MountException(
+                    _("Can't init encrypted path '{command}':\n\n{error}")
+                    .format(command=' '.join(encfs), error=output)
+                )
+
     def preMountCheck(self, first_run=False):
         """Check what ever conditions must be given for the mount.
 
