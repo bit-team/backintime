@@ -319,3 +319,20 @@ class StateData(dict, metaclass=singleton.Singleton):
     @mainwindow_second_splitter_widths.setter
     def mainwindow_second_splitter_widths(self, vals: tuple[int, int]) -> None:
         self['gui']['mainwindow']['splitter_second_widths'] = vals
+
+    @property
+    def toolbar_button_style(self) -> int:
+        """Style of icons for the main toolbar.
+
+        Returns:
+           Style value as integer (default: 0 as ``ToolButtonIconOnly``)
+        """
+        try:
+            return self['gui']['mainwindow']['toolbar_button_style']
+        except KeyError:
+            self['gui']['mainwindow']['toolbar_button_style'] = 0
+            return self.toolbar_button_style
+
+    @toolbar_button_style.setter
+    def toolbar_button_style(self, value) -> None:
+        self['gui']['mainwindow']['toolbar_button_style'] = value
