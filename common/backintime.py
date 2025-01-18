@@ -699,7 +699,7 @@ def getConfig(args, check=True):
         SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
                         2 if ``check`` is ``True`` and config is not configured
     """
-    cfg = config.Config(config_path = args.config, data_path = args.share_path)
+    cfg = config.Config(config_path=args.config, data_path=args.share_path)
     logger.debug('config file: "{}"; share path: "{}"; profiles: "{}"'.format(
         cfg._LOCAL_CONFIG_PATH,
         cfg._LOCAL_DATA_FOLDER,
@@ -718,7 +718,7 @@ def getConfig(args, check=True):
             sys.exit(RETURN_ERR)
 
     if check and not cfg.isConfigured():
-        logger.error('%(app)s is not configured!' %{'app': cfg.APP_NAME})
+        logger.error('%(app)s is not configured!' % {'app': cfg.APP_NAME})
         sys.exit(RETURN_NO_CFG)
 
     if 'checksum' in args:
@@ -766,6 +766,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         cfg.intValue('qt.main_window.x', None),
         cfg.intValue('qt.main_window.y', None)
     )
+    print(f'coord vals={val}')
     if all(val):
         data.mainwindow_coords = val
 
@@ -882,8 +883,22 @@ def load_state_data(args: argparse.Namespace) -> None:
         logger.debug('State file not found. Using config file and migrate it'
                      'into a state file.')
         fp.parent.mkdir(parents=True, exist_ok=True)
-        # extract data from the config file (for migration)
-        state_data = _get_state_data_from_config(getConfig(args))
+
+        # Try to extract data from the config file (for migration)
+        try:
+            cfg = getConfig(args)
+
+        except SystemExit as exc:
+            # config file does not exists
+            if exc.code == RETURN_NO_CFG:
+                # empty/default state data
+                state_data = StateData()
+            else:
+                # re-raise at any other reasons
+                raise
+
+        else:
+            state_data = _get_state_data_from_config(cfg)
 
     except json.decoder.JSONDecodeError as exc:
         logger.warning(f'Unable to read and decode state file "{fp}". '

@@ -8,16 +8,17 @@
 # See LICENSES directory or go to <https://spdx.org/licenses/CC0-1.0.html>
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 [Desktop Entry]
+Version=1.5
 Name=Back In Time
 GenericName=Backup
 Exec=backintime-qt
 Icon=document-save
-Terminal=false
-X-MultipleArgs=false
+Terminal=NO
 Type=Application
-StartupNotify=true
-Categories=Qt;KDE;GNOME;System;
-Comment=Simple backup system
-Comment[sl]=Enostaven sistem ustvarjanja varnostnih kopij
-Comment[de]=Ein simples Backup-Programm inspiriert von »Time Machine«, »TimeVault« und dem »flyback project«.
-Keywords=automatic;snapshot;restore;rsync;
+StartupNotify=YES
+# See Desktop Menu Specification
+Categories=Utility;Archiving;Qt;
+# Limit comments to 80 chars (Desktop Entry Specification)               80th char --> |
+Comment=Comfortable GUI for incremental (rsync) backups to save storage space
+Comment[de]=Einfache GUI für inkrementelle (rsync) Backups zur Speicherplatzreduzierung
+Keywords=backup;incremental;automatic;restore;rsync;

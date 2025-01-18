@@ -6,7 +6,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about lock mechanic while mounting."""
-# pylint: disable=wrong-import-position
+# pylint: disable=wrong-import-position,R0801
 import os
 import sys
 import inspect
@@ -45,7 +45,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
 
     def _create_config_file(self, parent_path):
         """Minimal config file"""
-        # pylint: disable-next=R0801
+        # pylint: disable-next=duplicate-code
         cfg_content = inspect.cleandoc('''
             config.version=6
             profile1.snapshots.include.1.type=0
@@ -65,7 +65,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
             profile1.snapshots.rsync_options.enabled=false
             profile1.snapshots.rsync_options.value=
             profiles.version=1
-        ''')
+        ''')  # pylint: disable=duplicate-code
 
         # config file location
         config_fp = parent_path / 'config_path' / 'config'

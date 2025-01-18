@@ -8,6 +8,8 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
+<sub>January 2025</sub>
+
 # FAQ - Frequently Asked Questions
 
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
@@ -56,6 +58,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
+   * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & more](#project--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
@@ -896,7 +899,6 @@ Mount `/volume1/backups` to `/volume1/volume1/backups`
 
 DSM 5 isn't really up to date any more and might be a security risk. It is strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
 
-
 1. Make a new volume named ``volume1`` (should already exist, else create it)
 
 1. Enable User Home Service (Control Panel / User)
@@ -1171,6 +1173,19 @@ and then use just:
   ```bash
   ssh backup@<synology-ip>
   ```
+
+## Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works
+The reason (known for DSM version 7) is that the setup of ssh and sftp is
+customized by Synology.
+
+Solution ([Screenshot in Issue #1674](https://github.com/bit-team/backintime/issues/1674#issuecomment-2106059151)):
+1. Go to: _Control Panel_ > _File Services_ > _Advanced Settings_ > _Change user root directories_ > _Select User_
+2. Add the name of the user used for SSH on the Synology in that list.
+3. At _Change root directory to:_ select _User home_.
+
+See also
+- [Issue #1674](https://github.com/bit-team/backintime/issues/1674)
+- ["Change the default folder in a Synology NAS" - StackOverflow](https://stackoverflow.com/a/77454561/4865723)
 
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
