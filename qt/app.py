@@ -1290,8 +1290,8 @@ class MainWindow(QMainWindow):
         missing = snapshots.has_missing_includes(self.config.include())
         if missing:
             msg_missing = '\n'.join(missing)
-            msg = _('The following directories are missing: {dirs} Do you want to proceed?'.format(
-                dirs=f'\n{msg_missing}\n\n'))
+            msg = _('The following directories are missing: {dirs} Do you want to proceed?').format(
+                dirs=f'\n{msg_missing}\n\n')
             answer = messagebox.warningYesNo(self, msg)
             return answer == QMessageBox.StandardButton.Yes
         return True
