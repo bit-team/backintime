@@ -1,15 +1,15 @@
----
+# User callback script
+<!--
 SPDX-FileCopyrightText: © 2015 Germar Reitze
 SPDX-FileCopyrightText: © 2024 Kosta Vukicevic (stcksmsh)
 SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
-SPDX-License-Identifier: GPL-2.0-or-later
-LicenseComments:
-    This file is part of the program "Back In Time" which is released under
-    GNU General Public License v2 (GPLv2). See LICENSES directory or
-    go to <https://spdx.org/licenses/GPL-2.0-or-later.html>.
----
-# User callback script
 
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
+-->
 ## Introduction
 
 During the backup process, `Back In Time` can call a user defined script at
