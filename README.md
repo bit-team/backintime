@@ -89,10 +89,12 @@ features. This work is carried out voluntarily during their limited spare time.
 
 # Installation
 
-_Back In Time_ is included in [many GNU/Linux distributions](https://repology.org/project/backintime/badges).
-Use their repositories to install it. If you want to contribute or using the latest development version
-of _Back In Time_ please see section [Build & Install](CONTRIBUTING.md#build--install) in [`CONTRIBUTING.md`](CONTRIBUTING.md).
-Also the dependencies are described there.
+_Back In Time_ is included in
+[many GNU/Linux distributions](https://repology.org/project/backintime/badges).
+Use their repositories to install it. If you want to contribute or using the
+latest development version of _Back In Time_ please see section
+[Build & Install](CONTRIBUTING.md#build--install) in
+[`CONTRIBUTING.md`](CONTRIBUTING.md). Also the dependencies are described there.
 
 ## Alternative installation options
 Besides the repositories of the official GNU/Linux distributions, there are other alternative
