@@ -123,14 +123,14 @@ class MainWindow(QMainWindow):
         # window icon
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
+        state_data = StateData()
+
         # shortcuts without buttons
         self._create_shortcuts_without_actions()
 
         self._create_actions()
         self._create_menubar()
         self._create_main_toolbar()
-
-        state_data = StateData()
 
         # timeline (left widget)
         self.timeLine = qttools.TimeLine(self)
@@ -733,15 +733,8 @@ class MainWindow(QMainWindow):
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
 
-    def _context_menu_toolbar_style(self,
-                                    point: QPoint,
-                                    toolbar: QToolBar) -> None:
-        """Open a context menu to modify styling of tooblar buttons
-        buttons.
-        """
-        menu = QMenu(self)
-        group = QActionGroup(self)
-        options = (
+    def _button_styles(self):
+        return (
             (
                 _('Icons only'),
                 Qt.ToolButtonStyle.ToolButtonIconOnly),
@@ -755,15 +748,34 @@ class MainWindow(QMainWindow):
                 _('Text beside icon'),
                 Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
         )
-        for text, style in options:
+
+    def _set_toolbar_button_style(self, toolbar, style):
+        """Set toolbar button style and store the selected index."""
+        toolbar.setToolButtonStyle(style)
+        StateData().toolbar_button_style = style.value
+
+    def _context_menu_button_style(self,
+                                    point: QPoint,
+                                    toolbar: QToolBar) -> None:
+        """Open a context menu to modify styling of tooblar buttons
+        buttons.
+        """
+        menu = QMenu(self)
+        group = QActionGroup(self)
+
+
+        for text, style in self._button_styles():
             action = QAction(text, self)
             action.setCheckable(True)
             action.setChecked(toolbar.toolButtonStyle() == style)
             group.addAction(action)
             action.triggered.connect(
-                lambda _, s=style: toolbar.setToolButtonStyle(s))
+                lambda _, s=style:
+                self._set_toolbar_button_style(toolbar, s)
+                )
 
         menu.addActions(group.actions())
+
         menu.exec(toolbar.mapToGlobal(point))
 
     def _create_main_toolbar(self):
@@ -772,10 +784,14 @@ class MainWindow(QMainWindow):
         toolbar = self.addToolBar('main')
         toolbar.setFloatable(False)
 
-        # Context menu to modify button styling
+        # Context menu to modify button styling for main toolbar
         toolbar.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         toolbar.customContextMenuRequested.connect(
-            lambda point: self._context_menu_toolbar_style(point, toolbar))
+            lambda point: self._context_menu_button_style(point, toolbar))
+
+        # Resore button styling for main toolbar
+        toolbar.setToolButtonStyle(
+            Qt.ToolButtonStyle(StateData().toolbar_button_style))
 
         # Drop-Down: Profiles
         self.comboProfiles = qttools.ProfileCombo(self)
@@ -887,7 +903,6 @@ class MainWindow(QMainWindow):
             self.places.header().sortIndicatorSection(),
             self.places.header().sortIndicatorOrder().value,
         )
-
         state_data.mainwindow_coords = (self.x(), self.y())
         state_data.mainwindow_dims = (self.width(), self.height())
         state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
