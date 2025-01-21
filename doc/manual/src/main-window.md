@@ -1,15 +1,13 @@
+# Main Window
 <!--
 SPDX-FileCopyrightText: © 2016 Germar Reitze
 
 SPDX-License-Identifier: GPL-2.0-or-later
 
 This file is part of the program "Back In Time" which is released under GNU
-General Public License v2 (GPLv2).
-See file/folder LICENSE or
-go to <https://spdx.org/licenses/GPL-2.0-or-later.html>
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-# Main Window
-
 ![Back In Time main window](_images/light/main_window_sections.png#only-light)
 ![Back In Time main window](_images/dark/main_window_sections.png#only-dark)
 
@@ -33,16 +31,19 @@ Refresh the Snapshots in [Timeline](#timeline).
 
 Add a name for a Snapshot so you can easily identify it later. If `Don't remove
 named snapshots` in **Settings \--\> Auto Remove** is enabled this will also
-prevent the Snapshot from being removed. If this button is grayed out you need to select a snapshot in[Timeline](#timeline).
+prevent the Snapshot from being removed. If this button is grayed out you need
+to select a snapshot in [Timeline](#timeline).
 
 ![remove_snapshot](_images/edit-delete_btn.svg) Remove Snapshot
 
 Remove one or more Snapshots from Timeline. `Now` can not be removed as this is
-no Snapshot but the live view of the local file-system. If this button is grayed out you need to select a snapshot in[Timeline](#timeline).
+no Snapshot but the live view of the local file-system. If this button is
+grayed out you need to select a snapshot in [Timeline](#timeline).
 
 ![view_log](_images/text-plain_btn.svg) View Snapshot Log
 
-View the log of the selected Snapshot. If this button is grayed out you need to select a snapshot in[Timeline](#timeline).
+View the log of the selected Snapshot. If this button is grayed out you need to
+select a snapshot in [Timeline](#timeline).
 
 ![view_log](_images/document-new_btn.svg) View Last Log
 
@@ -52,9 +53,12 @@ View the log from the last snapshot attempt.
 
 Open [*Settings*](settings.md).
 
-![shutdown](_images/system-shutdown_btn.svg) Shutdown System after Snapshot has finished
+![shutdown](_images/system-shutdown_btn.svg) Shutdown System after Snapshot has
+finished
 
-Shutdown the computer and poweroff after a snapshot has finished. The main window must stay open for this. If shutdown is not supported on the system this button will be grayed out.
+Shutdown the computer and poweroff after a snapshot has finished. The main
+window must stay open for this. If shutdown is not supported on the system this
+button will be grayed out.
 
 ![exit](_images/window-close_btn.svg) Exit
 
@@ -77,7 +81,8 @@ Toggle hidden files (starting with a dot) to be shown in files view.
 ![restore](_images/edit-undo_btn.svg) Restore
 
 Restore selected files or folders. This button has a sub-menu (hold down the
-button). Default action is `Restore`. If this button is grayed out you need to select a snapshot in[Timeline](#timeline).
+button). Default action is `Restore`. If this button is grayed out you need to
+select a snapshot in [Timeline](#timeline).
 
 ![restore](_images/edit-undo_btn.svg) Restore
 
@@ -89,7 +94,8 @@ Restore the selected files or folders to a new destination.
 
 ![restore](_images/edit-undo_btn.svg) Restore */path*
 
-Restore the currently shown folder and all its content to the original destination.
+Restore the currently shown folder and all its content to the original
+destination.
 
 ![restore_to](_images/document-revert_btn.svg) Restore *path* to...
 
@@ -101,12 +107,21 @@ Open [Snapshots dialog](snapshots-dialog.md).
 
 ## Timeline
 
-The Timeline lists all Snapshots which where already taken. You can browse them to see its contents in right hand [Files View](#files-view). The first item `Now` is not a Snapshot. It is a live view on the local file-system. It shows exact the same as your normal file browser. Multi selection is possible to remove multiple Snapshots altogether.
+The Timeline lists all Snapshots which where already taken. You can browse them
+to see its contents in right hand [Files View](#files-view). The first item
+`Now` is not a Snapshot. It is a live view on the local file-system. It shows
+exact the same as your normal file browser. Multi selection is possible to
+remove multiple Snapshots altogether.
 
 ## Files View
 
-Depending on selection in left hand [Timeline](#timeline) this will either show the original files or the files in the selected snapshot. You can jump directly to your home or include folders in `Shortcuts`.
+Depending on selection in left hand [Timeline](#timeline) this will either show
+the original files or the files in the selected snapshot. You can jump directly
+to your home or include folders in `Shortcuts`.
 
 ## Statusbar
 
-Show current status. While a snapshot is running this will show a progress-bar combined with current speed, already transferred data and the last message from `rsync`.
+Show current status. While a snapshot is running this will show a progress-bar
+combined with current speed, already transferred data and the last message from
+`rsync`.
+

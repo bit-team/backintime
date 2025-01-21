@@ -1,14 +1,13 @@
+# Introduction
 <!--
 SPDX-FileCopyrightText: © 2016 Germar Reitze
 
 SPDX-License-Identifier: GPL-2.0-or-later
 
 This file is part of the program "Back In Time" which is released under GNU
-General Public License v2 (GPLv2).
-See file/folder LICENSE or
-go to <https://spdx.org/licenses/GPL-2.0-or-later.html>
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-# Introduction
 ![Back In Time main window](_images/light/main_window.png#only-light)
 ![Back In Time main window](_images/dark/main_window.png#only-dark)
 
