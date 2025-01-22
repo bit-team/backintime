@@ -43,14 +43,17 @@ class RemoveRetentionTab(QDialog):
         self._tab_layout = QVBoxLayout(self)
         self.setLayout(self._tab_layout)
 
+        # Keep named backups
+        self.cbDontRemoveNamedSnapshots = self._checkbox_keep_named()
+
+        # ---
+        self._tab_layout.addWidget(qttools.HLineWidget())
+
         # Icon & Info label
         self._label_rule_execute_order()
 
         # ---
         self._tab_layout.addWidget(qttools.HLineWidget())
-
-        # Keep named backups
-        self.cbDontRemoveNamedSnapshots = self._checkbox_keep_named()
 
         # Remove older than N years/months/days
         self._checkbox_remove_older, self._spinunit_remove_older \
@@ -157,7 +160,7 @@ class RemoveRetentionTab(QDialog):
 
         # Info text
         txt = _(
-            'The rules below are processed from top to buttom. Later rules '
+            'The following rules are processed from top to bottom. Later rules '
             'override earlier ones and are not constrained by them. See the '
             '{manual} for details and examples.'
         ).format(
