@@ -63,6 +63,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - [Project & more](#project--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
+   + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
@@ -1323,6 +1324,22 @@ with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their
 maintainers if _Back In Time_ is unavailable or out dated.
 
+## Is BIT really not supported by Canonical Ubuntu?
+
+Ubuntu consists of several repositories, each offering different levels of
+support. The `main` repository is maintained by Canonical and receives regular
+security updates and bug fixes throughout the 5-year support period of LTS
+releases.
+
+In contrast, the `universe` repository is community-managed, meaning security
+updates and bug fixes are not guaranteed and depend heavily on community
+activity. Therefore, packages in `universe` should be considered potentially
+outdated, unmaintained, unstable, and pose a higher risk.
+
+_Back In Time_ is one such package in the `universe` repository. That
+[package](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=backintime)
+is copied from the
+[Debian GNU/Linux repository](https://packages.debian.org/search?searchon=sourcenames&keywords=backintime).
 
 ## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
 
