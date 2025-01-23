@@ -229,9 +229,10 @@ class KeepFirst(pyfakefs_ut.TestCase):
         self.assertEqual(str(sut.pop()), '20160422-020324-123')
 
 
-class KeepAll(pyfakefs_ut.TestCase):
+class KeepAllForLast(pyfakefs_ut.TestCase):
     """Test Snapshot.removeKeepAll().
 
+    Keep all snapshots for the last N days.
     PyFakeFS is used here because of Config file dependency."""
 
     def setUp(self):
@@ -279,9 +280,52 @@ class KeepAll(pyfakefs_ut.TestCase):
 
         return config_fp
 
+    def _org(self, snapshots, now, days_to_keep):
+        """Simulated production code. Refactoring is on the todo list."""
+
+        keep_all = days_to_keep
+        keep = self.sn.smartRemoveKeepAll(
+            snapshots,
+            now - timedelta(days=keep_all-1),
+            now + timedelta(days=1))
+
+        return sorted(keep, reverse=True)
+
+    def test_border(self):
+        """The dates used in the user manual example.
+
+        Here the current (just running incomplete) day is contained in the
+        calculation.
+        """
+        sids = create_SIDs([
+            datetime(2025, 4, 17, 22, 0),
+            datetime(2025, 4, 17, 18, 1),
+            datetime(2025, 4, 17, 12, 0),
+            datetime(2025, 4, 17, 4, 0),
+            datetime(2025, 4, 16, 8, 30),
+            datetime(2025, 4, 15, 16, 0),
+            datetime(2025, 4, 15, 0, 0),
+            datetime(2025, 4, 14, 23, 59),
+            datetime(2025, 4, 14, 9, 0),
+            ],
+            None,
+            self.cfg)
+
+        sut = self._org(
+            snapshots=sids,
+            now=datetime(2025, 4, 17, 22, 00).date(),
+            days_to_keep=2)
+
+        self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
+        self.assertEqual(sut[1].date, datetime(2025, 4, 17, 18, 1))
+        self.assertEqual(sut[2].date, datetime(2025, 4, 17, 12, 0))
+        self.assertEqual(sut[3].date, datetime(2025, 4, 17, 4, 0))
+        self.assertEqual(sut[4].date, datetime(2025, 4, 16, 8, 30))
+
     def test_simple(self):
         """Simple"""
         # 10th to 25th
+
         sids = create_SIDs(datetime(2024, 2, 10), 15, self.cfg)
 
         # keep...
@@ -461,7 +505,7 @@ class OnePerWeek(pyfakefs_ut.TestCase):
             print(s)
 
 
-class ForLastNDays(pyfakefs_ut.TestCase):
+class KeepOneForLastNDays(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep one per day for N days.'.
 
     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
