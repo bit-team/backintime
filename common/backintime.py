@@ -766,7 +766,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         cfg.intValue('qt.main_window.x', None),
         cfg.intValue('qt.main_window.y', None)
     )
-    print(f'coord vals={val}')
+
     if all(val):
         data.mainwindow_coords = val
 
@@ -904,6 +904,13 @@ def load_state_data(args: argparse.Namespace) -> None:
         logger.warning(f'Unable to read and decode state file "{fp}". '
                        'Ignnoring it.')
         logger.debug(f'{exc=}')
+
+        try:
+            raw_content = fp.read_text(encoding='utf-8')
+            logger.debug(f'raw_content="{raw_content}"')
+        except Exception as exc_raw:
+            logger.debug(f'{exc_raw=}')
+
         # Empty state data with default values
         state_data = StateData()
 
@@ -1226,11 +1233,14 @@ def benchmarkCipher(args):
     """
     setQuiet(args)
     printHeader()
+
     cfg = getConfig(args)
+
     if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
         ssh = sshtools.SSH(cfg)
         ssh.benchmarkCipher(args.FILE_SIZE)
         sys.exit(RETURN_OK)
+
     else:
         logger.error("SSH is not configured for profile '%s'!" % cfg.profileName())
         sys.exit(RETURN_ERR)
@@ -1249,21 +1259,33 @@ def pwCache(args):
     """
     force_stdout = setQuiet(args)
     printHeader()
+
     cfg = getConfig(args)
     ret = RETURN_OK
     daemon = password.Password_Cache(cfg)
+
     if args.ACTION and args.ACTION != 'status':
         getattr(daemon, args.ACTION)()
+
     elif args.ACTION == 'status':
-        print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME}, end=' ', file = force_stdout)
+
+        print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME},
+              end=' ',
+              file=force_stdout)
+
         if daemon.status():
-            print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC, file = force_stdout)
+            print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC,
+                  file=force_stdout)
             ret = RETURN_OK
+
         else:
-            print(cli.bcolors.FAIL + 'not running' + cli.bcolors.ENDC, file = force_stdout)
+            print(cli.bcolors.FAIL + 'not running' + cli.bcolors.ENDC,
+                  file=force_stdout)
             ret = RETURN_ERR
+
     else:
         daemon.run()
+
     sys.exit(ret)
 
 
@@ -1281,24 +1303,34 @@ def decode(args):
     """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
+
     if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
         logger.error("Profile '%s' is not encrypted." % cfg.profileName())
         sys.exit(RETURN_ERR)
+
     _mount(cfg)
     d = encfstools.Decode(cfg)
+
     if not args.PATH:
+
         while True:
+
             try:
                 path = input()
             except EOFError:
                 break
+
             if not path:
                 break
-            print(d.path(path), file = force_stdout)
+
+            print(d.path(path), file=force_stdout)
+
     else:
-        print('\n'.join(d.list(args.PATH)), file = force_stdout)
+        print('\n'.join(d.list(args.PATH)), file=force_stdout)
+
     d.close()
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 
@@ -1316,10 +1348,13 @@ def remove(args, force=False):
     """
     setQuiet(args)
     printHeader()
+
     cfg = getConfig(args)
     _mount(cfg)
+
     cli.remove(cfg, args.SNAPSHOT_ID, force)
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 
@@ -1387,18 +1422,22 @@ def restore(args):
     printHeader()
     cfg = getConfig(args)
     _mount(cfg)
+
     if cfg.backupOnRestore() and not args.no_local_backup:
         backup = True
     else:
         backup = args.local_backup
+
     cli.restore(cfg,
                 args.SNAPSHOT_ID,
                 args.WHAT,
                 args.WHERE,
-                delete = args.delete,
-                backup = backup,
-                only_new = args.only_new)
+                delete=args.delete,
+                backup=backup,
+                only_new=args.only_new)
+
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 
@@ -1416,17 +1455,19 @@ def checkConfig(args):
     force_stdout = setQuiet(args)
     printHeader()
     cfg = getConfig(args)
-    if cli.checkConfig(cfg, crontab = not args.no_crontab):
+
+    if cli.checkConfig(cfg, crontab=not args.no_crontab):
         print("\nConfig %(cfg)s profile '%(profile)s' is fine."
               % {'cfg': cfg._LOCAL_CONFIG_PATH,
                  'profile': cfg.profileName()},
-              file = force_stdout)
+              file=force_stdout)
         sys.exit(RETURN_OK)
+
     else:
         print("\nConfig %(cfg)s profile '%(profile)s' has errors."
               % {'cfg': cfg._LOCAL_CONFIG_PATH,
                  'profile': cfg.profileName()},
-              file = force_stdout)
+              file=force_stdout)
         sys.exit(RETURN_ERR)
 
 
