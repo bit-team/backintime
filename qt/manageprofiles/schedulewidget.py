@@ -318,7 +318,8 @@ class ScheduleWidget(QGroupBox):
         cfg.setScheduleMode(self._combo_schedule_mode.current_data)
         cfg.setScheduleTime(self._combo_time.current_data)
 
-        if config.Config.HOUR <= self._combo_schedule_mode.current_data <= config.Config.CUSTOM_HOUR:
+        if cfg.scheduleMode() in range(config.Config.HOUR,
+                                       config.Config.CUSTOM_HOUR):
             cfg.set_schedule_offset(self._spin_offset.value())
         else:
             cfg.set_schedule_offset(config.Config.DEFAULT_OFFSET)
