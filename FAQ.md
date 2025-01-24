@@ -1333,8 +1333,9 @@ releases.
 
 In contrast, the `universe` repository is community-managed, meaning security
 updates and bug fixes are not guaranteed and depend heavily on community
-activity. Therefore, packages in `universe` should be considered potentially
-outdated, unmaintained, unstable, and pose a higher risk.
+activity. Therefore, packages in `universe` may not always be up-to-date
+with the same but well-maintained packages in Debian GNU/Linux and might miss
+important fixes.
 
 _Back In Time_ is one such package in the `universe` repository. That
 [package](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=backintime)
