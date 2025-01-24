@@ -1341,6 +1341,8 @@ _Back In Time_ is one such package in the `universe` repository. That
 [package](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=backintime)
 is copied from the
 [Debian GNU/Linux repository](https://packages.debian.org/search?searchon=sourcenames&keywords=backintime).
+It can be said that _Back In Time_ is not maintained by Canonical Ubuntu but by
+the Commmunity of Ubuntu.
 
 ## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
 
