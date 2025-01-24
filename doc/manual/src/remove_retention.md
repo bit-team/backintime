@@ -22,6 +22,7 @@ run, if no new snapshot is created.
 
 Here is a brief overview of the rules available:
 
+      
 - **Keep named snapshots**: All snapshots with a name are excluded from every
   rule and never removed. This is the only one rule that can not be overruled
   by other rules.
@@ -29,9 +30,9 @@ Here is a brief overview of the rules available:
   the specified time period are removed immediately.
 - **Retention policy**: A batterie of rules about which snapshots to keep. The
   rest will be removed immediately.
-  - **Keep all snapshots for the last `N` days**
-  - **Keep the last snapshot for each day/week/month for the last `N` days/weeks/months**
-  - **Keep the last snapshot for each year for all years**
+    - **Keep all snapshots for the last `N` days**
+    - **Keep the last snapshot for each day/week/month for the last `N` days/weeks/months**
+    - **Keep the last snapshot for each year for all years**
 - **Remove oldest snapshot if the free space is less than `N` GiB/MiB**: If the
   threshold of free storage space is reached, the oldest snapshots will be
   removed until enough storage space is available again.

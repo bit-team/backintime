@@ -219,6 +219,10 @@ class RemoveRetentionTab(QDialog):
 
     def _groupbox_retention_policy(self) -> tuple:
         layout = QGridLayout()
+        # col, fx
+        # layout.setColumnStretch(2, 1)
+        layout.setColumnStretch(0, 0)
+        layout.setColumnStretch(1, 0)
         layout.setColumnStretch(2, 1)
 
         checkbox_group = QGroupBox(_('Retention policy'), self)
@@ -310,12 +314,15 @@ class RemoveRetentionTab(QDialog):
         grid = QGridLayout()
         groupbox.setLayout(grid)
 
-        grid.addWidget(checkbox_space, 1, 0)
-        grid.addWidget(spin_unit_space, 1, 1)
-        grid.addWidget(checkbox_inodes, 2, 0)
-        grid.addWidget(spin_inodes, 2, 1)
-        grid.setColumnStretch(0, 1)
-        grid.setColumnStretch(2, 2)
+        # wdg, row, col
+        grid.addWidget(checkbox_space, 0, 0)
+        grid.addWidget(spin_unit_space, 0, 1)
+        grid.addWidget(checkbox_inodes, 1, 0)
+        grid.addWidget(spin_inodes, 1, 1)
+
+        # col, fx
+        grid.setColumnStretch(0, 0)
+        grid.setColumnStretch(1, 0)
 
         self._tab_layout.addWidget(groupbox)
 
