@@ -19,6 +19,8 @@ from PyQt6.QtWidgets import (QDialog,
                              QSpinBox,
                              QStyle,
                              QCheckBox,
+                             QSizePolicy,
+                             QSpacerItem,
                              QToolTip,
                              QWidget)
 from PyQt6.QtCore import Qt
@@ -40,24 +42,48 @@ class RemoveRetentionTab(QDialog):
         self._parent_dialog = parent
 
         # Vertical main layout
-        self._tab_layout = QVBoxLayout(self)
+        # self._tab_layout = QVBoxLayout(self)
+        self._tab_layout = QGridLayout()
         self.setLayout(self._tab_layout)
 
         # Keep named backups
         self.cbDontRemoveNamedSnapshots = self._checkbox_keep_named()
 
         # ---
-        self._tab_layout.addWidget(qttools.HLineWidget())
+        self._tab_layout.addWidget(
+            qttools.HLineWidget(),
+            # fromRow
+            self._tab_layout.rowCount(),
+            # fromColumn
+            0,
+            # rowSpan,
+            1,
+            # columnSpan
+            3)
+
 
         # Icon & Info label
         self._label_rule_execute_order()
 
         # ---
-        self._tab_layout.addWidget(qttools.HLineWidget())
+        self._tab_layout.addWidget(
+            qttools.HLineWidget(),
+            # fromRow
+            self._tab_layout.rowCount(),
+            # fromColumn
+            0,
+            # rowSpan,
+            1,
+            # columnSpan
+            3)
 
         # Remove older than N years/months/days
         self._checkbox_remove_older, self._spinunit_remove_older \
             = self._remove_older_than()
+        row = self._tab_layout.rowCount()
+        self._tab_layout.addWidget(self._checkbox_remove_older, row, 0, 1, 2)
+        self._tab_layout.addWidget(self._spinunit_remove_older, row, 2)
+
 
         # Retention policy
         self.cbSmartRemove, \
@@ -67,6 +93,12 @@ class RemoveRetentionTab(QDialog):
             self.spbKeepOnePerWeek, \
             self.spbKeepOnePerMonth \
             = self._groupbox_retention_policy()
+
+        self._tab_layout.setColumnStretch(0, 2)
+        self._tab_layout.setColumnStretch(1, 1)
+        self._tab_layout.setColumnStretch(2, 0)
+        self._tab_layout.setRowStretch(self._tab_layout.rowCount(), 1)
+        return  # DEBUG
 
         # return spin_unit_space, spin_inodes
         self._checkbox_space, \
@@ -82,6 +114,7 @@ class RemoveRetentionTab(QDialog):
         return self._parent_dialog.config
 
     def load_values(self):
+        return  # DEBUG
         # don't remove named snapshots
         self.cbDontRemoveNamedSnapshots.setChecked(
             self.config.dontRemoveNamedSnapshots())
@@ -143,6 +176,7 @@ class RemoveRetentionTab(QDialog):
             self._spin_inodes.value())
 
     def update_items_state(self, enabled):
+        return # DEBUG
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
@@ -181,7 +215,7 @@ class RemoveRetentionTab(QDialog):
         layout.addWidget(icon_label)
         layout.addWidget(txt_label)
 
-        self._tab_layout.addWidget(wdg)
+        self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
 
     def _checkbox_keep_named(self) -> QCheckBox:
         cb = QCheckBox(_('Keep named snapshots.'), self)
@@ -189,13 +223,12 @@ class RemoveRetentionTab(QDialog):
             _('Snapshots that, in addition to the usual timestamp, have been '
               'given a name will not be deleted.'))
 
-        self._tab_layout.addWidget(cb)
+        # fromRow, fromColumn spanning rowSpan rows and columnSpan
+        self._tab_layout.addWidget(cb, self._tab_layout.rowCount(), 0, 1, 2)
 
         return cb
 
     def _remove_older_than(self) -> QWidget:
-        layout = QHBoxLayout()
-
         # units
         units = {
             config.Config.DAY: _('Day(s)'),
@@ -208,26 +241,21 @@ class RemoveRetentionTab(QDialog):
         checkbox = StateBindCheckBox(_('Remove snapshots older than'), self)
         checkbox.bind(spin_unit)
 
-        layout.addWidget(checkbox)
-        layout.addWidget(spin_unit)
-
-        layout.addStretch()
-
-        self._tab_layout.addLayout(layout)
-
         return checkbox, spin_unit
 
     def _groupbox_retention_policy(self) -> tuple:
         layout = QGridLayout()
         # col, fx
-        # layout.setColumnStretch(2, 1)
-        layout.setColumnStretch(0, 0)
+        layout.setColumnStretch(0, 1)
         layout.setColumnStretch(1, 0)
-        layout.setColumnStretch(2, 1)
+        layout.setColumnStretch(2, 0)
+        layout.addItem(QSpacerItem(77, 2), 0, 2)
 
         checkbox_group = QGroupBox(_('Retention policy'), self)
         checkbox_group.setCheckable(True)
         checkbox_group.setLayout(layout)
+
+        # row = self._tab_layout.rowCount()
 
         cb_in_background = QCheckBox(
             _('Run in background on remote host.'), self)
@@ -242,12 +270,14 @@ class RemoveRetentionTab(QDialog):
         layout.addWidget(cb_in_background, 0, 0, 1, 2)
 
         layout.addWidget(
-            QLabel(_('Keep all snapshots for the last'), self), 1, 0)
+            QLabel(_('Keep all snapshots for the last'), self),
+            1, 0)
         all_last_days = QSpinBox(self)
         all_last_days.setRange(1, 999)
         all_last_days.setSuffix(' ' + _('day(s).'))
         # all_last_days.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(all_last_days, 1, 1)
+        # self._tab_layout.addWidget(all_last_days, row+1, 1, 1, 2)
 
         layout.addWidget(
             QLabel(_('Keep the last snapshot for each day for '
@@ -259,28 +289,39 @@ class RemoveRetentionTab(QDialog):
         # one_per_day.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_day, 2, 1)
 
-        layout.addWidget(QLabel(_('Keep the last snapshot for each week for '
-                                  'the last'), self), 3, 0)
+        layout.addWidget(
+            QLabel(_('Keep the last snapshot for each week for the last'),
+                   self),
+            3, 0)
         one_per_week = QSpinBox(self)
         one_per_week.setRange(1, 999)
         one_per_week.setSuffix(' ' + _('week(s).'))
         # one_per_week.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_week, 3, 1)
 
-        layout.addWidget(QLabel(_('Keep the last snapshot for each month for '
-                                  'the last'), self), 4, 0)
+        layout.addWidget(QLabel(_('Keep the last snapshot for each '
+                                            'month for the last'), self),
+                                   4, 0)
         one_per_month = QSpinBox(self)
         one_per_month.setRange(1, 999)
         one_per_month.setSuffix(' ' + _('month(s).'))
         # one_per_month.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_month, 4, 1)
 
-        layout.addWidget(QLabel(_('Keep the last snapshot for each year for'),
-                                self), 5, 0)
-        layout.addWidget(QLabel(_('all years.'),
-                                self), 5, 1)  # , Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(
+            QLabel(_('Keep the last snapshot for each year for'), self),
+            5, 0)
+        layout.addWidget(QLabel(_('all years.'), self),
+                                   5, 1)
+        # , Qt.AlignmentFlag.AlignRight)
 
-        self._tab_layout.addWidget(checkbox_group)
+        self._tab_layout.addWidget(
+            checkbox_group,
+            self._tab_layout.rowCount(),
+            0,
+            1,
+            3
+        )
 
         return (checkbox_group, cb_in_background, all_last_days, one_per_day,
                 one_per_week, one_per_month)
