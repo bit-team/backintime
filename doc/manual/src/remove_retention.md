@@ -18,7 +18,7 @@ run, if no new snapshot is created.
     The feature was also known as _Auto-remove_ or _Smart Remove_ in earlier
     versions of _Back In Time_ (prior to 1.6.0).
 
-**PICTURE HERE**
+![Dialog tab - Remove and Retention](_images/tab_remove_retention.png)
 
 Here is a brief overview of the rules available:
 

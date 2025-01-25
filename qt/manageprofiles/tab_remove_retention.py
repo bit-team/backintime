@@ -61,7 +61,6 @@ class RemoveRetentionTab(QDialog):
             # columnSpan
             3)
 
-
         # Icon & Info label
         self._label_rule_execute_order()
 
@@ -84,7 +83,6 @@ class RemoveRetentionTab(QDialog):
         self._tab_layout.addWidget(self._checkbox_remove_older, row, 0, 1, 2)
         self._tab_layout.addWidget(self._spinunit_remove_older, row, 2)
 
-
         # Retention policy
         self.cbSmartRemove, \
             self.cbSmartRemoveRunRemoteInBackground, \
@@ -94,12 +92,6 @@ class RemoveRetentionTab(QDialog):
             self.spbKeepOnePerMonth \
             = self._groupbox_retention_policy()
 
-        self._tab_layout.setColumnStretch(0, 2)
-        self._tab_layout.setColumnStretch(1, 1)
-        self._tab_layout.setColumnStretch(2, 0)
-        self._tab_layout.setRowStretch(self._tab_layout.rowCount(), 1)
-        return  # DEBUG
-
         # return spin_unit_space, spin_inodes
         self._checkbox_space, \
             self._spin_unit_space, \
@@ -107,14 +99,16 @@ class RemoveRetentionTab(QDialog):
             self._spin_inodes \
             = self._remove_free_space_inodes()
 
-        self._tab_layout.addStretch()
+        self._tab_layout.setColumnStretch(0, 2)
+        self._tab_layout.setColumnStretch(1, 1)
+        self._tab_layout.setColumnStretch(2, 0)
+        self._tab_layout.setRowStretch(self._tab_layout.rowCount(), 1)
 
     @property
     def config(self) -> config.Config:
         return self._parent_dialog.config
 
     def load_values(self):
-        return  # DEBUG
         # don't remove named snapshots
         self.cbDontRemoveNamedSnapshots.setChecked(
             self.config.dontRemoveNamedSnapshots())
@@ -176,7 +170,6 @@ class RemoveRetentionTab(QDialog):
             self._spin_inodes.value())
 
     def update_items_state(self, enabled):
-        return # DEBUG
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
@@ -249,7 +242,7 @@ class RemoveRetentionTab(QDialog):
         layout.setColumnStretch(0, 1)
         layout.setColumnStretch(1, 0)
         layout.setColumnStretch(2, 0)
-        layout.addItem(QSpacerItem(77, 2), 0, 2)
+        # layout.addItem(QSpacerItem(77, 2), 0, 2)
 
         checkbox_group = QGroupBox(_('Retention policy'), self)
         checkbox_group.setCheckable(True)
@@ -334,7 +327,8 @@ class RemoveRetentionTab(QDialog):
             config.Config.DISK_UNIT_MB: 'MiB',
             config.Config.DISK_UNIT_GB: 'GiB'
         }
-        spin_unit_space = SpinBoxWithUnit(self, (1, 99999), MIN_FREE_SPACE_UNITS)
+        spin_unit_space = SpinBoxWithUnit(
+            self, (1, 99999), MIN_FREE_SPACE_UNITS)
 
         checkbox_space = StateBindCheckBox(
             _('… the free space is less than'), self)
@@ -354,17 +348,20 @@ class RemoveRetentionTab(QDialog):
         groupbox = QGroupBox(_('Remove oldest snapshots if …'), self)
         grid = QGridLayout()
         groupbox.setLayout(grid)
+        grid.setColumnStretch(0, 1)
+        grid.setColumnStretch(1, 0)
+        grid.setColumnStretch(2, 0)
 
         # wdg, row, col
-        grid.addWidget(checkbox_space, 0, 0)
-        grid.addWidget(spin_unit_space, 0, 1)
-        grid.addWidget(checkbox_inodes, 1, 0)
-        grid.addWidget(spin_inodes, 1, 1)
+        grid.addWidget(checkbox_space, 0, 0, 1, 2)
+        grid.addWidget(spin_unit_space, 0, 2)
+        grid.addWidget(checkbox_inodes, 1, 0, 1, 2)
+        grid.addWidget(spin_inodes, 1, 2)
 
-        # col, fx
-        grid.setColumnStretch(0, 0)
-        grid.setColumnStretch(1, 0)
-
-        self._tab_layout.addWidget(groupbox)
+        self._tab_layout.addWidget(
+            groupbox,
+            self._tab_layout.rowCount(),
+            0, 1, 3
+        )
 
         return checkbox_space, spin_unit_space, checkbox_inodes, spin_inodes
