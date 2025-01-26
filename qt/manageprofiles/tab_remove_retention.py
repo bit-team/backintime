@@ -212,9 +212,12 @@ class RemoveRetentionTab(QDialog):
 
     def _checkbox_keep_named(self) -> QCheckBox:
         cb = QCheckBox(_('Keep named snapshots.'), self)
-        cb.setToolTip(
-            _('Snapshots that, in addition to the usual timestamp, have been '
-              'given a name will not be deleted.'))
+        qttools.set_wrapped_tooltip(
+            cb,
+            _('Snapshots that have been given a name, in addition to the '
+              'usual timestamp, will be retained under all circumstances '
+              'and will not be removed.')
+        )
 
         # fromRow, fromColumn spanning rowSpan rows and columnSpan
         self._tab_layout.addWidget(cb, self._tab_layout.rowCount(), 0, 1, 2)
@@ -256,13 +259,10 @@ class RemoveRetentionTab(QDialog):
         layout.setColumnStretch(0, 1)
         layout.setColumnStretch(1, 0)
         layout.setColumnStretch(2, 0)
-        # layout.addItem(QSpacerItem(77, 2), 0, 2)
 
         checkbox_group = QGroupBox(_('Retention policy'), self)
         checkbox_group.setCheckable(True)
         checkbox_group.setLayout(layout)
-
-        # row = self._tab_layout.rowCount()
 
         cb_in_background = QCheckBox(
             _('Run in background on remote host.'), self)
@@ -284,7 +284,6 @@ class RemoveRetentionTab(QDialog):
         all_last_days.setSuffix(' ' + _('day(s).'))
         # all_last_days.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(all_last_days, 1, 1)
-        # self._tab_layout.addWidget(all_last_days, row+1, 1, 1, 2)
 
         layout.addWidget(
             QLabel(_('Keep the last snapshot for each day for '
