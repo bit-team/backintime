@@ -23,6 +23,7 @@
 """
 import os
 import sys
+import re
 import textwrap
 from typing import Union, Iterable
 from PyQt6.QtGui import (QAction, QFont, QPalette, QIcon)
@@ -109,6 +110,39 @@ def can_render(string, widget):
 # | Widget modification & creation |
 # |--------------------------------|
 
+_REX_RICHTEXT = re.compile(
+    # begin of line
+    r'^'
+    # all characters, except a new line
+    r'[^\n]*'
+    # tag opening
+    r'<'
+    # every character (as tagname) except >
+    r'[^>]+'
+    # tag closing
+    r'>')
+
+
+def might_be_richtext(txt: str) -> bool:
+    """Returns `True` if the text is rich text.
+
+    Rich text is a subset of HTML used by Qt to allow text formating. The
+    function checks if the first line (before the first `\n') does contain a
+    tag. A tag begins with with `<`, following by one or more characters and
+    close with `>`.
+
+    Qt itself does use `Qt::mightBeRichText()` internaly but this is not
+    availble in PyQt for unknown reasons.
+
+    Args:
+        txt: The text to check.
+
+    Returns:
+        `True` if it looks like a rich text, otherwise `False`.
+    """
+    return bool(_REX_RICHTEXT.match(txt))
+
+
 def set_wrapped_tooltip(widget: QWidget,
                         tooltip: Union[str, Iterable[str]],
                         wrap_length: int = 72):
@@ -122,17 +156,23 @@ def set_wrapped_tooltip(widget: QWidget,
         tooltip: The tooltip as string or iterable of strings.
         wrap_length: Every line is at most this lengths.
     """
+
     # Always use tuple or list
     if isinstance(tooltip, str):
         tooltip = (tooltip, )
 
+    # Richtext or plain text
+    newline = {True: '<br>', False: '\n'}[might_be_richtext(tooltip[0])]
+
     result = []
+    # Wrap each paragraph in itself
     for paragraph in tooltip:
         result.append('\n'.join(
             textwrap.wrap(paragraph, wrap_length)
         ))
 
-    widget.setToolTip('\n'.join(result))
+    # glue all together
+    widget.setToolTip(newline.join(result))
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):

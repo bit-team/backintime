@@ -234,6 +234,16 @@ class RemoveRetentionTab(QDialog):
         checkbox = StateBindCheckBox(_('Remove snapshots older than'), self)
         checkbox.bind(spin_unit)
 
+        # tooltip
+        tip = (
+            _('foo <strong>bähm lore</strong> ipsum lore ipsum und noch viel'
+              'mehr ganz dicke und lange soll das hier werden'),
+            _('absatz zwei bar ende'),
+            'absatz drei und ende')
+
+        qttools.set_wrapped_tooltip(checkbox, tip)
+        qttools.set_wrapped_tooltip(spin_unit, tip)
+
         return checkbox, spin_unit
 
     def _groupbox_retention_policy(self) -> tuple:
