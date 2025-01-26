@@ -789,7 +789,7 @@ class MainWindow(QMainWindow):
         toolbar.customContextMenuRequested.connect(
             lambda point: self._context_menu_button_style(point, toolbar))
 
-        # Resore button styling for main toolbar
+        # Restore button styling for main toolbar
         toolbar.setToolButtonStyle(
             Qt.ToolButtonStyle(StateData().toolbar_button_style))
 

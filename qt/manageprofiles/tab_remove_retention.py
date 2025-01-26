@@ -10,17 +10,14 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-from PyQt6.QtWidgets import (QDialog,
+from PyQt6.QtWidgets import (QCheckBox,
+                             QDialog,
                              QGridLayout,
-                             QVBoxLayout,
-                             QHBoxLayout,
                              QGroupBox,
+                             QHBoxLayout,
                              QLabel,
                              QSpinBox,
                              QStyle,
-                             QCheckBox,
-                             QSizePolicy,
-                             QSpacerItem,
                              QToolTip,
                              QWidget)
 from PyQt6.QtCore import Qt

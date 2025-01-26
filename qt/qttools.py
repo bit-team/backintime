@@ -126,13 +126,13 @@ _REX_RICHTEXT = re.compile(
 def might_be_richtext(txt: str) -> bool:
     """Returns `True` if the text is rich text.
 
-    Rich text is a subset of HTML used by Qt to allow text formating. The
+    Rich text is a subset of HTML used by Qt to allow text formatting. The
     function checks if the first line (before the first `\n') does contain a
     tag. A tag begins with with `<`, following by one or more characters and
     close with `>`.
 
-    Qt itself does use `Qt::mightBeRichText()` internaly but this is not
-    availble in PyQt for unknown reasons.
+    Qt itself does use `Qt::mightBeRichText()` internally but this is not
+    available in PyQt for unknown reasons.
 
     Args:
         txt: The text to check.

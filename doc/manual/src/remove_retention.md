@@ -52,10 +52,10 @@ The most recently created snapshot, in other words the freshest one, will be
 retained and not deleted by any of the configured rules.
 
 ### Keep named snapshots
-Beside the timestamp regulary used to identify snapshots, it is possible to
+Beside the timestamp regularly used to identify snapshots, it is possible to
 attach a name to it. Those named snapshots are never touched by any other
-rule. It is a gurantee that they won't be removed. See [Main
-Window](main-window.md) for more details about named snapshots.
+rule. It is a guarantee that they won't be removed. See
+[Main Window](main-window.md) for more details about named snapshots.
 
 ### Remove snapshots older than `N` Days/Weeks/Years
 #### Year
