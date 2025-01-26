@@ -236,10 +236,14 @@ class RemoveRetentionTab(QDialog):
 
         # tooltip
         tip = (
-            _('foo <strong>bähm lore</strong> ipsum lore ipsum und noch viel'
-              'mehr ganz dicke und lange soll das hier werden'),
-            _('absatz zwei bar ende'),
-            'absatz drei und ende')
+            f'<strong>{units[config.Config.DAY]}</strong>: '
+            + _('Full days. Current day ignored.'),
+            f'<strong>{units[config.Config.WEEK]}</strong>: '
+            + _('Calendar weeks with Monday as first day. '
+                'Current week ignored.'),
+            f'<strong>{units[config.Config.YEAR]}</strong>: '
+            + _('12 months periods. Current months ignored.')
+        )
 
         qttools.set_wrapped_tooltip(checkbox, tip)
         qttools.set_wrapped_tooltip(spin_unit, tip)
