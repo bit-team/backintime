@@ -58,19 +58,29 @@ rule. It is a gurantee that they won't be removed. See [Main
 Window](main-window.md) for more details about named snapshots.
 
 ### Remove snapshots older than `N` Days/Weeks/Years
-
-- **Year**: Calculation is based on 12 months. Current months is
-ignored. _Example_: Older than two years, at date 2025-04-17, result in
+#### Year
+- Calculation is based on 12 months.
+- Current months is ignored.
+- _Example_: Older than two years, at date 2025-04-17, result in
 removing backups before (or older than) 2023-04-01.
-- **Week**: Calculation is based on calendar weeks with Monday as first day of
-a week. Current week is ignored. _Example_: Older than two weeks, at Friday
-2025-08-29, result in removing backups before (or older than) Monday
-2025-08-11.
-- **Day**: Calculation is based on full days ignoring time at day. Current day
-is ignored. _Example_: Older than 3 days, at date 2025-01-10, result in
-removing backups before (or older than) 2025-01-07.
 
-**PICTURE**
+![Rule - Remove older than 2 years](_images/rule_older_than_n_years.png)
+
+#### Week
+- Calculation is based on calendar weeks with Monday as first day of a week.
+- Current week is ignored.
+- _Example_: Older than two weeks, at Friday 2025-08-29, result in removing
+  backups before (or older than) Monday 2025-08-11.
+
+![Rule - Remove older than 2 weeks](_images/rule_older_than_n_weeks.png)
+
+#### Day
+- Calculation is based on full days ignoring time at day.
+- Current day is ignored.
+- _Example_: Older than 3 days, at date 2025-01-10, result in removing backups
+  before (or older than) 2025-01-07.
+
+![Rule - Remove older than 3 days](_images/rule_older_than_n_days.png)
 
 ### Retention policy
 Snapshots are retained if they fit the rules, but the rest will be removed.
