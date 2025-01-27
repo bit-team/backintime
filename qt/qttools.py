@@ -26,7 +26,11 @@ import sys
 import re
 import textwrap
 from typing import Union, Iterable
-from PyQt6.QtGui import (QAction, QFont, QPalette, QIcon)
+from PyQt6.QtGui import (QAction,
+                         QDesktopServices,
+                         QFont,
+                         QIcon,
+                         QPalette)
 from PyQt6.QtCore import (QDir,
                           Qt,
                           pyqtSlot,
@@ -35,7 +39,8 @@ from PyQt6.QtCore import (QDir,
                           QTranslator,
                           QLocale,
                           QLibraryInfo,
-                          QT_VERSION_STR)
+                          QT_VERSION_STR,
+                          QUrl)
 from PyQt6.QtWidgets import (QFrame,
                              QWidget,
                              QFileDialog,
@@ -59,6 +64,7 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
+import bitbase
 import version
 
 
@@ -192,6 +198,25 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|
+
+def user_manual_uri() -> str:
+    """Return the URI to the user manual.
+
+    If available the local URI is used otherwise the online version is.
+    """
+    uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
+        if bitbase.USER_MANUAL_LOCAL_PATH.exists() \
+           else bitbase.USER_MANUAL_ONLINE_URL
+
+    return uri
+
+def open_user_manual() -> None:
+    """Open the user manual in browser.
+
+    If available the local manual is used otherwise the online version is
+    opened.
+    """
+    QDesktopServices.openUrl(QUrl(user_manual_uri()))
 
 
 class FileDialogShowHidden(QFileDialog):

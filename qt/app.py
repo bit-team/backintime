@@ -1417,10 +1417,7 @@ class MainWindow(QMainWindow):
             dlg.exec()
 
     def btn_help_user_manual(self):
-        if bitbase.USER_MANUAL_LOCAL_PATH.exists():
-            self.openUrl(bitbase.USER_MANUAL_LOCAL_PATH.as_uri())
-        else:
-            self.openUrl(bitbase.USER_MANUAL_ONLINE_URL)
+        qttools.open_user_manual()
 
     def btn_help_man_backintime(self):
         self.openManPage('backintime')
