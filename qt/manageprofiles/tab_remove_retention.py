@@ -259,6 +259,12 @@ class RemoveRetentionTab(QDialog):
         return checkbox, spin_unit
 
     def _groupbox_retention_policy(self) -> tuple:
+        """
+        Tooltips:
+
+
+
+        """
         layout = QGridLayout()
         # col, fx
         layout.setColumnStretch(0, 1)
@@ -290,32 +296,41 @@ class RemoveRetentionTab(QDialog):
         # all_last_days.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(all_last_days, 1, 1)
 
-        layout.addWidget(
-            QLabel(_('Keep the last snapshot for each day for '
-                     'the last'), self),
-            2, 0)
+        tip = _('The days are counted starting form today.')
+        label = QLabel(
+            _('Keep the last snapshot for each day for the last'), self)
+        qttools.set_wrapped_tooltip(label, tip)
+        layout.addWidget(label, 2, 0)
         one_per_day = QSpinBox(self)
         one_per_day.setRange(1, 999)
         one_per_day.setSuffix(' ' + _('day(s).'))
+        qttools.set_wrapped_tooltip(one_per_day, tip)
         # one_per_day.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_day, 2, 1)
 
-        layout.addWidget(
-            QLabel(_('Keep the last snapshot for each week for the last'),
-                   self),
-            3, 0)
+        tip = _('The weeks are counted starting from the current running '
+                'week. A week starts on Monday.')
+        label = QLabel(
+            _('Keep the last snapshot for each week for the last'), self)
+        qttools.set_wrapped_tooltip(label, tip)
+        layout.addWidget(label, 3, 0)
         one_per_week = QSpinBox(self)
         one_per_week.setRange(1, 999)
         one_per_week.setSuffix(' ' + _('week(s).'))
+        qttools.set_wrapped_tooltip(one_per_week, tip)
         # one_per_week.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_week, 3, 1)
 
-        layout.addWidget(QLabel(_('Keep the last snapshot for each '
-                                            'month for the last'), self),
-                                   4, 0)
+        tip = _('The years are counted starting from the current '
+                'calendar month.')
+        label = QLabel(
+            _('Keep the last snapshot for each month for the last'), self)
+        qttools.set_wrapped_tooltip(label, tip)
+        layout.addWidget(label, 4, 0)
         one_per_month = QSpinBox(self)
         one_per_month.setRange(1, 999)
         one_per_month.setSuffix(' ' + _('month(s).'))
+        qttools.set_wrapped_tooltip(one_per_month, tip)
         # one_per_month.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_month, 4, 1)
 
