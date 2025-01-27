@@ -188,16 +188,21 @@ class RemoveRetentionTab(QDialog):
             'override earlier ones and are not constrained by them. See the '
             '{manual} for details and examples.'
         ).format(
-            manual='<a href="https://commingsoon">{}</a>'.format(
+            manual='<a href="event:manual">{}</a>'.format(
                 _('user manual')))
         txt_label = QLabel(txt)
         txt_label.setWordWrap(True)
-        txt_label.setOpenExternalLinks(True)
+
+        txt_label.linkActivated.connect(self.handle_link_activated)
+
+        txt_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction)
 
         # Show URL in tooltip without anoing http-protocol prefix.
         txt_label.linkHovered.connect(
             lambda url: QToolTip.showText(
-                QCursor.pos(), url.replace('https://', ''))
+                # QCursor.pos(), url.replace('https://', ''))
+                QCursor.pos(), _('Open user manual in browser.'))
         )
 
         wdg = QWidget()
@@ -206,6 +211,9 @@ class RemoveRetentionTab(QDialog):
         layout.addWidget(txt_label)
 
         self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
+
+    def handle_link_activated(self, link):
+        qttools.open_user_manual()
 
     def _checkbox_keep_named(self) -> QCheckBox:
         cb = QCheckBox(_('Keep named snapshots.'), self)

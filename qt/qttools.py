@@ -205,7 +205,7 @@ def user_manual_uri() -> str:
     If available the local URI is used otherwise the online version is.
     """
     uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
-        if bitbase.USER_MANUAL_LOCAL_PATH.exists() \
+        if bitbase.USER_MANUAL_LOCAL_AVAILABLE \
            else bitbase.USER_MANUAL_ONLINE_URL
 
     return uri
