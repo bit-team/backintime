@@ -296,7 +296,7 @@ class RemoveRetentionTab(QDialog):
         # all_last_days.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(all_last_days, 1, 1)
 
-        tip = _('The days are counted starting form today.')
+        tip = _('The days are counted starting from today.')
         label = QLabel(
             _('Keep the last snapshot for each day for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
