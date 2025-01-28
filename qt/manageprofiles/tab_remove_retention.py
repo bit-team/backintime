@@ -287,16 +287,18 @@ class RemoveRetentionTab(QDialog):
                'remote machine.')))
         layout.addWidget(cb_in_background, 0, 0, 1, 2)
 
-        layout.addWidget(
-            QLabel(_('Keep all snapshots for the last'), self),
-            1, 0)
+        tip = _('The days are counted starting from today.')
+        label = QLabel(_('Keep all snapshots for the last'), self)
+        qttools.set_wrapped_tooltip(label, tip)
+        layout.addWidget(label, 1, 0)
         all_last_days = QSpinBox(self)
         all_last_days.setRange(1, 999)
         all_last_days.setSuffix(' ' + _('day(s).'))
+        qttools.set_wrapped_tooltip(all_last_days, tip)
         # all_last_days.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(all_last_days, 1, 1)
 
-        tip = _('The days are counted starting from today.')
+        # tip = same as the previous label
         label = QLabel(
             _('Keep the last snapshot for each day for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)

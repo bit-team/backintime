@@ -73,6 +73,9 @@ Current behavior of the algorithm:
 * Keeps the latest/youngest backup of a day.
 * Starts in current (not complete) day.
 
+
+GUI wording: _Keep the last snapshot of each day for the last `N` day(s)._
+
 ### Smart remove: Weekly
 GUI wording: _Keep one snapshot per week for the last `N` week(s)._
 
