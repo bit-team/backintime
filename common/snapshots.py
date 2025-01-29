@@ -1572,23 +1572,15 @@ class Snapshots:
 
         TODO: It should compare datest not SIDs because of their tag.
         """
-        # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
-        min_id = SID(min_date, self.config)
-        max_id = SID(max_date, self.config)
-
-        logger.debug("Keep first >= %s and < %s" % (min_id, max_id), self)
+        logger.debug(f'Keep first >= {min_date} and < {max_date}', self)
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
             if keep_healthy and sid.failed:
-                logger.debug("Do not keep failed snapshot %s" % sid, self)
+                logger.debug(f'Do not keep failed snapshot {sid}', self)
                 continue
 
-            # DEBUG
-            # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
-
-            if sid >= min_id and sid < max_id:
-                # print(f'  return {str(sid)}')
+            if sid.date.date() >= min_id and sid.date.date() < max_id:
                 return set([sid])
 
         # if all snapshots failed return the first snapshot
