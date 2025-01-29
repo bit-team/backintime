@@ -855,7 +855,7 @@ class MountControl:
             os.remove(lock)
 
     def checkLocks(self, path, lock_suffix):
-        """Check existance of active and foreign locks.
+        """Check existence of active and foreign locks.
 
         The lock owning process is specified by the PID contained in the
         filename of the lock file used. Lock files of the current process are
