@@ -460,7 +460,7 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
         self.assertEqual(sut[4].date, datetime(2025, 4, 13, 19, 0))
 
 
-class NEXT_KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
+class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep the last snapshot for each week for the
     last N weeks'.
 
@@ -612,6 +612,44 @@ class NEXT_KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
         sut = sorted(sut)
         for s in sut:
             print(s)
+
+    def test_doc_example(self):
+        sids = create_SIDs(
+            [
+                # 5 Weeks, each 3 days
+                datetime(2025, 4, 17, 22, 0),
+                datetime(2025, 4, 16, 4, 0),
+                datetime(2025, 4, 15, 14, 0),
+                datetime(2025, 4, 13, 22, 0),
+                datetime(2025, 4, 9, 4, 0),
+                datetime(2025, 4, 8, 14, 0),
+                datetime(2025, 4, 3, 22, 0),
+                datetime(2025, 4, 2, 4, 0),
+                datetime(2025, 4, 1, 14, 0),
+                datetime(2025, 3, 27, 22, 0),
+                datetime(2025, 3, 26, 4, 0),
+                datetime(2025, 3, 24, 14, 0),
+                datetime(2025, 3, 20, 22, 0),
+                datetime(2025, 3, 19, 4, 0),
+                datetime(2025, 3, 18, 14, 0)
+            ],
+            None,
+            self.cfg
+        )
+
+        sut = self._org(
+            now=date(2025, 4, 17),
+            n_weeks=3,
+            snapshots=sids)
+
+        for s in sut:
+            print(s)
+
+        self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
+        self.assertEqual(sut[1].date, datetime(2025, 4, 16, 8, 30))
+        self.assertEqual(sut[2].date, datetime(2025, 4, 15, 16, 0))
+        self.assertEqual(sut[3].date, datetime(2025, 4, 14, 23, 59))
+        self.assertEqual(sut[4].date, datetime(2025, 4, 13, 19, 0))
 
 
 class OnePerMonth(pyfakefs_ut.TestCase):

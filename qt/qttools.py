@@ -178,8 +178,6 @@ def set_wrapped_tooltip(widget: QWidget,
         ))
 
     # glue all together
-    print(result)
-    print(widget)
     widget.setToolTip(newline.join(result))
 
 
