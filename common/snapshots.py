@@ -1580,7 +1580,7 @@ class Snapshots:
                 logger.debug(f'Do not keep failed snapshot {sid}', self)
                 continue
 
-            if sid.date.date() >= min_id and sid.date.date() < max_id:
+            if sid.date.date() >= min_date and sid.date.date() < max_date:
                 return set([sid])
 
         # if all snapshots failed return the first snapshot
@@ -1692,13 +1692,14 @@ class Snapshots:
 
         # keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            d = now - datetime.timedelta(days=now.weekday() + 1)
+            # always Monday
+            d = now - datetime.timedelta(days=now.weekday())
 
             for i in range(0, keep_one_per_week):
                 keep |= self.smartRemoveKeepFirst(
                     snapshots,
                     d,
-                    d + datetime.timedelta(days=8),
+                    d + datetime.timedelta(days=7),
                     keep_healthy=True)
                 d -= datetime.timedelta(days=7)
 
