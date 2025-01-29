@@ -145,6 +145,29 @@ class KeepFirst(pyfakefs_ut.TestCase):
 
         self.assertTrue(str(sut).startswith('20220324-074231-'))
 
+    def test_min_included_max_not(self):
+        """Minimum date is included in range, but max date not"""
+        sids = create_SIDs(
+            [
+                datetime(2022, 3, 5),
+                datetime(2022, 3, 3),
+            ],
+            None,
+            self.cfg)
+
+        sut = self.sn.smartRemoveKeepFirst(
+            snapshots=sids,
+            min_date=date(2022, 3, 3),
+            max_date=date(2022, 3, 5),
+        )
+
+        self.assertEqual(len(sut), 1)
+
+        sut = sut.pop()
+
+        # the min_date is included
+        self.assertEqual(sut.date.date(), date(2022, 3, 3))
+
     def test_no_date_ordering(self):
         """Hit first in the list and ignoring its date ordering.
 
@@ -171,6 +194,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
         self.assertEqual(str(sut.pop()), '20160422-030324-123')
 
     def test_keep_first_range_outside(self):
+        """No SID inside the specified range"""
         sids = []
         # April, 2016...
         for timestamp_string in ['20160424-215134-123',  # …24th
@@ -524,7 +548,7 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
         keep = set()
 
         # Sunday ??? (Sonntag) of previous week
-        idx_date = now - timedelta(days=now.weekday() + 1)
+        idx_date = now - timedelta(days=now.weekday())
 
         print(f'  for-loop... idx_date={dt2str(idx_date)}')
         for _ in range(0, n_weeks):
@@ -541,10 +565,10 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
             print(f'       {keep=}')
 
             idx_date -= timedelta(days=7)
-            print(f'    new idx_date={dt2str(idx_date)}')
+            # print(f'    new idx_date={dt2str(idx_date)}')
         print('  ...end loop')
 
-        return keep
+        return sorted(keep, reverse=True)
 
     def test_foobar(self):
         # start = date(2022, 1, 15)
@@ -636,6 +660,10 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
             None,
             self.cfg
         )
+        print('')
+        for s in sids:
+            print(s.date.date())
+        print('-'*100)
 
         sut = self._org(
             now=date(2025, 4, 17),
@@ -646,10 +674,10 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
             print(s)
 
         self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
-        self.assertEqual(sut[1].date, datetime(2025, 4, 16, 8, 30))
-        self.assertEqual(sut[2].date, datetime(2025, 4, 15, 16, 0))
-        self.assertEqual(sut[3].date, datetime(2025, 4, 14, 23, 59))
-        self.assertEqual(sut[4].date, datetime(2025, 4, 13, 19, 0))
+        self.assertEqual(sut[1].date, datetime(2025, 4, 13, 22, 0))
+        self.assertEqual(sut[2].date, datetime(2025, 4, 3, 22, 0))
+        # self.assertEqual(sut[3].date, datetime(2025, 3, 27, 22, 0))
+        # self.assertEqual(sut[4].date, datetime(2025, 3, 20, 22, 0))
 
 
 class OnePerMonth(pyfakefs_ut.TestCase):

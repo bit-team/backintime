@@ -1577,8 +1577,8 @@ class Snapshots:
         # max_id = SID(max_date, self.config)
 
         logger.debug(f'Keep first >= {min_date} and < {max_date}', self)
-
-        # print("smartRemoveKeepFirst() :: >= %s and < %s" % (min_id, max_id))
+        # DEBUG
+        print(f'smartRemoveKeepFirst() :: >= {min_date} and < {max_date}')
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
@@ -1587,10 +1587,10 @@ class Snapshots:
                 continue
 
             # DEBUG
-            # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
+            print(f'smartRemoveKeepFirst() :: for sid ... sid={sid.date.date()}')
 
             if sid.date.date() >= min_date and sid.date.date() < max_date:
-                # print(f'  return {str(sid)}')
+                print(f'  return {sid.date.date()}')  # DEBUG
                 return set([sid])
 
         # if all snapshots failed return the first snapshot
