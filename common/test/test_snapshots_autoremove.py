@@ -460,8 +460,8 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
         self.assertEqual(sut[4].date, datetime(2025, 4, 13, 19, 0))
 
 
-class OnePerWeek(pyfakefs_ut.TestCase):
-    """Covering the smart remove setting 'Keep one snapshot per week for the
+class NEXT_KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep the last snapshot for each week for the
     last N weeks'.
 
     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
