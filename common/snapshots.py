@@ -1572,7 +1572,8 @@ class Snapshots:
 
         TODO: It should compare datest not SIDs because of their tag.
         """
-        logger.debug(f'Keep first >= {min_date} and < {max_date}', self)
+        logger.debug('Keep first >= {} and < {}'.format(
+            min_date.strftime('%c'), max_date.strftime('%c')), self)
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
@@ -1692,15 +1693,19 @@ class Snapshots:
 
         # keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            # always Monday
+            # Make sure the period always starts on Monday
+            # Step back in time to the last Monday
             d = now - datetime.timedelta(days=now.weekday())
 
             for i in range(0, keep_one_per_week):
                 keep |= self.smartRemoveKeepFirst(
                     snapshots,
+                    # Monday
                     d,
+                    # Step one week into the future
                     d + datetime.timedelta(days=7),
                     keep_healthy=True)
+                # One week back in time
                 d -= datetime.timedelta(days=7)
 
         # keep one per month for the last keep_one_per_month months
