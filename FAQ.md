@@ -42,7 +42,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
-   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
@@ -63,6 +62,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - [Project & Contributing & more](#project--Contributing--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
+   + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
    * [How to review a Pull Request](#how-to-review-a-pull-request)
 - [Testing & Building](#testing--building)
@@ -641,15 +641,6 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-## Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
-
-In newer Ubuntu-based distros you may get this warning if you install _Back In
-Time_ from PPA.  The reason is that public keys of signed packages shall be
-stored in a new folder now (for details see
-https://itsfoss.com/apt-key-deprecated/).
-
-A solution is described in
-[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 ## Segmentation fault on Exit
 This problem existed at least since version 1.2.1, and will hopefully be fixed
 with version 1.5.0. For all affected versions, it does not impact the
@@ -1324,6 +1315,26 @@ with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their
 maintainers if _Back In Time_ is unavailable or out dated.
 
+## Is BIT really not supported by Canonical Ubuntu?
+
+Ubuntu consists of
+[several repositories](https://help.ubuntu.com/community/Repositories), each
+offering different levels of support. The `main` repository is maintained
+by Canonical and receives regular security updates and bug fixes throughout
+the 5-year support period of LTS releases.
+
+In contrast, the `universe` repository is community-managed, meaning security
+updates and bug fixes are not guaranteed and depend heavily on community
+activity and volunteers. Therefore, packages in `universe` may not always be
+up-to-date with the same but well-maintained packages in Debian GNU/Linux and
+might miss important fixes.
+
+_Back In Time_ is one such package in the `universe` repository. That
+[package](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=backintime)
+is copied from the
+[Debian GNU/Linux repository](https://packages.debian.org/search?searchon=sourcenames&keywords=backintime).
+It can be said that _Back In Time_ is not maintained by Canonical Ubuntu, but
+by volunteers from the Community of Ubuntu.
 
 ## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
 
