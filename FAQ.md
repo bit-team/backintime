@@ -60,10 +60,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
    * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
-- [Project & more](#project--more)
+- [Project & Contributing & more](#project--Contributing--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
+   * [How to review a Pull Request](#how-to-review-a-pull-request)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -1289,7 +1290,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
    ```
 
 
-# Project & more
+# Project & Contributing & more
 
 ## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
 
@@ -1335,6 +1336,42 @@ discussion we seem to target [Codeberg.org](https://codeberg.org).
 For more details please see
 [this thread on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/O5XZ5SPW6WIFBFKWUBHSOUIBKEUIBPNM/).
 
+
+## How to review a Pull Request
+Reviewing a Pull Request (PR) isn’t just about the code—it’s also about
+functionality. Changes can be tested by installing _Back In Time_ and trying
+them out, even without reading the code. This allows issues to be identified
+from a user’s perspective. A second pair of eyes helps catch errors, spot
+overlooked issues, and improve overall quality. Fresh perspectives, knowledge
+sharing, and better maintainability contribute to the long-term stability of
+the project.
+
+Check PRs labeled with
+[PR: Waiting for
+review](https://github.com/bit-team/backintime/pulls?q=is%3Aopen+is%3Apr+label%3A%22PR%3A+Waiting+for+review%22).
+Checking the [milestone](https://github.com/bit-team/backintime/milestones)
+assigned to PR can also help gauge their priority and urgency.
+
+- Start by carefully reading the PR description to understand the proposed
+  changes. Ask back if something is not clear.
+- When giving feedback, consider the contributor’s level of experience and
+  skills. Keep it polite and constructive—every beginner could be a future
+  maintainer.
+      
+To **test functionality**,
+[check out the PR code locally](https://docs.github.com//pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally)
+on a virtual machine or your local machine. Running _Back In Time_ in a test
+environment provides insights, that can be shared as findings, observations,
+or suggestions for improvement.
+      
+About **code review**:
+- Code should follow
+  [project standards](CONTRIBUTING.md#best-practice-and-recommendations)
+  and be structured for long-term maintainability.
+- Is a PR too large or complex, suggest to breaking it down into smaller parts.
+- How is the documentation?
+- Are there unit tests?
+- Does the changelog need an entry?
 
 # Testing & Building
 
