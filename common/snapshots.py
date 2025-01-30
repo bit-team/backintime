@@ -1583,7 +1583,6 @@ class Snapshots:
                 logger.debug(f'Do not keep failed snapshot {sid}', self)
                 continue
 
-
             if sid.date.date() >= min_date and sid.date.date() < max_date:
                 return set([sid])
 

@@ -57,16 +57,18 @@ attach a name to it. Those named snapshots are never touched by any other
 rule. It is a guarantee that they won't be removed. See
 [Main Window](main-window.md) for more details about named snapshots.
 
-### Remove snapshots older than `N` Days/Weeks/Years
-#### Year
+### Remove snapshots older than …
+
+**Remove snapshots older than `N` Years**
+
 - Calculation is based on 12 months.
 - Current months is ignored.
 - _Example_: Older than two years, at date 2025-04-17, result in
-removing backups before (or older than) 2023-04-01.
-
+  removing backups before (or older than) 2023-04-01.
 ![Rule - Remove older than 2 years](_images/rule_older_than_n_years.png)
 
-#### Week
+**Remove snapshots older than `N` Weeks**
+
 - Calculation is based on calendar weeks with Monday as first day of a week.
 - Current week is ignored.
 - _Example_: Older than two weeks, at Friday 2025-08-29, result in removing
@@ -74,8 +76,9 @@ removing backups before (or older than) 2023-04-01.
 
 ![Rule - Remove older than 2 weeks](_images/rule_older_than_n_weeks.png)
 
-#### Day
-- Calculation is based on full days ignoring time at day.
+**Remove snapshots older than `N` Days**
+
+- Calculation is based on full days from 0:00 to 23:59.
 - Current day is ignored.
 - _Example_: Older than 3 days, at date 2025-01-10, result in removing backups
   before (or older than) 2025-01-07.
@@ -83,7 +86,54 @@ removing backups before (or older than) 2023-04-01.
 ![Rule - Remove older than 3 days](_images/rule_older_than_n_days.png)
 
 ### Retention policy
-Snapshots are retained if they fit the rules, but the rest will be removed.
+Snapshots are retained if they fit at least one of the the rules from the
+retention policy. All other snapshots, not covered by the retention policy,
+will be removed.
+
+**Keep all snapshots for the last `N` days**
+
+- Calculation is based on full days from 0:00 to 23:59.
+- Current day is considered.
+
+_Example_:
+
+![Rule - Keep all for the last 2 days](_images/rule_keep_all_for_n_days.png)
+
+**Keep the last snapshot for each day for the last `N` days**
+
+- Calculation is based on full days from 0:00 to 23:59.
+- Current day is considered.
+
+_Example_:
+
+![Rule - Keep last for each day for the last 5 days](_images/rule_keep_last_each_day_for_n_days.png)
+
+**Keep the last snapshot for each week for the last `N` weeks**
+
+- Calculation is based on full calendar weeks starting from Monday.
+- Current week is considered.
+
+_Example_:
+
+![Rule - Keep last for each week for the last 4 weeks](_images/rule_keep_last_each_week_for_n_weeks.png)
+
+**Keep the last snapshot for each month for the last `N` months**
+
+- Calculation is based on ???
+- Current months is ???? considered.
+
+_Example_:
+
+![Rule - Keep last for each months for the last 4 months](_images/rule_keep_last_each_months_for_n_months.png)
+
+**Keep the last snapshot for each year for all years**
+
+- Calculation is based on ???
+- Current year is ???? considered.
+
+_Example_:
+
+![Rule - Keep last for each year for all years](_images/rule_keep_last_each_year_for_all_years.png)
 
 ## Interactions between and mutual constraints of the rules
 ...
