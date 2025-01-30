@@ -1572,23 +1572,16 @@ class Snapshots:
 
         TODO: It should compare datest not SIDs because of their tag.
         """
-        # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
-        min_id = SID(min_date, self.config)
-        max_id = SID(max_date, self.config)
-
-        logger.debug("Keep first >= %s and < %s" % (min_id, max_id), self)
+        logger.debug('Keep first >= {} and < {}'.format(
+            min_date.strftime('%c'), max_date.strftime('%c')), self)
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
             if keep_healthy and sid.failed:
-                logger.debug("Do not keep failed snapshot %s" % sid, self)
+                logger.debug(f'Do not keep failed snapshot {sid}', self)
                 continue
 
-            # DEBUG
-            # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
-
-            if sid >= min_id and sid < max_id:
-                # print(f'  return {str(sid)}')
+            if sid.date.date() >= min_date and sid.date.date() < max_date:
                 return set([sid])
 
         # if all snapshots failed return the first snapshot
@@ -1700,14 +1693,19 @@ class Snapshots:
 
         # keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            d = now - datetime.timedelta(days=now.weekday() + 1)
+            # Make sure the period always starts on Monday
+            # Step back in time to the last Monday
+            d = now - datetime.timedelta(days=now.weekday())
 
             for i in range(0, keep_one_per_week):
                 keep |= self.smartRemoveKeepFirst(
                     snapshots,
+                    # Monday
                     d,
-                    d + datetime.timedelta(days=8),
+                    # Step one week into the future
+                    d + datetime.timedelta(days=7),
                     keep_healthy=True)
+                # One week back in time
                 d -= datetime.timedelta(days=7)
 
         # keep one per month for the last keep_one_per_month months
