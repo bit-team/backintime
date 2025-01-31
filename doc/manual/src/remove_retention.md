@@ -92,6 +92,13 @@ Snapshots are retained if they fit at least one of the the rules from the
 retention policy. All other snapshots, not covered by the retention policy,
 will be removed.
 
+The values specified are treated as a period rather than a count. For example,
+imagine keeping the last snapshot of each month for the past six months,
+including the current running months. However, only four of these six months
+have snapshots. In this case, only four snapshots are retained. The period is
+not extended further into the past to reach a total of six snapshots. See the
+rules below for more ilustrated examples.
+
 **Keep all snapshots for the last `N` days**
 
 - Calculation is based on full days from 0:00 to 23:59.
@@ -121,8 +128,8 @@ _Example_:
 
 **Keep the last snapshot for each month for the last `N` months**
 
-- Calculation is based on ???
-- Current months is ???? considered.
+- Calculation is based on full calendar months.
+- Current months is considered.
 
 _Example_:
 
@@ -130,8 +137,8 @@ _Example_:
 
 **Keep the last snapshot for each year for all years**
 
-- Calculation is based on ???
-- Current year is ???? considered.
+- Calculation is based on calender years.
+- Current year is considered.
 - Despite it is present in the graphical frontend, that behavior cannot be
   changed, if _Retention Policy_ is enabled.
 

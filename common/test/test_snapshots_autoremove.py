@@ -9,6 +9,17 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Tests related to Remove & Retention, formaly known as Auto- and
+Smart-remove.
+
+About the current state of this test module:
+
+    Most of the tests in this module are pseudo-tests. The do not test
+    productive code but surrogates (e.g. method name `_org()` in each class).
+    Because the productive code is in an untestable state and needs refactoring
+    or totally rewrite. This is on the projects todo list. See meta issue
+    #1945.
+"""
 import os
 import sys
 import inspect
@@ -602,12 +613,13 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
 
 
 class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
-    """Covering the smart remove setting 'Keep the last snapshot for each
-    months for the last N months'.
+    """Covering the smart remove setting 'Keep the last snapshot for each month
+    for the last N months'.
 
     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
     in isolation. So for a first shot we just duplicate that code in this
     tests (see self._org()).
+
     """
 
     def setUp(self):
@@ -663,146 +675,61 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
         """
         keep = set()
 
-        raise NotImplementedError
-
-        return sorted(keep, reverse=True)
-
-    def test_doc_example(self):
-        """Example used in manual"""
-        raise NotImplementedError
-        sids = create_SIDs(
-            [
-                # 5 Weeks, each 3 days
-                datetime(2025, 4, 17, 22, 0),
-                datetime(2025, 4, 16, 4, 0),
-                datetime(2025, 4, 15, 14, 0),
-                datetime(2025, 4, 13, 22, 0),
-                datetime(2025, 4, 9, 4, 0),
-                datetime(2025, 4, 8, 14, 0),
-                datetime(2025, 4, 3, 22, 0),
-                datetime(2025, 4, 2, 4, 0),
-                datetime(2025, 4, 1, 14, 0),
-                datetime(2025, 3, 27, 22, 0),
-                datetime(2025, 3, 26, 4, 0),
-                datetime(2025, 3, 24, 14, 0),
-                datetime(2025, 3, 20, 22, 0),
-                datetime(2025, 3, 19, 4, 0),
-                datetime(2025, 3, 18, 14, 0)
-            ],
-            None,
-            self.cfg
-        )
-
-        sut = self._org(
-            now=date(2025, 4, 17),
-            n_weeks=4,
-            snapshots=sids)
-
-        self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
-        self.assertEqual(sut[1].date, datetime(2025, 4, 13, 22, 0))
-        self.assertEqual(sut[2].date, datetime(2025, 4, 3, 22, 0))
-        self.assertEqual(sut[3].date, datetime(2025, 3, 27, 22, 0))
-        self.assertEqual(len(sut), 4)
-
-
-class OnePerMonth(pyfakefs_ut.TestCase):
-    """Covering the smart remove setting 'Keep one snapshot per week for the
-    last N weeks'.
-
-    That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
-    in isolation. So for a first shot we just duplicate that code in this
-    tests (see self._org()).
-    """
-
-    def setUp(self):
-        """Setup a fake filesystem."""
-        self.setUpPyfakefs(allow_root_user=False)
-
-        # cleanup() happens automatically
-        self._temp_dir = TemporaryDirectory(prefix='bit.')
-        # Workaround: tempfile and pathlib not compatible yet
-        self.temp_path = Path(self._temp_dir.name)
-
-        self._config_fp = self._create_config_file(parent_path=self.temp_path)
-        self.cfg = config.Config(str(self._config_fp))
-
-        self.sn = snapshots.Snapshots(self.cfg)
-
-    def _create_config_file(self, parent_path):
-        """Minimal config file"""
-        # pylint: disable-next=R0801
-        cfg_content = inspect.cleandoc('''
-            config.version=6
-            profile1.snapshots.include.1.type=0
-            profile1.snapshots.include.1.value=rootpath/source
-            profile1.snapshots.include.size=1
-            profile1.snapshots.no_on_battery=false
-            profile1.snapshots.notify.enabled=true
-            profile1.snapshots.path=rootpath/destination
-            profile1.snapshots.path.host=test-host
-            profile1.snapshots.path.profile=1
-            profile1.snapshots.path.user=test-user
-            profile1.snapshots.preserve_acl=false
-            profile1.snapshots.preserve_xattr=false
-            profile1.snapshots.remove_old_snapshots.enabled=true
-            profile1.snapshots.remove_old_snapshots.unit=80
-            profile1.snapshots.remove_old_snapshots.value=10
-            profile1.snapshots.rsync_options.enabled=false
-            profile1.snapshots.rsync_options.value=
-            profiles.version=1
-        ''')
-
-        # config file location
-        config_fp = parent_path / 'config_path' / 'config'
-        config_fp.parent.mkdir()
-        config_fp.write_text(cfg_content, 'utf-8')
-
-        return config_fp
-
-    def _org(self, now, n_months, snapshots, keep_healthy=True):
-        """Keep one per months for the last n_months weeks.
-
-        Copied and slightly refactored from inside
-        'Snapshots.smartRemoveList()'.
-        """
-        print(f'\n_org() :: now={dt2str(now)} {n_months=}')
-        keep = set()
-
         d1 = date(now.year, now.month, 1)
         d2 = self.sn.incMonth(d1)
 
         # each months
         for i in range(0, n_months):
-            print(f'{i=} {d1=} {d2}')
             keep |= self.sn.smartRemoveKeepFirst(
                 snapshots, d1, d2, keep_healthy=keep_healthy)
             d2 = d1
             d1 = self.sn.decMonth(d1)
 
-        return keep
+        return sorted(keep, reverse=True)
 
-    def test_foobarm(self):
-        now = date(2024, 12, 16)
-        # sids = create_SIDs(start, 9*7+3, self.cfg)
-        sids = create_SIDs(date(2023, 10, 26), 500, self.cfg)
+    def test_doc_example(self):
+        sids = create_SIDs(
+            [
+                # 10 months periode
+                date(2025, 8, 18),
+                date(2025, 8, 6),
+                date(2025, 7, 31),
+                date(2025, 7, 1),
+                date(2025, 6, 30),
+                date(2025, 6, 1),
+                # gap of 2 months
+                date(2025, 3, 18),
+                date(2025, 2, 9),
+                date(2025, 1, 6),
+                date(2024, 12, 26),
+                date(2024, 11, 14),
+            ],
+            None,
+            self.cfg
+        )
+        now = sids[0].date.date() + timedelta(days=5)
 
-        months = 3
+        months = 6
         sut = self._org(
             now=now,
             # Keep the last week
             n_months=months,
             snapshots=sids)
 
-        print(f'\noldest snapshot: {sid2str(sids[0])}')
-        for s in sorted(sut):
-            print(f'keep: {sid2str(s)}')
-        print(f'from/now: {dt2str(now)}  {months=}')
-        print(f'latest snapshot: {sid2str(sids[-1])}')
+        expect = [
+            date(2025, 8, 18),
+            date(2025, 7, 31),
+            date(2025, 6, 30),
+            date(2025, 3, 18),
+        ]
+        self.assertEqual(len(sut), len(expect))
+        for idx, expect_date in enumerate(expect):
+            self.assertEqual(sut[idx].date.date(), expect_date)
 
 
-class OnePerYear(pyfakefs_ut.TestCase):
-    """Covering the smart remove setting 'Keep one snapshot per year for all
-    years.'
+class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep the last snapshot for each year
+    for all years.'
 
     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
     in isolation. So for a first shot we just duplicate that code in this
@@ -862,7 +789,6 @@ class OnePerYear(pyfakefs_ut.TestCase):
         """
         first_year = int(snapshots[-1].sid[:4])
 
-        print(f'\n_org() :: now={dt2str(now)} {first_year=}')
         keep = set()
 
         for i in range(first_year, now.year+1):
@@ -872,22 +798,39 @@ class OnePerYear(pyfakefs_ut.TestCase):
                 date(i+1, 1, 1),
                 keep_healthy=keep_healthy)
 
-        return keep
+        return sorted(keep, reverse=True)
 
-    def test_foobary(self):
+    def test_doc_example(self):
         now = date(2024, 12, 16)
-        # sids = create_SIDs(start, 9*7+3, self.cfg)
-        sids = create_SIDs(date(2019, 10, 26), 365*6, self.cfg)
+        sids = create_SIDs(
+            [
+                date(2024, 10, 26),
+                date(2024, 4, 13),
+                date(2023, 10, 26),
+                date(2023, 10, 8),
+                date(2023, 1, 1),
+                date(2022, 12, 31),
+                date(2022, 4, 13),
+                date(2020, 10, 26),
+                date(2020, 4, 13),
+            ],
+            None,
+            self.cfg
+        )
 
         sut = self._org(
             now=now,
             snapshots=sids)
 
-        print(f'\noldest snapshot: {sid2str(sids[0])}')
-        for s in sorted(sut):
-            print(f'keep: {sid2str(s)}')
-        print(f'from/now: {dt2str(now)}')
-        print(f'latest snapshot: {sid2str(sids[-1])}')
+        expect = [
+            date(2024, 10, 26),
+            date(2023, 10, 26),
+            date(2022, 12, 31),
+            date(2020, 10, 26),
+        ]
+        self.assertEqual(len(sut), len(expect))
+        for idx, expect_date in enumerate(expect):
+            self.assertTrue(sut[idx].date.date(), expect_date)
 
 
 class IncDecMonths(pyfakefs_ut.TestCase):

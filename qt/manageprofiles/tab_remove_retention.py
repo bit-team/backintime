@@ -288,12 +288,6 @@ class RemoveRetentionTab(QDialog):
         return checkbox, spin_unit
 
     def _groupbox_retention_policy(self) -> tuple:
-        """
-        Tooltips:
-
-
-
-        """
         layout = QGridLayout()
         # col, fx
         layout.setColumnStretch(0, 1)
@@ -352,8 +346,8 @@ class RemoveRetentionTab(QDialog):
         # one_per_week.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_week, 3, 1)
 
-        tip = _('The years are counted starting from the current '
-                'calendar month.')
+        tip = _('The months are counted as calendar months starting with '
+                'the current months.')
         label = QLabel(
             _('Keep the last snapshot for each month for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
@@ -365,20 +359,16 @@ class RemoveRetentionTab(QDialog):
         # one_per_month.setAlignment(Qt.AlignmentFlag.AlignRight)
         layout.addWidget(one_per_month, 4, 1)
 
-        layout.addWidget(
-            QLabel(_('Keep the last snapshot for each year for'), self),
-            5, 0)
-        layout.addWidget(QLabel(_('all years.'), self),
-                                   5, 1)
-        # , Qt.AlignmentFlag.AlignRight)
+        tip = _('The years are counted as calendar years starting with '
+                'the current year.')
+        label = QLabel(_('Keep the last snapshot for each year for'), self)
+        layout.addWidget(label, 5, 0)
+        labeltwo = QLabel(_('all years.'), self)
+        layout.addWidget(labeltwo, 5, 1)
+        qttools.set_wrapped_tooltip([label, labeltwo], tip)
 
         self._tab_layout.addWidget(
-            checkbox_group,
-            self._tab_layout.rowCount(),
-            0,
-            1,
-            3
-        )
+            checkbox_group, self._tab_layout.rowCount(), 0, 1, 3)
 
         return (checkbox_group, cb_in_background, all_last_days, one_per_day,
                 one_per_week, one_per_month)

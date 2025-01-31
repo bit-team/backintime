@@ -149,7 +149,7 @@ def might_be_richtext(txt: str) -> bool:
     return bool(_REX_RICHTEXT.match(txt))
 
 
-def set_wrapped_tooltip(widget: QWidget,
+def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
                         tooltip: Union[str, Iterable[str]],
                         wrap_length: int = 72):
     """Add a tooltip to the widget but insert line breaks when appropriated.
@@ -158,10 +158,17 @@ def set_wrapped_tooltip(widget: QWidget,
     then joined with a line break.
 
     Args:
-        widget: The widget to which a tooltip should be added.
+        widget: The widget or list of widgets to which a tooltip should be
+            added.
         tooltip: The tooltip as string or iterable of strings.
         wrap_length: Every line is at most this lengths.
     """
+
+    if isinstance(widget, Iterable):
+        for wdg in widget:
+            set_wrapped_tooltip(wdg, tooltip, wrap_length)
+
+        return
 
     # Always use tuple or list
     if isinstance(tooltip, str):
