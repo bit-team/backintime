@@ -146,14 +146,40 @@ _Example_:
 
 ![Rule - Keep last for each year for all years](_images/rule_keep_last_each_year_for_all_years.png)
 
-## Interactions between and mutual constraints of the rules
-...
+### Run in background mode on remote host
+The remove command can be executed on the local machine or on a remote host via
+SSH. The latter can save time and resources.
 
-## --Notizen--
-- Das gerade angefertigte Backup (`new_snaphshot`) wird ignoriert und nicht
-  gelöscht. Siehe `listSnapshots()` und den default Wert `False` für
-  `includeNewSnapshot`.
-- _Remove snapshots older than_ : Ist nur ein Backups in der Liste wird er
-  nicht gelöscht. In Verbindung mit dem vorherigen Punkt
-  (`includeNewSnapshot=False`) bleiben also immer mind. zwei Backups erhalten.
-- Mention "Run in background mode on remote host." on SSH profiles
+## Interactions between and mutual constraints of the rules
+All rules are applied and executed immediatly one by one and in the order as
+presented in the GUI and here in the manual. This contain the potential of
+confusing interactions between the rules.
+
+### Example: Three years and all years.
+Imagine this two rules:
+
+1. Remove snapshots older than 3 years.
+2. Keep last snapshot for each year for all years.
+
+We continue to assume that multiple backups per year have been available over
+the past five years.
+
+Rule 2 in isolation would result in five retained backups, one for each of the
+five existing years. But rule 1 will be executed beforehand. Rule 1 will remove
+all snapshots from four and five years ago.
+    
+### Example: Six months but less storage space
+Imagine this two rules:
+
+1. Keep last snapshot for each months for 6 months.
+2. Remove oldest snapshots if the free space is less than 100 GiB.
+
+The consequence of rule 1 is that six snapshots are kept, one for each
+months. Additonally imagine some more snapshots becaues of the other keep rules
+beforehand. This consumes so much storage space that there is only 80 GiB free
+space left. This is less than the 100 GiB limit configured in rule 2. Because
+of that the two oldest snapshots (of months five and six) will be
+removed. After this 105 GiB storage space is available again and the rule
+stops. The final consequence is that snapshots of four months are kept, instead
+of six months as configured in rule 1.
+
