@@ -247,7 +247,7 @@ class ScheduleWidget(QGroupBox):
 
         layout.setRowVisible(
             self._rowidx_offset,
-            config.Config.HOUR <= backup_mode_id <= config.Config.CUSTOM_HOUR
+            backup_mode_id in config.Config.HOURLY_BACKUPS
         )
 
         vis = config.Config.REPEATEDLY <= backup_mode_id <= config.Config.UDEV
@@ -318,8 +318,7 @@ class ScheduleWidget(QGroupBox):
         cfg.setScheduleMode(self._combo_schedule_mode.current_data)
         cfg.setScheduleTime(self._combo_time.current_data)
 
-        if cfg.scheduleMode() in range(config.Config.HOUR,
-                                       config.Config.CUSTOM_HOUR):
+        if cfg.scheduleMode() in config.Config.HOURLY_BACKUPS:
             cfg.set_schedule_offset(self._spin_offset.value())
         else:
             cfg.set_schedule_offset(config.Config.DEFAULT_OFFSET)

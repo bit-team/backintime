@@ -80,6 +80,13 @@ class Config(configfile.ConfigFileWithProfiles):
     MONTH = 40
     YEAR = 80
 
+    HOURLY_BACKUPS = (HOUR,
+                      _2_HOURS,
+                      _4_HOURS,
+                      _6_HOURS,
+                      _12_HOURS,
+                      CUSTOM_HOUR)
+
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
