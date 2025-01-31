@@ -229,20 +229,12 @@ class RemoveRetentionTab(QDialog):
             )
         )
 
-        # # Can't get focus
-        # cb.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-
-        # # Can't receive events
-        # cb.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
-
-        # Allways enabled
+        # Always enabled
         cb.setChecked(True)
         cb.nextCheckState = lambda: None
 
         # fromRow, fromColumn spanning rowSpan rows and columnSpan
         self._tab_layout.addWidget(cb, self._tab_layout.rowCount(), 0, 1, 2)
-
-
 
     def _checkbox_keep_named(self) -> QCheckBox:
         cb = QCheckBox(_('Keep named snapshots.'), self)

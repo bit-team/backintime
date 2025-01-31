@@ -97,7 +97,7 @@ imagine keeping the last snapshot of each month for the past six months,
 including the current running months. However, only four of these six months
 have snapshots. In this case, only four snapshots are retained. The period is
 not extended further into the past to reach a total of six snapshots. See the
-rules below for more ilustrated examples.
+rules below for more illustrated examples.
 
 **Keep all snapshots for the last `N` days**
 
@@ -137,7 +137,7 @@ _Example_:
 
 **Keep the last snapshot for each year for all years**
 
-- Calculation is based on calender years.
+- Calculation is based on calendar years.
 - Current year is considered.
 - Despite it is present in the graphical frontend, that behavior cannot be
   changed, if _Retention Policy_ is enabled.
@@ -151,7 +151,7 @@ The remove command can be executed on the local machine or on a remote host via
 SSH. The latter can save time and resources.
 
 ## Interactions between and mutual constraints of the rules
-All rules are applied and executed immediatly one by one and in the order as
+All rules are applied and executed immediatily one by one and in the order as
 presented in the GUI and here in the manual. This contain the potential of
 confusing interactions between the rules.
 
@@ -175,7 +175,7 @@ Imagine this two rules:
 2. Remove oldest snapshots if the free space is less than 100 GiB.
 
 The consequence of rule 1 is that six snapshots are kept, one for each
-months. Additonally imagine some more snapshots becaues of the other keep rules
+months. Additionally imagine some more snapshots because of the other keep rules
 beforehand. This consumes so much storage space that there is only 80 GiB free
 space left. This is less than the 100 GiB limit configured in rule 2. Because
 of that the two oldest snapshots (of months five and six) will be

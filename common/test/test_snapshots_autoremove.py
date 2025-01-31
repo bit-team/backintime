@@ -9,7 +9,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""Tests related to Remove & Retention, formaly known as Auto- and
+"""Tests related to Remove & Retention, formally known as Auto- and
 Smart-remove.
 
 About the current state of this test module:
@@ -444,25 +444,16 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
         """Copied and slightly refactored from inside
         'Snapshots.smartRemoveList()'.
         """
-        # print(f'\n_org() :: now={dt2str(now)} {n_days=}')
 
         keep = set()
         d = now
         for i in range(0, n_days):
-            ddd = d + timedelta(days=1),
-            # print(f'{d=} {ddd=}')
             keep |= self.sn.smartRemoveKeepFirst(
                 snapshots,
                 d,
                 d + timedelta(days=1),
                 keep_healthy=True)
             d -= timedelta(days=1)
-            # print(f'{keep=}')
-
-        # keep = self.sn.smartRemoveKeepAll(
-        #     snapshots,
-        #     now - timedelta(days=n_days-1),
-        #     now + timedelta(days=1))
 
         return sorted(keep, reverse=True)
 
@@ -690,7 +681,7 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
     def test_doc_example(self):
         sids = create_SIDs(
             [
-                # 10 months periode
+                # 10 months period
                 date(2025, 8, 18),
                 date(2025, 8, 6),
                 date(2025, 7, 31),
