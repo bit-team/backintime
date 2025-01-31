@@ -43,6 +43,9 @@ class RemoveRetentionTab(QDialog):
         self._tab_layout = QGridLayout()
         self.setLayout(self._tab_layout)
 
+        # Keep most recent
+        self._label_keep_most_recent()
+
         # Keep named backups
         self.cbDontRemoveNamedSnapshots = self._checkbox_keep_named()
 
@@ -214,6 +217,32 @@ class RemoveRetentionTab(QDialog):
 
     def handle_link_activated(self, link):
         qttools.open_user_manual()
+
+    def _label_keep_most_recent(self) -> None:
+        cb = QCheckBox(_('Keep the most recent snapshot.'), self)
+        qttools.set_wrapped_tooltip(
+            cb,
+            (
+                _('The last or freshest snapshot is kept under '
+                  'all circumstances.'),
+                _('That behavior cannot be changed.')
+            )
+        )
+
+        # # Can't get focus
+        # cb.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        # # Can't receive events
+        # cb.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+
+        # Allways enabled
+        cb.setChecked(True)
+        cb.nextCheckState = lambda: None
+
+        # fromRow, fromColumn spanning rowSpan rows and columnSpan
+        self._tab_layout.addWidget(cb, self._tab_layout.rowCount(), 0, 1, 2)
+
+
 
     def _checkbox_keep_named(self) -> QCheckBox:
         cb = QCheckBox(_('Keep named snapshots.'), self)

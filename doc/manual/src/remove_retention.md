@@ -23,6 +23,7 @@ run, if no new snapshot is created.
 Here is a brief overview of the rules available:
 
       
+- **Keep the most recent snapshot**: The last (or freshest) snapshot will be retained.
 - **Keep named snapshots**: All snapshots with a name are excluded from every
   rule and never removed. This is the only one rule that can not be overruled
   by other rules.
@@ -47,9 +48,10 @@ Here is a brief overview of the rules available:
     *Keep named snapshots*.
 
 ## Rules in details
-### Keep most recent snapshot
+### Keep the most recent snapshot
 The most recently created snapshot, in other words the freshest one, will be
-retained and not deleted by any of the configured rules.
+retained and not deleted by any of the configured rules. Despite it is present
+in the graphical frontend, that behavior cannot be changed.
 
 ### Keep named snapshots
 Beside the timestamp regularly used to identify snapshots, it is possible to
@@ -130,6 +132,8 @@ _Example_:
 
 - Calculation is based on ???
 - Current year is ???? considered.
+- Despite it is present in the graphical frontend, that behavior cannot be
+  changed, if _Retention Policy_ is enabled.
 
 _Example_:
 
