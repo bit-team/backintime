@@ -32,7 +32,6 @@ import tools
 tools.initiate_translation(None)
 import qttools
 import backintime
-import bitbase
 import tools
 import logger
 import snapshots
