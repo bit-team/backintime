@@ -20,7 +20,6 @@ import config
 
 
 class RemoveOldSnapshotsDate(unittest.TestCase):
-    # pylint: disable=protected-access
     def test_invalid_unit(self):
         """1st January Year 1 on errors"""
         unit = 99999

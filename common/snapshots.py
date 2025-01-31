@@ -1862,10 +1862,11 @@ class Snapshots:
         # All existing snapshots, ordered from old to new.
         # e.g. 2025-01-11 to 2025-01-19
         snapshots = listSnapshots(self.config, reverse=False)
-        logger.debug(f'Backups from {snapshots[0]} to {snapshots[-1]}.')
 
         if not snapshots:
             return
+
+        logger.debug(f'Backups from {snapshots[0]} to {snapshots[-1]}.', self)
 
         last_snapshot = snapshots[-1]
 
@@ -1877,8 +1878,7 @@ class Snapshots:
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
             oldBackupId = oldSID.withoutTag
 
-            logger.debug("Remove snapshots older than: {}"
-                         .format(oldBackupId.withoutTag), self)
+            logger.debug(f'Remove snapshots older than: {oldBackupId}', self)
 
             while True:
                 # Keep min one backup

@@ -28,7 +28,6 @@ from typing import Union
 from datetime import date, time, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from test import generic
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
@@ -447,7 +446,7 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
 
         keep = set()
         d = now
-        for i in range(0, n_days):
+        for _ in range(0, n_days):
             keep |= self.sn.smartRemoveKeepFirst(
                 snapshots,
                 d,
@@ -670,7 +669,7 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
         d2 = self.sn.incMonth(d1)
 
         # each months
-        for i in range(0, n_months):
+        for _ in range(0, n_months):
             keep |= self.sn.smartRemoveKeepFirst(
                 snapshots, d1, d2, keep_healthy=keep_healthy)
             d2 = d1
@@ -899,4 +898,3 @@ class IncDecMonths(pyfakefs_ut.TestCase):
     def test_dec_leap_months(self):
         sut = self.sn.decMonth(date(2020, 2, 29))
         self.assertEqual(sut, date(2020, 1, 1))
-
