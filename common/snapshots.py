@@ -1572,8 +1572,6 @@ class Snapshots:
 
         TODO: It should compare datest not SIDs because of their tag.
         """
-        # DEBUG
-        print(f'smartRemoveKeepFirst() :: >= {min_date} and < {max_date}')
         logger.debug('Keep first >= {} and < {}'.format(
             min_date.strftime('%c'), max_date.strftime('%c')), self)
 
