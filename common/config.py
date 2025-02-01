@@ -80,6 +80,13 @@ class Config(configfile.ConfigFileWithProfiles):
     MONTH = 40
     YEAR = 80
 
+    HOURLY_BACKUPS = (HOUR,
+                      _2_HOURS,
+                      _4_HOURS,
+                      _6_HOURS,
+                      _12_HOURS,
+                      CUSTOM_HOUR)
+
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
@@ -123,6 +130,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
+    DEFAULT_OFFSET = 0
 
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
@@ -849,6 +857,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def setScheduleMode(self, value, profile_id = None):
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
+    def schedule_offset(self, profile_id = None):
+        return self.profileIntValue('schedule.offset', Config.DEFAULT_OFFSET, profile_id)
+
+    def set_schedule_offset(self, value, profile_id = None):
+        self.setProfileIntValue('schedule.offset', value, profile_id)
+
     def scheduleDebug(self, profile_id = None):
         #?Enable debug output to system log for schedule mode.
         return self.profileBoolValue('schedule.debug', False, profile_id)
@@ -1511,6 +1525,7 @@ class Config(configfile.ConfigFileWithProfiles):
         minute = self.scheduleTime(profile_id) % 100
         day = self.scheduleDay(profile_id)
         weekday = self.scheduleWeekday(profile_id)
+        offset = str(self.schedule_offset(profile_id))
 
         if self.AT_EVERY_BOOT == backup_mode:
             cron_line = '@reboot {cmd}'
@@ -1521,17 +1536,17 @@ class Config(configfile.ConfigFileWithProfiles):
         elif self._30_MIN == backup_mode:
             cron_line = '*/30 * * * * {cmd}'
         elif self._1_HOUR == backup_mode:
-            cron_line = '0 * * * * {cmd}'
+            cron_line = offset + ' * * * * {cmd}'
         elif self._2_HOURS == backup_mode:
-            cron_line = '0 */2 * * * {cmd}'
+            cron_line = offset + ' */2 * * * {cmd}'
         elif self._4_HOURS == backup_mode:
-            cron_line = '0 */4 * * * {cmd}'
+            cron_line = offset + ' */4 * * * {cmd}'
         elif self._6_HOURS == backup_mode:
-            cron_line = '0 */6 * * * {cmd}'
+            cron_line = offset + ' */6 * * * {cmd}'
         elif self._12_HOURS == backup_mode:
-            cron_line = '0 */12 * * * {cmd}'
+            cron_line = offset + ' */12 * * * {cmd}'
         elif self.CUSTOM_HOUR == backup_mode:
-            cron_line = '0 ' + self.customBackupTime(profile_id) + ' * * * {cmd}'
+            cron_line = offset + ' ' + self.customBackupTime(profile_id) + ' * * * {cmd}'
         elif self.DAY == backup_mode:
             cron_line = '%s %s * * * {cmd}' % (minute, hour)
         elif self.REPEATEDLY == backup_mode:
