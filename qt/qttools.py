@@ -64,8 +64,8 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
-import bitbase
-import version
+import bitbase  # noqa: E402
+import version  # noqa: E402
 
 
 # |---------------|
@@ -409,7 +409,8 @@ def createQApplication(app_name='Back In Time'):
     # title
     if logger.DEBUG:
         qapp.setApplicationName(
-            f"{qapp.applicationName()} [{qt_platform_name}]")
+            f'{qapp.applicationName()} '
+            f'[QT QPA platform: "{qt_platform_name}"]')
 
     return qapp
 

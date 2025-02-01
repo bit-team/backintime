@@ -128,7 +128,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         """Returns the state file path."""
         xdg_state = os.environ.get('XDG_STATE_HOME',
                                    Path.home() / '.local' / 'state')
-        fp = xdg_state / 'backintime.json'
+        fp = xdg_state / 'backintime-qt.json'
 
         logger.debug(f'State file path: {fp}')
 
