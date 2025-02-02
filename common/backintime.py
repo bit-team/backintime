@@ -1223,13 +1223,16 @@ def profileStatus(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
+
     if args.profile:
         if not cfg.setCurrentProfileByName(args.profile):
             _umount(cfg)
             logger.error(args.profile)
+
     elif not cfg.setCurrentProfile(args.profile_id):
         _umount(cfg)
         logger.error(args.profile_id)
+
     id = cfg.currentProfile()
     info = lastSnapshotDict(cfg)
     info[cfg.profileName(id)].update({
@@ -1239,8 +1242,10 @@ def profileStatus(args):
                 _('Mount point'): cfg.get_snapshots_mountpoint(),
                 _('Log file'): cfg.takeSnapshotLogFile(),
             }})
+
     print(json.dumps(info, indent=2), file=force_stdout)
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 def printDictHumanReadable(dictionary, file=None, indent=0):
