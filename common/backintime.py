@@ -1285,6 +1285,7 @@ def snapshotStatus(args):
     else:
         printDictHumanReadable(status, force_stdout)
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 def lastSnapshot(args):
