@@ -943,26 +943,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def removeOldSnapshotsEnabled(self, profile_id = None):
         return self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id)
 
-    def removeOldSnapshotsDate(self, profile_id = None):
+    def removeOldSnapshotsDate(self, profile_id=None):
         enabled, value, unit = self.removeOldSnapshots(profile_id)
         if not enabled:
             return datetime.date(1, 1, 1)
 
-        if unit == self.DAY:
-            date = datetime.date.today()
-            date = date - datetime.timedelta(days = value)
-            return date
-
-        if unit == self.WEEK:
-            date = datetime.date.today()
-            date = date - datetime.timedelta(days = date.weekday() + 7 * value)
-            return date
-
-        if unit == self.YEAR:
-            date = datetime.date.today()
-            return date.replace(day = 1, year = date.year - value)
-
-        return datetime.date(1, 1, 1)
+        return _remove_old_snapshots_date(value, unit)
 
     def setRemoveOldSnapshots(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.remove_old_snapshots.enabled', enabled, profile_id)
@@ -1659,3 +1645,27 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
+
+
+def _remove_old_snapshots_date(value, unit):
+    """Dev note (buhtz, 2025-01): The function exist to decople that code from
+    Config class and make it testable to investigate its behavior.
+
+    See issue #1943 for further reading.
+    """
+    if unit == Config.DAY:
+        date = datetime.date.today()
+        date = date - datetime.timedelta(days=value)
+        return date
+
+    if unit == Config.WEEK:
+        date = datetime.date.today()
+        # Always beginning (Monday) of the week
+        date = date - datetime.timedelta(days=date.weekday() + 7 * value)
+        return date
+
+    if unit == Config.YEAR:
+        date = datetime.date.today()
+        return date.replace(day=1, year=date.year - value)
+
+    return datetime.date(1, 1, 1)

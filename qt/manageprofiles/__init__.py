@@ -11,6 +11,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
+import re
 import copy
 from PyQt6.QtGui import QPalette, QBrush, QIcon
 from PyQt6.QtWidgets import (QDialog,
@@ -37,7 +38,7 @@ import qttools
 import messagebox
 from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
-from manageprofiles.tab_auto_remove import AutoRemoveTab
+from manageprofiles.tab_remove_retention import RemoveRetentionTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from editusercallback import EditUserCallback
@@ -246,9 +247,20 @@ class SettingsDialog(QDialog):
         self.cbExcludeBySize.stateChanged.connect(enabled)
 
         # TAB: Auto-remove
-        self._tab_auto_remove = AutoRemoveTab(self)
-        _add_tab(self._tab_auto_remove, _('&Auto-remove'))
-
+        self._tab_retention = RemoveRetentionTab(self)
+        _add_tab(self._tab_retention,
+                 # Mask the "&" character, so Qt does not interpret it as a
+                 # shortcut indicator. Doing this via regex to prevent
+                 # confusing our translators. hide this from
+                 # our translators.
+                 re.sub(
+                     # "&" followed by whitespace
+                     r'&(?=\s)',
+                     # replace with this
+                     '&&',
+                     # act on that string
+                     _('&Remove & Retention')
+                 ))
         # TAB: Options
         self._tab_options = OptionsTab(self)
         _add_tab(self._tab_options, _('&Options'))
@@ -415,7 +427,7 @@ class SettingsDialog(QDialog):
 
         self._update_exclude_recommend_label()
 
-        self._tab_auto_remove.load_values()
+        self._tab_retention.load_values()
         self._tab_options.load_values()
         self._tab_expert_options.load_values()
 
@@ -423,7 +435,7 @@ class SettingsDialog(QDialog):
         # These tabs need to be stored before the Generals tab, because the
         # latter is doing some premount checking and need to know this settings
         # first.
-        self._tab_auto_remove.store_values()
+        self._tab_retention.store_values()
         self._tab_options.store_values()
         self._tab_expert_options.store_values()
 
@@ -701,7 +713,7 @@ class SettingsDialog(QDialog):
 
         self.updateExcludeItems()
 
-        self._tab_auto_remove.update_items_state(enabled)
+        self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 
     def updateExcludeItems(self):

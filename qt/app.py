@@ -32,7 +32,6 @@ import tools
 tools.initiate_translation(None)
 import qttools
 import backintime
-import bitbase
 import tools
 import logger
 import snapshots
@@ -789,7 +788,7 @@ class MainWindow(QMainWindow):
         toolbar.customContextMenuRequested.connect(
             lambda point: self._context_menu_button_style(point, toolbar))
 
-        # Resore button styling for main toolbar
+        # Restore button styling for main toolbar
         toolbar.setToolButtonStyle(
             Qt.ToolButtonStyle(StateData().toolbar_button_style))
 
@@ -1417,10 +1416,7 @@ class MainWindow(QMainWindow):
             dlg.exec()
 
     def btn_help_user_manual(self):
-        if bitbase.USER_MANUAL_LOCAL_PATH.exists():
-            self.openUrl(bitbase.USER_MANUAL_LOCAL_PATH.as_uri())
-        else:
-            self.openUrl(bitbase.USER_MANUAL_ONLINE_URL)
+        qttools.open_user_manual()
 
     def btn_help_man_backintime(self):
         self.openManPage('backintime')
