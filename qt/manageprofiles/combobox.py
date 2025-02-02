@@ -6,6 +6,7 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with an improved combo box widget."""
+from typing import Any
 from PyQt6.QtWidgets import QComboBox, QWidget
 
 
@@ -45,11 +46,11 @@ class BitComboBox(QComboBox):
             self.addItem(entry, userData=data)
 
     @property
-    def current_data(self):
+    def current_data(self) -> Any:
         """Data linked to the current selected entry."""
         return self.itemData(self.currentIndex())
 
-    def select_by_data(self, data):
+    def select_by_data(self, data: Any):
         """Select an entry in the combo box by its underlying data."""
         for idx in range(self.count()):
             if self.itemData(idx) == data:

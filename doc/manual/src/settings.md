@@ -209,7 +209,8 @@ schedules. You can use `crontab -l` to view them or `crontab -e` to edit.
 ![Settings - Exclude](_images/light/settings_exclude.png#only-light)
 ![Settings - Exclude](_images/dark/settings_exclude.png#only-dark)
 
-## Auto-removal
+## Remove & Retention
+Also known as _Auto-remove_ In previous versions of _Back In Time_.
 
 ![Settings - Auto Remove](_images/light/settings_autoremove.png#only-light)
 ![Settings - Auto Remove](_images/dark/settings_autoremove.png#only-dark)

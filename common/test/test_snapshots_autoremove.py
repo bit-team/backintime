@@ -9,6 +9,17 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Tests related to Remove & Retention, formally known as Auto- and
+Smart-remove.
+
+About the current state of this test module:
+
+    Most of the tests in this module are pseudo-tests. The do not test
+    productive code but surrogates (e.g. method name `_org()` in each class).
+    Because the productive code is in an untestable state and needs refactoring
+    or totally rewrite. This is on the projects todo list. See meta issue
+    #1945.
+"""
 import os
 import sys
 import inspect
@@ -17,7 +28,6 @@ from typing import Union
 from datetime import date, time, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from test import generic
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
@@ -68,7 +78,7 @@ def create_SIDs(start_date: Union[date, datetime, list[date]],
     for d in the_dates:
         sids.append(snapshots.SID(dt2sidstr(d), cfg))
 
-    return list(reversed(sids))
+    return sorted(sids, reverse=True)
 
 
 class KeepFirst(pyfakefs_ut.TestCase):
@@ -145,6 +155,29 @@ class KeepFirst(pyfakefs_ut.TestCase):
 
         self.assertTrue(str(sut).startswith('20220324-074231-'))
 
+    def test_min_included_max_not(self):
+        """Minimum date is included in range, but max date not"""
+        sids = create_SIDs(
+            [
+                datetime(2022, 3, 5),
+                datetime(2022, 3, 3),
+            ],
+            None,
+            self.cfg)
+
+        sut = self.sn.smartRemoveKeepFirst(
+            snapshots=sids,
+            min_date=date(2022, 3, 3),
+            max_date=date(2022, 3, 5),
+        )
+
+        self.assertEqual(len(sut), 1)
+
+        sut = sut.pop()
+
+        # the min_date is included
+        self.assertEqual(sut.date.date(), date(2022, 3, 3))
+
     def test_no_date_ordering(self):
         """Hit first in the list and ignoring its date ordering.
 
@@ -171,6 +204,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
         self.assertEqual(str(sut.pop()), '20160422-030324-123')
 
     def test_keep_first_range_outside(self):
+        """No SID inside the specified range"""
         sids = []
         # April, 2016...
         for timestamp_string in ['20160424-215134-123',  # …24th
@@ -229,9 +263,10 @@ class KeepFirst(pyfakefs_ut.TestCase):
         self.assertEqual(str(sut.pop()), '20160422-020324-123')
 
 
-class KeepAll(pyfakefs_ut.TestCase):
+class KeepAllForLast(pyfakefs_ut.TestCase):
     """Test Snapshot.removeKeepAll().
 
+    Keep all snapshots for the last N days.
     PyFakeFS is used here because of Config file dependency."""
 
     def setUp(self):
@@ -279,9 +314,52 @@ class KeepAll(pyfakefs_ut.TestCase):
 
         return config_fp
 
+    def _org(self, snapshots, now, days_to_keep):
+        """Simulated production code. Refactoring is on the todo list."""
+
+        keep_all = days_to_keep
+        keep = self.sn.smartRemoveKeepAll(
+            snapshots,
+            now - timedelta(days=keep_all-1),
+            now + timedelta(days=1))
+
+        return sorted(keep, reverse=True)
+
+    def test_border(self):
+        """The dates used in the user manual example.
+
+        Here the current (just running incomplete) day is contained in the
+        calculation.
+        """
+        sids = create_SIDs([
+            datetime(2025, 4, 17, 22, 0),
+            datetime(2025, 4, 17, 18, 1),
+            datetime(2025, 4, 17, 12, 0),
+            datetime(2025, 4, 17, 4, 0),
+            datetime(2025, 4, 16, 8, 30),
+            datetime(2025, 4, 15, 16, 0),
+            datetime(2025, 4, 15, 0, 0),
+            datetime(2025, 4, 14, 23, 59),
+            datetime(2025, 4, 14, 9, 0),
+            ],
+            None,
+            self.cfg)
+
+        sut = self._org(
+            snapshots=sids,
+            now=datetime(2025, 4, 17, 22, 00).date(),
+            days_to_keep=2)
+
+        self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
+        self.assertEqual(sut[1].date, datetime(2025, 4, 17, 18, 1))
+        self.assertEqual(sut[2].date, datetime(2025, 4, 17, 12, 0))
+        self.assertEqual(sut[3].date, datetime(2025, 4, 17, 4, 0))
+        self.assertEqual(sut[4].date, datetime(2025, 4, 16, 8, 30))
+
     def test_simple(self):
         """Simple"""
         # 10th to 25th
+
         sids = create_SIDs(datetime(2024, 2, 10), 15, self.cfg)
 
         # keep...
@@ -307,424 +385,442 @@ class KeepAll(pyfakefs_ut.TestCase):
         self.assertEqual(sut[7].date.date(), date(2024, 2, 19))
 
 
-# class OnePerWeek(pyfakefs_ut.TestCase):
-#     """Covering the smart remove setting 'Keep one snapshot per week for the
-#     last N weeks'.
-
-#     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
-#     in isolation. So for a first shot we just duplicate that code in this
-#     tests (see self._org()).
-#     """
-
-#     def setUp(self):
-#         """Setup a fake filesystem."""
-#         self.setUpPyfakefs(allow_root_user=False)
-
-#         # cleanup() happens automatically
-#         self._temp_dir = TemporaryDirectory(prefix='bit.')
-#         # Workaround: tempfile and pathlib not compatible yet
-#         self.temp_path = Path(self._temp_dir.name)
-
-#         self._config_fp = self._create_config_file(parent_path=self.temp_path)
-#         self.cfg = config.Config(str(self._config_fp))
-
-#         self.sn = snapshots.Snapshots(self.cfg)
-
-#     def _create_config_file(self, parent_path):
-#         """Minimal config file"""
-#         # pylint: disable-next=R0801
-#         cfg_content = inspect.cleandoc('''
-#             config.version=6
-#             profile1.snapshots.include.1.type=0
-#             profile1.snapshots.include.1.value=rootpath/source
-#             profile1.snapshots.include.size=1
-#             profile1.snapshots.no_on_battery=false
-#             profile1.snapshots.notify.enabled=true
-#             profile1.snapshots.path=rootpath/destination
-#             profile1.snapshots.path.host=test-host
-#             profile1.snapshots.path.profile=1
-#             profile1.snapshots.path.user=test-user
-#             profile1.snapshots.preserve_acl=false
-#             profile1.snapshots.preserve_xattr=false
-#             profile1.snapshots.remove_old_snapshots.enabled=true
-#             profile1.snapshots.remove_old_snapshots.unit=80
-#             profile1.snapshots.remove_old_snapshots.value=10
-#             profile1.snapshots.rsync_options.enabled=false
-#             profile1.snapshots.rsync_options.value=
-#             profiles.version=1
-#         ''')
-
-#         # config file location
-#         config_fp = parent_path / 'config_path' / 'config'
-#         config_fp.parent.mkdir()
-#         config_fp.write_text(cfg_content, 'utf-8')
-
-#         return config_fp
-
-#     def _org(self, now, n_weeks, snapshots, keep_healthy=True):
-#         """Keep one per week for the last n_weeks weeks.
-
-#         Copied and slightly refactored from inside
-#         'Snapshots.smartRemoveList()'.
-#         """
-#         print(f'\n_org() :: now={dt2str(now)} {n_weeks=}')
-#         keep = set()
-
-#         # Sunday ??? (Sonntag) of previous week
-#         idx_date = now - timedelta(days=now.weekday() + 1)
-
-#         print(f'  for-loop... idx_date={dt2str(idx_date)}')
-#         for _ in range(0, n_weeks):
-
-#             min_date = idx_date
-#             max_date = idx_date + timedelta(days=7)
-
-#             print(f'    from {dt2str(min_date)} to/before {dt2str(max_date)}')
-#             keep |= self.sn.smartRemoveKeepFirst(
-#                 snapshots,
-#                 min_date,
-#                 max_date,
-#                 keep_healthy=keep_healthy)
-#             print(f'       {keep=}')
-
-#             idx_date -= timedelta(days=7)
-#             print(f'    new idx_date={dt2str(idx_date)}')
-#         print('  ...end loop')
-
-#         return keep
-
-#     def test_foobar(self):
-#         # start = date(2022, 1, 15)
-#         now = date(2024, 11, 26)
-#         # sids = create_SIDs(start, 9*7+3, self.cfg)
-#         sids = create_SIDs(
-#             [
-#                 date(2024, 11, 2),
-#                 date(2024, 11, 9),
-#                 date(2024, 11, 16),
-#                 date(2024, 11, 23),
-#                 # date(2024, 11, 25)
-#             ],
-#             None,
-#             self.cfg
-#         )
-
-#         weeks = 3
-#         sut = self._org(
-#             # "Today" is Thursday 28th March
-#             now=now,
-#             # Keep the last week
-#             n_weeks=weeks,
-#             snapshots=sids)
-
-#         print(f'\noldest snapshot: {sid2str(sids[0])}')
-#         for s in sorted(sut):
-#             print(f'keep: {sid2str(s)}')
-#         print(f'from/now: {dt2str(now)}  {weeks=}')
-#         print(f'latest snapshot: {sid2str(sids[-1])}')
-
-#     def test_sunday_last_week(self):
-#         """Keep sunday of the last week."""
-#         # 9 backups: 18th (Monday) -  26th (Thursday) March 2024
-#         sids = create_SIDs(date(2024, 3, 18), 9, self.cfg)
-
-#         sut = self._org(
-#             # "Today" is Thursday 28th March
-#             now=date(2024, 3, 28),
-#             # Keep the last week
-#             n_weeks=1,
-#             snapshots=sids)
-
-#         # only one kept
-#         self.assertTrue(len(sut), 1)
-#         # Sunday March 24th
-#         self.assertTrue(str(sut.pop()).startswith('20240324-'))
-
-#     def test_three_weeks(self):
-#         """Keep sunday of the last 3 weeks and throw away the rest."""
-
-#         # 6 Weeks of backups (2024-02-18 - 2024-03-30)
-#         sids = create_SIDs(datetime(2024, 2, 18), 7*6, self.cfg)
-#         print(f'{str(sids[0])=} {str(sids[-1])=}')
-
-#         sut = self._org(
-#             # "Today" is Thursday 28th March
-#             now=date(2024, 3, 28),
-#             # Keep the last week
-#             n_weeks=3,
-#             snapshots=sids)
-
-#         # only one kept
-#         self.assertTrue(len(sut), 3)
-#         sut = sorted(sut)
-#         for s in sut:
-#             print(s)
-
-
-# class ForLastNDays(pyfakefs_ut.TestCase):
-#     """Covering the smart remove setting 'Keep one per day for N days.'.
-
-#     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
-#     in isolation. So for a first shot we just duplicate that code in this
-#     tests (see self._org()).
-#     """
-
-#     def setUp(self):
-#         """Setup a fake filesystem."""
-#         self.setUpPyfakefs(allow_root_user=False)
-
-#         # cleanup() happens automatically
-#         self._temp_dir = TemporaryDirectory(prefix='bit.')
-#         # Workaround: tempfile and pathlib not compatible yet
-#         self.temp_path = Path(self._temp_dir.name)
-
-#         self._config_fp = self._create_config_file(parent_path=self.temp_path)
-#         self.cfg = config.Config(str(self._config_fp))
-
-#         self.sn = snapshots.Snapshots(self.cfg)
-
-#     def _create_config_file(self, parent_path):
-#         """Minimal config file"""
-#         # pylint: disable-next=R0801
-#         cfg_content = inspect.cleandoc('''
-#             config.version=6
-#             profile1.snapshots.include.1.type=0
-#             profile1.snapshots.include.1.value=rootpath/source
-#             profile1.snapshots.include.size=1
-#             profile1.snapshots.no_on_battery=false
-#             profile1.snapshots.notify.enabled=true
-#             profile1.snapshots.path=rootpath/destination
-#             profile1.snapshots.path.host=test-host
-#             profile1.snapshots.path.profile=1
-#             profile1.snapshots.path.user=test-user
-#             profile1.snapshots.preserve_acl=false
-#             profile1.snapshots.preserve_xattr=false
-#             profile1.snapshots.remove_old_snapshots.enabled=true
-#             profile1.snapshots.remove_old_snapshots.unit=80
-#             profile1.snapshots.remove_old_snapshots.value=10
-#             profile1.snapshots.rsync_options.enabled=false
-#             profile1.snapshots.rsync_options.value=
-#             profiles.version=1
-#         ''')
-
-#         # config file location
-#         config_fp = parent_path / 'config_path' / 'config'
-#         config_fp.parent.mkdir()
-#         config_fp.write_text(cfg_content, 'utf-8')
-
-#         return config_fp
-
-#     def _org(self, now, n_days, snapshots):
-#         """Copied and slightly refactored from inside
-#         'Snapshots.smartRemoveList()'.
-#         """
-#         print(f'\n_org() :: now={dt2str(now)} {n_days=}')
-
-#         keep = self.sn.smartRemoveKeepAll(
-#             snapshots,
-#             now - timedelta(days=n_days-1),
-#             now + timedelta(days=1))
-
-#         return keep
-
-#     def test_foobar(self):
-#         sids = create_SIDs(datetime(2024, 2, 18), 10, self.cfg)
-#         sut = self._org(now=date(2024, 2, 27),
-#                         n_days=3,
-#                         snapshots=sids)
-
-#         self.assertEqual(len(sut), 3)
-
-#         sut = sorted(sut)
-
-#         self.assertEqual(sut[0].date.date(), date(2024, 2, 25))
-#         self.assertEqual(sut[1].date.date(), date(2024, 2, 26))
-#         self.assertEqual(sut[2].date.date(), date(2024, 2, 27))
-
-
-# class OnePerMonth(pyfakefs_ut.TestCase):
-#     """Covering the smart remove setting 'Keep one snapshot per week for the
-#     last N weeks'.
-
-#     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
-#     in isolation. So for a first shot we just duplicate that code in this
-#     tests (see self._org()).
-#     """
-
-#     def setUp(self):
-#         """Setup a fake filesystem."""
-#         self.setUpPyfakefs(allow_root_user=False)
-
-#         # cleanup() happens automatically
-#         self._temp_dir = TemporaryDirectory(prefix='bit.')
-#         # Workaround: tempfile and pathlib not compatible yet
-#         self.temp_path = Path(self._temp_dir.name)
-
-#         self._config_fp = self._create_config_file(parent_path=self.temp_path)
-#         self.cfg = config.Config(str(self._config_fp))
-
-#         self.sn = snapshots.Snapshots(self.cfg)
-
-#     def _create_config_file(self, parent_path):
-#         """Minimal config file"""
-#         # pylint: disable-next=R0801
-#         cfg_content = inspect.cleandoc('''
-#             config.version=6
-#             profile1.snapshots.include.1.type=0
-#             profile1.snapshots.include.1.value=rootpath/source
-#             profile1.snapshots.include.size=1
-#             profile1.snapshots.no_on_battery=false
-#             profile1.snapshots.notify.enabled=true
-#             profile1.snapshots.path=rootpath/destination
-#             profile1.snapshots.path.host=test-host
-#             profile1.snapshots.path.profile=1
-#             profile1.snapshots.path.user=test-user
-#             profile1.snapshots.preserve_acl=false
-#             profile1.snapshots.preserve_xattr=false
-#             profile1.snapshots.remove_old_snapshots.enabled=true
-#             profile1.snapshots.remove_old_snapshots.unit=80
-#             profile1.snapshots.remove_old_snapshots.value=10
-#             profile1.snapshots.rsync_options.enabled=false
-#             profile1.snapshots.rsync_options.value=
-#             profiles.version=1
-#         ''')
-
-#         # config file location
-#         config_fp = parent_path / 'config_path' / 'config'
-#         config_fp.parent.mkdir()
-#         config_fp.write_text(cfg_content, 'utf-8')
-
-#         return config_fp
-
-#     def _org(self, now, n_months, snapshots, keep_healthy=True):
-#         """Keep one per months for the last n_months weeks.
-
-#         Copied and slightly refactored from inside
-#         'Snapshots.smartRemoveList()'.
-#         """
-#         print(f'\n_org() :: now={dt2str(now)} {n_months=}')
-#         keep = set()
-
-#         d1 = date(now.year, now.month, 1)
-#         d2 = self.sn.incMonth(d1)
-
-#         # each months
-#         for i in range(0, n_months):
-#             print(f'{i=} {d1=} {d2}')
-#             keep |= self.sn.smartRemoveKeepFirst(
-#                 snapshots, d1, d2, keep_healthy=keep_healthy)
-#             d2 = d1
-#             d1 = self.sn.decMonth(d1)
-
-#         return keep
-
-#     def test_foobarm(self):
-#         now = date(2024, 12, 16)
-#         # sids = create_SIDs(start, 9*7+3, self.cfg)
-#         sids = create_SIDs(date(2023, 10, 26), 500, self.cfg)
-
-#         months = 3
-#         sut = self._org(
-#             now=now,
-#             # Keep the last week
-#             n_months=months,
-#             snapshots=sids)
-
-#         print(f'\noldest snapshot: {sid2str(sids[0])}')
-#         for s in sorted(sut):
-#             print(f'keep: {sid2str(s)}')
-#         print(f'from/now: {dt2str(now)}  {months=}')
-#         print(f'latest snapshot: {sid2str(sids[-1])}')
-
-
-# class OnePerYear(pyfakefs_ut.TestCase):
-#     """Covering the smart remove setting 'Keep one snapshot per year for all
-#     years.'
-
-#     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
-#     in isolation. So for a first shot we just duplicate that code in this
-#     tests (see self._org()).
-#     """
-
-#     def setUp(self):
-#         """Setup a fake filesystem."""
-#         self.setUpPyfakefs(allow_root_user=False)
-
-#         # cleanup() happens automatically
-#         self._temp_dir = TemporaryDirectory(prefix='bit.')
-#         # Workaround: tempfile and pathlib not compatible yet
-#         self.temp_path = Path(self._temp_dir.name)
-
-#         self._config_fp = self._create_config_file(parent_path=self.temp_path)
-#         self.cfg = config.Config(str(self._config_fp))
-
-#         self.sn = snapshots.Snapshots(self.cfg)
-
-#     def _create_config_file(self, parent_path):
-#         """Minimal config file"""
-#         # pylint: disable-next=R0801
-#         cfg_content = inspect.cleandoc('''
-#             config.version=6
-#             profile1.snapshots.include.1.type=0
-#             profile1.snapshots.include.1.value=rootpath/source
-#             profile1.snapshots.include.size=1
-#             profile1.snapshots.no_on_battery=false
-#             profile1.snapshots.notify.enabled=true
-#             profile1.snapshots.path=rootpath/destination
-#             profile1.snapshots.path.host=test-host
-#             profile1.snapshots.path.profile=1
-#             profile1.snapshots.path.user=test-user
-#             profile1.snapshots.preserve_acl=false
-#             profile1.snapshots.preserve_xattr=false
-#             profile1.snapshots.remove_old_snapshots.enabled=true
-#             profile1.snapshots.remove_old_snapshots.unit=80
-#             profile1.snapshots.remove_old_snapshots.value=10
-#             profile1.snapshots.rsync_options.enabled=false
-#             profile1.snapshots.rsync_options.value=
-#             profiles.version=1
-#         ''')
-
-#         # config file location
-#         config_fp = parent_path / 'config_path' / 'config'
-#         config_fp.parent.mkdir()
-#         config_fp.write_text(cfg_content, 'utf-8')
-
-#         return config_fp
-
-#     def _org(self, now, snapshots, keep_healthy=True):
-#         """Keep one per year
-
-#         Copied and slightly refactored from inside
-#         'Snapshots.smartRemoveList()'.
-#         """
-#         first_year = int(snapshots[-1].sid[:4])
-
-#         print(f'\n_org() :: now={dt2str(now)} {first_year=}')
-#         keep = set()
-
-#         for i in range(first_year, now.year+1):
-#             keep |= self.sn.smartRemoveKeepFirst(
-#                 snapshots,
-#                 date(i, 1, 1),
-#                 date(i+1, 1, 1),
-#                 keep_healthy=keep_healthy)
-
-#         return keep
-
-#     def test_foobary(self):
-#         now = date(2024, 12, 16)
-#         # sids = create_SIDs(start, 9*7+3, self.cfg)
-#         sids = create_SIDs(date(2019, 10, 26), 365*6, self.cfg)
-
-#         sut = self._org(
-#             now=now,
-#             snapshots=sids)
-
-#         print(f'\noldest snapshot: {sid2str(sids[0])}')
-#         for s in sorted(sut):
-#             print(f'keep: {sid2str(s)}')
-#         print(f'from/now: {dt2str(now)}')
-#         print(f'latest snapshot: {sid2str(sids[-1])}')
+class KeepOneForLastNDays(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep the last snapshot of each day
+    for the last N  days.'.
+
+    That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
+    in isolation. So for a first shot we just duplicate that code in this
+    tests (see self._org()).
+    """
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def _org(self, now, n_days, snapshots):
+        """Copied and slightly refactored from inside
+        'Snapshots.smartRemoveList()'.
+        """
+
+        keep = set()
+        d = now
+        for _ in range(0, n_days):
+            keep |= self.sn.smartRemoveKeepFirst(
+                snapshots,
+                d,
+                d + timedelta(days=1),
+                keep_healthy=True)
+            d -= timedelta(days=1)
+
+        return sorted(keep, reverse=True)
+
+    def test_doc_example(self):
+        sids = create_SIDs([
+            datetime(2025, 4, 17, 22, 0),
+            datetime(2025, 4, 17, 4, 0),
+            datetime(2025, 4, 16, 8, 30),
+            datetime(2025, 4, 15, 16, 0),
+            datetime(2025, 4, 15, 0, 0),
+            datetime(2025, 4, 14, 23, 59),
+            datetime(2025, 4, 13, 19, 0),
+            datetime(2025, 4, 13, 7, 0),
+            datetime(2025, 4, 12, 18, 45),
+            datetime(2025, 4, 12, 18, 5),
+            datetime(2025, 4, 11, 9, 0),
+            ],
+            None,
+            self.cfg)
+
+        sut = self._org(
+            now=date(2025, 4, 17),
+            n_days=5,
+            snapshots=sids)
+
+        self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
+        self.assertEqual(sut[1].date, datetime(2025, 4, 16, 8, 30))
+        self.assertEqual(sut[2].date, datetime(2025, 4, 15, 16, 0))
+        self.assertEqual(sut[3].date, datetime(2025, 4, 14, 23, 59))
+        self.assertEqual(sut[4].date, datetime(2025, 4, 13, 19, 0))
+
+
+class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep the last snapshot for each week for the
+    last N weeks'.
+
+    That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
+    in isolation. So for a first shot we just duplicate that code in this
+    tests (see self._org()).
+    """
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def _org(self, now, n_weeks, snapshots, keep_healthy=True):
+        """Keep one per week for the last n_weeks weeks.
+
+        Copied and slightly refactored from inside
+        'Snapshots.smartRemoveList()'.
+        """
+        keep = set()
+
+        # Sunday ??? (Sonntag) of previous week
+        idx_date = now - timedelta(days=now.weekday())
+
+        for _ in range(0, n_weeks):
+
+            min_date = idx_date
+            max_date = idx_date + timedelta(days=7)
+
+            keep |= self.sn.smartRemoveKeepFirst(
+                snapshots,
+                min_date,
+                max_date,
+                keep_healthy=keep_healthy)
+
+            idx_date -= timedelta(days=7)
+
+        return sorted(keep, reverse=True)
+
+    def test_doc_example(self):
+        """Example used in manual"""
+        sids = create_SIDs(
+            [
+                # 5 Weeks, each 3 days
+                datetime(2025, 4, 17, 22, 0),
+                datetime(2025, 4, 16, 4, 0),
+                datetime(2025, 4, 15, 14, 0),
+                datetime(2025, 4, 13, 22, 0),
+                datetime(2025, 4, 9, 4, 0),
+                datetime(2025, 4, 8, 14, 0),
+                datetime(2025, 4, 3, 22, 0),
+                datetime(2025, 4, 2, 4, 0),
+                datetime(2025, 4, 1, 14, 0),
+                datetime(2025, 3, 27, 22, 0),
+                datetime(2025, 3, 26, 4, 0),
+                datetime(2025, 3, 24, 14, 0),
+                datetime(2025, 3, 20, 22, 0),
+                datetime(2025, 3, 19, 4, 0),
+                datetime(2025, 3, 18, 14, 0)
+            ],
+            None,
+            self.cfg
+        )
+
+        sut = self._org(
+            now=date(2025, 4, 17),
+            n_weeks=4,
+            snapshots=sids)
+
+        self.assertEqual(sut[0].date, datetime(2025, 4, 17, 22, 0))
+        self.assertEqual(sut[1].date, datetime(2025, 4, 13, 22, 0))
+        self.assertEqual(sut[2].date, datetime(2025, 4, 3, 22, 0))
+        self.assertEqual(sut[3].date, datetime(2025, 3, 27, 22, 0))
+        self.assertEqual(len(sut), 4)
+
+
+class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep the last snapshot for each month
+    for the last N months'.
+
+    That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
+    in isolation. So for a first shot we just duplicate that code in this
+    tests (see self._org()).
+
+    """
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def _org(self, now, n_months, snapshots, keep_healthy=True):
+        """Keep one per months for the last n_months months.
+
+        Copied and slightly refactored from inside
+        'Snapshots.smartRemoveList()'.
+        """
+        keep = set()
+
+        d1 = date(now.year, now.month, 1)
+        d2 = self.sn.incMonth(d1)
+
+        # each months
+        for _ in range(0, n_months):
+            keep |= self.sn.smartRemoveKeepFirst(
+                snapshots, d1, d2, keep_healthy=keep_healthy)
+            d2 = d1
+            d1 = self.sn.decMonth(d1)
+
+        return sorted(keep, reverse=True)
+
+    def test_doc_example(self):
+        sids = create_SIDs(
+            [
+                # 10 months period
+                date(2025, 8, 18),
+                date(2025, 8, 6),
+                date(2025, 7, 31),
+                date(2025, 7, 1),
+                date(2025, 6, 30),
+                date(2025, 6, 1),
+                # gap of 2 months
+                date(2025, 3, 18),
+                date(2025, 2, 9),
+                date(2025, 1, 6),
+                date(2024, 12, 26),
+                date(2024, 11, 14),
+            ],
+            None,
+            self.cfg
+        )
+        now = sids[0].date.date() + timedelta(days=5)
+
+        months = 6
+        sut = self._org(
+            now=now,
+            # Keep the last week
+            n_months=months,
+            snapshots=sids)
+
+        expect = [
+            date(2025, 8, 18),
+            date(2025, 7, 31),
+            date(2025, 6, 30),
+            date(2025, 3, 18),
+        ]
+        self.assertEqual(len(sut), len(expect))
+        for idx, expect_date in enumerate(expect):
+            self.assertEqual(sut[idx].date.date(), expect_date)
+
+
+class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):
+    """Covering the smart remove setting 'Keep the last snapshot for each year
+    for all years.'
+
+    That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
+    in isolation. So for a first shot we just duplicate that code in this
+    tests (see self._org()).
+    """
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        # cleanup() happens automatically
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self.cfg = config.Config(str(self._config_fp))
+
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _create_config_file(self, parent_path):
+        """Minimal config file"""
+        # pylint: disable-next=R0801
+        cfg_content = inspect.cleandoc('''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+        ''')
+
+        # config file location
+        config_fp = parent_path / 'config_path' / 'config'
+        config_fp.parent.mkdir()
+        config_fp.write_text(cfg_content, 'utf-8')
+
+        return config_fp
+
+    def _org(self, now, snapshots, keep_healthy=True):
+        """Keep one per year
+
+        Copied and slightly refactored from inside
+        'Snapshots.smartRemoveList()'.
+        """
+        first_year = int(snapshots[-1].sid[:4])
+
+        keep = set()
+
+        for i in range(first_year, now.year+1):
+            keep |= self.sn.smartRemoveKeepFirst(
+                snapshots,
+                date(i, 1, 1),
+                date(i+1, 1, 1),
+                keep_healthy=keep_healthy)
+
+        return sorted(keep, reverse=True)
+
+    def test_doc_example(self):
+        now = date(2024, 12, 16)
+        sids = create_SIDs(
+            [
+                date(2024, 10, 26),
+                date(2024, 4, 13),
+                date(2023, 10, 26),
+                date(2023, 10, 8),
+                date(2023, 1, 1),
+                date(2022, 12, 31),
+                date(2022, 4, 13),
+                date(2020, 10, 26),
+                date(2020, 4, 13),
+            ],
+            None,
+            self.cfg
+        )
+
+        sut = self._org(
+            now=now,
+            snapshots=sids)
+
+        expect = [
+            date(2024, 10, 26),
+            date(2023, 10, 26),
+            date(2022, 12, 31),
+            date(2020, 10, 26),
+        ]
+        self.assertEqual(len(sut), len(expect))
+        for idx, expect_date in enumerate(expect):
+            self.assertTrue(sut[idx].date.date(), expect_date)
 
 
 class IncDecMonths(pyfakefs_ut.TestCase):
@@ -802,91 +898,3 @@ class IncDecMonths(pyfakefs_ut.TestCase):
     def test_dec_leap_months(self):
         sut = self.sn.decMonth(date(2020, 2, 29))
         self.assertEqual(sut, date(2020, 1, 1))
-
-
-class OldOrg_SmartRemove(generic.SnapshotsTestCase):
-    """This is the old/original test case using real filesystem and to much
-    dependencies."""
-
-    def test_keep_all(self):
-        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
-        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
-        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
-        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
-
-        keep = self.sn.smartRemoveKeepAll(sids,
-                                               date(2016, 4, 20),
-                                               date(2016, 4, 23))
-        self.assertSetEqual(keep, set((sid2, sid3, sid4, sid5)))
-
-        keep = self.sn.smartRemoveKeepAll(sids,
-                                               date(2016, 4, 11),
-                                               date(2016, 4, 18))
-        self.assertSetEqual(keep, set())
-
-    def test_smart_remove_list(self):
-        sid1  = snapshots.SID('20160424-215134-123', self.cfg)
-        sid2  = snapshots.SID('20160422-030324-123', self.cfg)
-        sid3  = snapshots.SID('20160422-020324-123', self.cfg)
-        sid4  = snapshots.SID('20160422-010324-123', self.cfg)
-        sid5  = snapshots.SID('20160421-033218-123', self.cfg)
-        sid6  = snapshots.SID('20160421-013218-123', self.cfg)
-        sid7  = snapshots.SID('20160420-013218-123', self.cfg)
-        sid8  = snapshots.SID('20160419-013218-123', self.cfg)
-        sid9  = snapshots.SID('20160419-003218-123', self.cfg)
-        sid10 = snapshots.SID('20160418-003218-123', self.cfg)
-        sid11 = snapshots.SID('20160417-033218-123', self.cfg)
-        sid12 = snapshots.SID('20160417-003218-123', self.cfg)
-        sid13 = snapshots.SID('20160416-134327-123', self.cfg)
-        sid14 = snapshots.SID('20160416-114327-123', self.cfg)
-        sid15 = snapshots.SID('20160415-134327-123', self.cfg)
-        sid16 = snapshots.SID('20160411-134327-123', self.cfg)
-        sid17 = snapshots.SID('20160410-134327-123', self.cfg)
-        sid18 = snapshots.SID('20160409-134327-123', self.cfg)
-        sid19 = snapshots.SID('20160407-134327-123', self.cfg)
-        sid20 = snapshots.SID('20160403-134327-123', self.cfg)
-        sid21 = snapshots.SID('20160402-134327-123', self.cfg)
-        sid22 = snapshots.SID('20160401-134327-123', self.cfg)
-        sid23 = snapshots.SID('20160331-134327-123', self.cfg)
-        sid24 = snapshots.SID('20160330-134327-123', self.cfg)
-        sid25 = snapshots.SID('20160323-133715-123', self.cfg)
-        sid26 = snapshots.SID('20160214-134327-123', self.cfg)
-        sid27 = snapshots.SID('20160205-134327-123', self.cfg)
-        sid28 = snapshots.SID('20160109-134327-123', self.cfg)
-        sid29 = snapshots.SID('20151224-134327-123', self.cfg)
-        sid30 = snapshots.SID('20150904-134327-123', self.cfg)
-        sid31 = snapshots.SID('20140904-134327-123', self.cfg)
-
-        sids = [       sid1,  sid2,  sid3,  sid4,  sid5,  sid6,  sid7,  sid8,  sid9,
-                sid10, sid11, sid12, sid13, sid14, sid15, sid16, sid17, sid18, sid19,
-                sid20, sid21, sid22, sid23, sid24, sid25, sid26, sid27, sid28, sid29,
-                sid30, sid31]
-        for sid in sids:
-            sid.makeDirs()
-        now = datetime(2016, 4, 24, 21, 51, 34)
-
-        del_snapshots = self.sn.smartRemoveList(now,
-                                                3, #keep_all
-                                                7, #keep_one_per_day
-                                                5, #keep_one_per_week
-                                                3  #keep_one_per_month
-                                                )
-        self.assertListEqual(del_snapshots, [sid6, sid9, sid12, sid13, sid14,
-                                             sid15, sid16, sid18, sid19, sid21,
-                                             sid22, sid24, sid27, sid28, sid30])
-
-        # test failed snapshots
-        for sid in (sid5, sid8, sid11, sid12, sid20, sid21, sid22):
-            sid.failed = True
-        del_snapshots = self.sn.smartRemoveList(now,
-                                                3, #keep_all
-                                                7, #keep_one_per_day
-                                                5, #keep_one_per_week
-                                                3  #keep_one_per_month
-                                                )
-        self.assertListEqual(del_snapshots, [sid5, sid8, sid11, sid12, sid14,
-                                             sid15, sid16, sid18, sid19, sid20, sid21,
-                                             sid22, sid24, sid27, sid28, sid30])
