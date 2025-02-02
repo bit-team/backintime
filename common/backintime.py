@@ -1274,6 +1274,7 @@ def snapshotStatus(args):
     cfg = getConfig(args)
     _mount(cfg)
     status = {}
+
     for profile in cfg.profiles():
         cfg.setCurrentProfile(profile)
         profile_dict = lastSnapshotDict(cfg)
