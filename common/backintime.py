@@ -1270,6 +1270,7 @@ def snapshotStatus(args):
     """
     if args.profile or args.profile_id:
         profileStatus(args)
+
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
