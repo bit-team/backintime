@@ -1283,6 +1283,7 @@ def snapshotStatus(args):
         if not args.quiet or \
             not profile_dict[cfg.profileName(profile)].get('Successful'):
             status.update(profile_dict)
+
     if not args.human_readable:
         print(json.dumps(status, indent=2), file=force_stdout)
     else:
