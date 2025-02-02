@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-09-24 06:13+0000\n"
+"POT-Creation-Date: 2025-02-02 13:47+0100\n"
+"PO-Revision-Date: 2024-12-21 17:20+0000\n"
 "Last-Translator: p-bo <p-bo@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
@@ -16,90 +16,82 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.8.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
-#: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:86
+#: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
+#: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:77
 msgid "Warning"
 msgstr "Varování"
 
-#: common/config.py:141 common/config.py:251
+#: common/config.py:149 common/config.py:259
 msgid "Main profile"
 msgstr "Hlavní profil"
 
-#: common/config.py:258
+#: common/config.py:266
 msgid "Local (EncFS encrypted)"
 msgstr "Místní (v šifrované podobě)"
 
-#: common/config.py:259
+#: common/config.py:267
 msgid "SSH (EncFS encrypted)"
 msgstr "Na stroji v síti (v šifrované podobě)"
 
-#: common/config.py:270
+#: common/config.py:278
 msgid "Local"
 msgstr "Místní"
 
-#: common/config.py:272
+#: common/config.py:280
 msgid "SSH"
 msgstr "Na stroji v síti"
 
-#: common/config.py:272 common/config.py:282
+#: common/config.py:280 common/config.py:290
 #: qt/manageprofiles/tab_general.py:632
 msgid "SSH private key"
 msgstr "Soukromá část SSH klíče"
 
-#: common/config.py:275
+#: common/config.py:283
 msgid "Local encrypted"
 msgstr "Místní (v šifrované podobě)"
 
-#: common/config.py:276 common/config.py:283
+#: common/config.py:284 common/config.py:291
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: common/config.py:281
+#: common/config.py:289
 msgid "SSH encrypted"
 msgstr "Na stroji v síti (v šifrované podobě)"
 
-#: common/config.py:288
+#: common/config.py:296
 msgid "Default"
 msgstr "Výchozí"
 
-#: common/config.py:319 common/config.py:331 common/config.py:349
-#: common/config.py:361
+#: common/config.py:327 common/config.py:339 common/config.py:357
+#: common/config.py:369
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}“"
 
-#: common/config.py:320
-#, fuzzy
+#: common/config.py:328
 msgid "Snapshots directory is not valid."
-msgstr "Složka zachycených stavů není platná!"
+msgstr "Složka zachycených stavů není platná."
 
-#: common/config.py:332
+#: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Je třeba vybrat alespoň jednu složku pro zálohu."
 
-#: common/config.py:350
-#, fuzzy
+#: common/config.py:358
 msgid "The directory cannot be included in the backup."
-msgstr ""
-"Podsložka, do které je zálohováno, nemůže být zároveň součástí toho, co se "
-"zálohuje."
+msgstr "Složka nemůže být součástí toho, co se zálohuje."
 
-#: common/config.py:363
-#, fuzzy
+#: common/config.py:371
 msgid "The sub-directories cannot be included in the backup."
-msgstr ""
-"Podsložka, do které je zálohováno, nemůže být zároveň součástí toho, co se "
-"zálohuje."
+msgstr "Podsložky nemohou být součástí toho, co se zálohuje."
 
-#: common/config.py:1483
+#: common/config.py:1462
 msgid "Failed to write new crontab."
 msgstr "Novou naplánovanou úlohu (crontab) se nepodařilo zapsat."
 
-#: common/config.py:1491
-#, fuzzy
+#: common/config.py:1470
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -112,7 +104,7 @@ msgstr ""
 "--now cron“ nebo se obraťte na kanály podpory vámi využívané linuxové "
 "distribuce."
 
-#: common/config.py:1571
+#: common/config.py:1551
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -121,45 +113,43 @@ msgstr ""
 "Nepodařilo se nainstalovat Udev pravidlo pro profil {profile_id}, protože "
 "systémová služba DBus „{dbus_interface}“ nebyla k dispozici"
 
-#: common/config.py:1586
-#, fuzzy, python-brace-format
+#: common/config.py:1566
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Plán, používající správce zařízení udev, nefunguje v režimu {mode}"
 
-#: common/config.py:1597
+#: common/config.py:1577
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nedaří se najít nikde se neopakující identifikátor (UUID) pro {path}"
 
-#: common/configfile.py:107
+#: common/configfile.py:99
 msgid "Failed to save config"
 msgstr "Nastavení se nepodařilo uložit"
 
-#: common/configfile.py:143
+#: common/configfile.py:135
 msgid "Failed to load config"
 msgstr "Nastavení se nepodařilo načíst"
 
-#: common/configfile.py:690 common/configfile.py:789
+#: common/configfile.py:682 common/configfile.py:781
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profil „{name}“ už existuje."
 
-#: common/configfile.py:735
+#: common/configfile.py:727
 msgid "The last profile cannot be removed."
 msgstr "Nelze odebrat poslední zbývající profil."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Nedaří se připojit „{command}“"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "Nastavení pro šifrovanou složku nenalezeno."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "Vytvořit novou šifrovanou složku?"
 
@@ -175,60 +165,60 @@ msgstr "Potvrďte zadání hesla."
 msgid "Password doesn't match."
 msgstr "Zadání hesla se neshodují."
 
-#: common/encfstools.py:510 common/snapshots.py:1028
+#: common/encfstools.py:510 common/snapshots.py:1032
 msgid "Take snapshot"
 msgstr "Pořizování zachyceného stavu"
 
-#: common/mount.py:621
-#, fuzzy, python-brace-format
+#: common/mount.py:622
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "Nedaří se odpojit {mountprocess} od {mountpoint}."
 
-#: common/mount.py:708
+#: common/mount.py:709
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
 "{command} nenalezen. Nainstalujte ho (např. prostřednictvím "
 "„{installcommand}“)"
 
-#: common/mount.py:732
+#: common/mount.py:733
 #, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
 msgstr "Přípojný bod {mntpoint} není prázdný."
 
-#: common/password.py:287
+#: common/password.py:279
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Zadejte heslo pro profil {mode} „{profile}“:"
 
-#: common/snapshots.py:357 common/snapshots.py:608
+#: common/snapshots.py:360 common/snapshots.py:611
 msgid "FAILED"
 msgstr "NEZDAŘILO SE"
 
-#: common/snapshots.py:554 common/snapshots.py:616
+#: common/snapshots.py:557 common/snapshots.py:619
 msgid "Restore permissions"
 msgstr "Obnovit oprávnění"
 
-#: common/snapshots.py:611 qt/app.py:290 qt/app.py:1021 qt/app.py:1056
-#: qt/qtsystrayicon.py:81
+#: common/snapshots.py:614 qt/app.py:288 qt/app.py:1064 qt/app.py:1099
+#: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "Hotovo"
 
-#: common/snapshots.py:731
+#: common/snapshots.py:734
 msgid "Deferring backup while on battery"
 msgstr ""
 "Zálohování odloženo aby se ušetřila energie z napájejícího akumulátoru"
 
-#: common/snapshots.py:829
-#, fuzzy
-msgid ""
-"Can't find snapshots directory.\n"
-"If it is on a removable drive please plug it in."
-msgstr ""
-"Nedaří se nalézt složku se zachycenými stavy.\n"
-"Pokud se nachází na vyjímatelném zařízení, připojte ho."
+#: common/snapshots.py:832 qt/app.py:352
+msgid "Can't find snapshots directory."
+msgstr "Nepodařilo se najít složku se zachycenými stavy."
 
-#: common/snapshots.py:833
+#: common/snapshots.py:836
+#, fuzzy
+msgid "If it is on a removable drive please plug it in."
+msgstr "Pokud se nachází na vyjímatelném médiu, připojte ho a klikněte na OK."
+
+#: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -236,116 +226,113 @@ msgstr[0] "Čeká se %s sekundu."
 msgstr[1] "Čeká se %s sekundy."
 msgstr[2] "Čeká se %s sekund."
 
-#: common/snapshots.py:901
+#: common/snapshots.py:904
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nepodařilo se pořídit zachycený stav {snapshot_id}."
 
-#: common/snapshots.py:932
+#: common/snapshots.py:936
 msgid "Please be patient. Finalizing…"
 msgstr "Chvíli strpení. Dokončování…"
 
-#: common/snapshots.py:1063
-#, fuzzy
+#: common/snapshots.py:1067
 msgid "Can't create directory."
-msgstr "Složku se nepodařilo vytvořit"
+msgstr "Složku se nepodařilo vytvořit."
 
-#: common/snapshots.py:1080
+#: common/snapshots.py:1084
 msgid "Saving config file…"
 msgstr "Ukládání souboru s nastaveními…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1165
 msgid "Saving permissions…"
 msgstr "Ukládání oprávnění…"
 
-#: common/snapshots.py:1273
-#, fuzzy, python-brace-format
+#: common/snapshots.py:1277
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr "Nalezen pozůstatek „{snapshot_id}“ ve kterém lze pokračovat."
 
-#: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#: common/snapshots.py:1301
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr "Odebírání složky „{snapshot_id}“, zanechané minulým průchodem"
 
-#: common/snapshots.py:1307
-#, fuzzy
+#: common/snapshots.py:1311
 msgid "Can't remove directory"
-msgstr "Složku se nepodařilo odstranit"
+msgstr "Složku není možné odstranit"
 
-#: common/snapshots.py:1361
+#: common/snapshots.py:1365
 msgid "Taking snapshot"
 msgstr "Pořizování zachyceného stavu"
 
-#: common/snapshots.py:1412
+#: common/snapshots.py:1416
 msgid "Success"
 msgstr "Úspěch"
 
-#: common/snapshots.py:1415
+#: common/snapshots.py:1419
 msgid "Partial transfer due to error"
 msgstr "Přenos jen částečně úspěšný kvůli chybě"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1420
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Přenesena je část kvůli zmizelým zdrojovým souborům (viz „man rsync“)"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1424
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "„rsync“ skončilo s návratovým kódem {exit_code}"
 
-#: common/snapshots.py:1433
+#: common/snapshots.py:1437
 msgid "See 'man rsync' for more details"
-msgstr "Podrobnosti získáte spuštěním „man rsync“"
+msgstr "Podrobnosti se dozvíte spuštěním „man rsync“"
 
-#: common/snapshots.py:1440
+#: common/snapshots.py:1444
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Záporné návratové kódy z rsync jsou čísly signálů – viz příkazy „kill -l“ a "
 "„man kill“"
 
-#: common/snapshots.py:1461
+#: common/snapshots.py:1465
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nic se nezměnilo, není tedy třeba pořizovat nový zachycený stav"
 
-#: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#: common/snapshots.py:1509
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Nepodařilo se přejmenovat {new_path} na {path}"
+msgstr "Není možné přejmenovat {new_path} na {path}."
 
-#: common/snapshots.py:1823 common/snapshots.py:1875
+#: common/snapshots.py:1841 common/snapshots.py:1906
 msgid "Smart removal"
 msgstr "Postupné odstraňování"
 
-#: common/snapshots.py:1850
+#: common/snapshots.py:1873
 msgid "Removing old snapshots"
 msgstr "Odstraňování starých zachycených stavů"
 
-#: common/snapshots.py:1885
+#: common/snapshots.py:1916
 msgid "Trying to keep min free space"
 msgstr "Pokus o zachování neobsazeného prostoru, jak je nastaveno…"
 
-#: common/snapshots.py:1924
+#: common/snapshots.py:1955
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokus o zachování neobsazených {perc} i-uzlů, jak je nastaveno…"
 
-#: common/snapshots.py:3040 qt/app.py:1773
+#: common/snapshots.py:3079 qt/app.py:1831
 msgid "Now"
 msgstr "Nyní"
 
-#: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#: common/sshtools.py:232
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Nedaří se připojit (mount) {sshfs}"
 
-#: common/sshtools.py:308
-#, fuzzy
+#: common/sshtools.py:300
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent nenalezen. Ověřte, zda je nainstalovaný."
 
-#: common/sshtools.py:478
+#: common/sshtools.py:470
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -353,60 +340,60 @@ msgstr ""
 "Nedaří se odemknout soukromou část ssh klíče. Heslo je buď chybně zadané "
 "nebo není k dispozici plánovači cron."
 
-#: common/sshtools.py:567
+#: common/sshtools.py:559
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
 msgstr "Použití šifry {cipher} se na stroji {host} nezdařilo."
 
-#: common/sshtools.py:714
+#: common/sshtools.py:706
 msgid "Remote path exists but is not a directory."
 msgstr "Vzdálené umístění existuje, ale není to složka."
 
-#: common/sshtools.py:719
+#: common/sshtools.py:711
 msgid "Remote path is not writable."
 msgstr "Do vzdáleného umístění nelze zapisovat."
 
-#: common/sshtools.py:724
+#: common/sshtools.py:716
 msgid "Remote path is not executable."
 msgstr ""
 "Vzdálené umístění nemá nastaveno oprávnění ke spouštění (tj. nelze do něho "
 "vstoupit)."
 
-#: common/sshtools.py:729
+#: common/sshtools.py:721
 msgid "Couldn't create remote path."
 msgstr "Vzdálené umístění se nedaří vytvořit."
 
-#: common/sshtools.py:1016
+#: common/sshtools.py:1008
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Vzdálený stroj {host} nepodporuje {command}"
 
-#: common/sshtools.py:1020 common/sshtools.py:1029
+#: common/sshtools.py:1012 common/sshtools.py:1021
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
 
-#: common/sshtools.py:1024
+#: common/sshtools.py:1016
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr "Kontrolní příkazy na stroji {host} vrátily neznámou chybu"
 
-#: common/sshtools.py:1045
+#: common/sshtools.py:1037
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Na vzdáleném stroji {host} nejsou podporovány pevné odkazy (hardlink)"
 
-#: common/sshtools.py:1199
+#: common/sshtools.py:1191
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 "Zkopírovat veřejnou část ssh klíče „{pubkey}“ na vzdálený stroj „{host}“."
 
-#: common/sshtools.py:1201
+#: common/sshtools.py:1193
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Vyplňte heslo pro „{user}“."
 
-#: common/tools.py:392
+#: common/tools.py:400
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -416,22 +403,21 @@ msgstr ""
 "nekompatibility se způsobem, jakým jsou soubory ukládány na unixových "
 "souborových systémech."
 
-#: common/tools.py:424
-#, fuzzy, python-brace-format
+#: common/tools.py:432
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Vzdálené umístění existuje, ale není to složka."
+msgstr "{path} není platnou složkou."
 
-#: common/tools.py:438
-#, fuzzy
+#: common/tools.py:446
 msgid "Creation of following directory failed:"
 msgstr "Vytváření následující složky se nezdařilo:"
 
-#: common/tools.py:440 common/tools.py:536
+#: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
 msgstr "Přístup pro zápis může být omezen."
 
-#: common/tools.py:480
-#, fuzzy, python-brace-format
+#: common/tools.py:488
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
@@ -440,8 +426,8 @@ msgstr ""
 "odkazy (hardlink). Použijte namísto něj nějaký běžný linuxový souborový "
 "systém."
 
-#: common/tools.py:491
-#, fuzzy, python-brace-format
+#: common/tools.py:499
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -451,16 +437,16 @@ msgstr ""
 "vzdálený SMB server podporuje symbolické odkazy (symlink), případně v "
 "„{expertOptions}“ zapněte „{copyLinks}“."
 
-#: common/tools.py:495 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:503 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopírovat až cíle odkazů (obejde symbolické odkazy)"
 
-#: common/tools.py:496
+#: common/tools.py:504
 msgid "Expert Options"
 msgstr "Pokročilé předvolby"
 
-#: common/tools.py:500
-#, fuzzy, python-brace-format
+#: common/tools.py:508
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -469,12 +455,11 @@ msgstr ""
 "nepodporuje pevné odkazy (hardlink). Použijte namísto toho přímo režim „Na "
 "vzdáleném stroji“ (SSH)."
 
-#: common/tools.py:534
-#, fuzzy
+#: common/tools.py:542
 msgid "File creation failed in this directory:"
 msgstr "Vytvoření souboru v této složce se nezdařilo:"
 
-#: qt/aboutdlg.py:37 qt/app.py:578
+#: qt/aboutdlg.py:37 qt/app.py:571
 msgid "About"
 msgstr "O aplikaci"
 
@@ -490,12 +475,11 @@ msgstr "Překladatelé"
 msgid "License"
 msgstr "Licence"
 
-#: qt/app.py:167
+#: qt/app.py:168
 msgid "Shortcuts"
 msgstr "Zkratky"
 
-#: qt/app.py:187
-#, fuzzy
+#: qt/app.py:188
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
@@ -503,15 +487,15 @@ msgstr ""
 "Tato složka v nyní vybraném\n"
 "zachyceném stavu neexistuje."
 
-#: qt/app.py:255
+#: qt/app.py:253
 msgid "Add to Include"
 msgstr "Přidat do seznamu zálohovaných"
 
-#: qt/app.py:257
+#: qt/app.py:255
 msgid "Add to Exclude"
 msgstr "Přidat do seznamu vynechaných"
 
-#: qt/app.py:342
+#: qt/app.py:320
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -520,8 +504,7 @@ msgstr ""
 "Zdá se, že {app_name} je spuštěno poprvé, protože nebylo nalezeno žádné "
 "nastavení."
 
-#: qt/app.py:347
-#, fuzzy
+#: qt/app.py:325
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -529,200 +512,232 @@ msgstr ""
 "Naimportovat existující nastavení (ze složky cíle zálohování nebo jiného "
 "počítače)?"
 
-#: qt/app.py:374
-#, fuzzy
-msgid "Can't find snapshots directory."
-msgstr "Nepodařilo se najít složku se zachycenými stavy."
-
-#: qt/app.py:375
+#: qt/app.py:353
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Pokud se nachází na vyjímatelném médiu, připojte ho a klikněte na OK."
 
-#: qt/app.py:487
+#: qt/app.py:465
 msgid "Take a snapshot"
 msgstr "Pořídit zachycený stav"
 
-#: qt/app.py:489
+#: qt/app.py:467
 msgid "Use modification time & size for file change detection."
 msgstr "Pro zjištění změn souborů používat časy jejich úprav a velikost."
 
-#: qt/app.py:492
+#: qt/app.py:470
 msgid "Take a snapshot (checksum mode)"
 msgstr "Pořídit zachycený stav (režim s kontrolními součty)"
 
-#: qt/app.py:494
+#: qt/app.py:472
 msgid "Use checksums for file change detection."
 msgstr "Pro zjištění změn souborů používat jejich kontrolní součty."
 
-#: qt/app.py:497 qt/qtsystrayicon.py:86
+#: qt/app.py:475 qt/qtsystrayicon.py:78
 msgid "Pause snapshot process"
 msgstr "Pozastavit pořizování zachyceného stavu"
 
-#: qt/app.py:502 qt/qtsystrayicon.py:90
+#: qt/app.py:480 qt/qtsystrayicon.py:82
 msgid "Resume snapshot process"
 msgstr "Pokračovat v pořizování zachyceného stavu"
 
-#: qt/app.py:506 qt/qtsystrayicon.py:95
+#: qt/app.py:484 qt/qtsystrayicon.py:87
 msgid "Stop snapshot process"
 msgstr "Ukončit toto pořizování zachyceného stavu"
 
-#: qt/app.py:510
+#: qt/app.py:488
 msgid "Refresh snapshot list"
 msgstr "Znovu načíst seznam zachycených stavů"
 
-#: qt/app.py:514
+#: qt/app.py:492
 msgid "Name snapshot"
 msgstr "Nazvat zachycený stav"
 
-#: qt/app.py:518
+#: qt/app.py:496
 msgid "Remove snapshot"
 msgstr "Odstranit zachycený stav"
 
-#: qt/app.py:522
+#: qt/app.py:500
 msgid "View snapshot log"
 msgstr "Zobrazit záznam událostí při pořizování zachyceného stavu"
 
-#: qt/app.py:526
+#: qt/app.py:504
 msgid "View last log"
 msgstr "Zobrazit záznam nedávných událostí"
 
-#: qt/app.py:530
+#: qt/app.py:508
 msgid "Manage profiles…"
 msgstr "Spravovat profily…"
 
-#: qt/app.py:534
+#: qt/app.py:512
 msgid "Shutdown"
 msgstr "Potom vypnout"
 
-#: qt/app.py:536
+#: qt/app.py:514
 msgid "Shut down system after snapshot has finished."
 msgstr "Po pořízení zachyceného stavu vypnout počítač."
 
-#: qt/app.py:538
+#: qt/app.py:516
 msgid "Setup language…"
 msgstr "Nastavit jazyk…"
 
-#: qt/app.py:542
+#: qt/app.py:520
 msgid "Exit"
 msgstr "Ukončit aplikaci"
 
-#: qt/app.py:546
-msgid "Help"
-msgstr "Nápověda"
+#: qt/app.py:524
+msgid "User manual"
+msgstr ""
 
-#: qt/app.py:550
-msgid "Profiles config file"
+#: qt/app.py:526
+msgid "Open user manual in browser (local if available otherwise online)"
+msgstr ""
+
+#: qt/app.py:530
+#, fuzzy
+msgid "man page: Back In Time"
+msgstr "Back In &Time"
+
+#: qt/app.py:532
+msgid "Displays man page about Back In Time (backintime)"
+msgstr ""
+
+#: qt/app.py:535
+#, fuzzy
+msgid "man page: Profiles config file"
 msgstr "Soubor s nastaveními profilů"
 
-#: qt/app.py:553 qt/app.py:1997
-msgid "Website"
-msgstr "Webové stránky projektu"
+#: qt/app.py:538
+msgid "Displays man page about profiles config file (backintime-config)"
+msgstr ""
 
-#: qt/app.py:556 qt/app.py:1399
+#: qt/app.py:542
+msgid "Project website"
+msgstr ""
+
+#: qt/app.py:545
+msgid "Open Back In Time website in browser"
+msgstr ""
+
+#: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
 msgstr "Co je v aplikaci nového"
 
-#: qt/app.py:559
+#: qt/app.py:550
 msgid "FAQ"
 msgstr "Často kladené dotazy (FAQ)"
 
-#: qt/app.py:562
+#: qt/app.py:552
+msgid "Open Frequently Asked Questions (FAQ) in browser"
+msgstr ""
+
+#: qt/app.py:554
 msgid "Ask a question"
 msgstr "Položit dotaz"
 
-#: qt/app.py:565
+#: qt/app.py:558
 msgid "Report a bug"
 msgstr "Nahlásit chybu / dát podnět"
 
-#: qt/app.py:568
+#: qt/app.py:561
 msgid "Translation"
 msgstr "Překlad"
 
-#: qt/app.py:570
+#: qt/app.py:563
 msgid "Shows the message about participation in translation again."
 msgstr "Znovu zobrazí pozvání k účastni na překládání."
 
-#: qt/app.py:574
+#: qt/app.py:567
 msgid "Encryption Transition (EncFS)"
 msgstr "Přechod na jiné šifrování (z EncFS)"
 
-#: qt/app.py:576
+#: qt/app.py:569
 msgid "Shows the message about EncFS removal again."
 msgstr "Znovu zobrazit zprávu o odebrání EncFS."
 
-#: qt/app.py:581 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
-#: qt/snapshotsdialog.py:169
+#: qt/app.py:574 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
+#: qt/snapshotsdialog.py:161
 msgid "Restore"
 msgstr "Obnovit"
 
-#: qt/app.py:583
-#, fuzzy
+#: qt/app.py:576
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Obnovit označené soubory či složky do jejich původních umístění."
 
-#: qt/app.py:586 qt/app.py:1576 qt/app.py:1608 qt/snapshotsdialog.py:166
+#: qt/app.py:579 qt/app.py:1622 qt/app.py:1654 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "Obnovit do…"
 
-#: qt/app.py:588
-#, fuzzy
+#: qt/app.py:581
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Obnovit označené soubory či složky do nového umístění."
 
-#: qt/app.py:594
-#, fuzzy
+#: qt/app.py:587
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr ""
 "Obnovit právě zobrazenou složku a veškerý její obsah do původního umístění."
 
-#: qt/app.py:600
-#, fuzzy
+#: qt/app.py:593
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr ""
 "Obnovit právě zobrazenou složku a veškerý její obsah do nového umístění."
 
-#: qt/app.py:603
+#: qt/app.py:596
 msgid "Up"
 msgstr "Přejít do nadřazené složky"
 
-#: qt/app.py:606 qt/restoreconfigdialog.py:90
+#: qt/app.py:599 qt/restoreconfigdialog.py:90
 msgid "Show hidden files"
 msgstr "Zobrazovat skryté soubory"
 
-#: qt/app.py:609
+#: qt/app.py:602
 msgid "Compare snapshots…"
 msgstr "Porovnat zachycené stavy…"
 
-#: qt/app.py:639 qt/app.py:2067
+#: qt/app.py:632 qt/app.py:2134
 msgid "Release Candidate"
-msgstr ""
+msgstr "Kandidát na vydání"
 
-#: qt/app.py:642
-#, fuzzy
+#: qt/app.py:635
 msgid "Shows the message about this Release Candidate again."
-msgstr "Znovu zobrazit zprávu o odebrání EncFS."
+msgstr "Znovu zobrazit zprávu ohledně tohoto kandidáta na vydání."
 
-#: qt/app.py:678
+#: qt/app.py:671
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:683
+#: qt/app.py:676
 msgid "&Backup"
 msgstr "&Záloha"
 
-#: qt/app.py:694
+#: qt/app.py:687
 msgid "&Restore"
 msgstr "&Obnovení"
 
-#: qt/app.py:700
+#: qt/app.py:693
 msgid "&Help"
 msgstr "&Nápověda"
 
-#: qt/app.py:839
+#: qt/app.py:738
+msgid "Icons only"
+msgstr ""
+
+#: qt/app.py:741
+msgid "Text only"
+msgstr ""
+
+#: qt/app.py:744
+msgid "Text below icons"
+msgstr ""
+
+#: qt/app.py:747
+msgid "Text beside icon"
+msgstr ""
+
+#: qt/app.py:892
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -730,67 +745,66 @@ msgstr ""
 "Pokud toto okno zavřete, pak aplikace Back In Time nebude moci po dokončení "
 "pořízení zachyceného stavu vypnout počítač."
 
-#: qt/app.py:842
+#: qt/app.py:895
 msgid "Do you really want to close it?"
 msgstr "Opravdu chcete okno zavřít?"
 
-#: qt/app.py:1011
+#: qt/app.py:1054
 msgid "Working:"
 msgstr "Zpracovává se:"
 
-#: qt/app.py:1059
+#: qt/app.py:1102
 msgid "Done, no backup needed"
 msgstr "Dokončeno, záloha není potřebná"
 
-#: qt/app.py:1068
+#: qt/app.py:1111
 msgid "Working"
 msgstr "Zpracovává se"
 
-#: qt/app.py:1077 qt/messagebox.py:93
+#: qt/app.py:1120 qt/messagebox.py:84
 msgid "Error"
 msgstr "Chyba"
 
-#: qt/app.py:1100
+#: qt/app.py:1143
 msgid "Sent"
 msgstr "Odesláno"
 
-#: qt/app.py:1101
+#: qt/app.py:1144
 msgid "Speed"
 msgstr "Rychlost"
 
-#: qt/app.py:1102
+#: qt/app.py:1145
 msgid "ETA"
 msgstr "Odhad. zbývající čas"
 
-#: qt/app.py:1164
+#: qt/app.py:1207
 msgid "Global"
 msgstr "Globální"
 
-#: qt/app.py:1165
+#: qt/app.py:1208
 msgid "Root"
 msgstr "Kořen"
 
-#: qt/app.py:1166
+#: qt/app.py:1209
 msgid "Home"
 msgstr "Domovská složka"
 
-#: qt/app.py:1194
-#, fuzzy
+#: qt/app.py:1237
 msgid "Backup directories"
 msgstr "Složky pro zálohu"
 
-#: qt/app.py:1290
+#: qt/app.py:1333
 msgid "Snapshot Name"
 msgstr "Název pro zachycený stav"
 
-#: qt/app.py:1337
+#: qt/app.py:1380
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Opravdu chcete tento zachycený stav odstranit?"
 msgstr[1] "Opravdu chcete tyto zachycené stavy odstranit?"
 msgstr[2] "Opravdu chcete tyto zachycené stavy odstranit?"
 
-#: qt/app.py:1432
+#: qt/app.py:1478
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -799,7 +813,7 @@ msgstr ""
 "Stávající soubory, které by jinak byly odebrány nebo přepsány těmi ze zálohy,\n"
 "zachovat a jen připojit za jejich název „{suffix}“."
 
-#: qt/app.py:1440
+#: qt/app.py:1486
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -810,7 +824,7 @@ msgstr ""
 "předpony {suffix}. Až je už nebudete potřebovat, můžete je odstranit pomocí "
 "následujícího příkazu:"
 
-#: qt/app.py:1456
+#: qt/app.py:1502
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -820,13 +834,11 @@ msgstr ""
 "nebo jsou novější, než ty v cíli.\n"
 "(pomocí volby „rsync --update“)."
 
-#: qt/app.py:1491
-#, fuzzy
+#: qt/app.py:1537
 msgid "Remove newer elements in original directory."
 msgstr "Odebrat novější prvky v původní složce."
 
-#: qt/app.py:1494
-#, fuzzy
+#: qt/app.py:1540
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -838,40 +850,32 @@ msgstr ""
 "opatrní, protože toto smaže soubory/složky, které byly vynechány během "
 "pořizování zachyceného stavu."
 
-#: qt/app.py:1506
-#, fuzzy
+#: qt/app.py:1552
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Opravdu chcete tento soubor obnovit\n"
-"do nové složky „{path}“?"
-msgstr[1] ""
-"Opravdu chcete tyto soubory obnovit\n"
-"do nové složky „{path}“?"
-msgstr[2] ""
-"Opravdu chcete tyto soubory obnovit\n"
-"do nové složky „{path}“?"
+msgstr[0] "Opravdu chcete tento soubor obnovit do nové složky „{path}“?"
+msgstr[1] "Opravdu chcete tyto soubory obnovit do nové složky „{path}“?"
+msgstr[2] "Opravdu chcete tyto soubory obnovit do nové složky „{path}“?"
 
-#: qt/app.py:1516
+#: qt/app.py:1562
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Opravdu chcete tento soubor obnovit?"
 msgstr[1] "Opravdu chcete tyto soubory obnovit?"
 msgstr[2] "Opravdu chcete tyto soubory obnovit?"
 
-#: qt/app.py:1535
+#: qt/app.py:1581
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Opravdu chcete veškeré novější soubory v „{path}“ odebrat?"
 
-#: qt/app.py:1538
-#, fuzzy
+#: qt/app.py:1584
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
 
-#: qt/app.py:1544
+#: qt/app.py:1590
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -880,21 +884,21 @@ msgstr ""
 "{BOLD}Varování{BOLDEND}: smazání souborů v kořenové složce souborového "
 "systému může způsobit nefunkčnost celého operačního systému!!!"
 
-#: qt/app.py:1780
+#: qt/app.py:1839
 msgid "Snapshot"
 msgstr "Zachycený stav"
 
-#: qt/app.py:1817
+#: qt/app.py:1878
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnovit {path}"
 
-#: qt/app.py:1819
+#: qt/app.py:1880
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Obnovit {path} do…"
 
-#: qt/app.py:1963
+#: qt/app.py:2024
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -911,38 +915,47 @@ msgstr ""
 "Omlouváme se za vyrušení a tato zpráva už nebude zobrazována. Tento dialog je ale kdykoli k dispozici prostřednictvím nabídky Nápověda.\n"
 "Kolektiv vývojářů Back In Time"
 
-#: qt/app.py:1992
+#: qt/app.py:2053
 msgid "translation platform"
 msgstr "překladatelská platforma"
 
-#: qt/app.py:2011
+#: qt/app.py:2058
+msgid "Website"
+msgstr "Webové stránky projektu"
+
+#: qt/app.py:2072
 msgid "Your translation"
 msgstr "Váš překlad"
 
-#: qt/app.py:2023
+#: qt/app.py:2085
+#, python-brace-format
+msgid "In the Fediverse at Mastodon: {link_and_label}"
+msgstr ""
+
+#: qt/app.py:2090
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "E-mail na {link_and_label}."
 
-#: qt/app.py:2026
+#: qt/app.py:2093
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "E-mailová konference {link_and_label}"
 
-#: qt/app.py:2030
+#: qt/app.py:2097
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} na webových stránkách projektu."
 
-#: qt/app.py:2033
+#: qt/app.py:2100
 msgid "Open an issue"
-msgstr ""
+msgstr "Otevřít problém"
 
-#: qt/app.py:2034
+#: qt/app.py:2101
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "Alternativně je možné použít jiný vámi zvolený kanál."
 
-#: qt/app.py:2039
+#: qt/app.py:2106
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -954,8 +967,16 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Tato verze Back In Time je teprve kandidátem na vydání a je určena hlavně pro testování stability při přípravě příštího oficiálního vydání.\n"
+"Nejsou sbírány žádné informace o uživateli či telemetrie. Nicméně, kolektiv vývojářů Back In Time velmi zajímá vědět, zda je kandidát na vydání používán a zda má smysl pokračovat v poskytování takovýchto verzí před vydáním.\n"
+"Proto prosíme o krátkou zpětnou vazbu zda jste si tuto verzi vyzkoušeli, i když jste se nesetkali s žádnými problémy. I rychlé testovací spuštění na pár minut by hodně pomohlo.\n"
+"K dispozici jsou následující možnosti kontaktování:\n"
+"{contact_list}\n"
+"V této verzi tato zpráva už nebude znovu zobrazována, ale je možné se k ní kdykoli dostat prostřednictvím nabídky nápovědy.\n"
+"Děkujeme za vaši podporu a pomoc se zlepšováním Back In Time!\n"
+"Váš kolektiv vývojářů Back In Time"
 
-#: qt/app.py:2090
+#: qt/app.py:2157
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Nastavení jazyka se projeví až po příštím spuštění Back In Time."
 
@@ -1032,109 +1053,107 @@ msgstr "Systémový výchozí"
 msgid "Use operating systems language."
 msgstr "Použít jazyk operačního systému."
 
-#: qt/languagedialog.py:157
+#: qt/languagedialog.py:161
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Přeloženo: {percent}"
 
-#: qt/logviewdialog.py:67
+#: qt/logviewdialog.py:60
 msgid "Last Log View"
 msgstr "Zobrazení nedávných událostí"
 
-#: qt/logviewdialog.py:69
+#: qt/logviewdialog.py:62
 msgid "Snapshot Log View"
 msgstr "Zobrazení událostí při pořizování zachyceného stavu"
 
-#: qt/logviewdialog.py:77 qt/manageprofiles/__init__.py:70
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
 #: qt/manageprofiles/tab_general.py:262 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
 
-#: qt/logviewdialog.py:85
+#: qt/logviewdialog.py:78
 msgid "Snapshots:"
 msgstr "Zachycené stavy:"
 
-#: qt/logviewdialog.py:100
+#: qt/logviewdialog.py:93
 msgid "Filter:"
 msgstr "Filtr:"
 
-#: qt/logviewdialog.py:106 qt/manageprofiles/tab_options.py:133
+#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:133
 msgid "All"
 msgstr "Vše"
 
-#: qt/logviewdialog.py:112 qt/logviewdialog.py:115
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:110
 #: qt/manageprofiles/tab_options.py:132
 msgid "Changes"
 msgstr "Změny"
 
-#: qt/logviewdialog.py:112 qt/logviewdialog.py:114
+#: qt/logviewdialog.py:106 qt/logviewdialog.py:109
 #: qt/manageprofiles/tab_options.py:131 qt/manageprofiles/tab_options.py:132
 msgid "Errors"
 msgstr "Chyby"
 
-#: qt/logviewdialog.py:116 qt/messagebox.py:69
+#: qt/logviewdialog.py:111 qt/messagebox.py:60
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Informace"
 msgstr[1] "Informace"
 msgstr[2] "Informace"
 
-#: qt/logviewdialog.py:118
+#: qt/logviewdialog.py:114
 msgid "rsync transfer failures (experimental)"
 msgstr "nezdary rsync přenosů (experimentální)"
 
-#: qt/logviewdialog.py:129
+#: qt/logviewdialog.py:126
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Chyba (Error), [I] Informace, [C] Změna (Change)"
 
-#: qt/logviewdialog.py:132 qt/qtsystrayicon.py:99
+#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:91
 msgid "decode paths"
 msgstr "dekódovat popisy umístění"
 
-#: qt/manageprofiles/__init__.py:62
+#: qt/manageprofiles/__init__.py:64
 msgid "Manage profiles"
 msgstr "Spravovat profily"
 
-#: qt/manageprofiles/__init__.py:79
+#: qt/manageprofiles/__init__.py:81
 msgid "Edit"
 msgstr "Přejmenovat"
 
-#: qt/manageprofiles/__init__.py:83 qt/manageprofiles/__init__.py:198
+#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
 msgid "Add"
 msgstr "Přidat"
 
-#: qt/manageprofiles/__init__.py:87 qt/manageprofiles/__init__.py:145
-#: qt/manageprofiles/__init__.py:216
+#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
+#: qt/manageprofiles/__init__.py:218
 msgid "Remove"
 msgstr "Odebrat"
 
-#: qt/manageprofiles/__init__.py:108
+#: qt/manageprofiles/__init__.py:110
 msgid "&General"
 msgstr "&Obecné"
 
-#: qt/manageprofiles/__init__.py:112
+#: qt/manageprofiles/__init__.py:114
 msgid "&Include"
 msgstr "&Zahrnout"
 
-#: qt/manageprofiles/__init__.py:120
-#, fuzzy
+#: qt/manageprofiles/__init__.py:122
 msgid "Include files and directories"
 msgstr "Zahrnout soubory a složky"
 
-#: qt/manageprofiles/__init__.py:137 qt/manageprofiles/__init__.py:202
+#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
 msgid "Add file"
 msgstr "Přidat soubor"
 
-#: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
-#, fuzzy
+#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
 msgid "Add directory"
 msgstr "Přidat složku"
 
-#: qt/manageprofiles/__init__.py:151
+#: qt/manageprofiles/__init__.py:153
 msgid "&Exclude"
 msgstr "&Vynechat"
 
-#: qt/manageprofiles/__init__.py:155
+#: qt/manageprofiles/__init__.py:157
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1147,25 +1166,24 @@ msgstr ""
 "typy zástupných vyjádření a vzorů budou ignorovány (např. {example1}) Názvy "
 "souborů se totiž v tomto režimu kvůli EncFS šifrování nedají předvídat."
 
-#: qt/manageprofiles/__init__.py:178
-#, fuzzy
+#: qt/manageprofiles/__init__.py:180
 msgid "Exclude patterns, files or directories"
 msgstr "Vynechat zástupně vyjádřené, soubory a složky"
 
-#: qt/manageprofiles/__init__.py:211
+#: qt/manageprofiles/__init__.py:213
 msgid "Add default"
 msgstr "Přidat výchozí"
 
-#: qt/manageprofiles/__init__.py:224
+#: qt/manageprofiles/__init__.py:226
 msgid "Exclude files bigger than:"
 msgstr "Vynechat soubory větší než:"
 
-#: qt/manageprofiles/__init__.py:228
+#: qt/manageprofiles/__init__.py:230
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Vynechat soubory větší než hodnota v {size_unit}."
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:232
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1177,68 +1195,67 @@ msgstr ""
 "vynechání. Takže, velké soubory, které byly zazálohovány už dříve, v "
 "zachycených stavech zůstanou, i když od té doby byly změněny."
 
-#: qt/manageprofiles/__init__.py:249
-msgid "&Auto-remove"
-msgstr "&Automatické odstraňování"
+#: qt/manageprofiles/__init__.py:262
+msgid "&Remove & Retention"
+msgstr ""
 
-#: qt/manageprofiles/__init__.py:253
+#: qt/manageprofiles/__init__.py:266
 msgid "&Options"
 msgstr "Př&edvolby"
 
-#: qt/manageprofiles/__init__.py:257
+#: qt/manageprofiles/__init__.py:270
 msgid "E&xpert Options"
 msgstr "&Pokročilé předvolby"
 
-#: qt/manageprofiles/__init__.py:264
+#: qt/manageprofiles/__init__.py:277
 msgid "Restore Config"
 msgstr "Obnovit nastavení"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:279
 msgid "Edit user-callback"
 msgstr "Upravit uživatelsky definované akce"
 
-#: qt/manageprofiles/__init__.py:284
+#: qt/manageprofiles/__init__.py:297
 msgid "New profile"
 msgstr "Nový profil"
 
-#: qt/manageprofiles/__init__.py:301
+#: qt/manageprofiles/__init__.py:314
 msgid "Rename profile"
 msgstr "Přejmenovat profil"
 
-#: qt/manageprofiles/__init__.py:317
+#: qt/manageprofiles/__init__.py:330
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Opravdu chcete profil „{name}“ smazat?"
 
-#: qt/manageprofiles/__init__.py:364
+#: qt/manageprofiles/__init__.py:377
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}Důrazně doporučeno{ENDBOLD}: (Veškerá doporučení už obsažena.)"
 
-#: qt/manageprofiles/__init__.py:369
+#: qt/manageprofiles/__init__.py:382
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Důrazně doporučeno{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:598
+#: qt/manageprofiles/__init__.py:607
 msgid "Exclude pattern"
 msgstr "Zástupné vyjádření vynechaného"
 
-#: qt/manageprofiles/__init__.py:611
+#: qt/manageprofiles/__init__.py:620
 msgid "Exclude file"
 msgstr "Vynechat soubor"
 
-#: qt/manageprofiles/__init__.py:615
-#, fuzzy
+#: qt/manageprofiles/__init__.py:624
 msgid "Exclude directory"
 msgstr "Vynechat složku"
 
-#: qt/manageprofiles/__init__.py:639
+#: qt/manageprofiles/__init__.py:648
 msgid "Include file"
 msgstr "Zahrnout soubor"
 
-#: qt/manageprofiles/__init__.py:648 qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1247,12 +1264,11 @@ msgstr ""
 "„{path}“ je symbolický odkaz. Odkazovaný cíl nebude zazálohován, dokud jeho umístění výslovně nezahrnete.\n"
 "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
 
-#: qt/manageprofiles/__init__.py:669
-#, fuzzy
+#: qt/manageprofiles/__init__.py:678
 msgid "Include directory"
 msgstr "Zahrnout složku"
 
-#: qt/manageprofiles/__init__.py:728
+#: qt/manageprofiles/__init__.py:737
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -1279,7 +1295,15 @@ msgstr "Čas:"
 msgid "Hours:"
 msgstr "V hodiny:"
 
-#: qt/manageprofiles/schedulewidget.py:82
+#: qt/manageprofiles/schedulewidget.py:86
+msgid "after the hour"
+msgstr ""
+
+#: qt/manageprofiles/schedulewidget.py:88
+msgid "Minutes:"
+msgstr ""
+
+#: qt/manageprofiles/schedulewidget.py:92
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
@@ -1287,7 +1311,7 @@ msgstr ""
 "Spouštět aplikaci Back In Time na základě připojení určené jednotky datového úložiště k počítači (s tím, že četnost záloh se neřídí těmito odpo/připojeními, ale nastaveným intervalem mezi zálohami).\n"
 "Pro účely zapsání tohoto nastavení budete vyzváni k zadání hesla k uživatelskému účtu, který má práva pro správu systému (sudo)."
 
-#: qt/manageprofiles/schedulewidget.py:87
+#: qt/manageprofiles/schedulewidget.py:97
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1295,21 +1319,21 @@ msgstr ""
 "Spouštět aplikaci Back In Time opakovaně. Užitečné pokud počítač není "
 "zapínán pravidelně."
 
-#: qt/manageprofiles/schedulewidget.py:99
+#: qt/manageprofiles/schedulewidget.py:109
 msgid "Every:"
 msgstr "Co:"
 
-#: qt/manageprofiles/schedulewidget.py:103
+#: qt/manageprofiles/schedulewidget.py:113
 msgid "Enable logging of debug messages"
 msgstr "Zaznamenávat ladící zprávy"
 
-#: qt/manageprofiles/schedulewidget.py:107
+#: qt/manageprofiles/schedulewidget.py:117
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 "Zapisuje ladící zprávy do systémového záznamu událostí prostřednictvím "
 "„--debug“."
 
-#: qt/manageprofiles/schedulewidget.py:109
+#: qt/manageprofiles/schedulewidget.py:119
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
@@ -1317,17 +1341,17 @@ msgstr ""
 "Upozornění: Použijte pouze dočasně pro diagnostiku, protože vytváří velké "
 "množství výstupu."
 
-#: qt/manageprofiles/schedulewidget.py:131
+#: qt/manageprofiles/schedulewidget.py:141
 msgid "Disabled"
 msgstr "Vypnuto"
 
-#: qt/manageprofiles/schedulewidget.py:132
+#: qt/manageprofiles/schedulewidget.py:142
 msgid "At every boot/reboot"
 msgstr "Při každém startu/restartu počítače"
 
-#: qt/manageprofiles/schedulewidget.py:134
-#: qt/manageprofiles/schedulewidget.py:136
-#: qt/manageprofiles/schedulewidget.py:138
+#: qt/manageprofiles/schedulewidget.py:144
+#: qt/manageprofiles/schedulewidget.py:146
+#: qt/manageprofiles/schedulewidget.py:148
 #, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
@@ -1335,7 +1359,7 @@ msgstr[0] "Každou {n} minutu"
 msgstr[1] "Každé {n} minuty"
 msgstr[2] "Každých {n} minut"
 
-#: qt/manageprofiles/schedulewidget.py:140
+#: qt/manageprofiles/schedulewidget.py:150
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
@@ -1343,10 +1367,10 @@ msgstr[0] "Každou hodinu"
 msgstr[1] "Každé {n} hodiny"
 msgstr[2] "Každých {n} hodin"
 
-#: qt/manageprofiles/schedulewidget.py:142
-#: qt/manageprofiles/schedulewidget.py:144
-#: qt/manageprofiles/schedulewidget.py:146
-#: qt/manageprofiles/schedulewidget.py:148
+#: qt/manageprofiles/schedulewidget.py:152
+#: qt/manageprofiles/schedulewidget.py:154
+#: qt/manageprofiles/schedulewidget.py:156
+#: qt/manageprofiles/schedulewidget.py:158
 #, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
@@ -1354,53 +1378,53 @@ msgstr[0] "Každou {n} hodinu"
 msgstr[1] "Každé {n} hodiny"
 msgstr[2] "Každých {n} hodin"
 
-#: qt/manageprofiles/schedulewidget.py:149
+#: qt/manageprofiles/schedulewidget.py:159
 msgid "Custom hours"
 msgstr "Uživatelsky určené časy"
 
-#: qt/manageprofiles/schedulewidget.py:150
+#: qt/manageprofiles/schedulewidget.py:160
 msgid "Every day"
 msgstr "Každý den"
 
-#: qt/manageprofiles/schedulewidget.py:151
+#: qt/manageprofiles/schedulewidget.py:161
 msgid "Repeatedly (anacron)"
 msgstr "Opakovaně (jako anacron)"
 
-#: qt/manageprofiles/schedulewidget.py:152
+#: qt/manageprofiles/schedulewidget.py:162
 msgid "When drive gets connected (udev)"
 msgstr "Při připojení (flash)disku (udev)"
 
-#: qt/manageprofiles/schedulewidget.py:153
+#: qt/manageprofiles/schedulewidget.py:163
 msgid "Every week"
 msgstr "Každý týden"
 
-#: qt/manageprofiles/schedulewidget.py:154
+#: qt/manageprofiles/schedulewidget.py:164
 msgid "Every month"
 msgstr "Každý měsíc"
 
-#: qt/manageprofiles/schedulewidget.py:155
+#: qt/manageprofiles/schedulewidget.py:165
 msgid "Every year"
 msgstr "Každý rok"
 
-#: qt/manageprofiles/schedulewidget.py:204
+#: qt/manageprofiles/schedulewidget.py:214
 msgid "Hour(s)"
 msgstr "Hodin"
 
-#: qt/manageprofiles/schedulewidget.py:205
-#: qt/manageprofiles/tab_auto_remove.py:41
+#: qt/manageprofiles/schedulewidget.py:215
+#: qt/manageprofiles/tab_remove_retention.py:256
 msgid "Day(s)"
 msgstr "Dnů"
 
-#: qt/manageprofiles/schedulewidget.py:206
-#: qt/manageprofiles/tab_auto_remove.py:42
+#: qt/manageprofiles/schedulewidget.py:216
+#: qt/manageprofiles/tab_remove_retention.py:257
 msgid "Week(s)"
 msgstr "Týdnů"
 
-#: qt/manageprofiles/schedulewidget.py:207
+#: qt/manageprofiles/schedulewidget.py:217
 msgid "Month(s)"
 msgstr "Měsíců"
 
-#: qt/manageprofiles/schedulewidget.py:295
+#: qt/manageprofiles/schedulewidget.py:311
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1437,97 +1461,17 @@ msgstr ""
 "Podrobnosti viz „-J“ v dokumentaci příkazu „ssh“ nebo „ProxyJump“ v "
 "manuálové stránce „ssh_config“."
 
-#: qt/manageprofiles/tab_auto_remove.py:43
-msgid "Year(s)"
-msgstr "Let"
-
-#: qt/manageprofiles/tab_auto_remove.py:47
-msgid "Older than:"
-msgstr "Starší než:"
-
-#: qt/manageprofiles/tab_auto_remove.py:63
-msgid "If free space is less than:"
-msgstr "Pokud volného místa zbývá méně než:"
-
-#: qt/manageprofiles/tab_auto_remove.py:68
-msgid "If free inodes is less than:"
-msgstr ""
-"Pokud z počtu složek a souborů, které lze na souborovém systému vytvořit "
-"(inode), zbývá méně než:"
-
-#: qt/manageprofiles/tab_auto_remove.py:94
-msgid "Smart removal:"
-msgstr "Postupné odstraňování:"
-
-#: qt/manageprofiles/tab_auto_remove.py:103
-msgid "Run in background on remote host."
-msgstr "Na vzdáleném stroji spustit na pozadí."
-
-#: qt/manageprofiles/tab_auto_remove.py:107
-msgid ""
-"The smart remove procedure will run directly on the remote machine, not "
-"locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
-"and available on the remote machine."
-msgstr ""
-
-#: qt/manageprofiles/tab_auto_remove.py:111
-msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
-
-#: qt/manageprofiles/tab_auto_remove.py:118
-msgid "Keep all snapshots for the last"
-msgstr "Ponechat všechny zachycené stavy za uplynulých"
-
-#: qt/manageprofiles/tab_auto_remove.py:122
-#: qt/manageprofiles/tab_auto_remove.py:129
-msgid "day(s)."
-msgstr "dnů."
-
-#: qt/manageprofiles/tab_auto_remove.py:125
-msgid "Keep one snapshot per day for the last"
-msgstr "Ponechat jeden zachycený stav co den za uplynulých"
-
-#: qt/manageprofiles/tab_auto_remove.py:132
-msgid "Keep one snapshot per week for the last"
-msgstr "Ponechat jeden zachycený stav co týden za uplynulých"
-
-#: qt/manageprofiles/tab_auto_remove.py:136
-msgid "week(s)."
-msgstr "týdnů."
-
-#: qt/manageprofiles/tab_auto_remove.py:139
-msgid "Keep one snapshot per month for the last"
-msgstr "Ponechat jeden zachycený stav co měsíc za uplynulých"
-
-#: qt/manageprofiles/tab_auto_remove.py:143
-msgid "month(s)."
-msgstr "měsíců."
-
-#: qt/manageprofiles/tab_auto_remove.py:146
-msgid "Keep one snapshot per year for all years."
-msgstr "Ponechat jeden zachycený stav co rok za všechna léta."
-
-#: qt/manageprofiles/tab_auto_remove.py:151
-#, fuzzy
-msgid "Keep named snapshots."
-msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval."
-
-#: qt/manageprofiles/tab_auto_remove.py:153
-msgid ""
-"Snapshots that, in addition to the usual timestamp, have been given a name "
-"will not be deleted."
-msgstr ""
-
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Dotaz"
+msgstr "Výstraha:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Tyto předvolby jsou pro pokročilá nastavení. Měňte je pouze pokud jste si "
+"plně vědomi jejich důsledků."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1552,9 +1496,8 @@ msgid "when taking a manual snapshot"
 msgstr "při ručně spuštěném pořízení zachyceného stavu"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(pokud chcete zapnout tuto možnost, nainstalujte „nocache“)"
+msgstr "Pokud chcete zapnout tuto možnost, nainstalujte „nocache“."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1691,7 +1634,7 @@ msgstr "Kam ukládat zachycené stavy"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr ""
+msgstr "Složka"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1710,12 +1653,12 @@ msgid "Private Key:"
 msgstr "Soukromá část klíče:"
 
 #: qt/manageprofiles/tab_general.py:149
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
-"Zvolte existující soubor se soukromým klíčem (obvykle nazvaný „id_rsa“)"
+"Zvolte existující soubor se soukromým klíčem (obvykle nazvaný „id_ed25519“, "
+"ve starších případech „id_rsa“)."
 
 #: qt/manageprofiles/tab_general.py:161
 msgid ""
@@ -1802,7 +1745,6 @@ msgstr ""
 "dispozici v {whitepaper}."
 
 #: qt/manageprofiles/tab_general.py:611
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "Opravdu změnit složku se zachycenými stavy?"
 
@@ -1875,67 +1817,230 @@ msgstr "Podrobnost zaznamenávání událostí (log):"
 msgid "None"
 msgstr "Nic"
 
-#: qt/messagebox.py:102 qt/messagebox.py:112
+#: qt/manageprofiles/tab_remove_retention.py:190
+#, python-brace-format
+msgid ""
+"The following rules are processed from top to bottom. Later rules override "
+"earlier ones and are not constrained by them. See the {manual} for details "
+"and examples."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:195
+msgid "user manual"
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:208
+msgid "Open user manual in browser."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:222
+#, fuzzy
+msgid "Keep the most recent snapshot."
+msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval."
+
+#: qt/manageprofiles/tab_remove_retention.py:226
+msgid "The last or freshest snapshot is kept under all circumstances."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:228
+msgid "That behavior cannot be changed."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:240
+msgid "Keep named snapshots."
+msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval."
+
+#: qt/manageprofiles/tab_remove_retention.py:243
+#, fuzzy
+msgid ""
+"Snapshots that have been given a name, in addition to the usual timestamp, "
+"will be retained under all circumstances and will not be removed."
+msgstr ""
+"Zachycené stavy, kterým krom obvyklého časového razítka byl dán název, "
+"nebudou smazány."
+
+#: qt/manageprofiles/tab_remove_retention.py:258
+msgid "Year(s)"
+msgstr "Let"
+
+#: qt/manageprofiles/tab_remove_retention.py:263
+#, fuzzy
+msgid "Remove snapshots older than"
+msgstr "Odstranit zachycený stav"
+
+#: qt/manageprofiles/tab_remove_retention.py:269
+msgid "Full days. Current day ignored."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:271
+msgid "Calendar weeks with Monday as first day. Current week ignored."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:274
+msgid "12 months periods. Current months ignored."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:289
+msgid "Retention policy"
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:294
+msgid "Run in background on remote host."
+msgstr "Na vzdáleném stroji spustit na pozadí."
+
+#: qt/manageprofiles/tab_remove_retention.py:297
+msgid ""
+"The smart remove procedure will run directly on the remote machine, not "
+"locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
+"and available on the remote machine."
+msgstr ""
+"Procedura inteligentního odebírání bude spuštěna přímo na vzdáleném stroji, "
+"nikoli lokálně. Na vzdáleném stroji je třeba, aby byly nainstalovány a k "
+"dispozici příkazy „bash“, „screen“ a „flock“."
+
+#: qt/manageprofiles/tab_remove_retention.py:301
+msgid "If selected, Back In Time will first test the remote machine."
+msgstr "Pokud vybráno, Back In Time nejprve vyzkouší vzdálený stroj."
+
+#: qt/manageprofiles/tab_remove_retention.py:305
+msgid "The days are counted starting from today."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:306
+msgid "Keep all snapshots for the last"
+msgstr "Ponechat všechny zachycené stavy za uplynulých"
+
+#: qt/manageprofiles/tab_remove_retention.py:311
+#: qt/manageprofiles/tab_remove_retention.py:323
+msgid "day(s)."
+msgstr "dnů."
+
+#: qt/manageprofiles/tab_remove_retention.py:318
+#, fuzzy
+msgid "Keep the last snapshot for each day for the last"
+msgstr "Ponechat jeden zachycený stav co den za uplynulých"
+
+#: qt/manageprofiles/tab_remove_retention.py:328
+msgid ""
+"The weeks are counted starting from the current running week. A week starts "
+"on Monday."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:331
+#, fuzzy
+msgid "Keep the last snapshot for each week for the last"
+msgstr "Ponechat jeden zachycený stav co týden za uplynulých"
+
+#: qt/manageprofiles/tab_remove_retention.py:336
+msgid "week(s)."
+msgstr "týdnů."
+
+#: qt/manageprofiles/tab_remove_retention.py:341
+msgid ""
+"The months are counted as calendar months starting with the current months."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:344
+#, fuzzy
+msgid "Keep the last snapshot for each month for the last"
+msgstr "Ponechat jeden zachycený stav co měsíc za uplynulých"
+
+#: qt/manageprofiles/tab_remove_retention.py:349
+msgid "month(s)."
+msgstr "měsíců."
+
+#: qt/manageprofiles/tab_remove_retention.py:354
+msgid ""
+"The years are counted as calendar years starting with the current year."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:356
+#, fuzzy
+msgid "Keep the last snapshot for each year for"
+msgstr "Ponechat všechny zachycené stavy za uplynulých"
+
+#: qt/manageprofiles/tab_remove_retention.py:358
+msgid "all years."
+msgstr ""
+
+#: qt/manageprofiles/tab_remove_retention.py:380
+#, fuzzy
+msgid "… the free space is less than"
+msgstr "Pokud volného místa zbývá méně než:"
+
+#: qt/manageprofiles/tab_remove_retention.py:385
+#, fuzzy
+msgid "… the free inodes are less than"
+msgstr ""
+"Pokud z počtu složek a souborů, které lze na souborovém systému vytvořit "
+"(inode), zbývá méně než:"
+
+#: qt/manageprofiles/tab_remove_retention.py:394
+#, fuzzy
+msgid "Remove oldest snapshots if …"
+msgstr "Odstraňování starých zachycených stavů"
+
+#: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
 msgstr "Dotaz"
 
-#: qt/qtsystrayicon.py:77
+#: qt/qtsystrayicon.py:69
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: „{profile_name}“"
 
-#: qt/qtsystrayicon.py:104
+#: qt/qtsystrayicon.py:96
 msgid "View Last Log"
 msgstr "Zobrazit záznam nedávných událostí"
 
-#: qt/qtsystrayicon.py:108
+#: qt/qtsystrayicon.py:100
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Spustit {appname}"
 
-#: qt/qtsystrayicon.py:174
+#: qt/qtsystrayicon.py:166
 msgid "Working…"
 msgstr "Zpracování…"
 
-#: qt/qtsystrayicon.py:205
+#: qt/qtsystrayicon.py:197
 msgid "Sent:"
 msgstr "Odesláno:"
 
-#: qt/qtsystrayicon.py:206
+#: qt/qtsystrayicon.py:198
 msgid "Speed:"
 msgstr "Rychlost:"
 
-#: qt/qtsystrayicon.py:207
+#: qt/qtsystrayicon.py:199
 msgid "ETA:"
 msgstr "Odhad. zbývající čas:"
 
-#: qt/qttools.py:405 qt/snapshotsdialog.py:123
+#: qt/qttools.py:479 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Zachycené stavy"
 
-#: qt/qttools.py:428
+#: qt/qttools.py:502
 msgid "Today"
 msgstr "Dnes"
 
-#: qt/qttools.py:435
+#: qt/qttools.py:509
 msgid "Yesterday"
 msgstr "Včera"
 
-#: qt/qttools.py:444
+#: qt/qttools.py:518
 msgid "This week"
 msgstr "Tento týden"
 
-#: qt/qttools.py:451
+#: qt/qttools.py:525
 msgid "Last week"
 msgstr "Minulý týden"
 
-#: qt/qttools.py:597
+#: qt/qttools.py:671
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Toto NENÍ zachycený stav, ale pohled přímo do stávajících souborů na tomto "
 "počítači"
 
-#: qt/qttools.py:602
+#: qt/qttools.py:676
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Minulá kontrola {time}"
@@ -1953,7 +2058,7 @@ msgid "Import"
 msgstr "Naimportovat"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -1962,7 +2067,6 @@ msgstr ""
 "nastaveními. Popis umístění může vypadat jako: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -1970,31 +2074,31 @@ msgstr ""
 "Pokud se složka nachází na externí nebo síťové jednotce – je třeba ji předem"
 " ručně připojit."
 
-#: qt/restoredialog.py:59
+#: qt/restoredialog.py:51
 msgid "Show full Log"
 msgstr "Zobrazit kompletní záznam událostí"
 
-#: qt/snapshotsdialog.py:51
+#: qt/snapshotsdialog.py:43
 msgid "Options about comparing snapshots"
 msgstr "Předvolby ohledně porovnávání zachycených stavů"
 
-#: qt/snapshotsdialog.py:58
+#: qt/snapshotsdialog.py:50
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: qt/snapshotsdialog.py:62
+#: qt/snapshotsdialog.py:54
 msgid "Parameters:"
 msgstr "Parametry:"
 
-#: qt/snapshotsdialog.py:67
+#: qt/snapshotsdialog.py:59
 msgid "Use %1 and %2 for path parameters"
 msgstr "Jako parametry umístění použijte %1 a %2"
 
-#: qt/snapshotsdialog.py:84
+#: qt/snapshotsdialog.py:76
 msgid "Please set a diff command or press Cancel."
 msgstr "Nastavte příkaz pro zjišťování rozdílů nebo klikněte na Storno."
 
-#: qt/snapshotsdialog.py:90
+#: qt/snapshotsdialog.py:82
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2003,67 +2107,70 @@ msgstr ""
 "Příkaz „{cmd}“ se nepodařilo v systému najít. Zkuste něco jiného nebo "
 "klikněte na Storno."
 
-#: qt/snapshotsdialog.py:98
+#: qt/snapshotsdialog.py:90
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Nenastaveny žádné parametry pro příkaz diff. Náhradně bude použita výchozí "
 "hodnota „{params}“."
 
-#: qt/snapshotsdialog.py:134
+#: qt/snapshotsdialog.py:126
 msgid "Differing snapshots only"
 msgstr "Pouze odlišující se zachycené stavy"
 
-#: qt/snapshotsdialog.py:142
+#: qt/snapshotsdialog.py:134
 msgid "List only snapshots that are equal to:"
 msgstr "Vypsat pouze zachycené stavy, shodné s:"
 
-#: qt/snapshotsdialog.py:153
+#: qt/snapshotsdialog.py:145
 msgid "Deep check (more accurate, but slow)"
 msgstr "Hloubková kontrola (přesnější, ale pomalejší)"
 
-#: qt/snapshotsdialog.py:174
+#: qt/snapshotsdialog.py:166
 msgid "Delete"
 msgstr "Smazat"
 
-#: qt/snapshotsdialog.py:178
+#: qt/snapshotsdialog.py:170
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: qt/snapshotsdialog.py:191
+#: qt/snapshotsdialog.py:183
 msgid "Compare"
 msgstr "Porovnat"
 
-#: qt/snapshotsdialog.py:203
+#: qt/snapshotsdialog.py:195
 msgid "Go To"
 msgstr "Přejít na"
 
-#: qt/snapshotsdialog.py:204
+#: qt/snapshotsdialog.py:196
 msgid "Options"
 msgstr "Předvolby"
 
-#: qt/snapshotsdialog.py:361
+#: qt/snapshotsdialog.py:353
 msgid "You can't compare a snapshot to itself."
 msgstr "Porovnávat zachycený stav s ním samotným nedává smysl."
 
-#: qt/snapshotsdialog.py:404
+#: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
 msgstr "Opravdu chcete „{file}“ vymazat ze zachyceného stavu „{snapshot_id}“?"
 
-#: qt/snapshotsdialog.py:410
+#: qt/snapshotsdialog.py:402
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Opravdu chcete „{file}“ vymazat z(e) {count} zachycených stavů?"
 
-#: qt/snapshotsdialog.py:414
+#: qt/snapshotsdialog.py:406
 msgid "WARNING: This cannot be revoked."
 msgstr "VAROVÁNí: Toto nelze vzít zpět!"
 
-#: qt/snapshotsdialog.py:432
+#: qt/snapshotsdialog.py:424
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Vynechat {path} z budoucích zachycených stavů?"
+
+#~ msgid "&Auto-remove"
+#~ msgstr "&Automatické odstraňování"
 
 #, fuzzy
 #~ msgid "Backup directory cannot be included."
@@ -2079,6 +2186,13 @@ msgstr "Vynechat {path} z budoucích zachycených stavů?"
 #~ "Nedaří se nalézt soubor s naplánovanými úlohami (crontab).\n"
 #~ "Opravdu máte nainstalovaný plánovač cron?\n"
 #~ "V případě že ne, měli byste vypnout veškeré automatizované zálohování."
+
+#~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it in."
+#~ msgstr ""
+#~ "Nedaří se nalézt složku se zachycenými stavy.\n"
+#~ "Pokud se nachází na vyjímatelném zařízení, připojte ho."
 
 #, python-brace-format
 #~ msgid ""
@@ -2108,6 +2222,9 @@ msgstr "Vynechat {path} z budoucích zachycených stavů?"
 #~ msgid "Full snapshot path"
 #~ msgstr "Úplný popis umístění zachyceného stavu"
 
+#~ msgid "Help"
+#~ msgstr "Nápověda"
+
 #~ msgid "Host/User/Profile-ID must not be empty."
 #~ msgstr ""
 #~ "Kolonka Stroj/Uživatel/Identifikátor-profilu nemůže zůstat nevyplněná."
@@ -2122,8 +2239,14 @@ msgstr "Vynechat {path} z budoucích zachycených stavů?"
 #~ msgid "Is this the backup destination to be used?"
 #~ msgstr "Je toto cíl zálohování, který použít?"
 
+#~ msgid "Keep one snapshot per year for all years."
+#~ msgstr "Ponechat jeden zachycený stav co rok za všechna léta."
+
 #~ msgid "Mode"
 #~ msgstr "Ukládání záloh"
+
+#~ msgid "Older than:"
+#~ msgstr "Starší než:"
 
 #~ msgid "Profile"
 #~ msgstr "Profil"
@@ -2136,6 +2259,9 @@ msgstr "Vynechat {path} z budoucích zachycených stavů?"
 #~ msgstr ""
 #~ "Interpret ve skriptu uživatelsky definovaných akcí nemá nastavený příznak "
 #~ "spustitelnosti."
+
+#~ msgid "Smart removal:"
+#~ msgstr "Postupné odstraňování:"
 
 #~ msgid "WARNING"
 #~ msgstr "VAROVÁNÍ"

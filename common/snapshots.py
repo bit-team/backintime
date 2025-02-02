@@ -1572,23 +1572,16 @@ class Snapshots:
 
         TODO: It should compare datest not SIDs because of their tag.
         """
-        # print(f'smartRemoveKeepFirst() :: {min_date=} {max_date=}')  # DEBUG
-        min_id = SID(min_date, self.config)
-        max_id = SID(max_date, self.config)
-
-        logger.debug("Keep first >= %s and < %s" % (min_id, max_id), self)
+        logger.debug('Keep first >= {} and < {}'.format(
+            min_date.strftime('%c'), max_date.strftime('%c')), self)
 
         for sid in snapshots:
             # try to keep the first healthy snapshot
             if keep_healthy and sid.failed:
-                logger.debug("Do not keep failed snapshot %s" % sid, self)
+                logger.debug(f'Do not keep failed snapshot {sid}', self)
                 continue
 
-            # DEBUG
-            # print(f'smartRemoveKeepFirst() :: for sid ... sid={str(sid)}')
-
-            if sid >= min_id and sid < max_id:
-                # print(f'  return {str(sid)}')
+            if sid.date.date() >= min_date and sid.date.date() < max_date:
                 return set([sid])
 
         # if all snapshots failed return the first snapshot
@@ -1700,14 +1693,19 @@ class Snapshots:
 
         # keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            d = now - datetime.timedelta(days=now.weekday() + 1)
+            # Make sure the period always starts on Monday
+            # Step back in time to the last Monday
+            d = now - datetime.timedelta(days=now.weekday())
 
             for i in range(0, keep_one_per_week):
                 keep |= self.smartRemoveKeepFirst(
                     snapshots,
+                    # Monday
                     d,
-                    d + datetime.timedelta(days=8),
+                    # Step one week into the future
+                    d + datetime.timedelta(days=7),
                     keep_healthy=True)
+                # One week back in time
                 d -= datetime.timedelta(days=7)
 
         # keep one per month for the last keep_one_per_month months
@@ -1858,24 +1856,35 @@ class Snapshots:
         Args:
             now (datetime.datetime): Timestamp when takeSnapshot was started.
         """
+
+        # All existing snapshots, ordered from old to new.
+        # e.g. 2025-01-11 to 2025-01-19
         snapshots = listSnapshots(self.config, reverse=False)
+
         if not snapshots:
-            logger.debug('No snapshots. Skip freeSpace', self)
             return
+
+        logger.debug(f'Backups from {snapshots[0]} to {snapshots[-1]}.', self)
 
         last_snapshot = snapshots[-1]
 
-        # Remove old backups
+        # Remove snapshots older than N years/weeks/days
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(0, _('Removing old snapshots'))
 
-            oldBackupId = SID(self.config.removeOldSnapshotsDate(), self.config)
-            logger.debug("Remove snapshots older than: {}".format(oldBackupId.withoutTag), self)
+            # The oldest backup to keep. Others older than this are removed.
+            oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
+            oldBackupId = oldSID.withoutTag
+
+            logger.debug(f'Remove snapshots older than: {oldBackupId}', self)
 
             while True:
+                # Keep min one backup
                 if len(snapshots) <= 1:
                     break
-                if snapshots[0] >= oldBackupId:
+
+                # ... younger or same as ...
+                if snapshots[0].withoutTag >= oldBackupId:
                     break
 
                 if self.config.dontRemoveNamedSnapshots():
@@ -1884,7 +1893,9 @@ class Snapshots:
                         continue
 
                 msg = 'Remove snapshot {} because it is older than {}'
-                logger.debug(msg.format(snapshots[0].withoutTag, oldBackupId.withoutTag), self)
+                logger.debug(msg.format(
+                    snapshots[0].withoutTag, oldBackupId), self)
+
                 self.remove(snapshots[0])
                 del snapshots[0]
 
@@ -2429,11 +2440,11 @@ class SID:
     """
     __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
 
-    INFO     = 'info'
-    NAME     = 'name'
-    FAILED   = 'failed'
+    INFO = 'info'
+    NAME = 'name'
+    FAILED = 'failed'
     FILEINFO = 'fileinfo.bz2'
-    LOG      = 'takesnapshot.log.bz2'
+    LOG = 'takesnapshot.log.bz2'
 
     def __init__(self, date, cfg):
         self.config = cfg
@@ -2441,14 +2452,17 @@ class SID:
         self.isRoot = False
 
         if isinstance(date, datetime.datetime):
-            self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'), self.config.tag(self.profileID)))
+            self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'),
+                                 self.config.tag(self.profileID)))
             # TODO: Don't use "date" as attribute name. Btw: It is not a date
             # but a datetime.
             self.date = date
 
         elif isinstance(date, datetime.date):
-            self.sid = '-'.join((date.strftime('%Y%m%d-000000'), self.config.tag(self.profileID)))
-            self.date = datetime.datetime.combine(date, datetime.datetime.min.time())
+            self.sid = '-'.join((date.strftime('%Y%m%d-000000'),
+                                 self.config.tag(self.profileID)))
+            self.date = datetime.datetime.combine(
+                date, datetime.datetime.min.time())
 
         elif isinstance(date, str):
             if self.__cValidSID.match(date):
@@ -2758,7 +2772,8 @@ class SID:
             return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)))
         return self.displayID
 
-    #using @property.setter would be confusing here as there is no value to give
+    # using @property.setter would be confusing here as there is no value to
+    # give
     def setLastChecked(self):
         """
         Set info files atime to current time to indicate this snapshot was

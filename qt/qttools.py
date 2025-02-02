@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -22,9 +23,14 @@
 """
 import os
 import sys
+import re
 import textwrap
 from typing import Union, Iterable
-from PyQt6.QtGui import (QAction, QFont, QPalette, QIcon)
+from PyQt6.QtGui import (QAction,
+                         QDesktopServices,
+                         QFont,
+                         QIcon,
+                         QPalette)
 from PyQt6.QtCore import (QDir,
                           Qt,
                           pyqtSlot,
@@ -33,8 +39,10 @@ from PyQt6.QtCore import (QDir,
                           QTranslator,
                           QLocale,
                           QLibraryInfo,
-                          QT_VERSION_STR)
-from PyQt6.QtWidgets import (QWidget,
+                          QT_VERSION_STR,
+                          QUrl)
+from PyQt6.QtWidgets import (QFrame,
+                             QWidget,
                              QFileDialog,
                              QAbstractItemView,
                              QListView,
@@ -46,6 +54,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QTreeWidgetItem,
                              QComboBox,
                              QSystemTrayIcon)
+
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
@@ -55,6 +64,7 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
+import bitbase
 import version
 
 
@@ -106,31 +116,76 @@ def can_render(string, widget):
 # | Widget modification & creation |
 # |--------------------------------|
 
-def set_wrapped_tooltip(widget: QWidget,
+_REX_RICHTEXT = re.compile(
+    # begin of line
+    r'^'
+    # all characters, except a new line
+    r'[^\n]*'
+    # tag opening
+    r'<'
+    # every character (as tagname) except >
+    r'[^>]+'
+    # tag closing
+    r'>')
+
+
+def might_be_richtext(txt: str) -> bool:
+    """Returns `True` if the text is rich text.
+
+    Rich text is a subset of HTML used by Qt to allow text formatting. The
+    function checks if the first line (before the first `\n') does contain a
+    tag. A tag begins with with `<`, following by one or more characters and
+    close with `>`.
+
+    Qt itself does use `Qt::mightBeRichText()` internally but this is not
+    available in PyQt for unknown reasons.
+
+    Args:
+        txt: The text to check.
+
+    Returns:
+        `True` if it looks like a rich text, otherwise `False`.
+    """
+    return bool(_REX_RICHTEXT.match(txt))
+
+
+def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
                         tooltip: Union[str, Iterable[str]],
-                        wrap_length: int=72):
+                        wrap_length: int = 72):
     """Add a tooltip to the widget but insert line breaks when appropriated.
 
     If a list of strings is provided, each string is wrapped individually and
     then joined with a line break.
 
     Args:
-        widget: The widget to which a tooltip should be added.
+        widget: The widget or list of widgets to which a tooltip should be
+            added.
         tooltip: The tooltip as string or iterable of strings.
         wrap_length: Every line is at most this lengths.
     """
+
+    if isinstance(widget, Iterable):
+        for wdg in widget:
+            set_wrapped_tooltip(wdg, tooltip, wrap_length)
+
+        return
+
     # Always use tuple or list
     if isinstance(tooltip, str):
         tooltip = (tooltip, )
 
+    # Richtext or plain text
+    newline = {True: '<br>', False: '\n'}[might_be_richtext(tooltip[0])]
+
     result = []
+    # Wrap each paragraph in itself
     for paragraph in tooltip:
         result.append('\n'.join(
             textwrap.wrap(paragraph, wrap_length)
         ))
 
-    widget.setToolTip('\n'.join(result))
-
+    # glue all together
+    widget.setToolTip(newline.join(result))
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):
@@ -150,6 +205,25 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|
+
+def user_manual_uri() -> str:
+    """Return the URI to the user manual.
+
+    If available the local URI is used otherwise the online version is.
+    """
+    uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
+        if bitbase.USER_MANUAL_LOCAL_AVAILABLE \
+           else bitbase.USER_MANUAL_ONLINE_URL
+
+    return uri
+
+def open_user_manual() -> None:
+    """Open the user manual in browser.
+
+    If available the local manual is used otherwise the online version is
+    opened.
+    """
+    QDesktopServices.openUrl(QUrl(user_manual_uri()))
 
 
 class FileDialogShowHidden(QFileDialog):
@@ -704,3 +778,16 @@ class ProfileCombo(SortedComboBox):
             if self.itemData(i) == profileID:
                 self.setCurrentIndex(i)
                 break
+
+
+class HLineWidget(QFrame):
+    """Just a horizontal line.
+
+    It really is the case that even in the year 2025 with Qt6 there is no
+    dedicated widget class to draw a horizontal line.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.setFrameShape(QFrame.Shape.HLine)
+        self.setFrameShadow(QFrame.Shadow.Sunken)
