@@ -468,10 +468,10 @@ def createParsers(app_name='backintime'):
     nargs = 0
     aliases.append((command, nargs))
     description = 'Show a summary of the last snapshot from each profile.'
-    snapshotStatusCP =       subparsers.add_parser(command,
-                                                 epilog = epilogCommon,
-                                                 help = description,
-                                                 description = description)
+    snapshotStatusCP = subparsers.add_parser(command,
+                                             epilog=epilogCommon,
+                                             help=description,
+                                             description=description)
     snapshotStatusCP.set_defaults(func = snapshotStatus)
     parsers[command] = snapshotStatusCP
     profileGroup = snapshotStatusCP.add_mutually_exclusive_group()
