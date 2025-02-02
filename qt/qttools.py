@@ -67,7 +67,6 @@ import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
 
-
 # |---------------|
 # | Font handling |
 # |---------------|
