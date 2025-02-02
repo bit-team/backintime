@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \"Back In Time\" \"1.5.2-dev\"\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-08-06 22:21+0000\n"
-"Last-Translator: Carmina16 <Carmina16@users.noreply.translate.codeberg.org>\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-01-26 18:37+0000\n"
+"Last-Translator: Mithridates <mithridates@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Occidental <https://translate.codeberg.org/projects/backintime/common/ie/>\n"
 "Language: ie\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.9.2\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
 #: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:86
@@ -25,19 +25,19 @@ msgstr "Avise"
 
 #: common/config.py:141 common/config.py:251
 msgid "Main profile"
-msgstr ""
+msgstr "Chef-profil"
 
 #: common/config.py:258
 msgid "Local (EncFS encrypted)"
-msgstr ""
+msgstr "Local (ciffrat con EncFS)"
 
 #: common/config.py:259
 msgid "SSH (EncFS encrypted)"
-msgstr ""
+msgstr "SSH (ciffrat con ENcFS)"
 
 #: common/config.py:270
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 #: common/config.py:272
 msgid "SSH"
@@ -46,7 +46,7 @@ msgstr "SSH"
 #: common/config.py:272 common/config.py:282
 #: qt/manageprofiles/tab_general.py:632
 msgid "SSH private key"
-msgstr ""
+msgstr "Privat clave SSH"
 
 #: common/config.py:275
 msgid "Local encrypted"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
-msgstr ""
+msgstr "Ne posset inscrir nov crontab."
 
 #: common/config.py:1491
 msgid ""
@@ -113,11 +113,11 @@ msgstr ""
 #: common/config.py:1597
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr ""
+msgstr "Ne posset trovar UUID por {path}"
 
 #: common/configfile.py:107
 msgid "Failed to save config"
-msgstr ""
+msgstr "Ne posset salvar config"
 
 #: common/configfile.py:143
 msgid "Failed to load config"
@@ -126,16 +126,16 @@ msgstr ""
 #: common/configfile.py:690 common/configfile.py:789
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr ""
+msgstr "Profil \"{name}\" ja existe."
 
 #: common/configfile.py:735
 msgid "The last profile cannot be removed."
-msgstr ""
+msgstr "Li ultim profil ne posse esser removet."
 
 #: common/encfstools.py:81
 #, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr ""
+msgstr "Ne posset montar '{command}'"
 
 #: common/encfstools.py:131
 msgid "Configuration for the encrypted directory not found."
@@ -151,7 +151,7 @@ msgstr "Anullar"
 
 #: common/encfstools.py:148
 msgid "Please confirm the password."
-msgstr ""
+msgstr "Ples confirmar li passaparol."
 
 #: common/encfstools.py:152
 msgid "Password doesn't match."
@@ -169,7 +169,7 @@ msgstr ""
 #: common/mount.py:708
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr ""
+msgstr "{command} ne trovar. Ples installar it (p.ex. per \"{installcommand}\")"
 
 #: common/mount.py:732
 #, python-brace-format
@@ -208,8 +208,8 @@ msgstr ""
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Atendent %s second."
+msgstr[1] "Atendent %s secondes."
 
 #: common/snapshots.py:901
 #, python-brace-format
@@ -221,9 +221,8 @@ msgid "Please be patient. Finalizing…"
 msgstr ""
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Ne successat creat un fólder"
+msgstr "Ne successat crear un fólder."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -231,7 +230,7 @@ msgstr ""
 
 #: common/snapshots.py:1161
 msgid "Saving permissions…"
-msgstr ""
+msgstr "Salvant permissiones…"
 
 #: common/snapshots.py:1273
 #, python-brace-format
@@ -267,11 +266,11 @@ msgstr ""
 #: common/snapshots.py:1420
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' finit con code de exeada {exit_code}"
 
 #: common/snapshots.py:1433
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Usar 'man rsync' por plu detallies"
 
 #: common/snapshots.py:1440
 msgid ""
@@ -285,7 +284,7 @@ msgstr ""
 #: common/snapshots.py:1505
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr ""
+msgstr "Ne posset renominar {new_path} a {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -297,7 +296,7 @@ msgstr ""
 
 #: common/snapshots.py:1885
 msgid "Trying to keep min free space"
-msgstr ""
+msgstr "Provant mantener un minimum de líber spacie"
 
 #: common/snapshots.py:1924
 #, python-brace-format
@@ -311,11 +310,11 @@ msgstr "Nu"
 #: common/sshtools.py:240
 #, python-brace-format
 msgid "Unable to mount {sshfs}"
-msgstr ""
+msgstr "Ne posset montar {sshfs}"
 
 #: common/sshtools.py:308
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr ""
+msgstr "ssh-agent ne trovat. Ples confirmar que it es installat."
 
 #: common/sshtools.py:478
 msgid ""
@@ -326,7 +325,7 @@ msgstr ""
 #: common/sshtools.py:567
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "Cipher {cipher} fallit por {host}."
 
 #: common/sshtools.py:714
 msgid "Remote path exists but is not a directory."
@@ -351,7 +350,7 @@ msgstr ""
 
 #: common/sshtools.py:1020 common/sshtools.py:1029
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "Usar 'man backintime' por plu detallies"
 
 #: common/sshtools.py:1024
 #, python-brace-format
@@ -371,7 +370,7 @@ msgstr ""
 #: common/sshtools.py:1201
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr ""
+msgstr "Ples inscrir un passaparol por \"{user}\"."
 
 #: common/tools.py:392
 #, python-brace-format
@@ -414,7 +413,7 @@ msgstr ""
 
 #: common/tools.py:496
 msgid "Expert Options"
-msgstr ""
+msgstr "Expert Optiones"
 
 #: common/tools.py:500
 #, python-brace-format
@@ -455,11 +454,11 @@ msgstr ""
 
 #: qt/app.py:255
 msgid "Add to Include"
-msgstr ""
+msgstr "Adjunter a Inclusion"
 
 #: qt/app.py:257
 msgid "Add to Exclude"
-msgstr ""
+msgstr "Adjunter a Exclusion"
 
 #: qt/app.py:342
 #, python-brace-format
@@ -560,7 +559,7 @@ msgstr ""
 
 #: qt/app.py:553 qt/app.py:1997
 msgid "Website"
-msgstr ""
+msgstr "Websitu"
 
 #: qt/app.py:556 qt/app.py:1399
 msgid "Changelog"
@@ -572,7 +571,7 @@ msgstr ""
 
 #: qt/app.py:562
 msgid "Ask a question"
-msgstr ""
+msgstr "Questionar"
 
 #: qt/app.py:565
 msgid "Report a bug"
@@ -605,7 +604,7 @@ msgstr ""
 
 #: qt/app.py:586 qt/app.py:1576 qt/app.py:1608 qt/snapshotsdialog.py:166
 msgid "Restore to …"
-msgstr ""
+msgstr "Restituer a …"
 
 #: qt/app.py:588
 msgid "Restore the selected files or directories to a new destination."
@@ -667,11 +666,11 @@ msgstr ""
 
 #: qt/app.py:842
 msgid "Do you really want to close it?"
-msgstr ""
+msgstr "Vole tu vermen cluder it?"
 
 #: qt/app.py:1011
 msgid "Working:"
-msgstr ""
+msgstr "Laborant:"
 
 #: qt/app.py:1059
 msgid "Done, no backup needed"
@@ -679,7 +678,7 @@ msgstr ""
 
 #: qt/app.py:1068
 msgid "Working"
-msgstr ""
+msgstr "Laborant"
 
 #: qt/app.py:1077 qt/messagebox.py:93
 msgid "Error"
@@ -687,11 +686,11 @@ msgstr "Errore"
 
 #: qt/app.py:1100
 msgid "Sent"
-msgstr ""
+msgstr "Misset"
 
 #: qt/app.py:1101
 msgid "Speed"
-msgstr ""
+msgstr "Rapiditá"
 
 #: qt/app.py:1102
 msgid "ETA"

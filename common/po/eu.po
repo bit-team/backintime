@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-11-03 06:36+0000\n"
-"Last-Translator: Muxutruk2 <Muxutruk2@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-11-20 07:14+0000\n"
+"Last-Translator: alexgabi <alexgabi@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +140,7 @@ msgid "The last profile cannot be removed."
 msgstr "Ezin da azken profila kendu."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "'{command}' ezin da muntatu"
 
@@ -149,9 +149,8 @@ msgid "Configuration for the encrypted directory not found."
 msgstr "Zifratutako karpetaren ezarpenak ez dira aurkitu."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Sortu karpeta zifratu berri bat?"
+msgstr "Karpeta zifratu berri bat sortu?"
 
 #: common/encfstools.py:143
 msgid "Cancel"
@@ -209,13 +208,12 @@ msgid "Deferring backup while on battery"
 msgstr "Atzeratu babeskopia bateriaz dabilen bitartean"
 
 #: common/snapshots.py:829
-#, fuzzy
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"Ezin du aurkitu babeskopien karpeta.\n"
-"Karpeta unitate eramangarri batean badago konekta ezazu, mesedez."
+"Ezin izan da babeskopien karpeta aurkitu.\n"
+"Karpeta unitate eramangarri batean badago konekta ezazu gailua."
 
 #: common/snapshots.py:833
 #, python-format
@@ -657,12 +655,12 @@ msgstr ""
 "kokalekura."
 
 #: qt/app.py:600
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr ""
-"Leheneratu erakutsitako karpeta eta bere eduki guztia kokaleku berrira."
+"Leheneratu une honetan erakusten den direktorioa eta bere eduki guztia "
+"kokaleku berri batera."
 
 #: qt/app.py:603
 msgid "Up"
@@ -681,9 +679,8 @@ msgid "Release Candidate"
 msgstr "Askatzeko bertsio hautagaia"
 
 #: qt/app.py:642
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "EncFS kentzeari buruzko mezua erakusten du berriro."
+msgstr "Bertsio hautagai honi buruzko mezua erakusten du berriro."
 
 #: qt/app.py:678
 msgid "Back In &Time"
@@ -754,9 +751,8 @@ msgid "Home"
 msgstr "Hasiera"
 
 #: qt/app.py:1194
-#, fuzzy
 msgid "Backup directories"
-msgstr "Babeskopia-karpetak"
+msgstr "Babeskopia direktorioak"
 
 #: qt/app.py:1290
 msgid "Snapshot Name"
@@ -799,12 +795,10 @@ msgstr ""
 "\"rsync --update\" aukera erabiliz."
 
 #: qt/app.py:1491
-#, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Ezabatu jatorrizko karpetako fitxategirik berrienak."
 
 #: qt/app.py:1494
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -812,20 +806,19 @@ msgid ""
 "taking the snapshot."
 msgstr ""
 "Leheneratu hautatutako fitxategiak edo karpetak jatorrizko kokalekura eta "
-"ezabatu babeskopian ez dauden fitxategi edo karpetak. Argi ibili, honek "
-"babeskopia egitean baztertutako fitxategi eta karpetak ezabatuko ditu."
+"ezabatu babeskopian ez dauden fitxategi edo karpetak. Kontu handiz egin, "
+"honek babeskopia egitean baztertutako fitxategi eta karpetak ezabatuko ditu."
 
 #: qt/app.py:1506
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
 msgstr[0] ""
-"Seguru zaude fitxategi hau leheneratu\n"
-"nahi duzula '{path}' karpetan?"
+"Seguru zaude elementu hau leheneratu\n"
+"nahi duzula karpeta berrian?"
 msgstr[1] ""
 "Seguru zaude fitxategi hauek leheneratu\n"
-"nahi dituzula '{path}' karpetan?"
+"nahi dituzula karpeta berrian?"
 
 #: qt/app.py:1516
 msgid "Do you really want to restore this element?"
@@ -839,12 +832,11 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Ziur {path}-ko fitxategi berri guztiak kendu nahi dituzula?"
 
 #: qt/app.py:1538
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
-"Seguru zaude ezabatu nahi duzula jatorrizko karpetatik berriagoak diren "
-"fitxategi guztiak?"
+"Seguru zaude jatorrizko karpetatik berriagoak diren fitxategi guztiak "
+"ezabatu nahi dituzula?"
 
 #: qt/app.py:1544
 #, python-brace-format
@@ -1102,18 +1094,16 @@ msgid "&Include"
 msgstr "&Sartu"
 
 #: qt/manageprofiles/__init__.py:120
-#, fuzzy
 msgid "Include files and directories"
-msgstr "sartu fitxategiak eta karpetak"
+msgstr "Fitxategiak eta karpetak barne"
 
 #: qt/manageprofiles/__init__.py:137 qt/manageprofiles/__init__.py:202
 msgid "Add file"
 msgstr "Gehitu fitxategia"
 
 #: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
-#, fuzzy
 msgid "Add directory"
-msgstr "Gehitu karpeta"
+msgstr "Gehitu direktorioa"
 
 #: qt/manageprofiles/__init__.py:151
 msgid "&Exclude"
@@ -1133,9 +1123,8 @@ msgstr ""
 " dira aurreikusten modu honetan, EncFS-k enkriptatutakoaren ondorioz."
 
 #: qt/manageprofiles/__init__.py:178
-#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "Baztertu txantiloi, fitxategi edo karpeta hauek"
+msgstr "Baztertu txantiloi, fitxategi edo direktorio hauek"
 
 #: qt/manageprofiles/__init__.py:211
 msgid "Add default"
@@ -1216,9 +1205,8 @@ msgid "Exclude file"
 msgstr "Baztertu fitxategia"
 
 #: qt/manageprofiles/__init__.py:615
-#, fuzzy
 msgid "Exclude directory"
-msgstr "Baztertu karpeta"
+msgstr "Baztertu direktorioa"
 
 #: qt/manageprofiles/__init__.py:639
 msgid "Include file"
@@ -1234,9 +1222,8 @@ msgstr ""
 "Nahi duzu gehitu esteka sinbolikoen helburu-objektuak?"
 
 #: qt/manageprofiles/__init__.py:669
-#, fuzzy
 msgid "Include directory"
-msgstr "Sartu karpeta"
+msgstr "Sartu direktorioa"
 
 #: qt/manageprofiles/__init__.py:728
 msgid ""
@@ -1266,13 +1253,12 @@ msgid "Hours:"
 msgstr "Orduak:"
 
 #: qt/manageprofiles/schedulewidget.py:82
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Exekutatu Back In Time unitatea konektatu bezain pronto (X egunean behin bakarrik).\n"
-"Zure sudo pasahitza eskatuko zaizu."
+"Exekutatu Back In Time unitatea konektatu bezain pronto (X egunean behin "
+"bakarrik). Zure sudo pasahitza eskatuko zaizu."
 
 #: qt/manageprofiles/schedulewidget.py:87
 msgid ""
@@ -1492,9 +1478,8 @@ msgid "Keep one snapshot per year for all years."
 msgstr "Mantendu babeskopia bat urteko urte guztietan."
 
 #: qt/manageprofiles/tab_auto_remove.py:151
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "Ez ezabatu izena duten babeskopiak."
+msgstr "Mantendu izena duten babeskopiak."
 
 #: qt/manageprofiles/tab_auto_remove.py:153
 msgid ""
@@ -1505,9 +1490,8 @@ msgstr ""
 "ezabatuko."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Galdera"
+msgstr "Kontuz:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
@@ -1540,9 +1524,8 @@ msgid "when taking a manual snapshot"
 msgstr "eskuzko babeskopia egitean"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Mesedez, instalatu 'nocache' aukera hau gaitzeko)"
+msgstr "Mesedez, instalatu 'nocache' aukera hau gaitzeko."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1694,13 +1677,12 @@ msgid "Private Key:"
 msgstr "Gako pribatua:"
 
 #: qt/manageprofiles/tab_general.py:149
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
 "Aukeratu lehendik dagoen gako pribatuaren fitxategi bat (normalean "
-"\"id_rsa\" izenekoa)"
+"\"id_ed25519\" izena du eta konfigurazio zaharretan \"id_rsa\" )"
 
 #: qt/manageprofiles/tab_general.py:161
 msgid ""
@@ -1787,9 +1769,8 @@ msgstr ""
 "gehiago eskuragarri daude {whitepaper} honetan."
 
 #: qt/manageprofiles/tab_general.py:611
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
-msgstr "Ziur zaude aldatu nahi duzula babeskopien karpeta?"
+msgstr "Ziur zaude aldatu nahi duzula babeskopien direktorioa?"
 
 #: qt/manageprofiles/tab_general.py:648
 #, python-brace-format
@@ -1932,22 +1913,21 @@ msgid "Import"
 msgstr "Inportatu"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Hautatu konfigurazio fitxategia inportatu behar den babes-irudien karpeta. "
-"Bidea honelakoa izan daiteke: {samplePath}"
+"Hautatu konfigurazio fitxategia inportatu behar den babeskopien direktorioa."
+" Bidea honelakoa izan daiteke: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
-"Karpeta kanpoko edo urruneko disko batean badago, eskuz muntatu behar da "
-"aldez aurretik."
+"Direktorioa kanpoko edo urruneko disko batean badago, eskuz muntatu behar da"
+" aldez aurretik."
 
 #: qt/restoredialog.py:59
 msgid "Show full Log"

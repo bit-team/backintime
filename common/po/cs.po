@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-09-24 06:13+0000\n"
+"PO-Revision-Date: 2024-12-21 17:20+0000\n"
 "Last-Translator: p-bo <p-bo@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.8.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -72,34 +72,26 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}“"
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Složka zachycených stavů není platná!"
+msgstr "Složka zachycených stavů není platná."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Je třeba vybrat alespoň jednu složku pro zálohu."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr ""
-"Podsložka, do které je zálohováno, nemůže být zároveň součástí toho, co se "
-"zálohuje."
+msgstr "Složka nemůže být součástí toho, co se zálohuje."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr ""
-"Podsložka, do které je zálohováno, nemůže být zároveň součástí toho, co se "
-"zálohuje."
+msgstr "Podsložky nemohou být součástí toho, co se zálohuje."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
 msgstr "Novou naplánovanou úlohu (crontab) se nepodařilo zapsat."
 
 #: common/config.py:1491
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -122,7 +114,7 @@ msgstr ""
 "systémová služba DBus „{dbus_interface}“ nebyla k dispozici"
 
 #: common/config.py:1586
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Plán, používající správce zařízení udev, nefunguje v režimu {mode}"
 
@@ -149,17 +141,15 @@ msgid "The last profile cannot be removed."
 msgstr "Nelze odebrat poslední zbývající profil."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Nedaří se připojit „{command}“"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "Nastavení pro šifrovanou složku nenalezeno."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "Vytvořit novou šifrovanou složku?"
 
@@ -180,7 +170,7 @@ msgid "Take snapshot"
 msgstr "Pořizování zachyceného stavu"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "Nedaří se odpojit {mountprocess} od {mountpoint}."
 
@@ -220,7 +210,6 @@ msgstr ""
 "Zálohování odloženo aby se ušetřila energie z napájejícího akumulátoru"
 
 #: common/snapshots.py:829
-#, fuzzy
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
@@ -246,9 +235,8 @@ msgid "Please be patient. Finalizing…"
 msgstr "Chvíli strpení. Dokončování…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Složku se nepodařilo vytvořit"
+msgstr "Složku se nepodařilo vytvořit."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -259,19 +247,18 @@ msgid "Saving permissions…"
 msgstr "Ukládání oprávnění…"
 
 #: common/snapshots.py:1273
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr "Nalezen pozůstatek „{snapshot_id}“ ve kterém lze pokračovat."
 
 #: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr "Odebírání složky „{snapshot_id}“, zanechané minulým průchodem"
 
 #: common/snapshots.py:1307
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "Složku se nepodařilo odstranit"
+msgstr "Složku není možné odstranit"
 
 #: common/snapshots.py:1361
 msgid "Taking snapshot"
@@ -296,7 +283,7 @@ msgstr "„rsync“ skončilo s návratovým kódem {exit_code}"
 
 #: common/snapshots.py:1433
 msgid "See 'man rsync' for more details"
-msgstr "Podrobnosti získáte spuštěním „man rsync“"
+msgstr "Podrobnosti se dozvíte spuštěním „man rsync“"
 
 #: common/snapshots.py:1440
 msgid ""
@@ -310,9 +297,9 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nic se nezměnilo, není tedy třeba pořizovat nový zachycený stav"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Nepodařilo se přejmenovat {new_path} na {path}"
+msgstr "Není možné přejmenovat {new_path} na {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -336,12 +323,11 @@ msgid "Now"
 msgstr "Nyní"
 
 #: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Nedaří se připojit (mount) {sshfs}"
 
 #: common/sshtools.py:308
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent nenalezen. Ověřte, zda je nainstalovaný."
 
@@ -417,12 +403,11 @@ msgstr ""
 "souborových systémech."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Vzdálené umístění existuje, ale není to složka."
+msgstr "{path} není platnou složkou."
 
 #: common/tools.py:438
-#, fuzzy
 msgid "Creation of following directory failed:"
 msgstr "Vytváření následující složky se nezdařilo:"
 
@@ -431,7 +416,7 @@ msgid "Write access may be restricted."
 msgstr "Přístup pro zápis může být omezen."
 
 #: common/tools.py:480
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
@@ -441,7 +426,7 @@ msgstr ""
 "systém."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -460,7 +445,7 @@ msgid "Expert Options"
 msgstr "Pokročilé předvolby"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -470,7 +455,6 @@ msgstr ""
 "vzdáleném stroji“ (SSH)."
 
 #: common/tools.py:534
-#, fuzzy
 msgid "File creation failed in this directory:"
 msgstr "Vytvoření souboru v této složce se nezdařilo:"
 
@@ -495,7 +479,6 @@ msgid "Shortcuts"
 msgstr "Zkratky"
 
 #: qt/app.py:187
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
@@ -521,7 +504,6 @@ msgstr ""
 "nastavení."
 
 #: qt/app.py:347
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -530,7 +512,6 @@ msgstr ""
 "počítače)?"
 
 #: qt/app.py:374
-#, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Nepodařilo se najít složku se zachycenými stavy."
 
@@ -656,7 +637,6 @@ msgid "Restore"
 msgstr "Obnovit"
 
 #: qt/app.py:583
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Obnovit označené soubory či složky do jejich původních umístění."
 
@@ -665,12 +645,10 @@ msgid "Restore to …"
 msgstr "Obnovit do…"
 
 #: qt/app.py:588
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Obnovit označené soubory či složky do nového umístění."
 
 #: qt/app.py:594
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
@@ -678,7 +656,6 @@ msgstr ""
 "Obnovit právě zobrazenou složku a veškerý její obsah do původního umístění."
 
 #: qt/app.py:600
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -699,12 +676,11 @@ msgstr "Porovnat zachycené stavy…"
 
 #: qt/app.py:639 qt/app.py:2067
 msgid "Release Candidate"
-msgstr ""
+msgstr "Kandidát na vydání"
 
 #: qt/app.py:642
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Znovu zobrazit zprávu o odebrání EncFS."
+msgstr "Znovu zobrazit zprávu ohledně tohoto kandidáta na vydání."
 
 #: qt/app.py:678
 msgid "Back In &Time"
@@ -775,7 +751,6 @@ msgid "Home"
 msgstr "Domovská složka"
 
 #: qt/app.py:1194
-#, fuzzy
 msgid "Backup directories"
 msgstr "Složky pro zálohu"
 
@@ -821,12 +796,10 @@ msgstr ""
 "(pomocí volby „rsync --update“)."
 
 #: qt/app.py:1491
-#, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Odebrat novější prvky v původní složce."
 
 #: qt/app.py:1494
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -839,19 +812,12 @@ msgstr ""
 "pořizování zachyceného stavu."
 
 #: qt/app.py:1506
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Opravdu chcete tento soubor obnovit\n"
-"do nové složky „{path}“?"
-msgstr[1] ""
-"Opravdu chcete tyto soubory obnovit\n"
-"do nové složky „{path}“?"
-msgstr[2] ""
-"Opravdu chcete tyto soubory obnovit\n"
-"do nové složky „{path}“?"
+msgstr[0] "Opravdu chcete tento soubor obnovit do nové složky „{path}“?"
+msgstr[1] "Opravdu chcete tyto soubory obnovit do nové složky „{path}“?"
+msgstr[2] "Opravdu chcete tyto soubory obnovit do nové složky „{path}“?"
 
 #: qt/app.py:1516
 msgid "Do you really want to restore this element?"
@@ -866,7 +832,6 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Opravdu chcete veškeré novější soubory v „{path}“ odebrat?"
 
 #: qt/app.py:1538
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
@@ -922,25 +887,25 @@ msgstr "Váš překlad"
 #: qt/app.py:2023
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "E-mail na {link_and_label}."
 
 #: qt/app.py:2026
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "E-mailová konference {link_and_label}"
 
 #: qt/app.py:2030
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} na webových stránkách projektu."
 
 #: qt/app.py:2033
 msgid "Open an issue"
-msgstr ""
+msgstr "Otevřít problém"
 
 #: qt/app.py:2034
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "Alternativně je možné použít jiný vámi zvolený kanál."
 
 #: qt/app.py:2039
 #, python-brace-format
@@ -954,6 +919,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Tato verze Back In Time je teprve kandidátem na vydání a je určena hlavně pro testování stability při přípravě příštího oficiálního vydání.\n"
+"Nejsou sbírány žádné informace o uživateli či telemetrie. Nicméně, kolektiv vývojářů Back In Time velmi zajímá vědět, zda je kandidát na vydání používán a zda má smysl pokračovat v poskytování takovýchto verzí před vydáním.\n"
+"Proto prosíme o krátkou zpětnou vazbu zda jste si tuto verzi vyzkoušeli, i když jste se nesetkali s žádnými problémy. I rychlé testovací spuštění na pár minut by hodně pomohlo.\n"
+"K dispozici jsou následující možnosti kontaktování:\n"
+"{contact_list}\n"
+"V této verzi tato zpráva už nebude znovu zobrazována, ale je možné se k ní kdykoli dostat prostřednictvím nabídky nápovědy.\n"
+"Děkujeme za vaši podporu a pomoc se zlepšováním Back In Time!\n"
+"Váš kolektiv vývojářů Back In Time"
 
 #: qt/app.py:2090
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1117,7 +1090,6 @@ msgid "&Include"
 msgstr "&Zahrnout"
 
 #: qt/manageprofiles/__init__.py:120
-#, fuzzy
 msgid "Include files and directories"
 msgstr "Zahrnout soubory a složky"
 
@@ -1126,7 +1098,6 @@ msgid "Add file"
 msgstr "Přidat soubor"
 
 #: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
-#, fuzzy
 msgid "Add directory"
 msgstr "Přidat složku"
 
@@ -1148,7 +1119,6 @@ msgstr ""
 "souborů se totiž v tomto režimu kvůli EncFS šifrování nedají předvídat."
 
 #: qt/manageprofiles/__init__.py:178
-#, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Vynechat zástupně vyjádřené, soubory a složky"
 
@@ -1230,7 +1200,6 @@ msgid "Exclude file"
 msgstr "Vynechat soubor"
 
 #: qt/manageprofiles/__init__.py:615
-#, fuzzy
 msgid "Exclude directory"
 msgstr "Vynechat složku"
 
@@ -1248,7 +1217,6 @@ msgstr ""
 "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
 
 #: qt/manageprofiles/__init__.py:669
-#, fuzzy
 msgid "Include directory"
 msgstr "Zahrnout složku"
 
@@ -1469,10 +1437,13 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"Procedura inteligentního odebírání bude spuštěna přímo na vzdáleném stroji, "
+"nikoli lokálně. Na vzdáleném stroji je třeba, aby byly nainstalovány a k "
+"dispozici příkazy „bash“, „screen“ a „flock“."
 
 #: qt/manageprofiles/tab_auto_remove.py:111
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "Pokud vybráno, Back In Time nejprve vyzkouší vzdálený stroj."
 
 #: qt/manageprofiles/tab_auto_remove.py:118
 msgid "Keep all snapshots for the last"
@@ -1508,7 +1479,6 @@ msgid "Keep one snapshot per year for all years."
 msgstr "Ponechat jeden zachycený stav co rok za všechna léta."
 
 #: qt/manageprofiles/tab_auto_remove.py:151
-#, fuzzy
 msgid "Keep named snapshots."
 msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval."
 
@@ -1517,17 +1487,20 @@ msgid ""
 "Snapshots that, in addition to the usual timestamp, have been given a name "
 "will not be deleted."
 msgstr ""
+"Zachycené stavy, kterým krom obvyklého časového razítka byl dán název, "
+"nebudou smazány."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Dotaz"
+msgstr "Výstraha:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Tyto předvolby jsou pro pokročilá nastavení. Měňte je pouze pokud jste si "
+"plně vědomi jejich důsledků."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1552,9 +1525,8 @@ msgid "when taking a manual snapshot"
 msgstr "při ručně spuštěném pořízení zachyceného stavu"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(pokud chcete zapnout tuto možnost, nainstalujte „nocache“)"
+msgstr "Pokud chcete zapnout tuto možnost, nainstalujte „nocache“."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1691,7 +1663,7 @@ msgstr "Kam ukládat zachycené stavy"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr ""
+msgstr "Složka"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1710,12 +1682,12 @@ msgid "Private Key:"
 msgstr "Soukromá část klíče:"
 
 #: qt/manageprofiles/tab_general.py:149
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
-"Zvolte existující soubor se soukromým klíčem (obvykle nazvaný „id_rsa“)"
+"Zvolte existující soubor se soukromým klíčem (obvykle nazvaný „id_ed25519“, "
+"ve starších případech „id_rsa“)."
 
 #: qt/manageprofiles/tab_general.py:161
 msgid ""
@@ -1802,7 +1774,6 @@ msgstr ""
 "dispozici v {whitepaper}."
 
 #: qt/manageprofiles/tab_general.py:611
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "Opravdu změnit složku se zachycenými stavy?"
 
@@ -1953,7 +1924,7 @@ msgid "Import"
 msgstr "Naimportovat"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -1962,7 +1933,6 @@ msgstr ""
 "nastaveními. Popis umístění může vypadat jako: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."

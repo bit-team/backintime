@@ -2,17 +2,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Icelandic (Back In Time)\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-08-05 09:28+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-01-03 03:42+0000\n"
+"Last-Translator: sveinki <sveinki@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.9.2\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
 #: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:86
@@ -24,14 +24,12 @@ msgid "Main profile"
 msgstr "Aðalsnið"
 
 #: common/config.py:258
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "Staðvært dulritað"
+msgstr "Staðvært (EncFS-dulritað)"
 
 #: common/config.py:259
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH dulritað"
+msgstr "SSH (EncFS-dulritað)"
 
 #: common/config.py:270
 msgid "Local"
@@ -69,23 +67,20 @@ msgid "Profile: \"{name}\""
 msgstr "Snið: \"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Mappa fyrir skyndiafrit er ekki gild!"
+msgstr "Mappa fyrir skyndiafrit er ekki gild."
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Að minnsta kosti ein mappa verður að vera undir öryggisafrit."
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Aftrits undirmappa getur ekki verið innifalin."
+msgstr "Mappan getur ekki verið innifalin í öryggisafritinu."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Aftrits undirmappa getur ekki verið innifalin."
+msgstr "Undirmöppurnar geta ekki verið innifaldar í öryggisafritinu."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -109,7 +104,7 @@ msgstr ""
 "'{dbus_interface}' var ekki í boði"
 
 #: common/config.py:1586
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Áætlað udev virkar ekki með hamnum {mode}"
 
@@ -136,17 +131,15 @@ msgid "The last profile cannot be removed."
 msgstr "Ekki er hægt að fjarlægja síðasta sniðið."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Get ekki tengt '{command}'"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "Stillingar fyrir dulritaða möppu fannst ekki."
+msgstr "Grunnstillingar fyrir dulritaða möppu fundust ekki."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "Búa til nýja dulritaða möppu?"
 
@@ -167,15 +160,16 @@ msgid "Take snapshot"
 msgstr "Taka skyndiafrit"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "Get ekki aftengt {mountprocess} úr {mountpoint}."
 
 #: common/mount.py:708
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"{command} fannst ekki. Endilega settu það upp (t.d. með \"{installcommand}\""
+"{command} fannst ekki. Endilega settu það upp (t.d. með "
+"\"{installcommand}\")"
 
 #: common/mount.py:732
 #, python-brace-format
@@ -209,6 +203,8 @@ msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
+"Finn ekki möppu fyrir skyndiafrit.\n"
+"Ef hún er á útskiptanlegu drifi, skaltu tengja það."
 
 #: common/snapshots.py:833
 #, python-format
@@ -224,12 +220,11 @@ msgstr "Mistókst að taka skyndiafritið {snapshot_id}."
 
 #: common/snapshots.py:932
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Sýndu þolinmæði. Er að klára.…"
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Get ekki búið til möppu"
+msgstr "Get ekki búið til möppu."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
@@ -240,17 +235,17 @@ msgid "Saving permissions…"
 msgstr "Vista aðgangsheimildir…"
 
 #: common/snapshots.py:1273
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "Mistókst að taka skyndiafritið {snapshot_id}."
+msgstr ""
+"Fann leifar af skyndiafritinu {snapshot_id} sem hægt er að halda áfram með."
 
 #: common/snapshots.py:1297
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr ""
+msgstr "Fjarlægi leifar af möppunni {snapshot_id} frá síðustu keyrslu"
 
 #: common/snapshots.py:1307
-#, fuzzy
 msgid "Can't remove directory"
 msgstr "Get ekki fjarlægt möppu"
 
@@ -264,16 +259,18 @@ msgstr "Tókst"
 
 #: common/snapshots.py:1415
 msgid "Partial transfer due to error"
-msgstr ""
+msgstr "Einungis hluti skráaflutnings vegna villu"
 
 #: common/snapshots.py:1416
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
+"Einungis hluti skráaflutnings vegna horfinna upprunaskráa (skoðaðu 'man "
+"rsync')"
 
 #: common/snapshots.py:1420
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "'rsync' hætti með stöðvunarkóðanum {exit_code}"
 
 #: common/snapshots.py:1433
 msgid "See 'man rsync' for more details"
@@ -286,12 +283,12 @@ msgstr ""
 
 #: common/snapshots.py:1461
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Engar breytingar, engin þörf fyrir nýtt skyndiafrit"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Gat ekki endurnefnt {new_path} sem {path}"
+msgstr "Gat ekki endurnefnt {new_path} sem {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -315,26 +312,26 @@ msgid "Now"
 msgstr "Núna"
 
 #: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Get ekki tengt {sshfs}"
 
 #: common/sshtools.py:308
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr ""
-"ssh-agent fannst ekki. Gakktu úr skugga um að það sé uppsett á vélinni."
+msgstr "ssh-agent fannst ekki. Gakktu úr skugga um að það sé uppsett."
 
 #: common/sshtools.py:478
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"Tókst ekki að aflæsa ssh-einkalykli. Rangt lykilorð eða að lykilorð er ekki "
+"tiltækt fyrir cron."
 
 #: common/sshtools.py:567
 #, python-brace-format
 msgid "Cipher {cipher} failed for {host}."
-msgstr ""
+msgstr "Dulritunaraðferðin {cipher} tókst ekki fyrir {host}."
 
 #: common/sshtools.py:714
 msgid "Remote path exists but is not a directory."
@@ -359,7 +356,7 @@ msgstr "Fjartengda vélin {host} styður ekki {command}"
 
 #: common/sshtools.py:1020 common/sshtools.py:1029
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "Skoðaðu 'man backintime' til að sjá frekari leiðbeiningar"
 
 #: common/sshtools.py:1024
 #, python-brace-format
@@ -382,38 +379,38 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "Settu inn lykilorð fyrir \"{user}\"."
 
 #: common/tools.py:392
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Markskráakerfi fyrir {path} er í FAT formi sem virkar ekki með hörðum-"
-"tenglum. Notaðu frekar upprunalegt Linux skráakerfi."
+"Markskráakerfi fyrir {path} er í NTFS-sniði, sem þekkt er fyrir ósamhæfni "
+"við Unix-ættuð skráakerfi."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Fjartengd slóð er til, en er ekki mappa."
+msgstr "{path} er ekki gild mappa."
 
 #: common/tools.py:438
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "Gerð eftirfarandi möppu mistókst:"
 
 #: common/tools.py:440 common/tools.py:536
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Skrifaðgangur gæti verið takmarkaður."
 
 #: common/tools.py:480
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"Markskráakerfi fyrir {path} er í FAT formi sem virkar ekki með hörðum-"
-"tenglum. Notaðu frekar upprunalegt Linux skráakerfi."
+"Markskráakerfi fyrir {path} er á FAT-sniði sem virkar ekki með hörðum-"
+"tenglum. Notaðu frekar upprunalegt GNU/Linux skráakerfi."
 
 #: common/tools.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -432,17 +429,17 @@ msgid "Expert Options"
 msgstr "Ítarlegri valkostir"
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "Markskráakerfi fyrir {path} er í sshfs-tengd sameign. SSHFS styður ekki "
-"harða tengla. Notaðu frekar 'SSH'."
+"harða-tengla. Notaðu frekar 'SSH'."
 
 #: common/tools.py:534
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "Mistókst að útbúa skrá í þessari möppu:"
 
 #: qt/aboutdlg.py:37 qt/app.py:578
 msgid "About"
@@ -469,6 +466,8 @@ msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
+"Þessi mappa er ekki til\n"
+"í valda skyndiafritinu."
 
 #: qt/app.py:255
 msgid "Add to Include"
@@ -484,21 +483,25 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"Það lítur út fyrir að {app_name} sé að keyra í fyrsta skipti þar sem engar "
+"grunnstillingar fundust."
 
 #: qt/app.py:347
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
+"Flytja inn fyrirliggjandi grunnstillingar (úr markmöppu öryggisafritunar eða"
+" annarri tölvu)?"
 
 #: qt/app.py:374
-#, fuzzy
 msgid "Can't find snapshots directory."
-msgstr "Get ekki fundið möppu fyrir skyndiafrit."
+msgstr "Finn ekki möppu fyrir skyndiafrit."
 
 #: qt/app.py:375
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
+"Ef hún er á útskiptanlegu drifi, skaltu tengja það og ýta síðan á 'Í lagi'."
 
 #: qt/app.py:487
 msgid "Take a snapshot"
@@ -598,19 +601,19 @@ msgstr "Tilkynna um villu"
 
 #: qt/app.py:568
 msgid "Translation"
-msgstr "Þýðing"
+msgstr "Þýðingar"
 
 #: qt/app.py:570
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Birtir aftur skilaboðin um þátttöku í þýðingum."
 
 #: qt/app.py:574
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Encryption Transition (EncFS)"
 
 #: qt/app.py:576
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Birtir aftur skilaboðin um fjarlægingu EncFS."
 
 #: qt/app.py:581 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
@@ -618,7 +621,6 @@ msgid "Restore"
 msgstr "Endurheimta"
 
 #: qt/app.py:583
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Endurheimta valdar skrár eða möppur á upprunalega staðsetningu."
 
@@ -627,12 +629,10 @@ msgid "Restore to …"
 msgstr "Endurheimta í …"
 
 #: qt/app.py:588
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Endurheimta valdar skrár eða möppur á nýja staðsetningu."
 
 #: qt/app.py:594
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
@@ -640,7 +640,6 @@ msgstr ""
 "Endurheimta sýnda möppu og allt innihald hennar á upprunalega staðsetningu."
 
 #: qt/app.py:600
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -660,11 +659,11 @@ msgstr "Bera saman skyndiafrit…"
 
 #: qt/app.py:639 qt/app.py:2067
 msgid "Release Candidate"
-msgstr ""
+msgstr "Útgáfukandídat"
 
 #: qt/app.py:642
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "Birtir aftur skilaboðin um þennan útgáfukandídat."
 
 #: qt/app.py:678
 msgid "Back In &Time"
@@ -735,7 +734,6 @@ msgid "Home"
 msgstr "Einkamappa (Home)"
 
 #: qt/app.py:1194
-#, fuzzy
 msgid "Backup directories"
 msgstr "Öryggisafritunarmöppur"
 
@@ -772,7 +770,6 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1491
-#, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Fjarlægja nýjar skrár í upprunalegri möppu."
 
@@ -785,16 +782,11 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1506
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Ertu viss um að þú viljir endurheimta þetta atriði í nýju möppuna\n"
-"{path}?"
-msgstr[1] ""
-"Ertu viss um að þú viljir endurheimta þessi atriði í nýju möppuna\n"
-"{path}?"
+msgstr[0] "Ertu viss um að þú viljir endurheimta þetta atriði í nýju möppuna?"
+msgstr[1] "Ertu viss um að þú viljir endurheimta þessi atriði í nýju möppuna?"
 
 #: qt/app.py:1516
 msgid "Do you really want to restore this element?"
@@ -808,7 +800,6 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Ertu viss um að þú viljir fjarlægja allar nýrri skrár í {path}?"
 
 #: qt/app.py:1538
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
@@ -820,6 +811,8 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
+"{BOLD}Aðvörun{BOLDEND}: Eyðing skráa á rót skráarkerfis gæti skemmt "
+"varanlega allt kerfið þitt."
 
 #: qt/app.py:1780
 msgid "Snapshot"
@@ -863,25 +856,26 @@ msgstr "Þýðing þín"
 #: qt/app.py:2023
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "Senda tölvupóst til {link_and_label}."
 
 #: qt/app.py:2026
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Póstlisti {link_and_label}"
 
 #: qt/app.py:2030
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} á vefsvæði verkefnisins."
 
 #: qt/app.py:2033
 msgid "Open an issue"
-msgstr ""
+msgstr "Opna verkbeiðni"
 
 #: qt/app.py:2034
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
+"Einnig gætirðu sent inn spurningar á aðra samskiptaleið sem þér líkar."
 
 #: qt/app.py:2039
 #, python-brace-format
@@ -899,6 +893,8 @@ msgstr ""
 #: qt/app.py:2090
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
+"Breytingar á tungumálastillingum munu öðlast gildi þegar þú skráir þig næst "
+"inn."
 
 #: qt/encfsmsgbox.py:42
 msgid ""
@@ -945,9 +941,8 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:87
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Back In &Time öryggisafritun"
+msgstr "Back In Time teymið þitt"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1045,7 +1040,6 @@ msgid "&Include"
 msgstr "Ta&ka með"
 
 #: qt/manageprofiles/__init__.py:120
-#, fuzzy
 msgid "Include files and directories"
 msgstr "Hafa með skrár og möppur"
 
@@ -1054,7 +1048,6 @@ msgid "Add file"
 msgstr "Bæta við skrá"
 
 #: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
-#, fuzzy
 msgid "Add directory"
 msgstr "Bæta við möppu"
 
@@ -1072,7 +1065,6 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/__init__.py:178
-#, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Undanskilja mynstur, skrár eða möppur"
 
@@ -1150,7 +1142,6 @@ msgid "Exclude file"
 msgstr "Undanskilja skrá"
 
 #: qt/manageprofiles/__init__.py:615
-#, fuzzy
 msgid "Exclude directory"
 msgstr "Undanskilja möppu"
 
@@ -1166,7 +1157,6 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/__init__.py:669
-#, fuzzy
 msgid "Include directory"
 msgstr "Hafa með möppu"
 
@@ -1189,7 +1179,7 @@ msgstr "Vikudagur:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "Tími:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1405,9 +1395,8 @@ msgid "Keep one snapshot per year for all years."
 msgstr "Geyma eitt skyndiafrit á ári."
 
 #: qt/manageprofiles/tab_auto_remove.py:151
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "Ekki fjarlægja nefnd skyndiafrit."
+msgstr "Geyma nefnd skyndiafrit."
 
 #: qt/manageprofiles/tab_auto_remove.py:153
 msgid ""
@@ -1416,9 +1405,8 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Spurning"
+msgstr "Varúð:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
@@ -1449,9 +1437,8 @@ msgid "when taking a manual snapshot"
 msgstr "við að taka handvirkt skyndiafrit"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Settu upp 'nocache' til að geta notað þennan valkost)"
+msgstr "Settu upp 'nocache' til að geta notað þennan valkost."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1571,7 +1558,7 @@ msgstr "Hvar á að vista skyndiafrit"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr ""
+msgstr "Mappa"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1670,7 +1657,6 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:611
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "Ertu viss um að þú viljir skipta um möppu undir skyndiafrit?"
 
@@ -1798,7 +1784,7 @@ msgstr "Síðasta athugun {time}"
 
 #: qt/restoreconfigdialog.py:55
 msgid "Import configuration"
-msgstr "Flytja inn uppsetningu"
+msgstr "Flytja inn grunnstillingar"
 
 #: qt/restoreconfigdialog.py:111 qt/restoreconfigdialog.py:207
 msgid "No config found"
@@ -1864,9 +1850,8 @@ msgid "Differing snapshots only"
 msgstr "Taka skyndiafrit mismunar"
 
 #: qt/snapshotsdialog.py:142
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Telja aðeins upp skyndiafrit sem jafngilda: "
+msgstr "Telja aðeins upp skyndiafrit sem jafngilda:"
 
 #: qt/snapshotsdialog.py:153
 msgid "Deep check (more accurate, but slow)"

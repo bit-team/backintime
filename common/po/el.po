@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-10-27 00:07+0000\n"
-"Last-Translator: SomeTr <SomeTr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-12-14 23:08+0000\n"
+"Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.8.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -47,7 +47,7 @@ msgstr "SSH"
 #: common/config.py:272 common/config.py:282
 #: qt/manageprofiles/tab_general.py:632
 msgid "SSH private key"
-msgstr "SSH ιδιωτικό κλειδί"
+msgstr "Ιδιωτικό κλειδί SSH"
 
 #: common/config.py:275
 msgid "Local encrypted"
@@ -76,9 +76,8 @@ msgid "Snapshots directory is not valid."
 msgstr "Ο φάκελος στιγμιοτύπων δεν είναι έγκυρος."
 
 #: common/config.py:332
-#, fuzzy
 msgid "At least one directory must be selected for backup."
-msgstr "ανάκτηση"
+msgstr "Πρέπει να επιλεχτεί τουλάχιστον ένας φάκελος για backup."
 
 #: common/config.py:350
 msgid "The directory cannot be included in the backup."
@@ -146,7 +145,7 @@ msgid "The last profile cannot be removed."
 msgstr "Το τελευταίο προφίλ δεν μπορεί να αφαιρεθεί."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Αδυναμία προσάρτησης '{command}'"
 
@@ -155,9 +154,8 @@ msgid "Configuration for the encrypted directory not found."
 msgstr "Η παραμετροποίηση για κρυπτογραφημένο φάκελο δεν βρέθηκε."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Δημιουργία ενός νέου κρυπτογραφημένου φακέλου;"
+msgstr "Δημιουργία νέου κρυπτογραφημένου φακέλου;"
 
 #: common/encfstools.py:143
 msgid "Cancel"
@@ -176,7 +174,7 @@ msgid "Take snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
 #: common/mount.py:621
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "Αδυναμία αποπροσάρτησης {mountprocess} από το {mountpoint}."
 
@@ -257,10 +255,10 @@ msgstr ""
 "Βρέθηκε παλαιότερο στιγμιότυπο {snapshot_id} το οποίο μπορεί να συνεχιστεί."
 
 #: common/snapshots.py:1297
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr ""
-"Αφαίρεση προηγούμενου {snapshot_id} φακέλου από την τελευταία εκτέλεση"
+"Αφαίρεση του εναπομείναντα φακέλου {snapshot_id} της τελευταίας εκτέλεσης"
 
 #: common/snapshots.py:1307
 msgid "Can't remove directory"
@@ -308,7 +306,6 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Αδυναμία μετονομασίας {new_path} σε {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
-#, fuzzy
 msgid "Smart removal"
 msgstr "Έξυπνη αφαίρεση"
 
@@ -332,12 +329,11 @@ msgid "Now"
 msgstr "Τώρα"
 
 #: common/sshtools.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Αδυναμία προσάρτησης {sshfs}"
 
 #: common/sshtools.py:308
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr ""
 "το ssh-agent δε βρέθηκε. Παρακαλώ βεβαιωθείτε ότι είναι εγκατεστημένο."

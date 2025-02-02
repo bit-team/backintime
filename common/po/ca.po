@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-08-28 08:20+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2024-11-19 06:20+0000\n"
+"Last-Translator: agn <agn@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.8.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -72,23 +72,20 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: \"{name}\""
 
 #: common/config.py:320
-#, fuzzy
 msgid "Snapshots directory is not valid."
 msgstr "La carpeta d'instantànies no es vàlida!"
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Almenys cal seleccionar un directori per la copia de seguretat"
 
 #: common/config.py:350
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "No s'hi pot incloure la subcarpeta de la còpia de seguretat."
+msgstr "No s'hi pot incloure la carpeta de la còpia de seguretat."
 
 #: common/config.py:363
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "No s'hi pot incloure la subcarpeta de la còpia de seguretat."
+msgstr "No s'hi pot incloure les subcarpetes en la còpia de seguretat."
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -117,7 +114,7 @@ msgstr ""
 "servei de DBus Service {dbus_interface} no estava disponible"
 
 #: common/config.py:1586
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "El planificador udev no funciona amb el mode {mode}"
 
@@ -149,12 +146,10 @@ msgid "Unable to mount '{command}'"
 msgstr "No s'ha pogut muntar '{command}'"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "No s'ha trobat la configuració de la carpeta xifrada."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "Voleu crear una nova carpeta xifrada?"
 
@@ -238,13 +233,12 @@ msgid "Please be patient. Finalizing…"
 msgstr ""
 
 #: common/snapshots.py:1063
-#, fuzzy
 msgid "Can't create directory."
-msgstr "No es pot crear la carpeta"
+msgstr "No es pot crear la carpeta."
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
-msgstr "Desa el fitxer de configuració …"
+msgstr "Desant el fitxer de configuració …"
 
 #: common/snapshots.py:1161
 msgid "Saving permissions…"
@@ -305,9 +299,9 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "No hi ha canvis, no cal una instantània nova"
 
 #: common/snapshots.py:1505
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "No es pot canviar el nom de {new_path} a {path}"
+msgstr "No es pot canviar el nom de {new_path} a {path}."
 
 #: common/snapshots.py:1823 common/snapshots.py:1875
 msgid "Smart removal"
@@ -409,9 +403,9 @@ msgstr ""
 "admet hard-links. Utilitzeu un sistema de fitxers Linux natiu."
 
 #: common/tools.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "El camí remot existeix però no és un directori."
+msgstr "{path} no és un directori vàlid."
 
 #: common/tools.py:438
 msgid "Creation of following directory failed:"

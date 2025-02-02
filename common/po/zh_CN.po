@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2024-11-13 09:21+0100\n"
-"PO-Revision-Date: 2024-10-20 06:04+0000\n"
-"Last-Translator: Outbreak2096 <Outbreak2096@users.noreply.translate.codeberg.org>\n"
-"Language-Team: Chinese (Simplified) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
+"PO-Revision-Date: 2025-01-03 10:04+0000\n"
+"Last-Translator: Outbreak2096 <outbreak2096@users.noreply.translate.codeberg.org>\n"
+"Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:79 qt/encfsmsgbox.py:24
@@ -73,19 +73,19 @@ msgstr "配置：\"{name}\""
 
 #: common/config.py:320
 msgid "Snapshots directory is not valid."
-msgstr "快照文件夹无效。"
+msgstr "快照目录无效。"
 
 #: common/config.py:332
 msgid "At least one directory must be selected for backup."
-msgstr "必须至少选择一个文件夹进行备份。"
+msgstr "必须至少选择一个目录进行备份。"
 
 #: common/config.py:350
 msgid "The directory cannot be included in the backup."
-msgstr "该文件夹不能包含在备份中。"
+msgstr "该目录不能包括在备份中。"
 
 #: common/config.py:363
 msgid "The sub-directories cannot be included in the backup."
-msgstr "子文件夹不能包含在备份中。"
+msgstr "子目录不能包括在备份中。"
 
 #: common/config.py:1483
 msgid "Failed to write new crontab."
@@ -129,7 +129,7 @@ msgstr "加载配置失败"
 #: common/configfile.py:690 common/configfile.py:789
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "\"{name}\"配置已存在。"
+msgstr "配置“{name}”已存在。"
 
 #: common/configfile.py:735
 msgid "The last profile cannot be removed."
@@ -138,15 +138,15 @@ msgstr "最后一个配置无法被移除。"
 #: common/encfstools.py:81
 #, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr "无法挂载 '{command}'"
+msgstr "无法挂载“{command}”"
 
 #: common/encfstools.py:131
 msgid "Configuration for the encrypted directory not found."
-msgstr "未找到加密文件夹的配置。"
+msgstr "未找到加密目录的配置。"
 
 #: common/encfstools.py:139
 msgid "Create a new encrypted directory?"
-msgstr "是否创建一个新的加密文件夹？"
+msgstr "创建新的加密目录？"
 
 #: common/encfstools.py:143
 msgid "Cancel"
@@ -158,7 +158,7 @@ msgstr "请确认密码。"
 
 #: common/encfstools.py:152
 msgid "Password doesn't match."
-msgstr "密码不一致。"
+msgstr "密码不匹配。"
 
 #: common/encfstools.py:510 common/snapshots.py:1028
 msgid "Take snapshot"
@@ -177,12 +177,12 @@ msgstr "请安装未找到的 {command} ，安装指令如 {installcommand}。"
 #: common/mount.py:732
 #, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "挂载点{mntpoint} 不为空。"
+msgstr "挂载点 {mntpoint} 不为空。"
 
 #: common/password.py:287
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "为{mode}配置{profile}输入密码："
+msgstr "输入{mode}配置“{profile}”的密码："
 
 #: common/snapshots.py:357 common/snapshots.py:608
 msgid "FAILED"
@@ -206,8 +206,8 @@ msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it in."
 msgstr ""
-"未能找到快照文件夹。\n"
-"如果它在可移动驱动器上，请将其插入。"
+"未找到快照目录。\n"
+"如果它位于可移动驱动器上，请将其插入。"
 
 #: common/snapshots.py:833
 #, python-format
@@ -226,15 +226,15 @@ msgstr "请耐心等待。正在最后确定…"
 
 #: common/snapshots.py:1063
 msgid "Can't create directory."
-msgstr "无法创建文件夹。"
+msgstr "无法创建目录。"
 
 #: common/snapshots.py:1080
 msgid "Saving config file…"
-msgstr "保存配置文件 …"
+msgstr "保存配置文件…"
 
 #: common/snapshots.py:1161
 msgid "Saving permissions…"
-msgstr "保存权限 …"
+msgstr "保存权限…"
 
 #: common/snapshots.py:1273
 #, python-brace-format
@@ -244,11 +244,11 @@ msgstr "找到了可以继续的剩余快照 {snapshot_id}。"
 #: common/snapshots.py:1297
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "正在从上次运行中移除剩余的 {snapshot_id} 文件夹"
+msgstr "移除上次运行留下的 {snapshot_id} 目录"
 
 #: common/snapshots.py:1307
 msgid "Can't remove directory"
-msgstr "无法移除文件夹"
+msgstr "无法移除目录"
 
 #: common/snapshots.py:1361
 msgid "Taking snapshot"
@@ -282,7 +282,7 @@ msgstr "负的 rsync 退出代码是信号编号，请参阅“kill -l”和“m
 
 #: common/snapshots.py:1461
 msgid "Nothing changed, no new snapshot necessary"
-msgstr "没有改动内容，无需创建新快照"
+msgstr "没有任何更改，无需新快照"
 
 #: common/snapshots.py:1505
 #, python-brace-format
@@ -295,7 +295,7 @@ msgstr "智能移除"
 
 #: common/snapshots.py:1850
 msgid "Removing old snapshots"
-msgstr "移除旧的快照"
+msgstr "移除旧快照"
 
 #: common/snapshots.py:1885
 msgid "Trying to keep min free space"
@@ -332,7 +332,7 @@ msgstr "{host} 的密码 {cipher} 失败。"
 
 #: common/sshtools.py:714
 msgid "Remote path exists but is not a directory."
-msgstr "远程路径存在但不是一个目录。"
+msgstr "远程路径存在但不是目录。"
 
 #: common/sshtools.py:719
 msgid "Remote path is not writable."
@@ -340,7 +340,7 @@ msgstr "远程路径不可写。"
 
 #: common/sshtools.py:724
 msgid "Remote path is not executable."
-msgstr "远程路径不可被执行。"
+msgstr "远程路径不可执行。"
 
 #: common/sshtools.py:729
 msgid "Couldn't create remote path."
@@ -385,11 +385,11 @@ msgstr "{path} 的目标文件系统采用 NTFS 格式，已知 NTFS 与 Unix �
 #: common/tools.py:424
 #, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "{path} 不是有效的文件夹。"
+msgstr "{path} 不是有效目录。"
 
 #: common/tools.py:438
 msgid "Creation of following directory failed:"
-msgstr "创建以下文件夹失败："
+msgstr "创建以下目录失败："
 
 #: common/tools.py:440 common/tools.py:536
 msgid "Write access may be restricted."
@@ -429,7 +429,7 @@ msgstr "{path} 的目标文件系统是通过 sshfs 挂载的共享文件系统�
 
 #: common/tools.py:534
 msgid "File creation failed in this directory:"
-msgstr "在此文件夹中创建文件失败："
+msgstr "在此目录中创建文件失败："
 
 #: qt/aboutdlg.py:37 qt/app.py:578
 msgid "About"
@@ -456,12 +456,12 @@ msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
-"当前所选快照中\n"
-"不存在此文件夹。"
+"当前所选快照\n"
+"不存在此目录。"
 
 #: qt/app.py:255
 msgid "Add to Include"
-msgstr "添加到包含"
+msgstr "添加到包括"
 
 #: qt/app.py:257
 msgid "Add to Exclude"
@@ -472,21 +472,21 @@ msgstr "添加到排除"
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
-msgstr "{app_name}首次运行，没有找到配置文件。"
+msgstr "{app_name} 似乎是首次运行，未找到配置。"
 
 #: qt/app.py:347
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
-msgstr "是否导入现有配置（从备份目标文件夹或另一台计算机）？"
+msgstr "是否导入现有配置（从备份目标目录或另一台计算机）？"
 
 #: qt/app.py:374
 msgid "Can't find snapshots directory."
-msgstr "无法找到快照文件夹。"
+msgstr "未找到快照目录。"
 
 #: qt/app.py:375
 msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr "找不到快照文件夹。如果使用的是可移动磁盘，请连接到电脑，然后按 “确定”。"
+msgstr "如果它位于可移动驱动器上，请将其插入，然后按“确定”。"
 
 #: qt/app.py:487
 msgid "Take a snapshot"
@@ -498,11 +498,11 @@ msgstr "使用修改时间和大小进行文件更改检测。"
 
 #: qt/app.py:492
 msgid "Take a snapshot (checksum mode)"
-msgstr "生成快照（校验和模式）"
+msgstr "创建快照（校验和模式）"
 
 #: qt/app.py:494
 msgid "Use checksums for file change detection."
-msgstr "使用校验码探测文件变更。"
+msgstr "使用校验和检测文件更改。"
 
 #: qt/app.py:497 qt/qtsystrayicon.py:86
 msgid "Pause snapshot process"
@@ -570,7 +570,7 @@ msgstr "网站"
 
 #: qt/app.py:556 qt/app.py:1399
 msgid "Changelog"
-msgstr "变更日志"
+msgstr "更新日志"
 
 #: qt/app.py:559
 msgid "FAQ"
@@ -603,31 +603,31 @@ msgstr "再次显示关于移除EncFS加密的信息。"
 #: qt/app.py:581 qt/restoredialog.py:46 qt/snapshotsdialog.py:164
 #: qt/snapshotsdialog.py:169
 msgid "Restore"
-msgstr "还原"
+msgstr "恢复"
 
 #: qt/app.py:583
 msgid "Restore the selected files or directories to the original destination."
-msgstr "将所选文件或文件夹恢复到原始目标。"
+msgstr "将所选文件或目录恢复到原目标。"
 
 #: qt/app.py:586 qt/app.py:1576 qt/app.py:1608 qt/snapshotsdialog.py:166
 msgid "Restore to …"
-msgstr "还原至…"
+msgstr "恢复至…"
 
 #: qt/app.py:588
 msgid "Restore the selected files or directories to a new destination."
-msgstr "将所选文件或文件夹恢复到新目标。"
+msgstr "将所选文件或目录恢复到新目标。"
 
 #: qt/app.py:594
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
-msgstr "将当前显示的文件夹及其所有内容恢复到原始目标。"
+msgstr "将当前显示的目录及其全部内容恢复到原目标。"
 
 #: qt/app.py:600
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
-msgstr "将当前显示的文件夹及其所有内容恢复到新目标。"
+msgstr "将当前显示的目录及其全部内容恢复到新目标。"
 
 #: qt/app.py:603
 msgid "Up"
@@ -659,7 +659,7 @@ msgstr "备份(&B)"
 
 #: qt/app.py:694
 msgid "&Restore"
-msgstr "还原(&R)"
+msgstr "恢复(&R)"
 
 #: qt/app.py:700
 msgid "&Help"
@@ -717,7 +717,7 @@ msgstr "主目录"
 
 #: qt/app.py:1194
 msgid "Backup directories"
-msgstr "备份文件夹"
+msgstr "备份目录"
 
 #: qt/app.py:1290
 msgid "Snapshot Name"
@@ -757,7 +757,7 @@ msgstr ""
 
 #: qt/app.py:1491
 msgid "Remove newer elements in original directory."
-msgstr "移除原始文件夹中的较新元素。"
+msgstr "移除原目录中的较新元素。"
 
 #: qt/app.py:1494
 msgid ""
@@ -765,18 +765,18 @@ msgid ""
 " files or directories which are not in the snapshot. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "taking the snapshot."
-msgstr "将所选文件或文件夹恢复到原始目标，并删除不在快照中的文件或文件夹。请务必小心，因为这会删除创建快照时排除的文件和文件夹。"
+msgstr "将所选文件或目录恢复到原目标，并删除不在快照中的文件或目录。请务必小心，因为这将删除创建快照时排除的文件和目录。"
 
 #: qt/app.py:1506
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] "是否确定要将这些元素恢复到新文件夹？"
+msgstr[0] "是否确定要将这些元素恢复到新目录？"
 
 #: qt/app.py:1516
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
-msgstr[0] "是否确定还原这些文件？"
+msgstr[0] "是否确定要恢复这些元素？"
 
 #: qt/app.py:1535
 #, python-brace-format
@@ -786,7 +786,7 @@ msgstr "您确定要移除 {path} 的所有新文件吗？"
 #: qt/app.py:1538
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
-msgstr "是否确定要移除原始文件夹中的所有较新文件？"
+msgstr "是否确定要移除原目录中的全部较新文件？"
 
 #: qt/app.py:1544
 #, python-brace-format
@@ -802,12 +802,12 @@ msgstr "快照"
 #: qt/app.py:1817
 #, python-brace-format
 msgid "Restore {path}"
-msgstr "还原 {path}"
+msgstr "恢复 {path}"
 
 #: qt/app.py:1819
 #, python-brace-format
 msgid "Restore {path} to …"
-msgstr "还原 {path} 至…"
+msgstr "恢复 {path} 至…"
 
 #: qt/app.py:1963
 #, python-brace-format
@@ -976,7 +976,7 @@ msgstr "所有的"
 #: qt/logviewdialog.py:112 qt/logviewdialog.py:115
 #: qt/manageprofiles/tab_options.py:132
 msgid "Changes"
-msgstr "变更"
+msgstr "更改"
 
 #: qt/logviewdialog.py:112 qt/logviewdialog.py:114
 #: qt/manageprofiles/tab_options.py:131 qt/manageprofiles/tab_options.py:132
@@ -1027,7 +1027,7 @@ msgstr "包括(&I)"
 
 #: qt/manageprofiles/__init__.py:120
 msgid "Include files and directories"
-msgstr "包括文件和文件夹"
+msgstr "包括文件和目录"
 
 #: qt/manageprofiles/__init__.py:137 qt/manageprofiles/__init__.py:202
 msgid "Add file"
@@ -1035,7 +1035,7 @@ msgstr "添加文件"
 
 #: qt/manageprofiles/__init__.py:141 qt/manageprofiles/__init__.py:206
 msgid "Add directory"
-msgstr "添加文件夹"
+msgstr "添加目录"
 
 #: qt/manageprofiles/__init__.py:151
 msgid "&Exclude"
@@ -1054,7 +1054,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:178
 msgid "Exclude patterns, files or directories"
-msgstr "排除模式，文件或文件夹"
+msgstr "排除模式、文件或目录"
 
 #: qt/manageprofiles/__init__.py:211
 msgid "Add default"
@@ -1093,7 +1093,7 @@ msgstr "专家选项(&X)"
 
 #: qt/manageprofiles/__init__.py:264
 msgid "Restore Config"
-msgstr "还原配置"
+msgstr "恢复配置"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "Edit user-callback"
@@ -1133,11 +1133,11 @@ msgstr "排除文件"
 
 #: qt/manageprofiles/__init__.py:615
 msgid "Exclude directory"
-msgstr "排除文件夹"
+msgstr "排除目录"
 
 #: qt/manageprofiles/__init__.py:639
 msgid "Include file"
-msgstr "包含文件"
+msgstr "包括文件"
 
 #: qt/manageprofiles/__init__.py:648 qt/manageprofiles/__init__.py:678
 #, python-brace-format
@@ -1150,7 +1150,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:669
 msgid "Include directory"
-msgstr "包含文件夹"
+msgstr "包括目录"
 
 #: qt/manageprofiles/__init__.py:728
 msgid ""
@@ -1550,7 +1550,7 @@ msgstr "何处保存快照"
 
 #: qt/manageprofiles/tab_general.py:91
 msgid "Directory"
-msgstr "文件夹"
+msgstr "目录"
 
 #: qt/manageprofiles/tab_general.py:100
 msgid "SSH Settings"
@@ -1649,7 +1649,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:611
 msgid "Are you sure you want to change snapshots directory?"
-msgstr "是否确定要更改快照文件夹？"
+msgstr "是否确定要更改快照目录？"
 
 #: qt/manageprofiles/tab_general.py:648
 #, python-brace-format
@@ -1696,11 +1696,11 @@ msgstr "忽略错误并继续(保留不完整的快照)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
-msgstr "使用校验检测变更"
+msgstr "使用校验和检测更改"
 
 #: qt/manageprofiles/tab_options.py:83
 msgid "Take a new snapshot whether there were changes or not."
-msgstr "无论是否有改变，都创建新快照。"
+msgstr "无论是否有更改，都要创建新快照。"
 
 #: qt/manageprofiles/tab_options.py:90
 msgid "Log Level:"
@@ -1790,13 +1790,13 @@ msgstr "导入"
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
-msgstr "选择要从中导入配置文件的快照文件夹。路径可能类似于：{samplePath}"
+msgstr "选择要从中导入配置文件的快照目录。路径可能类似于：{samplePath}"
 
 #: qt/restoreconfigdialog.py:169
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
-msgstr "如果该文件夹位于外部或远程驱动器上，则必须事先手动挂载。"
+msgstr "如果该目录位于外部或远程驱动器上，则必须事先手动挂载。"
 
 #: qt/restoredialog.py:59
 msgid "Show full Log"
