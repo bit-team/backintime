@@ -1279,6 +1279,7 @@ def snapshotStatus(args):
     for profile in cfg.profiles():
         cfg.setCurrentProfile(profile)
         profile_dict = lastSnapshotDict(cfg)
+
         if not args.quiet or \
             not profile_dict[cfg.profileName(profile)].get('Successful'):
             status.update(profile_dict)
