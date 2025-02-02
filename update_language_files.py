@@ -553,7 +553,7 @@ def get_shortcut_groups() -> dict[str, list]:
         '&General',
         '&Include',
         '&Exclude',
-        '&Auto-remove',
+        '&Remove & Retention',
         '&Options',
         'Back In &Time',
         'E&xpert Options',

@@ -42,7 +42,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
-   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
@@ -60,10 +59,12 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
    * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
-- [Project & more](#project--more)
+- [Project & Contributing & more](#project--Contributing--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
+   + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
+   * [How to review a Pull Request](#how-to-review-a-pull-request)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -640,15 +641,6 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-## Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
-
-In newer Ubuntu-based distros you may get this warning if you install _Back In
-Time_ from PPA.  The reason is that public keys of signed packages shall be
-stored in a new folder now (for details see
-https://itsfoss.com/apt-key-deprecated/).
-
-A solution is described in
-[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 ## Segmentation fault on Exit
 This problem existed at least since version 1.2.1, and will hopefully be fixed
 with version 1.5.0. For all affected versions, it does not impact the
@@ -1289,7 +1281,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
    ```
 
 
-# Project & more
+# Project & Contributing & more
 
 ## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
 
@@ -1323,6 +1315,26 @@ with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their
 maintainers if _Back In Time_ is unavailable or out dated.
 
+## Is BIT really not supported by Canonical Ubuntu?
+
+Ubuntu consists of
+[several repositories](https://help.ubuntu.com/community/Repositories), each
+offering different levels of support. The `main` repository is maintained
+by Canonical and receives regular security updates and bug fixes throughout
+the 5-year support period of LTS releases.
+
+In contrast, the `universe` repository is community-managed, meaning security
+updates and bug fixes are not guaranteed and depend heavily on community
+activity and volunteers. Therefore, packages in `universe` may not always be
+up-to-date with the same but well-maintained packages in Debian GNU/Linux and
+might miss important fixes.
+
+_Back In Time_ is one such package in the `universe` repository. That
+[package](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=backintime)
+is copied from the
+[Debian GNU/Linux repository](https://packages.debian.org/search?searchon=sourcenames&keywords=backintime).
+It can be said that _Back In Time_ is not maintained by Canonical Ubuntu, but
+by volunteers from the Community of Ubuntu.
 
 ## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
 
@@ -1335,6 +1347,42 @@ discussion we seem to target [Codeberg.org](https://codeberg.org).
 For more details please see
 [this thread on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/O5XZ5SPW6WIFBFKWUBHSOUIBKEUIBPNM/).
 
+
+## How to review a Pull Request
+Reviewing a Pull Request (PR) isn’t just about the code—it’s also about
+functionality. Changes can be tested by installing _Back In Time_ and trying
+them out, even without reading the code. This allows issues to be identified
+from a user’s perspective. A second pair of eyes helps catch errors, spot
+overlooked issues, and improve overall quality. Fresh perspectives, knowledge
+sharing, and better maintainability contribute to the long-term stability of
+the project.
+
+Check PRs labeled with
+[PR: Waiting for
+review](https://github.com/bit-team/backintime/pulls?q=is%3Aopen+is%3Apr+label%3A%22PR%3A+Waiting+for+review%22).
+Checking the [milestone](https://github.com/bit-team/backintime/milestones)
+assigned to PR can also help gauge their priority and urgency.
+
+- Start by carefully reading the PR description to understand the proposed
+  changes. Ask back if something is not clear.
+- When giving feedback, consider the contributor’s level of experience and
+  skills. Keep it polite and constructive—every beginner could be a future
+  maintainer.
+      
+To **test functionality**,
+[check out the PR code locally](https://docs.github.com//pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally)
+on a virtual machine or your local machine. Running _Back In Time_ in a test
+environment provides insights, that can be shared as findings, observations,
+or suggestions for improvement.
+      
+About **code review**:
+- Code should follow
+  [project standards](CONTRIBUTING.md#best-practice-and-recommendations)
+  and be structured for long-term maintainability.
+- Is a PR too large or complex, suggest to breaking it down into smaller parts.
+- How is the documentation?
+- Are there unit tests?
+- Does the changelog need an entry?
 
 # Testing & Building
 

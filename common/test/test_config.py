@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2016 Taylor Raack
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -10,11 +11,70 @@
 import os
 import sys
 import getpass
+import unittest
+import datetime
+from unittest.mock import patch
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import config
 
 
-class TestSshCommand(generic.SSHTestCase):
+class RemoveOldSnapshotsDate(unittest.TestCase):
+    def test_invalid_unit(self):
+        """1st January Year 1 on errors"""
+        unit = 99999
+        value = 99
+
+        self.assertEqual(
+            config._remove_old_snapshots_date(value, unit),
+            datetime.date(1, 1, 1))
+
+    @patch('datetime.date', wraps=datetime.date)
+    def test_day(self, m):
+        """Three days"""
+        m.today.return_value = datetime.date(2025, 1, 10)
+        sut = config._remove_old_snapshots_date(3, config.Config.DAY)
+        self.assertEqual(sut, datetime.date(2025, 1, 7))
+
+    @patch('datetime.date', wraps=datetime.date)
+    def test_week_always_monday(self, m):
+        """Result is always a Monday"""
+
+        # 1-53 weeks back
+        for weeks in range(1, 54):
+            start = datetime.date(2026, 1, 1)
+
+            # Every day in the year
+            for count in range(366):
+                m.today.return_value = start - datetime.timedelta(days=count)
+
+                sut = config._remove_old_snapshots_date(
+                    weeks, config.Config.WEEK)
+
+                # 0=Monday
+                self.assertEqual(sut.weekday(), 0, f'{sut=} {weeks=}')
+
+    @patch('datetime.date', wraps=datetime.date)
+    def test_week_ignore_current(self, m):
+        """Current (incomplete) week is ignored."""
+        for day in range(25, 32):  # Monday (25th) to Sunday (31th)
+            m.today.return_value = datetime.date(2025, 8, day)
+            sut = config._remove_old_snapshots_date(2, config.Config.WEEK)
+            self.assertEqual(
+                sut,
+                datetime.date(2025, 8, 11)  # Monday
+            )
+
+    @patch('datetime.date', wraps=datetime.date)
+    def test_year_ignore_current_month(self, m):
+        """Not years but 12 months are counted. But current month is
+        ignored."""
+        m.today.return_value = datetime.date(2025, 7, 30)
+        sut = config._remove_old_snapshots_date(2, config.Config.YEAR)
+        self.assertEqual(sut, datetime.date(2023, 7, 1))
+
+
+class SshCommand(generic.SSHTestCase):
     @classmethod
     def setUpClass(cls):
         cls._user = getpass.getuser()
