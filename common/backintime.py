@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Samuel Moore
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -486,13 +487,11 @@ def createParsers(app_name='backintime'):
                                                  action = 'store',
                                                  help = 'a more detailed summary of the profile with the id, %(metavar)s')
     profileGroup.add_argument                   ('--issues',
-                                                 metavar = '',
-                                                 type = int,
-                                                 action = 'store',
+                                                 action = 'store_true',
                                                  help = 'show only profiles with errors on most recent run or no snapshot history at all')
-    snapshotStatusCP.add_argument               ('--human-readable', '-r',
+    snapshotStatusCP.add_argument               ('--json',
                                                 action = 'store_true',
-                                                help = "print in human readable format")
+                                                help = "output in json format")
 
     command = 'unmount'
     nargs = 0
@@ -1174,7 +1173,8 @@ def snapshotsListPath(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
-def lastSnapshotDict(config):
+
+def lastSnapshotDict(cfg:config.Config):
     """
     Return a dictionary containing the profile name and most recent snapshot
     data for the given profile id. If the snapshot was unsuccessful, the
@@ -1182,30 +1182,48 @@ def lastSnapshotDict(config):
 
     Args:
         config: 
-                        The currently selected configuration.
+                        the currently selected configuration.
 
     Returns:
         dict:
                         the most recent successful snapshot for the profile.
     """
-
     try:
-        errors = snapshots.lastSnapshot(config).failed
-        info = {_('Last snapshot'):
-            str(snapshots.lastSnapshot(config).date),
-                _('Successful'): not errors}
-        if errors:
-            last_success = None
-            for snapshot in snapshots.listSnapshots(config):
-                if not snapshot.failed:
-                    last_success = snapshot.date
-                    break
-            info.update({_('Last successful'):
-                str(last_success) if last_success else None})
-        return {config.profileName(config.currentProfile()): info}
-    except:
-        return {config.profileName(config.currentProfile()):
+        ssh = None
+        if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
+            logger.info(_('Connecting to: ')
+                        + cfg.profileName(cfg.currentProfile()))
+            ssh = sshtools.SSH(cfg)
+            ssh.mount()
+
+        last_snapshot = snapshots.lastSnapshot(cfg)
+        if last_snapshot is None:
+            return {cfg.profileName(cfg.currentProfile()):
                 {_('Last snapshot'): None}}
+        info = {_('Last snapshot'): str(last_snapshot.date),
+                _('Successful'): not last_snapshot.failed}
+
+        if last_snapshot.failed:
+            last_success = next(
+                (snap.date for snap in snapshots.listSnapshots(cfg)
+                 if not snap.failed), None)
+            info.update({_('Last successful'):
+                str(last_success) if last_success is not None else None})
+
+        return {cfg.profileName(cfg.currentProfile()): info}
+
+    # Unable to establish SSH connection
+    except MountException as error:
+        ssh = None
+        logger.warning(_('Unable to establish connection with : ') +
+                        cfg.sshHost(profile_id=cfg.current_profile_id))
+        return {cfg.profileName(cfg.currentProfile()):
+                {_('No connection'): str(error)}}
+
+    finally:
+        if ssh:
+            ssh.umount()
+
 
 def profileStatus(args):
     """
@@ -1222,40 +1240,60 @@ def profileStatus(args):
     """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
-    _mount(cfg)
 
     if args.profile:
         if not cfg.setCurrentProfileByName(args.profile):
-            _umount(cfg)
             logger.error(args.profile)
 
     elif not cfg.setCurrentProfile(args.profile_id):
-        _umount(cfg)
         logger.error(args.profile_id)
 
+    ssh = cfg.snapshotsMode() in ('ssh', 'ssh_encfs')
     id = cfg.currentProfile()
     info = lastSnapshotDict(cfg)
+
     info[cfg.profileName(id)].update({
+            _('Snapshot mode'): cfg.snapshotsMode(),
             _('Paths'): {
-                _('Snapshots'): cfg.snapshotsFullPath(),
-                _('Path exists'): cfg.canBackup(),
-                _('Mount point'): cfg.get_snapshots_mountpoint(),
+                _('Snapshots'): cfg.sshSnapshotsFullPath() if ssh
+                    else cfg.snapshotsFullPath(),
                 _('Log file'): cfg.takeSnapshotLogFile(),
             }})
 
-    print(json.dumps(info, indent=2), file=force_stdout)
-    _umount(cfg)
+    if args.json:
+        print(json.dumps(info, indent=2), file=force_stdout)
+    else:
+        humanPrint(info, force_stdout)
 
     sys.exit(RETURN_OK)
 
-def printDictHumanReadable(dictionary, file=None, indent=0):
-    """Print dict in human readable form."""
+
+def longest_key_length(dictionary):
+    """Get the length of the longest key in to assist with formatting."""
+    max_len = max(map(len, dictionary.keys()), default=0)
+
+    for value in dictionary.values():
+        if isinstance(value, dict):
+            max_len = max(max_len, longest_key_length(value))
+
+    return max_len
+
+
+def humanPrint(dictionary, file=None, indent=0, width=-1):
+    """Print dict in human readable format."""
+    print('')
+    if width == -1:
+        width = longest_key_length(dictionary) + 1
+
     for key, value in dictionary.items():
         if isinstance(value, dict):
             print(f"{' ' * indent}{key}:", file=file)
-            printDictHumanReadable(value, file=file, indent=indent + 3)
+            humanPrint(value, file=file, indent=indent + 3, width=width)
         else:
-            print(f"{' ' * indent}{key:{indent + 12}} {value}", file=file)
+            print(f"{' ' * indent}{key:{width}}: {value}", file=file)
+        if indent == 0:
+            print('')
+
 
 def snapshotStatus(args):
     """
@@ -1273,24 +1311,23 @@ def snapshotStatus(args):
 
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
-    _mount(cfg)
     status = {}
 
     for profile in cfg.profiles():
         cfg.setCurrentProfile(profile)
         profile_dict = lastSnapshotDict(cfg)
 
-        if not args.quiet or \
-            not profile_dict[cfg.profileName(profile)].get('Successful'):
+        if not args.issues or \
+            not profile_dict[cfg.profileName(profile)].get(_('Successful')):
             status.update(profile_dict)
 
-    if not args.human_readable:
+    if args.json:
         print(json.dumps(status, indent=2), file=force_stdout)
     else:
-        printDictHumanReadable(status, force_stdout)
-    _umount(cfg)
+        humanPrint(status, force_stdout)
 
     sys.exit(RETURN_OK)
+
 
 def lastSnapshot(args):
     """
