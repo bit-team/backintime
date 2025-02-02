@@ -468,10 +468,10 @@ def createParsers(app_name='backintime'):
     nargs = 0
     aliases.append((command, nargs))
     description = 'Show a summary of the last snapshot from each profile.'
-    snapshotStatusCP =       subparsers.add_parser(command,
-                                                 epilog = epilogCommon,
-                                                 help = description,
-                                                 description = description)
+    snapshotStatusCP = subparsers.add_parser(command,
+                                             epilog=epilogCommon,
+                                             help=description,
+                                             description=description)
     snapshotStatusCP.set_defaults(func = snapshotStatus)
     parsers[command] = snapshotStatusCP
     profileGroup = snapshotStatusCP.add_mutually_exclusive_group()
@@ -1223,13 +1223,16 @@ def profileStatus(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
+
     if args.profile:
         if not cfg.setCurrentProfileByName(args.profile):
             _umount(cfg)
             logger.error(args.profile)
+
     elif not cfg.setCurrentProfile(args.profile_id):
         _umount(cfg)
         logger.error(args.profile_id)
+
     id = cfg.currentProfile()
     info = lastSnapshotDict(cfg)
     info[cfg.profileName(id)].update({
@@ -1239,8 +1242,10 @@ def profileStatus(args):
                 _('Mount point'): cfg.get_snapshots_mountpoint(),
                 _('Log file'): cfg.takeSnapshotLogFile(),
             }})
+
     print(json.dumps(info, indent=2), file=force_stdout)
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 def printDictHumanReadable(dictionary, file=None, indent=0):
@@ -1265,21 +1270,26 @@ def snapshotStatus(args):
     """
     if args.profile or args.profile_id:
         profileStatus(args)
+
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
     status = {}
+
     for profile in cfg.profiles():
         cfg.setCurrentProfile(profile)
         profile_dict = lastSnapshotDict(cfg)
+
         if not args.quiet or \
             not profile_dict[cfg.profileName(profile)].get('Successful'):
             status.update(profile_dict)
+
     if not args.human_readable:
         print(json.dumps(status, indent=2), file=force_stdout)
     else:
         printDictHumanReadable(status, force_stdout)
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
 def lastSnapshot(args):
