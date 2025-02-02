@@ -6,16 +6,19 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Management of the state file."""
+# pylint: disable=wrong-import-position,wrong-import-order
 from __future__ import annotations
 import os
 import json
 from pathlib import Path
 from datetime import datetime, timezone
 from copy import deepcopy
-import singleton
-import logger
-import tools
-from version import __version__
+from qttools_path import registerBackintimePath
+registerBackintimePath('common')
+import singleton  # noqa: E402
+import logger  # noqa: E402
+import tools  # noqa: E402
+from version import __version__  # noqa: E402
 
 
 class StateData(dict, metaclass=singleton.Singleton):
@@ -27,6 +30,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     big deal and won't introduce any problems.
 
     """
+    # pylint: disable=too-many-instance-attributes
     # The default structure. All properties do rely on them and assuming
     # it is there.
     _EMPTY_STRUCT = {
