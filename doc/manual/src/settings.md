@@ -199,6 +199,10 @@ schedules. You can use `crontab -l` to view them or `crontab -e` to edit.
   month. If the computer is not running at the configured time there will be no
   new snapshot for the month.
 
+!!! note
+    For hourly schedules (every hour, every x hours, and custom hours), there will be an option to specify how many minutes after the hour the 
+    schedule should run. This can be used to prevent multiple backup profiles from running at the same time.
+
 ## Include
 
 ![Settings - Include](_images/light/settings_include.png#only-light)
