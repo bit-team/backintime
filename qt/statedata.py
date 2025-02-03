@@ -6,16 +6,19 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Management of the state file."""
+# pylint: disable=wrong-import-position,wrong-import-order
 from __future__ import annotations
 import os
 import json
 from pathlib import Path
 from datetime import datetime, timezone
 from copy import deepcopy
-import singleton
-import logger
-import tools
-from version import __version__
+from qttools_path import registerBackintimePath
+registerBackintimePath('common')
+import singleton  # noqa: E402
+import logger  # noqa: E402
+import tools  # noqa: E402
+from version import __version__  # noqa: E402
 
 
 class StateData(dict, metaclass=singleton.Singleton):
@@ -27,6 +30,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     big deal and won't introduce any problems.
 
     """
+    # pylint: disable=too-many-instance-attributes
     # The default structure. All properties do rely on them and assuming
     # it is there.
     _EMPTY_STRUCT = {
@@ -128,7 +132,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         """Returns the state file path."""
         xdg_state = os.environ.get('XDG_STATE_HOME',
                                    Path.home() / '.local' / 'state')
-        fp = xdg_state / 'backintime.json'
+        fp = xdg_state / 'backintime-qt.json'
 
         logger.debug(f'State file path: {fp}')
 
@@ -207,7 +211,11 @@ class StateData(dict, metaclass=singleton.Singleton):
         """Last version of Back In Time in which the release candidate message
         box was displayed.
         """
-        return self['message'].get('release_candidate', None)
+        try:
+            return self['message']['release_candidate']
+        except KeyError:
+            self.msg_release_candidate = None
+            return self.msg_release_candidate
 
     @msg_release_candidate.setter
     def msg_release_candidate(self, val: str) -> None:
@@ -216,7 +224,11 @@ class StateData(dict, metaclass=singleton.Singleton):
     @property
     def msg_encfs_global(self) -> bool:
         """If global EncFS deprecation message box was displayed already."""
-        return self['message']['encfs'].get('global', False)
+        try:
+            return self['message']['encfs']['global']
+        except KeyError:
+            self.msg_encfs_global = False
+            return self.msg_encfs_global
 
     @msg_encfs_global.setter
     def msg_encfs_global(self, val: bool) -> None:
@@ -225,7 +237,11 @@ class StateData(dict, metaclass=singleton.Singleton):
     @property
     def mainwindow_show_hidden(self) -> bool:
         """Show hidden files in files view."""
-        return self['gui']['mainwindow'].get('show_hidden', False)
+        try:
+            return self['gui']['mainwindow']['show_hidden']
+        except KeyError:
+            self.mainwindow_show_hidden = False
+            return self.mainwindow_show_hidden
 
     @mainwindow_show_hidden.setter
     def mainwindow_show_hidden(self, val: bool) -> None:
@@ -264,7 +280,11 @@ class StateData(dict, metaclass=singleton.Singleton):
         Raises:
             KeyError
         """
-        return self['gui']['logview'].get('dims', (800, 500))
+        try:
+            return self['gui']['logview']['dims']
+        except KeyError:
+            self.logview_dims = (800, 500)
+            return self.logview_dims
 
     @logview_dims.setter
     def logview_dims(self, vals: tuple[int, int]) -> None:
@@ -277,7 +297,11 @@ class StateData(dict, metaclass=singleton.Singleton):
         Returns:
             Tuple with column index and its sorting order (0=ascending).
         """
-        return self['gui']['mainwindow']['files_view'].get('sorting', (0, 0))
+        try:
+            return self['gui']['mainwindow']['files_view']['sorting']
+        except KeyError:
+            self.files_view_sorting = (0, 0)
+            return self.files_view_sorting
 
     @files_view_sorting.setter
     def files_view_sorting(self, vals: tuple[int, int]) -> None:
@@ -299,8 +323,11 @@ class StateData(dict, metaclass=singleton.Singleton):
         Returns:
             Two entry tuple with right and left widths.
         """
-        return self['gui']['mainwindow'] \
-            .get('splitter_main_widths', (150, 450))
+        try:
+            return self['gui']['mainwindow']['splitter_main_widths']
+        except KeyError:
+            self.mainwindow_main_splitter_widths = (150, 450)
+            return self.mainwindow_main_splitter_widths
 
     @mainwindow_main_splitter_widths.setter
     def mainwindow_main_splitter_widths(self, vals: tuple[int, int]) -> None:
@@ -313,8 +340,11 @@ class StateData(dict, metaclass=singleton.Singleton):
         Returns:
             Two entry tuple with right and left widths.
         """
-        return self['gui']['mainwindow'] \
-            .get('splitter_second_widths', (150, 300))
+        try:
+            return self['gui']['mainwindow']['splitter_second_widths']
+        except KeyError:
+            self.mainwindow_second_splitter_widths = (150, 300)
+            return self.mainwindow_second_splitter_widths
 
     @mainwindow_second_splitter_widths.setter
     def mainwindow_second_splitter_widths(self, vals: tuple[int, int]) -> None:
@@ -330,7 +360,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         try:
             return self['gui']['mainwindow']['toolbar_button_style']
         except KeyError:
-            self['gui']['mainwindow']['toolbar_button_style'] = 0
+            self.toolbar_button_style = 0
             return self.toolbar_button_style
 
     @toolbar_button_style.setter

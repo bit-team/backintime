@@ -18,6 +18,7 @@ if not os.getenv('DISPLAY', ''):
 
 import pathlib
 import re
+import json
 import subprocess
 import shutil
 import textwrap
@@ -32,6 +33,7 @@ import tools
 tools.initiate_translation(None)
 import qttools
 import backintime
+import config
 import tools
 import logger
 import snapshots
@@ -73,28 +75,29 @@ from PyQt6.QtWidgets import (QWidget,
                              QDialog,
                              QApplication,
                              )
-from PyQt6.QtCore import (Qt,
+from PyQt6.QtCore import (QDir,
+                          QEvent,
                           QObject,
                           QPoint,
                           pyqtSlot,
                           pyqtSignal,
+                          QSortFilterProxyModel,
+                          Qt,
                           QTimer,
                           QThread,
-                          QEvent,
-                          QSortFilterProxyModel,
-                          QDir,
                           QUrl)
-from manageprofiles import SettingsDialog
 import snapshotsdialog
 import logviewdialog
-from restoredialog import RestoreDialog
-from restoreconfigdialog import RestoreConfigDialog
 import languagedialog
 import messagebox
-from aboutdlg import AboutDlg
 import qttools
-from usermessagedialog import UserMessageDialog
 import version
+from manageprofiles import SettingsDialog
+from restoredialog import RestoreDialog
+from restoreconfigdialog import RestoreConfigDialog
+from usermessagedialog import UserMessageDialog
+from aboutdlg import AboutDlg
+from statedata import StateData
 
 
 class MainWindow(QMainWindow):
@@ -927,6 +930,7 @@ class MainWindow(QMainWindow):
             messagebox.critical(self, str(ex))
 
         self.config.save()
+        state_data.save()
 
         # cleanup temporary local copies of files which were opened in GUI
         for d in self.tmpDirs:
@@ -2265,6 +2269,174 @@ class SetupCron(QThread):
         self.config.setupCron()
 
 
+def _get_state_data_from_config(cfg: config.Config) -> StateData:
+    """Get data related to application state from the config instance.
+
+    It migrates state data from the config file to an instance of
+    `StateData` which later is saved in a separate file.
+
+    This function is a temporary workaround. See PR #1850.
+
+    Args:
+       cfg: The config instance.
+
+    Returns:
+        dict: The state data.
+        """
+
+    data = StateData()
+
+    # internal.manual_starts_countdown
+    data['manual_starts_countdown'] \
+        = cfg.intValue('internal.manual_starts_countdown', 10)
+
+    # internal.msg_rc
+    val = cfg.strValue('internal.msg_rc', None)
+    if val:
+        data.msg_release_candidate = val
+
+    # internal.msg_shown_encfs
+    val = cfg.boolValue('internal.msg_shown_encfs', None)
+    if val:
+        data.msg_encfs_global = val
+
+    # qt.show_hidden_files
+    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
+
+    # Coordinates and dimensions
+    val = (
+        cfg.intValue('qt.main_window.x', None),
+        cfg.intValue('qt.main_window.y', None)
+    )
+
+    if all(val):
+        data.mainwindow_coords = val
+
+    val = (
+        cfg.intValue('qt.main_window.width', None),
+        cfg.intValue('qt.main_window.height', None)
+    )
+    if all(val):
+        data.mainwindow_dims = val
+
+    val = (
+        cfg.intValue('qt.logview.width', None),
+        cfg.intValue('qt.logview.height', None)
+    )
+    if all(val):
+        data.logview_dims = val
+
+    # files view
+    # Dev note (buhtz, 2024-12): Ignore the column width values because of a
+    # bug. Three columns are tracked but the widget has four columns. The "Typ"
+    # column is treated as "Date" and the width of the real "Date" column (4th)
+    # was never stored.
+    # The new state file will load and store width values for all existing
+    # columns.
+    # qt.main_window.files_view.name_width
+    # qt.main_window.files_view.size_width
+    # qt.main_window.files_view.date_width
+
+    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
+    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
+    data.files_view_sorting = (col, 0 if order else 1)
+
+    # splitter width
+    widths = (
+        cfg.intValue('qt.main_window.main_splitter_left_w', None),
+        cfg.intValue('qt.main_window.main_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_main_splitter_widths = widths
+
+    widths = (
+        cfg.intValue('qt.main_window.second_splitter_left_w', None),
+        cfg.intValue('qt.main_window.second_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_second_splitter_widths = widths
+
+    # each profile
+    for profile_id in cfg.profiles():
+        profile_state = data.profile(profile_id)
+
+        # profile specific encfs warning
+        val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
+        if val is not None:
+            profile_state.msg_encfs = val
+
+        # qt.last_path
+        if cfg.hasProfileKey('qt.last_path', profile_id):
+            profile_state.last_path \
+                = cfg.profileStrValue('qt.last_path', None, profile_id)
+
+        # Places: sorting
+        sorting = (
+            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
+            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.places_sorting = sorting
+
+        # Manage profiles - Exclude tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.exclude_sorting = sorting
+
+        # Manage profiles - Include tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.include_sorting = sorting
+
+    return data
+
+
+def load_state_data(cfg: config.Config) -> None:
+    """Initiate the `State` instance.
+
+    The state file is loaded and its data stored in `State`. The later is a
+    singleton and can be used everywhere.
+
+    Args:
+       args: Arguments given from command line.
+    """
+    fp = StateData.file_path()
+
+    try:
+        # load file
+        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
+
+    except FileNotFoundError:
+        logger.debug('State file not found. Using config file and migrate it'
+                     'into a state file.')
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        state_data = _get_state_data_from_config(cfg)
+
+    except json.decoder.JSONDecodeError as exc:
+        logger.warning(f'Unable to read and decode state file "{fp}". '
+                       'Ignnoring it.')
+        logger.debug(f'{exc=}')
+
+        try:
+            raw_content = fp.read_text(encoding='utf-8')
+            logger.debug(f'raw_content="{raw_content}"')
+        except Exception as exc_raw:
+            logger.debug(f'{exc_raw=}')
+
+        # Empty state data with default values
+        state_data = StateData()
+
+
 if __name__ == '__main__':
     cfg = backintime.startApp('backintime-qt')
 
@@ -2281,6 +2453,8 @@ if __name__ == '__main__':
     qapp = qttools.createQApplication(cfg.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
+
+    load_state_data(cfg)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
 

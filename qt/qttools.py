@@ -64,9 +64,8 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
-import bitbase
-import version
-
+import bitbase  # noqa: E402
+import version  # noqa: E402
 
 # |---------------|
 # | Font handling |
@@ -206,6 +205,7 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # | Misc / Uncatgorized |
 # |---------------------|
 
+
 def user_manual_uri() -> str:
     """Return the URI to the user manual.
 
@@ -213,9 +213,10 @@ def user_manual_uri() -> str:
     """
     uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
         if bitbase.USER_MANUAL_LOCAL_AVAILABLE \
-           else bitbase.USER_MANUAL_ONLINE_URL
+        else bitbase.USER_MANUAL_ONLINE_URL
 
     return uri
+
 
 def open_user_manual() -> None:
     """Open the user manual in browser.
@@ -409,7 +410,8 @@ def createQApplication(app_name='Back In Time'):
     # title
     if logger.DEBUG:
         qapp.setApplicationName(
-            f"{qapp.applicationName()} [{qt_platform_name}]")
+            f'{qapp.applicationName()} '
+            f'[QT QPA platform: "{qt_platform_name}"]')
 
     return qapp
 
@@ -475,7 +477,8 @@ class TimeLine(QTreeWidget):
         super(TimeLine, self).__init__(parent)
         self.setRootIsDecorated(False)
         self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.setSelectionMode(
+            QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setHeaderLabels([_('Snapshots'), 'foo'])
         self.setSortingEnabled(True)
         self.sortByColumn(1, Qt.SortOrder.DescendingOrder)
