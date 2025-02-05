@@ -34,11 +34,12 @@ import sshtools
 import logger
 import encfsmsgbox
 import mount
+from statedata import StateData
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
-from bitbase import URL_ENCRYPT_TRANSITION
+from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
 
 
 class GeneralTab(QDialog):
@@ -678,7 +679,7 @@ class GeneralTab(QDialog):
         """
         active_mode = self.get_active_snapshots_mode()
 
-        state_data = StateFile()
+        state_data = StateData()
         profile_state = state_data.profile(self.config.currentProfile())
 
         # hide/show group boxes related to current mode
@@ -736,8 +737,8 @@ class GeneralTab(QDialog):
             if self._parent_dialog.isVisible():
                 # Show the profile specific warning dialog only once per
                 # profile.
-                if profile_state.msg_encfs is False:
-                    profile_state.msg_encfs = True
+                if profile_state.msg_encfs < ENCFS_MSG_STAGE:
+                    profile_state.msg_encfs = ENCFS_MSG_STAGE
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
         else:

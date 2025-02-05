@@ -33,6 +33,7 @@ import tools
 tools.initiate_translation(None)
 import qttools
 import backintime
+import bitbase
 import config
 import tools
 import logger
@@ -406,7 +407,7 @@ class MainWindow(QMainWindow):
 
         # If the encfs-deprecation warning in its latest stage was not shown
         # yet.
-        if state_data.msg_encfs_global < 2:
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -418,7 +419,7 @@ class MainWindow(QMainWindow):
             if encfs_profiles:
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                state_data.msg_encfs_global = 2
+                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
 
         # Release Candidate
         if version.is_release_candidate():
@@ -969,8 +970,8 @@ class MainWindow(QMainWindow):
         current_mode = self.config.snapshotsMode(profile_id)
         if current_mode in ('local_encfs', 'ssh_encfs'):
             # Show the profile specific warning dialog only once per profile.
-            if profile_state.msg_encfs is False:
-                profile_state.msg_encfs = True
+            if profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE:
+                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
