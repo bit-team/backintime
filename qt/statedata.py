@@ -134,8 +134,12 @@ class StateData(dict, metaclass=singleton.Singleton):
     @staticmethod
     def file_path() -> Path:
         """Returns the state file path."""
-        xdg_state = os.environ.get('XDG_STATE_HOME',
-                                   Path.home() / '.local' / 'state')
+        xdg_state = os.environ.get('XDG_STATE_HOME', None)
+        if xdg_state:
+            xdg_state = Path(xdg_state)
+        else:
+            xdg_state = Path.home() / '.local' / 'state'
+
         fp = xdg_state / 'backintime-qt.json'
 
         logger.debug(f'State file path: {fp}')
