@@ -417,9 +417,9 @@ class MainWindow(QMainWindow):
 
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
+                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
 
         # Release Candidate
         if version.is_release_candidate():
@@ -948,7 +948,8 @@ class MainWindow(QMainWindow):
 
         self.comboProfiles.clear()
 
-        qttools.update_combo_profiles(self.config, self.comboProfiles, self.config.currentProfile())
+        qttools.update_combo_profiles(
+            self.config, self.comboProfiles, self.config.currentProfile())
         profiles = self.config.profilesSortedByName()
 
         self.comboProfilesAction.setVisible(len(profiles) > 1)
@@ -969,8 +970,10 @@ class MainWindow(QMainWindow):
         # EncFS deprecation warning (see #1734)
         current_mode = self.config.snapshotsMode(profile_id)
         if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile.
-            if profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE:
+            # Show the profile specific warning dialog only once per profile
+            # and only if the global warning was shown before.
+            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
                 profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
