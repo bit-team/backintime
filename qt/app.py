@@ -404,8 +404,9 @@ class MainWindow(QMainWindow):
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
 
-        # If the encfs-deprecation warning was never shown before
-        if state_data.msg_encfs_global is False:
+        # If the encfs-deprecation warning in its latest stage was not shown
+        # yet.
+        if state_data.msg_encfs_global < 2:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -417,7 +418,7 @@ class MainWindow(QMainWindow):
             if encfs_profiles:
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                state_data.msg_encfs_global = True
+                state_data.msg_encfs_global = 2
 
         # Release Candidate
         if version.is_release_candidate():
@@ -2296,7 +2297,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         data.msg_release_candidate = val
 
     # internal.msg_shown_encfs
-    val = cfg.boolValue('internal.msg_shown_encfs', None)
+    val = cfg.boolValue('internal.msg_shown_encfs', 0)
     if val:
         data.msg_encfs_global = val
 

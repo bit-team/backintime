@@ -222,16 +222,16 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['message']['release_candidate'] = val
 
     @property
-    def msg_encfs_global(self) -> bool:
-        """If global EncFS deprecation message box was displayed already."""
+    def msg_encfs_global(self) -> int:
+        """Last stage of global EncFS deprecation message that was shown."""
         try:
             return self['message']['encfs']['global']
         except KeyError:
-            self.msg_encfs_global = False
+            self.msg_encfs_global = 0
             return self.msg_encfs_global
 
     @msg_encfs_global.setter
-    def msg_encfs_global(self, val: bool) -> None:
+    def msg_encfs_global(self, val: int) -> None:
         self['message']['encfs']['global'] = val
 
     @property
