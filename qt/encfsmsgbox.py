@@ -64,10 +64,13 @@ class EncfsExistsWarning(_EncfsWarningBase):
         # DevNote: Code looks ugly because we need to take the needs of
         # translators into account. Also the limitations of Qt's RichText
         # feature need to be considered.
+        text = ' '.join([
+            _('EncFS profile creation will be removed in the next major '
+              'release (1.7), scheduled for 2026.'),
+            _('It is not recommended to use that mode for a '
+              'profile furthermore.')
+        ])
 
-        text = _('The support for encrypted snapshot profiles is undergoing '
-                 'significant changes, and EncFS will be removed in the '
-                 'foreseeable future.')
 
         profiles = '<ul>' \
             + ''.join(f'<li>{profile}</li>' for profile in profiles) \
@@ -75,14 +78,17 @@ class EncfsExistsWarning(_EncfsWarningBase):
 
         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
             + _('whitepaper') + '</a>'
+
         info_paragraphs = (
             _('The following profile(s) use encryption with EncFS:'),
             profiles,
-            _('A decision on a replacement for continued support of encrypted '
-              'backups is still pending, depending on project resources and '
-              'contributor availability. Users are invited to join this '
-              'discussion. Updated details on the next steps are '
-              'available in this {whitepaper}.').format(
+            ' '.join([
+                _('Support for EncFS is being discontinued due '
+                  'to security vulnerabilities.'),
+                _('A replacement is planned, but it cannot be guaranteed that '
+                  'it will arrive on time.')]),
+            _('Users are invited to join this discussion. Updated details '
+              'on the next steps are available in this {whitepaper}.').format(
                   whitepaper=whitepaper),
             _('This message will not be shown again. This dialog is '
               'available at any time via the help menu.'),
