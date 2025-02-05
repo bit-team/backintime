@@ -61,7 +61,11 @@ class StateData(dict, metaclass=singleton.Singleton):
         @property
         def msg_encfs(self) -> int:
             """Stage of EncFS deprecation warning shown as last."""
-            return self._state['message']['encfs'][self._profile_id]
+            try:
+                return self._state['message']['encfs'][self._profile_id]
+            except KeyError:
+                self.msg_encfs = 0
+                return self.msg_encfs
 
         @msg_encfs.setter
         def msg_encfs(self, val: int) -> None:

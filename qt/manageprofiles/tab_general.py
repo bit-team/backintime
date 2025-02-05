@@ -574,18 +574,18 @@ class GeneralTab(QDialog):
 
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
-        label = QLabel('<b>{}:</b> {}'.format(
+        label = QLabel('<b>{}:</b> {}<br>{}'.format(
             _('Warning'),
-            _('Support for EncFS will be discontinued in the foreseeable '
-              'future. A decision on a replacement for continued support of '
-              'encrypted backups is still pending, depending on project '
-              'resources and contributor availability. More details are '
-              'available in this {whitepaper}.').format(
+            _('EncFS profile creation will be removed in the next major '
+              'release (1.7), scheduled for 2026. Support for EncFS is '
+              'being discontinued due to security vulnerabilities.'),
+            _('For more details, including potential alternatives, please '
+              'refer to this {whitepaper}.').format(
                   whitepaper='<a href="{}">{}</a>'.format(
                       URL_ENCRYPT_TRANSITION,
-                      _('whitepaper'))
+                      _('whitepaper')))
                   )
-        ))
+        )
         label.setWordWrap(True)
         label.setOpenExternalLinks(True)
 
