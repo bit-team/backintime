@@ -39,17 +39,19 @@ class EncfsCreateWarning(_EncfsWarningBase):
     """
 
     def __init__(self, parent):
-        text = _('Support for EncFS will be discontinued in the '
-                 'foreseeable future. It is not recommended to use that '
-                 'mode for a profile furthermore.')
-        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
-            + _('whitepaper') + '</a>'
-        informative_text = _(
-            'A decision on a replacement for continued support of encrypted '
-            'backups is still pending, depending on project resources and '
-            'contributor availability. More details are available in this '
-            '{whitepaper}.'
-        ).format(whitepaper=whitepaper)
+        text = _('EncFS profile creation will be removed in the next major '
+                 'release (1.7), scheduled for 2026.')
+        text = text + ' ' + _('It is not recommended to use that '
+                              'mode for a profile furthermore.')
+
+        informative_text = _('Support for EncFS is being discontinued due '
+                             'to security vulnerabilities.')
+        informative_text = informative_text + ' ' + _(
+            'For more details, including potential alternatives, please refer '
+            'to this {whitepaper}.').format(
+                whitepaper='<a href="{}">{}</a>'.format(
+                    URL_ENCRYPT_TRANSITION,
+                    _('whitepaper')))
 
         super().__init__(parent, text, informative_text)
 

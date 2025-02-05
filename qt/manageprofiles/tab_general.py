@@ -593,17 +593,17 @@ class GeneralTab(QDialog):
         # icon_label.setFixedSize(pixmap.size())
 
         # encfs deprecation warning (see #1734, #1735)
-        txt_label = QLabel(
-            _('EncFS profile creation will be removed in the next major '
-              'release (1.7), scheduled for 2026. Support for EncFS is '
-              'being discontinued due to security vulnerabilities. '
-              'For more details, including potential alternatives, please '
-              'refer to this {whitepaper}.').format(
-                  whitepaper='<a href="{}">{}</a>'.format(
-                      URL_ENCRYPT_TRANSITION,
-                      _('whitepaper'))
-                  )
-        )
+        txt = _('EncFS profile creation will be removed in the next major '
+                'release (1.7), scheduled for 2026.')
+        txt = txt + ' ' + _('Support for EncFS is being discontinued due '
+                            'to security vulnerabilities.')
+        txt = txt + ' ' + _('For more details, including potential '
+                            'alternatives, please refer to this '
+                            '{whitepaper}.') \
+                            .format(whitepaper='<a href="{}">{}</a>'.format(
+                                URL_ENCRYPT_TRANSITION,
+                                _('whitepaper')))
+        txt_label = QLabel(txt)
         txt_label.setWordWrap(True)
         txt_label.setOpenExternalLinks(True)
 
