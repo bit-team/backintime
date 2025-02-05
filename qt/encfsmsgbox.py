@@ -39,7 +39,7 @@ class EncfsCreateWarning(_EncfsWarningBase):
     """
 
     def __init__(self, parent):
-        text = _('EncFS profile creation will be removed in the next major '
+        text = _('EncFS profile creation will be removed in the next minor '
                  'release (1.7), scheduled for 2026.')
         text = text + ' ' + _('It is not recommended to use that '
                               'mode for a profile furthermore.')
@@ -65,7 +65,7 @@ class EncfsExistsWarning(_EncfsWarningBase):
         # translators into account. Also the limitations of Qt's RichText
         # feature need to be considered.
         text = ' '.join([
-            _('EncFS profile creation will be removed in the next major '
+            _('EncFS profile creation will be removed in the next minor '
               'release (1.7), scheduled for 2026.'),
             _('It is not recommended to use that mode for a '
               'profile furthermore.')

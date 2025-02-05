@@ -520,7 +520,7 @@ def encfs_deprecation_warning():
         return
 
     logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
-                   'Removal is schedule for major release 1.7 in year 2026. '
+                   'Removal is schedule for minor release 1.7 in year 2026. '
                    'For details and alternatives '
                    f'read: {URL_ENCRYPT_TRANSITION}')
 

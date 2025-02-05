@@ -586,7 +586,7 @@ class GeneralTab(QDialog):
         icon_label.setPixmap(pixmap)
 
         # encfs deprecation warning (see #1734, #1735)
-        txt = _('EncFS profile creation will be removed in the next major '
+        txt = _('EncFS profile creation will be removed in the next minor '
                 'release (1.7), scheduled for 2026.')
         txt = txt + ' ' + _('Support for EncFS is being discontinued due '
                             'to security vulnerabilities.')
