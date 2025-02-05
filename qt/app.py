@@ -961,12 +961,16 @@ class MainWindow(QMainWindow):
         self.updatePlaces()
         self.updateFilesView(0)
 
+        profile_id = self.config.currentProfile()
+        state_data = StateData()
+        profile_state = state_data.profile(profile_id)
+
         # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(self.config.currentProfile())
+        current_mode = self.config.snapshotsMode(profile_id)
         if current_mode in ('local_encfs', 'ssh_encfs'):
             # Show the profile specific warning dialog only once per profile.
-            if self.config.profileBoolValue('msg_shown_encfs') is False:
-                self.config.setProfileBoolValue('msg_shown_encfs', True)
+            if profile_state.msg_encfs is False:
+                profile_state.msg_encfs = True
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
@@ -2362,9 +2366,8 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         profile_state = data.profile(profile_id)
 
         # profile specific encfs warning
-        val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
-        if val is not None:
-            profile_state.msg_encfs = val
+        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
+        profile_state.msg_encfs = val
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):

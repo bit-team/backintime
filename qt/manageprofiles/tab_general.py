@@ -678,6 +678,9 @@ class GeneralTab(QDialog):
         """
         active_mode = self.get_active_snapshots_mode()
 
+        state_data = StateFile()
+        profile_state = state_data.profile(self.config.currentProfile())
+
         # hide/show group boxes related to current mode
         # note: self.modeLocalEncfs = self.modeLocal
         # note: self.modeSshEncfs = self.modeSsh
@@ -733,8 +736,8 @@ class GeneralTab(QDialog):
             if self._parent_dialog.isVisible():
                 # Show the profile specific warning dialog only once per
                 # profile.
-                if self.config.profileBoolValue('msg_shown_encfs') is False:
-                    self.config.setProfileBoolValue('msg_shown_encfs', True)
+                if profile_state.msg_encfs is False:
+                    profile_state.msg_encfs = True
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
         else:

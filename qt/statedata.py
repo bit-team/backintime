@@ -59,12 +59,12 @@ class StateData(dict, metaclass=singleton.Singleton):
             self._profile_id = profile_id
 
         @property
-        def msg_encfs(self) -> bool:
-            """If message box about EncFS deprecation was shown already."""
+        def msg_encfs(self) -> int:
+            """Stage of EncFS deprecation warning shown as last."""
             return self._state['message']['encfs'][self._profile_id]
 
         @msg_encfs.setter
-        def msg_encfs(self, val: bool) -> None:
+        def msg_encfs(self, val: int) -> None:
             self._state['message']['encfs'][self._profile_id] = val
 
         @property
