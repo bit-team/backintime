@@ -513,11 +513,11 @@ def encfs_deprecation_warning():
     fp.touch(exist_ok=True)
 
     # Calculate age of that file
-    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime) 
+    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
 
     # Don't warn if to young
-    # if delta.days < 30:
-    #     return
+    if delta.days < 30:
+        return
 
     logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
                    'Removal is schedule for major release 1.7 in year 2026. '
