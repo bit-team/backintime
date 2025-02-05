@@ -15,17 +15,19 @@ from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor, QFont
-from PyQt6.QtWidgets import (QDialog,
-                             QVBoxLayout,
-                             QHBoxLayout,
+from PyQt6.QtWidgets import (QCheckBox,
+                             QDialog,
                              QGridLayout,
-                             QMessageBox,
                              QGroupBox,
+                             QHBoxLayout,
                              QLabel,
-                             QToolButton,
                              QLineEdit,
-                             QCheckBox,
-                             QToolTip)
+                             QMessageBox,
+                             QStyle,
+                             QToolButton,
+                             QToolTip,
+                             QVBoxLayout,
+                             QWidget)
 import config
 import tools
 import qttools
@@ -67,6 +69,7 @@ class GeneralTab(QDialog):
         # EncFS deprecation (#1734, #1735)
         self._lbl_encfs_warning = self._create_label_encfs_deprecation()
         tab_layout.addWidget(self._lbl_encfs_warning)
+        tab_layout.addWidget(qttools.HLineWidget())
 
         # Where to save snapshots
         groupBox = QGroupBox(self)
@@ -573,29 +576,49 @@ class GeneralTab(QDialog):
         return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
+        # Icon
+        # icon = self.style().standardPixmap(
+        #     QStyle.StandardPixmap.SP_MessageBoxWarning)
+        icon = self.style().standardIcon(
+            QStyle.StandardPixmap.SP_MessageBoxWarning)
+        size = self.style().pixelMetric(
+            QStyle.PixelMetric.PM_LargeIconSize)
+        # icon = icon.scaled(
+        #     icon.width(),
+        #     icon.height(),
+        #     Qt.AspectRatioMode.KeepAspectRatio)
+        icon_label = QLabel(self)
+        pixmap = icon.pixmap(size*2)
+        icon_label.setPixmap(pixmap)
+        # icon_label.setFixedSize(pixmap.size())
+
         # encfs deprecation warning (see #1734, #1735)
-        label = QLabel('<b>{}:</b> {}<br>{}'.format(
-            _('Warning'),
+        txt_label = QLabel(
             _('EncFS profile creation will be removed in the next major '
               'release (1.7), scheduled for 2026. Support for EncFS is '
-              'being discontinued due to security vulnerabilities.'),
-            _('For more details, including potential alternatives, please '
+              'being discontinued due to security vulnerabilities. '
+              'For more details, including potential alternatives, please '
               'refer to this {whitepaper}.').format(
                   whitepaper='<a href="{}">{}</a>'.format(
                       URL_ENCRYPT_TRANSITION,
-                      _('whitepaper')))
+                      _('whitepaper'))
                   )
         )
-        label.setWordWrap(True)
-        label.setOpenExternalLinks(True)
+        txt_label.setWordWrap(True)
+        txt_label.setOpenExternalLinks(True)
 
         # Show URL in tooltip without anoing http-protocol prefix.
-        label.linkHovered.connect(
+        txt_label.linkHovered.connect(
             lambda url: QToolTip.showText(
                 QCursor.pos(), url.replace('https://', ''))
         )
 
-        return label
+        wdg = QWidget()
+        layout = QHBoxLayout(wdg)
+        layout.addWidget(icon_label, stretch=0)
+        layout.addWidget(txt_label, stretch=1)
+
+        return wdg
 
     def _slot_snapshots_path_clicked(self):
         old_path = self.editSnapshotsPath.text()
