@@ -509,8 +509,9 @@ def encfs_deprecation_warning():
     fp = xdg_state / 'backintime.encfs-warning.timestamp'
 
     # ensure existence
-    fp.parent.mkdir(parents=True, exist_ok=True)
-    fp.touch(exist_ok=True)
+    if not fp.exists():
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        fp.touch()
 
     # Calculate age of that file
     delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
@@ -523,6 +524,10 @@ def encfs_deprecation_warning():
                    'Removal is schedule for minor release 1.7 in year 2026. '
                    'For details and alternatives '
                    f'read: {URL_ENCRYPT_TRANSITION}')
+
+
+    # refresh timestamp
+    fp.touch()
 
 
 def startApp(app_name='backintime'):
