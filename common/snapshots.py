@@ -741,6 +741,7 @@ class Snapshots:
 
             self.setTakeSnapshotMessage(
                 0, _('Deferring backup while on battery'))
+
             logger.info('Deferring backup while on battery', self)
             logger.warning('Backup not performed', self)
             ret_error = False
