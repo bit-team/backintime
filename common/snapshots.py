@@ -1304,7 +1304,7 @@ class Snapshots:
             # search previous log for changes and set params
             params[1] = new_snapshot.hasChanges
 
-        elif True:  # new_snapshot.exists() and not new_snapshot.saveToContinue:
+        elif new_snapshot.exists() and not new_snapshot.saveToContinue:
             logger.info(f'Removing leftover snapshot {new_snapshot.displayID} '
                         'directory from last run')
 
