@@ -339,7 +339,7 @@ class RemoveRetentionTab(QDialog):
         layout.addWidget(one_per_week, 3, 1)
 
         tip = _('The months are counted as calendar months starting with '
-                'the current months.')
+                'the current month.')
         label = QLabel(
             _('Keep the last snapshot for each month for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
