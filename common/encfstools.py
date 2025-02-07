@@ -140,14 +140,20 @@ class EncFS_mount(MountControl):
                 )
 
                 if not self.config.askQuestion(question):
+                    # TODO
+                    # This string can appear in a "critical" message dialog.
+                    # Let us know the steps to reproduce that behavior.
                     raise MountException(_('Cancel'))
 
                 else:
                     pw = password.Password(self.config)
                     password_confirm = pw.passwordFromUser(
-                        self.parent, prompt=_('Please confirm the password.'))
+                        self.parent,
+                        prompt=_('Please confirm the password.'))
+
                     if self.password == password_confirm:
                         return False
+
                     else:
                         raise MountException(_("Password doesn't match."))
 
