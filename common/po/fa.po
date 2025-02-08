@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-09-24 06:13+0000\n"
-"Last-Translator: i2 <i2@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"PO-Revision-Date: 2025-02-06 07:02+0000\n"
+"Last-Translator: thehappypotato <thehappypotato@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
-#: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:77
+#: qt/messagebox.py:77
 msgid "Warning"
 msgstr "هشدار"
 
@@ -44,7 +44,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:280 common/config.py:290
-#: qt/manageprofiles/tab_general.py:632
+#: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
 msgstr "کلید خصوصی SSH"
 
@@ -71,13 +71,12 @@ msgid "Profile: \"{name}\""
 msgstr "نمایه: \"{name}\""
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "پوشه برگرفت‌ها معتبر نیست!"
+msgstr "پوشه برگرفت‌ها معتبر نیست."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "بابد حداقل یک مسیر برای پپشتیبان‌گیری انتخاب شود."
 
 #: common/config.py:358
 #, fuzzy
@@ -89,11 +88,11 @@ msgstr "زیر پوشه پشتیبان را نمی‌توان اضافه کرد.
 msgid "The sub-directories cannot be included in the backup."
 msgstr "زیر پوشه پشتیبان را نمی‌توان اضافه کرد."
 
-#: common/config.py:1462
+#: common/config.py:1463
 msgid "Failed to write new crontab."
 msgstr "نوشتن کرونتب جدید شکست خورد."
 
-#: common/config.py:1470
+#: common/config.py:1471
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -106,7 +105,7 @@ msgstr ""
 "\"systemctl enable cron\" را امتحان کنید یا با پشتیبانی توزیع گنو/لینوکس خود"
 " مشورت کنید."
 
-#: common/config.py:1551
+#: common/config.py:1552
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -115,30 +114,30 @@ msgstr ""
 "نتوانست قوانین Udev را برای نمایه {profile_id} نصب کند. سامانه دی‌باس(DBus) "
 "'{dbus_interface}' در دسترس نبود"
 
-#: common/config.py:1566
+#: common/config.py:1567
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "برنامه‌ریزی udev با حالت {mode} کار نمی‌کند"
 
-#: common/config.py:1577
+#: common/config.py:1578
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "UUID برای \"{path}\" پیدا نشد"
 
-#: common/configfile.py:99
+#: common/configfile.py:101
 msgid "Failed to save config"
 msgstr "ذخیره پیکربندی شکست خورد"
 
-#: common/configfile.py:135
+#: common/configfile.py:137
 msgid "Failed to load config"
 msgstr "بارگذاری پیکربندی شکست خورد"
 
-#: common/configfile.py:682 common/configfile.py:781
+#: common/configfile.py:684 common/configfile.py:783
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "نمایه \"{name}\" از قبل وجود دارد."
 
-#: common/configfile.py:727
+#: common/configfile.py:729
 msgid "The last profile cannot be removed."
 msgstr "آخرین نمایه را نمیتوان پاک کرد."
 
@@ -157,19 +156,19 @@ msgstr "پیکربندی برای پوشه رمزنگاری شده پیدا نش
 msgid "Create a new encrypted directory?"
 msgstr "میخوای یک پوشه رمزنگاری شده جدید بسازی؟ یا نه؟"
 
-#: common/encfstools.py:143
+#: common/encfstools.py:146
 msgid "Cancel"
 msgstr "لغو"
 
-#: common/encfstools.py:148
+#: common/encfstools.py:152
 msgid "Please confirm the password."
 msgstr "لطفاً رمز عبور را تایید کنید."
 
-#: common/encfstools.py:152
+#: common/encfstools.py:158
 msgid "Password doesn't match."
 msgstr "کلمه‌عبور مطابقت ندارد."
 
-#: common/encfstools.py:510 common/snapshots.py:1032
+#: common/encfstools.py:516 common/snapshots.py:1042
 msgid "Take snapshot"
 msgstr "گرفتن اسنپ‌شات"
 
@@ -193,140 +192,145 @@ msgstr "مونت‌پوینت ‮{mntpoint} خالی نیست."
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "برای پروفایل {mode} {profile} رمز وارد کنید"
 
-#: common/snapshots.py:360 common/snapshots.py:611
+#: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
 msgstr "شکست خورد"
 
-#: common/snapshots.py:557 common/snapshots.py:619
+#: common/snapshots.py:560 common/snapshots.py:628
 msgid "Restore permissions"
 msgstr "بازگردانی دسترسی ها"
 
-#: common/snapshots.py:614 qt/app.py:288 qt/app.py:1064 qt/app.py:1099
+#: common/snapshots.py:623 qt/app.py:292 qt/app.py:1082 qt/app.py:1117
 #: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "تمام"
 
-#: common/snapshots.py:734
+#: common/snapshots.py:743
 msgid "Deferring backup while on battery"
 msgstr "به تعویق انداختن پشتیبان گیری در هنگام باتری"
 
-#: common/snapshots.py:832 qt/app.py:352
+#: common/snapshots.py:842 qt/app.py:356
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "نمی‌توان پوشهٔ برگرفت‌ها را پیدا کرد."
 
-#: common/snapshots.py:836
+#: common/snapshots.py:846
 #, fuzzy
 msgid "If it is on a removable drive please plug it in."
 msgstr ""
 "اگر روی درایو قابل جابجایی است، لطفاً آن را وصل کنید و سپس باشه را فشار "
 "دهید."
 
-#: common/snapshots.py:839
+#: common/snapshots.py:849
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "برای %s ثانیه باید منتظر ماند."
 msgstr[1] "صبر برای %s ثانیه."
 
-#: common/snapshots.py:904
+#: common/snapshots.py:914
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "گرفتن اسنپ‌شات {snapshot_id} شکست خورد."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
 msgstr "خواهشمند است شکیبا باشید. گام پایانی…"
 
-#: common/snapshots.py:1067
+#: common/snapshots.py:1077
 #, fuzzy
 msgid "Can't create directory."
 msgstr "نمی‌توان پوشه ساخت"
 
-#: common/snapshots.py:1084
+#: common/snapshots.py:1094
 msgid "Saving config file…"
 msgstr "درحال ذخیره فایل کانفیگ…"
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1175
 msgid "Saving permissions…"
 msgstr "در حال ذخیره دسترسی‌ها…"
 
-#: common/snapshots.py:1277
+#: common/snapshots.py:1290
 #, fuzzy, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr "{snapshot_id} رها شده‌ای پیدا شد که میتوان ادامه داد."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1314
 #, fuzzy, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr "حذف کردن پوشه {snapshot_id} رها شده‌ای از آخرین اجرا"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1325
 #, fuzzy
 msgid "Can't remove directory"
 msgstr "نمیتوان پوشه را حذف کرد"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1379
 msgid "Taking snapshot"
 msgstr "در حال گرفتن اسنپ‌شات"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1430
 msgid "Success"
 msgstr "موفق"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1433
 msgid "Partial transfer due to error"
 msgstr "انتقال جزئی به دلیل خطا"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1434
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "انتقال جزئی به دلیل فایل‌های منبع ناپدید شده (به \"man rsync\" مراجعه کنید)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1438
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' با کد خروج {exit_code} به پایان رسید"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1451
 msgid "See 'man rsync' for more details"
 msgstr "برای جزئیات بیشتر به \"man rsync\" مراجعه کنید"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1458
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "کدهای خروجی منفی rsync شماره سیگنال هستند، به \"kill -l\" و \"man kill\" "
 "مراجعه کنید"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1479
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "چیزی تغییر نیافت، اسنپ‌شات ضروری جدیدی نیست"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1523
 #, fuzzy, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "نمی‌توان {new_path} را به {path} تغییر نام داد"
 
-#: common/snapshots.py:1841 common/snapshots.py:1906
+#: common/snapshots.py:1855
 #, fuzzy
 msgid "Smart removal"
 msgstr "حذف هوشمند"
 
-#: common/snapshots.py:1873
-msgid "Removing old snapshots"
+#: common/snapshots.py:1888
+#, fuzzy
+msgid "Apply rules to remove old snapshots"
 msgstr "درحال پاک کردن اسنپ‌شات های قدیمی"
 
-#: common/snapshots.py:1916
+#: common/snapshots.py:1921
+msgid "Apply retention policy"
+msgstr ""
+
+#: common/snapshots.py:1931
 msgid "Trying to keep min free space"
 msgstr "درحال تلاش برای نگهداری حداقل فضای آزاد"
 
-#: common/snapshots.py:1955
+#: common/snapshots.py:1970
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "در حال تلاش برای نگهداری حداقل {perc} آزاد inodeها"
 
-#: common/snapshots.py:3079 qt/app.py:1831
+#: common/snapshots.py:3103 qt/app.py:1849
 msgid "Now"
 msgstr "الان"
 
@@ -463,7 +467,7 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "ساختن پرونده در این پوشه به لغزش برخورد:"
 
-#: qt/aboutdlg.py:37 qt/app.py:571
+#: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
 msgstr "درباره"
 
@@ -479,11 +483,11 @@ msgstr "مترجم‌ها"
 msgid "License"
 msgstr "پروانه"
 
-#: qt/app.py:168
+#: qt/app.py:172
 msgid "Shortcuts"
 msgstr "میانبرها"
 
-#: qt/app.py:188
+#: qt/app.py:192
 #, fuzzy
 msgid ""
 "This directory doesn't exist\n"
@@ -492,15 +496,15 @@ msgstr ""
 "این پوشه در\n"
 "اسنپ‌شات انتخاب شده فعلی وجود ندارد."
 
-#: qt/app.py:253
+#: qt/app.py:257
 msgid "Add to Include"
 msgstr "اضافه کردن به شامل‌ها"
 
-#: qt/app.py:255
+#: qt/app.py:259
 msgid "Add to Exclude"
 msgstr "اضافه کردن به استثناها"
 
-#: qt/app.py:320
+#: qt/app.py:324
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -509,7 +513,7 @@ msgstr ""
 "به نظر می‌رسد که {app_name} برای اولین بار اجرا می‌شود زیرا هیچ پیکربندی‌ای "
 "یافت نشد."
 
-#: qt/app.py:325
+#: qt/app.py:329
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -517,171 +521,172 @@ msgid ""
 msgstr ""
 "یک تنظیمات وارد کنید (از یک پوشه ی پشتیبان گیری یا از یک رایانه ای دیگر)؟"
 
-#: qt/app.py:353
+#: qt/app.py:357
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "اگر روی درایو قابل جابجایی است، لطفاً آن را وصل کنید و سپس باشه را فشار "
 "دهید."
 
-#: qt/app.py:465
+#: qt/app.py:470
 msgid "Take a snapshot"
 msgstr "گرفتن اسنپ‌شات"
 
-#: qt/app.py:467
+#: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr "از زمان و اندازه اصلاح برای تشخیص تغییر فایل استفاده کنید."
 
-#: qt/app.py:470
+#: qt/app.py:475
 msgid "Take a snapshot (checksum mode)"
 msgstr "گرفتن اسنپ‌شات (حالت چک‌سام)"
 
-#: qt/app.py:472
+#: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "از چک‌سام برای شناسایی تغییرات استفاده کن."
 
-#: qt/app.py:475 qt/qtsystrayicon.py:78
+#: qt/app.py:480 qt/qtsystrayicon.py:78
 msgid "Pause snapshot process"
 msgstr "توقف پروسه اسنپ‌شات"
 
-#: qt/app.py:480 qt/qtsystrayicon.py:82
+#: qt/app.py:485 qt/qtsystrayicon.py:82
 msgid "Resume snapshot process"
 msgstr "ادامه پروسه اسنپ‌شات"
 
-#: qt/app.py:484 qt/qtsystrayicon.py:87
+#: qt/app.py:489 qt/qtsystrayicon.py:87
 msgid "Stop snapshot process"
 msgstr "لغو پروسه اسنپ‌شات"
 
-#: qt/app.py:488
+#: qt/app.py:493
 msgid "Refresh snapshot list"
 msgstr "تازه‌سازی فهرست اسنپ‌شات"
 
-#: qt/app.py:492
+#: qt/app.py:497
 msgid "Name snapshot"
 msgstr "نام‌بردن اسنپ‌شات"
 
-#: qt/app.py:496
+#: qt/app.py:501
 msgid "Remove snapshot"
 msgstr "حذف اسنپ‌شات"
 
-#: qt/app.py:500
+#: qt/app.py:505
 msgid "View snapshot log"
 msgstr "مشاهده لاگ اسنپ‌شات"
 
-#: qt/app.py:504
+#: qt/app.py:509
 msgid "View last log"
 msgstr "مشاهده آخرین لاگ"
 
-#: qt/app.py:508
+#: qt/app.py:513
 msgid "Manage profiles…"
 msgstr "مدیریت نمایه‌ها…"
 
-#: qt/app.py:512
+#: qt/app.py:517
 msgid "Shutdown"
 msgstr "خاموش"
 
-#: qt/app.py:514
+#: qt/app.py:519
 msgid "Shut down system after snapshot has finished."
 msgstr "بعد از تمام شدن اسنپ‌شات سیستم را خاموش کن."
 
-#: qt/app.py:516
+#: qt/app.py:521
 msgid "Setup language…"
 msgstr "زبان راه‌اندازی…"
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "Exit"
 msgstr "خروج"
 
-#: qt/app.py:524
+#: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "راهنمای کاربر"
 
-#: qt/app.py:526
+#: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"باز کردن راهنمای کاربر در مرورگر ( اگر موجود باشد محلی در غیر این صورت "
+"آنلاین)"
 
-#: qt/app.py:530
-#, fuzzy
+#: qt/app.py:535
 msgid "man page: Back In Time"
-msgstr "برگشت در زمان"
+msgstr ""
 
-#: qt/app.py:532
+#: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
 msgstr ""
 
-#: qt/app.py:535
+#: qt/app.py:540
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "فایل پیکربندی نمایه‌ها"
 
-#: qt/app.py:538
+#: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 
-#: qt/app.py:542
+#: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "وبگاه پروژه"
 
-#: qt/app.py:545
+#: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "باز کردن وبگاه Back In Time در مرورگر"
 
-#: qt/app.py:547 qt/app.py:1445
+#: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
 msgstr "لاگ تغییرات"
 
-#: qt/app.py:550
+#: qt/app.py:555
 msgid "FAQ"
 msgstr "سوالات متداول"
 
-#: qt/app.py:552
+#: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "باز کردن سوالات متداول در مرورگر"
 
-#: qt/app.py:554
+#: qt/app.py:559
 msgid "Ask a question"
 msgstr "سوال بپرس"
 
-#: qt/app.py:558
+#: qt/app.py:563
 msgid "Report a bug"
-msgstr "گزارش باگ"
+msgstr "گزارش اشکال"
 
-#: qt/app.py:561
+#: qt/app.py:566
 msgid "Translation"
 msgstr "ترجمه"
 
-#: qt/app.py:563
+#: qt/app.py:568
 msgid "Shows the message about participation in translation again."
 msgstr "دوباره پیام درمورد مشارکت در ترجمه را نشان می‌دهد."
 
-#: qt/app.py:567
+#: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
 msgstr "تبدیل رمزگذاری (EncFS)"
 
-#: qt/app.py:569
+#: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
 msgstr "دوباره پیام در مورد پاک شدن EncFS نشان می‌دهد."
 
-#: qt/app.py:574 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
+#: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
 msgid "Restore"
 msgstr "بازگردانی"
 
-#: qt/app.py:576
+#: qt/app.py:581
 #, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "فایل ها یا پوشه های انتخاب شده را به مقصد اصلی بازگردان."
 
-#: qt/app.py:579 qt/app.py:1622 qt/app.py:1654 qt/snapshotsdialog.py:158
+#: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "بازگردانی به …"
 
-#: qt/app.py:581
+#: qt/app.py:586
 #, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "فایل ها یا پوشه های انتخاب شده را به محل جدید بازگردان."
 
-#: qt/app.py:587
+#: qt/app.py:592
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -689,7 +694,7 @@ msgid ""
 msgstr ""
 "پوشه نمایش داده شده فعلی و تمام محتویات آن را به مقصد اصلی بازگردانید."
 
-#: qt/app.py:593
+#: qt/app.py:598
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -697,60 +702,61 @@ msgid ""
 msgstr ""
 "پوشه نمایش داده شده فعلی و تمام محتویات آن را به یک مقصد جدید بازیابی کنید."
 
-#: qt/app.py:596
+#: qt/app.py:601
 msgid "Up"
 msgstr "بالا"
 
-#: qt/app.py:599 qt/restoreconfigdialog.py:90
+#: qt/app.py:604 qt/restoreconfigdialog.py:90
 msgid "Show hidden files"
 msgstr "نمایش فایل های مخفی"
 
-#: qt/app.py:602
+#: qt/app.py:607
 msgid "Compare snapshots…"
 msgstr "مقایسه اسنپ‌شات‌ها…"
 
-#: qt/app.py:632 qt/app.py:2134
+#: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
 msgstr ""
 
-#: qt/app.py:635
+#: qt/app.py:640
 #, fuzzy
 msgid "Shows the message about this Release Candidate again."
 msgstr "دوباره پیام در مورد پاک شدن EncFS نشان می‌دهد."
 
-#: qt/app.py:671
+#: qt/app.py:676
 msgid "Back In &Time"
 msgstr "برگشت در زمان"
 
-#: qt/app.py:676
+#: qt/app.py:681
 msgid "&Backup"
 msgstr "&پشتیبان‌گیری"
 
-#: qt/app.py:687
+#: qt/app.py:692
 msgid "&Restore"
 msgstr "&بازگردانی"
 
-#: qt/app.py:693
+#: qt/app.py:698
 msgid "&Help"
 msgstr "&کمک"
 
-#: qt/app.py:738
+#: qt/app.py:743
+#, fuzzy
 msgid "Icons only"
-msgstr ""
+msgstr "فقط نمادها"
 
-#: qt/app.py:741
+#: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "فقط متن"
 
-#: qt/app.py:744
+#: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "متن زیر نمادها"
 
-#: qt/app.py:747
+#: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "متن کنار نماد"
 
-#: qt/app.py:892
+#: qt/app.py:897
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -758,66 +764,66 @@ msgstr ""
 "اگر شما این پنجره را ببندید، Back In Time دیگر قادر نیست که رایانه شما را "
 "بعد از تمام شدن اسنپ‌شات خاموش کند."
 
-#: qt/app.py:895
+#: qt/app.py:900
 msgid "Do you really want to close it?"
 msgstr "آیا از بستن این مورد مطمئنید؟"
 
-#: qt/app.py:1054
+#: qt/app.py:1072
 msgid "Working:"
-msgstr "در حال کار کردن:"
+msgstr "در حال انجام:"
 
-#: qt/app.py:1102
+#: qt/app.py:1120
 msgid "Done, no backup needed"
 msgstr "تامام، پشتیبان‌گیری لازم نیست"
 
-#: qt/app.py:1111
+#: qt/app.py:1129
 msgid "Working"
-msgstr "درحال کار"
+msgstr "درحال انجام"
 
-#: qt/app.py:1120 qt/messagebox.py:84
+#: qt/app.py:1138 qt/messagebox.py:84
 msgid "Error"
 msgstr "خطا"
 
-#: qt/app.py:1143
+#: qt/app.py:1161
 msgid "Sent"
 msgstr "فرستاده‌شده"
 
-#: qt/app.py:1144
+#: qt/app.py:1162
 msgid "Speed"
 msgstr "سرعت"
 
-#: qt/app.py:1145
+#: qt/app.py:1163
 msgid "ETA"
 msgstr "ETA"
 
-#: qt/app.py:1207
+#: qt/app.py:1225
 msgid "Global"
 msgstr "جهانی"
 
-#: qt/app.py:1208
+#: qt/app.py:1226
 msgid "Root"
 msgstr "ریشه"
 
-#: qt/app.py:1209
+#: qt/app.py:1227
 msgid "Home"
 msgstr "خانه"
 
-#: qt/app.py:1237
+#: qt/app.py:1255
 #, fuzzy
 msgid "Backup directories"
 msgstr "پوشه های پشتیبانی"
 
-#: qt/app.py:1333
+#: qt/app.py:1351
 msgid "Snapshot Name"
 msgstr "نام اسنپ‌شات"
 
-#: qt/app.py:1380
+#: qt/app.py:1398
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "آیا از پاک کرد این اسنپ‌شات مطمئنید؟"
 msgstr[1] "آیا از پاک کردن این اسنپ‌شات‌ها مطمئنید؟"
 
-#: qt/app.py:1478
+#: qt/app.py:1496
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -826,7 +832,7 @@ msgstr ""
 "پشتیبان‌هایی با پسوند {suffix} را\n"
 "قبل از بازنوشتن یا حذف کردن عناصر محلی ایجاد کن."
 
-#: qt/app.py:1486
+#: qt/app.py:1504
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -834,9 +840,9 @@ msgid ""
 "following command:"
 msgstr ""
 "نسخه‌های جدیدتر از فایل‌ها با دنباله {suffix} قبل از بازگردانی تغییر نام داده خواهند شد.\n"
-"اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با دستور زیر حذف کنید."
+"اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با دستور زیر حذف کنید:"
 
-#: qt/app.py:1502
+#: qt/app.py:1520
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -846,12 +852,12 @@ msgstr ""
 "یا جدید‌تر از معادلشان در مقسد هستند را بازیابی کن.\n"
 "با استفاده از قابلیت \"rsync --update\"."
 
-#: qt/app.py:1537
+#: qt/app.py:1555
 #, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "عناصر جدیدتر را در پوشه اصلی حذف کنید."
 
-#: qt/app.py:1540
+#: qt/app.py:1558
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -863,7 +869,7 @@ msgstr ""
 "پرونده‌ها و پوشه‌هایی که در رخ‌نما‌ها نیستند را حذف می‌کند.\n"
 "شدیداً مواظب باشید؛ زیرا این کار پرونده‌ها و پوشه‌هایی که هنگام رخ‌نما گرفتن مورد استثنا قرار گرفته شده‌اند را حذف خواهد کرد."
 
-#: qt/app.py:1552
+#: qt/app.py:1570
 #, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
@@ -875,19 +881,19 @@ msgstr[1] ""
 "آیا از بازگرداندن این موارد به شاخه جدید زیر مطمئنید\n"
 "{path}?"
 
-#: qt/app.py:1562
+#: qt/app.py:1580
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "آیا از بازگرداندن این مورد مطمئنید؟"
 msgstr[1] "آیا از بازگرداندن این موارد مطمئنید؟"
 
-#: qt/app.py:1581
+#: qt/app.py:1599
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr ""
 "آیا شما مطمئنید که میخواهید تمامی فایل های جدیدتر را در {path} حذف کنید؟"
 
-#: qt/app.py:1584
+#: qt/app.py:1602
 #, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
@@ -895,7 +901,7 @@ msgstr ""
 "آیا شما مطمئنید که میخواهید تمامی فایل‌های جدیدتر را در پوشه اصلی خود حذف "
 "کنید؟"
 
-#: qt/app.py:1590
+#: qt/app.py:1608
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -904,21 +910,21 @@ msgstr ""
 "{BOLD}هشدار{BOLDEND}: حذف کردن پرونده‌ها در ریشهٔ سامانه‌پرونده می‌تواند کل "
 "سامانهٔ شما را خراب کند!"
 
-#: qt/app.py:1839
+#: qt/app.py:1857
 msgid "Snapshot"
 msgstr "اسنپ‌شات"
 
-#: qt/app.py:1878
+#: qt/app.py:1896
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "بازگرداندن {path}"
 
-#: qt/app.py:1880
+#: qt/app.py:1898
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "بازگرداندن {path} به …"
 
-#: qt/app.py:2024
+#: qt/app.py:2042
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -934,47 +940,47 @@ msgstr ""
 "از نگه‌داشتن شما عذرخواهی می‌کنیم. این پیام دوباره نمایش داده نمی‌شود. این پیام در هر زمان از طریق فهرست راهنمایی قابل دسترس است.\n"
 "تیم Back In Time برای شما."
 
-#: qt/app.py:2053
+#: qt/app.py:2071
 msgid "translation platform"
 msgstr "سکوی ترجمه"
 
-#: qt/app.py:2058
+#: qt/app.py:2076
 msgid "Website"
 msgstr "وبسایت"
 
-#: qt/app.py:2072
+#: qt/app.py:2090
 msgid "Your translation"
 msgstr "ترجمه شما"
 
-#: qt/app.py:2085
+#: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
 msgstr ""
 
-#: qt/app.py:2090
+#: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "ایمیل به {link_and_label}."
 
-#: qt/app.py:2093
+#: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
 msgstr ""
 
-#: qt/app.py:2097
-#, python-brace-format
+#: qt/app.py:2115
+#, fuzzy, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} در وبگاه پروژه."
 
-#: qt/app.py:2100
+#: qt/app.py:2118
 msgid "Open an issue"
 msgstr ""
 
-#: qt/app.py:2101
+#: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:2106
+#: qt/app.py:2124
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -987,61 +993,62 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:2157
+#: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "تنظیمات زمان تنها بعد از خارج و وارد شدن از Back In Time تاثیر گذار هستند."
 
-#: qt/encfsmsgbox.py:42
-#, fuzzy
+#: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
+#: qt/manageprofiles/tab_general.py:588
 msgid ""
-"Support for EncFS will be discontinued in the foreseeable future. It is not "
-"recommended to use that mode for a profile furthermore."
+"EncFS profile creation will be removed in the next minor release (1.7), "
+"scheduled for 2026."
+msgstr ""
+
+#: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
+#, fuzzy
+msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
 "پشتیبانی از EncFS در آینده پیش‌بینی شده پایان می‌یابد. علاوه بر این پیشنهاد "
 "نمی‌شود دیگر از این حالت برای یک پروفایل استفاده کنید."
 
-#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75
-#: qt/manageprofiles/tab_general.py:585
+#: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
+#: qt/manageprofiles/tab_general.py:597
 msgid "whitepaper"
 msgstr "اوراق سفید"
 
-#: qt/encfsmsgbox.py:48
+#: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
+#: qt/manageprofiles/tab_general.py:590
+msgid ""
+"Support for EncFS is being discontinued due to security vulnerabilities."
+msgstr ""
+
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
 msgid ""
-"A decision on a replacement for continued support of encrypted backups is "
-"still pending, depending on project resources and contributor availability. "
-"More details are available in this {whitepaper}."
+"For more details, including potential alternatives, please refer to this "
+"{whitepaper}."
 msgstr ""
 
-#: qt/encfsmsgbox.py:66
-#, fuzzy
-msgid ""
-"The support for encrypted snapshot profiles is undergoing significant "
-"changes, and EncFS will be removed in the foreseeable future."
-msgstr ""
-"پشتیبانی از پروفایل‌های رخ‌نماهای رمزگذاری شده در حالت تغییرات زیادی است، و "
-"EncFS در آینده قابل پیش‌بینی حذف خواهد شد."
-
-#: qt/encfsmsgbox.py:77
+#: qt/encfsmsgbox.py:82
 #, fuzzy
 msgid "The following profile(s) use encryption with EncFS:"
 msgstr "پروفایل (های) زیر از رمزگذاری با EncFS استفاده می‌کنند:"
 
-#: qt/encfsmsgbox.py:79
+#: qt/encfsmsgbox.py:87
+msgid ""
+"A replacement is planned, but it cannot be guaranteed that it will arrive on"
+" time."
+msgstr ""
+
+#: qt/encfsmsgbox.py:89
 #, python-brace-format
 msgid ""
-"A decision on a replacement for continued support of encrypted backups is "
-"still pending, depending on project resources and contributor availability. "
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
-"یک تصمیم در مورد جایگزین کردن برای ادامه ی پشتیبانی پشتیبان گیری رمزگذاری "
-"شده در حال ارسال است, بسته به منابع پروژه و موجود بودن مشارکت کننده ها, "
-"کاربر ها به عضو شدن به گفتگو دعوت شده اند. جزئیات به روز شده مربوط به گام "
-"بعد در این {whitepaper} موجود هستند."
 
-#: qt/encfsmsgbox.py:85
+#: qt/encfsmsgbox.py:92
 #, fuzzy
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
@@ -1050,7 +1057,7 @@ msgstr ""
 "این پیام دیگر نشان داده نخواهد شد. این دیالوگ در هر زمانی از طریق منوی "
 "راهنما قابل دستیابی است."
 
-#: qt/encfsmsgbox.py:87
+#: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
 msgstr "از طرف تیم برگشت در زمان"
 
@@ -1080,7 +1087,7 @@ msgid "Snapshot Log View"
 msgstr "نمای لاگ اسنپ‌شات"
 
 #: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:262 qt/restoreconfigdialog.py:269
+#: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "نمایه:"
 
@@ -1296,7 +1303,7 @@ msgstr "برنامه‌ریزی"
 
 #: qt/manageprofiles/schedulewidget.py:63
 msgid "Day:"
-msgstr ""
+msgstr "روز:"
 
 #: qt/manageprofiles/schedulewidget.py:68
 msgid "Weekday:"
@@ -1312,7 +1319,7 @@ msgstr "ساعت‌:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "بعد از ساعت"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
@@ -1446,17 +1453,17 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr ""
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:112
-#: qt/manageprofiles/tab_general.py:250
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
+#: qt/manageprofiles/tab_general.py:253
 msgid "Host:"
 msgstr "میزبان(هاست):"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:117
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:120
 msgid "Port:"
 msgstr "پورت:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:122
-#: qt/manageprofiles/tab_general.py:256
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:125
+#: qt/manageprofiles/tab_general.py:259
 msgid "User:"
 msgstr "کاربر:"
 
@@ -1632,35 +1639,31 @@ msgstr "غیرفعال"
 msgid "enabled"
 msgstr "فعال"
 
-#: qt/manageprofiles/tab_general.py:62 qt/restoreconfigdialog.py:271
+#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:271
 msgid "Mode:"
 msgstr "حالت:"
 
-#: qt/manageprofiles/tab_general.py:73 qt/manageprofiles/tab_general.py:604
+#: qt/manageprofiles/tab_general.py:77 qt/manageprofiles/tab_general.py:620
 msgid "Where to save snapshots"
 msgstr "کجا اسنپ‌شات‌ها ذخیره شود"
 
-#: qt/manageprofiles/tab_general.py:91
-msgid "Directory"
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:100
+#: qt/manageprofiles/tab_general.py:103
 msgid "SSH Settings"
 msgstr "تنظیمات SSH"
 
-#: qt/manageprofiles/tab_general.py:127
+#: qt/manageprofiles/tab_general.py:130
 msgid "Path:"
 msgstr "مسیر:"
 
-#: qt/manageprofiles/tab_general.py:133
+#: qt/manageprofiles/tab_general.py:136
 msgid "Cipher:"
 msgstr "متن رمز:"
 
-#: qt/manageprofiles/tab_general.py:138
+#: qt/manageprofiles/tab_general.py:141
 msgid "Private Key:"
 msgstr "کلید خصوصی:"
 
-#: qt/manageprofiles/tab_general.py:149
+#: qt/manageprofiles/tab_general.py:152
 #, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
@@ -1669,7 +1672,7 @@ msgstr ""
 "یک فایل کلید خصوصی که وجود داره انتخاب کنید (به طور معمول \"id_rsa\" "
 "نامگذاری شده)"
 
-#: qt/manageprofiles/tab_general.py:161
+#: qt/manageprofiles/tab_general.py:164
 #, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
@@ -1678,32 +1681,32 @@ msgstr ""
 "یک کلید SSH جدید بدون رمز عبور بساز (مجاز نیست اگر یک فایل کلید خصوصی درحال "
 "حاضر انتخاب شده باشد)"
 
-#: qt/manageprofiles/tab_general.py:197 qt/manageprofiles/tab_general.py:204
-#: qt/manageprofiles/tab_general.py:208
+#: qt/manageprofiles/tab_general.py:200 qt/manageprofiles/tab_general.py:207
+#: qt/manageprofiles/tab_general.py:211
 msgid "Password"
 msgstr "رمز عبور"
 
-#: qt/manageprofiles/tab_general.py:218
+#: qt/manageprofiles/tab_general.py:221
 msgid "Save Password to Keyring"
 msgstr "رمز عبور را در دسته کلید ذخیره کنید"
 
-#: qt/manageprofiles/tab_general.py:222
+#: qt/manageprofiles/tab_general.py:225
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr "رمز عبور کش برای کرون (مشکل امنیتی: ریشه می‌تواند رمز عبور را بخواند)"
 
-#: qt/manageprofiles/tab_general.py:238
+#: qt/manageprofiles/tab_general.py:241
 msgid "Advanced"
 msgstr "پیشرفته"
 
-#: qt/manageprofiles/tab_general.py:268 qt/manageprofiles/tab_general.py:660
+#: qt/manageprofiles/tab_general.py:271 qt/manageprofiles/tab_general.py:676
 msgid "Full snapshot path:"
 msgstr "مسیر کامل اسنپ‌شات:"
 
-#: qt/manageprofiles/tab_general.py:391
+#: qt/manageprofiles/tab_general.py:394
 msgid "You did not choose a private key file for SSH."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:392
+#: qt/manageprofiles/tab_general.py:395
 #, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
@@ -1711,12 +1714,12 @@ msgstr ""
 "شما برای SSH یک فایل کلید خصوصی انتخاب نکرده‌اید.\n"
 "آیا مایل به تمایلات هستید که یک جفت کلید خصوصی/عمومی بدون رمز عبور جدید بسازیم؟"
 
-#: qt/manageprofiles/tab_general.py:403
+#: qt/manageprofiles/tab_general.py:406
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "فایل کلید خصوصی \"{file}\" وجود ندارد."
 
-#: qt/manageprofiles/tab_general.py:488
+#: qt/manageprofiles/tab_general.py:491
 #, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
@@ -1725,7 +1728,7 @@ msgstr ""
 "آیا مایل به تمایلات هستید که کلید SSH عمومی خود را کپی کنید به\n"
 "هاست ریموت تا ورود بدون رمز عبور فعال شود؟"
 
-#: qt/manageprofiles/tab_general.py:522
+#: qt/manageprofiles/tab_general.py:525
 #, fuzzy, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
@@ -1733,12 +1736,12 @@ msgstr ""
 "\n"
 "کلید اثر انگشت {keytype} هست:"
 
-#: qt/manageprofiles/tab_general.py:525
+#: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:533
+#: qt/manageprofiles/tab_general.py:536
 #, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
@@ -1747,21 +1750,12 @@ msgstr ""
 "لطفاً این اثر انگشت را تایید کنید! آیا مایل به تمایلات هستید که این را به "
 "فایل 'known_hosts' خودتان اضافه کنید؟"
 
-#: qt/manageprofiles/tab_general.py:578
-#, python-brace-format
-msgid ""
-"Support for EncFS will be discontinued in the foreseeable future. A decision"
-" on a replacement for continued support of encrypted backups is still "
-"pending, depending on project resources and contributor availability. More "
-"details are available in this {whitepaper}."
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:611
+#: qt/manageprofiles/tab_general.py:627
 #, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "آیا مطمئن هستید که می خواهید پوشه اسنپ‌شات را تغییر دهید؟"
 
-#: qt/manageprofiles/tab_general.py:648
+#: qt/manageprofiles/tab_general.py:664
 #, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "ساختن کلید SSH جدید در {path} شکست خورد"
@@ -1850,22 +1844,23 @@ msgstr "اسنپ‌شات‌های نامگذاری شده را حذف نکن."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
-msgstr ""
+msgstr "آخرین یا جدیدترین برگرفت در هر شرایط نگه داشته می شود."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "رفتار نمی تواند تغییر کند."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "اسنپ‌شات‌های نامگذاری شده را حذف نکن."
+msgstr "برگرفت‌های نامگذاری شده را حذف نکن."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"برگرفت‌های نام گذاری شده, به علاوه ی usual timestamp, در هر شراطی نگه داشته "
+"و حذف نمی شوند."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
@@ -1877,15 +1872,15 @@ msgid "Remove snapshots older than"
 msgstr "حذف اسنپ‌شات"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-msgid "Full days. Current day ignored."
+msgid "Full days. Current day is ignored."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-msgid "Calendar weeks with Monday as first day. Current week ignored."
+msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-msgid "12 months periods. Current months ignored."
+msgid "12 months periods. Current month is ignored."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:289
@@ -1942,7 +1937,7 @@ msgstr "هفته(ها)."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
-"The months are counted as calendar months starting with the current months."
+"The months are counted as calendar months starting with the current month."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:344
@@ -1966,7 +1961,7 @@ msgstr "تمامی اسنپ‌شات ها را تا آخر نگهدار"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "تمام سال ها."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
 #, fuzzy
@@ -2017,31 +2012,31 @@ msgstr "سرعت:"
 msgid "ETA:"
 msgstr ""
 
-#: qt/qttools.py:479 qt/snapshotsdialog.py:115
+#: qt/qttools.py:482 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "اسنپ‌شات‌ها"
 
-#: qt/qttools.py:502
+#: qt/qttools.py:505
 msgid "Today"
 msgstr "امروز"
 
-#: qt/qttools.py:509
+#: qt/qttools.py:512
 msgid "Yesterday"
 msgstr "دیروز"
 
-#: qt/qttools.py:518
+#: qt/qttools.py:521
 msgid "This week"
 msgstr "این هفته"
 
-#: qt/qttools.py:525
+#: qt/qttools.py:528
 msgid "Last week"
 msgstr "آخرین هفته"
 
-#: qt/qttools.py:671
+#: qt/qttools.py:674
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "این یک اسنپ‌شات نیست ولی یک نمای زنده از پرونده‌های محلی شماست"
 
-#: qt/qttools.py:676
+#: qt/qttools.py:679
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "آخرین بررسی {time}"
@@ -2169,6 +2164,18 @@ msgstr "می‌خواهید که \"{path}\" را از اسنپ‌شات‌های
 #~ msgid "&Auto-remove"
 #~ msgstr "حذف خودکار"
 
+#, python-brace-format
+#~ msgid ""
+#~ "A decision on a replacement for continued support of encrypted backups is "
+#~ "still pending, depending on project resources and contributor availability. "
+#~ "Users are invited to join this discussion. Updated details on the next steps"
+#~ " are available in this {whitepaper}."
+#~ msgstr ""
+#~ "یک تصمیم در مورد جایگزین کردن برای ادامه ی پشتیبانی پشتیبان گیری رمزگذاری "
+#~ "شده در حال ارسال است, بسته به منابع پروژه و موجود بودن مشارکت کننده ها, "
+#~ "کاربر ها به عضو شدن به گفتگو دعوت شده اند. جزئیات به روز شده مربوط به گام "
+#~ "بعد در این {whitepaper} موجود هستند."
+
 #, fuzzy
 #~ msgid "Backup directory cannot be included."
 #~ msgstr "پوشه پشتیبان را نمی‌توان اضافه کرد."
@@ -2258,6 +2265,14 @@ msgstr "می‌خواهید که \"{path}\" را از اسنپ‌شات‌های
 #, fuzzy
 #~ msgid "Smart removal:"
 #~ msgstr "حذف هوشمند:"
+
+#, fuzzy
+#~ msgid ""
+#~ "The support for encrypted snapshot profiles is undergoing significant "
+#~ "changes, and EncFS will be removed in the foreseeable future."
+#~ msgstr ""
+#~ "پشتیبانی از پروفایل‌های رخ‌نماهای رمزگذاری شده در حالت تغییرات زیادی است، و "
+#~ "EncFS در آینده قابل پیش‌بینی حذف خواهد شد."
 
 #~ msgid "WARNING"
 #~ msgstr "هشدار"

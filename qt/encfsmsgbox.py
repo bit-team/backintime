@@ -43,15 +43,15 @@ class EncfsCreateWarning(_EncfsWarningBase):
                  'release (1.7), scheduled for 2026.')
         text = text + ' ' + _('It is not recommended to use that '
                               'mode for a profile furthermore.')
+        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
+            + _('whitepaper') + '</a>'
 
         informative_text = _('Support for EncFS is being discontinued due '
                              'to security vulnerabilities.')
         informative_text = informative_text + ' ' + _(
             'For more details, including potential alternatives, please refer '
             'to this {whitepaper}.').format(
-                whitepaper='<a href="{}">{}</a>'.format(
-                    URL_ENCRYPT_TRANSITION,
-                    _('whitepaper')))
+                whitepaper=whitepaper)
 
         super().__init__(parent, text, informative_text)
 
@@ -70,7 +70,6 @@ class EncfsExistsWarning(_EncfsWarningBase):
             _('It is not recommended to use that mode for a '
               'profile furthermore.')
         ])
-
 
         profiles = '<ul>' \
             + ''.join(f'<li>{profile}</li>' for profile in profiles) \

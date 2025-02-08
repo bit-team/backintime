@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-02 13:47+0100\n"
+"POT-Creation-Date: 2025-02-08 11:31+0100\n"
 "PO-Revision-Date: 2024-11-10 08:06+0000\n"
 "Last-Translator: SirHelpALot <SirHelpALot@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
-#: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:77
+#: qt/messagebox.py:77
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -45,7 +45,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:280 common/config.py:290
-#: qt/manageprofiles/tab_general.py:632
+#: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
 msgstr "SSH privat nøgle"
 
@@ -87,11 +87,11 @@ msgstr "Mappen kan ikke inkluderes i sikkerhedskopien."
 msgid "The sub-directories cannot be included in the backup."
 msgstr "Uundermapperne kan ikke inkluderes in backup'en."
 
-#: common/config.py:1462
+#: common/config.py:1463
 msgid "Failed to write new crontab."
 msgstr "Kunne ikke skrive ny crontab."
 
-#: common/config.py:1470
+#: common/config.py:1471
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +103,7 @@ msgstr ""
 " kommandoen “systemctl enable cron” eller kontakt supportkanalerne for din "
 "GNU/Linux-distribution."
 
-#: common/config.py:1551
+#: common/config.py:1552
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,30 +112,30 @@ msgstr ""
 "Kunne ikke installere Udev regel for profil {profile_id}. DBus Service "
 "'{dbus_interface}' var ikke tilgængelig"
 
-#: common/config.py:1566
+#: common/config.py:1567
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Metoden udev virker ikke med indstilling {mode}"
 
-#: common/config.py:1577
+#: common/config.py:1578
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Fandt ikke UUID for {path}"
 
-#: common/configfile.py:99
+#: common/configfile.py:101
 msgid "Failed to save config"
 msgstr "Kunne ikke gemme konfiguration"
 
-#: common/configfile.py:135
+#: common/configfile.py:137
 msgid "Failed to load config"
 msgstr "Kunne ikke læse konfiguration"
 
-#: common/configfile.py:682 common/configfile.py:781
+#: common/configfile.py:684 common/configfile.py:783
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profil \"{name}\" findes allerede."
 
-#: common/configfile.py:727
+#: common/configfile.py:729
 msgid "The last profile cannot be removed."
 msgstr "Den sidste profil kan ikke slettes."
 
@@ -152,19 +152,19 @@ msgstr "Opsætning for krypteret mappe ikke fundet."
 msgid "Create a new encrypted directory?"
 msgstr "Lav en ny krypteret mappe?"
 
-#: common/encfstools.py:143
+#: common/encfstools.py:146
 msgid "Cancel"
 msgstr "Annullér"
 
-#: common/encfstools.py:148
+#: common/encfstools.py:152
 msgid "Please confirm the password."
 msgstr "Bekræft venligst adgangskode."
 
-#: common/encfstools.py:152
+#: common/encfstools.py:158
 msgid "Password doesn't match."
 msgstr "Kodeord passer ikke."
 
-#: common/encfstools.py:510 common/snapshots.py:1032
+#: common/encfstools.py:516 common/snapshots.py:1042
 msgid "Take snapshot"
 msgstr "Tag et tilstands-billede"
 
@@ -189,133 +189,138 @@ msgstr "Tilsluttelsespunkt {mntpoint} er ikke tomt."
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Indtast adgangskode for {mode} profil \"{profile}\":"
 
-#: common/snapshots.py:360 common/snapshots.py:611
+#: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
 msgstr "MISLYKKEDES"
 
-#: common/snapshots.py:557 common/snapshots.py:619
+#: common/snapshots.py:560 common/snapshots.py:628
 msgid "Restore permissions"
 msgstr "Gendan tilladelser"
 
-#: common/snapshots.py:614 qt/app.py:288 qt/app.py:1064 qt/app.py:1099
+#: common/snapshots.py:623 qt/app.py:292 qt/app.py:1082 qt/app.py:1117
 #: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "Færdig"
 
-#: common/snapshots.py:734
+#: common/snapshots.py:743
 msgid "Deferring backup while on battery"
 msgstr "Venter med backup under batteridrift"
 
-#: common/snapshots.py:832 qt/app.py:352
+#: common/snapshots.py:842 qt/app.py:356
 msgid "Can't find snapshots directory."
 msgstr "Kan ikke finde tilstands-billede-mappen."
 
-#: common/snapshots.py:836
+#: common/snapshots.py:846
 #, fuzzy
 msgid "If it is on a removable drive please plug it in."
 msgstr "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk OK."
 
-#: common/snapshots.py:839
+#: common/snapshots.py:849
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Venter %s sekund."
 msgstr[1] "Venter %s sekunder."
 
-#: common/snapshots.py:904
+#: common/snapshots.py:914
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Kunne ikke tage tilstands-billede {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
 msgstr "Hav venligst tålmodighed. Færdigører…"
 
-#: common/snapshots.py:1067
+#: common/snapshots.py:1077
 msgid "Can't create directory."
 msgstr "Kan ikke oprette mappe."
 
-#: common/snapshots.py:1084
+#: common/snapshots.py:1094
 msgid "Saving config file…"
 msgstr "Gemmer konfigurationsfil…"
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1175
 msgid "Saving permissions…"
 msgstr "Gemmer tilladelser…"
 
-#: common/snapshots.py:1277
+#: common/snapshots.py:1290
 #, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr ""
 "Fandt efterladt tilstandsbillede {snapshot_id} som kan fortsættes med."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1314
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr "Sletter efterladt {snapshot_id}-mappe fra seneste kørsel"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1325
 msgid "Can't remove directory"
 msgstr "Kan ikke fjerne mappe"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1379
 msgid "Taking snapshot"
 msgstr "Tag et tilstands-billede"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1430
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1433
 msgid "Partial transfer due to error"
 msgstr "Delvist overført på grund af fejl"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1434
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Delvis overførsel da nogle filer fra kilden er forduftet (se 'man rsync')"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1438
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' afsluttede med slutværdien {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1451
 msgid "See 'man rsync' for more details"
 msgstr "Kig i 'man rsync' for flere detaljer"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1458
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "Negative rsync slutværdier er signalnumre, se 'kill -l' og 'man kill'"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1479
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Ingen ændringer, så et nyt tilstands-billede er ikke nødvendigt"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1523
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan ikke omdøbe {new_path} til {path}."
 
-#: common/snapshots.py:1841 common/snapshots.py:1906
+#: common/snapshots.py:1855
 msgid "Smart removal"
 msgstr "Smart sletning"
 
-#: common/snapshots.py:1873
-msgid "Removing old snapshots"
+#: common/snapshots.py:1888
+#, fuzzy
+msgid "Apply rules to remove old snapshots"
 msgstr "Fjern gamle tilstands-billeder"
 
-#: common/snapshots.py:1916
+#: common/snapshots.py:1921
+msgid "Apply retention policy"
+msgstr ""
+
+#: common/snapshots.py:1931
 msgid "Trying to keep min free space"
 msgstr "Prøv at holde minimum fri plads"
 
-#: common/snapshots.py:1955
+#: common/snapshots.py:1970
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver at holde mindst {perc} inoder fri"
 
-#: common/snapshots.py:3079 qt/app.py:1831
+#: common/snapshots.py:3103 qt/app.py:1849
 msgid "Now"
 msgstr "Nu"
 
@@ -448,7 +453,7 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "Filoprettelse fejlede i mappe:"
 
-#: qt/aboutdlg.py:37 qt/app.py:571
+#: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
 msgstr "Om"
 
@@ -464,11 +469,11 @@ msgstr "Oversættelser"
 msgid "License"
 msgstr "Licens"
 
-#: qt/app.py:168
+#: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Genveje"
 
-#: qt/app.py:188
+#: qt/app.py:192
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
@@ -476,15 +481,15 @@ msgstr ""
 "Denne mappe findes ikke\n"
 "i det valgte tilstands-billede."
 
-#: qt/app.py:253
+#: qt/app.py:257
 msgid "Add to Include"
 msgstr "Tilføj til Inkludér"
 
-#: qt/app.py:255
+#: qt/app.py:259
 msgid "Add to Exclude"
 msgstr "Tilføj til Spring over"
 
-#: qt/app.py:320
+#: qt/app.py:324
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -493,7 +498,7 @@ msgstr ""
 "{app_name} synes at køre for den første gang, da ingen konfiguration blev "
 "fundet."
 
-#: qt/app.py:325
+#: qt/app.py:329
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -501,230 +506,230 @@ msgstr ""
 "Importer en eksisterende konfiguration (fra en backup destinationsmappe "
 "eller anden computer)?"
 
-#: qt/app.py:353
+#: qt/app.py:357
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk OK."
 
-#: qt/app.py:465
+#: qt/app.py:470
 msgid "Take a snapshot"
 msgstr "Tag et tilstands-billede"
 
-#: qt/app.py:467
+#: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr "Brug ændringstid og størrelse til at opdage filændringer."
 
-#: qt/app.py:470
+#: qt/app.py:475
 msgid "Take a snapshot (checksum mode)"
 msgstr "Opret et tilstands-billede (checksum modus)"
 
-#: qt/app.py:472
+#: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Brug checksummer til at opdage filændringer."
 
-#: qt/app.py:475 qt/qtsystrayicon.py:78
+#: qt/app.py:480 qt/qtsystrayicon.py:78
 msgid "Pause snapshot process"
 msgstr "Sæt tilstands-afbildning på pause"
 
-#: qt/app.py:480 qt/qtsystrayicon.py:82
+#: qt/app.py:485 qt/qtsystrayicon.py:82
 msgid "Resume snapshot process"
 msgstr "Genoptag tilstands-afbildning"
 
-#: qt/app.py:484 qt/qtsystrayicon.py:87
+#: qt/app.py:489 qt/qtsystrayicon.py:87
 msgid "Stop snapshot process"
 msgstr "Stop tilstands-afbildning"
 
-#: qt/app.py:488
+#: qt/app.py:493
 msgid "Refresh snapshot list"
 msgstr "Opdatér tilstands-billede-liste"
 
-#: qt/app.py:492
+#: qt/app.py:497
 msgid "Name snapshot"
 msgstr "Navngiv tilstands-billede"
 
-#: qt/app.py:496
+#: qt/app.py:501
 msgid "Remove snapshot"
 msgstr "Fjern tilstands-billede"
 
-#: qt/app.py:500
+#: qt/app.py:505
 msgid "View snapshot log"
 msgstr "Vis tilstands-billede-log"
 
-#: qt/app.py:504
+#: qt/app.py:509
 msgid "View last log"
 msgstr "Vis seneste log"
 
-#: qt/app.py:508
+#: qt/app.py:513
 msgid "Manage profiles…"
 msgstr "hovedprofil…"
 
-#: qt/app.py:512
+#: qt/app.py:517
 msgid "Shutdown"
 msgstr "Luk ned"
 
-#: qt/app.py:514
+#: qt/app.py:519
 msgid "Shut down system after snapshot has finished."
 msgstr "Luk ned når tilstands-billedet er færdiggjort."
 
-#: qt/app.py:516
+#: qt/app.py:521
 msgid "Setup language…"
 msgstr "Sæt sprog op…"
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "Exit"
 msgstr "Afslut"
 
-#: qt/app.py:524
+#: qt/app.py:529
 msgid "User manual"
 msgstr ""
 
-#: qt/app.py:526
+#: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
-msgstr ""
-
-#: qt/app.py:530
-#, fuzzy
-msgid "man page: Back In Time"
-msgstr "Back In &Time"
-
-#: qt/app.py:532
-msgid "Displays man page about Back In Time (backintime)"
 msgstr ""
 
 #: qt/app.py:535
 #, fuzzy
+msgid "man page: Back In Time"
+msgstr "Back In &Time"
+
+#: qt/app.py:537
+msgid "Displays man page about Back In Time (backintime)"
+msgstr ""
+
+#: qt/app.py:540
+#, fuzzy
 msgid "man page: Profiles config file"
 msgstr "Profilkonfigurationsfil"
 
-#: qt/app.py:538
+#: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 
-#: qt/app.py:542
+#: qt/app.py:547
 msgid "Project website"
 msgstr ""
 
-#: qt/app.py:545
+#: qt/app.py:550
 msgid "Open Back In Time website in browser"
 msgstr ""
 
-#: qt/app.py:547 qt/app.py:1445
+#: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
 msgstr "Ændringslog"
 
-#: qt/app.py:550
+#: qt/app.py:555
 msgid "FAQ"
 msgstr "OSS"
 
-#: qt/app.py:552
+#: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr ""
 
-#: qt/app.py:554
+#: qt/app.py:559
 msgid "Ask a question"
 msgstr "Stil et spørgsmål"
 
-#: qt/app.py:558
+#: qt/app.py:563
 msgid "Report a bug"
 msgstr "Rapporter en fejl"
 
-#: qt/app.py:561
+#: qt/app.py:566
 msgid "Translation"
 msgstr "Oversættelse"
 
-#: qt/app.py:563
+#: qt/app.py:568
 msgid "Shows the message about participation in translation again."
 msgstr "Vis beskeden om deltagelse i oversættelse igen."
 
-#: qt/app.py:567
+#: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
 msgstr "Krypteringsovergang (EncFS)"
 
-#: qt/app.py:569
+#: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
 msgstr "Vis besked fjernelse af EncFS igen."
 
-#: qt/app.py:574 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
+#: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
 msgid "Restore"
 msgstr "Gendan"
 
-#: qt/app.py:576
+#: qt/app.py:581
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Gendan de valgte filer eller mapper på det oprindelige sted."
 
-#: qt/app.py:579 qt/app.py:1622 qt/app.py:1654 qt/snapshotsdialog.py:158
+#: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "Gendan …"
 
-#: qt/app.py:581
+#: qt/app.py:586
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Gendan de valgte filer eller mapper på et nyt sted."
 
-#: qt/app.py:587
+#: qt/app.py:592
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr "Gendan den viste mappe og al dens indhold på det oprindelige sted."
 
-#: qt/app.py:593
+#: qt/app.py:598
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr "Gendan den viste mappe og al dens indhold på et nyt sted."
 
-#: qt/app.py:596
+#: qt/app.py:601
 msgid "Up"
 msgstr "Op"
 
-#: qt/app.py:599 qt/restoreconfigdialog.py:90
+#: qt/app.py:604 qt/restoreconfigdialog.py:90
 msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
-#: qt/app.py:602
+#: qt/app.py:607
 msgid "Compare snapshots…"
 msgstr "Tag et tilstands-billede…"
 
-#: qt/app.py:632 qt/app.py:2134
+#: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
 msgstr "kandidat til udgivelse"
 
-#: qt/app.py:635
+#: qt/app.py:640
 msgid "Shows the message about this Release Candidate again."
 msgstr "Vis beskeden om denne udgivelseskandidat igen."
 
-#: qt/app.py:671
+#: qt/app.py:676
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:676
+#: qt/app.py:681
 msgid "&Backup"
 msgstr "&Sikkerhedskopiér"
 
-#: qt/app.py:687
+#: qt/app.py:692
 msgid "&Restore"
 msgstr "&Gendan"
 
-#: qt/app.py:693
+#: qt/app.py:698
 msgid "&Help"
 msgstr "&Hjælp"
 
-#: qt/app.py:738
+#: qt/app.py:743
 msgid "Icons only"
 msgstr ""
 
-#: qt/app.py:741
+#: qt/app.py:746
 msgid "Text only"
 msgstr ""
 
-#: qt/app.py:744
+#: qt/app.py:749
 msgid "Text below icons"
 msgstr ""
 
-#: qt/app.py:747
+#: qt/app.py:752
 msgid "Text beside icon"
 msgstr ""
 
-#: qt/app.py:892
+#: qt/app.py:897
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -732,65 +737,65 @@ msgstr ""
 "Hvis du lukker dette vindue så kan Back In Time ikke lukke din maskine ned "
 "når tilstands-billedet er færdigt."
 
-#: qt/app.py:895
+#: qt/app.py:900
 msgid "Do you really want to close it?"
 msgstr "Er du sikker på at du ønsker at lukke det?"
 
-#: qt/app.py:1054
+#: qt/app.py:1072
 msgid "Working:"
 msgstr "Arbejder:"
 
-#: qt/app.py:1102
+#: qt/app.py:1120
 msgid "Done, no backup needed"
 msgstr "Færdig, ingen sikkerhedskopiering nødvendig"
 
-#: qt/app.py:1111
+#: qt/app.py:1129
 msgid "Working"
 msgstr "Arbejder"
 
-#: qt/app.py:1120 qt/messagebox.py:84
+#: qt/app.py:1138 qt/messagebox.py:84
 msgid "Error"
 msgstr "Fejl"
 
-#: qt/app.py:1143
+#: qt/app.py:1161
 msgid "Sent"
 msgstr "Sendt"
 
-#: qt/app.py:1144
+#: qt/app.py:1162
 msgid "Speed"
 msgstr "Hastighed"
 
-#: qt/app.py:1145
+#: qt/app.py:1163
 msgid "ETA"
 msgstr "Forventet afslutning"
 
-#: qt/app.py:1207
+#: qt/app.py:1225
 msgid "Global"
 msgstr "Globalt"
 
-#: qt/app.py:1208
+#: qt/app.py:1226
 msgid "Root"
 msgstr "Root"
 
-#: qt/app.py:1209
+#: qt/app.py:1227
 msgid "Home"
 msgstr "Hjemmemappe"
 
-#: qt/app.py:1237
+#: qt/app.py:1255
 msgid "Backup directories"
 msgstr "Sikkerhedskopi-mapper"
 
-#: qt/app.py:1333
+#: qt/app.py:1351
 msgid "Snapshot Name"
 msgstr "Tilstands-billede-navn"
 
-#: qt/app.py:1380
+#: qt/app.py:1398
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Er du sikker på du ønsker at fjerne tilstands-billedet?"
 msgstr[1] "Er du sikker på du ønsker at fjerne tilstands-billederne?"
 
-#: qt/app.py:1478
+#: qt/app.py:1496
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -799,7 +804,7 @@ msgstr ""
 "Opret sikkerhedskopier med {suffix} tilføjet\n"
 "før lokale elementer overskrives."
 
-#: qt/app.py:1486
+#: qt/app.py:1504
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -810,7 +815,7 @@ msgstr ""
 "genddannelse. Hvis du ikke har brug for dem længere, kan de fjernes med "
 "denne kommando:"
 
-#: qt/app.py:1502
+#: qt/app.py:1520
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -820,11 +825,11 @@ msgstr ""
 "som er nyere end dem der findes.\n"
 "Bruger \"rsync --update\" parameteren."
 
-#: qt/app.py:1537
+#: qt/app.py:1555
 msgid "Remove newer elements in original directory."
 msgstr "Fjern nyere elementer i oprindelsesmappen."
 
-#: qt/app.py:1540
+#: qt/app.py:1558
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -836,7 +841,7 @@ msgstr ""
 "dette vil slette filer og mapper som blev sprunget over da tilstands-"
 "billedet blev dannet."
 
-#: qt/app.py:1552
+#: qt/app.py:1570
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
@@ -844,24 +849,24 @@ msgstr[0] "Er du sikker på at du vil gendanne dette element i den nye mappe?"
 msgstr[1] ""
 "Er du sikker på at du vil gendanne disse elementer i den nye mappe?"
 
-#: qt/app.py:1562
+#: qt/app.py:1580
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Er du sikker på at du vil gendanne dette element?"
 msgstr[1] "Er du sikker på at du vil gendanne disse elementer?"
 
-#: qt/app.py:1581
+#: qt/app.py:1599
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Er du sikker på du vil slette alle nyere filer i {path}?"
 
-#: qt/app.py:1584
+#: qt/app.py:1602
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
 "Er du sikker på du vil slette alle nyere filer i din oprindelige mappe?"
 
-#: qt/app.py:1590
+#: qt/app.py:1608
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -870,21 +875,21 @@ msgstr ""
 "{BOLD}ADVARSEL{BOLDEND}: Hvis du sletter filer i filsystemets rod risikerer "
 "du at ødelægge hele dit system."
 
-#: qt/app.py:1839
+#: qt/app.py:1857
 msgid "Snapshot"
 msgstr "Tilstands-billede"
 
-#: qt/app.py:1878
+#: qt/app.py:1896
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Gendan {path}"
 
-#: qt/app.py:1880
+#: qt/app.py:1898
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Gendan {path} …"
 
-#: qt/app.py:2024
+#: qt/app.py:2042
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -901,47 +906,47 @@ msgstr ""
 "Vi undskylder forstyrrelsen, denne besked vil ikke blive vist igen. Denne dialog box er tilgængelig til enhver tid i 'hjælp' menuen.\n"
 "Dit Back In Time Team"
 
-#: qt/app.py:2053
+#: qt/app.py:2071
 msgid "translation platform"
 msgstr "oversættelses platform"
 
-#: qt/app.py:2058
+#: qt/app.py:2076
 msgid "Website"
 msgstr "Websted"
 
-#: qt/app.py:2072
+#: qt/app.py:2090
 msgid "Your translation"
 msgstr "Din oversættelse"
 
-#: qt/app.py:2085
+#: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
 msgstr ""
 
-#: qt/app.py:2090
+#: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Email til {link_and_label}."
 
-#: qt/app.py:2093
+#: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
 msgstr "Emailliste {link_and_label}"
 
-#: qt/app.py:2097
+#: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} på projektets hjemmeside."
 
-#: qt/app.py:2100
+#: qt/app.py:2118
 msgid "Open an issue"
 msgstr "Opret en fejlrapport"
 
-#: qt/app.py:2101
+#: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Eller du kan benytte en anden mulighed du foretrækker."
 
-#: qt/app.py:2106
+#: qt/app.py:2124
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -962,62 +967,60 @@ msgstr ""
 "Tak for din støtte og for at hjælpe os med at gøre Back In Time bedre!\n"
 "Dit Back In Time-hold"
 
-#: qt/app.py:2157
+#: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Sprogopsætningen ændres først efter genstart af Back In Time."
 
-#: qt/encfsmsgbox.py:42
+#: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
+#: qt/manageprofiles/tab_general.py:588
 msgid ""
-"Support for EncFS will be discontinued in the foreseeable future. It is not "
-"recommended to use that mode for a profile furthermore."
+"EncFS profile creation will be removed in the next minor release (1.7), "
+"scheduled for 2026."
+msgstr ""
+
+#: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
+#, fuzzy
+msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
 "Understøttelse af EncFS vil blive fjernet i nær fremtid. Det er ikke længere"
 " anbefalet at bruge den tilstand i en profil."
 
-#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75
-#: qt/manageprofiles/tab_general.py:585
+#: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
+#: qt/manageprofiles/tab_general.py:597
 msgid "whitepaper"
 msgstr "whitepaper"
 
-#: qt/encfsmsgbox.py:48
+#: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
+#: qt/manageprofiles/tab_general.py:590
+msgid ""
+"Support for EncFS is being discontinued due to security vulnerabilities."
+msgstr ""
+
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
 msgid ""
-"A decision on a replacement for continued support of encrypted backups is "
-"still pending, depending on project resources and contributor availability. "
-"More details are available in this {whitepaper}."
-msgstr ""
-"En beslutning om erstatning for fortsat support af krypteret "
-"sikkerhedskopier afventer stadig, afhængig af projektressourcer og "
-"tilgængelighed af bidragsydere. Flere detaljer er tilgængelig i dette "
+"For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
-
-#: qt/encfsmsgbox.py:66
-msgid ""
-"The support for encrypted snapshot profiles is undergoing significant "
-"changes, and EncFS will be removed in the foreseeable future."
 msgstr ""
-"Understøttelsen for krypteret snapshot-profiler er ved at undergå betydelige"
-" forandringer, og EncFS vil blive fjernet i overskuelig fremtid."
 
-#: qt/encfsmsgbox.py:77
+#: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
 msgstr "Følgende profil(er) bruger kryptering med EncFS:"
 
-#: qt/encfsmsgbox.py:79
+#: qt/encfsmsgbox.py:87
+msgid ""
+"A replacement is planned, but it cannot be guaranteed that it will arrive on"
+" time."
+msgstr ""
+
+#: qt/encfsmsgbox.py:89
 #, python-brace-format
 msgid ""
-"A decision on a replacement for continued support of encrypted backups is "
-"still pending, depending on project resources and contributor availability. "
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
-"En beslutning om erstatning for fortsat support af krypteret "
-"sikkerhedskopier afventer stadig, afhængig af projektressourcer og "
-"tilgængelighed af bidragsydere. Brugere are velkommen til at være del af "
-"diskussionen. Opdateret detaljer om de næste skridt er tilgængelig i dette "
-"{whitepaper}."
 
-#: qt/encfsmsgbox.py:85
+#: qt/encfsmsgbox.py:92
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
@@ -1025,7 +1028,7 @@ msgstr ""
 "Denne besked vil ikke blive vist igen. Dialogboksen er tilgænglig på ethvert"
 " tidspunkt via hjælp-menuen."
 
-#: qt/encfsmsgbox.py:87
+#: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
 msgstr "Dit Back In Time Hold"
 
@@ -1055,7 +1058,7 @@ msgid "Snapshot Log View"
 msgstr "Se Snapshot Log"
 
 #: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:262 qt/restoreconfigdialog.py:269
+#: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -1419,17 +1422,17 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "SSH Proxy"
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:112
-#: qt/manageprofiles/tab_general.py:250
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
+#: qt/manageprofiles/tab_general.py:253
 msgid "Host:"
 msgstr "Vært:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:117
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:120
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:122
-#: qt/manageprofiles/tab_general.py:256
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:125
+#: qt/manageprofiles/tab_general.py:259
 msgid "User:"
 msgstr "Bruger:"
 
@@ -1600,35 +1603,31 @@ msgstr "slået fra"
 msgid "enabled"
 msgstr "slået til"
 
-#: qt/manageprofiles/tab_general.py:62 qt/restoreconfigdialog.py:271
+#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:271
 msgid "Mode:"
 msgstr "Tilstand:"
 
-#: qt/manageprofiles/tab_general.py:73 qt/manageprofiles/tab_general.py:604
+#: qt/manageprofiles/tab_general.py:77 qt/manageprofiles/tab_general.py:620
 msgid "Where to save snapshots"
 msgstr "Hvor skal tilstands-billeder gemmes"
 
-#: qt/manageprofiles/tab_general.py:91
-msgid "Directory"
-msgstr "Mappe"
-
-#: qt/manageprofiles/tab_general.py:100
+#: qt/manageprofiles/tab_general.py:103
 msgid "SSH Settings"
 msgstr "SSH Indstillinger"
 
-#: qt/manageprofiles/tab_general.py:127
+#: qt/manageprofiles/tab_general.py:130
 msgid "Path:"
 msgstr "Sti:"
 
-#: qt/manageprofiles/tab_general.py:133
+#: qt/manageprofiles/tab_general.py:136
 msgid "Cipher:"
 msgstr "Kryptering:"
 
-#: qt/manageprofiles/tab_general.py:138
+#: qt/manageprofiles/tab_general.py:141
 msgid "Private Key:"
 msgstr "Privat SSH nøgle:"
 
-#: qt/manageprofiles/tab_general.py:149
+#: qt/manageprofiles/tab_general.py:152
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -1636,7 +1635,7 @@ msgstr ""
 "Vælg en eksisterende privat nøgle-fil (normalt navngivet \"id_ed25519\" og i"
 " ældre opsætninger \"id_rsa\")."
 
-#: qt/manageprofiles/tab_general.py:161
+#: qt/manageprofiles/tab_general.py:164
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1644,42 +1643,42 @@ msgstr ""
 "Opret en ny SSH-nøgle uden kodeord (ikke tilladt hvis en privat nøgle-fil "
 "allerede er valgt)."
 
-#: qt/manageprofiles/tab_general.py:197 qt/manageprofiles/tab_general.py:204
-#: qt/manageprofiles/tab_general.py:208
+#: qt/manageprofiles/tab_general.py:200 qt/manageprofiles/tab_general.py:207
+#: qt/manageprofiles/tab_general.py:211
 msgid "Password"
 msgstr "Kodeord"
 
-#: qt/manageprofiles/tab_general.py:218
+#: qt/manageprofiles/tab_general.py:221
 msgid "Save Password to Keyring"
 msgstr "Gem kodeord i nøglering"
 
-#: qt/manageprofiles/tab_general.py:222
+#: qt/manageprofiles/tab_general.py:225
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr "Husk kodeord for cron (sikkerhedsproblem: root kan læse kodeordet)"
 
-#: qt/manageprofiles/tab_general.py:238
+#: qt/manageprofiles/tab_general.py:241
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: qt/manageprofiles/tab_general.py:268 qt/manageprofiles/tab_general.py:660
+#: qt/manageprofiles/tab_general.py:271 qt/manageprofiles/tab_general.py:676
 msgid "Full snapshot path:"
 msgstr "Fuld sti til tilstands-billeder:"
 
-#: qt/manageprofiles/tab_general.py:391
+#: qt/manageprofiles/tab_general.py:394
 msgid "You did not choose a private key file for SSH."
 msgstr "Du har ikke valgt en privat nøglefil til SSH."
 
-#: qt/manageprofiles/tab_general.py:392
+#: qt/manageprofiles/tab_general.py:395
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr "Vil du danne et nyt offentligt/private kodeordsløst nøglepar?"
 
-#: qt/manageprofiles/tab_general.py:403
+#: qt/manageprofiles/tab_general.py:406
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Den private nøglefil \"{file}\" mangler."
 
-#: qt/manageprofiles/tab_general.py:488
+#: qt/manageprofiles/tab_general.py:491
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
@@ -1687,17 +1686,17 @@ msgstr ""
 "Vil du kopiere din offentlige SSH-nøgle til fjernværten for at gøre login "
 "uden kodeord mulig?"
 
-#: qt/manageprofiles/tab_general.py:522
+#: qt/manageprofiles/tab_general.py:525
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Autenticiteten af værten {host} kan ikke etableres."
 
-#: qt/manageprofiles/tab_general.py:525
+#: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} nøgle fingeraftryk er:"
 
-#: qt/manageprofiles/tab_general.py:533
+#: qt/manageprofiles/tab_general.py:536
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1705,24 +1704,11 @@ msgstr ""
 "Verificér venligst dette fingeraftryk. Vil du tilføje det til din "
 "'known_hosts' fil?"
 
-#: qt/manageprofiles/tab_general.py:578
-#, python-brace-format
-msgid ""
-"Support for EncFS will be discontinued in the foreseeable future. A decision"
-" on a replacement for continued support of encrypted backups is still "
-"pending, depending on project resources and contributor availability. More "
-"details are available in this {whitepaper}."
-msgstr ""
-"Understøttelse af EncFS vil ophøre i overskuelig fremtid. En beslutning om "
-"erstatning for fortsat understøttelse af krypteret sikkerhedskopier afventer"
-" stadig, afhængig af projektressourcer og tilgængelighed af bidragsydere. "
-"Flere detaljer er tilgængelig i dette {whitepaper}."
-
-#: qt/manageprofiles/tab_general.py:611
+#: qt/manageprofiles/tab_general.py:627
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "Er du sikker på du ønsker at skifte tilstands-billede-mappe ?"
 
-#: qt/manageprofiles/tab_general.py:648
+#: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Oprettelsen af ny SSH nøgle i {path} mislykkedes."
@@ -1840,15 +1826,15 @@ msgid "Remove snapshots older than"
 msgstr "Fjern tilstands-billede"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-msgid "Full days. Current day ignored."
+msgid "Full days. Current day is ignored."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-msgid "Calendar weeks with Monday as first day. Current week ignored."
+msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-msgid "12 months periods. Current months ignored."
+msgid "12 months periods. Current month is ignored."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:289
@@ -1908,7 +1894,7 @@ msgstr "Uge(r)."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
-"The months are counted as calendar months starting with the current months."
+"The months are counted as calendar months starting with the current month."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:344
@@ -1983,31 +1969,31 @@ msgstr "Hastighed:"
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/qttools.py:479 qt/snapshotsdialog.py:115
+#: qt/qttools.py:482 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Tilstands-billeder"
 
-#: qt/qttools.py:502
+#: qt/qttools.py:505
 msgid "Today"
 msgstr "I dag"
 
-#: qt/qttools.py:509
+#: qt/qttools.py:512
 msgid "Yesterday"
 msgstr "I går"
 
-#: qt/qttools.py:518
+#: qt/qttools.py:521
 msgid "This week"
 msgstr "Denne uge"
 
-#: qt/qttools.py:525
+#: qt/qttools.py:528
 msgid "Last week"
 msgstr "Sidste uge"
 
-#: qt/qttools.py:671
+#: qt/qttools.py:674
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "Dette er IKKE et snapshot men et nutidigt syn af dine lokale filer"
 
-#: qt/qttools.py:676
+#: qt/qttools.py:679
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Sidste check {time}"
@@ -2139,6 +2125,30 @@ msgstr "Ekskludér {path} fra tilstands-billeder fremover?"
 #~ msgid "&Auto-remove"
 #~ msgstr "&Auto-fjern"
 
+#, python-brace-format
+#~ msgid ""
+#~ "A decision on a replacement for continued support of encrypted backups is "
+#~ "still pending, depending on project resources and contributor availability. "
+#~ "More details are available in this {whitepaper}."
+#~ msgstr ""
+#~ "En beslutning om erstatning for fortsat support af krypteret "
+#~ "sikkerhedskopier afventer stadig, afhængig af projektressourcer og "
+#~ "tilgængelighed af bidragsydere. Flere detaljer er tilgængelig i dette "
+#~ "{whitepaper}."
+
+#, python-brace-format
+#~ msgid ""
+#~ "A decision on a replacement for continued support of encrypted backups is "
+#~ "still pending, depending on project resources and contributor availability. "
+#~ "Users are invited to join this discussion. Updated details on the next steps"
+#~ " are available in this {whitepaper}."
+#~ msgstr ""
+#~ "En beslutning om erstatning for fortsat support af krypteret "
+#~ "sikkerhedskopier afventer stadig, afhængig af projektressourcer og "
+#~ "tilgængelighed af bidragsydere. Brugere are velkommen til at være del af "
+#~ "diskussionen. Opdateret detaljer om de næste skridt er tilgængelig i dette "
+#~ "{whitepaper}."
+
 #, fuzzy
 #~ msgid "Backup directory cannot be included."
 #~ msgstr "Backup-mappe kan ikke inkluderes."
@@ -2175,6 +2185,9 @@ msgstr "Ekskludér {path} fra tilstands-billeder fremover?"
 #, fuzzy
 #~ msgid "Copy links (resolve symbolic links)"
 #~ msgstr "Kopier links (følg symbolske links)"
+
+#~ msgid "Directory"
+#~ msgstr "Mappe"
 
 #~ msgid "EXPERIMENTAL"
 #~ msgstr "EXPERIMENTEL"
@@ -2223,6 +2236,25 @@ msgstr "Ekskludér {path} fra tilstands-billeder fremover?"
 
 #~ msgid "Smart removal:"
 #~ msgstr "Smart fjern:"
+
+#, python-brace-format
+#~ msgid ""
+#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
+#~ " on a replacement for continued support of encrypted backups is still "
+#~ "pending, depending on project resources and contributor availability. More "
+#~ "details are available in this {whitepaper}."
+#~ msgstr ""
+#~ "Understøttelse af EncFS vil ophøre i overskuelig fremtid. En beslutning om "
+#~ "erstatning for fortsat understøttelse af krypteret sikkerhedskopier afventer"
+#~ " stadig, afhængig af projektressourcer og tilgængelighed af bidragsydere. "
+#~ "Flere detaljer er tilgængelig i dette {whitepaper}."
+
+#~ msgid ""
+#~ "The support for encrypted snapshot profiles is undergoing significant "
+#~ "changes, and EncFS will be removed in the foreseeable future."
+#~ msgstr ""
+#~ "Understøttelsen for krypteret snapshot-profiler er ved at undergå betydelige"
+#~ " forandringer, og EncFS vil blive fjernet i overskuelig fremtid."
 
 #~ msgid "WARNING"
 #~ msgstr "ADVARSEL"

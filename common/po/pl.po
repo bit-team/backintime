@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-10-19 18:55+0000\n"
-"Last-Translator: Merik <Merik@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"PO-Revision-Date: 2025-02-02 16:15+0000\n"
+"Last-Translator: Merik <merik@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
-#: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:77
+#: qt/messagebox.py:77
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
@@ -45,7 +45,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:280 common/config.py:290
-#: qt/manageprofiles/tab_general.py:632
+#: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
 msgstr "Klucz prywatny SSH"
 
@@ -88,11 +88,11 @@ msgstr "Katalog nie może zostać uwzględniony w kopii zapasowej."
 msgid "The sub-directories cannot be included in the backup."
 msgstr "Podkatalogi nie mogą zostać uwzględnione w kopii zapasowej."
 
-#: common/config.py:1462
+#: common/config.py:1463
 msgid "Failed to write new crontab."
 msgstr "Nie udało się zapisać nowej tablicy zadań (crontab)."
 
-#: common/config.py:1470
+#: common/config.py:1471
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -104,7 +104,7 @@ msgstr ""
 "ale nie jest włączony. Wypróbuj polecenie „systemctl enable cron” lub "
 "uzyskaj pomoc na kanałach wsparcia dystrybucji GNU Linux."
 
-#: common/config.py:1551
+#: common/config.py:1552
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -113,30 +113,30 @@ msgstr ""
 "Nie udało się zainstalować reguły udev dla profilu {profile_id}. Usługa DBus"
 " „{dbus_interface}” nie była dostępna"
 
-#: common/config.py:1566
+#: common/config.py:1567
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Harmonogram udev nie działa z trybem {mode}"
 
-#: common/config.py:1577
+#: common/config.py:1578
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nie udało się odnaleźć UUID dla {path}"
 
-#: common/configfile.py:99
+#: common/configfile.py:101
 msgid "Failed to save config"
 msgstr "Nie udało się zapisać konfiguracji"
 
-#: common/configfile.py:135
+#: common/configfile.py:137
 msgid "Failed to load config"
 msgstr "Nie udało się wczytać konfiguracji"
 
-#: common/configfile.py:682 common/configfile.py:781
+#: common/configfile.py:684 common/configfile.py:783
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profil „{name}” już istnieje."
 
-#: common/configfile.py:727
+#: common/configfile.py:729
 msgid "The last profile cannot be removed."
 msgstr "Ostatniego profilu nie można usunąć."
 
@@ -153,19 +153,19 @@ msgstr "Nie znaleziono konfiguracji dla zaszyfrowanego katalogu."
 msgid "Create a new encrypted directory?"
 msgstr "Czy stworzyć nowy zaszyfrowany katalog?"
 
-#: common/encfstools.py:143
+#: common/encfstools.py:146
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: common/encfstools.py:148
+#: common/encfstools.py:152
 msgid "Please confirm the password."
 msgstr "Prosimy potwierdzić hasło."
 
-#: common/encfstools.py:152
+#: common/encfstools.py:158
 msgid "Password doesn't match."
 msgstr "Hasło nie pasuje."
 
-#: common/encfstools.py:510 common/snapshots.py:1032
+#: common/encfstools.py:516 common/snapshots.py:1042
 msgid "Take snapshot"
 msgstr "Utwórz migawkę"
 
@@ -190,33 +190,32 @@ msgstr "Punkt montowania {mntpoint} nie jest pusty."
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Wpisz hasło do profilu „{profile}” {mode}:"
 
-#: common/snapshots.py:360 common/snapshots.py:611
+#: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
 msgstr "NIEPOWODZENIE"
 
-#: common/snapshots.py:557 common/snapshots.py:619
+#: common/snapshots.py:560 common/snapshots.py:628
 msgid "Restore permissions"
 msgstr "Przywracanie uprawnień"
 
-#: common/snapshots.py:614 qt/app.py:288 qt/app.py:1064 qt/app.py:1099
+#: common/snapshots.py:623 qt/app.py:292 qt/app.py:1082 qt/app.py:1117
 #: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "Gotowe"
 
-#: common/snapshots.py:734
+#: common/snapshots.py:743
 msgid "Deferring backup while on battery"
 msgstr "Kopia zapasowa przełożona z powodu pracy na baterii"
 
-#: common/snapshots.py:832 qt/app.py:352
+#: common/snapshots.py:842 qt/app.py:356
 msgid "Can't find snapshots directory."
 msgstr "Nie można znaleźć katalogu migawek."
 
-#: common/snapshots.py:836
-#, fuzzy
+#: common/snapshots.py:846
 msgid "If it is on a removable drive please plug it in."
-msgstr "Jeśli jest na dysku wymiennym, podłącz go, a następnie naciśnij OK."
+msgstr "Jeśli jest na dysku wymiennym, podłącz go."
 
-#: common/snapshots.py:839
+#: common/snapshots.py:849
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -224,103 +223,109 @@ msgstr[0] "Pozostała %s sekunda."
 msgstr[1] "Pozostały %s sekundy."
 msgstr[2] "Pozostało %s sekund."
 
-#: common/snapshots.py:904
+#: common/snapshots.py:914
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
 msgstr "Nie udało się wykonać migawki {snapshot_id}."
 
-#: common/snapshots.py:936
+#: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
 msgstr "Prosimy o cierpliwość. Finalizowanie…"
 
-#: common/snapshots.py:1067
+#: common/snapshots.py:1077
 msgid "Can't create directory."
 msgstr "Nie można utworzyć katalogu."
 
-#: common/snapshots.py:1084
+#: common/snapshots.py:1094
 msgid "Saving config file…"
 msgstr "Zapisywanie pliku konfiguracyjnego…"
 
-#: common/snapshots.py:1165
+#: common/snapshots.py:1175
 msgid "Saving permissions…"
 msgstr "Zapisywanie uprawnień…"
 
-#: common/snapshots.py:1277
+#: common/snapshots.py:1290
 #, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr ""
 "Znaleziono pozostała migawkę {snapshot_id}, która może być kontynuowana."
 
-#: common/snapshots.py:1301
+#: common/snapshots.py:1314
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr "Usuwanie pozostałości katalogu {snapshot_id} z ostatniego wykonania"
 
-#: common/snapshots.py:1311
+#: common/snapshots.py:1325
 msgid "Can't remove directory"
 msgstr "Nie mogę usunąć katalogu"
 
-#: common/snapshots.py:1365
+#: common/snapshots.py:1379
 msgid "Taking snapshot"
 msgstr "Utwórz migawkę"
 
-#: common/snapshots.py:1416
+#: common/snapshots.py:1430
 msgid "Success"
 msgstr "Sukces"
 
-#: common/snapshots.py:1419
+#: common/snapshots.py:1433
 msgid "Partial transfer due to error"
 msgstr "Transfer częściowy z powodu błędu"
 
-#: common/snapshots.py:1420
+#: common/snapshots.py:1434
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfer częściowy z powodu zaginionych plików źródłowych (patrz „man "
 "rsync”)"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1438
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "„rsync” zakończył się kodem wyjścia {exit_code}"
 
-#: common/snapshots.py:1437
+#: common/snapshots.py:1451
 msgid "See 'man rsync' for more details"
 msgstr "Więcej informacji można znaleźć w „man rsync”"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1458
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatywne kody wyjściowe rsync to liczby sygnałów, patrz „kill -l” i „man "
 "kill”"
 
-#: common/snapshots.py:1465
+#: common/snapshots.py:1479
 msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nic się nie zmieniło, nie ma potrzeby tworzenia nowej migawki"
 
-#: common/snapshots.py:1509
+#: common/snapshots.py:1523
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Nie można zmienić nazwy z {new_path} na {path}."
 
-#: common/snapshots.py:1841 common/snapshots.py:1906
+#: common/snapshots.py:1855
 msgid "Smart removal"
 msgstr "Inteligentne usuwanie"
 
-#: common/snapshots.py:1873
-msgid "Removing old snapshots"
+#: common/snapshots.py:1888
+#, fuzzy
+msgid "Apply rules to remove old snapshots"
 msgstr "Usuwanie poprzednich migawek"
 
-#: common/snapshots.py:1916
+#: common/snapshots.py:1921
+#, fuzzy
+msgid "Apply retention policy"
+msgstr "Polityka przechowywania"
+
+#: common/snapshots.py:1931
 msgid "Trying to keep min free space"
 msgstr "Próba utrzymamia minimum wolnego miejsca"
 
-#: common/snapshots.py:1955
+#: common/snapshots.py:1970
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Próba utrzymania minimum {perc} wolnych i-węzłów"
 
-#: common/snapshots.py:3079 qt/app.py:1831
+#: common/snapshots.py:3103 qt/app.py:1849
 msgid "Now"
 msgstr "Teraz"
 
@@ -455,7 +460,7 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "Tworzenie pliku w tym katalogu nie powiodło się:"
 
-#: qt/aboutdlg.py:37 qt/app.py:571
+#: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
 msgstr "O programie"
 
@@ -471,11 +476,11 @@ msgstr "Tłumaczenia"
 msgid "License"
 msgstr "Licencja"
 
-#: qt/app.py:168
+#: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Skróty"
 
-#: qt/app.py:188
+#: qt/app.py:192
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
@@ -483,15 +488,15 @@ msgstr ""
 "Ten katalog nie istnieje\n"
 "w obecnie wybranej migawce."
 
-#: qt/app.py:253
+#: qt/app.py:257
 msgid "Add to Include"
 msgstr "Dodaj do uwzględnionych"
 
-#: qt/app.py:255
+#: qt/app.py:259
 msgid "Add to Exclude"
 msgstr "Dodaj do wykluczonych"
 
-#: qt/app.py:320
+#: qt/app.py:324
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -500,7 +505,7 @@ msgstr ""
 "Wygląda na to, że {app_name} działa po raz pierwszy, ponieważ nie znaleziono"
 " żadnej konfiguracji."
 
-#: qt/app.py:325
+#: qt/app.py:329
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -508,167 +513,169 @@ msgstr ""
 "Zaimportować istniejącą konfigurację (z katalogu docelowego kopii zapasowej "
 "lub innego komputera)?"
 
-#: qt/app.py:353
+#: qt/app.py:357
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Jeśli jest na dysku wymiennym, podłącz go, a następnie naciśnij OK."
 
-#: qt/app.py:465
+#: qt/app.py:470
 msgid "Take a snapshot"
 msgstr "Utwórz migawkę"
 
-#: qt/app.py:467
+#: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr "Użyj czasu i rozmiaru modyfikacji do wykrywania zmian w pliku."
 
-#: qt/app.py:470
+#: qt/app.py:475
 msgid "Take a snapshot (checksum mode)"
 msgstr "Wykonaj migawkę (sprawdzanie sumy kontrolnej)"
 
-#: qt/app.py:472
+#: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Używaj sum kontrolnych do wykrywania zmian plików."
 
-#: qt/app.py:475 qt/qtsystrayicon.py:78
+#: qt/app.py:480 qt/qtsystrayicon.py:78
 msgid "Pause snapshot process"
 msgstr "Wstrzymaj wykonywanie migawki"
 
-#: qt/app.py:480 qt/qtsystrayicon.py:82
+#: qt/app.py:485 qt/qtsystrayicon.py:82
 msgid "Resume snapshot process"
 msgstr "Wznów wykonywanie migawki"
 
-#: qt/app.py:484 qt/qtsystrayicon.py:87
+#: qt/app.py:489 qt/qtsystrayicon.py:87
 msgid "Stop snapshot process"
 msgstr "Zakończ wykonywanie migawki"
 
-#: qt/app.py:488
+#: qt/app.py:493
 msgid "Refresh snapshot list"
 msgstr "Odśwież listę migawek"
 
-#: qt/app.py:492
+#: qt/app.py:497
 msgid "Name snapshot"
 msgstr "Nazwa migawki"
 
-#: qt/app.py:496
+#: qt/app.py:501
 msgid "Remove snapshot"
 msgstr "Usuń migawkę"
 
-#: qt/app.py:500
+#: qt/app.py:505
 msgid "View snapshot log"
 msgstr "Zobacz dziennik migawki"
 
-#: qt/app.py:504
+#: qt/app.py:509
 msgid "View last log"
 msgstr "Podgląd ostatniego dziennika"
 
-#: qt/app.py:508
+#: qt/app.py:513
 msgid "Manage profiles…"
 msgstr "Zarządzaj profilami…"
 
-#: qt/app.py:512
+#: qt/app.py:517
 msgid "Shutdown"
 msgstr "Zamknięcie"
 
-#: qt/app.py:514
+#: qt/app.py:519
 msgid "Shut down system after snapshot has finished."
 msgstr "Zamknij system po wykonaniu migawki."
 
-#: qt/app.py:516
+#: qt/app.py:521
 msgid "Setup language…"
 msgstr "Ustaw język…"
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "Exit"
 msgstr "Wyjście"
 
-#: qt/app.py:524
+#: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Instrukcja obsługi"
 
-#: qt/app.py:526
+#: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
-
-#: qt/app.py:530
-#, fuzzy
-msgid "man page: Back In Time"
-msgstr "Back In &Time"
-
-#: qt/app.py:532
-msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+"Otwórz instrukcję obsługi w przeglądarce (lokalnie, jeśli jest dostępna, w "
+"przeciwnym razie online)"
 
 #: qt/app.py:535
-#, fuzzy
-msgid "man page: Profiles config file"
-msgstr "Plik konfiguracyjny profili"
+msgid "man page: Back In Time"
+msgstr "man page: Back In Time"
 
-#: qt/app.py:538
+#: qt/app.py:537
+msgid "Displays man page about Back In Time (backintime)"
+msgstr "Wyświetla man page dotyczącą Back In Time (backintime)"
+
+#: qt/app.py:540
+msgid "man page: Profiles config file"
+msgstr "man page: Plik konfiguracyjny profili"
+
+#: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Wyświetla man page dotyczącą pliku konfiguracyjnego profili (backintime-"
+"config)"
 
-#: qt/app.py:542
+#: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Strona internetowa projektu"
 
-#: qt/app.py:545
+#: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Otwórz witrynę Back In Time w przeglądarce"
 
-#: qt/app.py:547 qt/app.py:1445
+#: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
 msgstr "Lista zmian"
 
-#: qt/app.py:550
+#: qt/app.py:555
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:552
+#: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Otwórz często zadawane pytania (FAQ) w przeglądarce"
 
-#: qt/app.py:554
+#: qt/app.py:559
 msgid "Ask a question"
 msgstr "Zadaj pytanie"
 
-#: qt/app.py:558
+#: qt/app.py:563
 msgid "Report a bug"
 msgstr "Zgłoś błąd"
 
-#: qt/app.py:561
+#: qt/app.py:566
 msgid "Translation"
 msgstr "Tłumaczenie"
 
-#: qt/app.py:563
+#: qt/app.py:568
 msgid "Shows the message about participation in translation again."
 msgstr "Ponownie pokazuje komunikat o uczestnictwie w tłumaczeniu."
 
-#: qt/app.py:567
+#: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
 msgstr "Przejście szyfrowania (EncFS)"
 
-#: qt/app.py:569
+#: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
 msgstr "Ponownie pokazuje komunikat o usuwaniu EncFS."
 
-#: qt/app.py:574 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
+#: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
 msgid "Restore"
 msgstr "Przywróć"
 
-#: qt/app.py:576
+#: qt/app.py:581
 msgid "Restore the selected files or directories to the original destination."
 msgstr ""
 "Przywróć wybrane pliki lub katalogi do pierwotnego miejsca docelowego."
 
-#: qt/app.py:579 qt/app.py:1622 qt/app.py:1654 qt/snapshotsdialog.py:158
+#: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "Przywróć do…"
 
-#: qt/app.py:581
+#: qt/app.py:586
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Przywróć wybrane pliki lub katalogi do nowego miejsca docelowego."
 
-#: qt/app.py:587
+#: qt/app.py:592
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
@@ -676,7 +683,7 @@ msgstr ""
 "Przywróć aktualnie wyświetlany katalog i całą jego zawartość do pierwotnego "
 "miejsca docelowego."
 
-#: qt/app.py:593
+#: qt/app.py:598
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -684,59 +691,59 @@ msgstr ""
 "Przywróć aktualnie wyświetlany katalog i całą jego zawartość do nowego "
 "miejsca docelowego."
 
-#: qt/app.py:596
+#: qt/app.py:601
 msgid "Up"
 msgstr "Do góry"
 
-#: qt/app.py:599 qt/restoreconfigdialog.py:90
+#: qt/app.py:604 qt/restoreconfigdialog.py:90
 msgid "Show hidden files"
 msgstr "Pokaż ukryte pliki"
 
-#: qt/app.py:602
+#: qt/app.py:607
 msgid "Compare snapshots…"
 msgstr "Porównaj migawki…"
 
-#: qt/app.py:632 qt/app.py:2134
+#: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
 msgstr "Wydanie kandydujące"
 
-#: qt/app.py:635
+#: qt/app.py:640
 msgid "Shows the message about this Release Candidate again."
 msgstr "Wyświetla ponownie komunikat o wydaniu kandydującym."
 
-#: qt/app.py:671
+#: qt/app.py:676
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:676
+#: qt/app.py:681
 msgid "&Backup"
 msgstr "&Kopia zapasowa"
 
-#: qt/app.py:687
+#: qt/app.py:692
 msgid "&Restore"
 msgstr "&Przywróć"
 
-#: qt/app.py:693
+#: qt/app.py:698
 msgid "&Help"
 msgstr "P&omoc"
 
-#: qt/app.py:738
+#: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Tylko ikony"
 
-#: qt/app.py:741
+#: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Tylko tekst"
 
-#: qt/app.py:744
+#: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Tekst pod ikonami"
 
-#: qt/app.py:747
+#: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Tekst obok ikony"
 
-#: qt/app.py:892
+#: qt/app.py:897
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
@@ -744,66 +751,66 @@ msgstr ""
 "Jeśli zamkniesz to okno, Back In Time nie będzie mógł zamknąć systemu po "
 "zakończeniu tworzenia migawki."
 
-#: qt/app.py:895
+#: qt/app.py:900
 msgid "Do you really want to close it?"
 msgstr "Czy naprawdę chcesz to zamknąć?"
 
-#: qt/app.py:1054
+#: qt/app.py:1072
 msgid "Working:"
 msgstr "Działanie:"
 
-#: qt/app.py:1102
+#: qt/app.py:1120
 msgid "Done, no backup needed"
 msgstr "Gotowe, archiwizacja niepotrzebna"
 
-#: qt/app.py:1111
+#: qt/app.py:1129
 msgid "Working"
 msgstr "Działanie"
 
-#: qt/app.py:1120 qt/messagebox.py:84
+#: qt/app.py:1138 qt/messagebox.py:84
 msgid "Error"
 msgstr "Błąd"
 
-#: qt/app.py:1143
+#: qt/app.py:1161
 msgid "Sent"
 msgstr "Wysłane"
 
-#: qt/app.py:1144
+#: qt/app.py:1162
 msgid "Speed"
 msgstr "Prędkość"
 
-#: qt/app.py:1145
+#: qt/app.py:1163
 msgid "ETA"
 msgstr "Do końca"
 
-#: qt/app.py:1207
+#: qt/app.py:1225
 msgid "Global"
 msgstr "Globalne"
 
-#: qt/app.py:1208
+#: qt/app.py:1226
 msgid "Root"
 msgstr "Systemowy"
 
-#: qt/app.py:1209
+#: qt/app.py:1227
 msgid "Home"
 msgstr "Domowy"
 
-#: qt/app.py:1237
+#: qt/app.py:1255
 msgid "Backup directories"
 msgstr "Katalogi kopii zapasowej"
 
-#: qt/app.py:1333
+#: qt/app.py:1351
 msgid "Snapshot Name"
 msgstr "Nazwa migawki"
 
-#: qt/app.py:1380
+#: qt/app.py:1398
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Czy na pewno usunąć migawkę?"
 msgstr[1] "Czy na pewno usunąć migawki?"
 msgstr[2] "Czy na pewno usunąć migawki?"
 
-#: qt/app.py:1478
+#: qt/app.py:1496
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -812,7 +819,7 @@ msgstr ""
 "Utwórz kopie zapasowe z końcowym {suffix}\n"
 "przed nadpisaniem lub usunięciem elementów lokalnych."
 
-#: qt/app.py:1486
+#: qt/app.py:1504
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -823,7 +830,7 @@ msgstr ""
 "z końcowym {suffix}. Jeśli już ich nie potrzebujesz, możesz je usunąć za "
 "pomocą następującego polecenia:"
 
-#: qt/app.py:1502
+#: qt/app.py:1520
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -833,11 +840,11 @@ msgstr ""
 "są nowsze niż te w miejscu docelowym.\n"
 "Korzystanie z opcji „rsync --update”."
 
-#: qt/app.py:1537
+#: qt/app.py:1555
 msgid "Remove newer elements in original directory."
 msgstr "Usuń nowsze elementy z pierwotnego katalogu."
 
-#: qt/app.py:1540
+#: qt/app.py:1558
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -849,7 +856,7 @@ msgstr ""
 "ostrożność, ponieważ spowoduje to usunięcie plików i katalogów wykluczonych "
 "podczas wykonywania migawki."
 
-#: qt/app.py:1552
+#: qt/app.py:1570
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
@@ -857,25 +864,25 @@ msgstr[0] "Czy na pewno chcesz przywrócić ten element do nowego katalogu?"
 msgstr[1] "Czy na pewno chcesz przywrócić te elementy do nowego katalogu?"
 msgstr[2] "Czy na pewno chcesz przywrócić te elementy do nowego katalogu?"
 
-#: qt/app.py:1562
+#: qt/app.py:1580
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Czy na pewno chcesz przywrócić ten element?"
 msgstr[1] "Czy na pewno chcesz przywrócić te elementy?"
 msgstr[2] "Czy na pewno chcesz przywrócić te elementy?"
 
-#: qt/app.py:1581
+#: qt/app.py:1599
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Czy na pewno chcesz usunąć wszystkie nowsze pliki z {path}?"
 
-#: qt/app.py:1584
+#: qt/app.py:1602
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
 "Czy na pewno chcesz usunąć wszystkie nowsze pliki z pierwotnego katalogu?"
 
-#: qt/app.py:1590
+#: qt/app.py:1608
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -884,21 +891,21 @@ msgstr ""
 "{BOLD}Ostrzeżenie{BOLDEND}: usunięcie plików z katalogu głównego systemu "
 "plików może spowodować uszkodzenie całego systemu."
 
-#: qt/app.py:1839
+#: qt/app.py:1857
 msgid "Snapshot"
 msgstr "Migawka"
 
-#: qt/app.py:1878
+#: qt/app.py:1896
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Przywróć {path}"
 
-#: qt/app.py:1880
+#: qt/app.py:1898
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Przywróć {path} do…"
 
-#: qt/app.py:2024
+#: qt/app.py:2042
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -915,47 +922,47 @@ msgstr ""
 "Przepraszamy za utrudniania, ten komunikat nie pojawi się sam ponownie, ale będzie dostępny w menu pomocy.\n"
 "Zespół Back In Time"
 
-#: qt/app.py:2053
+#: qt/app.py:2071
 msgid "translation platform"
 msgstr "platformę do tłumaczenia"
 
-#: qt/app.py:2058
+#: qt/app.py:2076
 msgid "Website"
 msgstr "Strona WWW"
 
-#: qt/app.py:2072
+#: qt/app.py:2090
 msgid "Your translation"
 msgstr "Twoje tłumaczenia"
 
-#: qt/app.py:2085
+#: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "W Fediverse w Mastodon: {link_and_label}"
 
-#: qt/app.py:2090
+#: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "E-mail do {link_and_label}."
 
-#: qt/app.py:2093
+#: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
 msgstr "Lista mailingowa {link_and_label}"
 
-#: qt/app.py:2097
+#: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} na stronie internetowej projektu."
 
-#: qt/app.py:2100
+#: qt/app.py:2118
 msgid "Open an issue"
 msgstr "Otwórz zagadnienie"
 
-#: qt/app.py:2101
+#: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Możesz również użyć innego wybranego kanału."
 
-#: qt/app.py:2106
+#: qt/app.py:2124
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -976,63 +983,62 @@ msgstr ""
 "Dziękujemy za wsparcie i pomoc w ulepszaniu Back In Time!\n"
 "Twój zespół Back In Time"
 
-#: qt/app.py:2157
+#: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Ustawienia języka zaczną obowiązywać dopiero po ponownym uruchomieniu "
 "programu Back In Time."
 
-#: qt/encfsmsgbox.py:42
+#: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
+#: qt/manageprofiles/tab_general.py:588
 msgid ""
-"Support for EncFS will be discontinued in the foreseeable future. It is not "
-"recommended to use that mode for a profile furthermore."
+"EncFS profile creation will be removed in the next minor release (1.7), "
+"scheduled for 2026."
+msgstr ""
+
+#: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
+#, fuzzy
+msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
 "Wsparcie dla EncFS zostanie przerwane w dającej się przewidzieć przyszłości."
 " Ponadto nie zaleca się używania tego trybu dla profilu."
 
-#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75
-#: qt/manageprofiles/tab_general.py:585
+#: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
+#: qt/manageprofiles/tab_general.py:597
 msgid "whitepaper"
 msgstr "białej księdze"
 
-#: qt/encfsmsgbox.py:48
+#: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
+#: qt/manageprofiles/tab_general.py:590
+msgid ""
+"Support for EncFS is being discontinued due to security vulnerabilities."
+msgstr ""
+
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
 msgid ""
-"A decision on a replacement for continued support of encrypted backups is "
-"still pending, depending on project resources and contributor availability. "
-"More details are available in this {whitepaper}."
+"For more details, including potential alternatives, please refer to this "
+"{whitepaper}."
 msgstr ""
-"Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
-"jest nadal w toku w zależności od zasobów projektu i dostępności "
-"współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
 
-#: qt/encfsmsgbox.py:66
-msgid ""
-"The support for encrypted snapshot profiles is undergoing significant "
-"changes, and EncFS will be removed in the foreseeable future."
-msgstr ""
-"Obsługa zaszyfrowanych profili migawek jest poddawana znaczącym zmianom, a "
-"EncFS zostanie usunięty w dającej się przewidzieć przyszłości."
-
-#: qt/encfsmsgbox.py:77
+#: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
 msgstr "Poniższe profile używają szyfrowania z EncFS:"
 
-#: qt/encfsmsgbox.py:79
+#: qt/encfsmsgbox.py:87
+msgid ""
+"A replacement is planned, but it cannot be guaranteed that it will arrive on"
+" time."
+msgstr ""
+
+#: qt/encfsmsgbox.py:89
 #, python-brace-format
 msgid ""
-"A decision on a replacement for continued support of encrypted backups is "
-"still pending, depending on project resources and contributor availability. "
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
-"Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
-"jest nadal w toku w zależności od zasobów projektu i dostępności "
-"współpracowników. Użytkownicy są zaproszeni do dołączenia do tej dyskusji. "
-"Zaktualizowane szczegóły dotyczące następnych kroków są dostępne "
-"w {whitepaper}."
 
-#: qt/encfsmsgbox.py:85
+#: qt/encfsmsgbox.py:92
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
@@ -1040,7 +1046,7 @@ msgstr ""
 "Ten komunikat nie zostanie wyświetlony ponownie. To okno dialogowe jest "
 "dostępne w dowolnym momencie za pośrednictwem menu pomocy."
 
-#: qt/encfsmsgbox.py:87
+#: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
 msgstr "Zespół Back In Time"
 
@@ -1070,7 +1076,7 @@ msgid "Snapshot Log View"
 msgstr "Widok dziennika migawki"
 
 #: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:262 qt/restoreconfigdialog.py:269
+#: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -1200,7 +1206,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "Usuń i &przechowuj"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1301,11 +1307,11 @@ msgstr "Godziny:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "po godzinie"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minuty:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1441,17 +1447,17 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "Serwer proxy SSH"
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:112
-#: qt/manageprofiles/tab_general.py:250
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
+#: qt/manageprofiles/tab_general.py:253
 msgid "Host:"
 msgstr "Host:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:117
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:120
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:122
-#: qt/manageprofiles/tab_general.py:256
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:125
+#: qt/manageprofiles/tab_general.py:259
 msgid "User:"
 msgstr "Użytkownik:"
 
@@ -1624,35 +1630,31 @@ msgstr "wyłączone"
 msgid "enabled"
 msgstr "włączone"
 
-#: qt/manageprofiles/tab_general.py:62 qt/restoreconfigdialog.py:271
+#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:271
 msgid "Mode:"
 msgstr "Tryb:"
 
-#: qt/manageprofiles/tab_general.py:73 qt/manageprofiles/tab_general.py:604
+#: qt/manageprofiles/tab_general.py:77 qt/manageprofiles/tab_general.py:620
 msgid "Where to save snapshots"
 msgstr "Gdzie zapisać migawki"
 
-#: qt/manageprofiles/tab_general.py:91
-msgid "Directory"
-msgstr "Katalog"
-
-#: qt/manageprofiles/tab_general.py:100
+#: qt/manageprofiles/tab_general.py:103
 msgid "SSH Settings"
 msgstr "Ustawienia SSH"
 
-#: qt/manageprofiles/tab_general.py:127
+#: qt/manageprofiles/tab_general.py:130
 msgid "Path:"
 msgstr "Ścieżka:"
 
-#: qt/manageprofiles/tab_general.py:133
+#: qt/manageprofiles/tab_general.py:136
 msgid "Cipher:"
 msgstr "Szyfr:"
 
-#: qt/manageprofiles/tab_general.py:138
+#: qt/manageprofiles/tab_general.py:141
 msgid "Private Key:"
 msgstr "Klucz prywatny:"
 
-#: qt/manageprofiles/tab_general.py:149
+#: qt/manageprofiles/tab_general.py:152
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -1660,7 +1662,7 @@ msgstr ""
 "Wybierz istniejący plik klucza prywatnego (zwykle o nazwie „id_ed25519”, "
 "a w starszych konfiguracjach „id_rsa”)."
 
-#: qt/manageprofiles/tab_general.py:161
+#: qt/manageprofiles/tab_general.py:164
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1668,44 +1670,44 @@ msgstr ""
 "Utwórz nowy klucz SSH bez hasła (niedozwolone, jeśli plik klucza prywatnego "
 "jest już wybrany)."
 
-#: qt/manageprofiles/tab_general.py:197 qt/manageprofiles/tab_general.py:204
-#: qt/manageprofiles/tab_general.py:208
+#: qt/manageprofiles/tab_general.py:200 qt/manageprofiles/tab_general.py:207
+#: qt/manageprofiles/tab_general.py:211
 msgid "Password"
 msgstr "Hasło"
 
-#: qt/manageprofiles/tab_general.py:218
+#: qt/manageprofiles/tab_general.py:221
 msgid "Save Password to Keyring"
 msgstr "Zapisz hasło w portfelu"
 
-#: qt/manageprofiles/tab_general.py:222
+#: qt/manageprofiles/tab_general.py:225
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Hasło pamięci podręcznej dla cron (problem bezpieczeństwa: root może "
 "odczytać hasło)"
 
-#: qt/manageprofiles/tab_general.py:238
+#: qt/manageprofiles/tab_general.py:241
 msgid "Advanced"
 msgstr "Zaawansowane"
 
-#: qt/manageprofiles/tab_general.py:268 qt/manageprofiles/tab_general.py:660
+#: qt/manageprofiles/tab_general.py:271 qt/manageprofiles/tab_general.py:676
 msgid "Full snapshot path:"
 msgstr "Pełna ścieżka migawki:"
 
-#: qt/manageprofiles/tab_general.py:391
+#: qt/manageprofiles/tab_general.py:394
 msgid "You did not choose a private key file for SSH."
 msgstr "Nie wybrano pliku klucza prywatnego dla SSH."
 
-#: qt/manageprofiles/tab_general.py:392
+#: qt/manageprofiles/tab_general.py:395
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr "Czy chcesz wygenerować nową parę kluczy publiczny/prywatny bez hasła?"
 
-#: qt/manageprofiles/tab_general.py:403
+#: qt/manageprofiles/tab_general.py:406
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Plik klucza prywatnego „{file}” nie istnieje."
 
-#: qt/manageprofiles/tab_general.py:488
+#: qt/manageprofiles/tab_general.py:491
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
@@ -1713,17 +1715,17 @@ msgstr ""
 "Czy chcesz skopiować swój publiczny klucz SSH na zdalny host, aby umożliwić "
 "logowanie bez hasła?"
 
-#: qt/manageprofiles/tab_general.py:522
+#: qt/manageprofiles/tab_general.py:525
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Nie można ustalić autentyczności hosta {host}."
 
-#: qt/manageprofiles/tab_general.py:525
+#: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Odcisk palca klucza {keytype} to:"
 
-#: qt/manageprofiles/tab_general.py:533
+#: qt/manageprofiles/tab_general.py:536
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1731,24 +1733,11 @@ msgstr ""
 "Zweryfikuj ten odcisk palca. Czy chcesz dodać go do swojego pliku "
 "„known_hosts”?"
 
-#: qt/manageprofiles/tab_general.py:578
-#, python-brace-format
-msgid ""
-"Support for EncFS will be discontinued in the foreseeable future. A decision"
-" on a replacement for continued support of encrypted backups is still "
-"pending, depending on project resources and contributor availability. More "
-"details are available in this {whitepaper}."
-msgstr ""
-"Wsparcie dla EncFS zostanie przerwane w dającej się przewidzieć przyszłości."
-" Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
-"jest nadal w toku w zależności od zasobów projektu i dostępności "
-"współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
-
-#: qt/manageprofiles/tab_general.py:611
+#: qt/manageprofiles/tab_general.py:627
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "Czy na pewno chcesz zmienić katalog migawek?"
 
-#: qt/manageprofiles/tab_general.py:648
+#: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Nie udało się utworzyć nowego klucza SSH w {path}."
@@ -1822,65 +1811,71 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Następujące reguły są przetwarzane od góry do dołu. Późniejsze reguły "
+"zastępują wcześniejsze i nie są przez nie ograniczone. Zobacz {manual}, aby "
+"uzyskać szczegóły i przykłady."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "instrukcja obsługi"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Otwórz instrukcję obsługi w przeglądarce."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Zachowaj nazwane migawki."
+msgstr "Zachowaj najnowszą migawkę."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"W każdych okolicznościach zachowywana jest ostatnia i najświeższa migawka."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Tego zachowania nie da się zmienić."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Zachowaj nazwane migawki."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Migawki, którym oprócz zwykłego znacznika czasu nadano nazwę, nie zostaną "
-"usunięte."
+"Migawki, którym oprócz zwykłego znacznika czasu nadano nazwę, będą "
+"przechowywane w każdych okolicznościach i nie zostaną usunięte."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "lat"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Usuń migawkę"
+msgstr "Usuń migawki starsze niż"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-msgid "Full days. Current day ignored."
-msgstr ""
+#, fuzzy
+msgid "Full days. Current day is ignored."
+msgstr "Pełne dni. Bieżący dzień jest ignorowany."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-msgid "Calendar weeks with Monday as first day. Current week ignored."
+#, fuzzy
+msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Tygodnie kalendarzowe z poniedziałkiem jako pierwszym dniem. Bieżący tydzień"
+" jest ignorowany."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-msgid "12 months periods. Current months ignored."
-msgstr ""
+#, fuzzy
+msgid "12 months periods. Current month is ignored."
+msgstr "Okresy 12 miesięcy. Bieżące miesiące są ignorowane."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Polityka przechowywania"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1904,7 +1899,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Dni liczone są od dzisiaj."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1916,34 +1911,36 @@ msgid "day(s)."
 msgstr "dzień/dni."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Przechowaj jedną migawkę na dzień"
+msgstr "Zachowaj ostatnią migawkę każdego dnia jako ostatnią"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Tygodnie są liczone od bieżącego tygodnia. Tydzień zaczyna się w "
+"poniedziałek."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Przechowaj jedną migawkę na tydzień"
+msgstr "Zachowaj ostatnią migawkę z każdego tygodnia jako ostatnią"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
 msgstr "tygodni(e)."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
+#, fuzzy
 msgid ""
-"The months are counted as calendar months starting with the current months."
+"The months are counted as calendar months starting with the current month."
 msgstr ""
+"Miesiące liczone są jako miesiące kalendarzowe, począwszy od miesiąca "
+"bieżącego."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Przechowaj jedną migawkę na miesiąc"
+msgstr "Zachowaj ostatnią migawkę dla każdego miesiąca jako ostatnią"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1952,31 +1949,27 @@ msgstr "miesiąc/miesięcy."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Lata liczone są jako lata kalendarzowe, począwszy od roku bieżącego."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Zachowaj wszystkie migawki na koniec"
+msgstr "Zachowaj ostatnią migawkę z każdego roku"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "wszystkie lata."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Jeśli wolna przestrzeń jest mniejsza niż:"
+msgstr "…wolnej przestrzeni jest mniej niż"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Jeśeli wolnych i-węzłów jest mniej niż:"
+msgstr "…wolnych i-węzłów jest mniej niż"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Usuwanie poprzednich migawek"
+msgstr "Usuń najstarsze migawki, jeśli…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2012,31 +2005,31 @@ msgstr "Prędkość:"
 msgid "ETA:"
 msgstr "Czas do końca:"
 
-#: qt/qttools.py:479 qt/snapshotsdialog.py:115
+#: qt/qttools.py:482 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Migawki"
 
-#: qt/qttools.py:502
+#: qt/qttools.py:505
 msgid "Today"
 msgstr "Dziś"
 
-#: qt/qttools.py:509
+#: qt/qttools.py:512
 msgid "Yesterday"
 msgstr "Wczoraj"
 
-#: qt/qttools.py:518
+#: qt/qttools.py:521
 msgid "This week"
 msgstr "Ten tydzień"
 
-#: qt/qttools.py:525
+#: qt/qttools.py:528
 msgid "Last week"
 msgstr "Poprzedni tydzień"
 
-#: qt/qttools.py:671
+#: qt/qttools.py:674
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "To NIE jest migawka, ale podgląd na żywo lokalnych plików"
 
-#: qt/qttools.py:676
+#: qt/qttools.py:679
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Ostatnie sprawdzenie {time}"
@@ -2168,6 +2161,29 @@ msgstr "Wykluczyć {path} z przyszłych migawek?"
 #~ msgid "&Auto-remove"
 #~ msgstr "&Automatyczne usuwanie"
 
+#, python-brace-format
+#~ msgid ""
+#~ "A decision on a replacement for continued support of encrypted backups is "
+#~ "still pending, depending on project resources and contributor availability. "
+#~ "More details are available in this {whitepaper}."
+#~ msgstr ""
+#~ "Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
+#~ "jest nadal w toku w zależności od zasobów projektu i dostępności "
+#~ "współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
+
+#, python-brace-format
+#~ msgid ""
+#~ "A decision on a replacement for continued support of encrypted backups is "
+#~ "still pending, depending on project resources and contributor availability. "
+#~ "Users are invited to join this discussion. Updated details on the next steps"
+#~ " are available in this {whitepaper}."
+#~ msgstr ""
+#~ "Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
+#~ "jest nadal w toku w zależności od zasobów projektu i dostępności "
+#~ "współpracowników. Użytkownicy są zaproszeni do dołączenia do tej dyskusji. "
+#~ "Zaktualizowane szczegóły dotyczące następnych kroków są dostępne "
+#~ "w {whitepaper}."
+
 #~ msgid "Backup directory cannot be included."
 #~ msgstr "Katalog kopii zapasowej nie może być uwzględniany."
 
@@ -2200,6 +2216,9 @@ msgstr "Wykluczyć {path} z przyszłych migawek?"
 
 #~ msgid "Copy links (resolve symbolic links)"
 #~ msgstr "Kopiowanie dowiązań (rozwiązenie dowiązań symbolicznych)"
+
+#~ msgid "Directory"
+#~ msgstr "Katalog"
 
 #~ msgid "EXPERIMENTAL"
 #~ msgstr "EKSPERYMENTALNE"
@@ -2247,6 +2266,25 @@ msgstr "Wykluczyć {path} z przyszłych migawek?"
 
 #~ msgid "Smart removal:"
 #~ msgstr "Inteligentne usuwanie:"
+
+#, python-brace-format
+#~ msgid ""
+#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
+#~ " on a replacement for continued support of encrypted backups is still "
+#~ "pending, depending on project resources and contributor availability. More "
+#~ "details are available in this {whitepaper}."
+#~ msgstr ""
+#~ "Wsparcie dla EncFS zostanie przerwane w dającej się przewidzieć przyszłości."
+#~ " Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
+#~ "jest nadal w toku w zależności od zasobów projektu i dostępności "
+#~ "współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
+
+#~ msgid ""
+#~ "The support for encrypted snapshot profiles is undergoing significant "
+#~ "changes, and EncFS will be removed in the foreseeable future."
+#~ msgstr ""
+#~ "Obsługa zaszyfrowanych profili migawek jest poddawana znaczącym zmianom, a "
+#~ "EncFS zostanie usunięty w dającej się przewidzieć przyszłości."
 
 #~ msgid "WARNING"
 #~ msgstr "OSTRZEŻENIE"
