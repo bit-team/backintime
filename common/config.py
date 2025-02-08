@@ -41,6 +41,7 @@ except NameError:
 import bitbase
 import tools
 import configfile
+import encode
 import logger
 import sshtools
 import encfstools
@@ -121,7 +122,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
     DEFAULT_OFFSET = 0
 
-    ENCODE = encfstools.Bounce()
+    ENCODE = encode.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):

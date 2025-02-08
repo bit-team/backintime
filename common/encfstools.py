@@ -14,6 +14,7 @@ import tempfile
 from datetime import datetime
 from packaging.version import Version
 import config
+import encode
 import password
 import password_ipc
 import tools
@@ -273,7 +274,7 @@ class EncFS_SSH(EncFS_mount):
         call umount for encfs, encfs --reverse and sshfs
         """
         self.config.ENCODE.close()
-        self.config.ENCODE = Bounce()
+        self.config.ENCODE = encode.Bounce()
         logger.debug('Unmount encfs', self)
         super(EncFS_SSH, self).umount(*args, **kwargs)
         logger.debug('Unmount local filesystem root mount encfs --reverse', self)
@@ -461,29 +462,6 @@ class Encode:
         if 'p' in vars(self) and self.p.returncode is None:
             logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
-
-class Bounce:
-    """
-    Dummy class that will simply return all input.
-    This is the standard for config.ENCODE
-    """
-    def __init__(self):
-        self.chroot = os.sep
-
-    def path(self, path):
-        return path
-
-    def exclude(self, path):
-        return path
-
-    def include(self, path):
-        return path
-
-    def remote(self, path):
-        return path
-
-    def close(self):
-        pass
 
 class Decode:
     """

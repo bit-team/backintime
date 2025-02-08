@@ -31,6 +31,7 @@ import configfile
 import logger
 import tools
 import encfstools
+import encode
 import mount
 import progress
 import snapshotlog
@@ -1260,7 +1261,7 @@ class Snapshots:
         if self.config.snapshotsMode() == 'ssh_encfs':
             decode = encfstools.Decode(self.config, False)
         else:
-            decode = encfstools.Bounce()
+            decode = encode.Bounce()
 
         # backup permissions of /
         # bugfix for https://github.com/bit-team/backintime/issues/708
