@@ -71,7 +71,6 @@ class EncfsExistsWarning(_EncfsWarningBase):
               'profile furthermore.')
         ])
 
-
         profiles = '<ul>' \
             + ''.join(f'<li>{profile}</li>' for profile in profiles) \
             + '</ul>'
