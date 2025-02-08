@@ -15,17 +15,19 @@ from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor, QFont
-from PyQt6.QtWidgets import (QDialog,
-                             QVBoxLayout,
-                             QHBoxLayout,
+from PyQt6.QtWidgets import (QCheckBox,
+                             QDialog,
                              QGridLayout,
-                             QMessageBox,
                              QGroupBox,
+                             QHBoxLayout,
                              QLabel,
-                             QToolButton,
                              QLineEdit,
-                             QCheckBox,
-                             QToolTip)
+                             QMessageBox,
+                             QStyle,
+                             QToolButton,
+                             QToolTip,
+                             QVBoxLayout,
+                             QWidget)
 import config
 import tools
 import qttools
@@ -34,11 +36,12 @@ import sshtools
 import logger
 import encfsmsgbox
 import mount
+from statedata import StateData
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
-from bitbase import URL_ENCRYPT_TRANSITION
+from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
 
 
 class GeneralTab(QDialog):
@@ -66,6 +69,7 @@ class GeneralTab(QDialog):
         # EncFS deprecation (#1734, #1735)
         self._lbl_encfs_warning = self._create_label_encfs_deprecation()
         tab_layout.addWidget(self._lbl_encfs_warning)
+        tab_layout.addWidget(qttools.HLineWidget())
 
         # Where to save snapshots
         groupBox = QGroupBox(self)
@@ -572,29 +576,42 @@ class GeneralTab(QDialog):
         return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
+        # Icon
+        icon = self.style().standardIcon(
+            QStyle.StandardPixmap.SP_MessageBoxWarning)
+        size = self.style().pixelMetric(
+            QStyle.PixelMetric.PM_LargeIconSize)
+        icon_label = QLabel(self)
+        pixmap = icon.pixmap(size*2)
+        icon_label.setPixmap(pixmap)
+
         # encfs deprecation warning (see #1734, #1735)
-        label = QLabel('<b>{}:</b> {}'.format(
-            _('Warning'),
-            _('Support for EncFS will be discontinued in the foreseeable '
-              'future. A decision on a replacement for continued support of '
-              'encrypted backups is still pending, depending on project '
-              'resources and contributor availability. More details are '
-              'available in this {whitepaper}.').format(
-                  whitepaper='<a href="{}">{}</a>'.format(
-                      URL_ENCRYPT_TRANSITION,
-                      _('whitepaper'))
-                  )
-        ))
-        label.setWordWrap(True)
-        label.setOpenExternalLinks(True)
+        txt = _('EncFS profile creation will be removed in the next minor '
+                'release (1.7), scheduled for 2026.')
+        txt = txt + ' ' + _('Support for EncFS is being discontinued due '
+                            'to security vulnerabilities.')
+        txt = txt + ' ' + _('For more details, including potential '
+                            'alternatives, please refer to this '
+                            '{whitepaper}.') \
+                            .format(whitepaper='<a href="{}">{}</a>'.format(
+                                URL_ENCRYPT_TRANSITION,
+                                _('whitepaper')))
+        txt_label = QLabel(txt)
+        txt_label.setWordWrap(True)
+        txt_label.setOpenExternalLinks(True)
 
         # Show URL in tooltip without anoing http-protocol prefix.
-        label.linkHovered.connect(
+        txt_label.linkHovered.connect(
             lambda url: QToolTip.showText(
                 QCursor.pos(), url.replace('https://', ''))
         )
 
-        return label
+        wdg = QWidget()
+        layout = QHBoxLayout(wdg)
+        layout.addWidget(icon_label, stretch=0)
+        layout.addWidget(txt_label, stretch=1)
+
+        return wdg
 
     def _slot_snapshots_path_clicked(self):
         old_path = self.editSnapshotsPath.text()
@@ -678,6 +695,9 @@ class GeneralTab(QDialog):
         """
         active_mode = self.get_active_snapshots_mode()
 
+        state_data = StateData()
+        profile_state = state_data.profile(self.config.currentProfile())
+
         # hide/show group boxes related to current mode
         # note: self.modeLocalEncfs = self.modeLocal
         # note: self.modeSshEncfs = self.modeSsh
@@ -733,8 +753,8 @@ class GeneralTab(QDialog):
             if self._parent_dialog.isVisible():
                 # Show the profile specific warning dialog only once per
                 # profile.
-                if self.config.profileBoolValue('msg_shown_encfs') is False:
-                    self.config.setProfileBoolValue('msg_shown_encfs', True)
+                if profile_state.msg_encfs < ENCFS_MSG_STAGE:
+                    profile_state.msg_encfs = ENCFS_MSG_STAGE
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
         else:

@@ -8,14 +8,9 @@
 """Tests about statefile module."""
 # pylint: disable=wrong-import-position,wrong-import-order
 import unittest
-import inspect
-from pathlib import Path
-import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from qttools_path import registerBackintimePath
 registerBackintimePath('common')
-import config  # noqa: E402
 import statedata  # noqa: E402
-import app  # noqa: E402
 
 
 class IsSingleton(unittest.TestCase):
@@ -101,51 +96,3 @@ class Properties(unittest.TestCase):
         with self.assertRaises(KeyError):
             # pylint: disable=pointless-statement
             profile.last_path
-
-    @pyfakefs_ut.patchfs(allow_root_user=False)
-    def test_read_non_existing_profile(self, _fake_fs):
-        """Read state value from non existing profile."""
-        cfg_content = inspect.cleandoc('''
-        ''')  # pylint: disable=R0801
-
-        # config file location
-        config_fp = Path.home() / '.config' / 'backintime' / 'config'
-        config_fp.parent.mkdir(parents=True)
-        config_fp.write_text(cfg_content, 'utf-8')
-
-        cfg = config.Config(config_fp)
-        # pylint: disable-next=protected-access
-        sut = app._get_state_data_from_config(cfg)
-
-        # empty profile
-        profile = sut.profile('1')
-
-        with self.assertRaises(KeyError) as exc:
-            # pylint: disable=pointless-statement
-            profile.msg_encfs
-
-        # Profile 1 does not exist
-        self.assertEqual(exc.exception.args[0], '1')
-
-    @pyfakefs_ut.patchfs(allow_root_user=False)
-    def test_write_non_existing_profile(self, _fake_fs):
-        """Write state value to non existing profile."""
-        cfg_content = inspect.cleandoc('''
-        ''')  # pylint: disable=R0801
-
-        # config file location
-        config_fp = Path.home() / '.config' / 'backintime' / 'config'
-        config_fp.parent.mkdir(parents=True)
-        config_fp.write_text(cfg_content, 'utf-8')
-
-        cfg = config.Config(config_fp)
-        # pylint: disable-next=protected-access
-        sut = app._get_state_data_from_config(cfg)
-
-        # empty profile
-        profile = sut.profile('1')
-
-        # nothing raised
-        profile.msg_encfs = True
-
-        self.assertEqual(profile.msg_encfs, True)

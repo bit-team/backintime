@@ -33,6 +33,7 @@ import tools
 tools.initiate_translation(None)
 import qttools
 import backintime
+import bitbase
 import config
 import tools
 import logger
@@ -404,8 +405,9 @@ class MainWindow(QMainWindow):
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
 
-        # If the encfs-deprecation warning was never shown before
-        if state_data.msg_encfs_global is False:
+        # If the encfs-deprecation warning in its latest stage was not shown
+        # yet.
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -415,9 +417,9 @@ class MainWindow(QMainWindow):
 
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
+                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                state_data.msg_encfs_global = True
 
         # Release Candidate
         if version.is_release_candidate():
@@ -946,7 +948,8 @@ class MainWindow(QMainWindow):
 
         self.comboProfiles.clear()
 
-        qttools.update_combo_profiles(self.config, self.comboProfiles, self.config.currentProfile())
+        qttools.update_combo_profiles(
+            self.config, self.comboProfiles, self.config.currentProfile())
         profiles = self.config.profilesSortedByName()
 
         self.comboProfilesAction.setVisible(len(profiles) > 1)
@@ -960,12 +963,18 @@ class MainWindow(QMainWindow):
         self.updatePlaces()
         self.updateFilesView(0)
 
+        profile_id = self.config.currentProfile()
+        state_data = StateData()
+        profile_state = state_data.profile(profile_id)
+
         # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(self.config.currentProfile())
+        current_mode = self.config.snapshotsMode(profile_id)
         if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile.
-            if self.config.profileBoolValue('msg_shown_encfs') is False:
-                self.config.setProfileBoolValue('msg_shown_encfs', True)
+            # Show the profile specific warning dialog only once per profile
+            # and only if the global warning was shown before.
+            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
+                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
@@ -2296,7 +2305,7 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         data.msg_release_candidate = val
 
     # internal.msg_shown_encfs
-    val = cfg.boolValue('internal.msg_shown_encfs', None)
+    val = cfg.boolValue('internal.msg_shown_encfs', 0)
     if val:
         data.msg_encfs_global = val
 
@@ -2361,9 +2370,8 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         profile_state = data.profile(profile_id)
 
         # profile specific encfs warning
-        val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
-        if val is not None:
-            profile_state.msg_encfs = val
+        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
+        profile_state.msg_encfs = val
 
         # qt.last_path
         if cfg.hasProfileKey('qt.last_path', profile_id):

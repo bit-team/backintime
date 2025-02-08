@@ -29,6 +29,7 @@ import mount
 import password
 import encfstools
 import cli
+from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
@@ -488,6 +489,47 @@ def createParsers(app_name='backintime'):
                            help=argparse.SUPPRESS)
 
 
+def encfs_deprecation_warning():
+    """Warn about encfs deprecation in syslog.
+
+    See Issue #1734 for details. This function is a workraound and will be
+    removed if #1734 is closed.
+    """
+
+    # Don't warn if EncFS isn't installed
+    if not tools.checkCommand('encfs'):
+        return
+
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+    if xdg_state:
+        xdg_state = pathlib.Path(xdg_state)
+    else:
+        xdg_state = pathlib.Path.home() / '.local' / 'state'
+    fp = xdg_state / 'backintime.encfs-warning.timestamp'
+
+    # ensure existence
+    if not fp.exists():
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        fp.touch()
+
+    # Calculate age of that file
+    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+    # Don't warn if to young
+    if delta.days < 30:
+        return
+
+    logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
+                   'Removal is schedule for minor release 1.7 in year 2026. '
+                   'For details and alternatives '
+                   f'read: {URL_ENCRYPT_TRANSITION}')
+
+
+    # refresh timestamp
+    fp.touch()
+
+
 def startApp(app_name='backintime'):
     """
     Start the requested command or return config if there was no command
@@ -524,6 +566,8 @@ def startApp(app_name='backintime'):
             "It looks like you're using 'sudo' to start "
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
+
+    encfs_deprecation_warning()
 
     # Call commands
     if 'func' in dir(args):
