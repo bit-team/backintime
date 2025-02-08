@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-11-01 07:52+0000\n"
-"Last-Translator: Loufute <Loufute@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-02-03 21:51+0000\n"
+"Last-Translator: ojob <ojob@users.noreply.translate.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -212,23 +212,22 @@ msgid "Can't find snapshots directory."
 msgstr "Répertoire des instantanés inaccessible."
 
 #: common/snapshots.py:836
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
 msgstr ""
-"S'il se trouve sur un disque externe, veuillez le connecter puis cliquer sur"
-" OK."
+"S'il se trouve sur un disque externe, veuillez le connecter, puis cliquez "
+"sur OK."
 
 #: common/snapshots.py:839
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "En attente %s seconde."
-msgstr[1] "En attente %s secondes."
+msgstr[0] "Prochain essai dans %s seconde."
+msgstr[1] "Prochain essai dans %s secondes."
 
 #: common/snapshots.py:904
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Impossible d'effectuer l'instantané {snapshot_id}."
+msgstr "Échec de l'instantané {snapshot_id}."
 
 #: common/snapshots.py:936
 msgid "Please be patient. Finalizing…"
@@ -240,11 +239,11 @@ msgstr "Échec de création du dossier."
 
 #: common/snapshots.py:1084
 msgid "Saving config file…"
-msgstr "Sauvegarde en cours du fichier de configuration…"
+msgstr "Enregistrement du fichier de configuration…"
 
 #: common/snapshots.py:1165
 msgid "Saving permissions…"
-msgstr "Sauvegarde en cours des permissions…"
+msgstr "Enregistrement des permissions…"
 
 #: common/snapshots.py:1277
 #, python-brace-format
@@ -264,7 +263,7 @@ msgstr "Échec de suppression du répertoire"
 
 #: common/snapshots.py:1365
 msgid "Taking snapshot"
-msgstr "Prise de l'instantané"
+msgstr "Création de l'instantané"
 
 #: common/snapshots.py:1416
 msgid "Success"
@@ -310,16 +309,16 @@ msgstr "Suppression intelligente"
 
 #: common/snapshots.py:1873
 msgid "Removing old snapshots"
-msgstr "Supprimer les anciens instantanés"
+msgstr "Suppression des anciens instantanés"
 
 #: common/snapshots.py:1916
 msgid "Trying to keep min free space"
-msgstr "Essayer de conserver un minimum d'espace libre"
+msgstr "Tentative de conservation du minimum d'espace libre"
 
 #: common/snapshots.py:1955
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Essayer de conserver un minimum de {perc} d'inodes libres"
+msgstr "Tentative pour conserver un minimum de {perc} d'inodes libres"
 
 #: common/snapshots.py:3079 qt/app.py:1831
 msgid "Now"
@@ -387,7 +386,7 @@ msgstr "L'hôte distant {host} ne prend pas en charge les liens physiques"
 #: common/sshtools.py:1191
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Copie de la clé SSH publique \"{pubkey}s\" sur l'hôte distant \"{host}\"."
+msgstr "Copie de la clé SSH publique \"{pubkey}\" sur l'hôte distant \"{host}\"."
 
 #: common/sshtools.py:1193
 #, python-brace-format
@@ -400,7 +399,7 @@ msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Le système de fichiers de destination pour {path} est au format NTFs, qui a "
+"Le système de fichiers de destination pour {path} est au format NTFS, qui a "
 "des incompatibilités avec les systèmes de fichiers de style Unix, notamment "
 "les liens physiques."
 
@@ -592,37 +591,39 @@ msgstr "Quitter"
 
 #: qt/app.py:524
 msgid "User manual"
-msgstr ""
+msgstr "Manuel d'utilisation"
 
 #: qt/app.py:526
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Ouvrir le manuel d'utilisation dans le navigateur (en local si disponible, "
+"sinon en ligne)"
 
 #: qt/app.py:530
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "man page : Back In &Time"
 
 #: qt/app.py:532
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Afficher le manuel de Back In Time (backintime)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Fichier de configuration des profils"
+msgstr "manuel : fichier de configuration des profils"
 
 #: qt/app.py:538
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Afficher le manuel du fichier de configuration des profils (backintime-"
+"config)"
 
 #: qt/app.py:542
 msgid "Project website"
-msgstr ""
+msgstr "Site web du projet"
 
 #: qt/app.py:545
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Ouvrir le site de Back In Time dans le navigateur"
 
 #: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
@@ -634,7 +635,7 @@ msgstr "FAQ"
 
 #: qt/app.py:552
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Ouvrir la Foire aux questions (FAQ) dans le navigateur"
 
 #: qt/app.py:554
 msgid "Ask a question"
@@ -736,19 +737,19 @@ msgstr "&Aide"
 
 #: qt/app.py:738
 msgid "Icons only"
-msgstr ""
+msgstr "Icônes uniquement"
 
 #: qt/app.py:741
 msgid "Text only"
-msgstr ""
+msgstr "Texte uniquement"
 
 #: qt/app.py:744
 msgid "Text below icons"
-msgstr ""
+msgstr "Texte sous les icônes"
 
 #: qt/app.py:747
 msgid "Text beside icon"
-msgstr ""
+msgstr "Texte à côté des icônes"
 
 #: qt/app.py:892
 msgid ""
@@ -946,7 +947,7 @@ msgstr "Votre traduction"
 #: qt/app.py:2085
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Dans le Fediverse chez Mastodon : {link_and_label}"
 
 #: qt/app.py:2090
 #, python-brace-format
@@ -1216,7 +1217,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Suppression et Conservation"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1316,11 +1317,11 @@ msgstr "Heures :"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "de chaque heure"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minutes :"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1835,65 +1836,68 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Les règles suivantes sont traitées du haut vers le bas. Chaque règle est "
+"prioritaire sur celles qui précèdent et n'est pas contrainte par elles. Voir"
+" le {manual} pour les détails et des exemples."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "manuel d'utilisation"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Ouvrir le manuel d'utilisation dans le navigateur."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Conserver les instantanés nommés."
+msgstr "Conserver l'instantané le plus récent."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Le dernier instantané, c'est à dire le plus récent, est conservé dans tous "
+"les cas."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Ce comportement ne peut pas être modifié."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Conserver les instantanés nommés."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Les instantanés portant un nom (en plus de l'horodatage habituel) ne seront "
-"pas supprimés."
+"Les instantanés portant un nom, en plus de l'horodatage habituel, seront "
+"conservés dans tous les cas."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Année(s)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Supprimer l'instantané"
+msgstr "Supprimer les instantanés plus vieux que"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day ignored."
-msgstr ""
+msgstr "Jours entiers, en ignorant le jour actuel."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week ignored."
 msgstr ""
+"Semaines calendaires, démarrant au lundi, en ignorant la semaine actuelle."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current months ignored."
-msgstr ""
+msgstr "Période de 12 mois, en ignorant les mois depuis le début de l'année."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Politique de conservation"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1915,7 +1919,7 @@ msgstr "Si activé, Back In Time va d'abord test la machine distante."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Les jours sont comptés à partir d'aujourd'hui."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1927,20 +1931,20 @@ msgid "day(s)."
 msgstr "jour(s)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Garder un instantané par jour depuis les derniers"
+msgstr "Conserver le dernier instantané de chaque jour pour les derniers"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Les semaines sont comptées depuis la semaine actuelle, avec un début de "
+"semaine au lundi."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Garder un instantané par semaine depuis les dernières"
+msgstr "Garder le instantané de chaque semaine pour les dernières"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1950,11 +1954,11 @@ msgstr "semaine(s)."
 msgid ""
 "The months are counted as calendar months starting with the current months."
 msgstr ""
+"Les mois sont comptés de manière calendaire, en partant du mois actuel."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Garder un instantané par mois depuis les derniers"
+msgstr "Garder le dernier instantané de chaque mois pour les derniers"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1964,30 +1968,28 @@ msgstr "mois."
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr ""
+"Les années sont comptées de manière calendaires, à partir de l'année "
+"actuelle."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Garder tous les instantanés depuis les derniers"
+msgstr "Garder le dernier instantané de chaque année, pour les dernières"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "toujours."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Si l'espace libre est inférieur à :"
+msgstr "... si l'espace libre est inférieur à"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Si les inodes libres sont inférieurs à :"
+msgstr "... si le pourcentage d'inodes libres est inférieur à"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Supprimer les anciens instantanés"
+msgstr "Supprimer les anciens instantanés si…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"

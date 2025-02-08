@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-10-22 12:07+0000\n"
+"PO-Revision-Date: 2025-02-03 13:07+0000\n"
 "Last-Translator: mbouzada <mbouzada@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -143,7 +143,7 @@ msgstr "Non é posíbel revogar o último perfil."
 #: common/encfstools.py:81
 #, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr "Non é posible montar «{command}»"
+msgstr "Non é posíbel montar «{command}»"
 
 #: common/encfstools.py:131
 msgid "Configuration for the encrypted directory not found."
@@ -211,9 +211,8 @@ msgid "Can't find snapshots directory."
 msgstr "Non é posíbel atopar o directorio de instantáneas."
 
 #: common/snapshots.py:836
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "Se está nunha unidade extraíble, conéctea e prema en Aceptar."
+msgstr "Se está nunha unidade extraíbel, conéctea."
 
 #: common/snapshots.py:839
 #, python-format
@@ -325,7 +324,7 @@ msgstr "Agora"
 #: common/sshtools.py:232
 #, python-brace-format
 msgid "Unable to mount {sshfs}"
-msgstr "Non é posible montar {sshfs}"
+msgstr "Non é posíbel montar {sshfs}"
 
 #: common/sshtools.py:300
 msgid "ssh-agent not found. Please ensure it is installed."
@@ -509,7 +508,7 @@ msgstr ""
 
 #: qt/app.py:353
 msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr "Se está nunha unidade extraíble, conéctea e prema en Aceptar."
+msgstr "Se está nunha unidade extraíbel, conéctea e prema en Aceptar."
 
 #: qt/app.py:465
 msgid "Take a snapshot"
@@ -582,37 +581,39 @@ msgstr "Saír"
 
 #: qt/app.py:524
 msgid "User manual"
-msgstr ""
+msgstr "Manual de usuario"
 
 #: qt/app.py:526
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Abrir o manual de usuario no navegador (local se está dispoñíbel, senón, en "
+"liña)"
 
 #: qt/app.py:530
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "páxina de inicio: Back In Time"
 
 #: qt/app.py:532
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Amosar a páxina de inicio sobre Back In Time (backintime)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Ficheiro de configuración dos perfís"
+msgstr "páxina de inicio: Ficheiro de configuración dos perfís"
 
 #: qt/app.py:538
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Amosar a páxina de inicio sobre o ficheiro de configuración de perfís "
+"(backintime-config)"
 
 #: qt/app.py:542
 msgid "Project website"
-msgstr ""
+msgstr "Sitio web do proxecto"
 
 #: qt/app.py:545
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Abrir o sitio web de Back In Time no navegador"
 
 #: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
@@ -624,7 +625,7 @@ msgstr "FAQ (preguntas frecuentes)"
 
 #: qt/app.py:552
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Abrir as preguntas frecuentes (FAQ) no navegador"
 
 #: qt/app.py:554
 msgid "Ask a question"
@@ -722,19 +723,19 @@ msgstr "A&xuda"
 
 #: qt/app.py:738
 msgid "Icons only"
-msgstr ""
+msgstr "Só iconas"
 
 #: qt/app.py:741
 msgid "Text only"
-msgstr ""
+msgstr "Só texto"
 
 #: qt/app.py:744
 msgid "Text below icons"
-msgstr ""
+msgstr "Texto baixo as iconas"
 
 #: qt/app.py:747
 msgid "Text beside icon"
-msgstr ""
+msgstr "Texto a carón das iconas"
 
 #: qt/app.py:892
 msgid ""
@@ -928,7 +929,7 @@ msgstr "A súa tradución"
 #: qt/app.py:2085
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "No Fediverso en Mastodon: {link_and_label}"
 
 #: qt/app.py:2090
 #, python-brace-format
@@ -965,8 +966,8 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
-"Esta versión de Back In Time é unha versión candidata e está pensada principalmente para probas de estabilidade en preparación para o próximo lanzamento oficial.\n"
-"Non se recollen datos de usuario nin telemetría. Porén, o equipo de Back In Time está moi interesado en saber se se está a utilizar a versión candidata e se paga a pena seguir fornecendo estas versións preliminares.\n"
+"Esta versión de Back In Time é unha edición candidata e está pensada principalmente para probas de estabilidade en preparación para a próxima edición oficial.\n"
+"Non se recollen datos de usuario nin telemetría. Porén, o equipo de Back In Time está moi interesado en saber se se está a utilizar a edición candidata e se paga a pena seguir fornecendo estas edicións preliminares.\n"
 "Polo tanto, o equipo pídelle amablemente un breve comentario sobre se probou esta versión, aínda que non teña atopado ningún incidente. Incluso unha proba rápida duns minutos axudaríanos moito.\n"
 "Ten ao seu dispor as seguintes opcións de contacto:\n"
 "{contact_list}\n"
@@ -1189,14 +1190,14 @@ msgid ""
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
-"Co «Modo resync completo» desactivado isto só afectará aos novos ficheiros "
+"Co «Modo rsync completo» desactivado isto só afectará aos novos ficheiros "
 "porque para rsync é unha opción de transferencia, non de exclusión. Por iso,"
 " os ficheiros grandes que se copiaron antes permanecerán nas copias, mesmo "
 "se tiveron cambios."
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Retirada e retención"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1271,7 +1272,8 @@ msgstr "Incluír o directorio"
 #: qt/manageprofiles/__init__.py:737
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
-msgstr "Desactivouse porque este patrón non funciona no modo «SSH cifrado»."
+msgstr ""
+"Foi desactivado porque este patrón non funciona no modo «SSH cifrado»."
 
 #: qt/manageprofiles/schedulewidget.py:37
 msgid "Schedule"
@@ -1295,11 +1297,11 @@ msgstr "Horas:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "após a hora"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minutos:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1668,8 +1670,8 @@ msgstr "Gardar o contrasinal no chaveiro"
 #: qt/manageprofiles/tab_general.py:222
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
-"Caché do contrasinal para Cron (problema de seguranza: root pode ler o "
-"contrasinal)"
+"Gardar o contrasinal de Cron na memoria tobo (problema de seguranza: root "
+"pode ler o contrasinal)"
 
 #: qt/manageprofiles/tab_general.py:238
 msgid "Advanced"
@@ -1807,65 +1809,67 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"As seguintes regras procesanse de arriba abaixo. As regras posteriores "
+"anulan as anteriores e non están restrinxidas por elas. Consulte o {manual} "
+"para obter máis detalles e exemplos."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "manual do usuario"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Abrir o manual de usuario no navegador."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Non eliminar as instantáneas con nome."
+msgstr "Non eliminar a instantánea máis recente."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"A última ou máis recente das instantáneas conservase en todas as "
+"circunstancias."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Non é posíbel cambiar este comportamento."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Non eliminar as instantáneas con nome."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Non se eliminarán as instantáneas que, ademais da marca de tempo habitual, "
-"teñan un nome."
+"As instantáneas ás que se lles deu un nome, ademais da marca de tempo "
+"habitual, conservaranse en todas as circunstancias e non se eliminarán."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Ano(s)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Retirar a instantánea"
+msgstr "Retirar as instantáneas máis antigas que"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day ignored."
-msgstr ""
+msgstr "Días completos. O día actual ignorase."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week ignored."
-msgstr ""
+msgstr "Semanas naturais co luns como primeiro día. A semana actual ignorase."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current months ignored."
-msgstr ""
+msgstr "Períodos de 12 meses. Os meses actuais ignóranse."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Directiva de retención"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1887,7 +1891,7 @@ msgstr "Se se selecciona, Back In Time probará primeiro a máquina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Os días cóntanse a partir de hoxe."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1899,20 +1903,19 @@ msgid "day(s)."
 msgstr "día(s)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Conservar unha instantánea por día dos últimos"
+msgstr "Conservar a última instantánea de cada día para o último día"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"As semanas cóntanse a partir da semana actual. Unha semana comeza o luns."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Conservar unha instantánea por semana das últimas"
+msgstr "Conservar a última instantánea por semana para a última semana"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1921,12 +1924,11 @@ msgstr "semana(s)."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current months."
-msgstr ""
+msgstr "Os meses cóntanse como meses naturais a partir do mes en curso."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Conservar unha instantánea por mes dos últimos"
+msgstr "Conservar a última instantánea de cada mes para o último mes"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1935,31 +1937,27 @@ msgstr "mes(es)."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Os anos cóntanse como anos naturais a partir do ano en curso."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Conservar todas as instantáneas dos últimos"
+msgstr "Conservar a última instantánea de cada ano para o último ano"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "todos os anos."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Se o espazo libre é menor de:"
+msgstr "… o espazo libre é inferior a"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Se os inodos libres son menos do:"
+msgstr "… os inodos libres son menos do"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Eliminando instantáneas antigas"
+msgstr "Retirar as instantáneas antigas se…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"

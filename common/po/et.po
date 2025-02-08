@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-10-22 12:07+0000\n"
+"PO-Revision-Date: 2025-02-04 19:17+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -212,11 +212,8 @@ msgid "Can't find snapshots directory."
 msgstr "Ei õnnestu leida hetktõmmiste kausta."
 
 #: common/snapshots.py:836
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr ""
-"Kui ta asub eemaldataval andmekandjal, siis palun ühenda see ja vajuta "
-"Sobib."
+msgstr "Kui ta asub eemaldataval andmekandjal, siis palun ühenda see."
 
 #: common/snapshots.py:839
 #, python-format
@@ -587,37 +584,39 @@ msgstr "Välju"
 
 #: qt/app.py:524
 msgid "User manual"
-msgstr ""
+msgstr "Kasutusjuhend"
 
 #: qt/app.py:526
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Ava kasutusjuhend veebibrauseris (kui olemas, siis kohalikust arvutist, "
+"vastasel juhul võrgust)"
 
 #: qt/app.py:530
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "juhend käsureal: Back In Time"
 
 #: qt/app.py:532
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Kuvab Back In Time'i juhendi käsureal (backintime)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Profiilide seadistuste fail"
+msgstr "juhend käsureal: Profiilide seadistuste fail"
 
 #: qt/app.py:538
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Kuvab Back In Time'i profiilide seadistuste faili juhendi käsureal "
+"(backintime-config)"
 
 #: qt/app.py:542
 msgid "Project website"
-msgstr ""
+msgstr "Projekti veebisait"
 
 #: qt/app.py:545
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Ava Back In Time'i veebisait brauseriga"
 
 #: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
@@ -629,7 +628,7 @@ msgstr "KKK"
 
 #: qt/app.py:552
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Ava korduma kippuvad küsimused (KKK) brauseriga"
 
 #: qt/app.py:554
 msgid "Ask a question"
@@ -723,19 +722,19 @@ msgstr "&Abi"
 
 #: qt/app.py:738
 msgid "Icons only"
-msgstr ""
+msgstr "Ainult ikoonid"
 
 #: qt/app.py:741
 msgid "Text only"
-msgstr ""
+msgstr "Ainult tekst"
 
 #: qt/app.py:744
 msgid "Text below icons"
-msgstr ""
+msgstr "Tekst ikoonide all"
 
 #: qt/app.py:747
 msgid "Text beside icon"
-msgstr ""
+msgstr "Tekst ikoonide kõrval"
 
 #: qt/app.py:892
 msgid ""
@@ -934,7 +933,7 @@ msgstr "Sinu tõlge"
 #: qt/app.py:2085
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Födiversumis Mastodonis: {link_and_label}"
 
 #: qt/app.py:2090
 #, python-brace-format
@@ -1203,7 +1202,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Eemaldamine ja säilitamine"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1304,11 +1303,11 @@ msgstr "Tunnid:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "pärast tundi"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minuteid:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1826,64 +1825,66 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Järgnevaid reegleid töödeldakse suunaga ülevalt alla. Hilisemad reeglid "
+"alati asendavad varasemaid ega ole varasemaist kuidagi mõjutatud. "
+"Üksikasjade ja näidete teave leidub {manual}."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "kasutusjuhendis"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Ava kasutusjuhend veebibrauseris."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Ära kustuta nimedega hetktõmmiseid."
+msgstr "Säilita viimane hetktõmmis."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
-msgstr ""
+msgstr "Viimane ja kõige värskem hetktõmmis säilib igal juhul."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Seda reeglit pole mitte kuidagi võimalik muuta."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Ära kustuta nimedega hetktõmmiseid."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Hetktõmmised, millel ajatemplile lisaks on eraldi nimi, jäävad kustutamata."
+"Hetktõmmised, millel lisaks tavapärasele ajatemplile on eraldi nimi, jäävad "
+"kõikides olukordades alles ega kuulu kustutamisele."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Aasta(t)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Eemalda hetktõmmis"
+msgstr "Eemalda hetktõmmised, mis on vanemad kui"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day ignored."
-msgstr ""
+msgstr "Täispäevades ja tänane päev ei lähe arvesse."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week ignored."
 msgstr ""
+"Esmaspäevaga algavates kalendrinädalates ja see nädal ei lähe arvesse."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current months ignored."
-msgstr ""
+msgstr "12-kuulistes ajavahemikes ja praegune kuu ei lähe arvesse."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Säilitamise reeglid"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1904,7 +1905,7 @@ msgstr "Kui valitud, siis Back In Time esmalt testib välisseadet."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Päevi loendame alates tänasest."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1916,20 +1917,18 @@ msgid "day(s)."
 msgstr "päeva kestel."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Säilita üks hetktõmmis iga päeva kohta"
+msgstr "Säilita viimane hetktõmmis iga päeva kohta viimase"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
-msgstr ""
+msgstr "Nädalaid loendame alates sellest nädalast. Nädal algab esmaspäevaga."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Säilita üks hetktõmmis iga nädala kohta"
+msgstr "Säilita viimane hetktõmmis iga nädala kohta viimase"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1938,12 +1937,11 @@ msgstr "nädala jooksul."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current months."
-msgstr ""
+msgstr "Kuid loendame kalendrikuudena alates sellest kuust."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Säilita üks hetktõmmis iga kuu kohta"
+msgstr "Säilita viimane hetktõmmis iga kuu kohta viimase"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1952,31 +1950,27 @@ msgstr "kuu kestel."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Aastaid loendame kalendriaastatena alates sellest aastast."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Säilita kõik hetktõmmised viimase"
+msgstr "Säilita viimane hetktõmmis iga aasta kohta"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "läbi aastate."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Kui vaba ruumi on vähem kui:"
+msgstr "… kui vaba ruumi on vähem kui"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Kui vabu indekssõlmesid on vähem kui:"
+msgstr "… kui vabu indekssõlmesid on vähem kui"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Eemaldame vanad hetktõmmised"
+msgstr "Eemalda vanimad hetktõmmised, kui…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"

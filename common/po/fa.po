@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-09-24 06:13+0000\n"
-"Last-Translator: i2 <i2@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-02-06 07:02+0000\n"
+"Last-Translator: thehappypotato <thehappypotato@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
 #: qt/manageprofiles/tab_general.py:577 qt/messagebox.py:77
@@ -71,13 +71,12 @@ msgid "Profile: \"{name}\""
 msgstr "نمایه: \"{name}\""
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "پوشه برگرفت‌ها معتبر نیست!"
+msgstr "پوشه برگرفت‌ها معتبر نیست."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "بابد حداقل یک مسیر برای پپشتیبان‌گیری انتخاب شود."
 
 #: common/config.py:358
 #, fuzzy
@@ -594,16 +593,17 @@ msgstr "خروج"
 
 #: qt/app.py:524
 msgid "User manual"
-msgstr ""
+msgstr "راهنمای کاربر"
 
 #: qt/app.py:526
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"باز کردن راهنمای کاربر در مرورگر ( اگر موجود باشد محلی در غیر این صورت "
+"آنلاین)"
 
 #: qt/app.py:530
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "برگشت در زمان"
+msgstr ""
 
 #: qt/app.py:532
 msgid "Displays man page about Back In Time (backintime)"
@@ -620,11 +620,11 @@ msgstr ""
 
 #: qt/app.py:542
 msgid "Project website"
-msgstr ""
+msgstr "وبگاه پروژه"
 
 #: qt/app.py:545
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "باز کردن وبگاه Back In Time در مرورگر"
 
 #: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
@@ -636,7 +636,7 @@ msgstr "سوالات متداول"
 
 #: qt/app.py:552
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "باز کردن سوالات متداول در مرورگر"
 
 #: qt/app.py:554
 msgid "Ask a question"
@@ -644,7 +644,7 @@ msgstr "سوال بپرس"
 
 #: qt/app.py:558
 msgid "Report a bug"
-msgstr "گزارش باگ"
+msgstr "گزارش اشکال"
 
 #: qt/app.py:561
 msgid "Translation"
@@ -735,20 +735,21 @@ msgid "&Help"
 msgstr "&کمک"
 
 #: qt/app.py:738
+#, fuzzy
 msgid "Icons only"
-msgstr ""
+msgstr "فقط نمادها"
 
 #: qt/app.py:741
 msgid "Text only"
-msgstr ""
+msgstr "فقط متن"
 
 #: qt/app.py:744
 msgid "Text below icons"
-msgstr ""
+msgstr "متن زیر نمادها"
 
 #: qt/app.py:747
 msgid "Text beside icon"
-msgstr ""
+msgstr "متن کنار نماد"
 
 #: qt/app.py:892
 msgid ""
@@ -764,7 +765,7 @@ msgstr "آیا از بستن این مورد مطمئنید؟"
 
 #: qt/app.py:1054
 msgid "Working:"
-msgstr "در حال کار کردن:"
+msgstr "در حال انجام:"
 
 #: qt/app.py:1102
 msgid "Done, no backup needed"
@@ -772,7 +773,7 @@ msgstr "تامام، پشتیبان‌گیری لازم نیست"
 
 #: qt/app.py:1111
 msgid "Working"
-msgstr "درحال کار"
+msgstr "درحال انجام"
 
 #: qt/app.py:1120 qt/messagebox.py:84
 msgid "Error"
@@ -834,7 +835,7 @@ msgid ""
 "following command:"
 msgstr ""
 "نسخه‌های جدیدتر از فایل‌ها با دنباله {suffix} قبل از بازگردانی تغییر نام داده خواهند شد.\n"
-"اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با دستور زیر حذف کنید."
+"اگر دیگر به آن احتیاجی ندارید، میتوانید آن را با دستور زیر حذف کنید:"
 
 #: qt/app.py:1502
 msgid ""
@@ -954,7 +955,7 @@ msgstr ""
 #: qt/app.py:2090
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "ایمیل به {link_and_label}."
 
 #: qt/app.py:2093
 #, python-brace-format
@@ -962,9 +963,9 @@ msgid "Mailing list {link_and_label}"
 msgstr ""
 
 #: qt/app.py:2097
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} در وبگاه پروژه."
 
 #: qt/app.py:2100
 msgid "Open an issue"
@@ -1296,7 +1297,7 @@ msgstr "برنامه‌ریزی"
 
 #: qt/manageprofiles/schedulewidget.py:63
 msgid "Day:"
-msgstr ""
+msgstr "روز:"
 
 #: qt/manageprofiles/schedulewidget.py:68
 msgid "Weekday:"
@@ -1312,7 +1313,7 @@ msgstr "ساعت‌:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "بعد از ساعت"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
@@ -1850,22 +1851,23 @@ msgstr "اسنپ‌شات‌های نامگذاری شده را حذف نکن."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
-msgstr ""
+msgstr "آخرین یا جدیدترین برگرفت در هر شرایط نگه داشته می شود."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "رفتار نمی تواند تغییر کند."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "اسنپ‌شات‌های نامگذاری شده را حذف نکن."
+msgstr "برگرفت‌های نامگذاری شده را حذف نکن."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"برگرفت‌های نام گذاری شده, به علاوه ی usual timestamp, در هر شراطی نگه داشته "
+"و حذف نمی شوند."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
@@ -1966,7 +1968,7 @@ msgstr "تمامی اسنپ‌شات ها را تا آخر نگهدار"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "تمام سال ها."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
 #, fuzzy

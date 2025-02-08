@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2025-01-03 10:04+0000\n"
+"PO-Revision-Date: 2025-02-03 07:24+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -69,7 +69,7 @@ msgstr "默认"
 #: common/config.py:369
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "配置：\"{name}\""
+msgstr "配置：“{name}”"
 
 #: common/config.py:328
 msgid "Snapshots directory is not valid."
@@ -99,14 +99,14 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 "crontab 命令可用但 cron 未在运行，因此无法执行定时备份。cron 可能已安装但未启用，请尝试命令“systemctl enable "
-"cron”或向您 GNU Linux 发行版的支持频道求助。"
+"cron”或向您 GNU/Linux 发行版的支持频道求助。"
 
 #: common/config.py:1551
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
-msgstr "无法为配置文件 {profile_id} 安装 Udev 规则。 DBus 服务“{dbus_interface}”不可用"
+msgstr "无法为配置 {profile_id} 安装 Udev 规则。DBus 服务“{dbus_interface}”不可用"
 
 #: common/config.py:1566
 #, python-brace-format
@@ -116,7 +116,7 @@ msgstr "计划的 Udev 不适用于 {mode} 模式"
 #: common/config.py:1577
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "无法找到 \"{path}\" 的 UUID"
+msgstr "找不到 {path} 的 UUID"
 
 #: common/configfile.py:99
 msgid "Failed to save config"
@@ -133,7 +133,7 @@ msgstr "配置“{name}”已存在。"
 
 #: common/configfile.py:727
 msgid "The last profile cannot be removed."
-msgstr "最后一个配置无法被移除。"
+msgstr "无法移除最后一个配置。"
 
 #: common/encfstools.py:81
 #, python-brace-format
@@ -172,7 +172,7 @@ msgstr "无法从 {mountpoint} 卸载 {mountprocess}。"
 #: common/mount.py:709
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "请安装未找到的 {command} ，安装指令如 {installcommand}。"
+msgstr "未找到 {command}，请安装它（例如通过“{installcommand}”）"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -203,12 +203,11 @@ msgstr "依靠电池供电时，延后备份"
 
 #: common/snapshots.py:832 qt/app.py:352
 msgid "Can't find snapshots directory."
-msgstr "未找到快照目录。"
+msgstr "找不到快照目录。"
 
 #: common/snapshots.py:836
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "如果它位于可移动驱动器上，请将其插入，然后按“确定”。"
+msgstr "如果它位于可移动驱动器上，请将其插入。"
 
 #: common/snapshots.py:839
 #, python-format
@@ -274,7 +273,7 @@ msgstr "“rsync”以退出代码 {exit_code} 结束"
 
 #: common/snapshots.py:1437
 msgid "See 'man rsync' for more details"
-msgstr "请查看“man rsync”以了解更多细节"
+msgstr "要了解详情，请查看“man rsync”"
 
 #: common/snapshots.py:1444
 msgid ""
@@ -318,7 +317,7 @@ msgstr "无法挂载 {sshfs}"
 
 #: common/sshtools.py:300
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr "ssh-agent 未找到。请确保已安装。"
+msgstr "未找到 ssh-agent。请确保已安装。"
 
 #: common/sshtools.py:470
 msgid ""
@@ -369,7 +368,7 @@ msgstr "远程主机 {host} 不支持硬链接"
 #: common/sshtools.py:1191
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "复制 ssh 公钥\"{pubkey}\"到远程主机 \"{host}\"。"
+msgstr "将 SSH 公钥“{pubkey}”复制到远程主机“{host}”。"
 
 #: common/sshtools.py:1193
 #, python-brace-format
@@ -555,37 +554,35 @@ msgstr "退出"
 
 #: qt/app.py:524
 msgid "User manual"
-msgstr ""
+msgstr "用户手册"
 
 #: qt/app.py:526
 msgid "Open user manual in browser (local if available otherwise online)"
-msgstr ""
+msgstr "在浏览器中打开用户手册（如果可用，本地打开，否则在线打开）"
 
 #: qt/app.py:530
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "手册页：Back In Time"
 
 #: qt/app.py:532
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "显示关于 Back In Time 的手册页（backintime）"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "配置文件"
+msgstr "手册页：配置的配置文件"
 
 #: qt/app.py:538
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "显示配置的配置文件手册页（backintime-config）"
 
 #: qt/app.py:542
 msgid "Project website"
-msgstr ""
+msgstr "项目网站"
 
 #: qt/app.py:545
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "在浏览器中打开 Back In Time 网站"
 
 #: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
@@ -597,7 +594,7 @@ msgstr "常见问题"
 
 #: qt/app.py:552
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "在浏览器中打开常见问题（FAQ）"
 
 #: qt/app.py:554
 msgid "Ask a question"
@@ -605,7 +602,7 @@ msgstr "提出问题"
 
 #: qt/app.py:558
 msgid "Report a bug"
-msgstr "报告 BUG"
+msgstr "报告错误"
 
 #: qt/app.py:561
 msgid "Translation"
@@ -621,7 +618,7 @@ msgstr "加密改动（EncFS）"
 
 #: qt/app.py:569
 msgid "Shows the message about EncFS removal again."
-msgstr "再次显示关于移除EncFS加密的信息。"
+msgstr "再次显示关于移除 EncFS 加密的消息。"
 
 #: qt/app.py:574 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -690,19 +687,19 @@ msgstr "帮助(&H)"
 
 #: qt/app.py:738
 msgid "Icons only"
-msgstr ""
+msgstr "仅图标"
 
 #: qt/app.py:741
 msgid "Text only"
-msgstr ""
+msgstr "仅文本"
 
 #: qt/app.py:744
 msgid "Text below icons"
-msgstr ""
+msgstr "图标下方的文本"
 
 #: qt/app.py:747
 msgid "Text beside icon"
-msgstr ""
+msgstr "图标旁边的文本"
 
 #: qt/app.py:892
 msgid ""
@@ -712,7 +709,7 @@ msgstr "如果关闭此窗口，则快照完成后 Back In Time 无法关闭你�
 
 #: qt/app.py:895
 msgid "Do you really want to close it?"
-msgstr "确实要关闭它吗？"
+msgstr "确定要关闭它？"
 
 #: qt/app.py:1054
 msgid "Working:"
@@ -765,7 +762,7 @@ msgstr "快照名"
 #: qt/app.py:1380
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "您确定要移除这些快照？"
+msgstr[0] "是否确定要移除快照？"
 
 #: qt/app.py:1478
 #, python-brace-format
@@ -820,12 +817,12 @@ msgstr[0] "是否确定要恢复这些元素？"
 #: qt/app.py:1581
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
-msgstr "您确定要移除 {path} 的所有新文件吗？"
+msgstr "是否确定要移除 {path} 中的全部新文件？"
 
 #: qt/app.py:1584
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
-msgstr "是否确定要移除原目录中的全部较新文件？"
+msgstr "是否确定要移除原目录中的全部新文件？"
 
 #: qt/app.py:1590
 #, python-brace-format
@@ -875,12 +872,12 @@ msgstr "网站"
 
 #: qt/app.py:2072
 msgid "Your translation"
-msgstr "你的翻译"
+msgstr "您的翻译"
 
 #: qt/app.py:2085
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "在联邦宇宙 Mastodon：{link_and_label}"
 
 #: qt/app.py:2090
 #, python-brace-format
@@ -934,7 +931,7 @@ msgstr "语言设置仅在重新启动 Back In Time 后生效。"
 msgid ""
 "Support for EncFS will be discontinued in the foreseeable future. It is not "
 "recommended to use that mode for a profile furthermore."
-msgstr "我们将在不久的将来停止支持 EncFS，因此不建议您继续使用该模式。"
+msgstr "未来将会停止支持 EncFS，不建议将该模式用于配置。"
 
 #: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:75
 #: qt/manageprofiles/tab_general.py:585
@@ -947,13 +944,13 @@ msgid ""
 "A decision on a replacement for continued support of encrypted backups is "
 "still pending, depending on project resources and contributor availability. "
 "More details are available in this {whitepaper}."
-msgstr "目前仍未决定是否继续支持加密备份，这取决于项目资源和贡献者的可用性。更多详细信息请参阅本{whitepaper}。"
+msgstr "目前仍未决定是否继续支持加密备份，这取决于项目资源和贡献者的可用性。详情请参阅本{whitepaper}。"
 
 #: qt/encfsmsgbox.py:66
 msgid ""
 "The support for encrypted snapshot profiles is undergoing significant "
 "changes, and EncFS will be removed in the foreseeable future."
-msgstr "我们正在重构加密快照。EncFS将在未来被移除。"
+msgstr "对加密快照配置的支持正在发生重大更改，未来将会移除 EncFS。"
 
 #: qt/encfsmsgbox.py:77
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1019,7 +1016,7 @@ msgstr "过滤器："
 
 #: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:133
 msgid "All"
-msgstr "所有的"
+msgstr "全部"
 
 #: qt/logviewdialog.py:106 qt/logviewdialog.py:110
 #: qt/manageprofiles/tab_options.py:132
@@ -1129,7 +1126,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "移除和保留(&R)"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1158,13 +1155,13 @@ msgstr "重命名配置"
 #: qt/manageprofiles/__init__.py:330
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "是否确定删除配置“{name}”？"
+msgstr "是否确定要删除配置“{name}”？"
 
 #: qt/manageprofiles/__init__.py:377
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr "{BOLD}强烈推荐{ENDBOLD}：（已包含所有建议。）"
+msgstr "{BOLD}强烈推荐{ENDBOLD}：（全部推荐均已包括在内。）"
 
 #: qt/manageprofiles/__init__.py:382
 #, python-brace-format
@@ -1193,8 +1190,8 @@ msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
-"“{path}”是一个符号链接。 除非您也将链接的目标包含在内，否则不会对其进行备份。\n"
-"您想改为包含符号链接的目标吗？"
+"“{path}”是符号链接，链接的目标也要包括在内才会备份。\n"
+"是否改为包括符号链接目标？"
 
 #: qt/manageprofiles/__init__.py:678
 msgid "Include directory"
@@ -1215,7 +1212,7 @@ msgstr "天："
 
 #: qt/manageprofiles/schedulewidget.py:68
 msgid "Weekday:"
-msgstr "工作日:"
+msgstr "工作日："
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
@@ -1223,15 +1220,15 @@ msgstr "时间："
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
-msgstr "小时:"
+msgstr "小时："
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "小时之后"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "分钟："
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1243,7 +1240,7 @@ msgstr "驱动器连接后立即运行 Back In Time（每 X 天仅一次）。�
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
-msgstr "重复运行Back In Time。 如果计算机没有正常运行，这非常有用。"
+msgstr "重复运行 Back In Time。如果计算机没有正常运行，这很有用。"
 
 #: qt/manageprofiles/schedulewidget.py:109
 msgid "Every:"
@@ -1304,11 +1301,11 @@ msgstr "每天"
 
 #: qt/manageprofiles/schedulewidget.py:161
 msgid "Repeatedly (anacron)"
-msgstr "重复(anacron)"
+msgstr "重复（anacron）"
 
 #: qt/manageprofiles/schedulewidget.py:162
 msgid "When drive gets connected (udev)"
-msgstr "当设备连接时(udev)"
+msgstr "当驱动器连接时（udev）"
 
 #: qt/manageprofiles/schedulewidget.py:163
 msgid "Every week"
@@ -1370,7 +1367,7 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
-"通过此代理（又称跳转主机）连接到目标主机。详细信息请参阅“ssh”命令文档中的“-J”或“ssh_config”手册页中的“ProxyJump”。"
+"通过此代理（又称跳转主机）连接到目标主机。详情请参阅“ssh”命令文档中的“-J”或“ssh_config”手册页中的“ProxyJump”。"
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1446,11 +1443,11 @@ msgstr "保留 ACL"
 
 #: qt/manageprofiles/tab_expert_options.py:215
 msgid "Preserve extended attributes (xattr)"
-msgstr "保留扩展属性 (xattr)"
+msgstr "保留扩展属性（xattr）"
 
 #: qt/manageprofiles/tab_expert_options.py:238
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr "复制不安全的链接(仅绝对链接有效)"
+msgstr "复制不安全链接（仅适用于绝对链接）"
 
 #: qt/manageprofiles/tab_expert_options.py:274
 msgid "Restrict to one file system"
@@ -1508,11 +1505,11 @@ msgstr "警告：如果禁用且远程主机不支持所有必要的命令，这
 
 #: qt/manageprofiles/tab_expert_options.py:359
 msgid "(default: {})"
-msgstr "(默认: {})"
+msgstr "（默认：{}）"
 
 #: qt/manageprofiles/tab_expert_options.py:360
 msgid "disabled"
-msgstr "已停用"
+msgstr "已禁用"
 
 #: qt/manageprofiles/tab_expert_options.py:360
 msgid "enabled"
@@ -1586,18 +1583,18 @@ msgstr "您没有选择 SSH 的私钥文件。"
 #: qt/manageprofiles/tab_general.py:392
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
-msgstr "你还没有为 SSH 选择私钥文件。你想要生成新的无密码公/私密钥对吗？"
+msgstr "是否生成新的无密码公钥/私钥对？"
 
 #: qt/manageprofiles/tab_general.py:403
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "私钥文件 \"{file}\" 不存在。"
+msgstr "私钥文件“{file}”不存在。"
 
 #: qt/manageprofiles/tab_general.py:488
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
-msgstr "你想要将 SSH 公钥复制到远程主机来使用无密码登录吗？"
+msgstr "是否将您的 SSH 公钥复制到远程主机以启用无密码登录？"
 
 #: qt/manageprofiles/tab_general.py:522
 #, python-brace-format
@@ -1613,7 +1610,7 @@ msgstr "{keytype} 密钥指纹为："
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
-msgstr "请验证此指纹！ 您想将其添加到您的“known_hosts”文件中吗？"
+msgstr "请验证此指纹。是否将其添加到您的“known_hosts”文件中？"
 
 #: qt/manageprofiles/tab_general.py:578
 #, python-brace-format
@@ -1670,7 +1667,7 @@ msgstr "在恢复之前，较新版本的文件将使用后缀 {suffix} 进行�
 
 #: qt/manageprofiles/tab_options.py:75
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr "忽略错误并继续(保留不完整的快照)"
+msgstr "出错时继续（保留不完整的快照）"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
@@ -1694,64 +1691,61 @@ msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
-msgstr ""
+msgstr "从上到下处理以下规则。后面的规则会覆盖前面的规则，并且不受它们的约束。有关详情和示例，请参阅{manual}。"
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "用户手册"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "在浏览器中打开用户手册。"
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "保留已命名的快照。"
+msgstr "保留最近快照。"
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
-msgstr ""
+msgstr "在任何情况下都会保留最后或最新快照。"
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "这种行为无法更改。"
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "保留已命名的快照。"
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
-msgstr "除了通常的时间戳外，已命名的快照不会被删除。"
+msgstr "除了通常的时间戳外，已命名的快照在任何情况下都将保留，不会被移除。"
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "年"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "移除快照"
+msgstr "移除多久前的快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day ignored."
-msgstr ""
+msgstr "整天数，当日忽略不计。"
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week ignored."
-msgstr ""
+msgstr "星期一作为第一天的日历周，当前周忽略不计。"
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current months ignored."
-msgstr ""
+msgstr "12 个月的周期，当前月份忽略不计。"
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "保留策略"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1770,11 +1764,11 @@ msgstr "如果选择，Back In Time 将首先测试远程计算机。"
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "从今天开始计算天数。"
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
-msgstr "保留最新的所有快照"
+msgstr "保留全部快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:311
 #: qt/manageprofiles/tab_remove_retention.py:323
@@ -1782,20 +1776,18 @@ msgid "day(s)."
 msgstr "天。"
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "每天保留一个最新的快照"
+msgstr "保留每天的最后快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
-msgstr ""
+msgstr "周数从当前周开始计算，一周从星期一开始。"
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "每周保留一个最新的快照"
+msgstr "保留每周的最后快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1804,12 +1796,11 @@ msgstr "周。"
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current months."
-msgstr ""
+msgstr "月份从当前月份开始，按日历月份计算。"
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "每月保留一个最新的快照"
+msgstr "保留每月的最后快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1818,31 +1809,27 @@ msgstr "月。"
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "年份从当前年份开始，按日历年份计算。"
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "保留最新的所有快照"
+msgstr "保留每年的最后快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "所有年份。"
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "如果磁盘可用空间少于:"
+msgstr "… 可用空间小于"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "如果磁盘可用节点 inodes 少于:"
+msgstr "… 可用索引节点少于"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "移除旧快照"
+msgstr "移除最旧快照，如果 …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -1851,7 +1838,7 @@ msgstr "问题"
 #: qt/qtsystrayicon.py:69
 #, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "配置：\"{profile_name}\""
+msgstr "配置：{profile_name}"
 
 #: qt/qtsystrayicon.py:96
 msgid "View Last Log"
@@ -1868,7 +1855,7 @@ msgstr "运行中…"
 
 #: qt/qtsystrayicon.py:197
 msgid "Sent:"
-msgstr "发送："
+msgstr "已发送："
 
 #: qt/qtsystrayicon.py:198
 msgid "Speed:"
@@ -1876,7 +1863,7 @@ msgstr "速度："
 
 #: qt/qtsystrayicon.py:199
 msgid "ETA:"
-msgstr "ETA:"
+msgstr "预计完成时间："
 
 #: qt/qttools.py:479 qt/snapshotsdialog.py:115
 msgid "Snapshots"
@@ -1905,7 +1892,7 @@ msgstr "这不是快照，而是本地文件的实时视图"
 #: qt/qttools.py:676
 #, python-brace-format
 msgid "Last check {time}"
-msgstr "最近检查{time}"
+msgstr "最近检查 {time}"
 
 #: qt/restoreconfigdialog.py:55
 msgid "Import configuration"
@@ -1954,7 +1941,7 @@ msgstr "用 %1 和 %2 作为路径参数"
 
 #: qt/snapshotsdialog.py:76
 msgid "Please set a diff command or press Cancel."
-msgstr "请设置diff命令或按取消。"
+msgstr "请设置 diff 命令或按取消。"
 
 #: qt/snapshotsdialog.py:82
 #, python-brace-format
@@ -1970,7 +1957,7 @@ msgstr "diff 命令未设置参数。使用默认值“{params}”。"
 
 #: qt/snapshotsdialog.py:126
 msgid "Differing snapshots only"
-msgstr "仅不同快照"
+msgstr "仅区分快照"
 
 #: qt/snapshotsdialog.py:134
 msgid "List only snapshots that are equal to:"
@@ -1986,7 +1973,7 @@ msgstr "删除"
 
 #: qt/snapshotsdialog.py:170
 msgid "Select All"
-msgstr "选择所有"
+msgstr "全选"
 
 #: qt/snapshotsdialog.py:183
 msgid "Compare"
@@ -2007,21 +1994,21 @@ msgstr "不能将快照与其自身比较。"
 #: qt/snapshotsdialog.py:396
 #, python-brace-format
 msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
-msgstr "你确定要删除快照 \"{snapshot_id}\" 的\"{file}\" 吗？"
+msgstr "是否确定要在快照 {snapshot_id} 中删除 {file}？"
 
 #: qt/snapshotsdialog.py:402
 #, python-brace-format
 msgid "Do you really want to delete {file} in {count} snapshots?"
-msgstr "你确定要在 {count} 份快照中都删除的 \"{file}\" 吗？"
+msgstr "是否确定要在 {count} 个快照中删除 {file}？"
 
 #: qt/snapshotsdialog.py:406
 msgid "WARNING: This cannot be revoked."
-msgstr "该操作无法撤销."
+msgstr "警告：此操作无法撤销。"
 
 #: qt/snapshotsdialog.py:424
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
-msgstr "在未来的快照中排除 \"{path}\"？"
+msgstr "是否从未来的快照中排除 {path}？"
 
 #~ msgid "&Auto-remove"
 #~ msgstr "自动移除(&A)"

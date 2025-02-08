@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-02 13:47+0100\n"
-"PO-Revision-Date: 2024-10-20 08:36+0000\n"
+"PO-Revision-Date: 2025-02-02 16:41+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -211,11 +211,8 @@ msgid "Can't find snapshots directory."
 msgstr "Schnappschuss-Verzeichnis wurde nicht gefunden."
 
 #: common/snapshots.py:836
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr ""
-"Wenn er auf einem Wechsellaufwerk ist, bitte dieses verbinden und dann OK "
-"drücken."
+msgstr "Wenn es auf einem Wechsellaufwerk ist, bitte dieses verbinden."
 
 #: common/snapshots.py:839
 #, python-format
@@ -591,37 +588,36 @@ msgstr "Beenden"
 
 #: qt/app.py:524
 msgid "User manual"
-msgstr ""
+msgstr "Benutzerhandbuch"
 
 #: qt/app.py:526
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Öffnet Benutzerhandbuch im Browser (wenn verfügbar lokal, anderseits online)"
 
 #: qt/app.py:530
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "Manpage: Back In Time"
 
 #: qt/app.py:532
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Zeigt Manpage über Back In Time (backintime)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Profile-Konfigurationsdatei"
+msgstr "Manpage: Profile-Konfigurationsdatei"
 
 #: qt/app.py:538
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "Zeigt Manpage zu Profil-Konfigurationsdatei (backintime-config)"
 
 #: qt/app.py:542
 msgid "Project website"
-msgstr ""
+msgstr "Projektwebsite"
 
 #: qt/app.py:545
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Öffnet Back In Time Website im Browser"
 
 #: qt/app.py:547 qt/app.py:1445
 msgid "Changelog"
@@ -633,7 +629,7 @@ msgstr "Häufige Fragen (FAQ)"
 
 #: qt/app.py:552
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Öffnet Häufig gestellte Fragen (FAQ) im Browser"
 
 #: qt/app.py:554
 msgid "Ask a question"
@@ -732,19 +728,19 @@ msgstr "&Hilfe"
 
 #: qt/app.py:738
 msgid "Icons only"
-msgstr ""
+msgstr "Nur Icons"
 
 #: qt/app.py:741
 msgid "Text only"
-msgstr ""
+msgstr "Nur Text"
 
 #: qt/app.py:744
 msgid "Text below icons"
-msgstr ""
+msgstr "Text unter Icons"
 
 #: qt/app.py:747
 msgid "Text beside icon"
-msgstr ""
+msgstr "Text neben Icons"
 
 #: qt/app.py:892
 msgid ""
@@ -944,7 +940,7 @@ msgstr "Ihre Übersetzung"
 #: qt/app.py:2085
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Im Fediverse auf Mastodon: {link_and_label}"
 
 #: qt/app.py:2090
 #, python-brace-format
@@ -1218,7 +1214,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Löschen & Aufbewahren"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1320,11 +1316,11 @@ msgstr "Stunden:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "nach der vollen Stunde"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minuten:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1843,65 +1839,66 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Die nachfolgenden Regeln werden von oben nach unten abgearbeitet. Spätere "
+"Regeln überschreiben frühere und sind nicht an diese gebunden. Siehe das "
+"{manual} für Details und Beispiele."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "Benutzerhandbuch"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Öffnet Benutzerhandbuch im Browser."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Behalte benannte Schnappschüsse."
+msgstr "Behalte den neusten Schnappschuss."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Der letzte bzw. frisches Schnappschuss wird unter allen Umständen behalten."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Das Verhalten ist unveränderlich."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Behalte benannte Schnappschüsse."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
 "Schnappschüsse, die zusätzlich zum üblichen Zeitstempel einen Namen erhalten"
-" haben, werden nicht gelöscht."
+" haben, werden unter allen Umständen aufbewahrt und werden nicht entfernt."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Jahr(e)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Schnappschuss entfernen"
+msgstr "Entferne Schnappschüsse älter als"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day ignored."
-msgstr ""
+msgstr "Vollständige Tage. Aktueller Tag wird ignoriert."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week ignored."
-msgstr ""
+msgstr "Kalenderwochen beginnend mit Montag. Aktuelle Woche wird ignoriert."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current months ignored."
-msgstr ""
+msgstr "12 Monate Periode. Aktueller Monat wird ignoriert."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Aufbewahrungs-Richtlinien"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1924,7 +1921,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Die Tage werden gezählt, beginnend mit den aktuellen Tag."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1936,20 +1933,20 @@ msgid "day(s)."
 msgstr "Tag(e)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Einen Schnappschuss pro Tag behalten, der letzten"
+msgstr "Behalte den letzten Schnappschuss jeden Tages, für die letzten"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Wochenzählung beginnt in der aktuell laufenden Woche. Wochenbeginn ist "
+"Montag."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Einen Schnappschuss pro Woche behalten, der letzten"
+msgstr "Behalte den letzten Schnappschuss jeder Woche, für die letzten"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1958,12 +1955,11 @@ msgstr "Woche(n)."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current months."
-msgstr ""
+msgstr "Gezählt werden Kalendermonate, beginnend mit dem aktuellen Monat."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Einen Schnappschuss pro Monat behalten, der letzten"
+msgstr "Behalte den letzten Schnappschuss jedes Monats, für die letzten"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1972,31 +1968,27 @@ msgstr "Monat(e)."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Gezählt werden Kalenderjahre, beginnend mit dem aktuellen Jahr."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Alle Schnappschüsse behalten, der letzten"
+msgstr "Behalte den letzten Schnappschuss jedes Jahres, für die"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "alle Jahre."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Falls freier Speicher kleiner ist als:"
+msgstr "… freier Speicher kleiner ist als"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Falls weniger Inodes frei sind als:"
+msgstr "… weniger Inodes frei sind als"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Alte Schnappschüsse werden entfernt"
+msgstr "Entferne die ältesten Schnappschüsse wenn …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
