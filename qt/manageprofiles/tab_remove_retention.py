@@ -266,12 +266,12 @@ class RemoveRetentionTab(QDialog):
         # tooltip
         tip = (
             f'<strong>{units[config.Config.DAY]}</strong>: '
-            + _('Full days. Current day ignored.'),
+            + _('Full days. Current day is ignored.'),
             f'<strong>{units[config.Config.WEEK]}</strong>: '
             + _('Calendar weeks with Monday as first day. '
-                'Current week ignored.'),
+                'Current week is ignored.'),
             f'<strong>{units[config.Config.YEAR]}</strong>: '
-            + _('12 months periods. Current months ignored.')
+            + _('12 months periods. Current month is ignored.')
         )
 
         qttools.set_wrapped_tooltip(checkbox, tip)
@@ -339,7 +339,7 @@ class RemoveRetentionTab(QDialog):
         layout.addWidget(one_per_week, 3, 1)
 
         tip = _('The months are counted as calendar months starting with '
-                'the current months.')
+                'the current month.')
         label = QLabel(
             _('Keep the last snapshot for each month for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)

@@ -928,6 +928,7 @@ class MainWindow(QMainWindow):
         try:
             mnt = mount.Mount(cfg=self.config, parent=self)
             mnt.umount(self.config.current_hash_id)
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
 
@@ -1025,10 +1026,14 @@ class MainWindow(QMainWindow):
 
     def remount(self, new_profile_id, old_profile_id):
         try:
-            mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
+            mnt = mount.Mount(cfg=self.config,
+                              profile_id=old_profile_id,
+                              parent=self)
             hash_id = mnt.remount(new_profile_id)
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
+
         else:
             self.config.setCurrentHashId(hash_id)
 
@@ -1037,7 +1042,7 @@ class MainWindow(QMainWindow):
         if raiseCmd is None:
             return
 
-        logger.debug("Raise cmd: %s" %raiseCmd, self)
+        logger.debug("Raise cmd: %s" % raiseCmd, self)
         self.qapp.alert(self)
 
     def updateTakeSnapshot(self, force_wait_lock=False):

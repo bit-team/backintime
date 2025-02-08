@@ -92,7 +92,6 @@ class GeneralTab(QDialog):
         self.btnSnapshotsPath.setToolButtonStyle(
             Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSnapshotsPath.setIcon(self.icon.FOLDER)
-        self.btnSnapshotsPath.setText(_('Directory'))
         self.btnSnapshotsPath.setMinimumSize(32, 28)
         hlayout.addWidget(self.btnSnapshotsPath)
         self.btnSnapshotsPath.clicked.connect(

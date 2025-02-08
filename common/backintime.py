@@ -51,9 +51,12 @@ def takeSnapshotAsync(cfg, checksum=False):
         cfg (config.Config): config that should be used
     """
     cmd = []
+
     if cfg.ioniceOnUser():
         cmd.extend(('ionice', '-c2', '-n7'))
+
     cmd.append('backintime')
+
     if '1' != cfg.currentProfile():
         cmd.extend(('--profile-id', str(cfg.currentProfile())))
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
@@ -64,16 +67,20 @@ def takeSnapshotAsync(cfg, checksum=False):
         cmd.append('--debug')
     if checksum:
         cmd.append('--checksum')
+
     cmd.append('backup')
 
     # child process need to start its own ssh-agent because otherwise
     # it would be lost without ssh-agent if parent will close
     env = os.environ.copy()
+
     for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
         try:
             del env[i]
+
         except:
             pass
+
     subprocess.Popen(cmd, env = env)
 
 
@@ -91,6 +98,7 @@ def takeSnapshot(cfg, force=True):
     """
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
+
     return ret
 
 
@@ -99,13 +107,15 @@ def _mount(cfg):
     Mount external filesystems.
 
     Args:
-        cfg (config.Config):    config that should be used
+        cfg (config.Config): Config that should be used.
     """
     try:
-        hash_id = mount.Mount(cfg = cfg).mount()
+        hash_id = mount.Mount(cfg=cfg).mount()
+
     except MountException as ex:
         logger.error(str(ex))
         sys.exit(RETURN_ERR)
+
     else:
         cfg.setCurrentHashId(hash_id)
 
@@ -115,10 +125,11 @@ def _umount(cfg):
     Unmount external filesystems.
 
     Args:
-        cfg (config.Config):    config that should be used
+        cfg (config.Config): Config that should be used.
     """
     try:
-        mount.Mount(cfg = cfg).umount(cfg.current_hash_id)
+        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
+
     except MountException as ex:
         logger.error(str(ex))
 

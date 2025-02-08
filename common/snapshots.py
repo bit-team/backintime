@@ -357,6 +357,9 @@ class Snapshots:
         """
         if not callback is None:
             if not ok:
+                # TODO
+                # This string might appear in a message dialog.
+                # Let us know the steps to reproduce that behavior.
                 msg = msg + ' : ' + _('FAILED')
                 self.restorePermissionFailed = True
             callback(msg)
@@ -608,9 +611,15 @@ class Snapshots:
             self.restoreCallback(callback, True, '')
 
             if self.restorePermissionFailed:
+                # TODO
+                # This string might appear in a message dialog.
+                # Let us know the steps to reproduce that behavior.
                 status = _('FAILED')
 
             else:
+                # TODO
+                # This string might appear in a message dialog.
+                # Let us know the steps to reproduce that behavior.
                 status = _('Done')
 
             self.restoreCallback(
@@ -732,6 +741,7 @@ class Snapshots:
 
             self.setTakeSnapshotMessage(
                 0, _('Deferring backup while on battery'))
+
             logger.info('Deferring backup while on battery', self)
             logger.warning('Backup not performed', self)
             ret_error = False
@@ -1272,6 +1282,9 @@ class Snapshots:
             logger.info(f"Found leftover snapshot '{new_snapshot.displayID}' "
                         "that can be continued.", self)
 
+            # TODO
+            # Not sure but {snapshot_id} is always "new_snapshot", isn't it?
+            # Might make no sense to put that name in that string.
             self.setTakeSnapshotMessage(
                 0,
                 _('Found leftover snapshot {snapshot_id} '
@@ -1301,6 +1314,7 @@ class Snapshots:
                 _('Removing leftover {snapshot_id} directory from last run')
                 .format(snapshot_id=new_snapshot.displayID)
             )
+
             self.remove(new_snapshot)
 
             if os.path.exists(new_snapshot.path()):
@@ -1870,7 +1884,8 @@ class Snapshots:
 
         # Remove snapshots older than N years/weeks/days
         if self.config.removeOldSnapshotsEnabled():
-            self.setTakeSnapshotMessage(0, _('Removing old snapshots'))
+            self.setTakeSnapshotMessage(
+                0, _('Apply rules to remove old snapshots'))
 
             # The oldest backup to keep. Others older than this are removed.
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
@@ -1903,7 +1918,7 @@ class Snapshots:
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
 
         if enabled:
-            self.setTakeSnapshotMessage(0, _('Smart removal'))
+            self.setTakeSnapshotMessage(0, _('Apply retention policy'))
             del_snapshots = self.smartRemoveList(now,
                                                  keep_all,
                                                  keep_one_per_day,
@@ -1955,6 +1970,7 @@ class Snapshots:
                 _('Trying to keep min {perc} free inodes')
                 .format(perc=f'{minFreeInodes}%')
             )
+
             logger.debug(
                 "Keep min {perc}% free inodes".format(perc=minFreeInodes),
                 self)
@@ -3016,17 +3032,25 @@ class NewSnapshot(GenericNonSnapshot):
     @saveToContinue.setter
     def saveToContinue(self, enable):
         flag = self.path(self.SAVETOCONTINUE)
+
         if enable:
             try:
                 with open(flag, 'wt'):
                     pass
+
             except Exception as e:
-                logger.error("Failed to set 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
+                # should be "safe", throughout
+                logger.error(
+                    "Failed to set 'save_to_continue' flag: %s" %str(e))
+
         elif os.path.exists(flag):
             try:
                 os.remove(flag)
+
             except Exception as e:
-                logger.error("Failed to remove 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
+                # should be "safe", throughout
+                logger.error(
+                    "Failed to remove 'save_to_continue' flag: %s" %str(e))
 
     @property
     def hasChanges(self):
