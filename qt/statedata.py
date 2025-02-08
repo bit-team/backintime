@@ -59,12 +59,16 @@ class StateData(dict, metaclass=singleton.Singleton):
             self._profile_id = profile_id
 
         @property
-        def msg_encfs(self) -> bool:
-            """If message box about EncFS deprecation was shown already."""
-            return self._state['message']['encfs'][self._profile_id]
+        def msg_encfs(self) -> int:
+            """Stage of EncFS deprecation warning shown as last."""
+            try:
+                return self._state['message']['encfs'][self._profile_id]
+            except KeyError:
+                self.msg_encfs = 0
+                return self.msg_encfs
 
         @msg_encfs.setter
-        def msg_encfs(self, val: bool) -> None:
+        def msg_encfs(self, val: int) -> None:
             self._state['message']['encfs'][self._profile_id] = val
 
         @property
@@ -130,8 +134,12 @@ class StateData(dict, metaclass=singleton.Singleton):
     @staticmethod
     def file_path() -> Path:
         """Returns the state file path."""
-        xdg_state = os.environ.get('XDG_STATE_HOME',
-                                   Path.home() / '.local' / 'state')
+        xdg_state = os.environ.get('XDG_STATE_HOME', None)
+        if xdg_state:
+            xdg_state = Path(xdg_state)
+        else:
+            xdg_state = Path.home() / '.local' / 'state'
+
         fp = xdg_state / 'backintime-qt.json'
 
         logger.debug(f'State file path: {fp}')
@@ -222,16 +230,16 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['message']['release_candidate'] = val
 
     @property
-    def msg_encfs_global(self) -> bool:
-        """If global EncFS deprecation message box was displayed already."""
+    def msg_encfs_global(self) -> int:
+        """Last stage of global EncFS deprecation message that was shown."""
         try:
             return self['message']['encfs']['global']
         except KeyError:
-            self.msg_encfs_global = False
+            self.msg_encfs_global = 0
             return self.msg_encfs_global
 
     @msg_encfs_global.setter
-    def msg_encfs_global(self, val: bool) -> None:
+    def msg_encfs_global(self, val: int) -> None:
         self['message']['encfs']['global'] = val
 
     @property
