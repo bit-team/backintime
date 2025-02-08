@@ -28,6 +28,12 @@ class EncFS_mount(MountControl):
     """Mount encrypted paths with encfs."""
 
     def __init__(self, *args, **kwargs):
+        # TODO: Remove these debug calls as they are just to help me
+        # setup testing!
+        logger.debug("EncFS_mount args:")
+        logger.debug(str(args))
+        logger.debug("EncFS_mount kwargs:")
+        logger.debug(str(kwargs))
         # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
 
