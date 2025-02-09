@@ -55,6 +55,7 @@ class ConfigFile:
         """
         if self.errorHandler is None:
             return
+
         self.errorHandler(message)
 
     def askQuestion(self, message):
@@ -66,6 +67,7 @@ class ConfigFile:
         """
         if self.questionHandler is None:
             return False
+
         return self.questionHandler(message)
 
     def save(self, filename):

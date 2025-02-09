@@ -7,7 +7,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about the uniquenessset module."""
-# pylint: disable=wrong-import-position,C0411,import-outside-toplevel
+# pylint: disable=wrong-import-position,C0411,import-outside-toplevel,R0801
 import os
 import sys
 import unittest

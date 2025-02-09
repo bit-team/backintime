@@ -27,6 +27,7 @@ import config
 
 class Cron(unittest.TestCase):
     """Cron-related behavior of Config class."""
+
     def test_cron_lines(self):
         """Creation of crontab lines per profile"""
         # Mock reading a config file
@@ -62,6 +63,7 @@ class Cron(unittest.TestCase):
 
 class CrontabDebug(pyfakefs_ut.TestCase):
     """Debug behavior when scheduled via crontab"""
+
     def setUp(self):
         """Setup a fake filesystem with a config file."""
         self.setUpPyfakefs(allow_root_user=False)
