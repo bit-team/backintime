@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2024-11-10 08:06+0000\n"
-"Last-Translator: SirHelpALot <SirHelpALot@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-10 21:16+0000\n"
+"Last-Translator: asjo <asjo@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.9.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -211,9 +211,8 @@ msgid "Can't find snapshots directory."
 msgstr "Kan ikke finde tilstands-billede-mappen."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk OK."
+msgstr "Hvis den er på et flytbar drev, tilslut venligst drevet."
 
 #: common/snapshots.py:849
 #, python-format
@@ -303,13 +302,12 @@ msgid "Smart removal"
 msgstr "Smart sletning"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Fjern gamle tilstands-billeder"
+msgstr "Brug regler til at fjerne gamle tilstands-billeder"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Brug bevaringspolitik"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -580,37 +578,36 @@ msgstr "Afslut"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Brugervejledning"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Åbn brugervejledning i browser (lokal hvis tilgængelig, ellers på nettet)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "man-side: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Viser man-side om Back In Time (backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Profilkonfigurationsfil"
+msgstr "man-side: Profilkonfigurationsfil"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "Viser man-side om profilkonfigurationsfil (backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Projektets hjemmeside"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Åbn Back In Time hjemmeside i browser"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -622,7 +619,7 @@ msgstr "OSS"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Åbn Ofte Stillede Spørgsmål (OSS) i browser"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -715,19 +712,19 @@ msgstr "&Hjælp"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Alene ikoner"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Alene tekst"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Tekst under ikoner"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Tekst ved siden af ikon"
 
 #: qt/app.py:897
 msgid ""
@@ -921,7 +918,7 @@ msgstr "Din oversættelse"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "I fødiverset på Mastodon: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -977,13 +974,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"EncFS profiloprettelse bliver fjernet i den næste mindre udgivelse (1.7), "
+"planlagt i 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Understøttelse af EncFS vil blive fjernet i nær fremtid. Det er ikke længere"
-" anbefalet at bruge den tilstand i en profil."
+msgstr "Det er ikke længere anbefalet at bruge den tilstand i en profil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -995,6 +991,7 @@ msgstr "whitepaper"
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
+"Understøttelse af EncFS bliver fjernet på grund at sikkerhedsproblemer."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1002,6 +999,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"For yderligere detaljer, inklusive mulige alternativer, se venligst dette "
+"{whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1012,6 +1011,7 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"En erstatning er planlagt, men kan ikke garanteres at være der til tiden."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1019,6 +1019,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Brugere er velkomne til at bidrage til diskussionen. Opdaterede detaljer om "
+"de næste trin er tilgængelige i dette {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1187,7 +1189,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:262
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "Fjer&rn & Opbevaring"
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Options"
@@ -1288,11 +1290,11 @@ msgstr "Timer:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "hver time"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minutter:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1781,65 +1783,67 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"De følgende regler håndteres fra top til bund. Senere regler tager præcedens"
+" over tidligere og er ikke begrænset af disse. Detaljer og eksempler findes "
+"i {manual}."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "brugervejledning"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Åbn brugervejledning i browser."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Behold navngivne tilstands-billeder."
+msgstr "Behold det nyeste tilstands-billede."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Det sidste eller friskeste tilstands-billede beholdes under alle "
+"omstændigher."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Denne opførsel kan ikke ændres."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Behold navngivne tilstands-billeder."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
 "Tilstandsbilleder som, udover det sædvanlige tidsstempel, har fået tilddelt "
-"et navn slettes ikke."
+"et navn slettes under ingen omstændigher og vil ikke blive fjernet."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "År"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Fjern tilstands-billede"
+msgstr "Fjern tilstands-billede ældre end"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Hele dage. Dags dato ignoreres."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
-msgstr ""
+msgstr "Kalenderuger med mandag som første dag. Nuværende uge ignoreres."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 måneders perioder. Nuværende måned ignoreres."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Opbevaringspolitik"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1861,7 +1865,7 @@ msgstr "Hvis dette er valgt begynder Back In Time med at teste fjernmaskinen."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Dagene tælles fra i dag."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1873,20 +1877,19 @@ msgid "day(s)."
 msgstr "Dag(e)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Behold et tilstands-billede per dag for de seneste"
+msgstr "Behold det sidste tilstands-billede for hver dag for det sidste"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Ugernes tælles startende fra den nuværende uge. Uger starter på mandage."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Behold et tilstands-billede per uge for de seneste"
+msgstr "Behold det seneste tilstands-billede for hver uge for de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1895,12 +1898,11 @@ msgstr "Uge(r)."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr ""
+msgstr "Månederne tælles som kalendermåneder fra nuværende måned."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Behold et tilstands-billede per måned for de seneste"
+msgstr "Behold det seneste tilstands-billede for hver måned for de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1909,31 +1911,27 @@ msgstr "måned(er)."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Årene tælles som kalenderår fra i år."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Behold alle tilstands-billeder for de seneste"
+msgstr "Behold det seneste tilstands-billeder for hvert år de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "alle år."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Hvis fri plads er mindre end:"
+msgstr "... fri plads er mindre end"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Hvis frie inodes er mindre end:"
+msgstr "... frie inodes er mindre end"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Fjern gamle tilstands-billeder"
+msgstr "Fjern ældste tilstands-billeder hvis …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"

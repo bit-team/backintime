@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2025-02-04 19:17+0000\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-11 05:23+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -305,14 +305,12 @@ msgid "Smart removal"
 msgstr "Nutikas eemaldamine"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Eemaldame vanad hetktõmmised"
+msgstr "Kehtesta vanade hetktõmmiste eemaldamise reeglid"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Säilitamise reeglid"
+msgstr "Kehtesta säilitamise reeglid"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -995,13 +993,13 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"EncFS profiili loomise võimalus eemaldatakse järgmisest versioonist (1.7), "
+"mis on plaanitud 2026. aastaks."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
-"EncFSi kasutamise tugi lõppeb lähitulevikus. Me ei soovita tema kasutamist "
-"mitte üheski profiilis."
+"Pealegi me ei soovita selle režiimi kasutamist mitte üheski profiilis."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1012,7 +1010,7 @@ msgstr "dokumendist"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "EncFS tugi lõppeb temaga seotud turvavigade tõttu."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1020,6 +1018,7 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Lisateavet, sealhulgas alternatiivide kohta, leiad siit: {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1030,6 +1029,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Me oleme kavandanud ka asenduse, aga pole kindel, et jõuame sellega valmis "
+"õigeks ajaks."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1037,6 +1038,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Kutsume kasutajaid osalema teemakohases arutelus. Uuendatud üksikasjad "
+"järgmiste sammude kohta on kirjas siin: {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1856,18 +1859,15 @@ msgid "Remove snapshots older than"
 msgstr "Eemalda hetktõmmised, mis on vanemad kui"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "Täispäevades ja tänane päev ei lähe arvesse."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Esmaspäevaga algavates kalendrinädalates ja see nädal ei lähe arvesse."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
 msgstr "12-kuulistes ajavahemikes ja praegune kuu ei lähe arvesse."
 
@@ -1924,7 +1924,6 @@ msgid "week(s)."
 msgstr "nädala jooksul."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Kuid loendame kalendrikuudena alates sellest kuust."

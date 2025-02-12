@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2025-02-02 16:41+0000\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -308,14 +308,12 @@ msgid "Smart removal"
 msgstr "Cleveres Löschen"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Alte Schnappschüsse werden entfernt"
+msgstr "Wende Regeln, zum Entfernen alter Snapshots an"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Aufbewahrungs-Richtlinien"
+msgstr "Wende Aufbewahrungs-Richtlinien an"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -1004,13 +1002,13 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Die Erstellung von EncFS-Profilen wird in der nächsten Nebenversion (1.7), "
+"die für 2026 geplant ist, entfernt."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
-"Die Unterstützung für EncFS wird in absehbarer Zukunft eingestellt. Es wird "
-"nicht empfohlen, diesen Modus für ein Profil zu verwenden."
+"Es wird nicht empfohlen, diesen Modus weiterhin für ein Profil zu verwenden."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1022,6 +1020,8 @@ msgstr "Whitepaper"
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
+"Die Unterstützung für EncFS wird, aufgrund von sicherheitsrelevanter "
+"Schwachstellen, eingestellt."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1029,6 +1029,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Für weitere Details, einschließlich möglicher Alternativen, bitte dieses "
+"{whitepaper} lesen."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1040,6 +1042,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Ein Ersatz ist geplant, jedoch ohne Garantie, dass er rechtzeitig verfügbar "
+"sein wird."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1047,6 +1051,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Nutzer sind eingeladen, an dieser Diskussionen teilzunehmen. Aktualisierte "
+"Details zu den nächste Schritte sind in diesem {whitepaper} verfügbar."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1870,19 +1876,16 @@ msgid "Remove snapshots older than"
 msgstr "Entferne Schnappschüsse älter als"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "Vollständige Tage. Aktueller Tag wird ignoriert."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr "Kalenderwochen beginnend mit Montag. Aktuelle Woche wird ignoriert."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
-msgstr "12 Monate Periode. Aktueller Monat wird ignoriert."
+msgstr "12 Monats Periode. Aktueller Monat wird ignoriert."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
@@ -1941,7 +1944,6 @@ msgid "week(s)."
 msgstr "Woche(n)."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Gezählt werden Kalendermonate, beginnend mit dem aktuellen Monat."

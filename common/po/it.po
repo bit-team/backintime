@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2025-02-03 21:51+0000\n"
-"Last-Translator: inno <inno@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-10 15:24+0000\n"
+"Last-Translator: smart2128 <smart2128@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -308,14 +308,12 @@ msgid "Smart removal"
 msgstr "Rimozione intelligente"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Rimozione vecchie istantanee"
+msgstr "Applica le regole per rimuovere le vecchie istantanee"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Politica di conservazione"
+msgstr "Applica la politica di conservazione"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -1000,13 +998,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"La creazione del profilo EncFS sarà rimossa nella prossima versione minore "
+"(1.7), pianificata per il 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Il supporto a EncFS sarà rimosso nel prossimo futuro. Si sconsiglia di usare"
-" ulteriormente questa modalità per un profilo."
+msgstr "Si sconsiglia di usare ulteriormente questa modalità per un profilo."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1018,6 +1015,7 @@ msgstr "documento"
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
+"Supporto per EncFS è stato interrotto a causa di vulnerabilità di sicurezza."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1025,6 +1023,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Per ulteriori dettagli, incluse le potenziali alternative, fai riferimento a"
+" questo {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1035,6 +1035,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"una sostituzione è pianificata, ma non possiamo garantire che arrivi in "
+"tempo."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1042,6 +1044,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Gli utenti sono invitati a partecipare alla discussione. I dettagli "
+"aggiornati sui prossimi passi sono disponibili in questo {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1855,21 +1859,18 @@ msgid "Remove snapshots older than"
 msgstr "Rimuovi le istantanee più vecchie di"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
-msgstr "Giorni interi. Giorno attuale ignorato."
+msgstr "Giorni interi. Il giorno attuale è ignorato."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
-"Settimane di calendario con lunedì come primo giorno. Settimana attuale "
-"ignorata."
+"Settimane di calendario con lunedì come primo giorno. La settimana attuale è"
+" ignorata."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
-msgstr "Periodi di 12 mesi. Mese attuale ignorato."
+msgstr "Periodi di 12 mesi. Il mese attuale è ignorato."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
@@ -1929,7 +1930,6 @@ msgid "week(s)."
 msgstr "settimana/e."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""

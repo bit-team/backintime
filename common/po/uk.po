@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2025-02-08 03:24+0000\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: SomeTr <sometr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -305,14 +305,12 @@ msgid "Smart removal"
 msgstr "Розумне видалення"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Видалення старих копій"
+msgstr "Застосувати правила для видалення старих копій"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Політика збереження"
+msgstr "Застосувати політику збереження"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -985,13 +983,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Створення профілю EncFS буде видалено в наступному випуску (1.7), "
+"запланованому на 2026 рік."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Підтримку EncFS буде припинено найближчим часом. Не рекомендується надалі "
-"використовувати цей режим для профілю."
+msgstr "Не рекомендується надалі використовувати цей режим для профілю."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1002,7 +999,7 @@ msgstr "документі"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Підтримка EncFS припиняється через уразливості в системі безпеки."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1010,6 +1007,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Докладнішу інформацію, в тому числі щодо потенційних альтернатив, дивіться у"
+" цьому {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1020,6 +1019,7 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Заплановано заміну, але немає жодних гарантій, що вона буде готова вчасно."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1027,6 +1027,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Запрошуємо користувачів долучитися до обговорення. Оновлену інформацію про "
+"наступні кроки див. у цьому {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1832,19 +1834,16 @@ msgid "Remove snapshots older than"
 msgstr "Видаляти копії старіші за"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "Повні дні. Поточний день не враховується."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Календарні тижні, що починаються з понеділка. Поточний тиждень не "
 "враховується."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
 msgstr "Періоди по 12 місяців. Поточний місяць не враховується."
 
@@ -1903,7 +1902,6 @@ msgid "week(s)."
 msgstr "тижнів."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Відлік календарних місяців, починаючи з поточного місяця."

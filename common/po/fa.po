@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2025-02-06 07:02+0000\n"
-"Last-Translator: thehappypotato <thehappypotato@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-11 05:23+0000\n"
+"Last-Translator: Arash Pourhabibi <neo-apz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -142,19 +142,17 @@ msgid "The last profile cannot be removed."
 msgstr "آخرین نمایه را نمیتوان پاک کرد."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr "نمی‌توان '{command}' را مانت کرد"
+msgstr "نمی‌توان '{command}' را متصل کرد"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "پیکربندی برای پوشه رمزنگاری شده پیدا نشد."
+msgstr "پیکربندی برای پوشه رمز‌گذاری‌شده پیدا نشد."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "میخوای یک پوشه رمزنگاری شده جدید بسازی؟ یا نه؟"
+msgstr "آیا میخواهید یک پوشه رمز‌گذاری شده جدید بسازید؟"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -173,7 +171,7 @@ msgid "Take snapshot"
 msgstr "گرفتن اسنپ‌شات"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "نمی‌توان {mountprocess} را از {mountpoint} جدا کرد."
 
@@ -190,7 +188,7 @@ msgstr "مونت‌پوینت ‮{mntpoint} خالی نیست."
 #: common/password.py:279
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "برای پروفایل {mode} {profile} رمز وارد کنید"
+msgstr "برای نمایهٔ {mode} «{profile}» رمز وارد کنید:"
 
 #: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
@@ -238,13 +236,12 @@ msgid "Please be patient. Finalizing…"
 msgstr "خواهشمند است شکیبا باشید. گام پایانی…"
 
 #: common/snapshots.py:1077
-#, fuzzy
 msgid "Can't create directory."
-msgstr "نمی‌توان پوشه ساخت"
+msgstr "نمی‌توان پوشه ساخت."
 
 #: common/snapshots.py:1094
 msgid "Saving config file…"
-msgstr "درحال ذخیره فایل کانفیگ…"
+msgstr "درحال ذخیره فایل پیکر‌بندی…"
 
 #: common/snapshots.py:1175
 msgid "Saving permissions…"
@@ -303,9 +300,9 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "چیزی تغییر نیافت، اسنپ‌شات ضروری جدیدی نیست"
 
 #: common/snapshots.py:1523
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "نمی‌توان {new_path} را به {path} تغییر نام داد"
+msgstr "نمی‌توان {new_path} را به {path} تغییر نام داد."
 
 #: common/snapshots.py:1855
 #, fuzzy

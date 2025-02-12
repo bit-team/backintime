@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2025-02-03 07:24+0000\n"
+"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -294,14 +294,12 @@ msgid "Smart removal"
 msgstr "智能移除"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "移除旧快照"
+msgstr "应用规则以移除旧快照"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "保留策略"
+msgstr "应用保留策略"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -938,12 +936,11 @@ msgstr "语言设置仅在重新启动 Back In Time 后生效。"
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
-msgstr ""
+msgstr "将在 2026 年计划的下一个次版本（1.7）中移除 EncFS 配置创建。"
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr "未来将会停止支持 EncFS，不建议将该模式用于配置。"
+msgstr "不推荐将该模式用于配置。"
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -954,14 +951,14 @@ msgstr "白皮书"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "由于安全漏洞，将停止对 EncFS 的支持。"
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
-msgstr ""
+msgstr "如需了解详情，包括潜在的替代方案，请参阅此{whitepaper}。"
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -971,14 +968,14 @@ msgstr "以下配置将使用 EncFS 进行加密："
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
-msgstr ""
+msgstr "计划取代，但无法保证会按时提供。"
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
 msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
-msgstr ""
+msgstr "欢迎用户加入讨论。有关下一步的更新详情，请参阅此{whitepaper}。"
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1732,17 +1729,14 @@ msgid "Remove snapshots older than"
 msgstr "移除多久前的快照"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "整天数，当日忽略不计。"
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr "星期一作为第一天的日历周，当前周忽略不计。"
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
 msgstr "12 个月的周期，当前月份忽略不计。"
 
@@ -1797,7 +1791,6 @@ msgid "week(s)."
 msgstr "周。"
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "月份从当前月份开始，按日历月份计算。"
