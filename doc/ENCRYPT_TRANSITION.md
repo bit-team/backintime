@@ -9,11 +9,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 
 # Transition of the encryption feature in _Back In Time_
-<sub>July 2024</sub>
+<sub>February 2025</sub>
 
 This document outlines the current status of the encryption feature in _Back In
 Time_. Support for encrypted snapshot profiles is undergoing significant
 changes.
+
+**Please note** that we have a [pending PR implementing gocryptfs for local
+encrypted profiles](https://github.com/bit-team/backintime/pull/1897).
 
  * [Short summary](#short-summary)
  * [Rational](#rational)
@@ -25,15 +28,17 @@ changes.
 ## Short summary
 - To realize encrypted snapshots in _Back In Time_, [EncFS] is used.
 - EncFS has known security issues and also is no longer maintained.
+- EncFS **deprecation starts in year 2025**.
 - EncFS library will be **removed** from _Back In Time_ **around the year 2029**.
   This will happen in slow and small steps with sufficient advance warnings and
   lead time.
-- In the best case, EncFS will be replaced with an alternative library
-  (expected to be [GoCryptFS]).
+- The plan is to replace EncFS with [GoCryptFS] as an alternative.
 - The current maintenance team does not have the resources to implement an
-  alternative for EncFS. So extern contributors are need to step in.
-- If GoCryptFS or another alternative will be implemented, depending on project
-  resources and contributor availability.
+  alternative for EncFS. So extern contributors are need to step in. See [meta
+  issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
+  current progress.
+- The replacement with an alternative happens indepeneded from from the EncFS
+  deprecation and removal process.
 
 ## Rational
 
@@ -58,10 +63,7 @@ option. In this case _Back In Time_ won't need an encryption feature anymore
 because the file system tools do take care of it. It might be an option for
 some of the affected users but [it was also
 shown](https://github.com/bit-team/backintime/issues/1734#issuecomment-2151875246)
-that file system encryption is not an option in all use cases. Therefore, LUKS
-might not be the first choice solution, but is better then nothing in case the
-project won't find a contributor for replacing EncFS with GoCryptFS or
-something else.
+that file system encryption is not an option in all use cases.
 
 The project also is open for other alternative solutions.
 
@@ -69,14 +71,15 @@ The project also is open for other alternative solutions.
 
 The transition is a process *not fixed* in all details and planned to take
 until the *year 2029 or 2030*. The project will try to adapt to users needs and
-other extern issues. Therefore the plan is not written in stone. The goal is to
-have slow and transparent steps in a timeline of multiple years until round
-about the year 2029 or 2030 when Debian 15 will be released. Current stable
-Debian is version 12.
+other extern issues. Therefore the plan is not written in stone.
 
 The transition is scheduled around the release cycles of Debian GNU Linux
 because Debian has very long release cycles and is the base for most of the
 distributions out there.
+
+The goal is to have slow and transparent steps in a timeline of multiple years
+until round about the year 2029 or 2030 when Debian 15 will be
+released. Current stable Debian is version 12.
 
 1. Year 2024: Clear and strong warning about the planned removing or replacement
    of EncFS ([#1735](https://github.com/bit-team/backintime/issues/1734)).
