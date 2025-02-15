@@ -1281,7 +1281,7 @@ def longest_key_length(dictionary):
 
 def humanPrint(dictionary, file=None, indent=0, width=-1):
     """Print dict in human readable format."""
-    print('')
+    print('', file=file)
     if width == -1:
         width = longest_key_length(dictionary) + 1
 
@@ -1292,7 +1292,7 @@ def humanPrint(dictionary, file=None, indent=0, width=-1):
         else:
             print(f"{' ' * indent}{key:{width}}: {value}", file=file)
         if indent == 0:
-            print('')
+            print('', file=file)
 
 
 def snapshotStatus(args):
