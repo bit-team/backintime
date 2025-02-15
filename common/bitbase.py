@@ -18,6 +18,13 @@ USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
     'backintime-common' / 'manual' / 'index.html'
 USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 
+# About transition of encryption feature and the removal of EncFS (see #1734).
+# The warnings and deprecation messages are gradually increased in intensity
+# and clarity. This constant is the currently desired stage of intensity. The
+# last shown intensity is stored in the state data file. If they don't fit, the
+# message is displayed.
+ENCFS_MSG_STAGE = 2
+
 
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling.

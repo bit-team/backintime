@@ -1373,6 +1373,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         if bool(path and includes):
             return True
+
         else:
             logger.debug(f'Profile ({profile_id=}) is not configured because '
                          f'snapshot path is "{bool(path)}" and/or includes '

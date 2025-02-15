@@ -47,6 +47,7 @@ def remove(cfg, snapshot_ids = None, force = None):
 def checkConfig(cfg, crontab = True):
     import mount
     from exceptions import MountException
+
     def announceTest():
         print()
         print(frame(test))
@@ -68,23 +69,29 @@ def checkConfig(cfg, crontab = True):
         test = 'Run mount tests'
         announceTest()
         mnt = mount.Mount(cfg = cfg, tmp_mount = True)
+
         try:
             mnt.preMountCheck(mode = mode, first_run = True)
+
         except MountException as ex:
             failed()
             print(str(ex))
             return False
+
         okay()
 
         #okay, lets try to mount
         test = 'Mount'
         announceTest()
+
         try:
-            hash_id = mnt.mount(mode = mode, check = False)
+            hash_id = mnt.mount(mode=mode, check=False)
+
         except MountException as ex:
             failed()
             print(str(ex))
             return False
+
         okay()
 
     test = 'Check/prepare snapshot path'
@@ -97,28 +104,35 @@ def checkConfig(cfg, crontab = True):
         mode=mode,
         copy_links=cfg.copyLinks(),
         error_handler=cfg.notifyError)
+
     if not ret:
         failed()
         return False
+
     okay()
 
     # umount
     if not cfg.SNAPSHOT_MODES[mode][0] is None:
         test = 'Unmount'
         announceTest()
+
         try:
             mnt.umount(hash_id=hash_id)
+
         except MountException as ex:
             failed()
             print(str(ex))
             return False
+
         okay()
 
     test = 'Check config'
     announceTest()
+
     if not cfg.checkConfig():
         failed()
         return False
+
     okay()
 
     if crontab:
