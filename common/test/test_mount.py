@@ -184,3 +184,60 @@ class CheckLocks(pyfakefs_ut.TestCase):
         mntctrl.checkLocks(str(fp.parent), fp.suffix)
 
         self.assertFalse(sym.exists())
+
+
+class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
+    """Test high-level Mount with 'local' backend.
+    """
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.setUpPyfakefs(allow_root_user=False)
+
+        self.mode = 'local'
+
+        # cleanup() happens automatically
+        # pylint: disable-next=consider-using-with
+        self._temp_dir = TemporaryDirectory(prefix='bit.')
+        # Workaround: tempfile and pathlib not compatible yet
+        self.temp_path = Path(self._temp_dir.name)
+
+        self._config_fp = _create_config_file(
+            parent_path=self.temp_path,
+            mode=self.mode
+        )
+        self.cfg = config.Config(str(self._config_fp))
+
+        # setup mount root
+        fp = Path.cwd() / ''.join(random.choices(string.ascii_letters, k=10))
+        fp.mkdir()
+        # pylint: disable-next=protected-access
+        self.cfg._LOCAL_MOUNT_ROOT = str(fp)
+
+        self.mount = mount.Mount(cfg=self.cfg)
+
+    def test_first_pre_mount_check(self):
+        """preMountCheck always returns True for 'local' mode.
+        """
+        self.assertTrue(self.mount.preMountCheck(first_run=True))
+
+    def test_initialised_pre_mount_check(self):
+        """preMountCheck always returns True for 'local' mode.
+        """
+        self.assertTrue(self.mount.preMountCheck(first_run=False))
+
+    def test_mount(self):
+        """mount always returns 'local' for 'local' mode.
+        """
+        self.assertEqual('local', self.mount.mount(check=False))
+
+    def test_umount(self):
+        """mount.umount always returns None if the hash_id is 'local'
+        """
+        self.assertIsNone(self.mount.umount(hash_id='local'))
+
+    def test_remount_to_new_local_mount(self):
+        """If the new profile to mount is 'local', `remount` always
+        returns 'local'.
+        """
+        self.assertEqual('local', self.mount.remount('2', mode='local'))
