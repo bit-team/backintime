@@ -21,29 +21,53 @@ import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
 
 
-def _create_config_file(parent_path):
+def _create_config_file(parent_path, mode='local'):
     """Minimal config file"""
-    # pylint: disable-next=duplicate-code
-    cfg_content = inspect.cleandoc('''
-        config.version=6
-        profile1.snapshots.include.1.type=0
-        profile1.snapshots.include.1.value=rootpath/source
-        profile1.snapshots.include.size=1
-        profile1.snapshots.no_on_battery=false
-        profile1.snapshots.notify.enabled=true
-        profile1.snapshots.path=rootpath/destination
-        profile1.snapshots.path.host=test-host
-        profile1.snapshots.path.profile=1
-        profile1.snapshots.path.user=test-user
-        profile1.snapshots.preserve_acl=false
-        profile1.snapshots.preserve_xattr=false
-        profile1.snapshots.remove_old_snapshots.enabled=true
-        profile1.snapshots.remove_old_snapshots.unit=80
-        profile1.snapshots.remove_old_snapshots.value=10
-        profile1.snapshots.rsync_options.enabled=false
-        profile1.snapshots.rsync_options.value=
-        profiles.version=1
-    ''')  # pylint: disable=duplicate-code
+    defaults = '''
+            config.version=6
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.no_on_battery=false
+            profile1.snapshots.notify.enabled=true
+            profile1.snapshots.path=rootpath/destination
+            profile1.snapshots.path.host=test-host
+            profile1.snapshots.path.profile=1
+            profile1.snapshots.path.user=test-user
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
+            profile1.snapshots.remove_old_snapshots.enabled=true
+            profile1.snapshots.remove_old_snapshots.unit=80
+            profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.rsync_options.enabled=false
+            profile1.snapshots.rsync_options.value=
+            profiles.version=1
+            '''
+
+    minimal_configs = {
+        'local': f'''
+            {defaults}
+            profile1.name=test-local-mount
+            profile1.snapshots.mode=local
+            ''',
+        'ssh': f'''
+            {defaults}
+            profile1.name=test-ssh-mount
+            profile1.snapshots.mode=ssh
+            ''',
+        'local_encfs': f'''
+            {defaults}
+            profile1.name=test-local_encfs-mount
+            profile1.snapshots.mode=local_encfs
+            ''',
+        'ssh_encfs': f'''
+            {defaults}
+            profile1.name=test-ssh_encfs-mount
+            profile1.snapshots.mode=ssh_encfs
+            ''',
+    }
+
+    cfg_content = inspect.cleandoc(minimal_configs[mode])
 
     # config file location
     config_fp = parent_path / 'config_path' / 'config'
