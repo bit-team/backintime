@@ -21,6 +21,38 @@ import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
 
 
+def _create_config_file(parent_path):
+    """Minimal config file"""
+    # pylint: disable-next=duplicate-code
+    cfg_content = inspect.cleandoc('''
+        config.version=6
+        profile1.snapshots.include.1.type=0
+        profile1.snapshots.include.1.value=rootpath/source
+        profile1.snapshots.include.size=1
+        profile1.snapshots.no_on_battery=false
+        profile1.snapshots.notify.enabled=true
+        profile1.snapshots.path=rootpath/destination
+        profile1.snapshots.path.host=test-host
+        profile1.snapshots.path.profile=1
+        profile1.snapshots.path.user=test-user
+        profile1.snapshots.preserve_acl=false
+        profile1.snapshots.preserve_xattr=false
+        profile1.snapshots.remove_old_snapshots.enabled=true
+        profile1.snapshots.remove_old_snapshots.unit=80
+        profile1.snapshots.remove_old_snapshots.value=10
+        profile1.snapshots.rsync_options.enabled=false
+        profile1.snapshots.rsync_options.value=
+        profiles.version=1
+    ''')  # pylint: disable=duplicate-code
+
+    # config file location
+    config_fp = parent_path / 'config_path' / 'config'
+    config_fp.parent.mkdir()
+    config_fp.write_text(cfg_content, 'utf-8')
+
+    return config_fp
+
+
 class CheckLocks(pyfakefs_ut.TestCase):
     """Testing MountControl.checkLocks()"""
 
@@ -34,7 +66,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
         # Workaround: tempfile and pathlib not compatible yet
         self.temp_path = Path(self._temp_dir.name)
 
-        self._config_fp = self._create_config_file(parent_path=self.temp_path)
+        self._config_fp = _create_config_file(parent_path=self.temp_path)
         self.cfg = config.Config(str(self._config_fp))
 
         # setup mount root
@@ -42,37 +74,6 @@ class CheckLocks(pyfakefs_ut.TestCase):
         fp.mkdir()
         # pylint: disable-next=protected-access
         self.cfg._LOCAL_MOUNT_ROOT = str(fp)
-
-    def _create_config_file(self, parent_path):
-        """Minimal config file"""
-        # pylint: disable-next=duplicate-code
-        cfg_content = inspect.cleandoc('''
-            config.version=6
-            profile1.snapshots.include.1.type=0
-            profile1.snapshots.include.1.value=rootpath/source
-            profile1.snapshots.include.size=1
-            profile1.snapshots.no_on_battery=false
-            profile1.snapshots.notify.enabled=true
-            profile1.snapshots.path=rootpath/destination
-            profile1.snapshots.path.host=test-host
-            profile1.snapshots.path.profile=1
-            profile1.snapshots.path.user=test-user
-            profile1.snapshots.preserve_acl=false
-            profile1.snapshots.preserve_xattr=false
-            profile1.snapshots.remove_old_snapshots.enabled=true
-            profile1.snapshots.remove_old_snapshots.unit=80
-            profile1.snapshots.remove_old_snapshots.value=10
-            profile1.snapshots.rsync_options.enabled=false
-            profile1.snapshots.rsync_options.value=
-            profiles.version=1
-        ''')  # pylint: disable=duplicate-code
-
-        # config file location
-        config_fp = parent_path / 'config_path' / 'config'
-        config_fp.parent.mkdir()
-        config_fp.write_text(cfg_content, 'utf-8')
-
-        return config_fp
 
     def test_not_existing_dir(self):
         """The lock directory does not exists."""
