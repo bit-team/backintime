@@ -463,6 +463,7 @@ class MountControl:
         # mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
+        logger.debug(f"{self.destination=}")
 
         args.remove('mode')
         args.sort()
@@ -475,6 +476,7 @@ class MountControl:
         # the same mountpoint.
         if self.hash_id is None:
             self.hash_id = self.hash(self.destination)
+            logger.debug(f"{self.hash_id=}")
 
         # e.g. ~/.local/share/backintime/mnt
         self.mount_root = self.config._LOCAL_MOUNT_ROOT
