@@ -11,11 +11,13 @@ import os
 import sys
 import inspect
 import random
+import shutil
 import string
 from unittest import mock
 from pathlib import Path
-from tempfile import TemporaryDirectory
+# from tempfile import TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
+# from pyfakefs.fake_filesystem_unittest import Pause
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
@@ -84,11 +86,9 @@ class CheckLocks(pyfakefs_ut.TestCase):
         """Setup a fake filesystem."""
         self.setUpPyfakefs(allow_root_user=False)
 
-        # cleanup() happens automatically
-        # pylint: disable-next=consider-using-with
-        self._temp_dir = TemporaryDirectory(prefix='bit.')
-        # Workaround: tempfile and pathlib not compatible yet
-        self.temp_path = Path(self._temp_dir.name)
+        # Remember, we are using pyfakefs, so no real files are created.
+        self.temp_path = Path('bit-test')
+        self.temp_path.mkdir()
 
         self._config_fp = _create_config_file(parent_path=self.temp_path)
         self.cfg = config.Config(str(self._config_fp))
@@ -196,11 +196,9 @@ class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
 
         self.mode = 'local'
 
-        # cleanup() happens automatically
-        # pylint: disable-next=consider-using-with
-        self._temp_dir = TemporaryDirectory(prefix='bit.')
-        # Workaround: tempfile and pathlib not compatible yet
-        self.temp_path = Path(self._temp_dir.name)
+        # Remember, we are using pyfakefs, so no real files are created.
+        self.temp_path = Path('bit-test')
+        self.temp_path.mkdir()
 
         self._config_fp = _create_config_file(
             parent_path=self.temp_path,
@@ -215,6 +213,13 @@ class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
         self.cfg._LOCAL_MOUNT_ROOT = str(fp)
 
         self.mount = mount.Mount(cfg=self.cfg)
+
+    def test_pre_mount_check(self):
+        """preMountCheck always returns True for 'local' mode.
+        """
+        for first_run in True, False:
+            with self.subTest(first_run=first_run):
+                self.assertTrue(self.mount.preMountCheck(first_run=first_run))
 
     def test_first_pre_mount_check(self):
         """preMountCheck always returns True for 'local' mode.
@@ -241,3 +246,110 @@ class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
         returns 'local'.
         """
         self.assertEqual('local', self.mount.remount('2', mode='local'))
+
+
+class CheckHighLevelLocalEncFSMount(pyfakefs_ut.TestCase):
+    """Test high-level Mount with 'local_encfs' backend.
+    """
+    test_password = 'test_password'
+
+    def setUp(self):
+        """Setup a fake filesystem."""
+        self.mode = 'local_encfs'
+
+        # Get path to encfs so we can inject it into the fake filesystem
+        # (Must run before setUpPyfakefs)
+        encfs_path = shutil.which('encfs')
+
+        self.setUpPyfakefs(allow_root_user=False)
+        self.fs.add_real_file(encfs_path)
+        # Ensure encfs_path is executable. Pyfakefs seems to add it
+        # with read-only permissions.
+        # https://github.com/pytest-dev/pyfakefs/issues/1119
+        os.chmod(encfs_path, 0o100555)
+
+        # Remember, we are using pyfakefs, so no real files are created.
+        self.temp_path = Path('bit-test')
+        self.temp_path.mkdir()
+
+        self._config_fp = _create_config_file(
+            parent_path=self.temp_path,
+            mode=self.mode
+        )
+        self.cfg = config.Config(str(self._config_fp))
+
+        # setup mount root
+        fp = Path.cwd() / ''.join(random.choices(string.ascii_letters, k=10))
+        fp.mkdir()
+        # pylint: disable-next=protected-access
+        self.cfg._LOCAL_MOUNT_ROOT = str(fp)
+
+        self.mount = mount.Mount(cfg=self.cfg)
+
+    def test_pre_mount_check(self):
+        """encfstools.EncFS_mount.preMountCheck returns True if no
+        exceptions are raised.
+
+        Note that encfstools.EncFS_mount.preMountCheck runs checkFuse(),
+        which in turn runs tools.checkCommand, which checks if the named
+        executable exists in the PATH, and if it has executable permissions.
+        We ensure that the `encfs` executable exists within the fake
+        filesystem in setUp above.
+
+        If first_run is true, it also runs checkVersion, which checks to
+        ensure that we are running a new enough encfs version.
+        """
+        for first_run in True, False:
+            with self.subTest(first_run=first_run):
+                self.assertTrue(self.mount.preMountCheck(first_run=first_run))
+
+    @mock.patch('getpass.getpass', return_value=test_password)
+    @mock.patch('configfile.ConfigFile.askQuestion', return_value=True)
+    def test_unconfigured_mount(self, _mock_getpass, _mock_ask_question):
+        """High-level Mount.mount returns the output from backend.mount.
+        Due to inheritence, this is the same as MountControl.mount.
+        If all goes well, MountControl.mount returns self.hash_id.
+
+        Note: Because EncFS_mount uses subprocess, it's not compatible
+        with pyfakefs:
+        https://pytest-pyfakefs.readthedocs.io/en/latest/troubleshooting.html#subprocess-built-in
+
+        For this test, we need to suspend patching and use a real temp dir:
+        https://pytest-pyfakefs.readthedocs.io/en/latest/usage.html#suspending-patching
+        """
+
+    #     # Pause pyfakefs and switch back to real filesystem
+    #     with Pause(self.fs):
+    #         with TemporaryDirectory(prefix='bit.') as temp_dir:
+    #             temp_path = Path(temp_dir)
+
+    #             _config_fp = _create_config_file(
+    #                 parent_path=temp_path,
+    #                 mode=self.mode
+    #             )
+    #             cfg = config.Config(str(_config_fp))
+
+    #             # setup mount root
+    #             fp = Path.cwd() / ''.join(random.choices(
+    #                 string.ascii_letters,
+    #                 k=10
+    #             ))
+    #             fp.mkdir()
+    #             # pylint: disable-next=protected-access
+    #             cfg._LOCAL_MOUNT_ROOT = str(fp)
+
+    #             unconfigured_mount = mount.Mount(cfg=cfg, tmp_mount=True)
+    #             self.assertEqual(
+    #                 'local',
+    #                 unconfigured_mount.mount(check=False)
+    #             )
+
+    # def test_umount(self):
+    #     """
+    #     """
+    #     assert False
+
+    # def test_remount_to_new_local_mount(self):
+    #     """
+    #     """
+    #     assert False
