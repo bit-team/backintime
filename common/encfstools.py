@@ -84,10 +84,12 @@ class EncFS_mount(MountControl):
             self.backupConfig()
             if proc.returncode:
                 raise MountException(
-                    '{}:\n\n{}'.format(
+                    '{}:\n\n{}\n\n{}'.format(
                         _("Unable to mount '{command}'")
                         .format(command=' '.join(encfs)),
-                        output))
+                        output,
+                        f"Return code: {proc.returncode}",
+                    ))
 
     def preMountCheck(self, first_run=False):
         """Check what ever conditions must be given for the mount.
