@@ -45,6 +45,9 @@ from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
 
 
+MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
+
+
 class SettingsDialog(QDialog):
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
@@ -368,14 +371,13 @@ class SettingsDialog(QDialog):
 
         # Default patterns that are not still in the list widget
         recommend = list(filter(
-            lambda val: not self.listExclude.findItems(
-                val, Qt.MatchFlag.MatchFixedString),
+            lambda val: not self.listExclude.findItems(val, MATCH_FLAGS),
             self.config.DEFAULT_EXCLUDE
         ))
 
         if not recommend:
             text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
-                    'already included.)').format(
+                     'already included.)').format(
                         BOLD='<strong>', ENDBOLD='</strong>')
 
         else:
@@ -501,8 +503,7 @@ class SettingsDialog(QDialog):
             item.setIcon(0, self.icon.FILE)
 
         # Prevent duplicates
-        duplicates = self.listInclude.findItems(
-            data[0], Qt.MatchFlag.MatchFixedString)
+        duplicates = self.listInclude.findItems(data[0], MATCH_FLAGS)
 
         if duplicates:
             self.listInclude.setCurrentItem(duplicates[0])
@@ -586,10 +587,10 @@ class SettingsDialog(QDialog):
             return
 
         # Duplicate?
-        duplicates = self.listExclude.findItems(
-            pattern, Qt.MatchFlag.MatchFixedString)
+        duplicates = self.listExclude.findItems(pattern, MATCH_FLAGS)
 
         if duplicates:
+            # TODO notify user about duplicates
             self.listExclude.setCurrentItem(duplicates[0])
             return
 
