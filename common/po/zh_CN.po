@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
@@ -1012,7 +1012,7 @@ msgstr "最近日志查看"
 msgid "Snapshot Log View"
 msgstr "快照日志查看"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "配置："
@@ -1056,48 +1056,48 @@ msgstr "[E] 错误，[I] 通知，[C] 变更"
 msgid "decode paths"
 msgstr "解码路径"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "管理配置"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "编辑"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "新增"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "移除"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "常规(&G)"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "包括(&I)"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "包括文件和目录"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "添加文件"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "添加目录"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "排除(&E)"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1108,24 +1108,24 @@ msgstr ""
 "{BOLD}信息{ENDBOLD}：在“SSH 加密”模式下，只有单星号或双星号有效（例如 {example2}）。其他类型的通配符和模式将被忽略（例如"
 " {example1}）。由于 EncFS 加密，此模式下文件名不可预测。"
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "排除模式、文件或目录"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "添加默认值"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "排除大于以下的文件："
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "排除大于以下的文件{size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1135,67 +1135,67 @@ msgstr ""
 "排除大于 %(prefix)s 的文件。禁用“完全 rsync 模式”后，这只会影响新文件,因为对于 rsync "
 "这是一个传输选项，而不是排除选项。因此之前备份过的大文件将保留在快照中,即使他们已经改变。"
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr "移除和保留(&R)"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "选项(&O)"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "专家选项(&X)"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "恢复配置"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "编辑用户回调"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "新建配置"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "重命名配置"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "是否确定要删除配置“{name}”？"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}强烈推荐{ENDBOLD}：（全部推荐均已包括在内。）"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}强烈推荐{ENDBOLD}：{files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "排除模式"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "排除文件"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "排除目录"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "包括文件"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1204,11 +1204,11 @@ msgstr ""
 "“{path}”是符号链接，链接的目标也要包括在内才会备份。\n"
 "是否改为包括符号链接目标？"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "包括目录"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "已禁用，因为此模式在“SSH 加密”模式下不起作用。"
@@ -2006,141 +2006,3 @@ msgstr "警告：此操作无法撤销。"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "是否从未来的快照中排除 {path}？"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "自动移除(&A)"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr "目前仍未决定是否继续支持加密备份，这取决于项目资源和贡献者的可用性。详情请参阅本{whitepaper}。"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "我们还在商讨如何取代当前的加密备份方案，具体实现取决于项目资源和贡献者数量，欢迎广大用户踊跃参与讨论。更新详情详见{whitepaper}。"
-
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "不能包含备份文件夹。"
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr "无法找到 crontab。您确定已经安装了 cron？如果没有安装，您应当禁用所有自动备份。"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "未找到快照目录。\n"
-#~ "如果它位于可移动驱动器上，请将其插入。"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "无法写入：{path}\n"
-#~ "您确定有写入权限吗？"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "警告：除非您知道自己在干什么，否则不要变更这些选项。"
-
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "复制链接（解析符号链接）"
-
-#~ msgid "Directory"
-#~ msgstr "目录"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "实验功能"
-
-#~ msgid "Finalizing"
-#~ msgstr "正在完成"
-
-#~ msgid "Folder"
-#~ msgstr "文件夹"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "快照完整路径"
-
-#~ msgid "Help"
-#~ msgstr "帮助"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/User/Profile-ID 不能为空。"
-
-#~ msgid "Hour:"
-#~ msgstr "小时:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "无效的选项。{path} 不是一个文件夹。"
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "这是要使用的备份目标吗？"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "每年保留一个快照。"
-
-#~ msgid "Mode"
-#~ msgstr "模式"
-
-#~ msgid "Older than:"
-#~ msgstr "早于:"
-
-#~ msgid "Profile"
-#~ msgstr "配置"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "配置文件“{profile}”：输入 {mode} 的密码： "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "用户回调脚本中的 Shebang 不可执行。"
-
-#~ msgid "Smart removal:"
-#~ msgstr "智能移除："
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "我们将在不久的将来停止支持 EncFS。具体的加密备份替代方案还在商讨中，结果取决于项目资源和贡献者数量。详情请参考{whitepaper}。"
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr "对加密快照配置的支持正在发生重大更改，未来将会移除 EncFS。"
-
-#~ msgid "WARNING"
-#~ msgstr "警告"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "您必须选择至少一个文件夹进行备份！"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr "encfs 1.7.2 及更早的版本中 --reverse 选项存在缺陷，请更新系统中安装的 encfs 版本。"
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "用户回调脚本没有 shebang (#!/bin/sh) 行。"
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} 使用 EncFS 进行加密。 最近的安全审计揭示了几种可能的攻击方式。 请看一下“man backintime”中的“安全注意事项”。"

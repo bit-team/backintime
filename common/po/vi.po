@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-12-13 07:20+0000\n"
 "Last-Translator: muda155 <muda155@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
@@ -1074,7 +1074,7 @@ msgstr "Xem nhật ký được lưu lần cuối cùng"
 msgid "Snapshot Log View"
 msgstr "Xem nhật ký snapshot"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Hồ sơ:"
@@ -1122,50 +1122,50 @@ msgstr "[E] Lỗi, [I] Thông tin, [C] Thay đổi"
 msgid "decode paths"
 msgstr "giải mã đường dẫn"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Quản lý hồ sơ"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Sửa"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Thêm"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Gỡ bỏ"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Tổng quan"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Bao gồm"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Bao gồm các tập tin và thư mục"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Thêm tập tin"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Thêm thư mục"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Ngoại trừ"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1174,25 +1174,25 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Loại trừ các pattern, tập tin hoặc thư mục"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Thêm mặc định"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Loại trừ các tập tin có kích thước lớn hơn :"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Loại trừ các tập tin có kích thước lớn hơn : "
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 #, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
@@ -1206,68 +1206,68 @@ msgstr ""
 "Nên những tập tin lớn đã được sao lưu trước đó sẽ được giữ nguyên trong snapshot\n"
 "ngay cả khi chúng có thay đổi."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "Tùy &chọn"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "Tùy chọn chuyên &gia"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Khôi phục cấu hình"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Sửa user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Hồ sơ mới"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Đổi tên hồ sơ"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Bạn có chắc chắn muốn xóa hồ sơ \"{name}\" ?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, fuzzy, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "Rất khuyến khích"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Loại trừ pattern"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Loại trừ tập tin"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Loại trừ thư mục"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Bao gồm tập tin"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1276,12 +1276,12 @@ msgstr ""
 "\"{path}\" là một liên kết tượng trưng. Tập tin gốc sẽ không được sao lưu cho đến khi bạn bao gồm nó vào nữa.\n"
 "Bạn có muốn bao gồm tập tin gốc thay vào đó?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Bao gồm thư mục"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2146,137 +2146,3 @@ msgstr "Lệnh này không thể thu hồi!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Loại trừ {path} ra khỏi các snapshot trong tương lai?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "Tự động &xóa"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Quyết định về việc thay thế để tiếp tục hỗ trợ sao lưu mã hóa vẫn đang chờ "
-#~ "xử lý, phụ thuộc vào tài nguyên dự án và sự sẵn có của người đóng góp. Thêm "
-#~ "thông tin chi tiết có sẵn ở {whitepaper} ."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Thư mục sao lưu không thể được thêm vào."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Không thể tìm thấy crontab.\n"
-#~ "Bạn có chắc là cron đã được cài đặt chưa?\n"
-#~ "Nếu chưa cài đặt bạn nên tắt tất cả sao lưu tự động."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Không thể tìm thấy thư mục snapshot.\n"
-#~ "Nếu nó nằm trong ổ cứng có thể tháo rời thì vui lòng cắm vào máy."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Không thể ghi vào “{path}”\n"
-#~ "Có thể bạn không có đủ quyền hạn để ghi?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Cảnh báo: Chỉ thay đổi những tùy chọn này nếu bạn thật sự biết mình đang làm"
-#~ " gì."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Sao chép liên kết (truy cập liên kết tượng trưng)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "THỬ NGHIỆM"
-
-#~ msgid "Finalizing"
-#~ msgstr "Đang hoàn thiện"
-
-#~ msgid "Folder"
-#~ msgstr "Thư mục"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Đường dẫn snapshot đầy đủ"
-
-#~ msgid "Help"
-#~ msgstr "Trợ giúp"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/User/Profile-ID không được để trống."
-
-#~ msgid "Hour:"
-#~ msgstr "giờ:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Tùy chọn không hợp lệ. {path} không phải là một thư mục."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Giữ một bản snapshot từ mỗi năm trong tất cả các năm."
-
-#~ msgid "Mode"
-#~ msgstr "Chế độ"
-
-#, fuzzy
-#~ msgid "Older than:"
-#~ msgstr "Cũ hơn"
-
-#~ msgid "Profile"
-#~ msgstr "Hồ sơ"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Hồ sơ '{profile}': Nhập mật khẩu cho {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang trong đoạn script user-callback không được thực thi."
-
-#, fuzzy
-#~ msgid "Smart removal:"
-#~ msgstr "Xóa thông minh:"
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Hỗ trợ cho các hồ sơ snapshot được mã hóa đang trải qua các thay đổi đáng "
-#~ "kể, và EncFS sẽ được gỡ bỏ trong tương lai gần."
-
-#~ msgid "WARNING"
-#~ msgstr "CẢNH BÁO"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Bạn phải chọn ít nhất một thư mục để sao lưu!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs phiên bản 1.7.2 và trước đó có lỗi với tùy chọn --reverse. Xin hãy cập"
-#~ " nhật encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "Đoạn script user-callback không có dòng shebang (#!/bin/sh)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} sử dụng EncFS để mã hóa. Một cuộc kiểm toán bảo mật gần đây đã tiết lộ"
-#~ " một số vectơ tấn công có thể xảy ra đối với hệ thống tập tin này. Vui lòng "
-#~ "xem qua \"GHI CHÚ VỀ BẢO MẬT\" trong \"man backintime\"."

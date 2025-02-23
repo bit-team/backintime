@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: SomeTr <sometr@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
@@ -1069,7 +1069,7 @@ msgstr "Visning av siste logg"
 msgid "Snapshot Log View"
 msgstr "Visning av snapshot logg"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1117,50 +1117,50 @@ msgstr "[E] Feil, [I] Informasjon, [C] Endring"
 msgid "decode paths"
 msgstr "Dekoder stiar"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Handter profilar"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Endra"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Legg til"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Fjern"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Generell"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Inkluder"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Inkluder filer og mapper"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Legg til fil"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Legg til mappe"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Ekskluder"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1169,25 +1169,25 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Ekskluder mønster, filer eller mapper"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Legg til default"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Ekskluder filer større enn:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Ekskluder filer større enn: "
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 #, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
@@ -1201,68 +1201,68 @@ msgstr ""
 "Så store filer som har blitt tatt backup av før blir i snapshot\n"
 "sjølv om dei har blitt endra."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Opsjonar"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "E&kspert val"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Gjennopprett konfigurasjon"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Rediger user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Ny profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Gje profilen nytt namn"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Vil du verkeleg sletta profilen \"{name}\"?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, fuzzy, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "Sterkt tilrådd"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Ekskluder mønster"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Ekskluder fil"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Ekskluder mappe"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Inkluder fil"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1271,12 +1271,12 @@ msgstr ""
 "\"{path}\" er ein symlink. Det lenka målet vil ikkje bli tatt backup av med mindre du inkluderer det og.\n"
 "Har du lyst til å inkludera symlinkmålet i staden?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Inkluder mappe"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2142,118 +2142,3 @@ msgstr "Dette kan ikkje gjerast om!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Ekskluder {path} frå nye snapshot?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "%Autofjern"
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Du kan ikkje inkludere sikkerheitskopierings-mappa."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Finn ikkje crontab.\n"
-#~ "Er du sikker på at cron er installert?\n"
-#~ "Dersom ikkje, skru av all automatisk sikkerheitskopiering."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Finn ikkje augneblinksmappa.\n"
-#~ "Dersom ho er på ei ekstern lagringseining, plugg ho i."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Kan ikkje skrive til: {path}\n"
-#~ "Er du sikker på at du har skrivetilgang?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Åtvaring: Berre endra desse vala om du verkeleg veit kva du gjer."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopier symbolske lenkjer som filer (og fjern lenkjereferansen)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EKSPERIMENTELL"
-
-#~ msgid "Finalizing"
-#~ msgstr "Sluttfører"
-
-#~ msgid "Folder"
-#~ msgstr "Mappa"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Full snapshot sti"
-
-#~ msgid "Help"
-#~ msgstr "Hjelp"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Tenar/Brukar/Profil-ID kan ikkje vere tom."
-
-#~ msgid "Hour:"
-#~ msgstr "Time:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Ugyldig val. {path} er ikkje ei mappe."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Hald på eit snapshot per år for alle åra."
-
-#~ msgid "Mode"
-#~ msgstr "Modus"
-
-#, fuzzy
-#~ msgid "Older than:"
-#~ msgstr "Eldre enn"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profil '{profile}': Oppgi passord for {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang i user-callback skriptet er ikkje eksekverbart."
-
-#, fuzzy
-#~ msgid "Smart removal:"
-#~ msgstr "Smart-sletting:"
-
-#~ msgid "WARNING"
-#~ msgstr "ÅTVARING"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Du må velja minst éi mappe for sikkerheitskopiering!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs versjon 1.7.2 og tidlegare har ein feil med tilvalet --reverse. Du må "
-#~ "oppgradere encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "user-callback skriptet har ikkje shebang (#!/bin/sh) line."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} brukar EncFS til kryptering. Ein nyleg tryggleiksrevisjon syner fleire"
-#~ " moglege åtaksvektorar for dette. Ver gild å sjekk \"NOTIS OM TRYGGLEIK\" i "
-#~ "\"man backintime\"."

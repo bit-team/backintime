@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-11-20 07:14+0000\n"
 "Last-Translator: alexgabi <alexgabi@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
@@ -1075,7 +1075,7 @@ msgstr "Azken erregistroaren ikuspegia"
 msgid "Snapshot Log View"
 msgstr "Babeskopiaren erregistro ikuspegia"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profila:"
@@ -1120,48 +1120,48 @@ msgstr "[E] Errorea, [I] Informazioa, [C] Aldaketa"
 msgid "decode paths"
 msgstr "dekodetu bide-izenak"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Kudeatu profilak"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Editatu"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Gehitu"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Kendu"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Orokorra"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Sartu"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Fitxategiak eta karpetak barne"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Gehitu fitxategia"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Gehitu direktorioa"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Kanpoan utzi"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1174,24 +1174,24 @@ msgstr ""
 "eta ereduei ez ikusi egingo zaie (adibidez, {example1}). Fitxategi-izenak ez"
 " dira aurreikusten modu honetan, EncFS-k enkriptatutakoaren ondorioz."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Baztertu txantiloi, fitxategi edo direktorio hauek"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Gehitu lehenetsia"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Utzi kanpoan hau baino handiagoak diren fitxategiak:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Utzi kanpoan {size_unit} baino handiagoak diren fitxategiak."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1203,68 +1203,68 @@ msgstr ""
 "baztertze aukera bat. Beraz babeskopia lehendik egina zituzten fitxategi "
 "handiak mantenduko dira irudian nahiz eta aldaketak jasan."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Aukerak"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "A&ukera aurreratuak"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Leheneratu konfigurazioa"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Editutatu erabiltzailearen atzeradeia"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Profil berria"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Berrizendatu profila"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Seguru zaude \"{name}\" profila ezabatu nahi duzula?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Oso gomendagarria{ENDBOLD}: (Gomendio guztiak dagoeneko sartuta.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Oso gomendagarria{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Baztertu txantiloia"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Baztertu fitxategia"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Baztertu direktorioa"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Sartu fitxategia"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1273,11 +1273,11 @@ msgstr ""
 "\"{path}\" esteka sinboliko bat da. Estekatutako objektuaren babeskopia ez da egingo are eta bera ere gehitu arte.\n"
 "Nahi duzu gehitu esteka sinbolikoen helburu-objektuak?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Sartu direktorioa"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2147,163 +2147,3 @@ msgstr "KONTUZ: Honek ez dauka atzera bueltarik."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Baztertu {path} hurrengo babeskopietan?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&Ezabaketa automatikoa"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Zifratutako babeskopien laguntza jarraituaren ordezko erabakia oraindik zain"
-#~ " dago, proiektuaren baliabideen eta laguntzaileen jarreraren arabera. "
-#~ "Xehetasun gehiago eskuragarri daude {whitepaper} honetan."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Zifratutako babeskopien laguntza jarraituaren ordezko erabakia oraindik zain"
-#~ " dago, proiektuaren baliabideen eta laguntzaileen erabilgarritasunaren "
-#~ "arabera. Erabiltzaileak eztabaida honetan parte hartzera gonbidatuta daude. "
-#~ "Hurrengo urratsei buruzko xehetasun eguneratuak eskuragarri daude liburu "
-#~ "zuri honetan {whitepaper}."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Ezin da babeskopia karpeta sartu."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Ezin da aurkitu crontab. Seguru zaude crontab instalatuta dagoela? Crontab "
-#~ "ez baduzu babeskopia automatiko guztiak ezgaitu beharko zenuke."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Ezin izan da babeskopien karpeta aurkitu.\n"
-#~ "Karpeta unitate eramangarri batean badago konekta ezazu gailua."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Ezin da hor idatzi: {path}\n"
-#~ "Ziur zaude idazteko baimenik baduzula?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Kontuz: aldatu aukera hauek bakarrik zertan ari zaren badakizu."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopiatu estekak (erreferentzia kendu esteka sinbolikoei)"
-
-#~ msgid "Directory"
-#~ msgstr "Direktorioa"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "ESPERIMENTALA"
-
-#~ msgid "Finalizing"
-#~ msgstr "Amaitzen"
-
-#~ msgid "Folder"
-#~ msgstr "Karpeta"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Babeskopiaren bide osoa"
-
-#~ msgid "Help"
-#~ msgstr "Laguntza"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Ostalari/Erabiltzaile/Profila-ID ez da hutsik egon behar."
-
-#~ msgid "Hour:"
-#~ msgstr "Ordua:"
-
-#~ msgid "Info"
-#~ msgstr "Informazioa"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Aukera baliogabea. {path} ez da karpeta bat."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Mantendu babeskopia bat urteko urte guztietan."
-
-#~ msgid "Mode"
-#~ msgstr "Modua"
-
-#~ msgid "Older than:"
-#~ msgstr "Hau baino zaharragoa:"
-
-#~ msgid "Profile"
-#~ msgstr "Profila"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "'{profile}' profila: Sartu pasahitza honentzat {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr ""
-#~ "Erabiltzalearen atzera-deiaren scriptaren shebang ez da exekutagarria."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Ezabatze adimendua:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "EncFSrako euskarria eten egingo da etorkizun hurbilean. Zifratutako "
-#~ "babeskopien laguntza jarraituaren ordezko erabakia oraindik zain dago, "
-#~ "proiektuaren baliabideen eta laguntzaileen jarreraren arabera. Xehetasun "
-#~ "gehiago eskuragarri daude {whitepaper} honetan."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Enkriptatutako irudi-profilen euskarria aldaketa nabarmenak jasaten ari "
-#~ "dira, eta etorkizun hurbilean EncFS kenduko da."
-
-#~ msgid "WARNING"
-#~ msgstr "ABISUA"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Gutxienez karpeta bat hautatu behar duzu babeskopiarako!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs-ren 1.7.2 bertsioak eta honen aurrekoek badute akats bat --reverse "
-#~ "aukeran. Eguneratu encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr ""
-#~ "Erabiltzailearen atzeradeia-scriptak ez dauka shebang (#!/bin/sh) lerrorik."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app}-k EncFS erabiltzen du kodetzeko. Berriki egindako segurtasun auditoria"
-#~ " batek hari egindako hainbat erasoen berri eman du. Eman begirada bat "
-#~ "Backintime-ren man-eko 'A NOTE ON SECURITY' oharrari."

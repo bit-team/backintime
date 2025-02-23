@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-08-02 06:55+0000\n"
 "Last-Translator: itay-goldraich <itay-goldraich@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -1046,7 +1046,7 @@ msgstr "תצוגת היומן האחרון"
 msgid "Snapshot Log View"
 msgstr "תצוגת יומן תמונות מצב"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "פרופיל:"
@@ -1091,50 +1091,50 @@ msgstr "[E] שגיאה, [I] מידע, [C] שינוי"
 msgid "decode paths"
 msgstr "פענוח נתיבים"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "ניהול פרופילים"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "עריכה"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "הוספה"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "הסרה"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&כללי"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "לכלול"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "לכלול קבצים ותיקיות"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "הוספת קובץ"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "הוספת תיקייה"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "לה&חריג"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1143,25 +1143,25 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "החרגת תבניות, קבצים או תיקיות"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "הוספת ברירת מחדל"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "החרגת קבצים שגדולים מאשר:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "החרגת קבצים שגדולים מהערך {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1169,80 +1169,80 @@ msgid ""
 "they have been modified."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&אפשרויות"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "אפשרויות &מומחים"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "שחזור הגדרות"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "עריכת משוב משתמש"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "פרופיל חדש"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "שינוי שם לפרופיל"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "למחוק את הפרופיל „{name}”?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}מומלץ בחום{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "הכללת תבנית"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "הכללת קובץ"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "הכללת תיקיה"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "לכלול קובץ"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "לכלול תיקיה"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2062,100 +2062,3 @@ msgstr "אזהרה: אי אפשר לשלול את זה."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "להחריג את {path} מתמונות מצב עתידיות?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "ה&סרה אוטומטית"
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "אי אפשר לכלול את תיקיית הגיבוי."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "לא ניתן למצוא crontab.\n"
-#~ "האם cron מותקן?\n"
-#~ "אם לא יש לבטל את כל הגיבויים האוטומטיים."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "לא ניתן למצוא את תיקיית הגיבוי.\n"
-#~ "אם הגיבוי נמצא בכונן נשלף, צריך לחבר אותו."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "לא ניתן לכתוב אל: {path}\n"
-#~ "האם אתה בטוח שיש ברשותך גישה לכתיבה ?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "אזהרה: עדיף לשנות את ההגדרות האלה רק אם ברור לך לחלוטין מה תהיה התוצאה."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "העתקת קישורים (ביטול הפניה של קישורים סמליים)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "נסיוני"
-
-#~ msgid "Finalizing"
-#~ msgstr "בהליכי סיום"
-
-#~ msgid "Folder"
-#~ msgstr "תיקייה"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "נתיב מלא לתמונת מצב"
-
-#~ msgid "Help"
-#~ msgstr "עזרה"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "מארח/משתמש/מזהה פרופיל לא יכולים להישאר ריקים."
-
-#~ msgid "Hour:"
-#~ msgstr "שעה:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "אפשרות שגויה. {path} אינה תיקייה."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "לשמור תמונת מצב אחת מכל שנה."
-
-#~ msgid "Mode"
-#~ msgstr "מצב"
-
-#~ msgid "Older than:"
-#~ msgstr "לפני:"
-
-#~ msgid "Profile"
-#~ msgstr "פרופיל"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "פרופיל ‚{profile}’: נא למלא סיסמה עבור {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "שורת הפיקוד - Shebang בסקריפט משוב משתמש אינה ניתנת להפעלה."
-
-#~ msgid "Smart removal:"
-#~ msgstr "הסרה חכמה:"
-
-#~ msgid "WARNING"
-#~ msgstr "אזהרה"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "יש לבחור בתיקייה אחת לפחות לגיבוי!"
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "לסקריפט משוב משתמש אין שורת פיקוד - shebang‏ (‎#/bin/sh)."

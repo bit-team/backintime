@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-11-17 12:02+0000\n"
 "Last-Translator: andika <andika@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
@@ -1066,7 +1066,7 @@ msgstr "Tampilan Log Terakhir"
 msgid "Snapshot Log View"
 msgstr "Tampilan Log Snapshot"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1110,48 +1110,48 @@ msgstr "[E] Kesalahan, [I] Informasi, [C] Ubah"
 msgid "decode paths"
 msgstr "dekode path"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Kelola profil"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Sunting"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Tambah"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Buang"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Umum"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Sertakan"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Sertakan berkas dan direktori"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Tambah berkas"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Tambah direktori"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "K&ecualikan"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1164,24 +1164,24 @@ msgstr ""
 "akan diabaikan (mis. {example1}). Nama berkas itu tidak dapat ditebak dalam "
 "mode ini karena enkripsi oleh EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Kecualikan pola, berkas, atau direktori"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Tambahkan baku"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Abaikan berkas yang lebih dari:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Abaikan berkas yang lebih dari {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1193,67 +1193,67 @@ msgstr ""
 "pengabaian. Maka berkas-berkas besar yang telah dicadangkan sebelumnya akan "
 "tetap berada dalam snapshot-snapshot bahkan setelah mereka berubah."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Opsi"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "Opsi &Pakar"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Pulihkan Konfigurasi"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Sunting user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Profil baru"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Ubah nama profil"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Yakin ingin menghapus profil \"{name}\" ?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}Sangat disarankan{ENDBOLD}: (Semua saran telah disertakan.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Sangat disarankan{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Abaikan pola"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Abaikan berkas"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Abaikan direktori"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Sertakan berkas"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1262,11 +1262,11 @@ msgstr ""
 "\"{path}\" adalah sebuah symlink. Tujuan yang ditaut tidak akan dicadangkan hingga Anda juga menyertakannya.\n"
 "Apakah Anda ingin menyertakan tujuan yang di-symlink sebagai pengganti?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Sertakan direktori"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2135,160 +2135,3 @@ msgstr "PERINGATAN: Ini tidak dapat dicabut."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jangan ikutkan \"{path}\" dari snapshot mendatang?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "Bu&ang Otomatis"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Suatu keputusan tentang pengganti bagi dukungan lanjutan dari cadangan "
-#~ "terenkripsi masih tertunda, bergantung pada ketersediaan kontributor dan "
-#~ "sumber daya proyek. Rincian lebih jauh tersedia di {whitepaper} ini."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Suatu keputusan tentang penggantian bagi dukungan lanjutan dari backup "
-#~ "terenkripsi masih tertunda, bergantung pada ketersediaan kontributor dan "
-#~ "sumber daya proyek. Pengguna diundang untuk bergabung ke diskusi ini. "
-#~ "Rincian yang diperbarui tentang langkah-langkah selanjutnya tersedia dalam "
-#~ "{whitepaper} ini."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Folder backup tidak boleh disertakan."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Tidak dapat menemukan crontab. Apakah Anda yakin cron sudah terpasang? Jika "
-#~ "tidak, Anda harus mematikan semua backup otomatis."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Tak bisa temukan direktori snapshots.\n"
-#~ "Jika berada di drive lepas pasang, harap tancapkan."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Tak bisa menulis ke: {path}\n"
-#~ "Apakah Anda yakin memiliki hak untuk menulis?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Hati-hati: Ubah opsi ini hanya jika Anda benar-benar tahu apa yang Anda "
-#~ "lakukan."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Salin link (dereference link simbolik)"
-
-#~ msgid "Directory"
-#~ msgstr "Direktori"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EKSPERIMENTAL"
-
-#~ msgid "Finalizing"
-#~ msgstr "Menyelesaikan"
-
-#~ msgid "Folder"
-#~ msgstr "Folder"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Path snapshot lengkap"
-
-#~ msgid "Help"
-#~ msgstr "Bantuan"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/User/Profile-ID tidak boleh kosong."
-
-#~ msgid "Hour:"
-#~ msgstr "Jam:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Opsi tidak valid. {path} bukan sebuah folder."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Simpan satu snapshot tiap tahun untuk semua tahun."
-
-#~ msgid "Mode"
-#~ msgstr "Mode"
-
-#~ msgid "Older than:"
-#~ msgstr "Lebih lama dari:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profil '{profile}': Masukkan kata sandi untuk {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang dalam skrip user-callback tidak dapat dijalankan."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Penghapusan pintar:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Dukungan bagi EncFS akan dihentikan di masa mendatang. Suatu keputusan "
-#~ "tentang penggantian untuk dukungan lanjutan dari backup terenkripsi masih "
-#~ "tertunda, bergantung kepada ketersediaan kontributor dan sumber daya proyek."
-#~ " Rincian lebih banyak tersedia di {whitepaper} ini."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Dukungan bagi profil snapshot terenkripsi sedang mengalami perubahan "
-#~ "signifikan, dan EncFS akan dihapus di masa mendatang."
-
-#~ msgid "WARNING"
-#~ msgstr "PERINGATAN"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Anda harus memilih setidaknya satu folder untuk backup!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs versi 1.7.2 dan sebelumnya mempunyai bug ketika menggunakan opsi "
-#~ "--reverse. Silakan perbaharui encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "skrip user-callback tidak memiliki baris shebang (#!/bin/sh)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} menggunakan EncFS untuk enkripsi. Pemeriksaan keamanan baru-baru ini "
-#~ "menemukan beberapa kemungkinan vektor serangan untuk ini. Mohon melihat "
-#~ "\"CATATAN TENTANG KEAMANAN\" dalam \"man backintime\"."

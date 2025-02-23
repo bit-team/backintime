@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-10-27 20:42+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
@@ -1093,7 +1093,7 @@ msgstr "Ver el último registro"
 msgid "Snapshot Log View"
 msgstr "Ver registro de instantáneas"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Perfil:"
@@ -1138,50 +1138,50 @@ msgstr "[E] Error, [I] Información, [C] Cambiar"
 msgid "decode paths"
 msgstr "decodificar rutas"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Administrar perfiles"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Editar"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Añadir"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Quitar"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&General"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Incluir"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Incluir archivos y carpetas"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Añadir archivo"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Añadir carpeta"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Excluir"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1195,25 +1195,25 @@ msgstr ""
 "nombres de archivo son impredecibles en este modo debido a la encriptación "
 "de EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Excluir patrones, archivos o carpetas"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Agregar valor predeterminado"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Excluir archivos mayores que:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Excluir archivos mayores que el valor en {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1226,69 +1226,69 @@ msgstr ""
 "haya realizado una copia de seguridad anteriormente persistirán en las "
 "instantáneas aunque se hayan modificado."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Opciones"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "A&justes avanzados"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Restablecer configuración"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Editar user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Nuevo perfil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Renombrar perfil"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "¿Estás seguro de que quieres borrar el perfil \"{name}\"?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Muy recomendable{ENDBOLD}: (Todas las recomendaciones ya incluidas.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Muy recomendable{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Excluir patrón"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Excluir archivo"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Excluir carpeta"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Incluir archivo"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1297,12 +1297,12 @@ msgstr ""
 "\"{path}\" es un enlace simbólico. El destino vinculado no se incluirá en la copia de seguridad hasta que usted también lo incluya.\n"
 "¿Desea incluir el enlace simbólico en su lugar?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Incluir carpeta"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2170,162 +2170,3 @@ msgstr "ADVERTENCIA: No se puede revocar."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "¿Excluir {path} de futuras instantáneas?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "Eliminar &automáticamente"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Aún está pendiente una decisión sobre un reemplazo para el soporte continuo "
-#~ "de copias de seguridad cifradas, dependiendo de los recursos del proyecto y "
-#~ "la disponibilidad de los colaboradores. Hay más detalles disponibles en este"
-#~ " {whitepaper} ."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Aún está pendiente una decisión sobre un reemplazo para el soporte continuo "
-#~ "de copias de seguridad cifradas, dependiendo de los recursos del proyecto y "
-#~ "la disponibilidad de los colaboradores. Se invita a los usuarios a unirse a "
-#~ "esta discusión. Los detalles actualizados sobre los próximos pasos están "
-#~ "disponibles en este {whitepaper} ."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "No se puede incluir la carpeta para la copia de seguridad."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "No se puede encontrar crontab. ¿Estás seguro de que tienes cron instalado? "
-#~ "Si no está instalado, debe desactivar todas las copias de seguridad "
-#~ "automáticas."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "No se puede encontrar la carpeta de instantáneas.\n"
-#~ "Si está en una unidad extraíble, conéctela."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "No se puede escribir en: {path}\n"
-#~ "¿Está seguro de que tiene permiso de escritura?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Atención: Cambie estas opciones sólo si realmente sabe lo que está haciendo."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Copiar vínculos (descarta vínculos simbólicos)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EXPERIMENTAL"
-
-#~ msgid "Finalizing"
-#~ msgstr "Terminando"
-
-#~ msgid "Folder"
-#~ msgstr "Carpeta"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Ruta completa de la instantánea"
-
-#~ msgid "Help"
-#~ msgstr "Ayuda"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "El ID para el host/usuario/perfil no puede estar vacío."
-
-#~ msgid "Hour:"
-#~ msgstr "Hora:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Opción inválida. {path} no es una carpeta válida."
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "¿Es este el destino de copia de seguridad que se va a utilizar?"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Conserve una instantánea al año para todos los años."
-
-#~ msgid "Mode"
-#~ msgstr "Modo"
-
-#~ msgid "Older than:"
-#~ msgstr "Mayor que:"
-
-#~ msgid "Profile"
-#~ msgstr "Perfil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Perfil '{profile}': Ingrese clave para {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang en el script user-callback no es ejecutable."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Eliminación inteligente:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "El soporte para EncFS se suspenderá en un futuro previsible. Está pendiente "
-#~ "una decisión sobre un reemplazo para continuar admitiendo copias de "
-#~ "seguridad cifradas y depende de los recursos del proyecto y la "
-#~ "disponibilidad de los contribuyentes. Más detalles están a continuación "
-#~ "{whitepaper} disponible."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "El soporte para perfiles de instantáneas encriptadas está experimentando "
-#~ "cambios significativos y EncFS se eliminará en el futuro cercano."
-
-#~ msgid "WARNING"
-#~ msgstr "ADVERTENCIA"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "¡Se debe seleccionar al menos una carpeta para la copia de seguridad!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "La versión 1.7.2 de encfs y anteriores presentan un error con option "
-#~ "--reverse. Por favor, actualice encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "El script user-callback no tiene línea shebang (#!/bin/sh)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} utiliza EncFS para el cifrado. Una reciente auditoría de seguridad "
-#~ "reveló varios posibles vectores de ataque para esto. Por favor, echa un "
-#~ "vistazo a \"UNA NOTA SOBRE SEGURIDAD\" en \"man backintime\"."

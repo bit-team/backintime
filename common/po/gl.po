@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: mbouzada <mbouzada@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
@@ -1075,7 +1075,7 @@ msgstr "Vista do último rexistro"
 msgid "Snapshot Log View"
 msgstr "Vista do rexistro de instantáneas"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Perfil:"
@@ -1120,48 +1120,48 @@ msgstr "[E] Erro, [I] Información, [C] Cambio"
 msgid "decode paths"
 msgstr "descodificar rutas"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Xestionar perfís"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Editar"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Engadir"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Retirar"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Xeral"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Incluír"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Incluír os ficheiros e os directorios"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Engadir ficheiro"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Engadir directorio"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Excluír"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1174,24 +1174,24 @@ msgstr ""
 "de comodíns e patróns (p. ex., {example1}). Os nomes de ficheiros son "
 "imprevisíbeis neste modo por mor do cifrado de EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Excluír os patróns, ficheiros ou directorios"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Engadir predeterminado"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Excluír ficheiros maiores de:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Excluír os ficheiros máis grandes que o valor en {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1203,68 +1203,68 @@ msgstr ""
 " os ficheiros grandes que se copiaron antes permanecerán nas copias, mesmo "
 "se tiveron cambios."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr "&Retirada e retención"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Opcións"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "O&pcións avanzadas"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Restaurar a configuración"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Editar a devolución de chamada do usuario"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Perfil novo"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Renomear o perfil"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Confirma que quere eliminar o perfil «{name}»?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Moi recomendado{ENDBOLD}: (Todas as recomendacións xa incluídas.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Moi recomendado{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Excluír o patrón"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Excluír o ficheiro"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Excluír o directorio"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Incluír o ficheiro"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1273,11 +1273,11 @@ msgstr ""
 "«{path}» é unha ligazón simbólica. Non se fará unha copia de seguranza do destino ligado ata que tamén o inclúa.\n"
 "Quere incluír no seu lugar o destino da ligazón simbólica?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Incluír o directorio"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2136,155 +2136,3 @@ msgstr "ADVERTENCIA: isto non se pode revogar."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Excluír {path} de instantáneas futuras?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "Remoción &automática"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Aínda está pendente unha decisión sobre a substitución para a "
-#~ "compatibilidade continua das copias de seguranza cifradas, dependendo dos "
-#~ "recursos do proxecto e da dispoñibilidade dos colaboradores. Hai máis "
-#~ "detalles dispoñíbeis neste {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Aínda está pendente unha decisión sobre a substitución para a "
-#~ "compatibilidade continua das copias de seguranza cifradas, dependendo dos "
-#~ "recursos do proxecto e da dispoñibilidade dos colaboradores. Os usuarios "
-#~ "están convidados a unirse a este debate. Os detalles actualizados sobre os "
-#~ "seguintes pasos están dispoñíbeis neste {whitepaper}."
-
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Non é posíbel incluír o directorio de copias de seguranza."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Non se atopou o «crontab». Ten certeza de que «cron» está instalado? Se non "
-#~ "o está debería desactivar todas as copias automáticas."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Non é posíbel atopar o directorio das instantáneas.\n"
-#~ "Se está nun dispositivo extraíbel débeo conectar."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Non é posíbel escribir en: {path}\n"
-#~ "Está seguro de ter permiso de escritura?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Amodo: cambie estas opcións só se sabe ben o que está a facer."
-
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Copiar as ligazóns (resolver as ligazóns simbólicas)"
-
-#~ msgid "Directory"
-#~ msgstr "Directorio"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EXPERIMENTAL"
-
-#~ msgid "Finalizing"
-#~ msgstr "Rematando"
-
-#~ msgid "Folder"
-#~ msgstr "Cartafol"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Ruta completa á instantánea"
-
-#~ msgid "Help"
-#~ msgstr "Axuda"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "O servidor/usuario/ID do perfil non poden estar baleiros."
-
-#~ msgid "Hour:"
-#~ msgstr "Hora:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Оpción non válida. {path} non é un cartafol."
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "É este o destino de copia de seguranza que se utilizará?"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Conservar unha instantánea por ano de todos os anos."
-
-#~ msgid "Mode"
-#~ msgstr "Modo"
-
-#~ msgid "Older than:"
-#~ msgstr "Maior de:"
-
-#~ msgid "Profile"
-#~ msgstr "Perfil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Perfil «{profile}»: Introduza o contrasinal de {mode}: "
-
-#~ msgid "Smart removal:"
-#~ msgstr "Eliminación intelixente:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "A compatibilidade con EncFS interromperase nun futuro próximo. Aínda está "
-#~ "pendente unha decisión sobre a substitución para a compatibilidade continua "
-#~ "das copias de seguranza cifradas, dependendo dos recursos do proxecto e da "
-#~ "dispoñibilidade dos colaboradores. Hai máis detalles dispoñíbeis neste "
-#~ "{whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "A compatibilidade con perfís de instantáneas cifradas está a experimentar "
-#~ "cambios significativos e EncFS vai ser eliminado nun futuro próximo."
-
-#~ msgid "WARNING"
-#~ msgstr "ADVERTENCIA"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Debe escoller polo menos un cartafol para a copia de seguranza!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "A versión de encfs 1.7.2 e anteriores teñen un fallo coa opción --reverse. "
-#~ "Actualice encfs."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} emprega o cifrado de EncFS. Unha auditoría recente de seguranza "
-#~ "mostrou varios posíbeis vectores de ataque para el. Bote unha ollada a «A "
-#~ "NOTE ON SECURITY» no manual do backintime."
