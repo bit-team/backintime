@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-08-03 15:02+0000\n"
 "Last-Translator: zvavybir <zvavybir@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
@@ -1079,7 +1079,7 @@ msgstr "Vidaĵo je lastaj protokoloj"
 msgid "Snapshot Log View"
 msgstr "Vidaĵo je momentaĵoj"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profilo:"
@@ -1124,50 +1124,50 @@ msgstr "[E] Eraro, [I] Informoj, [C] Ŝanĝo"
 msgid "decode paths"
 msgstr "Malĉifri vojojn"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Administri profilojn"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Redakti"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Aldoni"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Forigi"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Ĝenerale"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Inkluzivi"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Inkluzivi dosierojn kaj dosierujojn"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Aldoni dosieron"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Aldoni dosierujon"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Ekskluzivi"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1180,25 +1180,25 @@ msgstr ""
 "estos ignoritaj (ekz. {example1}). Nomoj de dosieroj estas neantaŭvideblaj "
 "je tio reĝimo pro la kriptado de EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Ekskluzivi ŝablonojn, dosierojn aŭ dosierujojn"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Aldoni defaŭlton"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Ekskluzivi dosierojn pli grandajn ol:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Ekskluzivi dosierojn pli grandajn ol {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1210,40 +1210,40 @@ msgstr ""
 "grandaj dosieroj, kiujn estis savkopiita antaŭe, restos en momentaĵoj, eĉ se"
 " ili ŝanĝis."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Opcioj"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "&Specialaj Opcioj"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Restaŭri agordon"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Redakti user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Nova profilo"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Renomi profilon"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Ĉu vi certas ke vi volas forigi la profilon \"{name}\"?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1251,29 +1251,29 @@ msgstr ""
 "{BOLD}Treege rekomenditoj{ENDBOLD}: (Ĉiuj rekomendoj estas inkluzivitaj "
 "jam.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Treege rekomenditoj{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Ekskludi ŝablonon"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Ekskludi dosieron"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Ekskludi dosierujon"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Inkludi dosieron"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1282,12 +1282,12 @@ msgstr ""
 "\"{path}\" estas simbola ligilo. La ligita celo ne estos savkopiata ĝis vi inkludi ĝin ankaŭ.\n"
 "Ĉu vi volas inkludi la simbole ligitan celon anstataŭ?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Inkludi dosierujon"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Malŝaltita, ĉar tio ŝablono ne funkcias je 'kriptita SSH' reĝimo."
@@ -2146,157 +2146,3 @@ msgstr "AVERTO: Ĉi tio ne povas esti nuligita."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Ekskluzivi {path} de estontaj momentaĵoj?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&Forigi aŭtomate"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Decido pri anstataŭaĵo por plu-subteni de kriptitaj savkopioj estas ankoraŭ "
-#~ "pritraktata, depende je rimedo de la projekto kaj havebleco de "
-#~ "kontribuantoj. Pli detaloj estas in tio {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Decido pri anstataŭaĵo por plu-subteni de kriptitaj savkopioj estas ankoraŭ "
-#~ "pritraktata, depende je rimedo de la projekto kaj havebleco de "
-#~ "kontribuantoj. Uzantoj estas kuraĝigita partopreni je la diskuto. Ĝisdataj "
-#~ "detaloj je la sekvontaj paŝoj estas in tio {whitepaper}."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Savkopi-dosierujon ne eblis inkluzivi."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Ne povas trovi crontab-o.\n"
-#~ "Ĉu vi certas, ke cron estas instalita?\n"
-#~ "Se ne, vi devus malvalidigi ĉiujn aŭtomatajn savkopiojn."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Ne povas trovi momentaĵdosierujon.\n"
-#~ "Se ĝi estas je demetabla memorilo, bonvolu konekti ĝin."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Ne povas skribi al: {path}\n"
-#~ "Ĉu vi certas ke vi havas permeson por skribi?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Singardo: Ŝanĝu tiojn opciojn sole se vi reale scias, kiun vi faras."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopii lingilojn (forigi simbolajn lingilojn)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EKSPERIMENTA"
-
-#~ msgid "Finalizing"
-#~ msgstr "Finanta"
-
-#~ msgid "Folder"
-#~ msgstr "Dosierujo"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Tuta momentaĵvojo"
-
-#~ msgid "Help"
-#~ msgstr "Helpo"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr ""
-#~ "Gastiga komputilo/Uzanto/Identigilo de profilo ne devas esti malplena."
-
-#~ msgid "Hour:"
-#~ msgstr "Horo:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Nevalida opcio. {path} ne estas dosierujo."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Savi unu momentaĵon por jaro je ĉiuj jaroj."
-
-#~ msgid "Mode"
-#~ msgstr "Maniero"
-
-#~ msgid "Older than:"
-#~ msgstr "Pli malnova ol:"
-
-#~ msgid "Profile"
-#~ msgstr "Profilo"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profilo'{profile}': Enmeti pasvorton por {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang en skripto de user-callback ne estas plenumebla."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Inteligenta forigo:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Post ne longe EncFS ne estos subtenata. Decido pri anstataŭaĵo por plu-"
-#~ "subteni de kriptitaj savkopioj estas ankoraŭ pritraktata, depende je rimedo "
-#~ "de la projekto kaj havebleco de kontribuantoj. Pli detaloj estas in tio "
-#~ "{whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Subteno por profiloj kun kriptitaj momentaĵoj estas ŝanĝata nuntempe, kaj "
-#~ "EncFS estos forigita post ne longe."
-
-#~ msgid "WARNING"
-#~ msgstr "AVERTO"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Vi devas elekti almenaŭ unun dosierujon por sekurkopio!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "Estas cimo kun opcio --reverse en encfs de la versio 1.7.2 kaj plu fruaj "
-#~ "versioj. Bonvolu ĝisdatigi encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "Skripto de user-callback ne havas shebang (#!/bin/sh)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} uzas EncFS por ĉifrado. Freŝa sekurekzameno vidigas kelkaj da atakoj "
-#~ "contraŭ tio. Bonvolu rigardi \"A NOTE ON SECURITY\" en \"man backintime\"."

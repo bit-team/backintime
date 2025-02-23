@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-07-22 12:37+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -1087,7 +1087,7 @@ msgstr "Utolsó napló megtekintése"
 msgid "Snapshot Log View"
 msgstr "Pillanatkép naplójának megtekintése"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1133,50 +1133,50 @@ msgstr "[E] hiba, [I] információ, [C] változtatás"
 msgid "decode paths"
 msgstr "útvonalak visszafejtése"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Profilok kezelése"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "Á&ltalános"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Felvétel"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Fájlok és mappák felvétele"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Mappa hozzáadása"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Kizárás"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1185,25 +1185,25 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Minták, fájlok vagy mappák kizárása"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Alapértelmezett hozzáadása"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Ennél nagyobb fájlok kizárása:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Ennél nagyobb fájlok kizárása: "
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 #, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
@@ -1217,68 +1217,68 @@ msgstr ""
 "kapcsoló. Tehát a korábban biztonsági mentett nagy fájlok megmaradnak\n"
 "a pillanatképekben, akkor is ha megváltoztak."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Beállítások"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "S&zakértői beállítások"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Beállítások helyreállítása"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Felhasználó-visszahívás szerkesztése"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Új profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Profil átnevezése"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Biztosan törölni szeretné a(z) „{name}” profilt?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, fuzzy, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "Erősen ajánlott"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Minta kizárása"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Fájl kizárása"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Mappa kizárása"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Fájl felvétele"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1287,12 +1287,12 @@ msgstr ""
 "A(z) „{path}” útvonal egy szimbolikus hivatkozás. A hivatkozott cél nem kerül biztonsági mentésre, amíg azt is fel nem veszi.\n"
 "Szeretné a szimbolikus hivatkozás célját felvenni helyette?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Mappa felvétele"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2167,124 +2167,3 @@ msgstr "Nem lehet visszavonni!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Kizárja a(z) „{path}” útvonalat a jövőbeli pillanatképekből?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&Automatikus eltávolítás"
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "A biztonsági mentés mappáját nem lehet felvenni."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "A crontab nem található.\n"
-#~ "Biztos benne, hogy a cron telepítve van?\n"
-#~ "Ha nincs, akkor le kell tiltania az automatikus biztonsági mentéseket."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Nem található a pillanatképek mappája.\n"
-#~ "Ha cserélhető meghajtón van, akkor helyezze be."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Nem lehet írni ide: {path}\n"
-#~ "Biztosan van írási joga?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Vigyázat! Csak akkor változtassa meg ezeket a beállításokat, ha valóban "
-#~ "tudja, hogy mit csinál."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Hivatkozások másolása (szimbolikus hivatkozások megszüntetése)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "KÍSÉRLETI"
-
-#~ msgid "Finalizing"
-#~ msgstr "Véglegesítés"
-
-#~ msgid "Folder"
-#~ msgstr "Mappa"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Teljes pillanatkép útvonala"
-
-#~ msgid "Help"
-#~ msgstr "Súgó"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "A gép-, felhasználó- vagy profilazonosító nem lehet üres."
-
-#~ msgid "Hour:"
-#~ msgstr "Óra:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Érvénytelen kapcsoló. A(z) {path} nem mappa."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Évi egy pillanatkép megtartása minden évről."
-
-#~ msgid "Mode"
-#~ msgstr "Mód"
-
-#~ msgid "Older than:"
-#~ msgstr "Régebbi mint:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "„{profile}” profil: adja meg a jelszót a(z) {mode} módhoz: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr ""
-#~ "A felhasználó-visszahívási parancsfájlban lévő parancsértelmezőt megadó sor "
-#~ "nem futtatható."
-
-#, fuzzy
-#~ msgid "Smart removal:"
-#~ msgstr "Intelligens eltávolítás:"
-
-#~ msgid "WARNING"
-#~ msgstr "FIGYELMEZTETÉS"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Legalább egy mappát ki kell jelölnie a biztonsági mentéshez!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "Az encfs 1.7.2-es és korábbi verzióinál a --reverse kapcsoló hibásan "
-#~ "működik. Frissítse az encfs programot."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr ""
-#~ "A felhasználó-visszahívási parancsfájlnak nincs parancsértelmezőt megadó "
-#~ "(#!/bin/sh) sora."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "A(z) {app} EncFS-t használ a titkosításhoz. Egy nemrég végzett biztonsági "
-#~ "ellenőrzés számos lehetséges támadási vektort fedezett fel erre vonatkozóan."
-#~ " Nézze meg az „A NOTE ON SECURITY” fejezetet a „man backintime” "
-#~ "kézikönyvben."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-07-22 07:07+0000\n"
 "Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
@@ -1087,7 +1087,7 @@ msgstr "Son Günlük Görünüm"
 msgid "Snapshot Log View"
 msgstr "Anlık Görüntü Günlük Görünümü"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1132,50 +1132,50 @@ msgstr "[E] Hata, [I] Bilgi, [C] Değiştir"
 msgid "decode paths"
 msgstr "kod çözümleme yolları"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Profilleri yönet"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Düzenle"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Ekle"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Kaldır"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Genel"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Dahil Et"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Dosyaları ve klasörleri dahil et"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Dosya Ekle"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Klasör Ekle"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "Dışl&a"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1188,26 +1188,26 @@ msgstr ""
 "desenler göz ardı edilir (örneğin {example1}). Dosya adları, EncFS "
 "tarafından şifrelendiği için bu modda öngörülemez."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Dışlama deseni, dosyalar veya klasörler"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Öntanımlı Ekle"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Dışarıda bırakılacak dosyaların boyutundan büyük olanlar:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr ""
 "{size_unit} biriminde belirtilen değerden büyük dosyaları dışarıda bırakın."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1219,68 +1219,68 @@ msgstr ""
 "yedeklenmiş büyük dosyalar, değiştirilmiş olsalar bile anlık görüntülerde "
 "korunacaktır."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Seçenekler"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "&Uzman Seçenekleri"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Yapılandırma Geri Yükle"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Kullanıcı Geri Çağrısını Düzenle"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Yeni profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Profili yeniden adlandır"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "\"{name}\" profilini silmek istediğinizden emin misiniz?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}Önemle Önerilir{ENDBOLD}: (Tüm öneriler zaten dahil edildi.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Önemle Tavsiye Edlilir{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Dışlama deseni"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Dosyayı dışla"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Klasörü dışla"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Dosyayı dahil et"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1289,12 +1289,12 @@ msgstr ""
 "\"{path}\" bir sembolik bağlantı. Bağlantılı hedef, siz onu da dahil edene kadar yedeklenmeyecek.\n"
 "Bunun yerine sembolik bağlantının hedefini dahil etmek ister misiniz?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Klasörü dahil et"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2165,157 +2165,3 @@ msgstr "UYARI: Bu işlemin geri alınması mümkün değil."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "{path} yolu gelecek anlık görüntülerden dışlansın mı?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&Kendiliğinden Kaldır"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Şifreli yedeklemelerin sürekli desteklenmesi için bir değiştirme kararı hala"
-#~ " bekleniyor, proje kaynaklarına ve katkı sağlayıcıların uygunluğuna bağlı "
-#~ "olarak. Daha fazla detay bu {whitepaper}'da bulunabilir."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Şifreli yedeklemelerin sürekli desteklenmesi için bir değiştirme kararı hala"
-#~ " bekleniyor, proje kaynaklarına ve katkı sağlayıcıların uygunluğuna bağlı "
-#~ "olarak. Kullanıcılar bu tartışmaya katılmaya davet ediliyor. İleriki adımlar"
-#~ " hakkında güncel bilgiler bu {whitepaper}'da bulunabilir."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Yedekleme klasörü dahil edilemez."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Crontab dosyası bulunamadı. Cron yüklü olduğundan emin misiniz? Değilse, tüm"
-#~ " otomatik yedeklemeleri devre dışı bırakmalısınız."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Anlık görüntü klasörü bulunamadı.\n"
-#~ "Çıkarılabilir bir sürücüyse lütfen takınız."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Yazılamıyor: {path}\n"
-#~ "Yazma izniniz olduğuna emin misiniz?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Dikkat: Bu seçenekleri yalnızca ne yaptığınızı gerçekten biliyorsanız "
-#~ "değiştirin."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Linkleri kopyala (sembolik linklerin hedef dosyalarını kopyalar)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "DENEYSEL"
-
-#~ msgid "Finalizing"
-#~ msgstr "Sonlandırılıyor"
-
-#~ msgid "Folder"
-#~ msgstr "Klasör"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Tam anlık görüntü yolu"
-
-#~ msgid "Help"
-#~ msgstr "Yardım"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Sunucu/Kullanıcı/Profil Kimliği boş olamaz."
-
-#~ msgid "Hour:"
-#~ msgstr "Saat:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Hatalı seçenek. {path} bir klasör değil."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Tüm yıllar için her yıl bir anlık görüntü sakla."
-
-#~ msgid "Mode"
-#~ msgstr "Kip"
-
-#~ msgid "Older than:"
-#~ msgstr "Daha eski:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profil '{profile}': {mode} kipi için parola giriniz: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Kullanıcı geri çağrı komut dosyasındaki Shebang yürütülebilir değil."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Akıllı kaldırma:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "EncFS desteği öngörülebilir gelecekte durdurulacaktır. Sürdürülebilir "
-#~ "şifreli yedekleme desteği ile ilgili karar, proje kaynakları ve katkıda "
-#~ "bulunanların müsaitliğine bağlı olarak hala beklemede. Daha fazla ayrıntı "
-#~ "{whitepaper}'da bulunabilir."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Şifreli anlık görüntü profilleri için destek önemli değişiklikler geçiriyor "
-#~ "ve EncFS yakın gelecekte kaldırılacaktır."
-
-#~ msgid "WARNING"
-#~ msgstr "UYARI"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Yedekleme için en az bir klasör seçmelisiniz!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "1.7.2 ve önceki encfs sürümlerinin --reverse seçeneğinde bir hata var. "
-#~ "Lütfen encfs'yi güncelleyin."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "kullanıcı geri çağrı betiğinde shebang (#!/bin/sh) satırı yok."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app}, şifreleme için EncFS kullanıyor. Yakın tarihli bir güvenlik "
-#~ "araştırması, bunun için birkaç olası saldırı ihtimalini ortaya çıkardı. "
-#~ "Lütfen \"man backintime\" içindeki \"GÜVENLİK ÜZERİNE BİR NOT\"a bakın."

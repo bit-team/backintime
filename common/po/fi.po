@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2025-02-11 11:06+0000\n"
 "Last-Translator: Ricky-Tigg <ricky-tigg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
@@ -1066,7 +1066,7 @@ msgstr "Viimeisin lokinäkymä"
 msgid "Snapshot Log View"
 msgstr "Otoslokinäkymä"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profiili:"
@@ -1111,48 +1111,48 @@ msgstr "[E] Virhe, [I] Tietoa, [C] Muutokset"
 msgid "decode paths"
 msgstr "dekoodaa polut"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Hallinnoi profiileja"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Lisää"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Poista"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Yleisasetukset"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Ota mukaan"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Sisällytä tiedostot ja hakemistot"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Lisää tiedosto"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Lisää hakemisto"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Jätä pois"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1165,24 +1165,24 @@ msgstr ""
 "{example1}). Tiedostojen nimet ovat arvaamattomia tässä tilassa EncFS-"
 "salauksen vuoksi."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Sulje pois kuvioita, tiedostoja tai hakemistoja"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Lisää oletukset"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Jätä pois tätä suuremmat tiedostot:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Jätä pois tätä suuremmat tiedostot: {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1194,68 +1194,68 @@ msgstr ""
 "poissulkemisvaihtoehto. Siksi suuret tiedostot, jotka on varmuuskopioitu "
 "aiemmin, säilyvät tilannevedoksissa, vaikka niitä olisi muokattu."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr "&Poista & säilyttäminen"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Valinnat"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "A&siantuntija-asetukset"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Palauta määritys"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Muokkaa käyttäjäkutsua"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Uusi profiili"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Muuta profiilin nimeä"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Haluatko varmasti poistaa profiilin ”{name}”?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Erittäin suositeltavaa{ENDBOLD}: (Kaikki suositukset sisältyvät jo.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Erityisesti suositellaan{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Jätä pois kuvio"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Jätä pois tiedosto"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Sulje pois hakemisto"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Ota mukaan tiedosto"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1264,11 +1264,11 @@ msgstr ""
 "”{path}” on symlinkki. Linkin kohdetta ei varmuuskopioida, ellei sitä oteta erikseen mukaan.\n"
 "Haluatko ottaa mukaan symlinkkien kohteet?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Sisällytä hakemisto"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Poistettu käytöstä, koska tämä kuvio ei toimi tilassa \"SSH-salattu\"."
@@ -2127,156 +2127,3 @@ msgstr "Varoitus: Tätä ei voi kumota."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "Automaattinen &poisto"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Päätös salattujen varmuuskopioiden jatkuvan tuen korvaamisesta on vielä "
-#~ "kesken projektiresurssien ja avustajan saatavuuden mukaan. Lisätietoja on "
-#~ "tässä {whitepaper}:ssa."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Päätös salattujen varmuuskopioiden jatkuvan tuen korvaamisesta on vielä "
-#~ "kesken projektiresurssien ja avustajan saatavuuden mukaan. Käyttäjiä "
-#~ "pyydetään liittymään tähän keskusteluun. Päivitetyt tiedot seuraavista "
-#~ "vaiheista ovat saatavilla tässä {whitepaper}:ssa."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Backup -kansiota ei voi sisällyttää."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "crontab-tiedostoa ei löydy. Varmista, että cron on asennettu, ellei, poista "
-#~ "automaattinen varmuuskopiointi käytöstä."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Otoskansiota ei löydy.\n"
-#~ "Jos otoskansio sijaitsee ulkoisella asemalla, liitä asema tietokoneeseen."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Tiedostoon ei voida kirjoittaa: {path}\n"
-#~ "Onko siihen varmasti kirjoitusoikeus?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Muuta näitä asetuksia vain, jos tiedät, mitä teet."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopioi linkit (ratkaise symboliset linkit)"
-
-#~ msgid "Directory"
-#~ msgstr "Hakemisto"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "KOKEELLINEN"
-
-#~ msgid "Finalizing"
-#~ msgstr "Viimeistellään"
-
-#~ msgid "Folder"
-#~ msgstr "Kansio"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Otoksen täydellinen sijainti"
-
-#~ msgid "Help"
-#~ msgstr "Ohje"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Kone/käyttäjätunnus/profiilitunnus ei voi olla tyhjä."
-
-#~ msgid "Hour:"
-#~ msgstr "Tunti:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Väärä arvo. {path} ei ole kansio."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Säilytä yksi otos kultakin vuodelta."
-
-#~ msgid "Mode"
-#~ msgstr "Tila"
-
-#~ msgid "Older than:"
-#~ msgstr "Vanhemmat kuin:"
-
-#~ msgid "Profile"
-#~ msgstr "Profiili"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profiili ”{profile}”: Anna {mode}-salasana: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Käyttäjäkutsuskriptin #!-rivi ei viittaa ohjelmatiedostoon."
-
-#, fuzzy
-#~ msgid "Smart removal:"
-#~ msgstr "Älykäs poisto:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "EncFS:n tuki lopetetaan lähitulevaisuudessa. Päätös salattujen "
-#~ "varmuuskopioiden jatkuvan tuen korvaamisesta on vielä kesken "
-#~ "projektiresurssien ja avustajan saatavuuden mukaan. Lisätietoja on tässä "
-#~ "{whitepaper}:ssa."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Salattujen tilannevedosprofiilien tuki on merkittävissä muutoksissa, ja "
-#~ "EncFS poistetaan lähitulevaisuudessa."
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Valitse varmuuskopioitavaksi vähintään yksi kansio!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs 1.7.2:n ja vanhempien versioiden --reverse-valitsimessa on "
-#~ "ohjelmavirhe. Päivitä encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "käyttäjäkutsuskriptistä puuttuu #!-rivi."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} käyttää salaukseen EncFS:ää. Tietoturvatarkistus paljasti siitä "
-#~ "äskettäin haavoittuvuuksia. Ks. ”man backintime”, ”A NOTE ON SECURITY”."

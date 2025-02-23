@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2025-02-11 05:23+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
@@ -1078,7 +1078,7 @@ msgstr "Viimane logivaade"
 msgid "Snapshot Log View"
 msgstr "Hetktõmmiste logivaade"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profiil:"
@@ -1123,48 +1123,48 @@ msgstr "[E] viga, [I] teave, [C] muudatus"
 msgid "decode paths"
 msgstr "dekodeeri asukohad"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Halda profiile"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Muuda"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Lisa"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Eemalda"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "Ü&ldine"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Kaasa"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Kaasa failid ja kaustad"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Lisa fail"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Lisa kaust"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Jäta välja"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1178,24 +1178,24 @@ msgstr ""
 " on krüptimine EncFSiga, siis selles režiimis on failide nimed "
 "ettearvamatud."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Jäta välja mustrid, failid või kaustad"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Lisa vaikimisi valikud"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Jäta välja failid, mis on suuremad, kui:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Jäta välja failid, mis on suuremad, kui {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1207,68 +1207,68 @@ msgstr ""
 "eelistusega, mitte välistamise eelistusega). Seetõttu varem varundatud "
 "suured failid jäävad hetktõmmistesse ja siis, kui neid on hiljem muudetud."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr "&Eemaldamine ja säilitamine"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Valikud"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "Ek&sperdi valikud"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Taasta seadistused"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Muuda kasutajapoolset tagasikutset"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Uus profiil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Muuda profiili nime"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Oled kindel, et tahad kustuda profiili „{name}“?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Tungivalt soovitatav{ENDBOLD}: (Kõik soovitused on juba kaasatud.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Soovitame tungivalt{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Jäta välja mustri alusel"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Jäta välja fail"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Jäta välja kaust"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Kaasa fail"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1277,11 +1277,11 @@ msgstr ""
 "„{path}“ on sümbollink. Lingi sihtkausta või -faili ei varundata seni, kuni sa pole teda kaasanud.\n"
 "Kas sa sooviksid selle asemel kaasata sihtkausta või -faili?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Kaasa kaust"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2150,119 +2150,3 @@ msgstr "HOIUATUS: seda tegevust ei saa tagasi pöörata."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Kas soovid välistada tulevastest hetktõmmistest asukoha „{path}“?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "Eemalda &automaatselt"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Me pole veel teinud lõplikku otsust tema asendamise kohta ega võimaliku toe "
-#~ "kohta olemasolevate krüptitud varukoopiate kasutamisel. See kõik sõltub meie"
-#~ " arendusprojekti ressurssidest ja arendajate võimalustest. Lisateavet leiad "
-#~ "siit {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Me pole veel teinud lõplikku otsust tema asendamise kohta ega võimaliku toe "
-#~ "kohta olemasolevate krüptitud varukoopiate kasutamisel. See kõik sõltub meie"
-#~ " arendusprojekti ressurssidest ja arendajate võimalustest. Kõik huvilised "
-#~ "saavad liituda selle aruteluga. Täpset teavet järgmiste sammude kohta leiad "
-#~ "siit {whitepaper}."
-
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Varukoopia kausta ei saa kaasata."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Ei leia hetktõmmiste kausta.\n"
-#~ "Kui kaust asub eemaldatavas seadmes, siis palun ühenda see."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Ei saa siia kirjutada: {path}\n"
-#~ "Kas oled kindel, et sul on kirjutamisõigused?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Hoiatus: muuda neid eelistusi vaid siis, kui sa täpselt tead, mida teed."
-
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopeeri lingid (eemalda sümbollinkide seosed)"
-
-#~ msgid "Directory"
-#~ msgstr "Kaust"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "KATSELINE"
-
-#~ msgid "Finalizing"
-#~ msgstr "Lõpetan"
-
-#~ msgid "Folder"
-#~ msgstr "Kaust"
-
-#~ msgid "Help"
-#~ msgstr "Abi"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Hosti nimi/Kasutajanimi/Profiil ei tohi olla tühjad."
-
-#~ msgid "Hour:"
-#~ msgstr "Tund:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Kõlbamatu valik. {path} ei ole kaust."
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "Kas sa ikkagi soovid seda kasutada varukoopia asukohana?"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Säilita üks hetktõmmis iga aasta kohta kõikide aastate jooksul."
-
-#~ msgid "Older than:"
-#~ msgstr "Vanem kui:"
-
-#~ msgid "Profile"
-#~ msgstr "Profiil"
-
-#~ msgid "Smart removal:"
-#~ msgstr "Nutikas eemaldamine:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "EncFSi kasutamise tugi lõppeb lähitulevikus. Me ei soovita tema kasutamist "
-#~ "mitte üheski profiilis. Me pole veel teinud lõplikku otsust tema asendamise "
-#~ "kohta ega võimaliku toe kohta olemasolevate krüptitud varukoopiate "
-#~ "kasutamisel. See kõik sõltub meie arendusprojekti ressurssidest ja "
-#~ "arendajate võimalustest. Täpset teavet leiad siit {whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Krüptitud hetktõmmiste tegemise võimalus on hetkel suuresti muutumises ja "
-#~ "EncFS saab lähiajal eemaldatud."
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Sa pead valima vähemalt ühe kausta tagavarakoopia tegemiseks!"

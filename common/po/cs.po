@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-12-21 17:20+0000\n"
 "Last-Translator: p-bo <p-bo@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
@@ -1071,7 +1071,7 @@ msgstr "Zobrazení nedávných událostí"
 msgid "Snapshot Log View"
 msgstr "Zobrazení událostí při pořizování zachyceného stavu"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1117,48 +1117,48 @@ msgstr "[E] Chyba (Error), [I] Informace, [C] Změna (Change)"
 msgid "decode paths"
 msgstr "dekódovat popisy umístění"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Spravovat profily"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Přejmenovat"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Přidat"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Odebrat"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Obecné"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Zahrnout"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Zahrnout soubory a složky"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Přidat soubor"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Přidat složku"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Vynechat"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1171,24 +1171,24 @@ msgstr ""
 "typy zástupných vyjádření a vzorů budou ignorovány (např. {example1}) Názvy "
 "souborů se totiž v tomto režimu kvůli EncFS šifrování nedají předvídat."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Vynechat zástupně vyjádřené, soubory a složky"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Přidat výchozí"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Vynechat soubory větší než:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Vynechat soubory větší než hodnota v {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1200,67 +1200,67 @@ msgstr ""
 "vynechání. Takže, velké soubory, které byly zazálohovány už dříve, v "
 "zachycených stavech zůstanou, i když od té doby byly změněny."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "Př&edvolby"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "&Pokročilé předvolby"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Obnovit nastavení"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Upravit uživatelsky definované akce"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Nový profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Přejmenovat profil"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Opravdu chcete profil „{name}“ smazat?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}Důrazně doporučeno{ENDBOLD}: (Veškerá doporučení už obsažena.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Důrazně doporučeno{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Zástupné vyjádření vynechaného"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Vynechat soubor"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Vynechat složku"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Zahrnout soubor"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1269,11 +1269,11 @@ msgstr ""
 "„{path}“ je symbolický odkaz. Odkazovaný cíl nebude zazálohován, dokud jeho umístění výslovně nezahrnete.\n"
 "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Zahrnout složku"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2156,168 +2156,3 @@ msgstr "VAROVÁNí: Toto nelze vzít zpět!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Vynechat {path} z budoucích zachycených stavů?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&Automatické odstraňování"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Rozhodnutí ohledně náhrady tak, aby nadále byly podporovány šifrované "
-#~ "zálohy, ještě nebylo učiněno – kvůli omezeným prostředkům projektu a "
-#~ "nedostatku vývojářů. Podrobnosti jsou k dispozici v této {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Rozhodnutí ohledně náhrady tak, aby nadále byly podporovány šifrované "
-#~ "zálohy, ještě nebylo učiněno – kvůli omezeným prostředkům projektu a "
-#~ "nedostatku vývojářů. Aktualizované podrobnosti jsou k dispozici v této "
-#~ "{whitepaper}."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr ""
-#~ "Složka, do které je zálohováno, nemůže být zároveň součástí toho, co se "
-#~ "zálohuje."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Nedaří se nalézt soubor s naplánovanými úlohami (crontab).\n"
-#~ "Opravdu máte nainstalovaný plánovač cron?\n"
-#~ "V případě že ne, měli byste vypnout veškeré automatizované zálohování."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Nedaří se nalézt složku se zachycenými stavy.\n"
-#~ "Pokud se nachází na vyjímatelném zařízení, připojte ho."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Nedaří se zapisovat do: {path}\n"
-#~ "Máte oprávnění k zápisu tam?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Upozornění: Tyto předvolby měňte pouze když opravdu víte, co děláte."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopírovat až cíle odkazů (obejde symbolické odkazy)"
-
-#~ msgid "Directory"
-#~ msgstr "Složka"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EXPERIMENTÁLNÍ"
-
-#~ msgid "Finalizing"
-#~ msgstr "Dokončování"
-
-#~ msgid "Folder"
-#~ msgstr "Složka"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Úplný popis umístění zachyceného stavu"
-
-#~ msgid "Help"
-#~ msgstr "Nápověda"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr ""
-#~ "Kolonka Stroj/Uživatel/Identifikátor-profilu nemůže zůstat nevyplněná."
-
-#~ msgid "Hour:"
-#~ msgstr "V hodinu:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Neplatná volba. {path} není složka."
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "Je toto cíl zálohování, který použít?"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Ponechat jeden zachycený stav co rok za všechna léta."
-
-#~ msgid "Mode"
-#~ msgstr "Ukládání záloh"
-
-#~ msgid "Older than:"
-#~ msgstr "Starší než:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profil „{profile}“: Zadejte heslo pro {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr ""
-#~ "Interpret ve skriptu uživatelsky definovaných akcí nemá nastavený příznak "
-#~ "spustitelnosti."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Postupné odstraňování:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Podpora pro EncFS bude zanedlouho ukončena. O tom, čím ho nahradit a "
-#~ "pokračovat tak v podpoře šifrovaných záloh, ještě nebylo rozhodnuto (kvůli "
-#~ "omezeným prostředkům projektu a nedostatku vývojářů). Podrobnosti jsou k "
-#~ "dispozici v {whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Podpora pro profily šifrovaných zachycených stavů prochází významnými "
-#~ "změnami a EncFS bude zanedlouho odebráno."
-
-#~ msgid "WARNING"
-#~ msgstr "VAROVÁNÍ"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Vyberte alespoň jednu složku, kterou zálohovat!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs verze 1.7.2 a dřívější má chybu ve volbě --reverse. Zaktualizujte ho."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr ""
-#~ "Skript s uživatelsky definovanými akcemi postrádá řádek určující jeho "
-#~ "interpret (#!/bin/sh)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} šifruje pomocí EncFS. U toho však nedávná bezpečnostní prověrka "
-#~ "odhalila několik závažných nedostatků. Přečtěte si proto odstavec „POZNÁMKA "
-#~ "K ZABEZPEČENÍ“ v manuálové stránce backintime (man backintime)."

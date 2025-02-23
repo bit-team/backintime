@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
+"POT-Creation-Date: 2025-02-23 22:28+0100\n"
 "PO-Revision-Date: 2024-07-27 16:54+0000\n"
 "Last-Translator: nvedran <nvedran@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
@@ -1088,7 +1088,7 @@ msgstr "Приказ Последњег Дневника"
 msgid "Snapshot Log View"
 msgstr "Приказ Дневника Снимка"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1134,50 +1134,50 @@ msgstr "[E] Грешка, [I] Информација, [C] Измена"
 msgid "decode paths"
 msgstr "декодирај путање"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Upravljaj profilima"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Uredi"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Dodaj"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Ukloni"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "Opšt&e"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Priključi"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Uključi fajlove i direktorijume"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Dodaj fajl"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Dodaj direktorijum"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Izostavi"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1190,25 +1190,25 @@ msgstr ""
 "znakova i obrazaca će biti ignorisani (primer {example1}). Imena datoteka su"
 " nepredvidiva u ovom načinu rada zbog EncFS šifrovanja."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Izostavi šablone, fajlove, ili direktorijume"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Dodaj podrazumevano"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Izostavi fajlove veće od:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Izostavi fajlove veće od {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1220,68 +1220,68 @@ msgstr ""
 "veliki fajlovi za koje je ranije napravljena rezervna kopija ostati u "
 "snimcima čak i ako su se promenili."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Opcije"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "&Napredne opcije"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Povrati konfiguraciju"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Promeni user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Novi profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Preimenuj profil"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Da li ste sigurni da želite da uklonite profil \"{name}\" ?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr "{BOLD}Toplo preporučeno{ENDBOLD}: (Sve preporuke su već uključene.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Toplo preporučeno{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Izostavi šablon"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Izostavi fajl"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Izostavi direktorijum"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Uključi fajl"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1290,12 +1290,12 @@ msgstr ""
 "\"{path}\" je simbolična veza. Povezana meta neće biti sigurnosno kopiran dok ga ne uključite.\n"
 "Da li želite da uključite metu simboličku veze?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Uključi direktorijum"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Deaktivirano zato što šabloni ne funkcionišu u 'SSH šifrovanom' modu."
@@ -2154,158 +2154,3 @@ msgstr "Upozorenja: Ovo se ne može opožvati."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Isključi {path} iz budućih snimaka?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&Automatsko uklanjanje"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Odluka o zameni kontinuirane podrške za šifriranje sigurnosne kopije još "
-#~ "uvek je na čekanju, zavisi od resursa projekta i dostupnosti saradnika. Više"
-#~ " detalja dostupno je u ovim {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Odluka o zameni kontinuirane podrške za šifriranje sigurnosne kopije još "
-#~ "uvek je na čekanju, zavisi od resursa projekta i dostupnosti saradnika. "
-#~ "Korisnici su pozvani da se priključe diskusiji. Ažurirani detalji o naredim "
-#~ "koracima dostupni su u ovim {whitepaper}."
-
-#, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Direktorijum za rezervne kopije ne može biti uključen."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Ne mogu da pronađem crontab.\n"
-#~ "Da li ste sigurni da je crontab inastaliran?\n"
-#~ "Ako nije, treba da onemogućite automatsko kreiranje rezervnih kopija."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Nije moguće pronaći direktorijum za snimke.\n"
-#~ "Ako je na prenosivom disku, molim vas da ga priključite."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Ne mogu da upisujem u: {path}\n"
-#~ "Da li ste sigurni da imate dozvolu za upisivanje?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Oprez: Promenite ove opcija samo ako znate šta radite."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopiraj linkove (prati simbolične linkove)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EKSPERIMENTALNO"
-
-#~ msgid "Finalizing"
-#~ msgstr "Завршавање"
-
-#~ msgid "Folder"
-#~ msgstr "Direktorijum"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Puna putanja snimka"
-
-#~ msgid "Help"
-#~ msgstr "Помоћ"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/Korisnik/ID-Profila moraju biti popunjeni."
-
-#~ msgid "Hour:"
-#~ msgstr "Sat:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Nevažeća postavka. {path} nije direktorijum."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Zadrži jedan snimak godišnje za sve godine."
-
-#~ msgid "Mode"
-#~ msgstr "Mod"
-
-#~ msgid "Older than:"
-#~ msgstr "Stariji od:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Профил '{profile}': Унесите лозинку за {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang u user-callback skripti nije izvršan."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Pametno uklanjanje:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Podrška za EncFS će biti uklonjena u doglednoj budućnosti. Odluka o zameni "
-#~ "kontinuirane podrške za šifriranje sigurnosne kopije još uvek je na čekanju,"
-#~ " zavisi od resursa projekta i dostupnosti saradnika. Više detalja dostupno "
-#~ "je u ovim {whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Podrška za šifrovane profile snimka prolazi kroz značajne promene, i EncFS "
-#~ "će biti uklonjeni u dogledno vreme."
-
-#~ msgid "WARNING"
-#~ msgstr "UPOZORENJE"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr ""
-#~ "Morate odabrati bar jedan direktorijum da bi napravili rezervnu kopiju!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "u encfs verzijama 1.7.2 i ranije postoji greška kod opcije --reverse. Molim "
-#~ "vas ažurirajte encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "user-callback skripte ne sadrži shebang (#!/bin/sh) liniju."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} koristi EncFS za enkripciju. Nedavna sigurnosna revizija otkrila je "
-#~ "nekoliko mogućih vektora napada za ovo. Molimo pogledajte \"A NOT ON "
-#~ "SECURITY\" u \"man backintime\"."
