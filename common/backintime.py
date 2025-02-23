@@ -30,6 +30,7 @@ import mount
 import password
 import encfstools
 import cli
+import snapshotlog 
 from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
@@ -1050,13 +1051,13 @@ class SnapshotStatus():
         os.path.expanduser('~/.local/share/backintime/snapshotstatus.json')
 
     def updateStatus(self):
+        """
+        Update the snapshot status object with the most recent snapshot using
+        the active configuration.
+        """
         profile = self.status[self.cfg.profileName()]
         now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        with open(self.cfg.takeSnapshotLogFile()) as f:
-            lines = f.readlines()
-            
-        errors = sum(1 for line in lines if line.startswith('[E]'))
-        changes = sum(1 for line in lines if line.startswith('[C]'))
+        errors, changes = self._getLogEntries(snapshots.lastSnapshot(self.cfg))    
         success = True if errors == 0 and changes > 0 else False
         prev_run = profile.get('Last run')
         last_success = profile.get('Last success')
@@ -1070,8 +1071,10 @@ class SnapshotStatus():
             return
         else:
             profile['Last run'] = {'Timestamp': now, 'Successful': False}
-            profile['Last run'].update({'Errors':  errors})
-            profile['Last run'].update({'Changes': changes})
+            profile['Last run'].update({'Changes': len(changes)})
+            profile['Last run'].update({'Errors':  len(errors)})
+            if len(errors):
+                profile['Last run'].update({'Error details':  errors})
             
         if prev_run and prev_status == True:
             profile['Last Success'] = prev
@@ -1081,12 +1084,18 @@ class SnapshotStatus():
             profile['Last success'] = last_success
   
     def getStatus(self):
-        """Get status according to specified arguments."""
+        """
+        Get status of either selected profile or all profiles."""
         result = {
-            key: self._filterDict(data, ['Error details', 'Snapshot mode', 'Paths', 'Changes', 'Errors'])
+            key: self._removeKeys(data, ['Error details', 'Snapshot mode', \
+                'Paths', 'Changes', 'Errors'])
             for key, data in self.status.items()
-            if self.all_status or (self.profile == key or self.cfg.profileName(self.profile_id) == key)
+            if (self.all_status or (self.profile == key or \
+                self.cfg.profileName(self.profile_id) == key)) and \
+                (not self.issues or (self.status[key].get('Last run', False) and \
+                    not self.status[key]['Last run'].get('Successful', False)))
         }
+        
         if result and self.json:
             result = json.dumps(result, indent=2)
         else:
@@ -1098,38 +1107,52 @@ class SnapshotStatus():
         try:
             with open(self.path, 'r') as f:
                 self.status = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError, PermissionError):
+        except (FileNotFoundError, json.JSONDecodeError):
+            logger.warning('Status file corrupt or not found, creating new file.')
+            self._getAllStatus()
+        except PermissionError:
+            logger.warning('No permission to read status file.')
             self._getAllStatus()
         return self
     
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type:
             logger.error(f"Exception occurred: {exc_type.__name__}: {exc_value}")
-            logger.debug(traceback)
 
         try:
             with open(self.path, 'w', encoding="utf-8") as f:
                 json.dump(self.status, f, indent=2)
                 
         except (OSError, PermissionError, TypeError) as e:
-            logger.error(f"Error writing status log: {e}")
-            
+            logger.error(f"Error writing status file: {e}")
+
+    def _getLogEntries(self, log):
+        """Get errors and changes from specefied log file."""
+        lines = list(log.log(mode=0))           
+        errors = [line for line in lines if line.startswith('[E]')]
+        changes = [line for line in lines if line.startswith('[C]')]
+        return errors, changes
+    
     def _getAllStatus(self):
         """Get the snapshot status for all profiles."""
+        og_profile_id = self.profile_id
+        
         for profile in self.cfg.profiles():
             self.profile_id = profile
             profile_data = self._getProfileStatus()
             self.status.update(profile_data)
+            
+        self.profile_id = og_profile_id
+        
         return self.status
 
     def _getProfileStatus(self):
         """Get the status for a specific profile."""
         cfg = self.cfg
-        if self.profile_id is not None and not cfg.setCurrentProfile(self.profile_id):
-            logger.error(f"Profile ID {self.profile_id} does not exist.")
-        else:
-            if self.profile is not None and not cfg.setCurrentProfileByName(self.profile):
-                logger.error(f"Profile '{self.profile}' does not exist.")
+        
+        if self.profile_id and not cfg.setCurrentProfile(self.profile_id):
+            self.profile and not cfg.setCurrentProfileByName(self.profile)
+            
         profile = cfg.profileName(cfg.current_profile_id)
         
         try:
@@ -1142,29 +1165,28 @@ class SnapshotStatus():
             last_snapshot = snapshots.lastSnapshot(cfg)
             if last_snapshot is None:
                 return {profile: {_('Last run'): None}}
+            
             info = {_('Last run'): {'Timestamp': str(last_snapshot.date),
                     _('Successful'): not last_snapshot.failed}}
-            lines = list(snapshots.lastSnapshot(cfg).log())
-            errors = sum(1 for line in lines if line.startswith('[E]'))
-            changes = sum(1 for line in lines if line.startswith('[C]'))
-            info['Last run'].update({'Changes': changes})
+
+            errors, changes = self._getLogEntries(snapshots.lastSnapshot(cfg))
+            
+            info['Last run'].update({'Changes': len(changes)})
             if errors:
-                info['Last run'].update({'Errors': errors})
-                info['Last run'].update({'Error details': list(line for line in lines if line.startswith('[E]'))})
+                info['Last run'].update({'Errors': len(errors)})
+                info['Last run'].update({'Error details': errors})
 
             if last_snapshot.failed:
                 last_success = next(
                     (snap for snap in snapshots.listSnapshots(cfg)
                     if not snap.failed), None)
+                
                 info.update({_('Last success'): {'Timestamp':
                     str(last_success.date) if last_success else None}})
+                
                 if last_success:
-                    lines = list(last_success.log())
-                    errors = sum(1 for line in lines if line.startswith('[E]'))
-                    changes = sum(1 for line in lines if line.startswith('[C]'))
-                    info['Last success'].update({'Changes': changes})
-                    if errors:
-                        info['Last success'].update({'Errors': errors})
+                    __, changes = self._getLogEntries(last_success)
+                    info['Last success'].update({'Changes': len(changes)})
                 
             info.update({
             _('Snapshot mode'): self.cfg.snapshotsMode(),
@@ -1187,15 +1209,14 @@ class SnapshotStatus():
                 ssh.umount()
 
 
-    def _filterDict(self, dic, excluded_keys):
+    def _removeKeys(self, dic, excluded_keys):
         """ Recursively removes specified keys from a dictionary. """
         if isinstance(dic, dict):
             return {
-                key: self._filterDict(value, excluded_keys)
+                key: self._removeKeys(value, excluded_keys)
                 for key, value in dic.items()
                 if not self.all_status or key not in excluded_keys
             }
-
         return dic
 
     def _longestKey(self, dictionary, depth=0):
