@@ -35,6 +35,7 @@ import mount
 import progress
 import snapshotlog
 import flock
+import backintime
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
@@ -1497,6 +1498,7 @@ class Snapshots:
             self.snapshotLog.flush()
             with open(self.snapshotLog.logFileName, 'rb') as logfile:
                 new_snapshot.setLog(logfile.read())
+
 
         except Exception as e:
             logger.debug('Failed to write takeSnapshot log %s into '
