@@ -213,6 +213,8 @@ When the PR is merged:
   - Mention bugs (and status) discovered during preparation of the release
     candidate in the description.
 
+- Create the tarball (see next section) and test it **before** merging.
+
 - Fix review findings and push the changes again to update the pull request.
 
 - Finally check the Travis CI status of the pull request (everything must be

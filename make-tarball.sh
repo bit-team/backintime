@@ -30,6 +30,7 @@ tar cfz backintime-$VER.tar.gz \
     ${NEW}/updateversion.sh \
     ${NEW}/common \
     ${NEW}/qt \
+    ${NEW}/LICENSES \
     ${NEW}/doc
 
 rm -rf backintime-$VER
