@@ -22,7 +22,6 @@ import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
-import snapshotlog #test
 import config
 import logger
 import snapshots
@@ -100,22 +99,11 @@ def takeSnapshot(cfg, force=True):
     """
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
-    # with SnapshotStatus(cfg=cfg) as status:
-    #     with open(cfg.ConfigWithProfiles.takeSnapshotLogFile(), 'r') as f:
-    #         print(f.read())
-    # print(cfg.profileName())
-    # print(cfg.profileIntValue(cfg.profileName()))
-    # print(cfg.takeSnapshotLogFile())
-    # sleep(5)
-    # cfg.logger.flush()
-    # snapshotlog.SnapshotLog(cfg=cfg).flush()
+
+    # Update snapshotsatus.json with most recent snapshot attempt
     with SnapshotStatus(cfg=cfg) as status:
-        status.add_snapshot()
-        # with open(cfg.takeSnapshotLogFile(), 'r') as f:
-        #     status.add_snapshot(f.readlines())
-        # status.update(lines)
-    # print(cfg)
-    # print(dir(cfg))
+        status.updateStatus()
+
     return ret
 
 
@@ -1050,39 +1038,33 @@ def snapshotsListPath(args):
     sys.exit(RETURN_OK)
 
 class SnapshotStatus():
-    def __init__(self, args=None, cfg=None, profile_id=None):
-        self.args = args
+    def __init__(self, args=None, cfg=None):
+        self.profile = args.profile if args else None
+        self.profile_id = args.profile_id if args else None
+        self.all_status = not self.profile and not self.profile_id
+        self.issues = args.issues if args else None
+        self.json = args.json if args else None
         self.cfg = cfg if cfg else getConfig(args)
-        self.profile_id = profile_id
         self.status = {}
-        self.json = self.args is not None and self.args.json
-        self.path = os.path.expanduser('~/.local/share/backintime/statuslog.json')
+        self.path = \
+        os.path.expanduser('~/.local/share/backintime/snapshotstatus.json')
 
-    def __enter__(self):
-        try:
-            with open(self.path, 'r') as f:
-                self.status = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            self.status.update(self.snapshotStatus(self.cfg))
-        return self
-    
-    def __exit__(self, exc_type, exc_value, traceback):
-        with open(self.path, 'w') as f:
-            json.dump(self.status, f, indent=2)
-
-    def add_snapshot(self):
+    def updateStatus(self):
         profile = self.status[self.cfg.profileName()]
         now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         with open(self.cfg.takeSnapshotLogFile()) as f:
             lines = f.readlines()
+            
         errors = sum(1 for line in lines if line.startswith('[E]'))
         changes = sum(1 for line in lines if line.startswith('[C]'))
         success = True if errors == 0 and changes > 0 else False
-        prev_run = profile.get('Last run', None)
+        prev_run = profile.get('Last run')
+        last_success = profile.get('Last success')
+        
         if prev_run:
-            prev = profile['Last run'].get('Timestamp', None)
-            prev_status = profile['Last run'].get('Successful', None)
-        last_success = profile.get('Last success', None)
+            prev = profile['Last run'].get('Timestamp')
+            prev_status = profile['Last run'].get('Successful')
+            
         if success:
             profile['Last run'] = {'Timestamp': now, 'Successful': True}
             return
@@ -1090,57 +1072,114 @@ class SnapshotStatus():
             profile['Last run'] = {'Timestamp': now, 'Successful': False}
             profile['Last run'].update({'Errors':  errors})
             profile['Last run'].update({'Changes': changes})
+            
         if prev_run and prev_status == True:
             profile['Last Success'] = prev
             return
+        
         if last_success:
             profile['Last success'] = last_success
+  
+    def getStatus(self):
+        """Get status according to specified arguments."""
+        result = {
+            key: self._filterDict(data, ['Error details', 'Snapshot mode', 'Paths', 'Changes', 'Errors'])
+            for key, data in self.status.items()
+            if self.all_status or (self.profile == key or self.cfg.profileName(self.profile_id) == key)
+        }
+        if result and self.json:
+            result = json.dumps(result, indent=2)
+        else:
+            result = self._humanPrint(result) + '\n\n'
+            
+        return result
 
+    def __enter__(self):
+        try:
+            with open(self.path, 'r') as f:
+                self.status = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError, PermissionError):
+            self._getAllStatus()
+        return self
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            logger.error(f"Exception occurred: {exc_type.__name__}: {exc_value}")
+            logger.debug(traceback)
+
+        try:
+            with open(self.path, 'w', encoding="utf-8") as f:
+                json.dump(self.status, f, indent=2)
+                
+        except (OSError, PermissionError, TypeError) as e:
+            logger.error(f"Error writing status log: {e}")
+            
+    def _getAllStatus(self):
+        """Get the snapshot status for all profiles."""
+        for profile in self.cfg.profiles():
+            self.profile_id = profile
+            profile_data = self._getProfileStatus()
+            self.status.update(profile_data)
+        return self.status
+
+    def _getProfileStatus(self):
+        """Get the status for a specific profile."""
+        cfg = self.cfg
+        if self.profile_id is not None and not cfg.setCurrentProfile(self.profile_id):
+            logger.error(f"Profile ID {self.profile_id} does not exist.")
+        else:
+            if self.profile is not None and not cfg.setCurrentProfileByName(self.profile):
+                logger.error(f"Profile '{self.profile}' does not exist.")
+        profile = cfg.profileName(cfg.current_profile_id)
         
-    def lastSnapshotDict(self, cfg:config.Config):
-        """
-        Return a dictionary containing the profile name and most recent snapshot
-        data for the given profile id. If the snapshot was unsuccessful, the
-        date of the most recent successful snapshot is included in the dict.
-
-        Args:
-            config: 
-                            the currently selected configuration.
-
-        Returns:
-            dict:
-                            the most recent successful snapshot for the profile.
-        """
         try:
             ssh = None
             if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
-                logger.info(_('Connecting to: ')
-                            + cfg.profileName(cfg.currentProfile()))
+                logger.info(_('Connecting to: ') + profile)
                 ssh = sshtools.SSH(cfg)
                 ssh.mount()
 
             last_snapshot = snapshots.lastSnapshot(cfg)
             if last_snapshot is None:
-                return {cfg.profileName(cfg.currentProfile()):
-                    {_('Last run'): None}}
+                return {profile: {_('Last run'): None}}
             info = {_('Last run'): {'Timestamp': str(last_snapshot.date),
                     _('Successful'): not last_snapshot.failed}}
+            lines = list(snapshots.lastSnapshot(cfg).log())
+            errors = sum(1 for line in lines if line.startswith('[E]'))
+            changes = sum(1 for line in lines if line.startswith('[C]'))
+            info['Last run'].update({'Changes': changes})
+            if errors:
+                info['Last run'].update({'Errors': errors})
+                info['Last run'].update({'Error details': list(line for line in lines if line.startswith('[E]'))})
 
             if last_snapshot.failed:
                 last_success = next(
-                    (snap.date for snap in snapshots.listSnapshots(cfg)
+                    (snap for snap in snapshots.listSnapshots(cfg)
                     if not snap.failed), None)
-                info.update({_('Last success'):
-                    str(last_success) if last_success is not None else None})
+                info.update({_('Last success'): {'Timestamp':
+                    str(last_success.date) if last_success else None}})
+                if last_success:
+                    lines = list(last_success.log())
+                    errors = sum(1 for line in lines if line.startswith('[E]'))
+                    changes = sum(1 for line in lines if line.startswith('[C]'))
+                    info['Last success'].update({'Changes': changes})
+                    if errors:
+                        info['Last success'].update({'Errors': errors})
+                
+            info.update({
+            _('Snapshot mode'): self.cfg.snapshotsMode(),
+            _('Paths'): {
+                _('Snapshots'): self.cfg.sshSnapshotsFullPath() if ssh
+                    else self.cfg.snapshotsFullPath(),
+                _('Log file'): self.cfg.takeSnapshotLogFile(),
+            }})
+            return {profile: info}
 
-            return {cfg.profileName(cfg.currentProfile()): info}
-
-        # Unable to establish SSH connection
         except MountException as error:
             ssh = None
             logger.warning(_('Unable to establish connection with : ') +
                             cfg.sshHost(profile_id=cfg.current_profile_id))
-            return {cfg.profileName(cfg.currentProfile()):
+            return {profile:
                     {_('No connection'): str(error)}}
 
         finally:
@@ -1148,114 +1187,66 @@ class SnapshotStatus():
                 ssh.umount()
 
 
-    def profileStatus(self,args):
-        """
-        Print most recent snapshot and snapshot details for the profile
-        specified with --profile or --profile-id (--profile takes 
-        preference).
+    def _filterDict(self, dic, excluded_keys):
+        """ Recursively removes specified keys from a dictionary. """
+        if isinstance(dic, dict):
+            return {
+                key: self._filterDict(value, excluded_keys)
+                for key, value in dic.items()
+                if not self.all_status or key not in excluded_keys
+            }
 
-        Args:
-            args (argparse.Namespace):
-                            previously parsed arguments
+        return dic
 
-        Raises:
-            SystemExit:     0
-        """
-        force_stdout = setQuiet(args)
-        cfg = getConfig(args)
-
-        if args.profile:
-            if not cfg.setCurrentProfileByName(args.profile):
-                logger.error(args.profile)
-
-        elif not cfg.setCurrentProfile(args.profile_id):
-            logger.error(args.profile_id)
-
-        ssh = cfg.snapshotsMode() in ('ssh', 'ssh_encfs')
-        id = cfg.currentProfile()
-        info = self.lastSnapshotDict(cfg)
-
-        info[cfg.profileName(id)].update({
-                _('Snapshot mode'): cfg.snapshotsMode(),
-                _('Paths'): {
-                    _('Snapshots'): cfg.sshSnapshotsFullPath() if ssh
-                        else cfg.snapshotsFullPath(),
-                    _('Log file'): cfg.takeSnapshotLogFile(),
-                }})
-
-        if args.json:
-            print(json.dumps(info, indent=2), file=force_stdout)
-        else:
-            self.humanPrint(info, force_stdout)
-
-
-    def longest_key_length(self, dictionary):
+    def _longestKey(self, dictionary, depth=0):
         """Get the length of the longest key in to assist with formatting."""
-        max_len = max(map(len, dictionary.keys()), default=0)
+        if depth > 0:
+            max_len = max(map(len, dictionary.keys()), default=0)
+        else:
+            max_len = 0
 
         for value in dictionary.values():
             if isinstance(value, dict):
-                max_len = max(max_len, self.longest_key_length(value))
+                max_len = max(max_len, 
+                              self._longestKey(value, depth=depth + 1))
 
         return max_len
 
-
-    def humanPrint(self, dictionary, file=None, indent=0, width=-1):
+    def _humanPrint(self, dictionary, indent=0, width=-1):
         """Print dict in human readable format."""
+        response = []
         if width == -1:
-            width = self.longest_key_length(dictionary) + 1
+            width = self._longestKey(dictionary) + 1
         if indent == 0:
-            print('', file=file)
+            response.append('')
+            
         for key, value in dictionary.items():
+            if indent != 8:
+                response.append('')
+                
             if isinstance(value, dict):
-                print(f"{' ' * indent}{key}:", file=file)
-                self.humanPrint(value, file=file, indent=indent + 4, width=width)
+                response.append(f"{' ' * indent}{key}:")
+                response.append(self._humanPrint(value, indent=indent + 4, width=width))
+                
+            elif isinstance(value, list):
+                response.append(f"{' ' * indent}{key:{width}}: [")
+                for item in value:
+                    response.append(f"{' ' * (indent + 2)}[{item}],")
+                response.append(f'{' ' * indent}]')
+                
             else:
                 if 'success' in key or indent == 4:
-                    print(f"{' ' * indent}{key:{width + 4}}: {value}", file=file)
+                    response.append(f"{' ' * indent}{key:{width + 4}}: {value}")
                 else:
-                    print(f"{' ' * indent}{key:{width}}: {value}", file=file)
-            if indent == 0:
-                print('', file=file)
+                    response.append(f"{' ' * indent}{key:{width}}: {value}")
+                    
+        return '\n'.join(response)
 
-
-    def snapshotStatus(self, cfg):
-        """
-        Print a summary of most recent snapshot for each profile.
-
-        Args:
-            args (argparse.Namespace):
-                            previously parsed arguments
-
-        Raises:
-            SystemExit:     0
-        """
-        # if args.profile or args.profile_id:
-        #     self.profileStatus(args)
-
-        # force_stdout = setQuiet(args)
-        # cfg = getConfig(args)
-
-        for profile in cfg.profiles():
-            cfg.setCurrentProfile(profile)
-            profile_dict = self.lastSnapshotDict(cfg)
-            # print(profile_dict)
-            # if not args.issues or \
-            #     not profile_dict[cfg.profileName(profile)].get(_('Successful')):
-            self.status.update(profile_dict)
-
-        return self.status
-        # if args.json:
-        # else:
-        #     self.humanPrint(self.status, force_stdout)
-            
 
 def snapshotStatus(args):
     with SnapshotStatus(args) as status:
-        if args.json:
-            print(json.dumps(status.status, indent=2))
-        else:
-            status.humanPrint(status.status)
+        print(status.getStatus())
+
 
 def lastSnapshot(args):
     """
