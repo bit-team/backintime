@@ -240,6 +240,9 @@ class SnapshotLog:
             self.logFile = open(self.logFileName, 'at')
         self.logFile.write(msg + '\n')
         self.timer.start(1)  # flush the log output buffer after 5 seconds
+                             # Changed to one second to help with updating
+                             # SnapshotStatus. I hope this doesn't cause any
+                             # issues (testing seems fine). Samuel Moore
 
     def flush(self):
         """
