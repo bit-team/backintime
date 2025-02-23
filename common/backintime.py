@@ -1069,7 +1069,6 @@ class SnapshotStatus():
     def __exit__(self, exc_type, exc_value, traceback):
         with open(self.path, 'w') as f:
             json.dump(self.status, f, indent=2)
-        # self.humanPrint(self.status)
 
     def add_snapshot(self):
         profile = self.status[self.cfg.profileName()]
@@ -1112,22 +1111,6 @@ class SnapshotStatus():
             dict:
                             the most recent successful snapshot for the profile.
         """
-        # logerrors = snapshotlog.SnapshotLog(cfg).get(mode=1)
-        # logchanges = snapshotlog.SnapshotLog(cfg).get(mode=2)
-        # for log in logfile:
-        # for log in logfile:
-        #     print(cfg.profileName(), snapshotlog.LogFilter().filter(log))
-        # errors = []
-        # for log in logerrors:
-        #     if log and not log.startswith('=='):
-        #         errors.append(log)
-        # changes = []
-        # for log in logchanges:
-        #     if log and not log.startswith('=='):
-        #         changes.append(log)
-        # print(cfg.profileName(), len(errors), ' errors')
-        # print(changes)
-        # print(cfg.profileName(), len(changes), ' changes')
         try:
             ssh = None
             if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
