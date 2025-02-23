@@ -69,8 +69,12 @@ using a "feature" branch and sending a pull request asking for a review.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
 
-When the PR is merged:
+Before the PR is merged:
 - Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`.
+- Test the tar archive.
+- Merge.
+
+After the PR is merged:
 - Create a new release in Github (attaching above tar archive).
 - Update `VERSION` and `CHANGES` for the `dev` branch.
 
