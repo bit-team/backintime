@@ -30,7 +30,7 @@ import mount
 import password
 import encfstools
 import cli
-import snapshotlog 
+import snapshotlog
 from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
@@ -1091,7 +1091,7 @@ class SnapshotStatus():
         prev_run = profile.get(_('Last run'))
         last_success = profile.get(_('Last success'))
         self._checkForSuccessfulSnapshot()
-        
+
         if success:
             profile[_('Last run')] = {_('Timestamp'): now, _('Successful'): True,
                                    'Changes': len(changes)}
@@ -1110,7 +1110,7 @@ class SnapshotStatus():
         # Otherwise, if we have a 'Last success', we preserve it
         elif last_success:
             profile[_('Last success')] = last_success
-  
+
     def getStatus(self):
         """
         Get status of either selected profile, all profiles, or profiles
@@ -1136,18 +1136,18 @@ class SnapshotStatus():
         # Fields to remove if returning list of statuses
         keys_to_remove = [_('Error details'), _('Snapshot mode'), \
                 _('Paths'), _('Changes'), _('Errors')]
-        
+
         result = {
             key: self._removeKeys(data, keys_to_remove)
             for key, data in self.status.items()
             if (self.all_status or profile_filter(key)) and issues_filter(key)
         }
-                
+
         if result and self.json:
             result = json.dumps(result, indent=2)
         else:
             result = self._human(result) + '\n\n'
-            
+
         return result
 
     def __str__(self):
@@ -1162,7 +1162,7 @@ class SnapshotStatus():
         self._checkForSuccessfulSnapshot()
         self.json = True
         return self.getStatus()
-    
+
     def __enter__(self):
         try:
             with open(self.path, 'r') as f:
@@ -1174,7 +1174,7 @@ class SnapshotStatus():
             logger.warning(_('No permission to read status file.'))
             self._getAllStatus()
         return self
-    
+
     def __exit__(self, exc_type, exc_value, _):
         if exc_type:
             logger.error(f"{exc_type.__name__}: {exc_value}")
@@ -1198,14 +1198,14 @@ class SnapshotStatus():
         """
         self.cfg.setCurrentProfile(self.profile_id)
         profile = self.status.get(self.cfg.profileName(), {})
-        
+
         prev_run = profile.get(_('Last run'))
         last_success = profile.get(_('Last success'))
-        
+
         if not prev_run or (prev_run and not prev_run.get(_('Successful'))):
             if not last_success or not last_success.get(_('Timestamp')):
                 self.status.update(self._getProfileStatus())
-                
+
     def _filterLog(self, sid=None):
         """
         Get errors and changes from specified snapshot ID. If no SID is
@@ -1225,13 +1225,13 @@ class SnapshotStatus():
             log = snapshotlog.SnapshotLog(self.cfg).get()
         else:
             log = sid.log()
-            
+
         lines = list(log)
         errors = [line for line in lines if line.startswith('[E]')]
         changes = [line for line in lines if line.startswith('[C]')]
-        
+
         return errors, changes
-    
+
     def _getAllStatus(self):
         """
         Get the snapshot status for all profiles. Called when no snapshot 
@@ -1245,14 +1245,14 @@ class SnapshotStatus():
         # If a profile was specified with --profile or --profile-id, save that
         # profile id to get that profile once object is created
         backup_id = self.profile_id
-        
+
         for profile in self.cfg.profiles():
             self.profile_id = profile
             profile_data = self._getProfileStatus()
             self.status.update(profile_data)
-            
+
         self.profile_id = backup_id
-        
+
         return self.status
 
     def _getProfileStatus(self):
@@ -1268,7 +1268,7 @@ class SnapshotStatus():
         self.cfg.setCurrentProfile(self.profile_id)
         cfg = self.cfg
         profile = cfg.profileName(self.profile_id)
-        
+
         try:
             ssh = None
             if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
@@ -1299,11 +1299,11 @@ class SnapshotStatus():
                 last_success = next(
                     (snap for snap in snapshots.listSnapshots(self.cfg)
                     if not snap.failed), None)
-                
+
                 status.update({_('Last success'): {_('Timestamp'):
                     str(last_success.date) if last_success else None}})
 
-                # If a previous successful snapshot exists, count changes 
+                # If a previous successful snapshot exists, count changes
                 if last_success:
                     __, changes = self._filterLog(sid=last_success)
                     status[_('Last success')].update({_('Changes'): len(changes)})
@@ -1316,10 +1316,10 @@ class SnapshotStatus():
                     else self.cfg.snapshotsFullPath(),
                 _('Log file'): self.cfg.takeSnapshotLogFile(),
             }})
-            
+
             return {profile: status}
 
-        except MountException as error:
+        except MountException:
             ssh = None
             logger.warning(_('Unable to establish connection with : ') +
                             cfg.sshHost(profile_id=cfg.current_profile_id))
@@ -1340,7 +1340,7 @@ class SnapshotStatus():
                 for key, value in dic.items()
                 if not self.all_status or key not in keys
             }
-            
+
         return dic
 
     def _longestKey(self, dic, depth=0):
@@ -1355,7 +1355,7 @@ class SnapshotStatus():
 
         for value in dic.values():
             if isinstance(value, dict):
-                max_len = max(max_len, 
+                max_len = max(max_len,
                         self._longestKey(value, depth=depth + 1))
 
         return max_len
@@ -1369,27 +1369,27 @@ class SnapshotStatus():
             width = self._longestKey(dic) + 1
         if indent == 0:
             human.append('')
-            
+
         for key, value in dic.items():
             if indent != 8:
                 human.append('')
-                
+
             if isinstance(value, dict):
                 human.append(f"{' ' * indent}{key}:")
                 human.append(self._human(value, indent=indent + 4, width=width))
-                
+
             elif isinstance(value, list):
                 human.append(f"{' ' * indent}{key:{width}}: [")
                 for item in value:
                     human.append(f"{' ' * (indent + 2)}[{item}],")
                 human.append(f'{' ' * indent}]')
-                
+
             else:
                 if _('success') in key or indent == 4:
                     human.append(f"{' ' * indent}{key:{width + 4}}: {value}")
                 else:
                     human.append(f"{' ' * indent}{key:{width}}: {value}")
-                    
+
         return '\n'.join(human)
 
 
