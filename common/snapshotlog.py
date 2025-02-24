@@ -239,10 +239,7 @@ class SnapshotLog:
         if not self.logFile:
             self.logFile = open(self.logFileName, 'at')
         self.logFile.write(msg + '\n')
-        self.timer.start(1)  # flush the log output buffer after 5 seconds
-                             # Changed to one second to help with updating
-                             # SnapshotStatus. I hope this doesn't cause any
-                             # issues (testing seems fine). Samuel Moore
+        self.timer.start(5)  # flush the log output buffer after 5 seconds
 
     def flush(self):
         """

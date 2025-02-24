@@ -1041,9 +1041,10 @@ def snapshotsListPath(args):
 class SnapshotStatus():
     """
     A context manager that tracks and provides the most recent snapshot 
-    data. Flags are passed from the command line through argparse to modify 
-    the state of the object. Default behaviour provides a very simple 
-    overview for the status of each profile.
+    data. Flags are passed from the command line to modify the output. 
+
+    Default behaviour provides a very simple overview for the
+    status of each profile.
 
     Args:
         args (argparse.Namespace, optional):
@@ -1056,14 +1057,14 @@ class SnapshotStatus():
 
     Returns:
         `__repr__`:
-                returns a JSON string (dict-like format) representation.
+                returns a JSON string representation.
         `__str__`:
                 returns a human-readable formatted string.
     """
     def __init__(self, args:argparse.Namespace=None, cfg:config.Config=None):
         self.profile = args.profile if args else None
         self.profile_id = args.profile_id if args else None
-        self.all_status = not self.profile and not self.profile_id
+        self.all_status = not (self.profile or self.profile_id)
         self.issues = args.issues if args else None
         self.json = args.json if args else None
         self.cfg = cfg if cfg else getConfig(args)
@@ -1075,33 +1076,39 @@ class SnapshotStatus():
 
     def updateStatus(self):
         """
-        Add the most recent backup to the snapshot status.
+        Add the most recent backup to the snapshot status object.
         """
+        # Log file sometimes doesn't save right away due to buffering, reducing
+        # timer at snapshotlog line 242 would avoid the need to do this
+        sleep(2)
         profile = self.status[self.cfg.profileName()]
         now = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        errors, changes = self._getLog(snapshotlog.SnapshotLog(self.cfg).get())
+
+        # Get errors and changes for most recent snapshot for currrent profile
+        errors, changes = self._filterLog()
         success = True if len(errors) == 0 and len(changes) > 0 else False
 
         prev_run = profile.get(_('Last run'))
-        last_success = profile.get('Last success')
+        last_success = profile.get(_('Last success'))
         self._checkForSuccessfulSnapshot()
         
         if success:
-            profile['Last run'] = {_('Timestamp'): now, 'Successful': True}
+            profile[_('Last run')] = {_('Timestamp'): now, _('Successful'): True,
+                                   'Changes': len(changes)}
         else:
-            profile['Last run'] = {_('Timestamp'): now, 'Successful': False}
-            profile['Last run'].update({_('Changes'): len(changes)})
-            profile['Last run'].update({_('Errors'): len(errors)})
+            profile[_('Last run')] = {_('Timestamp'): now, _('Successful'): False}
+            profile[_('Last run')].update({_('Changes'): len(changes)})
+            profile[_('Last run')].update({_('Errors'): len(errors)})
             if len(errors):
-                profile['Last run'].update({_('Error details'): errors})
+                profile[_('Last run')].update({_('Error details'): errors})
 
-        # If the previous run was successful, store its timestamp in 'Last Success'
-        if prev_run and prev_run.get('Successful', False):
+        # If the previous run was successful, store its timestamp
+        if prev_run and prev_run.get(_('Successful'), False):
             prev_timestamp = prev_run.get(_('Timestamp'))
             profile[_('Last success')] = prev_timestamp
 
-        # If we have a 'Last success' and it's not None, we preserve it
-        if last_success and last_success != 'Last run':
+        # Otherwise, if we have a 'Last success', we preserve it
+        elif last_success:
             profile[_('Last success')] = last_success
   
     def getStatus(self):
@@ -1116,13 +1123,17 @@ class SnapshotStatus():
             str: If self.json is False
                         returns the status as a human-readable string
         """
+        # Filter for specified profile if --profile or --profile-id flags used
         profile_filter = lambda key: self.profile == key or \
                 self.cfg.profileName(self.profile_id) == key
-                
+
+        # Filter for profiles with unsuccessful last run for --issues flag
         issues_filter = lambda key: \
-                not self.issues  or self.status[key].get (_('Last run'))\
-                and not self.status[key][_('Last run')].get('Successful')
-                
+                not self.issues or self.status[key].get (_('Last run'))\
+                and not self.status[key][_('Last run')].get(_('Successful'))\
+                or not self.status[key].get (_('Last run'))
+
+        # Fields to remove if returning list of statuses
         keys_to_remove = [_('Error details'), _('Snapshot mode'), \
                 _('Paths'), _('Changes'), _('Errors')]
         
@@ -1131,7 +1142,7 @@ class SnapshotStatus():
             for key, data in self.status.items()
             if (self.all_status or profile_filter(key)) and issues_filter(key)
         }
-        
+                
         if result and self.json:
             result = json.dumps(result, indent=2)
         else:
@@ -1157,17 +1168,16 @@ class SnapshotStatus():
             with open(self.path, 'r') as f:
                 self.status = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
-            logger.warning('Status file corrupt or not found, creating new file.')
+            logger.warning(_('Status file not found or corrupted, creating new file.'))
             self._getAllStatus()
         except PermissionError:
-            logger.warning('No permission to read status file.')
+            logger.warning(_('No permission to read status file.'))
             self._getAllStatus()
         return self
     
     def __exit__(self, exc_type, exc_value, _):
         if exc_type:
-            logger.error(_('Exception occurred')
-                         + f": {exc_type.__name__}: {exc_value}")
+            logger.error(f"{exc_type.__name__}: {exc_value}")
 
         try:
             with open(self.path, 'w', encoding="utf-8") as f:
@@ -1179,8 +1189,9 @@ class SnapshotStatus():
     def _checkForSuccessfulSnapshot(self):
         """
         Check if the currently selected profile has any successful snapshot
-        data and check the profile again if there isn't one. The purpose of
-        this check is to account for potential issues with SSH drives not
+        data saved and check the profile if not. 
+
+        This accounts for potential issues with SSH drives not
         having been availbale when the original setup was done.
 
         Calls `_getProfileStatus` if no successful snapshot is recorded.
@@ -1189,22 +1200,20 @@ class SnapshotStatus():
         profile = self.status.get(self.cfg.profileName(), {})
         
         prev_run = profile.get(_('Last run'))
-        print('prev run>>>>>>>>', prev_run) #test
-        last_success = profile.get('Last success')
-        print('prev sucs>>>>>>>>', last_success) #test
+        last_success = profile.get(_('Last success'))
         
-        if not prev_run or (prev_run and not prev_run.get('Successful')):
-            if not (last_success and last_success.get('Timestamp')):
-                print('checkcing') #test
-                self._getProfileStatus()
+        if not prev_run or (prev_run and not prev_run.get(_('Successful'))):
+            if not last_success or not last_success.get(_('Timestamp')):
+                self.status.update(self._getProfileStatus())
                 
-    def _getLog(self, log:snapshots.SID):
+    def _filterLog(self, sid=None):
         """
-        Get errors and changes from specefied snapshot ID.
+        Get errors and changes from specified snapshot ID. If no SID is
+        provided, the most recent snapshot for the current profile will
+        be used.
 
         Args:
-            log: SID
-                    the snapshot ID to pull log entries from
+            sid (optional): snapshots.SID
 
         Returns:
             errors: list
@@ -1212,10 +1221,15 @@ class SnapshotStatus():
             changes: list
                     a list of any changes from the snapshot
         """
+        if sid is None:
+            log = snapshotlog.SnapshotLog(self.cfg).get()
+        else:
+            log = sid.log()
+            
         lines = list(log)
-        # print(lines)  #test        
         errors = [line for line in lines if line.startswith('[E]')]
         changes = [line for line in lines if line.startswith('[C]')]
+        
         return errors, changes
     
     def _getAllStatus(self):
@@ -1226,10 +1240,10 @@ class SnapshotStatus():
         Returns:
             self.status: dict
                     a dictionary with the last successful snapshot from
-                    each profile. Needs to be able to access ssh drives
-                    to search previous logs, otherwise information may 
-                    not be up to date.             
+                    each profile.            
         """
+        # If a profile was specified with --profile or --profile-id, save that
+        # profile id to get that profile once object is created
         backup_id = self.profile_id
         
         for profile in self.cfg.profiles():
@@ -1243,12 +1257,13 @@ class SnapshotStatus():
 
     def _getProfileStatus(self):
         """
-        Get the status for a specific profile 
-        (self.profile_id or self.profile).
+        Get the status for a specific profile if --profile or --profile-id
+        flags used.
 
         Called when no snapshot status file exists
-        (~/.local/share/backintime/snapshotstatus.json) or when 
-        `self.updateStatus()` is called and there are no saved successful runs.
+        (~/.local/share/backintime/snapshotstatus.json) or when a specific
+        profile is requested and there is no successful backup recorded
+        for that profile.
         """
         self.cfg.setCurrentProfile(self.profile_id)
         cfg = self.cfg
@@ -1261,34 +1276,39 @@ class SnapshotStatus():
                 ssh = sshtools.SSH(cfg)
                 ssh.mount()
 
-            # Last snapshot for slected profile
+            # Get last snapshot for slected profile
             last_snapshot = snapshots.lastSnapshot(cfg)
             if last_snapshot is None:
                 return {profile: {_('Last run'): None}}
-            
+
+            # Create a dict with the details of the last attempted backup
             status = {_('Last run'): {_('Timestamp'): str(last_snapshot.date),
                     _('Successful'): not last_snapshot.failed}}
-            last_run =  status[_('Last run')]
+            last_run = status[_('Last run')]
 
-            errors, changes = self._getLog(snapshotlog.SnapshotLog(self.cfg).get())
-            
+            errors, changes = self._filterLog()
+
+            # Update `last run` with most recent backup attempt
             last_run.update({_('Changes'): len(changes)})
             if errors:
                 last_run.update({_('Errors'): len(errors)})
                 last_run.update({_('Error details'): errors})
 
+            # If it failed, look for the most recent successful backup
             if last_snapshot.failed:
                 last_success = next(
-                    (snap for snap in snapshots.listSnapshots(cfg)
+                    (snap for snap in snapshots.listSnapshots(self.cfg)
                     if not snap.failed), None)
                 
                 status.update({_('Last success'): {_('Timestamp'):
                     str(last_success.date) if last_success else None}})
-                
+
+                # If a previous successful snapshot exists, count changes 
                 if last_success:
-                    __, changes = self._getLog(last_success.log())
+                    __, changes = self._filterLog(sid=last_success)
                     status[_('Last success')].update({_('Changes'): len(changes)})
-                
+
+            # Add mode and paths to snapshot detail
             status.update({
             _('Snapshot mode'): self.cfg.snapshotsMode(),
             _('Paths'): {
@@ -1296,6 +1316,7 @@ class SnapshotStatus():
                     else self.cfg.snapshotsFullPath(),
                 _('Log file'): self.cfg.takeSnapshotLogFile(),
             }})
+            
             return {profile: status}
 
         except MountException as error:
@@ -1303,7 +1324,9 @@ class SnapshotStatus():
             logger.warning(_('Unable to establish connection with : ') +
                             cfg.sshHost(profile_id=cfg.current_profile_id))
             return {profile:
-                    {_('No connection'): str(error)}}
+                    {_('No connection'): _('Connect to drive and get status') +
+                    _(' for this profile to update (id={id})')\
+                    .format(id=self.profile_id)}}
 
         finally:
             if ssh:
