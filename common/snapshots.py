@@ -35,7 +35,6 @@ import mount
 import progress
 import snapshotlog
 import flock
-import backintime
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
