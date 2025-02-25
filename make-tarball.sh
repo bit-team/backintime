@@ -33,5 +33,10 @@ tar cfz backintime-$VER.tar.gz \
     ${NEW}/LICENSES \
     ${NEW}/doc
 
+tar -tzf backintime-$VER.tar.gz
+echo ""
+echo "RESULT:"
+realpath backintime-$VER.tar.gz
+
 rm -rf backintime-$VER
 
