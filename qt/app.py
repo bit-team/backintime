@@ -318,6 +318,13 @@ class MainWindow(QMainWindow):
             for idx, width in enumerate(files_view_col_widths):
                 self.filesView.header().resizeSection(idx, width)
 
+        # Release Candidate
+        if version.is_release_candidate():
+            last_vers = state_data.msg_release_candidate
+            if last_vers != version.__version__:
+                state_data.msg_release_candidate = version.__version__
+                self._open_release_candidate_dialog()
+
         # Force dialog to import old configuration
         if not config.isConfigured():
             message = _(
@@ -420,13 +427,6 @@ class MainWindow(QMainWindow):
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-
-        # Release Candidate
-        if version.is_release_candidate():
-            last_vers = state_data.msg_release_candidate
-            if last_vers != version.__version__:
-                state_data.msg_release_candidate = version.__version__
-                self._open_release_candidate_dialog()
 
     @property
     def showHiddenFiles(self):

@@ -12,12 +12,22 @@ CURRENT=$(pwd)
 NEW="backintime-$VER"
 
 cd ..
-if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
-    git clone ${CURRENT} ${NEW}
-else
-    cp -aR ${CURRENT} ${NEW}
-fi
+
+# if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
+#     git clone ${CURRENT} ${NEW}
+# else
+#     cp -aR ${CURRENT} ${NEW}
+# fi
+
+cp -aR ${CURRENT} ${NEW}
+
+rm backintime-$VER.tar.gz
+
 tar cfz backintime-$VER.tar.gz \
+    --exclude="*/__pycache__" \
+    --exclude="*/.pytest_cache" \
+    --exclude="*/.ruff_cache" \
+    --exclude="*/po/*.mo" \
     ${NEW}/AUTHORS \
     ${NEW}/CHANGES \
     ${NEW}/LICENSE \
@@ -38,5 +48,5 @@ echo ""
 echo "RESULT:"
 realpath backintime-$VER.tar.gz
 
-rm -rf backintime-$VER
+# rm -rf backintime-$VER
 
