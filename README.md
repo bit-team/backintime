@@ -36,15 +36,16 @@ More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 ## Maintenance status
 
 The project is in active development since the [new team](#the-team) joined in
-summer 2022. Development is done in spare time so things need to be
+summer 2022. Development is done voluntarilly in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
 Current focus is on fixing
 [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
 instead of implementing new
-[features](https://github.com/bit-team/backintime/labels/Feature). Read the
+[features](https://github.com/bit-team/backintime/labels/Feature).
+Stabilize the code base and its test suite is also a matter. Read the
 [strategy outline](CONTRIBUTING.md#strategy-outline) for details.
-Please see  [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
+Please see [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
 development and have a look on
 [open issues](https://github.com/bit-team/backintime/issues) especially
 those labeled as [good first issues](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
@@ -111,7 +112,7 @@ In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
-In older releases:
+In older releases (but fixed in the latest):
 - Error: "module 'qttools' has no attribute 'initate_translator'" with EncFS when prompting the user for a password ([#1553](https://github.com/bit-team/backintime/issues/1553))
 - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
 - [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
@@ -223,4 +224,4 @@ _Back In Time_. In that case you may not see any problems.
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
-<sub>July 2024</sub>
+<sub>February 2025</sub>
