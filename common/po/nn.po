@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-09 17:49+0000\n"
-"Last-Translator: SomeTr <sometr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -69,7 +69,7 @@ msgid "Default"
 msgstr "Standardverdi"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -83,21 +83,23 @@ msgstr "Mappa for augneblinksbileta er ugyldig!"
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Gjennoppretta {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Du kan ikkje inkludere undermapper av sikkerheitskopierings-mappa."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Du kan ikkje inkludere undermapper av sikkerheitskopierings-mappa."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Klara ikkje å skriva ny crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -105,7 +107,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -114,12 +116,12 @@ msgstr ""
 "Kunne ikkje installere Udev-regel for profilen {profile_id}. DBus-tenesta "
 "{dbus_interface} var ikkje tilgjengeleg"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Timeplan udev verker ikkje med modusen {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Kunne ikkje finne UUID for {path}"
@@ -209,7 +211,7 @@ msgstr "Fullført"
 msgid "Deferring backup while on battery"
 msgstr "Ventar med sikkerhetskopi medan på batteri"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Klarer ikkje å laga mappa"
@@ -501,20 +503,20 @@ msgstr "Legg til for å inkludere"
 msgid "Add to Exclude"
 msgstr "Legg til for å ekskludere"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -1355,7 +1357,7 @@ msgstr "Ved kvar start/omstart"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Kvart {n}. minutt"
@@ -2142,3 +2144,7 @@ msgstr "Dette kan ikkje gjerast om!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Ekskluder {path} frå nye snapshot?"
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Du kan ikkje inkludere undermapper av sikkerheitskopierings-mappa."

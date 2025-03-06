@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-11-20 07:14+0000\n"
-"Last-Translator: alexgabi <alexgabi@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Lehenetsia"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profila: \"{name}\""
@@ -79,19 +79,23 @@ msgstr "Babeskopien karpeta ez da baliozkoa."
 msgid "At least one directory must be selected for backup."
 msgstr "Gutxienez direktorio bat hautatu behar da babeskopia egiteko."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Berreskuratu {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Karpeta ezin da bebeskopian sartu."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Azpikarpetak ezin dira babes kopian sartu."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Huts egin du crontab berria idazten."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +107,7 @@ msgstr ""
 "instalatuta egotea baina gaituta ez egotea. Saiatu \"systemctl enable cron\""
 " komandoa edo kontsultatu zure GNU Linux banaketaren laguntza kanalak."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +116,12 @@ msgstr ""
 "Ezin izan da Udev araua instalatu {profile_id} profilarentzat. "
 "'{dbus_interface}' DBus zerbitzua ez zegoen erabilgarri"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Programatutako Udev-a ez dabil {mode} moduarekin"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Ezin da UUID aurkitu \"{path}\"-erako"
@@ -207,7 +211,7 @@ msgstr "Eginda"
 msgid "Deferring backup while on battery"
 msgstr "Atzeratu babeskopia bateriaz dabilen bitartean"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Ezin da aurkitu babeskopien karpeta."
 
@@ -495,7 +499,7 @@ msgstr "Gehitu sartu beharrekoetan"
 msgid "Add to Exclude"
 msgstr "Gehitu kanpoan utzi beharrekoetan"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -504,7 +508,7 @@ msgstr ""
 "{app_name} lehen aldiz exekutatzen ari dela dirudi, ez baita konfiguraziorik"
 " aurkitzen."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -512,7 +516,7 @@ msgstr ""
 "Lehendik dagoen konfigurazio bat inportatu (babeskopia batetik edo beste "
 "ordenagailu batetik)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Unitate eramangarri batean badago konekta ezazu eta sakatu Ados."
 
@@ -854,6 +858,7 @@ msgstr ""
 "honek babeskopia egitean baztertutako fitxategi eta karpetak ezabatuko ditu."
 
 #: qt/app.py:1570
+#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
@@ -1650,6 +1655,7 @@ msgid "Private Key:"
 msgstr "Gako pribatua:"
 
 #: qt/manageprofiles/tab_general.py:152
+#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -2147,3 +2153,6 @@ msgstr "KONTUZ: Honek ez dauka atzera bueltarik."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Baztertu {path} hurrengo babeskopietan?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Azpikarpetak ezin dira babes kopian sartu."

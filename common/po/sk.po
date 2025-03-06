@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-09 17:49+0000\n"
-"Last-Translator: SomeTr <sometr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Poedit-Country: SLOVAKIA\n"
 "X-Poedit-Language: Slovak\n"
@@ -71,7 +71,7 @@ msgid "Default"
 msgstr "Predvolené"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -85,21 +85,23 @@ msgstr "Neplatný priečinok na snímky!"
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Obnoviť {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Pod-priečinok Zálohy nemože byť zahrnutý."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Pod-priečinok Zálohy nemože byť zahrnutý."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Zapisanie nového crontabu zlyhalo."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -107,7 +109,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -116,12 +118,12 @@ msgstr ""
 "Uden pravidlo pre profil {profile_id} nebolo nastavené. Služba DBus pre "
 "'{dbus_interface}' nie je dostupná"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Pri móde {mode} nie je dostupný udev scheduler"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nepodarilo sa nájsť UUID pre {path}"
@@ -211,7 +213,7 @@ msgstr "Hotovo"
 msgid "Deferring backup while on battery"
 msgstr "Zálohovanie odložené pri behu na batériu"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Nemožno vytvoriť priečinok"
@@ -499,20 +501,20 @@ msgstr ""
 msgid "Add to Exclude"
 msgstr ""
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -798,6 +800,7 @@ msgid "Snapshot Name"
 msgstr "Názov snímky"
 
 #: qt/app.py:1398
+#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Ste si istí, že chcete odstrániť snímku"
@@ -848,6 +851,7 @@ msgstr[1] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 msgstr[2] "Zlyhalo vytváranie snímky {snapshot_id} !!!"
 
 #: qt/app.py:1580
+#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Ste si istí, že chcete odstrániť snímku"
@@ -1314,7 +1318,7 @@ msgstr "Pri každom štarte/reštarte"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Každých {n} minút"
@@ -2050,3 +2054,7 @@ msgstr ""
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr ""
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Pod-priečinok Zálohy nemože byť zahrnutý."

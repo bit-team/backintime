@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-11 05:23+0000\n"
-"Last-Translator: Arash Pourhabibi <neo-apz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:77
@@ -65,7 +65,7 @@ msgid "Default"
 msgstr "پیش‌فرض"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "نمایه: \"{name}\""
@@ -78,21 +78,23 @@ msgstr "پوشه برگرفت‌ها معتبر نیست."
 msgid "At least one directory must be selected for backup."
 msgstr "بابد حداقل یک مسیر برای پپشتیبان‌گیری انتخاب شود."
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "بازگرداندن {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "زیر پوشه پشتیبان را نمی‌توان اضافه کرد."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "زیر پوشه پشتیبان را نمی‌توان اضافه کرد."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "نوشتن کرونتب جدید شکست خورد."
 
-#: common/config.py:1471
+#: common/config.py:1475
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -105,7 +107,7 @@ msgstr ""
 "\"systemctl enable cron\" را امتحان کنید یا با پشتیبانی توزیع گنو/لینوکس خود"
 " مشورت کنید."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -114,12 +116,12 @@ msgstr ""
 "نتوانست قوانین Udev را برای نمایه {profile_id} نصب کند. سامانه دی‌باس(DBus) "
 "'{dbus_interface}' در دسترس نبود"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "برنامه‌ریزی udev با حالت {mode} کار نمی‌کند"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "UUID برای \"{path}\" پیدا نشد"
@@ -207,7 +209,7 @@ msgstr "تمام"
 msgid "Deferring backup while on battery"
 msgstr "به تعویق انداختن پشتیبان گیری در هنگام باتری"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "نمی‌توان پوشهٔ برگرفت‌ها را پیدا کرد."
@@ -501,7 +503,7 @@ msgstr "اضافه کردن به شامل‌ها"
 msgid "Add to Exclude"
 msgstr "اضافه کردن به استثناها"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -510,7 +512,7 @@ msgstr ""
 "به نظر می‌رسد که {app_name} برای اولین بار اجرا می‌شود زیرا هیچ پیکربندی‌ای "
 "یافت نشد."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -518,7 +520,7 @@ msgid ""
 msgstr ""
 "یک تنظیمات وارد کنید (از یک پوشه ی پشتیبان گیری یا از یک رایانه ای دیگر)؟"
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -1192,13 +1194,14 @@ msgid "Add default"
 msgstr "اضافه کردن پیش‌فرض"
 
 #: qt/manageprofiles/__init__.py:229
+#, fuzzy
 msgid "Exclude files bigger than:"
 msgstr "استثنا قرار بده فایل های بزرگتر از:"
 
 #: qt/manageprofiles/__init__.py:233
 #, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "استثنا قرار بده فایل های بزرگتر از: "
+msgstr "استثنا قرار بده فایل های بزرگتر از:"
 
 #: qt/manageprofiles/__init__.py:235
 #, fuzzy
@@ -2157,3 +2160,7 @@ msgstr "این نمی‌تواند لغو شود!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "می‌خواهید که \"{path}\" را از اسنپ‌شات‌های آینده مستثنی کنید؟"
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "زیر پوشه پشتیبان را نمی‌توان اضافه کرد."

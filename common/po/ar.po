@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-08-06 06:28+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-05 11:12+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,36 +66,36 @@ msgid "Default"
 msgstr "إفتراضيّ"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "الملف الشخصي: \"{name}\""
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "مُجلد اللقطات غير صالح!"
+msgstr "مُجلد اللقطات غير صالح."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "يجب إختيار مجلد واحد على الأقل للنسخ الاحتياطي."
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "استعادة {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
-msgstr "لا يمكن تضمين المجلد الفرعي للنسخ الاحتياطي."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr "لا يمكن تضمين المجلد للنسخ الاحتياطي."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "لا يمكن تضمين المجلد الفرعي للنسخ الاحتياطي."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "فشل كتابة crontab جديد."
 
-#: common/config.py:1471
-#, fuzzy
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -106,7 +106,7 @@ msgstr ""
 "المجدولة. قد يكون كرون مثبتًا ولكنه غير مفعل. جرب الأمر \"systemctl enable "
 "cron\" أو استشر قنوات الدعم لتوزيعة جنو / لينكس الخاصة بك."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -115,12 +115,12 @@ msgstr ""
 "لا يستطيع تثبيت قاعدة Udev ماف الشخصي {profile_id}. خدمة DBus "
 "'{dbus_interface}' ليس كانت موفره"
 
-#: common/config.py:1567
-#, fuzzy, python-brace-format
+#: common/config.py:1571
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "جدول udev لا يعمل مع طريقة {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "لا يستطيع العثور على UUID لـ{path}"
@@ -143,19 +143,17 @@ msgid "The last profile cannot be removed."
 msgstr "لا يستطيع إزالة الملف الشخصي الآخر."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "لا يستطيع ركب '{command}'"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "لم يوجد التكوين لالمجاد المشفر."
+msgstr "لم يوجد التكوين للمجلد المشفر."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "انشاء مجلداً مشفرا جديدا؟"
+msgstr "هل تريد انشاء مجلد مشفر جديد؟"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -174,7 +172,7 @@ msgid "Take snapshot"
 msgstr "خذ لقطة"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "لا يستطيع تفكيك {mountprocess} من {mountpoint}."
 
@@ -212,15 +210,13 @@ msgstr "تم"
 msgid "Deferring backup while on battery"
 msgstr "تأجيل النسخ الاحتياطي أثناء وجوده على البطارية"
 
-#: common/snapshots.py:842 qt/app.py:356
-#, fuzzy
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
-msgstr "لم نتمكن من العثور على مجلد النسخ الاحتياطي (مجلد اللقطات)."
+msgstr "لم نتمكن من العثور على مجلد اللقطات."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "إن كان على وحدة تخزين خارجية، يرجى توصيلها ثم اضغط موافق."
+msgstr "إن كان على وحدة تخزين خارجية، يرجى توصيلها."
 
 #: common/snapshots.py:849
 #, python-format
@@ -240,7 +236,7 @@ msgstr "فشل بأخذ لقطة {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "الرجاء الانتظار. جاري الانتهاء…"
 
 #: common/snapshots.py:1077
 #, fuzzy
@@ -256,17 +252,16 @@ msgid "Saving permissions…"
 msgstr "يتم حفظ الأذونات…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "وجد بقايا {snapshot_id} ويمكن الاستمرار فيه."
+msgstr "وجد بقايا اللقطة {snapshot_id} ويمكن الاستمرار فيه."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr "يتم إزالة مجلد بقايا {snapshot_id} من العملية الاخيرة"
 
 #: common/snapshots.py:1325
-#, fuzzy
 msgid "Can't remove directory"
 msgstr "لا يُمكن إزالة المُجلد"
 
@@ -306,22 +301,21 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "لا شيء تغير, لا حاجة للقطة جديدة"
 
 #: common/snapshots.py:1523
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "لا يمكن إعادة تسمية {new_path} إلى {path}"
+msgstr "لا يمكن إعادة تسمية {new_path} إلى {path}."
 
 #: common/snapshots.py:1855
 msgid "Smart removal"
 msgstr "إزالة ذكية"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "إزالة اللقطات القديمة"
+msgstr "تطبيق القواعد لإلزالة اللقطات القديمة"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "تطبيق قواعد الإحتفاظ"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -337,12 +331,11 @@ msgid "Now"
 msgstr "الآن"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "غير ممكن تركيب {sshfs}"
 
 #: common/sshtools.py:300
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "لم يتم العثور على ssh-agent. يرجى التأكد من أنه مثبت."
 
@@ -504,7 +497,7 @@ msgstr "اضف للتضمين"
 msgid "Add to Exclude"
 msgstr "اضف للاستبعاد"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -512,14 +505,14 @@ msgid ""
 msgstr ""
 "يبدو أن تطبيق {app_name} يعمل لأول مرة حيث لم يتم العثور على أي إعدادات."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr "هل ترغب باستيراد إعدادات موجودة (من مجلد احتياطي أو من حاسوب آخر)؟"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "إن كان على وحدة تخزين خارجية، يرجى توصيلها ثم اضغط موافق."
 
@@ -2169,3 +2162,6 @@ msgstr "تحذير: لا يمكن التراجع عن ذلك."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "استبعاد {path} من اللقطات المستقبلية؟"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "لا يمكن تضمين المجلد الفرعي للنسخ الاحتياطي."

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icelandic (Back In Time)\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-01-03 03:42+0000\n"
 "Last-Translator: sveinki <sveinki@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
@@ -61,7 +61,7 @@ msgid "Default"
 msgstr "Sjálfgefið"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Snið: \"{name}\""
@@ -74,19 +74,23 @@ msgstr "Mappa fyrir skyndiafrit er ekki gild."
 msgid "At least one directory must be selected for backup."
 msgstr "Að minnsta kosti ein mappa verður að vera undir öryggisafrit."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Endurheimta {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Mappan getur ekki verið innifalin í öryggisafritinu."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Undirmöppurnar geta ekki verið innifaldar í öryggisafritinu."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Mistókst að skrifa nýtt crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -94,7 +98,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -103,12 +107,12 @@ msgstr ""
 "Gat ekki installað Udev reglu fyrir prófíl {profile_id}. DBus þjónusta "
 "'{dbus_interface}' var ekki í boði"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Áætlað udev virkar ekki með hamnum {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Gat ekki fundið UUID fyrir {path}"
@@ -198,7 +202,7 @@ msgstr "Búið"
 msgid "Deferring backup while on battery"
 msgstr "Fresta afritun þegar rafhlöður eru í notkun"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Finn ekki möppu fyrir skyndiafrit."
 
@@ -484,7 +488,7 @@ msgstr "Bæta við meðfylgjandi"
 msgid "Add to Exclude"
 msgstr "Bæta við útilokun"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -493,7 +497,7 @@ msgstr ""
 "Það lítur út fyrir að {app_name} sé að keyra í fyrsta skipti þar sem engar "
 "grunnstillingar fundust."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -501,7 +505,7 @@ msgstr ""
 "Flytja inn fyrirliggjandi grunnstillingar (úr markmöppu öryggisafritunar eða"
 " annarri tölvu)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Ef hún er á útskiptanlegu drifi, skaltu tengja það og ýta síðan á 'Í lagi'."
@@ -2033,3 +2037,6 @@ msgstr "AÐVÖRUN: Þetta er ekki hægt að afturkalla."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Útiloka {path} framvegis frá skyndiafritun?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Undirmöppurnar geta ekki verið innifaldar í öryggisafritinu."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-01-09 16:14+0000\n"
 "Last-Translator: vulpes-viridis <vulpes-viridis@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "По-умолчанию"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Профиль: \"{name}\""
@@ -79,21 +79,23 @@ msgstr "Каталог снимков задан неверно."
 msgid "At least one directory must be selected for backup."
 msgstr "Хотя бы один каталог должен быть выбран для резервного копирования."
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Восстановить {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Содержимое папки резервного копирования не должно быть включено."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Содержимое папки резервного копирования не должно быть включено."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Не удалось записать новый crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -106,7 +108,7 @@ msgstr ""
 "выполнить команду «system enable cron» или свяжитесь с поддержкой вашего "
 "дистрибутива Linux."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -115,12 +117,12 @@ msgstr ""
 "Не удалось установить правило Udev для профиля {profile_id}. Служба DBus "
 "'{dbus_interface}' недоступна"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Расписание udev не работает в режиме {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Не удалось найти UUID для {path}"
@@ -212,7 +214,7 @@ msgstr "Готово"
 msgid "Deferring backup while on battery"
 msgstr "Отсрочка резервного копирования при работе от батареи"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Невозможно найти каталог снимков."
@@ -501,7 +503,7 @@ msgstr "Включить"
 msgid "Add to Exclude"
 msgstr "Добавить в исключения"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -509,7 +511,7 @@ msgid ""
 msgstr ""
 "Похоже, что {app_name} запускается впервые, так как конфигурация не найдена."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -518,7 +520,7 @@ msgstr ""
 "Импортировать существующую конфигурацию (из резервной целевой папки или с "
 "другого компьютера)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК."
@@ -2151,3 +2153,7 @@ msgstr "ВНИМАНИЕ: Это не может быть отменено."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Исключить {path} из будущих снимков?"
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Содержимое папки резервного копирования не должно быть включено."

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-07-22 12:04+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-06 09:23+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -33,16 +33,14 @@ msgid "Local (EncFS encrypted)"
 msgstr "ローカル (EncFS暗号化)"
 
 #: common/config.py:267
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH暗号化"
+msgstr "SSH (EncFS暗号化)"
 
 #: common/config.py:278
 msgid "Local"
 msgstr "ローカル"
 
 #: common/config.py:280
-#, fuzzy
 msgid "SSH"
 msgstr "SSH"
 
@@ -68,43 +66,47 @@ msgid "Default"
 msgstr "標準設定"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "プロファイル: 「{name}」"
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "スナップショットフォルダが無効です！"
+msgstr "スナップショットフォルダが無効です。"
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "最低でも一個のディレクトリをバックアップのために指定してください。"
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "{path} を復元"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
-msgstr "バックアップのサブフォルダを含めることはできません。"
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr "このディレクトリはバックアップのフォルダにできません。"
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "バックアップのサブフォルダを含めることはできません。"
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "新しい crontab の書き込みに失敗しました。"
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
+"Cron が稼働していないため crontab コマンドが使えません。 したがってバックアップは行われません。 Cron "
+"はインストールされているようですが、サービスとして起動されてない可能性があります。 \"systemctl enable cron\" "
+"を使って起動してみてください、また、 GNU/Linux ディストーションへサポートを依頼するのもよいでしょう。"
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -113,12 +115,12 @@ msgstr ""
 "プロファイル {profile_id} の Udev ルールをインストールできませんでした。 DBus サービス 「{dbus_interface}」 "
 "が有効ではありません"
 
-#: common/config.py:1567
-#, fuzzy, python-brace-format
+#: common/config.py:1571
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "モード {mode} では、udev スケジュールは使用できません"
+msgstr "{mode} モード では、udev スケジュールは使用できません"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path} には該当の UUID がありませんでした"
@@ -141,19 +143,17 @@ msgid "The last profile cannot be removed."
 msgstr "最後のプロファイルを削除することはできません。"
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "{command} をマウントできません"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "暗号化されたフォルダの設定がみつかりません。"
+msgstr "フォルダの暗号化に関する設定がみつかりません。"
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "新しい暗号化フォルダを作成しますか?"
+msgstr "新しい暗号化されたフォルダを作成しますか?"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -172,14 +172,14 @@ msgid "Take snapshot"
 msgstr "スナップショット取得"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
-msgstr "{mountprocess} を {mountpoint} からアンマウントできない。"
+msgstr "{mountprocess} を {mountpoint} からアンマウントできません。"
 
 #: common/mount.py:709
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{command} が見つかりません。インストールしてください。例\"{installcommand}\""
+msgstr "{command} は見つかりません。例を参考にインストールしてください。例\"{installcommand}\""
 
 #: common/mount.py:733
 #, python-brace-format
@@ -208,17 +208,13 @@ msgstr "完了"
 msgid "Deferring backup while on battery"
 msgstr "バッテリー動作のときは延期する"
 
-#: common/snapshots.py:842 qt/app.py:356
-#, fuzzy
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "スナップショットフォルダが見つかりません。"
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr ""
-"スナップショットフォルダが見つかりません。\n"
-"もしリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
+msgstr "もしリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
 
 #: common/snapshots.py:849
 #, python-format
@@ -233,12 +229,11 @@ msgstr "スナップショット {snapshot_id} の取得に失敗しました。
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "最終処理を行っています、少々お持ちください…"
 
 #: common/snapshots.py:1077
-#, fuzzy
 msgid "Can't create directory."
-msgstr "フォルダを作成できません"
+msgstr "フォルダを作成できません。"
 
 #: common/snapshots.py:1094
 msgid "Saving config file…"
@@ -249,17 +244,16 @@ msgid "Saving permissions…"
 msgstr "パーミッションを保存…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "以前に作成した使用できるスナップショット {snapshot_id} がありました。"
+msgstr "以前に作成した継続使用できるスナップショット {snapshot_id} がありました。"
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "前回作成した {snapshot_id} フォルダを削除しています"
+msgstr "前回の作業で作成した {snapshot_id} フォルダを削除しています"
 
 #: common/snapshots.py:1325
-#, fuzzy
 msgid "Can't remove directory"
 msgstr "フォルダを削除できません"
 
@@ -298,23 +292,21 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "変更箇所がないので新しいスナップショットは必要ありません"
 
 #: common/snapshots.py:1523
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "{path} を {new_path} に変更できません"
+msgstr "{path} を {new_path} に変更できません。"
 
 #: common/snapshots.py:1855
-#, fuzzy
 msgid "Smart removal"
-msgstr "賢く削除"
+msgstr "おまかせ削除"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "古いスナップショットを削除"
+msgstr "古いスナップショットにルールを適用"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "保持期間条件を適用する"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -330,12 +322,11 @@ msgid "Now"
 msgstr "現在"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "{sshfs} をマウントできません"
 
 #: common/sshtools.py:300
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agentが見つかりません。インストールされているか確認してください。"
 
@@ -386,9 +377,9 @@ msgid "Remote host {host} doesn't support hardlinks"
 msgstr "リモートホスト {host} がハードリンクをサポートしていません"
 
 #: common/sshtools.py:1191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "公開鍵 \"{pubkey}\" をリモートホスト \"{host}\" にコピーしてください"
+msgstr "公開鍵 \"{pubkey}\" をリモートホスト \"{host}\" にコピーしてください。"
 
 #: common/sshtools.py:1193
 #, python-brace-format
@@ -396,38 +387,38 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "ユーザ \"{user}\" のパスワードを入力してください。"
 
 #: common/tools.py:400
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"{path} "
-"の保存先ファイルシステムは、ハードリンクをサポートしないFATでフォーマットされています。ネイティブのLinuxファイルシステムを使用してください。"
+"{path} の保存先ファイルシステムは、ハードリンクをサポートしない NTFS "
+"でフォーマットされています。ネイティブのLinuxファイルシステムを使用してください。"
 
 #: common/tools.py:432
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "リモートパスは存在するが、ディレクトリではない。"
+msgstr "{path} は有効なディレクトリではありません。"
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "以下のディレクトリの作成に失敗しました:"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "書き込み権限が限定されているようです。"
 
 #: common/tools.py:488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"{path} "
-"の保存先ファイルシステムは、ハードリンクをサポートしないFATでフォーマットされています。ネイティブのLinuxファイルシステムを使用してください。"
+"{path} の保存先ファイルシステムは、ハードリンクをサポートしない FAT でフォーマットされています。ネイティブの GNU/Linux "
+"ファイルシステムを使用してください。"
 
 #: common/tools.py:499
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -446,17 +437,17 @@ msgid "Expert Options"
 msgstr "上級者向けオプション"
 
 #: common/tools.py:508
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"{path} の保存先ファイルシステムは sshfs マウントされた共有です。 sshfs はハードリンクをサポートしていません 。代わりにモード "
+"{path} の保存先ファイルシステムは sshfs の共有マウントです。 sshfs はハードリンクをサポートしていません 。代わりにモード "
 "'SSH' を使用してください。"
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "以下のディレクトリへのファイル作成が失敗しました:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -479,13 +470,12 @@ msgid "Shortcuts"
 msgstr "ショートカット"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "現在選択されているスナップショットには\n"
-"このフォルダがありません。"
+"このフォルダはありません。"
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -495,25 +485,22 @@ msgstr "含むフォルダを指定"
 msgid "Add to Exclude"
 msgstr "除外するフォルダを指定"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
-msgstr ""
+msgstr "{app_name} は今回始めて起動されたため、設定ファイルがみつかりません。"
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
-msgstr ""
+msgstr "すでに存在する設定ファイルを流用しますか? (バックアップ先や他のコンピュータから)"
 
-#: qt/app.py:357
-#, fuzzy
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr ""
-"スナップショットフォルダが見つかりません。\n"
-"もしリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
+msgstr "もしファイルがリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
 
 #: qt/app.py:470
 msgid "Take a snapshot"
@@ -585,36 +572,35 @@ msgstr "終了"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "ユーザーマニュアル"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
-msgstr ""
+msgstr "ブラウザでユーザーマニュアルを開く (ローカルになければオンラインで)"
 
 #: qt/app.py:535
 msgid "man page: Back In Time"
-msgstr ""
+msgstr "man ページ: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Back In Time (backintime)の man ページを表示する"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "設定ファイルを保存"
+msgstr "man ページ: 設定ファイルのプロフィール"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "設定ファイル (backintime-config) のプロフィールに関する man ページを表示する"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "開発元サイト"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Back In Time の開発サイトをブラウザで開く"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -626,7 +612,7 @@ msgstr "よくある質問"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "よくある質問 (FAQ) をブラウザで開く"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -642,15 +628,15 @@ msgstr "翻訳"
 
 #: qt/app.py:568
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "翻訳への参加に関するメッセージを再度表示。"
 
 #: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "暗号化の移行 (EncFS)"
 
 #: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "EncFS 削除に関するメッセージを再度表示。"
 
 #: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -658,32 +644,28 @@ msgid "Restore"
 msgstr "復元"
 
 #: qt/app.py:581
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
-msgstr "選択されたファイルやフォルダを元の場所に復元する。"
+msgstr "選択されたファイルやフォルダを元の場所に復元。"
 
 #: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "復元…"
 
 #: qt/app.py:586
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
-msgstr "選択されたファイルやフォルダを新しい場所に復元する。"
+msgstr "選択されたファイルやフォルダを新しい場所に復元。"
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
-msgstr "現在表示されているフォルダとそれに含まれるファイルを元の場所に復元する。"
+msgstr "現在表示されているフォルダとそれに含まれるファイルを元の場所に復元。"
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
-msgstr "現在表示されているフォルダとそれに含まれるファイルを新しい場所に復元する。"
+msgstr "現在表示されているフォルダとそれに含まれるファイルを新しい場所に復元。"
 
 #: qt/app.py:601
 msgid "Up"
@@ -699,15 +681,15 @@ msgstr "スナップショットを比較…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
-msgstr ""
+msgstr "リリース候補版"
 
 #: qt/app.py:640
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "リリース候補版についてのメッセージを再度表示。"
 
 #: qt/app.py:676
 msgid "Back In &Time"
-msgstr ""
+msgstr "Back In &Time"
 
 #: qt/app.py:681
 msgid "&Backup"
@@ -723,33 +705,29 @@ msgstr "ヘルプ"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "アイコンのみ"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "テキストのみ"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "テキストをアイコンの下に"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "テキストをアイコンの横に"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
-msgstr ""
-"このウインドウを閉じると Back In Time はスナップショットの作成終了時に電源を切ることができなくなります\n"
-"閉じてよろしいでしょうか?"
+msgstr "このウインドウを閉じると Back In Time はスナップショットの作成終了時に電源を切ることができなくなります。"
 
 #: qt/app.py:900
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "本当にファイルを復元してよろしいですか？"
+msgstr "本当に閉じますか？"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -792,9 +770,8 @@ msgid "Home"
 msgstr "ホーム"
 
 #: qt/app.py:1255
-#, fuzzy
 msgid "Backup directories"
-msgstr "バックアップフォルダ"
+msgstr "バックアップ元のフォルダ"
 
 #: qt/app.py:1351
 msgid "Snapshot Name"
@@ -821,8 +798,8 @@ msgid ""
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
-"復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更されます。もし不要の場合は以下のコマンドで削除してください : "
-"{cmd}"
+"復元をする際に、より新しいファイルがある場合は拡張子 {suffix} がファイル名に付与されます。もし不要の場合は以下のコマンドで削除してください :"
+" {cmd}"
 
 #: qt/app.py:1520
 msgid ""
@@ -835,7 +812,6 @@ msgstr ""
 " \"rsync --update\" のオプションを使用します。"
 
 #: qt/app.py:1555
-#, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "元のフォルダ内の新しいファイルを削除する。"
 
@@ -877,7 +853,7 @@ msgid ""
 msgstr "元のフォルダにあるより新しいファイルを削除してもよろしいですか?"
 
 #: qt/app.py:1608
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
@@ -2095,3 +2071,6 @@ msgstr "これを取り消すことはできない！"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "今後のスナップショットから {path} を除外しますか？"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "バックアップ先をバックアップ元のサブフォルダにすることはできません。"

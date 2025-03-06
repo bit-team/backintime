@@ -353,10 +353,12 @@ class Config(configfile.ConfigFileWithProfiles):
                 path = item[0]
                 if path == snapshots_path:
                     self.notifyError(
-                        '{}\n{}'.format(
+                        '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The directory cannot be included in the '
-                              'backup.')
+                            _('Directory: {path}').format(path=path),
+                            _('This directory cannot be included in the '
+                              'backup as it is part of the backup '
+                              'destination itself.')
                         )
                     )
 
@@ -365,11 +367,13 @@ class Config(configfile.ConfigFileWithProfiles):
                 if len(path) >= len(snapshots_path2):
                     if path[: len(snapshots_path2)] == snapshots_path2:
                         self.notifyError(
-                            '{}\n{}'.format(
+                            '{}\n{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
-                                _('The sub-directories cannot be included in '
-                                  'the backup.')
+                                _('Directory: {path}').format(path=path),
+                                _('This directory cannot be included in the '
+                                'backup as it is part of the backup '
+                                'destination itself.')
                             )
                         )
 

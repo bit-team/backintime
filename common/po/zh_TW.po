@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-01-08 18:36+0000\n"
-"Last-Translator: cofemei <cofemei@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-06 08:52+0000\n"
+"Last-Translator: RikoNaka <rikonaka@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "預設"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "設定檔：\"{name}\""
@@ -79,22 +79,23 @@ msgstr "快照資料夾不合規定"
 msgid "At least one directory must be selected for backup."
 msgstr "至少必須選擇一個資料夾進行備份"
 
-#: common/config.py:358
-#, fuzzy
-msgid "The directory cannot be included in the backup."
-msgstr "不能包含備份子資料夾。"
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "還原{path}"
 
-#: common/config.py:371
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "不能包含備份子資料夾。"
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr "此資料夾不能被包含在備份資料夾中。"
 
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "無法寫入新的 crontab。"
 
-#: common/config.py:1471
-#, fuzzy
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -102,21 +103,21 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 "儘管 crontab 命令可用，但 Cron 並未運行。已排程的備份作業將不會運作。 Cron 可能已安裝但未啟用。嘗試命令「systemctl "
-"enable cron」或諮詢您的 GNU Linux 發行版的支援管道。"
+"enable cron」或諮詢您的 GNU Linux 發行版的支援服務商。"
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr "無法為設定檔 {profile_id} 安裝 Udev 規則。 DBus 服務「{dbus_interface}」不可用"
 
-#: common/config.py:1567
-#, fuzzy, python-brace-format
+#: common/config.py:1571
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "排程 udev 不適用於 {mode} 模式"
+msgstr "定期 udev 不適用於 {mode} 模式"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "找不到 {path} 的 UUID"
@@ -205,7 +206,7 @@ msgstr "完成"
 msgid "Deferring backup while on battery"
 msgstr "使用電池時延遲備份"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "找不到快照資料夾。"
 
@@ -481,20 +482,20 @@ msgstr "加入包含項目"
 msgid "Add to Exclude"
 msgstr "加入排除項目"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr "未找到設定檔，{app_name} 看起來是第一次啟動。"
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr "是否從備份目標資料夾或另一台電腦匯入現有設定檔？"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "如果它在可移動磁碟中，請插入並按下確定。"
 
@@ -1259,6 +1260,7 @@ msgid "Minutes:"
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:92
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
@@ -1571,6 +1573,7 @@ msgid "Private Key:"
 msgstr "私鑰:"
 
 #: qt/manageprofiles/tab_general.py:152
+#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -2038,3 +2041,6 @@ msgstr "警告：此操作無法撤銷。"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "從未來的快照中排除 {path} 嗎？"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "此子資料夾不能被包含備份資料夾中。"
