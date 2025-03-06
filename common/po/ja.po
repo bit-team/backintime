@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-03-06 09:23+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "標準設定"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "プロファイル: 「{name}」"
@@ -79,19 +79,23 @@ msgstr "スナップショットフォルダが無効です。"
 msgid "At least one directory must be selected for backup."
 msgstr "最低でも一個のディレクトリをバックアップのために指定してください。"
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "{path} を復元"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "このディレクトリはバックアップのフォルダにできません。"
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "バックアップ先をバックアップ元のサブフォルダにすることはできません。"
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "新しい crontab の書き込みに失敗しました。"
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -102,7 +106,7 @@ msgstr ""
 "はインストールされているようですが、サービスとして起動されてない可能性があります。 \"systemctl enable cron\" "
 "を使って起動してみてください、また、 GNU/Linux ディストーションへサポートを依頼するのもよいでしょう。"
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -111,12 +115,12 @@ msgstr ""
 "プロファイル {profile_id} の Udev ルールをインストールできませんでした。 DBus サービス 「{dbus_interface}」 "
 "が有効ではありません"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "{mode} モード では、udev スケジュールは使用できません"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path} には該当の UUID がありませんでした"
@@ -204,7 +208,7 @@ msgstr "完了"
 msgid "Deferring backup while on battery"
 msgstr "バッテリー動作のときは延期する"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "スナップショットフォルダが見つかりません。"
 
@@ -481,20 +485,20 @@ msgstr "含むフォルダを指定"
 msgid "Add to Exclude"
 msgstr "除外するフォルダを指定"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr "{app_name} は今回始めて起動されたため、設定ファイルがみつかりません。"
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr "すでに存在する設定ファイルを流用しますか? (バックアップ先や他のコンピュータから)"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "もしファイルがリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
 
@@ -2067,3 +2071,6 @@ msgstr "これを取り消すことはできない！"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "今後のスナップショットから {path} を除外しますか？"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "バックアップ先をバックアップ元のサブフォルダにすることはできません。"

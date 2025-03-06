@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2024-07-19 11:10+0000\n"
 "Last-Translator: espresso_nightingale <espresso_nightingale@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Implicit"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
@@ -80,21 +80,23 @@ msgstr "Dosarul de instantanee nu este valid!"
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Restaurează {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Sub-dosarul copiei de rezervă nu poate fi inclus."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Sub-dosarul copiei de rezervă nu poate fi inclus."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Nu s-a putut scrie un nou crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -107,7 +109,7 @@ msgstr ""
 "activat. Încercați comanda „systemctl enable cron” sau consultați canalele "
 "de asistență ale distribuției GNU Linux pe care o aveți."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -116,12 +118,12 @@ msgstr ""
 "Nu s-a putut instala regula Udev pentru profilul {profile_id}. Serviciul "
 "DBus „{dbus_interface}” nu a fost disponibil"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev-ul programului nu funcționează cu modul {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nu s-a putut găsi UUID-ul pentru {path}"
@@ -212,7 +214,7 @@ msgstr "Terminat"
 msgid "Deferring backup while on battery"
 msgstr "Se amână copierea de rezervă în timp ce se utilizează bateria"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Nu s-a putut găsi dosarul cu instantanee."
@@ -507,7 +509,7 @@ msgstr "Adaugă la includeri"
 msgid "Add to Exclude"
 msgstr "Adaugă la excluderi"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -516,7 +518,7 @@ msgstr ""
 "{app_name} pare să ruleze pentru prima dată întrucât nu s-a găsit nicio "
 "configurație."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -525,7 +527,7 @@ msgstr ""
 "Importați o configurație existentă (dintr-un dosar țintă de copie de rezervă"
 " sau de pe un alt calculator)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Dacă se află pe o unitate detașabilă, conectați-o și apoi apăsați OK."
 
@@ -2167,3 +2169,7 @@ msgstr "AVERTISMENT: Acest lucru nu poate fi revocat."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Excludeți {path} din instantaneele viitoare?"
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Sub-dosarul copiei de rezervă nu poate fi inclus."

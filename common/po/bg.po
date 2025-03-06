@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-03-06 08:52+0000\n"
 "Last-Translator: clickbg <clickbg@noreply.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "По подразбиране"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Профил: \"{name}\""
@@ -81,21 +81,23 @@ msgstr "Директорията за моментни архиви не е ва
 msgid "At least one directory must be selected for backup."
 msgstr "Поне една доректория трябва да бъде избрана за резервно копие (бекъп)"
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Възстановете {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Тази директория не може да бъде включена за резервно копие!"
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Тази под директория не може да бъде добавена за резервно копие!"
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Неуспех при създаването на нова периодична задача - crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -109,7 +111,7 @@ msgstr ""
 "изпълните командата \"systemctl enable cron\" или се консултирайте с "
 "ръководството на работа на вашата GNU/Linux дистрибуция."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -118,14 +120,14 @@ msgstr ""
 "Неуспех при задаването на Udev правило за профил {profile_id}. DBus Service "
 "{dbus_interface} не е открит"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr ""
 "Планираните при монтиране на диск архиви чрез програмта Udev не работят в "
 "режим {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Не може да бъде намерен UUID за {path}"
@@ -213,7 +215,7 @@ msgstr "Готово"
 msgid "Deferring backup while on battery"
 msgstr "Отлагане на архивирането, докато устройството работи на батерия"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Директорията за моментни архиви не може да бъде намерена."
 
@@ -499,7 +501,7 @@ msgstr "Добавете, за да включите"
 msgid "Add to Exclude"
 msgstr "Добавете, за да изключите"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -508,7 +510,7 @@ msgstr ""
 "{app_name} изглежда, че се стартира за първи път, тъй като не е намерена "
 "конфигурация."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -516,7 +518,7 @@ msgstr ""
 "Импортиране на съществуваща конфигурация (от архивирана целева директория "
 "или от друг компютър)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -2186,3 +2188,7 @@ msgstr "Това действие не може да бъде отменено."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Изключете {path} от бъдещите моментни архиви?"
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Тази под директория не може да бъде добавена за резервно копие!"
