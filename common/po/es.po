@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-10-27 20:42+0000\n"
-"Last-Translator: gallegonovato <gallegonovato@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -238,6 +238,7 @@ msgid "Please be patient. Finalizing…"
 msgstr "Por favor espere. Finalizando…"
 
 #: common/snapshots.py:1077
+#, fuzzy
 msgid "Can't create directory."
 msgstr "No se puede crear la carpeta"
 
@@ -304,7 +305,7 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Nada ha cambiado, no es necesaria una nueva instantánea"
 
 #: common/snapshots.py:1523
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "No se puede renombrar {new_path} a {path}"
 
@@ -1338,6 +1339,7 @@ msgid "Minutes:"
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:92
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."

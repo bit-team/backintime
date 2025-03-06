@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-09 17:49+0000\n"
-"Last-Translator: SomeTr <sometr@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-06 08:52+0000\n"
+"Last-Translator: clickbg <clickbg@noreply.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -29,14 +29,12 @@ msgid "Main profile"
 msgstr "Основен профил"
 
 #: common/config.py:266
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "криптиран"
+msgstr "Местен (EncFS криптиран)"
 
 #: common/config.py:267
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH криптиран"
+msgstr "SSH (EncFS криптиран)"
 
 #: common/config.py:278
 msgid "Local"
@@ -44,7 +42,7 @@ msgstr "Местен"
 
 #: common/config.py:280
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:280 common/config.py:290
 #: qt/manageprofiles/tab_general.py:648
@@ -52,9 +50,8 @@ msgid "SSH private key"
 msgstr "Частен SSH ключ"
 
 #: common/config.py:283
-#, fuzzy
 msgid "Local encrypted"
-msgstr "криптиран"
+msgstr "Местен - криптиран"
 
 #: common/config.py:284 common/config.py:291
 msgid "Encryption"
@@ -77,21 +74,22 @@ msgstr "Профил: \"{name}\""
 #: common/config.py:328
 #, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Папката за моментни архиви не е валидна!"
+msgstr "Директорията за моментни архиви не е валидна!"
 
 #: common/config.py:340
+#, fuzzy
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Поне една доректория трябва да бъде избрана за резервно копие (бекъп)"
 
 #: common/config.py:358
 #, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "Не може да се включи подпапка за резервно копие."
+msgstr "Тази директория не може да бъде включена за резервно копие!"
 
 #: common/config.py:371
 #, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "Не може да се включи подпапка за резервно копие."
+msgstr "Тази под директория не може да бъде добавена за резервно копие!"
 
 #: common/config.py:1463
 msgid "Failed to write new crontab."
@@ -104,6 +102,12 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
+"Програмата за автоматично изпълнение на задачи (Cron) не работи въпреки че "
+"задачата за автоматично изпълнение е конфигурирана в crontab. Автоматичното "
+"създаване на резервно копие няма да работи. Програмата Cron е инсталирана но"
+" е възможно да не конфигурирана за автоматично стартиране. Опитайте да "
+"изпълните командата \"systemctl enable cron\" или се консултирайте с "
+"ръководството на работа на вашата GNU/Linux дистрибуция."
 
 #: common/config.py:1552
 #, python-brace-format
@@ -115,9 +119,11 @@ msgstr ""
 "{dbus_interface} не е открит"
 
 #: common/config.py:1567
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Планираните при монтиране на диск архиви не работят в режим {mode}"
+msgstr ""
+"Планираните при монтиране на диск архиви чрез програмта Udev не работят в "
+"режим {mode}"
 
 #: common/config.py:1578
 #, python-brace-format
@@ -147,14 +153,12 @@ msgid "Unable to mount '{command}'"
 msgstr "Неуспех в монтирането '{command}'"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "Конфигурацията за криптираната папка не е намерена."
+msgstr "Конфигурацията за криптираната директория не е намерена."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Създаване на нова криптирана папка?"
+msgstr "Създаване на нова криптирана директория?"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -170,12 +174,12 @@ msgstr "Паролата не съвпада."
 
 #: common/encfstools.py:516 common/snapshots.py:1042
 msgid "Take snapshot"
-msgstr "Създайте моментен архив"
+msgstr "Снимка на екрана"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
-msgstr "Не мога да демонтирам {mountprocess} от {mountpoint}."
+msgstr "Неуспех при демонтиране на {mountprocess} от {mountpoint}."
 
 #: common/mount.py:709
 #, fuzzy, python-brace-format
@@ -183,18 +187,18 @@ msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr "{command} не е намерен. Моля, инсталирайте например {installcommand}"
 
 #: common/mount.py:733
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Mountpoint {mntpoint} не е празна."
+msgstr "Монтираната директория {mntpoint} не е празна."
 
 #: common/password.py:279
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Въведете парола за {mode} профил \"{profile}\":"
 
 #: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
-msgstr "Провал"
+msgstr "НЕУСПЕХ"
 
 #: common/snapshots.py:560 common/snapshots.py:628
 msgid "Restore permissions"
@@ -210,16 +214,14 @@ msgid "Deferring backup while on battery"
 msgstr "Отлагане на архивирането, докато устройството работи на батерия"
 
 #: common/snapshots.py:842 qt/app.py:356
-#, fuzzy
 msgid "Can't find snapshots directory."
-msgstr "Папката не може да бъде създадена"
+msgstr "Директорията за моментни архиви не може да бъде намерена."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
 msgstr ""
-"Папката за моментни архиви не може да бъде открита.\n"
-"Ако е на преносимо устройство, моля включете го и натиснете ОК."
+"Директорията за моментни архиви не може да бъде открита. Ако е на преносимо "
+"устройство, моля включете го и натиснете ОК."
 
 #: common/snapshots.py:849
 #, python-format
@@ -231,16 +233,15 @@ msgstr[1] "Изчакване %s секунди."
 #: common/snapshots.py:914
 #, python-brace-format
 msgid "Failed to take snapshot {snapshot_id}."
-msgstr "Неуспех при създаването на моментен архив {snapshot_id} ."
+msgstr "Неуспех при създаването на моментен архив {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Моля изчакайте. Финализиране…"
 
 #: common/snapshots.py:1077
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Папката не може да бъде създадена"
+msgstr "Директорията не може да бъде създадена."
 
 #: common/snapshots.py:1094
 msgid "Saving config file…"
@@ -251,19 +252,18 @@ msgid "Saving permissions…"
 msgstr "Запазване на правата…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "Намерен е {snapshot_id}, който може да бъде продължен."
+msgstr "Намерен е моментен архив {snapshot_id}, който може да бъде продължен."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "Премахване на остатъчна {snapshot_id} папка от последния курс"
+msgstr "Премахване на остатъчна {snapshot_id} директория от последния опит"
 
 #: common/snapshots.py:1325
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "Папката не може да бъде премахната"
+msgstr "Директорията не може да бъде премахната"
 
 #: common/snapshots.py:1379
 msgid "Taking snapshot"
@@ -300,10 +300,10 @@ msgstr ""
 
 #: common/snapshots.py:1479
 msgid "Nothing changed, no new snapshot necessary"
-msgstr "Няма промени, не е нужен нов моментен архив"
+msgstr "Няма открити промени, не е нужен нов моментен архив"
 
 #: common/snapshots.py:1523
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{new_path} не може да бъде преименуван на {path}"
 
@@ -313,13 +313,12 @@ msgid "Smart removal"
 msgstr "Умно премахване"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Премахване на старите моментни архиви"
+msgstr "Приложи правилата за премахване на старите моментни архиви"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Приложи правилата за запаметяване"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -340,17 +339,16 @@ msgid "Unable to mount {sshfs}"
 msgstr "Неуспех в монтирането на {sshfs}"
 
 #: common/sshtools.py:300
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr "ssh-агентът не е намерен. Моля, уверете се, че е инсталиран."
+msgstr "ssh-agent не е намерен. Моля, уверете се, че е инсталиран."
 
 #: common/sshtools.py:470
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Не можа да отключи частния ключ на ssh. Грешна парола или паролата не е "
-"налична за cron."
+"Неуспех при отключване на частния ключ за ssh. Грешна парола или паролата не"
+" е налична в cron."
 
 #: common/sshtools.py:559
 #, python-brace-format
@@ -363,7 +361,7 @@ msgstr "Отдалеченият път съществува, но не е ди�
 
 #: common/sshtools.py:711
 msgid "Remote path is not writable."
-msgstr "Отдалеченият път не може да се записва."
+msgstr "Отдалеченият път няма права за запис."
 
 #: common/sshtools.py:716
 msgid "Remote path is not executable."
@@ -376,7 +374,7 @@ msgstr "Не може да се създаде отдалечен път."
 #: common/sshtools.py:1008
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "Отдалеченият хост {host} не поддържа {command}"
+msgstr "Отдалечената система {host} не поддържа {command}"
 
 #: common/sshtools.py:1012 common/sshtools.py:1021
 msgid "Look at 'man backintime' for further instructions"
@@ -385,17 +383,17 @@ msgstr "Вижте 'man backintime' за допълнителни инструк
 #: common/sshtools.py:1016
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr "Проверката на командите на хоста {host} върна непозната грешка"
+msgstr "Проверката на командите на системата {host} върна непозната грешка"
 
 #: common/sshtools.py:1037
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "Отдалеченият хост {host} не поддържа твърди връзки"
+msgstr "Отдалечената система {host} не поддържа твърди връзки"
 
 #: common/sshtools.py:1191
 #, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Копирай публичния ssh ключ \"{pubkey}\" в дистанционният хост \"{host}\""
+msgstr "Копирай публичния ssh ключ \"{pubkey}\" в отдалечената система \"{host}\""
 
 #: common/sshtools.py:1193
 #, fuzzy, python-brace-format
@@ -403,67 +401,67 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "Моля въведете паролата за \"{user}\""
 
 #: common/tools.py:400
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Крайната файлова система за {path} е от тип FAT и не поддържа преки пътища. "
-"Моля, използвайте Linux файлова система."
+"Файловата система в {path} е от тип NTFS и не е съвместима с файлови системи"
+" от тип Unix . Моля, използвайте Linux файлова система."
 
 #: common/tools.py:432
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Отдалеченият път съществува, но не е директория."
+msgstr "Отдалеченият път {path} съществува, но не е директория."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "Създаването на следната директория завърши неуспешно:"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Възможно е правата за запис да са забранени."
 
 #: common/tools.py:488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"Крайната файлова система за {path} е от тип FAT и не поддържа преки пътища. "
-"Моля, използвайте Linux файлова система."
+"Файлова система за {path} е от тип FAT и не поддържа преки пътища. Моля, "
+"използвайте GNU/Linux файлова система."
 
 #: common/tools.py:499
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"Крайната файлова система за {path} е от споделен тип SMB. Уверете се, че "
-"отдалеченият SMB сървър поддържа преки пътища или активирайте {copyLinks} в "
-"{expertOptions}."
+"Файлова система за {path} е от споделен тип - SMB. Моля, уверете се, че "
+"отдалеченият SMB сървър поддържа преки пътища или активирайте "
+"\"{copyLinks}\" в \"{expertOptions}\"."
 
 #: common/tools.py:503 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
-msgstr "Копирай връзките към файлове (следвай символните връзки)"
+msgstr "Копирай връзките към файлове (следвай символичните връзки)"
 
 #: common/tools.py:504
 msgid "Expert Options"
 msgstr "Експертни настройки"
 
 #: common/tools.py:508
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"Крайната файлова система за {path} е от споделен тип sshfs. Тя не поддържа "
-"преки пътища. Моля, използвайте режим 'SSH'."
+"Файлова система за {path} е от споделен тип - sshfs. Sshfs не поддържа преки"
+" пътища. Моля, използвайте режим 'SSH'."
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "Неуспех при създаването на файл в следната директория:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -486,13 +484,12 @@ msgid "Shortcuts"
 msgstr "Препратки"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
-"Тази папка не съществува\n"
-"в текущата архив."
+"Тази директория не съществува\n"
+"в избрания моментен архив."
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -512,19 +509,18 @@ msgstr ""
 "конфигурация."
 
 #: qt/app.py:329
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
-"Импортиране на съществуваща конфигурация (от архивирана целева папка или от "
-"друг компютър)?"
+"Импортиране на съществуваща конфигурация (от архивирана целева директория "
+"или от друг компютър)?"
 
 #: qt/app.py:357
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Папката за моментни архиви не може да бъде открита.\n"
+"Директорията за моментни архиви не може да бъде открита.\n"
 "Ако е на преносимо устройство, моля включете го и натиснете ОК."
 
 #: qt/app.py:470
@@ -534,8 +530,8 @@ msgstr "Направете моментен архив"
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr ""
-"Използвайте времето и размера на модификацията за откриване на промени във "
-"файла."
+"Използвайте времето на модификацията и размера за откриване на промени във "
+"файловете."
 
 #: qt/app.py:475
 msgid "Take a snapshot (checksum mode)"
@@ -587,7 +583,7 @@ msgstr "Изключване"
 
 #: qt/app.py:519
 msgid "Shut down system after snapshot has finished."
-msgstr "Изключване на системата слад като моментното архивно копие е готово."
+msgstr "Изключване на системата след като моментното архивно копие е готово."
 
 #: qt/app.py:521
 msgid "Setup language…"
@@ -599,37 +595,39 @@ msgstr "Изход"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Ръководство за употреба"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Отваря ръководство за употреба в браузър (локално ако е налично, иначе "
+"онлайн)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Назад във Времето"
+msgstr "Документация: Назад във Времето"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Показва потребителското ръководство за Back In Time (backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Файл за конфигуриране на профили"
+msgstr "Документация: Файл за конфигуриране на профили"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Показва потребителството ръководство за конфигурационния файл на профилите "
+"(backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Уебсайт на проекта"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Отваря уебсайта на Back In Time в браузър"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -641,7 +639,7 @@ msgstr "ЧЗВ"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Отваря Често Задаваните Въпроси (ЧЗВ) в браузър"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -657,15 +655,15 @@ msgstr "Превод"
 
 #: qt/app.py:568
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Отново показва съобщението за участие в превода."
 
 #: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Преход на шифроване (EncFS)"
 
 #: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Отново показва съобщението за премахване на EncFS."
 
 #: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -673,33 +671,32 @@ msgid "Restore"
 msgstr "Възстановяване"
 
 #: qt/app.py:581
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
-msgstr "Възстановете избраните файлове или папки на първоначалното място."
+msgstr ""
+"Възстановете избраните файлове или директории на първоначалното място."
 
 #: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "Възстановяване в …"
 
 #: qt/app.py:586
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
-msgstr "Възстановете избраните файлове или папки на друго място."
+msgstr "Възстановете избраните файлове или директории на друго място."
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr ""
-"Възстановете показаната папка и нейното съдържание на първоначалното място."
+"Възстановете показаната директория и нейното съдържание на първоначалното "
+"място."
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
-msgstr "Възстановете показаната папка и нейното съдържание на ново място."
+msgstr ""
+"Възстановете показаната директория и нейното съдържание на ново място."
 
 #: qt/app.py:601
 msgid "Up"
@@ -715,11 +712,11 @@ msgstr "Сравни архиви…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
-msgstr ""
+msgstr "Тестова Версия"
 
 #: qt/app.py:640
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "Показва отново съобщението за Тестовата Версия."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -739,19 +736,19 @@ msgstr "&Помощ"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Само иконки"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Само текст"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Текст под иконките"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Текст до иконките"
 
 #: qt/app.py:897
 #, fuzzy
@@ -763,9 +760,8 @@ msgstr ""
 "Наистина ли искате да го затворите?"
 
 #: qt/app.py:900
-#, fuzzy
 msgid "Do you really want to close it?"
-msgstr "Наистина ли искате да възстановите този файл?"
+msgstr "Наистина ли искате затворите?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -805,12 +801,11 @@ msgstr "Файлова система"
 
 #: qt/app.py:1227
 msgid "Home"
-msgstr "Домашна папка"
+msgstr "Домашна директория"
 
 #: qt/app.py:1255
-#, fuzzy
 msgid "Backup directories"
-msgstr "Резевни папки"
+msgstr "Резевни директории"
 
 #: qt/app.py:1351
 msgid "Snapshot Name"
@@ -834,7 +829,7 @@ msgstr ""
 "да бъдат презаписани или премахнати локални файлове."
 
 #: qt/app.py:1504
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with the "
@@ -842,7 +837,7 @@ msgid ""
 msgstr ""
 "По-новите версии на файловете ще бъдат преименувани с последващ {suffix} "
 "преди възстановяването. Ако те не са необходими вече, може да ги премахнете "
-"посредством {cmd}"
+"посредством командата:"
 
 #: qt/app.py:1520
 msgid ""
@@ -855,34 +850,29 @@ msgstr ""
 "Използвайки опцията \"rsync --update\"."
 
 #: qt/app.py:1555
-#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "Премахнете по-новите файлове от първоначалната папка."
+msgstr "Премахнете по-новите файлове от първоначалната директория."
 
 #: qt/app.py:1558
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "taking the snapshot."
 msgstr ""
-"Възстановяване на избраните файлове или папки до първоначалната дестинация и"
-" изтриване на файлове/папки, които не са в моментният архив. Бъдете "
-"изключително внимателни,това ще доведе до изтриване на файлове/папки, които "
-"са били изключени по време на създаването на архива."
+"Възстановяване на избраните файлове или директории в първоначалната "
+"дестинация и изтриване на файлове/папки, които не са в моментният архив. "
+"Бъдете изключително внимателни, това ще доведе до изтриване на "
+"файлове/директории, които са били изключени по време на създаването на "
+"архива или са по-нови от него."
 
 #: qt/app.py:1570
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Наистина ли искате да възстановите този файл\n"
-"в новата директория {path}?"
+msgstr[0] "Наистина ли искате да възстановите този файл в новата директория?"
 msgstr[1] ""
-"Наистина ли искате да възстановите тези файлове\n"
-"в новата директория {path}?"
+"Наистина ли искате да възстановите тези файлове в новата директория?"
 
 #: qt/app.py:1580
 msgid "Do you really want to restore this element?"
@@ -898,7 +888,6 @@ msgstr ""
 "в {path}?"
 
 #: qt/app.py:1602
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
@@ -911,8 +900,8 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"ПРЕДУПРЕЖДЕНИЕ: Изтриването на файлове в коренната част на файловата система"
-" може да разруши цялата ви система!"
+"{BOLD}ПРЕДУПРЕЖДЕНИЕ{BOLDEND}: Изтриването на файлове в коренната част на "
+"файловата система може да разруши цялата ви система!"
 
 #: qt/app.py:1857
 msgid "Snapshot"
@@ -960,30 +949,32 @@ msgstr "Вашият превод"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "В Fediverse в платформата Mastodon: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "Писмо до {link_and_label}."
 
 #: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Пощенски списък на адрес {link_and_label}"
 
 #: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} на уебсайта на проекта."
 
 #: qt/app.py:2118
 msgid "Open an issue"
-msgstr ""
+msgstr "Отвори нов сигнал за нередност"
 
 #: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
+"Като алтернатива можете да използвате друг канал за комуникация по ваш "
+"избор."
 
 #: qt/app.py:2124
 #, python-brace-format
@@ -997,6 +988,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Тази версия на Back In Time е Тестова и е предназначена основно за тестване на стабилност в подготовка за следващото официално издание.\n"
+"Не се събират потребителски данни или телеметрия. Екипът на Back In Time обаче е много заинтересован да разбере дали тези Тестови версии се използват и дали си струва да продължим да предоставяме такива предварителни версии.\n"
+"Ето защо екипът любезно моли за кратка обратна връзка дали сте тествали тази версия, дори и да не сте срещнали никакви проблеми. Дори един бърз тест от няколко минути би ни помогнал много.\n"
+"Налични са следните опции за контакт:\n"
+"{contact_list}\n"
+"В тази версия това съобщение няма да се показва отново, но може да бъде достъпно по всяко време чрез менюто за помощ.\n"
+"Благодарим ви за подкрепата и че ни помагате да подобрим Back In Time!\n"
+"Вашият екип Back In Time"
 
 #: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1009,21 +1008,23 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Създаването на профил в EncFS ще бъде премахнато в следващото второстепенно "
+"издание (1.7), планирано за 2026 г."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
+msgstr "Вече не се препоръчва използването на този режим за профил."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
 msgid "whitepaper"
-msgstr ""
+msgstr "проучване"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Поддръжката за EncFS се прекратява поради уязвимости в сигурността."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1031,16 +1032,19 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"За повече подробности, включително потенциални алтернативи, моля, вижте това"
+" {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Следните профили използват шифроване с EncFS:"
 
 #: qt/encfsmsgbox.py:87
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Предвидена е замяна, но не може да се гарантира, че ще пристигне навреме."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1048,17 +1052,20 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Потребителите са поканени да се включат в тази дискусия. Актуализирани "
+"подробности за следващите стъпки са налични в този {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Това съобщение няма да се показва отново. Този диалогов прозорец е достъпен "
+"по всяко време чрез помощното меню."
 
 #: qt/encfsmsgbox.py:94
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Назад във Времето"
+msgstr "Екипа Back In Time"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1083,7 +1090,7 @@ msgstr "Последно преглеждане на записа със съб�
 
 #: qt/logviewdialog.py:62
 msgid "Snapshot Log View"
-msgstr "Преглеждане на записа със сибития относно моментните копия"
+msgstr "Преглеждане на записа със събития относно моментните копия"
 
 #: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
@@ -1113,7 +1120,6 @@ msgid "Errors"
 msgstr "Грешки"
 
 #: qt/logviewdialog.py:111 qt/messagebox.py:60
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Информация"
@@ -1157,18 +1163,16 @@ msgid "&Include"
 msgstr "&Включване"
 
 #: qt/manageprofiles/__init__.py:125
-#, fuzzy
 msgid "Include files and directories"
-msgstr "Включване на файлове и папки"
+msgstr "Включване на файлове и директории"
 
 #: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Добавяне на файл"
 
 #: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
-#, fuzzy
 msgid "Add directory"
-msgstr "Добавяне на папка"
+msgstr "Добавяне на директории"
 
 #: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
@@ -1197,7 +1201,7 @@ msgid "Exclude files bigger than:"
 msgstr "Изключете файлове, по-големи от:"
 
 #: qt/manageprofiles/__init__.py:233
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Изключете файлове, по-големи от: {size_unit}"
 
@@ -1810,7 +1814,7 @@ msgstr "Продължаване при грешки (запазване на н
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
-msgstr "Използвайте проверка на контролната сума, за да засечете промените"
+msgstr "Използвайте checksum, за да засечете промените"
 
 #: qt/manageprofiles/tab_options.py:83
 msgid "Take a new snapshot whether there were changes or not."
@@ -1834,24 +1838,25 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "инструкция за употреба"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Отваряне на инструкцията за употреба я браузъра."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Да не се премахват именувани архиви"
+msgstr "Запазване на последните архиви."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Последният или най-нов архив ще бъде запазен без значение от "
+"обстоятелствата."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Поведението не може да бъде променено."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 #, fuzzy
@@ -1863,10 +1868,12 @@ msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"Като допълнение на времевият маркер наименувани архиви ще бъдат запазени при"
+" всякакви обстоятелства и няма да бъдат изтривани."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
-msgstr "Години"
+msgstr "Година(и)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
 #, fuzzy
@@ -1875,38 +1882,45 @@ msgstr "Премахване на архив"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Пълни дни. Текущият ден се игнорира."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Календарни седмици с понеделник като първи ден. Текущата седмица се "
+"игнорира."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 месечни периоди. Текущият месец се игнорира."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Политика за задържане"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
 msgstr "Изпълнява се във фонов режим на отдалечен хост."
 
 #: qt/manageprofiles/tab_remove_retention.py:297
+#, fuzzy
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"Функцията за умно премахване ще бъде извършена директно от отдалечената "
+"машина. Командите \"bash\", \"screen\" и \"flock\" трябва да бъдат "
+"инаталирани и достъпни на отдалечената машина."
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
+"Ако опцията е избрана, Back In Time първо ще тества отдалечената машина."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Преброяването на дни започва от текущият ден."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1914,9 +1928,8 @@ msgstr "Пазете всички временни архиви за после�
 
 #: qt/manageprofiles/tab_remove_retention.py:311
 #: qt/manageprofiles/tab_remove_retention.py:323
-#, fuzzy
 msgid "day(s)."
-msgstr "дни"
+msgstr "ден (дни)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
 #, fuzzy
@@ -1928,6 +1941,8 @@ msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Преброяването на седмиците започва от текущата. Седмицата започва в "
+"понеделник."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
 #, fuzzy
@@ -1942,7 +1957,7 @@ msgstr "седмица(и)"
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr ""
+msgstr "Преброените месеци са календарни, започвайки с текущия."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
 #, fuzzy
@@ -1952,12 +1967,12 @@ msgstr "Пазете едно моментно копие на месец за �
 #: qt/manageprofiles/tab_remove_retention.py:349
 #, fuzzy
 msgid "month(s)."
-msgstr "месеца"
+msgstr "месец(а)"
 
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Преброените години са календарни, започвайки с текущата."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
 #, fuzzy
@@ -1966,7 +1981,7 @@ msgstr "Пазете всички временни архиви за после�
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "Всички години."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
 #, fuzzy
@@ -2048,7 +2063,7 @@ msgstr "Последна проверка {time}"
 
 #: qt/restoreconfigdialog.py:55
 msgid "Import configuration"
-msgstr ""
+msgstr "Вмъкване на конфигурация"
 
 #: qt/restoreconfigdialog.py:111 qt/restoreconfigdialog.py:207
 msgid "No config found"
@@ -2056,7 +2071,7 @@ msgstr "Не е намерена конфигурация"
 
 #: qt/restoreconfigdialog.py:136
 msgid "Import"
-msgstr ""
+msgstr "Вмъкване"
 
 #: qt/restoreconfigdialog.py:164
 #, python-brace-format
@@ -2070,12 +2085,15 @@ msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
+"Ако директорията се намира на външен или отдалечен диск трябва да бъде ръчно"
+" монтирана предварително."
 
 #: qt/restoredialog.py:51
 msgid "Show full Log"
 msgstr "Покажи всички записани събития"
 
 #: qt/snapshotsdialog.py:43
+#, fuzzy
 msgid "Options about comparing snapshots"
 msgstr "Опции за сравняване на моментни архиви"
 
@@ -2094,7 +2112,7 @@ msgstr "Използване на %1 и %2 за параметри на пътя
 
 #: qt/snapshotsdialog.py:76
 msgid "Please set a diff command or press Cancel."
-msgstr ""
+msgstr "Моля изберете diff команда или изберете Отказ."
 
 #: qt/snapshotsdialog.py:82
 #, python-brace-format
@@ -2102,11 +2120,15 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
+"Командата {cmd} не е открита на тази система. Моля опитайте друга команда "
+"или натиснете Отказ."
 
 #: qt/snapshotsdialog.py:90
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
+"Не са въведени параметри за diff команда. Използване на стандартна стойност "
+"{params}."
 
 #: qt/snapshotsdialog.py:126
 msgid "Differing snapshots only"

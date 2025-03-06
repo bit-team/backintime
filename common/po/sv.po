@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-03 03:06+0000\n"
-"Last-Translator: bittin <bittin@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-04 08:03+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -302,14 +302,12 @@ msgid "Smart removal"
 msgstr "Smart borttagning"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Tar bort gamla ögonblicksavbilder"
+msgstr "Verkställ regler för att ta bort gamla ögonblicksavbilder"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Bevarandepolicy"
+msgstr "Verkställ policy för bevarande"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -738,8 +736,8 @@ msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Om du stänger detta fönster kan Back In Time inte stänga av ditt system när ögonblicksavbilden är färdig.\n"
-"Vill du verkligen stänga?"
+"Om du stänger det här fönstret så kan Back In Time inte stänga av ditt "
+"system när ögonblicksavbilden är färdig."
 
 #: qt/app.py:900
 msgid "Do you really want to close it?"
@@ -964,6 +962,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Den här versionen av Back In Time är en Release-kandidat och är främst avsedd för stabilitetstester inför nästa officiella utgåva.\n"
+"Inga användardata eller telemetri samlas in. Hur som helst så är Back In Time-teamet dock mycket intresserade av att veta om Release-kandidaten används och om det är värt att fortsätta tillhandahålla sådana versioner före lansering.\n"
+"Därför ber teamet vänligen om en kort återkoppling om huruvida du har testat den här versionen, även om du inte stötte på några problem. Även en snabb testkörning på några minuter skulle hjälpa oss mycket.\n"
+"Följande kontaktalternativ finns tillgängliga:\n"
+"{contact_list}\n"
+"I den här versionen så visas inte det här meddelandet igen, men kan kommas åt när som helst via hjälp-menyn.\n"
+"Tack för ditt stöd och för att du hjälper oss att förbättra Back In Time!\n"
+"Ditt Back In Time-team"
 
 #: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
@@ -975,13 +981,13 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Skapandet av EncFS-profil kommer att tas bort i den nästkommande mindre "
+"utgåvan (1.7), schemalagd för 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
-"Stöd för EncFS kommer att vara avvecklat inom överskådlig framtid. Det är "
-"dessutom in rekommenderat att använda det läget för en profil för övrigt."
+"Det är inte rekommenderat att använda det där läget längre för en profil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -992,7 +998,7 @@ msgstr "vitpapper"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Stödet för EncFS upphör på grund av säkerhetsbrister."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1000,6 +1006,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Vänligen referera till det här {whitepaper} för mer detaljer inklusive "
+"potentiella alternativ."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1010,6 +1018,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"En ersättning är planerad, men det kan inte garanteras att den dyker upp i "
+"tid."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1294,6 +1304,7 @@ msgid "Minutes:"
 msgstr "Minuter:"
 
 #: qt/manageprofiles/schedulewidget.py:92
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."

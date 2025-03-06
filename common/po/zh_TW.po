@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-01-08 18:36+0000\n"
-"Last-Translator: cofemei <cofemei@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-06 08:52+0000\n"
+"Last-Translator: RikoNaka <rikonaka@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -80,21 +80,18 @@ msgid "At least one directory must be selected for backup."
 msgstr "至少必須選擇一個資料夾進行備份"
 
 #: common/config.py:358
-#, fuzzy
 msgid "The directory cannot be included in the backup."
-msgstr "不能包含備份子資料夾。"
+msgstr "此資料夾不能被包含在備份資料夾中。"
 
 #: common/config.py:371
-#, fuzzy
 msgid "The sub-directories cannot be included in the backup."
-msgstr "不能包含備份子資料夾。"
+msgstr "此子資料夾不能被包含備份資料夾中。"
 
 #: common/config.py:1463
 msgid "Failed to write new crontab."
 msgstr "無法寫入新的 crontab。"
 
 #: common/config.py:1471
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -102,7 +99,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 "儘管 crontab 命令可用，但 Cron 並未運行。已排程的備份作業將不會運作。 Cron 可能已安裝但未啟用。嘗試命令「systemctl "
-"enable cron」或諮詢您的 GNU Linux 發行版的支援管道。"
+"enable cron」或諮詢您的 GNU Linux 發行版的支援服務商。"
 
 #: common/config.py:1552
 #, python-brace-format
@@ -112,9 +109,9 @@ msgid ""
 msgstr "無法為設定檔 {profile_id} 安裝 Udev 規則。 DBus 服務「{dbus_interface}」不可用"
 
 #: common/config.py:1567
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "排程 udev 不適用於 {mode} 模式"
+msgstr "定期 udev 不適用於 {mode} 模式"
 
 #: common/config.py:1578
 #, python-brace-format
@@ -1259,6 +1256,7 @@ msgid "Minutes:"
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:92
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
@@ -1571,6 +1569,7 @@ msgid "Private Key:"
 msgstr "私鑰:"
 
 #: qt/manageprofiles/tab_general.py:152
+#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
