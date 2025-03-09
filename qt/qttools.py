@@ -442,9 +442,10 @@ def initiate_translator(language_code: str) -> QTranslator:
 
     if rc is False:
         logger.warning(
-            'PyQt was not able to install a translator for language code '
-            f'"{language_code}". Deactivate translation and falling back to '
-            'the source language (English).')
+            'PyQt (the GUI library) could not install a translator for the '
+            f'language code "{language_code}". Standard GUI elements will '
+            'fall back to the source language (English). This does not '
+            'affect the translation of Back In Time-specific GUI elements.')
 
     tools.set_lc_time_by_language_code(language_code)
 
