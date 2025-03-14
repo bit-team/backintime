@@ -225,9 +225,9 @@ Keep in mind: To make the translation appear in the running _Back In Time_ the `
 - Avoid escape characters in the strings.
 - Give translators enough context with providing meaningful placeholder names.
 - Avoid addressing the person with "you".
-- Don't "scream" with using upper case letters (e.g. `WARNING`) or exclamation
+- Don't "scream" by using upper case letters (e.g. `WARNING`) or an exclamation
   mark (`!`).
-- Please provide a screenshot when introducing new translateble strings or
+- Please provide a screenshot when introducing new translatable strings or
   modifying them. The picture will be used on the translation web-frontend to
   provide translators with more context.
 - [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2024-10-02 06:42+0000\n"
 "Last-Translator: reneald <reneald@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Standaard"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiel: “{name}”"
@@ -80,21 +80,23 @@ msgstr "Momentopname-folder is ongeldig!"
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "{path} terugzetten"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Back-up-submap kan niet worden opgenomen."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Back-up-submap kan niet worden opgenomen."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Kon geen nieuwe crontab schrijven."
 
-#: common/config.py:1471
+#: common/config.py:1475
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -107,7 +109,7 @@ msgstr ""
 "niet geactiveerd. Probeer het commando \"systemctl enable cron\" of "
 "raadpleeg de ondersteuningskanalen van uw GNU/Linux-distributie."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -116,12 +118,12 @@ msgstr ""
 "Kon udev-regel voor profiel {profile_id} niet installeren. DBus-dienst "
 "'{dbus_interface}' was niet beschikbaar"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Methode udev werkt niet bij modus {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr ""
@@ -214,7 +216,7 @@ msgstr "Voltooid"
 msgid "Deferring backup while on battery"
 msgstr "Back-up uitstellen indien op batterij"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Kan momentopnamemap niet vinden."
@@ -510,7 +512,7 @@ msgstr "Toevoegen aan Opnemen"
 msgid "Add to Exclude"
 msgstr "Toevoegen aan Uitsluiten"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -519,7 +521,7 @@ msgstr ""
 "Het lijkt erop dat {app_name} voor de eerste keer wordt uitgevoerd, omdat er"
 " geen configuratie is gevonden."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -528,7 +530,7 @@ msgstr ""
 "Een bestaande configuratie importeren (vanuit een back-updoelmap of een "
 "andere computer)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Als deze op een verwijderbaar medium staat, gelieve dit aan te sluiten en op"
@@ -2173,3 +2175,7 @@ msgstr "LET OP: dit kan niet worden teruggedraaid."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "{path} uitsluiten van toekomstige momentopnames?"
+
+#, fuzzy
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Back-up-submap kan niet worden opgenomen."

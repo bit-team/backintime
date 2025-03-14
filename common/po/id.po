@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-11-17 12:02+0000\n"
-"Last-Translator: andika <andika@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-06 13:00+0000\n"
+"Last-Translator: andika <andika@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8.1\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Baku"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -79,19 +79,23 @@ msgstr "Direktori snapshot tidak valid."
 msgid "At least one directory must be selected for backup."
 msgstr "Setidaknya satu direktori harus dipilih untuk cadangan."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Pulihkan {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Direktori tersebut tidak bisa disertakan dalam cadangan."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Sub direktori tidak dapat disertakan dalam cadangan."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Gagal menulis crontab baru."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +107,7 @@ msgstr ""
 "diaktifkan. Cobalah perintah systemctl enable cron atau konsultasikan dengan"
 " saluran dukungan distribusi GNU/Linux Anda."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +116,12 @@ msgstr ""
 "Tidak bisa memasang aturan Udev untuk profil {profile_id}. Layanan DBus "
 "'{dbus_interface}' tidak tersedia"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Penjadwalan Udev tidak berfungsi dengan mode {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Tidak bisa menemukan UUID untuk {path}"
@@ -207,16 +211,13 @@ msgstr "Selesai"
 msgid "Deferring backup while on battery"
 msgstr "Tunda pencadangan saat memakai baterai"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Tak bisa temukan direktori snapshot."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr ""
-"Jika folder tersebut ada pada drive lepas pasang harap tancapkan lalu tekan "
-"OK."
+msgstr "Jika itu ada pada drive lepas pasang harap tancapkan."
 
 #: common/snapshots.py:849
 #, python-format
@@ -306,13 +307,12 @@ msgid "Smart removal"
 msgstr "Penghapusan cerdas"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Membuang snapshot lama"
+msgstr "Terapkan aturan untuk membuang snapshot lama"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Terapkan kebijakan retensi"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -496,7 +496,7 @@ msgstr "Tambah ke Disertakan"
 msgid "Add to Exclude"
 msgstr "Tambah ke Pengecualian"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -505,7 +505,7 @@ msgstr ""
 "{app_name} tampaknya dijalankan untuk pertama kali karena tidak ditemukan "
 "konfigurasi."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -513,7 +513,7 @@ msgstr ""
 "Impor konfigurasi yang ada (dari direktori target cadangan atau komputer "
 "lain)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Jika folder tersebut ada pada drive lepas pasang harap tancapkan lalu tekan "
@@ -589,37 +589,38 @@ msgstr "Keluar"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Manual pengguna"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Buka manual pengguna dalam peramban (lokal bila tersedia dan daring bila "
+"tidak)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "halaman man: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Menampilkan halaman man tentang Back In Time (backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Berkas konfigurasi profil"
+msgstr "halaman man: Berkas konfigurasi profil"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Menampilkan halaman man tentang berkas konfig profil (backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Situs web proyek"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Buka situs web Back In Time dalam peramban"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -631,7 +632,7 @@ msgstr "FAQ"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Buka Pertanyaan Sering Muncul (FAQ) dalam peramban"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -728,19 +729,19 @@ msgstr "B&antuan"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Hanya ikon"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Hanya teks"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Teks di bawah ikon"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Teks di samping ikon"
 
 #: qt/app.py:897
 msgid ""
@@ -930,7 +931,7 @@ msgstr "Terjemahan Anda"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Dalam Fediverse pada Mastodon: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -986,13 +987,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Penciptaan profil EncFS akan dihapus dalam rilis minor selanjutnya (1.7), "
+"yang dijadwalkan pada 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Dukungan untuk EncFS akan dihentikan di masa mendatang. Tidak disarankan "
-"lagi untuk memakai mode itu bagi suatu profil."
+msgstr "Tidak disarankan lagi untuk memakai mode itu bagi suatu profil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1003,7 +1003,7 @@ msgstr "whitepaper"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Dukungan bagi EncFS dihentikan karena kerentanan keamanan."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1011,6 +1011,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Untuk rincian lebih lanjut, termasuk alternatif-alternatif potensial, harap "
+"mengacu ke {whitepaper} ini."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1021,6 +1023,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Suatu pengganti ada direncanakan, tapi tidak bisa menjamin akan hadir pada "
+"waktunya."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1028,6 +1032,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Pengguna diundang bergabung ke diskusi ini. Rincian terbarui tentang "
+"langkah-langkah selanjutnya tersedia pada {whitepaper} ini."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1195,7 +1201,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "Hapus & &Retensi"
 
 #: qt/manageprofiles/__init__.py:269
 msgid "&Options"
@@ -1294,11 +1300,11 @@ msgstr "Jam:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "setelah jam"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Menit:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1790,65 +1796,67 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Aturan-aturan berikut diproses dari puncak ke dasar. Aturan-aturan yang "
+"belakangan menimpa yang sebelumnya dan tidak dibatasi oleh mereka. Lihat "
+"{manual} untuk rincian dan contoh."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "manual pengguna"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Buka manual pengguna dalam peramban."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Simpan snapshot yang dinamai."
+msgstr "Simpan snapshot terkini."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Snapshot terakhir atau paling baru dipertahankan di bawah semua keadaan."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Perilaku itu tidak bisa diubah."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Simpan snapshot yang dinamai."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Snapshot yang, selain memiliki stempel waktu biasa, juga diberi nama tidak "
-"akan dihapus."
+"Snapshot yang diberi nama, selain memiliki stempel waktu biasa, akan "
+"dipertahankan di bawah semua keadaan dan tidak akan dihapus."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Tahun"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Buang snapshot"
+msgstr "Buang snapshot yang lebih lama dari"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Hari penuh. Hari kini diabaikan."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Minggu kalender dengan Senin sebagai hari pertama. Minggu kini diabaikan."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "Periode 12 bulan. Bulan kini diabaikan."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Kebijakan retensi"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1871,7 +1879,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Hari-hari dihitung mulai dari hari ini."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1883,20 +1891,20 @@ msgid "day(s)."
 msgstr "hari terakhir."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Simpan satu snapshot tiap hari selama"
+msgstr "Simpan snapshot terakhir untuk setiap hari selama"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Minggu-minggu dihitung mulai dari minggu kini yang sedang berjalan. Suatu "
+"minggu mulai pada hari Senin."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Simpan satu snapshot tiap minggu selama"
+msgstr "Simpan snapshot terakhir untuk setiap minggu selama"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1905,12 +1913,11 @@ msgstr "minggu terakhir."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr ""
+msgstr "Bulan-bulan dihitung sebagai bulan kalender mulai dari bulan kini."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Simpan satu snapshot tiap bulan selama"
+msgstr "Simpan snapshot terakhir untuk setiap bulan selama"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1919,31 +1926,27 @@ msgstr "bulan terakhir."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Tahun-tahun dihitung sebagai tahun kalender mulai dari tahun kini."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Simpan semua snapshot selama"
+msgstr "Simpan snapshot terakhir untuk setiap tahun selama"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "semua tahun."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Jika ruang kosong kurang dari:"
+msgstr "... ruang kosong kurang dari"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Jika inode bebas kurang dari:"
+msgstr "... inode bebas kurang dari"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Membuang snapshot lama"
+msgstr "Membuang snapshot paling lama bila …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2135,3 +2138,6 @@ msgstr "PERINGATAN: Ini tidak dapat dicabut."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jangan ikutkan \"{path}\" dari snapshot mendatang?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Sub direktori tidak dapat disertakan dalam cadangan."

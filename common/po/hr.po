@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-07-22 12:37+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Croatian <https://translate.codeberg.org/projects/backintime/common/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -30,43 +30,43 @@ msgstr "Glavni profil"
 
 #: common/config.py:266
 msgid "Local (EncFS encrypted)"
-msgstr ""
+msgstr "Lokalno (EncFS šifriranje)"
 
 #: common/config.py:267
 msgid "SSH (EncFS encrypted)"
-msgstr ""
+msgstr "SSH (EncFS šifriranje)"
 
 #: common/config.py:278
 msgid "Local"
-msgstr ""
+msgstr "Lokalno"
 
 #: common/config.py:280
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:280 common/config.py:290
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
-msgstr ""
+msgstr "Privatni ključ za SSH"
 
 #: common/config.py:283
 msgid "Local encrypted"
-msgstr ""
+msgstr "Lokalno šifrirano"
 
 #: common/config.py:284 common/config.py:291
 msgid "Encryption"
-msgstr ""
+msgstr "Šifriranje"
 
 #: common/config.py:289
 msgid "SSH encrypted"
-msgstr ""
+msgstr "SSH šifrirano"
 
 #: common/config.py:296
 msgid "Default"
-msgstr ""
+msgstr "Zadano"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -78,21 +78,25 @@ msgstr "Mapa snimki nije valjana !"
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Za sigurnosnu kopiju treba se odabrati barem jedna mapa."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
-msgstr ""
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Povrati {path}"
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr ""
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr "Mapa se ne može sigurnosno kopirati."
 
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
-msgstr ""
+msgstr "Nije moguće stvoriti novi crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -100,19 +104,19 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available"
 msgstr ""
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr ""
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr ""
@@ -172,6 +176,8 @@ msgstr ""
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
+"Naredba {command} nije pronađena. Molimo instalirajte je (primjerice pomoću "
+"\"{installcommand}\")"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -181,7 +187,7 @@ msgstr ""
 #: common/password.py:279
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr ""
+msgstr "Unesite lozinku za {mode} profile \"{profile}\":"
 
 #: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
@@ -200,7 +206,7 @@ msgstr "Završeno"
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Nije moguće napraviti mapu"
@@ -476,20 +482,20 @@ msgstr ""
 msgid "Add to Exclude"
 msgstr ""
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -775,6 +781,7 @@ msgid "Snapshot Name"
 msgstr "Ime Snimke"
 
 #: qt/app.py:1398
+#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "Jeste li sigurni da želite ukloniti snimku"
@@ -825,6 +832,7 @@ msgstr[1] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
 msgstr[2] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
 
 #: qt/app.py:1580
+#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "Jeste li sigurni da želite ukloniti snimku"
@@ -1290,7 +1298,7 @@ msgstr "Pri svakom paljenju/podizanju"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Svakih {n} minuta"
@@ -2025,3 +2033,6 @@ msgstr ""
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr ""
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Podmape se ne mogu sigurnosno kopirati."

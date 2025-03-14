@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-02-09 17:49+0000\n"
 "Last-Translator: Merik <merik@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Domyślny"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
@@ -80,19 +80,23 @@ msgid "At least one directory must be selected for backup."
 msgstr ""
 "Należy wybrać co najmniej jeden katalog do utworzenia kopii zapasowej."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Przywróć {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Katalog nie może zostać uwzględniony w kopii zapasowej."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Podkatalogi nie mogą zostać uwzględnione w kopii zapasowej."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Nie udało się zapisać nowej tablicy zadań (crontab)."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -104,7 +108,7 @@ msgstr ""
 "ale nie jest włączony. Wypróbuj polecenie „systemctl enable cron” lub "
 "uzyskaj pomoc na kanałach wsparcia dystrybucji GNU Linux."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -113,12 +117,12 @@ msgstr ""
 "Nie udało się zainstalować reguły udev dla profilu {profile_id}. Usługa DBus"
 " „{dbus_interface}” nie była dostępna"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Harmonogram udev nie działa z trybem {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nie udało się odnaleźć UUID dla {path}"
@@ -207,7 +211,7 @@ msgstr "Gotowe"
 msgid "Deferring backup while on battery"
 msgstr "Kopia zapasowa przełożona z powodu pracy na baterii"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Nie można znaleźć katalogu migawek."
 
@@ -494,7 +498,7 @@ msgstr "Dodaj do uwzględnionych"
 msgid "Add to Exclude"
 msgstr "Dodaj do wykluczonych"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -503,7 +507,7 @@ msgstr ""
 "Wygląda na to, że {app_name} działa po raz pierwszy, ponieważ nie znaleziono"
 " żadnej konfiguracji."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -511,7 +515,7 @@ msgstr ""
 "Zaimportować istniejącą konfigurację (z katalogu docelowego kopii zapasowej "
 "lub innego komputera)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Jeśli jest na dysku wymiennym, podłącz go, a następnie naciśnij OK."
 
@@ -2158,3 +2162,6 @@ msgstr "OSTRZEŻENIE: nie można tego cofnąć."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Wykluczyć {path} z przyszłych migawek?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Podkatalogi nie mogą zostać uwzględnione w kopii zapasowej."

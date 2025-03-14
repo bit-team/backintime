@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-12-13 07:20+0000\n"
-"Last-Translator: muda155 <muda155@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.10.2\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:77
@@ -65,7 +65,7 @@ msgid "Default"
 msgstr "Mặc định"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Hồ sơ: “{name}”"
@@ -78,20 +78,23 @@ msgstr "Thư mục snapshot không hợp lệ."
 msgid "At least one directory must be selected for backup."
 msgstr "Phải chọn ít nhất một thư mục để sao lưu."
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Khôi phục {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Thư mục con sao lưu không thể được thêm vào."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Thư mục sao lưu không thể chứa thư mục con."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Ghi crontab mới thất bại."
 
-#: common/config.py:1471
+#: common/config.py:1475
 #, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
@@ -104,7 +107,7 @@ msgstr ""
 "hoạt. Hãy thử lệnh \"systemctl enable cron\" hoặc tham khảo các kênh hỗ trợ "
 "của bản phân phối GNU Linux của bạn."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -113,12 +116,12 @@ msgstr ""
 "Không thể cài đặt lệnh Udev cho hồ sơ {profile_id} vì Dịch vụ DBus "
 "“{dbus_interface}” không khả dụng"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Lịch trình theo udev không hoạt động trong chế độ {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Không tìm thấy UUID cho {path}"
@@ -210,7 +213,7 @@ msgstr "Xong"
 msgid "Deferring backup while on battery"
 msgstr "Trì hoãn sao lưu khi đang sử dụng pin"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Không tạo được thư mục"
@@ -410,7 +413,7 @@ msgstr ""
 "hỗ trợ."
 
 #: common/tools.py:432
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "Đường dẫn {path}  không phải là một thư mục."
 
@@ -501,7 +504,7 @@ msgstr "Thêm vào Bao gồm"
 msgid "Add to Exclude"
 msgstr "Thêm vào Loại trừ"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -509,14 +512,14 @@ msgid ""
 msgstr ""
 "Có vẻ như {app_name} đang chạy lần đầu tiên vì không tìm thấy cấu hình nào."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr "Nhập cấu hình hiện có (từ thư mục sao lưu hoặc từ máy tính khác)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -2146,3 +2149,6 @@ msgstr "Lệnh này không thể thu hồi!"
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Loại trừ {path} ra khỏi các snapshot trong tương lai?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Thư mục sao lưu không thể chứa thư mục con."

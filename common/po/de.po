@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-15 17:21+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-06 10:46+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -65,7 +65,7 @@ msgid "Default"
 msgstr "Standard"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: »{name}«"
@@ -78,19 +78,23 @@ msgstr "Schnappschuss-Verzeichnis ist ungültig."
 msgid "At least one directory must be selected for backup."
 msgstr "Für das Backup muss mindestens ein Verzeichnis ausgewählt werden."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Stelle {path} wieder her"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Das Verzeichnis kann nicht in die Sicherung einbezogen werden."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Das Unterverzeichnis kann nicht in die Sicherung einbezogen werden."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Schreiben einer neuen crontab ist fehlgeschlagen."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -102,7 +106,7 @@ msgstr ""
 "nicht aktiviert sein. Versuche den Befehl »systemctl enable cron« oder "
 "konsultiere die Support-Kanäle deiner GNU/Linux-Distribution."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -111,12 +115,12 @@ msgstr ""
 "Udev-Regel für Profil {profile_id} konnte nicht erstellt werden. DBus-Dienst"
 " »{dbus_interface}« war nicht verfügbar"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev-Zeitplan funktioniert nicht mit dem Modus {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "UUID für »{path}« konnte nicht gefunden werden"
@@ -206,7 +210,7 @@ msgstr "Fertig"
 msgid "Deferring backup while on battery"
 msgstr "Aufschieben der Sicherung im Akkubetrieb"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Schnappschuss-Verzeichnis wurde nicht gefunden."
 
@@ -499,7 +503,7 @@ msgstr "Hinzufügen zum Einschließen"
 msgid "Add to Exclude"
 msgstr "Hinzufügen zum Ausschließen"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -508,7 +512,7 @@ msgstr ""
 "{app_name} scheint zum ersten Mal gestartet zu werden, da keine "
 "Konfiguration gefunden wurde."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -516,7 +520,7 @@ msgstr ""
 "Bestehende Konfiguration importieren (von einem Sicherungs-Verzeichnis oder "
 "einem anderen Computer)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Wenn er auf einem Wechsellaufwerk ist, bitte dieses verbinden und dann OK "
@@ -2172,3 +2176,6 @@ msgstr "WARNUNG: Das kann nicht rückgängig gemacht werden."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "»{path}« von zukünftigen Schnappschüssen ausschließen?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Das Unterverzeichnis kann nicht in die Sicherung einbezogen werden."

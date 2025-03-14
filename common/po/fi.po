@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-02-11 11:06+0000\n"
 "Last-Translator: Ricky-Tigg <ricky-tigg@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Oletus"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiili: ”{name}”"
@@ -79,19 +79,23 @@ msgstr "Tilannevedosten hakemisto ei ole kelvollinen."
 msgid "At least one directory must be selected for backup."
 msgstr "Vähintään yksi hakemisto on valittava varmuuskopiointia varten."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Palauta {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Hakemistoa ei voi sisällyttää varmuuskopioon."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Alihakemistoja ei voi sisällyttää varmuuskopioon."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Uuden crontabin kirjoittaminen epäonnistui."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +107,7 @@ msgstr ""
 "asennettuna, mutta ei käytössä. Kokeile komentoa 'systemctl enable cron' tai"
 " ota yhteyttä GNU/Linux-jakelun tukikanaviin."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +116,12 @@ msgstr ""
 "Profiilille {profile_id} ei voitu asentaa udev-sääntöä. DBus-palvelu "
 "”{dbus_interface}” ei ole käytettävissä"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udevin ajoittaminen ei toimi tilassa {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Kohteelle ”{path}” ei löytynyt UUID:tä"
@@ -207,7 +211,7 @@ msgstr "Valmis"
 msgid "Deferring backup while on battery"
 msgstr "Viivästetään varmuuskopiointia akkukäytön ajan"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Tilannevedosten hakemistoa ei löydy."
 
@@ -493,7 +497,7 @@ msgstr "Lisää mukaan otettaviin"
 msgid "Add to Exclude"
 msgstr "Lisää pois jätettäviin"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -502,7 +506,7 @@ msgstr ""
 "{app_name} näyttää käynnistettävän ensimmäistä kertaa, koska asetuksia ei "
 "löytynyt."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -510,7 +514,7 @@ msgstr ""
 "Tuodaanko olemassa oleva kokoonpano (varmuuskopion kohdehakemistosta tai "
 "toisesta tietokoneesta)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Jos kansio on siirrettävällä asemalla, kytke se ja napsauta OK."
 
@@ -2127,3 +2131,6 @@ msgstr "Varoitus: Tätä ei voi kumota."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Alihakemistoja ei voi sisällyttää varmuuskopioon."

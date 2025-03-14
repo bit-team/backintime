@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2025-02-03 03:06+0000\n"
-"Last-Translator: bittin <bittin@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-04 08:03+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Standard"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -79,19 +79,23 @@ msgstr "Mappen för ögonblicksavbilder är inte giltig."
 msgid "At least one directory must be selected for backup."
 msgstr "Minst en katalog måste väljas för säkerhetskopiering."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Återskapa {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Katalogen kan inte inkluderas i säkerhetskopian."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Underkatalogerna kan inte inkluderas i säkerhetskopian."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Misslyckades med att skriva ny crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +107,7 @@ msgstr ""
 " inte aktiverat. Prova kommandot \"systemctl enable cron\" eller uppsök "
 "supportkanalerna för din GNU/Linux-distribution."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +116,12 @@ msgstr ""
 "Kunde inte installera Udev-regel för profil {profile_id}. DBus-tjänst "
 "\"{dbus_interface}\" var inte tillgänglig"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev schema fungerar inte med läge {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Kunde inte hitta UUID för {path}"
@@ -206,7 +210,7 @@ msgstr "Färdig"
 msgid "Deferring backup while on battery"
 msgstr "Uppskjuter säkerhetskopiering vid batteridrift"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Kan inte skapa mapp för ögonblicksavbilder."
 
@@ -302,14 +306,12 @@ msgid "Smart removal"
 msgstr "Smart borttagning"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Tar bort gamla ögonblicksavbilder"
+msgstr "Verkställ regler för att ta bort gamla ögonblicksavbilder"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Bevarandepolicy"
+msgstr "Verkställ policy för bevarande"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -490,7 +492,7 @@ msgstr "Lägg till i inkludera"
 msgid "Add to Exclude"
 msgstr "Lägg till i exkludera"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -499,7 +501,7 @@ msgstr ""
 "{app_name} verkar köras för första gången eftersom att ingen inställning "
 "kunde hittas."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -507,7 +509,7 @@ msgstr ""
 "Importera en befintlig konfiguration (från en målkatalog för "
 "säkerhetskopiering eller en annan dator)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Om den är på en flyttbar enhet anslut den och tryck sedan på OK."
 
@@ -738,8 +740,8 @@ msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Om du stänger detta fönster kan Back In Time inte stänga av ditt system när ögonblicksavbilden är färdig.\n"
-"Vill du verkligen stänga?"
+"Om du stänger det här fönstret så kan Back In Time inte stänga av ditt "
+"system när ögonblicksavbilden är färdig."
 
 #: qt/app.py:900
 msgid "Do you really want to close it?"
@@ -964,6 +966,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Den här versionen av Back In Time är en Release-kandidat och är främst avsedd för stabilitetstester inför nästa officiella utgåva.\n"
+"Inga användardata eller telemetri samlas in. Hur som helst så är Back In Time-teamet dock mycket intresserade av att veta om Release-kandidaten används och om det är värt att fortsätta tillhandahålla sådana versioner före lansering.\n"
+"Därför ber teamet vänligen om en kort återkoppling om huruvida du har testat den här versionen, även om du inte stötte på några problem. Även en snabb testkörning på några minuter skulle hjälpa oss mycket.\n"
+"Följande kontaktalternativ finns tillgängliga:\n"
+"{contact_list}\n"
+"I den här versionen så visas inte det här meddelandet igen, men kan kommas åt när som helst via hjälp-menyn.\n"
+"Tack för ditt stöd och för att du hjälper oss att förbättra Back In Time!\n"
+"Ditt Back In Time-team"
 
 #: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
@@ -975,13 +985,13 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Skapandet av EncFS-profil kommer att tas bort i den nästkommande mindre "
+"utgåvan (1.7), schemalagd för 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
-"Stöd för EncFS kommer att vara avvecklat inom överskådlig framtid. Det är "
-"dessutom in rekommenderat att använda det läget för en profil för övrigt."
+"Det är inte rekommenderat att använda det där läget längre för en profil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -992,7 +1002,7 @@ msgstr "vitpapper"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Stödet för EncFS upphör på grund av säkerhetsbrister."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1000,6 +1010,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Vänligen referera till det här {whitepaper} för mer detaljer inklusive "
+"potentiella alternativ."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1010,6 +1022,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"En ersättning är planerad, men det kan inte garanteras att den dyker upp i "
+"tid."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1294,6 +1308,7 @@ msgid "Minutes:"
 msgstr "Minuter:"
 
 #: qt/manageprofiles/schedulewidget.py:92
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
@@ -2126,3 +2141,6 @@ msgstr "VARNING: Det här kan inte återkallas."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Exkludera \"{path}\" från framtida ögonblicksavbilder?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Underkatalogerna kan inte inkluderas i säkerhetskopian."

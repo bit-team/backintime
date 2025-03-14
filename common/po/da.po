@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
 "PO-Revision-Date: 2025-02-10 21:16+0000\n"
 "Last-Translator: asjo <asjo@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Standard"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -79,19 +79,23 @@ msgstr "Snapshots mappe er ugyldig."
 msgid "At least one directory must be selected for backup."
 msgstr "Mindst en mappe skal vælges til backup."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Gendan {path}"
+
+#: common/config.py:359 common/config.py:374
+#, fuzzy
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Mappen kan ikke inkluderes i sikkerhedskopien."
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Uundermapperne kan ikke inkluderes in backup'en."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Kunne ikke skrive ny crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +107,7 @@ msgstr ""
 " kommandoen “systemctl enable cron” eller kontakt supportkanalerne for din "
 "GNU/Linux-distribution."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +116,12 @@ msgstr ""
 "Kunne ikke installere Udev regel for profil {profile_id}. DBus Service "
 "'{dbus_interface}' var ikke tilgængelig"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Metoden udev virker ikke med indstilling {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Fandt ikke UUID for {path}"
@@ -206,7 +210,7 @@ msgstr "Færdig"
 msgid "Deferring backup while on battery"
 msgstr "Venter med backup under batteridrift"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Kan ikke finde tilstands-billede-mappen."
 
@@ -487,7 +491,7 @@ msgstr "Tilføj til Inkludér"
 msgid "Add to Exclude"
 msgstr "Tilføj til Spring over"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -496,7 +500,7 @@ msgstr ""
 "{app_name} synes at køre for den første gang, da ingen konfiguration blev "
 "fundet."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -504,7 +508,7 @@ msgstr ""
 "Importer en eksisterende konfiguration (fra en backup destinationsmappe "
 "eller anden computer)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk OK."
 
@@ -2119,3 +2123,6 @@ msgstr "ADVARSEL: Dette kan ikke tilbagekaldes."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "Ekskludér {path} fra tilstands-billeder fremover?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Uundermapperne kan ikke inkluderes in backup'en."

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-23 22:28+0100\n"
-"PO-Revision-Date: 2024-07-22 12:09+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-06 15:23+0100\n"
+"PO-Revision-Date: 2025-03-06 08:52+0000\n"
+"Last-Translator: kwang <kwang@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -29,14 +29,12 @@ msgid "Main profile"
 msgstr "메인 프로파일"
 
 #: common/config.py:266
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "로컬 암호화함"
+msgstr "로컬 (EncFS 암호화)"
 
 #: common/config.py:267
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH 암호화"
+msgstr "SSH (EncFS 암호화)"
 
 #: common/config.py:278
 msgid "Local"
@@ -53,7 +51,7 @@ msgstr "SSH 개인 키"
 
 #: common/config.py:283
 msgid "Local encrypted"
-msgstr "로컬 암호화함"
+msgstr "로컬 암호화"
 
 #: common/config.py:284 common/config.py:291
 msgid "Encryption"
@@ -68,43 +66,47 @@ msgid "Default"
 msgstr "기본"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "프로필: \"{name}\""
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "스냅샷 폴더가 올바르지 않습니다!"
+msgstr "스냅샷 폴더가 올바르지 않습니다."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "백업을 위해서는 적어도 하나의 디렉토리가 선택되어야 합니다."
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "{path} 복원"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
-msgstr "백업 하위 폴더를 포함할 수 없습니다."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr "해당 폴더는 백업에 포함될 수 없습니다."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "백업 하위 폴더를 포함할 수 없습니다."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
-msgstr "새 crontab을 작성하지 못했습니다."
+msgstr "새로운 crontab을 작성하지 못했습니다."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
+"크론탭(crontab) 명령어가 가능하지만 크론(Cron)이 작동하지 않습니다. 스케쥴 백업이 작동하지 않을 것입니다. 크론(Cron)이"
+" 설치 되어있을 수도 있지만 활성화가 안되어있을 수 도 있습니다. 다음 명령어 \"systemctl enable cron\"를 시도하거나"
+" 당신의 GNU/Linux 배포판에 도움을 요청해보세요."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -113,12 +115,12 @@ msgstr ""
 "{profile_id} 프로필에 Udev 규칙을 설치할 수 없습니다. DBus 서비스 '{dbus_interface}'을(를) 사용할 수"
 " 없습니다"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "일정 udev가 {mode} 모드에서 작동하지 않습니다"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path}에 대한 UUID를 찾을 수 없습니다"
@@ -208,7 +210,7 @@ msgstr "완료"
 msgid "Deferring backup while on battery"
 msgstr "배터리를 사용하는 동안 백업 연기"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "스냅샷 폴더를 찾을 수 없습니다."
@@ -231,7 +233,7 @@ msgstr "{snapshot_id} 스냅샷을 생성하지 못했습니다."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "잠시만 기다려주세요. 마무리 중…"
 
 #: common/snapshots.py:1077
 #, fuzzy
@@ -311,7 +313,7 @@ msgstr "오래된 스냅샷 제거"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "보호 정책 적용 중"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -407,11 +409,11 @@ msgstr "원격 경로가 존재하지만 디렉터리가 아닙니다."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "해당 디렉토리 생성에 실패:"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "쓰기 권한이 제한되어있습니다."
 
 #: common/tools.py:488
 #, fuzzy, python-brace-format
@@ -450,7 +452,7 @@ msgstr ""
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "디렉토리에서 파일 생성에 실패:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -489,21 +491,21 @@ msgstr "포함할 항목 추가"
 msgid "Add to Exclude"
 msgstr "제외할 항목 추가"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr "{app_name}을 어떤 설정 없이 처음 실행하는 것 같습니다."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr "(백업 대상 폴더 또는 다른 컴퓨터에서) 기존 설정을 가져오시겠습니까?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "이동식 드라이브에 있는 경우 연결한 다음 확인을 누르십시오."
 
@@ -577,11 +579,11 @@ msgstr "끝내기"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "사용자 메뉴얼"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
-msgstr ""
+msgstr "사용자 메뉴얼을 브라우저에서 열기(로컬이 안되면 온라인으로)"
 
 #: qt/app.py:535
 #, fuzzy
@@ -590,7 +592,7 @@ msgstr "Back In &Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Back In Time (backintime) man 페이지 열기"
 
 #: qt/app.py:540
 #, fuzzy
@@ -599,15 +601,15 @@ msgstr "프로필 구성 파일"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "프로파일 설정(backintime-config)에 대한 man 페이지 열기"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "프로젝트 사이트"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "브라우저에서 Back In Time 웹사이트 열기"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -619,7 +621,7 @@ msgstr "자주 묻는 질문"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "브라우저에서 자주 묻는 질문들 (FAQ) 열기"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -635,15 +637,15 @@ msgstr "번역"
 
 #: qt/app.py:568
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "번역 참여에 대한 메세지를 다시 보기."
 
 #: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Transition 암호화 (EncFS)"
 
 #: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "EncFS 제거에 대한 메시지를 다시 보기."
 
 #: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -692,11 +694,11 @@ msgstr "스냅샷 비교…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
-msgstr ""
+msgstr "배포 후보"
 
 #: qt/app.py:640
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "배포 후보에 대한 메시지 다시 보기."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -716,19 +718,19 @@ msgstr "도움말"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "아이콘만"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "글자만"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "아이콘 밑 글자"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "아이콘 옆 글자"
 
 #: qt/app.py:897
 msgid ""
@@ -917,22 +919,22 @@ msgstr "귀하의 번역"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Mastodon에서 보기: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "이메일 보내기 {link_and_label}"
 
 #: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "메일링 리스트 {link_and_label}"
 
 #: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} 웹페이지에서 보기"
 
 #: qt/app.py:2118
 msgid "Open an issue"
@@ -2078,3 +2080,6 @@ msgstr "경고: 이 동작은 취소할 수 없습니다."
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "앞으로의 스냅샷에서 {path} 경로를 제외하시겠습니까?"
+
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "해당 하위 폴더는 백업에 포함 될 수 없습니다."
