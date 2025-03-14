@@ -65,7 +65,7 @@ def checkConfig(cfg, crontab = True):
     mode = cfg.snapshotsMode()
 
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
-        #preMountCheck
+        # preMountCheck
         test = 'Run mount tests'
         announceTest()
         mnt = mount.Mount(cfg = cfg, tmp_mount = True)
@@ -80,7 +80,7 @@ def checkConfig(cfg, crontab = True):
 
         okay()
 
-        #okay, lets try to mount
+        # okay, let's try to mount
         test = 'Mount'
         announceTest()
 
