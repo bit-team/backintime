@@ -302,7 +302,7 @@ the chance to review and potentially veto the pull request.
   the file system.
 - Translate "Back In Time"? It is the name of the application. That shouldn't
   be translated at all.
-- Some points of
+- Some points of the following
   [General recommendations for developers](#general-recommendations-for-develoeprs)
   are also relevant for translators. 
 
@@ -344,7 +344,7 @@ problematic = _('Do you really want to delete this snapshot?')
 correct = _('Is it really intended to delete this snapshot?')
 ```
 
-## Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages
+## Consider Right-to-Left (RTL) and Bidirectional (BIDI) languages
 
 In short: Always include punctuation marks (e.g. colons) in the strings to
 translate.
