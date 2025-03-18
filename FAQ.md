@@ -21,7 +21,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to read log entries?](#how-to-read-log-entries)
    * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
-   * [How does Back In Time compare with Timeshift?](#how-does-back-in-time-compare-with-timeshift)
+   * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
@@ -196,7 +196,7 @@ You can avoid this by moving the file/folder in the last snapshot too:
 5. Remove the next to last snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
 
-## Differences and similarities between "Back In Time" and "Timeshift"
+## How does _Back In Time_ compare with _Timeshift_?
 
 Back In Time and Timeshift are both Linux application that provides back up functionality.
 
