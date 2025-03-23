@@ -19,7 +19,7 @@ cd ..
 #     cp -aR ${CURRENT} ${NEW}
 # fi
 
-cp -aR ${CURRENT} ${NEW}
+cp --exclude=.git -aR ${CURRENT} ${NEW}
 
 rm backintime-$VER.tar.gz
 
@@ -28,6 +28,7 @@ tar cfz backintime-$VER.tar.gz \
     --exclude="*/.pytest_cache" \
     --exclude="*/.ruff_cache" \
     --exclude="*/po/*.mo" \
+    --exclude-vcs \
     ${NEW}/AUTHORS \
     ${NEW}/CHANGES \
     ${NEW}/LICENSE \
