@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-18 06:33+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
@@ -80,16 +80,17 @@ msgid "At least one directory must be selected for backup."
 msgstr "Gutxienez direktorio bat hautatu behar da babeskopia egiteko."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Berreskuratu {path}"
+msgstr "Direktorioa: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Karpeta ezin da bebeskopian sartu."
+msgstr ""
+"Karpeta hau ezin da babeskopian sartu babeskopiaren helburu beraren zatia "
+"baita."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -216,9 +217,8 @@ msgid "Can't find snapshots directory."
 msgstr "Ezin da aurkitu babeskopien karpeta."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "Unitate eramangarri batean badago konekta ezazu eta sakatu Ados."
+msgstr "Unitate eramangarri batean badago konekta ezazu."
 
 #: common/snapshots.py:849
 #, python-format
@@ -310,13 +310,12 @@ msgid "Smart removal"
 msgstr "Ezabatze adimenduna"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Babeskopia zaharrak ezabatzen"
+msgstr "Aplikatu babeskopia zaharrak ezabatzeko arauak"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Aplikatu atxikipen politika"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -591,37 +590,38 @@ msgstr "Irten"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Erabiltzailearen eskuliburua"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Ireki erabiltzailearen eskuliburua nabigatzailean (tokikoa eskuragarri "
+"badago bestela lineakoa)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "man orria: Back In &Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Back In Time-ren man orria erakusten du (backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Profilen konfigurazio fitxategia"
+msgstr "man orria: profilen konfigurazio fitxategia"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Konfigurazio fitxategien gaineko man orria erakusten du (backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Proiektuaren webgunea"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Ireki Back In Time-ren webgunea nabigatzailean"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -633,7 +633,7 @@ msgstr "FAQ"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Ireki ohiko galderak (FAQ) nabigatzailean"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -732,19 +732,19 @@ msgstr "L&aguntza"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Ikonoak bakarrik"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Testua bakarrik"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Testua ikonoen azpian"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Testua ikonoen ondoan"
 
 #: qt/app.py:897
 msgid ""
@@ -858,16 +858,12 @@ msgstr ""
 "honek babeskopia egitean baztertutako fitxategi eta karpetak ezabatuko ditu."
 
 #: qt/app.py:1570
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Seguru zaude elementu hau leheneratu\n"
-"nahi duzula karpeta berrian?"
+msgstr[0] "Seguru zaude elementu hau karpeta berrian leheneratu nahi duzula?"
 msgstr[1] ""
-"Seguru zaude fitxategi hauek leheneratu\n"
-"nahi dituzula karpeta berrian?"
+"Seguru zaude fitxategi hauek karpeta berrian leheneratu nahi dituzula?"
 
 #: qt/app.py:1580
 msgid "Do you really want to restore this element?"
@@ -942,7 +938,7 @@ msgstr "Zure Itzulpena"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Fedibertsoko Mastodonen: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -1000,13 +996,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Encfs profila sortzea 2026rako programatutako hurrengo bertsio txikian (1.7)"
+" kenduko da."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"EncFSrako laguntza eten egingo da etorkizun hurbilean. Ez da gomendagarria "
-"modu hori erabiltzea profil baterako."
+msgstr "Ez da gomendagarria modu hori erabiltzea profil baterako."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1017,7 +1012,7 @@ msgstr "orri zuria"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Encfs-en laguntza eten egin da segurtasun ahuleziak direla medio."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1025,6 +1020,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Xehetasun gehiago lortzeko, balizko alternatibak barne, ikus {whitepaper} "
+"hau."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1035,6 +1032,7 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Ordezkapen bat aurreikusten da, baina ezin da bermatu garaiz iritsiko denik."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1042,6 +1040,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Erabiltzaileak eztabaida honetara gonbidatuta daude. Hurrengo urratsetan "
+"eguneratutako xehetasunak eskuragarri daude {whitepaper} honetan."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1210,7 +1210,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "Ezabatu atxikipena"
 
 #: qt/manageprofiles/__init__.py:269
 msgid "&Options"
@@ -1311,11 +1311,11 @@ msgstr "Orduak:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "orduaren ondoren"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minutuak:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
@@ -1655,13 +1655,12 @@ msgid "Private Key:"
 msgstr "Gako pribatua:"
 
 #: qt/manageprofiles/tab_general.py:152
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
 "Aukeratu lehendik dagoen gako pribatuaren fitxategi bat (normalean "
-"\"id_ed25519\" izena du eta konfigurazio zaharretan \"id_rsa\" )"
+"\"id_ed25519\" izena du eta konfigurazio zaharretan \"id_rsa\" )."
 
 #: qt/manageprofiles/tab_general.py:164
 msgid ""
@@ -1810,34 +1809,36 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Hurrengo arauak goitik behera prozesatzen dira. Azken arauek aurrekoak "
+"gainidazten dituzte eta ez dira haiek mugatuta. Ikusi {manual} -eko "
+"xehetasunak eta adibideak."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "erabiltzailearen eskuliburua"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Ireki erabiltzailearen eskuliburua nabigatzailean."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Mantendu izena duten babeskopiak."
+msgstr "Mantendu duela gutxiko babeskopiak."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Azken irudia, freskoena alegia, zirkunstantzia guztietan mantentzen da."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Portaera hori ezin da aldatu."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Mantendu izena duten babeskopiak."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -1850,25 +1851,26 @@ msgid "Year(s)"
 msgstr "urtez"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Kendu babeskopia"
+msgstr "Kendu hau baino zaharragoak diren babeskopiak"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Egun osoak. Uneko eguna ez da kontuan hartzen."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Egutegiko asteak astelehena lehen eguna dela. Uneko astea ez da kontuan "
+"hartzen."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 hilabeteko tarteak. Uneko hilabetea ez da kontuan hartzen."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Atxikipen politika"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1890,7 +1892,7 @@ msgstr "Hautatzen bada, Back In Time-k urruneko makina probatuko du lehenik."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Egunak gaur hasita kontatzen dira."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1902,20 +1904,19 @@ msgid "day(s)."
 msgstr "eguna(k)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Mantendu eguneko babeskopia bana azkenerako"
+msgstr "Mantendu eguneko babeskopia bana azkeneko"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Asteak kontatzen dira uneko astean hasita. Astea astelehenean hasten da."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Mantendu asteko babeskopia bana azkenerako"
+msgstr "Mantendu asteko babeskopia bana azkeneko"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1925,11 +1926,11 @@ msgstr "astea(k)."
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
+"Hilabeteak egutegiko hilabete gisa kontatzen dira, uneko hilabetean hasita."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Mantendu hilabeteko babeskopia bana azkenerako"
+msgstr "Mantendu hilabeteko babeskopia bana azkeneko"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1938,31 +1939,29 @@ msgstr "hilabeta(k)."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Urteak egutegiko urte gisa kontatzen dira uneko urtean hasita."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Mantendu babeskopia guztiak"
+msgstr "Mantendu urteko babeskopia bana azkeneko"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "urte guztiak."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
 #, fuzzy
 msgid "… the free space is less than"
-msgstr "Toki librea hau baino txikiagoa bada:"
+msgstr "toki librea hau baino txikiagoa bada:"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
 #, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Baldin eta nodo libreak hauek baino gutxiago badira:"
+msgstr "... nodo libreak hauek baino gutxiago badira:"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Babeskopia zaharrak ezabatzen"
+msgstr "Babeskopia zaharrenak ezabatu baldin eta …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -1998,31 +1997,31 @@ msgstr "Abiadura:"
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Babeskopiak"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Gaur"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Atzo"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Aste honetan"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Joan den astean"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "Hau EZ da babeskopia bat zure fitxategi lokalen ikuspegia baizik"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Azken kontrola {time}"
@@ -2066,7 +2065,7 @@ msgstr "Irudiak alderatzeko aukerak"
 
 #: qt/snapshotsdialog.py:50
 msgid "Command:"
-msgstr "Agindua:"
+msgstr "Komandoa:"
 
 #: qt/snapshotsdialog.py:54
 msgid "Parameters:"

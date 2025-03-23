@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-06 13:00+0000\n"
-"Last-Translator: andika <andika@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-21 12:46+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -80,16 +80,17 @@ msgid "At least one directory must be selected for backup."
 msgstr "Setidaknya satu direktori harus dipilih untuk cadangan."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Pulihkan {path}"
+msgstr "Direktori: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Direktori tersebut tidak bisa disertakan dalam cadangan."
+msgstr ""
+"Direktori ini tidak bisa disertakan dalam cadangan karena itu adalah bagian "
+"dari tujuan cadangan itu sendiri."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -337,6 +338,7 @@ msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent tidak ditemukan. Pastikan sudah terpasang."
 
 #: common/sshtools.py:470
+#, fuzzy
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -1982,33 +1984,33 @@ msgstr "Kecepatan:"
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Snapshot"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Hari ini"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Kemarin"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Minggu ini"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Minggu lalu"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Ini BUKAN sebuah snapshot melainkan tampilan langsung dari berkas-berkas "
 "lokal Anda"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Pemeriksaan terakhir {time}"

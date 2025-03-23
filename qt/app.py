@@ -404,8 +404,8 @@ class MainWindow(QMainWindow):
             if self.config.language_used != 'en':
 
                 # Show the message only if the current used language is
-                # translated equal or less then 97%
-                self._open_approach_translator_dialog(cutoff=97)
+                # translated equal or less then {cutoff}%
+                self._open_approach_translator_dialog(cutoff=99)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating

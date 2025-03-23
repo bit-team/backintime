@@ -550,7 +550,7 @@ class GeneralTab(QDialog):
             messagebox.critical(self, str(ex))
             return False
 
-        # okay, lets try to mount
+        # okay, let's try to mount
         try:
             hash_id = mnt.mount(
                 mode=self.config.snapshotsMode(),

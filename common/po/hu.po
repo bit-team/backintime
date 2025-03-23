@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-12 18:58+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
@@ -30,14 +30,12 @@ msgid "Main profile"
 msgstr "Fő profil"
 
 #: common/config.py:266
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "titkosított"
+msgstr "Helyi (EncFS-sel titkosított)"
 
 #: common/config.py:267
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH-val titkosított"
+msgstr "SSH (EncFS-sel titkosított)"
 
 #: common/config.py:278
 msgid "Local"
@@ -53,9 +51,8 @@ msgid "SSH private key"
 msgstr "SSH személyes kulcs"
 
 #: common/config.py:283
-#, fuzzy
 msgid "Local encrypted"
-msgstr "titkosított"
+msgstr "Helyi titkosított"
 
 #: common/config.py:284 common/config.py:291
 msgid "Encryption"
@@ -76,25 +73,25 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "A pillanatképek mappája nem érvényes!"
+msgstr "A pillanatképek könyvtára nem érvényes."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Legalább egy könyvtárat ki kell választani a biztonsági mentéshez."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "{path} helyreállítása"
+msgstr "Könyvtár: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "A biztonsági mentés almappáját nem lehet felvenni."
+msgstr ""
+"Ez a könyvtár nem szerepelhet a biztonsági mentésben, mivel magának a "
+"biztonsági mentési célnak a része."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -107,6 +104,11 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
+"A Cron nem fut, annak ellenére hogy a crontab parancs elérhető. Az ütemezett"
+" biztonsági mentési feladatok nem fognak futni. Lehet, hogy a Cron telepítve"
+" van, de nincs engedélyezve. Próbálja meg a „systemctl enable cron” "
+"parancsot, vagy keresse fel a GNU/Linux disztribúciója támogatási "
+"csatornáit."
 
 #: common/config.py:1556
 #, python-brace-format
@@ -115,10 +117,10 @@ msgid ""
 "'{dbus_interface}' wasn't available"
 msgstr ""
 "Nem sikerült telepíteni az Udev-szabályt a(z) {profile_id} profilnál. A(z) "
-"„{dbus_interface}” DBus-szolgáltatás nem volt elérhető."
+"„{dbus_interface}” DBus-szolgáltatás nem volt elérhető"
 
 #: common/config.py:1571
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Az udev ütemezése nem működik a(z) {mode} móddal"
 
@@ -145,19 +147,17 @@ msgid "The last profile cannot be removed."
 msgstr "Az utolsó profilt nem lehet eltávolítani."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Nem lehet csatolni a(z) „{command}” parancsot"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "A titkosított mappa beállítása nem található."
+msgstr "A titkosított könyvtár beállítása nem található."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Létrehoz egy új titkosított mappát?"
+msgstr "Létrehoz egy új titkosított könyvtárat?"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -176,7 +176,7 @@ msgid "Take snapshot"
 msgstr "Pillanatkép készítése"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr ""
 "Nem lehet leválasztani a(z) {mountprocess} folyamatot a(z) {mountpoint} "
@@ -185,7 +185,8 @@ msgstr ""
 #: common/mount.py:709
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "A(z) {command} nem található. Telepítse például ezt: {installcommand}"
+msgstr ""
+"A(z) {command} nem található. Telepítse (például ezzel: „{installcommand}”)"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -195,7 +196,7 @@ msgstr "A(z) {mntpoint} csatolási pont nem üres."
 #: common/password.py:279
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "Írja be a jelszót a(z) {mode} \"{profile}\":"
+msgstr "Adja meg a(z) „{profile}” {mode} profil jelszavát:"
 
 #: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
@@ -215,18 +216,15 @@ msgid "Deferring backup while on battery"
 msgstr "Biztonsági mentés elhalasztása akkumulátorról való működésnél"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find snapshots directory."
-msgstr "Nem lehet mappát létrehozni"
+msgstr "Nem található a pillanatképek könyvtára."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr ""
-"Ha cserélhető meghajtón van, akkor helyezze be, és nyomja meg az OK gombot."
+msgstr "Ha cserélhető meghajtón van, akkor helyezze be."
 
 #: common/snapshots.py:849
-#, python-format
+#, fuzzy, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "%s másodperc várakozás."
@@ -239,12 +237,11 @@ msgstr "Nem sikerült a(z) {snapshot_id} pillanatkép készítése."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Legyen türelemmel. Véglegesítés…"
 
 #: common/snapshots.py:1077
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Nem lehet mappát létrehozni"
+msgstr "Nem lehet létrehozni a könyvtárat."
 
 #: common/snapshots.py:1094
 msgid "Saving config file…"
@@ -255,19 +252,19 @@ msgid "Saving permissions…"
 msgstr "Jogosultságok mentése…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "A(z) {snapshot_id} maradvány található, amely folytatható."
+msgstr "Található egy maradvány {snapshot_id} pillanatkép, amely folytatható."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "A(z) {snapshot_id} maradványmappa eltávolítása az utolsó futásból"
+msgstr ""
+"A maradvány {snapshot_id} könyvtár eltávolítása a legutóbbi futtatásból"
 
 #: common/snapshots.py:1325
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "Nem lehet eltávolítani a mappát"
+msgstr "Nem lehet eltávolítani a könyvtárat"
 
 #: common/snapshots.py:1379
 msgid "Taking snapshot"
@@ -306,23 +303,21 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Semmi sem változott, nincs szükség új pillanatképre"
 
 #: common/snapshots.py:1523
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Nem lehet átnevezni a(z) {new_path} útvonalat erre: {path}"
+msgstr "Nem lehet átnevezni a(z) {new_path} útvonalat erre: {path}."
 
 #: common/snapshots.py:1855
-#, fuzzy
 msgid "Smart removal"
 msgstr "Intelligens eltávolítás"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Régi pillanatképek eltávolítása"
+msgstr "Szabályok alkalmazása a régi pillanatképek eltávolításához"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Megtartási szabály alkalmazása"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -338,15 +333,14 @@ msgid "Now"
 msgstr "Most"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Nem lehet csatolni: {sshfs}"
 
 #: common/sshtools.py:300
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr ""
-"Az „ssh-agent” nem található. Győződjön meg arról, hogy telepítve van-e."
+"Az „ssh-agent” nem található. Győződjön meg arról, hogy telepítve van."
 
 #: common/sshtools.py:470
 msgid ""
@@ -400,50 +394,51 @@ msgstr ""
 "A(z) {host} távoli kiszolgáló nem támogatja a rögzített hivatkozásokat"
 
 #: common/sshtools.py:1191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 "A(z) „{pubkey}” nyilvános SSH-kulcs másolása a(z) „{host}” távoli "
-"kiszolgálóra"
+"kiszolgálóra."
 
 #: common/sshtools.py:1193
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Adja meg „{user}” felhasználó jelszavát"
+msgstr "Adja meg „{user}” felhasználó jelszavát."
 
 #: common/tools.py:400
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"A(z) {path} útvonal célfájlrendszere FAT-tal van formázva, amely nem "
-"támogatja a rögzített hivatkozásokat. Használjon natív Linux fájlrendszert."
+"A(z) {path} útvonal célfájlrendszere NTFS-re van formázva, amely nem "
+"kompatibilis a Unix-stílusú fájlrendszerekkel."
 
 #: common/tools.py:432
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "A távoli útvonal létezik, de nem könyvtár."
+msgstr "A(z) {path} nem érvényes könyvtár."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "A következő könyvtár létrehozása nem sikerült:"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Az írási hozzáférés korlátozott lehet."
 
 #: common/tools.py:488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
 "A(z) {path} útvonal célfájlrendszere FAT-tal van formázva, amely nem "
-"támogatja a rögzített hivatkozásokat. Használjon natív Linux fájlrendszert."
+"támogatja a rögzített hivatkozásokat. Használjon natív GNU/Linux "
+"fájlrendszert."
 
 #: common/tools.py:499
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -451,8 +446,8 @@ msgid ""
 msgstr ""
 "A(z) {path} útvonal célfájlrendszere egy SMB csatolású megosztás. Győződjön "
 "meg arról, hogy a távoli SMB-kiszolgáló támogatja-e a szimbolikus "
-"hivatkozásokat vagy kapcsolja be a {copyLinks} lehetőséget a {expertOptions}"
-" alatt."
+"hivatkozásokat vagy kapcsolja be a „{copyLinks}” lehetőséget az "
+"„{expertOptions}” alatt."
 
 #: common/tools.py:503 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -463,7 +458,7 @@ msgid "Expert Options"
 msgstr "Szakértői beállítások"
 
 #: common/tools.py:508
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -473,7 +468,7 @@ msgstr ""
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "A fájl létrehozása ebben a könyvtárban nem sikerült:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -496,12 +491,11 @@ msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
-"Ez a mappa nem létezik a jelenleg\n"
+"Ez a könyvtár nem létezik a jelenleg\n"
 "kiválasztott pillanatképben."
 
 #: qt/app.py:257
@@ -517,14 +511,17 @@ msgstr "Hozzáadás a kizártakhoz"
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
-msgstr "{app_name} először lett elindítva, ezért nem található konfiguráció."
+msgstr ""
+"Úgy tűnik, hogy a(z) {app_name} először lett elindítva, mivel nem található "
+"beállítás hozzá."
 
 #: qt/app.py:336
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
-msgstr "Betölti a beállításokat (egy mentésből vagy egy másik gépről)?"
+msgstr ""
+"Importál egy meglévő beállítást (egy biztonsági mentés célkönyvtárából vagy "
+"egy másik számítógépről)?"
 
 #: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
@@ -602,37 +599,39 @@ msgstr "Kilépés"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Felhasználói kézikönyv"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Felhasználói kézikönyv megnyitása a böngészőben (helyileg, ha elérhető, "
+"egyébként az internetről)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Vissza az időbe"
+msgstr "kézikönyvoldal: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Megjeleníti a Back In Time (backintime) kézikönyvoldalát"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Profilok beállítófájlja"
+msgstr "kézikönyvoldal: Profilok beállítófájlja"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Megjeleníti a profilok beállítófájljával kapcsolatos kézikönyvoldalt "
+"(backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Projekt webhelye"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "A Back In Time webhelyének megnyitása a böngészőben"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -644,7 +643,7 @@ msgstr "GYIK"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Gyakran ismételt kérdések (GYIK) megnyitása a böngészőben"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -660,15 +659,16 @@ msgstr "Fordítás"
 
 #: qt/app.py:568
 msgid "Shows the message about participation in translation again."
-msgstr "A fordításban segédkezők megtekintése."
+msgstr ""
+"Ismét megjeleníti a fordításban való részvétellel kapcsolatos üzenetet."
 
 #: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Titkosítási átmenet (EncFS)"
 
 #: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
-msgstr "Ismét megjeleníti az EncFS eltávolításának üzenetét."
+msgstr "Ismét megjeleníti az EncFS eltávolításával kapcsolatos üzenetet."
 
 #: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -676,36 +676,33 @@ msgid "Restore"
 msgstr "Helyreállítás"
 
 #: qt/app.py:581
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
-msgstr "A kijelölt fájlok vagy mappák helyreállítása az eredeti célhelyre."
+msgstr ""
+"A kijelölt fájlok vagy könyvtárak helyreállítása az eredeti célhelyre."
 
 #: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
 msgid "Restore to …"
 msgstr "Helyreállítás ide…"
 
 #: qt/app.py:586
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
-msgstr "A kijelölt fájlok vagy mappák helyreállítása egy új célhelyre."
+msgstr "A kijelölt fájlok vagy könyvtárak helyreállítása egy új célhelyre."
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr ""
-"A jelenleg megjelenített mappa és annak teljes tartalmának helyreállítása az"
-" eredeti célhelyre."
+"A jelenleg megjelenített könyvtár és annak teljes tartalmának helyreállítása"
+" az eredeti célhelyre."
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr ""
-"A jelenleg megjelenített mappa és annak teljes tartalmának helyreállítása "
-"egy új célhelyre."
+"A jelenleg megjelenített könyvtár és annak teljes tartalmának helyreállítása"
+" egy új célhelyre."
 
 #: qt/app.py:601
 msgid "Up"
@@ -721,16 +718,15 @@ msgstr "Pillanatképek összehasonlítása…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
-msgstr ""
+msgstr "Kiadásra jelölt"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Ismét megjeleníti az EncFS eltávolításának üzenetét."
+msgstr "Ismét megjeleníti az ezzel a kiadásra jelölttel kapcsolatos üzenetet."
 
 #: qt/app.py:676
 msgid "Back In &Time"
-msgstr "Vissza az időbe"
+msgstr "Back In &Time"
 
 #: qt/app.py:681
 msgid "&Backup"
@@ -746,19 +742,19 @@ msgstr "&Súgó"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Csak ikonok"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Csak szöveg"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Szöveg az ikonok alatt"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Szöveg az ikon mellett"
 
 #: qt/app.py:897
 msgid ""
@@ -813,9 +809,8 @@ msgid "Home"
 msgstr "Saját mappa"
 
 #: qt/app.py:1255
-#, fuzzy
 msgid "Backup directories"
-msgstr "Biztonsági mentés mappái"
+msgstr "Biztonsági mentés könyvtárai"
 
 #: qt/app.py:1351
 msgid "Snapshot Name"
@@ -858,34 +853,28 @@ msgstr ""
 "Az „rsync --update” kapcsoló használata."
 
 #: qt/app.py:1555
-#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "Újabb elemek eltávolítása az eredeti mappából."
+msgstr "Újabb elemek eltávolítása az eredeti könyvtárból."
 
 #: qt/app.py:1558
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "taking the snapshot."
 msgstr ""
-"A kijelölt fájlok vagy mappák helyreállítása az eredeti célhelyre, valamint "
-"a pillanatképben nem szereplő fájlok vagy mappák törlése. Legyen rendkívül "
-"óvatos, mert ez törölni fogja azokat a fájlokat és mappákat, amelyek a "
-"pillanatkép készítésekor ki lettek zárva."
+"A kijelölt fájlok vagy könyvtárak helyreállítása az eredeti célhelyre, "
+"valamint a pillanatképben nem szereplő fájlok vagy könyvtárak törlése. "
+"Legyen rendkívül óvatos, mert ez törölni fogja azokat a fájlokat és "
+"könyvtárakat, amelyek a pillanatkép készítésekor ki voltak zárva."
 
 #: qt/app.py:1570
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
-msgstr[0] ""
-"Valóban helyre szeretné állítani ezt az elemet az új\n"
-"{path} mappába?"
+msgstr[0] "Valóban helyre szeretné állítani ezt az elemet az új könyvtárba?"
 msgstr[1] ""
-"Valóban helyre szeretné állítani ezeket az elemeket az új\n"
-"{path} mappába?"
+"Valóban helyre szeretné állítani ezeket az elemeket az új könyvtárba?"
 
 #: qt/app.py:1580
 msgid "Do you really want to restore this element?"
@@ -901,11 +890,11 @@ msgstr ""
 "fájlt?"
 
 #: qt/app.py:1602
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
-"Biztosan el szeretné távolítani az eredeti mappában lévő összes újabb fájlt?"
+"Biztosan el szeretné távolítani az eredeti könyvtárban lévő összes újabb "
+"fájlt?"
 
 #: qt/app.py:1608
 #, python-brace-format
@@ -913,7 +902,7 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"{BOLD}FIGYELMEZTETÉS:{BOLDEND} a fájlrendszer gyökerében lévő fájlok törlése"
+"{BOLD}Figyelmeztetés:{BOLDEND} a fájlrendszer gyökerében lévő fájlok törlése"
 " tönkreteheti az egész rendszert."
 
 #: qt/app.py:1857
@@ -962,30 +951,31 @@ msgstr "Az Ön fordítása"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "A mastodoni födiverzumban: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "E-mail küldése: {link_and_label}."
 
 #: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Levelezőlista: {link_and_label}"
 
 #: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} a projekt webhelyén."
 
 #: qt/app.py:2118
 msgid "Open an issue"
-msgstr ""
+msgstr "Nyisson hibajegyet"
 
 #: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
+"Alternatívaként egy másik, Ön által választott csatornát is használhat."
 
 #: qt/app.py:2124
 #, python-brace-format
@@ -999,6 +989,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"A Back In Time ezen verziója kiadásra jelölt, és elsősorban a következő hivatalos kiadásra való felkészülés során végzett stabilitástesztekre szolgál.\n"
+"Nem gyűjt felhasználói adatokat vagy telemetriát. A Back In Time csapatát azonban nagyon érdekli, hogy a kiadásra jelölt verzió használatban van-e, és érdemes-e folytatni az ilyen kiadás előtti verziók biztosítását.\n"
+"Ezért a csapat rövid visszajelzést kér arról, hogy tesztelte-e ezt a verziót, még akkor is, ha nem találkozott semmilyen problémával. Már egy gyors, néhány perces próbahasználat is sokat segítene nekünk.\n"
+"A következő kapcsolatfelvételi lehetőségek állnak rendelkezésre:\n"
+"{contact_list}\n"
+"Ebben a verzióban ez az üzenet nem jelenik meg újra, de bármikor elérhető a súgó menüből.\n"
+"Köszönjük a támogatását és azt, hogy segít nekünk a Back In Time fejlesztésében!\n"
+"Az Ön Back In Time csapata"
 
 #: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1011,24 +1009,23 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Az EncFS-profil létrehozása eltávolításra kerül a következő, 2026-ra "
+"tervezett kisebb kiadásban (1.7)."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Az EncFS támogatása a közel jövőben meg fog szünni. Nem javasolt a profilhoz"
-" való használata."
+msgstr "Nem ajánlott ezt a módot továbbra is használni egy profilhoz."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
 msgid "whitepaper"
-msgstr "Leírás"
+msgstr "dokumentum"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Az EncFS támogatása a biztonsági sebezhetőségek miatt megszűnik."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1036,16 +1033,19 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"További részletekért, beleértve a lehetséges alternatívákat, ez a "
+"{whitepaper} ad tájékoztatást."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr "Az alábbi profil(ok) használ(nak) EncFS titkosítást:"
+msgstr "A következő profilok használnak EncFS-sel történő titkosítást:"
 
 #: qt/encfsmsgbox.py:87
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"A helyettesítése tervben van, de nem garantálható, hogy időben megérkezik."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1053,16 +1053,21 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Arra kérjük a felhasználókat, hogy csatlakozzanak ehhez a beszélgetéshez. A "
+"következő lépések frissített részleteiről ez a {whitepaper} ad "
+"tájékoztatást."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Ez az üzenet többé nem jelenik meg. Ez a párbeszédablak bármikor elérhető a "
+"súgó menüből."
 
 #: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
-msgstr ""
+msgstr "Az Ön Back In Time csapata"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1117,10 +1122,9 @@ msgid "Errors"
 msgstr "Hibák"
 
 #: qt/logviewdialog.py:111 qt/messagebox.py:60
-#, fuzzy
 msgid "Information"
 msgid_plural "Information"
-msgstr[0] "Információk"
+msgstr[0] "Információ"
 msgstr[1] "Információk"
 
 #: qt/logviewdialog.py:114
@@ -1161,18 +1165,16 @@ msgid "&Include"
 msgstr "&Felvétel"
 
 #: qt/manageprofiles/__init__.py:125
-#, fuzzy
 msgid "Include files and directories"
-msgstr "Fájlok és mappák felvétele"
+msgstr "Fájlok és könyvtárak felvétele"
 
 #: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
 #: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
-#, fuzzy
 msgid "Add directory"
-msgstr "Mappa hozzáadása"
+msgstr "Könyvtár hozzáadása"
 
 #: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
@@ -1186,11 +1188,15 @@ msgid ""
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
+"{BOLD}Információ{ENDBOLD}: az „SSH-val titkosított” módban csak az egy- vagy"
+" kettős csillagok működnek (például: {example2}). A többi típusú "
+"helyettesítő karakter és minta figyelmen kívül lesz hagyva (például: "
+"{example1}). A fájlnevek ebben a módban kiszámíthatatlanok az EncFS általi "
+"titkosítás miatt."
 
 #: qt/manageprofiles/__init__.py:183
-#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "Minták, fájlok vagy mappák kizárása"
+msgstr "Minták, fájlok vagy könyvtárak kizárása"
 
 #: qt/manageprofiles/__init__.py:216
 msgid "Add default"
@@ -1201,27 +1207,25 @@ msgid "Exclude files bigger than:"
 msgstr "Ennél nagyobb fájlok kizárása:"
 
 #: qt/manageprofiles/__init__.py:233
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Ennél nagyobb fájlok kizárása: "
+msgstr "A {size_unit} értékénél nagyobb fájlok kizárása."
 
 #: qt/manageprofiles/__init__.py:235
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
-"A(z) %(prefix)s előtagban lévő értéknél nagyobb fájlok kizárása.\n"
-"A letiltott „Teljes rsync mód” használatával ennek csak az új fájlokra\n"
-"van hatása, mert az rsync esetén ez egy átviteli kapcsoló, nem kizáró\n"
-"kapcsoló. Tehát a korábban biztonsági mentett nagy fájlok megmaradnak\n"
-"a pillanatképekben, akkor is ha megváltoztak."
+"A letiltott „Teljes rsync mód” használatával ennek csak az új fájlokra van "
+"hatása, mert az rsync esetén ez egy átviteli kapcsoló, nem kizáró kapcsoló. "
+"Tehát a korábban biztonsági mentésre került nagy fájlok megmaradnak a "
+"pillanatképekben, akkor is ha módosultak."
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Eltávolítás és megtartás"
 
 #: qt/manageprofiles/__init__.py:269
 msgid "&Options"
@@ -1256,12 +1260,12 @@ msgstr "Biztosan törölni szeretné a(z) „{name}” profilt?"
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr ""
+msgstr "{BOLD}Erősen ajánlott{ENDBOLD}: (Már tartalmazza az összes ajánlást.)"
 
 #: qt/manageprofiles/__init__.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Erősen ajánlott"
+msgstr "{BOLD}Erősen ajánlott{ENDBOLD}: {files}"
 
 #: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
@@ -1272,9 +1276,8 @@ msgid "Exclude file"
 msgstr "Fájl kizárása"
 
 #: qt/manageprofiles/__init__.py:625
-#, fuzzy
 msgid "Exclude directory"
-msgstr "Mappa kizárása"
+msgstr "Könyvtár kizárása"
 
 #: qt/manageprofiles/__init__.py:649
 msgid "Include file"
@@ -1290,14 +1293,13 @@ msgstr ""
 "Szeretné a szimbolikus hivatkozás célját felvenni helyette?"
 
 #: qt/manageprofiles/__init__.py:679
-#, fuzzy
 msgid "Include directory"
-msgstr "Mappa felvétele"
+msgstr "Könyvtár felvétele"
 
 #: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
-msgstr ""
+msgstr "Letiltva, mert ez a minta nem működik „SSH-val titkosított” módban."
 
 #: qt/manageprofiles/schedulewidget.py:37
 msgid "Schedule"
@@ -1305,7 +1307,7 @@ msgstr "Ütemezés"
 
 #: qt/manageprofiles/schedulewidget.py:63
 msgid "Day:"
-msgstr ""
+msgstr "Nap:"
 
 #: qt/manageprofiles/schedulewidget.py:68
 msgid "Weekday:"
@@ -1313,7 +1315,7 @@ msgstr "Hét napja:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "Idő:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1321,20 +1323,19 @@ msgstr "Óra:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "óra után"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Perc:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"A Back In Time futtatása, amint a meghajtó csatlakoztatásra kerül (X naponta egyszer).\n"
-"Kérni fogja a sudo jelszót."
+"A Back In Time futtatása, amint a meghajtó csatlakoztatásra kerül (X naponta"
+" csak egyszer). Kérni fogja a sudo jelszót."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1350,17 +1351,21 @@ msgstr "Minden:"
 
 #: qt/manageprofiles/schedulewidget.py:113
 msgid "Enable logging of debug messages"
-msgstr ""
+msgstr "Hibakeresési üzenetek naplózásának engedélyezése"
 
 #: qt/manageprofiles/schedulewidget.py:117
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
+"Hibakeresés szintű üzeneteket ír a rendszernaplóba a „--debug” kapcsolón "
+"keresztül."
 
 #: qt/manageprofiles/schedulewidget.py:119
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
+"Vigyázat: ezt csak átmenetileg használja diagnosztikára, mivel nagy "
+"mennyiségű kimenetet állít elő."
 
 #: qt/manageprofiles/schedulewidget.py:141
 msgid "Disabled"
@@ -1373,24 +1378,24 @@ msgstr "Minden indításkor vagy újraindításkor"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "{n} percenként"
 msgstr[1] "{n} percenként"
 
 #: qt/manageprofiles/schedulewidget.py:150
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Óránként"
-msgstr[1] "Óránként"
+msgstr[1] "{n} óránként"
 
 #: qt/manageprofiles/schedulewidget.py:152
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "{n} óránként"
@@ -1452,7 +1457,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
-msgstr ""
+msgstr "SSH proxy"
 
 #: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
 #: qt/manageprofiles/tab_general.py:253
@@ -1474,17 +1479,22 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"Kapcsolódás a célállomáshoz ezen a proxyn (más néven ugrókiszolgálón) "
+"keresztül. A részletekért nézze meg a „-J” kapcsolót az „ssh” parancs "
+"dokumentációjában vagy a „ProxyJump” beállítást az „ssh_config” "
+"kézikönyvoldalán."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Kérdés"
+msgstr "Vigyázat:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Ezek a beállítások haladó szintű beállításokhoz valók. Csak akkor módosítsa,"
+" ha teljes mértékben tisztában van azok következményeivel."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1509,9 +1519,8 @@ msgid "when taking a manual snapshot"
 msgstr "kézi pillanatkép készítésekor"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Telepítse a „nocache” programot ezen beállítás engedélyezéséhez)"
+msgstr "Telepítse a „nocache” programot ezen beállítás engedélyezéséhez."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1527,6 +1536,8 @@ msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"A cron automatikusan e-mailt küld csatolva a cron-feladat kimenetével, ha "
+"van MTA telepítve."
 
 #: qt/manageprofiles/tab_expert_options.py:135
 msgid "Redirect stderr to /dev/null in cronjobs."
@@ -1539,15 +1550,16 @@ msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"A cron automatikusan e-mailt küld csatolva a cron-feladat hibáival, ha van "
+"MTA telepítve."
 
 #: qt/manageprofiles/tab_expert_options.py:151
 msgid "KB/sec"
 msgstr "KB/mp"
 
 #: qt/manageprofiles/tab_expert_options.py:156
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Az rsync sávszélesség-használatának korlátozása"
+msgstr "Az rsync sávszélesség-használatának korlátozása:"
 
 #: qt/manageprofiles/tab_expert_options.py:197
 msgid "Preserve ACL"
@@ -1565,7 +1577,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:274
 msgid "Restrict to one file system"
-msgstr ""
+msgstr "Korlátozás egyetlen fájlrendszerre"
 
 #: qt/manageprofiles/tab_expert_options.py:292
 #, python-brace-format
@@ -1578,21 +1590,18 @@ msgstr "További kapcsolók beillesztése az rsync-be"
 
 #: qt/manageprofiles/tab_expert_options.py:309
 msgid "Prefix to run before every command on remote host."
-msgstr ""
+msgstr "Minden parancs előtt futtatandó előtag a távoli kiszolgálón."
 
 #: qt/manageprofiles/tab_expert_options.py:310
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"Minden parancs előtt futtatandó előtag a távoli kiszolgálón.\n"
-"A változókat el kell fedni a \\$FOO visszafelé mutató perjelekkel.\n"
-"Ez nem érinti az rsync-et. Tehát az rsync számára történő\n"
-"előtag-hozzáadáshoz használjon „%(cbRsyncOptions)s” kapcsolókat\n"
-"%(rsync_options_value)s értékkel\n"
-"\n"
-"%(default)s: %(def_value)s"
+"A változókat el kell fedni a \\$FOO visszafelé mutató perjelekkel. Ez nem "
+"érinti az rsync parancsot. Tehát az rsync számára történő előtag-"
+"hozzáadáshoz használjon „{example_value}” kapcsolókat {rsync_options_value} "
+"értékkel."
 
 #: qt/manageprofiles/tab_expert_options.py:318
 msgid "default"
@@ -1607,36 +1616,30 @@ msgid "Check if remote host is online"
 msgstr "Annak ellenőrzése, hogy a távoli kiszolgáló elérhető-e"
 
 #: qt/manageprofiles/tab_expert_options.py:337
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Figyelmeztetés: ha le van tiltva és a távoli\n"
-"kiszolgáló nem érhető el, akkor ez néhány\n"
-"furcsa hibát eredményezhet."
+"Figyelmeztetés: ha le van tiltva és a távoli kiszolgáló nem érhető el, akkor"
+" ez néhány furcsa hibához vezethet."
 
 #: qt/manageprofiles/tab_expert_options.py:341
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Annak ellenőrzése, hogy a távoli kiszolgáló támogatja-e az összes szükséges "
-"parancsot"
+"parancsot."
 
 #: qt/manageprofiles/tab_expert_options.py:344
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Figyelmeztetés: ha le van tiltva és a távoli\n"
-"kiszolgáló nem támogatja az összes szükséges parancsot,\n"
-"akkor ez néhány furcsa hibát eredményezhet."
+"Figyelmeztetés: ha le van tiltva és a távoli kiszolgáló nem támogatja az "
+"összes szükséges parancsot, akkor ez néhány furcsa hibához vezethet."
 
 #: qt/manageprofiles/tab_expert_options.py:359
-#, fuzzy
 msgid "(default: {})"
-msgstr "alapértelmezett"
+msgstr "(alapértelmezett: {})"
 
 #: qt/manageprofiles/tab_expert_options.py:360
 msgid "disabled"
@@ -1671,20 +1674,20 @@ msgid "Private Key:"
 msgstr "Személyes kulcs:"
 
 #: qt/manageprofiles/tab_general.py:152
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
-msgstr "Meglévő személyes kulcsfájl kiválasztása (általában „id_rsa” néven)"
+msgstr ""
+"Meglévő személyes kulcsfájl kiválasztása (általában „id_ed25519”, régebbi "
+"beállításoknál „id_rsa” néven)."
 
 #: qt/manageprofiles/tab_general.py:164
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
 "Új SSH-kulcs létrehozása jelszó nélkül (nem engedélyezett, ha egy személyes "
-"kulcsfájl már ki van választva)"
+"kulcsfájl már ki van választva)."
 
 #: qt/manageprofiles/tab_general.py:200 qt/manageprofiles/tab_general.py:207
 #: qt/manageprofiles/tab_general.py:211
@@ -1711,14 +1714,12 @@ msgstr "Teljes pillanatkép útvonala:"
 
 #: qt/manageprofiles/tab_general.py:394
 msgid "You did not choose a private key file for SSH."
-msgstr ""
+msgstr "Nem választott ki személyes kulcsfájlt az SSH-hoz."
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
-"Nem választott személyes kulcsfájlt az SSH-hoz.\n"
 "Szeretne egy új, jelszómentes nyilvános és személyes kulcspárt előállítani?"
 
 #: qt/manageprofiles/tab_general.py:406
@@ -1727,29 +1728,24 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "A(z) „{file}” személyes kulcsfájl nem létezik."
 
 #: qt/manageprofiles/tab_general.py:491
-#, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
-"Szeretné a nyilvános SSH-kulcsát a távoli kiszolgálóra\n"
-"másolni a jelszómentes bejelentkezés engedélyezéséhez?"
+"Szeretné a nyilvános SSH-kulcsát a távoli kiszolgálóra másolni a "
+"jelszómentes bejelentkezés engedélyezéséhez?"
 
 #: qt/manageprofiles/tab_general.py:525
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"A(z) {host} kiszolgáló hitelességét nem lehet megállapítani.\n"
-"\n"
-"A(z) {keytype} kulcs ujjlenyomata:"
+msgstr "A(z) {host} kiszolgáló hitelességét nem lehet megállapítani."
 
 #: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr ""
+msgstr "A(z) {keytype}-kulcs ujjlenyomata:"
 
 #: qt/manageprofiles/tab_general.py:536
-#, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1758,14 +1754,13 @@ msgstr ""
 "fájlhoz?"
 
 #: qt/manageprofiles/tab_general.py:627
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
-msgstr "Biztosan meg szeretné változtatni a pillanatképek mappáját?"
+msgstr "Biztosan meg szeretné változtatni a pillanatképek könyvtárát?"
 
 #: qt/manageprofiles/tab_general.py:664
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Nem sikerült létrehozni új SSH-kulcsot a(z) {path} mappában"
+msgstr "Nem sikerült létrehozni új SSH-kulcsot a(z) {path} mappában."
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -1784,29 +1779,28 @@ msgid "Run only one snapshot at a time"
 msgstr "Egyszerre csak egy pillanatkép futtatása"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"A többi pillanatkép tiltva lesz, amíg az aktuális pillanatkép elkészül.\n"
-"Ez egy globális beállítás. Tehát a felhasználó összes profiljára hatással lesz.\n"
-"De ezt az összes többi felhasználónál is be kell kapcsolnia."
+"A többi pillanatkép tiltva lesz, amíg az aktuális pillanatkép elkészül. Ez "
+"egy globális beállítás. Tehát ezen felhasználó összes profiljára hatással "
+"lesz. De ezt az összes többi felhasználónál is be kell kapcsolnia."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
 msgstr "Lecserélt fájlok biztonsági mentése a helyreállításkor"
 
 #: qt/manageprofiles/tab_options.py:64
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
 "A fájlok újabb verziói átnevezésre kerülnek {suffix} végződéssel a "
 "helyreállítás előtt. Ha már nincs rájuk többé szüksége, akkor a(z) {cmd} "
-"paranccsal eltávolíthatja azokat."
+"paranccsal eltávolíthatja azokat"
 
 #: qt/manageprofiles/tab_options.py:75
 msgid "Continue on errors (keep incomplete snapshots)"
@@ -1837,63 +1831,70 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"A következő szabályok felülről lefelé kerülnek feldolgozásra. A későbbi "
+"szabályok felülírják a korábbiakat, és nem korlátozzák azokat. Részleteket "
+"és példákat a {manual} tartalmaz."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "felhasználói kézikönyv"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Felhasználói kézikönyv megnyitása a böngészőben."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Ne távolítsa el az elnevezett pillanatképeket."
+msgstr "A legfrissebb pillanatkép megtartása."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"A legutóbbi vagy legfrissebb pillanatkép minden körülmények között "
+"megtartásra kerül."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Ezt a viselkedést nem lehet megváltoztatni."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "Ne távolítsa el az elnevezett pillanatképeket."
+msgstr "Elnevezett pillanatképek megtartása."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"Azok a pillanatképek, amelyeknek a szokásos időbélyegen kívül nevet is "
+"adtak, minden körülmények között megtartásra kerülnek, és nem lesznek "
+"eltávolítva."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Év"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Pillanatkép eltávolítása"
+msgstr "Az ennél régebbi pillanatképek eltávolítása"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Teljes napok. A jelenlegi nap figyelmen kívül van hagyva."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Hétfővel, mint első nappal kezdődő naptári hetek. A jelenlegi hét figyelmen "
+"kívül van hagyva."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 hónapos időszakok. A jelenlegi hónap figyelmen kívül van hagyva."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Megtartási irányelv"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1905,14 +1906,18 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"Az intelligens eltávolítási eljárás közvetlenül a távoli gépen fog futni, "
+"nem helyileg. A „bash”, „screen” és „flock” parancsoknak telepítve kell "
+"lenniük a távoli gépen, és elérhetőnek kell lenniük."
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
+"Ha ki van választva, akkor a Back in Time először leteszteli a távoli gépet."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "A napok a mai naptól kezdve számítanak."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1924,20 +1929,19 @@ msgid "day(s)."
 msgstr "napról."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Napi egy pillanatkép megtartása a legutóbbi"
+msgstr "Minden egyes nap utolsó pillanatképének megtartása a legutóbbi"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"A hetek a jelenlegi héttől kezdve számítanak. Egy hét hétfőn kezdődik."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Heti egy pillanatkép megtartása a legutóbbi"
+msgstr "Minden egyes hét utolsó pillanatképének megtartása a legutóbbi"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1947,11 +1951,11 @@ msgstr "hétről."
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
+"A hónapok a jelenlegi hónappal kezdődő naptári hónappal kezdve számítanak."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Havi egy pillanatkép megtartása a legutóbbi"
+msgstr "Minden egyes hónap utolsó pillanatképének megtartása a legutóbbi"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1960,31 +1964,27 @@ msgstr "hónapról."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Az évek a jelenlegi évvel kezdődő naptári évekkel kezdve számítanak."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Az összes pillanatkép megtartása a legutóbbi"
+msgstr "Minden egyes év utolsó pillanatképének megtartása a legutóbbi"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "teljes évről."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Ha a szabad hely kevesebb mint:"
+msgstr "… a szabad hely kevesebb mint"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Ha a szabad inode-ok száma kevesebb mint:"
+msgstr "… a szabad inode-ok száma kevesebb mint"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Régi pillanatképek eltávolítása"
+msgstr "A legrégebbi pillanatképek eltávolítása, ha …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -1993,7 +1993,7 @@ msgstr "Kérdés"
 #: qt/qtsystrayicon.py:69
 #, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Profil: „{profile_name}”"
+msgstr "Profil: {profile_name}"
 
 #: qt/qtsystrayicon.py:96
 msgid "View Last Log"
@@ -2018,40 +2018,40 @@ msgstr "Sebesség:"
 
 #: qt/qtsystrayicon.py:199
 msgid "ETA:"
-msgstr ""
+msgstr "Becsült hátralévő idő:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Pillanatképek"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Ma"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Ez a hét"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Múlt hét"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "Ez NEM pillanatkép, hanem a helyi fájlok élő nézete"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Utolsó ellenőrzés {time}"
 
 #: qt/restoreconfigdialog.py:55
 msgid "Import configuration"
-msgstr ""
+msgstr "Beállítások importálása"
 
 #: qt/restoreconfigdialog.py:111 qt/restoreconfigdialog.py:207
 msgid "No config found"
@@ -2059,7 +2059,7 @@ msgstr "Nem találhatók beállítások"
 
 #: qt/restoreconfigdialog.py:136
 msgid "Import"
-msgstr ""
+msgstr "Importálás"
 
 #: qt/restoreconfigdialog.py:164
 #, python-brace-format
@@ -2067,12 +2067,16 @@ msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
+"Válassza ki a pillanatkép könyvtárát, ahonnan a beállítófájlt importálni "
+"kell. Az útvonal így nézhet ki: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
+"Ha a könyvtár külső vagy távoli meghajtón található, akkor azt előzetesen "
+"kézileg kell csatolni."
 
 #: qt/restoredialog.py:51
 msgid "Show full Log"
@@ -2083,9 +2087,8 @@ msgid "Options about comparing snapshots"
 msgstr "Pillanatképek összehasonlítására vonatkozó beállítások"
 
 #: qt/snapshotsdialog.py:50
-#, fuzzy
 msgid "Command:"
-msgstr "Parancs"
+msgstr "Parancs:"
 
 #: qt/snapshotsdialog.py:54
 msgid "Parameters:"
@@ -2097,7 +2100,7 @@ msgstr "Használjon %1 és %2 helykitöltőket az útvonal paramétereihez"
 
 #: qt/snapshotsdialog.py:76
 msgid "Please set a diff command or press Cancel."
-msgstr ""
+msgstr "Állítson be egy diff parancsot, vagy nyomja meg a Mégse gombot."
 
 #: qt/snapshotsdialog.py:82
 #, python-brace-format
@@ -2105,20 +2108,23 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
+"A(z) „{cmd}” parancs nem található ezen a rendszeren. Próbálkozzon valami "
+"mással, vagy nyomja meg a Mégse gombot."
 
 #: qt/snapshotsdialog.py:90
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
+"Nincsenek paraméterek beállítva a diff parancshoz. Az alapértelmezett "
+"„{params}” érték használata."
 
 #: qt/snapshotsdialog.py:126
 msgid "Differing snapshots only"
 msgstr "Csak eltérő pillanatképek"
 
 #: qt/snapshotsdialog.py:134
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Csak ezzel azonos pillanatképek felsorolása: "
+msgstr "Csak ezzel azonos pillanatképek felsorolása:"
 
 #: qt/snapshotsdialog.py:145
 msgid "Deep check (more accurate, but slow)"
@@ -2161,9 +2167,8 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Valóban törölni szeretné a(z) „{file}” fájlt {count} pillanatképből?"
 
 #: qt/snapshotsdialog.py:406
-#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "Nem lehet visszavonni!"
+msgstr "FIGYELMEZTETÉS: ezt nem lehet visszavonni."
 
 #: qt/snapshotsdialog.py:424
 #, python-brace-format

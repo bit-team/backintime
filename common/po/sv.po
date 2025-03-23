@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-04 08:03+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-10 13:42+0000\n"
+"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "SSH"
 #: common/config.py:280 common/config.py:290
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
-msgstr "Privat nyckel för SSH"
+msgstr "SSH privat nyckel"
 
 #: common/config.py:283
 msgid "Local encrypted"
@@ -80,16 +80,17 @@ msgid "At least one directory must be selected for backup."
 msgstr "Minst en katalog måste väljas för säkerhetskopiering."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Återskapa {path}"
+msgstr "Katalog: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Katalogen kan inte inkluderas i säkerhetskopian."
+msgstr ""
+"Den här katalogen kan inte inkluderas i säkerhetskopian, eftersom att "
+"katalogen är en del av själva säkerhetskopian."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -1031,6 +1032,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Användare är inbjudna att gå med i den här diskussionen. Uppdaterad "
+"information om nästa steg finns i det här {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1308,13 +1311,12 @@ msgid "Minutes:"
 msgstr "Minuter:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Kör Back In Time så snart enheten ansluts (endast en gång var X dag).\n"
-"Du kommer att bli tillfrågad om ditt sudo-lösenord."
+"Kör Back In Time så snart enheten ansluts (endast en gång var X dag). Du "
+"kommer att bli tillfrågad om ditt sudo-lösenord."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1451,15 +1453,14 @@ msgid "User:"
 msgstr "Användare:"
 
 #: qt/manageprofiles/sshproxywidget.py:71
-#, fuzzy
 msgid ""
 "Connect to the target host via this proxy (also known as a jump host). See "
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
-"Anslut till målvärden via den här proxy-servern (även känd som en "
-"mellanvärd). Läs \"-J\" i \"ssh\"-kommandots dokumentation eller "
-"\"ProxyJump\" i \"ssh_config manual-sidan för detaljer."
+"Anslut till målvärden via den här proxyn (även känd som en hoppvärd). Se "
+"\"-J\" i kommandodokumentationen för \"ssh\", eller \"ProxyJump\" i manualen"
+" för \"ssh_config\", för detaljer."
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1844,19 +1845,16 @@ msgid "Remove snapshots older than"
 msgstr "Ta bort ögonblicksavbilder äldre än"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "Hela dagar. Aktuell dag ignoreras."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr "Kalenderveckor med måndag som första dag. Aktuell vecka ignoreras."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
-msgstr "12 månaders perioder. Nuvarande månader ignoreras."
+msgstr "Tolvmånaders perioder. Nuvarande månad ignoreras."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
@@ -1914,11 +1912,9 @@ msgid "week(s)."
 msgstr "vecka/veckor."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr ""
-"Månaderna räknas som kalendermånader från och med de nuvarande månaderna."
+msgstr "Månaderna räknas som kalendermånader från och med nuvarande månad."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
 msgid "Keep the last snapshot for each month for the last"
@@ -1987,33 +1983,33 @@ msgstr "Hastighet:"
 msgid "ETA:"
 msgstr "Tid kvar:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Ögonblicksavbilder"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Idag"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Igår"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Denna vecka"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Förra veckan"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Detta är INTE en ögonblicksavbild utan en levande visning av dina lokala "
 "filer"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Senaste kontroll {time}"
