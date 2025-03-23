@@ -133,7 +133,7 @@ _Example_:
 
 _Example_:
 
-![Rule - Keep last for each months for the last 4 months](_images/rule_keep_last_each_months_for_n_months.png)
+![Rule - Keep last for each months for the last 4 months](_images/rule_keep_last_each_month_for_n_months.png)
 
 **Keep the last snapshot for each year for all years**
 
