@@ -11,6 +11,9 @@ VER=`cat VERSION`
 CURRENT=$(pwd)
 NEW="backintime-$VER"
 
+# clean up
+rm ./common/man/C/*.gz
+
 cd ..
 
 # if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
