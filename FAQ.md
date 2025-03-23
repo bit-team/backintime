@@ -49,6 +49,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
    * [NTFS Compatibility](#ntfs-compatibility)
    * [GUI does not scale on high resolution or 4k monitors](#gui-does-not-scale-on-high-resolution-or-4k-monitors)
+   * [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
+   * [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
+   * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
 - [user-callback and other PlugIns](#user-callback-and-other-plugins)
    * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
    * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
@@ -718,6 +721,74 @@ it. Several approaches might help:
   See [this article](https://doc.qt.io/qt-6/highdpi.html) and
   [Issue #1946](https://github.com/bit-team/backintime/issues/1946) about more
   details.
+## Tray icon or other icons not shown correctly
+
+**Status: Fixed in v1.4.0**
+
+Missing installations of Qt-supported themes and icons can cause this effect.
+_Back In Time_ may activate the wrong theme in this
+case leading to some missing icons. A fix for the next release is in preparation.
+
+As clean solution, please check your Linux settings (Appearance, Styles, Icons)
+and install all themes and icons packages for your preferred style via
+your package manager.
+
+See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
+and [#1364](https://github.com/bit-team/backintime/issues/1364).
+
+## Non-working password safe and BiT forgets passwords (keyring backend issues)
+
+**Status: Fixed in v1.3.3 (mostly) and v1.4.0**
+
+_Back in Time_ does only support selected "known-good" backends
+to set and query passwords from a user-session password safe by
+using the [`keyring`](https://github.com/jaraco/keyring) library.
+
+Enabling a supported keyring requires manual configuration of a configuration
+file until there is e.g. a settings GUI for this.
+
+Symptoms are DEBUG log output (with the command line argument `--debug`) of
+keyring problems can be recognized by output like:
+
+```
+DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends...' can't be used with BackInTime
+DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends.chainer' can't be used with BackInTime
+```
+
+To diagnose and solve this follow these steps in a terminal:
+
+```
+# Show default backend
+python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
+
+# List available backends:
+keyring --list-backends 
+
+# Find out the config file folder:
+python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
+
+# Create a config file named "keyringrc.cfg" in this folder with one of the available backends (listed above)
+[backend]
+default-keyring=keyring.backends.kwallet.DBusKeyring
+```
+
+See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
+
+## Incompatibility with rsync 3.2.4 or newer
+
+**Status: Fixed in v1.3.3**
+
+The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible
+with `rsync >= 3.2.4`
+([#1247](https://github.com/bit-team/backintime/issues/1247)).
+
+If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a
+workaround. Add `--old-args` in
+[_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
+Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
+environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
+_Back In Time_. In that case you may not see any problems.
+
 # user-callback and other PlugIns
 
 ## How to backup Debian/Ubuntu Package selection?
