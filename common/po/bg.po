@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-06 08:52+0000\n"
-"Last-Translator: clickbg <clickbg@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-12 10:20+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
@@ -72,26 +72,24 @@ msgid "Profile: \"{name}\""
 msgstr "Профил: \"{name}\""
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Директорията за моментни архиви не е валидна!"
+msgstr "Директорията за моментни архиви не е валидна."
 
 #: common/config.py:340
-#, fuzzy
 msgid "At least one directory must be selected for backup."
-msgstr "Поне една доректория трябва да бъде избрана за резервно копие (бекъп)"
+msgstr ""
+"Поне една доректория трябва да бъде избрана за резервно копие (бекъп)."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Възстановете {path}"
+msgstr "Директория: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Тази директория не може да бъде включена за резервно копие!"
+msgstr "Тази директория не може да бъде включена за резервно копие."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -150,7 +148,7 @@ msgid "The last profile cannot be removed."
 msgstr "Последният профил не може да бъде премахнат."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "Неуспех в монтирането '{command}'"
 
@@ -184,9 +182,9 @@ msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "Неуспех при демонтиране на {mountprocess} от {mountpoint}."
 
 #: common/mount.py:709
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{command} не е намерен. Моля, инсталирайте например {installcommand}"
+msgstr "{command} не е намерен. Моля, инсталирайте чрез {installcommand}"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -220,6 +218,7 @@ msgid "Can't find snapshots directory."
 msgstr "Директорията за моментни архиви не може да бъде намерена."
 
 #: common/snapshots.py:846
+#, fuzzy
 msgid "If it is on a removable drive please plug it in."
 msgstr ""
 "Директорията за моментни архиви не може да бъде открита. Ако е на преносимо "
@@ -307,10 +306,9 @@ msgstr "Няма открити промени, не е нужен нов мом
 #: common/snapshots.py:1523
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "{new_path} не може да бъде преименуван на {path}"
+msgstr "{new_path} не може да бъде преименуван на {path}."
 
 #: common/snapshots.py:1855
-#, fuzzy
 msgid "Smart removal"
 msgstr "Умно премахване"
 
@@ -336,7 +334,7 @@ msgid "Now"
 msgstr "Сега"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Неуспех в монтирането на {sshfs}"
 
@@ -395,12 +393,12 @@ msgstr "Отдалечената система {host} не поддържа т�
 #: common/sshtools.py:1191
 #, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Копирай публичния ssh ключ \"{pubkey}\" в отдалечената система \"{host}\""
+msgstr "Копирай публичния ssh ключ \"{pubkey}\" на отдалечената система \"{host}\""
 
 #: common/sshtools.py:1193
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Моля въведете паролата за \"{user}\""
+msgstr "Моля въведете паролата за \"{user}\"."
 
 #: common/tools.py:400
 #, python-brace-format
@@ -522,8 +520,8 @@ msgstr ""
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
-"Директорията за моментни архиви не може да бъде открита.\n"
-"Ако е на преносимо устройство, моля включете го и натиснете ОК."
+"Директорията за моментни архиви не може да бъде открита. Ако е на преносимо "
+"устройство, моля включете го и натиснете ОК."
 
 #: qt/app.py:470
 msgid "Take a snapshot"
@@ -753,13 +751,12 @@ msgid "Text beside icon"
 msgstr "Текст до иконките"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Ако затворите този прозорец, Back in Time няма да може да изключи вашата система когато моментното копие е завършено.\n"
-"Наистина ли искате да го затворите?"
+"Ако затворите този прозорец, Back in Time няма да може да изключи вашата "
+"система когато моментното копие е завършено."
 
 #: qt/app.py:900
 msgid "Do you really want to close it?"
@@ -897,13 +894,13 @@ msgstr ""
 "първоначалната директория?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
 "{BOLD}ПРЕДУПРЕЖДЕНИЕ{BOLDEND}: Изтриването на файлове в коренната част на "
-"файловата система може да разруши цялата ви система!"
+"файловата система може да разруши цялата ви система."
 
 #: qt/app.py:1857
 msgid "Snapshot"
@@ -1188,11 +1185,14 @@ msgid ""
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
+"{BOLD}ИНФОРМАЦИЯ{ENDBOLD}: В режим „SSH криптиране“ функционират само "
+"единични или двойни звездички (напр. {example2}). Други типове заместващи "
+"символи и шаблони ще бъдат игнорирани (напр. {example1}). Имената на "
+"файловете са непредвидими в този режим поради криптиране от EncFS."
 
 #: qt/manageprofiles/__init__.py:183
-#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "Изключване на шарки, файлове или папки"
+msgstr "Изключване на пътища, файлове или директории"
 
 #: qt/manageprofiles/__init__.py:216
 msgid "Add default"
@@ -1203,27 +1203,26 @@ msgid "Exclude files bigger than:"
 msgstr "Изключете файлове, по-големи от:"
 
 #: qt/manageprofiles/__init__.py:233
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Изключете файлове, по-големи от: {size_unit}"
+msgstr "Изключете файлове, по-големи от: {size_unit}."
 
 #: qt/manageprofiles/__init__.py:235
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
-"Изключете файлове, по-големи от стойността в %(prefix)s.\n"
-"При изключен 'Full rsync mode', това ще засегне само новите файлове,\n"
-"защото това е преносна опция за rsync, а не изключваща такава.\n"
-"Така че големите файлове, които са били архивирани преди, ще останат в\n"
-"моментните копия дори и да са били променени."
+"Изключете файлове, по-големи от стойността в %(prefix)s. При изключен 'Full "
+"rsync mode', това ще засегне само новите файлове, защото това е преносна "
+"опция за rsync, а не изключваща такава. Така че големите файлове, които са "
+"били архивирани преди, ще останат в моментните копия дори и да са били "
+"променени."
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Триене & Запазване"
 
 #: qt/manageprofiles/__init__.py:269
 msgid "&Options"
@@ -1259,11 +1258,12 @@ msgstr "Сигурни ли сте, че желаете да изтриете п
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
+"{BOLD}Силно препоръчително{ENDBOLD}: (Всички препоръки вече са приложени.)"
 
 #: qt/manageprofiles/__init__.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Силно препоръчително"
+msgstr "{BOLD}Силно препоръчително{ENDBOLD}: {files}"
 
 #: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
@@ -1274,9 +1274,8 @@ msgid "Exclude file"
 msgstr "Изключване на файл"
 
 #: qt/manageprofiles/__init__.py:625
-#, fuzzy
 msgid "Exclude directory"
-msgstr "Изключване на папка"
+msgstr "Изключване на директории"
 
 #: qt/manageprofiles/__init__.py:649
 msgid "Include file"
@@ -1292,14 +1291,14 @@ msgstr ""
 "Бихте ли искали да добавите крайната цел вместо това?"
 
 #: qt/manageprofiles/__init__.py:679
-#, fuzzy
 msgid "Include directory"
-msgstr "Включване на папка"
+msgstr "Включване на директории"
 
 #: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
+"Деактивирано, защото този шаблон не функционира в режим „SSH криптиране“."
 
 #: qt/manageprofiles/schedulewidget.py:37
 msgid "Schedule"
@@ -1307,7 +1306,7 @@ msgstr "Разписание"
 
 #: qt/manageprofiles/schedulewidget.py:63
 msgid "Day:"
-msgstr ""
+msgstr "Ден:"
 
 #: qt/manageprofiles/schedulewidget.py:68
 msgid "Weekday:"
@@ -1315,7 +1314,7 @@ msgstr "Работен ден:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "Час:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1323,20 +1322,19 @@ msgstr "Часа:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "след дадения час"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Минути:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Изпълнявайте Back In Time веднага щом дискът бъде свързан (веднъж на X дни).\n"
-"Ще бъдете помолени да въведете вашата sudo парола."
+"Изпълнявайте Back In Time веднага щом дискът бъде свързан (веднъж на X дни)."
+" Ще бъдете помолени да въведете вашата sudo парола."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1352,17 +1350,21 @@ msgstr "Всеки:"
 
 #: qt/manageprofiles/schedulewidget.py:113
 msgid "Enable logging of debug messages"
-msgstr ""
+msgstr "Разрешете записването на съобщения за грешки"
 
 #: qt/manageprofiles/schedulewidget.py:117
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
+"Записва съобщения на ниво отстраняване на грешки в системния регистър чрез "
+"\"--debug\"."
 
 #: qt/manageprofiles/schedulewidget.py:119
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
+"Внимание: Използвайте това само временно за диагностика, тъй като генерира "
+"голямо количество изходни данни."
 
 #: qt/manageprofiles/schedulewidget.py:141
 msgid "Disabled"
@@ -1382,31 +1384,29 @@ msgstr[0] "На всяка {n} минута"
 msgstr[1] "На всеки {n} минути"
 
 #: qt/manageprofiles/schedulewidget.py:150
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "На всеки час"
-msgstr[1] "На всеки час"
+msgstr[1] "На всеки {n} часове"
 
 #: qt/manageprofiles/schedulewidget.py:152
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "На всеки {n} часа"
-msgstr[1] "На всеки {n} часа"
+msgstr[1] "На всеки {n} часове"
 
 #: qt/manageprofiles/schedulewidget.py:159
-#, fuzzy
 msgid "Custom hours"
-msgstr "Часове по предпочитание"
+msgstr "Конкретни часове"
 
 #: qt/manageprofiles/schedulewidget.py:160
-#, fuzzy
 msgid "Every day"
-msgstr "Ежедневно"
+msgstr "Всеки ден"
 
 #: qt/manageprofiles/schedulewidget.py:161
 msgid "Repeatedly (anacron)"
@@ -1417,19 +1417,16 @@ msgid "When drive gets connected (udev)"
 msgstr "Когато дискът бъде свързан (udev)"
 
 #: qt/manageprofiles/schedulewidget.py:163
-#, fuzzy
 msgid "Every week"
-msgstr "Ежеседмично"
+msgstr "Всяка седмица"
 
 #: qt/manageprofiles/schedulewidget.py:164
-#, fuzzy
 msgid "Every month"
-msgstr "Ежемесечно"
+msgstr "Всеки месец"
 
 #: qt/manageprofiles/schedulewidget.py:165
-#, fuzzy
 msgid "Every year"
-msgstr "Ежегодишно"
+msgstr "Всяка година"
 
 #: qt/manageprofiles/schedulewidget.py:214
 msgid "Hour(s)"
@@ -1450,13 +1447,12 @@ msgid "Month(s)"
 msgstr "Месеци"
 
 #: qt/manageprofiles/schedulewidget.py:311
-#, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
 "Персонализираните часове могат да представляват само списък, разделен със "
-"запетаи (напр. 8,12,18,23) или */3 за периодични архиви на всеки 3 часа"
+"запетаи (напр. 8,12,18,23) или */3 за периодични архиви на всеки 3 часа."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1482,17 +1478,21 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"Свържете се с отдалечената система чрез прокси (известен също като междинен "
+"хост). Вижте \"-J\" в документацията на командата \"ssh\" или \"ProxyJump\" "
+"в страницата с ръководство на \"ssh_config\" за подробности."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Въпрос"
+msgstr "Внимание:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Тези опции са за експертни настройки. Променете само ако сте напълно наясно "
+"с техните последици."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1519,7 +1519,7 @@ msgstr "когато се изпълнява ръчно моментно коп�
 #: qt/manageprofiles/tab_expert_options.py:103
 #, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Моля инсталирайте 'nocache', за да активирате тази опция)"
+msgstr "Моля инсталирайте 'nocache', за да активирате тази опция"
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1534,6 +1534,8 @@ msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"Cron автоматично ще изпрати имейл с прикачен резултат от cronjobs, ако е "
+"инсталиран MTA."
 
 #: qt/manageprofiles/tab_expert_options.py:135
 msgid "Redirect stderr to /dev/null in cronjobs."
@@ -1545,15 +1547,16 @@ msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
+"Cron автоматично ще изпрати имейл с прикачени грешки на cronjobs, ако е "
+"инсталиран MTA."
 
 #: qt/manageprofiles/tab_expert_options.py:151
 msgid "KB/sec"
 msgstr "KB/сек"
 
 #: qt/manageprofiles/tab_expert_options.py:156
-#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Ограничете използваният трафик от rsync"
+msgstr "Ограничете използваният трафик от rsync:"
 
 #: qt/manageprofiles/tab_expert_options.py:197
 msgid "Preserve ACL"
@@ -1569,7 +1572,7 @@ msgstr "Копиране на несигурните връзки (работи 
 
 #: qt/manageprofiles/tab_expert_options.py:274
 msgid "Restrict to one file system"
-msgstr ""
+msgstr "Ограничете до една файлова система"
 
 #: qt/manageprofiles/tab_expert_options.py:292
 #, python-brace-format
@@ -1582,21 +1585,17 @@ msgstr "Добавете допълнителни опции към rsync"
 
 #: qt/manageprofiles/tab_expert_options.py:309
 msgid "Prefix to run before every command on remote host."
-msgstr ""
+msgstr "Префикс за изпълнение преди всяка команда на отдалечената система."
 
 #: qt/manageprofiles/tab_expert_options.py:310
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"Префикс, който да се изпълнява преди всяка команда на отдалечения хост.\n"
-"Променливите трябва да се избягват с \\$FOO.\n"
-"Това не засяга rsync. Така че, за да добавите префикс\n"
-"за rsync използвайте \"%(cbRsyncOptions)s\" с\n"
-"%(rsync_options_value)s\n"
-"\n"
-"%(default)s: %(def_value)s"
+"Променливите трябва да бъдат избегнати с \\$FOO. Това не обхваща rsync. Така"
+" че, за да добавите префикс за rsync, използвайте \"{example_value}\" с "
+"{rsync_options_value}."
 
 #: qt/manageprofiles/tab_expert_options.py:318
 msgid "default"
@@ -1611,34 +1610,29 @@ msgid "Check if remote host is online"
 msgstr "Проверете дали отдалеченият хост е онлайн"
 
 #: qt/manageprofiles/tab_expert_options.py:337
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Внимание: ако е изключено и отдалеченият хост\n"
-"не е наличен, това може да доведе до някои\n"
-"непредвидени грешки."
+"Внимание: ако е изключено и отдалечената система не е налична, това може да "
+"доведе до някои непредвидени грешки."
 
 #: qt/manageprofiles/tab_expert_options.py:341
-#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "Проверете дали отдалеченият хост поддържа всички необходими команди"
+msgstr ""
+"Проверете дали отдалечената система поддържа всички необходими команди."
 
 #: qt/manageprofiles/tab_expert_options.py:344
-#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Внимание: ако е изключено и отдалеченият хост\n"
-"не поддържа всички необходими команди,\n"
-"това може да довете до неочаквани грешки."
+"Внимание: ако е изключено и отдалечената система не поддържа всички "
+"необходими команди, това може да довете до неочаквани грешки."
 
 #: qt/manageprofiles/tab_expert_options.py:359
-#, fuzzy
 msgid "(default: {})"
-msgstr "по подразбиране"
+msgstr "(по подразбиране: {})"
 
 #: qt/manageprofiles/tab_expert_options.py:360
 msgid "disabled"
@@ -1673,20 +1667,20 @@ msgid "Private Key:"
 msgstr "Частен ключ:"
 
 #: qt/manageprofiles/tab_general.py:152
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
-msgstr "Изберете съществуващ частен ключ (обикновено озаглавен \"id_rsa\")"
+msgstr ""
+"Изберете съществуващ частен ключ (обикновено озаглавен \"id_rsa\" или "
+"\"id_ed25519\" в по-нови системи)."
 
 #: qt/manageprofiles/tab_general.py:164
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
 "Създайте нов SSH ключ без парола (не е позволено, ако файл с частен ключ е "
-"вече избран)"
+"вече избран)."
 
 #: qt/manageprofiles/tab_general.py:200 qt/manageprofiles/tab_general.py:207
 #: qt/manageprofiles/tab_general.py:211
@@ -1713,15 +1707,14 @@ msgstr "Пълен път за моментни архивни копия:"
 
 #: qt/manageprofiles/tab_general.py:394
 msgid "You did not choose a private key file for SSH."
-msgstr ""
+msgstr "Не сте избрали файл с частен ключ за SSH."
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid ""
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
-"Не сте избрали частен ключ за SSH.\n"
-"Бихте ли искали да създадете нова двойка частен/публичен ключ без парола?"
+"Не сте избрали частен ключ за SSH. Бихте ли искали да се създадете нова "
+"двойка частен/публичен ключ без парола?"
 
 #: qt/manageprofiles/tab_general.py:406
 #, python-brace-format
@@ -1729,29 +1722,24 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Файлът с частния ключ \"{file}\" не съществува."
 
 #: qt/manageprofiles/tab_general.py:491
-#, fuzzy
 msgid ""
 "Would you like to copy your public SSH key to the remote host to enable "
 "password-less login?"
 msgstr ""
-"Бихте ли искали да копирате вашият публичен SSH ключ върху\n"
-"отдалеченият хост, за да активирате логин без парола?"
+"Бихте ли искали да копирате вашият публичен SSH ключ върху отдалечената "
+"система, за да активирате вход без парола?"
 
 #: qt/manageprofiles/tab_general.py:525
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"Достоверността на хоста {host} не може да бъде потвърдена.\n"
-"\n"
-"{keytype} отпечатъкът на ключа е:"
+msgstr "Достоверността на системата {host} не може да бъде потвърдена."
 
 #: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr ""
+msgstr "{keytype} ключовият отпечатък е:"
 
 #: qt/manageprofiles/tab_general.py:536
-#, fuzzy
 msgid ""
 "Please verify this fingerprint. Would you like to add it to your "
 "'known_hosts' file?"
@@ -1760,14 +1748,14 @@ msgstr ""
 "'known_hosts' файлът с позволени хостове?"
 
 #: qt/manageprofiles/tab_general.py:627
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
-msgstr "Сигурни ли сте, че желаете да промените папката за моментни архиви ?"
+msgstr ""
+"Сигурни ли сте, че желаете да промените директнорията за моментни архиви?"
 
 #: qt/manageprofiles/tab_general.py:664
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Неуспех при създаване на нов SSH ключ в {path}"
+msgstr "Неуспех при създаване на нов SSH ключ в {path}."
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -1786,15 +1774,14 @@ msgid "Run only one snapshot at a time"
 msgstr "Изпълнявайте по едно моментно копие наведжъж"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done. This is "
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
-"Останалите моментни копия ще бъдат блокирани докато текущото такова не приключи.\n"
-"Това е глобална опция и ще повлияе на всички профили на потребителя.\n"
-"Но трябва да я изберете също и за останалите потребители."
+"Останалите моментни копия ще бъдат блокирани докато текущото такова не "
+"приключи. Това е глобална опция и ще повлияе на всички профили на "
+"потребителя. Но трябва да я изберете също и за останалите потребители."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
@@ -1837,6 +1824,8 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Следните правила се обработват отгоре надолу. По-късните правила заменят по-"
+"ранните и не са ограничени от тях. Вижте {manual} за подробности и примери."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
@@ -1861,9 +1850,8 @@ msgid "That behavior cannot be changed."
 msgstr "Поведението не може да бъде променено."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "Да не се премахват именувани архиви"
+msgstr "Да не се премахват именувани архиви."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
@@ -1878,9 +1866,8 @@ msgid "Year(s)"
 msgstr "Година(и)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Премахване на архив"
+msgstr "Премахване на моментни архиви по-стари от"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
@@ -1905,7 +1892,6 @@ msgid "Run in background on remote host."
 msgstr "Изпълнява се във фонов режим на отдалечен хост."
 
 #: qt/manageprofiles/tab_remove_retention.py:297
-#, fuzzy
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -1934,9 +1920,8 @@ msgid "day(s)."
 msgstr "ден (дни)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Пазете едно моментно копие на ден за последните"
+msgstr "Пази едно моментно копие на ден за последните"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
@@ -1947,7 +1932,6 @@ msgstr ""
 "понеделник."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
 msgstr "Пазете едно моментно копие на седмица за последните"
 
@@ -1962,14 +1946,13 @@ msgid ""
 msgstr "Преброените месеци са календарни, започвайки с текущия."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
 msgstr "Пазете едно моментно копие на месец за последните"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 #, fuzzy
 msgid "month(s)."
-msgstr "месец(а)"
+msgstr "месец(и)"
 
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
@@ -1977,28 +1960,24 @@ msgid ""
 msgstr "Преброените години са календарни, започвайки с текущата."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Пазете всички временни архиви за последните"
+msgstr "Запазете последния моментен архив за всяка година за"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
 msgstr "Всички години."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Ако свободното пространство е по-малко от:"
+msgstr "… свободното пространство е по-малко от"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Ако има по-малко inodes от:"
+msgstr "… свободните inodes са по-малко от"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Премахване на старите моментни архиви"
+msgstr "Премахнете най-старите моментни архиви, ако…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2081,6 +2060,8 @@ msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
+"Изберете директорията за моментни архиви, от която трябва да се черпи "
+"конфигурационният файл. Пътят може да изглежда така: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
 msgid ""
@@ -2095,14 +2076,12 @@ msgid "Show full Log"
 msgstr "Покажи всички записани събития"
 
 #: qt/snapshotsdialog.py:43
-#, fuzzy
 msgid "Options about comparing snapshots"
 msgstr "Опции за сравняване на моментни архиви"
 
 #: qt/snapshotsdialog.py:50
-#, fuzzy
 msgid "Command:"
-msgstr "Команда"
+msgstr "Команда:"
 
 #: qt/snapshotsdialog.py:54
 msgid "Parameters:"
@@ -2137,9 +2116,8 @@ msgid "Differing snapshots only"
 msgstr "Само различаващи се моментни архиви"
 
 #: qt/snapshotsdialog.py:134
-#, fuzzy
 msgid "List only snapshots that are equal to:"
-msgstr "Покажете само съвпадащи моментни архиви до: "
+msgstr "Покажете само съвпадащи моментни архиви до:"
 
 #: qt/snapshotsdialog.py:145
 msgid "Deep check (more accurate, but slow)"

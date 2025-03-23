@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-06 11:40+0000\n"
+"PO-Revision-Date: 2025-03-16 15:38+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
 "Language: he\n"
@@ -80,16 +80,15 @@ msgid "At least one directory must be selected for backup."
 msgstr "יש לבחור לפחות תיקייה אחת לגיבוי."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "שחזור {path}"
+msgstr "תיקייה: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "אי אפשר לכלול את התיקייה בגיבוי."
+msgstr "אי אפשר לכלול את התיקייה בגיבוי כיוון שהיא חלק מיעד הגיבוי עצמו."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -102,6 +101,9 @@ msgid ""
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
+"Cron לא פעיל למרות שהפקודה crontab זמינה. משימות גיבוי מתוזמנות לא תרוצנה. "
+"כנראה ש־Cron מותקן אבל לא מופעל. כדאי לנסות להריץ את הפקודה „systemctl "
+"enable cron” או להיוועץ בערוצי התמיכה של הפצת הגנו/לינוקס שלך."
 
 #: common/config.py:1556
 #, python-brace-format
@@ -166,7 +168,7 @@ msgstr "הסיסמאות לא תואמות."
 
 #: common/encfstools.py:516 common/snapshots.py:1042
 msgid "Take snapshot"
-msgstr "בצע גיבוי"
+msgstr "שמירת תמונת מצב"
 
 #: common/mount.py:622
 #, python-brace-format
@@ -248,9 +250,9 @@ msgid "Found leftover snapshot {snapshot_id} that can be continued."
 msgstr "נמצאו שאריות של תמונת מצב {snapshot_id} שאפשר להמשיך."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "תיקיית השאריות {snapshot_id} מהריצה האחרונה נמחקת"
+msgstr "התיקייה {snapshot_id} שנשארה מהריצה האחרונה נמחקת"
 
 #: common/snapshots.py:1325
 msgid "Can't remove directory"
@@ -270,12 +272,12 @@ msgstr "שגיאה: בוצעה העברה חלקית בלבד"
 
 #: common/snapshots.py:1434
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
-msgstr ""
+msgstr "העברה חלקית עקב קובצי מקור שנעלמו (ר׳ ‚man rsync’)"
 
 #: common/snapshots.py:1438
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr ""
+msgstr "‚rsync’ הסתיים עם קוד היציאה {exit_code}"
 
 #: common/snapshots.py:1451
 msgid "See 'man rsync' for more details"
@@ -285,6 +287,7 @@ msgstr "קרא את 'man rsync' לפרטים נוספים"
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
+"קודים שליליים ביציאה של rsync הם מספרי אותות, ר׳ ‚kill -l’ ו־‚man kill’"
 
 #: common/snapshots.py:1479
 msgid "Nothing changed, no new snapshot necessary"
@@ -300,13 +303,12 @@ msgid "Smart removal"
 msgstr "הסרה חכמה"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "תמונות מצב ישנות נמחקות"
+msgstr "החלת כללים להסרת תמונות מצב ישנות"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "החלת מדיניות שימור"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -322,21 +324,21 @@ msgid "Now"
 msgstr "עכשיו"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
-msgstr "אי אפשר לעגן את {sshfs}"
+msgstr "לא ניתן לעגן את {sshfs}"
 
 #: common/sshtools.py:300
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr "לא הצלחנו למצוא ssh-agent. וודאו שהssh-agent מותקן כראוי."
+msgstr "ssh-agent לא נמצא. נא לוודא שהוא מותקן."
 
 #: common/sshtools.py:470
-#, fuzzy
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
-msgstr "שגיאה בפתיחת מפתח SSH פרטי. סיסמא שגויה ואו לא קיימת בcron."
+msgstr ""
+"לא ניתן לשחרר את נעילת מפתח ה־ssh הפרטי. הסיסמה שגויה או שהסיסמה לא זמינה "
+"ל־cron."
 
 #: common/sshtools.py:559
 #, python-brace-format
@@ -344,9 +346,8 @@ msgid "Cipher {cipher} failed for {host}."
 msgstr "מצפין {cipher} נכשל עבור המשתמש {host}."
 
 #: common/sshtools.py:706
-#, fuzzy
 msgid "Remote path exists but is not a directory."
-msgstr "הנתיב המרוחק (קיים) הוא לא תיקייה."
+msgstr "הנתיב המרוחק קיים אך הוא לא תיקייה."
 
 #: common/sshtools.py:711
 msgid "Remote path is not writable."
@@ -372,12 +373,12 @@ msgstr "קרא את 'man backintime' להוראות נוספות"
 #: common/sshtools.py:1016
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
-msgstr ""
+msgstr "פקודות הבדיקה שרצו על {host} החזירו שגיאה לא ידועה"
 
 #: common/sshtools.py:1037
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr ""
+msgstr "המארח המרוחק {host} לא תומך בקישורים קשיחים"
 
 #: common/sshtools.py:1191
 #, python-brace-format
@@ -390,13 +391,13 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "נא למלא סיסמה למשתמש „{user}”."
 
 #: common/tools.py:400
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"מערכת הקבצים המיועדת ל־{path} מפורמטת ל־FAT שבה אין תמיכה בקישורים קשיחים. "
-"נא להשתמש במערכת קבצים טבעית של לינוקס."
+"מערכת הקבצים המיועדת ל־{path} מפורמטת ל־NTFS, שידועה בחוסר התאימות שלה "
+"למערכות קבצים תואמות יוניקס."
 
 #: common/tools.py:432
 #, python-brace-format
@@ -405,30 +406,30 @@ msgstr "{path} אינה תיקייה תקפה."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "יצירת התיקייה הבאה נכשלה:"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "גישת הכתיבה כנראה מוגבלת."
 
 #: common/tools.py:488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
 "מערכת הקבצים המיועדת ל־{path} מפורמטת ל־FAT שבה אין תמיכה בקישורים קשיחים. "
-"נא להשתמש במערכת קבצים טבעית של לינוקס."
+"נא להשתמש במערכת קבצים טבעית של גנו/לינוקס."
 
 #: common/tools.py:499
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
 "מערכת היעד עבור {path} היא שיתוף SMB מעוגן. נא לוודא ששרת ה־SMB המרוחק תומך "
-"בקישורים סמליים או להפעיל את {copyLinks} תחת {expertOptions}."
+"בקישורים סמליים או להפעיל את„ {copyLinks}” תחת „{expertOptions}”."
 
 #: common/tools.py:503 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -439,17 +440,17 @@ msgid "Expert Options"
 msgstr "אפשרויות מתקדמות"
 
 #: common/tools.py:508
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "מערכת הקבצים המיועדת עבור {path} היא שיתוף בעיגון sshfs. ב־sshfs אין תמיכה "
-"בקישורים קשיחים. נא להשתמש במצב ‚SSH’ במקום."
+"בקישורים קשיחים. נא להשתמש במצב „SSH” במקום."
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "יצירת קבצים בתיקייה הזאת נכשלה:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -472,13 +473,12 @@ msgid "Shortcuts"
 msgstr "קיצורים"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "התיקייה הזאת לא קיימת\n"
-"בתמונת המצב הנוכחית."
+"בתמונת המצב הנוכחית שנבחרה."
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -493,13 +493,13 @@ msgstr "הוספה להחרגה"
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
-msgstr ""
+msgstr "נראה כי {app_name} עולה לראשונה כיוון שלא נמצאו הגדרות."
 
 #: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
-msgstr ""
+msgstr "לייבא הגדרות קיימות (מתיקיית יעד גיבוי או ממחשב אחר)?"
 
 #: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
@@ -511,7 +511,7 @@ msgstr "שמירת תמונת מצב"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
-msgstr ""
+msgstr "להשתמש בזמן השינוי ובגודל לזיהוי שינויים בקובץ."
 
 #: qt/app.py:475
 msgid "Take a snapshot (checksum mode)"
@@ -567,7 +567,7 @@ msgstr "לכבות את המערכת אחרי ששמירת תמונת המצב �
 
 #: qt/app.py:521
 msgid "Setup language…"
-msgstr ""
+msgstr "הגדרות שפה…"
 
 #: qt/app.py:525
 msgid "Exit"
@@ -575,36 +575,35 @@ msgstr "יציאה"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "מדריך למשתמשים"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
-msgstr ""
+msgstr "פתיחת מדריך המשתמש בדפדפן (מקומי אם זמין או מקוון אם לא)"
 
 #: qt/app.py:535
 msgid "man page: Back In Time"
-msgstr ""
+msgstr "עמוד ה־man‏: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "הצגת עמוד man על Back In Time ‏(backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "קובץ הגדרות פרופילים"
+msgstr "עמוד man: קובץ הגדרת פרופילים"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "הצגת עמוד man על קובץ הגדרת פרופילים (backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "אתר המיזם"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "פתיחת אתר Back In Time בדפדפן"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -616,7 +615,7 @@ msgstr "שאלות ותשובות"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "פתיחת שאלות נפוצות (שו״ת) בדפדפן"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -632,15 +631,15 @@ msgstr "תרגום"
 
 #: qt/app.py:568
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "הצגת ההודעה בנוגע להשתתפות בתרגום שוב."
 
 #: qt/app.py:572
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "תעבורה מוצפנת (EncFS)"
 
 #: qt/app.py:574
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "הצגת ההודעה על הסרת EncFS שוב."
 
 #: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -648,7 +647,6 @@ msgid "Restore"
 msgstr "שחזור"
 
 #: qt/app.py:581
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "שחזור הקבצים או התיקיות הנבחרים ליעד המקורי."
 
@@ -657,19 +655,16 @@ msgid "Restore to …"
 msgstr "שחזור אל…"
 
 #: qt/app.py:586
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "שחזור הקבצים או התיקיות הנבחרים ליעד חדש."
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr "שחזור התיקייה שמופיעה ואת כל התוכן שלה ליעד המקורי."
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -689,19 +684,19 @@ msgstr "השוואת תמונות מצב…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
-msgstr ""
+msgstr "מועמדת להוצאה לאור"
 
 #: qt/app.py:640
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "הצגת ההודעה על המועמדת להוצאה לאור שוב."
 
 #: qt/app.py:676
 msgid "Back In &Time"
-msgstr ""
+msgstr "&חזרה בזמן"
 
 #: qt/app.py:681
 msgid "&Backup"
-msgstr ""
+msgstr "&גיבוי"
 
 #: qt/app.py:692
 msgid "&Restore"
@@ -713,19 +708,19 @@ msgstr "ע&זרה"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "סמלים בלבד"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "טקסט בלבד"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "טקסט מתחת לסמלים"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "טקסט ליד הסמלים"
 
 #: qt/app.py:897
 msgid ""
@@ -780,9 +775,8 @@ msgid "Home"
 msgstr "תיקיית הבית"
 
 #: qt/app.py:1255
-#, fuzzy
 msgid "Backup directories"
-msgstr "תיקיות הגיבוי"
+msgstr "תיקיות גיבוי"
 
 #: qt/app.py:1351
 msgid "Snapshot Name"
@@ -810,6 +804,8 @@ msgid ""
 "restoring. If you don't need them anymore you can remove them with the "
 "following command:"
 msgstr ""
+"לגרסאות חדשות יותר של הקבצים יתווסף {suffix} לסוף השם לפני האחסון. אם אין "
+"בהם צורך עוד אפשר להסיר אותם עם הפקודה הבאה:"
 
 #: qt/app.py:1520
 msgid ""
@@ -822,7 +818,6 @@ msgstr ""
 "באמצעות האפשרות „rsync --update”."
 
 #: qt/app.py:1555
-#, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "הסרת רכיבים חדשים יותר בתיקייה המקורית."
 
@@ -833,6 +828,9 @@ msgid ""
 "because this will delete files and directories which were excluded during "
 "taking the snapshot."
 msgstr ""
+"שחזור הקבצים או התיקיות הנבחרי ליעדם המקורי ולמחוק קבצים ותיקיות שאינם "
+"בתמונת המצב. חובה לנקוט במשנה זהירות כיוון שהפעולה הזאת תמחק קבצים ותיקיות "
+"שהוחרגו במהלך הכנת תמונת המצב."
 
 #: qt/app.py:1570
 msgid "Do you really want to restore this element into the new directory?"
@@ -853,7 +851,6 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "להסיר את כל הקבצים החדשים יותר תחת {path}?"
 
 #: qt/app.py:1602
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr "להסיר את כל הקבצים החדשים בתיקיית המקור שלך?"
@@ -913,30 +910,30 @@ msgstr "התרגום שלך"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "בפדיברס דרך מסטודון: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "דוא״ל אל {link_and_label}."
 
 #: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "רשימת הדיוור {link_and_label}"
 
 #: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} באתר המיזם."
 
 #: qt/app.py:2118
 msgid "Open an issue"
-msgstr ""
+msgstr "לפתוח דיווח תקלה"
 
 #: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "לחלופין, אפשר להשתמש בכל ערוץ אחר לשיקולך."
 
 #: qt/app.py:2124
 #, python-brace-format
@@ -950,10 +947,18 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"הגרסה הזאת של Back In Time היא מועמדת להוצאה לאור ומיועדת בעיקר לבדיקות יציבות ולהכנה למהדורה הרשמית הבאה.\n"
+"לא נאספים נתוני משתמש או מדדים. עם זאת, צוות Back In Time מאוד ישמח לדעת מה אופן השימוש במהדורה שמיועדת להוצאה לאור והאם שווה להמשיך לספק גרסאות טרום הוצאה לאור שכאלה.\n"
+"לכן, הצוות מבקש בצורה נעימה לקבל משוב קצר על האם בדקת את הגרסה הזאת, אפילו אם לא נתקלת בתקלות כלשהן. אפילו בדיקה זריזה שתרוץ במשך מספר דקות תעזור לנו מאוד.\n"
+"אלו האפשרויות הזמינות ליצירת קשר:\n"
+"{contact_list}\n"
+"בגרסה הזאת, ההודעה הזאת לא תופיע שוב אבל אפשר לגשת אליה בכל עת דרך תפריט העזרה.\n"
+"תודה על התמיכה ועל הסיוע במאמצים לשיפור Back In Time!\n"
+"צוות Back In Time לרשותך"
 
 #: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
-msgstr ""
+msgstr "הגדרות השפה ייכנסו לתוקף רק לאחר הפעלת Back In Time מחדש."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:588
@@ -961,38 +966,39 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"יצירת פרופילי EncFS תוסר בגרסה המזערית הבאה (1.7), צפויה לצאת לאור ב־2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
+msgstr "לא מומלץ להשתמש במצב הזה לפרופיל עוד."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
 msgid "whitepaper"
-msgstr ""
+msgstr "תיעוד"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "התמיכה ב־EncFS הופסקה עקב חולשות אבטחה."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
-msgstr ""
+msgstr "לפרטים נוספים, כולל חלופות אפשריות, ניתן לקרוא את ה{whitepaper} הזה."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "הפרופילים הבאים משתמשים בהצפנה עם EncFS:"
 
 #: qt/encfsmsgbox.py:87
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
-msgstr ""
+msgstr "מתוכננת החלפה, אבל לא ניתן להבטיח שהיא תגיע בזמן."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1000,20 +1006,22 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"משתמשים מוזמנים להצטרף לדיון הזה. הפרטים העדכניים על הצעדים הבאים זמינים "
+"ב{whitepaper} הזה."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
-msgstr ""
+msgstr "ההודעה הזאת לא תופיע שוב. החלונית הזאת זמינה בכל עת דרך תפריט העזרה."
 
 #: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
-msgstr ""
+msgstr "צוות Back In Time"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
-msgstr ""
+msgstr "הגדרת שפה"
 
 #: qt/languagedialog.py:97
 msgid "System default"
@@ -1021,12 +1029,12 @@ msgstr "ברירת מחדל המערכת"
 
 #: qt/languagedialog.py:107
 msgid "Use operating systems language."
-msgstr ""
+msgstr "להשתמש בשפת מערכת ההפעלה."
 
 #: qt/languagedialog.py:161
 #, python-brace-format
 msgid "Translated: {percent}"
-msgstr ""
+msgstr "תורגמו: {percent}"
 
 #: qt/logviewdialog.py:60
 msgid "Last Log View"
@@ -1071,7 +1079,7 @@ msgstr[1] "פרטים"
 
 #: qt/logviewdialog.py:114
 msgid "rsync transfer failures (experimental)"
-msgstr ""
+msgstr "כשלי העברה דרך rsync (ניסיוניים)"
 
 #: qt/logviewdialog.py:126
 msgid "[E] Error, [I] Information, [C] Change"
@@ -1130,6 +1138,9 @@ msgid ""
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
+"{BOLD}פרטים{ENDBOLD}: במצב ‚הצפנתSSH”, רק כוכבית אחת או שתיים משחקות תפקיד "
+"(למשל: {example2}). סוגים אחרים של תווי הכללה ותבניות לא משחקים תפקיד (למשל:"
+" {example1}). שמות הקבצים אינם צפויים במצב הזה עקב הצפנה עם EncFS."
 
 #: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
@@ -1155,6 +1166,9 @@ msgid ""
 "files that have been backed up previously will persist in snapshots even if "
 "they have been modified."
 msgstr ""
+"כש‚מצב rsync מלא’ כבוי, זה ישפיע רק על קבצים מאחר של־rsync זאת אפשרות העברה,"
+" לא אפשרות החרגה. לכן, קבצים גדולים שגובו בעבר יישארו בתמונות מצב אפילו אם "
+"נערכו."
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
@@ -1222,16 +1236,17 @@ msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
+"„‎{path}” הוא קישור סמלי. היעד המקושר לא יגובה עד שיוכלל גם הוא.\n"
+"לכלול את יעד הקישור הסמלי במקום?"
 
 #: qt/manageprofiles/__init__.py:679
-#, fuzzy
 msgid "Include directory"
-msgstr "לכלול תיקיה"
+msgstr "לכלול תיקייה"
 
 #: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
-msgstr ""
+msgstr "מושבת כי התבנית הזאת לא שמישה במצב ‚SSH מוצפן’."
 
 #: qt/manageprofiles/schedulewidget.py:37
 msgid "Schedule"
@@ -1239,7 +1254,7 @@ msgstr "תזמון"
 
 #: qt/manageprofiles/schedulewidget.py:63
 msgid "Day:"
-msgstr ""
+msgstr "יום:"
 
 #: qt/manageprofiles/schedulewidget.py:68
 msgid "Weekday:"
@@ -1247,7 +1262,7 @@ msgstr "יום בשבוע:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "שעה:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1255,17 +1270,19 @@ msgstr "שעות:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "אחרי השעה"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "דקות:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
+"להריץ את Back In Time עם חיבור הכונן (פעם אחת כל X ימים). תופיע בקשה לסיסמת "
+"העל שלך (sudo)."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1279,17 +1296,17 @@ msgstr "כל:"
 
 #: qt/manageprofiles/schedulewidget.py:113
 msgid "Enable logging of debug messages"
-msgstr ""
+msgstr "הפעלת תיעוד של הודעות ניפוי שגיאות"
 
 #: qt/manageprofiles/schedulewidget.py:117
 msgid "Writes debug-level messages into the system log via \"--debug\"."
-msgstr ""
+msgstr "כתיבת הודעות ברמת ניפוי שגיאות ליומן המערכת דרך „‎--debug”."
 
 #: qt/manageprofiles/schedulewidget.py:119
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
-msgstr ""
+msgstr "אזהרה: להשתמש בזה באופן זמני לאבחון, כיוון שזה מייצר המון פלט."
 
 #: qt/manageprofiles/schedulewidget.py:141
 msgid "Disabled"
@@ -1376,10 +1393,12 @@ msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
+"שעות מותאמות אישית יכול להיות רק רשימת של שעות מופרדת בפסיקים (למשל: "
+"8,12,18,23) או ‎*/3 לגיבויים במחזורים של 3 שעות."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
-msgstr ""
+msgstr "מתווך SSH"
 
 #: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
 #: qt/manageprofiles/tab_general.py:253
@@ -1401,6 +1420,9 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
+"להתחבר למארח היעד דרך המתווך הזה (ידוע גם בשם מארח קפיצה/jump host). אפשר "
+"לקרוא על „‎-J” בתיעוד פקודת „ssh” או „ProxyJump” במדריך למשתמש "
+"ב־„ssh_config” לפרטים נוספים."
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1411,6 +1433,8 @@ msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"אלו אפשרויות מתקדמות. אפשר לשנות אותן רק אם ברור לך לחלוטין מה תהיינה "
+"ההשלכות לכך."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1450,7 +1474,7 @@ msgstr "הפניית stdout ל־‎/dev/null במשימות ה־cron."
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
-msgstr ""
+msgstr "Cron ישלח הודעות בדוא״ל בצירוף הפלט של משימות ה־cron אם MTA מותקן."
 
 #: qt/manageprofiles/tab_expert_options.py:135
 msgid "Redirect stderr to /dev/null in cronjobs."
@@ -1460,7 +1484,7 @@ msgstr "הפניית stderr ל־‎/dev/null במשימות ה־cron."
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
-msgstr ""
+msgstr "Cron ישלח הודעות בדוא״ל בצירוף השגיאות של משימות ה־cron אם MTA מותקן."
 
 #: qt/manageprofiles/tab_expert_options.py:151
 msgid "KB/sec"
@@ -1484,7 +1508,7 @@ msgstr "העתקת קישורים בלתי מהימנים (עובד רק עם ק
 
 #: qt/manageprofiles/tab_expert_options.py:274
 msgid "Restrict to one file system"
-msgstr ""
+msgstr "הגבלה למערכת קבצים אחת"
 
 #: qt/manageprofiles/tab_expert_options.py:292
 #, python-brace-format
@@ -1497,7 +1521,7 @@ msgstr "הדבקת אפשרויות נוספות ל־rsync"
 
 #: qt/manageprofiles/tab_expert_options.py:309
 msgid "Prefix to run before every command on remote host."
-msgstr ""
+msgstr "קידומת להרצה לפני כל פקודה במארח המרוחק."
 
 #: qt/manageprofiles/tab_expert_options.py:310
 #, python-brace-format
@@ -1505,6 +1529,8 @@ msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
+"יש למלט משתנים עם \\$FOO. זה לא נוגע ל־rsync. אז כדי להוסיף קידומת ל־rsync "
+"יש להשתמש ב־„{example_value}” יחד עם {rsync_options_value}."
 
 #: qt/manageprofiles/tab_expert_options.py:318
 msgid "default"
@@ -1523,6 +1549,8 @@ msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
+"אזהרה: אם האפשרות מושבתת והמארח המרוחק לא זמין, עלולות להתרחש כל מיני שגיאות"
+" מוזרות."
 
 #: qt/manageprofiles/tab_expert_options.py:341
 msgid "Check if remote host supports all necessary commands."
@@ -1533,6 +1561,8 @@ msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
+"אזהרה: אם האפשרות מושבתת והמארח המרוחק לא תומך בכל הפקודות הנחוצות, עלולות "
+"להתרחש שגיאות מוזרות."
 
 #: qt/manageprofiles/tab_expert_options.py:359
 msgid "(default: {})"
@@ -1608,7 +1638,7 @@ msgstr "נתיב תמונת מצב מלא:"
 
 #: qt/manageprofiles/tab_general.py:394
 msgid "You did not choose a private key file for SSH."
-msgstr ""
+msgstr "לא בחרת קובץ מפתח פרטי ל־SSH."
 
 #: qt/manageprofiles/tab_general.py:395
 msgid ""
@@ -1635,7 +1665,7 @@ msgstr "אי אפשר לאמת את האמינות של {host}."
 #: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr ""
+msgstr "טביעת אצבע מפתח ה־{keytype} היא:"
 
 #: qt/manageprofiles/tab_general.py:536
 msgid ""
@@ -1644,7 +1674,6 @@ msgid ""
 msgstr "נא לאמת את טביעת האצבע הזאת. להוסיף אותה לקובץ ה־‚known_hosts’ שלך?"
 
 #: qt/manageprofiles/tab_general.py:627
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "להחליף את תיקיית תמונות המצב?"
 
@@ -1675,6 +1704,9 @@ msgid ""
 "a global option. So it will affect all profiles for this user. But you need "
 "to activate this for all other users, too."
 msgstr ""
+"תמונות מצב אחרות תיחסמנה עד שתמונת המצב הנוכחית תסתיים. זאת אפשרות גללית. "
+"לכן היא תשפיע על כל הפרופילים למשתמש הזה. אבל צריך להפעיל את זה גם לכל השאר "
+"המשתמשים."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
@@ -1686,6 +1718,8 @@ msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
 "restoring. If you don't need them anymore you can remove them with {cmd}"
 msgstr ""
+"לשם של גרסאות חדשות יותר של הקבצים יתווסף {suffix} טרם השחזור. אם אין בהם "
+"יותר צורך אפשר להסיר אותם בעזרת {cmd}"
 
 #: qt/manageprofiles/tab_options.py:75
 msgid "Continue on errors (keep incomplete snapshots)"
@@ -1714,63 +1748,64 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"הכללים הבאים עובדו מלמעלה למטה. הכללים המאוחרים יותר דורסים את הקודמים והם "
+"לא מגבילים אותם. אפשר לעיין ב{manual} לפרטים נוספים ולדוגמאות."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "מדריך למשתמשים"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "פתיחת מדריך למשתמשים בדפדפן."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "לא להסיר תמונות מצב עם שם."
+msgstr "להשאיר את תמונת המצב העדכנית ביותר."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
-msgstr ""
+msgstr "תמונת המצב האחרונה או העדכנית ביותר נשמרת ללא תלות בתנאים."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "אי אפשר לשנות את ההתנהגות הזאת."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "לא להסיר תמונות מצב עם שם."
+msgstr "להשאיר תמונות מצב עם שם."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"תמונת מצב שקיבלה שם, בנוסף לחותמת הזמן הרגילה, תישמר בכל אופן ולא תוסר."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "שנה/ים"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "הסרת תמונת מצב"
+msgstr "להסיר תמונות מצב מלפני"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "ימים מלאים. היום הנוכחי לא מחושב."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"שבועות קלנדריים עם יום שני בתור יום תחילת השבוע. השבוע הנוכחי לא מחושב."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "תקופות של 12 חודשים. החודש הנוכחי לא נכלל."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "מדיניות שימור"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1782,10 +1817,12 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"תהליך ההסרה החכמה ירוץ ישירות במכונה המרוחקת, לא מקומית. הפקודות „bash”,‏ "
+"„screen” ו־„flock” חייבות להיות מותקנות וזמינות במכונה המרוחקת."
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "אם האפשרות נבחרה, Back In Time תבדוק תחילה את המכונה המרוחקת."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
@@ -1801,9 +1838,8 @@ msgid "day(s)."
 msgstr "יום/ימים."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "לשמור תמונת מצב ביום למשך"
+msgstr "לשמור את תמונת המצב האחרונה בכל יום למשך"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
@@ -1812,9 +1848,8 @@ msgid ""
 msgstr "השבועות מחושבים החל מהשבוע הנוכחי. שבוע מתחיל ביום שני."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "לשמור תמונת מצב בשבוע למשך"
+msgstr "לשמור תמונת המצב האחרונה בכל שבוע למשך"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1826,9 +1861,8 @@ msgid ""
 msgstr "החודשים מחושבים כחודשים קלנדריים החל מהחודש הנוכחי."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "לשמור תמונת מצב בחודש למשך"
+msgstr "לשמור תמונת מצב אחת מכל חודש למשך"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
