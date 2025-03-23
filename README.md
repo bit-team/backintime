@@ -146,4 +146,6 @@ Renaming does *not* work!
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
-<sub>February 2025</sub>
+---
+
+<sub>March 2025</sub>
