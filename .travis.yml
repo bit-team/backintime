@@ -12,7 +12,9 @@ os: linux
 # Support End of "Focal" (20.04 LTS) is April 2025
 # dist: focal
 # Support End of "Jammy" (22.04 LTS) is April 2027
-dist: jammy
+dist:
+  - jammy
+  - noble
 # Support End of "noble" (24.04 LTS) is April 2029
 # dist: noble
 
@@ -45,11 +47,7 @@ before_install:
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
 
-jobs:
-  include:
-    - dist: jammy
-    - dist: noble
-    
+# jobs:
 #   exclude:
 #     - python: "3.9"
 #     - python: "3.10"
