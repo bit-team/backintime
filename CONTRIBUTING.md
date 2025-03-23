@@ -49,6 +49,7 @@ reviewing the documentation and suggesting improvements.
   - [General recommendations for developers](#general-recommendations-for-developers)
   - [Consider Right-to-Left (RTL) and Bidirectional (BIDI) languages](#consider-right-to-left-rtl-and-bidirectional-bidi-languages)
   - [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates)
+  - [Treat other translators work with respect](#treat-other-translators-work-with-respect)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
@@ -323,6 +324,7 @@ The following points are about creating translatable source strings.
   provide translators with more context.
 - [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).
 - [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
+- [Treat other translators work with respect](#treat-other-translators-work-with-respect).
     
 ```python
 # Avoid escape characters for string delimiters
@@ -380,6 +382,21 @@ Translating `&Backup` and `&Help` into Turkish becomes `&Yedek` and `Y&ardım`,
 where using the first letter only would produce conflicts again.
 
 That is why the translator needs to decide which letter to use.
+
+## Treat other translators work with respect
+Sometimes it is a matter of taste or habit how do you translate
+something. People are different, therefore their translation are also
+different. When modifying an existing translation please consider _Comments_
+and _History_ section of that string on our translation platform. There might
+be another translator who has good reason for this translation. Don't waste
+other people work for no good reason. Also use the _Comments_ to document your
+own reasons if you expect discussions or conflicts.
+
+The translation for some specific languages (e.g.
+[German](https://translate.codeberg.org/projects/backintime/common/de/))
+do have rules every translator should follow. That rules can be found in a
+colored box on top of the translation platform. Open an issue if you think
+they should be modified.
 
 # Strategy Outline
 This is a broad overview of the tasks or steps to enhance _Back In Time_ as a
