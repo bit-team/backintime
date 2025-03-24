@@ -1,21 +1,19 @@
 Back In Time
 
-Version 1.5.4-rc2 (Release Candidate 2)
-* Fix: Exclude patterns are now case-sensitive when added (#2040)
-
-Version 1.5.4-rc1 (Release Candidate 1)
+Version 1.5.4 (2025-03-24)
+* Breaking Change: Auto-remove rules "Free inodes" and "Free space" disabled by default in new created profiles (#1976)
+* Changed: Completed license information to conform to REUSE.software and SPDX standards.
 * Changed: More clear and intense warning about EncFS deprecation and removal (#1904)
-* Doc: Remove & Retention (formally known as Auto-/Smart-Remove) with improved GUI and user manual section (#2000)
 * Changed: Updated desktop entry files
 * Changed: Move several values from config file into new introduce state file ($XDG_STATE_HOME/backintime.json)
+* Fix!: Smart-remove rule "Keep one snapshots per week or the last week" use calendar weeks
+* Fix: Exclude patterns are now case-sensitive when added (#2040)
 * Fix: The width of the fourth column in files view is now saved
-* Feature: Open user manual (local if available otherwise online) via Help menu
 * Fix: Snapshot compare copy symlink as symlink (#1902) (Peter Sevens @sevens)
 * Fix: Crash when comparing a snapshot with a symlink pointing to a nonexistent target (Peter Sevens @sevens)
 * Fix: Crash (KeyError) opening language setup dialog with unknown locale/language
-* Changed: Completed license information to conform the REUSE.software and SPDX standards.
-* Breaking Change: Auto-remove rules "Free inodes" and "Free space" disabled by default (#1976)
-* Fix!: Smart-remove rule "Keep one snapshots per week or the last week" use calendar weeks
+* Doc: Remove & Retention (formally known as Auto-/Smart-Remove) with improved GUI and user manual section (#2000)
+* Feature: Open user manual (local if available otherwise online) via Help menu
 * Feature: Toolbar context menu to display the buttons in different combinations with icons and text (#1105, #2002) (Samuel Moore @s4moore)
 * Feature: Add offset minutes to hourly schedules (David Gibbs @fallingrock)
 

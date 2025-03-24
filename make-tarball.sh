@@ -11,6 +11,9 @@ VER=`cat VERSION`
 CURRENT=$(pwd)
 NEW="backintime-$VER"
 
+# clean up
+rm ./common/man/C/*.gz
+
 cd ..
 
 # if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
@@ -19,7 +22,7 @@ cd ..
 #     cp -aR ${CURRENT} ${NEW}
 # fi
 
-cp -aR ${CURRENT} ${NEW}
+cp --exclude=.git -aR ${CURRENT} ${NEW}
 
 rm backintime-$VER.tar.gz
 
@@ -28,6 +31,7 @@ tar cfz backintime-$VER.tar.gz \
     --exclude="*/.pytest_cache" \
     --exclude="*/.ruff_cache" \
     --exclude="*/po/*.mo" \
+    --exclude-vcs \
     ${NEW}/AUTHORS \
     ${NEW}/CHANGES \
     ${NEW}/LICENSE \

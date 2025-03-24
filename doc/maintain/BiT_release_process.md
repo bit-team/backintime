@@ -65,6 +65,9 @@ using a "feature" branch and sending a pull request asking for a review.
   - Use `git diff` (or another diff tool) to compare them and see if the
     content is as expected.
 - Update `README.md` file.
+- Build user manual:
+  - Navigate to `./doc/manual`.
+  - Run `mkdocs build`.
 - Run `codespell` to check for common spelling errors.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
