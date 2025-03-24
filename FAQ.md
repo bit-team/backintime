@@ -238,7 +238,7 @@ counter = 1.
 | fileB  |       2 |         1 |
 | fileC  |       3 |         1 |
 
-Lets say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
+Let's say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
 BIT first makes hardlinks of all files. ``rsync`` than delete all hardlinks of
 files that has changed and copy the new files.
 

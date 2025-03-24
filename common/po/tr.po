@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-05 18:59+0000\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-12 11:07+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
 "Language: tr\n"
@@ -227,7 +227,7 @@ msgstr ""
 "basın."
 
 #: common/snapshots.py:849
-#, python-format
+#, fuzzy, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "%s saniye bekliyor."
@@ -1356,6 +1356,7 @@ msgstr ""
 "Sizden sudo parolası istenecektir."
 
 #: qt/manageprofiles/schedulewidget.py:97
+#, fuzzy
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1396,7 +1397,7 @@ msgstr "Her Başlatıldığında/Yeniden Başlatıldığında"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "{n} dakikada bir"
@@ -1413,7 +1414,7 @@ msgstr[1] "Her {n} saatte"
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "{n} saatte bir"
@@ -1428,6 +1429,7 @@ msgid "Every day"
 msgstr "Her gün"
 
 #: qt/manageprofiles/schedulewidget.py:161
+#, fuzzy
 msgid "Repeatedly (anacron)"
 msgstr "Tekrar Tekrar (anacron)"
 
@@ -1936,6 +1938,7 @@ msgstr "Tüm anlık görüntüleri şu kadar süre için sakla"
 
 #: qt/manageprofiles/tab_remove_retention.py:311
 #: qt/manageprofiles/tab_remove_retention.py:323
+#, fuzzy
 msgid "day(s)."
 msgstr "gün"
 
@@ -1958,6 +1961,7 @@ msgid "Keep the last snapshot for each week for the last"
 msgstr "Son X hafta için her hafta bir anlık görüntü sakla"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
+#, fuzzy
 msgid "week(s)."
 msgstr "hafta"
 
@@ -1972,6 +1976,7 @@ msgid "Keep the last snapshot for each month for the last"
 msgstr "Son X ay için her ay bir anlık görüntü sakla"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
+#, fuzzy
 msgid "month(s)."
 msgstr "ay"
 
@@ -2039,32 +2044,32 @@ msgstr "Hız:"
 msgid "ETA:"
 msgstr "Tahmini Varış Süresi:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Anlık görüntüler"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Bugün"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Dün"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Bu hafta"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Geçen hafta"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Bu bir anlık görüntü DEĞİL, yerel dosyalarınızın canlı bir görüntüsüdür"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Son denetim {time}"

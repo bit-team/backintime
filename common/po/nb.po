@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2024-07-22 12:09+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-13 07:57+0000\n"
+"Last-Translator: trench <trench@noreply.codeberg.org>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -29,14 +29,12 @@ msgid "Main profile"
 msgstr "Hovedprofil"
 
 #: common/config.py:266
-#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "kryptert lokalt"
+msgstr "Lokalt (EncFS-kryptert)"
 
 #: common/config.py:267
-#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH kryptert"
+msgstr "SSH (EncFS-kryptert)"
 
 #: common/config.py:278
 msgid "Local"
@@ -74,13 +72,12 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:328
-#, fuzzy
 msgid "Snapshots directory is not valid."
-msgstr "Øyeblikksbildemappe er ugyldig!"
+msgstr "Mappen for øyeblikksbilde er ugyldig."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Minst én katalog må velges for sikkerhetskopiering."
 
 #: common/config.py:358 common/config.py:373
 #, fuzzy, python-brace-format
@@ -99,12 +96,17 @@ msgid "Failed to write new crontab."
 msgstr "Klarte ikke å skrive ny crontab."
 
 #: common/config.py:1475
+#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
 "command \"systemctl enable cron\" or consult the support channels of your "
 "GNU/Linux distribution."
 msgstr ""
+"Cron kjører ikke til tross for at crontab-kommandoen er tilgjengelig. "
+"Planlagte sikkerhetskopieringsjobber kjøres ikke. Cron kan være installert, "
+"men ikke aktivert. Prøv kommandoen \"systemctl enable cron\" eller konsulter"
+" støttekanalene til din GNU/Linux-distribusjon."
 
 #: common/config.py:1556
 #, python-brace-format
@@ -238,7 +240,7 @@ msgstr "Øyeblikksbilde feilet {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Vær tålmodig. Fullfører …"
 
 #: common/snapshots.py:1077
 #, fuzzy
@@ -317,8 +319,9 @@ msgid "Apply rules to remove old snapshots"
 msgstr "Slett gamle øyeblikksbilder"
 
 #: common/snapshots.py:1921
+#, fuzzy
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Bruk retningslinjer for oppbevaring"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -416,12 +419,14 @@ msgid "{path} is not a valid directory."
 msgstr "Fjern-katalogbanen finnes, men er ikke en mappe."
 
 #: common/tools.py:446
+#, fuzzy
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "Opprettelsen av følgende katalog mislyktes:"
 
 #: common/tools.py:448 common/tools.py:544
+#, fuzzy
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Skrivetilgang kan være begrenset."
 
 #: common/tools.py:488
 #, fuzzy, python-brace-format
@@ -461,8 +466,9 @@ msgstr ""
 "ikke harde lenker. Vennligst bruk «SSH»-modus i stedet."
 
 #: common/tools.py:542
+#, fuzzy
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "Filoppretting mislyktes i denne katalogen:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -509,10 +515,13 @@ msgid ""
 msgstr "{app_name} virker å kjøre for første gang, da intet oppsett finnes."
 
 #: qt/app.py:336
+#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
+"Vil du importere en eksisterende konfigurasjon (fra en "
+"sikkerhetskopimålkatalog eller en annen datamaskin)?"
 
 #: qt/app.py:364
 #, fuzzy
@@ -590,20 +599,26 @@ msgid "Exit"
 msgstr "Avslutt"
 
 #: qt/app.py:529
+#, fuzzy
 msgid "User manual"
-msgstr ""
+msgstr "Brukerhåndbok"
 
 #: qt/app.py:531
+#, fuzzy
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Åpne brukerhåndboken i nettleseren (lokal hvis tilgjengelig ellers på "
+"nettet)"
 
 #: qt/app.py:535
+#, fuzzy
 msgid "man page: Back In Time"
-msgstr ""
+msgstr "man-side: Tilbake i tid"
 
 #: qt/app.py:537
+#, fuzzy
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Viser man-side om Back In Time (backintime)"
 
 #: qt/app.py:540
 #, fuzzy
@@ -611,16 +626,19 @@ msgid "man page: Profiles config file"
 msgstr "Profilens konfigurasjonsfil"
 
 #: qt/app.py:543
+#, fuzzy
 msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
+msgstr "Viser man-side om profilens konfigurasjonsfil (backintime-config)"
 
 #: qt/app.py:547
+#, fuzzy
 msgid "Project website"
-msgstr ""
+msgstr "Prosjektets nettside"
 
 #: qt/app.py:550
+#, fuzzy
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Åpne Back In Time-nettstedet i nettleseren"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -631,8 +649,9 @@ msgid "FAQ"
 msgstr "Ofte stilte spørsmål"
 
 #: qt/app.py:557
+#, fuzzy
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Åpne Vanlige spørsmål (FAQ) i nettleseren"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -647,16 +666,19 @@ msgid "Translation"
 msgstr "Oversettelse"
 
 #: qt/app.py:568
+#, fuzzy
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Viser meldingen om deltakelse i oversettelsen igjen."
 
 #: qt/app.py:572
+#, fuzzy
 msgid "Encryption Transition (EncFS)"
-msgstr ""
+msgstr "Krypteringsovergang (EncFS)"
 
 #: qt/app.py:574
+#, fuzzy
 msgid "Shows the message about EncFS removal again."
-msgstr ""
+msgstr "Viser meldingen om fjerning av EncFS igjen."
 
 #: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
 #: qt/snapshotsdialog.py:161
@@ -706,16 +728,19 @@ msgid "Compare snapshots…"
 msgstr "Sammenlign øyeblikksbilder…"
 
 #: qt/app.py:637 qt/app.py:2152
+#, fuzzy
 msgid "Release Candidate"
-msgstr ""
+msgstr "Utgivelseskandidat"
 
 #: qt/app.py:640
+#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "Viser meldingen om denne utgivelseskandidaten igjen."
 
 #: qt/app.py:676
+#, fuzzy
 msgid "Back In &Time"
-msgstr ""
+msgstr "Tilbake i &Tid"
 
 #: qt/app.py:681
 msgid "&Backup"
@@ -730,29 +755,32 @@ msgid "&Help"
 msgstr "&Hjelp"
 
 #: qt/app.py:743
+#, fuzzy
 msgid "Icons only"
-msgstr ""
+msgstr "Bare ikoner"
 
 #: qt/app.py:746
+#, fuzzy
 msgid "Text only"
-msgstr ""
+msgstr "Kun tekst"
 
 #: qt/app.py:749
+#, fuzzy
 msgid "Text below icons"
-msgstr ""
+msgstr "Tekst under ikonene"
 
 #: qt/app.py:752
+#, fuzzy
 msgid "Text beside icon"
-msgstr ""
+msgstr "Tekst ved siden av ikonet"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If you close this window, Back In Time will not be able to shut down your "
 "system when the snapshot is finished."
 msgstr ""
-"Hvis du lukker dette vinduet vil ikke Back In Time være i stand til å skru av systemet når øyeblikksbildet er ferdig.\n"
-"Er du sikker på at du vil lukke?"
+"Hvis du lukker dette vinduet vil ikke Back In Time være i stand til å skru "
+"av systemet når øyeblikksbildet er ferdig."
 
 #: qt/app.py:900
 #, fuzzy
@@ -893,12 +921,13 @@ msgstr ""
 "Er du sikker på at du vil fjerne alle nyere filer i den originale mappen?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
 msgstr ""
-"ADVARSEL: Å slette filer i root-filsystemet kan ødelegge hele systemet ditt!"
+"{BOLD}ADVARSEL{BOLDEND}: Å slette filer i root-filsystemet kan ødelegge hele"
+" systemet ditt."
 
 #: qt/app.py:1857
 msgid "Snapshot"
@@ -1182,9 +1211,9 @@ msgid "Exclude files bigger than:"
 msgstr "Ekskluder filer som er større enn:"
 
 #: qt/manageprofiles/__init__.py:233
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Ekskluder filer som er større enn: "
+msgstr "Utelukk filer som har større verdi enn {size_unit}."
 
 #: qt/manageprofiles/__init__.py:235
 #, fuzzy
@@ -1458,9 +1487,8 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Spørsmål"
+msgstr "Vær varsom:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
@@ -1708,12 +1736,9 @@ msgstr ""
 "eksterne verten slik at du kan bruke passordløs innlogging?"
 
 #: qt/manageprofiles/tab_general.py:525
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr ""
-"Ektheten til den eksterne verten {host} kan ikke slås fast.\n"
-"\n"
-"{keytype}-nøkkelen sitt fingeravtrykk er:"
+msgstr "Ektheten til vert {host} kan ikke fastslås."
 
 #: qt/manageprofiles/tab_general.py:528
 #, python-brace-format
@@ -1947,14 +1972,12 @@ msgid "… the free space is less than"
 msgstr "Hvis det er mindre ledig plass enn"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Hvis ledige inoder er færre enn:"
+msgstr "… ledige inoder er færre enn"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Slett gamle øyeblikksbilder"
+msgstr "Slett eldste øyeblikksbilde hvis …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -1990,32 +2013,32 @@ msgstr "Hastighet:"
 msgid "ETA:"
 msgstr ""
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Øyeblikksbilder"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Idag"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Igår"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Denne uken"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Forrige uke"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Dette er IKKE et øyeblikksbilde, men en sanntidsvisning av dine lokale filer"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Sist sjekket {time}"
