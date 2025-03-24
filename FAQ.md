@@ -21,6 +21,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to read log entries?](#how-to-read-log-entries)
    * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
+   * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
@@ -198,6 +199,29 @@ You can avoid this by moving the file/folder in the last snapshot too:
 5. Remove the next to last snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
 
+## How does _Back In Time_ compare with _Timeshift_?
+
+Back In Time and Timeshift are both Linux application that provides back up functionality.
+
+1. Simillarity 
+   - Both programs are backup tools for Linux and they create snapshots at a specific time.
+   - For both programs, snapshots are taken using rsync and hard-links, while
+   Common files are shared between snapshots which saves disk space.
+   - Both programs support GUI and CLI
+   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots 
+   completely and create snapshots manually when required
+
+2. Back In Time
+   - It is designed to protect user data including any folders or files.
+   - It backs up certain folders and files that you want to protect. Modified files are transferred, 
+   while unchanged files are linked to the new folder. You can restore certain files and folders.
+   - It's great for protecting your personal data
+
+3. TimeShift
+   - It is designed for system snapshots which allows restoring whole Linux system 
+   to a previous state without affecting any user data.
+   - It backs up system files, not including any personal data unless user explicitly configured.
+   - It's good for restoring your system after an update failure or configuration change.
 
 # Backups (snapshots)
 
