@@ -142,7 +142,7 @@ def remove_bit_from_crontab(crontab):
     the line before.
 
     Args:
-        lines(list): List of crontab liens.
+        lines(list): List of crontab lines.
     """
     # Indices of lines containing the marker
     marker_indexes = list(filter(

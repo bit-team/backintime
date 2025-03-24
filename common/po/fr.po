@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-03-06 12:22+0000\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-17 10:49+0000\n"
 "Last-Translator: bubub <bubub@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
@@ -77,19 +77,20 @@ msgstr "Le dossier des instantanés n'est pas valide."
 
 #: common/config.py:340
 msgid "At least one directory must be selected for backup."
-msgstr "Au moins un dossier doit être sélectionné pour sauvegarde."
+msgstr "Au moins un répertoire doit être sélectionné pour la sauvegarde."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Restaurer {path}"
+msgstr "Répertoire : {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Le dossier ne peut pas être inclus dans la sauvegarde."
+msgstr ""
+"Le répertoire ne peut pas être inclus dans la sauvegarde car il fait parti "
+"de la destination sauvegardée."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -154,7 +155,7 @@ msgstr "La configuration du dossier chiffré est introuvable."
 
 #: common/encfstools.py:139
 msgid "Create a new encrypted directory?"
-msgstr "Créer un nouveau dossier chiffré ?"
+msgstr "Créer un nouveau répertoire chiffré ?"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -181,7 +182,7 @@ msgstr "Échec de démontage de {mountprocess} depuis {mountpoint}."
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"{command} non trouvé. Veuillez l'installer (par exemple via "
+"{command} non trouvé. Veuillez l'installer (par exemple avec "
 "\"{installcommand}\")"
 
 #: common/mount.py:733
@@ -239,7 +240,7 @@ msgstr "Veuillez patienter, c'est bientôt fini…"
 
 #: common/snapshots.py:1077
 msgid "Can't create directory."
-msgstr "Échec de création du dossier."
+msgstr "Échec de création du répertoire."
 
 #: common/snapshots.py:1094
 msgid "Saving config file…"
@@ -312,18 +313,16 @@ msgid "Smart removal"
 msgstr "Suppression intelligente"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Suppression des anciens instantanés"
+msgstr "Appliquer les règles pour supprimer les anciens instantanés"
 
 #: common/snapshots.py:1921
-#, fuzzy
 msgid "Apply retention policy"
-msgstr "Politique de conservation"
+msgstr "Appliquer la politique de conservation"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
-msgstr "Tentative de conservation du minimum d'espace libre"
+msgstr "Tentative de conservation d'un minimum d'espace libre"
 
 #: common/snapshots.py:1970
 #, python-brace-format
@@ -410,17 +409,16 @@ msgid ""
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
 "Le système de fichiers de destination pour {path} est au format NTFS, qui a "
-"des incompatibilités avec les systèmes de fichiers de style Unix, notamment "
-"les liens physiques."
+"des incompatibilités avec les systèmes de fichiers de style Unix."
 
 #: common/tools.py:432
 #, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Le chemin {path} n'est pas un répertoire valide."
+msgstr "Le chemin {path} n'est pas un répertoire valable."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr "Échec de création des dossiers suivants :"
+msgstr "Échec de création du répertoire suivant :"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
@@ -467,7 +465,7 @@ msgstr ""
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr "Échec de création de fichier dans le dossier suivant :"
+msgstr "Échec de création de fichier dans le répertoire suivant :"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -519,8 +517,8 @@ msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
-"Importer une configuration (à partir d'un dossier de sauvegarde ou d'un "
-"autre ordinateur) ?"
+"Importer une configuration existante (à partir d'un dossier de sauvegarde ou"
+" d'un autre ordinateur) ?"
 
 #: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
@@ -611,7 +609,7 @@ msgstr ""
 
 #: qt/app.py:535
 msgid "man page: Back In Time"
-msgstr "man page : Back In &Time"
+msgstr "manuel : Back In &Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
@@ -859,7 +857,7 @@ msgstr ""
 
 #: qt/app.py:1555
 msgid "Remove newer elements in original directory."
-msgstr "Supprimer du dossier d'origine les éléments plus récents."
+msgstr "Supprimer du répertoire d'origine les éléments plus récents."
 
 #: qt/app.py:1558
 msgid ""
@@ -869,8 +867,8 @@ msgid ""
 "taking the snapshot."
 msgstr ""
 "Restaurer les fichiers et répertoires sélectionnés vers leur emplacement "
-"d'origine et supprime les fichiers et répertoires qui ne font pas partie de "
-"l'instantané. Soyez prudent : cette option va supprimer les fichiers et "
+"d'origine et supprimer les fichiers et répertoires qui ne font pas partie de"
+" l'instantané. Soyez prudent : cette option va supprimer les fichiers et "
 "répertoires qui n'étaient pas inclus dans la sauvegarde."
 
 #: qt/app.py:1570
@@ -976,7 +974,7 @@ msgstr "{link_and_label} sur le site web du projet."
 
 #: qt/app.py:2118
 msgid "Open an issue"
-msgstr "Ouvrir une issue"
+msgstr "Ouvrir une discussion"
 
 #: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
@@ -1015,13 +1013,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"La création du profil EncFS sera supprimée lors de la prochaine version "
+"mineure (1.7), programmée en 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Le support pour EncFS sera arrêté dans un futur prévisible. Il n'est "
-"désormais plus recommandé d'utiliser ce mode pour un profil."
+msgstr "Il n'est désormais plus recommandé d'utiliser ce mode pour un profil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1033,6 +1030,8 @@ msgstr "livre blanc"
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
+"La prise en charge de EncFS est arrêté pour des raisons de vulnérabilités de"
+" la sécurité."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1040,6 +1039,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Pour plus de détails, incluant des alternatives potentielles, referez-vous, "
+"s'il vous plaît, à ce {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1050,6 +1051,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Un remplacement est planifié, mais il n'est pas garanti qu'il arrivera à "
+"temps."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1057,6 +1060,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Les utilisateurs sont invités à rejoindre cette discussion. Les détails mise"
+" à jour pour les prochaines étapes sont disponibles dans ce {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1873,20 +1878,17 @@ msgid "Remove snapshots older than"
 msgstr "Supprimer les instantanés plus vieux que"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
-#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "Jours entiers, en ignorant le jour actuel."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
-#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Semaines calendaires, démarrant au lundi, en ignorant la semaine actuelle."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
-#, fuzzy
 msgid "12 months periods. Current month is ignored."
-msgstr "Période de 12 mois, en ignorant les mois depuis le début de l'année."
+msgstr "Période de 12 mois, en ignorant le mois actuel ."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
@@ -1944,7 +1946,6 @@ msgid "week(s)."
 msgstr "semaine(s)."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
-#, fuzzy
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
@@ -2019,33 +2020,33 @@ msgstr "Vitesse :"
 msgid "ETA:"
 msgstr "ETA :"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Instantanés"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Hier"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Cette semaine"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "La semaine dernière"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Ceci n'est PAS un instantané (sauvegarde) mais une vue de l'état actuel de "
 "vos fichiers locaux"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Dernière vérification {time}"

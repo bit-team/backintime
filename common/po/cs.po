@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2024-12-21 17:20+0000\n"
-"Last-Translator: p-bo <p-bo@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-21 12:46+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -80,16 +80,17 @@ msgid "At least one directory must be selected for backup."
 msgstr "Je třeba vybrat alespoň jednu složku pro zálohu."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Obnovit {path}"
+msgstr "Složka: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Složka nemůže být součástí toho, co se zálohuje."
+msgstr ""
+"Tato složka nemůže být předmětem zálohování, protože je součástí umístění, "
+"do kterého se zálohuje."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -218,9 +219,8 @@ msgid "Can't find snapshots directory."
 msgstr "Nepodařilo se najít složku se zachycenými stavy."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "Pokud se nachází na vyjímatelném médiu, připojte ho a klikněte na OK."
+msgstr "Pokud se nachází na vyjímatelném médiu, připojte ho."
 
 #: common/snapshots.py:849
 #, python-format
@@ -311,22 +311,21 @@ msgid "Smart removal"
 msgstr "Postupné odstraňování"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Odstraňování starých zachycených stavů"
+msgstr "Uplatnit pravidla pro odstraňování starých zachycených stavů"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Uplatnit zásadu uchovávání"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
-msgstr "Pokus o zachování neobsazeného prostoru, jak je nastaveno…"
+msgstr "Pokus o zachování neobsazeného prostoru, jak je nastaveno"
 
 #: common/snapshots.py:1970
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Pokus o zachování neobsazených {perc} i-uzlů, jak je nastaveno…"
+msgstr "Pokus o zachování neobsazených {perc} i-uzlů, jak je nastaveno"
 
 #: common/snapshots.py:3103 qt/app.py:1849
 msgid "Now"
@@ -595,37 +594,39 @@ msgstr "Ukončit aplikaci"
 
 #: qt/app.py:529
 msgid "User manual"
-msgstr ""
+msgstr "Uživatelská příručka"
 
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Otevřít uživatelskou příručku v prohlížeči (lokálně, pokud je k dispozici - "
+"jinak z Internetu)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Back In &Time"
+msgstr "manuálová stránka: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Zobrazí manuálovou stránku o Back In Time (backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Soubor s nastaveními profilů"
+msgstr "manuálová stránka: Soubor s nastaveními profilů"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Zobrazí manuálovou stránku o souboru s nastavováním profilů (backintime-"
+"config)"
 
 #: qt/app.py:547
 msgid "Project website"
-msgstr ""
+msgstr "Webové stránky projektu"
 
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Otevřít webové stránky Back in Time v prohlížeči"
 
 #: qt/app.py:552 qt/app.py:1463
 msgid "Changelog"
@@ -637,7 +638,7 @@ msgstr "Často kladené dotazy (FAQ)"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Otevřít Často kladené dotazy (FAQ) v prohlížeči"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -732,19 +733,19 @@ msgstr "&Nápověda"
 
 #: qt/app.py:743
 msgid "Icons only"
-msgstr ""
+msgstr "Pouze ikony"
 
 #: qt/app.py:746
 msgid "Text only"
-msgstr ""
+msgstr "Pouze text"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Text pod ikonami"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Text vedle ikon"
 
 #: qt/app.py:897
 msgid ""
@@ -885,7 +886,7 @@ msgid ""
 msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
 
 #: qt/app.py:1608
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "your entire system."
@@ -930,7 +931,7 @@ msgstr "překladatelská platforma"
 
 #: qt/app.py:2076
 msgid "Website"
-msgstr "Webové stránky projektu"
+msgstr "Webové stránky"
 
 #: qt/app.py:2090
 msgid "Your translation"
@@ -939,7 +940,7 @@ msgstr "Váš překlad"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "Ve Fediverse na Mastodon: {link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -995,13 +996,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Vytváření profilu s EncFS bude odebráno v příštím dílčím vydání (1.7), "
+"naplánovaném na rok 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"Podpora pro EncFS bude zanedlouho odebrána. Není doporučeno nadále tento "
-"režim v profilech používat."
+msgstr "Není doporučeno nadále tento režim v profilech používat."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1012,14 +1012,14 @@ msgstr "zprávě"
 #: qt/manageprofiles/tab_general.py:590
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "Podpora pro EncFS je ukončována kvůli zranitelnostem zabezpečení."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
-msgstr ""
+msgstr "Další podrobnosti, včetně možných alternativ, viz {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1030,6 +1030,7 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Náhrada je plánována, ale není možné zaručit, že bude do té doby hotová."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1037,6 +1038,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Uživatelé jsou zváni k této diskuzi. Aktualizované podrobnosti ohledně "
+"dalších kroků jsou k dispozici v {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1206,7 +1209,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Odebírání a uchovávání"
 
 #: qt/manageprofiles/__init__.py:269
 msgid "&Options"
@@ -1306,19 +1309,20 @@ msgstr "V hodiny:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "po hodině"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Minut:"
 
 #: qt/manageprofiles/schedulewidget.py:92
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Spouštět aplikaci Back In Time na základě připojení určené jednotky datového úložiště k počítači (s tím, že četnost záloh se neřídí těmito odpo/připojeními, ale nastaveným intervalem mezi zálohami).\n"
-"Pro účely zapsání tohoto nastavení budete vyzváni k zadání hesla k uživatelskému účtu, který má práva pro správu systému (sudo)."
+"Spouštět Back In Time při připojení jednotky k počítači (s tím, že četnost "
+"záloh se neřídí těmito odpo/připojeními, ale nastaveným intervalem mezi "
+"zálohami). Budete vyzváni k zadání hesla pro sudo."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1573,7 +1577,7 @@ msgstr "Je třeba, aby předvolby byly obklopeny uvozovkami, např. {example}."
 
 #: qt/manageprofiles/tab_expert_options.py:301
 msgid "Paste additional options to rsync"
-msgstr "Dodatečné parametry, se kterými spouštět nástroj rsync:"
+msgstr "Vložte dodatečné parametry pro rsync"
 
 #: qt/manageprofiles/tab_expert_options.py:309
 msgid "Prefix to run before every command on remote host."
@@ -1595,7 +1599,7 @@ msgstr "výchozí"
 
 #: qt/manageprofiles/tab_expert_options.py:324
 msgid "Add prefix to SSH commands"
-msgstr "Před příkazy přes SSH přidávat:"
+msgstr "Před příkazy přes SSH přidávat"
 
 #: qt/manageprofiles/tab_expert_options.py:334
 msgid "Check if remote host is online"
@@ -1816,65 +1820,67 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Následující pravidla jsou zpracovávána od začátku seznamu směrem k jeho "
+"konci. Pozdější pravidla přebíjí ta dřívější a nejsou jimi omezována. "
+"Ohledně podrobností a ukázek viz {manual}."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
-msgstr ""
+msgstr "uživatelská příručka"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Otevřít uživatelskou příručku v prohlížeči."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval."
+msgstr "Ponechávat nejnovější zachycené stavy."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"Poslední nebo nejnovější zachycený stav je uchováván v každém případě."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Toto chování není možné změnit."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
 msgid "Keep named snapshots."
 msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
-#, fuzzy
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Zachycené stavy, kterým krom obvyklého časového razítka byl dán název, "
-"nebudou smazány."
+"Zachycené stavy, které byly nějak nazvány, krom obvyklého časového razítka "
+"byl dán název, budou za všech okolností zachovávány a nebudou odebrány."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Let"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Odstranit zachycený stav"
+msgstr "Odstranit zachycené stavy starší než"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Celé dny. Stávající den je ignorován."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Týdny v kalendáři s pondělím coby prvním dnem. Stávající týden je ignorován."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 měsíční periody. Stávající měsíc je ignorován."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Zásada uchovávání"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1896,7 +1902,7 @@ msgstr "Pokud vybráno, Back In Time nejprve vyzkouší vzdálený stroj."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Dny jsou počítány ode dneška."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1908,20 +1914,18 @@ msgid "day(s)."
 msgstr "dnů."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Ponechat jeden zachycený stav co den za uplynulých"
+msgstr "Ponechat poslední zachycený stav co den za uplynulých"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
-msgstr ""
+msgstr "Týdny jsou počítány od toho stávajícího. Týdny začínají v pondělí."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Ponechat jeden zachycený stav co týden za uplynulých"
+msgstr "Ponechat poslední zachycený stav co týden za uplynulých"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1930,12 +1934,11 @@ msgstr "týdnů."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr ""
+msgstr "Měsíce jsou počítány jako kalendářní a začíná se stávajícím měsícem."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Ponechat jeden zachycený stav co měsíc za uplynulých"
+msgstr "Ponechat poslední zachycený stav co měsíc za uplynulých"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1944,33 +1947,29 @@ msgstr "měsíců."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Roky jsou počítány jako kalendářní a začíná se stávajícím rokem."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Ponechat všechny zachycené stavy za uplynulých"
+msgstr "Ponechat poslední zachycený stav z každého roku"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
-msgstr ""
+msgstr "za všechna leta."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Pokud volného místa zbývá méně než:"
+msgstr "… pokud volného místa zbývá méně než"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
 msgstr ""
-"Pokud z počtu složek a souborů, které lze na souborovém systému vytvořit "
-"(inode), zbývá méně než:"
+"… pokud z počtu složek a souborů, které lze na souborovém systému vytvořit "
+"(inode), zbývá méně než"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
-#, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Odstraňování starých zachycených stavů"
+msgstr "Odebrat nejstarší zachycené stavy pokud…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2006,33 +2005,33 @@ msgstr "Rychlost:"
 msgid "ETA:"
 msgstr "Odhad. zbývající čas:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Zachycené stavy"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Dnes"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Včera"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Tento týden"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Minulý týden"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Toto NENÍ zachycený stav, ale pohled přímo do stávajících souborů na tomto "
 "počítači"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Minulá kontrola {time}"
@@ -2153,6 +2152,7 @@ msgid "Do you really want to delete {file} in {count} snapshots?"
 msgstr "Opravdu chcete „{file}“ vymazat z(e) {count} zachycených stavů?"
 
 #: qt/snapshotsdialog.py:406
+#, fuzzy
 msgid "WARNING: This cannot be revoked."
 msgstr "VAROVÁNí: Toto nelze vzít zpět!"
 

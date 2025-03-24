@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-06 15:23+0100\n"
-"PO-Revision-Date: 2025-02-09 17:49+0000\n"
-"Last-Translator: mbouzada <mbouzada@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-16 15:38+0000\n"
+"Last-Translator: mbouzada <mbouzada@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -81,16 +81,17 @@ msgstr ""
 "Debe seleccionarse polo menos un directorio para a copia de seguranza."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "Restaurar {path}"
+msgstr "Directorio: {path}"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Non é posíbel incluír o directorio na copia de seguranza."
+msgstr ""
+"Non é posíbel incluír este directorio na copia de seguranza por mor de que é"
+" parte do destino da copia."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
@@ -343,7 +344,7 @@ msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Non foi posíbel desbloquear a chave privada ssh. O contrasinal é incorrecto "
+"Non foi posíbel desbloquear a chave ssh privada. O contrasinal é incorrecto "
 "ou non está dispoñíbel para cron."
 
 #: common/sshtools.py:559
@@ -454,8 +455,8 @@ msgid ""
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "O sistema de ficheiros de destino para {path} é un recurso compartido "
-"montado mediante sshfs. Sshfs non admite ligazóns fortes. Use o modo «SSH» "
-"no seu lugar."
+"montado mediante sshfs. Sshfs non admite ligazóns fortes. En troques use o "
+"modo «SSH»."
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
@@ -1064,7 +1065,7 @@ msgstr "Predeterminado do sistema"
 
 #: qt/languagedialog.py:107
 msgid "Use operating systems language."
-msgstr "Utilizar o idioma dos sistemas operativos."
+msgstr "Empregar o idioma do sistema operativo."
 
 #: qt/languagedialog.py:161
 #, python-brace-format
@@ -1275,7 +1276,7 @@ msgid ""
 "Would you like to include the symlink target instead?"
 msgstr ""
 "«{path}» é unha ligazón simbólica. Non se fará unha copia de seguranza do destino ligado ata que tamén o inclúa.\n"
-"Quere incluír no seu lugar o destino da ligazón simbólica?"
+"Quere incluír, en troques, o destino da ligazón simbólica?"
 
 #: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
@@ -1987,32 +1988,32 @@ msgstr "Velocidade:"
 msgid "ETA:"
 msgstr "Tempo restante estimado:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Instantáneas"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Hoxe"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Onte"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Esta semana"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "A semana pasada"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Esta NON é unha instantánea senón unha vista actual dos ficheiros locais"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Última comprobación {time}"
