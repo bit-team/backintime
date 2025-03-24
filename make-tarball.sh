@@ -22,7 +22,7 @@ cd ..
 #     cp -aR ${CURRENT} ${NEW}
 # fi
 
-cp --exclude=.git -aR ${CURRENT} ${NEW}
+cp -aR ${CURRENT} ${NEW}
 
 rm backintime-$VER.tar.gz
 
