@@ -29,7 +29,7 @@ import mount
 import password
 import encfstools
 import cli
-from statedata import StateData
+from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
@@ -51,9 +51,12 @@ def takeSnapshotAsync(cfg, checksum=False):
         cfg (config.Config): config that should be used
     """
     cmd = []
+
     if cfg.ioniceOnUser():
         cmd.extend(('ionice', '-c2', '-n7'))
+
     cmd.append('backintime')
+
     if '1' != cfg.currentProfile():
         cmd.extend(('--profile-id', str(cfg.currentProfile())))
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
@@ -64,16 +67,20 @@ def takeSnapshotAsync(cfg, checksum=False):
         cmd.append('--debug')
     if checksum:
         cmd.append('--checksum')
+
     cmd.append('backup')
 
     # child process need to start its own ssh-agent because otherwise
     # it would be lost without ssh-agent if parent will close
     env = os.environ.copy()
+
     for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
         try:
             del env[i]
+
         except:
             pass
+
     subprocess.Popen(cmd, env = env)
 
 
@@ -91,6 +98,7 @@ def takeSnapshot(cfg, force=True):
     """
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
+
     return ret
 
 
@@ -99,13 +107,15 @@ def _mount(cfg):
     Mount external filesystems.
 
     Args:
-        cfg (config.Config):    config that should be used
+        cfg (config.Config): Config that should be used.
     """
     try:
-        hash_id = mount.Mount(cfg = cfg).mount()
+        hash_id = mount.Mount(cfg=cfg).mount()
+
     except MountException as ex:
         logger.error(str(ex))
         sys.exit(RETURN_ERR)
+
     else:
         cfg.setCurrentHashId(hash_id)
 
@@ -115,10 +125,11 @@ def _umount(cfg):
     Unmount external filesystems.
 
     Args:
-        cfg (config.Config):    config that should be used
+        cfg (config.Config): Config that should be used.
     """
     try:
-        mount.Mount(cfg = cfg).umount(cfg.current_hash_id)
+        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
+
     except MountException as ex:
         logger.error(str(ex))
 
@@ -489,6 +500,47 @@ def createParsers(app_name='backintime'):
                            help=argparse.SUPPRESS)
 
 
+def encfs_deprecation_warning():
+    """Warn about encfs deprecation in syslog.
+
+    See Issue #1734 for details. This function is a workraound and will be
+    removed if #1734 is closed.
+    """
+
+    # Don't warn if EncFS isn't installed
+    if not tools.checkCommand('encfs'):
+        return
+
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+    if xdg_state:
+        xdg_state = pathlib.Path(xdg_state)
+    else:
+        xdg_state = pathlib.Path.home() / '.local' / 'state'
+    fp = xdg_state / 'backintime.encfs-warning.timestamp'
+
+    # ensure existence
+    if not fp.exists():
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        fp.touch()
+
+    # Calculate age of that file
+    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+    # Don't warn if to young
+    if delta.days < 30:
+        return
+
+    logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
+                   'Removal is schedule for minor release 1.7 in year 2026. '
+                   'For details and alternatives '
+                   f'read: {URL_ENCRYPT_TRANSITION}')
+
+
+    # refresh timestamp
+    fp.touch()
+
+
 def startApp(app_name='backintime'):
     """
     Start the requested command or return config if there was no command
@@ -526,8 +578,7 @@ def startApp(app_name='backintime'):
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
 
-    # State data
-    load_state_data(args)
+    encfs_deprecation_warning()
 
     # Call commands
     if 'func' in dir(args):
@@ -725,197 +776,6 @@ def getConfig(args, check=True):
         cfg.forceUseChecksum = args.checksum
 
     return cfg
-
-
-def _get_state_data_from_config(cfg: config.Config) -> StateData:
-    """Get data related to application state from the config instance.
-
-    It migrates state data from the config file to an instance of
-    `StateData` which later is saved in a separate file.
-
-    This function is a temporary workaround. See PR #1850.
-
-    Args:
-       cfg: The config instance.
-
-    Returns:
-        dict: The state data.
-        """
-
-    data = StateData()
-
-    # internal.manual_starts_countdown
-    data['manual_starts_countdown'] \
-        = cfg.intValue('internal.manual_starts_countdown', 10)
-
-    # internal.msg_rc
-    val = cfg.strValue('internal.msg_rc', None)
-    if val:
-        data.msg_release_candidate = val
-
-    # internal.msg_shown_encfs
-    val = cfg.boolValue('internal.msg_shown_encfs', None)
-    if val:
-        data.msg_encfs_global = val
-
-    # qt.show_hidden_files
-    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
-
-    # Coordinates and dimensions
-    val = (
-        cfg.intValue('qt.main_window.x', None),
-        cfg.intValue('qt.main_window.y', None)
-    )
-
-    if all(val):
-        data.mainwindow_coords = val
-
-    val = (
-        cfg.intValue('qt.main_window.width', None),
-        cfg.intValue('qt.main_window.height', None)
-    )
-    if all(val):
-        data.mainwindow_dims = val
-
-    val = (
-        cfg.intValue('qt.logview.width', None),
-        cfg.intValue('qt.logview.height', None)
-    )
-    if all(val):
-        data.logview_dims = val
-
-    # files view
-    # Dev note (buhtz, 2024-12): Ignore the column width values because of a
-    # bug. Three columns are tracked but the widget has four columns. The "Typ"
-    # column is treated as "Date" and the width of the real "Date" column (4th)
-    # was never stored.
-    # The new state file will load and store width values for all existing
-    # columns.
-    # qt.main_window.files_view.name_width
-    # qt.main_window.files_view.size_width
-    # qt.main_window.files_view.date_width
-
-    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
-    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
-    data.files_view_sorting = (col, 0 if order else 1)
-
-    # splitter width
-    widths = (
-        cfg.intValue('qt.main_window.main_splitter_left_w', None),
-        cfg.intValue('qt.main_window.main_splitter_right_w', None)
-    )
-    if all(widths):
-        data.mainwindow_main_splitter_widths = widths
-
-    widths = (
-        cfg.intValue('qt.main_window.second_splitter_left_w', None),
-        cfg.intValue('qt.main_window.second_splitter_right_w', None)
-    )
-    if all(widths):
-        data.mainwindow_second_splitter_widths = widths
-
-    # each profile
-    for profile_id in cfg.profiles():
-        profile_state = data.profile(profile_id)
-
-        # profile specific encfs warning
-        val = cfg.profileBoolValue('msg_shown_encfs', None, profile_id)
-        if val is not None:
-            profile_state.msg_encfs = val
-
-        # qt.last_path
-        if cfg.hasProfileKey('qt.last_path', profile_id):
-            profile_state.last_path \
-                = cfg.profileStrValue('qt.last_path', None, profile_id)
-
-        # Places: sorting
-        sorting = (
-            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
-            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
-        )
-        if all(sorting):
-            profile_state.places_sorting = sorting
-
-        # Manage profiles - Exclude tab: sorting
-        sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
-        )
-        if all(sorting):
-            profile_state.exclude_sorting = sorting
-
-        # Manage profiles - Include tab: sorting
-        sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortOrder', None, profile_id)
-        )
-        if all(sorting):
-            profile_state.include_sorting = sorting
-
-    return data
-
-
-def load_state_data(args: argparse.Namespace) -> None:
-    """Initiate the `State` instance.
-
-    The state file is loaded and its data stored in `State`. The later is a
-    singleton and can be used everywhere.
-
-    Dev note (buhtz, 2024-12): The args argument is a workaround and will be
-    removed. Currently it is needed to know where to load the config file
-    from. Related to PR #1850. In the future that function can be moved into
-    the StateData class as load() method.
-
-    Args:
-       args: Arguments given from command line.
-    """
-    fp = StateData.file_path()
-
-    try:
-        # load file
-        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
-
-    except FileNotFoundError:
-        logger.debug('State file not found. Using config file and migrate it'
-                     'into a state file.')
-        fp.parent.mkdir(parents=True, exist_ok=True)
-
-        # Try to extract data from the config file (for migration)
-        try:
-            cfg = getConfig(args)
-
-        except SystemExit as exc:
-            # config file does not exists
-            if exc.code == RETURN_NO_CFG:
-                # empty/default state data
-                state_data = StateData()
-            else:
-                # re-raise at any other reasons
-                raise
-
-        else:
-            state_data = _get_state_data_from_config(cfg)
-
-    except json.decoder.JSONDecodeError as exc:
-        logger.warning(f'Unable to read and decode state file "{fp}". '
-                       'Ignnoring it.')
-        logger.debug(f'{exc=}')
-
-        try:
-            raw_content = fp.read_text(encoding='utf-8')
-            logger.debug(f'raw_content="{raw_content}"')
-        except Exception as exc_raw:
-            logger.debug(f'{exc_raw=}')
-
-        # Empty state data with default values
-        state_data = StateData()
-
-    # Register close callback. This will save the state file when the BIT ends.
-    atexit.register(state_data.save)
 
 
 def setQuiet(args):

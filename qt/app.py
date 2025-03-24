@@ -18,6 +18,7 @@ if not os.getenv('DISPLAY', ''):
 
 import pathlib
 import re
+import json
 import subprocess
 import shutil
 import textwrap
@@ -32,6 +33,8 @@ import tools
 tools.initiate_translation(None)
 import qttools
 import backintime
+import bitbase
+import config
 import tools
 import logger
 import snapshots
@@ -73,28 +76,29 @@ from PyQt6.QtWidgets import (QWidget,
                              QDialog,
                              QApplication,
                              )
-from PyQt6.QtCore import (Qt,
+from PyQt6.QtCore import (QDir,
+                          QEvent,
                           QObject,
                           QPoint,
                           pyqtSlot,
                           pyqtSignal,
+                          QSortFilterProxyModel,
+                          Qt,
                           QTimer,
                           QThread,
-                          QEvent,
-                          QSortFilterProxyModel,
-                          QDir,
                           QUrl)
-from manageprofiles import SettingsDialog
 import snapshotsdialog
 import logviewdialog
-from restoredialog import RestoreDialog
-from restoreconfigdialog import RestoreConfigDialog
 import languagedialog
 import messagebox
-from aboutdlg import AboutDlg
 import qttools
-from usermessagedialog import UserMessageDialog
 import version
+from manageprofiles import SettingsDialog
+from restoredialog import RestoreDialog
+from restoreconfigdialog import RestoreConfigDialog
+from usermessagedialog import UserMessageDialog
+from aboutdlg import AboutDlg
+from statedata import StateData
 
 
 class MainWindow(QMainWindow):
@@ -314,6 +318,13 @@ class MainWindow(QMainWindow):
             for idx, width in enumerate(files_view_col_widths):
                 self.filesView.header().resizeSection(idx, width)
 
+        # Release Candidate
+        if version.is_release_candidate():
+            last_vers = state_data.msg_release_candidate
+            if last_vers != version.__version__:
+                state_data.msg_release_candidate = version.__version__
+                self._open_release_candidate_dialog()
+
         # Force dialog to import old configuration
         if not config.isConfigured():
             message = _(
@@ -393,16 +404,17 @@ class MainWindow(QMainWindow):
             if self.config.language_used != 'en':
 
                 # Show the message only if the current used language is
-                # translated equal or less then 97%
-                self._open_approach_translator_dialog(cutoff=97)
+                # translated equal or less then {cutoff}%
+                self._open_approach_translator_dialog(cutoff=99)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
 
-        # If the encfs-deprecation warning was never shown before
-        if state_data.msg_encfs_global is False:
+        # If the encfs-deprecation warning in its latest stage was not shown
+        # yet.
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -412,16 +424,9 @@ class MainWindow(QMainWindow):
 
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
+                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                state_data.msg_encfs_global = True
-
-        # Release Candidate
-        if version.is_release_candidate():
-            last_vers = state_data.msg_release_candidate
-            if last_vers != version.__version__:
-                state_data.msg_release_candidate = version.__version__
-                self._open_release_candidate_dialog()
 
     @property
     def showHiddenFiles(self):
@@ -923,10 +928,12 @@ class MainWindow(QMainWindow):
         try:
             mnt = mount.Mount(cfg=self.config, parent=self)
             mnt.umount(self.config.current_hash_id)
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
 
         self.config.save()
+        state_data.save()
 
         # cleanup temporary local copies of files which were opened in GUI
         for d in self.tmpDirs:
@@ -942,7 +949,8 @@ class MainWindow(QMainWindow):
 
         self.comboProfiles.clear()
 
-        qttools.update_combo_profiles(self.config, self.comboProfiles, self.config.currentProfile())
+        qttools.update_combo_profiles(
+            self.config, self.comboProfiles, self.config.currentProfile())
         profiles = self.config.profilesSortedByName()
 
         self.comboProfilesAction.setVisible(len(profiles) > 1)
@@ -956,12 +964,18 @@ class MainWindow(QMainWindow):
         self.updatePlaces()
         self.updateFilesView(0)
 
+        profile_id = self.config.currentProfile()
+        state_data = StateData()
+        profile_state = state_data.profile(profile_id)
+
         # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(self.config.currentProfile())
+        current_mode = self.config.snapshotsMode(profile_id)
         if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile.
-            if self.config.profileBoolValue('msg_shown_encfs') is False:
-                self.config.setProfileBoolValue('msg_shown_encfs', True)
+            # Show the profile specific warning dialog only once per profile
+            # and only if the global warning was shown before.
+            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
+                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
@@ -1012,10 +1026,14 @@ class MainWindow(QMainWindow):
 
     def remount(self, new_profile_id, old_profile_id):
         try:
-            mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
+            mnt = mount.Mount(cfg=self.config,
+                              profile_id=old_profile_id,
+                              parent=self)
             hash_id = mnt.remount(new_profile_id)
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
+
         else:
             self.config.setCurrentHashId(hash_id)
 
@@ -1024,7 +1042,7 @@ class MainWindow(QMainWindow):
         if raiseCmd is None:
             return
 
-        logger.debug("Raise cmd: %s" %raiseCmd, self)
+        logger.debug("Raise cmd: %s" % raiseCmd, self)
         self.qapp.alert(self)
 
     def updateTakeSnapshot(self, force_wait_lock=False):
@@ -2280,6 +2298,173 @@ class SetupCron(QThread):
         self.config.setupCron()
 
 
+def _get_state_data_from_config(cfg: config.Config) -> StateData:
+    """Get data related to application state from the config instance.
+
+    It migrates state data from the config file to an instance of
+    `StateData` which later is saved in a separate file.
+
+    This function is a temporary workaround. See PR #1850.
+
+    Args:
+       cfg: The config instance.
+
+    Returns:
+        dict: The state data.
+        """
+
+    data = StateData()
+
+    # internal.manual_starts_countdown
+    data['manual_starts_countdown'] \
+        = cfg.intValue('internal.manual_starts_countdown', 10)
+
+    # internal.msg_rc
+    val = cfg.strValue('internal.msg_rc', None)
+    if val:
+        data.msg_release_candidate = val
+
+    # internal.msg_shown_encfs
+    val = cfg.boolValue('internal.msg_shown_encfs', 0)
+    if val:
+        data.msg_encfs_global = val
+
+    # qt.show_hidden_files
+    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
+
+    # Coordinates and dimensions
+    val = (
+        cfg.intValue('qt.main_window.x', None),
+        cfg.intValue('qt.main_window.y', None)
+    )
+
+    if all(val):
+        data.mainwindow_coords = val
+
+    val = (
+        cfg.intValue('qt.main_window.width', None),
+        cfg.intValue('qt.main_window.height', None)
+    )
+    if all(val):
+        data.mainwindow_dims = val
+
+    val = (
+        cfg.intValue('qt.logview.width', None),
+        cfg.intValue('qt.logview.height', None)
+    )
+    if all(val):
+        data.logview_dims = val
+
+    # files view
+    # Dev note (buhtz, 2024-12): Ignore the column width values because of a
+    # bug. Three columns are tracked but the widget has four columns. The "Typ"
+    # column is treated as "Date" and the width of the real "Date" column (4th)
+    # was never stored.
+    # The new state file will load and store width values for all existing
+    # columns.
+    # qt.main_window.files_view.name_width
+    # qt.main_window.files_view.size_width
+    # qt.main_window.files_view.date_width
+
+    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
+    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
+    data.files_view_sorting = (col, 0 if order else 1)
+
+    # splitter width
+    widths = (
+        cfg.intValue('qt.main_window.main_splitter_left_w', None),
+        cfg.intValue('qt.main_window.main_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_main_splitter_widths = widths
+
+    widths = (
+        cfg.intValue('qt.main_window.second_splitter_left_w', None),
+        cfg.intValue('qt.main_window.second_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_second_splitter_widths = widths
+
+    # each profile
+    for profile_id in cfg.profiles():
+        profile_state = data.profile(profile_id)
+
+        # profile specific encfs warning
+        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
+        profile_state.msg_encfs = val
+
+        # qt.last_path
+        if cfg.hasProfileKey('qt.last_path', profile_id):
+            profile_state.last_path \
+                = cfg.profileStrValue('qt.last_path', None, profile_id)
+
+        # Places: sorting
+        sorting = (
+            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
+            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.places_sorting = sorting
+
+        # Manage profiles - Exclude tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.exclude_sorting = sorting
+
+        # Manage profiles - Include tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.include_sorting = sorting
+
+    return data
+
+
+def load_state_data(cfg: config.Config) -> None:
+    """Initiate the `State` instance.
+
+    The state file is loaded and its data stored in `State`. The later is a
+    singleton and can be used everywhere.
+
+    Args:
+       args: Arguments given from command line.
+    """
+    fp = StateData.file_path()
+
+    try:
+        # load file
+        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
+
+    except FileNotFoundError:
+        logger.debug('State file not found. Using config file and migrate it'
+                     'into a state file.')
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        state_data = _get_state_data_from_config(cfg)
+
+    except json.decoder.JSONDecodeError as exc:
+        logger.warning(f'Unable to read and decode state file "{fp}". '
+                       'Ignnoring it.')
+        logger.debug(f'{exc=}')
+
+        try:
+            raw_content = fp.read_text(encoding='utf-8')
+            logger.debug(f'raw_content="{raw_content}"')
+        except Exception as exc_raw:
+            logger.debug(f'{exc_raw=}')
+
+        # Empty state data with default values
+        state_data = StateData()
+
+
 if __name__ == '__main__':
     cfg = backintime.startApp('backintime-qt')
 
@@ -2296,6 +2481,8 @@ if __name__ == '__main__':
     qapp = qttools.createQApplication(cfg.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
+
+    load_state_data(cfg)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
 

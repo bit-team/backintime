@@ -9,7 +9,7 @@ General Public License v2 (GPLv2). See directory LICENSES or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # How to prepare and publish a new BIT release
-<sub>August 2024</sub>
+<sub>February 2025</sub>
 
 ## Overview
 
@@ -44,13 +44,15 @@ using a "feature" branch and sending a pull request asking for a review.
   [#1529](https://github.com/bit-team/backintime/issues/1529)). This is related
   to the Python versions and also to the Ubuntu Distro versions.
 - `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released".
+- Consider publishing a release candidate before a full release.
 
 
 ## TLDR ;-)
 
 - Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
   their support and kindly ask for new OSS credits.
-- Create a new branch in your clone for the new release candidate.
+- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
+  (candidate).
 - Update `VERSION` file.
 - Update `CHANGES` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
@@ -67,8 +69,12 @@ using a "feature" branch and sending a pull request asking for a review.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
 
-When the PR is merged:
+Before the PR is merged:
 - Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`.
+- Test the tar archive.
+- Merge.
+
+After the PR is merged:
 - Create a new release in Github (attaching above tar archive).
 - Update `VERSION` and `CHANGES` for the `dev` branch.
 
@@ -210,6 +216,8 @@ When the PR is merged:
   - Add all developers as reviewers.
   - Mention bugs (and status) discovered during preparation of the release
     candidate in the description.
+
+- Create the tarball (see next section) and test it **before** merging.
 
 - Fix review findings and push the changes again to update the pull request.
 
