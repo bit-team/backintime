@@ -1320,13 +1320,17 @@ class MainWindow(QMainWindow):
             self.timeLine.checkSelection()
 
     def validate_on_take_snapshot(self):
-        missing = snapshots.has_missing_includes(self.config.include())
+        missing = self.snapshots.get_include_entries_missing_in_source()
+
         if missing:
-            msg_missing = '\n'.join(missing)
-            msg = _('The following directories are missing: {dirs} Do you want to proceed?').format(
-                dirs=f'\n{msg_missing}\n\n')
+            msg = _('The following entries from the include list have no '
+                    'corresponding file or directory in the backup source:')
+            msg = msg + '\n\n' + '\n'.join(missing) + '\n\n'
+            msg = msg + _('Proceed with the backup?')
+
             answer = messagebox.warningYesNo(self, msg)
             return answer == QMessageBox.StandardButton.Yes
+
         return True
 
     def btnTakeSnapshotClicked(self):

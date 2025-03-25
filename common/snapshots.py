@@ -705,24 +705,35 @@ class Snapshots:
 
             return True
 
-    def _check_included_sources_exist_on_take_snapshot(self, config):
+    def warn_about_include_entries_missing_in_source(self):
+        """Log a warning if include list entries are missing in the backup
+        source.
+
+        If one ore more entries can not be found in the backup source a
+        warning message is logged.
         """
-        Check if files and/or directories in the include list exist on the source.
+        missing_entries = self.get_include_entries_missing_in_source()
 
-        If a file or directory does not exist, a warning message is logged.
-
-        Args:
-            cfg (config.Config): Config that should be used.
-        """
-        # DEBUG
-        logger.debug(' :: _check_included_sources_exist_on_take_snapshot()')
-        missing = has_missing_includes(config.include())
-
-        if missing:
-            msg = ', '.join(missing)
-            msg = f'The following files/folders are missing: {msg}'
+        if missing_entries:
+            msg = 'The following entries from the include list have no ' \
+                  'corresponding file or directory in the backup source:'
+            msg = msg + ' "' + '", "'.join(missing_entries) + '"'
             logger.warning(msg)
             self.setTakeSnapshotMessage(1, msg)
+
+    def get_include_entries_missing_in_source(self):
+        """Return include list entries that are missing in the backup source.
+
+        If one ore more entries can not be found in the backup source a
+        warning message is logged.
+
+        Returns:
+            list: List of entries missing.
+        """
+        include_entries = list(zip(*self.config.include()))[0]
+        missing_entries = filter(lambda entry: not Path(entry).exists(),
+                                 include_entries)
+        return list(missing_entries)
 
     # TODO Refactor: This functions is extremely difficult to understand:
     #  - Nested "if"s
@@ -834,7 +845,7 @@ class Snapshots:
                     else:
                         self.config.setCurrentHashId(hash_id)
 
-                    self._check_included_sources_exist_on_take_snapshot(self.config)
+                    self.warn_about_include_entries_missing_in_source()
                     include_folders = self.config.include()
 
                     if not include_folders:
@@ -3222,27 +3233,6 @@ def lastSnapshot(cfg):
     if sids:
         return sids[0]
 
-
-def has_missing_includes(included):
-    """
-    Check if there are missing files or folders in a snapshot.
-
-    Args:
-        included (list):    list of tuples (item, info)
-
-    Returns:
-        tuple:              (bool, str) where bool is ``True`` if there are
-                            missing files or folders and str is a message
-                            describing the missing files or folders
-    """
-    # DEBUG
-    logger.debug(' :: has_missing_includes()')
-
-    not_found = []
-    for path, _ in included:
-        if not os.path.exists(path):
-            not_found.append(path)
-    return not_found
 
 
 if __name__ == '__main__':
