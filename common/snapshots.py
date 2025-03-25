@@ -714,6 +714,8 @@ class Snapshots:
         Args:
             cfg (config.Config): Config that should be used.
         """
+        # DEBUG
+        logger.debug(' :: _check_included_sources_exist_on_take_snapshot()')
         missing = has_missing_includes(config.include())
 
         if missing:
@@ -3233,6 +3235,9 @@ def has_missing_includes(included):
                             missing files or folders and str is a message
                             describing the missing files or folders
     """
+    # DEBUG
+    logger.debug(' :: has_missing_includes()')
+
     not_found = []
     for path, _ in included:
         if not os.path.exists(path):

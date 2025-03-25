@@ -1933,7 +1933,7 @@ def readTimeStamp(fname):
     """
 
     if not os.path.exists(fname):
-        logger.debug(f"No timestamp file '{fname}'")
+        # logger.debug(f"No timestamp file '{fname}'")
         return
 
     with open(fname, 'r') as f:
@@ -1956,8 +1956,7 @@ def readTimeStamp(fname):
 
         else:
             # valid time stamp
-            logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
-
+            # logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
             return stamp
 
 
@@ -1968,7 +1967,7 @@ def writeTimeStamp(fname):
         fname (str): Full path to timestamp file.
     """
     now = datetime.now().strftime('%Y%m%d %H%M')
-    logger.debug(f"Write timestamp '{now}' into file '{fname}'")
+    # logger.debug(f"Write timestamp '{now}' into file '{fname}'")
     makeDirs(os.path.dirname(fname))
 
     with open(fname, 'w') as f:
