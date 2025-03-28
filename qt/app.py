@@ -318,6 +318,13 @@ class MainWindow(QMainWindow):
             for idx, width in enumerate(files_view_col_widths):
                 self.filesView.header().resizeSection(idx, width)
 
+        # Release Candidate
+        if version.is_release_candidate():
+            last_vers = state_data.msg_release_candidate
+            if last_vers != version.__version__:
+                state_data.msg_release_candidate = version.__version__
+                self._open_release_candidate_dialog()
+
         # Force dialog to import old configuration
         if not config.isConfigured():
             message = _(
@@ -397,8 +404,8 @@ class MainWindow(QMainWindow):
             if self.config.language_used != 'en':
 
                 # Show the message only if the current used language is
-                # translated equal or less then 97%
-                self._open_approach_translator_dialog(cutoff=97)
+                # translated equal or less then {cutoff}%
+                self._open_approach_translator_dialog(cutoff=99)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
@@ -420,13 +427,6 @@ class MainWindow(QMainWindow):
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-
-        # Release Candidate
-        if version.is_release_candidate():
-            last_vers = state_data.msg_release_candidate
-            if last_vers != version.__version__:
-                state_data.msg_release_candidate = version.__version__
-                self._open_release_candidate_dialog()
 
     @property
     def showHiddenFiles(self):

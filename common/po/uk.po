@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
-"PO-Revision-Date: 2025-02-09 17:49+0000\n"
-"Last-Translator: SomeTr <sometr@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-06 15:08+0000\n"
+"Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "За замовчуванням"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Профіль: «{name}»"
@@ -79,19 +79,24 @@ msgstr "Каталог для резервних копій не є дійсни
 msgid "At least one directory must be selected for backup."
 msgstr "Для резервного копіювання необхідно вибрати принаймні один каталог."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
-msgstr "Каталог не можна включити в резервну копію."
+#: common/config.py:358 common/config.py:373
+#, python-brace-format
+msgid "Directory: {path}"
+msgstr "Каталог: {path}"
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Підкаталоги не можна включити в резервну копію."
+#: common/config.py:359 common/config.py:374
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr ""
+"Цей каталог неможливо включити в резервну копію, оскільки він є частиною "
+"місця призначення резервної копії."
 
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Не вдалося записати новий crontab."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +108,7 @@ msgstr ""
 "але не ввімкнено. Спробуйте команду «systemctl enable cron» або зверніться "
 "до каналів підтримки Вашого дистрибутиву GNU/Linux."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +117,12 @@ msgstr ""
 "Не вдалося встановити правило Udev для профілю {profile_id}. DBus Service "
 "«{dbus_interface}» недоступний"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Розклад udev не працює з режимом {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Не вдалося знайти UUID для {path}"
@@ -207,7 +212,7 @@ msgstr "Виконано"
 msgid "Deferring backup while on battery"
 msgstr "Вимкнення резервування при роботі від батареї"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Не вдається знайти каталог резервних копій."
 
@@ -492,7 +497,7 @@ msgstr "Включити"
 msgid "Add to Exclude"
 msgstr "Виключити"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -501,7 +506,7 @@ msgstr ""
 "Схоже, що це перший запуск {app_name}, оскільки не знайдено жодної "
 "конфігурації."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -509,7 +514,7 @@ msgstr ""
 "Імпортувати існуючу конфігурацію (з каталогу резервної копії або з іншого "
 "комп'ютера)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 "Якщо вона знаходиться на знімному диску, підключіть його і натисніть OK."
@@ -1067,7 +1072,7 @@ msgstr "Останній журнал"
 msgid "Snapshot Log View"
 msgstr "Журнал копій"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Профіль:"
@@ -1113,48 +1118,48 @@ msgstr "[E] Помилка, [I] Інформація, [C] Зміна"
 msgid "decode paths"
 msgstr "декодувати шляхи"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Керувати профілями"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Редагувати"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Додати"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Видалити"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Загальне"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "В&ключити"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Включити файли і каталоги"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Додати файл"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Додати каталог"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "Вик&лючити"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1167,24 +1172,24 @@ msgstr ""
 "шаблони ігноруються (напр., {example1}). Імена файлів у цьому режимі "
 "непередбачувані через шифрування EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Виключити шаблони, файли або каталоги"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Додати за замовчуванням"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Виключити файли більші ніж:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Виключити файли більші ніж значення в {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1195,68 +1200,68 @@ msgstr ""
 "rsync це переміщення, а не виключення. Тому великі файли, зарезервовані "
 "раніше, залишаться в копіях, навіть якщо вони змінилися."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr "&Видалення і збереження"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Налаштування"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "Роз&ширені налаштування"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Відновити конфігурацію"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Редаг. user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Новий профіль"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Перейменувати профіль"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Ви впевнені, що хочете видалити профіль «{name}»?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Настійно рекомендується{ENDBOLD}: (Усі рекомендації вже включено.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Настійно рекомендується{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Виключити за шаблоном"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Виключити файл"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Виключити каталог"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Включити файл"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1265,11 +1270,11 @@ msgstr ""
 "«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде зарезервовано, якщо його не включити.\n"
 "Включити цей об'єкт у резервну копію?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Включити каталог"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Вимкнено, оскільки цей шаблон не працює у режимі «SSH зашифрований»."
@@ -1973,31 +1978,31 @@ msgstr "Швидкість:"
 msgid "ETA:"
 msgstr "Залишилося:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Резервні копії"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Сьогодні"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Вчора"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Цього тижня"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Попереднього тижня"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "Це НЕ резервна копія, а Ваші файли на комп'ютері"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Остання перевірка {time}"
@@ -2126,161 +2131,5 @@ msgstr "УВАГА: це не можна буде скасувати."
 msgid "Exclude {path} from future snapshots?"
 msgstr "Виключити {path} з майбутніх резервних копій?"
 
-#~ msgid "&Auto-remove"
-#~ msgstr "&Автоматичне видалення"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Рішення про заміну для подальшої підтримки зашифрованих резервних копій ще "
-#~ "не прийнято і залежить від ресурсів проєкту та наявності розробників. Більше"
-#~ " інформації можна знайти в цьому {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Рішення про заміну для подальшої підтримки зашифрованих резервних копій ще "
-#~ "не прийнято і залежить від ресурсів проєкту та наявності розробників. "
-#~ "Запрошуємо користувачів долучитися до обговорення. Оновлену інформацію про "
-#~ "наступні кроки можна знайти в цьому {whitepaper}."
-
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Не можна включати каталог резервної копії."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Не вдається знайти crontab. Ви впевнені, що cron встановлено? Якщо ні, Вам "
-#~ "варто вимкнути все автоматичне резервування."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Не вдається знайти каталог резервних копій.\n"
-#~ "Якщо він знаходиться на знімному диску, підключіть його."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Неможливо записати в: {path}\n"
-#~ "Ви впевнені, що маєте право на запис?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr ""
-#~ "Обережно: змінюйте ці параметри, тільки якщо Ви дійсно знаєте, що робите."
-
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Копіювати посилання (слідувати за символьними посиланнями)"
-
-#~ msgid "Directory"
-#~ msgstr "Каталог"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "ЕКСПЕРИМЕНТАЛЬНО"
-
-#~ msgid "Finalizing"
-#~ msgstr "Завершення"
-
-#~ msgid "Folder"
-#~ msgstr "Тека"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Повний шлях до копії"
-
-#~ msgid "Help"
-#~ msgstr "Допомога"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Поля «Сервер», «Користувач» і «Профіль» не можуть бути порожніми."
-
-#~ msgid "Hour:"
-#~ msgstr "Година:"
-
-#~ msgid "Info"
-#~ msgstr "Інформація"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Неправильний параметр. {path} не є текою."
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "Використати це розташування для резервного копіювання?"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Зберігати одну копію за рік за всі роки."
-
-#~ msgid "Mode"
-#~ msgstr "Режим"
-
-#~ msgid "Older than:"
-#~ msgstr "Старіше ніж:"
-
-#~ msgid "Profile"
-#~ msgstr "Профіль"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Профіль «{profile}»: Введіть пароль для {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang у скрипті user-callback неможливо виконати."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Розумне видалення:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Підтримку EncFS буде припинено найближчим часом. Рішення про заміну для "
-#~ "подальшої підтримки зашифрованих резервних копій ще не прийнято і залежить "
-#~ "від ресурсів проєкту та наявності розробників. Більше інформації можна "
-#~ "знайти в цьому {whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Підтримка зашифрованих профілів перебуває на стадії суттєвих змін, "
-#~ "найближчим часом EncFS буде вилучено."
-
-#~ msgid "WARNING"
-#~ msgstr "ПОПЕРЕДЖЕННЯ"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Потрібно обрати хоча б одну теку для резервування!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs версії 1.7.2 і раніших містить помилку в параметрі --reverse. Будь "
-#~ "ласка, оновіть encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "Скрипт user-callback не містить рядка shebang (#!/bin/sh)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} використовує для шифрування EncFS. Нещодавні перевірки безпеки виявили"
-#~ " його вразливість до деяких видів атак. Будь ласка, перегляньте «A NOTE ON "
-#~ "SECURITY» в «man backintime»."
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Підкаталоги не можна включити в резервну копію."

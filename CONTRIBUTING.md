@@ -44,6 +44,12 @@ reviewing the documentation and suggesting improvements.
 - [Testing](#testing)
   - [SSH](#SSH)
 - [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-PR)
+- [Instructions about translation](#instructions-about-translation)
+  - [Terminology](#terminology)
+  - [General recommendations for developers](#general-recommendations-for-developers)
+  - [Consider Right-to-Left (RTL) and Bidirectional (BIDI) languages](#consider-right-to-left-rtl-and-bidirectional-bidi-languages)
+  - [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates)
+  - [Treat other translators work with respect](#treat-other-translators-work-with-respect)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
@@ -283,6 +289,114 @@ If no second approval is necessary, the PR is labeled
 [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
 and will remain open for minimum of one week. This rule allows all maintainers
 the chance to review and potentially veto the pull request.
+
+
+# Instructions about translation
+
+## Terminology
+- The translators, as native speakers, are the maintainers of the translation
+  in their language and have the final decision. All following points are 
+  strong recommendations, but not written in stone. Language maintainers are
+  free to overule them for good reasons.
+- "Directory" or "Folder"? We prefer "Directory". In our opinion, it is a
+  clearly defined technical term and more precise in describing an element in
+  the file system.
+- Translate "Back In Time"? It is the name of the application. That shouldn't
+  be translated at all.
+- Some points of the following
+  [General recommendations for developers](#general-recommendations-for-develoeprs)
+  are also relevant for translators. 
+
+## General recommendations for developers
+The following points are about creating translatable source strings.
+
+- Be aware that most of our translators not skilled in Python programming. They
+  might don't know about GNU gettext internals and other technical
+  details. They only see the translatable string in the web-frontend of our
+  [translation platform](https://translate.codeberg.org/engage/backintime).
+- Avoid escape characters in the strings.
+- Give translators enough context with providing meaningful placeholder names.
+- Avoid addressing the person with "you".
+- Don't "scream" by using upper case letters (e.g. `WARNING`) or an exclamation
+  mark (`!`).
+- Please provide a screenshot when introducing new translatable strings or
+  modifying them. The picture will be used on the translation web-frontend to
+  provide translators with more context.
+- [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).
+- [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
+- [Treat other translators work with respect](#treat-other-translators-work-with-respect).
+    
+```python
+# Avoid escape characters for string delimiters
+problematic = _('Hello \'World\'')
+correct = _("Hello 'World'")
+
+# Avoid escape characters like new lines
+problematic = _('One\nTwo')`
+correct = _('One') + '\n' + _('Two')  # <- Separation into multiple strings is
+                                      #    no problem, because the translator
+                                      #    will have a screenshot.
+
+# Provide meaningful placeholder names
+problematic = _('Can not delete {var}.')
+correct = _('Can not delete {snapshot_path}.')
+
+# Avoid addressing the person with "you"
+problematic = _('Do you really want to delete this snapshot?')
+correct = _('Is it really intended to delete this snapshot?')
+```
+
+## Consider Right-to-Left (RTL) and Bidirectional (BIDI) languages
+
+In short: Always include punctuation marks (e.g. colons) in the strings to
+translate.
+
+Languages such as Arabic or Hebrew are read from right to left (RTL). To
+be more precise, they can have mixed reading directions (BIDI). The GUI library used
+by _Back In Time_ takes this into account when arrange elements in a
+window. For example, a text-input widget is left from a label
+widget. This switched order is the reason why punctuation marks (e.g. colons)
+in the string of a label widget need to change their direction as well. This
+task can only be performed by the translator themselves, which is why
+punctuation marks need to be included in the string to translate.
+
+## Be aware of shortcut indicators and possible duplicates
+
+In short:
+1. Use the character `&` to indicate the letter to access a GUI element via
+   keyboard shortcut.
+2. Be careful not to create conflicts by using the same letter multiple times
+   in the same GUI context.
+
+The _Back In Time_ GUI can be controlled via keyboard shortcuts. In the English
+version, for example, the menu _Back In Time_ in the main window can be
+unfolded via `Alt+T`, _Backup_ via `Alt+B`, or _Help_ via `Alt+H`. The keyboard
+letters to use are indicated in the GUI with an underlined letter. The original
+string in the source code uses the character `&` in front of a letter to
+indicate the shortcut and produce this underline. The example above use the
+source strings `Back In &Time`, `&Backup`, and `&Help`. This illustrates why it
+is not appropriate to always use the first letter for shortcuts. Here in this
+example, `&Back In Time` and `&Backup` would use the same letter.
+
+Translating `&Backup` and `&Help` into Turkish becomes `&Yedek` and `Y&ardım`,
+where using the first letter only would produce conflicts again.
+
+That is why the translator needs to decide which letter to use.
+
+## Treat other translators work with respect
+Sometimes it is a matter of taste or habit how do you translate
+something. People are different, therefore their translation are also
+different. When modifying an existing translation please consider _Comments_
+and _History_ section of that string on our translation platform. There might
+be another translator who has good reason for this translation. Don't waste
+other people work for no good reason. Also use the _Comments_ to document your
+own reasons if you expect discussions or conflicts.
+
+The translation for some specific languages (e.g.
+[German](https://translate.codeberg.org/projects/backintime/common/de/))
+do have rules every translator should follow. That rules can be found in a
+colored box on top of the translation platform. Open an issue if you think
+they should be modified.
 
 # Strategy Outline
 This is a broad overview of the tasks or steps to enhance _Back In Time_ as a

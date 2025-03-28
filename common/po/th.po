@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2024-07-22 12:37+0000\n"
-"Last-Translator: buhtz <buhtz@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-03 09:53+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Thai <https://translate.codeberg.org/projects/backintime/common/th/>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -69,7 +69,7 @@ msgid "Default"
 msgstr "ค่าเริ่มต้น"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "โปรไฟล์: \"{name}\""
@@ -83,19 +83,22 @@ msgstr "โฟลเดอร์ Snapshots ไม่ถูกต้อง!"
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "คืนค่า {path}"
+
+#: common/config.py:359 common/config.py:374
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr ""
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr ""
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "ไม่สามารถเขียน crontab ใหม่ได้"
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -103,7 +106,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -112,12 +115,12 @@ msgstr ""
 "ไม่สามารถติดตั้งกฎ Udev สำหรับโปรไฟล์ {profile_id} ได้ DBus Service "
 "'{dbus_interface}' ไม่พร้อมใช้งาน"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "ตารางงานของ udev ไม่ทำงานกับโหมด {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "ไม่พบ UUID สำหรับ \"{path}\""
@@ -208,7 +211,7 @@ msgstr "ทำเสร็จ"
 msgid "Deferring backup while on battery"
 msgstr "การเลื่อนการสำรองข้อมูลขณะใช้แบตเตอรี่"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "ไม่สามารถสร้างโฟลเดอร์ได้"
@@ -494,20 +497,20 @@ msgstr "เพิ่มในรายการรว"
 msgid "Add to Exclude"
 msgstr "เพิ่มไปยังรายการยกเว้น"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:357
+#: qt/app.py:364
 #, fuzzy
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr ""
@@ -802,6 +805,7 @@ msgid "Snapshot Name"
 msgstr "ชื่อสแนปช็อต"
 
 #: qt/app.py:1398
+#, fuzzy
 msgid "Are you sure you want to remove this snapshot?"
 msgid_plural "Are you sure you want to remove these snapshots?"
 msgstr[0] "คุณแน่ใจว่าต้องการลบสแนปช็อตหรือไม่"
@@ -863,6 +867,7 @@ msgstr[0] ""
 "ไปยังโฟลเดอร์ใหม่ {path}"
 
 #: qt/app.py:1580
+#, fuzzy
 msgid "Do you really want to restore this element?"
 msgid_plural "Do you really want to restore these elements?"
 msgstr[0] "คุณต้องการคืนค่าไฟล์เหล่านี้ใช่หรือไม่"
@@ -1055,7 +1060,7 @@ msgstr "มุมมองบันทึกล่าสุด"
 msgid "Snapshot Log View"
 msgstr "มุมมองบันทึกสแนปช็อต"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "โปรไฟล์:"
@@ -1100,50 +1105,50 @@ msgstr "[E] ข้อผิดพลาด, [I] ข้อมูล, [C] กา�
 msgid "decode paths"
 msgstr "ถอดรหัสเส้นทาง"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "โปรไฟล์หลัก"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "เพิ่ม"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "ลบ"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&ทั่วไป"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&รวมเข้ากับ"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "รวมไฟล์และโฟลเดอร์"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "เพิ่มไฟล์"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "เพิ่มโฟลเดอร์"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&ยกเว้น"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1152,25 +1157,25 @@ msgid ""
 "this mode due to encryption by EncFS."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "ระบุรูปแบบที่ต้องการยกเว้น, ไฟล์ หรือ โฟลเดอร์ที่ต้องการยกเว้น"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "เพิ่มค่าเริ่มต้น"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "ยกเว้นไฟล์ที่มีขนาดใหญ่กว่า:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "ยกเว้นไฟล์ที่มีขนาดใหญ่กว่า: "
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 #, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
@@ -1184,78 +1189,78 @@ msgstr ""
 "ดังนั้นไฟล์ขนาดใหญ่ที่ได้รับการสำรองข้อมูลมาก่อนหน้านี้จะยังคงอยู่ในสแนปช็อต\n"
 "แม้ว่าไฟล์เหล่านั้นจะเปลี่ยนแปลงลง"
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "& ตัวเลือก"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "&ตัวเลือกขั้นสูง"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "คุณแน่ใจว่าต้องการลบไฟล์เวอร์ชันใหม่ทั้งหมดใน {name} หรือไม่?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, fuzzy, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "แนะนำอย่างมาก"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
 "Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -1948,31 +1953,31 @@ msgstr "ความเร็ว:"
 msgid "ETA:"
 msgstr ""
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "สแนปช็อต"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "วันนี้"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "เมื่อวาน"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "สัดาห์นี้"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "สัปดาห์ที่แล้ว"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "นี่ไม่ใช่สแนปช็อต แต่เป็นมุมมองสดของไฟล์ท้องถิ่นของคุณ"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "ตรวจสอบล่าสุดเมื่อ {time}"
@@ -2095,102 +2100,3 @@ msgstr "ไม่สามารถเพิกถอนสิ่งนี้ไ
 #, python-brace-format
 msgid "Exclude {path} from future snapshots?"
 msgstr "ยกเว้น \"{path}\" จากสแนปช็อตในอนาคตหรือไม่?"
-
-#~ msgid "&Auto-remove"
-#~ msgstr "&ลบโดยอัตโนมัติ"
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "ไม่พบ crontab คุณแน่ใจว่าติดตั้ง\n"
-#~ " cron แล้วหรือไม่? \n"
-#~ "หากไม่ได้ติดตั้ง คุณควรปิดใช้งานการสำรองข้อมูลอัตโนมัติทั้งหมด"
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "ไม่พบโฟลเดอร์สแนปช็อต\n"
-#~ "หากมันอยู่บนไดรฟ์ที่เปลี่ยนได้กรุณาเสียบเข้ากับเครื่อง"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "ไม่สามารถเขียนไปยัง: {path} \n"
-#~ "ได้ คุณแน่ใจหรือว่าคุณมีสิทธิ์ในการเขียน?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "เปลี่ยนตัวเลือกเหล่านี้เท่านั้นหากคุณรู้ว่าต้องการทำอะไรจริงๆ"
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "คัดลอกลิงก์ (เคลียร์ลิงก์สัญลักษณ์)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "ทดลอง"
-
-#~ msgid "Finalizing"
-#~ msgstr "กำลังประมวลผลล่าสุด"
-
-#~ msgid "Folder"
-#~ msgstr "โฟลเดอร์"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "เส้นทางสแนปช็อตทั้งหมด"
-
-#~ msgid "Help"
-#~ msgstr "ช่วยเหลือ"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/User/Profile-ID ต้องไม่เป็นค่าว่าง"
-
-#~ msgid "Hour:"
-#~ msgstr "ชั่วโมง:"
-
-#, fuzzy, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "{path} ไม่ใช่โฟลเดอร์"
-
-#, fuzzy
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "เก็บรักษาสแนปช็อตหนึ่งต่อปีสำหรับทุกปี"
-
-#~ msgid "Mode"
-#~ msgstr "โหมด"
-
-#~ msgid "Older than:"
-#~ msgstr "เก่ากว่า:"
-
-#~ msgid "Profile"
-#~ msgstr "โปรไฟล์"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "โปรไฟล์ '{profile}': ป้อนรหัสผ่านสำหรับ {mode}: "
-
-#, fuzzy
-#~ msgid "Smart removal:"
-#~ msgstr "การลบอย่างฉลาด:"
-
-#~ msgid "WARNING"
-#~ msgstr "คำเตือน"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "คุณต้องเลือกโฟลเดอร์อย่างน้อยหนึ่งโฟลเดอร์เพื่อทำการสำรองข้อมูล!"
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} ใช้ EncFS เพื่อการเข้ารหัสข้อมูล "
-#~ "การตรวจสอบความปลอดภัยล่าสุดพบว่ามีเวกเตอร์การโจมตีหลายรูปแบบสำหรับ EncFS "
-#~ "โปรดดู \"A NOTE ON SECURITY\" ใน \"man backintime\""

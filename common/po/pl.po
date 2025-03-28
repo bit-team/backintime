@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-12 17:18+0100\n"
-"PO-Revision-Date: 2025-02-09 17:49+0000\n"
-"Last-Translator: Merik <merik@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-06 14:37+0000\n"
+"Last-Translator: Merik <merik@noreply.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Domyślny"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
@@ -80,19 +80,24 @@ msgid "At least one directory must be selected for backup."
 msgstr ""
 "Należy wybrać co najmniej jeden katalog do utworzenia kopii zapasowej."
 
-#: common/config.py:358
-msgid "The directory cannot be included in the backup."
-msgstr "Katalog nie może zostać uwzględniony w kopii zapasowej."
+#: common/config.py:358 common/config.py:373
+#, python-brace-format
+msgid "Directory: {path}"
+msgstr "Katalog: {path}"
 
-#: common/config.py:371
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Podkatalogi nie mogą zostać uwzględnione w kopii zapasowej."
+#: common/config.py:359 common/config.py:374
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr ""
+"Tego katalogu nie można uwzględnić w kopii zapasowej, ponieważ jest on "
+"częścią miejsca docelowego kopii zapasowej."
 
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Nie udało się zapisać nowej tablicy zadań (crontab)."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -104,7 +109,7 @@ msgstr ""
 "ale nie jest włączony. Wypróbuj polecenie „systemctl enable cron” lub "
 "uzyskaj pomoc na kanałach wsparcia dystrybucji GNU Linux."
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -113,12 +118,12 @@ msgstr ""
 "Nie udało się zainstalować reguły udev dla profilu {profile_id}. Usługa DBus"
 " „{dbus_interface}” nie była dostępna"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Harmonogram udev nie działa z trybem {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nie udało się odnaleźć UUID dla {path}"
@@ -207,7 +212,7 @@ msgstr "Gotowe"
 msgid "Deferring backup while on battery"
 msgstr "Kopia zapasowa przełożona z powodu pracy na baterii"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 msgid "Can't find snapshots directory."
 msgstr "Nie można znaleźć katalogu migawek."
 
@@ -494,7 +499,7 @@ msgstr "Dodaj do uwzględnionych"
 msgid "Add to Exclude"
 msgstr "Dodaj do wykluczonych"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -503,7 +508,7 @@ msgstr ""
 "Wygląda na to, że {app_name} działa po raz pierwszy, ponieważ nie znaleziono"
 " żadnej konfiguracji."
 
-#: qt/app.py:329
+#: qt/app.py:336
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -511,7 +516,7 @@ msgstr ""
 "Zaimportować istniejącą konfigurację (z katalogu docelowego kopii zapasowej "
 "lub innego komputera)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Jeśli jest na dysku wymiennym, podłącz go, a następnie naciśnij OK."
 
@@ -1080,7 +1085,7 @@ msgstr "Ostatni widok dziennika"
 msgid "Snapshot Log View"
 msgstr "Widok dziennika migawki"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1126,48 +1131,48 @@ msgstr "[E] błąd, [I] informacja, [C] zmiana"
 msgid "decode paths"
 msgstr "dekoduj ścieżki"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Zarządzaj profilami"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Edycja"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Dodaj"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Usuń"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Ogólne"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Dołącz"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 msgid "Include files and directories"
 msgstr "Dołącz pliki i katalogi"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Dodaj plik"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 msgid "Add directory"
 msgstr "Dodaj katalog"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Wyklucz"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1180,24 +1185,24 @@ msgstr ""
 "wieloznacznych i wzorców będą ignorowane (np. {example1}). W tym trybie "
 "nazwy plików są nieprzewidywalne ze względu na szyfrowanie przez EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 msgid "Exclude patterns, files or directories"
 msgstr "Wyklucz wzorce, pliki lub katalogi"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Dodaj domyślne"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Wyklucz pliki większe niż:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Wyklucz pliki większe niż wartość w {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1209,40 +1214,40 @@ msgstr ""
 "wykluczenia. Dlatego też duże pliki, których kopie zapasowe utworzono "
 "wcześniej, pozostaną w migawkach, nawet jeśli zostaną zmodyfikowane."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr "Usuń i &przechowuj"
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Ustawienia"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "Opcje e&ksportu"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Przywróć konfigurację"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Edytuj user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Nowy profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Zmień nazwę profilu"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Na pewno chcesz usunąć profil „{name}”?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1250,28 +1255,28 @@ msgstr ""
 "{BOLD}Wysoce zalecane{ENDBOLD}: (Wszystkie rekomendacje są już "
 "uwzględnione.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Wysoce zalecane{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Wzór wykluczenia"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Wyklucz plik"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 msgid "Exclude directory"
 msgstr "Wyklucz katalog"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Dołącz plik"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1280,11 +1285,11 @@ msgstr ""
 "„{path}” jest dowiązaniem symbolicznym. Kopia zapasowa połączonego celu nie zostanie utworzona, dopóki go również nie dołączysz.\n"
 "Czy zamiast tego chcesz dołączyć cel dowiązania symbolicznego?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 msgid "Include directory"
 msgstr "Uwzględnij katalog"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -2006,31 +2011,31 @@ msgstr "Prędkość:"
 msgid "ETA:"
 msgstr "Czas do końca:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Migawki"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Dziś"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Wczoraj"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Ten tydzień"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Poprzedni tydzień"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "To NIE jest migawka, ale podgląd na żywo lokalnych plików"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Ostatnie sprawdzenie {time}"
@@ -2159,154 +2164,5 @@ msgstr "OSTRZEŻENIE: nie można tego cofnąć."
 msgid "Exclude {path} from future snapshots?"
 msgstr "Wykluczyć {path} z przyszłych migawek?"
 
-#~ msgid "&Auto-remove"
-#~ msgstr "&Automatyczne usuwanie"
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "More details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
-#~ "jest nadal w toku w zależności od zasobów projektu i dostępności "
-#~ "współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
-
-#, python-brace-format
-#~ msgid ""
-#~ "A decision on a replacement for continued support of encrypted backups is "
-#~ "still pending, depending on project resources and contributor availability. "
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
-#~ "jest nadal w toku w zależności od zasobów projektu i dostępności "
-#~ "współpracowników. Użytkownicy są zaproszeni do dołączenia do tej dyskusji. "
-#~ "Zaktualizowane szczegóły dotyczące następnych kroków są dostępne "
-#~ "w {whitepaper}."
-
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Katalog kopii zapasowej nie może być uwzględniany."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Nie można znaleźć tablicy zadań (crontab). Czy na pewno cron jest "
-#~ "zainstalowany? Jeśli nie, należy wyłączyć wszystkie automatyczne kopie "
-#~ "zapasowe."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Nie można odnaleźć katalogu migawek.\n"
-#~ "Jeśli znajduje się na dysku wymiennym, podłącz go."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Nie można zapisać do: {path}\n"
-#~ "Czy na pewno posiadasz dostęp do tego katalogu?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "Uwaga: zmień te opcje tylko wtedy, gdy naprawdę wiesz, co robisz."
-
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopiowanie dowiązań (rozwiązenie dowiązań symbolicznych)"
-
-#~ msgid "Directory"
-#~ msgstr "Katalog"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EKSPERYMENTALNE"
-
-#~ msgid "Finalizing"
-#~ msgstr "Finalizuję"
-
-#~ msgid "Folder"
-#~ msgstr "Katalog"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Pełna ścieżka migawki"
-
-#~ msgid "Help"
-#~ msgstr "Pomoc"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Pola hosta, użytkownika ani ID profilu nie mogą być puste."
-
-#~ msgid "Hour:"
-#~ msgstr "Godzina:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Nieprawidłowa opcja. {path} nie jest katalogiem."
-
-#~ msgid "Is this the backup destination to be used?"
-#~ msgstr "Czy jest to miejsce docelowe kopii zapasowej, którego należy użyć?"
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Przechowuj jedną migawkę na rok przez wszystkie lata."
-
-#~ msgid "Mode"
-#~ msgstr "Tryb"
-
-#~ msgid "Older than:"
-#~ msgstr "Starsze niż:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, fuzzy, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profil '{profile}': podaj hasło do {mode}: "
-
-#~ msgid "Smart removal:"
-#~ msgstr "Inteligentne usuwanie:"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Support for EncFS will be discontinued in the foreseeable future. A decision"
-#~ " on a replacement for continued support of encrypted backups is still "
-#~ "pending, depending on project resources and contributor availability. More "
-#~ "details are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Wsparcie dla EncFS zostanie przerwane w dającej się przewidzieć przyszłości."
-#~ " Decyzja o przedłużeniu ciągłego wsparcia zaszyfrowanych kopii zapasowych "
-#~ "jest nadal w toku w zależności od zasobów projektu i dostępności "
-#~ "współpracowników. Więcej szczegółów jest dostępnych w {whitepaper}."
-
-#~ msgid ""
-#~ "The support for encrypted snapshot profiles is undergoing significant "
-#~ "changes, and EncFS will be removed in the foreseeable future."
-#~ msgstr ""
-#~ "Obsługa zaszyfrowanych profili migawek jest poddawana znaczącym zmianom, a "
-#~ "EncFS zostanie usunięty w dającej się przewidzieć przyszłości."
-
-#~ msgid "WARNING"
-#~ msgstr "OSTRZEŻENIE"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Musisz wybrać co najmniej jeden katalog do wykonania kopii zapasowej!"
-
-#, fuzzy
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs w wersji 1.7.2 i wcześniejsze miały bład z opcją --reverse. "
-#~ "Zaktualizuj encfs."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} używa EncFS do szyfrowania. Niedawny audyt bezpieczeństwa ujawnił "
-#~ "kilka możliwych wektorów ataku. Spójrz na \"A NOTE ON SECURITY\" w \"man "
-#~ "backintime\"."
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Podkatalogi nie mogą zostać uwzględnione w kopii zapasowej."

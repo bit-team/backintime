@@ -3,16 +3,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-02-08 11:31+0100\n"
-"PO-Revision-Date: 2024-07-02 13:39+0000\n"
-"Last-Translator: ravijol1 <ravijol1@users.noreply.translate.codeberg.org>\n"
+"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"PO-Revision-Date: 2025-03-21 12:46+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -66,7 +66,7 @@ msgid "Default"
 msgstr "Privzeto"
 
 #: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:369
+#: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
@@ -80,21 +80,23 @@ msgstr "Mapa s posnetki ni veljavna!"
 msgid "At least one directory must be selected for backup."
 msgstr ""
 
-#: common/config.py:358
+#: common/config.py:358 common/config.py:373
+#, fuzzy, python-brace-format
+msgid "Directory: {path}"
+msgstr "Obnovi {path}"
+
+#: common/config.py:359 common/config.py:374
 #, fuzzy
-msgid "The directory cannot be included in the backup."
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
 msgstr "Podmape za varnostne kopije ni mogoče vključiti."
 
-#: common/config.py:371
-#, fuzzy
-msgid "The sub-directories cannot be included in the backup."
-msgstr "Podmape za varnostne kopije ni mogoče vključiti."
-
-#: common/config.py:1463
+#: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Novega crontaba ni mogoče zapisati."
 
-#: common/config.py:1471
+#: common/config.py:1475
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -102,7 +104,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 
-#: common/config.py:1552
+#: common/config.py:1556
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -111,12 +113,12 @@ msgstr ""
 "Ni bilo mogoče namestiti pravila Udev za profil {profile_id}. Storitev DBus "
 "'{dbus_interface}' ni bila na voljo"
 
-#: common/config.py:1567
+#: common/config.py:1571
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Razpored udev ne deluje z načinom {mode}"
 
-#: common/config.py:1578
+#: common/config.py:1582
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Ni bilo mogoče najti UUID za {path}"
@@ -207,7 +209,7 @@ msgstr "Končano"
 msgid "Deferring backup while on battery"
 msgstr "Odložitev varnostnega kopiranja med delovanjem na bateriji"
 
-#: common/snapshots.py:842 qt/app.py:356
+#: common/snapshots.py:842 qt/app.py:363
 #, fuzzy
 msgid "Can't find snapshots directory."
 msgstr "Imenik za posnetke ni na razpolago."
@@ -498,7 +500,7 @@ msgstr "Dodaj v Vključi"
 msgid "Add to Exclude"
 msgstr "Dodaj v Izključi"
 
-#: qt/app.py:324
+#: qt/app.py:331
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -506,7 +508,7 @@ msgid ""
 msgstr ""
 "Zgleda, da ste prvič zagnali {app_name}, ker ni mogoče najti konfiguracije."
 
-#: qt/app.py:329
+#: qt/app.py:336
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -515,7 +517,7 @@ msgstr ""
 "Uvozi obstoječo konfiguracijo (iz imenika varnostne kopije ali iz drugega "
 "računalnika)?"
 
-#: qt/app.py:357
+#: qt/app.py:364
 msgid "If it is on a removable drive please plug it in and then press OK."
 msgstr "Če je na izmenljivem pogonu, ga priključite in pritisnite OK."
 
@@ -560,6 +562,7 @@ msgid "Remove snapshot"
 msgstr "Odstrani posnetek"
 
 #: qt/app.py:505
+#, fuzzy
 msgid "View snapshot log"
 msgstr "Ogled dnevnika posnetkov"
 
@@ -1072,10 +1075,11 @@ msgid "Last Log View"
 msgstr "Ogled zadnjega dnevnika"
 
 #: qt/logviewdialog.py:62
+#, fuzzy
 msgid "Snapshot Log View"
 msgstr "Ogled dnevnika posnetkov"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:72
+#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
 #: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
 msgid "Profile:"
 msgstr "Profil:"
@@ -1122,50 +1126,50 @@ msgstr "[E] Napake, [I] Informacije, [C] Spremembe"
 msgid "decode paths"
 msgstr "dešifriranje poti"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Upravljanje profilov"
 
-#: qt/manageprofiles/__init__.py:81
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "Uredi"
 
-#: qt/manageprofiles/__init__.py:85 qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
 msgid "Add"
 msgstr "Dodaj"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:147
-#: qt/manageprofiles/__init__.py:218
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
+#: qt/manageprofiles/__init__.py:221
 msgid "Remove"
 msgstr "Odstrani"
 
-#: qt/manageprofiles/__init__.py:110
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "&Splošno"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "&Vključitev"
 
-#: qt/manageprofiles/__init__.py:122
+#: qt/manageprofiles/__init__.py:125
 #, fuzzy
 msgid "Include files and directories"
 msgstr "Vključi datoteke in mape"
 
-#: qt/manageprofiles/__init__.py:139 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
 msgid "Add file"
 msgstr "Dodaj datoteko"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
 #, fuzzy
 msgid "Add directory"
 msgstr "Dodaj mapo"
 
-#: qt/manageprofiles/__init__.py:153
+#: qt/manageprofiles/__init__.py:156
 msgid "&Exclude"
 msgstr "&Izključitev"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:160
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1178,25 +1182,25 @@ msgstr ""
 "ignorirani (npr. {example1}). Imena datotek so v tem načinu nepredvidljiva "
 "zaradi šifriranja EncFS."
 
-#: qt/manageprofiles/__init__.py:180
+#: qt/manageprofiles/__init__.py:183
 #, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Izključi vzorce, datoteke ali mape"
 
-#: qt/manageprofiles/__init__.py:213
+#: qt/manageprofiles/__init__.py:216
 msgid "Add default"
 msgstr "Dodaj privzeto"
 
-#: qt/manageprofiles/__init__.py:226
+#: qt/manageprofiles/__init__.py:229
 msgid "Exclude files bigger than:"
 msgstr "Izključi datoteke večje kot:"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:233
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Izključi datoteke večje kot {size_unit}."
 
-#: qt/manageprofiles/__init__.py:232
+#: qt/manageprofiles/__init__.py:235
 msgid ""
 "With 'Full rsync mode' disabled, this will only impact new files since for "
 "rsync, this is a transfer option, not an exclusion option. Therefore, large "
@@ -1208,69 +1212,69 @@ msgstr ""
 "bile varnostno kopiranje že prej, ostale v posnetkih, tudi če so se "
 "spremenile."
 
-#: qt/manageprofiles/__init__.py:262
+#: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:269
 msgid "&Options"
 msgstr "&Možnosti"
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:273
 msgid "E&xpert Options"
 msgstr "&Napredne nastavitve"
 
-#: qt/manageprofiles/__init__.py:277
+#: qt/manageprofiles/__init__.py:280
 msgid "Restore Config"
 msgstr "Obnovi konfiguracijo"
 
-#: qt/manageprofiles/__init__.py:279
+#: qt/manageprofiles/__init__.py:282
 msgid "Edit user-callback"
 msgstr "Uredi user-callback"
 
-#: qt/manageprofiles/__init__.py:297
+#: qt/manageprofiles/__init__.py:300
 msgid "New profile"
 msgstr "Nov profil"
 
-#: qt/manageprofiles/__init__.py:314
+#: qt/manageprofiles/__init__.py:317
 msgid "Rename profile"
 msgstr "Preimenuj profil"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
 msgstr "Ali ste prepričani, da želite izbrisati profil \"{name}\"?"
 
-#: qt/manageprofiles/__init__.py:377
+#: qt/manageprofiles/__init__.py:379
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Močno priporočljivo{ENDBOLD}: (Vsa priporočila so že vključena.)"
 
-#: qt/manageprofiles/__init__.py:382
+#: qt/manageprofiles/__init__.py:384
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Zelo priporočljivo{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:607
+#: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
 msgstr "Izključitveni vzorec"
 
-#: qt/manageprofiles/__init__.py:620
+#: qt/manageprofiles/__init__.py:621
 msgid "Exclude file"
 msgstr "Izključi datoteko"
 
-#: qt/manageprofiles/__init__.py:624
+#: qt/manageprofiles/__init__.py:625
 #, fuzzy
 msgid "Exclude directory"
 msgstr "Izključi mapo"
 
-#: qt/manageprofiles/__init__.py:648
+#: qt/manageprofiles/__init__.py:649
 msgid "Include file"
 msgstr "Vključi datoteko"
 
-#: qt/manageprofiles/__init__.py:657 qt/manageprofiles/__init__.py:687
+#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
@@ -1279,12 +1283,12 @@ msgstr ""
 "\"{path}\" je symlink. Povezani cilj ne bo varnostno kopiran, dokler ga ne vključite.\n"
 "Ali namesto tega želite vključiti cilj symlinka?"
 
-#: qt/manageprofiles/__init__.py:678
+#: qt/manageprofiles/__init__.py:679
 #, fuzzy
 msgid "Include directory"
 msgstr "Vključi mapo"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:738
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Onemogočeno, ker ta vzorec ni delujoč v načinu 'SSH Šifrirano'."
@@ -1996,31 +2000,31 @@ msgstr "Hitrost:"
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/qttools.py:482 qt/snapshotsdialog.py:115
+#: qt/qttools.py:483 qt/snapshotsdialog.py:115
 msgid "Snapshots"
 msgstr "Posnetki"
 
-#: qt/qttools.py:505
+#: qt/qttools.py:506
 msgid "Today"
 msgstr "Danes"
 
-#: qt/qttools.py:512
+#: qt/qttools.py:513
 msgid "Yesterday"
 msgstr "Včeraj"
 
-#: qt/qttools.py:521
+#: qt/qttools.py:522
 msgid "This week"
 msgstr "Ta teden"
 
-#: qt/qttools.py:528
+#: qt/qttools.py:529
 msgid "Last week"
 msgstr "Prejšnji teden"
 
-#: qt/qttools.py:674
+#: qt/qttools.py:675
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr "To NI posnetek, ampak ogled vaših trenutnih lokalnih datotek"
 
-#: qt/qttools.py:679
+#: qt/qttools.py:680
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Zadnj pregled {time}"
@@ -2151,113 +2155,6 @@ msgstr "POZOR: Tega ni mogoče razveljaviti."
 msgid "Exclude {path} from future snapshots?"
 msgstr "Želite izključiti {path} iz prihodnjih posnetkov?"
 
-#~ msgid "&Auto-remove"
-#~ msgstr "Samo-&odstrani"
-
 #, fuzzy
-#~ msgid "Backup directory cannot be included."
-#~ msgstr "Mape za varnostne kopije ni mogoče vključiti."
-
-#~ msgid ""
-#~ "Can't find crontab. Are you sure cron is installed? If not you should "
-#~ "disable all automatic backups."
-#~ msgstr ""
-#~ "Crontab ni mogoče najti. Ste prepričani, da je cron nameščen? V primeru, da "
-#~ "ni, morate onemogočiti vse samodejne varnostne kopije."
-
-#, fuzzy
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Mapa posnetkov ni na razpolago.\n"
-#~ "V primeru, da je na izmenljivem pogonu, ga priključite."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Can't write to: {path}\n"
-#~ "Are you sure you have write access?"
-#~ msgstr ""
-#~ "Ni mogoče pisati v: {path}\n"
-#~ "Ali ste prepričani, da imate dostop za pisanje?"
-
-#~ msgid ""
-#~ "Caution: Change these options only if you really know what you are doing."
-#~ msgstr "POZOR: Spremenite te nastavitve le, če res veste, kaj počnete."
-
-#, fuzzy
-#~ msgid "Copy links (resolve symbolic links)"
-#~ msgstr "Kopiraj povezave (dereferenciraj simbolne povezave)"
-
-#~ msgid "EXPERIMENTAL"
-#~ msgstr "EKSPERIMENTALNO"
-
-#~ msgid "Finalizing"
-#~ msgstr "Zaključevanje"
-
-#~ msgid "Folder"
-#~ msgstr "Mapa"
-
-#~ msgid "Full snapshot path"
-#~ msgstr "Cela pot posnetka"
-
-#~ msgid "Help"
-#~ msgstr "Pomoč"
-
-#~ msgid "Host/User/Profile-ID must not be empty."
-#~ msgstr "Host/User/Profile-ID ne sme biti prazen."
-
-#~ msgid "Hour:"
-#~ msgstr "Ura:"
-
-#, python-brace-format
-#~ msgid "Invalid option. {path} is not a folder."
-#~ msgstr "Neveljavna možnost. {path} ni mapa."
-
-#~ msgid "Keep one snapshot per year for all years."
-#~ msgstr "Obdrži en posnetek na leto za vsa leta."
-
-#~ msgid "Mode"
-#~ msgstr "Način"
-
-#~ msgid "Older than:"
-#~ msgstr "Starejše kot:"
-
-#~ msgid "Profile"
-#~ msgstr "Profil"
-
-#, python-brace-format
-#~ msgid "Profile '{profile}': Enter password for {mode}: "
-#~ msgstr "Profil '{profile}': Vnesite geslo za {mode}: "
-
-#~ msgid "Shebang in user-callback script is not executable."
-#~ msgstr "Shebang v user-callback skripti ni zagonska datoteka."
-
-#~ msgid "Smart removal:"
-#~ msgstr "Pametno odstranjevanje:"
-
-#~ msgid "WARNING"
-#~ msgstr "POZOR"
-
-#~ msgid "You must select at least one folder to back up!"
-#~ msgstr "Izbrati morate vsaj eno mapo, da lahko ustvarite varnostno kopijo!"
-
-#~ msgid ""
-#~ "encfs version 1.7.2 and before has a bug with option --reverse. Please "
-#~ "update encfs."
-#~ msgstr ""
-#~ "encfs verzije 1.7.2 in prej, imajo napako z opcijo --reverse. Prosimo, da "
-#~ "posodobite encfs."
-
-#~ msgid "user-callback script has no shebang (#!/bin/sh) line."
-#~ msgstr "user-callback skripta nima shebang (#!/bin/sh) vrstice."
-
-#, python-brace-format
-#~ msgid ""
-#~ "{app} uses EncFS for encryption. A recent security audit revealed several "
-#~ "possible attack vectors for this. Please take a look at \"A NOTE ON "
-#~ "SECURITY\" in \"man backintime\"."
-#~ msgstr ""
-#~ "{app} za šifriranje uporablja EncFS. Nedavni varnostni pregled je za EncFS "
-#~ "razkril več različnih ranljivosti. Prosimo, preberite si razdelek \"A NOTE "
-#~ "ON SECURITY\" v izpisu ukaza \"man backintime\"."
+#~ msgid "The sub-directories cannot be included in the backup."
+#~ msgstr "Podmape za varnostne kopije ni mogoče vključiti."
