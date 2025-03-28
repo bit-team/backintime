@@ -25,7 +25,6 @@ USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 # message is displayed.
 ENCFS_MSG_STAGE = 2
 
-
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling.
     """

@@ -1323,13 +1323,16 @@ class MainWindow(QMainWindow):
         missing = self.snapshots.get_include_entries_missing_in_source()
 
         if missing:
-            msg = _('The following entries from the include list have no '
-                    'corresponding file or directory in the backup source:')
+            # Dev note (2025-03, buhtz): See
+            # "Snapshots.warn_about_include_entries_missing_in_source" and
+            # keep the string consistent.
+            msg= _(
+                'The following entries from the include list have no '
+                'corresponding file or directory in the backup source:')
             msg = msg + '\n\n' + '\n'.join(missing) + '\n\n'
             msg = msg + _('Proceed with the backup?')
 
-            answer = messagebox.warningYesNo(self, msg)
-            return answer == QMessageBox.StandardButton.Yes
+            return messagebox.question(msg, widget_to_center_on=self)
 
         return True
 

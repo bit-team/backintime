@@ -40,7 +40,6 @@ from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
 
-
 class Snapshots:
     """
     Collection of take-snapshot and restore commands.
@@ -57,6 +56,7 @@ class Snapshots:
         cfg (config.Config): current config
     """
     SNAPSHOT_VERSION = 3
+
 
     def __init__(self, cfg = None):
         self.config = cfg
@@ -715,11 +715,22 @@ class Snapshots:
         missing_entries = self.get_include_entries_missing_in_source()
 
         if missing_entries:
-            msg = 'The following entries from the include list have no ' \
-                  'corresponding file or directory in the backup source:'
-            msg = msg + ' "' + '", "'.join(missing_entries) + '"'
-            logger.warning(msg)
-            self.setTakeSnapshotMessage(1, msg)
+            # Dev note (2025-03, buhtz): Make this a module constant if #2070
+            # is fixed.
+            msg= _(
+                'The following entries from the include list have no '
+                'corresponding file or directory in the backup source:')
+            # Dev note (buhtz, 2025-03): To my research there is no elegant
+            # solution to this problem.
+            # Take care to keep this string consistent with the previous "msg"
+            msg_untranslated = \
+                'The following entries from the include list have no ' \
+                'corresponding file or directory in the backup source:'
+            msg_suffix = ' "' + '", "'.join(missing_entries) + '"'
+
+            self.setTakeSnapshotMessage(1, msg + msg_suffix)
+            # Don't translate log entries
+            logger.warning(msg_untranslated + msg_suffix)
 
     def get_include_entries_missing_in_source(self):
         """Return include list entries that are missing in the backup source.

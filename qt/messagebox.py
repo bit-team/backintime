@@ -69,13 +69,35 @@ def warning(text, title=None, widget_to_center_on=None):
 
     Args:
         text(str): The warning message central to the dialog.
-        title(str): Title of the message box dialog.
+        title(str): Title of the message box dialog (default: 'Warning').
         widget_to_center_on(QWidget): Center the message box on that widget.
     """
     QMessageBox.warning(
         widget_to_center_on,
         title if title else _('Warning'),
         text)
+
+
+def question(text, title=None, widget_to_center_on=None):
+    """Show a modal question message box.
+
+    The message box is centered on the primary screen if
+    ``widget_to_center_on`` is not given.
+
+    Args:
+        text(str): The question central to the dialog.
+        title(str): Title of the message box dialog (default: 'Question').
+        widget_to_center_on(QWidget): Center the message box on that widget.
+
+    Return:
+        bool: ``True`` if the answer was "Yes", otherwise ``False``.
+    """
+    answer = QMessageBox.question(
+        widget_to_center_on,
+        title if title else _('Question'),
+        text)
+
+    return answer == QMessageBox.StandardButton.Yes
 
 
 def critical(parent, msg):
