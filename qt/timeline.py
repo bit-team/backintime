@@ -254,10 +254,17 @@ class HeaderItem(TimeLineItem):
         self.setFont(0, qttools.fontBold(self.font(0)))
 
         palette = QApplication.instance().palette()
+        print('X'*100)  # DEBUG
+        print(f'{QPalette.ColorRole.PlaceholderText=} {QPalette.ColorRole.Window=}')
+        color = palette.color(QPalette.ColorRole.PlaceholderText)
+        print("PlaceholderText RGB:", color.red(), color.green(), color.blue(), "Alpha:", color.alpha())
+        color = palette.color(QPalette.ColorRole.Window)
+        print("Window RGB:", color.red(), color.green(), color.blue(), "Alpha:", color.alpha())
         self.setForeground(
             0, palette.color(QPalette.ColorRole.PlaceholderText))
         self.setBackground(
             0, palette.color(QPalette.ColorRole.Window))
+        print('Y'*100)  # DEBUG
 
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
