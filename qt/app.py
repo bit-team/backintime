@@ -1278,7 +1278,7 @@ class MainWindow(QMainWindow):
             item = self.timeLine.currentItem()
 
         if not item is None:
-            if not item.snapshotID().isRoot:
+            if not item.snapshot_id.isRoot:
                 enabled = True
 
         # update remove/name snapshot buttons
@@ -1293,7 +1293,7 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if not sid or sid == self.sid:
             return
 
@@ -1303,7 +1303,7 @@ class MainWindow(QMainWindow):
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         self.timeLine.clear()
-        self.timeLine.addRoot(snapshots.RootSnapshot(self.config))
+        self.timeLine.add_root(snapshots.RootSnapshot(self.config))
 
         if refreshSnapshotsList:
             self.snapshotsList = []
@@ -1341,7 +1341,7 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if sid.isRoot:
             return
 
@@ -1356,18 +1356,19 @@ class MainWindow(QMainWindow):
             return
 
         sid.name = new_name
-        item.updateText()
+        item.update_text()
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).show()  # no SID argument in constructor means "show last log"
+            # no SID argument in constructor means "show last log"
+            logviewdialog.LogViewDialog(self).show()
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if sid.isRoot:
             return
 
@@ -1375,7 +1376,7 @@ class MainWindow(QMainWindow):
             dlg = logviewdialog.LogViewDialog(self, sid)
             dlg.show()
             if sid != dlg.sid:
-                self.timeLine.setCurrentSnapshotID(dlg.sid)
+                self.timeLine.set_current_snapshot_id(dlg.sid)
 
     def btnRemoveSnapshotClicked (self):
         def hideItem(item):
@@ -1398,7 +1399,7 @@ class MainWindow(QMainWindow):
                 'Are you sure you want to remove these snapshots?',
                 len(items)
             ),
-            '\n'.join([item.snapshotID().displayName for item in items]))
+            '\n'.join([item.snapshot_id.displayName for item in items]))
 
         answer = messagebox.warningYesNo(self, question_msg)
 
@@ -1410,7 +1411,7 @@ class MainWindow(QMainWindow):
             item.setDisabled(True)
 
             if item is self.timeLine.currentItem():
-                self.timeLine.selectRootItem()
+                self.timeLine.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.updateTimeLine)
@@ -1690,7 +1691,7 @@ class MainWindow(QMainWindow):
             if dlg.exec() == QDialog.DialogCode.Accepted:
 
                 if dlg.sid != self.sid:
-                    self.timeLine.setCurrentSnapshotID(dlg.sid)
+                    self.timeLine.set_current_snapshot_id(dlg.sid)
 
     def btnFolderUpClicked(self):
 
@@ -2233,7 +2234,7 @@ class RemoveSnapshotThread(QThread):
         self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
                                                          reason = 'deleting snapshots')
 
-        for item, sid in [(x, x.snapshotID()) for x in self.items]:
+        for item, sid in [(x, x.snapshot_id) for x in self.items]:
             self.snapshots.remove(sid)
             self.hideTimelineItem.emit(item)
             if sid == last_snapshot:

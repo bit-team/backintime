@@ -287,7 +287,7 @@ class SnapshotsDialog(QDialog):
         self.updateSnapshots()
 
     def updateToolbar(self):
-        sids = self.timeLine.selectedSnapshotIDs()
+        sids = self.timeLine.selected_snapshot_ids()
 
         if not sids:
             enable_restore = False
@@ -397,7 +397,7 @@ class SnapshotsDialog(QDialog):
             msg = _('Do you really want to delete {file} in snapshot '
                     '{snapshot_id}?').format(
                         file=f'"{self.path}"',
-                        snapshot_id=f'"{items[0].snapshotID()}"')
+                        snapshot_id=f'"{items[0].snapshot_id}"')
 
         else:
             msg = _('Do you really want to delete {file} in {count} '
@@ -438,7 +438,7 @@ class SnapshotsDialog(QDialog):
         """
         self.timeLine.clearSelection()
         for item in self.timeLine.iterSnapshotItems():
-            if not isinstance(item.snapshotID(), snapshots.RootSnapshot):
+            if not isinstance(item.snapshot_id, snapshots.RootSnapshot):
                 item.setSelected(True)
 
     def accept(self):
@@ -460,19 +460,21 @@ class RemoveFileThread(QThread):
         super(RemoveFileThread, self).__init__(parent)
 
     def run(self):
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting files')
+        # inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(
+            toplevel_xid = self.config.xWindowId,
+            reason = 'deleting files')
 
         for item in self.items:
-            self.snapshots.deletePath(item.snapshotID(), self.parent.path)
+            self.snapshots.deletePath(item.snapshot_id, self.parent.path)
             try:
                 item.setHidden(True)
             except RuntimeError:
-                #item has been deleted
-                #probably because user refreshed treeview
+                # item has been deleted
+                # probably because user refreshed treeview
                 pass
 
-        #release inhibit suspend
+        # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(
+                *self.config.inhibitCookie)
