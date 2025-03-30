@@ -91,14 +91,13 @@ import snapshotsdialog
 import logviewdialog
 import languagedialog
 import messagebox
-import qttools
 import version
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
 from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
-from statedata import StateData
+from timeline import TimeLine, SnapshotItem
 
 
 class MainWindow(QMainWindow):
@@ -136,7 +135,7 @@ class MainWindow(QMainWindow):
         self._create_main_toolbar()
 
         # timeline (left widget)
-        self.timeLine = qttools.TimeLine(self)
+        self.timeLine = TimeLine(self)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         # right widget
@@ -1192,7 +1191,7 @@ class MainWindow(QMainWindow):
     def addPlace(self, name, path, icon):
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        qttools.py::HeaderItem.__init__().
+        timeline.py::HeaderItem.__init__().
         """
         item = QTreeWidgetItem()
 
@@ -2220,7 +2219,7 @@ class RemoveSnapshotThread(QThread):
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
-    hideTimelineItem = pyqtSignal(qttools.SnapshotItem)
+    hideTimelineItem = pyqtSignal(SnapshotItem)
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots

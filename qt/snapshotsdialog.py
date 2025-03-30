@@ -22,6 +22,7 @@ import messagebox
 import qttools
 import snapshots
 import logger
+from timeline import TimeLine
 
 DIFF_PARAMS = '%1 %2'
 
@@ -171,7 +172,7 @@ class SnapshotsDialog(QDialog):
         self.btnSelectAll.triggered.connect(self.btnSelectAllClicked)
 
         #snapshots list
-        self.timeLine = qttools.TimeLine(self)
+        self.timeLine = TimeLine(self)
         self.mainLayout.addWidget(self.timeLine)
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
         self.timeLine.itemActivated.connect(self.timeLineExecute)
