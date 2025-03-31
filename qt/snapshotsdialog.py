@@ -12,9 +12,21 @@ import os
 import subprocess
 import shlex
 
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
+from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtWidgets import (QCheckBox,
+                             QDialogButtonBox,
+                             QHBoxLayout,
+                             QLineEdit,
+                             QMenu,
+                             QMessageBox,
+                             QPushButton,
+                             QToolBar,
+                             QVBoxLayout
+    )
+from PyQt6.QtCore import (Qt,
+                          QThread,
+                          QUrl
+    )
 
 import tools
 import restoredialog
