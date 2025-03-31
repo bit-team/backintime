@@ -18,24 +18,31 @@ consolidate if possible.
 """
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFrame, QComboBox
-import snapshots  # noqa: E402
-from qttools_path import registerBackintimePath
+# from qttools_path import registerBackintimePath
 # registerBackintimePath('common')
 
 
 class SortedComboBox(QComboBox):
     """A combo box ensuring that its items are in sorted order.
     """
-    def insertItem(*args, **kwargs):  # pylint: disable=invalid-name
-        """Prevent inserting items abroad from addItem because this would break
-        sorting
-        """
-        raise NotImplementedError
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.sort_order = Qt.SortOrder.AscendingOrder
-        self.sort_role = Qt.ItemDataRole.DisplayRole
+        self.sort_order = None
+        self.sort_role = None
+
+        self.set_ascending_order()
+        self.set_role(Qt.ItemDataRole.DisplayRole)
+
+    def set_ascending_order(self, ascending: bool = True) -> None:
+        """Set the sort order."""
+        self.sort_order = {
+            True: Qt.SortOrder.AscendingOrder,
+            False: Qt.SortOrder.DescendingOrder}[ascending]
+
+    def set_role(self, role: Qt.ItemDataRole) -> None:
+        """Set item data role."""
+        self.sort_role = role
 
     def add_item(self, text, user_data=None):
         """
@@ -59,47 +66,53 @@ class SortedComboBox(QComboBox):
 
         self.insertItem(idx, text, user_data)
 
-    def checkSelection(self):
+    def check_selection(self):
+        """Dev note: Not sure what it is doing or why this is needed."""
         if self.currentIndex() < 0:
             self.setCurrentIndex(0)
 
 
 class SnapshotCombo(SortedComboBox):
+    """A combo box containing backups (aka snapshots)."""
+
     def __init__(self, parent=None):
-        super(SnapshotCombo, self).__init__(parent)
-        self.sortOrder = Qt.SortOrder.DescendingOrder
-        self.sortRole = Qt.ItemDataRole.UserRole
+        super().__init__(parent)
+        self.set_ascending_order(False)
+        self.set_role(Qt.ItemDataRole.UserRole)
 
-    def addSnapshotID(self, sid):
-        assert isinstance(sid, snapshots.SID), \
-            f'sid is not snapshots.SID type: {sid}'
-
+    def add_snapshot_id(self, sid):
+        """Add the snapshot with its ID/name."""
         self.add_item(sid.displayName, sid)
 
-    def currentSnapshotID(self):
+    def current_snapshot_id(self):
+        """Return the ID/name of the current snapshot."""
         return self.itemData(self.currentIndex())
 
-    def setCurrentSnapshotID(self, sid):
-
-        for i in range(self.count()):
-
-            if self.itemData(i) == sid:
-                self.setCurrentIndex(i)
+    def set_current_snapshot_id(self, sid):
+        """Select entry by its snapshot id."""
+        for idx in range(self.count()):
+            if self.itemData(idx) == sid:
+                self.setCurrentIndex(idx)
                 break
 
 
 class ProfileCombo(SortedComboBox):
+    """A combo box containing profile names."""
+
     def __init__(self, parent):
-        super(ProfileCombo, self).__init__(parent)
-        self.getName = parent.config.profileName
+        super().__init__(parent)
 
-    def addProfileID(self, profile_id):
-        self.add_item(self.getName(profile_id), profile_id)
+    def add_profile_id(self, profile_id):
+        """Add item using the profiles name."""
+        name = self.parent().profileName(profile_id)
+        self.add_item(name, profile_id)
 
-    def currentProfileID(self):
+    def current_profile_id(self):
+        """Return the current selected profile id."""
         return self.itemData(self.currentIndex())
 
-    def setCurrentProfileID(self, profile_id):
+    def set_current_profile_id(self, profile_id):
+        """Select the item using the given profile id."""
         for i in range(self.count()):
             if self.itemData(i) == profile_id:
                 self.setCurrentIndex(i)

@@ -19,7 +19,6 @@ from PyQt6.QtCore import *
 import tools
 import restoredialog
 import messagebox
-import qttools
 import snapshots
 import logger
 from timeline import TimeLine
@@ -223,17 +222,17 @@ class SnapshotsDialog(QDialog):
         self.timeLine.addSnapshot(sid)
 
         #add to combo
-        self.comboDiff.addSnapshotID(sid)
+        self.comboDiff.add_snapshot_id(sid)
 
         if self.sid == sid:
-            self.comboDiff.setCurrentSnapshotID(sid)
-        self.comboDiff.checkSelection()
+            self.comboDiff.set_current_snapshot_id(sid)
+        self.comboDiff.check_selection()
 
     def updateSnapshots(self):
         self.timeLine.clear()
         self.comboDiff.clear()
 
-        equal_to_sid = self.comboEqualTo.currentSnapshotID()
+        equal_to_sid = self.comboEqualTo.current_snapshot_id()
 
         if self.cbOnlyEqualSnapshots.isChecked() and equal_to_sid:
             equal_to = equal_to_sid.pathBackup(self.path)
@@ -258,12 +257,12 @@ class SnapshotsDialog(QDialog):
         self.comboEqualTo.clear()
         snapshotsFiltered = self.snapshots.filter(self.sid, self.path, self.snapshotsList)
         for sid in snapshotsFiltered:
-            self.comboEqualTo.addSnapshotID(sid)
+            self.comboEqualTo.add_snapshot_id(sid)
 
             if sid == self.sid:
-                self.comboEqualTo.setCurrentSnapshotID(sid)
+                self.comboEqualTo.set_current_snapshot_id(sid)
 
-        self.comboEqualTo.checkSelection()
+        self.comboEqualTo.check_selection()
 
     def UpdateSnapshotsAndComboEqualTo(self):
         self.updateSnapshots()
@@ -308,13 +307,13 @@ class SnapshotsDialog(QDialog):
 
     def restoreThis(self):
         # See #1485 as related bug report
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if not sid.isRoot:
             restoredialog.restore(self, sid, self.path)  # pylint: disable=E1101
 
     def restoreThisTo(self):
         # See #1485 as related bug report
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if not sid.isRoot:
             restoredialog.restore(self, sid, self.path, None)  # pylint: disable=E1101
 
@@ -325,7 +324,7 @@ class SnapshotsDialog(QDialog):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if not sid:
             return
 
@@ -341,8 +340,8 @@ class SnapshotsDialog(QDialog):
         self.run = QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
-        sid1 = self.timeLine.currentSnapshotID()
-        sid2 = self.comboDiff.currentSnapshotID()
+        sid1 = self.timeLine.current_snapshot_id()
+        sid2 = self.comboDiff.current_snapshot_id()
         if not sid1 or not sid2:
             return
 
@@ -443,7 +442,7 @@ class SnapshotsDialog(QDialog):
                 item.setSelected(True)
 
     def accept(self):
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if sid:
             self.sid = sid
         super(SnapshotsDialog, self).accept()

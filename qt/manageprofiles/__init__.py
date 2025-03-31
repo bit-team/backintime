@@ -13,7 +13,7 @@
 import os
 import re
 import copy
-from PyQt6.QtGui import QPalette, QBrush, QIcon
+from PyQt6.QtGui import QPalette, QBrush
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -343,7 +343,7 @@ class SettingsDialog(QDialog):
         if self.disableProfileChanged:
             return
 
-        current_profile_id = self.comboProfiles.currentProfileID()
+        current_profile_id = self.comboProfiles.current_profile_id()
         if not current_profile_id:
             return
 

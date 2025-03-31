@@ -144,7 +144,7 @@ class LogViewDialog(QDialog):
         if self.sid is None:
             # only watch if we show the last log
             log = self.config.takeSnapshotLogFile(
-                self.comboProfiles.currentProfileID())
+                self.comboProfiles.current_profile_id())
             self.watcher.addPath(log)
         # passes the path to the changed file to updateLog()
         self.watcher.fileChanged.connect(self.updateLog)
@@ -164,8 +164,8 @@ class LogViewDialog(QDialog):
     def profileChanged(self, index):
         if not self.enableUpdate:
             return
-        profile_id = self.comboProfiles.currentProfileID()
-        self.mainWindow.comboProfiles.setCurrentProfileID(profile_id)
+        profile_id = self.comboProfiles.current_profile_id()
+        self.mainWindow.comboProfiles.set_current_profile_id(profile_id)
         self.mainWindow.comboProfileChanged(None)
 
         self.updateDecode()
@@ -174,7 +174,7 @@ class LogViewDialog(QDialog):
     def comboSnapshotsChanged(self, index):
         if not self.enableUpdate:
             return
-        self.sid = self.comboSnapshots.currentSnapshotID()
+        self.sid = self.comboSnapshots.current_snapshot_id()
         self.updateLog()
 
     def comboFilterChanged(self, index):
@@ -198,9 +198,9 @@ class LogViewDialog(QDialog):
         if self.sid:
             self.comboSnapshots.clear()
             for sid in snapshots.iterSnapshots(self.config):
-                self.comboSnapshots.addSnapshotID(sid)
+                self.comboSnapshots.add_snapshot_id(sid)
                 if sid == self.sid:
-                    self.comboSnapshots.setCurrentSnapshotID(sid)
+                    self.comboSnapshots.set_current_snapshot_id(sid)
 
     def updateDecode(self):
         if self.config.snapshotsMode() == 'ssh_encfs':
@@ -236,7 +236,7 @@ class LogViewDialog(QDialog):
             self.watcher.removePath(watchPath)
             # append only new lines to txtLogView
             log = snapshotlog.SnapshotLog(
-                self.config, self.comboProfiles.currentProfileID())
+                self.config, self.comboProfiles.current_profile_id())
             for line in log.get(mode=mode,
                                 decode=self.decode,
                                 skipLines=self.txtLogView.document().lineCount()-1):
@@ -250,7 +250,7 @@ class LogViewDialog(QDialog):
 
         elif self.sid is None:
             log = snapshotlog.SnapshotLog(
-                self.config, self.comboProfiles.currentProfileID())
+                self.config, self.comboProfiles.current_profile_id())
             self.txtLogView.setPlainText(
                 '\n'.join(log.get(mode=mode, decode=self.decode)))
 

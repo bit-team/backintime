@@ -181,9 +181,9 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
     """
     profiles = config.profilesSortedByName()
     for profile_id in profiles:
-        combo_profiles.addProfileID(profile_id)
+        combo_profiles.add_profile_id(profile_id)
         if profile_id == current_profile_id:
-            combo_profiles.setCurrentProfileID(profile_id)
+            combo_profiles.set_current_profile_id(profile_id)
 
 # |---------------------|
 # | Misc / Uncatgorized |

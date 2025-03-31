@@ -983,7 +983,7 @@ class MainWindow(QMainWindow):
         if self.disableProfileChanged:
             return
 
-        profile_id = self.comboProfiles.currentProfileID()
+        profile_id = self.comboProfiles.current_profile_id()
         if not profile_id:
             return
 
