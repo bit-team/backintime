@@ -536,12 +536,12 @@ class SettingsDialog(QDialog):
 
         return item
 
-    def fillCombo(self, combo, d):
-        keys = list(d.keys())
-        keys.sort()
+    # def fillCombo(self, combo, d):
+    #     keys = list(d.keys())
+    #     keys.sort()
 
-        for key in keys:
-            combo.addItem(QIcon(), d[key], key)
+    #     for key in keys:
+    #         combo.addItem(QIcon(), d[key], key)
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):

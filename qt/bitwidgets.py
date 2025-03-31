@@ -18,42 +18,46 @@ consolidate if possible.
 """
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFrame, QComboBox
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
 import snapshots  # noqa: E402
+from qttools_path import registerBackintimePath
+# registerBackintimePath('common')
 
 
 class SortedComboBox(QComboBox):
-    # Prevent inserting items abroad from addItem because this would break
-    # sorting
-    insertItem = NotImplemented
+    """A combo box ensuring that its items are in sorted order.
+    """
+    def insertItem(*args, **kwargs):  # pylint: disable=invalid-name
+        """Prevent inserting items abroad from addItem because this would break
+        sorting
+        """
+        raise NotImplementedError
 
     def __init__(self, parent=None):
-        super(SortedComboBox, self).__init__(parent)
-        self.sortOrder = Qt.SortOrder.AscendingOrder
-        self.sortRole = Qt.ItemDataRole.DisplayRole
+        super().__init__(parent)
+        self.sort_order = Qt.SortOrder.AscendingOrder
+        self.sort_role = Qt.ItemDataRole.DisplayRole
 
-    def addItem(self, text, userData=None):
+    def add_item(self, text, user_data=None):
         """
         QComboBox doesn't support sorting
         so this little hack is used to insert
         items in sorted order.
         """
 
-        if self.sortRole == Qt.ItemDataRole.UserRole:
-            sortObject = userData
+        if self.sort_role == Qt.ItemDataRole.UserRole:
+            sort_obj = user_data
         else:
-            sortObject = text
+            sort_obj = text
 
         the_list = [
-            self.itemData(i, self.sortRole) for i in range(self.count())]
-        the_list.append(sortObject)
+            self.itemData(i, self.sort_role) for i in range(self.count())]
+        the_list.append(sort_obj)
 
-        reverse_sort = self.sortOrder == Qt.SortOrder.DescendingOrder
+        reverse_sort = self.sort_order == Qt.SortOrder.DescendingOrder
         the_list.sort(reverse=reverse_sort)
-        index = the_list.index(sortObject)
+        idx = the_list.index(sort_obj)
 
-        super(SortedComboBox, self).insertItem(index, text, userData)
+        self.insertItem(idx, text, user_data)
 
     def checkSelection(self):
         if self.currentIndex() < 0:
@@ -70,7 +74,7 @@ class SnapshotCombo(SortedComboBox):
         assert isinstance(sid, snapshots.SID), \
             f'sid is not snapshots.SID type: {sid}'
 
-        self.addItem(sid.displayName, sid)
+        self.add_item(sid.displayName, sid)
 
     def currentSnapshotID(self):
         return self.itemData(self.currentIndex())
@@ -89,15 +93,15 @@ class ProfileCombo(SortedComboBox):
         super(ProfileCombo, self).__init__(parent)
         self.getName = parent.config.profileName
 
-    def addProfileID(self, profileID):
-        self.addItem(self.getName(profileID), profileID)
+    def addProfileID(self, profile_id):
+        self.add_item(self.getName(profile_id), profile_id)
 
     def currentProfileID(self):
         return self.itemData(self.currentIndex())
 
-    def setCurrentProfileID(self, profileID):
+    def setCurrentProfileID(self, profile_id):
         for i in range(self.count()):
-            if self.itemData(i) == profileID:
+            if self.itemData(i) == profile_id:
                 self.setCurrentIndex(i)
                 break
 
