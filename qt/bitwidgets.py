@@ -101,10 +101,11 @@ class ProfileCombo(SortedComboBox):
 
     def __init__(self, parent):
         super().__init__(parent)
+        self._config = parent.config
 
     def add_profile_id(self, profile_id):
         """Add item using the profiles name."""
-        name = self.parent().profileName(profile_id)
+        name = self._config.profileName(profile_id)
         self.add_item(name, profile_id)
 
     def current_profile_id(self):
