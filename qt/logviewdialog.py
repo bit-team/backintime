@@ -24,7 +24,6 @@ import snapshots
 import encfstools
 import snapshotlog
 import tools
-import qttools
 from statedata import StateData
 
 
