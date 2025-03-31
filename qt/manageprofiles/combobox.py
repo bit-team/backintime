@@ -43,7 +43,7 @@ class BitComboBox(QComboBox):
         self._content_dict = content_dict
 
         for data, entry in self._content_dict.items():
-            self.add_item(entry, userData=data)
+            self.addItem(entry, userData=data)
 
     @property
     def current_data(self) -> Any:
