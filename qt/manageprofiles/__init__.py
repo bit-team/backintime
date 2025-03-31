@@ -43,6 +43,7 @@ from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
+from bitwidgets import ProfileCombo
 
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
@@ -76,7 +77,7 @@ class SettingsDialog(QDialog):
 
         self.firstUpdateAll = True
         self.disableProfileChanged = True
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
         self.disableProfileChanged = False

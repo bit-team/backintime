@@ -26,6 +26,7 @@ import config
 import qttools
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
+from bitwidgets import HLineWidget
 
 
 class RemoveRetentionTab(QDialog):
@@ -51,7 +52,7 @@ class RemoveRetentionTab(QDialog):
 
         # ---
         self._tab_layout.addWidget(
-            qttools.HLineWidget(),
+            HLineWidget(),
             # fromRow
             self._tab_layout.rowCount(),
             # fromColumn
@@ -66,7 +67,7 @@ class RemoveRetentionTab(QDialog):
 
         # ---
         self._tab_layout.addWidget(
-            qttools.HLineWidget(),
+            HLineWidget(),
             # fromRow
             self._tab_layout.rowCount(),
             # fromColumn

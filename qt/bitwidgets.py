@@ -12,6 +12,9 @@
 #
 # File was splitted from "qt/qttools.py".
 """Some comboboxes and other widegts.
+
+Dev note (buhtz, 2025-03: Have look at "qt/manageprofiles/combobox.py" and
+consolidate if possible.
 """
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFrame, QComboBox

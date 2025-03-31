@@ -41,6 +41,7 @@ from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
+from bitwidgets import HLineWidget
 from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
 
 
@@ -69,7 +70,7 @@ class GeneralTab(QDialog):
         # EncFS deprecation (#1734, #1735)
         self._lbl_encfs_warning = self._create_label_encfs_deprecation()
         tab_layout.addWidget(self._lbl_encfs_warning)
-        tab_layout.addWidget(qttools.HLineWidget())
+        tab_layout.addWidget(HLineWidget())
 
         # Where to save snapshots
         groupBox = QGroupBox(self)

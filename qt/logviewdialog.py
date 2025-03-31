@@ -16,8 +16,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QComboBox,
                              QDialogButtonBox,
-                             QCheckBox,
-                             )
+                             QCheckBox)
 from PyQt6.QtCore import QFileSystemWatcher
 import qttools
 import snapshots
@@ -25,6 +24,7 @@ import encfstools
 import snapshotlog
 import tools
 from statedata import StateData
+from bitwidgets import SnapshotCombo, ProfileCombo
 
 
 class LogViewDialog(QDialog):
@@ -69,16 +69,17 @@ class LogViewDialog(QDialog):
         self.lblProfile = QLabel(_('Profile:'), self)
         layout.addWidget(self.lblProfile)
 
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
         # snapshots
         self.lblSnapshots = QLabel(_('Snapshots:'), self)
         layout.addWidget(self.lblSnapshots)
-        self.comboSnapshots = qttools.SnapshotCombo(self)
+        self.comboSnapshots = SnapshotCombo(self)
         layout.addWidget(self.comboSnapshots, 1)
-        self.comboSnapshots.currentIndexChanged.connect(self.comboSnapshotsChanged)
+        self.comboSnapshots.currentIndexChanged.connect(
+            self.comboSnapshotsChanged)
 
         if self.sid is None:
             self.lblSnapshots.hide()

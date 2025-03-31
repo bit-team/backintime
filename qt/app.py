@@ -98,6 +98,7 @@ from restoreconfigdialog import RestoreConfigDialog
 from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
+from bitwidgets import ProfileCombo
 
 
 class MainWindow(QMainWindow):
@@ -797,7 +798,7 @@ class MainWindow(QMainWindow):
             Qt.ToolButtonStyle(StateData().toolbar_button_style))
 
         # Drop-Down: Profiles
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         self.comboProfilesAction = toolbar.addWidget(self.comboProfiles)
 
         actions_for_toolbar = [

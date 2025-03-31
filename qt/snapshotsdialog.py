@@ -23,6 +23,7 @@ import qttools
 import snapshots
 import logger
 from timeline import TimeLine
+from bitwidgets import SnapshotCombo
 
 DIFF_PARAMS = '%1 %2'
 
@@ -137,7 +138,7 @@ class SnapshotsDialog(QDialog):
             self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)
 
-        self.comboEqualTo = qttools.SnapshotCombo(self)
+        self.comboEqualTo = SnapshotCombo(self)
         self.comboEqualTo.currentIndexChanged.connect(self.comboEqualToChanged)
         self.comboEqualTo.setEnabled(False)
         layout.addWidget(self.comboEqualTo)
@@ -186,7 +187,7 @@ class SnapshotsDialog(QDialog):
         self.btnDiff.clicked.connect(self.btnDiffClicked)
         self._update_btn_diff()
 
-        self.comboDiff = qttools.SnapshotCombo(self)
+        self.comboDiff = SnapshotCombo(self)
         layout.addWidget(self.comboDiff, 2)
 
         #buttons

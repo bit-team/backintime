@@ -14,10 +14,7 @@
     - Helpers for Qt Fonts.
     - Helpers about path manipulation.
     - FiledialogShowHidden
-    - MyTreeView (used RestoreConfigDialog)
-    - SortedcomboBox, SnapshotCombo, ProfileCombo
     - Menu (tooltips in menus)
-
 """
 import os
 import sys
