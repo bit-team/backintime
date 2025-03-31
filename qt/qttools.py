@@ -30,8 +30,6 @@ from PyQt6.QtGui import (QAction,
                          QIcon)
 from PyQt6.QtCore import (QDir,
                           Qt,
-                          pyqtSignal,
-                          QModelIndex,
                           QTranslator,
                           QLocale,
                           QLibraryInfo,
@@ -446,17 +444,3 @@ def indexFirstColumn(idx):
         idx = idx.sibling(idx.row(), 0)
 
     return idx
-
-
-class MyTreeView(QTreeView):
-    """
-    subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
-    if the SLOT currentChanged is called
-
-    Used by restoreconfigdialog.py
-    """
-    myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
-
-    def currentChanged(self, current, previous):
-        self.myCurrentIndexChanged.emit(current, previous)
-        super(MyTreeView, self).currentChanged(current, previous)
