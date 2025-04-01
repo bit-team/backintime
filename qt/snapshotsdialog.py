@@ -179,7 +179,7 @@ class SnapshotsDialog(QDialog):
         self.btnRestore.triggered.connect(self.restoreThis)
 
         # btn delete
-        self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete FOO'))
+        self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
         self.btnDelete.triggered.connect(self.btnDeleteClicked)
 
         # btn select_all
