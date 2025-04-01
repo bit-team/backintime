@@ -75,25 +75,30 @@ class QtSysTrayIcon:
         self.menuProgress.setVisible(False)
         self.contextMenu.addSeparator()
 
-        self.btnPause = self.contextMenu.addAction(icon.PAUSE, _('Pause snapshot process'))
+        self.btnPause = self.contextMenu.addAction(
+            icon.PAUSE, _('Pause backup process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
         self.btnPause.triggered.connect(action)
 
-        self.btnResume = self.contextMenu.addAction(icon.RESUME, _('Resume snapshot process'))
+        self.btnResume = self.contextMenu.addAction(
+            icon.RESUME, _('Resume backup process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
         self.btnResume.triggered.connect(action)
         self.btnResume.setVisible(False)
 
-        self.btnStop = self.contextMenu.addAction(icon.STOP, _('Stop snapshot process'))
+        self.btnStop = self.contextMenu.addAction(
+            icon.STOP, _('Stop backup process'))
         self.btnStop.triggered.connect(self.onBtnStop)
         self.contextMenu.addSeparator()
 
-        self.btnDecode = self.contextMenu.addAction(icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
+        self.btnDecode = self.contextMenu.addAction(
+            icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
         self.btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
         self.btnDecode.toggled.connect(self.onBtnDecode)
 
-        self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
+        self.openLog = self.contextMenu.addAction(
+            icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
         self.startBIT = self.contextMenu.addAction(
             icon.BIT_LOGO,
@@ -233,7 +238,7 @@ class QtSysTrayIcon:
         self.btnStop.setEnabled(False)
         self.btnPause.setEnabled(False)
         self.btnResume.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
+        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
 
 if __name__ == '__main__':

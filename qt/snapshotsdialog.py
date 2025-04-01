@@ -377,7 +377,7 @@ class SnapshotsDialog(QDialog):
         # check if the 2 paths are different
         if path1 == path2:
             messagebox.critical(
-                self, _('It is not possible to compare a snapshot to '
+                self, _('It is not possible to compare a backup to '
                         'itself, as the comparison would be redundant.')
             )
             return
