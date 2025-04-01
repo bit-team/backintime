@@ -417,7 +417,6 @@ class SnapshotsDialog(QDialog):
 
     def btnDeleteClicked(self):
         items = self.timeLine.selectedItems()
-        print(f'{items=}')  # DEBUG
 
         if not items:
             return
