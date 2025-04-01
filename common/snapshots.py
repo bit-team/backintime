@@ -843,8 +843,8 @@ class Snapshots:
                                     + '\n'
                                     + self.config.snapshotsFullPath(profile_id)
                                     + '\n'
-                                    + _('If it is on a removable drive '
-                                        'please plug it in.')
+                                    + _('If it is on a removable drive, '
+                                        'please plug it in. Then press OK.')
                                     + '\n'
                                     + gettext.ngettext('Waiting %s second.',
                                                        'Waiting %s seconds.',
