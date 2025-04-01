@@ -463,7 +463,7 @@ class SnapshotsDialog(QDialog):
         select all expect 'Now'
         """
         self.timeLine.clearSelection()
-        for item in self.timeLine.iterSnapshotItems():
+        for item in self.timeLine.iter_snapshot_items():
             if not isinstance(item.snapshot_id, snapshots.RootSnapshot):
                 item.setSelected(True)
 
