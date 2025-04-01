@@ -1554,7 +1554,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 self.notifyError(_(
                     "Could not install Udev rule for profile {profile_id}. "
-                    "DBus Service '{dbus_interface}' wasn't available")
+                    "DBus Service '{dbus_interface}' wasn't available.")
                     .format(profile_id=profile_id,
                             dbus_interface='net.launchpad.backintime.'
                                            'serviceHelper'))
