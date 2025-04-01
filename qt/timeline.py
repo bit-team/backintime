@@ -226,7 +226,8 @@ class TimeLine(QTreeWidget):
         for index in range(self.topLevelItemCount()):
             yield self.topLevelItem(index)
 
-    def _iter_snapshot_items(self):
+    def iter_snapshot_items(self):
+        """Iterate over all items."""
         for item in self._iter_items():
             if isinstance(item, SnapshotItem):
                 yield item
@@ -264,8 +265,10 @@ class SnapshotItem(TimeLineItem):
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
         if sid.isRoot:
-            self.setToolTip(0, _('This is NOT a snapshot but a live '
-                                 'view of your local files'))
+            self.setToolTip(
+                0,
+                _('This is NOT a snapshot but a live view '
+                  'of the local files.'))
         else:
             self.setToolTip(
                 0,

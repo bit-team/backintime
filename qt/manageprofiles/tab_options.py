@@ -52,7 +52,7 @@ class OptionsTab(QDialog):
             self.cbGlobalFlock,
             _('Other snapshots will be blocked until the current snapshot '
               'is done. This is a global option. So it will affect all '
-              'profiles for this user. But you need to activate this for all '
+              'profiles for this user. But it need to be activated for all '
               'other users, too.')
         )
 
@@ -61,14 +61,14 @@ class OptionsTab(QDialog):
         tab_layout.addWidget(self.cbBackupOnRestore)
         qttools.set_wrapped_tooltip(
             self.cbBackupOnRestore,
-            _("Newer versions of files will be renamed with trailing {suffix} "
-              "before restoring. If you don't need them anymore you can "
-              "remove them with {cmd}").format(
-                  suffix=self._parent_dialog.snapshots.backupSuffix(),
-                  cmd='find ./ -name "*{suffix}" -delete'.format(
-                      suffix=self._parent_dialog.snapshots.backupSuffix()
-                  )
-              )
+            [
+                _("Before restoring, newer versions of files will be renamed "
+                  "with the appended {suffix}. These files can be removed "
+                  "with the following command:").format(
+                      suffix=self._parent_dialog.snapshots.backupSuffix()),
+                'find ./ -name "*{suffix}" -delete'.format(
+                    suffix=self._parent_dialog.snapshots.backupSuffix())
+            ]
         )
 
         self.cbContinueOnErrors = QCheckBox(

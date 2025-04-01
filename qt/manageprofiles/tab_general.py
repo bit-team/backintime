@@ -392,9 +392,9 @@ class GeneralTab(QDialog):
             if not self.txtSshPrivateKeyFile.text():
 
                 question = '{}\n{}'.format(
-                        _('You did not choose a private key file for SSH.'),
-                        _('Would you like to generate a new password-less '
-                          'public/private key pair?'))
+                        _('A private key file for SSH was not chosen.'),
+                        _('Should a new password-less public/private key '
+                          'pair be generated?'))
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes
                 if answer:
@@ -489,8 +489,8 @@ class GeneralTab(QDialog):
         except NoPubKeyLogin as ex:
             logger.error(str(ex), self)
 
-            question = _('Would you like to copy your public SSH key to '
-                         'the remote host to enable password-less login?')
+            question = _('Copy public SSH key to the remote host to '
+                         'enable password-less login?')
             rc_copy_id = sshtools.sshCopyId(
                 self.config.sshPrivateKeyFile() + '.pub',
                 self.config.sshUser(),
@@ -534,8 +534,8 @@ class GeneralTab(QDialog):
             lblFingerprint.setFont(QFont('Monospace'))
             options.append({'widget': lblFingerprint, 'retFunc': None})
             lblQuestion = QLabel(
-                _("Please verify this fingerprint. Would you like to "
-                  "add it to your 'known_hosts' file?")
+                _("Please verify this fingerprint. Add it to the "
+                  "'known_hosts' file?")
             )
             options.append({'widget': lblQuestion, 'retFunc': None})
 
@@ -625,8 +625,7 @@ class GeneralTab(QDialog):
         if path:
 
             if old_path and old_path != path:
-                question = _('Are you sure you want to change '
-                             'snapshots directory?')
+                question = _('Really change the snapshots directory?')
 
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes

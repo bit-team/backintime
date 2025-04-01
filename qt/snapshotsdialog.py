@@ -179,7 +179,7 @@ class SnapshotsDialog(QDialog):
         self.btnRestore.triggered.connect(self.restoreThis)
 
         # btn delete
-        self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
+        self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete FOO'))
         self.btnDelete.triggered.connect(self.btnDeleteClicked)
 
         # btn select_all
@@ -377,7 +377,9 @@ class SnapshotsDialog(QDialog):
         # check if the 2 paths are different
         if path1 == path2:
             messagebox.critical(
-                self, _("You can't compare a snapshot to itself."))
+                self, _('It is not possible to compare a snapshot to '
+                        'itself, as the comparison would be redundant.')
+            )
             return
 
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
@@ -415,22 +417,21 @@ class SnapshotsDialog(QDialog):
 
     def btnDeleteClicked(self):
         items = self.timeLine.selectedItems()
+        print(f'{items=}')  # DEBUG
 
         if not items:
             return
 
         if len(items) == 1:
-            msg = _('Do you really want to delete {file} in snapshot '
-                    '{snapshot_id}?').format(
+            msg = _('Really delete {file} in snapshot {snapshot_id}?').format(
                         file=f'"{self.path}"',
                         snapshot_id=f'"{items[0].snapshot_id}"')
 
         else:
-            msg = _('Do you really want to delete {file} in {count} '
-                    'snapshots?').format(
+            msg = _('Really delete {file} in {count} snapshots?').format(
                         file=f'"{self.path}"', count=len(items))
 
-        msg = _('WARNING: This cannot be revoked.')
+        msg = msg + '\n' + _('WARNING: This cannot be revoked.')
 
         answer = messagebox.warningYesNo(self, msg)
         if answer == QMessageBox.StandardButton.Yes:
@@ -463,7 +464,7 @@ class SnapshotsDialog(QDialog):
         select all expect 'Now'
         """
         self.timeLine.clearSelection()
-        for item in self.timeLine.iterSnapshotItems():
+        for item in self.timeLine.iter_snapshot_items():
             if not isinstance(item.snapshot_id, snapshots.RootSnapshot):
                 item.setSelected(True)
 

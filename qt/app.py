@@ -894,10 +894,10 @@ class MainWindow(QMainWindow):
         profile_state = state_data.profile(self.config.current_profile_id)
 
         if self.shutdown.askBeforeQuit():
-            msg = _('If you close this window, Back In Time will not be able '
-                    'to shut down your system when the snapshot is finished.')
+            msg = _('If this window is closed, Back In Time will not be able '
+                    'to shut down your system when the backup is finished.')
             msg = msg + '\n'
-            msg = msg + _('Do you really want to close it?')
+            msg = msg + _('Close the window anyway?')
             answer = messagebox.warningYesNo(self, msg)
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
@@ -1396,8 +1396,8 @@ class MainWindow(QMainWindow):
 
         question_msg = '{}\n{}'.format(
             ngettext(
-                'Are you sure you want to remove this snapshot?',
-                'Are you sure you want to remove these snapshots?',
+                'Remove this backup?',
+                'Remove this backups?',
                 len(items)
             ),
             '\n'.join([item.snapshot_id.displayName for item in items]))
@@ -1502,9 +1502,9 @@ class MainWindow(QMainWindow):
         qttools.set_wrapped_tooltip(
             cb,
             [
-                _("Newer versions of files will be renamed with trailing "
-                  "{suffix} before restoring. If you don't need them anymore "
-                  "you can remove them with the following command:").format(
+                _("Before restoring, newer versions of files will be renamed "
+                  "with the appended {suffix}. These files can be removed "
+                  "with the following command:").format(
                       suffix=self.snapshots.backupSuffix()),
                 'find ./ -name "*{suffix}" -delete'.format(
                     suffix=self.snapshots.backupSuffix())
@@ -1568,19 +1568,17 @@ class MainWindow(QMainWindow):
         if restoreTo:
             msg = ngettext(
                 # singular
-                'Do you really want to restore this element into the '
-                'new directory?',
+                'Really restore this element into the new directory?',
                 # plural
-                'Do you really want to restore these elements into the '
-                'new directory?',
+                'Really restore these elements into the new directory?',
                 len(paths))
             msg = f'{msg}\n{restoreTo}'
         else:
             msg = ngettext(
                 # singular
-                'Do you really want to restore this element?',
+                'Really restore this element?',
                 # plural
-                'Do you really want to restore these elements?',
+                'Really restore these elements?',
                 len(paths))
 
         confirm, opt = messagebox.warningYesNoOptions(
@@ -1597,17 +1595,17 @@ class MainWindow(QMainWindow):
 
     def confirmDelete(self, warnRoot=False, restoreTo=None):
         if restoreTo:
-            msg = _('Are you sure you want to remove all newer files '
-                    'in {path}?').format(path=restoreTo)
+            msg = _('All newer files in {path} will be removed. '
+                    'Proceed?').format(path=restoreTo)
         else:
-            msg = _('Are you sure you want to remove all newer files in your '
-                    'original directory?')
+            msg = _('All newer files in the original directory will be '
+                    'removed. Proceed?')
 
         if warnRoot:
             msg = f'<p>{msg}</p><p>'
             msg = msg + _(
                 '{BOLD}Warning{BOLDEND}: Deleting files in the filesystem '
-                'root could break your entire system.').format(
+                'root could break the entire system.').format(
                     BOLD='<strong>', BOLDEND='</strong>')
             msg = msg + '</p>'
 

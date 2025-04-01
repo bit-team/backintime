@@ -90,7 +90,7 @@ class ScheduleWidget(QGroupBox):
         # Udev
         self._rowidx_udev = _create_form_entry(
             _('Run Back In Time as soon as the drive is connected (only once'
-              ' every X days). You will be prompted for your sudo password.'))
+              ' every X days). A sudo password prompt will appear.'))
 
         # Repeatedly (like anacron)
         self._rowidx_repeated = _create_form_entry(
