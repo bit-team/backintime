@@ -226,7 +226,8 @@ class TimeLine(QTreeWidget):
         for index in range(self.topLevelItemCount()):
             yield self.topLevelItem(index)
 
-    def _iter_snapshot_items(self):
+    def iter_snapshot_items(self):
+        """Iterate over all items."""
         for item in self._iter_items():
             if isinstance(item, SnapshotItem):
                 yield item

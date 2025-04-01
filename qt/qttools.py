@@ -14,10 +14,7 @@
     - Helpers for Qt Fonts.
     - Helpers about path manipulation.
     - FiledialogShowHidden
-    - MyTreeView (used RestoreConfigDialog)
-    - SortedcomboBox, SnapshotCombo, ProfileCombo
     - Menu (tooltips in menus)
-
 """
 import os
 import sys
@@ -30,15 +27,12 @@ from PyQt6.QtGui import (QAction,
                          QIcon)
 from PyQt6.QtCore import (QDir,
                           Qt,
-                          pyqtSignal,
-                          QModelIndex,
                           QTranslator,
                           QLocale,
                           QLibraryInfo,
                           QT_VERSION_STR,
                           QUrl)
-from PyQt6.QtWidgets import (QFrame,
-                             QWidget,
+from PyQt6.QtWidgets import (QWidget,
                              QFileDialog,
                              QAbstractItemView,
                              QListView,
@@ -46,14 +40,12 @@ from PyQt6.QtWidgets import (QFrame,
                              QDialog,
                              QApplication,
                              QStyleFactory,
-                             QComboBox,
                              QSystemTrayIcon)
 
 from packaging.version import Version
 
 from qttools_path import registerBackintimePath
 registerBackintimePath('common')
-import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
@@ -189,9 +181,9 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
     """
     profiles = config.profilesSortedByName()
     for profile_id in profiles:
-        combo_profiles.addProfileID(profile_id)
+        combo_profiles.add_profile_id(profile_id)
         if profile_id == current_profile_id:
-            combo_profiles.setCurrentProfileID(profile_id)
+            combo_profiles.set_current_profile_id(profile_id)
 
 # |---------------------|
 # | Misc / Uncatgorized |
@@ -449,109 +441,3 @@ def indexFirstColumn(idx):
         idx = idx.sibling(idx.row(), 0)
 
     return idx
-
-
-class MyTreeView(QTreeView):
-    """
-    subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
-    if the SLOT currentChanged is called
-
-    Used by restoreconfigdialog.py
-    """
-    myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
-
-    def currentChanged(self, current, previous):
-        self.myCurrentIndexChanged.emit(current, previous)
-        super(MyTreeView, self).currentChanged(current, previous)
-
-
-class SortedComboBox(QComboBox):
-    # Prevent inserting items abroad from addItem because this would break
-    # sorting
-    insertItem = NotImplemented
-
-    def __init__(self, parent=None):
-        super(SortedComboBox, self).__init__(parent)
-        self.sortOrder = Qt.SortOrder.AscendingOrder
-        self.sortRole = Qt.ItemDataRole.DisplayRole
-
-    def addItem(self, text, userData=None):
-        """
-        QComboBox doesn't support sorting
-        so this little hack is used to insert
-        items in sorted order.
-        """
-
-        if self.sortRole == Qt.ItemDataRole.UserRole:
-            sortObject = userData
-        else:
-            sortObject = text
-
-        the_list = [
-            self.itemData(i, self.sortRole) for i in range(self.count())]
-        the_list.append(sortObject)
-
-        reverse_sort = self.sortOrder == Qt.SortOrder.DescendingOrder
-        the_list.sort(reverse=reverse_sort)
-        index = the_list.index(sortObject)
-
-        super(SortedComboBox, self).insertItem(index, text, userData)
-
-    def checkSelection(self):
-        if self.currentIndex() < 0:
-            self.setCurrentIndex(0)
-
-
-class SnapshotCombo(SortedComboBox):
-    def __init__(self, parent=None):
-        super(SnapshotCombo, self).__init__(parent)
-        self.sortOrder = Qt.SortOrder.DescendingOrder
-        self.sortRole = Qt.ItemDataRole.UserRole
-
-    def addSnapshotID(self, sid):
-        assert isinstance(sid, snapshots.SID), \
-            f'sid is not snapshots.SID type: {sid}'
-
-        self.addItem(sid.displayName, sid)
-
-    def currentSnapshotID(self):
-        return self.itemData(self.currentIndex())
-
-    def setCurrentSnapshotID(self, sid):
-
-        for i in range(self.count()):
-
-            if self.itemData(i) == sid:
-                self.setCurrentIndex(i)
-                break
-
-
-class ProfileCombo(SortedComboBox):
-    def __init__(self, parent):
-        super(ProfileCombo, self).__init__(parent)
-        self.getName = parent.config.profileName
-
-    def addProfileID(self, profileID):
-        self.addItem(self.getName(profileID), profileID)
-
-    def currentProfileID(self):
-        return self.itemData(self.currentIndex())
-
-    def setCurrentProfileID(self, profileID):
-        for i in range(self.count()):
-            if self.itemData(i) == profileID:
-                self.setCurrentIndex(i)
-                break
-
-
-class HLineWidget(QFrame):
-    """Just a horizontal line.
-
-    It really is the case that even in the year 2025 with Qt6 there is no
-    dedicated widget class to draw a horizontal line.
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.setFrameShape(QFrame.Shape.HLine)
-        self.setFrameShadow(QFrame.Shadow.Sunken)

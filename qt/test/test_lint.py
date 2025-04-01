@@ -40,6 +40,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
+    'bitwidgets.py',
     'encfsmsgbox.py',
     'manageprofiles/combobox.py',
     'manageprofiles/statebindcheckbox.py',
@@ -49,6 +50,7 @@ full_test_files = [_base_dir / fp for fp in (
     'statedata.py',
     'test/test_lint.py',
     'test/test_statedata.py',
+    # 'snapshotsdialog.py', <-- need some more love
     'timeline.py',
     'usermessagedialog.py',
 )]

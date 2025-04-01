@@ -22,18 +22,31 @@ from PyQt6.QtWidgets import (QDialog,
                              QLabel,
                              QMenu,
                              QProgressBar,
-                             )
+                             QTreeView)
 from PyQt6.QtCore import (Qt,
                           QDir,
                           QSortFilterProxyModel,
                           QThread,
+                          QModelIndex,
                           pyqtSignal)
 
 import config
-import qttools
 import snapshots
 import logger
-import qttools
+
+
+class MyTreeView(QTreeView):
+    """
+    subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
+    if the SLOT currentChanged is called
+
+    Used by restoreconfigdialog.py
+    """
+    myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
+
+    def currentChanged(self, current, previous):
+        self.myCurrentIndexChanged.emit(current, previous)
+        super(MyTreeView, self).currentChanged(current, previous)
 
 
 class RestoreConfigDialog(QDialog):
@@ -58,7 +71,7 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(self._create_hint_label())
 
         # treeView
-        self.treeView = qttools.MyTreeView(self)
+        self.treeView = MyTreeView(self)
         self.treeViewModel = QFileSystemModel(self)
         self.treeViewModel.setRootPath(QDir().rootPath())
         self.treeViewModel.setReadOnly(True)
