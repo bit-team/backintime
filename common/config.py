@@ -325,7 +325,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots directory is not valid.')
+                        _('Backup directory is not valid.')
                     )
                 )
                 return False

@@ -190,7 +190,7 @@ class MainWindow(QMainWindow):
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
             _("This directory doesn't exist\n"
-              "in the current selected snapshot."),
+              "in the current selected backup."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
@@ -360,7 +360,7 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            msg = _("Can't find snapshots directory.") + '\n' \
+            msg = _("Can't find backup directory.") + '\n' \
                 + _('If it is on a removable drive please plug it in and then '
                     'press OK.')
             messagebox.critical(self, msg)
@@ -467,42 +467,42 @@ class MainWindow(QMainWindow):
             #     tooltip
             # ),
             'act_take_snapshot': (
-                icon.TAKE_SNAPSHOT, _('Take a snapshot'),
+                icon.TAKE_SNAPSHOT, _('Create a backup'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
                 _('Use modification time & size for file change detection.')),
 
             'act_take_snapshot_checksum': (
-                icon.TAKE_SNAPSHOT, _('Take a snapshot (checksum mode)'),
+                icon.TAKE_SNAPSHOT, _('Create a backup (checksum mode)'),
                 self.btnTakeSnapshotChecksumClicked, ['Ctrl+Shift+S'],
                 _('Use checksums for file change detection.')),
 
             'act_pause_take_snapshot': (
-                icon.PAUSE, _('Pause snapshot process'),
+                icon.PAUSE, _('Pause backup process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
                 None),
 
             'act_resume_take_snapshot': (
-                icon.RESUME, _('Resume snapshot process'),
+                icon.RESUME, _('Resume backup process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
                 None),
             'act_stop_take_snapshot': (
-                icon.STOP, _('Stop snapshot process'),
+                icon.STOP, _('Stop backup process'),
                 self.btnStopTakeSnapshotClicked, None,
                 None),
             'act_update_snapshots': (
-                icon.REFRESH_SNAPSHOT, _('Refresh snapshot list'),
+                icon.REFRESH_SNAPSHOT, _('Refresh backup list'),
                 self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
                 None),
             'act_name_snapshot': (
-                icon.SNAPSHOT_NAME, _('Name snapshot'),
+                icon.SNAPSHOT_NAME, _('Name backup'),
                 self.btnNameSnapshotClicked, ['F2'],
                 None),
             'act_remove_snapshot': (
-                icon.REMOVE_SNAPSHOT, _('Remove snapshot'),
+                icon.REMOVE_SNAPSHOT, _('Remove backup'),
                 self.btnRemoveSnapshotClicked, ['Delete'],
                 None),
             'act_snapshot_logview': (
-                icon.VIEW_SNAPSHOT_LOG, _('View snapshot log'),
+                icon.VIEW_SNAPSHOT_LOG, _('View backup log'),
                 self.btnSnapshotLogViewClicked, None,
                 None),
             'act_last_logview': (
@@ -516,7 +516,7 @@ class MainWindow(QMainWindow):
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
-                _('Shut down system after snapshot has finished.')),
+                _('Shut down system after backup has finished.')),
             'act_setup_language': (
                 icon.LANGUAGE, _('Setup language…'),
                 self.slot_setup_language, None,
@@ -604,7 +604,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, _('Compare snapshots…'),
+                icon.SNAPSHOTS, _('Compare backups…'),
                 self.btnSnapshotsClicked, None, None),
         }
 
@@ -1331,7 +1331,7 @@ class MainWindow(QMainWindow):
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
+        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
     def btnUpdateSnapshotsClicked(self):
         self.updateTimeLine()
@@ -1348,7 +1348,8 @@ class MainWindow(QMainWindow):
 
         name = sid.name
 
-        new_name, accept = QInputDialog.getText(self, _('Snapshot Name'), '', text = name)
+        new_name, accept = QInputDialog.getText(
+            self, _('Backup name'), '', text = name)
         if not accept:
             return
 
@@ -1558,9 +1559,9 @@ class MainWindow(QMainWindow):
             cb,
             _('Restore selected files or directories to the original '
               'destination and delete files or directories which are not in '
-              'the snapshot. Be extremely careful because this will delete '
-              'files and directories which were excluded during taking the '
-              'snapshot.')
+              'the backup. Be extremely careful because this will delete '
+              'files and directories which were excluded during the creation '
+              'of the backup.')
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
@@ -1853,7 +1854,7 @@ class MainWindow(QMainWindow):
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Snapshot'), name)
+            text = '{}: {}   '.format(_('Backup'), name)
 
         self.filesWidget.setTitle(text)
 

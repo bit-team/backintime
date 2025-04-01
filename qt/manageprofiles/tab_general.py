@@ -75,7 +75,7 @@ class GeneralTab(QDialog):
         # Where to save snapshots
         groupBox = QGroupBox(self)
         self.modeLocal = groupBox
-        groupBox.setTitle(_('Where to save snapshots'))
+        groupBox.setTitle(_('Where to save backups'))
         tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
@@ -269,7 +269,7 @@ class GeneralTab(QDialog):
         self.txt_profile.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txt_profile)
 
-        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
+        self.lblFullPath = QLabel(_('Full backup path:'), self)
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
@@ -618,14 +618,14 @@ class GeneralTab(QDialog):
 
         path = str(qttools.getExistingDirectory(
             self,
-            _('Where to save snapshots'),
+            _('Where to save backups'),
             self.editSnapshotsPath.text()
         ))
 
         if path:
 
             if old_path and old_path != path:
-                question = _('Really change the snapshots directory?')
+                question = _('Really change the backup directory?')
 
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes
@@ -673,7 +673,7 @@ class GeneralTab(QDialog):
             path = self.editSnapshotsPath.text()
 
         self.lblFullPath.setText(
-            _('Full snapshot path:') + ' ' +
+            _('Full backup path:') + ' ' +
             os.path.join(
                 path,
                 'backintime',

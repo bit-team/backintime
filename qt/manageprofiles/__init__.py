@@ -236,7 +236,7 @@ class SettingsDialog(QDialog):
                 _("With 'Full rsync mode' disabled, this will only impact "
                   "new files since for rsync, this is a transfer option, not "
                   "an exclusion option. Therefore, large files that have "
-                  "been backed up previously will persist in snapshots even "
+                  "been backed up previously will persist in backups even "
                   "if they have been modified.")
             ]
         )

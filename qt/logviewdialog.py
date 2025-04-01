@@ -58,7 +58,7 @@ class LogViewDialog(QDialog):
         if self.sid is None:
             self.setWindowTitle(_('Last Log View'))
         else:
-            self.setWindowTitle(_('Snapshot Log View'))
+            self.setWindowTitle(_('Backup Log View'))
 
         self.mainLayout = QVBoxLayout(self)
 
@@ -74,7 +74,7 @@ class LogViewDialog(QDialog):
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
         # snapshots
-        self.lblSnapshots = QLabel(_('Snapshots:'), self)
+        self.lblSnapshots = QLabel(_('Backups:'), self)
         layout.addWidget(self.lblSnapshots)
         self.comboSnapshots = SnapshotCombo(self)
         layout.addWidget(self.comboSnapshots, 1)
