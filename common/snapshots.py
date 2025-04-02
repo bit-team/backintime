@@ -1279,7 +1279,7 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found leftover backup '{new_snapshot.displayID}' "
+            logger.info(f"Found incomplete backup '{new_snapshot.displayID}' "
                         "that can be continued.", self)
 
             # TODO
@@ -1287,7 +1287,7 @@ class Snapshots:
             # Might make no sense to put that name in that string.
             self.setTakeSnapshotMessage(
                 0,
-                _('Found leftover backup {snapshot_id} '
+                _('Found incomplete backup {snapshot_id} '
                   'that can be continued.')
                 .format(snapshot_id=new_snapshot.displayID)
             )
