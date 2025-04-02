@@ -12,14 +12,28 @@ import os
 import subprocess
 import shlex
 
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
+from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtWidgets import (QCheckBox,
+                             QDialog,
+                             QDialogButtonBox,
+                             QGridLayout,
+                             QHBoxLayout,
+                             QLabel,
+                             QLineEdit,
+                             QMenu,
+                             QMessageBox,
+                             QPushButton,
+                             QToolBar,
+                             QVBoxLayout)
+from PyQt6.QtCore import (Qt,
+                          QThread,
+                          QUrl)
 
+from timeline import TimeLine
+from bitwidgets import SnapshotCombo
 import tools
 import restoredialog
 import messagebox
-import qttools
 import snapshots
 import logger
 
@@ -77,7 +91,7 @@ class DiffOptionsDialog(QDialog):
             return
 
         # Command exists?
-        if tools.checkCommand(cmd) == False:
+        if not tools.checkCommand(cmd):
             messagebox.info(_(
                 'The command "{cmd}" cannot be found on this system. Please '
                 'try something else or press Cancel.').format(cmd=cmd))
@@ -116,18 +130,19 @@ class SnapshotsDialog(QDialog):
 
         self.mainLayout = QVBoxLayout(self)
 
-        #path
+        # path
         self.editPath = QLineEdit(self.path, self)
         self.editPath.setReadOnly(True)
         self.mainLayout.addWidget(self.editPath)
 
-        #list different snapshots only
+        # list different snapshots only
         self.cbOnlyDifferentSnapshots = QCheckBox(
             _('Differing snapshots only'), self)
         self.mainLayout.addWidget(self.cbOnlyDifferentSnapshots)
-        self.cbOnlyDifferentSnapshots.stateChanged.connect(self.cbOnlyDifferentSnapshotsChanged)
+        self.cbOnlyDifferentSnapshots.stateChanged.connect(
+            self.cbOnlyDifferentSnapshotsChanged)
 
-        #list equal snapshots only
+        # list equal snapshots only
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
         self.cbOnlyEqualSnapshots = QCheckBox(
@@ -136,22 +151,23 @@ class SnapshotsDialog(QDialog):
             self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)
 
-        self.comboEqualTo = qttools.SnapshotCombo(self)
+        self.comboEqualTo = SnapshotCombo(self)
         self.comboEqualTo.currentIndexChanged.connect(self.comboEqualToChanged)
         self.comboEqualTo.setEnabled(False)
         layout.addWidget(self.comboEqualTo)
 
         # deep check
-        self.cbDeepCheck = QCheckBox(_('Deep check (more accurate, but slow)'), self)
+        self.cbDeepCheck = QCheckBox(
+            _('Deep check (more accurate, but slow)'), self)
         self.mainLayout.addWidget(self.cbDeepCheck)
         self.cbDeepCheck.stateChanged.connect(self.cbDeepCheckChanged)
 
-        #toolbar
+        # toolbar
         self.toolbar = QToolBar(self)
         self.toolbar.setFloatable(False)
         self.mainLayout.addWidget(self.toolbar)
 
-        #toolbar restore
+        # toolbar restore
         menuRestore = QMenu(self)
         action = menuRestore.addAction(icon.RESTORE, _('Restore'))
         action.triggered.connect(self.restoreThis)
@@ -162,16 +178,17 @@ class SnapshotsDialog(QDialog):
         self.btnRestore.setMenu(menuRestore)
         self.btnRestore.triggered.connect(self.restoreThis)
 
-        #btn delete
+        # btn delete
         self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
         self.btnDelete.triggered.connect(self.btnDeleteClicked)
 
-        #btn select_all
-        self.btnSelectAll = self.toolbar.addAction(icon.SELECT_ALL, _('Select All'))
+        # btn select_all
+        self.btnSelectAll = self.toolbar.addAction(
+            icon.SELECT_ALL, _('Select All'))
         self.btnSelectAll.triggered.connect(self.btnSelectAllClicked)
 
-        #snapshots list
-        self.timeLine = qttools.TimeLine(self)
+        # snapshots list
+        self.timeLine = TimeLine(self)
         self.mainLayout.addWidget(self.timeLine)
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
         self.timeLine.itemActivated.connect(self.timeLineExecute)
@@ -185,15 +202,19 @@ class SnapshotsDialog(QDialog):
         self.btnDiff.clicked.connect(self.btnDiffClicked)
         self._update_btn_diff()
 
-        self.comboDiff = qttools.SnapshotCombo(self)
+        self.comboDiff = SnapshotCombo(self)
         layout.addWidget(self.comboDiff, 2)
 
-        #buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
-        self.btnGoto =   buttonBox.button(QDialogButtonBox.StandardButton.Ok)
-        self.btnCancel = buttonBox.button(QDialogButtonBox.StandardButton.Cancel)
+        # buttons
+        buttonBox = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel)
+        self.btnGoto = buttonBox.button(QDialogButtonBox.StandardButton.Ok)
+        self.btnCancel = buttonBox.button(
+            QDialogButtonBox.StandardButton.Cancel)
         self.btnGoto.setText(_('Go To'))
-        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.ButtonRole.HelpRole)
+        btnDiffOptions = buttonBox.addButton(
+            _('Options'), QDialogButtonBox.ButtonRole.HelpRole)
         btnDiffOptions.setIcon(icon.DIFF_OPTIONS)
 
         self.mainLayout.addWidget(buttonBox)
@@ -202,7 +223,6 @@ class SnapshotsDialog(QDialog):
         buttonBox.rejected.connect(self.reject)
         btnDiffOptions.clicked.connect(self.btnDiffOptionsClicked)
 
-        #
         self.cbDeepCheck.setEnabled(False)
 
         full_path = self.sid.pathBackup(self.path)
@@ -214,24 +234,24 @@ class SnapshotsDialog(QDialog):
             self.comboEqualTo.hide()
             self.cbDeepCheck.hide()
 
-        #update list and combobox
+        # update list and combobox
         self.UpdateSnapshotsAndComboEqualTo()
 
     def addSnapshot(self, sid):
         self.timeLine.addSnapshot(sid)
 
-        #add to combo
-        self.comboDiff.addSnapshotID(sid)
+        # add to combo
+        self.comboDiff.add_snapshot_id(sid)
 
         if self.sid == sid:
-            self.comboDiff.setCurrentSnapshotID(sid)
-        self.comboDiff.checkSelection()
+            self.comboDiff.set_current_snapshot_id(sid)
+        self.comboDiff.check_selection()
 
     def updateSnapshots(self):
         self.timeLine.clear()
         self.comboDiff.clear()
 
-        equal_to_sid = self.comboEqualTo.currentSnapshotID()
+        equal_to_sid = self.comboEqualTo.current_snapshot_id()
 
         if self.cbOnlyEqualSnapshots.isChecked() and equal_to_sid:
             equal_to = equal_to_sid.pathBackup(self.path)
@@ -254,14 +274,16 @@ class SnapshotsDialog(QDialog):
 
     def UpdateComboEqualTo(self):
         self.comboEqualTo.clear()
-        snapshotsFiltered = self.snapshots.filter(self.sid, self.path, self.snapshotsList)
+        snapshotsFiltered = self.snapshots.filter(
+            self.sid, self.path, self.snapshotsList)
+
         for sid in snapshotsFiltered:
-            self.comboEqualTo.addSnapshotID(sid)
+            self.comboEqualTo.add_snapshot_id(sid)
 
             if sid == self.sid:
-                self.comboEqualTo.setCurrentSnapshotID(sid)
+                self.comboEqualTo.set_current_snapshot_id(sid)
 
-        self.comboEqualTo.checkSelection()
+        self.comboEqualTo.check_selection()
 
     def UpdateSnapshotsAndComboEqualTo(self):
         self.updateSnapshots()
@@ -286,17 +308,20 @@ class SnapshotsDialog(QDialog):
         self.updateSnapshots()
 
     def updateToolbar(self):
-        sids = self.timeLine.selectedSnapshotIDs()
+        sids = self.timeLine.selected_snapshot_ids()
 
         if not sids:
             enable_restore = False
             enable_delete = False
+
         elif len(sids) == 1:
             enable_restore = not sids[0].isRoot
-            enable_delete  = not sids[0].isRoot
+            enable_delete = not sids[0].isRoot
+
         else:
             enable_restore = False
             enable_delete = True
+
             for sid in sids:
                 if sid.isRoot:
                     enable_delete = False
@@ -306,24 +331,26 @@ class SnapshotsDialog(QDialog):
 
     def restoreThis(self):
         # See #1485 as related bug report
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if not sid.isRoot:
-            restoredialog.restore(self, sid, self.path)  # pylint: disable=E1101
+            # pylint: disable-next=E1101
+            restoredialog.restore(self, sid, self.path)
 
     def restoreThisTo(self):
         # See #1485 as related bug report
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if not sid.isRoot:
-            restoredialog.restore(self, sid, self.path, None)  # pylint: disable=E1101
+            # pylint: disable-next=E1101
+            restoredialog.restore(self, sid, self.path, None)
 
     def timeLineChanged(self):
         self.updateToolbar()
 
-    def timeLineExecute(self, item, column):
+    def timeLineExecute(self, _item, _column):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if not sid:
             return
 
@@ -339,8 +366,8 @@ class SnapshotsDialog(QDialog):
         self.run = QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
-        sid1 = self.timeLine.currentSnapshotID()
-        sid2 = self.comboDiff.currentSnapshotID()
+        sid1 = self.timeLine.current_snapshot_id()
+        sid2 = self.comboDiff.current_snapshot_id()
         if not sid1 or not sid2:
             return
 
@@ -383,7 +410,7 @@ class SnapshotsDialog(QDialog):
         DiffOptionsDialog(self).exec()
         self._update_btn_diff()
 
-    def comboEqualToChanged(self, index):
+    def comboEqualToChanged(self, _index):
         self.updateSnapshots()
 
     def btnDeleteClicked(self):
@@ -392,11 +419,11 @@ class SnapshotsDialog(QDialog):
         if not items:
             return
 
-        elif len(items) == 1:
+        if len(items) == 1:
             msg = _('Do you really want to delete {file} in snapshot '
                     '{snapshot_id}?').format(
                         file=f'"{self.path}"',
-                        snapshot_id=f'"{items[0].snapshotID()}"')
+                        snapshot_id=f'"{items[0].snapshot_id}"')
 
         else:
             msg = _('Do you really want to delete {file} in {count} '
@@ -436,12 +463,12 @@ class SnapshotsDialog(QDialog):
         select all expect 'Now'
         """
         self.timeLine.clearSelection()
-        for item in self.timeLine.iterSnapshotItems():
-            if not isinstance(item.snapshotID(), snapshots.RootSnapshot):
+        for item in self.timeLine.iter_snapshot_items():
+            if not isinstance(item.snapshot_id, snapshots.RootSnapshot):
                 item.setSelected(True)
 
     def accept(self):
-        sid = self.timeLine.currentSnapshotID()
+        sid = self.timeLine.current_snapshot_id()
         if sid:
             self.sid = sid
         super(SnapshotsDialog, self).accept()
@@ -451,6 +478,7 @@ class RemoveFileThread(QThread):
     """
     remove files in background thread so GUI will not freeze
     """
+
     def __init__(self, parent, items):
         self.parent = parent
         self.config = parent.config
@@ -459,19 +487,23 @@ class RemoveFileThread(QThread):
         super(RemoveFileThread, self).__init__(parent)
 
     def run(self):
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting files')
+        # inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(
+            toplevel_xid=self.config.xWindowId,
+            reason='deleting files')
 
         for item in self.items:
-            self.snapshots.deletePath(item.snapshotID(), self.parent.path)
+            self.snapshots.deletePath(item.snapshot_id, self.parent.path)
+
             try:
                 item.setHidden(True)
+
             except RuntimeError:
-                #item has been deleted
-                #probably because user refreshed treeview
+                # item has been deleted
+                # probably because user refreshed treeview
                 pass
 
-        #release inhibit suspend
+        # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(
+                *self.config.inhibitCookie)

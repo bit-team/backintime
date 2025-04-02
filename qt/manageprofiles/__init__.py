@@ -13,7 +13,7 @@
 import os
 import re
 import copy
-from PyQt6.QtGui import QPalette, QBrush, QIcon
+from PyQt6.QtGui import QPalette, QBrush
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -43,6 +43,7 @@ from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
+from bitwidgets import ProfileCombo
 
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
@@ -76,7 +77,7 @@ class SettingsDialog(QDialog):
 
         self.firstUpdateAll = True
         self.disableProfileChanged = True
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
         self.disableProfileChanged = False
@@ -342,7 +343,7 @@ class SettingsDialog(QDialog):
         if self.disableProfileChanged:
             return
 
-        current_profile_id = self.comboProfiles.currentProfileID()
+        current_profile_id = self.comboProfiles.current_profile_id()
         if not current_profile_id:
             return
 
@@ -535,12 +536,12 @@ class SettingsDialog(QDialog):
 
         return item
 
-    def fillCombo(self, combo, d):
-        keys = list(d.keys())
-        keys.sort()
+    # def fillCombo(self, combo, d):
+    #     keys = list(d.keys())
+    #     keys.sort()
 
-        for key in keys:
-            combo.addItem(QIcon(), d[key], key)
+    #     for key in keys:
+    #         combo.addItem(QIcon(), d[key], key)
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):
