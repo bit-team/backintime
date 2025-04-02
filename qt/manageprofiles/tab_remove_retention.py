@@ -188,8 +188,8 @@ class RemoveRetentionTab(QDialog):
 
         # Info text
         txt = _(
-            'The following rules are processed from top to bottom. Later rules '
-            'override earlier ones and are not constrained by them. See the '
+            'The following rules are processed from top to bottom. Later '
+            'rules override earlier ones. See the '
             '{manual} for details and examples.'
         ).format(
             manual='<a href="event:manual">{}</a>'.format(
