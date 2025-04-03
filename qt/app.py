@@ -1398,7 +1398,7 @@ class MainWindow(QMainWindow):
         question_msg = '{}\n{}'.format(
             ngettext(
                 'Remove this backup?',
-                'Remove this backups?',
+                'Remove these backups?',
                 len(items)
             ),
             '\n'.join([item.snapshot_id.displayName for item in items]))
