@@ -75,7 +75,7 @@ class GeneralTab(QDialog):
         # Where to save snapshots
         groupBox = QGroupBox(self)
         self.modeLocal = groupBox
-        groupBox.setTitle(_('Where to save snapshots'))
+        groupBox.setTitle(_('Where to save backups'))
         tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
@@ -269,7 +269,7 @@ class GeneralTab(QDialog):
         self.txt_profile.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txt_profile)
 
-        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
+        self.lblFullPath = QLabel(_('Full backup path:'), self)
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
@@ -392,9 +392,9 @@ class GeneralTab(QDialog):
             if not self.txtSshPrivateKeyFile.text():
 
                 question = '{}\n{}'.format(
-                        _('You did not choose a private key file for SSH.'),
-                        _('Would you like to generate a new password-less '
-                          'public/private key pair?'))
+                        _('A private key file for SSH was not chosen.'),
+                        _('Should a new password-less public/private key '
+                          'pair be generated?'))
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes
                 if answer:
@@ -489,8 +489,8 @@ class GeneralTab(QDialog):
         except NoPubKeyLogin as ex:
             logger.error(str(ex), self)
 
-            question = _('Would you like to copy your public SSH key to '
-                         'the remote host to enable password-less login?')
+            question = _('Copy public SSH key to the remote host to '
+                         'enable password-less login?')
             rc_copy_id = sshtools.sshCopyId(
                 self.config.sshPrivateKeyFile() + '.pub',
                 self.config.sshUser(),
@@ -534,8 +534,8 @@ class GeneralTab(QDialog):
             lblFingerprint.setFont(QFont('Monospace'))
             options.append({'widget': lblFingerprint, 'retFunc': None})
             lblQuestion = QLabel(
-                _("Please verify this fingerprint. Would you like to "
-                  "add it to your 'known_hosts' file?")
+                _("Please verify this fingerprint. Add it to the "
+                  "'known_hosts' file?")
             )
             options.append({'widget': lblQuestion, 'retFunc': None})
 
@@ -618,15 +618,14 @@ class GeneralTab(QDialog):
 
         path = str(qttools.getExistingDirectory(
             self,
-            _('Where to save snapshots'),
+            _('Where to save backups'),
             self.editSnapshotsPath.text()
         ))
 
         if path:
 
             if old_path and old_path != path:
-                question = _('Are you sure you want to change '
-                             'snapshots directory?')
+                question = _('Really change the backup directory?')
 
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes
@@ -674,7 +673,7 @@ class GeneralTab(QDialog):
             path = self.editSnapshotsPath.text()
 
         self.lblFullPath.setText(
-            _('Full snapshot path:') + ' ' +
+            _('Full backup path:') + ' ' +
             os.path.join(
                 path,
                 'backintime',

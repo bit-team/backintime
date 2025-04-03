@@ -42,7 +42,7 @@ class TimeLine(QTreeWidget):
         self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.setSelectionMode(
             QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.setHeaderLabels([_('Snapshots'), 'foo'])
+        self.setHeaderLabels([_('Backups'), 'foo'])
         self.setSortingEnabled(True)
         self.sortByColumn(1, Qt.SortOrder.DescendingOrder)
         self.hideColumn(1)
@@ -265,8 +265,10 @@ class SnapshotItem(TimeLineItem):
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
         if sid.isRoot:
-            self.setToolTip(0, _('This is NOT a snapshot but a live '
-                                 'view of your local files'))
+            self.setToolTip(
+                0,
+                _('This is NOT a backup but a live view '
+                  'of the local files.'))
         else:
             self.setToolTip(
                 0,

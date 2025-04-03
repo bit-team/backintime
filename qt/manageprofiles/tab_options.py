@@ -38,7 +38,7 @@ class OptionsTab(QDialog):
         tab_layout.addWidget(self.cbNotify)
 
         self.cbNoSnapshotOnBattery \
-            = QCheckBox(_('Disable snapshots when on battery'), self)
+            = QCheckBox(_('Disable backups when on battery'), self)
         tab_layout.addWidget(self.cbNoSnapshotOnBattery)
 
         if not tools.powerStatusAvailable():
@@ -46,13 +46,13 @@ class OptionsTab(QDialog):
             self.cbNoSnapshotOnBattery.setToolTip(
                 _('Power status not available from system'))
 
-        self.cbGlobalFlock = QCheckBox(_('Run only one snapshot at a time'))
+        self.cbGlobalFlock = QCheckBox(_('Run only one backup at a time'))
         tab_layout.addWidget(self.cbGlobalFlock)
         qttools.set_wrapped_tooltip(
             self.cbGlobalFlock,
-            _('Other snapshots will be blocked until the current snapshot '
+            _('Other backups will be blocked until the current backup '
               'is done. This is a global option. So it will affect all '
-              'profiles for this user. But you need to activate this for all '
+              'profiles for this user. But it needs to be activated for all '
               'other users, too.')
         )
 
@@ -61,18 +61,18 @@ class OptionsTab(QDialog):
         tab_layout.addWidget(self.cbBackupOnRestore)
         qttools.set_wrapped_tooltip(
             self.cbBackupOnRestore,
-            _("Newer versions of files will be renamed with trailing {suffix} "
-              "before restoring. If you don't need them anymore you can "
-              "remove them with {cmd}").format(
-                  suffix=self._parent_dialog.snapshots.backupSuffix(),
-                  cmd='find ./ -name "*{suffix}" -delete'.format(
-                      suffix=self._parent_dialog.snapshots.backupSuffix()
-                  )
-              )
+            [
+                _("Before restoring, newer versions of files will be renamed "
+                  "with the appended {suffix}. These files can be removed "
+                  "with the following command:").format(
+                      suffix=self._parent_dialog.snapshots.backupSuffix()),
+                'find ./ -name "*{suffix}" -delete'.format(
+                    suffix=self._parent_dialog.snapshots.backupSuffix())
+            ]
         )
 
         self.cbContinueOnErrors = QCheckBox(
-            _('Continue on errors (keep incomplete snapshots)'), self)
+            _('Continue on errors (keep incomplete backups)'), self)
         tab_layout.addWidget(self.cbContinueOnErrors)
 
         self.cbUseChecksum = QCheckBox(
@@ -80,7 +80,7 @@ class OptionsTab(QDialog):
         tab_layout.addWidget(self.cbUseChecksum)
 
         self.cbTakeSnapshotRegardlessOfChanges = QCheckBox(
-            _('Take a new snapshot whether there were changes or not.'))
+            _('Create a new backup whether there were changes or not.'))
         tab_layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
         # log level

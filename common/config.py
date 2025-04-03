@@ -325,7 +325,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots directory is not valid.')
+                        _('Backup directory is not valid.')
                     )
                 )
                 return False
@@ -1476,7 +1476,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 'available. Scheduled backup jobs will not run. '
                 'Cron might be installed but not enabled. Try the command '
                 '"systemctl enable cron" or consult the support channels of '
-                'your GNU/Linux distribution.'))
+                'the currently used GNU/Linux distribution.'))
 
         return True
 

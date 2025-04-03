@@ -236,7 +236,7 @@ class SettingsDialog(QDialog):
                 _("With 'Full rsync mode' disabled, this will only impact "
                   "new files since for rsync, this is a transfer option, not "
                   "an exclusion option. Therefore, large files that have "
-                  "been backed up previously will persist in snapshots even "
+                  "been backed up previously will persist in backups even "
                   "if they have been modified.")
             ]
         )
@@ -331,9 +331,8 @@ class SettingsDialog(QDialog):
         self.updateProfiles(reloadSettings=False)
 
     def removeProfile(self):
-        question = _('Are you sure you want to delete '
-                     'the profile "{name}"?').format(
-                         name=self.config.profileName())
+        question = _('Delete the profile "{name}"?').format(
+            name=self.config.profileName())
 
         if self.questionHandler(question):
             self.config.removeProfile()
@@ -655,13 +654,7 @@ class SettingsDialog(QDialog):
                 and not (self.cbCopyUnsafeLinks.isChecked()
                          or self.cbCopyLinks.isChecked()):
 
-                question_msg = _(
-                    '"{path}" is a symlink. The linked target will not be '
-                    'backed up until you include it, too.\nWould you like '
-                    'to include the symlink target instead?'
-                ).format(path=path)
-
-                if self.questionHandler(question_msg):
+                if self._ask_include_symlinks_target(path):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
@@ -671,6 +664,16 @@ class SettingsDialog(QDialog):
                     continue
 
             self.addInclude((path, 1))
+
+    def _ask_include_symlinks_target(self, path):
+        question_msg = _(
+            '"{path}" is a symlink. The linked target will not be backed up '
+            'until it is included, too.').format(path=path)
+
+        question_msg = question_msg + '\n' + _(
+            "Include the symlink's target instead?")
+
+        return self.questionHandler(question_msg)
 
     def btnIncludeAddClicked(self):
         """Development Note (buhtz 2023-12):
@@ -685,12 +688,7 @@ class SettingsDialog(QDialog):
                 and not (self.cbCopyUnsafeLinks.isChecked()
                          or self.cbCopyLinks.isChecked()):
 
-                question_msg = _(
-                    '"{path}" is a symlink. The linked target will not be '
-                    'backed up until you include it, too.\nWould you like '
-                    'to include the symlink target instead?') \
-                    .format(path=path)
-                if self.questionHandler(question_msg):
+                if self._ask_include_symlinks_target(path):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)

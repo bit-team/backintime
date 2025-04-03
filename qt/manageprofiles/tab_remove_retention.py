@@ -220,11 +220,11 @@ class RemoveRetentionTab(QDialog):
         qttools.open_user_manual()
 
     def _label_keep_most_recent(self) -> None:
-        cb = QCheckBox(_('Keep the most recent snapshot.'), self)
+        cb = QCheckBox(_('Keep the most recent backup.'), self)
         qttools.set_wrapped_tooltip(
             cb,
             (
-                _('The last or freshest snapshot is kept under '
+                _('The last or freshest backup is kept under '
                   'all circumstances.'),
                 _('That behavior cannot be changed.')
             )
@@ -238,10 +238,10 @@ class RemoveRetentionTab(QDialog):
         self._tab_layout.addWidget(cb, self._tab_layout.rowCount(), 0, 1, 2)
 
     def _checkbox_keep_named(self) -> QCheckBox:
-        cb = QCheckBox(_('Keep named snapshots.'), self)
+        cb = QCheckBox(_('Keep named backups.'), self)
         qttools.set_wrapped_tooltip(
             cb,
-            _('Snapshots that have been given a name, in addition to the '
+            _('Backups that have been given a name, in addition to the '
               'usual timestamp, will be retained under all circumstances '
               'and will not be removed.')
         )
@@ -261,7 +261,7 @@ class RemoveRetentionTab(QDialog):
         spin_unit = SpinBoxWithUnit(self, (1, 999), units)
 
         # checkbox
-        checkbox = StateBindCheckBox(_('Remove snapshots older than'), self)
+        checkbox = StateBindCheckBox(_('Remove backups older than'), self)
         checkbox.bind(spin_unit)
 
         # tooltip
@@ -304,7 +304,7 @@ class RemoveRetentionTab(QDialog):
         layout.addWidget(cb_in_background, 0, 0, 1, 2)
 
         tip = _('The days are counted starting from today.')
-        label = QLabel(_('Keep all snapshots for the last'), self)
+        label = QLabel(_('Keep all backups for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
         layout.addWidget(label, 1, 0)
         all_last_days = QSpinBox(self)
@@ -316,7 +316,7 @@ class RemoveRetentionTab(QDialog):
 
         # tip = same as the previous label
         label = QLabel(
-            _('Keep the last snapshot for each day for the last'), self)
+            _('Keep the last backup for each day for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
         layout.addWidget(label, 2, 0)
         one_per_day = QSpinBox(self)
@@ -329,7 +329,7 @@ class RemoveRetentionTab(QDialog):
         tip = _('The weeks are counted starting from the current running '
                 'week. A week starts on Monday.')
         label = QLabel(
-            _('Keep the last snapshot for each week for the last'), self)
+            _('Keep the last backup for each week for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
         layout.addWidget(label, 3, 0)
         one_per_week = QSpinBox(self)
@@ -342,7 +342,7 @@ class RemoveRetentionTab(QDialog):
         tip = _('The months are counted as calendar months starting with '
                 'the current month.')
         label = QLabel(
-            _('Keep the last snapshot for each month for the last'), self)
+            _('Keep the last backup for each month for the last'), self)
         qttools.set_wrapped_tooltip(label, tip)
         layout.addWidget(label, 4, 0)
         one_per_month = QSpinBox(self)
@@ -354,7 +354,7 @@ class RemoveRetentionTab(QDialog):
 
         tip = _('The years are counted as calendar years starting with '
                 'the current year.')
-        label = QLabel(_('Keep the last snapshot for each year for'), self)
+        label = QLabel(_('Keep the last backup for each year for'), self)
         layout.addWidget(label, 5, 0)
         labeltwo = QLabel(_('all years.'), self)
         layout.addWidget(labeltwo, 5, 1)
@@ -392,7 +392,7 @@ class RemoveRetentionTab(QDialog):
         checkbox_inodes.bind(spin_inodes)
 
         # layout
-        groupbox = QGroupBox(_('Remove oldest snapshots if …'), self)
+        groupbox = QGroupBox(_('Remove oldest backup if …'), self)
         grid = QGridLayout()
         groupbox.setLayout(grid)
         grid.setColumnStretch(0, 1)
