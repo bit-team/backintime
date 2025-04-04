@@ -11,7 +11,8 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The About dialog."""
 import re
-import pathlib
+import subprocess
+from pathlib import Path
 from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QFrame,
@@ -23,11 +24,15 @@ from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QWidget)
 from PyQt6.QtCore import Qt  # , QSize
+import logger
 import bitbase
 import tools
 import backintime
 import messagebox
 import qttools
+
+_HREF_LICENSES_DIR = 'LICENSES-dir'
+_HREF_SPDX_GPL = 'spdx-gplv2'
 
 
 class AboutDlg(QDialog):
@@ -45,28 +50,79 @@ class AboutDlg(QDialog):
         main_hbox.addLayout(left_box, 0)
         main_hbox.addLayout(right_box, 1)
 
-        left_box.addWidget(self._create_logo_widget())
-        left_box.addLayout(self._project_buttons())
+        left_box.addWidget(self._create_logo_widget(),
+                           alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        left_box.addWidget(self._create_license())
         left_box.addStretch(1)
+        left_box.addWidget(self._project_buttons())
 
         top_right = QHBoxLayout()
-        top_right.addWidget(self._create_name_info(), 0)
-        top_right.addStretch(1)
+        top_right.addWidget(self._create_name_info())
 
         right_box.addLayout(top_right)
         right_box.addStretch(1)
         right_box.addWidget(self._create_ok_button())
 
-        """
-        The application is released under GNU General Public License v2.0 or
-        later (GPL-2.0-or-later).  <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-        See LICENSES directory for further details and to find out how to
-        obtain detailed per-file license and copyright information using SPDX
-        meta data.
-        """
+    def _create_license(self):
+        license = QLabel(
+            '<p>The application is released under '
+            f'<a href="{_HREF_SPDX_GPL}">'
+            'GNU General Public License v2.0 or later (GPL-2.0-or-later)'
+            '</a>.</p>'
+            '<p>Refere to the '
+            f'<a href="{_HREF_LICENSES_DIR}">LICENSES directory</a> '
+            'for details on obtaining '
+            'license and copyright information for each file using '
+            'using SPDX metadata.</p>')
+        license.setWordWrap(True)
+        license.setOpenExternalLinks(False)
+        license.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction)
+        license.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        license.linkActivated.connect(self._slot_license_link_acivated)
+
+        return license
+
+    def _slot_license_link_acivated(self, link):
+        if link == _HREF_LICENSES_DIR:
+            fp = self._license_directory()
+
+            if fp:
+                subprocess.run(['xdg-open', str(fp)], check=True)
+                return
+
+            msg = 'Unable to find LICENSES directory. Please contact the ' \
+                  'Back In Time team and report a bug.'
+            messagebox.critical(msg)
+            logger.critical(msg)
+
+        elif link == _HREF_SPDX_GPL:
+            qttools.open_url(bitbase.URL_GPL_TWO)
+            return
+
+        logger.critical(f'Unknown link "{link}". Please open a bug report.')
+
+    def _license_directory(self):
+        """Determine the license folder."""
+        for pkg in ('backintime-qt', 'backintime-common', 'backintime'):
+            for path in (Path('/usr/share/licenses'), Path('/usr/share/doc')):
+
+                fp = path / pkg / 'LICENSES'
+                if fp.is_dir():
+                    return fp
+
+        return None
 
     def _project_buttons(self):
+        wdg = QWidget(self)
+        hbox = QHBoxLayout()
+        wdg.setLayout(hbox)
+        hbox.addStretch(1)
         layout = QVBoxLayout()
+        hbox.addLayout(layout, 2)
+        hbox.addStretch(1)
 
         website = QPushButton(_('Website'))
         website.setToolTip(bitbase.URL_WEBSITE.replace('https://', ''))
@@ -81,12 +137,7 @@ class AboutDlg(QDialog):
         layout.addWidget(manual)
         layout.addStretch(1)
 
-        hbox = QHBoxLayout(self)
-        hbox.addStretch(1)
-        hbox.addLayout(layout, 2)
-        hbox.addStretch(1)
-
-        return hbox
+        return wdg
 
     def _create_logo_widget(self):
         import icon  # pylint: disable=import-outside-toplevel
@@ -106,8 +157,6 @@ class AboutDlg(QDialog):
         return button_box
 
     def _create_name_info(self):
-        wdg = QWidget(self)
-        vbox = QVBoxLayout(wdg)
 
         # Experiment. This comment might appear on Weblate at context info.
         # Does it?
@@ -119,7 +168,15 @@ class AboutDlg(QDialog):
         font.setBold(True)
         name.setFont(font)
 
-        vbox.addWidget(name)
+        # hbox = QHBoxLayout()
+        # hbox.addStretch(1)
+        # hbox.addWidget(name, 0)
+        # hbox.addStretch(1)
+
+        wdg = QWidget(self)
+        vbox = QVBoxLayout(wdg)
+
+        vbox.addWidget(name, alignment=Qt.AlignmentFlag.AlignHCenter)
         vbox.addWidget(self._create_version_label())
         git = self._create_git_label()
         if git:
@@ -176,7 +233,7 @@ class AboutDlg(QDialog):
     def _create_git_label(self):
         info = tools.get_git_repository_info(
             # should be the repos root folder
-            path=pathlib.Path(__file__).parent.parent,
+            path=Path(__file__).parent.parent,
             hash_length=8)
 
         try:
@@ -187,19 +244,19 @@ class AboutDlg(QDialog):
         return QLabel(f'<strong>Git</strong>: branch {branch} | hash {hash}')
 
     def _msgbox_authors(self):
-        file_path = pathlib.Path(tools.docPath()) / 'AUTHORS'
+        file_path = Path(tools.docPath()) / 'AUTHORS'
         content = self._read_about_content(file_path)
 
         return messagebox.showInfo(self, _('Authors'), content)
 
     def _msgbox_translations(self):
-        file_path = pathlib.Path(tools.docPath()) / 'TRANSLATIONS'
+        file_path = Path(tools.docPath()) / 'TRANSLATIONS'
         content = self._read_about_content(file_path)
 
         return messagebox.showInfo(self, _('Translations'), content)
 
     def _msgbox_license(self):
-        file_path = pathlib.Path(tools.docPath()) / 'LICENSE'
+        file_path = Path(tools.docPath()) / 'LICENSE'
         content = self._read_about_content(file_path)
 
         return messagebox.showInfo(self, _('License'), content)

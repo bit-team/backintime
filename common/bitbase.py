@@ -19,6 +19,7 @@ URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
 URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
 URL_TRANSLATION = 'https://translate.codeberg.org/engage/backintime'
+URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
 USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
 USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
