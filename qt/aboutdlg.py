@@ -18,11 +18,11 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QLabel,
                              QPushButton,
-                             QSizePolicy,
+                             # QSizePolicy,
                              QStyle,
                              QVBoxLayout,
                              QWidget)
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt  # , QSize
 import bitbase
 import tools
 import backintime
@@ -38,28 +38,30 @@ class AboutDlg(QDialog):
         super().__init__(parent)
         self.setWindowTitle(_('About Back In Time'))
 
-        main_vbox = QVBoxLayout(self)
+        main_hbox = QHBoxLayout(self)
 
-        top_hbox = QHBoxLayout()
-        main_vbox.addLayout(top_hbox)
+        left_box = QVBoxLayout()
+        right_box = QVBoxLayout()
+        main_hbox.addLayout(left_box, 0)
+        main_hbox.addLayout(right_box, 1)
 
-        top_hbox.addWidget(self._create_logo_widget())
-        top_hbox.addWidget(self._create_name_info())
-        top_hbox.addStretch(1)
+        left_box.addWidget(self._create_logo_widget())
+        left_box.addLayout(self._project_buttons())
+        left_box.addStretch(1)
 
-        bottom_hbox = QHBoxLayout()
-        main_vbox.addLayout(bottom_hbox)
+        top_right = QHBoxLayout()
+        top_right.addWidget(self._create_name_info(), 0)
+        top_right.addStretch(1)
 
-        bottom_hbox.addLayout(self._project_buttons())
-        bottom_hbox.addStretch(1)
-
-        main_vbox.addWidget(self._create_ok_button())
+        right_box.addLayout(top_right)
+        right_box.addStretch(1)
+        right_box.addWidget(self._create_ok_button())
 
         """
         The application is released under GNU General Public License v2.0 or
         later (GPL-2.0-or-later).  <https://spdx.org/licenses/GPL-2.0-or-later.html>.
         See LICENSES directory for further details and to find out how to
-        optain detailed per-file license and copyright information using SPDX
+        obtain detailed per-file license and copyright information using SPDX
         meta data.
         """
 
@@ -79,7 +81,12 @@ class AboutDlg(QDialog):
         layout.addWidget(manual)
         layout.addStretch(1)
 
-        return layout
+        hbox = QHBoxLayout(self)
+        hbox.addStretch(1)
+        hbox.addLayout(layout, 2)
+        hbox.addStretch(1)
+
+        return hbox
 
     def _create_logo_widget(self):
         import icon  # pylint: disable=import-outside-toplevel
