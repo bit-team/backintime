@@ -104,7 +104,7 @@ class LanguageDialog(QDialog):
         r = self._create_radio_button(
             lang_code=None,
             label=label,
-            tooltip=_('Use operating systems language.')
+            tooltip=_("Use operating system's language.")
         )
         grid.addWidget(r, 1, 1)
 

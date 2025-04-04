@@ -361,8 +361,8 @@ class MainWindow(QMainWindow):
 
         if not config.canBackup(profile_id):
             msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive please plug it in and then '
-                    'press OK.')
+                + _('If it is on a removable drive, please plug it in. '
+                    'Then press OK.')
             messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
@@ -2100,7 +2100,7 @@ class MainWindow(QMainWindow):
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
-                mastodon=_('In the Fediverse at Mastodon: {link_and_label}') \
+                mastodon=_('In the Fediverse at Mastodon: {link_and_label}.') \
                     .format(link_and_label='<a href="https://fosstodon.org'
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
@@ -2108,7 +2108,7 @@ class MainWindow(QMainWindow):
                 email=_('Email to {link_and_label}.').format(
                     link_and_label='<a href="mailto:backintime@tuta.io">'
                                    'backintime@tuta.io</a>'),
-                mailinglist=_('Mailing list {link_and_label}').format(
+                mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
                                    'bit-dev@python.org</a>'),

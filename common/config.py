@@ -1472,11 +1472,12 @@ class Config(configfile.ConfigFileWithProfiles):
                 'Cron is not running despite the crontab command being '
                 'available. Scheduled backup jobs will not run.')
             self.notifyError(_(
-                'Cron is not running despite the crontab command being '
+                'Cron is not running, even though the crontab command is '
                 'available. Scheduled backup jobs will not run. '
-                'Cron might be installed but not enabled. Try the command '
-                '"systemctl enable cron" or consult the support channels of '
-                'the currently used GNU/Linux distribution.'))
+                'Cron might be installed but not enabled. Try running the two '
+                'commands "systemctl enable cron" and '
+                '"systemctl start cron", or consult the support channels of '
+                'the currently used GNU/Linux distribution for assistance.'))
 
         return True
 
@@ -1554,7 +1555,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 self.notifyError(_(
                     "Could not install Udev rule for profile {profile_id}. "
-                    "DBus Service '{dbus_interface}' wasn't available")
+                    "DBus Service '{dbus_interface}' wasn't available.")
                     .format(profile_id=profile_id,
                             dbus_interface='net.launchpad.backintime.'
                                            'serviceHelper'))
