@@ -17,14 +17,17 @@ from PyQt6.QtWidgets import (QDialog,
                              QFrame,
                              QHBoxLayout,
                              QLabel,
+                             QPushButton,
                              QSizePolicy,
                              QStyle,
                              QVBoxLayout,
                              QWidget)
 from PyQt6.QtCore import Qt, QSize
+import bitbase
 import tools
 import backintime
 import messagebox
+import qttools
 
 
 class AboutDlg(QDialog):
@@ -34,8 +37,6 @@ class AboutDlg(QDialog):
         """Initialize and layout."""
         super().__init__(parent)
         self.setWindowTitle(_('About Back In Time'))
-
-        foo = QLabel('hit me! foo')
 
         main_vbox = QVBoxLayout(self)
 
@@ -48,21 +49,37 @@ class AboutDlg(QDialog):
 
         bottom_hbox = QHBoxLayout()
         main_vbox.addLayout(bottom_hbox)
-        bottom_hbox.addWidget(foo)
+
+        bottom_hbox.addLayout(self._project_buttons())
+        bottom_hbox.addStretch(1)
 
         main_vbox.addWidget(self._create_ok_button())
 
-    def _button_website(self):
-        btn = QPushButton(_('Website'))
-        btn.setStyleSheet('''
-            QPushButton {
-                padding: 8px 16px;
-                border-radius: 8px;
-                font-weight: bold;
-            }
-        ''')
+        """
+        The application is released under GNU General Public License v2.0 or
+        later (GPL-2.0-or-later).  <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+        See LICENSES directory for further details and to find out how to
+        optain detailed per-file license and copyright information using SPDX
+        meta data.
+        """
 
-        return btn
+    def _project_buttons(self):
+        layout = QVBoxLayout()
+
+        website = QPushButton(_('Website'))
+        website.setToolTip(bitbase.URL_WEBSITE.replace('https://', ''))
+        website.clicked.connect(qttools.open_website)
+
+        manual = QPushButton(_('User manual'))
+        manual.setToolTip(_('Open user manual in browser (local if available '
+                            'otherwise online)'))
+        manual.clicked.connect(qttools.open_user_manual)
+
+        layout.addWidget(website)
+        layout.addWidget(manual)
+        layout.addStretch(1)
+
+        return layout
 
     def _create_logo_widget(self):
         import icon  # pylint: disable=import-outside-toplevel
