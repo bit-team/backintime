@@ -233,11 +233,11 @@ class SettingsDialog(QDialog):
             [
                 _('Exclude files bigger than value in {size_unit}.')
                 .format(size_unit='MiB'),
-                _("With 'Full rsync mode' disabled, this will only impact "
-                  "new files since for rsync, this is a transfer option, not "
-                  "an exclusion option. Therefore, large files that have "
-                  "been backed up previously will persist in backups even "
-                  "if they have been modified.")
+                _("With 'Full rsync mode' disabled, this setting affects only "
+                  "newly created files, as rsync treats it as transfer option "
+                  "rather than an exclusion rule. Consequently, large files "
+                  "that have already been backed up will remain in backups "
+                  "even if they are modified.")
             ]
         )
         hlayout.addWidget(self.cbExcludeBySize)

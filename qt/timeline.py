@@ -10,7 +10,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
-# File was splitted from "qt/qttools.py".
+# File was split from "qt/qttools.py".
 """Time line widget.
 """
 from datetime import (datetime, date, timedelta)
@@ -242,7 +242,7 @@ class TimeLineItem(QTreeWidgetItem):
     """Base class for TimeLine entry widgets.
 
     Dev note (buhtz, 2025-03): I don't see a need for this. SnapshotItem and
-    HeaderItem can directely derive from QTreeWidgetItem.
+    HeaderItem can directly derive from QTreeWidgetItem.
     """
 
     def __lt__(self, other):

@@ -52,7 +52,7 @@ class OptionsTab(QDialog):
             self.cbGlobalFlock,
             _('Other backups will be blocked until the current backup '
               'is done. This is a global option. So it will affect all '
-              'profiles for this user. But it needs to be activated for all '
+              'profiles for this user. But it need to be activated for all '
               'other users, too.')
         )
 
