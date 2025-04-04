@@ -1445,7 +1445,7 @@ class MainWindow(QMainWindow):
         self.openManPage('backintime-config')
 
     def btnWebsiteClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime')
+        qttools.open_website()
 
     def btnChangelogClicked(self):
         def aHref(m):
@@ -1465,16 +1465,16 @@ class MainWindow(QMainWindow):
         messagebox.showInfo(self, _('Changelog'), msg)
 
     def btnFaqClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/blob/-/FAQ.md')
+        qttools.open_url(bitbase.URL_FAQ)
 
     def btnAskQuestionClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/issues')
+        qttools.open_url(bitbase.URL_ISSUES)
 
     def btnReportBugClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/issues/new')
+        self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
-    def openUrl(self, url):
-        return QDesktopServices.openUrl(QUrl(url))
+    # def openUrl(self, url):
+    #     return QDesktopServices.openUrl(QUrl(url))
 
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
@@ -2035,8 +2035,8 @@ class MainWindow(QMainWindow):
 
         def _complete_text(language: str, percent: int) -> str:
             # (2023-08): Move to packages meta-data (pyproject.toml).
-            _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
-            _URL_PROJECT = 'https://github.com/bit-team/backintime'
+            _URL_PLATFORM = bitbase.URL_TRANSLATION
+            _URL_PROJECT = bitbase.URL_WEBSITE
 
             txt = _(
                 'Hello'
@@ -2113,9 +2113,9 @@ class MainWindow(QMainWindow):
                                    'lists/bit-dev.python.org/">'
                                    'bit-dev@python.org</a>'),
                 issue=_('{link_and_label} on the project website.').format(
-                    link_and_label='<a href="https://github.com/bit-team/'
-                                   'backintime/issues/new">{open_issue}</a>').format(
-                                       open_issue=_('Open an issue')),
+                    link_and_label='<a href="{url}">{open_issue}</a>').format(
+                        url=bitbase.URL_ISSUES_CREATE_NEW,
+                        open_issue=_('Open an issue')),
                 alternative=_('Alternatively, you can use another channel '
                               'of your choice.')
             )

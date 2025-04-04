@@ -13,6 +13,13 @@ from pathlib import Path
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
 
+URL_SOURCE = 'https://github.com/bit-team/backintime'
+URL_WEBSITE = URL_SOURCE
+URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
+URL_ISSUES = f'{URL_WEBSITE}/issues'
+URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
+URL_TRANSLATION = 'https://translate.codeberg.org/engage/backintime'
+
 USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
 USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
     'backintime-common' / 'manual' / 'index.html'

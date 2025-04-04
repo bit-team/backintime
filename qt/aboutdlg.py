@@ -52,6 +52,18 @@ class AboutDlg(QDialog):
 
         main_vbox.addWidget(self._create_ok_button())
 
+    def _button_website(self):
+        btn = QPushButton(_('Website'))
+        btn.setStyleSheet('''
+            QPushButton {
+                padding: 8px 16px;
+                border-radius: 8px;
+                font-weight: bold;
+            }
+        ''')
+
+        return btn
+
     def _create_logo_widget(self):
         import icon  # pylint: disable=import-outside-toplevel
 
@@ -95,11 +107,6 @@ class AboutDlg(QDialog):
     def _foobar(self):
         self.parent = parent
         self.config = parent.config
-
-        logo = QLabel('Icon')
-        logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
-
-        name = self._create_name_and_version_label()
 
         homepage = QLabel(
             self._to_a_href('https://github.com/bit-team/backintime'))
