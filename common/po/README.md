@@ -17,8 +17,8 @@ See [Maintenance documentation about translation and localization](../../doc/mai
 
 
 # Translation credits from removed languages
-Because of missing translators some languages where removed in the past. Their
-translators credits are archived here:
+Because of missing translators some languages were removed in the past. The
+translators' credits are archived here:
 
 ```
 Interlingua [ie]:
