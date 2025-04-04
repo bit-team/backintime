@@ -2,20 +2,25 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian BUTHZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The About dialog."""
 import re
 import pathlib
-from PyQt6.QtWidgets import (QLabel,
-                             QVBoxLayout,
+from PyQt6.QtWidgets import (QDialog,
+                             QDialogButtonBox,
+                             QFrame,
                              QHBoxLayout,
-                             QDialog,
-                             QDialogButtonBox)
+                             QLabel,
+                             QSizePolicy,
+                             QStyle,
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import Qt, QSize
 import tools
 import backintime
@@ -28,13 +33,69 @@ class AboutDlg(QDialog):
     def __init__(self, parent=None):
         """Initialize and layout."""
         super().__init__(parent)
+        self.setWindowTitle(_('About Back In Time'))
 
+        foo = QLabel('hit me! foo')
+
+        main_vbox = QVBoxLayout(self)
+
+        top_hbox = QHBoxLayout()
+        main_vbox.addLayout(top_hbox)
+
+        top_hbox.addWidget(self._create_logo_widget())
+        top_hbox.addWidget(self._create_name_info())
+        top_hbox.addStretch(1)
+
+        bottom_hbox = QHBoxLayout()
+        main_vbox.addLayout(bottom_hbox)
+        bottom_hbox.addWidget(foo)
+
+        main_vbox.addWidget(self._create_ok_button())
+
+    def _create_logo_widget(self):
+        import icon  # pylint: disable=import-outside-toplevel
+
+        size = self.style().pixelMetric(
+            QStyle.PixelMetric.PM_LargeIconSize)
+        logo = icon.BIT_LOGO.pixmap(size*6)
+
+        label = QLabel(self)
+        label.setPixmap(logo)
+
+        return label
+
+    def _create_ok_button(self):
+        button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
+        button_box.accepted.connect(self.accept)
+        return button_box
+
+    def _create_name_info(self):
+        wdg = QWidget(self)
+        vbox = QVBoxLayout(wdg)
+
+        # Experiment. This comment might appear on Weblate at context info.
+        # Does it?
+        name = QLabel(_('Back In Time'))
+        name.setFrameStyle(QFrame.Shape.Box| QFrame.Shadow.Sunken)
+        name.setLineWidth(3)
+        font = name.font()
+        font.setPointSizeF(font.pointSizeF() * 4)
+        font.setBold(True)
+        name.setFont(font)
+
+        vbox.addWidget(name)
+        vbox.addWidget(self._create_version_label())
+        git = self._create_git_label()
+        if git:
+            vbox.addWidget(git)
+        vbox.addStretch(1)
+
+        return wdg
+
+    def _foobar(self):
         self.parent = parent
         self.config = parent.config
 
-        import icon  # pylint: disable=import-outside-toplevel
-
-        self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
         logo = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)))
 
@@ -73,24 +134,26 @@ class AboutDlg(QDialog):
         hlayout.addWidget(button_box_right)
         vlayout.addLayout(hlayout)
 
-    def _create_name_and_version_label(self):
-        version = backintime.__version__
+    def _create_version_label(self):
+        return QLabel(
+            _('{BOLD}Version{BOLDEND}: {version}').format(
+                BOLD='<strong>',
+                BOLDEND='</strong>',
+                version=backintime.__version__)
+        )
+
+    def _create_git_label(self):
         info = tools.get_git_repository_info(
             # should be the repos root folder
             path=pathlib.Path(__file__).parent.parent,
             hash_length=8)
+
         try:
-            git_version \
-                = f" git branch '{info['branch']}' hash '{info['hash']}'"
+            branch, hash = info['branch'], info['hash']
         except TypeError:
-            git_version = ''
+            return None
 
-        name = QLabel(
-            f'<h1>{self.config.APP_NAME} {version}</h1>{git_version}')
-        name.setAlignment(
-            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-
-        return name
+        return QLabel(f'<strong>Git</strong>: branch {branch} | hash {hash}')
 
     def _msgbox_authors(self):
         file_path = pathlib.Path(tools.docPath()) / 'AUTHORS'

@@ -2474,6 +2474,7 @@ if __name__ == '__main__':
     if cfg.isConfigured():
         cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
+        mainWindow.btnAboutClicked()  # DEBUG
         qapp.exec()
 
     mainWindow.qapp.removeEventFilter(mainWindow.mouseButtonEventFilter)
