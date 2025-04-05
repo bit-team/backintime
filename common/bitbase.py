@@ -9,6 +9,16 @@
 from enum import Enum
 from pathlib import Path
 
+APP_NAME = 'Back In Time'
+BINARY_NAME_BASE = 'backintime'
+BINARY_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
+
+COPYRIGHT = 'Copyright © 2008-2024 ' \
+            'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
+            'Copyright © 2022 ' \
+            'Christian Buhtz, Michael Büker, Jürgen Altfeld'
+
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
@@ -32,7 +42,6 @@ USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 # last shown intensity is stored in the state data file. If they don't fit, the
 # message is displayed.
 ENCFS_MSG_STAGE = 2
-
 
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling.

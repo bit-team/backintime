@@ -61,10 +61,58 @@ class AboutDlg(QDialog):
         top_right.addWidget(self._create_name_info())
 
         right_box.addLayout(top_right)
+        right_box.addLayout(self._create_authors_etc())
         right_box.addStretch(1)
         right_box.addWidget(self._create_ok_button())
 
+    def _create_authors_etc(self):
+
+        def _set_label_props(label):
+            label.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
+            label.setLineWidth(3)
+            label.setWordWrap(True)
+            label.setTextInteractionFlags(
+                Qt.TextInteractionFlag.TextSelectableByMouse)
+            label.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        label_copyright = QLabel('<strong>' + _('Copyright:') + '</strong>')
+        copyright = QLabel(bitbase.COPYRIGHT)
+        _set_label_props(copyright)
+
+        label_authors = QLabel('<strong>' + _('Authors:') + '</strong>')
+        authors = QLabel(self._get_authors())
+        _set_label_props(authors)
+
+        label_trans = QLabel('<strong>' + _('Translators:') + '</strong>')
+        # Please add your name to the list of translators if you want to be
+        # credited for the translations you have done.
+        trans = QLabel(_('translator-credits-placeholder'))
+
+        # String not translated, means no credits available.
+        if trans.text() == 'translator-credits-placeholder':
+            trans.setText(_('(No translators credits available.)'))
+        _set_label_props(trans)
+
+        left = QVBoxLayout()
+        left.addWidget(label_copyright)
+        left.addWidget(copyright)
+        left.addWidget(label_authors)
+        left.addWidget(authors)
+
+        right = QVBoxLayout()
+        right.addWidget(label_trans, 0)
+        right.addWidget(trans, 1)
+
+        layout = QHBoxLayout()
+        layout.addLayout(left)
+        layout.addLayout(right)
+
+        return layout
+
     def _create_license(self):
+        # Dev note (buhtz, 2025-03): That string is untranslated on purpose.
+        # It is legally relevant, and no one should be given the opportunity
+        # to change the string—whether intentionally or accidentally.
         license = QLabel(
             '<p>The application is released under '
             f'<a href="{_HREF_SPDX_GPL}">'
@@ -72,9 +120,8 @@ class AboutDlg(QDialog):
             '</a>.</p>'
             '<p>Refere to the '
             f'<a href="{_HREF_LICENSES_DIR}">LICENSES directory</a> '
-            'for details on obtaining '
-            'license and copyright information for each file using '
-            'using SPDX metadata.</p>')
+            'for details on obtaining license and copyright information '
+            'for each file using using SPDX metadata.</p>')
         license.setWordWrap(True)
         license.setOpenExternalLinks(False)
         license.setTextInteractionFlags(
@@ -104,9 +151,28 @@ class AboutDlg(QDialog):
 
         logger.critical(f'Unknown link "{link}". Please open a bug report.')
 
+    def _get_authors(self):
+        fp = Path('/usr/share/doc') / bitbase.BINARY_NAME_CLI / 'AUTHORS'
+
+        if fp.is_file():
+            return fp.read_text()
+
+        logger.warning(f'Can not find file {fp}')
+
+        # Running from source/git repo?
+        fp = Path.cwd().parent / 'AUTHORS'
+        if fp.is_file():
+            return fp.read_text()
+
+        logger.warning(f'Can not find file {fp}')
+
+        return '(Can not find AUTHORS information file.)'
+
     def _license_directory(self):
         """Determine the license folder."""
-        for pkg in ('backintime-qt', 'backintime-common', 'backintime'):
+        for pkg in (bitbase.BINARY_NAME_GUI,
+                    bitbase.BINARY_NAME_CLI,
+                    bitbase.BINARY_NAME_BASE):
             for path in (Path('/usr/share/licenses'), Path('/usr/share/doc')):
 
                 fp = path / pkg / 'LICENSES'
@@ -186,24 +252,8 @@ class AboutDlg(QDialog):
         return wdg
 
     def _foobar(self):
-        self.parent = parent
-        self.config = parent.config
-
-        homepage = QLabel(
-            self._to_a_href('https://github.com/bit-team/backintime'))
-        homepage.setTextInteractionFlags(
-            Qt.TextInteractionFlag.LinksAccessibleByMouse)
-        homepage.setOpenExternalLinks(True)
-
         bit_copyright = QLabel(self.config.COPYRIGHT + '\n')
 
-        vlayout = QVBoxLayout(self)
-        hlayout = QHBoxLayout()
-        hlayout.addWidget(logo)
-        hlayout.addWidget(name)
-        hlayout.addStretch()
-        vlayout.addLayout(hlayout)
-        vlayout.addWidget(homepage)
         vlayout.addWidget(bit_copyright)
 
         button_box_left = QDialogButtonBox(self)
