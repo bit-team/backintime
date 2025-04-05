@@ -89,7 +89,7 @@ class AboutDlg(QDialog):
 
         # String not translated, means no credits available.
         if trans.text() == 'translator-credits-placeholder':
-            trans.setText(_('(No translators credits available.)'))
+            trans.setText(_('(No translator credits available.)'))
         _set_label_props(trans)
 
         left = QVBoxLayout()
