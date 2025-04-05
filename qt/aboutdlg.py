@@ -117,7 +117,7 @@ class AboutDlg(QDialog):
             f'<a href="{_HREF_SPDX_GPL}">'
             'GNU General Public License v2.0 or later (GPL-2.0-or-later)'
             '</a>.</p>'
-            '<p>Refere to the '
+            '<p>Refer to the '
             f'<a href="{_HREF_LICENSES_DIR}">LICENSES directory</a> '
             'for details on obtaining license and copyright information '
             'for each file using using SPDX metadata.</p>')
