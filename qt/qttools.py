@@ -189,11 +189,12 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # | Misc / Uncatgorized |
 # |---------------------|
 
+
 def open_url(url: str) -> None:
     """Open an URL or URI"""
     QDesktopServices.openUrl(QUrl(url))
 
-    
+
 def user_manual_uri() -> str:
     """Return the URI to the user manual.
 

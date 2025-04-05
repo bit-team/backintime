@@ -10,7 +10,6 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The About dialog."""
-import re
 import subprocess
 from pathlib import Path
 from PyQt6.QtWidgets import (QDialog,
@@ -76,8 +75,8 @@ class AboutDlg(QDialog):
             label.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         label_copyright = QLabel('<strong>' + _('Copyright:') + '</strong>')
-        copyright = QLabel(bitbase.COPYRIGHT)
-        _set_label_props(copyright)
+        copyr = QLabel(bitbase.COPYRIGHT)
+        _set_label_props(copyr)
 
         label_authors = QLabel('<strong>' + _('Authors:') + '</strong>')
         authors = QLabel(self._get_authors())
@@ -95,7 +94,7 @@ class AboutDlg(QDialog):
 
         left = QVBoxLayout()
         left.addWidget(label_copyright)
-        left.addWidget(copyright)
+        left.addWidget(copyr)
         left.addWidget(label_authors)
         left.addWidget(authors)
 
@@ -113,7 +112,7 @@ class AboutDlg(QDialog):
         # Dev note (buhtz, 2025-03): That string is untranslated on purpose.
         # It is legally relevant, and no one should be given the opportunity
         # to change the string—whether intentionally or accidentally.
-        license = QLabel(
+        gpl = QLabel(
             '<p>The application is released under '
             f'<a href="{_HREF_SPDX_GPL}">'
             'GNU General Public License v2.0 or later (GPL-2.0-or-later)'
@@ -122,15 +121,15 @@ class AboutDlg(QDialog):
             f'<a href="{_HREF_LICENSES_DIR}">LICENSES directory</a> '
             'for details on obtaining license and copyright information '
             'for each file using using SPDX metadata.</p>')
-        license.setWordWrap(True)
-        license.setOpenExternalLinks(False)
-        license.setTextInteractionFlags(
+        gpl.setWordWrap(True)
+        gpl.setOpenExternalLinks(False)
+        gpl.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextBrowserInteraction)
-        license.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        gpl.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        license.linkActivated.connect(self._slot_license_link_acivated)
+        gpl.linkActivated.connect(self._slot_license_link_acivated)
 
-        return license
+        return gpl
 
     def _slot_license_link_acivated(self, link):
         if link == _HREF_LICENSES_DIR:
@@ -142,7 +141,7 @@ class AboutDlg(QDialog):
 
             msg = 'Unable to find LICENSES directory. Please contact the ' \
                   'Back In Time team and report a bug.'
-            messagebox.critical(msg)
+            messagebox.critical(self, msg)
             logger.critical(msg)
 
         elif link == _HREF_SPDX_GPL:
@@ -227,7 +226,7 @@ class AboutDlg(QDialog):
         # Experiment. This comment might appear on Weblate at context info.
         # Does it?
         name = QLabel(_('Back In Time'))
-        name.setFrameStyle(QFrame.Shape.Box| QFrame.Shadow.Sunken)
+        name.setFrameStyle(QFrame.Shape.Box | QFrame.Shadow.Sunken)
         name.setLineWidth(3)
         font = name.font()
         font.setPointSizeF(font.pointSizeF() * 4)
@@ -251,27 +250,6 @@ class AboutDlg(QDialog):
 
         return wdg
 
-    def _foobar(self):
-        bit_copyright = QLabel(self.config.COPYRIGHT + '\n')
-
-        vlayout.addWidget(bit_copyright)
-
-        button_box_left = QDialogButtonBox(self)
-        for label, slot in ((_('Authors'), self._msgbox_authors),
-                            (_('Translations'), self._msgbox_translations),
-                            (_('License'), self._msgbox_license)):
-            btn = button_box_left.addButton(
-                label, QDialogButtonBox.ButtonRole.ActionRole)
-            btn.clicked.connect(slot)
-
-        button_box_right = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
-        button_box_right.accepted.connect(self.accept)
-
-        hlayout = QHBoxLayout()
-        hlayout.addWidget(button_box_left)
-        hlayout.addWidget(button_box_right)
-        vlayout.addLayout(hlayout)
-
     def _create_version_label(self):
         return QLabel(
             _('{BOLD}Version{BOLDEND}: {version}').format(
@@ -287,59 +265,9 @@ class AboutDlg(QDialog):
             hash_length=8)
 
         try:
-            branch, hash = info['branch'], info['hash']
+            branch, githash = info['branch'], info['hash']
         except TypeError:
             return None
 
-        return QLabel(f'<strong>Git</strong>: branch {branch} | hash {hash}')
-
-    def _msgbox_authors(self):
-        file_path = Path(tools.docPath()) / 'AUTHORS'
-        content = self._read_about_content(file_path)
-
-        return messagebox.showInfo(self, _('Authors'), content)
-
-    def _msgbox_translations(self):
-        file_path = Path(tools.docPath()) / 'TRANSLATIONS'
-        content = self._read_about_content(file_path)
-
-        return messagebox.showInfo(self, _('Translations'), content)
-
-    def _msgbox_license(self):
-        file_path = Path(tools.docPath()) / 'LICENSE'
-        content = self._read_about_content(file_path)
-
-        return messagebox.showInfo(self, _('License'), content)
-
-    def _read_about_content(self, file_path):
-        content = file_path.read_text('utf-8')
-
-        # Convert URLs and Email into <a href>
-        content = re.sub(r'<(.*?)>', self._to_a_href, content)
-
-        # HTML line breaks
-        content = re.sub(r'\n', '<br>', content)
-
-        return content
-
-    def _to_a_href(self, m):
-        """Create a HTML a-tag out of Website and EMail URIs.
-
-        Args:
-            m (str, re.Match): Match or string to convert.
-
-        Examples:
-            - 'https://foo.bar' becomes
-              '<a href="https://foo.bar">https://foo.bar</a>'
-            - 'foo@bar.com' becomes
-             '<a href="mailto:foo@bar.com">foo@bar.com</a>'
-        """
-        try:
-            raw_string = m.group(1)
-        except AttributeError:
-            raw_string = m
-
-        if '@' in raw_string:
-            return f'<a href="mailto:{raw_string}">{raw_string}</a>'
-
-        return f'<a href="{raw_string}">{raw_string}</a>'
+        return QLabel(
+            f'<strong>Git</strong>: branch {branch} | hash {githash}')
