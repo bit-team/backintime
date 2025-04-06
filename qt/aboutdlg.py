@@ -201,7 +201,8 @@ class AboutDlg(QDialog):
 
         website = QPushButton(_('Website'))
         website.setToolTip(bitbase.URL_WEBSITE.replace('https://', ''))
-        website.clicked.connect(qttools.open_website)
+        website.clicked.connect(
+            lambda: qttools.open_url(bitbase.URL_WEBSITE))
 
         manual = QPushButton(_('User manual'))
         manual.setToolTip(_('Open user manual in browser (local if available '

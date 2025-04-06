@@ -1445,7 +1445,7 @@ class MainWindow(QMainWindow):
         self.openManPage('backintime-config')
 
     def btnWebsiteClicked(self):
-        qttools.open_website()
+        qttools.open_url(bitbase.URL_WEBSITE)
 
     def btnChangelogClicked(self):
         def aHref(m):

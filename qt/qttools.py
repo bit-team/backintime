@@ -216,10 +216,6 @@ def open_user_manual() -> None:
     open_url(user_manual_uri())
 
 
-def open_website() -> None:
-    open_url(bitbase.URL_WEBSITE)
-
-
 class FileDialogShowHidden(QFileDialog):
     """File dialog able to display hidden files."""
 
