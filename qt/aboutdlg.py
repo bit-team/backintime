@@ -86,11 +86,21 @@ class AboutDlg(QDialog):
         # Please add your name to the list of translators if you want to be
         # credited for the translations you have done.
         trans = QLabel(_('translator-credits-placeholder'))
+        placeholder_string = 'translator-credits-placeholder'
 
         # String not translated, means no credits available.
-        if trans.text() == 'translator-credits-placeholder':
+        if trans.text() == placeholder_string:
             trans.setText(_('(No translator credits available.)'))
         _set_label_props(trans)
+
+        text_all_trans = 'Follow <a href="https://translate.codeberg.org/' \
+                         'search/backintime/common/?q=+source%3A%3D' \
+                         f'{placeholder_string}">this link</a> ' \
+                         'to get translator credits for all languages.'
+        trans.setText(
+            '<p>' + trans.text() + '</p><p>' + text_all_trans + '</p>')
+        trans.setOpenExternalLinks(True)
+        trans.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
 
         left = QVBoxLayout()
         left.addWidget(label_copyright)
