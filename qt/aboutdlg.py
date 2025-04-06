@@ -79,10 +79,9 @@ class AboutDlg(QDialog):
             label.setTextInteractionFlags(
                 Qt.TextInteractionFlag.TextSelectableByMouse)
             label.setAutoFillBackground(True)
-            label.setBackgroundRole(QPalette.ColorRole.Light)#Light)#BrightText)
+            label.setBackgroundRole(QPalette.ColorRole.Light)
             label.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
             label.setLineWidth(1)
-            return
 
         label_copyright = QLabel('<strong>' + _('Copyright:') + '</strong>')
         copyr = QLabel(bitbase.COPYRIGHT)
@@ -95,26 +94,24 @@ class AboutDlg(QDialog):
         label_trans = QLabel('<strong>' + _('Translators:') + '</strong>')
         # Please add your name to the list of translators if you want to be
         # credited for the translations you have done.
-        trans = QLabel(_('translator-credits-placeholder'))
+        text_trans = _('translator-credits-placeholder')
         placeholder_string = 'translator-credits-placeholder'
 
         # String not translated, means no credits available.
-        if trans.text() == placeholder_string:
+        if text_trans == placeholder_string:
             text_trans = ''
             if self.using_translation:
-                text_trans = '<p>{}</p>'.format(
-                    _('(Translator credits not available for '
-                      'current language.)'))
+                text_trans = _('(Translator credits not available for '
+                               'current language.)')
+                text_trans = f'<p>{text_trans}</p>'
 
+        link = '<a href="https://translate.codeberg.org/search/backintime/' \
+            f'common/?q=+source%3A%3D{placeholder_string}">'
+        link = link + _('this link') + '</a>'
+        text_trans = f'{text_trans}<p>{link}</p>'
+
+        trans = QLabel(text_trans)
         _set_label_props(trans)
-
-        text_trans = '{}<p>{}</p>'.format(
-            text_trans,
-            _('Follow {LINK} to get translator credits for all languages.')
-            .format(LINK='<a href="https://translate.codeberg.org/search/'
-                         'backintime/common/?q=+source%3A%3D{}">{}</a>'
-                         .format(placeholder_string, _('this link'))))
-        trans.setText(text_trans)
         trans.setOpenExternalLinks(True)
         trans.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextBrowserInteraction)
@@ -253,10 +250,6 @@ class AboutDlg(QDialog):
         # Experiment. This comment might appear on Weblate at context info.
         # Does it?
         name = QLabel(_('Back In Time'))
-        #name.setFrameStyle(QFrame.Shape.Box | QFrame.Shadow.Raised)
-        #name.setLineWidth(1)
-        #name.setAutoFillBackground(True)
-        #name.setBackgroundRole(QPalette.ColorRole.Light) # 
 
         font = name.font()
         font.setPointSizeF(font.pointSizeF() * 3)
