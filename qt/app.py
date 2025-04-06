@@ -1476,9 +1476,6 @@ class MainWindow(QMainWindow):
     def btnReportBugClicked(self):
         self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
-    # def openUrl(self, url):
-    #     return QDesktopServices.openUrl(QUrl(url))
-
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
             messagebox.critical(self, "Couldn't find 'man' to show the help page. Please install 'man'")
