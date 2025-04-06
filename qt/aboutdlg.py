@@ -18,11 +18,11 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QLabel,
                              QPushButton,
-                             # QSizePolicy,
                              QStyle,
                              QVBoxLayout,
                              QWidget)
-from PyQt6.QtCore import Qt  # , QSize
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPalette
 import logger
 import bitbase
 import tools
@@ -37,10 +37,17 @@ _HREF_SPDX_GPL = 'spdx-gplv2'
 class AboutDlg(QDialog):
     """The about dialog accessible from the Help menu in the main window."""
 
-    def __init__(self, parent=None):
-        """Initialize and layout."""
+    def __init__(self, using_translation: bool, parent: QWidget = None):
+        """Initialize and layout.
+
+        Args:
+            using_translation: Indicates if the current used language is a
+                translated language or the source language (English).
+        """
         super().__init__(parent)
         self.setWindowTitle(_('About Back In Time'))
+
+        self.using_translation = using_translation
 
         main_hbox = QHBoxLayout(self)
 
@@ -67,12 +74,15 @@ class AboutDlg(QDialog):
     def _create_authors_etc(self):
 
         def _set_label_props(label):
-            label.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
-            label.setLineWidth(3)
             label.setWordWrap(True)
+            label.setAlignment(Qt.AlignmentFlag.AlignTop)
             label.setTextInteractionFlags(
                 Qt.TextInteractionFlag.TextSelectableByMouse)
-            label.setAlignment(Qt.AlignmentFlag.AlignTop)
+            label.setAutoFillBackground(True)
+            label.setBackgroundRole(QPalette.ColorRole.Light)#Light)#BrightText)
+            label.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
+            label.setLineWidth(1)
+            return
 
         label_copyright = QLabel('<strong>' + _('Copyright:') + '</strong>')
         copyr = QLabel(bitbase.COPYRIGHT)
@@ -90,17 +100,24 @@ class AboutDlg(QDialog):
 
         # String not translated, means no credits available.
         if trans.text() == placeholder_string:
-            trans.setText(_('(No translator credits available.)'))
+            text_trans = ''
+            if self.using_translation:
+                text_trans = '<p>{}</p>'.format(
+                    _('(Translator credits not available for '
+                      'current language.)'))
+
         _set_label_props(trans)
 
-        text_all_trans = 'Follow <a href="https://translate.codeberg.org/' \
-                         'search/backintime/common/?q=+source%3A%3D' \
-                         f'{placeholder_string}">this link</a> ' \
-                         'to get translator credits for all languages.'
-        trans.setText(
-            '<p>' + trans.text() + '</p><p>' + text_all_trans + '</p>')
+        text_trans = '{}<p>{}</p>'.format(
+            text_trans,
+            _('Follow {LINK} to get translator credits for all languages.')
+            .format(LINK='<a href="https://translate.codeberg.org/search/'
+                         'backintime/common/?q=+source%3A%3D{}">{}</a>'
+                         .format(placeholder_string, _('this link'))))
+        trans.setText(text_trans)
         trans.setOpenExternalLinks(True)
-        trans.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
+        trans.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction)
 
         left = QVBoxLayout()
         left.addWidget(label_copyright)
@@ -220,7 +237,7 @@ class AboutDlg(QDialog):
 
         size = self.style().pixelMetric(
             QStyle.PixelMetric.PM_LargeIconSize)
-        logo = icon.BIT_LOGO.pixmap(size*6)
+        logo = icon.BIT_LOGO.pixmap(size*4)
 
         label = QLabel(self)
         label.setPixmap(logo)
@@ -233,21 +250,18 @@ class AboutDlg(QDialog):
         return button_box
 
     def _create_name_info(self):
-
         # Experiment. This comment might appear on Weblate at context info.
         # Does it?
         name = QLabel(_('Back In Time'))
-        name.setFrameStyle(QFrame.Shape.Box | QFrame.Shadow.Sunken)
-        name.setLineWidth(3)
+        #name.setFrameStyle(QFrame.Shape.Box | QFrame.Shadow.Raised)
+        #name.setLineWidth(1)
+        #name.setAutoFillBackground(True)
+        #name.setBackgroundRole(QPalette.ColorRole.Light) # 
+
         font = name.font()
-        font.setPointSizeF(font.pointSizeF() * 4)
+        font.setPointSizeF(font.pointSizeF() * 3)
         font.setBold(True)
         name.setFont(font)
-
-        # hbox = QHBoxLayout()
-        # hbox.addStretch(1)
-        # hbox.addWidget(name, 0)
-        # hbox.addStretch(1)
 
         wdg = QWidget(self)
         vbox = QVBoxLayout(wdg)

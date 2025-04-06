@@ -1432,7 +1432,10 @@ class MainWindow(QMainWindow):
 
     def btnAboutClicked(self):
         with self.suspendMouseButtonNavigation():
-            dlg = AboutDlg(self)
+            dlg = AboutDlg(
+                using_translation=self.config.language_used != 'en',
+                parent=self
+            )
             dlg.exec()
 
     def btn_help_user_manual(self):
