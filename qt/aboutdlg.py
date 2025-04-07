@@ -144,7 +144,7 @@ class AboutDlg(QDialog):
             '<p>Refer to the '
             f'<a href="{_HREF_LICENSES_DIR}">LICENSES directory</a> '
             'for details on obtaining license and copyright information '
-            'for each file using using SPDX metadata.</p>')
+            'for each file using SPDX metadata.</p>')
         gpl.setWordWrap(True)
         gpl.setOpenExternalLinks(False)
         gpl.setTextInteractionFlags(
