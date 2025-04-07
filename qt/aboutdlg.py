@@ -101,16 +101,18 @@ class AboutDlg(QDialog):
         if text_trans == placeholder_string:
             text_trans = ''
             if self.using_translation:
-                text_trans = _('(Translator credits not available for '
-                               'current language.)')
-                text_trans = f'<p>{text_trans}</p>'
+                text_trans = '<p>' + _('Translator credits not available for '
+                                       'current language.') + '</p>'
 
-        link = '<a href="https://translate.codeberg.org/search/backintime/' \
-            f'common/?q=+source%3A%3D{placeholder_string}">'
-        link = link + _('this link') + '</a>'
-        text_trans = f'{text_trans}<p>{link}</p>'
+        text_link = '<a href="https://translate.codeberg.org/search/' \
+            f'backintime/common/?q=+source%3A%3D{placeholder_string}">'
+        text_link = text_link + _('this link') + '</a>'
+        text_link = '<p>' \
+            + _('Follow {thislink} to get translator credits for '
+                'all languages.').format(thislink=text_link) \
+            + '</p>'
 
-        trans = QLabel(text_trans)
+        trans = QLabel(text_trans + text_link)
         _set_label_props(trans)
         trans.setOpenExternalLinks(True)
         trans.setTextInteractionFlags(
