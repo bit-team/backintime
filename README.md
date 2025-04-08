@@ -70,6 +70,7 @@ features. This work is carried out voluntarily during their limited spare time.
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
 - [Contributing and other ways to support the project](#contributing-and-other-ways-to-support-the-project)
+- [Licenses](#licenses)
 
 ---
 
@@ -146,7 +147,7 @@ Renaming does *not* work!
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
-# License
+# Licenses
 The directory [`LICENSES`](LICENSES) contains all relevant license files
 regarding the _Back In Time_ project. The projects primary license is
 [GNU General Public License v2.0 or later (`GPL-2.0-or-later`)](https://spdx.org/licenses/GPL-2.0-or-later.html).

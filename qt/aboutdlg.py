@@ -138,6 +138,13 @@ class AboutDlg(QDialog):
         # Dev note (buhtz, 2025-03): That string is untranslated on purpose.
         # It is legally relevant, and no one should be given the opportunity
         # to change the string—whether intentionally or accidentally.
+        """
+        Install LICENSES.md into /doc/share/licenses/* !
+
+        See LICENSES.md for extracting license and copyright information using
+        SPDX metadata.
+        All licenses used in this project are in the LICENSES directory.
+        """
         gpl = QLabel(
             '<p>The application is released under '
             f'<a href="{_HREF_SPDX_GPL}">'
