@@ -2004,50 +2004,80 @@ INHIBIT_DBUS = (
                })
 
 def inhibitSuspend(app_id = sys.argv[0],
-                    toplevel_xid = None,
-                    reason = 'take snapshot',
-                    flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
+                   toplevel_xid = None,
+                   reason = 'take snapshot',
+                   flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
+    """Prevent machine to go to suspend or hibernate.
+
+    Dev note: What is a cookie? What is an inhibitor? How does this work?
+
+    Returns:
+        A 3-item-tuple with the first item containing the inhibit cookie
+        which is used to end the inhibitor.
+
     """
-    Prevent machine to go to suspend or hibernate.
-    Returns the inhibit cookie which is used to end the inhibitor.
-    """
+
+    # Dev note (buhtz, 2025-04): Get rid of that.
     if ON_TRAVIS or dbus is None:
         # no suspend on travis (no dbus either)
         return
 
-    # Fixes #1592 (BiT hangs as root when trying to establish a dbus user session connection)
-    # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus user session
-    #              and it may have worked sometimes (without logging we don't know)
-    #              so as root suspend can no longer inhibited.
+    # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
+    # session connection)
+    # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus user
+    #              session and it may have worked sometimes (without logging we
+    #              don't know) so as root suspend can no longer inhibited.
     if isRoot():
-        logger.debug("Inhibit Suspend failed because BIT was started as root.")
+        # Dev note (buhtz, 2025-04): But does this need to be a "Fail"?
+        logger.debug('Inhibit Suspend failed because BIT was started as root.')
         return
 
     if not app_id:
         app_id = 'backintime'
+
     try:
         if not toplevel_xid:
             toplevel_xid = 0
+
     except IndexError:
         toplevel_xid = 0
 
     for dbus_props in INHIBIT_DBUS:
         try:
-            #connect directly to the socket instead of dbus.SessionBus because
-            #the dbus.SessionBus was initiated before we loaded the environ
-            #variables and might not work
+            # Connect directly to the socket instead of dbus.SessionBus because
+            # the dbus.SessionBus was initiated before we loaded the environ
+            # variables and might not work.
             if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+                bus = dbus.bus.BusConnection(
+                    os.environ['DBUS_SESSION_BUS_ADDRESS'])
             else:
-                bus = dbus.SessionBus()  # This code may hang forever (if BiT is run as root via cron job and no user is logged in). See #1592
-            interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-            proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
-            cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
-            logger.debug('Inhibit Suspend started. Reason: {}'.format(reason))
+                # This code may hang forever (if BIT is run as root via cron
+                # job and no user is logged in). See #1592
+                bus = dbus.SessionBus()
+
+            interface = bus.get_object(
+                dbus_props['service'], dbus_props['objectPath'])
+
+            proxy = interface.get_dbus_method(
+                dbus_props['methodSet'], dbus_props['interface'])
+
+            cookie = proxy(*[
+                (app_id,
+                 dbus.UInt32(toplevel_xid),
+                 reason,
+                 dbus.UInt32(flags))[i]
+                for i in dbus_props['arguments']
+            ])
+
+            logger.debug(f'Inhibit Suspend started. Reason: {reson}')
+
             return (cookie, bus, dbus_props)
+
         except dbus.exceptions.DBusException:
             pass
+
     logger.warning('Inhibit Suspend failed.')
+
 
 def unInhibitSuspend(cookie, bus, dbus_props):
     """
