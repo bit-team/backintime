@@ -2080,20 +2080,27 @@ def inhibitSuspend(app_id = sys.argv[0],
 
 
 def unInhibitSuspend(cookie, bus, dbus_props):
+    """Release inhibit.
     """
-    Release inhibit.
-    """
+    # Dev note (buhtz, 2025-03): Get rid of that. No assert's in productive
+    # code.
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
     assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
     assert isinstance(dbus_props, dict), 'dbus_props is not dict type: %s' % dbus_props
+
     try:
-        interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-        proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
+        interface = bus.get_object(
+            dbus_props['service'], dbus_props['objectPath'])
+        proxy = interface.get_dbus_method(
+            dbus_props['methodUnSet'], dbus_props['interface'])
         proxy(cookie)
         logger.debug('Release inhibit Suspend')
+
         return None
+
     except dbus.exceptions.DBusException:
         logger.warning('Release inhibit Suspend failed.')
+
         return (cookie, bus, dbus_props)
 
 
