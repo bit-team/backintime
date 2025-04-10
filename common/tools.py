@@ -1981,27 +1981,31 @@ INHIBIT_SUSPENDING = 4
 INHIBIT_IDLE = 8
 
 INHIBIT_DBUS = (
-               {'service':      'org.gnome.SessionManager',
-                'objectPath':   '/org/gnome/SessionManager',
-                'methodSet':    'Inhibit',
-                'methodUnSet':  'Uninhibit',
-                'interface':    'org.gnome.SessionManager',
-                'arguments':    (0, 1, 2, 3)
-               },
-               {'service':      'org.mate.SessionManager',
-                'objectPath':   '/org/mate/SessionManager',
-                'methodSet':    'Inhibit',
-                'methodUnSet':  'Uninhibit',
-                'interface':    'org.mate.SessionManager',
-                'arguments':    (0, 1, 2, 3)
-               },
-               {'service':      'org.freedesktop.PowerManagement',
-                'objectPath':   '/org/freedesktop/PowerManagement/Inhibit',
-                'methodSet':    'Inhibit',
-                'methodUnSet':  'UnInhibit',
-                'interface':    'org.freedesktop.PowerManagement.Inhibit',
-                'arguments':    (0, 2)
-               })
+    {
+        'service': 'org.freedesktop.PowerManagement',
+        'objectPath': '/org/freedesktop/PowerManagement/Inhibit',
+        'methodSet': 'Inhibit',
+        'methodUnSet': 'UnInhibit',
+        'interface': 'org.freedesktop.PowerManagement.Inhibit',
+        'arguments': (0, 2)
+    },
+    {
+        'service': 'org.gnome.SessionManager',
+        'objectPath': '/org/gnome/SessionManager',
+        'methodSet': 'Inhibit',
+        'methodUnSet': 'Uninhibit',
+        'interface': 'org.gnome.SessionManager',
+        'arguments': (0, 1, 2, 3)
+    },
+    {
+        'service': 'org.mate.SessionManager',
+        'objectPath': '/org/mate/SessionManager',
+        'methodSet': 'Inhibit',
+        'methodUnSet': 'Uninhibit',
+        'interface': 'org.mate.SessionManager',
+        'arguments': (0, 1, 2, 3)
+    },
+)
 
 def inhibitSuspend(app_id = sys.argv[0],
                    toplevel_xid = None,
@@ -2042,7 +2046,11 @@ def inhibitSuspend(app_id = sys.argv[0],
     except IndexError:
         toplevel_xid = 0
 
+    import json
+
     for dbus_props in INHIBIT_DBUS:
+        debug_dbus_props = json.dumps(dbus_props, indent=4)
+        logger.debug(f'dbus_props=\n{debug_dbus_props}')
         try:
             # Connect directly to the socket instead of dbus.SessionBus because
             # the dbus.SessionBus was initiated before we loaded the environ
@@ -2069,7 +2077,8 @@ def inhibitSuspend(app_id = sys.argv[0],
                 for i in dbus_props['arguments']
             ])
 
-            logger.debug(f'Inhibit Suspend started. Reason: {reson}')
+            logger.debug('Inhibit Suspend started. '
+                         f'Reason: {reason} Cookie: "{cookie}"')
 
             return (cookie, bus, dbus_props)
 
