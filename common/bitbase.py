@@ -19,6 +19,15 @@ COPYRIGHT = 'Copyright © 2008-2024 ' \
             'Copyright © 2022 ' \
             'Christian Buhtz, Michael Büker, Jürgen Altfeld'
 
+# Used in about dialog to add language independent translator credits
+TRANSLATION_CREDITS_MISC = (
+    'Launchpad translators <https://translations.launchpad.net/backintime/'
+    'trunk/+pots/back-in-time>',
+    'https://www.reddit.com/r/translator',
+    'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
+    '(@lists.ubuntu.com) especially the user related lists',
+)
+
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'

@@ -105,15 +105,23 @@ class AboutDlg(QDialog):
                 text_trans = '<p>' + _('Translator credits not available for '
                                        'current language.') + '</p>'
 
+        else:
+            text_trans = '<br>∘ '.join(text_trans.split('\n'))
+            text_trans = '<p>∘ ' +  text_trans + '</p>'
+                
+
         text_link = '<a href="https://translate.codeberg.org/search/' \
             f'backintime/common/?q=+source%3A%3D{placeholder_string}">'
         text_link = text_link + _('this link') + '</a>'
-        text_link = '<p>' \
-            + _('Follow {thislink} to get translator credits for '
-                'all languages.').format(thislink=text_link) \
-            + '</p>'
+        text_link =  _(
+            'Follow {thislink} to get translator credits for '
+            'all languages.').format(thislink=text_link)
 
-        trans = QLabel(text_trans + text_link)
+        text_more = '<br>∘ '.join(bitbase.TRANSLATION_CREDITS_MISC)
+        text_more = \
+            f'<p>Additional credits:<br>∘ {text_link}<br>∘ {text_more} </p>'
+
+        trans = QLabel(text_trans + text_more)
         _set_label_props(trans)
         trans.setOpenExternalLinks(True)
         trans.setTextInteractionFlags(
