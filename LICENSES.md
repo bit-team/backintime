@@ -17,4 +17,4 @@ Copyright and license information are available for each file via
 Read the header of each file and the `REUSE.toml` files, or use the `reuse`
 tool to extract the information.
 
-Refere to [`README.md`](README.md) for further information about the project.
+Refer to [`README.md`](README.md) for further information about the project.
