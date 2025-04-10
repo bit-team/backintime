@@ -140,23 +140,16 @@ class AboutDlg(QDialog):
         # It is legally relevant, and no one should be given the opportunity
         # to change the string—whether intentionally or accidentally.
         text_gpl = (
-            '<p>The application is released under '
-            f'<a href="{_HREF_SPDX_GPL}">'
-            'GNU General Public License v2.0 or later (GPL-2.0-or-later)'
-            '</a>.</p>')
-        text_gpl = '{}<p>{}</p>'.format(
-            text_gpl,
-            _('All licenses used in this project are located in the '
-              '{dir_link} directory. To extract per-file license and '
-              'copyright information using SPDX metadata, '
-              'refer to {readme_link}.')
-            .format(
+            f'The application is released under <a href="{_HREF_SPDX_GPL}">'
+            'GNU General Public License v2.0 or later (GPL-2.0-or-later)</a>.')
+        text_licenses = _(
+            'All licenses used in this project are located in the {dir_link} '
+            'directory. To extract per-file license and copyright information '
+            'using SPDX metadata, refer to {readme_link}.').format(
                 dir_link=f'<a href="{_HREF_LICENSES_DIR}">LICENSES</a>',
-                readme_link=f'<a href="{_HREF_LICENSES_MD}">'
-                    'LICENSES.md</a>'
-            )
-        )
-        gpl = QLabel(text_gpl)
+                readme_link=f'<a href="{_HREF_LICENSES_MD}">LICENSES.md</a>')
+
+        gpl = QLabel(f'<p>{text_gpl}</p><p>{text_licenses}</p>')
         gpl.setWordWrap(True)
         gpl.setOpenExternalLinks(False)
         gpl.setTextInteractionFlags(
@@ -188,7 +181,7 @@ class AboutDlg(QDialog):
             logger.critical(msg)
             return
 
-        elif link == _HREF_SPDX_GPL:
+        if link == _HREF_SPDX_GPL:
             qttools.open_url(bitbase.URL_GPL_TWO)
             return
 
