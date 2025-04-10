@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-03-23 19:11+0100\n"
+"POT-Creation-Date: 2025-04-10 12:05+0200\n"
 "PO-Revision-Date: 2025-03-13 12:15+0000\n"
 "Last-Translator: piijuska <piijuska@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
@@ -24,67 +24,68 @@ msgstr ""
 msgid "Warning"
 msgstr "Varoitus"
 
-#: common/config.py:149 common/config.py:259
+#: common/config.py:148 common/config.py:258
 msgid "Main profile"
 msgstr "Pääprofiili"
 
-#: common/config.py:266
+#: common/config.py:265
 msgid "Local (EncFS encrypted)"
 msgstr "Paikallinen (EncFS salattu)"
 
-#: common/config.py:267
+#: common/config.py:266
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (EncFS salattu)"
 
-#: common/config.py:278
+#: common/config.py:277
 msgid "Local"
 msgstr "Paikallinen"
 
-#: common/config.py:280
+#: common/config.py:279
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:280 common/config.py:290
+#: common/config.py:279 common/config.py:289
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
 msgstr "yksityinen SSH-avain"
 
-#: common/config.py:283
+#: common/config.py:282
 msgid "Local encrypted"
 msgstr "Paikallinen salattu"
 
-#: common/config.py:284 common/config.py:291
+#: common/config.py:283 common/config.py:290
 msgid "Encryption"
 msgstr "Salaus"
 
-#: common/config.py:289
+#: common/config.py:288
 msgid "SSH encrypted"
 msgstr "SSH-salattu"
 
-#: common/config.py:296
+#: common/config.py:295
 msgid "Default"
 msgstr "Oletus"
 
-#: common/config.py:327 common/config.py:339 common/config.py:357
-#: common/config.py:371
+#: common/config.py:326 common/config.py:338 common/config.py:356
+#: common/config.py:370
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiili: ”{name}”"
 
-#: common/config.py:328
-msgid "Snapshots directory is not valid."
+#: common/config.py:327
+#, fuzzy
+msgid "Backup directory is not valid."
 msgstr "Tilannevedosten hakemisto ei ole kelvollinen."
 
-#: common/config.py:340
+#: common/config.py:339
 msgid "At least one directory must be selected for backup."
 msgstr "Vähintään yksi hakemisto on valittava varmuuskopiointia varten."
 
-#: common/config.py:358 common/config.py:373
+#: common/config.py:357 common/config.py:372
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Hakemisto: {path}"
 
-#: common/config.py:359 common/config.py:374
+#: common/config.py:358 common/config.py:373
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -92,16 +93,18 @@ msgstr ""
 "Tätä hakemistoa ei voi sisällyttää varmuuskopioon, koska se on osa itse "
 "varmuuskopion kohdetta."
 
-#: common/config.py:1467
+#: common/config.py:1466
 msgid "Failed to write new crontab."
 msgstr "Uuden crontabin kirjoittaminen epäonnistui."
 
-#: common/config.py:1475
+#: common/config.py:1474
+#, fuzzy
 msgid ""
-"Cron is not running despite the crontab command being available. Scheduled "
-"backup jobs will not run. Cron might be installed but not enabled. Try the "
-"command \"systemctl enable cron\" or consult the support channels of your "
-"GNU/Linux distribution."
+"Cron is not running, even though the crontab command is available. Scheduled"
+" backup jobs will not run. Cron might be installed but not enabled. Try "
+"running the two commands \"systemctl enable cron\" and \"systemctl start "
+"cron\", or consult the support channels of the currently used GNU/Linux "
+"distribution for assistance."
 msgstr ""
 "Cron ei ole käynnissä, vaikka komento 'crontab' on käytettävissä. "
 "Ajoitettuja varmuuskopiointitöitä ei suoriteta. Cron saattaa olla "
@@ -109,10 +112,10 @@ msgstr ""
 " ota yhteyttä GNU/Linux-jakelun tukikanaviin."
 
 #: common/config.py:1556
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
-"'{dbus_interface}' wasn't available"
+"'{dbus_interface}' wasn't available."
 msgstr ""
 "Profiilille {profile_id} ei voitu asentaa udev-sääntöä. DBus-palvelu "
 "”{dbus_interface}” ei ole käytettävissä"
@@ -213,12 +216,14 @@ msgid "Deferring backup while on battery"
 msgstr "Viivästetään varmuuskopiointia akkukäytön ajan"
 
 #: common/snapshots.py:842 qt/app.py:363
-msgid "Can't find snapshots directory."
+#, fuzzy
+msgid "Can't find backup directory."
 msgstr "Tilannevedosten hakemistoa ei löydy."
 
-#: common/snapshots.py:846
-msgid "If it is on a removable drive please plug it in."
-msgstr "Jos se on irrotettavassa asemassa, liitä se."
+#: common/snapshots.py:846 qt/app.py:364
+#, fuzzy
+msgid "If it is on a removable drive, please plug it in. Then press OK."
+msgstr "Jos kansio on siirrettävällä asemalla, kytke se ja napsauta OK."
 
 #: common/snapshots.py:849
 #, python-format
@@ -228,8 +233,8 @@ msgstr[0] "Odotetaan %s sekunti."
 msgstr[1] "Odotetaan %s sekuntia."
 
 #: common/snapshots.py:914
-#, python-brace-format
-msgid "Failed to take snapshot {snapshot_id}."
+#, fuzzy, python-brace-format
+msgid "Failed to create backup {snapshot_id}."
 msgstr "Otoksen {snapshot_id} luominen epäonnistui."
 
 #: common/snapshots.py:946
@@ -249,14 +254,14 @@ msgid "Saving permissions…"
 msgstr "Tallennetaan käyttöoikeuksia…"
 
 #: common/snapshots.py:1290
-#, python-brace-format
-msgid "Found leftover snapshot {snapshot_id} that can be continued."
+#, fuzzy, python-brace-format
+msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Löytyi jäljelle jäänyt tilannevedos {snapshot_id}, jota voidaan jatkaa."
 
 #: common/snapshots.py:1314
-#, python-brace-format
-msgid "Removing leftover {snapshot_id} directory from last run"
+#, fuzzy, python-brace-format
+msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Poistetaan jäljelle jäänyt {snapshot_id}-hakemisto viimeisestä suorituksesta"
 
@@ -265,8 +270,8 @@ msgid "Can't remove directory"
 msgstr "Ei voi poistaa hakemistoa"
 
 #: common/snapshots.py:1379
-msgid "Taking snapshot"
-msgstr "Otetaan otosta"
+msgid "Creating backup"
+msgstr ""
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -298,7 +303,8 @@ msgstr ""
 "ja 'man kill'"
 
 #: common/snapshots.py:1479
-msgid "Nothing changed, no new snapshot necessary"
+#, fuzzy
+msgid "Nothing changed, no new backup necessary"
 msgstr "Mikään ei ole muuttunut: uusi otos ei ole tarpeen"
 
 #: common/snapshots.py:1523
@@ -311,7 +317,8 @@ msgid "Smart removal"
 msgstr "Älykäs poisto"
 
 #: common/snapshots.py:1888
-msgid "Apply rules to remove old snapshots"
+#, fuzzy
+msgid "Apply rules to remove old backups"
 msgstr "Sovella säännöt poistaaksesi vanhat tilannevedokset"
 
 #: common/snapshots.py:1921
@@ -327,7 +334,7 @@ msgstr "Yritetään pitää vapaa vähimmäistila"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Yritetään pitää vähintään {perc} inodeja vapaana"
 
-#: common/snapshots.py:3103 qt/app.py:1849
+#: common/snapshots.py:3106 qt/app.py:1849
 msgid "Now"
 msgstr "Nyt"
 
@@ -462,30 +469,82 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "Tiedoston luominen epäonnistui tässä hakemistossa:"
 
-#: qt/aboutdlg.py:37 qt/app.py:576
-msgid "About"
-msgstr "Tietoa"
+#: qt/aboutdlg.py:49
+#, fuzzy
+msgid "About Back In Time"
+msgstr "Back In &Time"
 
-#: qt/aboutdlg.py:61 qt/aboutdlg.py:99
-msgid "Authors"
+#: qt/aboutdlg.py:87
+msgid "Copyright:"
+msgstr ""
+
+#: qt/aboutdlg.py:91
+#, fuzzy
+msgid "Authors:"
 msgstr "Tekijät"
 
-#: qt/aboutdlg.py:62 qt/aboutdlg.py:105
-msgid "Translations"
+#: qt/aboutdlg.py:95
+#, fuzzy
+msgid "Translators:"
 msgstr "Käännökset"
 
-#: qt/aboutdlg.py:63 qt/aboutdlg.py:111
-msgid "License"
-msgstr "Lisenssi"
+#: qt/aboutdlg.py:98
+msgid "translator-credits-placeholder"
+msgstr ""
+
+#: qt/aboutdlg.py:105
+msgid "Translator credits not available for current language."
+msgstr ""
+
+#: qt/aboutdlg.py:110
+msgid "this link"
+msgstr ""
+
+#: qt/aboutdlg.py:112
+#, python-brace-format
+msgid "Follow {thislink} to get translator credits for all languages."
+msgstr ""
+
+#: qt/aboutdlg.py:146
+#, python-brace-format
+msgid ""
+"All licenses used in this project are located in the {dir_link} directory. "
+"To extract per-file license and copyright information using SPDX metadata, "
+"refer to {readme_link}."
+msgstr ""
+
+#: qt/aboutdlg.py:229 qt/app.py:547
+msgid "Project website"
+msgstr "Projektin verkkosivusto"
+
+#: qt/aboutdlg.py:234 qt/app.py:529
+msgid "User manual"
+msgstr "Käyttöopas"
+
+#: qt/aboutdlg.py:235 qt/app.py:531
+msgid "Open user manual in browser (local if available otherwise online)"
+msgstr ""
+"Avaa käyttöopas selaimessa (paikallinen jos saatavilla muuten verkossa)"
+
+#: qt/aboutdlg.py:265
+#, fuzzy
+msgid "Back In Time"
+msgstr "Back In &Time"
+
+#: qt/aboutdlg.py:286
+#, python-brace-format
+msgid "{BOLD}Version{BOLDEND}: {version}"
+msgstr ""
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Pikanäppäimet"
 
 #: qt/app.py:192
+#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
-"in the current selected snapshot."
+"in the current selected backup."
 msgstr ""
 "Tätä hakemistoa ei ole olemassa nykyisessä\n"
 "valitussa tilannevedoksessa."
@@ -515,13 +574,9 @@ msgstr ""
 "Tuodaanko olemassa oleva kokoonpano (varmuuskopion kohdehakemistosta tai "
 "toisesta tietokoneesta)?"
 
-#: qt/app.py:364
-msgid "If it is on a removable drive please plug it in and then press OK."
-msgstr "Jos kansio on siirrettävällä asemalla, kytke se ja napsauta OK."
-
 #: qt/app.py:470
-msgid "Take a snapshot"
-msgstr "Ota otos"
+msgid "Create a backup"
+msgstr ""
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -529,40 +584,47 @@ msgstr ""
 "Käytä muokkausajankohtaa ja kokoa tiedoston muokkauksen havaitsemiseen."
 
 #: qt/app.py:475
-msgid "Take a snapshot (checksum mode)"
+#, fuzzy
+msgid "Create a backup (checksum mode)"
 msgstr "Ota otos tarkistussummin"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Havaitse muutokset tarkistussummista."
 
-#: qt/app.py:480 qt/qtsystrayicon.py:78
-msgid "Pause snapshot process"
+#: qt/app.py:480 qt/qtsystrayicon.py:79
+#, fuzzy
+msgid "Pause backup process"
 msgstr "Keskeytä otosprosessi"
 
-#: qt/app.py:485 qt/qtsystrayicon.py:82
-msgid "Resume snapshot process"
+#: qt/app.py:485 qt/qtsystrayicon.py:84
+#, fuzzy
+msgid "Resume backup process"
 msgstr "Jatka otosprosessia"
 
-#: qt/app.py:489 qt/qtsystrayicon.py:87
-msgid "Stop snapshot process"
+#: qt/app.py:489 qt/qtsystrayicon.py:90
+#, fuzzy
+msgid "Stop backup process"
 msgstr "Pysäytä otosprosessi"
 
 #: qt/app.py:493
-msgid "Refresh snapshot list"
+#, fuzzy
+msgid "Refresh backup list"
 msgstr "Virkistä otosluettelo"
 
 #: qt/app.py:497
-msgid "Name snapshot"
-msgstr "Ota otos"
+msgid "Name backup"
+msgstr ""
 
 #: qt/app.py:501
-msgid "Remove snapshot"
+#, fuzzy
+msgid "Remove backup"
 msgstr "Poista otos"
 
 #: qt/app.py:505
-msgid "View snapshot log"
-msgstr "Näytä otosloki"
+#, fuzzy
+msgid "View backup log"
+msgstr "Näytä viimeisin loki"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -577,7 +639,8 @@ msgid "Shutdown"
 msgstr "Sammuta"
 
 #: qt/app.py:519
-msgid "Shut down system after snapshot has finished."
+#, fuzzy
+msgid "Shut down system after backup has finished."
 msgstr "Sammuta järjestelmän otoksen valmistuttua."
 
 #: qt/app.py:521
@@ -587,15 +650,6 @@ msgstr "Asennuskieli…"
 #: qt/app.py:525
 msgid "Exit"
 msgstr "Lopeta"
-
-#: qt/app.py:529
-msgid "User manual"
-msgstr "Käyttöopas"
-
-#: qt/app.py:531
-msgid "Open user manual in browser (local if available otherwise online)"
-msgstr ""
-"Avaa käyttöopas selaimessa (paikallinen jos saatavilla muuten verkossa)"
 
 #: qt/app.py:535
 msgid "man page: Back In Time"
@@ -614,15 +668,11 @@ msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Näyttää 'man'-sivun profiilien konfigurointitiedostosta (backintime-config)"
 
-#: qt/app.py:547
-msgid "Project website"
-msgstr "Projektin verkkosivusto"
-
 #: qt/app.py:550
 msgid "Open Back In Time website in browser"
 msgstr "Avaa Back In Time -verkkosivusto selaimessa"
 
-#: qt/app.py:552 qt/app.py:1463
+#: qt/app.py:552 qt/app.py:1468
 msgid "Changelog"
 msgstr "Muutosloki"
 
@@ -658,8 +708,12 @@ msgstr "Encryption Transition (EncFS)"
 msgid "Shows the message about EncFS removal again."
 msgstr "Näyttää viestin EncFS:n poistosta uudelleen."
 
-#: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:156
-#: qt/snapshotsdialog.py:161
+#: qt/app.py:576
+msgid "About"
+msgstr "Tietoa"
+
+#: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:172
+#: qt/snapshotsdialog.py:177
 msgid "Restore"
 msgstr "Palauta"
 
@@ -667,7 +721,7 @@ msgstr "Palauta"
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Palauta valitut tiedostot tai hakemistot alkuperäiseen kohteeseen."
 
-#: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:158
+#: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:174
 msgid "Restore to …"
 msgstr "Palauta kohteeseen…"
 
@@ -693,12 +747,13 @@ msgstr "Palauta näytettävä hakemisto ja kaikki sen sisältö uuteen kohteesee
 msgid "Up"
 msgstr "Ylös"
 
-#: qt/app.py:604 qt/restoreconfigdialog.py:90
+#: qt/app.py:604 qt/restoreconfigdialog.py:103
 msgid "Show hidden files"
 msgstr "Näytä piilotiedostot"
 
 #: qt/app.py:607
-msgid "Compare snapshots…"
+#, fuzzy
+msgid "Compare backups…"
 msgstr "Vertaa otoksia…"
 
 #: qt/app.py:637 qt/app.py:2152
@@ -742,16 +797,17 @@ msgid "Text beside icon"
 msgstr "Teksti kuvakkeen vieressä"
 
 #: qt/app.py:897
+#, fuzzy
 msgid ""
-"If you close this window, Back In Time will not be able to shut down your "
-"system when the snapshot is finished."
+"If this window is closed, Back In Time will not be able to shut down your "
+"system when the backup is finished."
 msgstr ""
 "Jos suljet tämän ikkunan, Back In Time ei voi sammuttaa järjestelmää otoksen"
 " valmistuttua."
 
 #: qt/app.py:900
-msgid "Do you really want to close it?"
-msgstr "Haluatko varmasti sulkea sen?"
+msgid "Close the window anyway?"
+msgstr ""
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -797,17 +853,18 @@ msgstr "Koti"
 msgid "Backup directories"
 msgstr "Varmuuskopiohakemistot"
 
-#: qt/app.py:1351
-msgid "Snapshot Name"
-msgstr "Otoksen nimi"
+#: qt/app.py:1352
+#, fuzzy
+msgid "Backup name"
+msgstr "&Varmuuskopio"
 
-#: qt/app.py:1398
-msgid "Are you sure you want to remove this snapshot?"
-msgid_plural "Are you sure you want to remove these snapshots?"
-msgstr[0] "Oletko varma että haluat poistaa tämän otoksen?"
-msgstr[1] "Oletko varma että haluat poistaa nämä otokset?"
+#: qt/app.py:1400
+msgid "Remove this backup?"
+msgid_plural "Remove these backups?"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qt/app.py:1496
+#: qt/app.py:1498
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -816,17 +873,16 @@ msgstr ""
 "Varmuuskopioi paikalliset tiedostot ennen korvaamista\n"
 "tai poistamista ”{suffix}”-päätteelle."
 
-#: qt/app.py:1504
-#, python-brace-format
+#: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
+#, fuzzy, python-brace-format
 msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring. If you don't need them anymore you can remove them with the "
-"following command:"
+"Before restoring, newer versions of files will be renamed with the appended "
+"{suffix}. These files can be removed with the following command:"
 msgstr ""
 "Tiedostojen uudempien versioiden nimiin lisätään ”{suffix}” ennen "
 "palauttamista. Ellei niitä enää tarvita, ne voi poistaa tällä komennolla:"
 
-#: qt/app.py:1520
+#: qt/app.py:1522
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -836,59 +892,59 @@ msgstr ""
 "ovat uudempia kuin kohteessa.\n"
 "Käytetään ”rsync --update” -asetusta."
 
-#: qt/app.py:1555
+#: qt/app.py:1557
 msgid "Remove newer elements in original directory."
 msgstr "Poista uudemmat elementit alkuperäisestä hakemistosta."
 
-#: qt/app.py:1558
+#: qt/app.py:1560
+#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
-" files or directories which are not in the snapshot. Be extremely careful "
+" files or directories which are not in the backup. Be extremely careful "
 "because this will delete files and directories which were excluded during "
-"taking the snapshot."
+"the creation of the backup."
 msgstr ""
 "Palauta valitut tiedostot tai hakemistot alkuperäiseen kohteeseen ja poista "
 "tiedostot tai hakemistot, jotka eivät ole tilannekuvassa. Ole varovainen, "
 "koska tämä poistaa tiedostot ja hakemistot, jotka jätettiin pois "
 "tilannekuvan ottamisen aikana."
 
-#: qt/app.py:1570
-msgid "Do you really want to restore this element into the new directory?"
-msgid_plural ""
-"Do you really want to restore these elements into the new directory?"
+#: qt/app.py:1572
+#, fuzzy
+msgid "Really restore this element into the new directory?"
+msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Haluatko todella palauttaa tämän elementin uuteen hakemistoon?"
 msgstr[1] "Haluatko todella palauttaa nämä elementit uuteen hakemistoon?"
 
 #: qt/app.py:1580
-msgid "Do you really want to restore this element?"
-msgid_plural "Do you really want to restore these elements?"
+#, fuzzy
+msgid "Really restore this element?"
+msgid_plural "Really restore these elements?"
 msgstr[0] "Haluatko varmasti palauttaa tämän tiedoston?"
 msgstr[1] "Haluatko varmasti palauttaa nämä tiedostot?"
 
 #: qt/app.py:1599
 #, python-brace-format
-msgid "Are you sure you want to remove all newer files in {path}?"
-msgstr "Haluatko varmasti poistaa kansion ”{path}” kaikki uudemmat tiedostot?"
+msgid "All newer files in {path} will be removed. Proceed?"
+msgstr ""
 
 #: qt/app.py:1602
-msgid ""
-"Are you sure you want to remove all newer files in your original directory?"
+msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
-"Oletko varma, että haluat poistaa kaikki uudemmat tiedostot alkuperäisestä "
-"hakemistosta?"
 
 #: qt/app.py:1608
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
-"your entire system."
+"the entire system."
 msgstr ""
 "{BOLD}Varoitus{BOLDEND}: Tiedostojen poistaminen tiedostojärjestelmän "
 "juuressa, voi rikkoa koko järjestelmän."
 
 #: qt/app.py:1857
-msgid "Snapshot"
-msgstr "Otokset"
+#, fuzzy
+msgid "Backup"
+msgstr "&Varmuuskopio"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -930,8 +986,8 @@ msgid "Your translation"
 msgstr "Käännökset"
 
 #: qt/app.py:2103
-#, python-brace-format
-msgid "In the Fediverse at Mastodon: {link_and_label}"
+#, fuzzy, python-brace-format
+msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Fediversumissa Mastodonissa: {link_and_label}"
 
 #: qt/app.py:2108
@@ -940,8 +996,8 @@ msgid "Email to {link_and_label}."
 msgstr "Lähetä sähköpostia osoitteeseen {link_and_label}."
 
 #: qt/app.py:2111
-#, python-brace-format
-msgid "Mailing list {link_and_label}"
+#, fuzzy, python-brace-format
+msgid "Mailing list {link_and_label}."
 msgstr "Postituslista {link_and_label}"
 
 #: qt/app.py:2115
@@ -983,7 +1039,7 @@ msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Kielivalinta astuu voimaan uudelleenkäynnistyksen jälkeen."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:588
+#: qt/manageprofiles/tab_general.py:589
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -996,17 +1052,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Tämän tilan käyttöä profiilille ei enää suositella."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:597
+#: qt/manageprofiles/tab_general.py:598
 msgid "whitepaper"
 msgstr "valkopaperi"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:590
+#: qt/manageprofiles/tab_general.py:591
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS:n tuki lopetetaan tietoturva-aukkojen vuoksi."
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:593
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1055,7 +1111,8 @@ msgid "System default"
 msgstr "Järjestelmän oletus"
 
 #: qt/languagedialog.py:107
-msgid "Use operating systems language."
+#, fuzzy
+msgid "Use operating system's language."
 msgstr "Käytä järjestelmän kielivalintaa."
 
 #: qt/languagedialog.py:161
@@ -1063,22 +1120,24 @@ msgstr "Käytä järjestelmän kielivalintaa."
 msgid "Translated: {percent}"
 msgstr "Käännetty: {percent}"
 
-#: qt/logviewdialog.py:60
+#: qt/logviewdialog.py:59
 msgid "Last Log View"
 msgstr "Viimeisin lokinäkymä"
 
-#: qt/logviewdialog.py:62
-msgid "Snapshot Log View"
-msgstr "Otoslokinäkymä"
+#: qt/logviewdialog.py:61
+#, fuzzy
+msgid "Backup Log View"
+msgstr "Viimeisin lokinäkymä"
 
-#: qt/logviewdialog.py:70 qt/manageprofiles/__init__.py:75
-#: qt/manageprofiles/tab_general.py:265 qt/restoreconfigdialog.py:269
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
+#: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
 msgid "Profile:"
 msgstr "Profiili:"
 
-#: qt/logviewdialog.py:78
-msgid "Snapshots:"
-msgstr "Otokset:"
+#: qt/logviewdialog.py:77
+#, fuzzy
+msgid "Backups:"
+msgstr "&Varmuuskopio"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1112,52 +1171,52 @@ msgstr "rsync-siirtoviat (kokeellinen)"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Virhe, [I] Tietoa, [C] Muutokset"
 
-#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:91
+#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:95
 msgid "decode paths"
 msgstr "dekoodaa polut"
 
-#: qt/manageprofiles/__init__.py:67
+#: qt/manageprofiles/__init__.py:68
 msgid "Manage profiles"
 msgstr "Hallinnoi profiileja"
 
-#: qt/manageprofiles/__init__.py:84
+#: qt/manageprofiles/__init__.py:85
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: qt/manageprofiles/__init__.py:88 qt/manageprofiles/__init__.py:203
+#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:204
 msgid "Add"
 msgstr "Lisää"
 
-#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/__init__.py:150
-#: qt/manageprofiles/__init__.py:221
+#: qt/manageprofiles/__init__.py:93 qt/manageprofiles/__init__.py:151
+#: qt/manageprofiles/__init__.py:222
 msgid "Remove"
 msgstr "Poista"
 
-#: qt/manageprofiles/__init__.py:113
+#: qt/manageprofiles/__init__.py:114
 msgid "&General"
 msgstr "&Yleisasetukset"
 
-#: qt/manageprofiles/__init__.py:117
+#: qt/manageprofiles/__init__.py:118
 msgid "&Include"
 msgstr "&Ota mukaan"
 
-#: qt/manageprofiles/__init__.py:125
+#: qt/manageprofiles/__init__.py:126
 msgid "Include files and directories"
 msgstr "Sisällytä tiedostot ja hakemistot"
 
-#: qt/manageprofiles/__init__.py:142 qt/manageprofiles/__init__.py:207
+#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
 msgid "Add file"
 msgstr "Lisää tiedosto"
 
-#: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
+#: qt/manageprofiles/__init__.py:147 qt/manageprofiles/__init__.py:212
 msgid "Add directory"
 msgstr "Lisää hakemisto"
 
-#: qt/manageprofiles/__init__.py:156
+#: qt/manageprofiles/__init__.py:157
 msgid "&Exclude"
 msgstr "&Jätä pois"
 
-#: qt/manageprofiles/__init__.py:160
+#: qt/manageprofiles/__init__.py:161
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1170,66 +1229,67 @@ msgstr ""
 "{example1}). Tiedostojen nimet ovat arvaamattomia tässä tilassa EncFS-"
 "salauksen vuoksi."
 
-#: qt/manageprofiles/__init__.py:183
+#: qt/manageprofiles/__init__.py:184
 msgid "Exclude patterns, files or directories"
 msgstr "Sulje pois kuvioita, tiedostoja tai hakemistoja"
 
-#: qt/manageprofiles/__init__.py:216
+#: qt/manageprofiles/__init__.py:217
 msgid "Add default"
 msgstr "Lisää oletukset"
 
-#: qt/manageprofiles/__init__.py:229
+#: qt/manageprofiles/__init__.py:230
 msgid "Exclude files bigger than:"
 msgstr "Jätä pois tätä suuremmat tiedostot:"
 
-#: qt/manageprofiles/__init__.py:233
+#: qt/manageprofiles/__init__.py:234
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Jätä pois tätä suuremmat tiedostot: {size_unit}."
 
-#: qt/manageprofiles/__init__.py:235
+#: qt/manageprofiles/__init__.py:236
+#, fuzzy
 msgid ""
-"With 'Full rsync mode' disabled, this will only impact new files since for "
-"rsync, this is a transfer option, not an exclusion option. Therefore, large "
-"files that have been backed up previously will persist in snapshots even if "
-"they have been modified."
+"With 'Full rsync mode' disabled, this setting affects only newly created "
+"files, as rsync treats it as transfer option rather than an exclusion rule. "
+"Consequently, large files that have already been backed up will remain in "
+"backups even if they are modified."
 msgstr ""
 "Kun \"Täysi rsync -tila\" on poistettu käytöstä, tämä vaikuttaa vain uusiin "
 "tiedostoihin, koska rsyncissä tämä on siirtovaihtoehto, ei "
 "poissulkemisvaihtoehto. Siksi suuret tiedostot, jotka on varmuuskopioitu "
 "aiemmin, säilyvät tilannevedoksissa, vaikka niitä olisi muokattu."
 
-#: qt/manageprofiles/__init__.py:265
+#: qt/manageprofiles/__init__.py:266
 msgid "&Remove & Retention"
 msgstr "&Poista & säilyttäminen"
 
-#: qt/manageprofiles/__init__.py:269
+#: qt/manageprofiles/__init__.py:270
 msgid "&Options"
 msgstr "&Valinnat"
 
-#: qt/manageprofiles/__init__.py:273
+#: qt/manageprofiles/__init__.py:274
 msgid "E&xpert Options"
 msgstr "A&siantuntija-asetukset"
 
-#: qt/manageprofiles/__init__.py:280
+#: qt/manageprofiles/__init__.py:281
 msgid "Restore Config"
 msgstr "Palauta määritys"
 
-#: qt/manageprofiles/__init__.py:282
+#: qt/manageprofiles/__init__.py:283
 msgid "Edit user-callback"
 msgstr "Muokkaa käyttäjäkutsua"
 
-#: qt/manageprofiles/__init__.py:300
+#: qt/manageprofiles/__init__.py:301
 msgid "New profile"
 msgstr "Uusi profiili"
 
-#: qt/manageprofiles/__init__.py:317
+#: qt/manageprofiles/__init__.py:318
 msgid "Rename profile"
 msgstr "Muuta profiilin nimeä"
 
-#: qt/manageprofiles/__init__.py:333
-#, python-brace-format
-msgid "Are you sure you want to delete the profile \"{name}\"?"
+#: qt/manageprofiles/__init__.py:334
+#, fuzzy, python-brace-format
+msgid "Delete the profile \"{name}\"?"
 msgstr "Haluatko varmasti poistaa profiilin ”{name}”?"
 
 #: qt/manageprofiles/__init__.py:379
@@ -1260,20 +1320,24 @@ msgstr "Sulje pois hakemisto"
 msgid "Include file"
 msgstr "Ota mukaan tiedosto"
 
-#: qt/manageprofiles/__init__.py:658 qt/manageprofiles/__init__.py:688
-#, python-brace-format
+#: qt/manageprofiles/__init__.py:670
+#, fuzzy, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until you include it, too.\n"
-"Would you like to include the symlink target instead?"
+"\"{path}\" is a symlink. The linked target will not be backed up until it is"
+" included, too."
 msgstr ""
 "”{path}” on symlinkki. Linkin kohdetta ei varmuuskopioida, ellei sitä oteta erikseen mukaan.\n"
 "Haluatko ottaa mukaan symlinkkien kohteet?"
 
-#: qt/manageprofiles/__init__.py:679
+#: qt/manageprofiles/__init__.py:674
+msgid "Include the symlink's target instead?"
+msgstr ""
+
+#: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
 msgstr "Sisällytä hakemisto"
 
-#: qt/manageprofiles/__init__.py:738
+#: qt/manageprofiles/__init__.py:737
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr "Poistettu käytöstä, koska tämä kuvio ei toimi tilassa \"SSH-salattu\"."
@@ -1307,9 +1371,10 @@ msgid "Minutes:"
 msgstr "Minuutit:"
 
 #: qt/manageprofiles/schedulewidget.py:92
+#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
-" You will be prompted for your sudo password."
+" A sudo password prompt will appear."
 msgstr ""
 "Suorita Back In Time heti, kun asema on kytketty (vain kerran X päivässä). "
 "Sinulta kysytään \"sudo\"-salasanaa."
@@ -1355,28 +1420,22 @@ msgstr "Käynnistysten yhteydessä"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, python-brace-format
-msgid "Every {n} minute"
+#, fuzzy, python-brace-format
+msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "{n} minuutin välein"
 msgstr[1] "{n} minuutin välein"
 
 #: qt/manageprofiles/schedulewidget.py:150
-#, python-brace-format
-msgid "Every hour"
-msgid_plural "Every {n} hours"
-msgstr[0] "Tunnin välein"
-msgstr[1] "Joka {n} tunti"
-
 #: qt/manageprofiles/schedulewidget.py:152
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
 #, python-brace-format
-msgid "Every {n} hour"
+msgid "Every hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "{n} tunnin välein"
-msgstr[1] "{n} tunnin välein"
+msgstr[0] "Tunnin välein"
+msgstr[1] "Joka {n} tunti"
 
 #: qt/manageprofiles/schedulewidget.py:159
 msgid "Custom hours"
@@ -1411,12 +1470,12 @@ msgid "Hour(s)"
 msgstr "Tunti/Tunnit"
 
 #: qt/manageprofiles/schedulewidget.py:215
-#: qt/manageprofiles/tab_remove_retention.py:256
+#: qt/manageprofiles/tab_remove_retention.py:257
 msgid "Day(s)"
 msgstr "Päivä(ä)"
 
 #: qt/manageprofiles/schedulewidget.py:216
-#: qt/manageprofiles/tab_remove_retention.py:257
+#: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Week(s)"
 msgstr "Viikko(a)"
 
@@ -1436,17 +1495,17 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "SSH Välipalvelin"
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
-#: qt/manageprofiles/tab_general.py:253
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:116
+#: qt/manageprofiles/tab_general.py:254
 msgid "Host:"
 msgstr "Konenimi:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:120
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:121
 msgid "Port:"
 msgstr "Portti:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:125
-#: qt/manageprofiles/tab_general.py:259
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:126
+#: qt/manageprofiles/tab_general.py:260
 msgid "User:"
 msgstr "Käyttäjä:"
 
@@ -1491,7 +1550,8 @@ msgid "on remote host"
 msgstr "etäkoneilla"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-msgid "when taking a manual snapshot"
+#, fuzzy
+msgid "when taking a manual backup"
 msgstr "käyttäjän tehdessä itse otoksia"
 
 #: qt/manageprofiles/tab_expert_options.py:103
@@ -1617,31 +1677,32 @@ msgstr "ei käytössä"
 msgid "enabled"
 msgstr "käytössä"
 
-#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:271
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:284
 msgid "Mode:"
 msgstr "Tila:"
 
-#: qt/manageprofiles/tab_general.py:77 qt/manageprofiles/tab_general.py:620
-msgid "Where to save snapshots"
+#: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
+#, fuzzy
+msgid "Where to save backups"
 msgstr "Mihin otokset tallennetaan"
 
-#: qt/manageprofiles/tab_general.py:103
+#: qt/manageprofiles/tab_general.py:104
 msgid "SSH Settings"
 msgstr "SSH-asetukset"
 
-#: qt/manageprofiles/tab_general.py:130
+#: qt/manageprofiles/tab_general.py:131
 msgid "Path:"
 msgstr "Sijainti:"
 
-#: qt/manageprofiles/tab_general.py:136
+#: qt/manageprofiles/tab_general.py:137
 msgid "Cipher:"
 msgstr "Salausmenetelmä:"
 
-#: qt/manageprofiles/tab_general.py:141
+#: qt/manageprofiles/tab_general.py:142
 msgid "Private Key:"
 msgstr "Yksityinen avain:"
 
-#: qt/manageprofiles/tab_general.py:152
+#: qt/manageprofiles/tab_general.py:153
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -1649,7 +1710,7 @@ msgstr ""
 "Valitse olemassa oleva yksityinen avaintiedosto (yleensä nimettyinä "
 "\"id_ed25519\", ja vanhemmissa asetuksissa \"id_rsa\")."
 
-#: qt/manageprofiles/tab_general.py:164
+#: qt/manageprofiles/tab_general.py:165
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1657,71 +1718,72 @@ msgstr ""
 "Luo uusi SSH avain ilman salasanaa (vain jos yksityistä avainta ei ole jo "
 "valittu)."
 
-#: qt/manageprofiles/tab_general.py:200 qt/manageprofiles/tab_general.py:207
-#: qt/manageprofiles/tab_general.py:211
+#: qt/manageprofiles/tab_general.py:201 qt/manageprofiles/tab_general.py:208
+#: qt/manageprofiles/tab_general.py:212
 msgid "Password"
 msgstr "Salasana"
 
-#: qt/manageprofiles/tab_general.py:221
+#: qt/manageprofiles/tab_general.py:222
 msgid "Save Password to Keyring"
 msgstr "Tallenna salasana avainrenkaaseen"
 
-#: qt/manageprofiles/tab_general.py:225
+#: qt/manageprofiles/tab_general.py:226
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Tallenna salasana välimuistiin cronia varten (tietoturvaongelma: root voi "
 "lukea salasanan)"
 
-#: qt/manageprofiles/tab_general.py:241
+#: qt/manageprofiles/tab_general.py:242
 msgid "Advanced"
 msgstr "Lisäasetukset"
 
-#: qt/manageprofiles/tab_general.py:271 qt/manageprofiles/tab_general.py:676
-msgid "Full snapshot path:"
+#: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
+#, fuzzy
+msgid "Full backup path:"
 msgstr "Otoksen täydellinen sijainti:"
 
-#: qt/manageprofiles/tab_general.py:394
-msgid "You did not choose a private key file for SSH."
-msgstr "Et valinnut yksityisen avaimen tiedostoa SSH:lle."
-
 #: qt/manageprofiles/tab_general.py:395
-msgid ""
-"Would you like to generate a new password-less public/private key pair?"
+#, fuzzy
+msgid "A private key file for SSH was not chosen."
+msgstr "Yksityistä avaintiedostoa ”{file}” ei ole olemassa."
+
+#: qt/manageprofiles/tab_general.py:396
+#, fuzzy
+msgid "Should a new password-less public/private key pair be generated?"
 msgstr "Haluatko luoda uuden salasanattoman julkisen/yksityisen avainparin?"
 
-#: qt/manageprofiles/tab_general.py:406
+#: qt/manageprofiles/tab_general.py:407
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Yksityistä avaintiedostoa ”{file}” ei ole olemassa."
 
-#: qt/manageprofiles/tab_general.py:491
-msgid ""
-"Would you like to copy your public SSH key to the remote host to enable "
-"password-less login?"
+#: qt/manageprofiles/tab_general.py:492
+#, fuzzy
+msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
 "Haluatko kopioida julkisen SSH-avaimesi etäisäntään salasanattoman "
 "sisäänkirjautumisen mahdollistamiseksi?"
 
-#: qt/manageprofiles/tab_general.py:525
+#: qt/manageprofiles/tab_general.py:526
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Koneen ”{host}” autenttisuutta ei voida todentaa."
 
-#: qt/manageprofiles/tab_general.py:528
+#: qt/manageprofiles/tab_general.py:529
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Avaimen {keytype} sormenjälki on:"
 
-#: qt/manageprofiles/tab_general.py:536
-msgid ""
-"Please verify this fingerprint. Would you like to add it to your "
-"'known_hosts' file?"
+#: qt/manageprofiles/tab_general.py:537
+#, fuzzy
+msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
 "Tarkista tämä sormenjälki. Haluatko lisätä sen tiedostoosi \"known_hosts\"?"
 
-#: qt/manageprofiles/tab_general.py:627
-msgid "Are you sure you want to change snapshots directory?"
-msgstr "Oletko varma, että haluat muuttaa tilannevedoshakemistoa?"
+#: qt/manageprofiles/tab_general.py:628
+#, fuzzy
+msgid "Really change the backup directory?"
+msgstr "Luodaanko uusi salattu hakemisto?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1733,7 +1795,8 @@ msgid "Enable notifications"
 msgstr "Käytä ilmoituksia"
 
 #: qt/manageprofiles/tab_options.py:41
-msgid "Disable snapshots when on battery"
+#, fuzzy
+msgid "Disable backups when on battery"
 msgstr "Älä tee otoksia akkukäytössä"
 
 #: qt/manageprofiles/tab_options.py:47
@@ -1741,14 +1804,16 @@ msgid "Power status not available from system"
 msgstr "Järjestelmä ei tarjoa virranhallintatietoja"
 
 #: qt/manageprofiles/tab_options.py:49
-msgid "Run only one snapshot at a time"
+#, fuzzy
+msgid "Run only one backup at a time"
 msgstr "Tee vain yksi otos kerrallaan"
 
 #: qt/manageprofiles/tab_options.py:53
+#, fuzzy
 msgid ""
-"Other snapshots will be blocked until the current snapshot is done. This is "
-"a global option. So it will affect all profiles for this user. But you need "
-"to activate this for all other users, too."
+"Other backups will be blocked until the current backup is done. This is a "
+"global option. So it will affect all profiles for this user. But it need to "
+"be activated for all other users, too."
 msgstr ""
 "Muut otokset estetään, kunnes nykyinen on valmis. Tämä on yleisasetus, joten"
 " se vaikuttaa käyttäjän kaikkiin profiileihin. Muille käyttäjille asetus "
@@ -1758,18 +1823,9 @@ msgstr ""
 msgid "Backup replaced files on restore"
 msgstr "Varmuuskopioi palautettaessa korvatut tiedostot"
 
-#: qt/manageprofiles/tab_options.py:64
-#, python-brace-format
-msgid ""
-"Newer versions of files will be renamed with trailing {suffix} before "
-"restoring. If you don't need them anymore you can remove them with {cmd}"
-msgstr ""
-"Tiedostojen uudemmat versiot nimetään uudelleen ja niiden lopussa on "
-"{suffix} ennen palauttamista. Jos et tarvitse niitä enää, voit poistaa ne "
-"komennolla '{cmd}'"
-
 #: qt/manageprofiles/tab_options.py:75
-msgid "Continue on errors (keep incomplete snapshots)"
+#, fuzzy
+msgid "Continue on errors (keep incomplete backups)"
 msgstr "Jatka virheistä huolimatta (säilytä keskeneräiset otokset)"
 
 #: qt/manageprofiles/tab_options.py:79
@@ -1777,7 +1833,8 @@ msgid "Use checksum to detect changes"
 msgstr "Havaitse muutokset tarkistussummista"
 
 #: qt/manageprofiles/tab_options.py:83
-msgid "Take a new snapshot whether there were changes or not."
+#, fuzzy
+msgid "Create a new backup whether there were changes or not."
 msgstr "Tee uusi otos, vaikkei muutoksia olisi."
 
 #: qt/manageprofiles/tab_options.py:90
@@ -1788,80 +1845,84 @@ msgstr "Lokitaso:"
 msgid "None"
 msgstr "Ei mitään"
 
-#: qt/manageprofiles/tab_remove_retention.py:190
-#, python-brace-format
+#: qt/manageprofiles/tab_remove_retention.py:191
+#, fuzzy, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
-"earlier ones and are not constrained by them. See the {manual} for details "
-"and examples."
+"earlier ones. See the {manual} for details and examples."
 msgstr ""
 "Seuraavat säännöt käsitellään ylhäältä alas. Myöhemmät säännöt ohittavat "
 "aikaisemmat eivätkä ne rajoita niitä. Katso lisätietoja ja esimerkkejä "
 "oppaasta {manual}."
 
-#: qt/manageprofiles/tab_remove_retention.py:195
+#: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
 msgstr "käyttöopas"
 
-#: qt/manageprofiles/tab_remove_retention.py:208
+#: qt/manageprofiles/tab_remove_retention.py:209
 msgid "Open user manual in browser."
 msgstr "Avaa käyttöopas selaimessa."
 
-#: qt/manageprofiles/tab_remove_retention.py:222
-msgid "Keep the most recent snapshot."
+#: qt/manageprofiles/tab_remove_retention.py:223
+#, fuzzy
+msgid "Keep the most recent backup."
 msgstr "Säilytä uusin tilannevedos."
 
-#: qt/manageprofiles/tab_remove_retention.py:226
-msgid "The last or freshest snapshot is kept under all circumstances."
+#: qt/manageprofiles/tab_remove_retention.py:227
+#, fuzzy
+msgid "The last or freshest backup is kept under all circumstances."
 msgstr "Viimeinen tai tuorein tilannevedos säilytetään kaikissa olosuhteissa."
 
-#: qt/manageprofiles/tab_remove_retention.py:228
+#: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "Sitä käytöstä ei voi muuttaa."
 
-#: qt/manageprofiles/tab_remove_retention.py:240
-msgid "Keep named snapshots."
+#: qt/manageprofiles/tab_remove_retention.py:241
+#, fuzzy
+msgid "Keep named backups."
 msgstr "Säilytä nimetyt tilannevedokset."
 
-#: qt/manageprofiles/tab_remove_retention.py:243
+#: qt/manageprofiles/tab_remove_retention.py:244
+#, fuzzy
 msgid ""
-"Snapshots that have been given a name, in addition to the usual timestamp, "
+"Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
 "Tilannevedokset, joille on annettu nimi, tavallisen aikaleiman lisäksi, "
 "säilytetään kaikissa olosuhteissa, eikä niitä poisteta."
 
-#: qt/manageprofiles/tab_remove_retention.py:258
+#: qt/manageprofiles/tab_remove_retention.py:259
 msgid "Year(s)"
 msgstr "Vuosi(a)"
 
-#: qt/manageprofiles/tab_remove_retention.py:263
-msgid "Remove snapshots older than"
+#: qt/manageprofiles/tab_remove_retention.py:264
+#, fuzzy
+msgid "Remove backups older than"
 msgstr "Poista tilannevedokset, jotka ovat vanhempia kuin"
 
-#: qt/manageprofiles/tab_remove_retention.py:269
+#: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
 msgstr "Täydelliset päivät. Nykyinen päivä on jätetty huomioimatta."
 
-#: qt/manageprofiles/tab_remove_retention.py:271
+#: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Kalenteriviikot, maanantaina ensimmäisenä päivänä. Nykyinen viikko on "
 "jätetty huomioimatta."
 
-#: qt/manageprofiles/tab_remove_retention.py:274
+#: qt/manageprofiles/tab_remove_retention.py:275
 msgid "12 months periods. Current month is ignored."
 msgstr "12 kuukauden ajanjaksot. Nykyiset kuukaudet on jätetty huomioimatta."
 
-#: qt/manageprofiles/tab_remove_retention.py:289
+#: qt/manageprofiles/tab_remove_retention.py:290
 msgid "Retention policy"
 msgstr "Säilytyskäytäntö"
 
-#: qt/manageprofiles/tab_remove_retention.py:294
+#: qt/manageprofiles/tab_remove_retention.py:295
 msgid "Run in background on remote host."
 msgstr "Suorita etäkoneessa taustalla."
 
-#: qt/manageprofiles/tab_remove_retention.py:297
+#: qt/manageprofiles/tab_remove_retention.py:298
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -1871,79 +1932,85 @@ msgstr ""
 "Komennot 'bash', 'screen' ja 'flock' on asennettava ja käytettävissä "
 "etäkoneessa."
 
-#: qt/manageprofiles/tab_remove_retention.py:301
+#: qt/manageprofiles/tab_remove_retention.py:302
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr "Jos valittuna, Back In Time testaa ensin etäkonetta."
 
-#: qt/manageprofiles/tab_remove_retention.py:305
+#: qt/manageprofiles/tab_remove_retention.py:306
 msgid "The days are counted starting from today."
 msgstr "Päivät lasketaan tästä päivästä alkaen."
 
-#: qt/manageprofiles/tab_remove_retention.py:306
-msgid "Keep all snapshots for the last"
+#: qt/manageprofiles/tab_remove_retention.py:307
+#, fuzzy
+msgid "Keep all backups for the last"
 msgstr "Säilytä kaikki otokset"
 
-#: qt/manageprofiles/tab_remove_retention.py:311
-#: qt/manageprofiles/tab_remove_retention.py:323
+#: qt/manageprofiles/tab_remove_retention.py:312
+#: qt/manageprofiles/tab_remove_retention.py:324
 msgid "day(s)."
 msgstr "viime päivältä (/päiviltä)."
 
-#: qt/manageprofiles/tab_remove_retention.py:318
-msgid "Keep the last snapshot for each day for the last"
+#: qt/manageprofiles/tab_remove_retention.py:319
+#, fuzzy
+msgid "Keep the last backup for each day for the last"
 msgstr "Säilytä kunkin päivän viimeinen tilannevedos viimeisenä"
 
-#: qt/manageprofiles/tab_remove_retention.py:328
+#: qt/manageprofiles/tab_remove_retention.py:329
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
 "Viikot lasketaan kuluvasta juoksuviikosta alkaen. Viikko alkaa maanantaina."
 
-#: qt/manageprofiles/tab_remove_retention.py:331
-msgid "Keep the last snapshot for each week for the last"
+#: qt/manageprofiles/tab_remove_retention.py:332
+#, fuzzy
+msgid "Keep the last backup for each week for the last"
 msgstr "Säilytä kunkin viikon viimeinen tilannevedos viimeisenä"
 
-#: qt/manageprofiles/tab_remove_retention.py:336
+#: qt/manageprofiles/tab_remove_retention.py:337
 msgid "week(s)."
 msgstr "viime viikolta (/viikoilta)."
 
-#: qt/manageprofiles/tab_remove_retention.py:341
+#: qt/manageprofiles/tab_remove_retention.py:342
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
 "Kuukaudet lasketaan kalenterikuukausiksi kuluvista kuukausista alkaen."
 
-#: qt/manageprofiles/tab_remove_retention.py:344
-msgid "Keep the last snapshot for each month for the last"
+#: qt/manageprofiles/tab_remove_retention.py:345
+#, fuzzy
+msgid "Keep the last backup for each month for the last"
 msgstr "Säilytä kunkin kuukauden viimeinen tilannevedos viimeisenä"
 
-#: qt/manageprofiles/tab_remove_retention.py:349
+#: qt/manageprofiles/tab_remove_retention.py:350
 msgid "month(s)."
 msgstr "viime kuulta (/kuukausilta)."
 
-#: qt/manageprofiles/tab_remove_retention.py:354
+#: qt/manageprofiles/tab_remove_retention.py:355
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Vuodet lasketaan kalenterivuosiksi kuluvasta vuodesta alkaen."
 
-#: qt/manageprofiles/tab_remove_retention.py:356
-msgid "Keep the last snapshot for each year for"
+#: qt/manageprofiles/tab_remove_retention.py:357
+#, fuzzy
+msgid "Keep the last backup for each year for"
 msgstr "Säilytä viimeinen tilannevedos jokaisesta vuodesta"
 
-#: qt/manageprofiles/tab_remove_retention.py:358
+#: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
 msgstr "kaikki vuodet."
 
-#: qt/manageprofiles/tab_remove_retention.py:380
+#: qt/manageprofiles/tab_remove_retention.py:381
 msgid "… the free space is less than"
 msgstr "… vapaa tila on vähemmän kuin"
 
-#: qt/manageprofiles/tab_remove_retention.py:385
+#: qt/manageprofiles/tab_remove_retention.py:386
 msgid "… the free inodes are less than"
 msgstr "… vapaat inodit ovat vähemmän kuin"
 
-#: qt/manageprofiles/tab_remove_retention.py:394
-msgid "Remove oldest snapshots if …"
+#: qt/manageprofiles/tab_remove_retention.py:395
+#, fuzzy
+msgid "Remove oldest backup if …"
 msgstr "Poista vanhimmat tilannevedokset, jos…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
@@ -1955,82 +2022,53 @@ msgstr "Kysymys"
 msgid "Profile: {profile_name}"
 msgstr "Profiili: ”{profile_name}”"
 
-#: qt/qtsystrayicon.py:96
+#: qt/qtsystrayicon.py:101
 msgid "View Last Log"
 msgstr "Näytä viimeisin loki"
 
-#: qt/qtsystrayicon.py:100
+#: qt/qtsystrayicon.py:105
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Käynnistä {appname}"
 
-#: qt/qtsystrayicon.py:166
+#: qt/qtsystrayicon.py:171
 msgid "Working…"
 msgstr "Käsitellään…"
 
-#: qt/qtsystrayicon.py:197
+#: qt/qtsystrayicon.py:202
 msgid "Sent:"
 msgstr "Lähetetty:"
 
-#: qt/qtsystrayicon.py:198
+#: qt/qtsystrayicon.py:203
 msgid "Speed:"
 msgstr "Nopeus:"
 
-#: qt/qtsystrayicon.py:199
+#: qt/qtsystrayicon.py:204
 msgid "ETA:"
 msgstr "Arvioitu saapumisaika (ETA):"
 
-#: qt/qttools.py:483 qt/snapshotsdialog.py:115
-msgid "Snapshots"
-msgstr "Otokset"
-
-#: qt/qttools.py:506
-msgid "Today"
-msgstr "Tänään"
-
-#: qt/qttools.py:513
-msgid "Yesterday"
-msgstr "Eilen"
-
-#: qt/qttools.py:522
-msgid "This week"
-msgstr "Tällä viikolla"
-
-#: qt/qttools.py:529
-msgid "Last week"
-msgstr "Viime viikolla"
-
-#: qt/qttools.py:675
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "Tämä EI ole otos vaan elävä näkymä paikallisiin tiedostoihin"
-
-#: qt/qttools.py:680
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Viimeksi tarkistettu {time}"
-
-#: qt/restoreconfigdialog.py:55
+#: qt/restoreconfigdialog.py:68
 msgid "Import configuration"
 msgstr "Tuo kokoonpano"
 
-#: qt/restoreconfigdialog.py:111 qt/restoreconfigdialog.py:207
+#: qt/restoreconfigdialog.py:124 qt/restoreconfigdialog.py:220
 msgid "No config found"
 msgstr "Kokoonpanoa ei löytynyt"
 
-#: qt/restoreconfigdialog.py:136
+#: qt/restoreconfigdialog.py:149
 msgid "Import"
 msgstr "Tuo"
 
-#: qt/restoreconfigdialog.py:164
-#, python-brace-format
+#: qt/restoreconfigdialog.py:177
+#, fuzzy, python-brace-format
 msgid ""
-"Select the snapshot directory from which the configuration file should be "
+"Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 "Valitse tilannevedoshakemisto, josta kokoonpanotiedosto tuodaan. Polku voi "
 "näyttää tältä: {samplePath}"
 
-#: qt/restoreconfigdialog.py:169
+#: qt/restoreconfigdialog.py:182
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2042,27 +2080,28 @@ msgstr ""
 msgid "Show full Log"
 msgstr "Näytä täysi loki"
 
-#: qt/snapshotsdialog.py:43
-msgid "Options about comparing snapshots"
+#: qt/snapshotsdialog.py:57
+#, fuzzy
+msgid "Options about comparing backups"
 msgstr "Tilannevedosten vertailemisen kattavat vaihtoehdot"
 
-#: qt/snapshotsdialog.py:50
+#: qt/snapshotsdialog.py:64
 msgid "Command:"
 msgstr "Komento:"
 
-#: qt/snapshotsdialog.py:54
+#: qt/snapshotsdialog.py:68
 msgid "Parameters:"
 msgstr "Parametrit:"
 
-#: qt/snapshotsdialog.py:59
+#: qt/snapshotsdialog.py:73
 msgid "Use %1 and %2 for path parameters"
 msgstr "Käytä sijaintiparametreina %1 ja %2"
 
-#: qt/snapshotsdialog.py:76
+#: qt/snapshotsdialog.py:90
 msgid "Please set a diff command or press Cancel."
 msgstr "Aseta komento 'diff' tai paina Peruuta."
 
-#: qt/snapshotsdialog.py:82
+#: qt/snapshotsdialog.py:96
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2071,67 +2110,177 @@ msgstr ""
 "Komentoa \"{cmd}\" ei löydy tästä järjestelmästä. Kokeile jotain muuta tai "
 "paina Peruuta."
 
-#: qt/snapshotsdialog.py:90
+#: qt/snapshotsdialog.py:104
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "'diff'-komennolle ei ole asetettu parametreja. Käytetään oletusarvoa "
 "\"{params}\"."
 
-#: qt/snapshotsdialog.py:126
-msgid "Differing snapshots only"
+#: qt/snapshotsdialog.py:129 qt/timeline.py:45
+#, fuzzy
+msgid "Backups"
+msgstr "&Varmuuskopio"
+
+#: qt/snapshotsdialog.py:140
+#, fuzzy
+msgid "Differing backups only"
 msgstr "Suorita eroanalyysi vain tilannevedoksista"
 
-#: qt/snapshotsdialog.py:134
-msgid "List only snapshots that are equal to:"
+#: qt/snapshotsdialog.py:149
+#, fuzzy
+msgid "List only backups that are equal to:"
 msgstr "Luettele vain otokset, jotka ovat samoja kuin:"
 
-#: qt/snapshotsdialog.py:145
+#: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
 msgstr "Syvätarkistus (tarkempi, mutta hitaampi)"
 
-#: qt/snapshotsdialog.py:166
+#: qt/snapshotsdialog.py:182
 msgid "Delete"
 msgstr "Poista"
 
-#: qt/snapshotsdialog.py:170
+#: qt/snapshotsdialog.py:187
 msgid "Select All"
 msgstr "Valitse kaikki"
 
-#: qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:200
 msgid "Compare"
 msgstr "Vertaa"
 
-#: qt/snapshotsdialog.py:195
+#: qt/snapshotsdialog.py:215
 msgid "Go To"
 msgstr "Siirry"
 
-#: qt/snapshotsdialog.py:196
+#: qt/snapshotsdialog.py:217
 msgid "Options"
 msgstr "Valinnat"
 
-#: qt/snapshotsdialog.py:353
-msgid "You can't compare a snapshot to itself."
-msgstr "Otosta ei voi verrata itseensä."
+#: qt/snapshotsdialog.py:380
+msgid ""
+"It is not possible to compare a backup to itself, as the comparison would be"
+" redundant."
+msgstr ""
 
-#: qt/snapshotsdialog.py:396
-#, python-brace-format
-msgid "Do you really want to delete {file} in snapshot {snapshot_id}?"
+#: qt/snapshotsdialog.py:426
+#, fuzzy, python-brace-format
+msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Haluatko poistaa tiedoston ”{file}” otoksesta ”{snapshot_id}”?"
 
-#: qt/snapshotsdialog.py:402
-#, python-brace-format
-msgid "Do you really want to delete {file} in {count} snapshots?"
+#: qt/snapshotsdialog.py:431
+#, fuzzy, python-brace-format
+msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "Haluatko varmasti poistaa tiedoston ”{file}” {count} otoksesta?"
 
-#: qt/snapshotsdialog.py:406
+#: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "Varoitus: Tätä ei voi kumota."
 
-#: qt/snapshotsdialog.py:424
-#, python-brace-format
-msgid "Exclude {path} from future snapshots?"
+#: qt/snapshotsdialog.py:452
+#, fuzzy, python-brace-format
+msgid "Exclude {path} from future backups?"
 msgstr "Jätetäänkö ”{path}” pois myöhemmistä otoksista?"
+
+#: qt/timeline.py:70
+msgid "Today"
+msgstr "Tänään"
+
+#: qt/timeline.py:78
+msgid "Yesterday"
+msgstr "Eilen"
+
+#: qt/timeline.py:88
+msgid "This week"
+msgstr "Tällä viikolla"
+
+#: qt/timeline.py:96
+msgid "Last week"
+msgstr "Viime viikolla"
+
+#: qt/timeline.py:270
+#, fuzzy
+msgid "This is NOT a backup but a live view of the local files."
+msgstr "Tämä EI ole otos vaan elävä näkymä paikallisiin tiedostoihin"
+
+#: qt/timeline.py:275
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Viimeksi tarkistettu {time}"
+
+#~ msgid "Are you sure you want to change snapshots directory?"
+#~ msgstr "Oletko varma, että haluat muuttaa tilannevedoshakemistoa?"
+
+#~ msgid ""
+#~ "Are you sure you want to remove all newer files in your original directory?"
+#~ msgstr ""
+#~ "Oletko varma, että haluat poistaa kaikki uudemmat tiedostot alkuperäisestä "
+#~ "hakemistosta?"
+
+#, python-brace-format
+#~ msgid "Are you sure you want to remove all newer files in {path}?"
+#~ msgstr "Haluatko varmasti poistaa kansion ”{path}” kaikki uudemmat tiedostot?"
+
+#~ msgid "Are you sure you want to remove this snapshot?"
+#~ msgid_plural "Are you sure you want to remove these snapshots?"
+#~ msgstr[0] "Oletko varma että haluat poistaa tämän otoksen?"
+#~ msgstr[1] "Oletko varma että haluat poistaa nämä otokset?"
+
+#~ msgid "Do you really want to close it?"
+#~ msgstr "Haluatko varmasti sulkea sen?"
+
+#, python-brace-format
+#~ msgid "Every {n} hour"
+#~ msgid_plural "Every {n} hours"
+#~ msgstr[0] "{n} tunnin välein"
+#~ msgstr[1] "{n} tunnin välein"
+
+#~ msgid "If it is on a removable drive please plug it in."
+#~ msgstr "Jos se on irrotettavassa asemassa, liitä se."
+
+#~ msgid "License"
+#~ msgstr "Lisenssi"
+
+#~ msgid "Name snapshot"
+#~ msgstr "Ota otos"
+
+#, python-brace-format
+#~ msgid ""
+#~ "Newer versions of files will be renamed with trailing {suffix} before "
+#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
+#~ msgstr ""
+#~ "Tiedostojen uudemmat versiot nimetään uudelleen ja niiden lopussa on "
+#~ "{suffix} ennen palauttamista. Jos et tarvitse niitä enää, voit poistaa ne "
+#~ "komennolla '{cmd}'"
+
+#~ msgid "Snapshot"
+#~ msgstr "Otokset"
+
+#~ msgid "Snapshot Log View"
+#~ msgstr "Otoslokinäkymä"
+
+#~ msgid "Snapshot Name"
+#~ msgstr "Otoksen nimi"
+
+#~ msgid "Snapshots"
+#~ msgstr "Otokset"
+
+#~ msgid "Snapshots:"
+#~ msgstr "Otokset:"
+
+#~ msgid "Take a snapshot"
+#~ msgstr "Ota otos"
+
+#~ msgid "Taking snapshot"
+#~ msgstr "Otetaan otosta"
 
 #~ msgid "The sub-directories cannot be included in the backup."
 #~ msgstr "Alihakemistoja ei voi sisällyttää varmuuskopioon."
+
+#~ msgid "View snapshot log"
+#~ msgstr "Näytä otosloki"
+
+#~ msgid "You can't compare a snapshot to itself."
+#~ msgstr "Otosta ei voi verrata itseensä."
+
+#~ msgid "You did not choose a private key file for SSH."
+#~ msgstr "Et valinnut yksityisen avaimen tiedostoa SSH:lle."
