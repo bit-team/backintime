@@ -139,7 +139,9 @@ class AboutDlg(QDialog):
         # It is legally relevant, and no one should be given the opportunity
         # to change the string—whether intentionally or accidentally.
         """
-        Install LICENSES.md into /doc/share/licenses/* !
+        Install LICENSES.md into 
+        /usr/share/licenses/backintime-common
+        /usr/share/licenses/backintime-qt
 
         See LICENSES.md for extracting license and copyright information using
         SPDX metadata.
