@@ -71,6 +71,7 @@ features. This work is carried out voluntarily during their limited spare time.
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
 - [Contributing and other ways to support the project](#contributing-and-other-ways-to-support-the-project)
+- [Licenses](#licenses)
 
 ---
 
@@ -147,6 +148,9 @@ Renaming does *not* work!
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
+# Licenses
+Please read [`LICENSES.md`](LICENSES.md).
+
 ---
 
-<sub>March 2025</sub>
+<sub>April 2025</sub>
