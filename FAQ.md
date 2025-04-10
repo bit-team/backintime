@@ -203,7 +203,7 @@ You can avoid this by moving the file/folder in the last snapshot too:
 
 Back In Time and Timeshift are both Linux application that provides back up functionality.
 
-1. Simillarity 
+1. Similarity 
    - Both programs are backup tools for Linux and they create snapshots at a specific time.
    - For both programs, snapshots are taken using rsync and hard-links, while
    Common files are shared between snapshots which saves disk space.

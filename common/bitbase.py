@@ -9,6 +9,7 @@
 from enum import Enum
 from pathlib import Path
 
+
 # Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
@@ -18,6 +19,25 @@ try:
 except NameError:
     def _(val):
         return val
+
+APP_NAME = 'Back In Time'
+BINARY_NAME_BASE = 'backintime'
+BINARY_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
+
+COPYRIGHT = 'Copyright © 2008-2024 ' \
+            'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
+            'Copyright © 2022 ' \
+            'Christian Buhtz, Michael Büker, Jürgen Altfeld'
+
+# Used in about dialog to add language independent translator credits
+TRANSLATION_CREDITS_MISC = (
+    'Launchpad translators <https://translations.launchpad.net/backintime/'
+    'trunk/+pots/back-in-time>',
+    'https://www.reddit.com/r/translator',
+    'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
+    '(@lists.ubuntu.com) especially the user related lists',
+)
 
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
@@ -38,6 +58,14 @@ SSH_CIPHERS = {
     'aes256-cbc': 'AES256-CBC',
     'arcfour': 'ARCFOUR'
 }
+
+URL_SOURCE = 'https://github.com/bit-team/backintime'
+URL_WEBSITE = URL_SOURCE
+URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
+URL_ISSUES = f'{URL_WEBSITE}/issues'
+URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
+URL_TRANSLATION = 'https://translate.codeberg.org/engage/backintime'
+URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
 USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
 USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \

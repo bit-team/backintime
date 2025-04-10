@@ -10,7 +10,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
-# File was splitted from "qt/qttools.py".
+# File was split from "qt/qttools.py".
 """Some comboboxes and other widegts.
 
 Dev note (buhtz, 2025-03: Have look at "qt/manageprofiles/combobox.py" and

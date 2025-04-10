@@ -174,7 +174,7 @@ class RestoreConfigDialog(QDialog):
         samplePath = f'</ br><code>{samplePath}</code>'
 
         text_a = _(
-            'Select the snapshot directory from which the configuration '
+            'Select the backup directory from which the configuration '
             'file should be imported. The path may look like: {samplePath}'
         ).format(samplePath=samplePath)
 

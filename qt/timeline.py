@@ -10,7 +10,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
-# File was splitted from "qt/qttools.py".
+# File was split from "qt/qttools.py".
 """Time line widget.
 """
 from datetime import (datetime, date, timedelta)
@@ -42,7 +42,7 @@ class TimeLine(QTreeWidget):
         self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.setSelectionMode(
             QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.setHeaderLabels([_('Snapshots'), 'foo'])
+        self.setHeaderLabels([_('Backups'), 'foo'])
         self.setSortingEnabled(True)
         self.sortByColumn(1, Qt.SortOrder.DescendingOrder)
         self.hideColumn(1)
@@ -242,7 +242,7 @@ class TimeLineItem(QTreeWidgetItem):
     """Base class for TimeLine entry widgets.
 
     Dev note (buhtz, 2025-03): I don't see a need for this. SnapshotItem and
-    HeaderItem can directely derive from QTreeWidgetItem.
+    HeaderItem can directly derive from QTreeWidgetItem.
     """
 
     def __lt__(self, other):
@@ -265,8 +265,10 @@ class SnapshotItem(TimeLineItem):
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
         if sid.isRoot:
-            self.setToolTip(0, _('This is NOT a snapshot but a live '
-                                 'view of your local files'))
+            self.setToolTip(
+                0,
+                _('This is NOT a backup but a live view '
+                  'of the local files.'))
         else:
             self.setToolTip(
                 0,

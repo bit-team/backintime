@@ -626,8 +626,9 @@ def addSourceToPathEnviron():
 def get_git_repository_info(path=None, hash_length=None):
     """Return the current branch and last commit hash.
 
-    About the length of a commit hash. There is no strict rule but it is
-    common sense that 8 to 10 characters are enough to be unique.
+    The information will be extracted from the git folder without using git
+    binary. About the length of a commit hash. There is no strict rule but it
+    is common sense that 8 to 10 characters are enough to be unique.
 
     Credits: https://stackoverflow.com/a/51224861/4865723
 
@@ -639,11 +640,13 @@ def get_git_repository_info(path=None, hash_length=None):
     Returns:
         (dict): Dict with keys "branch" and "hash" if it is a git repo,
                 otherwise an `None`.
+
     """
 
     if not path:
         # Default is current working dir
         path = pathlib.Path.cwd()
+
     elif isinstance(path, str):
         # WORKAROUND until cmoplete migration to pathlib
         path = pathlib.Path(path)

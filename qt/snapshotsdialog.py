@@ -54,7 +54,7 @@ class DiffOptionsDialog(QDialog):
 
         import icon
         self.setWindowIcon(icon.DIFF_OPTIONS)
-        self.setWindowTitle(_('Options about comparing snapshots'))
+        self.setWindowTitle(_('Options about comparing backups'))
 
         self.mainLayout = QGridLayout(self)
 
@@ -126,7 +126,7 @@ class SnapshotsDialog(QDialog):
         self.path = path
 
         self.setWindowIcon(icon.SNAPSHOTS)
-        self.setWindowTitle(_('Snapshots'))
+        self.setWindowTitle(_('Backups'))
 
         self.mainLayout = QVBoxLayout(self)
 
@@ -137,7 +137,7 @@ class SnapshotsDialog(QDialog):
 
         # list different snapshots only
         self.cbOnlyDifferentSnapshots = QCheckBox(
-            _('Differing snapshots only'), self)
+            _('Differing backups only'), self)
         self.mainLayout.addWidget(self.cbOnlyDifferentSnapshots)
         self.cbOnlyDifferentSnapshots.stateChanged.connect(
             self.cbOnlyDifferentSnapshotsChanged)
@@ -146,7 +146,7 @@ class SnapshotsDialog(QDialog):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
         self.cbOnlyEqualSnapshots = QCheckBox(
-            _('List only snapshots that are equal to:'), self)
+            _('List only backups that are equal to:'), self)
         self.cbOnlyEqualSnapshots.stateChanged.connect(
             self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)
@@ -377,7 +377,9 @@ class SnapshotsDialog(QDialog):
         # check if the 2 paths are different
         if path1 == path2:
             messagebox.critical(
-                self, _("You can't compare a snapshot to itself."))
+                self, _('It is not possible to compare a backup to '
+                        'itself, as the comparison would be redundant.')
+            )
             return
 
         diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
@@ -396,7 +398,7 @@ class SnapshotsDialog(QDialog):
 
         cmd = diffCmd + ' ' + params
 
-        logger.debug(f'Compare two snapshots with command {cmd}.')
+        logger.debug(f'Compare two backups with command {cmd}.')
 
         subprocess.Popen(shlex.split(cmd))
 
@@ -420,17 +422,16 @@ class SnapshotsDialog(QDialog):
             return
 
         if len(items) == 1:
-            msg = _('Do you really want to delete {file} in snapshot '
-                    '{snapshot_id}?').format(
-                        file=f'"{self.path}"',
-                        snapshot_id=f'"{items[0].snapshot_id}"')
+            msg = _(
+                'Really delete {file_or_dir} in backup {backup_id}?').format(
+                        file_or_dir=f'"{self.path}"',
+                        backup_id=f'"{items[0].snapshot_id}"')
 
         else:
-            msg = _('Do you really want to delete {file} in {count} '
-                    'snapshots?').format(
-                        file=f'"{self.path}"', count=len(items))
+            msg = _('Really delete {file_or_dir} in {count} backups?').format(
+                        file_or_dir=f'"{self.path}"', count=len(items))
 
-        msg = _('WARNING: This cannot be revoked.')
+        msg = msg + '\n' + _('WARNING: This cannot be revoked.')
 
         answer = messagebox.warningYesNo(self, msg)
         if answer == QMessageBox.StandardButton.Yes:
@@ -448,7 +449,7 @@ class SnapshotsDialog(QDialog):
             thread.start()
 
             exclude = self.config.exclude()
-            msg = _('Exclude {path} from future snapshots?').format(
+            msg = _('Exclude {path} from future backups?').format(
                 path=f'"{self.path}"')
 
             if self.path not in exclude:
