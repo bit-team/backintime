@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-03-23 19:11+0100\n"
-"PO-Revision-Date: 2025-03-22 07:06+0000\n"
-"Last-Translator: sybahd <sybahd@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-25 08:22+0000\n"
+"Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "標準設定"
 #: common/config.py:371
 #, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "プロファイル: \"{name}\""
+msgstr "プロファイル: 「{name}」"
 
 #: common/config.py:328
 msgid "Snapshots directory is not valid."
@@ -102,7 +102,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 "Cron が稼働していないため crontab コマンドが使えません。 したがってバックアップは行われません。 Cron "
-"はインストールされているようですが、サービスとして起動されてない可能性があります。 \"systemctl enable cron\" "
+"はインストールされているようですが、サービスとして起動されてない可能性があります。 「systemctl enable cron」 "
 "を使って起動してみてください、また、 GNU/Linux ディストーションへサポートを依頼するのもよいでしょう。"
 
 #: common/config.py:1556
@@ -135,7 +135,7 @@ msgstr "設定を読み込めませんでした"
 #: common/configfile.py:684 common/configfile.py:783
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "プロファイル \"{name}\" はすでに存在しています。"
+msgstr "プロファイル 「{name}」 はすでに存在しています。"
 
 #: common/configfile.py:729
 msgid "The last profile cannot be removed."
@@ -178,7 +178,7 @@ msgstr "{mountprocess} を {mountpoint} からアンマウントできません�
 #: common/mount.py:709
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr "{command} は見つかりません。例を参考にインストールしてください。例\"{installcommand}\""
+msgstr "{command} は見つかりません。例を参考にインストールしてください。例 「{installcommand}」"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -188,7 +188,7 @@ msgstr "マウントポイント {mntpoint} が空ではありません。"
 #: common/password.py:279
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "{mode}プロファイル \"{profile}\" のパスワードを入力してください："
+msgstr "{mode}プロファイル 「{profile}」 のパスワードを入力してください："
 
 #: common/snapshots.py:363 common/snapshots.py:617
 msgid "FAILED"
@@ -378,12 +378,12 @@ msgstr "リモートホスト {host} がハードリンクをサポートして�
 #: common/sshtools.py:1191
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "公開鍵 \"{pubkey}\" をリモートホスト \"{host}\" にコピーしてください。"
+msgstr "公開鍵 「{pubkey}」 をリモートホスト 「{host}」 にコピーしてください。"
 
 #: common/sshtools.py:1193
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "ユーザ \"{user}\" のパスワードを入力してください。"
+msgstr "ユーザ 「{user}」のパスワードを入力してください。"
 
 #: common/tools.py:400
 #, python-brace-format
@@ -442,7 +442,7 @@ msgid ""
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 "{path} の保存先ファイルシステムは sshfs の共有マウントです。 sshfs はハードリンクをサポートしていません 。代わりにモード "
-"'SSH' を使用してください。"
+"「SSH」 を使用してください。"
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
@@ -807,7 +807,7 @@ msgid ""
 msgstr ""
 "ファイルが存在しないか\n"
 "より新しい場合にのみ復元します。\n"
-"\"rsync --update\" のオプションを使用します。"
+"「rsync --update」のオプションを使用します。"
 
 #: qt/app.py:1555
 msgid "Remove newer elements in original directory."
@@ -1184,7 +1184,7 @@ msgstr "プロファイルをリネーム"
 #: qt/manageprofiles/__init__.py:333
 #, python-brace-format
 msgid "Are you sure you want to delete the profile \"{name}\"?"
-msgstr "プロファイル ”{name}” を本当に削除しますか？"
+msgstr "プロファイル 「{name}」 を本当に削除しますか？"
 
 #: qt/manageprofiles/__init__.py:379
 #, python-brace-format
@@ -1281,7 +1281,7 @@ msgstr "デバッグメッセージのログを有効化"
 
 #: qt/manageprofiles/schedulewidget.py:117
 msgid "Writes debug-level messages into the system log via \"--debug\"."
-msgstr "デバッグレベルメッセージを \"--debug\" 経由でシステムログに書き込む。"
+msgstr "デバッグレベルメッセージを 「--debug」 経由でシステムログに書き込む。"
 
 #: qt/manageprofiles/schedulewidget.py:119
 msgid ""
@@ -1396,8 +1396,8 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
-"プロキシ経由で目的のホストに接続します (踏み台サーバとも呼ばれます)。 \"ssh\" の \"-J\" オプションまたは "
-"\"ssh_config\" の \"ProxyJump\" について書いてある man または解説ページをご覧ください。"
+"プロキシ経由で目的のホストに接続します (踏み台サーバとも呼ばれます)。 「ssh」の 「-J」 オプションまたは 「ssh_config」 の "
+"「ProxyJump」 について書いてある man または解説ページをご覧ください。"
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1573,7 +1573,7 @@ msgstr "秘密鍵:"
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
-msgstr "すでにある秘密鍵を使用する (通常 \"id_rsa\"というファイル名)。"
+msgstr "すでにある秘密鍵を使用する (通常 「id_rsa」というファイル名)。"
 
 #: qt/manageprofiles/tab_general.py:164
 msgid ""
@@ -1614,7 +1614,7 @@ msgstr "新しいパスワードなしの公開鍵/秘密鍵ペアを生成し�
 #: qt/manageprofiles/tab_general.py:406
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
-msgstr "秘密鍵ファイル \"{file}\" は存在しません。"
+msgstr "秘密鍵ファイル 「{file}」 は存在しません。"
 
 #: qt/manageprofiles/tab_general.py:491
 msgid ""
@@ -1777,8 +1777,8 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
-"おまかせ削除機能はリモートマシン上で直接で動作します、ローカルマシンではありません。 リモートマシンに \"bash\" \"screen\" "
-"\"flock\" のコマンドがインストールされていて使用可能か確認してください。"
+"おまかせ削除機能はリモートマシン上で直接で動作します、ローカルマシンではありません。 リモートマシンに 「bash」 「screen」 「flock」 "
+"のコマンドがインストールされていて使用可能か確認してください。"
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "If selected, Back In Time will first test the remote machine."

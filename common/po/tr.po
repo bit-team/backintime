@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-03-23 19:11+0100\n"
-"PO-Revision-Date: 2025-03-12 11:07+0000\n"
+"PO-Revision-Date: 2025-03-25 08:22+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
 "Language: tr\n"
@@ -76,28 +76,26 @@ msgid "Snapshots directory is not valid."
 msgstr "Anlık görüntü dizini geçersiz."
 
 #: common/config.py:340
-#, fuzzy
 msgid "At least one directory must be selected for backup."
-msgstr "Yedekleme için en az bir klasör seçmelisiniz"
+msgstr "Yedekleme için en az bir klasör seçilmelidir."
 
 #: common/config.py:358 common/config.py:373
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Directory: {path}"
-msgstr "{path} geri yükle"
+msgstr "{path} dizini"
 
 #: common/config.py:359 common/config.py:374
-#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
-msgstr "Yedekleme alt klasörü dahil edilemez."
+msgstr ""
+"Bu klasör yedekleme klasörünün bir parçası olduğundan yedeğe dahil edilemez."
 
 #: common/config.py:1467
 msgid "Failed to write new crontab."
 msgstr "Yeni crontab yazımı başarısız oldu."
 
 #: common/config.py:1475
-#, fuzzy
 msgid ""
 "Cron is not running despite the crontab command being available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try the "
@@ -105,7 +103,7 @@ msgid ""
 "GNU/Linux distribution."
 msgstr ""
 "Crontab komutu mevcut olmasına rağmen Cron çalışmıyor. Planlanan yedekleme "
-"işleri çalışmayacak. Cron yüklü olabilir ancak etkinleştirilmemiş olabilir. "
+"işleri çalışmayacak. Cron yüklü, ancak etkinleştirilmemiş olabilir. "
 "\"systemctl enable cron\" komutunu deneyin veya GNU Linux dağıtımınızın "
 "destek kanallarına başvurun."
 
@@ -119,7 +117,7 @@ msgstr ""
 "Hizmeti kullanılabilir değildi"
 
 #: common/config.py:1571
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev zamanlama kipi {mode} ile çalışmıyor"
 
@@ -151,14 +149,12 @@ msgid "Unable to mount '{command}'"
 msgstr "'{command}' bağlanamıyor"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "Şifrelenmiş klasör için yapılandırma bulunamadı."
 
 #: common/encfstools.py:139
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Yeni şifreli klasör oluşturulsun mu?"
+msgstr "Yeni bir şifreli klasör oluşturulsun mu?"
 
 #: common/encfstools.py:146
 msgid "Cancel"
@@ -177,15 +173,16 @@ msgid "Take snapshot"
 msgstr "Anlık görüntü al"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "{mountprocess} , {mountpoint} den ayrılamıyor."
 
 #: common/mount.py:709
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"{command} bulunamadı. Lütfen {installcommand} komutunu kullanarak yükleyin."
+"{command} bulunamadı. Lütfen (örneğin {installcommand} komutunu kullanarak) "
+"yükleyin."
 
 #: common/mount.py:733
 #, python-brace-format
@@ -215,23 +212,19 @@ msgid "Deferring backup while on battery"
 msgstr "Pille çalışırken yedeklemeyi erteleme"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find snapshots directory."
-msgstr "Klasör oluşturulamadı."
+msgstr "Anlık görüntü klasörü bulunamadı."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr ""
-"Eğer bu bir çıkarılabilir sürücüde ise lütfen takın ve ardından Tamam'a "
-"basın."
+msgstr "Eğer bu bir çıkarılabilir sürücüde ise lütfen sisteme takın."
 
 #: common/snapshots.py:849
-#, fuzzy, python-format
+#, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "%s saniye bekliyor."
-msgstr[1] "%s saniye bekliyor."
+msgstr[0] "%s saniye bekleniyor."
+msgstr[1] "%s saniye bekleniyor."
 
 #: common/snapshots.py:914
 #, python-brace-format
@@ -243,9 +236,8 @@ msgid "Please be patient. Finalizing…"
 msgstr "Lütfen sabırlı olun. Tamamlanıyor…"
 
 #: common/snapshots.py:1077
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Klasör oluşturulamadı"
+msgstr "Klasör oluşturulamıyor."
 
 #: common/snapshots.py:1094
 msgid "Saving config file…"
@@ -256,19 +248,18 @@ msgid "Saving permissions…"
 msgstr "İzinler kaydediliyor…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found leftover snapshot {snapshot_id} that can be continued."
-msgstr "Devam edilebilecek {snapshot_id} artık anlık görüntüsü bulundu."
+msgstr "Devam edilebilecek artık {snapshot_id} anlık görüntüsü bulundu."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
-msgstr "Son çalıştırmadan kalan {snapshot_id} klasörü kaldırılıyor"
+msgstr "Son çalıştırmadan kalan artık {snapshot_id} klasörü kaldırılıyor"
 
 #: common/snapshots.py:1325
-#, fuzzy
 msgid "Can't remove directory"
-msgstr "Klasör kaldırılamıyor"
+msgstr "Klasör silinemiyor"
 
 #: common/snapshots.py:1379
 msgid "Taking snapshot"
@@ -307,18 +298,17 @@ msgid "Nothing changed, no new snapshot necessary"
 msgstr "Hiçbir değişiklik yok, yeni anlık görüntü almak gereksiz"
 
 #: common/snapshots.py:1523
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "{new_path} yolu {path} olarak yeniden adlandırılamadı"
+msgstr "{new_path} yolu {path} olarak yeniden adlandırılamıyor."
 
 #: common/snapshots.py:1855
 msgid "Smart removal"
 msgstr "Akıllı kaldırma"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old snapshots"
-msgstr "Eski anlık görüntüleri kaldırma"
+msgstr "Eski anlık görüntüleri kaldırmak için kuralları uygula"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -338,12 +328,11 @@ msgid "Now"
 msgstr "Şimdi"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "{sshfs} bağlanamadı"
 
 #: common/sshtools.py:300
-#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent bulunamadı. Lütfen kurulu olduğundan emin olun."
 
@@ -409,18 +398,18 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "\"{user}\" kullanıcısı için parola giriniz."
 
 #: common/tools.py:400
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"{path} için girilen hedef dosya sistemi hard-link desteklemeyen FAT ile "
-"biçimlendirilmiş. Lütfen özgün Linux dosya sistemi kullanın."
+"{path} için girilen hedef dosya sistemi, Unix tipi dosya sistemleriyle "
+"uyumsuz NTFS ile biçimlendirilmiş."
 
 #: common/tools.py:432
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Uzak yol mevcut ancak bir dizin değil."
+msgstr "{path} geçerli bir klasör değil.."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
@@ -431,16 +420,16 @@ msgid "Write access may be restricted."
 msgstr "Yazma erişimi kısıtlanmış olabilir."
 
 #: common/tools.py:488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
 "{path} için girilen hedef dosya sistemi hard-link desteklemeyen FAT ile "
-"biçimlendirilmiş. Lütfen özgün Linux dosya sistemi kullanın."
+"biçimlendirilmiş. Lütfen özgün bir Linux dosya sistemi kullanın."
 
 #: common/tools.py:499
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
@@ -459,13 +448,13 @@ msgid "Expert Options"
 msgstr "Uzman Seçenekleri"
 
 #: common/tools.py:508
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"{path} için hedef dosya sistemi bir sshfs ile bağlanmış paylaşımdır. Sshfs "
-"sabit bağlantıları desteklemez. Lütfen 'SSH' modunu kullanın."
+"{path} için hedef dosya sistemi sshfs ile bağlanılmış bir paylaşımdır. Sshfs"
+" sabit bağlantıları desteklemez. Lütfen 'SSH' modunu kullanın."
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
@@ -492,12 +481,11 @@ msgid "Shortcuts"
 msgstr "Kısayollar"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
-"Bu klasör, \n"
+"Bu klasör,\n"
 "seçili anlık görüntüde yok."
 
 #: qt/app.py:257
@@ -518,12 +506,11 @@ msgstr ""
 "çalıştırılıyor gibi görünüyor."
 
 #: qt/app.py:336
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
-"Var olan bir yapılandırmayı içe aktarın (yedekeleme hedef dosyasından veya "
+"Var olan bir yapılandırmayı içe aktarın (yedekleme hedef dosyasından veya "
 "farklı bir bilgisayardan)?"
 
 #: qt/app.py:364
@@ -612,18 +599,16 @@ msgstr ""
 "çevrimiçi)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Zaman Tüneli"
+msgstr "man sayfası: Zaman Tüneli"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "\"Back In Time\" hakkındaki man sayfasını göster"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Profiller yapılandırma dosyası"
+msgstr "man sayfası: Profil yapılandırma dosyası"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
@@ -681,7 +666,6 @@ msgid "Restore"
 msgstr "Geri Yükle"
 
 #: qt/app.py:581
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Seçilen dosyaları veya klasörleri özgün hedefe geri yükle."
 
@@ -690,19 +674,16 @@ msgid "Restore to …"
 msgstr "Şuraya geri yükle …"
 
 #: qt/app.py:586
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Seçilen dosyaları veya klasörleri yeni hedefe geri yükle."
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr "Gösterilen klasörü ve tüm içeriğini özgün hedefe geri yükle."
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -725,9 +706,8 @@ msgid "Release Candidate"
 msgstr "Sürüm adayı"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "EncFS kaldırma mesajını tekrar gösterir."
+msgstr "Bu Yayınlama Adayı hakkındaki mesajı tekrar gösterir."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -755,11 +735,11 @@ msgstr "Sadece Metin"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Metin ikonların altında"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Metin ikonların yanında"
 
 #: qt/app.py:897
 msgid ""
@@ -814,7 +794,6 @@ msgid "Home"
 msgstr "Ev"
 
 #: qt/app.py:1255
-#, fuzzy
 msgid "Backup directories"
 msgstr "Yedekleme klasörleri"
 
@@ -859,12 +838,10 @@ msgstr ""
 "\"rsync --update\" seçeneğini kullanarak."
 
 #: qt/app.py:1555
-#, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Özgün klasördeki daha yeni ögeleri kaldır."
 
 #: qt/app.py:1558
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the snapshot. Be extremely careful "
@@ -877,16 +854,13 @@ msgstr ""
 "silecektir."
 
 #: qt/app.py:1570
-#, fuzzy
 msgid "Do you really want to restore this element into the new directory?"
 msgid_plural ""
 "Do you really want to restore these elements into the new directory?"
 msgstr[0] ""
-"Bu ögeyi gerçekten {path} yeni klasörüne\n"
-"geri yüklemek istiyor musunuz?"
+"Bu ögeyi gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
 msgstr[1] ""
-"Bu ögeleri gerçekten {path} yeni klasörüne\n"
-"geri yüklemek istiyor musunuz?"
+"Bu ögeleri gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
 
 #: qt/app.py:1580
 msgid "Do you really want to restore this element?"
@@ -901,11 +875,11 @@ msgstr ""
 "{path} içindeki tüm yeni dosyaları kaldırmak istediğinizden emin misiniz?"
 
 #: qt/app.py:1602
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
-"Özgün klasördeki tüm yeni dosyaları kaldırmak istediğinizden emin misiniz?"
+"Özgün klasördeki tüm daha yeni dosyaları kaldırmak istediğinizden emin "
+"misiniz?"
 
 #: qt/app.py:1608
 #, python-brace-format
@@ -1024,11 +998,8 @@ msgstr ""
 "kaldırılacaktır."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"EncFS desteği yakın gelecekte sonlandırılacak. Profil için artık o modu "
-"kullanmanız önerilmiyor."
+msgstr "O profil için bu modu kullanmanız artık önerilmiyor."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1057,7 +1028,7 @@ msgstr "Aşağıdaki profil(ler) EncFS ile şifreleme kullanıyor:"
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
-msgstr ""
+msgstr "Bir değişiklik planlanıyor ama zamanında ulaşması garanti değil."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1065,6 +1036,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Kullanıcılar bu tartışmaya davetlidir. Sonraki adımlar hakkında güncellenmiş"
+" detaylar burada: {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1075,9 +1048,8 @@ msgstr ""
 "menüsünden erişilebilir."
 
 #: qt/encfsmsgbox.py:94
-#, fuzzy
 msgid "Your Back In Time Team"
-msgstr "Zaman Tüneli"
+msgstr "Zaman Tüneli Takımınız"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1175,7 +1147,6 @@ msgid "&Include"
 msgstr "&Dahil Et"
 
 #: qt/manageprofiles/__init__.py:125
-#, fuzzy
 msgid "Include files and directories"
 msgstr "Dosyaları ve klasörleri dahil et"
 
@@ -1184,7 +1155,6 @@ msgid "Add file"
 msgstr "Dosya Ekle"
 
 #: qt/manageprofiles/__init__.py:146 qt/manageprofiles/__init__.py:211
-#, fuzzy
 msgid "Add directory"
 msgstr "Klasör Ekle"
 
@@ -1206,9 +1176,8 @@ msgstr ""
 "tarafından şifrelendiği için bu modda öngörülemez."
 
 #: qt/manageprofiles/__init__.py:183
-#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "Dışlama deseni, dosyalar veya klasörler"
+msgstr "Deseni, dosyaları veya klasörleri dışla"
 
 #: qt/manageprofiles/__init__.py:216
 msgid "Add default"
@@ -1289,7 +1258,6 @@ msgid "Exclude file"
 msgstr "Dosyayı dışla"
 
 #: qt/manageprofiles/__init__.py:625
-#, fuzzy
 msgid "Exclude directory"
 msgstr "Klasörü dışla"
 
@@ -1307,7 +1275,6 @@ msgstr ""
 "Bunun yerine sembolik bağlantının hedefini dahil etmek ister misiniz?"
 
 #: qt/manageprofiles/__init__.py:679
-#, fuzzy
 msgid "Include directory"
 msgstr "Klasörü dahil et"
 
@@ -1332,7 +1299,7 @@ msgstr "Haftanın günü:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "Zaman:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1340,28 +1307,26 @@ msgstr "Saatler:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "bir saat sonra"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
-msgstr ""
+msgstr "Dakika:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " You will be prompted for your sudo password."
 msgstr ""
-"Sürücü bağlanır bağlanmaz Back In Time'ı çalıştır (yalnızca X günde bir).\n"
+"Sürücü bağlanır bağlanmaz Back In Time'ı çalıştır (yalnızca X günde bir). "
 "Sizden sudo parolası istenecektir."
 
 #: qt/manageprofiles/schedulewidget.py:97
-#, fuzzy
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
-"Back In Time'ı tekrar tekrar çalıştır. Bu, bilgisayar düzenli olarak "
+"Back In Time'ı tekrarlayarak çalıştır. Bu, bilgisayar düzenli olarak "
 "çalışmıyorsa kullanışlıdır."
 
 #: qt/manageprofiles/schedulewidget.py:109
@@ -1397,7 +1362,7 @@ msgstr "Her Başlatıldığında/Yeniden Başlatıldığında"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "{n} dakikada bir"
@@ -1414,7 +1379,7 @@ msgstr[1] "Her {n} saatte"
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "{n} saatte bir"
@@ -1429,9 +1394,8 @@ msgid "Every day"
 msgstr "Her gün"
 
 #: qt/manageprofiles/schedulewidget.py:161
-#, fuzzy
 msgid "Repeatedly (anacron)"
-msgstr "Tekrar Tekrar (anacron)"
+msgstr "Tekrar tekrar (anacron)"
 
 #: qt/manageprofiles/schedulewidget.py:162
 msgid "When drive gets connected (udev)"
@@ -1504,9 +1468,8 @@ msgstr ""
 "\"-J\" veya \"ssh_config\" man sayfasındaki \"ProxyJump\" seçeneğine bakın."
 
 #: qt/manageprofiles/tab_expert_options.py:39
-#, fuzzy
 msgid "Caution:"
-msgstr "Soru"
+msgstr "Dikkat:"
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
@@ -1539,9 +1502,8 @@ msgid "when taking a manual snapshot"
 msgstr "elle anlık görüntü alınırken"
 
 #: qt/manageprofiles/tab_expert_options.py:103
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Bu seçeneği etkinleştirmek için lütfen 'nocache' kurun)"
+msgstr "Bu seçeneği etkinleştirmek için lütfen 'nocache' kurun."
 
 #: qt/manageprofiles/tab_expert_options.py:109
 msgid "on local machine"
@@ -1689,13 +1651,12 @@ msgid "Private Key:"
 msgstr "Özel Anahtar:"
 
 #: qt/manageprofiles/tab_general.py:152
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
-"Var olan bir özel anahtar dosyası seçin (normalde \"id_rsa\" olarak "
-"adlandırılır)"
+"Var olan bir özel anahtar dosyası seçin (normalde \"id_ed25519\" ve eski "
+"kurulumlarda \"id_rsa\" olarak adlandırılır)."
 
 #: qt/manageprofiles/tab_general.py:164
 msgid ""
@@ -1768,14 +1729,13 @@ msgstr ""
 "misiniz?"
 
 #: qt/manageprofiles/tab_general.py:627
-#, fuzzy
 msgid "Are you sure you want to change snapshots directory?"
 msgstr "Anlık görüntüler klasörünü değiştirmek istediğinizden emin misiniz?"
 
 #: qt/manageprofiles/tab_general.py:664
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı"
+msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı."
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -1858,9 +1818,8 @@ msgid "Open user manual in browser."
 msgstr "Kullanım kılavuzunu tarayıcınızda açın."
 
 #: qt/manageprofiles/tab_remove_retention.py:222
-#, fuzzy
 msgid "Keep the most recent snapshot."
-msgstr "Adlandırılmış anlık görüntüleri kaldırma."
+msgstr "En yeni anlık görüntüyü tutun."
 
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
@@ -1871,9 +1830,8 @@ msgid "That behavior cannot be changed."
 msgstr "Diğer kurallar bu davranışı değiştiremez."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "Adlandırılmış anlık görüntüleri kaldırma."
+msgstr "Adlandırılmış anlık görüntüleri tutun."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
@@ -1888,9 +1846,8 @@ msgid "Year(s)"
 msgstr "Yıl"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Anlık görüntüyü sil"
+msgstr "Şu tarihten eski anlık görüntüleri silin"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
@@ -1938,14 +1895,12 @@ msgstr "Tüm anlık görüntüleri şu kadar süre için sakla"
 
 #: qt/manageprofiles/tab_remove_retention.py:311
 #: qt/manageprofiles/tab_remove_retention.py:323
-#, fuzzy
 msgid "day(s)."
-msgstr "gün"
+msgstr "gün."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Son X gün için her gün bir anlık görüntü sakla"
+msgstr "Son şu zamanda her günün son anlık görüntüsünü tut"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
@@ -1956,14 +1911,12 @@ msgstr ""
 "başlar."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Son X hafta için her hafta bir anlık görüntü sakla"
+msgstr "Son şu kadar zaman için her haftanın son anlık görüntüsünü tut"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
-#, fuzzy
 msgid "week(s)."
-msgstr "hafta"
+msgstr "hafta."
 
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
@@ -1971,14 +1924,12 @@ msgid ""
 msgstr "Aylar, içinde bulunulan aydan başlayarak takvim ayı olarak sayılır."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Son X ay için her ay bir anlık görüntü sakla"
+msgstr "Son şu kadar zaman için her ayın son anlık görüntüsünü tut"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
-#, fuzzy
 msgid "month(s)."
-msgstr "ay"
+msgstr "ay."
 
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
@@ -1987,28 +1938,25 @@ msgstr ""
 "Yıllar, içinde bulunulan yıldan başlayarak takvim yılı olarak sayılır."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Tüm anlık görüntüleri şu kadar süre için sakla"
+msgstr "Son şu kadar zaman için her yılın son anlık görüntüsünü tut"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
 msgstr "tüm yıllar."
 
 #: qt/manageprofiles/tab_remove_retention.py:380
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Eğer boş alan şundan azsa:"
+msgstr "... boş alan şundan az"
 
 #: qt/manageprofiles/tab_remove_retention.py:385
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "Eğer boş inode sayısı şundan azsa:"
+msgstr "... boş inode sayısı şundan az"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
 #, fuzzy
 msgid "Remove oldest snapshots if …"
-msgstr "Eski anlık görüntüleri kaldırma"
+msgstr "En eski anlık görüntüleri kaldır, eğer"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2087,7 +2035,7 @@ msgid "Import"
 msgstr "İçe Aktar"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -2096,7 +2044,6 @@ msgstr ""
 "şekilde olabilir: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."

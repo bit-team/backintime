@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-03-23 19:11+0100\n"
-"PO-Revision-Date: 2025-03-20 07:55+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-03-29 07:30+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -174,7 +174,7 @@ msgid "Take snapshot"
 msgstr "Fes una instantània"
 
 #: common/mount.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
 msgstr "No es pot desmuntar {mountprocess} des de {mountpoint}."
 
@@ -216,9 +216,8 @@ msgid "Can't find snapshots directory."
 msgstr "No es pot trobar el directori d’instantànies."
 
 #: common/snapshots.py:846
-#, fuzzy
 msgid "If it is on a removable drive please plug it in."
-msgstr "Si es troba en una unitat extraïble, connecteu-la i premeu OK."
+msgstr "Si es troba en una unitat extraïble, connecteu-la."
 
 #: common/snapshots.py:849
 #, python-format
@@ -234,7 +233,7 @@ msgstr "No s'ha pogut fer la instantània {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
-msgstr ""
+msgstr "Si us plau, tingueu paciència. S'està finalitzant…"
 
 #: common/snapshots.py:1077
 msgid "Can't create directory."
@@ -255,7 +254,7 @@ msgstr ""
 "S’ha trobat la instantània remanent «{snapshot_id}» que es pot continuar."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing leftover {snapshot_id} directory from last run"
 msgstr ""
 "S'està suprimint la carpeta sobrant de l'última execució: {snapshot_id}"
@@ -317,7 +316,7 @@ msgstr "Aplica regles per a eliminar instantànies antigues"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
-msgstr ""
+msgstr "Aplicar la política de retenció"
 
 #: common/snapshots.py:1931
 msgid "Trying to keep min free space"
@@ -333,7 +332,7 @@ msgid "Now"
 msgstr "Ara"
 
 #: common/sshtools.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "No s'ha pogut muntar {sshfs}"
 
@@ -401,13 +400,13 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "Introduïu una contrasenya per a «{user}»."
 
 #: common/tools.py:400
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"El sistema de fitxers de destí per a {path} està formatat amb FAT que no "
-"admet hard-links. Utilitzeu un sistema de fitxers Linux natiu."
+"El sistema de fitxers de destinació per a {path} està formatat amb NTFS, que"
+" té incompatibilitats conegudes amb sistemes de fitxers d'estil Unix."
 
 #: common/tools.py:432
 #, python-brace-format
@@ -416,20 +415,21 @@ msgstr "{path} no és un directori vàlid."
 
 #: common/tools.py:446
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "La creació del directori següent ha fallat:"
 
 #: common/tools.py:448 common/tools.py:544
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "L'accés d'escriptura pot estar restringit."
 
 #: common/tools.py:488
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"El sistema de fitxers de destí per a {path} està formatat amb FAT que no "
-"admet hard-links. Utilitzeu un sistema de fitxers Linux natiu."
+"El sistema de fitxers de destinació per a {path} està formatat amb FAT que "
+"no admet enllaços durs. Si us plau, utilitzeu un sistema de fitxers "
+"GNU/Linux natiu."
 
 #: common/tools.py:499
 #, python-brace-format
@@ -451,7 +451,7 @@ msgid "Expert Options"
 msgstr "Opcions avançades"
 
 #: common/tools.py:508
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
@@ -461,7 +461,7 @@ msgstr ""
 
 #: common/tools.py:542
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "La creació del fitxer ha fallat en aquest directori:"
 
 #: qt/aboutdlg.py:37 qt/app.py:576
 msgid "About"
@@ -484,13 +484,12 @@ msgid "Shortcuts"
 msgstr "Dreceres"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected snapshot."
 msgstr ""
 "Aquesta carpeta no existeix\n"
-"a la instantània seleccionada."
+"a la snapshot seleccionada."
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -510,7 +509,6 @@ msgstr ""
 "trobat cap configuració."
 
 #: qt/app.py:336
-#, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -599,24 +597,25 @@ msgstr "Manual d'ús"
 #: qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Obre el manual d'usuari al navegador (local si està disponible en línia)"
 
 #: qt/app.py:535
-#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Retorn al Futur"
+msgstr "pàgina de manual: Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Mostra la pàgina de manual sobre Back In Time (backintime)"
 
 #: qt/app.py:540
-#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Fitxer de configuració de perfils"
+msgstr "Página Manual: Perfils de config file"
 
 #: qt/app.py:543
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Mostra la pàgina de manual sobre el fitxer de configuració de perfils "
+"(backintime-config)"
 
 #: qt/app.py:547
 msgid "Project website"
@@ -636,7 +635,7 @@ msgstr "Preguntes freqüents"
 
 #: qt/app.py:557
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Obriu Preguntes freqüents (FAQ) al navegador"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -668,7 +667,6 @@ msgid "Restore"
 msgstr "Restaura"
 
 #: qt/app.py:581
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr ""
 "Restaura els fitxers o carpetes seleccionades a la destinació original."
@@ -678,12 +676,10 @@ msgid "Restore to …"
 msgstr "Restaura a …"
 
 #: qt/app.py:586
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Restaura els fitxers o carpetes seleccionades a una destinació nova."
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
@@ -692,7 +688,6 @@ msgstr ""
 "destinació original."
 
 #: qt/app.py:598
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -714,12 +709,11 @@ msgstr "Compara les instantànies…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
-msgstr ""
+msgstr "Candidat d'alliberament"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Mostra de nou el missatge sobre l'eliminació d'EncFS."
+msgstr "Torna a mostrar el missatge sobre aquest candidat a la versió."
 
 #: qt/app.py:676
 msgid "Back In &Time"
@@ -747,11 +741,11 @@ msgstr "Només text"
 
 #: qt/app.py:749
 msgid "Text below icons"
-msgstr ""
+msgstr "Text a sota de les icones"
 
 #: qt/app.py:752
 msgid "Text beside icon"
-msgstr ""
+msgstr "Text al costat de la icona"
 
 #: qt/app.py:897
 msgid ""
@@ -850,9 +844,8 @@ msgstr ""
 "S'utilitza l'opció «rsync --update»."
 
 #: qt/app.py:1555
-#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "Esborra els fitxers més nous de la carpeta original."
+msgstr "Elimina els elements més nous del directori original."
 
 #: qt/app.py:1558
 msgid ""
@@ -884,7 +877,6 @@ msgid "Are you sure you want to remove all newer files in {path}?"
 msgstr "Esteu segur que voleu eliminar tots els fitxers més nous a {path}?"
 
 #: qt/app.py:1602
-#, fuzzy
 msgid ""
 "Are you sure you want to remove all newer files in your original directory?"
 msgstr ""
@@ -946,30 +938,30 @@ msgstr "la teva traducció"
 #: qt/app.py:2103
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}"
-msgstr ""
+msgstr "In the Fediverse at Mastodon:{link_and_label}"
 
 #: qt/app.py:2108
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "Envieu un correu electrònic a {link_and_label}."
 
 #: qt/app.py:2111
 #, python-brace-format
 msgid "Mailing list {link_and_label}"
-msgstr ""
+msgstr "Llista de correu {link_and_label}"
 
 #: qt/app.py:2115
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} al lloc web del projecte."
 
 #: qt/app.py:2118
 msgid "Open an issue"
-msgstr ""
+msgstr "Obre un problema"
 
 #: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "Alternativament, podeu utilitzar un altre canal que trieu."
 
 #: qt/app.py:2124
 #, python-brace-format
@@ -983,6 +975,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Aquesta versió de Back In Time és una versió candidata i està destinada principalment a proves d'estabilitat en preparació per al proper llançament oficial.\n"
+"No es recullen dades d'usuari ni telemetria. Tanmateix, l'equip de Back In Time està molt interessat a saber si s'està utilitzant el Release Candidate i si val la pena continuar proporcionant aquestes versions prèvies.\n"
+"Per tant, l'equip demana amablement un breu comentari sobre si heu provat aquesta versió, fins i tot si no heu trobat cap problema. Fins i tot una prova ràpida d'uns minuts ens ajudaria molt.\n"
+"Les opcions de contacte següents estan disponibles:\n"
+"{contact_list}\n"
+"En aquesta versió, aquest missatge no es tornarà a mostrar, però es pot accedir en qualsevol moment mitjançant el menú d'ajuda.\n"
+"Gràcies pel vostre suport i per ajudar-nos a millorar Back In Time!\n"
+"El teu equip de Back In Time"
 
 #: qt/app.py:2175
 msgid "The language settings take effect only after restarting Back In Time."
@@ -996,13 +996,12 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"La creació de perfils EncFS s'eliminarà en la propera versió menor (1.7), "
+"prevista per al 2026."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
-#, fuzzy
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
-"El suport per a EncFS s'interromprà en un futur previsible. A més, no es "
-"recomana utilitzar aquest mode per a un perfil."
+msgstr "A més, no es recomana utilitzar aquest mode per a un perfil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:597
@@ -1014,6 +1013,8 @@ msgstr "article"
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
+"El suport per a EncFS s'està interrompent a causa de vulnerabilitats de "
+"seguretat."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:592
 #, python-brace-format
@@ -1021,6 +1022,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Per obtenir més detalls, incloses les alternatives potencials, consulteu "
+"aquest {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1031,6 +1034,7 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Està previst un reemplaçament, però no es pot garantir que arribi a temps."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1038,6 +1042,8 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Els usuaris estan convidats a unir-se a aquesta discussió. Els detalls "
+"actualitzats dels passos següents estan disponibles en aquest {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
@@ -1147,7 +1153,6 @@ msgid "&Include"
 msgstr "&Inclou"
 
 #: qt/manageprofiles/__init__.py:125
-#, fuzzy
 msgid "Include files and directories"
 msgstr "Inclou fitxers i carpetes"
 
@@ -1177,7 +1182,6 @@ msgstr ""
 "impredictibles en aquest mode a causa del xifratge per EncFS."
 
 #: qt/manageprofiles/__init__.py:183
-#, fuzzy
 msgid "Exclude patterns, files or directories"
 msgstr "Exclou fitxers i carpetes"
 
@@ -1208,7 +1212,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:265
 msgid "&Remove & Retention"
-msgstr ""
+msgstr "&Eliminar & Retenir"
 
 #: qt/manageprofiles/__init__.py:269
 msgid "&Options"
@@ -1261,7 +1265,6 @@ msgid "Exclude file"
 msgstr "Exclou el fitxer"
 
 #: qt/manageprofiles/__init__.py:625
-#, fuzzy
 msgid "Exclude directory"
 msgstr "Exclou el directori"
 
@@ -1279,7 +1282,6 @@ msgstr ""
 "Voleu incloure l'objectiu de l'enllaç simbòlic?"
 
 #: qt/manageprofiles/__init__.py:679
-#, fuzzy
 msgid "Include directory"
 msgstr "Inclou el directori"
 
@@ -1303,7 +1305,7 @@ msgstr "Entre setmana:"
 
 #: qt/manageprofiles/schedulewidget.py:73
 msgid "Time:"
-msgstr ""
+msgstr "Temps:"
 
 #: qt/manageprofiles/schedulewidget.py:78
 msgid "Hours:"
@@ -1311,7 +1313,7 @@ msgstr "Hores:"
 
 #: qt/manageprofiles/schedulewidget.py:86
 msgid "after the hour"
-msgstr ""
+msgstr "després de l'hora"
 
 #: qt/manageprofiles/schedulewidget.py:88
 msgid "Minutes:"
@@ -1481,6 +1483,8 @@ msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
+"Aquestes opcions són per a configuracions avançades. Modifiqueu només si "
+"teniu plena consciència de les seves implicacions."
 
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
@@ -1806,6 +1810,9 @@ msgid ""
 "earlier ones and are not constrained by them. See the {manual} for details "
 "and examples."
 msgstr ""
+"Les regles següents es processen de dalt a baix. Les regles posteriors "
+"anul·len les anteriors i no estan restringides per elles. Consulteu el "
+"{manual} per obtenir detalls i exemples."
 
 #: qt/manageprofiles/tab_remove_retention.py:195
 msgid "user manual"
@@ -1822,46 +1829,49 @@ msgstr "Conserva la instantània més recent."
 #: qt/manageprofiles/tab_remove_retention.py:226
 msgid "The last or freshest snapshot is kept under all circumstances."
 msgstr ""
+"La darrera snapshot o la més recent es conserva en totes les circumstàncies."
 
 #: qt/manageprofiles/tab_remove_retention.py:228
 msgid "That behavior cannot be changed."
 msgstr "Aquest comportament no es pot modificar."
 
 #: qt/manageprofiles/tab_remove_retention.py:240
-#, fuzzy
 msgid "Keep named snapshots."
-msgstr "No eliminis les instantànies amb nom."
+msgstr "No eliminis les snapshots amb nom."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid ""
 "Snapshots that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"Les Snapshots a les quals se'ls ha donat un nom, a més de la marca de temps "
+"habitual, es conservaran en qualsevol circumstància i no s'eliminaran."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 msgid "Year(s)"
 msgstr "Any(s)"
 
 #: qt/manageprofiles/tab_remove_retention.py:263
-#, fuzzy
 msgid "Remove snapshots older than"
-msgstr "Esborra la instantània"
+msgstr "Esborra les snapshots més velles que"
 
 #: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Jornades completes. S'ignora el dia actual."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Setmanes del calendari amb dilluns com a primer dia. La setmana actual "
+"s'ignora."
 
 #: qt/manageprofiles/tab_remove_retention.py:274
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "Períodes de 12 mesos. El mes actual s'ignora."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "Retention policy"
-msgstr ""
+msgstr "Política de retenció"
 
 #: qt/manageprofiles/tab_remove_retention.py:294
 msgid "Run in background on remote host."
@@ -1879,11 +1889,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "Si se selecciona, Back In Time provarà primer la màquina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Els dies es compten a partir d'avui."
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Keep all snapshots for the last"
@@ -1895,20 +1905,20 @@ msgid "day(s)."
 msgstr "dia(es)."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
-#, fuzzy
 msgid "Keep the last snapshot for each day for the last"
-msgstr "Mantingues una instantània al dia durant els darrers"
+msgstr "Mantingues una snapshot al dia durant els darrers"
 
 #: qt/manageprofiles/tab_remove_retention.py:328
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
+"Les setmanes es compten a partir de la setmana actual. Una setmana comença "
+"el dilluns."
 
 #: qt/manageprofiles/tab_remove_retention.py:331
-#, fuzzy
 msgid "Keep the last snapshot for each week for the last"
-msgstr "Mantingues una instantània a la setmana durant les darreres"
+msgstr "Mantingues una snapshot a la setmana durant les darreres"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid "week(s)."
@@ -1917,12 +1927,11 @@ msgstr "setmana(es)."
 #: qt/manageprofiles/tab_remove_retention.py:341
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr ""
+msgstr "Els mesos es compten com a mesos naturals a partir del mes actual."
 
 #: qt/manageprofiles/tab_remove_retention.py:344
-#, fuzzy
 msgid "Keep the last snapshot for each month for the last"
-msgstr "Mantingues una instantània al mes durant els darrers"
+msgstr "Mantingues una snapshot al mes durant els darrers"
 
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid "month(s)."
@@ -1931,12 +1940,11 @@ msgstr "mes(os)."
 #: qt/manageprofiles/tab_remove_retention.py:354
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr ""
+msgstr "Els anys es compten com a anys naturals a partir de l'any en curs."
 
 #: qt/manageprofiles/tab_remove_retention.py:356
-#, fuzzy
 msgid "Keep the last snapshot for each year for"
-msgstr "Mantingues totes les instantànies durant els darrers"
+msgstr "Mantingues totes les snapshot durant els darrers"
 
 #: qt/manageprofiles/tab_remove_retention.py:358
 msgid "all years."
@@ -2031,7 +2039,7 @@ msgid "Import"
 msgstr "Importar"
 
 #: qt/restoreconfigdialog.py:164
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the snapshot directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -2040,7 +2048,6 @@ msgstr ""
 " de configuració. El path pot semblarse a: {samplePath}"
 
 #: qt/restoreconfigdialog.py:169
-#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
