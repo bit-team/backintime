@@ -148,15 +148,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
 # Licenses
-The directory [`LICENSES`](LICENSES) contains all relevant license files
-regarding the _Back In Time_ project. The projects primary license is
-[GNU General Public License v2.0 or later (`GPL-2.0-or-later`)](https://spdx.org/licenses/GPL-2.0-or-later.html).
-
-Copyright and license information are available for each file via
-[SPDX metadata](https://spdx.dev) following
-[REUSE.software standard](https://reuse.software).
-Read the header of each file and the `REUSE.toml` files, or use the `reuse`
-tool to extract the information.
+Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 

@@ -31,6 +31,7 @@ import messagebox
 import qttools
 
 _HREF_LICENSES_DIR = 'LICENSES-dir'
+_HREF_LICENSES_MD = 'LICENSES-md'
 _HREF_SPDX_GPL = 'spdx-gplv2'
 
 
@@ -147,15 +148,22 @@ class AboutDlg(QDialog):
         SPDX metadata.
         All licenses used in this project are in the LICENSES directory.
         """
-        gpl = QLabel(
+        text_gpl = (
             '<p>The application is released under '
             f'<a href="{_HREF_SPDX_GPL}">'
             'GNU General Public License v2.0 or later (GPL-2.0-or-later)'
-            '</a>.</p>'
-            '<p>Refer to the '
-            f'<a href="{_HREF_LICENSES_DIR}">LICENSES directory</a> '
-            'for details on obtaining license and copyright information '
-            'for each file using SPDX metadata.</p>')
+            '</a>.</p>')
+        text_gpl = '{}<p>{}</p>'.format(
+            text_gpl,
+            _('Refer to {readme_link} for extracting license and '
+              'copyright information using SPDX metadata. All licenses '
+              'used in this project are in the {dir_link} directory.')
+            .format(
+                readme_link=f'<a href="{_HREF_LICENSES_MD}">'
+                    'LICENSES.md</a>',
+                dir_link=f'<a href="{_HREF_LICENSES_DIR}">LICENSES</a>')
+        )
+        gpl = QLabel(text_gpl)
         gpl.setWordWrap(True)
         gpl.setOpenExternalLinks(False)
         gpl.setTextInteractionFlags(
@@ -167,17 +175,25 @@ class AboutDlg(QDialog):
         return gpl
 
     def _slot_license_link_acivated(self, link):
-        if link == _HREF_LICENSES_DIR:
+        if link in (_HREF_LICENSES_DIR, _HREF_LICENSES_MD):
             fp = self._license_directory()
 
-            if fp:
-                subprocess.run(['xdg-open', str(fp)], check=True)
-                return
+            if link == _HREF_LICENSES_MD:
+                fp = fp.parent / 'LICENSES.md'
 
-            msg = 'Unable to find LICENSES directory. Please contact the ' \
+            if fp:
+                try:
+                    subprocess.run(['xdg-open', str(fp)], check=True)
+                except subprocess.CalledProcessError as exc:
+                    logger.critical(str(exc))
+                else:
+                    return
+
+            msg = f'Unable to find {fp}. Please contact the ' \
                   'Back In Time team and report a bug.'
             messagebox.critical(self, msg)
             logger.critical(msg)
+            return
 
         elif link == _HREF_SPDX_GPL:
             qttools.open_url(bitbase.URL_GPL_TWO)
@@ -207,7 +223,7 @@ class AboutDlg(QDialog):
         for pkg in (bitbase.BINARY_NAME_GUI,
                     bitbase.BINARY_NAME_CLI,
                     bitbase.BINARY_NAME_BASE):
-            for path in (Path('/usr/share/licenses'), Path('/usr/share/doc')):
+            for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
 
                 fp = path / pkg / 'LICENSES'
                 if fp.is_dir():
@@ -224,7 +240,7 @@ class AboutDlg(QDialog):
         hbox.addLayout(layout, 2)
         hbox.addStretch(1)
 
-        website = QPushButton(_('Website'))
+        website = QPushButton(_('Project website'))
         website.setToolTip(bitbase.URL_WEBSITE.replace('https://', ''))
         website.clicked.connect(
             lambda: qttools.open_url(bitbase.URL_WEBSITE))
