@@ -259,6 +259,18 @@ def check_syntax_of_po_files():
 
         return True
 
+    def _potential_harmful_strings(to_check):
+        """Check if the translated string contain harmful content.
+
+        URLs indicated by 'href' can be harmful if the string is used in a
+        QLabel with activated HTML interpretation.
+        """
+        if re.search('href', to_check, re.IGNORECASE):
+            print(f'CRITICAL - Potential harmful string: "{to_check}"')
+            return False
+
+        return True
+
     def _other_errors(to_check):
         """Check if there are any other errors that could be thrown via
         printing this string."""
@@ -342,6 +354,7 @@ def check_syntax_of_po_files():
                 continue
 
             if (not _curly_brackets_balanced(entry.msgstr)
+                    or not _potential_harmful_strings(entry.msgstr)
                     or not _other_errors(entry.msgstr)
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
