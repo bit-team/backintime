@@ -90,7 +90,7 @@ class ScheduleWidget(QGroupBox):
         # Udev
         self._rowidx_udev = _create_form_entry(
             _('Run Back In Time as soon as the drive is connected (only once'
-              ' every X days). You will be prompted for your sudo password.'))
+              ' every X days). A sudo password prompt will appear.'))
 
         # Repeatedly (like anacron)
         self._rowidx_repeated = _create_form_entry(
@@ -141,21 +141,21 @@ class ScheduleWidget(QGroupBox):
             config.Config.NONE: _('Disabled'),
             config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
             config.Config._5_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
+                'Every minute', 'Every {n} minutes', 5).format(n=5),
             config.Config._10_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
+                'Every minute', 'Every {n} minutes', 10).format(n=10),
             config.Config._30_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
+                'Every minute', 'Every {n} minutes', 30).format(n=30),
             config.Config._1_HOUR: ngettext(
                 'Every hour', 'Every {n} hours', 1).format(n=1),
             config.Config._2_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 2).format(n=2),
+                'Every hour', 'Every {n} hours', 2).format(n=2),
             config.Config._4_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 4).format(n=4),
+                'Every hour', 'Every {n} hours', 4).format(n=4),
             config.Config._6_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 6).format(n=6),
+                'Every hour', 'Every {n} hours', 6).format(n=6),
             config.Config._12_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 12).format(n=12),
+                'Every hour', 'Every {n} hours', 12).format(n=12),
             config.Config.CUSTOM_HOUR: _('Custom hours'),
             config.Config.DAY: _('Every day'),
             config.Config.REPEATEDLY: _('Repeatedly (anacron)'),

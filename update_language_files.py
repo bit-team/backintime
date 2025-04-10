@@ -710,7 +710,7 @@ if __name__ == '__main__':
           'Optional use --remove-obsolete-entries\n'
           '  weblate - Update the po files with translations from '
           'external translation service Weblate. (Download from Weblate)\n'
-          '  shortcut - Check po files for redundant keyboard shortcuts '
+          '  shortcuts - Check po files for redundant keyboard shortcuts '
           'using "&"\n'
           '  syntax - Check syntax of po files. (Also done via "weblate" '
           'command)')

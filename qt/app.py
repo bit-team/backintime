@@ -92,14 +92,14 @@ import snapshotsdialog
 import logviewdialog
 import languagedialog
 import messagebox
-import qttools
 import version
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
 from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
-from statedata import StateData
+from timeline import TimeLine, SnapshotItem
+from bitwidgets import ProfileCombo
 
 
 class MainWindow(QMainWindow):
@@ -137,7 +137,7 @@ class MainWindow(QMainWindow):
         self._create_main_toolbar()
 
         # timeline (left widget)
-        self.timeLine = qttools.TimeLine(self)
+        self.timeLine = TimeLine(self)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         # right widget
@@ -191,7 +191,7 @@ class MainWindow(QMainWindow):
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
             _("This directory doesn't exist\n"
-              "in the current selected snapshot."),
+              "in the current selected backup."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
@@ -361,9 +361,9 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            msg = _("Can't find snapshots directory.") + '\n' \
-                + _('If it is on a removable drive please plug it in and then '
-                    'press OK.')
+            msg = _("Can't find backup directory.") + '\n' \
+                + _('If it is on a removable drive, please plug it in. '
+                    'Then press OK.')
             messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
@@ -468,42 +468,42 @@ class MainWindow(QMainWindow):
             #     tooltip
             # ),
             'act_take_snapshot': (
-                icon.TAKE_SNAPSHOT, _('Take a snapshot'),
+                icon.TAKE_SNAPSHOT, _('Create a backup'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
                 _('Use modification time & size for file change detection.')),
 
             'act_take_snapshot_checksum': (
-                icon.TAKE_SNAPSHOT, _('Take a snapshot (checksum mode)'),
+                icon.TAKE_SNAPSHOT, _('Create a backup (checksum mode)'),
                 self.btnTakeSnapshotChecksumClicked, ['Ctrl+Shift+S'],
                 _('Use checksums for file change detection.')),
 
             'act_pause_take_snapshot': (
-                icon.PAUSE, _('Pause snapshot process'),
+                icon.PAUSE, _('Pause backup process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
                 None),
 
             'act_resume_take_snapshot': (
-                icon.RESUME, _('Resume snapshot process'),
+                icon.RESUME, _('Resume backup process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
                 None),
             'act_stop_take_snapshot': (
-                icon.STOP, _('Stop snapshot process'),
+                icon.STOP, _('Stop backup process'),
                 self.btnStopTakeSnapshotClicked, None,
                 None),
             'act_update_snapshots': (
-                icon.REFRESH_SNAPSHOT, _('Refresh snapshot list'),
+                icon.REFRESH_SNAPSHOT, _('Refresh backup list'),
                 self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
                 None),
             'act_name_snapshot': (
-                icon.SNAPSHOT_NAME, _('Name snapshot'),
+                icon.SNAPSHOT_NAME, _('Name backup'),
                 self.btnNameSnapshotClicked, ['F2'],
                 None),
             'act_remove_snapshot': (
-                icon.REMOVE_SNAPSHOT, _('Remove snapshot'),
+                icon.REMOVE_SNAPSHOT, _('Remove backup'),
                 self.btnRemoveSnapshotClicked, ['Delete'],
                 None),
             'act_snapshot_logview': (
-                icon.VIEW_SNAPSHOT_LOG, _('View snapshot log'),
+                icon.VIEW_SNAPSHOT_LOG, _('View backup log'),
                 self.btnSnapshotLogViewClicked, None,
                 None),
             'act_last_logview': (
@@ -517,7 +517,7 @@ class MainWindow(QMainWindow):
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
-                _('Shut down system after snapshot has finished.')),
+                _('Shut down system after backup has finished.')),
             'act_setup_language': (
                 icon.LANGUAGE, _('Setup language…'),
                 self.slot_setup_language, None,
@@ -605,7 +605,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, _('Compare snapshots…'),
+                icon.SNAPSHOTS, _('Compare backups…'),
                 self.btnSnapshotsClicked, None, None),
         }
 
@@ -799,7 +799,7 @@ class MainWindow(QMainWindow):
             Qt.ToolButtonStyle(StateData().toolbar_button_style))
 
         # Drop-Down: Profiles
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         self.comboProfilesAction = toolbar.addWidget(self.comboProfiles)
 
         actions_for_toolbar = [
@@ -895,10 +895,10 @@ class MainWindow(QMainWindow):
         profile_state = state_data.profile(self.config.current_profile_id)
 
         if self.shutdown.askBeforeQuit():
-            msg = _('If you close this window, Back In Time will not be able '
-                    'to shut down your system when the snapshot is finished.')
+            msg = _('If this window is closed, Back In Time will not be able '
+                    'to shut down your system when the backup is finished.')
             msg = msg + '\n'
-            msg = msg + _('Do you really want to close it?')
+            msg = msg + _('Close the window anyway?')
             answer = messagebox.warningYesNo(self, msg)
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
@@ -984,7 +984,7 @@ class MainWindow(QMainWindow):
         if self.disableProfileChanged:
             return
 
-        profile_id = self.comboProfiles.currentProfileID()
+        profile_id = self.comboProfiles.current_profile_id()
         if not profile_id:
             return
 
@@ -1193,7 +1193,7 @@ class MainWindow(QMainWindow):
     def addPlace(self, name, path, icon):
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        qttools.py::HeaderItem.__init__().
+        timeline.py::HeaderItem.__init__().
         """
         item = QTreeWidgetItem()
 
@@ -1280,7 +1280,7 @@ class MainWindow(QMainWindow):
             item = self.timeLine.currentItem()
 
         if not item is None:
-            if not item.snapshotID().isRoot:
+            if not item.snapshot_id.isRoot:
                 enabled = True
 
         # update remove/name snapshot buttons
@@ -1295,7 +1295,7 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if not sid or sid == self.sid:
             return
 
@@ -1305,7 +1305,7 @@ class MainWindow(QMainWindow):
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         self.timeLine.clear()
-        self.timeLine.addRoot(snapshots.RootSnapshot(self.config))
+        self.timeLine.add_root(snapshots.RootSnapshot(self.config))
 
         if refreshSnapshotsList:
             self.snapshotsList = []
@@ -1354,7 +1354,7 @@ class MainWindow(QMainWindow):
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
+        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
     def btnUpdateSnapshotsClicked(self):
         self.updateTimeLine()
@@ -1365,13 +1365,14 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if sid.isRoot:
             return
 
         name = sid.name
 
-        new_name, accept = QInputDialog.getText(self, _('Snapshot Name'), '', text = name)
+        new_name, accept = QInputDialog.getText(
+            self, _('Backup name'), '', text = name)
         if not accept:
             return
 
@@ -1380,18 +1381,19 @@ class MainWindow(QMainWindow):
             return
 
         sid.name = new_name
-        item.updateText()
+        item.update_text()
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).show()  # no SID argument in constructor means "show last log"
+            # no SID argument in constructor means "show last log"
+            logviewdialog.LogViewDialog(self).show()
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if sid.isRoot:
             return
 
@@ -1399,7 +1401,7 @@ class MainWindow(QMainWindow):
             dlg = logviewdialog.LogViewDialog(self, sid)
             dlg.show()
             if sid != dlg.sid:
-                self.timeLine.setCurrentSnapshotID(dlg.sid)
+                self.timeLine.set_current_snapshot_id(dlg.sid)
 
     def btnRemoveSnapshotClicked (self):
         def hideItem(item):
@@ -1418,11 +1420,11 @@ class MainWindow(QMainWindow):
 
         question_msg = '{}\n{}'.format(
             ngettext(
-                'Are you sure you want to remove this snapshot?',
-                'Are you sure you want to remove these snapshots?',
+                'Remove this backup?',
+                'Remove these backups?',
                 len(items)
             ),
-            '\n'.join([item.snapshotID().displayName for item in items]))
+            '\n'.join([item.snapshot_id.displayName for item in items]))
 
         answer = messagebox.warningYesNo(self, question_msg)
 
@@ -1434,7 +1436,7 @@ class MainWindow(QMainWindow):
             item.setDisabled(True)
 
             if item is self.timeLine.currentItem():
-                self.timeLine.selectRootItem()
+                self.timeLine.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.updateTimeLine)
@@ -1453,7 +1455,10 @@ class MainWindow(QMainWindow):
 
     def btnAboutClicked(self):
         with self.suspendMouseButtonNavigation():
-            dlg = AboutDlg(self)
+            dlg = AboutDlg(
+                using_translation=self.config.language_used != 'en',
+                parent=self
+            )
             dlg.exec()
 
     def btn_help_user_manual(self):
@@ -1466,7 +1471,7 @@ class MainWindow(QMainWindow):
         self.openManPage('backintime-config')
 
     def btnWebsiteClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime')
+        qttools.open_url(bitbase.URL_WEBSITE)
 
     def btnChangelogClicked(self):
         def aHref(m):
@@ -1486,16 +1491,13 @@ class MainWindow(QMainWindow):
         messagebox.showInfo(self, _('Changelog'), msg)
 
     def btnFaqClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/blob/-/FAQ.md')
+        qttools.open_url(bitbase.URL_FAQ)
 
     def btnAskQuestionClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/issues')
+        qttools.open_url(bitbase.URL_ISSUES)
 
     def btnReportBugClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/issues/new')
-
-    def openUrl(self, url):
-        return QDesktopServices.openUrl(QUrl(url))
+        self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
@@ -1524,9 +1526,9 @@ class MainWindow(QMainWindow):
         qttools.set_wrapped_tooltip(
             cb,
             [
-                _("Newer versions of files will be renamed with trailing "
-                  "{suffix} before restoring. If you don't need them anymore "
-                  "you can remove them with the following command:").format(
+                _("Before restoring, newer versions of files will be renamed "
+                  "with the appended {suffix}. These files can be removed "
+                  "with the following command:").format(
                       suffix=self.snapshots.backupSuffix()),
                 'find ./ -name "*{suffix}" -delete'.format(
                     suffix=self.snapshots.backupSuffix())
@@ -1580,9 +1582,9 @@ class MainWindow(QMainWindow):
             cb,
             _('Restore selected files or directories to the original '
               'destination and delete files or directories which are not in '
-              'the snapshot. Be extremely careful because this will delete '
-              'files and directories which were excluded during taking the '
-              'snapshot.')
+              'the backup. Be extremely careful because this will delete '
+              'files and directories which were excluded during the creation '
+              'of the backup.')
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
@@ -1590,19 +1592,17 @@ class MainWindow(QMainWindow):
         if restoreTo:
             msg = ngettext(
                 # singular
-                'Do you really want to restore this element into the '
-                'new directory?',
+                'Really restore this element into the new directory?',
                 # plural
-                'Do you really want to restore these elements into the '
-                'new directory?',
+                'Really restore these elements into the new directory?',
                 len(paths))
             msg = f'{msg}\n{restoreTo}'
         else:
             msg = ngettext(
                 # singular
-                'Do you really want to restore this element?',
+                'Really restore this element?',
                 # plural
-                'Do you really want to restore these elements?',
+                'Really restore these elements?',
                 len(paths))
 
         confirm, opt = messagebox.warningYesNoOptions(
@@ -1619,17 +1619,17 @@ class MainWindow(QMainWindow):
 
     def confirmDelete(self, warnRoot=False, restoreTo=None):
         if restoreTo:
-            msg = _('Are you sure you want to remove all newer files '
-                    'in {path}?').format(path=restoreTo)
+            msg = _('All newer files in {path} will be removed. '
+                    'Proceed?').format(path=restoreTo)
         else:
-            msg = _('Are you sure you want to remove all newer files in your '
-                    'original directory?')
+            msg = _('All newer files in the original directory will be '
+                    'removed. Proceed?')
 
         if warnRoot:
             msg = f'<p>{msg}</p><p>'
             msg = msg + _(
                 '{BOLD}Warning{BOLDEND}: Deleting files in the filesystem '
-                'root could break your entire system.').format(
+                'root could break the entire system.').format(
                     BOLD='<strong>', BOLDEND='</strong>')
             msg = msg + '</p>'
 
@@ -1714,7 +1714,7 @@ class MainWindow(QMainWindow):
             if dlg.exec() == QDialog.DialogCode.Accepted:
 
                 if dlg.sid != self.sid:
-                    self.timeLine.setCurrentSnapshotID(dlg.sid)
+                    self.timeLine.set_current_snapshot_id(dlg.sid)
 
     def btnFolderUpClicked(self):
 
@@ -1877,7 +1877,7 @@ class MainWindow(QMainWindow):
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Snapshot'), name)
+            text = '{}: {}   '.format(_('Backup'), name)
 
         self.filesWidget.setTitle(text)
 
@@ -2058,8 +2058,8 @@ class MainWindow(QMainWindow):
 
         def _complete_text(language: str, percent: int) -> str:
             # (2023-08): Move to packages meta-data (pyproject.toml).
-            _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
-            _URL_PROJECT = 'https://github.com/bit-team/backintime'
+            _URL_PLATFORM = bitbase.URL_TRANSLATION
+            _URL_PROJECT = bitbase.URL_WEBSITE
 
             txt = _(
                 'Hello'
@@ -2123,7 +2123,7 @@ class MainWindow(QMainWindow):
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
-                mastodon=_('In the Fediverse at Mastodon: {link_and_label}') \
+                mastodon=_('In the Fediverse at Mastodon: {link_and_label}.') \
                     .format(link_and_label='<a href="https://fosstodon.org'
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
@@ -2131,14 +2131,14 @@ class MainWindow(QMainWindow):
                 email=_('Email to {link_and_label}.').format(
                     link_and_label='<a href="mailto:backintime@tuta.io">'
                                    'backintime@tuta.io</a>'),
-                mailinglist=_('Mailing list {link_and_label}').format(
+                mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
                                    'bit-dev@python.org</a>'),
                 issue=_('{link_and_label} on the project website.').format(
-                    link_and_label='<a href="https://github.com/bit-team/'
-                                   'backintime/issues/new">{open_issue}</a>').format(
-                                       open_issue=_('Open an issue')),
+                    link_and_label='<a href="{url}">{open_issue}</a>').format(
+                        url=bitbase.URL_ISSUES_CREATE_NEW,
+                        open_issue=_('Open an issue')),
                 alternative=_('Alternatively, you can use another channel '
                               'of your choice.')
             )
@@ -2243,7 +2243,7 @@ class RemoveSnapshotThread(QThread):
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
-    hideTimelineItem = pyqtSignal(qttools.SnapshotItem)
+    hideTimelineItem = pyqtSignal(SnapshotItem)
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -2257,7 +2257,7 @@ class RemoveSnapshotThread(QThread):
         self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
                                                          reason = 'deleting snapshots')
 
-        for item, sid in [(x, x.snapshotID()) for x in self.items]:
+        for item, sid in [(x, x.snapshot_id) for x in self.items]:
             self.snapshots.remove(sid)
             self.hideTimelineItem.emit(item)
             if sid == last_snapshot:

@@ -38,6 +38,7 @@ try:
 except NameError:
     _ = lambda val: val
 
+import bitbase
 import tools
 import configfile
 import logger
@@ -53,10 +54,8 @@ from exceptions import PermissionDeniedByPolicy, \
 
 
 class Config(configfile.ConfigFileWithProfiles):
-    APP_NAME = 'Back In Time'
-    COPYRIGHT = 'Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, ' \
-                'Richard Bailey, Germar Reitze, Christian Buhtz, ' \
-                'Michael Büker, Jürgen Altfeld et al.'
+    APP_NAME = bitbase.APP_NAME
+    COPYRIGHT = bitbase.COPYRIGHT
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
@@ -325,7 +324,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots directory is not valid.')
+                        _('Backup directory is not valid.')
                     )
                 )
                 return False
@@ -1472,11 +1471,12 @@ class Config(configfile.ConfigFileWithProfiles):
                 'Cron is not running despite the crontab command being '
                 'available. Scheduled backup jobs will not run.')
             self.notifyError(_(
-                'Cron is not running despite the crontab command being '
+                'Cron is not running, even though the crontab command is '
                 'available. Scheduled backup jobs will not run. '
-                'Cron might be installed but not enabled. Try the command '
-                '"systemctl enable cron" or consult the support channels of '
-                'your GNU/Linux distribution.'))
+                'Cron might be installed but not enabled. Try running the two '
+                'commands "systemctl enable cron" and '
+                '"systemctl start cron", or consult the support channels of '
+                'the currently used GNU/Linux distribution for assistance.'))
 
         return True
 
@@ -1554,7 +1554,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 self.notifyError(_(
                     "Could not install Udev rule for profile {profile_id}. "
-                    "DBus Service '{dbus_interface}' wasn't available")
+                    "DBus Service '{dbus_interface}' wasn't available.")
                     .format(profile_id=profile_id,
                             dbus_interface='net.launchpad.backintime.'
                                            'serviceHelper'))
