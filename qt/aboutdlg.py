@@ -107,8 +107,7 @@ class AboutDlg(QDialog):
 
         else:
             text_trans = '<br>∘ '.join(text_trans.split('\n'))
-            text_trans = '<p>∘ ' +  text_trans + '</p>'
-                
+            text_trans = '<p>∘ ' + text_trans + '</p>'
 
         text_link = '<a href="https://translate.codeberg.org/search/' \
             f'backintime/common/?q=+source%3A%3D{placeholder_string}">'

@@ -15,6 +15,7 @@ import re
 import tempfile
 import string
 import shutil
+import json
 from pathlib import Path
 from subprocess import run, check_output
 from common import languages
@@ -320,18 +321,20 @@ def check_syntax_of_po_files():
 
     print('Checking syntax of po files…')
 
+    # collect translator-credit string
+    translators = {}
+
     # Each po file
     for po_path in all_po_files_in_local_dir():
         error_count = 0
         # Language code determined by po-filename
         lang_code = po_path.with_suffix('').name
 
-        # print(f'{lang_code}', end=' ')
-
         pof = polib.pofile(po_path)
 
         # Each translated entry
         for entry in pof.translated_entries():
+
             # Plural form?
             if entry.msgstr_plural or entry.msgid_plural:
                 # Ignoring plural form because this is to complex, not logical
@@ -346,10 +349,20 @@ def check_syntax_of_po_files():
                 print(f'\nSource string: {entry.msgid}\n')
                 error_count += 1
 
+            # translator string?
+            if entry.msgid == 'translator-credits-placeholder':
+                translators[languages.names[lang_code]['en']] \
+                    = entry.msgstr.split('\n')
+
         if error_count:
             print(f' {lang_code} >> {error_count} errors')
         else:
             print(f' {lang_code} >> OK')
+
+    translators = {
+        key: translators[key] for key in sorted(translators.keys())}
+    print('\nTRANSLATORS:')
+    print(json.dumps(translators, indent=4, ensure_ascii=False))
 
     print('')
 
