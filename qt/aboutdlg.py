@@ -112,7 +112,7 @@ class AboutDlg(QDialog):
         text_link = '<a href="https://translate.codeberg.org/search/' \
             f'backintime/common/?q=+source%3A%3D{placeholder_string}">'
         text_link = text_link + _('this link') + '</a>'
-        text_link =  _(
+        text_link = _(
             'Follow {thislink} to get translator credits for '
             'all languages.').format(thislink=text_link)
 
