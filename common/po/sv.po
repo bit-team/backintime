@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2025-04-10 12:37+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2025-04-11 10:25+0200\n"
 "PO-Revision-Date: 2025-04-11 01:30+0000\n"
 "Last-Translator: Umeaman <umeaman@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
@@ -487,17 +487,17 @@ msgid "Translator credits not available for current language."
 msgstr ""
 "Information om översättarna är inte tillgängligt för det aktuella språket."
 
-#: qt/aboutdlg.py:110
+#: qt/aboutdlg.py:114
 msgid "this link"
 msgstr "den här länken"
 
-#: qt/aboutdlg.py:112
+#: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Följ {thislink} för att få information om översättarna för alla språken."
 
-#: qt/aboutdlg.py:146
+#: qt/aboutdlg.py:153
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -508,24 +508,24 @@ msgstr ""
 "För att extrahera licens- och upphovsrättsinformation per fil med hjälp av "
 "SPDX-metadata, läs {readme_link}."
 
-#: qt/aboutdlg.py:229 qt/app.py:547
+#: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
 msgstr "Projektets hemsida"
 
-#: qt/aboutdlg.py:234 qt/app.py:529
+#: qt/aboutdlg.py:241 qt/app.py:529
 msgid "User manual"
 msgstr "Användarmanual"
 
-#: qt/aboutdlg.py:235 qt/app.py:531
+#: qt/aboutdlg.py:242 qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Öppna användarmanualen i webbläsaren (lokal om tillgängligt annars online)"
 
-#: qt/aboutdlg.py:265
+#: qt/aboutdlg.py:272
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: qt/aboutdlg.py:286
+#: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Version{BOLDEND}: {version}"
@@ -1793,10 +1793,11 @@ msgid "Run only one backup at a time"
 msgstr "Kör enbart en säkerhetskopia i taget"
 
 #: qt/manageprofiles/tab_options.py:53
+#, fuzzy
 msgid ""
-"Other backups will be blocked until the current backup is done. This is a "
-"global option. So it will affect all profiles for this user. But it need to "
-"be activated for all other users, too."
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
+"However, it must also be activated for all other users."
 msgstr ""
 "Andra säkerhetskopior kommer att blockeras tills den aktuella "
 "säkerhetskopian är färdig. Det här är ett globalt alternativ. Så det kommer "
