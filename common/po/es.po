@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-10 12:37+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-04-11 10:25+0200\n"
+"PO-Revision-Date: 2025-04-11 01:30+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "El directorio de instantáneas no es válido."
+msgstr "El directorio de respaldos no es válido."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -216,14 +215,13 @@ msgid "Deferring backup while on battery"
 msgstr "Aplazando la copia de respaldo mientras se usa la batería"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "No se puede encontrar el directorio de las instantáneas."
+msgstr "No se puede encontrar el directorio de respaldos."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
-msgstr "Si está en una unidad extraíble, conéctela y pulse Aceptar."
+msgstr ""
+"Si está en una unidad extraíble, conéctela. Acto seguido, pulse Aceptar."
 
 #: common/snapshots.py:849
 #, python-format
@@ -233,9 +231,9 @@ msgstr[0] "Esperando %s segundo."
 msgstr[1] "Esperando %s segundos."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Error al tomar la instantánea {snapshot_id}."
+msgstr "No se pudo crear el respaldo {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -502,16 +500,16 @@ msgstr ""
 msgid "Translator credits not available for current language."
 msgstr ""
 
-#: qt/aboutdlg.py:110
+#: qt/aboutdlg.py:114
 msgid "this link"
 msgstr ""
 
-#: qt/aboutdlg.py:112
+#: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:146
+#: qt/aboutdlg.py:153
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -519,26 +517,25 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: qt/aboutdlg.py:229 qt/app.py:547
+#: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
 msgstr "Sitio web del proyecto"
 
-#: qt/aboutdlg.py:234 qt/app.py:529
+#: qt/aboutdlg.py:241 qt/app.py:529
 msgid "User manual"
 msgstr "Manual de utilización"
 
-#: qt/aboutdlg.py:235 qt/app.py:531
+#: qt/aboutdlg.py:242 qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Abrir el manual de usuario en el navegador (localmente si está disponbile, "
 "si no en línea)"
 
-#: qt/aboutdlg.py:265
-#, fuzzy
+#: qt/aboutdlg.py:272
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
-#: qt/aboutdlg.py:286
+#: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
@@ -548,13 +545,12 @@ msgid "Shortcuts"
 msgstr "Atajos"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
 "Este directorio no existe\n"
-"en la instantánea seleccionada."
+"en el respaldo seleccionado."
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -583,7 +579,7 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Crear un respaldo"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -592,47 +588,40 @@ msgstr ""
 "archivos."
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Tomar una instantánea (en modo suma de verificación)"
+msgstr "Crear un respaldo (modo suma de verificación)"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Utiliza sumas de verificación para detectar cambios en los archivos."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
-msgstr "Pausar el proceso de instantánea"
+msgstr "Pausar el proceso de respaldo"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "Reanudar el proceso de instantáneas"
+msgstr "Reanudar el proceso de respaldo"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
-msgstr "Parar el proceso de instantánea"
+msgstr "Detener el proceso de respaldo"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "Actualizar lista de instantáneas"
+msgstr "Actualizar lista de respaldos"
 
 #: qt/app.py:497
 msgid "Name backup"
 msgstr ""
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
-msgstr "Eliminar instantánea"
+msgstr "Quitar respaldo"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "Ver último registro"
+msgstr "Ver registro de respaldos"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -647,9 +636,8 @@ msgid "Shutdown"
 msgstr "Apagar"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Apagar el sistema al terminar instantánea."
+msgstr "Apagar el sistema al terminar el respaldo."
 
 #: qt/app.py:521
 msgid "Setup language…"
@@ -769,9 +757,8 @@ msgid "Show hidden files"
 msgstr "Mostrar archivos ocultos"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
-msgstr "Comparar instantáneas…"
+msgstr "Comparar respaldos…"
 
 #: qt/app.py:637 qt/app.py:2152
 #, fuzzy
@@ -827,7 +814,7 @@ msgstr ""
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "¿Quiere cerrar la ventana de todos modos?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -874,15 +861,14 @@ msgid "Backup directories"
 msgstr "Directorios de copia de respaldo"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Copia de respaldo"
+msgstr "Nombre del respaldo"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "¿Quiere quitar este respaldo?"
+msgstr[1] "¿Quiere quitar estos respaldos?"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -1130,7 +1116,6 @@ msgid "System default"
 msgstr "Predeterminado del sistema"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "Utilizar el idioma del sistema operativo."
 
@@ -1154,9 +1139,8 @@ msgid "Profile:"
 msgstr "Perfil:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Copia de respaldo"
+msgstr "Respaldos:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1799,15 +1783,12 @@ msgid "{keytype} key fingerprint is:"
 msgstr "La huella digital de la clave {keytype} es:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
-msgstr ""
-"Verifique esta huella digital. ¿Quiere agregarla a su archivo «known_hosts»?"
+msgstr "Verifique esta huella. ¿Quiere añadirla al archivo «known_hosts»?"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "¿Quiere crear un directorio cifrado nuevo?"
+msgstr "¿De verdad quiere cambiar el directorio de respaldos?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1819,9 +1800,8 @@ msgid "Enable notifications"
 msgstr "Activar notificaciones"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Desactivar instantáneas cuando se esté con batería"
+msgstr "Desactivar respaldos cuando se use la batería"
 
 #: qt/manageprofiles/tab_options.py:47
 msgid "Power status not available from system"
@@ -1835,9 +1815,9 @@ msgstr "Ejecutar solo una instantánea a la vez"
 #: qt/manageprofiles/tab_options.py:53
 #, fuzzy
 msgid ""
-"Other backups will be blocked until the current backup is done. This is a "
-"global option. So it will affect all profiles for this user. But it need to "
-"be activated for all other users, too."
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
+"However, it must also be activated for all other users."
 msgstr ""
 "Las demás instantáneas se bloquearán hasta que finalice la instantánea "
 "actual. Esta es una opción global. Así que afectará a todos los perfiles de "
@@ -1903,27 +1883,24 @@ msgid "That behavior cannot be changed."
 msgstr "Ese comportamiento no se puede cambiar."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
-msgstr "Conservar las instantáneas con nombre."
+msgstr "Conservar los respaldos con nombre."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Las instantáneas que han recibido un nombre, además de la marca temporal "
-"habitual, se conservarán bajo cualquier circunstancia y no se eliminarán."
+"Los respaldos que han recibido un nombre, además del cronomarcador habitual,"
+" se conservarán bajo cualquier circunstancia y no se eliminarán."
 
 #: qt/manageprofiles/tab_remove_retention.py:259
 msgid "Year(s)"
 msgstr "Año(s)"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
-msgstr "Eliminar las instantáneas anteriores a"
+msgstr "Quitar respaldos anteriores a"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
@@ -2105,9 +2082,8 @@ msgid "Show full Log"
 msgstr "Mostrar registro completo"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "Opciones sobre la comparación de instantáneas"
+msgstr "Opciones sobre la comparación de respaldos"
 
 #: qt/snapshotsdialog.py:64
 msgid "Command:"
@@ -2142,9 +2118,8 @@ msgstr ""
 "predeterminado «{params}»."
 
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Copia de respaldo"
+msgstr "Respaldos"
 
 #: qt/snapshotsdialog.py:140
 #, fuzzy
@@ -2185,6 +2160,7 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"No es posible comparar un respaldo consigo mismo, ya que sería redundante."
 
 #: qt/snapshotsdialog.py:426
 #, fuzzy, python-brace-format
