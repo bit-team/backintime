@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-10 12:05+0200\n"
-"PO-Revision-Date: 2025-03-06 15:08+0000\n"
+"POT-Creation-Date: 2025-04-11 10:25+0200\n"
+"PO-Revision-Date: 2025-04-10 19:55+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -72,7 +72,6 @@ msgid "Profile: \"{name}\""
 msgstr "Профіль: «{name}»"
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
 msgstr "Каталог для резервних копій не є дійсним."
 
@@ -98,7 +97,6 @@ msgid "Failed to write new crontab."
 msgstr "Не вдалося записати новий crontab."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -106,19 +104,20 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Cron не запускається, незважаючи на наявність команди crontab. Заплановані "
+"Cron не працює, незважаючи на наявність команди crontab. Заплановані "
 "завдання резервного копіювання не буде виконано. Можливо, Cron встановлено, "
-"але не ввімкнено. Спробуйте команду «systemctl enable cron» або зверніться "
-"до каналів підтримки Вашого дистрибутиву GNU/Linux."
+"але не ввімкнено. Спробуйте виконати команди «systemctl enable cron» та "
+"«systemctl start cron» або зверніться по допомогу до каналів підтримки "
+"Вашого дистрибутиву GNU/Linux."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
-"Не вдалося встановити правило Udev для профілю {profile_id}. DBus Service "
-"«{dbus_interface}» недоступний"
+"Не вдалося встановити правило Udev для профілю {profile_id}. Служба DBus "
+"«{dbus_interface}» недоступна."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -216,15 +215,13 @@ msgid "Deferring backup while on battery"
 msgstr "Вимкнення резервування при роботі від батареї"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
 msgstr "Не вдається знайти каталог резервних копій."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
 msgstr ""
-"Якщо вона знаходиться на знімному диску, підключіть його і натисніть OK."
+"Якщо він знаходиться на знімному диску, підключіть його. Потім натисніть OK."
 
 #: common/snapshots.py:849
 #, python-format
@@ -235,7 +232,7 @@ msgstr[1] "Очікування %s секунди."
 msgstr[2] "Очікування %s секунд."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Не вдалося зробити копію {snapshot_id}."
 
@@ -256,12 +253,12 @@ msgid "Saving permissions…"
 msgstr "Збереження дозволів…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Знайдено незавершену копію {snapshot_id}, яку можна продовжити."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Видалення каталогу незавершеної копії {snapshot_id} від попереднього запуску"
@@ -272,7 +269,7 @@ msgstr "Не вдається видалити каталог"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Створення резервної копії"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -303,7 +300,6 @@ msgstr ""
 "і «man kill»"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Немає змін, резервування не потрібне"
 
@@ -317,7 +313,6 @@ msgid "Smart removal"
 msgstr "Розумне видалення"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Застосувати правила для видалення старих копій"
 
@@ -470,23 +465,20 @@ msgid "File creation failed in this directory:"
 msgstr "Не вдалося створити файл у каталозі:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Про Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Авторські права:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Автори"
+msgstr "Автори:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Переклади"
+msgstr "Переклад:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -494,18 +486,18 @@ msgstr ""
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Для поточної мови відсутня інформація про перекладачів."
 
-#: qt/aboutdlg.py:110
+#: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "цим посиланням"
 
-#: qt/aboutdlg.py:112
+#: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Список перекладачів для всіх мов див. за {thislink}."
 
-#: qt/aboutdlg.py:146
+#: qt/aboutdlg.py:153
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -513,34 +505,32 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: qt/aboutdlg.py:229 qt/app.py:547
+#: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
 msgstr "Сторінка проєкту"
 
-#: qt/aboutdlg.py:234 qt/app.py:529
+#: qt/aboutdlg.py:241 qt/app.py:529
 msgid "User manual"
 msgstr "Інструкція користувача"
 
-#: qt/aboutdlg.py:235 qt/app.py:531
+#: qt/aboutdlg.py:242 qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr "Відкриває посібник у браузері (локальний, якщо є, або ж онлайн)"
 
-#: qt/aboutdlg.py:265
-#, fuzzy
+#: qt/aboutdlg.py:272
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
-#: qt/aboutdlg.py:286
+#: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Версія{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Скорочення"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -575,16 +565,15 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Зробити копію"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr "Виявляти зміни за датою зміни і розміром."
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Зробити копію з контрольними сумами"
+msgstr "Зробити копію (режим контрольних сум)"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
@@ -637,7 +626,6 @@ msgid "Shutdown"
 msgstr "Вимкнення"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Вимкнути систему після завершення резервування."
 
@@ -795,7 +783,6 @@ msgid "Text beside icon"
 msgstr "Текст поряд із значками"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -805,7 +792,7 @@ msgstr ""
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Все одно закрити вікно?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -859,9 +846,9 @@ msgstr "&Резервування"
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Видалити цю резервну копію?"
+msgstr[1] "Видалити ці резервні копії?"
+msgstr[2] "Видалити ці резервні копії?"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -873,13 +860,13 @@ msgstr ""
 "або видаленням, додаючи до назви {suffix}."
 
 #: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
 "Перед відновленням новіші версії файлів буде перейменовано з додаванням "
-"{suffix}. Якщо вони Вам не потрібні, можна видалити їх за допомогою команди:"
+"{suffix}. Ці файли можна видалити за допомогою команди:"
 
 #: qt/app.py:1522
 msgid ""
@@ -893,10 +880,9 @@ msgstr ""
 
 #: qt/app.py:1557
 msgid "Remove newer elements in original directory."
-msgstr "Видалити новіші елементи у початковому розташуванні."
+msgstr "Видалити новіші елементи у початковому каталозі."
 
 #: qt/app.py:1560
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -909,37 +895,36 @@ msgstr ""
 "резервування."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] "Ви справді хочете відновити цей елемент до нового каталогу?"
-msgstr[1] "Ви справді хочете відновити ці елементи до нового каталогу?"
-msgstr[2] "Ви справді хочете відновити ці елементи до нового каталогу?"
+msgstr[0] "Справді відновити цей елемент до нового каталогу?"
+msgstr[1] "Справді відновити ці елементи до нового каталогу?"
+msgstr[2] "Справді відновити ці елементи до нового каталогу?"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "Ви справді хочете відновити цей елемент?"
-msgstr[1] "Ви справді хочете відновити ці елементи?"
-msgstr[2] "Ви справді хочете відновити ці елементи?"
+msgstr[0] "Справді відновити цей елемент?"
+msgstr[1] "Справді відновити ці елементи?"
+msgstr[2] "Справді відновити ці елементи?"
 
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "Усі новіші файли в {path} буде видалено. Продовжити?"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
+msgstr "Усі новіші файли у початковому каталозі буде видалено. Продовжити?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"{BOLD}УВАГА{BOLDEND}: видалення файлів у root може зламати всю Вашу систему."
+"{BOLD}Увага{BOLDEND}: видалення файлів у корені файлової системи може "
+"зламати всю систему."
 
 #: qt/app.py:1857
 #, fuzzy
@@ -987,9 +972,9 @@ msgid "Your translation"
 msgstr "Ваш переклад"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "На Mastodon {link_and_label} у Федісвіті"
+msgstr "На Mastodon {link_and_label} у Федісвіті."
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -997,9 +982,9 @@ msgid "Email to {link_and_label}."
 msgstr "Email {link_and_label}."
 
 #: qt/app.py:2111
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Список розсилки {link_and_label}"
+msgstr "Список розсилки {link_and_label}."
 
 #: qt/app.py:2115
 #, python-brace-format
@@ -1114,7 +1099,6 @@ msgid "System default"
 msgstr "Як у системі"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "Використовувати мову операційної системи."
 
@@ -1138,9 +1122,8 @@ msgid "Profile:"
 msgstr "Профіль:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Резервування"
+msgstr "Резервні копії:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1291,9 +1274,9 @@ msgid "Rename profile"
 msgstr "Перейменувати профіль"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "Ви впевнені, що хочете видалити профіль «{name}»?"
+msgstr "Видалити профіль «{name}»?"
 
 #: qt/manageprofiles/__init__.py:379
 #, python-brace-format
@@ -1324,17 +1307,17 @@ msgid "Include file"
 msgstr "Включити файл"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде зарезервовано, якщо його не включити.\n"
-"Включити цей об'єкт у резервну копію?"
+"«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде "
+"зарезервовано, якщо його не включити."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Включити в резервну копію цільовий об'єкт символьного посилання?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1374,13 +1357,12 @@ msgid "Minutes:"
 msgstr "Хвилини:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Запускати Back In Time, коли Ви підключаєте диск (один раз на X днів). Вам "
-"потрібно буде ввести пароль sudo."
+"Запускати Back In Time, як тільки підключено диск (один раз на X днів). "
+"Потрібно буде ввести пароль sudo."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1554,7 +1536,6 @@ msgid "on remote host"
 msgstr "на віддаленому сервері"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
 msgstr "під час резервування вручну"
 
@@ -1685,7 +1666,6 @@ msgid "Mode:"
 msgstr "Режим:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
 msgstr "Де зберігати резервні копії"
 
@@ -1739,7 +1719,6 @@ msgid "Advanced"
 msgstr "Додатково"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
 msgstr "Повний шлях до копії:"
 
@@ -1749,9 +1728,8 @@ msgid "A private key file for SSH was not chosen."
 msgstr "Приватний ключ «{file}» не існує."
 
 #: qt/manageprofiles/tab_general.py:396
-#, fuzzy
 msgid "Should a new password-less public/private key pair be generated?"
-msgstr "Бажаєте згенерувати нову пару публічний/приватний ключ без пароля?"
+msgstr "Згенерувати нову пару публічний/приватний ключ без пароля?"
 
 #: qt/manageprofiles/tab_general.py:407
 #, python-brace-format
@@ -1759,11 +1737,9 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Приватний ключ «{file}» не існує."
 
 #: qt/manageprofiles/tab_general.py:492
-#, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
-"Бажаєте скопіювати свій публічний ключ SSH на сервер, щоб увімкнути "
-"безпарольний доступ?"
+"Скопіювати публічний ключ SSH на сервер, щоб увімкнути безпарольний доступ?"
 
 #: qt/manageprofiles/tab_general.py:526
 #, python-brace-format
@@ -1776,15 +1752,12 @@ msgid "{keytype} key fingerprint is:"
 msgstr "Відбиток ключа {keytype}:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
-msgstr ""
-"Перевірте цей відбиток. Бажаєте додати його до свого файлу «known_hosts»?"
+msgstr "Перевірте цей відбиток. Додати його до файлу «known_hosts»?"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Створити новий зашифрований каталог?"
+msgstr "Справді змінити каталог для резервних копій?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1796,7 +1769,6 @@ msgid "Enable notifications"
 msgstr "Увімкнути сповіщення"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
 msgstr "Вимкнути резервування при роботі від батареї"
 
@@ -1805,16 +1777,15 @@ msgid "Power status not available from system"
 msgstr "Статус живлення недоступний"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
-msgstr "Створювати одну резервну копію за раз"
+msgstr "Створювати лише одну резервну копію за раз"
 
 #: qt/manageprofiles/tab_options.py:53
 #, fuzzy
 msgid ""
-"Other backups will be blocked until the current backup is done. This is a "
-"global option. So it will affect all profiles for this user. But it need to "
-"be activated for all other users, too."
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
+"However, it must also be activated for all other users."
 msgstr ""
 "Інші копії буде заблоковано, доки триває поточне резервування. Це глобальне "
 "налаштування, отже вплине на всі профілі цього користувача. Але для інших "
@@ -1825,7 +1796,6 @@ msgid "Backup replaced files on restore"
 msgstr "Під час відновлення зберігати копії переміщених файлів"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Ігнорувати помилки (зберігати незавершені копії)"
 
@@ -1834,26 +1804,25 @@ msgid "Use checksum to detect changes"
 msgstr "Виявляти зміни за контрольними сумами"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
 msgstr "Резервувати незалежно від того, чи були зміни."
 
 #: qt/manageprofiles/tab_options.py:90
 msgid "Log Level:"
-msgstr "Рівень ведення журналу:"
+msgstr "Рівень журналу:"
 
 #: qt/manageprofiles/tab_options.py:130
 msgid "None"
 msgstr "Нічого"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
 "Правила обробляються зверху вниз. Пізніші правила мають перевагу над "
-"попередніми і не обмежуються ними. Подробиці та приклади див. в {manual}."
+"попередніми. Подробиці та приклади див. в {manual}."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1864,12 +1833,10 @@ msgid "Open user manual in browser."
 msgstr "Відкрити посібник користувача в браузері."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
 msgstr "Не видаляти найновішу резервну копію."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
 "Остання або найсвіжіша резервна копія зберігається за будь-яких обставин."
@@ -1879,12 +1846,10 @@ msgid "That behavior cannot be changed."
 msgstr "Цю поведінку неможливо змінити."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
 msgstr "Не видаляти названі резервні копії."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -1897,7 +1862,6 @@ msgid "Year(s)"
 msgstr "років"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
 msgstr "Видаляти копії старіші за"
 
@@ -1942,7 +1906,6 @@ msgid "The days are counted starting from today."
 msgstr "Відлік днів ведеться від сьогоднішнього дня."
 
 #: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
 msgid "Keep all backups for the last"
 msgstr "Зберігати всі копії за останні"
 
@@ -1952,7 +1915,6 @@ msgid "day(s)."
 msgstr "днів."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
 msgstr "Зберігати останню копію за кожен день за останні"
 
@@ -1964,7 +1926,6 @@ msgstr ""
 "Відлік тижнів, починаючи з поточного. Тиждень починається з понеділка."
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
 msgstr "Зберігати останню копію за кожен тиждень за останні"
 
@@ -1978,7 +1939,6 @@ msgid ""
 msgstr "Відлік календарних місяців, починаючи з поточного місяця."
 
 #: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
 msgstr "Зберігати останню копію за кожен місяць за останні"
 
@@ -1992,7 +1952,6 @@ msgid ""
 msgstr "Відлік календарних років, починаючи з поточного року."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
 msgstr "Зберігати останню копію за кожен рік за"
 
@@ -2060,12 +2019,12 @@ msgid "Import"
 msgstr "Імпорт"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Виберіть каталог для резервних копій, з якого слід імпортувати файл "
+"Виберіть каталог резервних копій, з якого слід імпортувати файл "
 "конфігурації. Шлях може мати такий вигляд: {samplePath}"
 
 #: qt/restoreconfigdialog.py:182
@@ -2081,7 +2040,6 @@ msgid "Show full Log"
 msgstr "Показати повний журнал"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
 msgstr "Параметри порівняння резервних копій"
 
@@ -2120,21 +2078,19 @@ msgstr ""
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
 #, fuzzy
 msgid "Backups"
-msgstr "&Резервування"
+msgstr "Резервні копії"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
 msgstr "Тільки копії, що відрізняються"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Показати лише копії, однакові з:"
 
 #: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
-msgstr "Глибока перевірка (більш точна, але повільніша)"
+msgstr "Глибока перевірка (точніша, але повільна)"
 
 #: qt/snapshotsdialog.py:182
 msgid "Delete"
@@ -2163,21 +2119,21 @@ msgid ""
 msgstr ""
 
 #: qt/snapshotsdialog.py:426
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "Ви справді хочете видалити {file} з резервної копії {snapshot_id}?"
+msgstr "Справді видалити {file_or_dir} з резервної копії {backup_id}?"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Ви справді хочете видалити {file} з {count} резервних копій?"
+msgstr "Справді видалити {file_or_dir} з {count} резервних копій?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "УВАГА: це не можна буде скасувати."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Виключити {path} з майбутніх резервних копій?"
 
@@ -2198,9 +2154,8 @@ msgid "Last week"
 msgstr "Попереднього тижня"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "Це НЕ резервна копія, а Ваші файли на комп'ютері"
+msgstr "Це НЕ резервна копія, а Ваші файли на комп'ютері."
 
 #: qt/timeline.py:275
 #, python-brace-format

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-10 12:37+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
+"POT-Creation-Date: 2025-04-11 10:25+0200\n"
+"PO-Revision-Date: 2025-04-10 13:15+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -71,9 +71,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: »{name}«"
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Schnappschuss-Verzeichnis ist ungültig."
+msgstr "Schnappschuss-Verzeichnis ist nicht gültig."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -97,7 +96,6 @@ msgid "Failed to write new crontab."
 msgstr "Schreiben einer neuen crontab ist fehlgeschlagen."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -107,17 +105,18 @@ msgid ""
 msgstr ""
 "Cron läuft nicht, obwohl der Befehl crontab verfügbar ist. Geplante "
 "Sicherungs-Aufgaben werden nicht ausgeführt. Cron könnte installiert, aber "
-"nicht aktiviert sein. Versuche den Befehl »systemctl enable cron« oder "
-"konsultiere die Support-Kanäle deiner GNU/Linux-Distribution."
+"nicht aktiviert sein. Versuche die beiden Befehl »systemctl enable cron« und"
+" »systemctl start cron«, oder konsultiere die Support-Kanäle der gerade "
+"genutzten GNU/Linux-Distribution."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Udev-Regel für Profil {profile_id} konnte nicht erstellt werden. DBus-Dienst"
-" »{dbus_interface}« war nicht verfügbar"
+" »{dbus_interface}« war nicht verfügbar."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -215,15 +214,13 @@ msgid "Deferring backup while on battery"
 msgstr "Aufschieben der Sicherung im Akkubetrieb"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
 msgstr "Schnappschuss-Verzeichnis wurde nicht gefunden."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
 msgstr ""
-"Wenn er auf einem Wechsellaufwerk ist, bitte dieses verbinden und dann OK "
+"Wenn es auf einem Wechsellaufwerk ist, bitte dieses verbinden. Dann OK "
 "drücken."
 
 #: common/snapshots.py:849
@@ -234,9 +231,9 @@ msgstr[0] "Warte %s Sekunde."
 msgstr[1] "Warte %s Sekunden."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Schnappschuss {snapshot_id} konnte nicht erstellt werden."
+msgstr "Sicherung {snapshot_id} konnte nicht erstellt werden."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -255,17 +252,17 @@ msgid "Saving permissions…"
 msgstr "Zugriffsrechte werden gespeichert …"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Übrig gebliebener Schnappschuss »{snapshot_id}« gefunden, der fortgesetzt "
-"werden kann."
+"Unvollständige Sicherung »{snapshot_id}« gefunden, die fortgesetzt werden "
+"kann."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
-"Vom letzten Durchgang übriggebliebener Schnappschuss »{snapshot_id}« wird "
+"Vom letzten Durchgang übriggebliebene Sicherung »{snapshot_id}« wird "
 "entfernt"
 
 #: common/snapshots.py:1325
@@ -274,7 +271,7 @@ msgstr "Verzeichnis kann nicht entfernt werden"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Erstelle Sicherung"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -307,9 +304,8 @@ msgstr ""
 "'man kill'"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Keine Änderungen, es ist kein neuer Schnappschuss notwendig"
+msgstr "Keine Änderungen, es ist keine neue Sicherung notwendig"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -321,9 +317,8 @@ msgid "Smart removal"
 msgstr "Cleveres Löschen"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Wende Regeln, zum Entfernen alter Snapshots an"
+msgstr "Wende Regeln, zum Entfernen alter Sicherungen an"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -478,23 +473,20 @@ msgid "File creation failed in this directory:"
 msgstr "Erzeugen einer Datei in diesem Verzeichnis fehlgeschlagen:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Über Back In &Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Copyright:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Autoren"
+msgstr "Autor:innen:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Übersetzungen"
+msgstr "Übersetzende:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -504,60 +496,61 @@ msgstr ""
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Keine Nennung von Übersetzenden für die aktuelle Sprache verfügbar."
 
-#: qt/aboutdlg.py:110
+#: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "diesen Link"
 
-#: qt/aboutdlg.py:112
+#: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Folge {thislink} für die Nennungen der Übersetzenden aller Sprachen."
 
-#: qt/aboutdlg.py:146
+#: qt/aboutdlg.py:153
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Alle von diesem Projekt verwendeten Lizenzen sind im Verzeichnis {dir_link} "
+"zu finden. Um mit Hilfe von SPDX Metadaten Lizenz- und Copyright-"
+"Informationen je Datei zu extrahieren, siehe {readme_link}."
 
-#: qt/aboutdlg.py:229 qt/app.py:547
+#: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
 msgstr "Projektwebsite"
 
-#: qt/aboutdlg.py:234 qt/app.py:529
+#: qt/aboutdlg.py:241 qt/app.py:529
 msgid "User manual"
 msgstr "Benutzerhandbuch"
 
-#: qt/aboutdlg.py:235 qt/app.py:531
+#: qt/aboutdlg.py:242 qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Öffnet Benutzerhandbuch im Browser (wenn verfügbar lokal, anderseits online)"
 
-#: qt/aboutdlg.py:265
-#, fuzzy
+#: qt/aboutdlg.py:272
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
-#: qt/aboutdlg.py:286
+#: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Version{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Verknüpfungen"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
-"Dieses Verzeichnis ist im aktuell ausgewählten\n"
-"Schnappschuss nicht vorhanden."
+"Dieses Verzeichnis ist in der aktuell ausgewählten\n"
+"Sicherung nicht vorhanden."
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -1850,9 +1843,9 @@ msgstr "Nur einen Schnappschuss zur selben Zeit ausführen"
 #: qt/manageprofiles/tab_options.py:53
 #, fuzzy
 msgid ""
-"Other backups will be blocked until the current backup is done. This is a "
-"global option. So it will affect all profiles for this user. But it need to "
-"be activated for all other users, too."
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
+"However, it must also be activated for all other users."
 msgstr ""
 "Andere Schnappschüsse werden blockiert, bis der aktuelle Schnappschuss "
 "fertiggestellt ist. Das ist eine globale Option, die alle Profile dieses "
