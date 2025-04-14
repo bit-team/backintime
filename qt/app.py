@@ -819,20 +819,23 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
+            button_tip = act.text()
+
             # Assume an explicit tooltip if it is different from "text()".
             # Note that Qt use "text()" as "toolTip()" by default.
-            if act.toolTip() != act.text():
+            if act.toolTip() != button_tip:
 
                 if QApplication.instance().isRightToLeft():
                     # RTL/BIDI language like Hebrew
-                    button_tip = f'{act.toolTip()} :{act.text()}'
+                    button_tip = f'{act.toolTip()} :{button_tip}'
                 else:
                     # (default) LTR language (e.g. English)
-                    button_tip = f'{act.text()}: {act.toolTip()}'
+                    button_tip = f'{button_tip}: {act.toolTip()}'
 
-                toolbar.widgetForAction(act).setToolTip(button_tip)
+            button_tip = textwrap.fill(
+                button_tip, width=26, break_long_words=False)
 
-            act.setText(textwrap.fill(act.text(), width=8, break_long_words=False))
+            toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
