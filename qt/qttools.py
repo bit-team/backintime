@@ -190,6 +190,11 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 # |---------------------|
 
 
+def open_url(url: str) -> None:
+    """Open an URL or URI"""
+    QDesktopServices.openUrl(QUrl(url))
+
+
 def user_manual_uri() -> str:
     """Return the URI to the user manual.
 
@@ -208,7 +213,7 @@ def open_user_manual() -> None:
     If available the local manual is used otherwise the online version is
     opened.
     """
-    QDesktopServices.openUrl(QUrl(user_manual_uri()))
+    open_url(user_manual_uri())
 
 
 class FileDialogShowHidden(QFileDialog):

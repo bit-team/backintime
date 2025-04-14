@@ -50,10 +50,10 @@ class OptionsTab(QDialog):
         tab_layout.addWidget(self.cbGlobalFlock)
         qttools.set_wrapped_tooltip(
             self.cbGlobalFlock,
-            _('Other backups will be blocked until the current backup '
-              'is done. This is a global option. So it will affect all '
-              'profiles for this user. But it need to be activated for all '
-              'other users, too.')
+            _('Other backups will be blocked until the current backup is '
+              'completed. This is a global setting, meaning it will affect '
+              'all profiles for this user. However, it must also be '
+              'activated for all other users.')
         )
 
         self.cbBackupOnRestore = QCheckBox(
