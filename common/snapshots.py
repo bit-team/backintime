@@ -844,11 +844,11 @@ class Snapshots:
                                     + self.config.snapshotsFullPath(profile_id)
                                     + '\n'
                                     + _('If it is on a removable drive, '
-                                        'please plug it in. Then press OK.')
+                                        'please plug it in.')
                                     + '\n'
-                                    + gettext.ngettext('Waiting %s second.',
-                                                       'Waiting %s seconds.',
-                                                       30) % 30
+                                    + gettext.ngettext('Waiting {n} second.',
+                                                       'Waiting {n} seconds.',
+                                                       30).format(n=30)
                                 )
 
                                 self.setTakeSnapshotMessage(
