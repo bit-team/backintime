@@ -1011,8 +1011,6 @@ class Snapshots:
         for l in line.split('\n'):
             m = self.reRsyncProgress.match(l)
             if m:
-                print('X'*100)
-                print(f'{m.groups()=}')
                 # if m.group(5).strip():
                 #     return
                 pg = progress.ProgressFile(self.config)
