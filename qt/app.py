@@ -1179,9 +1179,9 @@ class MainWindow(QMainWindow):
                 progress bar.
         """
         d = (
-            ('sent', '{}:'.format(_('Sent'))),
-            ('speed', '{}:'.format(_('Speed'))),
-            ('eta', '{}:'.format(_('ETA')))
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
 
         yield '{}%'.format(pg.intValue('percent'))
