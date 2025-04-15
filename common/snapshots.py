@@ -66,17 +66,25 @@ class Snapshots:
         self.clearIdCache()
         self.clearNameCache()
 
-        #rsync --info=progress2 output
-        #search for:     517.38K  26%   14.46MB/s    0:02:36
-        #or:             497.84M   4% -449.39kB/s   ??:??:??
-        #but filter out: 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, to-chk=169/452)
-        #                because this shows current run time
-        self.reRsyncProgress = re.compile(r'.*?'                            #trash at start
-                                          r'(\d*[,\.]?\d+[KkMGT]?)\s+'      #bytes sent
-                                          r'(\d*)%\s+'                      #percent done
-                                          r'(-?\d*[,\.]?\d*[KkMGT]?B/s)\s+' #speed
-                                          r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'  #estimated time of arrival
-                                          r'(.*$)')                         #trash at the end
+        # rsync --info=progress2 output
+        # search for:     517.38K  26%   14.46MB/s    0:02:36
+        # or:             497.84M   4% -449.39kB/s   ??:??:??
+        # but filter out: 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, to-chk=169/452)
+        #                 because this shows current run time
+        self.reRsyncProgress = re.compile(
+            # trash at start
+            r'.*?'
+            # bytes sent
+            r'(\d*[,\.]?\d+[KkMGT]?)\s+'
+            # percent done
+            r'(\d*)%\s+'
+            # speed
+            r'(-?\d*[,\.]?\d*[KkMGT]?B/s)\s+'
+            # estimated time of arrival
+            r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'
+            # trash at the end
+            r'(.*$)'
+        )
 
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
         self.restorePermissionFailed = False
@@ -1003,6 +1011,8 @@ class Snapshots:
         for l in line.split('\n'):
             m = self.reRsyncProgress.match(l)
             if m:
+                print('X'*100)
+                print(f'{m.groups()=}')
                 # if m.group(5).strip():
                 #     return
                 pg = progress.ProgressFile(self.config)
@@ -1010,7 +1020,7 @@ class Snapshots:
                 pg.setStrValue('sent', m.group(1))
                 pg.setIntValue('percent', int(m.group(2)))
                 pg.setStrValue('speed', m.group(3))
-                #pg.setStrValue('eta', m.group(4))
+                pg.setStrValue('eta', m.group(4))
                 pg.save()
                 del pg
             else:
