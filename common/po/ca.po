@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-10 12:37+0200\n"
+"POT-Creation-Date: 2025-04-11 10:25+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -497,16 +497,16 @@ msgstr "Josep Sanchez <papapep@gmail.com>"
 msgid "Translator credits not available for current language."
 msgstr ""
 
-#: qt/aboutdlg.py:110
+#: qt/aboutdlg.py:114
 msgid "this link"
 msgstr ""
 
-#: qt/aboutdlg.py:112
+#: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:146
+#: qt/aboutdlg.py:153
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -514,25 +514,25 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: qt/aboutdlg.py:229 qt/app.py:547
+#: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
 msgstr "Lloc web del projecte"
 
-#: qt/aboutdlg.py:234 qt/app.py:529
+#: qt/aboutdlg.py:241 qt/app.py:529
 msgid "User manual"
 msgstr "Manual d'ús"
 
-#: qt/aboutdlg.py:235 qt/app.py:531
+#: qt/aboutdlg.py:242 qt/app.py:531
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Obre el manual d'usuari al navegador (local si està disponible en línia)"
 
-#: qt/aboutdlg.py:265
+#: qt/aboutdlg.py:272
 #, fuzzy
 msgid "Back In Time"
 msgstr "Retorn al Futur"
 
-#: qt/aboutdlg.py:286
+#: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
@@ -771,6 +771,7 @@ msgid "Shows the message about this Release Candidate again."
 msgstr "Torna a mostrar el missatge sobre aquest candidat a la versió."
 
 #: qt/app.py:676
+#, fuzzy
 msgid "Back In &Time"
 msgstr "Retorn al Futur"
 
@@ -1272,7 +1273,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Remove & Retention"
-msgstr "&Eliminar & Retenir"
+msgstr "Eliminar & &Retenir"
 
 #: qt/manageprofiles/__init__.py:270
 msgid "&Options"
@@ -1826,9 +1827,9 @@ msgstr "Executa només una instantània alhora"
 #: qt/manageprofiles/tab_options.py:53
 #, fuzzy
 msgid ""
-"Other backups will be blocked until the current backup is done. This is a "
-"global option. So it will affect all profiles for this user. But it need to "
-"be activated for all other users, too."
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
+"However, it must also be activated for all other users."
 msgstr ""
 "Les altres instantànies es blocaran fins que finalitzi la instantània "
 "actual. Aquesta és una opció global i, per tant, afectarà tots els perfils "
