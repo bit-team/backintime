@@ -2021,7 +2021,7 @@ def inhibitSuspend(app_id=sys.argv[0],
         app_id: Name of the application (default: ``sys.argv[0]``)
         toplevel_xid: Not used anymore.
         reason: Reason as string.
-        flags: Unkonwn.
+        flags: Unknown.
 
     Returns:
         A 3-item-tuple with the first item containing the inhibit cookie
