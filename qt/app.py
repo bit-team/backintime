@@ -2243,6 +2243,7 @@ class RemoveSnapshotThread(QThread):
     """
     refreshSnapshotList = pyqtSignal()
     hideTimelineItem = pyqtSignal(SnapshotItem)
+
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -2252,9 +2253,10 @@ class RemoveSnapshotThread(QThread):
     def run(self):
         last_snapshot = snapshots.lastSnapshot(self.config)
         renew_last_snapshot = False
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting snapshots')
+
+        # inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(
+            reason='deleting snapshots')
 
         for item, sid in [(x, x.snapshot_id) for x in self.items]:
             self.snapshots.remove(sid)
@@ -2264,13 +2266,15 @@ class RemoveSnapshotThread(QThread):
 
         self.refreshSnapshotList.emit()
 
-        #set correct last snapshot again
+        # set correct last snapshot again
         if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(snapshots.lastSnapshot(self.config))
+            self.snapshots.createLastSnapshotSymlink(
+                snapshots.lastSnapshot(self.config))
 
-        #release inhibit suspend
+        # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(
+                *self.config.inhibitCookie)
 
 
 class FillTimeLineThread(QThread):
@@ -2494,7 +2498,6 @@ if __name__ == '__main__':
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
     if cfg.isConfigured():
-        cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
         qapp.exec()
 
