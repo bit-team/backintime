@@ -1160,11 +1160,30 @@ class MainWindow(QMainWindow):
         #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
+        """Generates formatted components of a progress bar display.
+
+        This generator yields individual parts of a progress message, including
+        the percentage completed, optionally the amount sent, current
+        speed, estimated time remaining (ETA), and a custom message.
+        Values are extracted from the provided progress object `pg`.
+
+        Args:
+            pg (progress.ProgressFile): An object that provides progress
+                information through methods like `intValue` and `strValue`.
+                Expected keys include 'percent', 'sent', 'speed', and 'eta'.
+            message (str): A custom message to append at the end of the
+                progress bar.
+
+        Yields:
+            str: Formatted strings representing different segments of the
+                progress bar.
+        """
         d = (
-            ('sent', '{}:'.format(_('Sent'))),
-            ('speed', '{}:'.format(_('Speed'))),
-            ('eta', '{}:'.format(_('ETA')))
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
+
         yield '{}%'.format(pg.intValue('percent'))
 
         for key, txt in d:

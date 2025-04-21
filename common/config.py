@@ -258,7 +258,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.default_profile_name = _('Main profile')
 
         # ToDo Those hidden labels exist to speed up their translation.
-        # Unhide them after the upcoming release (1.5.0).
         # See: https://github.com/bit-team/backintime/issues/
         # 1735#issuecomment-2197646518
         _HIDDEN_NEW_MODE_LABELS = (
@@ -428,6 +427,10 @@ class Config(configfile.ConfigFileWithProfiles):
             profile_id = self.currentProfile()
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
+
+    def is_mode_encrypted(self, profile_id=None):
+        mode = self.snapshotsMode(profile_id)
+        return mode in ('local_encfs', 'ssh_encfs')
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'

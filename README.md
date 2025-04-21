@@ -37,7 +37,7 @@ More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 ## Maintenance status
 
 The project is in active development since the [new team](#the-team) joined in
-summer 2022. Development is done voluntarilly in spare time so things need to be
+summer 2022. Development is done voluntarily in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
 Current focus is on fixing
