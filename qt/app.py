@@ -820,20 +820,23 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
+            button_tip = act.text()
+
             # Assume an explicit tooltip if it is different from "text()".
             # Note that Qt use "text()" as "toolTip()" by default.
-            if act.toolTip() != act.text():
+            if act.toolTip() != button_tip:
 
                 if QApplication.instance().isRightToLeft():
                     # RTL/BIDI language like Hebrew
-                    button_tip = f'{act.toolTip()} :{act.text()}'
+                    button_tip = f'{act.toolTip()} :{button_tip}'
                 else:
                     # (default) LTR language (e.g. English)
-                    button_tip = f'{act.text()}: {act.toolTip()}'
+                    button_tip = f'{button_tip}: {act.toolTip()}'
 
-                toolbar.widgetForAction(act).setToolTip(button_tip)
+            button_tip = textwrap.fill(
+                button_tip, width=26, break_long_words=False)
 
-            act.setText(textwrap.fill(act.text(), width=8, break_long_words=False))
+            toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
@@ -1158,11 +1161,30 @@ class MainWindow(QMainWindow):
         #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
+        """Generates formatted components of a progress bar display.
+
+        This generator yields individual parts of a progress message, including
+        the percentage completed, optionally the amount sent, current
+        speed, estimated time remaining (ETA), and a custom message.
+        Values are extracted from the provided progress object `pg`.
+
+        Args:
+            pg (progress.ProgressFile): An object that provides progress
+                information through methods like `intValue` and `strValue`.
+                Expected keys include 'percent', 'sent', 'speed', and 'eta'.
+            message (str): A custom message to append at the end of the
+                progress bar.
+
+        Yields:
+            str: Formatted strings representing different segments of the
+                progress bar.
+        """
         d = (
-            ('sent', '{}:'.format(_('Sent'))),
-            ('speed', '{}:'.format(_('Speed'))),
-            ('eta', '{}:'.format(_('ETA')))
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
+
         yield '{}%'.format(pg.intValue('percent'))
 
         for key, txt in d:

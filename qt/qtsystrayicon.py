@@ -198,6 +198,10 @@ class QtSysTrayIcon:
             self.menuProgress.setVisible(False)
 
     def getMenuProgress(self, pg):
+        """See common/app.py::MainWindow.getProgressBarFormat().
+
+        The code is a near duplicate.
+        """
         data = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
