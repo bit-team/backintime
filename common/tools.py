@@ -2010,23 +2010,28 @@ INHIBIT_DBUS = (
     },
 )
 
-def inhibitSuspend(app_id = sys.argv[0],
-                   toplevel_xid = None,
-                   reason = 'take snapshot',
-                   flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
+
+def inhibitSuspend(app_id=sys.argv[0],
+                   toplevel_xid=None,
+                   reason='take snapshot',
+                   flags=INHIBIT_SUSPENDING | INHIBIT_IDLE):
     """Prevent machine to go to suspend or hibernate.
 
-    Dev note: What is a cookie? What is an inhibitor? How does this work?
+    Args:
+        app_id: Name of the application (default: ``sys.argv[0]``)
+        toplevel_xid: Not used anymore.
+        reason: Reason as string.
+        flags: Unkonwn.
 
     Returns:
         A 3-item-tuple with the first item containing the inhibit cookie
         which is used to end the inhibitor.
-
     """
 
     # Dev note (buhtz, 2025-04): Get rid of that.
     if ON_TRAVIS or dbus is None:
-        # no suspend on travis (no dbus either)
+        logger.debug(
+            f'No suspend on Travis {ON_TRAVIS=} or dbus not available {dbus=}')
         return
 
     # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
@@ -2042,18 +2047,17 @@ def inhibitSuspend(app_id = sys.argv[0],
     if not app_id:
         app_id = 'backintime'
 
-    try:
-        if not toplevel_xid:
-            toplevel_xid = 0
+    # try:
+    #     if not toplevel_xid:
+    #         toplevel_xid = 0
 
-    except IndexError:
-        toplevel_xid = 0
-
-    import json
+    # except IndexError:
+    #     toplevel_xid = 0
 
     for dbus_props in INHIBIT_DBUS:
-        debug_dbus_props = json.dumps(dbus_props, indent=4)
-        logger.debug(f'dbus_props=\n{debug_dbus_props}')
+        # import json
+        # debug_dbus_props = json.dumps(dbus_props, indent=4)
+        # logger.debug(f'dbus_props=\n{debug_dbus_props}')
         try:
             # Connect directly to the socket instead of dbus.SessionBus because
             # the dbus.SessionBus was initiated before we loaded the environ
@@ -2074,14 +2078,14 @@ def inhibitSuspend(app_id = sys.argv[0],
 
             cookie = proxy(*[
                 (app_id,
-                 dbus.UInt32(toplevel_xid),
+                 0,  # dbus.UInt32(toplevel_xid),
                  reason,
                  dbus.UInt32(flags))[i]
                 for i in dbus_props['arguments']
             ])
 
-            logger.debug('Inhibit Suspend started. '
-                         f'Reason: {reason} Cookie: "{cookie}"')
+            # logger.debug('Inhibit Suspend started. '
+            #              f'Reason: {reason} Cookie: "{cookie}"')
 
             return (cookie, bus, dbus_props)
 
@@ -2116,7 +2120,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         return (cookie, bus, dbus_props)
 
 
-def splitCommands(cmds, head = '', tail = '', maxLength = 0):
+def splitCommands(cmds, head='', tail='', maxLength=0):
     """
     Split a list of commands ``cmds`` into multiple commands with each length
     lower than ``maxLength``.
