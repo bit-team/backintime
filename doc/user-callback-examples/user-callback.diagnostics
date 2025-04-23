@@ -1,6 +1,7 @@
 #!/bin/bash
 # SPDX-FileCopyrightText: © 2012-2015 Germar Reitze
 # SPDX-FileCopyrightText: © 2022 Jürgen Altfeld
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -23,7 +24,15 @@ reason="$3"
 
 printLog() {
     # argument $1 contains the log message
-    echo "$(date +'%Y-%m-%d %H:%M:%S') ($(whoami)/$BASHPID) profile_id=$profile_id: $1" 2>&1 >> ~/backintime_usercallback_diagnostics.log
+    # echo "$(date +'%Y-%m-%d %H:%M:%S') ($(whoami)/$BASHPID) profile_id=$profile_id: $1" 2>&1 >> ~/backintime_usercallback_diagnostics.log
+
+    prio=$2
+
+    if [ -z "$prio" ]; then
+        prio="info"
+    fi
+
+    logger -id --tag backintime.$(basename "$0") --priority "$prio" "profile_id=$profile_id: $1"
 }
 
 case $reason in
@@ -43,36 +52,36 @@ case $reason in
         msg="$5"
         case $errorcode in
             1) # ERROR: The application is not configured
-               printLog "4 - ERROR $errorcode: The application is not configured"
+               printLog "4 - ERROR $errorcode: The application is not configured" "error"
               ;;
             2) # ERROR: A 'take snapshot' process is already running
-               printLog "4 - ERROR $errorcode: A 'take snapshot' process is already running"
+               printLog "4 - ERROR $errorcode: A 'take snapshot' process is already running" "error"
               ;;
             3) # ERROR: Can't find snapshots folder (is it on a removable drive ?)
-               printLog "4 - ERROR $errorcode: Can't find snapshots folder (maybe it is on a removable drive)"
+               printLog "4 - ERROR $errorcode: Can't find snapshots folder (maybe it is on a removable drive)" "error"
               ;;
             4) # ERROR: A snapshot for 'now' already exist
-               printLog "4 - ERROR $errorcode: A snapshot for 'now' already exist"
+               printLog "4 - ERROR $errorcode: A snapshot for 'now' already exist" "error"
                ;;
             5) # ERROR: Error while taking a snapshot
-               printLog "4 - ERROR $errorcode: Error while taking a snapshot"
+               printLog "4 - ERROR $errorcode: Error while taking a snapshot" "error"
                ;;
             6) # ERROR: New snapshot taken but with errors
-               printLog "4 - ERROR $errorcode: New snapshot taken but with errors (may happen with 'continue on error')"
+               printLog "4 - ERROR $errorcode: New snapshot taken but with errors (may happen with 'continue on error')" "error"
                ;;
             *) # Unknown error number
-               printLog "4 - ERROR $errorcode: Unknown error code!"
+               printLog "4 - ERROR $errorcode: Unknown error code!" "error"
                ;;
         esac
-        printLog "    Error message: $msg"
+        printLog "    Error message: $msg" "error"
         ;;
-    5) #backintime-qt4 (GUI) started
+    5) # GUI started
         printLog "5 - backintime-qt GUI started"
         ;;
-    6) #backintime-qt4 (GUI) closed
+    6) # GUI closed
         printLog "6 - backintime-qt GUI closed"
         ;;
-    7) #Mount drives
+    7) # Mount drives
         printLog "7 - mount drive requested"
         # Further diagnostics examples (use "on demand"):
         
@@ -89,11 +98,11 @@ case $reason in
         # fi
         
         ;;
-    8) #Unmount the drives
+    8) # Unmount the drives
         printLog "8 - unmount drive requested"
         ;;
     *) ## Unknown reason
-        printLog "Called with invalid reason $reason"
+        printLog "Called with invalid reason $reason" "error"
         ;;
 
 esac
