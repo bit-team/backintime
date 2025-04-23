@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Feb 2024" "version 1.4.4-dev" "USER COMMANDS"
+.TH backintime-config 1 "November 2024" "version 1.6.0-dev.b0467fa3" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -71,6 +71,15 @@ Type: int       Allowed Values: 1-28
 Which day of month the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR >= 40
 .PP
 Default: 1
+.RE
+
+.IP "\fIprofile<N>.schedule.debug\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Enable debug output to system log for schedule mode.
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.schedule.mode\fR" 6
@@ -372,7 +381,7 @@ Type: bool      Allowed Values: true|false
 .br
 Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR free inodes in % is reached.
 .PP
-Default: true
+Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.min_free_inodes.value\fR" 6
@@ -390,7 +399,7 @@ Type: bool      Allowed Values: true|false
 .br
 Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR free space is reached.
 .PP
-Default: true
+Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.min_free_space.unit\fR" 6
@@ -682,7 +691,7 @@ Default: false
 .RS
 Type: int       Allowed Values: 0, >700
 .br
-Maximum command length of commands run on remote host. This can be tested for all ssh profiles in the configuration with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.
+Maximum command length of commands run on remote host. This can be tested for all ssh profiles in the configuration with 'python3 /usr/share/backintime/common/sshMaxArg.py LENGTH'.
 .br
 0 = unlimited
 .PP
@@ -750,6 +759,33 @@ Type: str       Allowed Values: absolute path to private key file
 Private key file used for password-less authentication on remote host. 
 .PP
 Default: ~/.ssh/id_dsa
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.proxy_host\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Proxy host used to connect to remote host.
+.PP
+Default: IP or domain address
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.proxy_host_port\fR" 6
+.RS
+Type: int       Allowed Values: 0-65535
+.br
+Proxy host port used to connect to remote host.
+.PP
+Default: 22
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.proxy_user\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Remote SSH user
+.PP
+Default: the local users name
 .RE
 
 .IP "\fIprofile<N>.snapshots.ssh.user\fR" 6
