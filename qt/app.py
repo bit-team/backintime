@@ -1358,7 +1358,11 @@ class MainWindow(QMainWindow):
         logger.info('Check backup source for missing include entries...')
 
         rc = True
-        # self.config.PLUGIN_MANAGER.processBegin()
+
+        # Reason for this callback signal: Some users might managing the
+        # mounting by themself using a callback script.
+        # BIT won't be able doing this check without a source mounted.
+        self.config.PLUGIN_MANAGER.processBegin()
 
         the_mount = mount.Mount(cfg=self.config)
         hash_id = the_mount.mount()
@@ -1378,7 +1382,7 @@ class MainWindow(QMainWindow):
 
             rc = messagebox.question(msg, widget_to_center_on=self)
 
-        # self.config.PLUGIN_MANAGER.processEnd()
+        self.config.PLUGIN_MANAGER.processEnd()
         the_mount.umount(self.config.current_hash_id)
 
         logger.debug('Finished checking backup source '
