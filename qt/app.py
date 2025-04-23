@@ -1342,21 +1342,43 @@ class MainWindow(QMainWindow):
             self.timeLine.checkSelection()
 
     def validate_on_take_snapshot(self):
+        """Check and warn about entries in the include list that do not exist
+        (anymore) in the backup source.
+
+        This routine is located in the GUI and should not be confused with
+        ``Snapshots.warn_about_include_entries_missing_in_source()``
+        in ``common/snapshots.py``.
+
+        Dev note (buhtz, 2025-04): Communication between GUI and CLI should
+        be improved. In this case the validation could be done by CLI only
+        and the GUI reacts on it. But in the current implementation this is not
+        possible. On the long run the GUI should not call the CLI but call CLI
+        code directly.
+        """
+        self.config.PLUGIN_MANAGER.processBegin(self)
+
+        the_mount = mount.Mount(cfg=self.config)
+        hash_id = the_mount.mount()
+        self.config.setCurrentHashId(hash_id)
+
         missing = self.snapshots.get_include_entries_missing_in_source()
 
         if missing:
             # Dev note (2025-03, buhtz): See
             # "Snapshots.warn_about_include_entries_missing_in_source" and
             # keep the string consistent.
-            msg= _(
+            msg = _(
                 'The following entries from the include list have no '
                 'corresponding file or directory in the backup source:')
             msg = msg + '\n\n' + '\n'.join(missing) + '\n\n'
             msg = msg + _('Proceed with the backup?')
 
-            return messagebox.question(msg, widget_to_center_on=self)
+            rc = messagebox.question(msg, widget_to_center_on=self)
 
-        return True
+        self.config.PLUGIN_MANAGER.processBegin()
+        the_mount.umount(self.config.current_hash_id)
+
+        return rc is True
 
     def btnTakeSnapshotClicked(self):
         self._take_snapshot_clicked(checksum=False)

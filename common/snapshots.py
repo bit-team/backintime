@@ -725,7 +725,7 @@ class Snapshots:
         if missing_entries:
             # Dev note (2025-03, buhtz): Make this a module constant if #2070
             # is fixed.
-            msg= _(
+            msg = _(
                 'The following entries from the include list have no '
                 'corresponding file or directory in the backup source:')
             # Dev note (buhtz, 2025-03): To my research there is no elegant
