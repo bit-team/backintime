@@ -1355,7 +1355,7 @@ class MainWindow(QMainWindow):
         possible. On the long run the GUI should not call the CLI but call CLI
         code directly.
         """
-        self.config.PLUGIN_MANAGER.processBegin(self)
+        self.config.PLUGIN_MANAGER.processBegin()
 
         the_mount = mount.Mount(cfg=self.config)
         hash_id = the_mount.mount()
