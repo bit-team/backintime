@@ -242,7 +242,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.current_hash_id = 'local'
         self.pw = None
         self.forceUseChecksum = False
-        self.xWindowId = None
         self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
 
