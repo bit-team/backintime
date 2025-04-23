@@ -846,8 +846,7 @@ class Snapshots:
                     now = datetime.datetime.today()
 
                     # inhibit suspend/hibernate during snapshot is running
-                    self.config.inhibitCookie = tools.inhibitSuspend(
-                        toplevel_xid=self.config.xWindowId)
+                    self.config.inhibitCookie = tools.inhibitSuspend()
 
                     # mount
                     try:
