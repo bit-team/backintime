@@ -1355,6 +1355,8 @@ class MainWindow(QMainWindow):
         possible. On the long run the GUI should not call the CLI but call CLI
         code directly.
         """
+        logger.info('Check backup source for missing include entries...')
+
         rc = True
         self.config.PLUGIN_MANAGER.processBegin()
 
@@ -1376,9 +1378,13 @@ class MainWindow(QMainWindow):
 
             rc = messagebox.question(msg, widget_to_center_on=self)
 
-        self.config.PLUGIN_MANAGER.processBegin()
+        self.config.PLUGIN_MANAGER.processEnds()
         the_mount.umount(self.config.current_hash_id)
 
+        logger.debug('Finished checking backup source '
+                    'for missing include entries.')
+        logger.info('Finished checking backup source '
+                    'for missing include entries.')
         return rc is True
 
     def btnTakeSnapshotClicked(self):
