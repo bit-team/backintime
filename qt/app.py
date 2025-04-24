@@ -92,6 +92,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
@@ -117,7 +118,7 @@ class MainWindow(QMainWindow):
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
-        self.shutdown = tools.ShutDown()
+        self.shutdown = ShutdownAgent()
 
         # Import on module level not possible because of Qt restrictions.
         import icon
@@ -643,7 +644,7 @@ class MainWindow(QMainWindow):
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
-        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_shutdown.setEnabled(self.shutdown.can_shutdown())
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
@@ -896,7 +897,8 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         profile_state = state_data.profile(self.config.current_profile_id)
 
-        if self.shutdown.askBeforeQuit():
+        # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
+        if self.shutdown.ask_before_quit():
             msg = _('If this window is closed, Back In Time will not be able '
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'

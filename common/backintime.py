@@ -34,6 +34,7 @@ from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from version import __version__
+from shutdownagent import ShutdownAgent
 
 RETURN_OK = 0
 RETURN_ERR = 1
@@ -887,9 +888,9 @@ def shutdown(args):
     printHeader()
     cfg = getConfig(args)
 
-    sd = tools.ShutDown()
+    sd = ShutdownAgent()
 
-    if not sd.canShutdown():
+    if not sd.can_shutdown():
         logger.warning('Shutdown is not supported.')
         sys.exit(RETURN_ERR)
 
