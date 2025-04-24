@@ -42,6 +42,7 @@
 # TODO This script does not update release dates scattered around in
 #      different files (eg. common/man/C/backintime.1 line 1)
 VERSION=`cat VERSION`
+VERSION_WITHOUT_BRANCH=VERSION
 
 if [[ $VERSION == *-dev ]]
 then
@@ -56,14 +57,12 @@ MAINTAINER="BIT Team <bit-dev@python.org>"
 
 update_app_version () {
   echo "Update '$1'"
-  sed -e "s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" \
-      -i $1
+  sed --expression="s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" --in-place $1
 }
 
 update_man_page () {
   echo "Update '$1'"
-  sed -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" \
-      -i $1
+  sed --expression="s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION_WITHOUT_BRANCH\"\3/" --in-place $1
 }
 
 update_omf () {
