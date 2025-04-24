@@ -32,6 +32,10 @@ from typing import Union
 from bitbase import TimeUnit
 import logger
 
+from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication
+from PyQt6.QtCore import QTimer
+
+
 # Try to import keyring
 is_keyring_available = False
 try:
@@ -2364,12 +2368,69 @@ class ShutDown:
         """
         return self.activate_shutdown and not self.started
 
+    def _show_shutdown_warning(self, countdown=30):
+        """
+        Show a Qt dialog with a 30-second countdown before shutdown.
+        Returns True if countdown completes, False if user cancels.
+        """
+        # Check if running in a graphical environment
+        if not os.environ.get('DISPLAY'):
+            return True  # No GUI, proceed with shutdown
+
+        # Ensure QApplication instance exists
+        app = QApplication.instance()
+        if not app:
+            app = QApplication([])
+
+        class ShutdownWarningDialog(QDialog):
+            def __init__(self, countdown):
+                super().__init__()
+                self.countdown = countdown
+                self.initUI()
+                self.startCountdown()
+
+            def initUI(self):
+                self.setWindowTitle("Back In Time - Shutdown Warning")
+                self.setFixedSize(300, 150)
+                self.label = QLabel(f"System will shut down in {self.countdown} seconds.", self)
+                self.cancel_button = QPushButton("Cancel Shutdown", self)
+                self.cancel_button.clicked.connect(self.cancelShutdown)
+                layout = QVBoxLayout()
+                layout.addWidget(self.label)
+                layout.addWidget(self.cancel_button)
+                self.setLayout(layout)
+
+            def startCountdown(self):
+                self.timer = QTimer(self)
+                self.timer.timeout.connect(self.updateCountdown)
+                self.timer.start(1000)  # Update every second
+
+            def updateCountdown(self):
+                self.countdown -= 1
+                self.label.setText(f"System will shut down in {self.countdown} seconds.")
+                if self.countdown <= 0:
+                    self.timer.stop()
+                    self.accept()
+
+            def cancelShutdown(self):
+                self.timer.stop()
+                self.reject()
+
+        dialog = ShutdownWarningDialog(countdown)
+        result = dialog.exec()
+        return result == QDialog.DialogCode.Accepted
+
     def shutdown(self):
         """
-        Run 'shutdown -h now' if we are root or
-        call the dbus proxy to start the shutdown.
+        Show a 30-second warning dialog (if in GUI) and then run 'shutdown -h now'
+        if we are root or call the dbus proxy to start the shutdown.
         """
+
         if not self.activate_shutdown:
+            return False
+
+        # Show shutdown warning dialog (returns False if cancelled)
+        if not self._show_shutdown_warning():
             return False
 
         if self.is_root:
