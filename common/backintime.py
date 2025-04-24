@@ -29,6 +29,7 @@ import mount
 import password
 import encfstools
 import cli
+import shutdown
 from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
@@ -887,7 +888,7 @@ def shutdown(args):
     printHeader()
     cfg = getConfig(args)
 
-    sd = tools.ShutDown()
+    sd = shutdown.ShutDown()
 
     if not sd.canShutdown():
         logger.warning('Shutdown is not supported.')
