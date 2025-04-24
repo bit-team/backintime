@@ -5,8 +5,6 @@
 # This file is part of the program "Back In time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-#
-# File was splitted from "common/tools.py".
 """Tests using several linters.
 
 Linter tests are skipped on machines where the linters are not available. As an

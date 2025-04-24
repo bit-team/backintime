@@ -6,6 +6,8 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# File was split from "common/tools.py".
 """Shutdown the system
 """
 import os
@@ -154,9 +156,9 @@ class ShutdownAgent:
                          f'shutdown. {exc}')
             return (None, None)
 
-        # try each desktop enironment
+        # try each desktop environment
         for de, dbus_props in self.DBUS_SHUTDOWN.items():
-            logger.debug(f'Try to receiv shutdown proxy using "{de}".')
+            logger.debug(f'Try to receive shutdown proxy using "{de}".')
 
             try:
                 if dbus_props['bus'] == 'sessionbus':
@@ -189,7 +191,7 @@ class ShutdownAgent:
         Indicate if ShutDown is ready to fire and so the application
         shouldn't be closed.
 
-        Dev note (buhtz, 2025-04): Makes not much sense to me, this methode.
+        Dev note (buhtz, 2025-04): Makes not much sense to me, this method.
         Investigate further.
         """
         return self.activate_shutdown and not self.started
