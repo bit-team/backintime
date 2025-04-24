@@ -68,8 +68,7 @@ update_man_page () {
 
 update_omf () {
   echo "Update '$1'"
-  sed -e "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" \
-      -i $1
+  sed --expression "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" --in-place $1
 }
 
 update_app_version common/version.py
