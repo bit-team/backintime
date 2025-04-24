@@ -13,7 +13,7 @@ See Issue #1575 for details about that migration.
 import re
 
 # Version string regularyly used by the application and presented to users.
-__version__ = '1.6.0-dev.b0467fa3'
+__version__ = '1.6.0-dev.0927479b'
 
 
 def is_release_candidate() -> bool:
