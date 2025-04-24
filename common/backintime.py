@@ -890,7 +890,7 @@ def shutdown(args):
 
     sd = shutdown.ShutDown()
 
-    if not sd.canShutdown():
+    if not sd.can_shutdown():
         logger.warning('Shutdown is not supported.')
         sys.exit(RETURN_ERR)
 
