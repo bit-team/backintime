@@ -42,7 +42,7 @@
 # TODO This script does not update release dates scattered around in
 #      different files (eg. common/man/C/backintime.1 line 1)
 VERSION=`cat VERSION`
-VERSION_WITHOUT_BRANCH=VERSION
+VERSION_WITHOUT_BRANCH=$VERSION
 
 if [[ $VERSION == *-dev ]]
 then
@@ -50,6 +50,7 @@ then
 fi
 
 echo VERSION: $VERSION
+echo VERSION_WITHOUT_BRANCH: $VERSION_WITHOUT_BRANCH
 
 # MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
 # MAINTAINER="BIT Team <dan@le-web.org>"
