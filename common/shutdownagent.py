@@ -14,7 +14,7 @@ import dbus
 import logger
 
 
-class ShutDown:
+class ShutdownAgent:
     """Shutdown the system after the current snapshot has finished.
 
     """
@@ -156,7 +156,7 @@ class ShutDown:
 
         # try each desktop enironment
         for de, dbus_props in self.DBUS_SHUTDOWN.items():
-            logger.debug('Try to receiv shutdown proxy using "{de}".')
+            logger.debug(f'Try to receiv shutdown proxy using "{de}".')
 
             try:
                 if dbus_props['bus'] == 'sessionbus':
@@ -196,10 +196,12 @@ class ShutDown:
 
     def _shutdown_via_shell(self):
         self.started = True
-        proc = subprocess.Popen(['shutdown', '-h', 'now'])
-        proc.communicate()
 
-        return proc.returncode
+        with subprocess.Popen(['shutdown', '-h', 'now']) as proc:
+            proc.communicate()
+            rc = proc.returncode
+
+        return rc
 
     def _shutdown_via_dbus_proxy(self):
         self.started = True
