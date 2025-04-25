@@ -92,6 +92,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
@@ -117,7 +118,7 @@ class MainWindow(QMainWindow):
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
-        self.shutdown = tools.ShutDown()
+        self.shutdown = ShutdownAgent()
 
         # Import on module level not possible because of Qt restrictions.
         import icon
@@ -643,7 +644,7 @@ class MainWindow(QMainWindow):
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
-        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_shutdown.setEnabled(self.shutdown.can_shutdown())
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
@@ -896,7 +897,8 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         profile_state = state_data.profile(self.config.current_profile_id)
 
-        if self.shutdown.askBeforeQuit():
+        # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
+        if self.shutdown.ask_before_quit():
             msg = _('If this window is closed, Back In Time will not be able '
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
@@ -2243,6 +2245,7 @@ class RemoveSnapshotThread(QThread):
     """
     refreshSnapshotList = pyqtSignal()
     hideTimelineItem = pyqtSignal(SnapshotItem)
+
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -2252,9 +2255,10 @@ class RemoveSnapshotThread(QThread):
     def run(self):
         last_snapshot = snapshots.lastSnapshot(self.config)
         renew_last_snapshot = False
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting snapshots')
+
+        # inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(
+            reason='deleting snapshots')
 
         for item, sid in [(x, x.snapshot_id) for x in self.items]:
             self.snapshots.remove(sid)
@@ -2264,13 +2268,15 @@ class RemoveSnapshotThread(QThread):
 
         self.refreshSnapshotList.emit()
 
-        #set correct last snapshot again
+        # set correct last snapshot again
         if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(snapshots.lastSnapshot(self.config))
+            self.snapshots.createLastSnapshotSymlink(
+                snapshots.lastSnapshot(self.config))
 
-        #release inhibit suspend
+        # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(
+                *self.config.inhibitCookie)
 
 
 class FillTimeLineThread(QThread):
@@ -2494,7 +2500,6 @@ if __name__ == '__main__':
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
     if cfg.isConfigured():
-        cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
         qapp.exec()
 
