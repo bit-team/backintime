@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 David Wales (@daviewales)
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -186,8 +187,8 @@ class CheckLocks(pyfakefs_ut.TestCase):
         self.assertFalse(sym.exists())
 
 
-class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
-    """Test high-level Mount with 'local' backend.
+class MountWithLocalBackend(pyfakefs_ut.TestCase):
+    """Test high-level ``class Mount`` with 'local' backend.
     """
 
     def setUp(self):
@@ -221,15 +222,12 @@ class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
             with self.subTest(first_run=first_run):
                 self.assertTrue(self.mount.preMountCheck(first_run=first_run))
 
-    def test_first_pre_mount_check(self):
-        """preMountCheck always returns True for 'local' mode.
+    def test_pre_mount_check_always_true(self):
+        """preMountCheck always returns True for 'local' mode, on first run and
+        even if still initialised.
         """
-        self.assertTrue(self.mount.preMountCheck(first_run=True))
-
-    def test_initialised_pre_mount_check(self):
-        """preMountCheck always returns True for 'local' mode.
-        """
-        self.assertTrue(self.mount.preMountCheck(first_run=False))
+        for first in [True, False]:
+            self.assertTrue(self.mount.preMountCheck(first_run=first))
 
     def test_mount(self):
         """mount always returns 'local' for 'local' mode.
@@ -245,10 +243,12 @@ class CheckHighLevelLocalMount(pyfakefs_ut.TestCase):
         """If the new profile to mount is 'local', `remount` always
         returns 'local'.
         """
-        self.assertEqual('local', self.mount.remount('2', mode='local'))
+        self.assertEqual(
+            'local',
+            self.mount.remount(new_profile_id='2', mode='local'))
 
 
-class CheckHighLevelLocalEncFSMount(pyfakefs_ut.TestCase):
+class MountWithLocalEncFS(pyfakefs_ut.TestCase):
     """Test high-level Mount with 'local_encfs' backend.
     """
     test_password = 'test_password'

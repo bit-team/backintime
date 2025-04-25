@@ -310,7 +310,7 @@ class Mount:
 
         return backend.preMountCheck(first_run)
 
-    def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
+    def remount(self, new_profile_id, mode=None, hash_id=None, **kwargs):
         """
         High-level `remount`. Unmount the old profile presented by ``hash_id``
         and mount new profile ``new_profile_id`` with mode ``mode``. If old and
