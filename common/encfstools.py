@@ -217,6 +217,7 @@ class EncFS_mount(MountControl):
                      %(cfg, new_backup), self)
         shutil.copy2(cfg, new_backup)
 
+
 class EncFS_SSH(EncFS_mount):
     """
     Mount encrypted remote path with sshfs and encfs.
@@ -349,11 +350,13 @@ class EncFS_SSH(EncFS_mount):
                 d['hash_id'] = d['hash_id_1']
             return d
 
+
 class Encode:
     """
     encode path with encfsctl.
     ENCFS_SSH will replace config.ENCODE with this
     """
+
     def __init__(self, encfs):
         self.encfs = encfs
         self.password = self.encfs.password
@@ -419,8 +422,10 @@ class Encode:
 
         enc = ''
         m = self.re_asterisk.search(path)
+
         if not m is None:
             path_ = path[:]
+
             while True:
                 #search for foo/*, foo/*/bar, */bar or **/bar
                 #but not foo* or foo/*bar
@@ -471,11 +476,13 @@ class Encode:
             logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
 
+
 class Decode:
     """
     decode path with encfsctl.
     """
-    def __init__(self, cfg, string = True):
+
+    def __init__(self, cfg, string=True):
         self.config = cfg
         self.mode = cfg.snapshotsMode()
 
