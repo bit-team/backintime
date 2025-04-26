@@ -483,28 +483,22 @@ class RemoveFileThread(QThread):
 
     def __init__(self, parent, items):
         self.parent = parent
-        self.config = parent.config
+        # self.config = parent.config
         self.snapshots = parent.snapshots
         self.items = items
         super(RemoveFileThread, self).__init__(parent)
 
     def run(self):
-        # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = inhibitpowermgmt.inhibit_suspend(
-            reason='deleting files')
+        with inhibitpowermgmt.InhibitSuspend(reason='deleting files'):
 
-        for item in self.items:
-            self.snapshots.deletePath(item.snapshot_id, self.parent.path)
+            for item in self.items:
 
-            try:
-                item.setHidden(True)
+                self.snapshots.deletePath(item.snapshot_id, self.parent.path)
 
-            except RuntimeError:
-                # item has been deleted
-                # probably because user refreshed treeview
-                pass
+                try:
+                    item.setHidden(True)
 
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
-                *self.config.inhibitCookie)
+                except RuntimeError:
+                    # item has been deleted
+                    # probably because user refreshed treeview
+                    pass

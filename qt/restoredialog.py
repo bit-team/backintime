@@ -78,7 +78,7 @@ class RestoreDialog(QDialog):
 
     def exec(self):
         # inhibit suspend/hibernate during restore
-        self.config.inhibitCookie \
+        self.inhibit_cookie \
             = inhibitpowermgmt.inhibit_suspend(reason='restoring')
         self.show()
         self.refreshTimer.start()
@@ -91,9 +91,8 @@ class RestoreDialog(QDialog):
         self.btnClose.setEnabled(True)
 
         # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
-                *self.config.inhibitCookie)
+        if self.inhibit_cookie:
+            inhibitpowermgmt.uninhibit_suspend(*self.inhibit_cookie)
 
 
 class RestoreThread(QThread):

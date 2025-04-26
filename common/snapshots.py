@@ -804,9 +804,9 @@ class Snapshots:
 
                     now = datetime.datetime.today()
 
+                    # TODO Use contextmanager instead.
                     # inhibit suspend/hibernate during snapshot is running
-                    self.config.inhibitCookie \
-                        = inhibitpowermgmt.inhibit_suspend()
+                    inhibit_cookie = inhibitpowermgmt.inhibit_suspend()
 
                     # mount
                     try:
@@ -990,9 +990,8 @@ class Snapshots:
             time.sleep(2)
 
         # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
-                *self.config.inhibitCookie)
+        if inhibit_cookie:
+            inhibitpowermgmt.uninhibit_suspend(*inhibit_cookie)
 
         return ret_error
 

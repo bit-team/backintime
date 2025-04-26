@@ -2258,26 +2258,20 @@ class RemoveSnapshotThread(QThread):
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = inhibitpowermgmt.inhibit_suspend(
-            reason='deleting snapshots')
+        with inhibitpowermgmt.InhibitSuspend(reason='deleting snapshots'):
 
-        for item, sid in [(x, x.snapshot_id) for x in self.items]:
-            self.snapshots.remove(sid)
-            self.hideTimelineItem.emit(item)
-            if sid == last_snapshot:
-                renew_last_snapshot = True
+            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
 
-        self.refreshSnapshotList.emit()
+            self.refreshSnapshotList.emit()
 
-        # set correct last snapshot again
-        if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(
-                snapshots.lastSnapshot(self.config))
-
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
-                *self.config.inhibitCookie)
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(self.config))
 
 
 class FillTimeLineThread(QThread):
