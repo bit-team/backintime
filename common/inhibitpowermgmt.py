@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2014 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
@@ -28,12 +28,12 @@ except ImportError:
     else:
         raise
 
-INHIBIT_LOGGING_OUT = 1
-INHIBIT_USER_SWITCHING = 2
-INHIBIT_SUSPENDING = 4
-INHIBIT_IDLE = 8
+FLAG_LOGGING_OUT = 1
+FLAG_USER_SWITCHING = 2
+FLAG_SUSPENDING = 4
+FLAG_IDLE = 8
 
-INHIBIT_DBUS = (
+_DBUS_PROVIDERS = (
     {
         'service': 'org.freedesktop.PowerManagement',
         'objectPath': '/org/freedesktop/PowerManagement/Inhibit',
@@ -63,7 +63,7 @@ INHIBIT_DBUS = (
 
 def inhibit_suspend(app_id=sys.argv[0],
                     reason='take snapshot',
-                    flags=INHIBIT_SUSPENDING | INHIBIT_IDLE):
+                    flags=FLAG_SUSPENDING | FLAG_IDLE):
     """Prevent machine to go to suspend or hibernate.
 
     Args:
@@ -97,7 +97,7 @@ def inhibit_suspend(app_id=sys.argv[0],
     if not app_id:
         app_id = 'backintime'
 
-    for dbus_props in INHIBIT_DBUS:
+    for dbus_props in _DBUS_PROVIDERS:
         try:
             # Connect directly to the socket instead of dbus.SessionBus because
             # the dbus.SessionBus was initiated before we loaded the environ
@@ -123,9 +123,6 @@ def inhibit_suspend(app_id=sys.argv[0],
                  dbus.UInt32(flags))[i]
                 for i in dbus_props['arguments']
             ])
-
-            # logger.debug('Inhibit Suspend started. '
-            #              f'Reason: {reason} Cookie: "{cookie}"')
 
             return (cookie, bus, dbus_props)
 
@@ -157,3 +154,34 @@ def uninhibit_suspend(cookie: int,
         logger.warning('Release inhibit Suspend failed.')
 
         return (cookie, bus, dbus_props)
+
+
+class InhibitSuspend:
+    """Context manager to prevent machine to go to suspend or hibernate."""
+
+    def __init__(self, reason: str, app_id: str = None):
+        self.app_id = app_id if app_id else sys.argv[0]
+        self.reason = reason
+        self.cookie = None
+        self.bus = None
+        self.props = None
+
+    def __enter__(self):
+
+        result = inhibit_suspend(
+            app_id=self.app_id,
+            reason=self.reason,
+            flags=FLAG_SUSPENDING | FLAG_IDLE)
+
+        if result is not None:
+            self.cookie, self.bus, self.props = result
+
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        if self.cookie is None:
+            return
+
+        uninhibit_suspend(cookie=self.cookie,
+                          bus=self.bus,
+                          dbus_props=self.props)

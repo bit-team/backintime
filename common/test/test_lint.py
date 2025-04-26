@@ -226,7 +226,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         error_n = len(proc.stdout.splitlines())
         if error_n > 0:
-            print(proc.stdout)
+            print(f'\n{proc.stdout}')
 
         self.assertEqual(0, error_n, f'Ruff found {error_n} problem(s).')
 
