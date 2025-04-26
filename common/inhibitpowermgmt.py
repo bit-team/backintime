@@ -62,9 +62,8 @@ INHIBIT_DBUS = (
 
 
 def inhibit_suspend(app_id=sys.argv[0],
-                   toplevel_xid=None,
-                   reason='take snapshot',
-                   flags=INHIBIT_SUSPENDING | INHIBIT_IDLE):
+                    reason='take snapshot',
+                    flags=INHIBIT_SUSPENDING | INHIBIT_IDLE):
     """Prevent machine to go to suspend or hibernate.
 
     Args:
@@ -83,7 +82,7 @@ def inhibit_suspend(app_id=sys.argv[0],
     if dbus is None:
         logger.debug(
             f'No suspend on Travis {ON_TRAVIS=} or dbus not available {dbus=}')
-        return
+        return None
 
     # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
     # session connection)
@@ -93,7 +92,7 @@ def inhibit_suspend(app_id=sys.argv[0],
     if os.geteuid() == 0:  # is root
         # Dev note (buhtz, 2025-04): But does this need to be a "Fail"?
         logger.debug('Inhibit Suspend failed because BIT was started as root.')
-        return
+        return None
 
     if not app_id:
         app_id = 'backintime'
@@ -135,15 +134,14 @@ def inhibit_suspend(app_id=sys.argv[0],
 
     logger.warning('Inhibit Suspend failed.')
 
+    return None
 
-def uninhibit_suspend(cookie, bus, dbus_props):
-    """Release inhibit.
-    """
-    # Dev note (buhtz, 2025-03): Get rid of that. No assert's in productive
-    # code.
-    assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
-    assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
-    assert isinstance(dbus_props, dict), 'dbus_props is not dict type: %s' % dbus_props
+
+def uninhibit_suspend(cookie: int,
+                      bus: dbus.bus.BusConnection,
+                      dbus_props: dict
+                      ) -> tuple[int, dbus.bus.BusConnection, dict]:
+    """Release inhibit"""
 
     try:
         interface = bus.get_object(
