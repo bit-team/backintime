@@ -100,6 +100,7 @@ from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
+from shutdowndialog import show_shutdown_warning
 
 
 class MainWindow(QMainWindow):
@@ -1124,7 +1125,12 @@ class MainWindow(QMainWindow):
                 if takeSnapshotMessage[0] == 0:
                     takeSnapshotMessage = (0, _('Done, no backup needed'))
 
-            self.shutdown.shutdown()
+            # Check `activate_shutdown` here, instead of shutdownagent.py
+            # function `shutdown` should just focus on shutting down a machine
+            # Add a window to show countdown of shutting down
+            if self.shutdown.activate_shutdown and show_shutdown_warning():
+                
+                self.shutdown.shutdown()
 
         if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
             self.lastTakeSnapshotMessage = takeSnapshotMessage
