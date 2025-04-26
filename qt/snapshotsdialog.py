@@ -32,6 +32,7 @@ from PyQt6.QtCore import (Qt,
 from timeline import TimeLine
 from bitwidgets import SnapshotCombo
 import tools
+import inhibitpowermgmt
 import restoredialog
 import messagebox
 import snapshots
@@ -489,7 +490,7 @@ class RemoveFileThread(QThread):
 
     def run(self):
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(
+        self.config.inhibitCookie = inhibitpowermgmt.inhibitSuspend(
             reason='deleting files')
 
         for item in self.items:
@@ -505,5 +506,5 @@ class RemoveFileThread(QThread):
 
         # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
+            self.config.inhibitCookie = inhibitpowermgmt.unInhibitSuspend(
                 *self.config.inhibitCookie)

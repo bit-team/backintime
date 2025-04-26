@@ -9,16 +9,15 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-
 import tools
+import inhibitpowermgmt
 
 
 class RestoreDialog(QDialog):
-    def __init__(self, parent, sid, what, where = '', **kwargs):
+    def __init__(self, parent, sid, what, where='', **kwargs):
         super(RestoreDialog, self).__init__(parent)
         self.resize(600, 500)
 
@@ -39,7 +38,7 @@ class RestoreDialog(QDialog):
 
         self.mainLayout = QVBoxLayout(self)
 
-        #text view
+        # text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setReadOnly(True)
         self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
@@ -79,7 +78,7 @@ class RestoreDialog(QDialog):
 
     def exec(self):
         # inhibit suspend/hibernate during restore
-        self.config.inhibitCookie = tools.inhibitSuspend(reason='restoring')
+        self.config.inhibitCookie = inhibitpowermgmt.inhibitSuspend(reason='restoring')
         self.show()
         self.refreshTimer.start()
         self.thread.start()
@@ -92,7 +91,7 @@ class RestoreDialog(QDialog):
 
         # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
+            self.config.inhibitCookie = inhibitpowermgmt.unInhibitSuspend(
                 *self.config.inhibitCookie)
 
 

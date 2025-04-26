@@ -30,6 +30,7 @@ import config
 import configfile
 import logger
 import tools
+import inhibitpowermgmt
 import encfstools
 import mount
 import progress
@@ -804,7 +805,8 @@ class Snapshots:
                     now = datetime.datetime.today()
 
                     # inhibit suspend/hibernate during snapshot is running
-                    self.config.inhibitCookie = tools.inhibitSuspend()
+                    self.config.inhibitCookie \
+                        = inhibitpowermgmt.inhibitSuspend()
 
                     # mount
                     try:
@@ -989,7 +991,7 @@ class Snapshots:
 
         # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
+            self.config.inhibitCookie = inhibitpowermgmt.unInhibitSuspend(
                 *self.config.inhibitCookie)
 
         return ret_error

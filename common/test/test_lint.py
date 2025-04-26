@@ -44,6 +44,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'languages.py',
+    'inhibitpowermgmt.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
