@@ -15,20 +15,6 @@ import sys
 import dbus
 import logger
 
-# Dev note (buhtz, 2025-04): Investigate and get rid of that.
-# getting dbus imports to work in Travis CI is a huge pain
-# use conditional dbus import
-# ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
-# ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
-# try:
-#     import dbus
-# except ImportError:
-#     if ON_TRAVIS or ON_RTD:
-#         # python-dbus doesn't work on Travis yet.
-#         dbus = None
-#     else:
-#         raise
-
 FLAG_LOGGING_OUT = 1
 FLAG_USER_SWITCHING = 2
 FLAG_SUSPENDING = 4
@@ -77,15 +63,6 @@ def inhibit_suspend(app_id=sys.argv[0],
         A 3-item-tuple with the first item containing the inhibit cookie
         which is used to end the inhibitor.
     """
-
-    # Dev note (buhtz, 2025-04): Get rid of that.
-    # if ON_TRAVIS or dbus is None:
-    if dbus is None:
-        logger.debug(
-            # f'No suspend on Travis {ON_TRAVIS=} or dbus not
-            # available {dbus=}')
-            f'No suspend because DBus not available. {dbus=}')
-        return None
 
     # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
     # session connection)
