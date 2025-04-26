@@ -736,6 +736,7 @@ class Snapshots:
         """
         ret_val, ret_error = False, True
         sleep = True
+        inhibit_cookie = None
 
         self.config.PLUGIN_MANAGER.load(self)
 
