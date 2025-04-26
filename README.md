@@ -9,6 +9,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
+[![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![Mailing list bit-dev@python.org](doc/maintain/_images/badge_bit-dev.svg)](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 [![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg)](https://fosstodon.org/@backintime)
@@ -36,15 +37,16 @@ More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 ## Maintenance status
 
 The project is in active development since the [new team](#the-team) joined in
-summer 2022. Development is done in spare time so things need to be
+summer 2022. Development is done voluntarily in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
 Current focus is on fixing
 [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
 instead of implementing new
-[features](https://github.com/bit-team/backintime/labels/Feature). Read the
+[features](https://github.com/bit-team/backintime/labels/Feature).
+Stabilize the code base and its test suite is also a matter. Read the
 [strategy outline](CONTRIBUTING.md#strategy-outline) for details.
-Please see  [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
+Please see [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
 development and have a look on
 [open issues](https://github.com/bit-team/backintime/issues) especially
 those labeled as [good first issues](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
@@ -69,6 +71,7 @@ features. This work is carried out voluntarily during their limited spare time.
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
 - [Contributing and other ways to support the project](#contributing-and-other-ways-to-support-the-project)
+- [Licenses](#licenses)
 
 ---
 
@@ -99,7 +102,8 @@ latest development version of _Back In Time_ please see section
 ## Alternative installation options
 Besides the repositories of the official GNU/Linux distributions, there are
 other alternative installation options provided and maintained by third
-parties.
+parties. Use them at your own risk and please contact that third party
+maintainers if you encounter problems.
 
 - [@Germar](https://github.com/germar)'s Personal Package Archive ([PPA](https://launchpad.net/ubuntu/+ppas)) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
 - [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
@@ -111,20 +115,10 @@ In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
-In older releases:
-- Error: "module 'qttools' has no attribute 'initate_translator'" with EncFS when prompting the user for a password ([#1553](https://github.com/bit-team/backintime/issues/1553))
-- [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
-- [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
-- [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
-
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
 
-## Problems in the latest stable release
-
-All releases can be found in the [list of releases](https://github.com/bit-team/backintime/releases).
-
-### File permissions handling and therefore possible non-differential backups
+## File permissions handling and therefore possible non-differential backups
 
 In version 1.2.0, the handling of file permissions changed.
 In versions <= 1.1.24 (until 2017) all file permissions were set to `-rw-r--r--` in the backup target.
@@ -138,7 +132,7 @@ to add `--no-perms --no-group --no-owner` to it.
 Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
 files.
 
-### `qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
+## `qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
 
 See the related issue [#1592](https://github.com/bit-team/backintime/issues/1592).
 
@@ -149,78 +143,14 @@ the file `/usr/share/backintime/common/qt_probing.py`:
 
 Renaming does *not* work!
 
-## Problems in versions older than the latest stable release
-
-### Tray icon or other icons not shown correctly
-
-**Status: Fixed in v1.4.0**
-
-Missing installations of Qt-supported themes and icons can cause this effect.
-_Back In Time_ may activate the wrong theme in this
-case leading to some missing icons. A fix for the next release is in preparation.
-
-As clean solution, please check your Linux settings (Appearance, Styles, Icons)
-and install all themes and icons packages for your preferred style via
-your package manager.
-
-See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
-and [#1364](https://github.com/bit-team/backintime/issues/1364).
-
-### Non-working password safe and BiT forgets passwords (keyring backend issues)
-
-**Status: Fixed in v1.3.3 (mostly) and v1.4.0**
-
-_Back in Time_ does only support selected "known-good" backends
-to set and query passwords from a user-session password safe by
-using the [`keyring`](https://github.com/jaraco/keyring) library.
-
-Enabling a supported keyring requires manual configuration of a configuration
-file until there is e.g. a settings GUI for this.
-
-Symptoms are DEBUG log output (with the command line argument `--debug`) of
-keyring problems can be recognized by output like:
-
-```
-DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends...' can't be used with BackInTime
-DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends.chainer' can't be used with BackInTime
-```
-
-To diagnose and solve this follow these steps in a terminal:
-
-```
-# Show default backend
-python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
-
-# List available backends:
-keyring --list-backends 
-
-# Find out the config file folder:
-python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
-
-# Create a config file named "keyringrc.cfg" in this folder with one of the available backends (listed above)
-[backend]
-default-keyring=keyring.backends.kwallet.DBusKeyring
-```
-
-See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
-
-### Incompatibility with rsync 3.2.4 or newer
-
-**Status: Fixed in v1.3.3**
-
-The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible
-with `rsync >= 3.2.4`
-([#1247](https://github.com/bit-team/backintime/issues/1247)).
-
-If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a
-workaround. Add `--old-args` in
-[_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
-Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
-environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
-_Back In Time_. In that case you may not see any problems.
 
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
 
-<sub>July 2024</sub>
+# Licenses
+Please read [`LICENSES.md`](LICENSES.md).
+
+---
+
+<sub>April 2025</sub>

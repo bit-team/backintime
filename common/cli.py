@@ -36,7 +36,7 @@ def remove(cfg, snapshot_ids = None, force = None):
     sids = [selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove') for sid in snapshot_ids]
 
     if not force:
-        print('Do you really want to remove these snapshots?')
+        print('Do you really want to remove these backups?')
         [print(sid.displayName) for sid in sids]
         if not 'yes' == input('(no/yes): '):
             return
@@ -65,7 +65,7 @@ def checkConfig(cfg, crontab = True):
     mode = cfg.snapshotsMode()
 
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
-        #preMountCheck
+        # preMountCheck
         test = 'Run mount tests'
         announceTest()
         mnt = mount.Mount(cfg = cfg, tmp_mount = True)
@@ -80,7 +80,7 @@ def checkConfig(cfg, crontab = True):
 
         okay()
 
-        #okay, lets try to mount
+        # okay, let's try to mount
         test = 'Mount'
         announceTest()
 
@@ -94,7 +94,7 @@ def checkConfig(cfg, crontab = True):
 
         okay()
 
-    test = 'Check/prepare snapshot path'
+    test = 'Check/prepare backup path'
     announceTest()
     snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 

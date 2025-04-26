@@ -76,7 +76,7 @@ class ExpertOptionsTab(QDialog):
         grid.addWidget(self.cbIoniceOnCron, 0, 1)
 
         self.cbIoniceOnUser = QCheckBox(
-            _('when taking a manual snapshot')
+            _('when taking a manual backup')
             + self._default_string(self.config.DEFAULT_RUN_IONICE_FROM_USER),
             self)
         grid.addWidget(self.cbIoniceOnUser, 1, 1)

@@ -42,6 +42,7 @@
 # TODO This script does not update release dates scattered around in
 #      different files (eg. common/man/C/backintime.1 line 1)
 VERSION=`cat VERSION`
+VERSION_WITHOUT_BRANCH=$VERSION
 
 if [[ $VERSION == *-dev ]]
 then
@@ -49,27 +50,25 @@ then
 fi
 
 echo VERSION: $VERSION
+echo VERSION_WITHOUT_BRANCH: $VERSION_WITHOUT_BRANCH
 
-MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
+# MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
 # MAINTAINER="BIT Team <dan@le-web.org>"
-# MAINTAINER="BIT Team <bit-dev@python.org>"
+MAINTAINER="BIT Team <bit-dev@python.org>"
 
 update_app_version () {
   echo "Update '$1'"
-  sed -e "s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" \
-      -i $1
+  sed --expression="s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" --in-place $1
 }
 
 update_man_page () {
   echo "Update '$1'"
-  sed -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" \
-      -i $1
+  sed --expression="s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION_WITHOUT_BRANCH\"\3/" --in-place $1
 }
 
 update_omf () {
   echo "Update '$1'"
-  sed -e "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" \
-      -i $1
+  sed --expression "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" --in-place $1
 }
 
 update_app_version common/version.py

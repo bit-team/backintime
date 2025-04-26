@@ -66,17 +66,25 @@ class Snapshots:
         self.clearIdCache()
         self.clearNameCache()
 
-        #rsync --info=progress2 output
-        #search for:     517.38K  26%   14.46MB/s    0:02:36
-        #or:             497.84M   4% -449.39kB/s   ??:??:??
-        #but filter out: 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, to-chk=169/452)
-        #                because this shows current run time
-        self.reRsyncProgress = re.compile(r'.*?'                            #trash at start
-                                          r'(\d*[,\.]?\d+[KkMGT]?)\s+'      #bytes sent
-                                          r'(\d*)%\s+'                      #percent done
-                                          r'(-?\d*[,\.]?\d*[KkMGT]?B/s)\s+' #speed
-                                          r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'  #estimated time of arrival
-                                          r'(.*$)')                         #trash at the end
+        # rsync --info=progress2 output
+        # search for:     517.38K  26%   14.46MB/s    0:02:36
+        # or:             497.84M   4% -449.39kB/s   ??:??:??
+        # but filter out: 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, to-chk=169/452)
+        #                 because this shows current run time
+        self.reRsyncProgress = re.compile(
+            # trash at start
+            r'.*?'
+            # bytes sent
+            r'(\d*[,\.]?\d+[KkMGT]?)\s+'
+            # percent done
+            r'(\d*)%\s+'
+            # speed
+            r'(-?\d*[,\.]?\d*[KkMGT]?B/s)\s+'
+            # estimated time of arrival
+            r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'
+            # trash at the end
+            r'(.*$)'
+        )
 
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
         self.restorePermissionFailed = False
@@ -796,8 +804,7 @@ class Snapshots:
                     now = datetime.datetime.today()
 
                     # inhibit suspend/hibernate during snapshot is running
-                    self.config.inhibitCookie = tools.inhibitSuspend(
-                        toplevel_xid=self.config.xWindowId)
+                    self.config.inhibitCookie = tools.inhibitSuspend()
 
                     # mount
                     try:
@@ -830,7 +837,7 @@ class Snapshots:
                         profile_id = self.config.currentProfile()
                         profile_name = self.config.profileName()
 
-                        logger.info(f"Take a new snapshot. Profile: {profile_id} "
+                        logger.info(f"Create a new backup. Profile: {profile_id} "
                                     f"{profile_name}", self)
 
                         if not self.config.canBackup(profile_id):
@@ -839,16 +846,16 @@ class Snapshots:
                                     and self.config.notify()):
 
                                 message = (
-                                    _("Can't find snapshots directory.")
+                                    _("Can't find backup directory.")
                                     + '\n'
                                     + self.config.snapshotsFullPath(profile_id)
                                     + '\n'
-                                    + _('If it is on a removable drive '
+                                    + _('If it is on a removable drive, '
                                         'please plug it in.')
                                     + '\n'
-                                    + gettext.ngettext('Waiting %s second.',
-                                                       'Waiting %s seconds.',
-                                                       30) % 30
+                                    + gettext.ngettext('Waiting {n} second.',
+                                                       'Waiting {n} seconds.',
+                                                       30).format(n=30)
                                 )
 
                                 self.setTakeSnapshotMessage(
@@ -857,7 +864,7 @@ class Snapshots:
                                     timeout=30)
 
                             logger.warning(
-                                'Cannot start snapshot yet: target directory '
+                                'Cannot start backup yet: target directory '
                                 'not accessible. Will retry each second in '
                                 'the next 30 seconds. Please wait.')
                             for _idx in range(30):
@@ -867,7 +874,7 @@ class Snapshots:
                                 if self.config.canBackup():
                                     break
                         if not self.config.canBackup(profile_id):
-                            logger.error('Snapshots directory not '
+                            logger.error('Backup directory not '
                                          'accessible. Tries stopped.',
                                          self)
                             # Can't find snapshots directory (is it on a
@@ -880,7 +887,7 @@ class Snapshots:
 
                             if sid.exists():
                                 logger.warning(
-                                    f'Snapshot directory "{sid.path()}" '
+                                    f'Backup directory "{sid.path()}" '
                                     'already exists',
                                     self)
                                 # This snapshot already exists
@@ -910,8 +917,8 @@ class Snapshots:
 
                                 if ret_error:
                                     logger.error(
-                                        'Failed to take snapshot.', self)
-                                    msg = _('Failed to take snapshot '
+                                        'Failed to create backup.', self)
+                                    msg = _('Failed to create backup '
                                             '{snapshot_id}.').format(
                                                 snapshot_id=sid.displayID)
                                     self.setTakeSnapshotMessage(1, msg)
@@ -921,12 +928,12 @@ class Snapshots:
                                     time.sleep(2)
 
                                 else:
-                                    logger.warning("No new snapshot", self)
+                                    logger.warning("No new backup", self)
 
                             else:  # new snapshot taken...
 
                                 if ret_error:
-                                    logger.error('New snapshot taken but '
+                                    logger.error('New backup created but '
                                                  'errors detected',
                                                  self)
                                     # Fixes #1491
@@ -1010,7 +1017,7 @@ class Snapshots:
                 pg.setStrValue('sent', m.group(1))
                 pg.setIntValue('percent', int(m.group(2)))
                 pg.setStrValue('speed', m.group(3))
-                #pg.setStrValue('eta', m.group(4))
+                pg.setStrValue('eta', m.group(4))
                 pg.save()
                 del pg
             else:
@@ -1279,7 +1286,7 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found leftover snapshot '{new_snapshot.displayID}' "
+            logger.info(f"Found incomplete backup '{new_snapshot.displayID}' "
                         "that can be continued.", self)
 
             # TODO
@@ -1287,7 +1294,7 @@ class Snapshots:
             # Might make no sense to put that name in that string.
             self.setTakeSnapshotMessage(
                 0,
-                _('Found leftover snapshot {snapshot_id} '
+                _('Found incomplete backup {snapshot_id} '
                   'that can be continued.')
                 .format(snapshot_id=new_snapshot.displayID)
             )
@@ -1306,12 +1313,12 @@ class Snapshots:
             params[1] = new_snapshot.hasChanges
 
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
-            logger.info(f'Removing leftover snapshot {new_snapshot.displayID} '
+            logger.info(f'Removing incomplete backup {new_snapshot.displayID} '
                         'directory from last run')
 
             self.setTakeSnapshotMessage(
                 0,
-                _('Removing leftover {snapshot_id} directory from last run')
+                _('Removing incomplete {snapshot_id} directory from last run')
                 .format(snapshot_id=new_snapshot.displayID)
             )
 
@@ -1367,7 +1374,7 @@ class Snapshots:
             rsync_prefix.append('--link-dest=%s' % link_dest)
 
         # sync changed folders
-        logger.info("Call rsync to take the snapshot", self)
+        logger.info("Call rsync to create a backup", self)
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
@@ -1376,7 +1383,7 @@ class Snapshots:
             new_snapshot.pathBackup(use_mode=['ssh', 'ssh_encfs']),
             quote=''))
 
-        self.setTakeSnapshotMessage(0, _('Taking snapshot'))
+        self.setTakeSnapshotMessage(0, _('Creating backup'))
 
         self._rsync_cmd_args = cmd
 
@@ -1476,9 +1483,9 @@ class Snapshots:
 
             self.remove(new_snapshot)
 
-            logger.info("Nothing changed, no new snapshot necessary", self)
+            logger.info("Nothing changed, no new backup necessary", self)
             self.snapshotLog.append(
-                '[I] ' + _('Nothing changed, no new snapshot necessary'), 3)
+                '[I] ' + _('Nothing changed, no new backup necessary'), 3)
 
             if prev_sid:
                 prev_sid.setLastChecked()
@@ -1887,13 +1894,13 @@ class Snapshots:
         # Remove snapshots older than N years/weeks/days
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(
-                0, _('Apply rules to remove old snapshots'))
+                0, _('Apply rules to remove old backups'))
 
             # The oldest backup to keep. Others older than this are removed.
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
             oldBackupId = oldSID.withoutTag
 
-            logger.debug(f'Remove snapshots older than: {oldBackupId}', self)
+            logger.debug(f'Remove backups older than: {oldBackupId}', self)
 
             while True:
                 # Keep min one backup
@@ -1909,7 +1916,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = 'Remove snapshot {} because it is older than {}'
+                msg = 'Remove backup {} because it is older than {}'
                 logger.debug(msg.format(
                     snapshots[0].withoutTag, oldBackupId), self)
 
@@ -1959,7 +1966,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = "free disk space: {} MiB. Remove snapshot {}"
+                msg = "free disk space: {} MiB. Remove backup {}"
                 logger.debug(msg.format(free_space, snapshots[0].withoutTag), self)
                 self.remove(snapshots[0])
                 del snapshots[0]
@@ -1988,8 +1995,9 @@ class Snapshots:
                     free_inodes = info.f_favail
                     max_inodes = info.f_files
                 except Exception as e:
-                    logger.debug('Failed to get free inodes for snapshot path %s: %s'
-                                 % (self.config.snapshotsPath(), str(e)),
+                    logger.debug('Failed to get free inodes for backup '
+                                 'path %s: %s' % (
+                                     self.config.snapshotsPath(), str(e)),
                                  self)
                     break
 
@@ -2001,8 +2009,10 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                logger.debug("free inodes: %.2f%%. Remove snapshot %s"
-                            %((100.0 / max_inodes * free_inodes), snapshots[0].withoutTag),
+                logger.debug("free inodes: %.2f%%. Remove backup %s"
+                            % (
+                                (100.0 / max_inodes * free_inodes),
+                                snapshots[0].withoutTag),
                             self)
                 self.remove(snapshots[0])
                 del snapshots[0]

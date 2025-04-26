@@ -29,7 +29,7 @@ Here is a brief overview of the rules available:
   by other rules.
 - **Remove snapshots older than `N` Days/Weeks/Years**: Snapshots older than
   the specified time period are removed immediately.
-- **Retention policy**: A batterie of rules about which snapshots to keep. The
+- **Retention policy**: Rules about which snapshots to keep. The
   rest will be removed immediately.
     - **Keep all snapshots for the last `N` days**
     - **Keep the last snapshot for each day/week/month for the last `N` days/weeks/months**
@@ -133,7 +133,7 @@ _Example_:
 
 _Example_:
 
-![Rule - Keep last for each months for the last 4 months](_images/rule_keep_last_each_months_for_n_months.png)
+![Rule - Keep last for each months for the last 4 months](_images/rule_keep_last_each_month_for_n_months.png)
 
 **Keep the last snapshot for each year for all years**
 
