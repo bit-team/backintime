@@ -12,9 +12,9 @@
 """
 import os
 import sys
+import dbus
 import logger
 
-import dbus
 # Dev note (buhtz, 2025-04): Investigate and get rid of that.
 # getting dbus imports to work in Travis CI is a huge pain
 # use conditional dbus import
@@ -82,7 +82,8 @@ def inhibit_suspend(app_id=sys.argv[0],
     # if ON_TRAVIS or dbus is None:
     if dbus is None:
         logger.debug(
-            # f'No suspend on Travis {ON_TRAVIS=} or dbus not available {dbus=}')
+            # f'No suspend on Travis {ON_TRAVIS=} or dbus not
+            # available {dbus=}')
             f'No suspend because DBus not available. {dbus=}')
         return None
 
