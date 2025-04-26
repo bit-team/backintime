@@ -59,7 +59,7 @@ class RestoreDialog(QDialog):
         self.thread = RestoreThread(self)
         self.thread.finished.connect(self.threadFinished)
 
-        #refresh log every 200ms
+        # refresh log every 200ms
         self.refreshTimer = QTimer(self)
         self.refreshTimer.setInterval(200)
         self.refreshTimer.setSingleShot(False)
@@ -78,8 +78,8 @@ class RestoreDialog(QDialog):
             self.txtLogView.appendPlainText(newLog.rstrip('\n'))
 
     def exec(self):
-        #inhibit suspend/hibernate during restore
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId, reason = 'restoring')
+        # inhibit suspend/hibernate during restore
+        self.config.inhibitCookie = tools.inhibitSuspend(reason='restoring')
         self.show()
         self.refreshTimer.start()
         self.thread.start()
@@ -89,9 +89,12 @@ class RestoreDialog(QDialog):
 
     def threadFinished(self):
         self.btnClose.setEnabled(True)
-        #release inhibit suspend
+
+        # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(
+                *self.config.inhibitCookie)
+
 
 class RestoreThread(QThread):
     """

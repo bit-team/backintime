@@ -709,10 +709,10 @@ class SettingsDialog(QDialog):
 
         active_mode = self._tab_general.get_active_snapshots_mode()
 
-        enabled = active_mode in ('ssh', 'ssh_encfs')
-
         self.updateExcludeItems()
+        self.lblSshEncfsExcludeWarning.setVisible(active_mode == 'ssh_encfs')
 
+        enabled = active_mode in ('ssh', 'ssh_encfs')
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 

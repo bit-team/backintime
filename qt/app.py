@@ -92,6 +92,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
@@ -117,7 +118,7 @@ class MainWindow(QMainWindow):
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
-        self.shutdown = tools.ShutDown()
+        self.shutdown = ShutdownAgent()
 
         # Import on module level not possible because of Qt restrictions.
         import icon
@@ -643,7 +644,7 @@ class MainWindow(QMainWindow):
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
-        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_shutdown.setEnabled(self.shutdown.can_shutdown())
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
@@ -819,20 +820,23 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
+            button_tip = act.text()
+
             # Assume an explicit tooltip if it is different from "text()".
             # Note that Qt use "text()" as "toolTip()" by default.
-            if act.toolTip() != act.text():
+            if act.toolTip() != button_tip:
 
                 if QApplication.instance().isRightToLeft():
                     # RTL/BIDI language like Hebrew
-                    button_tip = f'{act.toolTip()} :{act.text()}'
+                    button_tip = f'{act.toolTip()} :{button_tip}'
                 else:
                     # (default) LTR language (e.g. English)
-                    button_tip = f'{act.text()}: {act.toolTip()}'
+                    button_tip = f'{button_tip}: {act.toolTip()}'
 
-                toolbar.widgetForAction(act).setToolTip(button_tip)
+            button_tip = textwrap.fill(
+                button_tip, width=26, break_long_words=False)
 
-            act.setText(textwrap.fill(act.text(), width=8, break_long_words=False))
+            toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
@@ -893,7 +897,8 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         profile_state = state_data.profile(self.config.current_profile_id)
 
-        if self.shutdown.askBeforeQuit():
+        # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
+        if self.shutdown.ask_before_quit():
             msg = _('If this window is closed, Back In Time will not be able '
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
@@ -1157,11 +1162,30 @@ class MainWindow(QMainWindow):
         #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
+        """Generates formatted components of a progress bar display.
+
+        This generator yields individual parts of a progress message, including
+        the percentage completed, optionally the amount sent, current
+        speed, estimated time remaining (ETA), and a custom message.
+        Values are extracted from the provided progress object `pg`.
+
+        Args:
+            pg (progress.ProgressFile): An object that provides progress
+                information through methods like `intValue` and `strValue`.
+                Expected keys include 'percent', 'sent', 'speed', and 'eta'.
+            message (str): A custom message to append at the end of the
+                progress bar.
+
+        Yields:
+            str: Formatted strings representing different segments of the
+                progress bar.
+        """
         d = (
-            ('sent', '{}:'.format(_('Sent'))),
-            ('speed', '{}:'.format(_('Speed'))),
-            ('eta', '{}:'.format(_('ETA')))
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
+
         yield '{}%'.format(pg.intValue('percent'))
 
         for key, txt in d:
@@ -2221,6 +2245,7 @@ class RemoveSnapshotThread(QThread):
     """
     refreshSnapshotList = pyqtSignal()
     hideTimelineItem = pyqtSignal(SnapshotItem)
+
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -2230,9 +2255,10 @@ class RemoveSnapshotThread(QThread):
     def run(self):
         last_snapshot = snapshots.lastSnapshot(self.config)
         renew_last_snapshot = False
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting snapshots')
+
+        # inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(
+            reason='deleting snapshots')
 
         for item, sid in [(x, x.snapshot_id) for x in self.items]:
             self.snapshots.remove(sid)
@@ -2242,13 +2268,15 @@ class RemoveSnapshotThread(QThread):
 
         self.refreshSnapshotList.emit()
 
-        #set correct last snapshot again
+        # set correct last snapshot again
         if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(snapshots.lastSnapshot(self.config))
+            self.snapshots.createLastSnapshotSymlink(
+                snapshots.lastSnapshot(self.config))
 
-        #release inhibit suspend
+        # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(
+                *self.config.inhibitCookie)
 
 
 class FillTimeLineThread(QThread):
@@ -2472,7 +2500,6 @@ if __name__ == '__main__':
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
     if cfg.isConfigured():
-        cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
         qapp.exec()
 
