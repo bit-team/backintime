@@ -806,7 +806,7 @@ class Snapshots:
 
                     # inhibit suspend/hibernate during snapshot is running
                     self.config.inhibitCookie \
-                        = inhibitpowermgmt.inhibitSuspend()
+                        = inhibitpowermgmt.inhibit_suspend()
 
                     # mount
                     try:
@@ -991,7 +991,7 @@ class Snapshots:
 
         # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.unInhibitSuspend(
+            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
                 *self.config.inhibitCookie)
 
         return ret_error

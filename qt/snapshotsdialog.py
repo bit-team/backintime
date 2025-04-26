@@ -490,7 +490,7 @@ class RemoveFileThread(QThread):
 
     def run(self):
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = inhibitpowermgmt.inhibitSuspend(
+        self.config.inhibitCookie = inhibitpowermgmt.inhibit_suspend(
             reason='deleting files')
 
         for item in self.items:
@@ -506,5 +506,5 @@ class RemoveFileThread(QThread):
 
         # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.unInhibitSuspend(
+            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
                 *self.config.inhibitCookie)

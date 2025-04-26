@@ -2258,7 +2258,7 @@ class RemoveSnapshotThread(QThread):
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = inhibitpowermgmt.inhibitSuspend(
+        self.config.inhibitCookie = inhibitpowermgmt.inhibit_suspend(
             reason='deleting snapshots')
 
         for item, sid in [(x, x.snapshot_id) for x in self.items]:
@@ -2276,7 +2276,7 @@ class RemoveSnapshotThread(QThread):
 
         # release inhibit suspend
         if self.config.inhibitCookie:
-            self.config.inhibitCookie = inhibitpowermgmt.unInhibitSuspend(
+            self.config.inhibitCookie = inhibitpowermgmt.uninhibit_suspend(
                 *self.config.inhibitCookie)
 
 

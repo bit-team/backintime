@@ -47,7 +47,7 @@ INHIBIT_DBUS = (
 )
 
 
-def inhibitSuspend(app_id=sys.argv[0],
+def inhibit_suspend(app_id=sys.argv[0],
                    toplevel_xid=None,
                    reason='take snapshot',
                    flags=INHIBIT_SUSPENDING | INHIBIT_IDLE):
@@ -131,7 +131,7 @@ def inhibitSuspend(app_id=sys.argv[0],
     logger.warning('Inhibit Suspend failed.')
 
 
-def unInhibitSuspend(cookie, bus, dbus_props):
+def uninhibit_suspend(cookie, bus, dbus_props):
     """Release inhibit.
     """
     # Dev note (buhtz, 2025-03): Get rid of that. No assert's in productive
@@ -154,4 +154,3 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         logger.warning('Release inhibit Suspend failed.')
 
         return (cookie, bus, dbus_props)
-
