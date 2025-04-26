@@ -14,6 +14,20 @@ import os
 import sys
 import logger
 
+# Dev note (buhtz, 2025-04): Investigate and get rid of that.
+# getting dbus imports to work in Travis CI is a huge pain
+# use conditional dbus import
+ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
+ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
+try:
+    import dbus
+except ImportError:
+    if ON_TRAVIS or ON_RTD:
+        # python-dbus doesn't work on Travis yet.
+        dbus = None
+    else:
+        raise
+
 INHIBIT_LOGGING_OUT = 1
 INHIBIT_USER_SWITCHING = 2
 INHIBIT_SUSPENDING = 4
@@ -65,7 +79,8 @@ def inhibit_suspend(app_id=sys.argv[0],
     """
 
     # Dev note (buhtz, 2025-04): Get rid of that.
-    if ON_TRAVIS or dbus is None:
+    # if ON_TRAVIS or dbus is None:
+    if dbus is None:
         logger.debug(
             f'No suspend on Travis {ON_TRAVIS=} or dbus not available {dbus=}')
         return
@@ -75,7 +90,7 @@ def inhibit_suspend(app_id=sys.argv[0],
     # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus user
     #              session and it may have worked sometimes (without logging we
     #              don't know) so as root suspend can no longer inhibited.
-    if isRoot():
+    if os.geteuid() == 0:  # is root
         # Dev note (buhtz, 2025-04): But does this need to be a "Fail"?
         logger.debug('Inhibit Suspend failed because BIT was started as root.')
         return
@@ -83,17 +98,7 @@ def inhibit_suspend(app_id=sys.argv[0],
     if not app_id:
         app_id = 'backintime'
 
-    # try:
-    #     if not toplevel_xid:
-    #         toplevel_xid = 0
-
-    # except IndexError:
-    #     toplevel_xid = 0
-
     for dbus_props in INHIBIT_DBUS:
-        # import json
-        # debug_dbus_props = json.dumps(dbus_props, indent=4)
-        # logger.debug(f'dbus_props=\n{debug_dbus_props}')
         try:
             # Connect directly to the socket instead of dbus.SessionBus because
             # the dbus.SessionBus was initiated before we loaded the environ
