@@ -1188,17 +1188,23 @@ def onBattery():
     Returns:
         bool:   ``True`` if system is running on battery
     """
-    if dbus:
-        try:
-            bus = dbus.SystemBus()
-            proxy = bus.get_object('org.freedesktop.UPower',
-                                   '/org/freedesktop/UPower')
-            return bool(proxy.Get(
-                'org.freedesktop.UPower',
-                'OnBattery',
-                dbus_interface='org.freedesktop.DBus.Properties'))
-        except dbus.exceptions.DBusException:
-            pass
+    if dbus is None:
+        return False
+
+    try:
+        bus = dbus.SystemBus()
+        proxy = bus.get_object('org.freedesktop.UPower',
+                                '/org/freedesktop/UPower')
+        return bool(proxy.Get(
+            'org.freedesktop.UPower',
+            'OnBattery',
+            dbus_interface='org.freedesktop.DBus.Properties'))
+
+    except dbus.exceptions.DBusException as exc:
+        logger.debug('DBus exception while determining if running on '
+                     f'battery. {exc}')
+        pass
+
     return False
 
 
