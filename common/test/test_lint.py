@@ -44,6 +44,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'languages.py',
+    'inhibitpowermgmt.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
@@ -225,7 +226,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         error_n = len(proc.stdout.splitlines())
         if error_n > 0:
-            print(proc.stdout)
+            print(f'\n{proc.stdout}')
 
         self.assertEqual(0, error_n, f'Ruff found {error_n} problem(s).')
 
