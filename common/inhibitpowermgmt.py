@@ -12,6 +12,7 @@
 """
 import os
 import sys
+from typing import Optional
 import dbus
 import logger
 
@@ -48,14 +49,14 @@ _DBUS_PROVIDERS = (
 )
 
 
-def inhibit_suspend(app_id=sys.argv[0],
-                    reason='take snapshot',
-                    flags=FLAG_SUSPENDING | FLAG_IDLE):
+def inhibit_suspend(app_id: str = sys.argv[0],
+                    reason: str = 'take snapshot',
+                    flags: int = FLAG_SUSPENDING | FLAG_IDLE
+                    ) -> Optional[tuple[int, dbus.bus.BusConnection, dict]]:
     """Prevent machine to go to suspend or hibernate.
 
     Args:
-        app_id: Name of the application (default: ``sys.argv[0]``)
-        toplevel_xid: Not used anymore.
+        app_id: Name of the application.
         reason: Reason as string.
         flags: Unknown.
 
@@ -117,7 +118,7 @@ def inhibit_suspend(app_id=sys.argv[0],
 def uninhibit_suspend(cookie: int,
                       bus: dbus.bus.BusConnection,
                       dbus_props: dict
-                      ) -> tuple[int, dbus.bus.BusConnection, dict]:
+                      ) -> Optional[tuple[int, dbus.bus.BusConnection, dict]]:
     """Release inhibit"""
 
     try:
