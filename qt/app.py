@@ -1129,7 +1129,7 @@ class MainWindow(QMainWindow):
             # function `shutdown` should just focus on shutting down a machine
             # Add a window to show countdown of shutting down
             if self.shutdown.activate_shutdown and show_shutdown_warning():
-                
+
                 self.shutdown.shutdown()
 
         if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
