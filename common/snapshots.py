@@ -31,6 +31,7 @@ import config
 import configfile
 import logger
 import tools
+import inhibitpowermgmt
 import encfstools
 import mount
 import progress
@@ -777,6 +778,7 @@ class Snapshots:
         """
         ret_val, ret_error = False, True
         sleep = True
+        inhibit_cookie = None
 
         self.config.PLUGIN_MANAGER.load(self)
 
@@ -845,8 +847,9 @@ class Snapshots:
 
                     now = datetime.datetime.today()
 
+                    # TODO Use contextmanager instead.
                     # inhibit suspend/hibernate during snapshot is running
-                    self.config.inhibitCookie = tools.inhibitSuspend()
+                    inhibit_cookie = inhibitpowermgmt.inhibit_suspend()
 
                     # mount
                     try:
@@ -1031,9 +1034,8 @@ class Snapshots:
             time.sleep(2)
 
         # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
-                *self.config.inhibitCookie)
+        if inhibit_cookie:
+            inhibitpowermgmt.uninhibit_suspend(*inhibit_cookie)
 
         return ret_error
 

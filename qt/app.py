@@ -32,6 +32,7 @@ qttools_path.registerBackintimePath('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
+import inhibitpowermgmt
 import qttools
 import backintime
 import bitbase
@@ -93,6 +94,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
@@ -118,7 +120,7 @@ class MainWindow(QMainWindow):
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
-        self.shutdown = tools.ShutDown()
+        self.shutdown = ShutdownAgent()
 
         # Import on module level not possible because of Qt restrictions.
         import icon
@@ -644,7 +646,7 @@ class MainWindow(QMainWindow):
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
-        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_shutdown.setEnabled(self.shutdown.can_shutdown())
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
@@ -897,7 +899,8 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         profile_state = state_data.profile(self.config.current_profile_id)
 
-        if self.shutdown.askBeforeQuit():
+        # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
+        if self.shutdown.ask_before_quit():
             msg = _('If this window is closed, Back In Time will not be able '
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
@@ -2311,26 +2314,20 @@ class RemoveSnapshotThread(QThread):
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(
-            reason='deleting snapshots')
+        with inhibitpowermgmt.InhibitSuspend(reason='deleting snapshots'):
 
-        for item, sid in [(x, x.snapshot_id) for x in self.items]:
-            self.snapshots.remove(sid)
-            self.hideTimelineItem.emit(item)
-            if sid == last_snapshot:
-                renew_last_snapshot = True
+            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
 
-        self.refreshSnapshotList.emit()
+            self.refreshSnapshotList.emit()
 
-        # set correct last snapshot again
-        if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(
-                snapshots.lastSnapshot(self.config))
-
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
-                *self.config.inhibitCookie)
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(self.config))
 
 
 class FillTimeLineThread(QThread):
