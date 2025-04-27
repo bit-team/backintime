@@ -31,6 +31,7 @@ qttools_path.registerBackintimePath('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
+import inhibitpowermgmt
 import qttools
 import backintime
 import bitbase
@@ -2257,26 +2258,20 @@ class RemoveSnapshotThread(QThread):
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(
-            reason='deleting snapshots')
+        with inhibitpowermgmt.InhibitSuspend(reason='deleting snapshots'):
 
-        for item, sid in [(x, x.snapshot_id) for x in self.items]:
-            self.snapshots.remove(sid)
-            self.hideTimelineItem.emit(item)
-            if sid == last_snapshot:
-                renew_last_snapshot = True
+            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
 
-        self.refreshSnapshotList.emit()
+            self.refreshSnapshotList.emit()
 
-        # set correct last snapshot again
-        if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(
-                snapshots.lastSnapshot(self.config))
-
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
-                *self.config.inhibitCookie)
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(self.config))
 
 
 class FillTimeLineThread(QThread):
