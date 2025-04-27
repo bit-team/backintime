@@ -100,7 +100,7 @@ from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
-from shutdowndialog import show_shutdown_warning
+from shutdowndlg import show_shutdown_warning
 
 
 class MainWindow(QMainWindow):
