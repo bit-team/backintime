@@ -149,7 +149,7 @@ else
 fi
 
 # Start Makefile
-printf ".PHONY: test test-v\n" >> ${MAKEFILE}
+printf ".PHONY: test test-v unitest unittest-v\n" >> ${MAKEFILE}
 
 printf "PREFIX=/usr\n" >> ${MAKEFILE}
 printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
@@ -264,15 +264,12 @@ cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
-printf "test:\n" >> ${MAKEFILE}
-printf "\t@echo \"Target 'test' not available anymore. " >> ${MAKEFILE}
-printf "Use a test runner of your own choice " >> ${MAKEFILE}
-printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
-
-printf "\n\ntest-v:\n" >> ${MAKEFILE}
-printf "\t@echo \"Target 'test-v' not available anymore. " >> ${MAKEFILE}
-printf "Use a test runner of your own choice " >> ${MAKEFILE}
-printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
+for target in test test-v unittest unittest-v; do
+    printf "\n\n%s:\n" "$target" >> ${MAKEFILE}
+    printf "\t@echo \"Target '%s' not available anymore. " "$target">> ${MAKEFILE}
+    printf "Use a test runner of your own choice " >> ${MAKEFILE}
+    printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
+done
 
 # copy Makefile
 mv ${MAKEFILE} Makefile
