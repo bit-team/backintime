@@ -300,6 +300,7 @@ for target in test test-v unittest unittest-v; do
     printf "\t@echo \"Target '%s' not available anymore. " "$target">> ${MAKEFILE}
     printf "Use a test runner of your own choice " >> ${MAKEFILE}
     printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
+    printf "\n\t@false" >> ${MAKEFILE}
 done
 
 # Copy Makefile
