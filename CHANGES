@@ -1,9 +1,10 @@
 Back In Time
 
 Version 1.6.0-dev (development of upcoming release)
+* Changed: **Breaking** A "snapshot" now is a "backup" (#1929)
+* Changed: **Breaking** Deprecated and removed make targets: "test", "test-v", "unittest", "unittest-v"
 * Changed: Stop passing window ID when inhibiting suspend via D-Bus power manager (#2084)
 * Changed: Reorder DBUS service provider list for suspend mode inhibition (#2084)
-* Changed!: A "snapshot" now is a "backup" (#1929)
 * Added: "ETA" value in status bar (#2101)
 * Removed: Stop using QWindow.winId() (#2084)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
