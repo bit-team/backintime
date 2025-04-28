@@ -32,9 +32,6 @@ from typing import Union
 from bitbase import TimeUnit
 import logger
 
-from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication
-from PyQt6.QtCore import QTimer
-
 
 # Try to import keyring
 is_keyring_available = False

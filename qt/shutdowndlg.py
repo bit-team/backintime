@@ -6,30 +6,49 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """ Module about showing a warning dialog before shutting down """
-import os
-from PyQt6.QtWidgets import (QApplication,
-                             QDialog,
+import gettext
+from PyQt6.QtWidgets import (QDialog,
                              QLabel,
                              QPushButton,
-                             QVBoxLayout)
-from PyQt6.QtCore import QTimer
+                             QVBoxLayout,
+                             QHBoxLayout)
+from PyQt6.QtCore import QTimer, Qt
 
 
-class ShutdownWarningDialog(QDialog):
+class ShutdownWarningDlg(QDialog):
     """A UI class for a shutting down window."""
     def __init__(self, countdown):
         super().__init__()
         self.countdown = countdown
 
         # Initialize UI components
-        self.setWindowTitle("Back In Time - Shutdown Warning")
-        self.setFixedSize(300, 150)
-        self.label = QLabel(f"Shutdown in {self.countdown}s", self)
-        self.cancel_button = QPushButton("Cancel Shutdown", self)
+        self.setWindowTitle(_('Countdown to Shutdown'))
+        self.label = QLabel(gettext.ngettext(
+            'Finished backup, shutdown in {n} second.',
+            'Finished backup, Shutdown in {n} seconds.',
+            self.countdown).format(n=self.countdown), self)
+        # Center the label text
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.cancel_button = QPushButton(_('Cancel Shutdown'), self)
+        self.shutdown_button = QPushButton(_('Shutdown Now'), self)
         self.cancel_button.clicked.connect(self.cancel_shutdown)
+        # Immediately accept on shutdown now
+        self.shutdown_button.clicked.connect(self.accept)
+
+        # Layout setup
         layout = QVBoxLayout()
+        # Add stretch before label to center it vertically
+        layout.addStretch(1)
         layout.addWidget(self.label)
-        layout.addWidget(self.cancel_button)
+        # Add stretch after label to center it vertically
+        layout.addStretch(1)
+
+        # Button layout
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(self.cancel_button)
+        button_layout.addWidget(self.shutdown_button)
+        layout.addLayout(button_layout)
+
         self.setLayout(layout)
 
         # Initialize timer
@@ -40,7 +59,10 @@ class ShutdownWarningDialog(QDialog):
     def update_countdown(self):
         """Update the countdown in the UI."""
         self.countdown -= 1
-        self.label.setText(f"Shutdown in {self.countdown}s")
+        self.label.setText(gettext.ngettext(
+            'Finished backup, shutdown in {n} second.',
+            'Finished backup, Shutdown in {n} seconds.',
+            self.countdown).format(n=self.countdown))
         if self.countdown <= 0:
             self.timer.stop()
             self.accept()
@@ -55,13 +77,6 @@ def show_shutdown_warning(countdown=30):
     """
     Show a warning window with 30 seconds countdown
     """
-    if not os.environ.get('DISPLAY'):
-        return True  # No GUI
-
-    app = QApplication.instance()
-    if not app:
-        app = QApplication([])
-
-    dialog = ShutdownWarningDialog(countdown)
+    dialog = ShutdownWarningDlg(countdown)
     result = dialog.exec()
     return result == QDialog.DialogCode.Accepted
