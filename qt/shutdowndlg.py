@@ -54,8 +54,10 @@ class ShutdownWarningDlg(QDialog):
         """Update the countdown in the UI."""
         self.countdown -= 1
         self.label.setText(gettext.ngettext(
-            'Finished backup, shutdown in {n} second.',
-            'Finished backup, Shutdown in {n} seconds.',
+            'Backup completed successfully.\n' +
+            'The system will shut down in {n} second.',
+            'Backup completed successfully.\n' +
+            'The system will shut down in {n} seconds.',
             self.countdown).format(n=self.countdown))
         if self.countdown <= 0:
             self.timer.stop()
