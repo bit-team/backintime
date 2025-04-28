@@ -225,21 +225,23 @@ See `common/configure --help` and `qt/configure --help` for details.
 > [Manual testing](doc/maintain/BiT_release_process.md#manual-testing---recommendations)
 > about recommendations how to perform such tests.
 
-After [building and installing](#build--install), `make` can be used to run the
-test suite. Since _Back In Time_ consists of two components, `common` and `qt`,
+After [building and installing](#build--install), run the test suite. Feel free
+to use Python's own `unittest` module or `pytest` as a test runer.
+Since _Back In Time_ consists of two components, `common` and `qt`,
 the tests are segregated accordingly.
 
     $ cd common
-    $ make test
+    $ pytest
 
 Or
 
     $ cd qt
-    $ make test
+    $ pytest
 
-Alternatively use `make test-v` for a more verbose output. The `make` system
-will use `pytest` as test runner if available otherwise Python's own `unittest`
-module.
+> [!IMPORTANT]
+> Even if `pytest` is used as test runner, don't write tests in
+> `pytest`-style. Stick to the good old `unittest`-style. This is a project
+> rule, taking maintainability into account.
 
 ## SSH
 
