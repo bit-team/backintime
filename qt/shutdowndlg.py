@@ -23,10 +23,8 @@ class ShutdownWarningDlg(QDialog):
 
         # Initialize UI components
         self.setWindowTitle(_('Countdown to Shutdown'))
-        self.label = QLabel(gettext.ngettext(
-            'Finished backup, shutdown in {n} second.',
-            'Finished backup, Shutdown in {n} seconds.',
-            self.countdown).format(n=self.countdown), self)
+        self.label = QLabel('', self)
+        self.update_countdown()
         # Center the label text
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.cancel_button = QPushButton(_('Cancel Shutdown'), self)
@@ -37,11 +35,7 @@ class ShutdownWarningDlg(QDialog):
 
         # Layout setup
         layout = QVBoxLayout()
-        # Add stretch before label to center it vertically
-        layout.addStretch(1)
-        layout.addWidget(self.label)
-        # Add stretch after label to center it vertically
-        layout.addStretch(1)
+        layout.addWidget(self.label, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Button layout
         button_layout = QHBoxLayout()
@@ -73,7 +67,7 @@ class ShutdownWarningDlg(QDialog):
         self.reject()
 
 
-def show_shutdown_warning(countdown=30):
+def show_shutdown_warning(countdown=31):
     """
     Show a warning window with 30 seconds countdown
     """
