@@ -85,7 +85,7 @@ features. This work is carried out voluntarily during their limited spare time.
 
  * **Mailing list**:
    [bit-dev@python.org](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
-   can be used for **every topic**, question and idea about _Back In
+   can be used for **any topic**, question and idea related to _Back In
    Time_. Despite its name it is not restricted to development topics only.
  * **Fediverse** on **Mastodon**: [@backintime@fosstodon.org](https://fosstodon.org/@backintime)
  * **Bugs** & **Feature Requests**: [Issues section](https://github.com/bit-team/backintime/issues)
