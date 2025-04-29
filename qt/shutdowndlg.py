@@ -23,10 +23,12 @@ class ShutdownWarningDlg(QDialog):
 
         # Initialize UI components
         self.setWindowTitle(_('Countdown to Shutdown'))
-        self.label = QLabel('', self)
+        self.label1 = QLabel(_('The backup has finished.'), self)
+        self.label2 = QLabel('', self)
         self.update_countdown()
-        # Center the label text
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # Center the label texts
+        self.label1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label2.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.cancel_button = QPushButton(_('Cancel Shutdown'), self)
         self.shutdown_button = QPushButton(_('Shutdown Now'), self)
         self.cancel_button.clicked.connect(self.cancel_shutdown)
@@ -35,7 +37,8 @@ class ShutdownWarningDlg(QDialog):
 
         # Layout setup
         layout = QVBoxLayout()
-        layout.addWidget(self.label, alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.label1, alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.label2, alignment=Qt.AlignmentFlag.AlignHCenter)
 
         # Button layout
         button_layout = QHBoxLayout()
@@ -53,10 +56,8 @@ class ShutdownWarningDlg(QDialog):
     def update_countdown(self):
         """Update the countdown in the UI."""
         self.countdown -= 1
-        self.label.setText(gettext.ngettext(
-            'Backup completed successfully.\n' +
+        self.label2.setText(gettext.ngettext(
             'The system will shut down in {n} second.',
-            'Backup completed successfully.\n' +
             'The system will shut down in {n} seconds.',
             self.countdown).format(n=self.countdown))
         if self.countdown <= 0:
