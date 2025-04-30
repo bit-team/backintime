@@ -116,7 +116,7 @@ After the PR is merged:
   cd common
   ./configure
   make
-  make test
+  pytest --verbose
   cd ../qt
   ./configure
   make

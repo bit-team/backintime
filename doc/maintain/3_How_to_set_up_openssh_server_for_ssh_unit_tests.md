@@ -21,19 +21,16 @@ General Public License v2 (GPLv2). See file/folder LICENSE or go to
 
 # Motivation
 
-`ssh`-based unit tests are skipped in `make test` when no local ssh server
-is configured and running.
-
-In order to execute also run all ssh unit tests in the `common` folder
-via `make test` the `openssh` server must be **installed on your local machine**
-and a public/private key must be set up for password-less connections.
-
-This document describes the required steps.
+SSH-based unit tests are skipped when no local SSH server configured and
+running.  In order to execute all tests, the `openssh` server must be
+**installed on your local machine** and a public/private key must be set up for
+password-less connections. This document describes the required steps.
 
 # How the unit tests access the ssh server
 
-`ssh`-based unit tests use the [`common/test/generic.py`](https://github.com/bit-team/backintime/blob/f801b14a98f9a442008a5f514eec98e1b2d7e29a/common/test/generic.py)
-to check and establish a ssh connection to the ssh server via this code:
+SSH-based unit tests use the
+[`common/test/generic.py`](https://github.com/bit-team/backintime/blob/f801b14a98f9a442008a5f514eec98e1b2d7e29a/common/test/generic.py)
+to check and establish a SSH connection to the SSH server via this code:
 
 https://github.com/bit-team/backintime/blob/f801b14a98f9a442008a5f514eec98e1b2d7e29a/common/test/generic.py#L43-L72
 
@@ -46,7 +43,7 @@ The code implements the following logic:
 5. Check that the ssh port 22 at localhost is available (= ssh server running at the standard IP port)
 
 If all checks succeed the global variable `LOCAL_SSH` is set to `True`
-(and this variable us used then to skip ssh-based unit tests).
+(and this variable us used then to skip SSH-based unit tests).
 
 
 # Installation
@@ -120,7 +117,7 @@ required changes.
 
    ```commandline
    cd common
-   make test
+   pytest --verbose
    ```
    
    You shouldn't see skipped ssh tests now (indicated with an "s" instead of a dot).
@@ -206,16 +203,16 @@ To                         Action      From
 ```
 
 Finally run the unit tests again to make sure the firewall is working correctly
-(= not blocking ssh traffic to localhost):
+(= not blocking SSH traffic to localhost):
 
    ```commandline
    cd common
-   make test
+   pytest --verbose
    ```
 
 # FAQ
 
-## How can I temporarily disable the ssh unit tests since they consume too much time
+## How can I temporarily disable the SSH unit tests since they consume too much time
 
 Just kill the sshd process (works until you restart your computer):
 

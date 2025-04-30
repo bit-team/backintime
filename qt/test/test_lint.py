@@ -47,6 +47,7 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sshproxywidget.py',
     'plugins/notifyplugin.py',
+    'shutdowndlg.py',
     'statedata.py',
     'test/test_lint.py',
     'test/test_statedata.py',

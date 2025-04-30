@@ -31,6 +31,7 @@ qttools_path.registerBackintimePath('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
+import inhibitpowermgmt
 import qttools
 import backintime
 import bitbase
@@ -92,6 +93,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
@@ -99,6 +101,7 @@ from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
+from shutdowndlg import get_shutdown_confirmation
 
 
 class MainWindow(QMainWindow):
@@ -117,7 +120,7 @@ class MainWindow(QMainWindow):
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
-        self.shutdown = tools.ShutDown()
+        self.shutdown = ShutdownAgent()
 
         # Import on module level not possible because of Qt restrictions.
         import icon
@@ -643,7 +646,7 @@ class MainWindow(QMainWindow):
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
-        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_shutdown.setEnabled(self.shutdown.can_shutdown())
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
@@ -896,7 +899,8 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         profile_state = state_data.profile(self.config.current_profile_id)
 
-        if self.shutdown.askBeforeQuit():
+        # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
+        if self.shutdown.ask_before_quit():
             msg = _('If this window is closed, Back In Time will not be able '
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
@@ -1122,7 +1126,10 @@ class MainWindow(QMainWindow):
                 if takeSnapshotMessage[0] == 0:
                     takeSnapshotMessage = (0, _('Done, no backup needed'))
 
-            self.shutdown.shutdown()
+            # Check `activate_shutdown` here, instead of shutdownagent.py
+            # function `shutdown` should just focus on shutting down a machine
+            if self.shutdown.activate_shutdown and get_shutdown_confirmation():
+                self.shutdown.shutdown()
 
         if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
             self.lastTakeSnapshotMessage = takeSnapshotMessage
@@ -1160,11 +1167,30 @@ class MainWindow(QMainWindow):
         #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
+        """Generates formatted components of a progress bar display.
+
+        This generator yields individual parts of a progress message, including
+        the percentage completed, optionally the amount sent, current
+        speed, estimated time remaining (ETA), and a custom message.
+        Values are extracted from the provided progress object `pg`.
+
+        Args:
+            pg (progress.ProgressFile): An object that provides progress
+                information through methods like `intValue` and `strValue`.
+                Expected keys include 'percent', 'sent', 'speed', and 'eta'.
+            message (str): A custom message to append at the end of the
+                progress bar.
+
+        Yields:
+            str: Formatted strings representing different segments of the
+                progress bar.
+        """
         d = (
-            ('sent', '{}:'.format(_('Sent'))),
-            ('speed', '{}:'.format(_('Speed'))),
-            ('eta', '{}:'.format(_('ETA')))
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
+
         yield '{}%'.format(pg.intValue('percent'))
 
         for key, txt in d:
@@ -2224,6 +2250,7 @@ class RemoveSnapshotThread(QThread):
     """
     refreshSnapshotList = pyqtSignal()
     hideTimelineItem = pyqtSignal(SnapshotItem)
+
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -2233,25 +2260,22 @@ class RemoveSnapshotThread(QThread):
     def run(self):
         last_snapshot = snapshots.lastSnapshot(self.config)
         renew_last_snapshot = False
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting snapshots')
 
-        for item, sid in [(x, x.snapshot_id) for x in self.items]:
-            self.snapshots.remove(sid)
-            self.hideTimelineItem.emit(item)
-            if sid == last_snapshot:
-                renew_last_snapshot = True
+        # inhibit suspend/hibernate during delete
+        with inhibitpowermgmt.InhibitSuspend(reason='deleting snapshots'):
 
-        self.refreshSnapshotList.emit()
+            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
 
-        #set correct last snapshot again
-        if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(snapshots.lastSnapshot(self.config))
+            self.refreshSnapshotList.emit()
 
-        #release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(self.config))
 
 
 class FillTimeLineThread(QThread):
@@ -2475,7 +2499,6 @@ if __name__ == '__main__':
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
     if cfg.isConfigured():
-        cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
         qapp.exec()
 

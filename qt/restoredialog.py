@@ -9,16 +9,14 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-
-import tools
+import inhibitpowermgmt
 
 
 class RestoreDialog(QDialog):
-    def __init__(self, parent, sid, what, where = '', **kwargs):
+    def __init__(self, parent, sid, what, where='', **kwargs):
         super(RestoreDialog, self).__init__(parent)
         self.resize(600, 500)
 
@@ -39,7 +37,7 @@ class RestoreDialog(QDialog):
 
         self.mainLayout = QVBoxLayout(self)
 
-        #text view
+        # text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setReadOnly(True)
         self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
@@ -59,7 +57,7 @@ class RestoreDialog(QDialog):
         self.thread = RestoreThread(self)
         self.thread.finished.connect(self.threadFinished)
 
-        #refresh log every 200ms
+        # refresh log every 200ms
         self.refreshTimer = QTimer(self)
         self.refreshTimer.setInterval(200)
         self.refreshTimer.setSingleShot(False)
@@ -78,8 +76,9 @@ class RestoreDialog(QDialog):
             self.txtLogView.appendPlainText(newLog.rstrip('\n'))
 
     def exec(self):
-        #inhibit suspend/hibernate during restore
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId, reason = 'restoring')
+        # inhibit suspend/hibernate during restore
+        self.inhibit_cookie \
+            = inhibitpowermgmt.inhibit_suspend(reason='restoring')
         self.show()
         self.refreshTimer.start()
         self.thread.start()
@@ -89,9 +88,11 @@ class RestoreDialog(QDialog):
 
     def threadFinished(self):
         self.btnClose.setEnabled(True)
-        #release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+
+        # release inhibit suspend
+        if self.inhibit_cookie:
+            inhibitpowermgmt.uninhibit_suspend(*self.inhibit_cookie)
+
 
 class RestoreThread(QThread):
     """

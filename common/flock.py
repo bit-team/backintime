@@ -49,6 +49,7 @@ class _FlockContext:
     a single-user file lock is used by default until Back In Time is started
     once as root.
     """
+
     def __init__(self,
                  filename: str,
                  disable: bool = False):
@@ -187,6 +188,7 @@ class GlobalFlock(_FlockContext):
     If it is a multi-user or single-user flock depends on the several
     aspects. See :class:`_FlockContext` for details.
     """
+
     def __init__(self, disable: bool = False):
         """See :func:`_FlockContext.__init__()` for details.
         """
