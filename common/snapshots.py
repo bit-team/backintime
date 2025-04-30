@@ -905,9 +905,10 @@ class Snapshots:
                             + _('If it is on a removable drive, '
                                 'please plug it in.')
                             + '\n'
-                            + gettext.ngettext('Waiting {n} second.',
-                                                'Waiting {n} seconds.',
-                                                30).format(n=30)
+                            + gettext.ngettext(
+                                'Waiting {n} second.',
+                                'Waiting {n} seconds.',
+                                30).format(n=30)
                         )
 
                         self.setTakeSnapshotMessage(
@@ -927,8 +928,8 @@ class Snapshots:
                             break
                 if not self.config.canBackup(profile_id):
                     logger.error('Backup directory not '
-                                    'accessible. Tries stopped.',
-                                    self)
+                                 'accessible. Tries stopped.',
+                                 self)
                     # Can't find snapshots directory (is it on a
                     # removable drive ?)
                     self.config.PLUGIN_MANAGER.error(3)
@@ -939,8 +940,7 @@ class Snapshots:
 
                     if sid.exists():
                         logger.warning(
-                            f'Backup directory "{sid.path()}" '
-                            'already exists',
+                            f'Backup directory "{sid.path()}" already exists',
                             self)
                         # This snapshot already exists
                         self.config.PLUGIN_MANAGER.error(4, sid)
@@ -985,9 +985,9 @@ class Snapshots:
                     else:  # new snapshot taken...
 
                         if ret_error:
-                            logger.error('New backup created but '
-                                            'errors detected',
-                                            self)
+                            logger.error(
+                                'New backup created but errors detected', self)
+
                             # Fixes #1491
                             self.config.PLUGIN_MANAGER.error(
                                 6, sid.displayID)

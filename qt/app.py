@@ -364,8 +364,8 @@ class MainWindow(QMainWindow):
 
         if not config.canBackup(profile_id):
             msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive, please plug it in. '
-                    'Then press OK.')
+                + _('If it is on a removable drive, please plug it in.') \
+                + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
