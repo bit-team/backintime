@@ -3,7 +3,6 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
-# SPDX-FileCopyrightText: © 2024 Rafael @rafaelhdr
 # SPDX-FileCopyrightText: © 2025 Samuel Moore
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
@@ -1348,56 +1347,6 @@ class MainWindow(QMainWindow):
                 item = self.timeLine.addSnapshot(sid)
             self.timeLine.checkSelection()
 
-    def validate_on_take_snapshot(self):
-        """Check and warn about entries in the include list that do not exist
-        (anymore) in the backup source.
-
-        This routine is located in the GUI and should not be confused with
-        ``Snapshots.warn_about_include_entries_missing_in_source()``
-        in ``common/snapshots.py``.
-
-        Dev note (buhtz, 2025-04): Communication between GUI and CLI should
-        be improved. In this case the validation could be done by CLI only
-        and the GUI reacts on it. But in the current implementation this is not
-        possible. On the long run the GUI should not call the CLI but call CLI
-        code directly.
-        """
-        logger.info('Check backup source for missing include entries...')
-
-        rc = True
-
-        # Reason for this callback signal: Some users might managing the
-        # mounting by themself using a callback script.
-        # BIT won't be able doing this check without a source mounted.
-        self.config.PLUGIN_MANAGER.processBegin()
-
-        the_mount = mount.Mount(cfg=self.config)
-        hash_id = the_mount.mount()
-        self.config.setCurrentHashId(hash_id)
-
-        missing = self.snapshots.get_include_entries_missing_in_source()
-
-        if missing:
-            # Dev note (2025-03, buhtz): See
-            # "Snapshots.warn_about_include_entries_missing_in_source" and
-            # keep the string consistent.
-            msg = _(
-                'The following entries from the include list have no '
-                'corresponding file or directory in the backup source:')
-            msg = msg + '\n\n' + '\n'.join(missing) + '\n\n'
-            msg = msg + _('Proceed with the backup?')
-
-            rc = messagebox.question(msg, widget_to_center_on=self)
-
-        self.config.PLUGIN_MANAGER.processEnd()
-        the_mount.umount(self.config.current_hash_id)
-
-        logger.debug('Finished checking backup source '
-                    'for missing include entries.')
-        logger.info('Finished checking backup source '
-                    'for missing include entries.')
-        return rc is True
-
     def btnTakeSnapshotClicked(self):
         self._take_snapshot_clicked(checksum=False)
 
@@ -1405,9 +1354,6 @@ class MainWindow(QMainWindow):
         self._take_snapshot_clicked(checksum=True)
 
     def _take_snapshot_clicked(self, checksum):
-        if not self.validate_on_take_snapshot():
-            return
-
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
 
@@ -1470,12 +1416,15 @@ class MainWindow(QMainWindow):
             try:
                 item.setHidden(True)
             except RuntimeError:
-                #item has been deleted
-                #probably because user pressed refresh
+                # item has been deleted
+                # probably because user pressed refresh
                 pass
 
         # try to use filter(..)
-        items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
+        items = [
+            item for item in self.timeLine.selectedItems()
+            if not isinstance(item, snapshots.RootSnapshot)
+        ]
 
         if not items:
             return
