@@ -773,7 +773,7 @@ class Snapshots:
             logger.warning(
                 'A backup process is already running. The PID of the running '
                 f'backup is stored in {instance.pidFile}. Considere deleting '
-                'the PID file there is actually no backup process running.',
+                'the PID file if there is actually no backup process running.',
                 self)
             self.config.PLUGIN_MANAGER.error(2)
             return ret_error
