@@ -103,14 +103,11 @@ pull request being accepted.
   (see our own [HOWTO about doc generation](doc/maintain/1_doc_howto.md)).
 - Avoid the use of automatic formatters like `black` but mention the use of
   them when opening a pull request.
-- Run unit tests before you open a pull request. You can run them via
-  `make`-system with `cd common && ./configure && make && make test` or using a
-  regular unittest runner of your choice (e.g. `pytest`). See section
-  [Build and install via `make` system](#build-and-install-via-make-system-recommended)
+- Run unit tests before you open a pull request. Read [Testing](#testing)
   for further details.
 - Try to create new unit tests if appropriate. Use the style of regular Python
-  `unittest` rather than `pytest`. If you know the difference, please try to follow
-  the _Classical (aka Detroit) school_ instead of _London (aka mockist)
+  `unittest` rather than `pytest`. If you know the difference, please try to
+  follow the _Classical (aka Detroit) school_ instead of _London (aka mockist)
   school_.
 - See recommendations about [how to handle translatable strings](doc/maintain/2_localization.md#instructions-for-the-translation-process).
 
@@ -206,13 +203,13 @@ and installed separately accordingly.
 * Command line tool
    1. `cd common`
    2. `./configure && make`
-   3. Run unit tests via `make test`
+   3. Run unit tests via `python -m unittest` or `pytest`.
    4. `sudo make install`
 
 * Qt GUI
    1. `cd qt`
    2. `./configure && make`
-   3. Run unit tests via `make test`
+   3. Run unit tests via `python -m unittest` or `pytest`.
    4. `sudo make install`
 
 You can use optional arguments to `./configure` for creating a Makefile.
@@ -225,21 +222,23 @@ See `common/configure --help` and `qt/configure --help` for details.
 > [Manual testing](doc/maintain/BiT_release_process.md#manual-testing---recommendations)
 > about recommendations how to perform such tests.
 
-After [building and installing](#build--install), `make` can be used to run the
-test suite. Since _Back In Time_ consists of two components, `common` and `qt`,
+After [building and installing](#build--install), run the test suite. Feel free
+to use Python's own `unittest` module or `pytest` as a test runer.
+Since _Back In Time_ consists of two components, `common` and `qt`,
 the tests are segregated accordingly.
 
     $ cd common
-    $ make test
+    $ pytest
 
 Or
 
     $ cd qt
-    $ make test
+    $ pytest
 
-Alternatively use `make test-v` for a more verbose output. The `make` system
-will use `pytest` as test runner if available otherwise Python's own `unittest`
-module.
+> [!IMPORTANT]
+> Even if `pytest` is used as test runner, don't write tests in
+> `pytest`-style. Stick to the good old `unittest`-style. This is a project
+> rule, taking maintainability into account.
 
 ## SSH
 
