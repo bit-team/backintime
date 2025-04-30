@@ -32,6 +32,7 @@ from typing import Union
 from bitbase import TimeUnit
 import logger
 
+
 # Try to import keyring
 is_keyring_available = False
 try:
@@ -2126,7 +2127,6 @@ class Alarm:
 
         else:
             self.callback()
-
 
 class SetupUdev:
     """

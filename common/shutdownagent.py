@@ -216,10 +216,6 @@ class ShutdownAgent:
             What?
         """
 
-        # ???
-        if not self.activate_shutdown:
-            return False
-
         # As root
         if self._am_i_root():
             return self._shutdown_via_shell()
