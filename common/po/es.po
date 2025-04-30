@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-11 01:30+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-14 12:29+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,6 @@ msgid "Failed to write new crontab."
 msgstr "Error al escribir nuevo crontab."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -106,18 +105,19 @@ msgid ""
 "distribution for assistance."
 msgstr ""
 "Cron no se está ejecutando pese a que la orden crontab está disponible. Los "
-"trabajos de copia de respaldo programados no se ejecutarán. Cron podría "
-"estar instalado pero no activado. Pruebe la orden «systemctl enable cron» o "
-"consulte los canales de asistencia de su distribución GNU/Linux."
+"trabajos de respaldo programados no se ejecutarán. Es posible que Cron esté "
+"instalado pero no activado. Intente ejecutar las órdenes «systemctl enable "
+"cron» y «systemctl start cron», o consulte los canales de asistencia de la "
+"distribución GNU/Linux que usa para obtener ayuda."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "No se pudo instalar la regla Udev para el perfil {profile_id}. El servicio "
-"DBus «{dbus_interface}» no está disponible"
+"DBus «{dbus_interface}» no estaba disponible."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -252,16 +252,16 @@ msgid "Saving permissions…"
 msgstr "Guardando permisos…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Se ha encontrado la instantánea sobrante {snapshot_id} que puede continuar."
+"Se ha encontrado el respaldo incompleto {snapshot_id} que puede continuarse."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
-"Eliminación de los restos {snapshot_id} directorio de la última ejecución"
+"Quitando el directorio {snapshot_id} incompleto de la ejecución pasada"
 
 #: common/snapshots.py:1325
 msgid "Can't remove directory"
@@ -269,7 +269,7 @@ msgstr "No se puede eliminar la carpeta"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Creando respaldo"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -302,9 +302,8 @@ msgstr ""
 "«kill -l» y «man kill»"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Nada ha cambiado; no es necesaria una nueva instantánea"
+msgstr "Nada ha cambiado; no hace falta un respaldo nuevo"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -316,9 +315,8 @@ msgid "Smart removal"
 msgstr "Eliminación inteligente"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Aplicar las reglas para eliminar las instantáneas antiguas"
+msgstr "Aplicar reglas para eliminar respaldos antiguos"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -472,42 +470,42 @@ msgid "File creation failed in this directory:"
 msgstr "La creación del archivo falló en este directorio:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Acerca de Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
 msgstr ""
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Autores"
+msgstr "Autoría:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Traducciones"
+msgstr "Traducción:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
 msgstr ""
 "Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>\n"
-"Mauricio J. Adonis C. <mike.alfa.2007@gmail.com>"
+"Mauricio J. Adonis C. <mike.alfa.2007@gmail.com>\n"
+"Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2025"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Los créditos de traducción no están disponibles en este idioma."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "este enlace"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
+"Visite {thislink} para obtener los créditos de traducción de todos los "
+"idiomas."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -516,6 +514,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Todas las licencias usadas en este proyecto se encuentran en el directorio "
+"{dir_link}. Para extraer información de licencia y derechos de autor por "
+"archivo a través de metadatos SPDX, consulte {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -538,7 +539,7 @@ msgstr "Back In Time"
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Versión{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
@@ -554,11 +555,11 @@ msgstr ""
 
 #: qt/app.py:257
 msgid "Add to Include"
-msgstr "Agregar a incluir"
+msgstr "Añadir a Incluir"
 
 #: qt/app.py:259
 msgid "Add to Exclude"
-msgstr "Añadir a Excluidos"
+msgstr "Añadir a Excluir"
 
 #: qt/app.py:331
 #, python-brace-format
@@ -681,9 +682,8 @@ msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
 #: qt/app.py:557
-#, fuzzy
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr "Abrir en el navegador las preguntas más frecuentes"
+msgstr "Abrir en el navegador las preguntas frecuentes"
 
 #: qt/app.py:559
 msgid "Ask a question"
@@ -761,12 +761,10 @@ msgid "Compare backups…"
 msgstr "Comparar respaldos…"
 
 #: qt/app.py:637 qt/app.py:2152
-#, fuzzy
 msgid "Release Candidate"
 msgstr "Candidata para publicación"
 
 #: qt/app.py:640
-#, fuzzy
 msgid "Shows the message about this Release Candidate again."
 msgstr ""
 "Muestra nuevamente el mensaje sobre esta versión candidata para publicación."
@@ -842,7 +840,7 @@ msgstr "Velocidad"
 
 #: qt/app.py:1163
 msgid "ETA"
-msgstr "Restante"
+msgstr "Tiempo restante"
 
 #: qt/app.py:1225
 msgid "Global"
@@ -917,7 +915,6 @@ msgstr ""
 " de la instantánea."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "¿Realmente quiere restaurar este elemento en el directorio nuevo?"
@@ -925,7 +922,6 @@ msgstr[1] ""
 "¿Realmente quiere restaurar estos elementos en el directorio nuevo?"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "¿Realmente quiere restaurar este elemento?"
@@ -939,9 +935,11 @@ msgstr ""
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
+"Desaparecerán todos los archivos más recientes del directorio original. "
+"¿Quiere continuar?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
@@ -950,9 +948,8 @@ msgstr ""
 "archivos podría hacer que todo el sistema deje de funcionar."
 
 #: qt/app.py:1857
-#, fuzzy
 msgid "Backup"
-msgstr "&Copia de respaldo"
+msgstr "Respaldo"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -994,9 +991,9 @@ msgid "Your translation"
 msgstr "La traducción"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "En el Fediverso en Mastodon: {link_and_label}"
+msgstr "En el fediverso en Mastodon: {link_and_label}."
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -1129,9 +1126,8 @@ msgid "Last Log View"
 msgstr "Ver el último registro"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Ver el último registro"
+msgstr "Vista de registros de respaldo"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1291,9 +1287,9 @@ msgid "Rename profile"
 msgstr "Cambiar nombre de perfil"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "¿Confirma que quiere eliminar el perfil «{name}»?"
+msgstr "¿Quiere eliminar el perfil «{name}»?"
 
 #: qt/manageprofiles/__init__.py:379
 #, python-brace-format
@@ -1334,7 +1330,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "¿Quiere incluir en su lugar el destino del enlace simbólico?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1426,10 +1422,10 @@ msgstr "En cada arranque/reinicio"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Cada {n} minuto"
+msgstr[0] "Cada minuto"
 msgstr[1] "Cada {n} minutos"
 
 #: qt/manageprofiles/schedulewidget.py:150
@@ -1690,9 +1686,8 @@ msgid "Mode:"
 msgstr "Modo:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
-msgstr "Dónde guardar las instantáneas"
+msgstr "Dónde guardar los respaldos"
 
 #: qt/manageprofiles/tab_general.py:104
 msgid "SSH Settings"
@@ -1746,9 +1741,8 @@ msgid "Advanced"
 msgstr "Avanzado"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
-msgstr "Ruta completa de la instantánea:"
+msgstr "Ruta completa del respaldo:"
 
 #: qt/manageprofiles/tab_general.py:395
 #, fuzzy
@@ -1808,9 +1802,8 @@ msgid "Power status not available from system"
 msgstr "El estado de la energía no está disponible en el sistema"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
-msgstr "Ejecutar solo una instantánea a la vez"
+msgstr "Ejecutar solo un respaldo a la vez"
 
 #: qt/manageprofiles/tab_options.py:53
 #, fuzzy
@@ -1829,9 +1822,8 @@ msgid "Backup replaced files on restore"
 msgstr "Respaldar los archivos reemplazados al restaurar"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Continuar si hay errores (mantener imágenes incompletas)"
+msgstr "Continuar si hay errores (conservar respaldos incompletos)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
@@ -1869,9 +1861,8 @@ msgid "Open user manual in browser."
 msgstr "Abrir el manual de utilización en el navegador."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "Mantener la instantánea más reciente."
+msgstr "Conservar el respaldo más reciente."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
 #, fuzzy
@@ -1992,9 +1983,8 @@ msgid ""
 msgstr "Los años se cuenta como años de calendario desde el año actual."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Conservar la última instantánea de cada año para"
+msgstr "Conservar el último respaldo de cada año por"
 
 #: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
@@ -2009,9 +1999,8 @@ msgid "… the free inodes are less than"
 msgstr "... el número de inodos libres es inferior a"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "Eliminar las instantáneas más antiguas si …"
+msgstr "Eliminar el respaldo más antiguo si…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2122,14 +2111,12 @@ msgid "Backups"
 msgstr "Respaldos"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Solo instantáneas diferentes"
+msgstr "Solo respaldos diferentes"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Enumere solo instantáneas que sean iguales a:"
+msgstr "Enumerar solo respaldos que sean iguales a:"
 
 #: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
@@ -2163,23 +2150,23 @@ msgstr ""
 "No es posible comparar un respaldo consigo mismo, ya que sería redundante."
 
 #: qt/snapshotsdialog.py:426
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "¿Realmente quiere eliminar {file} en la instantánea {snapshot_id}?"
+msgstr "¿Realmente quiere eliminar {file_or_dir} en el respaldo {backup_id}?"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "¿Realmente quiere eliminar {file} en {count} instantáneas?"
+msgstr "¿Realmente quiere eliminar {file_or_dir} en {count} respaldos?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "ADVERTENCIA: no se puede revocar."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "¿Excluir {path} de futuras instantáneas?"
+msgstr "¿Quiere excluir {path} de futuros respaldos?"
 
 #: qt/timeline.py:70
 msgid "Today"
@@ -2198,11 +2185,9 @@ msgid "Last week"
 msgstr "Semana pasada"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
-"Esto NO es una instantánea, sino una vista en directo de sus archivos "
-"locales"
+"Esto NO es un respaldo, sino una vista en directo de los archivos locales."
 
 #: qt/timeline.py:275
 #, python-brace-format

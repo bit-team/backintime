@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-28 12:53+0000\n"
+"Last-Translator: lann <lann@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Clé privée SSH"
 
 #: common/config.py:282
 msgid "Local encrypted"
-msgstr "Local chiffré"
+msgstr "Chiffré localement"
 
 #: common/config.py:283 common/config.py:290
 msgid "Encryption"
@@ -72,7 +72,6 @@ msgid "Profile: \"{name}\""
 msgstr "Profil : \"{name}\""
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
 msgstr "Le dossier des instantanés n'est pas valide."
 
@@ -86,19 +85,19 @@ msgid "Directory: {path}"
 msgstr "Répertoire : {path}"
 
 #: common/config.py:358 common/config.py:373
+#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Le répertoire ne peut pas être inclus dans la sauvegarde car il fait parti "
-"de la destination sauvegardée."
+"Le répertoire ne peut pas être inclus dans la sauvegarde car il fait partie "
+"de la destination de sauvegarde."
 
 #: common/config.py:1466
 msgid "Failed to write new crontab."
 msgstr "Échec d'écriture de la nouvelle crontab."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -106,19 +105,19 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Cron n'est pas lancé, bien que la commande crontab soit disponible. Les "
-"sauvegardes planifiées ne seront pas exécutées. Il se pourrait que Cron soit"
-" installé mais pas activé. Essayez la commande \"systemctl enable cron\" ou "
-"consultez les canaux de support de votre distribution GNU Linux."
+"Cron n'est pas lancé, alors que la commande crontab est pourtant disponible."
+" Les sauvegardes planifiées ne seront pas exécutées. Il se pourrait que Cron"
+" soit installé mais pas activé. Essayez la commande \"systemctl enable "
+"cron\" ou consultez les canaux de support de votre distribution GNU Linux."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Échec d'installation de la règle Udev pour le profil {profile_id}. Le "
-"service DBus '{dbus_interface}' n'était pas disponible"
+"service DBus '{dbus_interface}' n'était pas disponible."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -216,16 +215,14 @@ msgid "Deferring backup while on battery"
 msgstr "Différer la sauvegarde lors du fonctionnement sur batterie"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
 msgstr "Répertoire des instantanés inaccessible."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
 msgstr ""
-"S'il se trouve sur un disque externe, veuillez le connecter puis cliquer sur"
-" OK."
+"S'il se trouve sur un disque externe, veuillez connecter ce disque puis "
+"cliquer sur OK."
 
 #: common/snapshots.py:849
 #, python-format
@@ -235,9 +232,9 @@ msgstr[0] "Prochain essai dans %s seconde."
 msgstr[1] "Prochain essai dans %s secondes."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Échec de l'instantané {snapshot_id}."
+msgstr "Échec de création de l'instantané {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -256,12 +253,12 @@ msgid "Saving permissions…"
 msgstr "Enregistrement des permissions…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "L'instantané {snapshot_id} a été interrompu et peut être poursuivi."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Suppression du répertoire résiduel {snapshot_id}, datant de la dernière "
@@ -273,7 +270,7 @@ msgstr "Échec de suppression du répertoire"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Création de l'instantané"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -305,9 +302,8 @@ msgstr ""
 "-l' et 'man kill'"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Aucun changement, un nouvel instantané n'est pas nécessaire"
+msgstr "Pas de changement, un nouvel instantané n'est pas nécessaire"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -319,7 +315,6 @@ msgid "Smart removal"
 msgstr "Suppression intelligente"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Appliquer les règles pour supprimer les anciens instantanés"
 
@@ -475,23 +470,20 @@ msgid "File creation failed in this directory:"
 msgstr "Échec de création de fichier dans le répertoire suivant :"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "À propos de Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Copyright :"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Auteurs"
+msgstr "Auteurs :"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Traductions"
+msgstr "Traductions :"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -501,16 +493,18 @@ msgstr ""
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Attribution des traductions non disponible dans la langue utilisée."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "ce lien"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
+"Suivez {thislink} pour consulter les contributions de traduction pour toutes"
+" les langues."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -519,6 +513,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Les licences utilisées dans ce projet sont stockées dans le dossier "
+"{dir_link}. Pour extraire chaque fichier de licence et les informations de "
+"copyright en utilisant les métadonnées SPDX, consulter le {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -535,21 +532,19 @@ msgstr ""
 "sinon en ligne)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Version{BOLDEND} : {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Raccourcis"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -584,7 +579,7 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Créer un instantané"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -593,9 +588,8 @@ msgstr ""
 "des fichiers."
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Prendre un instantané (mode somme de contrôle)"
+msgstr "Créer un instantané (mode somme de contrôle)"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
@@ -603,38 +597,32 @@ msgstr ""
 "Utiliser les sommes de contrôle pour détecter les changements des fichiers."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
 msgstr "Mettre en pause la prise de l'instantané"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
 msgstr "Reprendre la prise de l'instantané"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
 msgstr "Arrêter la prise de l'instantané"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
 msgstr "Rafraîchir la liste des instantanés"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "Nommer l'instantané"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
 msgstr "Supprimer l'instantané"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "Afficher le dernier journal"
+msgstr "Afficher le journal du dernier instantané"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -649,7 +637,6 @@ msgid "Shutdown"
 msgstr "Arrêt"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Éteindre le système après la fin de l'instantané."
 
@@ -663,7 +650,7 @@ msgstr "Quitter"
 
 #: qt/app.py:535
 msgid "man page: Back In Time"
-msgstr "manuel : Back In &Time"
+msgstr "manuel : Back In Time"
 
 #: qt/app.py:537
 msgid "Displays man page about Back In Time (backintime)"
@@ -770,7 +757,6 @@ msgid "Show hidden files"
 msgstr "Afficher les fichiers cachés"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
 msgstr "Comparer des instantanés…"
 
@@ -815,7 +801,6 @@ msgid "Text beside icon"
 msgstr "Texte à côté des icônes"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -825,7 +810,7 @@ msgstr ""
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Fermer quand même la fenêtre ?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -872,15 +857,14 @@ msgid "Backup directories"
 msgstr "Répertoires sauvegardés"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Sauvegarde"
+msgstr "Nom de la sauvegarde"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Supprimer cette sauvegarde ?"
+msgstr[1] "Supprimer ces sauvegardes ?"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -892,7 +876,7 @@ msgstr ""
 "avant d'écraser ou de supprimer les fichiers locaux."
 
 #: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
@@ -916,7 +900,6 @@ msgid "Remove newer elements in original directory."
 msgstr "Supprimer du répertoire d'origine les éléments plus récents."
 
 #: qt/app.py:1560
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -925,36 +908,38 @@ msgid ""
 msgstr ""
 "Restaurer les fichiers et répertoires sélectionnés vers leur emplacement "
 "d'origine et supprimer les fichiers et répertoires qui ne font pas partie de"
-" l'instantané. Soyez prudent : cette option va supprimer les fichiers et "
-"répertoires qui n'étaient pas inclus dans la sauvegarde."
+" l'instantané. Prudence extrême requise : cette option va supprimer les "
+"fichiers et répertoires qui n'étaient pas inclus dans la sauvegarde."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
-"Voulez-vous vraiment restaurer ce fichier dans le nouveau répertoire ?"
+"Voulez-vous vraiment restaurer cet élément dans le nouveau répertoire ?"
 msgstr[1] ""
-"Voulez-vous vraiment restaurer ces fichiers dans le nouveau répertoire ?"
+"Voulez-vous vraiment restaurer ces éléments dans le nouveau répertoire ?"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "Voulez-vous vraiment restaurer ce fichier ?"
-msgstr[1] "Voulez-vous vraiment restaurer ces fichiers ?"
+msgstr[0] "Voulez-vous vraiment restaurer cet élément ?"
+msgstr[1] "Voulez-vous vraiment restaurer ces éléments ?"
 
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
+"Tous les fichiers plus récents situés dans {path} seront supprimés. "
+"Continuer ?"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
+"Tous les fichiers plus récents situés dans le dossier d'origine seront "
+"supprimés. Continuer ?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
@@ -963,9 +948,8 @@ msgstr ""
 "fichiers pourrait endommager l'ensemble de votre système."
 
 #: qt/app.py:1857
-#, fuzzy
 msgid "Backup"
-msgstr "&Sauvegarde"
+msgstr "Sauvegarde"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -1007,9 +991,9 @@ msgid "Your translation"
 msgstr "Votre traduction"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "Dans le Fediverse chez Mastodon : {link_and_label}"
+msgstr "Dans le Fediverse chez Mastodon : {link_and_label}."
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -1017,9 +1001,9 @@ msgid "Email to {link_and_label}."
 msgstr "Envoyer un courriel à {link_and_label}."
 
 #: qt/app.py:2111
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Liste de diffusion {link_and_label}"
+msgstr "Liste de diffusion {link_and_label}."
 
 #: qt/app.py:2115
 #, python-brace-format
@@ -1028,7 +1012,7 @@ msgstr "{link_and_label} sur le site web du projet."
 
 #: qt/app.py:2118
 msgid "Open an issue"
-msgstr "Ouvrir une discussion"
+msgstr "Créer un ticket"
 
 #: qt/app.py:2119
 msgid "Alternatively, you can use another channel of your choice."
@@ -1138,7 +1122,6 @@ msgid "System default"
 msgstr "Par défaut"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "Utiliser la langue du système."
 
@@ -1152,9 +1135,8 @@ msgid "Last Log View"
 msgstr "Voir le dernier journal"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Voir le dernier journal"
+msgstr "Voir le dernier journal de sauvegarde"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1162,9 +1144,8 @@ msgid "Profile:"
 msgstr "Profil :"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Sauvegarde"
+msgstr "Sauvegardes :"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1274,7 +1255,6 @@ msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Exclure les fichiers plus gros que la valeur en {size_unit}."
 
 #: qt/manageprofiles/__init__.py:236
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1282,9 +1262,9 @@ msgid ""
 "backups even if they are modified."
 msgstr ""
 "Avec 'Full rsync mode' désactivé, seuls les nouveaux fichiers seront "
-"affectés car du point de vue de rsync c'est une option de transfert et non "
-"d'exclusion. Les gros fichiers transférés précédemment resteront donc dans "
-"l'instantané même s'ils ont été modifiés."
+"affectés car rsync le traite comme une option de transfert et non une règle "
+"d'exclusion. Les fichiers volumineux sauvegardés précédemment resteront donc"
+" dans l'instantané même s'ils ont été modifiés."
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Remove & Retention"
@@ -1315,7 +1295,7 @@ msgid "Rename profile"
 msgstr "Renommer le profil"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Êtes-vous sûr(e) de vouloir supprimer le profil \"{name}\" ?"
 
@@ -1349,17 +1329,17 @@ msgid "Include file"
 msgstr "Inclure le fichier"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" est un lien symbolique. La cible du lien ne sera pas sauvegardée tant que vous ne l'aurez pas inclue également.\n"
-"Voulez-vous plutôt inclure la cible du lien ?"
+"\"{path}\" est un lien symbolique. La cible du lien ne sera pas sauvegardée "
+"tant que vous ne l'aurez pas inclue également."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Inclure plutôt la cible du lien symbolique ?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1399,14 +1379,13 @@ msgid "Minutes:"
 msgstr "Minutes :"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Exécutez Back In Time dès que le lecteur est connecté (seulement une fois "
-"tous les X jours). Vous serez invité à saisir votre mot de passe super-"
-"utilisateur."
+"Exécuter Back In Time dès que le lecteur est connecté (seulement une fois "
+"tous les X jours). Une invitation à saisir votre mot de passe super-"
+"utilisateur apparaîtra."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1449,7 +1428,7 @@ msgstr "À chaque démarrage/re-démarrage"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Chaque minute"
@@ -1578,7 +1557,6 @@ msgid "on remote host"
 msgstr "sur un serveur distant"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
 msgstr "lors d'un instantané manuel"
 
@@ -1712,7 +1690,6 @@ msgid "Mode:"
 msgstr "Mode :"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
 msgstr "Dossier pour les sauvegardes"
 
@@ -1768,17 +1745,14 @@ msgid "Advanced"
 msgstr "Avancées"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
 msgstr "Chemin d'accès complet de l'instantané :"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "Le fichier de clé privée {file} n'existe pas."
+msgstr "Un fichier de clé privée pour SSH n'a pas été choisi."
 
 #: qt/manageprofiles/tab_general.py:396
-#, fuzzy
 msgid "Should a new password-less public/private key pair be generated?"
 msgstr ""
 "Voulez-vous générer une nouvelle paire de clés publique/privée sans mot de "
@@ -1790,7 +1764,6 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Le fichier de clé privée {file} n'existe pas."
 
 #: qt/manageprofiles/tab_general.py:492
-#, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
 "Voulez-vous copier votre clé publique SSH sur l'hôte distant pour activer "
@@ -1807,7 +1780,6 @@ msgid "{keytype} key fingerprint is:"
 msgstr "L'empreinte de la clé {keytype} est :"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
 "Veuillez vérifier cette empreinte. Souhaitez-vous l'ajouter à votre fichier "
@@ -1816,7 +1788,7 @@ msgstr ""
 #: qt/manageprofiles/tab_general.py:628
 #, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Créer un nouveau répertoire chiffré ?"
+msgstr "Vraiment changer le répertoire de sauvegarde ?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1828,7 +1800,6 @@ msgid "Enable notifications"
 msgstr "Activer les notifications"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
 msgstr "Désactiver les sauvegardes automatiques en mode batterie"
 
@@ -1837,12 +1808,10 @@ msgid "Power status not available from system"
 msgstr "Impossible d'obtenir l'état de l'alimentation du système"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
 msgstr "Exécuter un seul instantané à la fois"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
@@ -1850,15 +1819,14 @@ msgid ""
 msgstr ""
 "Les autres instantanés seront bloqués jusqu'à ce que l'instantané en cours "
 "soit terminé. Ceci une option globale. Elle affectera donc tous les profils "
-"de cet utilisateur. Vous devez cependant l'activer pour tous les autres "
-"utilisateurs."
+"de cet utilisateur. Vous devez cependant aussi l'activer pour tous les "
+"autres utilisateurs."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
 msgstr "Sauvegarder les fichiers remplacés lors de la restauration"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Continuer en cas d'erreur (conserver les instantanés incomplets)"
 
@@ -1867,7 +1835,6 @@ msgid "Use checksum to detect changes"
 msgstr "Utiliser la somme de contrôle pour détecter les changements"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
 msgstr "Prendre un instantané qu'il y ait eu des modifications ou non."
 
@@ -1880,14 +1847,14 @@ msgid "None"
 msgstr "Aucun"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
-"Les règles suivantes sont traitées du haut vers le bas. Chaque règle est "
-"prioritaire sur celles qui précèdent et n'est pas contrainte par elles. Voir"
-" le {manual} pour les détails et des exemples."
+"Les règles suivantes sont traitées du haut vers le bas. Chaque règle qui "
+"suit est prioritaire sur celle(s) qui précède(nt). Voir le {manual} pour les"
+" détails et des exemples."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1898,34 +1865,29 @@ msgid "Open user manual in browser."
 msgstr "Ouvrir le manuel d'utilisation dans le navigateur."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
 msgstr "Conserver l'instantané le plus récent."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
-"Le dernier instantané, c'est à dire le plus récent, est conservé dans tous "
-"les cas."
+"Le dernier ou le plus récent instantané est conservé dans tous les cas."
 
 #: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "Ce comportement ne peut pas être modifié."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
 msgstr "Conserver les instantanés nommés."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
 "Les instantanés portant un nom, en plus de l'horodatage habituel, seront "
-"conservés dans tous les cas."
+"conservés dans tous les cas et ne seront pas supprimés."
 
 #: qt/manageprofiles/tab_remove_retention.py:259
 msgid "Year(s)"
@@ -1986,7 +1948,6 @@ msgid "day(s)."
 msgstr "jour(s)."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
 msgstr "Conserver le dernier instantané de chaque jour pour les derniers"
 
@@ -1999,9 +1960,8 @@ msgstr ""
 "semaine au lundi."
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "Garder le instantané de chaque semaine pour les dernières"
+msgstr "Garder le dernier instantané de chaque semaine pour les dernières"
 
 #: qt/manageprofiles/tab_remove_retention.py:337
 msgid "week(s)."
@@ -2030,9 +1990,8 @@ msgstr ""
 "actuelle."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Garder le dernier instantané de chaque année, pour les dernières"
+msgstr "Garder le dernier instantané de chaque année, pour"
 
 #: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
@@ -2161,12 +2120,10 @@ msgid "Backups"
 msgstr "&Sauvegarde"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Instantanés différents seulement"
+msgstr "Lister uniquement les instantanés différents"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Lister uniquement les instantanés égaux à :"
 
@@ -2199,24 +2156,25 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Impossible de comparer un instantané à lui-même, cela serait redondant."
 
 #: qt/snapshotsdialog.py:426
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
-"Voulez-vous vraiment supprimer {file} dans l'instantané {snapshot_id} ?"
+"Voulez-vous vraiment supprimer {file_or_dir} de l'instantané {backup_id} ?"
 
 #: qt/snapshotsdialog.py:431
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Voulez-vous vraiment supprimer {file} dans les {count} instantanés ?"
+msgstr "Voulez-vous vraiment supprimer {file_or_dir} de {count} instantanés ?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "AVERTISSEMENT : Ceci ne peut être révoqué."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Exclure {path} des futurs instantanés ?"
 
@@ -2237,11 +2195,10 @@ msgid "Last week"
 msgstr "La semaine dernière"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
-"Ceci n'est PAS un instantané (sauvegarde) mais une vue de l'état actuel de "
-"vos fichiers locaux"
+"Ceci n'est PAS une sauvegarde, mais une vue de l'état actuel de vos fichiers"
+" locaux."
 
 #: qt/timeline.py:275
 #, python-brace-format

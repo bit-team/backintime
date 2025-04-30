@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-16 11:13+0000\n"
+"Last-Translator: nurikucukler <nurikucukler@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "SSH"
 #: common/config.py:279 common/config.py:289
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
-msgstr "SSH gizli anahtarı"
+msgstr "SSH özel anahtar"
 
 #: common/config.py:282
 msgid "Local encrypted"
@@ -63,7 +63,7 @@ msgstr "SSH şifrelenmiş"
 
 #: common/config.py:295
 msgid "Default"
-msgstr "Varsayılan"
+msgstr "Öntanımlı"
 
 #: common/config.py:326 common/config.py:338 common/config.py:356
 #: common/config.py:370
@@ -72,13 +72,12 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
 msgstr "Anlık görüntü dizini geçersiz."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
-msgstr "Yedekleme için en az bir klasör seçilmelidir."
+msgstr "Anlık görüntü için en az bir klasör seçilmelidir."
 
 #: common/config.py:357 common/config.py:372
 #, python-brace-format
@@ -90,14 +89,14 @@ msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Bu klasör yedekleme klasörünün bir parçası olduğundan yedeğe dahil edilemez."
+"Bu klasör anlık görüntü klasörünün bir parçası olduğundan anlık görüntüye "
+"dahil edilemez."
 
 #: common/config.py:1466
 msgid "Failed to write new crontab."
 msgstr "Yeni crontab yazımı başarısız oldu."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -105,19 +104,19 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Crontab komutu mevcut olmasına rağmen Cron çalışmıyor. Planlanan yedekleme "
-"işleri çalışmayacak. Cron yüklü, ancak etkinleştirilmemiş olabilir. "
-"\"systemctl enable cron\" komutunu deneyin veya GNU Linux dağıtımınızın "
-"destek kanallarına başvurun."
+"Crontab komutu mevcut olmasına rağmen Cron çalışmıyor. Planlanan anlık "
+"görüntüleme işleri çalışmayacak. Cron yüklü, ancak etkinleştirilmemiş "
+"olabilir. \"systemctl enable cron\" ve \"systemctl start cron\" komutlarını "
+"deneyin veya GNU Linux dağıtımınızın destek kanallarına başvurun."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "{profile_id} profili için Udev kuralı yüklenemedi. '{dbus_interface}' DBus "
-"Hizmeti kullanılabilir değildi"
+"Hizmeti kullanılabilir değildi."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -147,7 +146,7 @@ msgid "The last profile cannot be removed."
 msgstr "Son profil kaldırılamaz."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "'{command}' bağlanamıyor"
 
@@ -185,7 +184,7 @@ msgstr "{mountprocess} , {mountpoint} den ayrılamıyor."
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
 "{command} bulunamadı. Lütfen (örneğin {installcommand} komutunu kullanarak) "
-"yükleyin."
+"yükleyin"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -215,12 +214,10 @@ msgid "Deferring backup while on battery"
 msgstr "Pille çalışırken yedeklemeyi erteleme"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Anlık görüntü klasörü bulunamadı."
+msgstr "Yedekleme klasörü bulunamadı."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
 msgstr ""
 "Eğer bu bir çıkarılabilir sürücüde ise lütfen takın ve ardından Tamam'a "
@@ -234,7 +231,7 @@ msgstr[0] "%s saniye bekleniyor."
 msgstr[1] "%s saniye bekleniyor."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "{snapshot_id} anlık görüntüsü alınamadı."
 
@@ -255,14 +252,16 @@ msgid "Saving permissions…"
 msgstr "İzinler kaydediliyor…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "Devam edilebilecek artık {snapshot_id} anlık görüntüsü bulundu."
+msgstr ""
+"Devam edilebilecek tamamlanmamış {snapshot_id} anlık görüntüsü bulundu."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "Son çalıştırmadan kalan artık {snapshot_id} klasörü kaldırılıyor"
+msgstr ""
+"Son çalıştırmadan kalan tamamlanmamış {snapshot_id} klasörü kaldırılıyor"
 
 #: common/snapshots.py:1325
 msgid "Can't remove directory"
@@ -270,7 +269,7 @@ msgstr "Klasör silinemiyor"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Anlık görüntü oluşturuluyor"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -301,9 +300,8 @@ msgstr ""
 "kill'"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Hiçbir değişiklik yok, yeni anlık görüntü almak gereksiz"
+msgstr "Hiçbir değişiklik yok, yeni anlık görüntü almak gerekmiyor"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -315,7 +313,6 @@ msgid "Smart removal"
 msgstr "Akıllı kaldırma"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Eski anlık görüntüleri kaldırmak için kuralları uygula"
 
@@ -470,23 +467,20 @@ msgid "File creation failed in this directory:"
 msgstr "Bu klasör içerisinde dosya oluşturulması sırasında hata:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Zaman Tüneli"
+msgstr "Zaman Tüneli Hakkında"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Telif hakkı:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Yazanlar"
+msgstr "Yazarlar:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Çeviriler"
+msgstr "Çevirmenler:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -497,16 +491,17 @@ msgstr ""
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Yürürlükteki dil için çevirmen belirtimleri mevcut değil."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "bu bağlantı"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
+"Bütün dillerdeki çevirmen belirtimleri içinbu linki takip edin {thislink}."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -515,6 +510,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Bu projedeki bütün lisanslar {dir_link} dizininde konumlandırılmıştır. SPDX "
+"metaverisini kullanarak dosya bazında lisans ve telif bilgisini çözümlemek "
+"için şu llinke başvurun: {readme_link}.."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -531,21 +529,19 @@ msgstr ""
 "çevrimiçi)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
 msgstr "Zaman Tüneli"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Versiyon{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Kısayollar"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -580,7 +576,7 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Anlık görüntüleme oluştur"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -588,47 +584,40 @@ msgstr ""
 "Dosya değişikliği tespiti için değişiklik zamanı ve boyutunu kullanın."
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Anlık görüntü kipi (sağlama toplamı kipi)"
+msgstr "Anlık görüntü oluştur (sağlama toplamı kipi)"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Dosya değişikliklerini algılamak için sağlama toplamlarını kullan."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
 msgstr "Anlık görüntü sürecini duraklat"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
 msgstr "Anlık görüntü sürecini sürdür"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
 msgstr "Anlık görüntü sürecini durdur"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
 msgstr "Anlık görüntü listesini yenile"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "Anlık görüntüleme isimlendir"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
-msgstr "Anlık görüntüyü sil"
+msgstr "Anlık görüntüyü kaldır"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "Son günlüğü görüntüle"
+msgstr "Anlık görüntü günlüğünü görüntüle"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -643,7 +632,6 @@ msgid "Shutdown"
 msgstr "Kapat"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Anlık görüntü tamamlandığında sistemi kapat."
 
@@ -755,7 +743,6 @@ msgid "Show hidden files"
 msgstr "Gizli dosyaları göster"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
 msgstr "Anlık görüntüleri karşılaştır…"
 
@@ -769,7 +756,7 @@ msgstr "Bu Yayınlama Adayı hakkındaki mesajı tekrar gösterir."
 
 #: qt/app.py:676
 msgid "Back In &Time"
-msgstr "Zaman Tüneli"
+msgstr "Zaman &Tüneli"
 
 #: qt/app.py:681
 msgid "&Backup"
@@ -800,7 +787,6 @@ msgid "Text beside icon"
 msgstr "Metin ikonların yanında"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -810,7 +796,7 @@ msgstr ""
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Yine de pencere kapansın mı?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -857,15 +843,14 @@ msgid "Backup directories"
 msgstr "Yedekleme klasörleri"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Yedekle"
+msgstr "Anlık görüntü adı"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bu anlık görüntüleme kaldırılsın mı?"
+msgstr[1] "Bu anlık görüntülemeler kaldırılsın mı?"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -877,7 +862,7 @@ msgstr ""
 "{suffix} ile yerel dosyaları yedekleyin."
 
 #: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
@@ -901,7 +886,6 @@ msgid "Remove newer elements in original directory."
 msgstr "Özgün klasördeki daha yeni ögeleri kaldır."
 
 #: qt/app.py:1560
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -914,43 +898,40 @@ msgstr ""
 "silecektir."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
-"Bu ögeyi gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
+"Bu öğeyi gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
 msgstr[1] ""
-"Bu ögeleri gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
+"Bu öğeleri gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "Bu ögeyi gerçekten geri yüklemek istiyor musunuz?"
-msgstr[1] "Bu ögeleri gerçekten geri yüklemek istiyor musunuz?"
+msgstr[0] "Bu öğeyi gerçekten geri yüklemek istiyor musunuz?"
+msgstr[1] "Bu öğeleri gerçekten geri yüklemek istiyor musunuz?"
 
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "{path} yolundaki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
+msgstr "Asıl dizindeki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"{BOLD}UYARI{BOLDEND}: Dosyaları dosya sistemi kökünden silmek sisteminizin "
+"{BOLD}UYARI{BOLDEND}: Dosyaları dosya sistemi kökünden silmek, sisteminizin "
 "tamamını bozabilir."
 
 #: qt/app.py:1857
-#, fuzzy
 msgid "Backup"
-msgstr "&Yedekle"
+msgstr "Anlık görüntü"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -992,9 +973,9 @@ msgid "Your translation"
 msgstr "Sizin çeviriniz"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "Mastodon'daki Fediverse: {link_and_label}"
+msgstr "Mastodon'daki Fediverse: {link_and_label}."
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -1002,9 +983,9 @@ msgid "Email to {link_and_label}."
 msgstr "E-posta {link_and_label}."
 
 #: qt/app.py:2111
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "E-posta listesi {link_and_label}"
+msgstr "E-posta listesi {link_and_label}."
 
 #: qt/app.py:2115
 #, python-brace-format
@@ -1118,7 +1099,6 @@ msgid "System default"
 msgstr "Sistem öntanımlısı"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "İşletim sistemi dilini kullanın."
 
@@ -1132,9 +1112,8 @@ msgid "Last Log View"
 msgstr "Son Günlük Görünüm"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Son Günlük Görünüm"
+msgstr "Anlık Görüntü Günlük Görünümü"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1142,9 +1121,8 @@ msgid "Profile:"
 msgstr "Profil:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Yedekle"
+msgstr "Anlık Görüntüler:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1255,17 +1233,16 @@ msgstr ""
 "{size_unit} biriminde belirtilen değerden büyük dosyaları dışarıda bırakın."
 
 #: qt/manageprofiles/__init__.py:236
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"'Tam rsync modu' devre dışı bırakıldığında, bu yalnızca rsync için bir "
-"aktarım seçeneği olduğu için yeni dosyaları etkiler. Bu nedenle, daha önce "
-"yedeklenmiş büyük dosyalar, değiştirilmiş olsalar bile anlık görüntülerde "
-"korunacaktır."
+"'Tam rsync modu' devre dışı bırakıldığında, bu rsync için bir dışlama kuralı"
+" değil aktarım seçeneği olduğu için yalnızca yeni dosyaları etkiler. Bu "
+"nedenle, daha önce yedeklenmiş büyük dosyalar, değiştirilmiş olsalar bile "
+"anlık görüntülerde korunacaktır."
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Remove & Retention"
@@ -1296,9 +1273,9 @@ msgid "Rename profile"
 msgstr "Profili yeniden adlandır"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "\"{name}\" profilini silmek istediğinizden emin misiniz?"
+msgstr "\"{name}\" profili silinsin mi?"
 
 #: qt/manageprofiles/__init__.py:379
 #, python-brace-format
@@ -1328,17 +1305,17 @@ msgid "Include file"
 msgstr "Dosyayı dahil et"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" bir sembolik bağlantı. Bağlantılı hedef, siz onu da dahil edene kadar yedeklenmeyecek.\n"
-"Bunun yerine sembolik bağlantının hedefini dahil etmek ister misiniz?"
+"\"{path}\" bir sembolik bağlantı. Bağlantılı hedef, siz onu da dahil edene "
+"kadar yedeklenmeyecek."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Onun yerine sembolik bağlantının hedefi içerilsin mi?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1380,12 +1357,11 @@ msgid "Minutes:"
 msgstr "Dakika:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Sürücü bağlanır bağlanmaz Back In Time'ı çalıştır (yalnızca X günde bir). "
+"Sürücü bağlanır bağlanmaz Zaman Tüneli'ni çalıştır (yalnızca X günde bir). "
 "Sizden sudo parolası istenecektir."
 
 #: qt/manageprofiles/schedulewidget.py:97
@@ -1429,11 +1405,11 @@ msgstr "Her Başlatıldığında/Yeniden Başlatıldığında"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "{n} dakikada bir"
-msgstr[1] "{n} dakikada bir"
+msgstr[0] "Dakikada bir"
+msgstr[1] "Her {n} dakikada bir"
 
 #: qt/manageprofiles/schedulewidget.py:150
 #: qt/manageprofiles/schedulewidget.py:152
@@ -1559,7 +1535,6 @@ msgid "on remote host"
 msgstr "uzak makinede"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
 msgstr "elle anlık görüntü alınırken"
 
@@ -1693,9 +1668,8 @@ msgid "Mode:"
 msgstr "Kip:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
-msgstr "Anlık görüntülerin nereye kaydedileceği"
+msgstr "Anlık görüntülerin kaydedileceği yer"
 
 #: qt/manageprofiles/tab_general.py:104
 msgid "SSH Settings"
@@ -1748,19 +1722,16 @@ msgid "Advanced"
 msgstr "Gelişmiş"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
 msgstr "Tam anlık görüntü yolu:"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "Özel anahtar dosyası \"{file}\" yok."
+msgstr "Özel anahtar dosyası seçilmedi."
 
 #: qt/manageprofiles/tab_general.py:396
-#, fuzzy
 msgid "Should a new password-less public/private key pair be generated?"
-msgstr "Yeni bir şifresiz genel/özel anahtar çifti oluşturmak ister misiniz?"
+msgstr "Yeni bir şifresiz genel/özel anahtar çifti oluşturulmalı mı?"
 
 #: qt/manageprofiles/tab_general.py:407
 #, python-brace-format
@@ -1768,7 +1739,6 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Özel anahtar dosyası \"{file}\" yok."
 
 #: qt/manageprofiles/tab_general.py:492
-#, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
 "Şifresiz girişi etkinleştirmek için genel SSH anahtarınızı uzak ana "
@@ -1785,16 +1755,14 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} anahtar parmak iziniz:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
 "Lütfen bu parmak izini doğrulayın. 'known_hosts' dosyanıza eklemek ister "
 "misiniz?"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Yeni bir şifreli klasör oluşturulsun mu?"
+msgstr "Anlık görüntü dizinini gerçekten değiştirmek istiyor musunuz?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1806,7 +1774,6 @@ msgid "Enable notifications"
 msgstr "Bildirimleri etkinleştir"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
 msgstr "Pille çalışırken anlık görüntüleri devre dışı bırak"
 
@@ -1815,19 +1782,17 @@ msgid "Power status not available from system"
 msgstr "Güç durumu sistemden alınamıyor"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
 msgstr "Her seferinde yalnızca bir anlık görüntü çalıştır"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
 "Diğer anlık görüntüler şu anlık yapılan anlık görüntüleme işlemi bitene "
-"kadar engellenecek. Bu global bir seçenektir, bu nedenle bu kullanıcı için "
+"kadar engellenecek. Bu genel bir seçenektir, bu nedenle bu kullanıcı için "
 "tüm profilleri etkileyecektir. Ancak diğer kullanıcılar için de bunu "
 "etkinleştirmeniz gerekecek."
 
@@ -1836,7 +1801,6 @@ msgid "Backup replaced files on restore"
 msgstr "Geri yüklemede değiştirilen dosyaları yedekle"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Hatalarda devam et (eksik anlık görüntüleri tut)"
 
@@ -1845,7 +1809,6 @@ msgid "Use checksum to detect changes"
 msgstr "Değişiklikleri algılamak için sağlama toplamı kullan"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
 msgstr "Değişiklik olsun ya da olmasın yeni anlık görüntü al."
 
@@ -1858,14 +1821,13 @@ msgid "None"
 msgstr "Yok"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
 "Aşağıdaki kurallar yukarıdan aşağıya doğru işlenir. Sonraki kurallar önceki "
-"kuralları geçersiz kılar ve bunlarla kısıtlanmaz. Ayrıntılar ve örnekler "
-"için {manual}'na bakın."
+"kuralları geçersiz kılar. Ayrıntılar ve örnekler için {manual}'na bakın."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1876,39 +1838,34 @@ msgid "Open user manual in browser."
 msgstr "Kullanım kılavuzunu tarayıcınızda açın."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "En yeni anlık görüntüyü tutun."
+msgstr "En yeni anlık görüntüyü tut."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
-msgstr "En son veya en yeni yedekleme her durumda saklanacaktır."
+msgstr "En son veya en yeni anlık görüntü her durumda saklanacaktır."
 
 #: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "Diğer kurallar bu davranışı değiştiremez."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
 msgstr "Adlandırılmış anlık görüntüleri tutun."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Alışılmış zaman damgasına ek olarak isim verilen anlık görüntüler her "
-"durumda saklanacak ve kaldırılmayacaktır."
+"Olağan zaman damgasına ek olarak isim verilen anlık görüntüler her durumda "
+"saklanacak ve kaldırılmayacaktır."
 
 #: qt/manageprofiles/tab_remove_retention.py:259
 msgid "Year(s)"
 msgstr "Yıl"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
 msgstr "Şu tarihten eski anlık görüntüleri silin"
 
@@ -1953,9 +1910,8 @@ msgid "The days are counted starting from today."
 msgstr "saymaya bu gün dahil edilerek başlanacaktır."
 
 #: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
 msgid "Keep all backups for the last"
-msgstr "Tüm anlık görüntüleri şu kadar süre için sakla"
+msgstr "Şu kadar sürelik tüm anlık görüntüleri sakla"
 
 #: qt/manageprofiles/tab_remove_retention.py:312
 #: qt/manageprofiles/tab_remove_retention.py:324
@@ -1963,9 +1919,8 @@ msgid "day(s)."
 msgstr "gün."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "Son şu zamanda her günün son anlık görüntüsünü tut"
+msgstr "Son şu kadar günün son anlık görüntüsünü tut"
 
 #: qt/manageprofiles/tab_remove_retention.py:329
 msgid ""
@@ -1976,7 +1931,6 @@ msgstr ""
 "başlar."
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
 msgstr "Son şu kadar zaman için her haftanın son anlık görüntüsünü tut"
 
@@ -1990,7 +1944,6 @@ msgid ""
 msgstr "Aylar, içinde bulunulan aydan başlayarak takvim ayı olarak sayılır."
 
 #: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
 msgstr "Son şu kadar zaman için her ayın son anlık görüntüsünü tut"
 
@@ -2005,7 +1958,6 @@ msgstr ""
 "Yıllar, içinde bulunulan yıldan başlayarak takvim yılı olarak sayılır."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
 msgstr "Son şu kadar zaman için her yılın son anlık görüntüsünü tut"
 
@@ -2022,9 +1974,8 @@ msgid "… the free inodes are less than"
 msgstr "... boş inode sayısı şundan az"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "En eski anlık görüntüleri kaldır, eğer"
+msgstr "En eski anlık görüntüleri kaldır, eğer …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2073,7 +2024,7 @@ msgid "Import"
 msgstr "İçe Aktar"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
@@ -2094,7 +2045,6 @@ msgid "Show full Log"
 msgstr "Tüm Günlüğü Göster"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
 msgstr "Anlık görüntüleri karşılaştırmayla ilgili seçenekler"
 
@@ -2131,17 +2081,14 @@ msgstr ""
 "\"{params}\"."
 
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Yedekle"
+msgstr "Anlık Görüntüler"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Yalnızca fark anlık görüntüleri"
+msgstr "Yalnızca farklı anlık görüntüleri"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Yalnızca şuna eşit anlık görüntüleri listele:"
 
@@ -2174,27 +2121,29 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Bir anlık görüntüyü kendisiyle karşılaştırmak mümkün değildir, çünkü "
+"karşılaştırma gereksiz olacaktır."
 
 #: qt/snapshotsdialog.py:426
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
-"{snapshot_id} anlık görüntüsündeki {file} dosyasını gerçekten silmek istiyor"
-" musun?"
+"Anlık görüntü {backup_id}'deki {file_or_dir} dosyasını/dizinini gerçekten "
+"silmek istiyor musunuz?"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr ""
-"{count} anlık görüntü içindeki {file} dosyasını gerçekten silmek istiyor "
-"musun?"
+"{count} anlık görüntüsü içindeki {file_or_dir} dosyasını/dizinini gerçekten "
+"silmek istiyor musun?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "UYARI: Bu işlemin geri alınması mümkün değil."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "{path} yolu gelecek anlık görüntülerden dışlansın mı?"
 
@@ -2215,10 +2164,9 @@ msgid "Last week"
 msgstr "Geçen hafta"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
-"Bu bir anlık görüntü DEĞİL, yerel dosyalarınızın canlı bir görüntüsüdür"
+"Bu bir anlık görüntü DEĞİL, yerel dosyalarınızın canlı bir görüntüsüdür."
 
 #: qt/timeline.py:275
 #, python-brace-format

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-11 01:30+0000\n"
+"PO-Revision-Date: 2025-04-12 09:18+0000\n"
 "Last-Translator: Umeaman <umeaman@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
@@ -47,7 +47,7 @@ msgstr "SSH"
 #: common/config.py:279 common/config.py:289
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
-msgstr "SSH privat nyckel"
+msgstr "Privat SSH-nyckel"
 
 #: common/config.py:282
 msgid "Local encrypted"
@@ -585,38 +585,32 @@ msgid "Use checksums for file change detection."
 msgstr "Använd checksumma för att detektera ändringar."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
-msgstr "Pausa process för ögonblicksavbilder"
+msgstr "Pausa processen för säkerhetskopieringen"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "Återuppta process för ögonblicksavbilder"
+msgstr "Återuppta processen för säkerhetskopiering"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
-msgstr "Stoppa process för ögonblicksavbilder"
+msgstr "Stoppa säkerhetskopieringsprocessen"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "Uppdatera listan över ögonblicksavbilder"
+msgstr "Uppdatera listan för säkerhetskopieringen"
 
 #: qt/app.py:497
 msgid "Name backup"
 msgstr "Namnge säkerhetskopia"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
-msgstr "Ta bort ögonblicksavbild"
+msgstr "Ta bort säkerhetskopian"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "Visa senaste logg"
+msgstr "Visa säkerhetskopieringsloggen"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -631,9 +625,8 @@ msgid "Shutdown"
 msgstr "Stäng av"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Stäng av systemet när ögonblicksavbild har slutförts."
+msgstr "Stäng av systemet när säkerhetskopieringen har slutförts."
 
 #: qt/app.py:521
 msgid "Setup language…"
@@ -744,9 +737,8 @@ msgid "Show hidden files"
 msgstr "Visa dolda filer"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
-msgstr "Jämför ögonblicksavbilder…"
+msgstr "Jämför säkerhetskopior…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
@@ -789,13 +781,12 @@ msgid "Text beside icon"
 msgstr "Text bredvid ikoner"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
 "Om du stänger det här fönstret så kan Back In Time inte stänga av ditt "
-"system när ögonblicksavbilden är färdig."
+"system när säkerhetskopieringen är slutförd."
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
@@ -846,9 +837,8 @@ msgid "Backup directories"
 msgstr "Mappar för säkerhetskopior"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Säkerhetskopiera"
+msgstr "Namn på säkerhetskopian"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
@@ -866,14 +856,13 @@ msgstr ""
 "innan lokala filer skrivs över eller tas bort ."
 
 #: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"Nyare versioner av filer kommer att döpas om med efterföljande {suffix} före"
-" återställning. Om du inte behöver dem längre kan du ta bort dem med "
-"följande kommando:"
+"Innan återställningen så kommer nyare fil-versioner att döpas om med "
+"efterföljande {suffix}. De här filerna kan tas bort med följande kommando:"
 
 #: qt/app.py:1522
 msgid ""
@@ -890,7 +879,6 @@ msgid "Remove newer elements in original directory."
 msgstr "Ta bort nyare element i den ursprungliga katalogen."
 
 #: qt/app.py:1560
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -898,12 +886,11 @@ msgid ""
 "the creation of the backup."
 msgstr ""
 "Återställ valda filer eller kataloger till den ursprungliga destinationen "
-"och ta bort filer eller kataloger som inte finns i ögonblicksbilden. Var "
+"och ta bort filer eller kataloger som inte finns i säkerhetskopian. Var "
 "extremt försiktig eftersom detta kommer att radera filer och kataloger som "
-"uteslöts när ögonblicksavbilden togs."
+"uteslöts när säkerhetskopian skapades."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
@@ -1154,7 +1141,7 @@ msgstr "Fel"
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Information"
-msgstr[1] "Information"
+msgstr[1] "Informationsposter"
 
 #: qt/logviewdialog.py:114
 msgid "rsync transfer failures (experimental)"
@@ -1793,34 +1780,31 @@ msgid "Run only one backup at a time"
 msgstr "Kör enbart en säkerhetskopia i taget"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Andra säkerhetskopior kommer att blockeras tills den aktuella "
-"säkerhetskopian är färdig. Det här är ett globalt alternativ. Så det kommer "
-"att påverka alla profiler för denna användare, men du måste aktivera detta "
-"för alla andra användare också."
+"De andra säkerhetskopieringarna kommer att blockeras tills den aktuella "
+"säkerhetskopieringen är klar. Det här är ett globalt alternativ vilket "
+"betyder att det kommer att drabba alla profiler för den här användaren. Det "
+"måste hur som helst aktiveras för alla andra användare."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
 msgstr "Säkerhetskopiera ersatta filer vid återställning"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Fortsätt vid fel (behåll icke kompletta ögonblicksavbilder)"
+msgstr "Fortsätt vid fel (behåll inte säkerhetskopior som inte är slutförda)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
 msgstr "Använd checksummor för att detektera ändringar"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
-msgstr "Ta en ny ögonblicksavbild oavsett om det fanns ändringar eller inte."
+msgstr "Skapa en ny säkerhetskopia oavsett om det fanns ändringar eller inte."
 
 #: qt/manageprofiles/tab_options.py:90
 msgid "Log Level:"
@@ -1831,14 +1815,13 @@ msgid "None"
 msgstr "Inga"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
-"Följande regler behandlas från topp till botten. Senare regler åsidosätter "
-"tidigare och är inte begränsade av dem. Se {manual} för detaljer och "
-"exempel."
+"De följande reglerna behandlas längst upp till längst ner. Senare regler "
+"åsidosätter de tidigare. Se {manual} för detaljer och exempel."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1849,33 +1832,28 @@ msgid "Open user manual in browser."
 msgstr "Öppna användarmanual i webbläsaren."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "Behåll den mest senaste ögonblicksavbilden."
+msgstr "Behåll den mest senaste säkerhetskopian."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
-"Den sista eller färskaste ögonblicksavbilden bevaras under alla "
-"omständigheter."
+"Den sista eller färskaste säkerhetskopian bevaras under alla omständigheter."
 
 #: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "Det beteendet går inte att ändra på."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
-msgstr "Behåll namngivna ögonblicksavbilder."
+msgstr "Behåll namngivna säkerhetskopior."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Ögonblicksavbilder som har fått ett namn, utöver den vanliga tidsstämpeln, "
+"Säkerhetskopian som har fått ett namn, utöver den vanliga tidsstämpeln, "
 "kommer att behållas under alla omständigheter och kommer inte att tas bort."
 
 #: qt/manageprofiles/tab_remove_retention.py:259
@@ -1883,9 +1861,8 @@ msgid "Year(s)"
 msgstr "År"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
-msgstr "Ta bort ögonblicksavbilder äldre än"
+msgstr "Ta bort säkerhetskopior som är äldre än"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
@@ -1926,9 +1903,8 @@ msgid "The days are counted starting from today."
 msgstr "Dagarna räknas från och med idag."
 
 #: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
 msgid "Keep all backups for the last"
-msgstr "Behåll alla ögonblicksavbilder för de senaste"
+msgstr "Behåll alla säkerhetskopior för de senaste"
 
 #: qt/manageprofiles/tab_remove_retention.py:312
 #: qt/manageprofiles/tab_remove_retention.py:324
@@ -1936,9 +1912,8 @@ msgid "day(s)."
 msgstr "dag(ar)."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "Behåll den sista ögonblicksavbilden för varje dag till den sista"
+msgstr "Behåll den sista säkerhetskopian för varje dag till den sista"
 
 #: qt/manageprofiles/tab_remove_retention.py:329
 msgid ""
@@ -1949,9 +1924,8 @@ msgstr ""
 "måndag."
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "Behåll den sista ögonblicksavbilden för varje vecka till den sista"
+msgstr "Behåll den sista säkerhetskopian för varje vecka till den sista"
 
 #: qt/manageprofiles/tab_remove_retention.py:337
 msgid "week(s)."
@@ -1963,9 +1937,8 @@ msgid ""
 msgstr "Månaderna räknas som kalendermånader från och med nuvarande månad."
 
 #: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
-msgstr "Spara den sista ögonblicksavbilden för varje månad till den sista"
+msgstr "Behåll den sista säkerhetskopian för varje månad till den sista"
 
 #: qt/manageprofiles/tab_remove_retention.py:350
 msgid "month(s)."
@@ -1977,9 +1950,8 @@ msgid ""
 msgstr "Åren räknas som kalenderår från och med det nuvarande året."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Spara den sista ögonblicksavbilden för varje år för"
+msgstr "Spara den sista säkerhetskopior för varje år för"
 
 #: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
@@ -1994,9 +1966,8 @@ msgid "… the free inodes are less than"
 msgstr "… de lediga inoderna är mindre än"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "Ta bort gamla ögonblicksavbilder om …"
+msgstr "Ta bort gamla säkerhetskopior om …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2045,13 +2016,13 @@ msgid "Import"
 msgstr "Importera"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Välj mappen för ögonblicksavbilder som konfigurationsfilen ska importeras "
-"ifrån. Sökvägen kan se ut så här: {samplePath}"
+"Välj mappen för säkerhetskopian som konfigurationsfilen ska importeras "
+"ifrån. Genvägen kan se ut så här: {samplePath}"
 
 #: qt/restoreconfigdialog.py:182
 msgid ""
@@ -2066,9 +2037,8 @@ msgid "Show full Log"
 msgstr "Visa fullständig logg"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "Alternativ för att jämföra ögonblicksavbilder"
+msgstr "Alternativ för att jämföra säkerhetskopior"
 
 #: qt/snapshotsdialog.py:64
 msgid "Command:"
@@ -2103,19 +2073,16 @@ msgstr ""
 "\"{params}\"."
 
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Säkerhetskopiera"
+msgstr "Säkerhetskopior"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Endast ögonblicksavbilder med olikheter"
+msgstr "Endast avvikande säkerhetskopior"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Lista bara ögonblicksavbilder som är lika med:"
+msgstr "Lista enbart säkerhetskopior som är likvärdiga med:"
 
 #: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
@@ -2164,9 +2131,9 @@ msgid "WARNING: This cannot be revoked."
 msgstr "VARNING: Det här kan inte återkallas."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "Exkludera \"{path}\" från framtida ögonblicksavbilder?"
+msgstr "Exkludera {path} från framtida säkerhetskopior?"
 
 #: qt/timeline.py:70
 msgid "Today"

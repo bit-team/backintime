@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 19:55+0000\n"
+"PO-Revision-Date: 2025-04-12 14:10+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -504,6 +504,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Усі ліцензії, використані у цьому проєкті, знаходяться у каталозі "
+"{dir_link}. Щоб отримати інформацію про ліцензії та авторські права на кожен"
+" файл за допомогою метаданих SPDX, зверніться до {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -580,38 +583,32 @@ msgid "Use checksums for file change detection."
 msgstr "Виявляти зміни за контрольними сумами."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
 msgstr "Зупинити створення копії"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
 msgstr "Продовжити створення копії"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
 msgstr "Скасувати створення копії"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
 msgstr "Оновити список копій"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "Назвати копію"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
 msgstr "Видалити копію"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "Переглянути останній журнал"
+msgstr "Переглянути журнал копій"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -738,7 +735,6 @@ msgid "Show hidden files"
 msgstr "Показати приховані файли"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
 msgstr "Порівняти копії…"
 
@@ -839,9 +835,8 @@ msgid "Backup directories"
 msgstr "Каталоги резервування"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Резервування"
+msgstr "Назва копії"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
@@ -927,9 +922,8 @@ msgstr ""
 "зламати всю систему."
 
 #: qt/app.py:1857
-#, fuzzy
 msgid "Backup"
-msgstr "&Резервування"
+msgstr "Резервна копія"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -956,7 +950,7 @@ msgstr ""
 "Ви вже кілька разів користувалися Back In Time українською мовою.\n"
 "Переклад встановленої версії Back In Time на українську завершено на {perc}. Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у переклад і, таким чином, у розвиток Back In Time.\n"
 "Якщо бажаєте зробити внесок, відвідайте {translation_platform_url}. Додаткову допомогу та відповіді на запитання можна отримати на сайті проєкту {back_in_time_project_website}.\n"
-"Перепрошуємо за переривання, це повідомлення більше не виводитиметься. Це діалогове вікно доступне в будь-який час через меню «Допомога».\n"
+"Перепрошуємо за втручання, це повідомлення більше не виводитиметься. Це діалогове вікно доступне в будь-який час через меню «Допомога».\n"
 "Ваша команда Back In Time"
 
 #: qt/app.py:2071
@@ -1112,9 +1106,8 @@ msgid "Last Log View"
 msgstr "Останній журнал"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Останній журнал"
+msgstr "Журнал резервних копій"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1226,24 +1219,24 @@ msgstr "Додати за замовчуванням"
 
 #: qt/manageprofiles/__init__.py:230
 msgid "Exclude files bigger than:"
-msgstr "Виключити файли більші ніж:"
+msgstr "Виключити файли більші, ніж:"
 
 #: qt/manageprofiles/__init__.py:234
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Виключити файли більші ніж значення в {size_unit}."
+msgstr "Виключити файли більші, ніж значення в {size_unit}."
 
 #: qt/manageprofiles/__init__.py:236
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"Якщо «Full rsync mode» вимкнено, це вплине лише на нові файли, оскільки для "
-"rsync це переміщення, а не виключення. Тому великі файли, зарезервовані "
-"раніше, залишаться в копіях, навіть якщо вони змінилися."
+"Якщо «Full rsync mode» вимкнено, цей параметр вплине лише на новостворені "
+"файли, оскільки для rsync це опція перенесення, а не правило виключення. "
+"Тому великі файли, зарезервовані раніше, залишаться в резервних копіях, "
+"навіть якщо ці файли буде змінено."
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Remove & Retention"
@@ -1404,7 +1397,7 @@ msgstr "При кожному запуску/перезапуску"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Кожну {n} хвилину"
@@ -1419,7 +1412,7 @@ msgstr[2] "Кожні {n} хвилин"
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Кожну годину"
+msgstr[0] "Кожну {n} годину"
 msgstr[1] "Кожні {n} години"
 msgstr[2] "Кожні {n} годин"
 
@@ -1698,8 +1691,8 @@ msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
-"Створити новий ключ SSH без пароля (недоступно, якщо Ви вже обрали файл "
-"приватного ключа)."
+"Створити новий ключ SSH без пароля (Недоступно, якщо файл приватного ключа "
+"вже вибрано)."
 
 #: qt/manageprofiles/tab_general.py:201 qt/manageprofiles/tab_general.py:208
 #: qt/manageprofiles/tab_general.py:212
@@ -1723,9 +1716,8 @@ msgid "Full backup path:"
 msgstr "Повний шлях до копії:"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "Приватний ключ «{file}» не існує."
+msgstr "Файл приватного ключа для SSH не було вибрано."
 
 #: qt/manageprofiles/tab_general.py:396
 msgid "Should a new password-less public/private key pair be generated?"
@@ -1781,15 +1773,14 @@ msgid "Run only one backup at a time"
 msgstr "Створювати лише одну резервну копію за раз"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Інші копії буде заблоковано, доки триває поточне резервування. Це глобальне "
-"налаштування, отже вплине на всі профілі цього користувача. Але для інших "
-"користувачів його потрібно вмикати окремо."
+"Інші резервні копії буде заблоковано, доки триває поточне резервування. Це "
+"глобальне налаштування, тобто воно вплине на всі профілі цього користувача. "
+"Однак для інших користувачів його потрібно вмикати окремо."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
@@ -1863,7 +1854,7 @@ msgstr "років"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
 msgid "Remove backups older than"
-msgstr "Видаляти копії старіші за"
+msgstr "Видаляти копії, старіші за"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
@@ -1961,16 +1952,15 @@ msgstr "всі роки."
 
 #: qt/manageprofiles/tab_remove_retention.py:381
 msgid "… the free space is less than"
-msgstr "… вільного місця менше ніж"
+msgstr "… вільного місця менше, ніж"
 
 #: qt/manageprofiles/tab_remove_retention.py:386
 msgid "… the free inodes are less than"
-msgstr "… вільних айнодів менше ніж"
+msgstr "… вільних айнодів менше, ніж"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "Видаляти старі копії, якщо…"
+msgstr "Видаляти найстаріші копії, якщо…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2076,7 +2066,6 @@ msgstr ""
 "замовчуванням «{params}»."
 
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
 msgstr "Резервні копії"
 
@@ -2117,6 +2106,8 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Неможливо порівняти резервну копію саму з собою, таке порівняння було б "
+"зайвим."
 
 #: qt/snapshotsdialog.py:426
 #, python-brace-format

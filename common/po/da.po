@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-14 17:22+0000\n"
+"Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Snapshots mappe er ugyldig."
+msgstr "Tilstandsbillede-mappe er ugyldig."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -98,7 +97,6 @@ msgid "Failed to write new crontab."
 msgstr "Kunne ikke skrive ny crontab."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -108,17 +106,17 @@ msgid ""
 msgstr ""
 "Cron kører ikke, selvom crontab-kommandoen er tilgængelig. Planlagte backup-"
 "job vil ikke blive kørt. Cron kan være installeret, men ikke aktiveret. Prøv"
-" kommandoen “systemctl enable cron” eller kontakt supportkanalerne for din "
-"GNU/Linux-distribution."
+" kommandoen “systemctl enable cron” og \"systemctl start cron\" eller "
+"kontakt supportkanalerne for din GNU/Linux-distribution for hjælp."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Kunne ikke installere Udev regel for profil {profile_id}. DBus Service "
-"'{dbus_interface}' var ikke tilgængelig"
+"'{dbus_interface}' var ikke tilgængelig."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -215,14 +213,13 @@ msgid "Deferring backup while on battery"
 msgstr "Venter med backup under batteridrift"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Kan ikke finde tilstands-billede-mappen."
+msgstr "Kan ikke finde tilstandsbillede-mappen."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
-msgstr "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk OK."
+msgstr ""
+"Hvis den er på et flytbar drev, indsæt venligst drevet og tryk derefter OK."
 
 #: common/snapshots.py:849
 #, python-format
@@ -232,9 +229,9 @@ msgstr[0] "Venter %s sekund."
 msgstr[1] "Venter %s sekunder."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Kunne ikke tage tilstands-billede {snapshot_id}."
+msgstr "Kunne ikke tage tilstandsbillede {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -253,13 +250,13 @@ msgid "Saving permissions…"
 msgstr "Gemmer tilladelser…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Fandt efterladt tilstandsbillede {snapshot_id} som kan fortsættes med."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Sletter efterladt {snapshot_id}-mappe fra seneste kørsel"
 
@@ -269,7 +266,7 @@ msgstr "Kan ikke fjerne mappe"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Opretter tilstandsbillede"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -299,9 +296,8 @@ msgid ""
 msgstr "Negative rsync slutværdier er signalnumre, se 'kill -l' og 'man kill'"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Ingen ændringer, så et nyt tilstands-billede er ikke nødvendigt"
+msgstr "Ingen ændringer, så et nyt tilstandsbillede er ikke nødvendigt"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -313,9 +309,8 @@ msgid "Smart removal"
 msgstr "Smart sletning"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Brug regler til at fjerne gamle tilstands-billeder"
+msgstr "Brug regler til at fjerne gamle tilstandsbilleder"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -464,23 +459,20 @@ msgid "File creation failed in this directory:"
 msgstr "Filoprettelse fejlede i mappe:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Om Back In &Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Ophavsret:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Forfattere"
+msgstr "Forfattere:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Oversættelser"
+msgstr "Oversættere:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -488,16 +480,16 @@ msgstr "Adam Sjøgren <asjo@koldfront.dk>"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Oversætterinformation er ikke tilgængelig for det nuværende sprog."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "dette link"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Følg {thislink} for at se oversætterinformation for alle sprog."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -506,6 +498,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Alle licenser relevante for dette projekt findes i {dir_link}-mappen. For at"
+" udtrække licens- og ophavsretsinformation i SPDX metadata format per fil, "
+"se {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -521,27 +516,25 @@ msgstr ""
 "Åbn brugervejledning i browser (lokal hvis tilgængelig, ellers på nettet)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Version{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "Genveje"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
 "Denne mappe findes ikke\n"
-"i det valgte tilstands-billede."
+"i det valgte tilstandsbillede."
 
 #: qt/app.py:257
 msgid "Add to Include"
@@ -570,54 +563,47 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Opret et tilstandsbillede"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr "Brug ændringstid og størrelse til at opdage filændringer."
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Opret et tilstands-billede (checksum modus)"
+msgstr "Opret et tilstandsbillede (checksum modus)"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Brug checksummer til at opdage filændringer."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
-msgstr "Sæt tilstands-afbildning på pause"
+msgstr "Sæt tilstandsafbildning på pause"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "Genoptag tilstands-afbildning"
+msgstr "Genoptag tilstandsafbildning"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
-msgstr "Stop tilstands-afbildning"
+msgstr "Stop tilstandsafbildning"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "Opdatér tilstands-billede-liste"
+msgstr "Opdatér tilstandsbillede-liste"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "Navngiv tilstandsbillede"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
-msgstr "Fjern tilstands-billede"
+msgstr "Fjern tilstandsbillede"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "Vis seneste log"
+msgstr "Vis tilstandsbillede-log"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -632,9 +618,8 @@ msgid "Shutdown"
 msgstr "Luk ned"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Luk ned når tilstands-billedet er færdiggjort."
+msgstr "Luk ned når tilstandsbilledet er færdiggjort."
 
 #: qt/app.py:521
 msgid "Setup language…"
@@ -742,9 +727,8 @@ msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
-msgstr "Tag et tilstands-billede…"
+msgstr "Sammenlign tilstandsbilleder…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
@@ -787,17 +771,16 @@ msgid "Text beside icon"
 msgstr "Tekst ved siden af ikon"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
 "Hvis du lukker dette vindue så kan Back In Time ikke lukke din maskine ned "
-"når tilstands-billedet er færdigt."
+"når tilstandsbilledet er færdigt."
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Luk vinduet alligevel?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -844,15 +827,14 @@ msgid "Backup directories"
 msgstr "Sikkerhedskopi-mapper"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Sikkerhedskopiér"
+msgstr "Tilstandsbillede-navn"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Slet dette tilstandsbillede?"
+msgstr[1] "Slet disse tilstandsbilleder?"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -864,7 +846,7 @@ msgstr ""
 "før lokale elementer overskrives."
 
 #: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
@@ -888,7 +870,6 @@ msgid "Remove newer elements in original directory."
 msgstr "Fjern nyere elementer i oprindelsesmappen."
 
 #: qt/app.py:1560
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -896,12 +877,11 @@ msgid ""
 "the creation of the backup."
 msgstr ""
 "Gendan valgte filer eller mapper på den oprindelige plads og slet filer "
-"eller mapper som ikke er i tilstands-billedet. Vær ekstremt forsigtig for "
-"dette vil slette filer og mapper som blev sprunget over da tilstands-"
-"billedet blev dannet."
+"eller mapper som ikke er i tilstandsbilledet. Vær ekstremt forsigtig for "
+"dette vil slette filer og mapper som blev sprunget over da tilstandsbilledet"
+" blev dannet."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Er du sikker på at du vil gendanne dette element i den nye mappe?"
@@ -909,7 +889,6 @@ msgstr[1] ""
 "Er du sikker på at du vil gendanne disse elementer i den nye mappe?"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Er du sikker på at du vil gendanne dette element?"
@@ -918,25 +897,24 @@ msgstr[1] "Er du sikker på at du vil gendanne disse elementer?"
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "Alle nyere filer i {path} vil blive slettet. Fortsæt?"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
+msgstr "Alle nyere filer i den oprindelige mappe vil blive slettet. Fortsæt?"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"{BOLD}ADVARSEL{BOLDEND}: Hvis du sletter filer i filsystemets rod risikerer "
+"{BOLD}Advarsel{BOLDEND}: Hvis du sletter filer i filsystemets rod risikerer "
 "du at ødelægge hele dit system."
 
 #: qt/app.py:1857
-#, fuzzy
 msgid "Backup"
-msgstr "&Sikkerhedskopiér"
+msgstr "&Sikkerhedskopiéring"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -978,9 +956,9 @@ msgid "Your translation"
 msgstr "Din oversættelse"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "I fødiverset på Mastodon: {link_and_label}"
+msgstr "I fødiverset på Mastodon: {link_and_label}."
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -988,9 +966,9 @@ msgid "Email to {link_and_label}."
 msgstr "Email til {link_and_label}."
 
 #: qt/app.py:2111
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Emailliste {link_and_label}"
+msgstr "Emailliste {link_and_label}."
 
 #: qt/app.py:2115
 #, python-brace-format
@@ -1046,7 +1024,7 @@ msgstr "Det er ikke længere anbefalet at bruge den tilstand i en profil."
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:598
 msgid "whitepaper"
-msgstr "whitepaper"
+msgstr "hvidbog"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
 #: qt/manageprofiles/tab_general.py:591
@@ -1105,7 +1083,6 @@ msgid "System default"
 msgstr "Systemstandard"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "Brug styresystemets sprog."
 
@@ -1119,9 +1096,8 @@ msgid "Last Log View"
 msgstr "Se Sidste Log"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Se Sidste Log"
+msgstr "Tilstandsbillede-logvisning"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1129,9 +1105,8 @@ msgid "Profile:"
 msgstr "Profil:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Sikkerhedskopiér"
+msgstr "&Sikkerhedskopiér:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1241,7 +1216,6 @@ msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Ekskludér filer større end værdi i {size_unit}."
 
 #: qt/manageprofiles/__init__.py:236
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1250,8 +1224,8 @@ msgid ""
 msgstr ""
 "Med 'Full rsync mode' slået fra påvirker dette kun nye filer da dette er en "
 "overførselsesparameter for rsync, ikke en ekskluderingsparameter. Så store "
-"filer der tidligere er overført forbliver i tilstands-billederne selv hvis "
-"de er ændret."
+"filer der tidligere er overført forbliver i tilstandsbillederne selv hvis de"
+" er ændret."
 
 #: qt/manageprofiles/__init__.py:266
 msgid "&Remove & Retention"
@@ -1282,7 +1256,7 @@ msgid "Rename profile"
 msgstr "Omdøb profil"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Er du sikker på at du vil slette profilen \"{name}\"?"
 
@@ -1316,17 +1290,17 @@ msgid "Include file"
 msgstr "Inkludér fil"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" er et symbolsk link. Det linket peger på vil ikke blive sikkerhedskopieret med mindre du også inkluderer den sti.\n"
-"Vil du inkludere det som linket peger på i stedet?"
+"\"{path}\" er et symbolsk link. Det linket peger på vil ikke blive "
+"sikkerhedskopieret med mindre du også inkluderer den sti."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Inkludér det som det symbolske link peger på i stedet?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1367,13 +1341,12 @@ msgid "Minutes:"
 msgstr "Minutter:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
 "Kør Back In Time så snart drevet tilsluttes (kun en gang hver X'te dag). Du "
-"bliver spurgt om dit sudo kodeord."
+"vil blive spurgt om dit sudo kodeord."
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1414,11 +1387,11 @@ msgstr "Ved hver opstart/genstart"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Hver {n} minut"
-msgstr[1] "Hver {n} minutter"
+msgstr[0] "Hvert minut"
+msgstr[1] "Hvert {n}. minut"
 
 #: qt/manageprofiles/schedulewidget.py:150
 #: qt/manageprofiles/schedulewidget.py:152
@@ -1544,9 +1517,8 @@ msgid "on remote host"
 msgstr "på en fjernvært"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
-msgstr "når et manuelt tilstands-billede dannes"
+msgstr "når et manuelt tilstandsbillede dannes"
 
 #: qt/manageprofiles/tab_expert_options.py:103
 msgid "Please install 'nocache' to enable this option."
@@ -1676,9 +1648,8 @@ msgid "Mode:"
 msgstr "Tilstand:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
-msgstr "Hvor skal tilstands-billeder gemmes"
+msgstr "Hvor skal tilstandsbilleder gemmes"
 
 #: qt/manageprofiles/tab_general.py:104
 msgid "SSH Settings"
@@ -1730,19 +1701,16 @@ msgid "Advanced"
 msgstr "Avanceret"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
-msgstr "Fuld sti til tilstands-billeder:"
+msgstr "Fuld sti til tilstandsbilleder:"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "Den private nøglefil \"{file}\" mangler."
+msgstr "En privat nøglefil til SSH er ikke valgt."
 
 #: qt/manageprofiles/tab_general.py:396
-#, fuzzy
 msgid "Should a new password-less public/private key pair be generated?"
-msgstr "Vil du danne et nyt offentligt/private kodeordsløst nøglepar?"
+msgstr "Vil du danne et nyt offentligt/privat kodeordsløst nøglepar?"
 
 #: qt/manageprofiles/tab_general.py:407
 #, python-brace-format
@@ -1750,7 +1718,6 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "Den private nøglefil \"{file}\" mangler."
 
 #: qt/manageprofiles/tab_general.py:492
-#, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
 "Vil du kopiere din offentlige SSH-nøgle til fjernværten for at gøre login "
@@ -1767,16 +1734,14 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} nøgle fingeraftryk er:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
 "Verificér venligst dette fingeraftryk. Vil du tilføje det til din "
 "'known_hosts' fil?"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Lav en ny krypteret mappe?"
+msgstr "Er du sikker på at du vil ændre tilstandsbillede-mappen?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1788,27 +1753,24 @@ msgid "Enable notifications"
 msgstr "Aktivér bekendtgørelser"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "De-aktivér tilstands-billeder ved batteri-drift"
+msgstr "De-aktivér tilstandsbilleder ved batteri-drift"
 
 #: qt/manageprofiles/tab_options.py:47
 msgid "Power status not available from system"
 msgstr "Strømstatus ikke tilgængelig fra system"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
-msgstr "Dan kun et tilstands-billede af gangen"
+msgstr "Dan kun et tilstandsbillede af gangen"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Andre tilstands-billeder vil være blokeret indtil det nuværende er "
+"Andre tilstandsbilleder vil være blokeret indtil det nuværende er "
 "færdiggjort. Dette er en global indstilling. Så det påvirker alle profiler "
 "for denne bruger. Men du bliver nød til at aktivere det for alle andre "
 "brugere også."
@@ -1818,18 +1780,16 @@ msgid "Backup replaced files on restore"
 msgstr "Sikkerhedskopiering erstattede filer ved genddannelse"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Fortsæt ved fejl (behold ufuldstændige tilstands-billeder)"
+msgstr "Fortsæt ved fejl (behold ufuldstændige tilstandsbilleder)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
 msgstr "Brug checksummer til at finde ændringer"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
-msgstr "Dan et nyt tilstands-billede uanset om der var ændringer eller ej."
+msgstr "Dan et nyt tilstandsbillede uanset om der var ændringer eller ej."
 
 #: qt/manageprofiles/tab_options.py:90
 msgid "Log Level:"
@@ -1840,14 +1800,13 @@ msgid "None"
 msgstr "Ingen"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
 "De følgende regler håndteres fra top til bund. Senere regler tager præcedens"
-" over tidligere og er ikke begrænset af disse. Detaljer og eksempler findes "
-"i {manual}."
+" over tidligere. Detaljer og eksempler findes i {manual}."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1858,28 +1817,24 @@ msgid "Open user manual in browser."
 msgstr "Åbn brugervejledning i browser."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "Behold det nyeste tilstands-billede."
+msgstr "Behold det nyeste tilstandsbillede."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
-"Det sidste eller friskeste tilstands-billede beholdes under alle "
-"omstændigher."
+"Det sidste eller friskeste tilstandsbillede beholdes under alle "
+"omstændigheder."
 
 #: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "Denne opførsel kan ikke ændres."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
-msgstr "Behold navngivne tilstands-billeder."
+msgstr "Behold navngivne tilstandsbilleder."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -1892,9 +1847,8 @@ msgid "Year(s)"
 msgstr "År"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
-msgstr "Fjern tilstands-billede ældre end"
+msgstr "Fjern tilstandsbilleder ældre end"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
@@ -1935,9 +1889,8 @@ msgid "The days are counted starting from today."
 msgstr "Dagene tælles fra i dag."
 
 #: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
 msgid "Keep all backups for the last"
-msgstr "Behold alle tilstands-billeder for de seneste"
+msgstr "Behold alle tilstandsbilleder for de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:312
 #: qt/manageprofiles/tab_remove_retention.py:324
@@ -1945,9 +1898,8 @@ msgid "day(s)."
 msgstr "Dag(e)."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "Behold det sidste tilstands-billede for hver dag for det sidste"
+msgstr "Behold det sidste tilstandsbillede for hver dag for de sidste"
 
 #: qt/manageprofiles/tab_remove_retention.py:329
 msgid ""
@@ -1957,9 +1909,8 @@ msgstr ""
 "Ugernes tælles startende fra den nuværende uge. Uger starter på mandage."
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "Behold det seneste tilstands-billede for hver uge for de seneste"
+msgstr "Behold det seneste tilstandsbillede for hver uge for de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:337
 msgid "week(s)."
@@ -1971,9 +1922,8 @@ msgid ""
 msgstr "Månederne tælles som kalendermåneder fra nuværende måned."
 
 #: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
-msgstr "Behold det seneste tilstands-billede for hver måned for de seneste"
+msgstr "Behold det seneste tilstandsbillede for hver måned for de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:350
 msgid "month(s)."
@@ -1985,9 +1935,8 @@ msgid ""
 msgstr "Årene tælles som kalenderår fra i år."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Behold det seneste tilstands-billeder for hvert år de seneste"
+msgstr "Behold det seneste tilstandsbillede for hvert år de seneste"
 
 #: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
@@ -2002,9 +1951,8 @@ msgid "… the free inodes are less than"
 msgstr "... frie inodes er mindre end"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "Fjern ældste tilstands-billeder hvis …"
+msgstr "Fjern ældste tilstandsbillede hvis …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2053,12 +2001,12 @@ msgid "Import"
 msgstr "Import"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Vælg tilstands-billede-mappen hvorfra konfigurationsfilen skal importeres. "
+"Vælg tilstandsbillede-mappen hvorfra konfigurationsfilen skal importeres. "
 "Stien kan se sådan ud: {samplePath}"
 
 #: qt/restoreconfigdialog.py:182
@@ -2074,9 +2022,8 @@ msgid "Show full Log"
 msgstr "Vis Fulde Log"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "Valgmuligheder om sammenligning af tilstands-billeder"
+msgstr "Valgmuligheder om sammenligning af tilstandsbilleder"
 
 #: qt/snapshotsdialog.py:64
 msgid "Command:"
@@ -2110,19 +2057,16 @@ msgstr ""
 "Ingen parametre sat for diff-kommandoen. Bruger standardværdi \"{params}\"."
 
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Sikkerhedskopiér"
+msgstr "Tilstandsbilleder"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Kun tilstands-billeder der er forskellige"
+msgstr "Kun tilstandsbilleder der er forskellige"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Vis kun tilstands-billeder der er ens med:"
+msgstr "Vis kun tilstandsbilleder der er ens med:"
 
 #: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
@@ -2153,26 +2097,29 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Det er ikke muligt at sammenligne et tilstandsbillede med sig selv, da der "
+"per definition ingen forskel er."
 
 #: qt/snapshotsdialog.py:426
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
-"Er du sikker på at du vil slette {file} i tilstands-billedet {snapshot_id}?"
+"Er du sikker på at du vil slette {file_or_dir} i tilstandsbilledet "
+"{backup_id}?"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Vil du virkelig slette {file} i {count} tilstands-billeder?"
+msgstr "Vil du virkelig slette {file_or_dir} i {count} tilstandsbilleder?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "ADVARSEL: Dette kan ikke tilbagekaldes."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "Ekskludér {path} fra tilstands-billeder fremover?"
+msgstr "Ekskludér {path} fra tilstandsbilleder fremover?"
 
 #: qt/timeline.py:70
 msgid "Today"
@@ -2191,9 +2138,10 @@ msgid "Last week"
 msgstr "Sidste uge"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "Dette er IKKE et snapshot men et nutidigt syn af dine lokale filer"
+msgstr ""
+"Dette er IKKE et tilstandsbillede men et opdateret blik på dine lokale "
+"filer."
 
 #: qt/timeline.py:275
 #, python-brace-format

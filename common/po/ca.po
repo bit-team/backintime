@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-14 06:43+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "El directori d'instantànies no és vàlid."
+msgstr "El directori de còpies no és vàlid."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -215,9 +214,8 @@ msgid "Deferring backup while on battery"
 msgstr "Es posposa la còpia de seguretat mentre s'utilitza la bateria"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "No es pot trobar el directori d’instantànies."
+msgstr "No es pot trobar el directori de còpies."
 
 #: common/snapshots.py:846 qt/app.py:364
 #, fuzzy
@@ -232,9 +230,9 @@ msgstr[0] "Esperant %s segon."
 msgstr[1] "Esperant %s segons."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "No s'ha pogut fer la instantània {snapshot_id}."
+msgstr "No s'ha pogut fer la còpia {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -253,10 +251,9 @@ msgid "Saving permissions…"
 msgstr "S'estan desant els permisos …"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr ""
-"S’ha trobat la instantània remanent «{snapshot_id}» que es pot continuar."
+msgstr "S’ha trobat la còpia incompleta «{snapshot_id}» que es pot continuar."
 
 #: common/snapshots.py:1314
 #, fuzzy, python-brace-format
@@ -270,7 +267,7 @@ msgstr "No es pot eliminar el directori"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "S'està creant la còpia"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -303,9 +300,8 @@ msgstr ""
 "-l» i «man kill»"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "No hi ha canvis, no cal una instantània nova"
+msgstr "No hi ha canvis; no cal una còpia nova"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -317,9 +313,8 @@ msgid "Smart removal"
 msgstr "Esborrat intel·ligent"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Aplica regles per a eliminar instantànies antigues"
+msgstr "Aplica regles per a eliminar còpies antigues"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -471,27 +466,26 @@ msgid "File creation failed in this directory:"
 msgstr "La creació del fitxer ha fallat en aquest directori:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Retorn al Futur"
+msgstr "Quant al Back in Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Drets de reproducció:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Autors"
+msgstr "Autoria:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Traduccions"
+msgstr "Traducció:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
-msgstr "Josep Sanchez <papapep@gmail.com>"
+msgstr ""
+"Josep Sanchez <papapep@gmail.com>\n"
+"Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2025"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
@@ -499,7 +493,7 @@ msgstr ""
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "aquest enllaç"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
@@ -528,14 +522,13 @@ msgstr ""
 "Obre el manual d'usuari al navegador (local si està disponible en línia)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Retorn al Futur"
+msgstr "Back in Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Versió{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
@@ -577,7 +570,7 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Crea una còpia"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -586,42 +579,36 @@ msgstr ""
 "fitxers."
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Pren una instantània (mode suma de verificació)"
+msgstr "Crea una còpia (mode suma de verificació)"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "Utilitza sumes de verificació per a la detecció de canvis de fitxers."
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
-msgstr "Pausa el procés d'instantània"
+msgstr "Pausa el procés de còpia"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "Reprèn el procés d'instantània"
+msgstr "Reprèn el procés de còpia"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
-msgstr "Atura el procés d'instantània"
+msgstr "Atura el procés de còpia"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "Refresca la llista d'instantànies"
+msgstr "Actualitza la llista de còpies"
 
 #: qt/app.py:497
 msgid "Name backup"
 msgstr ""
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
-msgstr "Esborra la instantània"
+msgstr "Elimina la còpia"
 
 #: qt/app.py:505
 #, fuzzy
@@ -641,9 +628,8 @@ msgid "Shutdown"
 msgstr "Aturada"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Apaga el sistema després d'acabar la instantània."
+msgstr "Apaga el sistema després d'acabar la còpia."
 
 #: qt/app.py:521
 msgid "Setup language…"
@@ -758,9 +744,8 @@ msgid "Show hidden files"
 msgstr "Mostra els fitxers ocults"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
-msgstr "Compara les instantànies…"
+msgstr "Compara les còpies…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
@@ -771,9 +756,8 @@ msgid "Shows the message about this Release Candidate again."
 msgstr "Torna a mostrar el missatge sobre aquest candidat a la versió."
 
 #: qt/app.py:676
-#, fuzzy
 msgid "Back In &Time"
-msgstr "Retorn al Futur"
+msgstr "Back In &Time"
 
 #: qt/app.py:681
 msgid "&Backup"
@@ -804,13 +788,12 @@ msgid "Text beside icon"
 msgstr "Text al costat de la icona"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
-"Si tanqueu aquesta finestra, Back In Time no podrà apagar el sistema quan "
-"s'hagi finalitzat la instantània."
+"Si tanqueu aquesta finestra, el Back In Time no podrà apagar el sistema quan"
+" s'hagi finalitzat la còpia."
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
@@ -842,7 +825,7 @@ msgstr "Velocitat"
 
 #: qt/app.py:1163
 msgid "ETA"
-msgstr "ETA"
+msgstr "Temps estimat"
 
 #: qt/app.py:1225
 msgid "Global"
@@ -861,9 +844,8 @@ msgid "Backup directories"
 msgstr "Directoris de còpia de seguretat"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&Còpia de seguretat"
+msgstr "Nom de la còpia"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
@@ -1112,7 +1094,7 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
-msgstr "El teu equip de Retorn al Futur"
+msgstr "L’equip del Back in Time"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1123,7 +1105,6 @@ msgid "System default"
 msgstr "sistema per defecte"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "Utilitza la llengua del sistema operatiu."
 
@@ -1147,9 +1128,8 @@ msgid "Profile:"
 msgstr "Perfil:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Còpia de seguretat"
+msgstr "Còpies:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1300,9 +1280,9 @@ msgid "Rename profile"
 msgstr "Reanomena el perfil"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "Segur que voleu suprimir el perfil «{name}»?"
+msgstr "Voleu suprimir el perfil «{name}»?"
 
 #: qt/manageprofiles/__init__.py:379
 #, python-brace-format
@@ -1344,7 +1324,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Voleu incloure en el seu lloc la destinació de l'enllaç simbòlic?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1565,9 +1545,8 @@ msgid "on remote host"
 msgstr "a l'amfitrió remot"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
-msgstr "en prendre una instantània manual"
+msgstr "en prendre una còpia manual"
 
 #: qt/manageprofiles/tab_expert_options.py:103
 msgid "Please install 'nocache' to enable this option."
@@ -1753,14 +1732,12 @@ msgid "Advanced"
 msgstr "Avançat"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
-msgstr "Camí complet de la instantània:"
+msgstr "Camí complet de la còpia:"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "El fitxer de clau privada «{file}» no existeix."
+msgstr "No s'ha triat un fitxer de clau privada per a l'SSH."
 
 #: qt/manageprofiles/tab_general.py:396
 #, fuzzy
@@ -1811,29 +1788,26 @@ msgid "Enable notifications"
 msgstr "Activa les notificacions"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Desactiva les instantànies treballant en bateria"
+msgstr "Desactiva les còpies si es treballa en bateria"
 
 #: qt/manageprofiles/tab_options.py:47
 msgid "Power status not available from system"
 msgstr "No està disponible l'estat de l'energia"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
-msgstr "Executa només una instantània alhora"
+msgstr "Executa només una còpia alhora"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Les altres instantànies es blocaran fins que finalitzi la instantània "
-"actual. Aquesta és una opció global i, per tant, afectarà tots els perfils "
-"d'aquest usuari. També ho heu d'activar a la resta d'usuaris."
+"Les altres còpies es blocaran fins que finalitzi la còpia actual. Aquesta és"
+" una opció global i, per tant, afectarà tots els perfils d'aquest usuari. "
+"També ho heu d'activar a la resta d'usuaris."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
@@ -1880,9 +1854,8 @@ msgid "Open user manual in browser."
 msgstr "Obre el manual d'utilització al navegador."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "Conserva la instantània més recent."
+msgstr "Conserva la còpia més recent."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
 #, fuzzy
@@ -2026,9 +1999,8 @@ msgid "… the free inodes are less than"
 msgstr "... si els inodes lliures són menys de"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "Elimina les instantànies antigues si…"
+msgstr "Elimina la còpia més antiga si…"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -2098,9 +2070,8 @@ msgid "Show full Log"
 msgstr "Mostra el registre complet"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "Opcions de comparació de les instantànies"
+msgstr "Opcions de comparació de les còpies"
 
 #: qt/snapshotsdialog.py:64
 msgid "Command:"
@@ -2145,9 +2116,8 @@ msgid "Differing backups only"
 msgstr "Només captures diferents"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Llista només les instantànies iguals a:"
+msgstr "Enumera només les còpies iguals a:"
 
 #: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
@@ -2185,18 +2155,18 @@ msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Realment voleu suprimir {file} a la instantània {snapshot_id}?"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Segur que voleu suprimir {file} a {count} instantànies?"
+msgstr "Segur que voleu suprimir {file_or_dir} a {count} còpies?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "Avís: aquesta acció no es podrà desfer."
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "Exclou {path} de les instantànies futures?"
+msgstr "Voleu excloure {path} de les còpies futures?"
 
 #: qt/timeline.py:70
 msgid "Today"

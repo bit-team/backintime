@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-14 06:43+0000\n"
+"Last-Translator: cofemei <cofemei@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "設定檔：\"{name}\""
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "快照目錄不合規定。"
+msgstr "備份目錄不合規定。"
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -83,7 +82,7 @@ msgstr "至少必須選擇一個目錄進行備份。"
 #: common/config.py:357 common/config.py:372
 #, python-brace-format
 msgid "Directory: {path}"
-msgstr "目錄{path}"
+msgstr "目錄: {path}"
 
 #: common/config.py:358 common/config.py:373
 msgid ""
@@ -96,7 +95,6 @@ msgid "Failed to write new crontab."
 msgstr "無法寫入新的 crontab。"
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -108,7 +106,7 @@ msgstr ""
 "enable cron」或諮詢您的 GNU Linux 發行版的支援服務商。"
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
@@ -117,7 +115,7 @@ msgstr "無法為設定檔 {profile_id} 安裝 Udev 規則。 DBus 服務「{dbu
 #: common/config.py:1571
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "定期 udev 不適用於 {mode} 模式"
+msgstr "udev 定期排程不適用於 {mode} 模式"
 
 #: common/config.py:1582
 #, python-brace-format
@@ -126,11 +124,11 @@ msgstr "找不到 {path} 的 UUID"
 
 #: common/configfile.py:101
 msgid "Failed to save config"
-msgstr "設定儲存失敗"
+msgstr "儲存設定失敗"
 
 #: common/configfile.py:137
 msgid "Failed to load config"
-msgstr "設定載入失敗"
+msgstr "載入設定失敗"
 
 #: common/configfile.py:684 common/configfile.py:783
 #, python-brace-format
@@ -208,14 +206,12 @@ msgid "Deferring backup while on battery"
 msgstr "使用電池時延遲備份"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
 msgstr "找不到快照目錄。"
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
-msgstr "如果它在可移動磁碟中，請插入並按下確定。"
+msgstr "如果它在可移動磁碟中，請插入可移動磁碟並按下確定。"
 
 #: common/snapshots.py:849
 #, python-format
@@ -224,9 +220,9 @@ msgid_plural "Waiting %s seconds."
 msgstr[0] "等待 %s 秒。"
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "建立快照 {snapshot_id} 執行失敗。"
+msgstr "建立快照 {snapshot_id} 失敗。"
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -245,7 +241,7 @@ msgid "Saving permissions…"
 msgstr "正在儲存權限設定…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "發現尚未完成的快照 {snapshot_id} 可繼續處理。"
 
@@ -303,7 +299,6 @@ msgid "Smart removal"
 msgstr "智慧移除"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "應用程式規則刪除舊快照"
 
@@ -446,9 +441,8 @@ msgid "File creation failed in this directory:"
 msgstr "在此目錄中建立檔案失敗："
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
@@ -502,9 +496,8 @@ msgid "Open user manual in browser (local if available otherwise online)"
 msgstr "在瀏覽器中開啟使用手冊（如果可用則在本地，否則在線）"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
@@ -516,7 +509,6 @@ msgid "Shortcuts"
 msgstr "快速鍵"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -554,7 +546,6 @@ msgid "Use modification time & size for file change detection."
 msgstr "使用修改時間和大小來檢測檔案變更。"
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "建立快照（校驗模式）"
 
@@ -563,22 +554,18 @@ msgid "Use checksums for file change detection."
 msgstr "使用校驗和(checksums)來檢測檔案變更。"
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
 msgstr "暫停快照處理"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
 msgstr "恢復快照處理"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
 msgstr "停止快照處理"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
 msgstr "重新整理快照列表"
 
@@ -587,12 +574,10 @@ msgid "Name backup"
 msgstr ""
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
 msgstr "刪除快照"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
 msgstr "查看最後的記錄"
 
@@ -609,7 +594,6 @@ msgid "Shutdown"
 msgstr "關閉"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "快照完成後關閉系統。"
 
@@ -719,7 +703,6 @@ msgid "Show hidden files"
 msgstr "顯示隱藏檔案"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
 msgstr "比較快照…"
 
@@ -764,7 +747,6 @@ msgid "Text beside icon"
 msgstr "圖示旁邊的文字"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -819,9 +801,8 @@ msgid "Backup directories"
 msgstr "備份目錄"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "&備份"
+msgstr "備份"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
@@ -838,7 +819,7 @@ msgstr ""
 "在覆蓋或刪除本地元素之前。"
 
 #: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"

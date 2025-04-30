@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-03-16 15:38+0000\n"
+"PO-Revision-Date: 2025-04-14 17:22+0000\n"
 "Last-Translator: mbouzada <mbouzada@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "O directorio de instantáneas non é válido."
+msgstr "O directorio de copias de seguranza non é válido."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -113,13 +112,13 @@ msgstr ""
 "cron» ou consulte a axuda da súa distribución GNU/Linux."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Non foi posíbel instalar a regra de Udev para o perfil {profile_id}. O "
-"servizo DBus «{dbus_interface}» non estaba dispoñíbel"
+"servizo DBus «{dbus_interface}» non estaba dispoñíbel."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -215,12 +214,10 @@ msgid "Deferring backup while on battery"
 msgstr "Adiando a copia de seguranza mentres se usa a batería"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Non é posíbel atopar o directorio de instantáneas."
+msgstr "Non é posíbel atopar o directorio de copias de seguranza."
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
 msgstr "Se está nunha unidade extraíbel, conéctea e prema en Aceptar."
 
@@ -232,9 +229,9 @@ msgstr[0] "Agardando %s segundo."
 msgstr[1] "Agardando %s segundos."
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Produciuse un fallo ao facer a instantánea {snapshot_id}."
+msgstr "Produciuse un fallo ao facer á copia de seguranza {snapshot_id}."
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -253,13 +250,14 @@ msgid "Saving permissions…"
 msgstr "Gardando os permisos…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Atopáronse restos da instantánea {snapshot_id} cos que se pode continuar."
+"Atopáronse restos da copia de seguranza {snapshot_id} cos que se pode "
+"continuar."
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Retirando o directorio {snapshot_id} sobrante da última execución"
 
@@ -269,7 +267,7 @@ msgstr "Non é posíbel retirar o directorio"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Creando a copia de seguranza"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -302,9 +300,8 @@ msgstr ""
 "ordes «kill -l» e «man kill»"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Non se precisa unha instantánea nova porque non houbo cambios"
+msgstr "Non se precisa dunha copia de seguranza nova porque non houbo cambios"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -316,9 +313,8 @@ msgid "Smart removal"
 msgstr "Remoción intelixente"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Aplicar regras para eliminar instantáneas antigas"
+msgstr "Aplicar regras para eliminar copias de seguranza antigas"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -470,35 +466,32 @@ msgid "File creation failed in this directory:"
 msgstr "Produciuse un fallo ao crear o ficheiro neste directorio:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Sobre Back In &Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Dereitos de autoría:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Autores"
+msgstr "Autoría:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Traducións"
+msgstr "Tradutores:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
-msgstr ""
+msgstr "Miguel A. Bouzada <mbouzada@gmail.com>, 2024, 2025"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Os recoñecementos de tradución non están dispoñíbeis neste idioma."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "esta ligazón"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
@@ -916,14 +909,12 @@ msgstr ""
 " instantánea."
 
 #: qt/app.py:1572
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Confirma que quere restaurar este elemento no novo directorio?"
 msgstr[1] "Confirma que quere restaurar estes elementos no novodirectorio?"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Confirma que quere restaurar este elemento?"
@@ -1430,7 +1421,7 @@ msgstr "En todos os arranques"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Cada {n} minuto"
@@ -1819,15 +1810,15 @@ msgid "Run only one backup at a time"
 msgstr "Executar só unha instantánea á vez"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"As outras instantáneas bloquearanse ata que remate de facerse a actual. Esta"
-" é unha opción global. Afectará a todos os perfís deste usuario. Mais tamén "
-"debe activar isto para o resto de usuarios."
+"As outras copias de seguranza van ser bloqueadas ata que se complete a copia"
+" de seguranza actual. Este é un axuste global, o que significa que afectará "
+"a todos os perfís deste usuario. Mais tamén debe ser activado para o resto "
+"de usuarios."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"

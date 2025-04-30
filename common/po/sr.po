@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-01 06:40+0000\n"
+"PO-Revision-Date: 2025-04-29 17:51+0000\n"
 "Last-Translator: reno-tx <reno-tx@noreply.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
 "Language: sr\n"
@@ -271,7 +271,7 @@ msgstr "Не могу да уклоним директоријум"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Стварање резервне копије"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -475,7 +475,7 @@ msgstr "Back In &Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Ауторска права:"
 
 #: qt/aboutdlg.py:91
 #, fuzzy
@@ -489,20 +489,20 @@ msgstr "Преводи"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
-msgstr ""
+msgstr "Reno-tx"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Захвалнице за преводиоце нису доступне за тренутни језик."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "Ова веза"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Пратите {thislink} да добијете захвалнице преводиоца за све језике."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -511,6 +511,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Све лиценце коришћене у овом пројекту налазе се у {dir_link} директоријуму. "
+"Да бисте извукли информације о лиценци и ауторским правима по датотеци "
+"користећи SPDX метаподатке, погледајте {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -534,7 +537,7 @@ msgstr "Back In &Time"
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Верзија{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
@@ -574,7 +577,7 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Направите резервну копију"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -611,7 +614,7 @@ msgstr "Освежи листу снимка"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "Име резервне копије"
 
 #: qt/app.py:501
 #, fuzzy
@@ -808,7 +811,7 @@ msgstr ""
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Затворити прозор свеједно?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -930,11 +933,12 @@ msgstr[2] "Да ли заиста желите да повратите ове е
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "Све новије датотеке у {path} биће уклоњене. Наставити?"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
+"Све новије датотеке у оригиналном директоријуму биће уклоњене. Наставити?"
 
 #: qt/app.py:1608
 #, fuzzy, python-brace-format
@@ -1270,9 +1274,8 @@ msgstr ""
 "су модификовани."
 
 #: qt/manageprofiles/__init__.py:266
-#, fuzzy
 msgid "&Remove & Retention"
-msgstr "Уклонити & Задржавање"
+msgstr "&Уклонити & Задржавање"
 
 #: qt/manageprofiles/__init__.py:270
 msgid "&Options"
@@ -1341,7 +1344,7 @@ msgstr ""
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Укључити циљ уместо симболичке везе?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -2169,6 +2172,8 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Нису могуће упоређивање резервне копије са самом собом, јер би упоређивање "
+"било редундантно."
 
 #: qt/snapshotsdialog.py:426
 #, fuzzy, python-brace-format

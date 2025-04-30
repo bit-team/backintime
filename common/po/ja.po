@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-15 00:47+0000\n"
+"Last-Translator: sybahd <sybahd@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "プロファイル: 「{name}」"
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "スナップショットフォルダが無効です。"
+msgstr "バックアップフォルダが無効です。"
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -96,7 +95,6 @@ msgid "Failed to write new crontab."
 msgstr "新しい crontab の書き込みに失敗しました。"
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -104,18 +102,19 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Cron が稼働していないため crontab コマンドが使えません。 したがってバックアップは行われません。 Cron "
-"はインストールされているようですが、サービスとして起動されてない可能性があります。 「systemctl enable cron」 "
-"を使って起動してみてください、また、 GNU/Linux ディストーションへサポートを依頼するのもよいでしょう。"
+"crontab コマンドは利用可能ですが Cron は稼働していません。予定されたバックアップ job は実行されないでしょう。 Cron "
+"はインストールされているようですが、サービスとして起動されてない可能性があります。 ２つのコマンド 'systemctl enable cron' と "
+"'systemctl start cron' を実行してみてください、もしくは使用している GNU/Linux "
+"ディストリビューションのサポートに相談するのもよいでしょう。"
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
-"プロファイル {profile_id} の Udev ルールをインストールできませんでした。 DBus サービス 「{dbus_interface}」 "
-"が有効ではありません"
+"プロファイル {profile_id} のUdevルールをインストールできませんでした。 DBusサービス '{dbus_interface}' "
+"が有効ではありません。"
 
 #: common/config.py:1571
 #, python-brace-format
@@ -211,14 +210,12 @@ msgid "Deferring backup while on battery"
 msgstr "バッテリー動作のときは延期する"
 
 #: common/snapshots.py:842 qt/app.py:363
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "スナップショットフォルダが見つかりません。"
+msgstr "バックアップフォルダが見つかりません。"
 
 #: common/snapshots.py:846 qt/app.py:364
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
-msgstr "もしファイルがリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
+msgstr "もしファイルがリムーバブルドライブ上にあるのなら、接続してください。そしてOKを押してください。"
 
 #: common/snapshots.py:849
 #, python-format
@@ -227,9 +224,9 @@ msgid_plural "Waiting %s seconds."
 msgstr[0] "%s 秒待機中。"
 
 #: common/snapshots.py:914
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "スナップショット {snapshot_id} の取得に失敗しました。"
+msgstr "バックアップ {snapshot_id} の作成に失敗しました。"
 
 #: common/snapshots.py:946
 msgid "Please be patient. Finalizing…"
@@ -248,14 +245,14 @@ msgid "Saving permissions…"
 msgstr "パーミッションを保存…"
 
 #: common/snapshots.py:1290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "以前に作成した継続使用できるスナップショット {snapshot_id} がありました。"
+msgstr "以前に作成した継続使用できるバックアップ {snapshot_id} がありました。"
 
 #: common/snapshots.py:1314
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "前回の作業で作成した {snapshot_id} フォルダを削除しています"
+msgstr "前回の作業で作成した不完全な {snapshot_id} フォルダを削除しています"
 
 #: common/snapshots.py:1325
 msgid "Can't remove directory"
@@ -263,7 +260,7 @@ msgstr "フォルダを削除できません"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "バックアップを作成中"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -292,9 +289,8 @@ msgid ""
 msgstr "ネガティブの rsync 終了コードはシグナル番号です、'kill -l' および 'man kill' を参照してください"
 
 #: common/snapshots.py:1479
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "変更箇所がないので新しいスナップショットは必要ありません"
+msgstr "変更箇所がないので新しいバックアップは必要ありません"
 
 #: common/snapshots.py:1523
 #, python-brace-format
@@ -306,9 +302,8 @@ msgid "Smart removal"
 msgstr "おまかせ削除"
 
 #: common/snapshots.py:1888
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "古いスナップショットにルールを適用"
+msgstr "古いバックアップの削除ルールを適用"
 
 #: common/snapshots.py:1921
 msgid "Apply retention policy"
@@ -456,23 +451,20 @@ msgid "File creation failed in this directory:"
 msgstr "以下のディレクトリへのファイル作成が失敗しました:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time について"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "著作権:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "開発者"
+msgstr "開発者:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "翻訳"
+msgstr "翻訳:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -483,16 +475,16 @@ msgstr ""
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "この言語の翻訳者一覧はありません。"
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "このリンク"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "全言語の翻訳者一覧は {thislink} にあります。"
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -501,6 +493,8 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"このプロジェクトで使われる全てのライセンスは {dir_link} "
+"ディレクトリにあります。ファイル単位のライセンス及び著作権をSPDXメタデータから取得するには、{readme_link} を参照してください。"
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -515,26 +509,24 @@ msgid "Open user manual in browser (local if available otherwise online)"
 msgstr "ブラウザでユーザーマニュアルを開く (ローカルになければオンラインで)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}バージョン{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
 msgstr "ショートカット"
 
 #: qt/app.py:192
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
-"現在選択されているスナップショットには\n"
+"現在選択されているバックアップには\n"
 "このフォルダはありません。"
 
 #: qt/app.py:257
@@ -560,54 +552,47 @@ msgstr "すでに存在する設定ファイルを流用しますか (バック�
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "バックアップを作成"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
 msgstr "ファイルの変更検出には、変更時間とサイズを使用します。"
 
 #: qt/app.py:475
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "スナップショット取得（チェックサムモード）"
+msgstr "バックアップを作成（チェックサムモード）"
 
 #: qt/app.py:477
 msgid "Use checksums for file change detection."
 msgstr "変更の検出にチェックサムを使用する。"
 
 #: qt/app.py:480 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
-msgstr "スナップショットの作成を一時停止する"
+msgstr "バックアップの作成を一時停止する"
 
 #: qt/app.py:485 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "スナップショットの作成を再開する"
+msgstr "バックアップの作成を再開する"
 
 #: qt/app.py:489 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
-msgstr "スナップショットの作成を停止する"
+msgstr "バックアップの作成を停止する"
 
 #: qt/app.py:493
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "スナップショットリストの更新"
+msgstr "バックアップのリストを更新"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "バックアップに名前をつける"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Remove backup"
-msgstr "スナップショットの削除"
+msgstr "バックアップの削除"
 
 #: qt/app.py:505
-#, fuzzy
 msgid "View backup log"
-msgstr "最近のログを表示"
+msgstr "バックアップのログを表示"
 
 #: qt/app.py:509
 msgid "View last log"
@@ -622,9 +607,8 @@ msgid "Shutdown"
 msgstr "電源を切る"
 
 #: qt/app.py:519
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "スナップショットの作成終了後に電源を切る。"
+msgstr "バックアップの作成終了後に電源を切る。"
 
 #: qt/app.py:521
 msgid "Setup language…"
@@ -732,9 +716,8 @@ msgid "Show hidden files"
 msgstr "不可視ファイルを表示"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Compare backups…"
-msgstr "スナップショットを比較…"
+msgstr "バックアップを比較…"
 
 #: qt/app.py:637 qt/app.py:2152
 msgid "Release Candidate"
@@ -777,15 +760,14 @@ msgid "Text beside icon"
 msgstr "テキストをアイコンの横に"
 
 #: qt/app.py:897
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
-msgstr "このウインドウを閉じると Back In Time はスナップショットの作成終了時に電源を切ることができなくなります。"
+msgstr "このウインドウを閉じると Back In Time はバックアップの作成終了時に電源を切ることができなくなります。"
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "本当に閉じますか？"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -832,14 +814,13 @@ msgid "Backup directories"
 msgstr "バックアップ元のフォルダ"
 
 #: qt/app.py:1352
-#, fuzzy
 msgid "Backup name"
-msgstr "バックアップ(&B)"
+msgstr "バックアップ名"
 
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
+msgstr[0] "このバックアップを削除しますか？"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -873,16 +854,14 @@ msgid "Remove newer elements in original directory."
 msgstr "元のフォルダ内の新しいファイルを削除する。"
 
 #: qt/app.py:1560
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
-"選択したファイルやディレクトリを元の保存先に復元し "
-"スナップショットに含まれないファイルやフォルダを削除します。これによってスナップショット作成時に除外されたファイルやディレクトリが "
-"削除されるので、十分注意してください。"
+"選択したファイルやフォルダを元の保存先に復元して、バックアップに含まれないファイルやフォルダを削除します。これによってバックアップ作成時に除外されたファイルやフォルダが"
+" 削除されるので、十分注意してください。"
 
 #: qt/app.py:1572
 #, fuzzy
@@ -891,31 +870,29 @@ msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "本当に新しいディレクトリに復元しますか？"
 
 #: qt/app.py:1580
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "本当にファイルを復元してよろしいですか？"
+msgstr[0] "本当にファイルを復元しますか？"
 
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "{path} にあるより新しいファイルは削除されます。続行しますか？"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
+msgstr "元のディレクトリにあるより新しいファイルは削除されます。続行しますか？"
 
 #: qt/app.py:1608
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
-msgstr "{BOLD}警告{BOLDEND}：ファイルシステムルートのファイルを削除すると、システム全体が壊れる可能性があります。"
+msgstr "{BOLD}警告{BOLDEND}: ファイルシステムルートのファイルを削除すると、システム全体が壊れる可能性があります。"
 
 #: qt/app.py:1857
-#, fuzzy
 msgid "Backup"
-msgstr "バックアップ(&B)"
+msgstr "バックアップ"
 
 #: qt/app.py:1896
 #, python-brace-format
@@ -957,9 +934,9 @@ msgid "Your translation"
 msgstr "翻訳へのご協力のお願い"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "Mastodon にある Fediverse で: {link_and_label}"
+msgstr "Mastodon にある Fediverse で: {link_and_label}。"
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -967,9 +944,9 @@ msgid "Email to {link_and_label}."
 msgstr "Email はこちら: {link_and_label}。"
 
 #: qt/app.py:2111
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "メーリングリスト {link_and_label}"
+msgstr "メーリングリスト {link_and_label}。"
 
 #: qt/app.py:2115
 #, python-brace-format
@@ -1074,7 +1051,6 @@ msgid "System default"
 msgstr "標準設定"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
 msgstr "オペレーティングシステムの言語を使用する。"
 
@@ -1088,9 +1064,8 @@ msgid "Last Log View"
 msgstr "最終ログを表示"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "最終ログを表示"
+msgstr "バックアップログを表示"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1098,9 +1073,8 @@ msgid "Profile:"
 msgstr "プロファイル:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "バックアップ(&B)"
+msgstr "バックアップ:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1247,9 +1221,9 @@ msgid "Rename profile"
 msgstr "プロファイルをリネーム"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "プロファイル 「{name}」 を本当に削除しますか？"
+msgstr "プロファイル \"{name}\" を削除しますか？"
 
 #: qt/manageprofiles/__init__.py:379
 #, python-brace-format
@@ -1279,17 +1253,15 @@ msgid "Include file"
 msgstr "含めるファイル"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
-msgstr ""
-"{path} はシンボリックリンクです このリンクにある本体は指定しない限りバックアップされません\n"
-"シンボリックリンクの代わりに本体を指定しますか?"
+msgstr "{path} はシンボリックリンクです。このリンクにある本体は指定しない限りバックアップされません。"
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "シンボリックリンクの代わりに本体を指定しますか？"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1493,9 +1465,8 @@ msgid "on remote host"
 msgstr "リモートホスト上で"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
-msgstr "手動でスナップショットを作成時"
+msgstr "手動でバックアップを作成時"
 
 #: qt/manageprofiles/tab_expert_options.py:103
 msgid "Please install 'nocache' to enable this option."
@@ -1616,9 +1587,8 @@ msgid "Mode:"
 msgstr "モード:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
-msgstr "スナップショットの保存場所"
+msgstr "バックアップの保存場所"
 
 #: qt/manageprofiles/tab_general.py:104
 msgid "SSH Settings"
@@ -1637,6 +1607,7 @@ msgid "Private Key:"
 msgstr "秘密鍵:"
 
 #: qt/manageprofiles/tab_general.py:153
+#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -1666,17 +1637,14 @@ msgid "Advanced"
 msgstr "上級設定"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
-msgstr "スナップショットのフルパス："
+msgstr "バックアップのフルパス："
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "秘密鍵ファイル 「{file}」 は存在しません。"
+msgstr "SSH秘密鍵ファイルが選択されていません。"
 
 #: qt/manageprofiles/tab_general.py:396
-#, fuzzy
 msgid "Should a new password-less public/private key pair be generated?"
 msgstr "新しいパスワードなしの公開鍵/秘密鍵ペアを生成しますか？"
 
@@ -1686,7 +1654,6 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "秘密鍵ファイル 「{file}」 は存在しません。"
 
 #: qt/manageprofiles/tab_general.py:492
-#, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr "公開 SSH 鍵をリモートホストにコピーして、パスワード不要のログインを可能にしますか？"
 
@@ -1701,14 +1668,12 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} 鍵のフィンガープリントは:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr "フィンガープリントを確認してください。’known_hosts’ ファイルに追加しますか？"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "新しい暗号化されたフォルダを作成しますか?"
+msgstr "バックアップのディレクトリを変更しますか？"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1720,45 +1685,40 @@ msgid "Enable notifications"
 msgstr "通知を有効にする"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "バッテリ駆動の際はスナップショット取得を無効化"
+msgstr "バッテリ駆動の際はバックアップを無効化"
 
 #: qt/manageprofiles/tab_options.py:47
 msgid "Power status not available from system"
 msgstr "システムから電源情報が得られません"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
-msgstr "一度に作成するスナップショットの数をひとつに限定して実行する"
+msgstr "一度に作成するバックアップの数をひとつに限定して実行する"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"他のスナップショット作業は現在のものが終了するまで保留されます。これはすべてのプロファイルに適用されます。逆に言えば、その条件が満たされないとこのオプションを使うことができません。"
+"他のバックアップ作業は現在のものが終了するまで保留されます。この設定はグローバルなので、あなたのすべてのプロファイルに適用されます。しかしながら、この設定は他のユーザーのためにも有効にしておくべきです。"
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
 msgstr "復元時に置換されたファイルをバックアップする"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "エラー発生時に継続 (不完全なスナップショットを維持)"
+msgstr "エラー発生時に継続 (不完全なバックアップを維持)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
 msgstr "変更の検出にチェックサムを使用"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
-msgstr "変更の有無に関わらず、新しいスナップショットを取得する。"
+msgstr "変更の有無に関わらず、新しいバックアップを作成する。"
 
 #: qt/manageprofiles/tab_options.py:90
 msgid "Log Level:"
@@ -1769,12 +1729,11 @@ msgid "None"
 msgstr "なし"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
-msgstr ""
-"次のルールは上から順番に実行されます。 新しいルールが前のルールの如何に関わらず常に上書きします。 {manual} に解説と例があります。"
+msgstr "次のルールは上から順番に実行されます。 後にあるルールは前のルールを上書きします。 {manual} に解説と例があります。"
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1785,39 +1744,34 @@ msgid "Open user manual in browser."
 msgstr "ユーザーマニュアルをブラウザで開く。"
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "最近のスナップショットを保持する。"
+msgstr "直近のバックアップを保持する。"
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
-msgstr "最新のスナップショットはどんな状況でも保存されます。"
+msgstr "最新のバックアップはどんな状況でも保存されます。"
 
 #: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "そのふるまい(仕様)は変更できません。"
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
-msgstr "名前付きスナップショットを保存する。"
+msgstr "名前付きバックアップを保存する。"
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
-msgstr "名前をつけられたスナップショットはどのような状況でも削除しない。"
+msgstr "名前をつけられたバックアップはどのような状況でも削除しない。"
 
 #: qt/manageprofiles/tab_remove_retention.py:259
 msgid "Year(s)"
 msgstr "年"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
-msgstr "次の期間より古いスナップショットを削除する"
+msgstr "次の期間より古いバックアップを削除する"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
@@ -1857,9 +1811,8 @@ msgid "The days are counted starting from today."
 msgstr "今日を入れた日数です。"
 
 #: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
 msgid "Keep all backups for the last"
-msgstr "すべてのスナップショットを保存する日数"
+msgstr "すべてのバックアップを保存する期間"
 
 #: qt/manageprofiles/tab_remove_retention.py:312
 #: qt/manageprofiles/tab_remove_retention.py:324
@@ -1867,9 +1820,8 @@ msgid "day(s)."
 msgstr "日。"
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "日毎のスナップショットを保存する日数"
+msgstr "日毎の最新のバックアップを保存する日数"
 
 #: qt/manageprofiles/tab_remove_retention.py:329
 msgid ""
@@ -1878,9 +1830,8 @@ msgid ""
 msgstr "今週を入れた週数、週のはじめは月曜です。"
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "週毎のスナップショットを保存する期間"
+msgstr "週毎の最新のバックアップを保存する期間"
 
 #: qt/manageprofiles/tab_remove_retention.py:337
 msgid "week(s)."
@@ -1892,9 +1843,8 @@ msgid ""
 msgstr "今月を含めた月数。"
 
 #: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
-msgstr "月毎のスナップショットを保存する期間"
+msgstr "月毎の最新のバックアップを保存する期間"
 
 #: qt/manageprofiles/tab_remove_retention.py:350
 msgid "month(s)."
@@ -1906,9 +1856,8 @@ msgid ""
 msgstr "今年を含めた年数。"
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "年毎のスナップショットを保存する日数"
+msgstr "年毎の最新のバックアップを保存する期間"
 
 #: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
@@ -1923,9 +1872,8 @@ msgid "… the free inodes are less than"
 msgstr "...freeな inode がこの値未満:"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "このような場合に最も古いスナップショットを削除 …"
+msgstr "このような場合に最も古いバックアップを削除 …"
 
 #: qt/messagebox.py:93 qt/messagebox.py:103
 msgid "Question"
@@ -1974,12 +1922,12 @@ msgid "Import"
 msgstr "インポート"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"設定ファイルがインポートされるべきスナップショットがあるフォルダを指定してください。 パスはこのように表示されるはずです:{samplePath}"
+"設定ファイルがインポートされるべきバックアップがあるフォルダを指定してください。 パスはこのように表示されるはずです:{samplePath}"
 
 #: qt/restoreconfigdialog.py:182
 msgid ""
@@ -1992,9 +1940,8 @@ msgid "Show full Log"
 msgstr "すべてのログを見る"
 
 #: qt/snapshotsdialog.py:57
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "スナップショットの比較についてのオプション"
+msgstr "バックアップの比較についてのオプション"
 
 #: qt/snapshotsdialog.py:64
 msgid "Command:"
@@ -2025,19 +1972,16 @@ msgid "No parameters set for the diff command. Using default value \"{params}\".
 msgstr "diff コマンドに渡すパラメータがありません。 デフォルトの値 {params} を使用します。"
 
 #: qt/snapshotsdialog.py:129 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "バックアップ(&B)"
+msgstr "バックアップ"
 
 #: qt/snapshotsdialog.py:140
-#, fuzzy
 msgid "Differing backups only"
-msgstr "スナップショットの差分のみ"
+msgstr "異なるバックアップのみ"
 
 #: qt/snapshotsdialog.py:149
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "等しいスナップショットだけをリストアップする:"
+msgstr "等しいバックアップだけ:"
 
 #: qt/snapshotsdialog.py:161
 msgid "Deep check (more accurate, but slow)"
@@ -2067,26 +2011,26 @@ msgstr "オプション"
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
-msgstr ""
+msgstr "比較結果が冗長ですから、バックアップをそれ自身とは比較できません。"
 
 #: qt/snapshotsdialog.py:426
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "スナップショット {snapshot_id} の {file} を本当に削除してもよろしいですか？"
+msgstr "バックアップ {backup_id} の {file_or_dir} を本当に削除してもよろしいですか？"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "{count}個のスナップショットから {file} を本当に削除したいですか？"
+msgstr "{count}個のバックアップから {file_or_dir} を本当に削除したいですか？"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
 msgstr "警告: これを取り消すことはできません。"
 
 #: qt/snapshotsdialog.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "今後のスナップショットから {path} を除外しますか？"
+msgstr "今後のバックアップから {path} を除外しますか？"
 
 #: qt/timeline.py:70
 msgid "Today"
@@ -2105,9 +2049,8 @@ msgid "Last week"
 msgstr "先週"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "スナップショットではなく、ローカルファイルのライブビューです"
+msgstr "バックアップではなく、ローカルファイルのライブビューです。"
 
 #: qt/timeline.py:275
 #, python-brace-format

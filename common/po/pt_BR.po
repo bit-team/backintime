@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-11 10:25+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-04-29 17:51+0000\n"
+"Last-Translator: pablolucas890 <pablolucas890@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Perfil: \"{name}\""
 
 #: common/config.py:327
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Pasta de Snapshots inválida."
+msgstr "Diretório de backup inválido."
 
 #: common/config.py:339
 msgid "At least one directory must be selected for backup."
@@ -112,13 +111,13 @@ msgstr ""
 "de suporte da sua distribuição GNU/Linux."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Não foi possível instalar a regra Udev para o perfil {profile_id}. O serviço"
-" DBus '{dbus_interface}' não estava disponível"
+" DBus '{dbus_interface}' não estava disponível."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -271,7 +270,7 @@ msgstr "Não é possível remover o diretório"
 
 #: common/snapshots.py:1379
 msgid "Creating backup"
-msgstr ""
+msgstr "Criando backup"
 
 #: common/snapshots.py:1430
 msgid "Success"
@@ -479,17 +478,15 @@ msgstr "Back In &Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Copyright:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Autores"
+msgstr "Autores:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Traduções"
+msgstr "Tradutores:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -500,16 +497,17 @@ msgstr ""
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Os créditos dos tradutores não disponíveis para a linguagem atual."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "este link"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
+"Clique {thislink} para ver os créditos de tradutores para todos os idiomas."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -518,6 +516,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Todas as licenças usadas neste projeto estão localizadas no diretório "
+"{dir_link}. Para extrair informações de licença e direitos autorais por "
+"arquivo usando metadados SPDX, consulte {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:547
 msgid "Project website"
@@ -541,7 +542,7 @@ msgstr "Back In &Time"
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Versão{BOLDEND}: {version}"
 
 #: qt/app.py:172
 msgid "Shortcuts"
@@ -583,7 +584,7 @@ msgstr ""
 
 #: qt/app.py:470
 msgid "Create a backup"
-msgstr ""
+msgstr "Criar um backup"
 
 #: qt/app.py:472
 msgid "Use modification time & size for file change detection."
@@ -621,7 +622,7 @@ msgstr "Atualizar lista de snapshots"
 
 #: qt/app.py:497
 msgid "Name backup"
-msgstr ""
+msgstr "Nomear o backup"
 
 #: qt/app.py:501
 #, fuzzy
@@ -819,7 +820,7 @@ msgstr ""
 
 #: qt/app.py:900
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Fechar a janela mesmo assim?"
 
 #: qt/app.py:1072
 msgid "Working:"
@@ -873,8 +874,8 @@ msgstr "&Backup"
 #: qt/app.py:1400
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Remover este backup?"
+msgstr[1] "Remover estes backups?"
 
 #: qt/app.py:1498
 #, python-brace-format
@@ -939,11 +940,13 @@ msgstr[1] "Você realmente deseja restaurar estes elementos?"
 #: qt/app.py:1599
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "Todos os arquivos mais recentes em {path} serão removidos. Continuar?"
 
 #: qt/app.py:1602
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
+"Todos os arquivos mais recentes no diretório original serão removidos. "
+"Continuar?"
 
 #: qt/app.py:1608
 #, fuzzy, python-brace-format
@@ -999,9 +1002,9 @@ msgid "Your translation"
 msgstr "Sua tradução"
 
 #: qt/app.py:2103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "No Fediverse do Mastodon: {link_and_label}"
+msgstr "No Fediverse do Mastodon: {link_and_label}."
 
 #: qt/app.py:2108
 #, python-brace-format
@@ -1009,9 +1012,9 @@ msgid "Email to {link_and_label}."
 msgstr "Email para {link_and_label}."
 
 #: qt/app.py:2111
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Lista de emails {link_and_label}"
+msgstr "Lista de emails {link_and_label}."
 
 #: qt/app.py:2115
 #, python-brace-format
@@ -1153,9 +1156,8 @@ msgid "Profile:"
 msgstr "Perfil:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Backup"
+msgstr "Backups:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1339,17 +1341,17 @@ msgid "Include file"
 msgstr "Incluir arquivo"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" é um symlink. O alvo conectado não será salvo até você incluí-lo também.\n"
-"Você gostaria de incluir o alvo do symlink em seu lugar?"
+"\"{path}\" é um link simbólico. O destino vinculado não será copiado até que"
+" também seja incluído."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Incluir o alvo do link simbólico?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -2185,16 +2187,18 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Não é possível comparar um backup consigo mesmo, pois a comparação seria "
+"redundante."
 
 #: qt/snapshotsdialog.py:426
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "Você realmente deseja apagar {file} no snapshot {snapshot_id}?"
+msgstr "Você realmente deseja apagar {file_or_dir} no backup {backup_id}?"
 
 #: qt/snapshotsdialog.py:431
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Você realmente deseja apagar {file} em {count} snapshots?"
+msgstr "Você realmente deseja apagar {file_or_dir} em {count} backups?"
 
 #: qt/snapshotsdialog.py:434
 msgid "WARNING: This cannot be revoked."
@@ -2222,9 +2226,8 @@ msgid "Last week"
 msgstr "Semana passada"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "Isto NÃO é um snapshot, mas uma visualização do seus arquivos locais"
+msgstr "Isto NÃO é um backup, mas uma visualização do seus arquivos locais."
 
 #: qt/timeline.py:275
 #, python-brace-format
