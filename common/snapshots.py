@@ -870,6 +870,7 @@ class Snapshots:
             else:
                 self.config.setCurrentHashId(hash_id)
 
+            self.warn_about_include_entries_missing_in_source()
             include_folders = self.config.include()
 
             if not include_folders:
@@ -877,9 +878,6 @@ class Snapshots:
 
             elif not self.config.PLUGIN_MANAGER.processBegin():
                 logger.info('A plugin prevented the backup', self)
-
-                self.warn_about_include_entries_missing_in_source()
-                include_folders = self.config.include()
 
             else:
                 # take snapshot process begin
