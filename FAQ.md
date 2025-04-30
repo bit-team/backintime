@@ -31,6 +31,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
    * [What happens when I remove a snapshot?](#what-happens-when-i-remove-a-snapshot)
    * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
+   * [How to use extended filesystem attributes (xattr) to exclude files/directories?](#how-to-use-extended-filesystem-attributes-xattr-to-exclude-filesdirectories)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
    * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
@@ -497,6 +498,9 @@ Excluding them can significantly improve backup speed and reduce storage usage.
 - **Test Exclude Patterns**:  
   Test your backup after adding patterns to ensure they work as intended.
 
+## How to use extended filesystem attributes (xattr) to exclude files/directories?
+Please see [Issue #817](https://github.com/bit-team/backintime/issues/817) for
+details.
 
 # Restore
 

@@ -68,7 +68,7 @@ script:
   # run unit tests - ensure that functionality is correct
   - cd common
   - ./configure
-  - make unittest-v
+  - pytest --verbose
   - cd ..
   - cd qt
   - ./configure
