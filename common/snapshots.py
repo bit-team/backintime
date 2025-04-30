@@ -713,10 +713,7 @@ class Snapshots:
 
             return True
 
-    # TODO Refactor: This functions is extremely difficult to understand:
-    #  - Nested "if"s
-    #  - Fuzzy names of classes, attributes and methods
-    # - unclear variable names (at least for the return values)
+    # TODO Refactor: This functions is extremely difficult to understand.
     def backup(self, force=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
@@ -774,10 +771,10 @@ class Snapshots:
 
         if not instance.check():
             logger.warning(
-                'A backup is already running. The pid of the already '
-                f'running backup is in file {instance.pidFile}. Maybe '
-                'delete it.', self)
-
+                'A backup process is already running. The PID of the running '
+                f'backup is stored in {instance.pidFile}. Considere deleting '
+                'the PID file there is actually no backup process running.',
+                self)
             self.config.PLUGIN_MANAGER.error(2)
             return ret_error
 
@@ -789,9 +786,10 @@ class Snapshots:
 
         if not restore_instance.check():
             logger.warning(
-                'Restore is still running. Stop backup until restore is '
-                'done. The pid of the already running restore is in '
-                f'{restore_instance.pidFile}. Maybe delete it.', self)
+                'A restore process is already running. Backup has been '
+                'stopped. The PID of the running restore is stored in '
+                f'{restore_instance.pidFile}. Considere deleting the PID file '
+                'if there is actually no restore process running.', self)
             return ret_error
 
         # -- do the backup --
