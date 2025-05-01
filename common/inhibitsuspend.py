@@ -69,6 +69,8 @@ class InhibitSuspend:
             # This code may hang forever (if BIT is run as root via cron
             # job and no user is logged in). See #1592
             self.bus = dbus.SessionBus()
+        except Exception as exc:
+            logger.error(f'SESSION BUS: {exc=}')
 
     def _inhibit_via_freedesktop_login_one(self):
         """Inhibit using system bus and login1 method.
@@ -95,7 +97,10 @@ class InhibitSuspend:
                 'sleep', self.app_id, self.reason, "block").take()
 
         except dbus.DBusException as exc:
-            logger.error(exc)
+            logger.error(f'via login1: {exc}')
+            return False
+        except Exception as exc:
+            logger.error(f'broad exc via login1: {exc}')
             return False
 
         self.file_descs.append(file_desc)
@@ -161,10 +166,10 @@ class InhibitSuspend:
 
     def __enter__(self):
         for name, inhibit in self.providers.items():
-            logger.debug(f'Try inhibiting suspend mode via "{name}"')
+            logger.info(f'Try inhibiting suspend mode via "{name}"')
 
             if inhibit():
-                logger.info(f'Inhibiting suspend mode via "{name}"')
+                logger.info(f'Suspend mode inhibited via "{name}"')
                 return self
 
         return self
