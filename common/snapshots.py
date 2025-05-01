@@ -35,7 +35,7 @@ import mount
 import progress
 import snapshotlog
 import flock
-from inhibitpowermgmt import InhibitSuspend
+from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
