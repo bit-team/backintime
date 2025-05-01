@@ -171,7 +171,6 @@ class InhibitSuspend:
         )
 
     def __enter__(self):
-        # logger.info('enter', self)  # DEBUG
         for name, inhibit in self.providers.items():
             logger.debug(f'Try inhibiting suspend mode via "{name}"')
 
@@ -192,7 +191,7 @@ class InhibitSuspend:
                 os.close(fd)
 
         except dbus.exceptions.DBusException as exc:
-            logger.error(f'Released suspend mode inhibition failed: {exc}')
+            logger.error(f'Release suspend mode inhibition failed: {exc}')
 
         else:
             if self.cookie or self.file_descs:
