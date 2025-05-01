@@ -115,6 +115,9 @@ class InhibitSuspend:
                                     object_path: str,
                                     dbus_interface: str,
                                     args: tuple) -> bool:
+        if not self.bus:
+            return False
+
         try:
             obj = self.bus.get_object(
                 bus_name=bus_name, object_path=object_path)
