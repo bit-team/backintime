@@ -31,7 +31,6 @@ qttools_path.registerBackintimePath('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
-import inhibitpowermgmt
 import qttools
 import backintime
 import bitbase
@@ -43,6 +42,7 @@ import guiapplicationinstance
 import mount
 import progress
 import encfsmsgbox
+from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
@@ -2262,7 +2262,7 @@ class RemoveSnapshotThread(QThread):
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
-        with inhibitpowermgmt.InhibitSuspend(reason='deleting snapshots'):
+        with InhibitSuspend(reason='deleting snapshots'):
 
             for item, sid in [(x, x.snapshot_id) for x in self.items]:
                 self.snapshots.remove(sid)
