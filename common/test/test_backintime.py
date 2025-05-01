@@ -182,7 +182,6 @@ under certain conditions; type `backintime --license' for details.
         filtered_log_output = '\n'.join(filtered_log_output)
 
         self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
-INFO: Inhibiting suspend mode via.*
 INFO: Create a new backup. Profile: 1 Main profile
 INFO: Call rsync to create a backup
 INFO: Save config file

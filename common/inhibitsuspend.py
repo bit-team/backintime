@@ -41,14 +41,12 @@ class InhibitSuspend:
         }
 
     def _open_system_bus(self):
-        logger.info('open systembus suspend', self)
         try:
             self.bus = dbus.SystemBus()
         except dbus.exceptions.DBusException as exc:
             logger.error(f'Unable to open DBus system bus. {exc}')
 
     def _open_session_bus(self):
-        logger.info('open session suspend', self)
         # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
         # session connection)
         # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus
@@ -67,9 +65,19 @@ class InhibitSuspend:
             self.bus = dbus.bus.BusConnection(
                 os.environ['DBUS_SESSION_BUS_ADDRESS'])
         except KeyError:
+            pass
+        except dbus.exceptions.DBusException as exc:
+            logger.error(f'Unable to open DBus session bus. {exc}')
+
+        if self.bus:
+            return
+
+        try:
             # This code may hang forever (if BIT is run as root via cron
             # job and no user is logged in). See #1592
             self.bus = dbus.SessionBus()
+        except dbus.exceptions.DBusException as exc:
+            logger.error(f'Unable to open DBus session bus. {exc}')
 
     def _inhibit_via_freedesktop_login_one(self):
         """Inhibit using system bus and login1 method.
@@ -163,11 +171,13 @@ class InhibitSuspend:
     def __enter__(self):
         # logger.info('enter', self)  # DEBUG
         for name, inhibit in self.providers.items():
-            logger.info(f'Try inhibiting suspend mode via "{name}"')
+            logger.debug(f'Try inhibiting suspend mode via "{name}"')
 
             if inhibit():
                 logger.info(f'Suspend mode inhibited via "{name}"')
                 return self
+
+        logger.error('Inhibiting suspend mode failed.')
 
         return self
 
