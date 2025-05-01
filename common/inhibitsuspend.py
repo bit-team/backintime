@@ -20,6 +20,7 @@ class InhibitSuspend:
     """Context manager to prevent machine to go to suspend or hibernate."""
 
     def __init__(self, reason: str = None, app_id: str = None):
+        logger.info('INIT suspend', self)
         self.app_id = app_id if app_id else sys.argv[0]
         self.reason = reason if reason else 'take snapshot'
         self.cookie = None
@@ -40,6 +41,7 @@ class InhibitSuspend:
         }
 
     def _open_system_bus(self):
+        logger.info('open systembus suspend', self)
         try:
             self.bus = dbus.SystemBus()
         except dbus.exceptions.DBusException as exc:
@@ -48,6 +50,7 @@ class InhibitSuspend:
             logger.error(f'FOOBAR: {exc=}')
 
     def _open_session_bus(self):
+        logger.info('open session suspend', self)
         # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
         # session connection)
         # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus
@@ -165,6 +168,7 @@ class InhibitSuspend:
         )
 
     def __enter__(self):
+        logger.info('enter', self)
         for name, inhibit in self.providers.items():
             logger.info(f'Try inhibiting suspend mode via "{name}"')
 
