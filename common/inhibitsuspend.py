@@ -46,8 +46,6 @@ class InhibitSuspend:
             self.bus = dbus.SystemBus()
         except dbus.exceptions.DBusException as exc:
             logger.error(f'Unable to open DBus system bus. {exc}')
-        except Exception as exc:
-            logger.error(f'FOOBAR: {exc=}')
 
     def _open_session_bus(self):
         logger.info('open session suspend', self)
@@ -72,8 +70,6 @@ class InhibitSuspend:
             # This code may hang forever (if BIT is run as root via cron
             # job and no user is logged in). See #1592
             self.bus = dbus.SessionBus()
-        except Exception as exc:
-            logger.error(f'SESSION BUS: {exc=}')
 
     def _inhibit_via_freedesktop_login_one(self):
         """Inhibit using system bus and login1 method.
@@ -100,10 +96,7 @@ class InhibitSuspend:
                 'sleep', self.app_id, self.reason, "block").take()
 
         except dbus.DBusException as exc:
-            logger.error(f'via login1: {exc}')
-            return False
-        except Exception as exc:
-            logger.error(f'broad exc via login1: {exc}')
+            logger.error(f'Inhibiation (via "login1") failed: {exc}')
             return False
 
         self.file_descs.append(file_desc)
@@ -125,7 +118,7 @@ class InhibitSuspend:
             self.cookie = self.interface.Inhibit(*args)
 
         except dbus.DBusException as exc:
-            logger.error(exc)
+            logger.error(f'Inhibition (via "{bus_name}") failed: {exc}')
             return False
 
         return True
@@ -168,7 +161,7 @@ class InhibitSuspend:
         )
 
     def __enter__(self):
-        logger.info('enter', self)
+        # logger.info('enter', self)  # DEBUG
         for name, inhibit in self.providers.items():
             logger.info(f'Try inhibiting suspend mode via "{name}"')
 
@@ -187,7 +180,7 @@ class InhibitSuspend:
                 os.close(fd)
 
         except dbus.exceptions.DBusException as exc:
-            logger.error(f'Released suspend mode inhibition failed. {exc}')
+            logger.error(f'Released suspend mode inhibition failed: {exc}')
 
         else:
             logger.info('Released suspend mode inhibition')
