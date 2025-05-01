@@ -104,7 +104,7 @@ class InhibitSuspend:
                 'sleep', self.app_id, self.reason, "block").take()
 
         except dbus.DBusException as exc:
-            logger.error(f'Inhibiation (via "login1") failed: {exc}')
+            logger.error(f'Inhibition (via "login1") failed: {exc}')
             return False
 
         self.file_descs.append(file_desc)
@@ -193,4 +193,5 @@ class InhibitSuspend:
             logger.error(f'Released suspend mode inhibition failed: {exc}')
 
         else:
-            logger.info('Released suspend mode inhibition')
+            if self.cookie or self.file_descs:
+                logger.info('Released suspend mode inhibition')
