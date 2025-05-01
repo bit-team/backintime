@@ -45,7 +45,7 @@ class InhibitSuspend:
         except dbus.exceptions.DBusException as exc:
             logger.error(f'Unable to open DBus system bus. {exc}')
         except Exception as exc:
-            logger.error(exc)
+            logger.error(f'FOOBAR: {exc=}')
 
     def _open_session_bus(self):
         # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
