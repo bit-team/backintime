@@ -20,7 +20,6 @@ class InhibitSuspend:
     """Context manager to prevent machine to go to suspend or hibernate."""
 
     def __init__(self, reason: str = None, app_id: str = None):
-        logger.info('INIT suspend', self)
         self.app_id = app_id if app_id else sys.argv[0]
         self.reason = reason if reason else 'take snapshot'
         self.cookie = None

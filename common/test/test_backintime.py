@@ -158,6 +158,7 @@ under certain conditions; type `backintime --license' for details.
             'qt.dbus.integration: Could not connect "org.freedesktop.IBus" '
             'to globalEngineChanged(QString)',
             'Inhibition (via',
+            'Inhibiting suspend mode failed',
         ]
 
         # remove lines via startswith()
