@@ -18,6 +18,7 @@ import logger
 class ShutdownAgent:
     """Shutdown the system after the current snapshot has finished."""
 
+    # The order is relevant. Don't modify it without a good reason.
     DBUS_SHUTDOWN = {
         'login1': {
             'bus': 'systembus',
