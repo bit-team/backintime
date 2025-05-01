@@ -12,157 +12,171 @@
 """
 import os
 import sys
-from typing import Optional
 import dbus
 import logger
-
-FLAG_LOGGING_OUT = 1
-FLAG_USER_SWITCHING = 2
-FLAG_SUSPENDING = 4
-FLAG_IDLE = 8
-
-_DBUS_PROVIDERS = (
-    {
-        'service': 'org.freedesktop.PowerManagement',
-        'objectPath': '/org/freedesktop/PowerManagement/Inhibit',
-        'methodSet': 'Inhibit',
-        'methodUnSet': 'UnInhibit',
-        'interface': 'org.freedesktop.PowerManagement.Inhibit',
-        'arguments': (0, 2)
-    },
-    {
-        'service': 'org.gnome.SessionManager',
-        'objectPath': '/org/gnome/SessionManager',
-        'methodSet': 'Inhibit',
-        'methodUnSet': 'Uninhibit',
-        'interface': 'org.gnome.SessionManager',
-        'arguments': (0, 1, 2, 3)
-    },
-    {
-        'service': 'org.mate.SessionManager',
-        'objectPath': '/org/mate/SessionManager',
-        'methodSet': 'Inhibit',
-        'methodUnSet': 'Uninhibit',
-        'interface': 'org.mate.SessionManager',
-        'arguments': (0, 1, 2, 3)
-    },
-)
-
-
-def inhibit_suspend(app_id: str = sys.argv[0],
-                    reason: str = 'take snapshot',
-                    flags: int = FLAG_SUSPENDING | FLAG_IDLE
-                    ) -> Optional[tuple[int, dbus.bus.BusConnection, dict]]:
-    """Prevent machine to go to suspend or hibernate.
-
-    Args:
-        app_id: Name of the application.
-        reason: Reason as string.
-        flags: Unknown.
-
-    Returns:
-        A 3-item-tuple with the first item containing the inhibit cookie
-        which is used to end the inhibitor.
-    """
-
-    # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
-    # session connection)
-    # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus user
-    #              session and it may have worked sometimes (without logging we
-    #              don't know) so as root suspend can no longer inhibited.
-    if os.geteuid() == 0:  # is root
-        # Dev note (buhtz, 2025-04): But does this need to be a "Fail"?
-        logger.debug('Inhibit Suspend failed because BIT was started as root.')
-        return None
-
-    if not app_id:
-        app_id = 'backintime'
-
-    for dbus_props in _DBUS_PROVIDERS:
-        try:
-            # Connect directly to the socket instead of dbus.SessionBus because
-            # the dbus.SessionBus was initiated before we loaded the environ
-            # variables and might not work.
-            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                bus = dbus.bus.BusConnection(
-                    os.environ['DBUS_SESSION_BUS_ADDRESS'])
-            else:
-                # This code may hang forever (if BIT is run as root via cron
-                # job and no user is logged in). See #1592
-                bus = dbus.SessionBus()
-
-            interface = bus.get_object(
-                dbus_props['service'], dbus_props['objectPath'])
-
-            proxy = interface.get_dbus_method(
-                dbus_props['methodSet'], dbus_props['interface'])
-
-            cookie = proxy(*[
-                (app_id,
-                 0,  # dbus.UInt32(toplevel_xid),
-                 reason,
-                 dbus.UInt32(flags))[i]
-                for i in dbus_props['arguments']
-            ])
-
-            return (cookie, bus, dbus_props)
-
-        except dbus.exceptions.DBusException:
-            pass
-
-    logger.warning('Inhibit Suspend failed.')
-
-    return None
-
-
-def uninhibit_suspend(cookie: int,
-                      bus: dbus.bus.BusConnection,
-                      dbus_props: dict
-                      ) -> Optional[tuple[int, dbus.bus.BusConnection, dict]]:
-    """Release inhibit"""
-
-    try:
-        interface = bus.get_object(
-            dbus_props['service'], dbus_props['objectPath'])
-        proxy = interface.get_dbus_method(
-            dbus_props['methodUnSet'], dbus_props['interface'])
-        proxy(cookie)
-        logger.debug('Release inhibit Suspend')
-
-        return None
-
-    except dbus.exceptions.DBusException:
-        logger.warning('Release inhibit Suspend failed.')
-
-        return (cookie, bus, dbus_props)
 
 
 class InhibitSuspend:
     """Context manager to prevent machine to go to suspend or hibernate."""
 
-    def __init__(self, reason: str, app_id: str = None):
+    def __init__(self, reason: str = None, app_id: str = None):
         self.app_id = app_id if app_id else sys.argv[0]
-        self.reason = reason
+        self.reason = reason if reason else 'take snapshot'
         self.cookie = None
         self.bus = None
-        self.props = None
+        self.interface = None
+        self.file_descs = []
+
+        # Order is important. Don't change it for no good reason.
+        self.providers = {
+            'freedesktop.login1':
+                self._inhibit_via_freedesktop_login_one,
+            'freedesktop.PowerManagment':
+                self._inhibit_via_freedesktop_power_management,
+            'gnome':
+                self._inhibit_via_gnome,
+            'mate':
+                self._inhibit_via_mate,
+        }
+
+    def _open_system_bus(self):
+        try:
+            self.bus = dbus.SystemBus()
+        except dbus.exceptions.DBusException as exc:
+            logger.error(f'Unable to open DBus system bus. {exc}')
+
+    def _open_session_bus(self):
+        # Fixes #1592 (BiT hangs as root when trying to establish a dbus user
+        # session connection)
+        # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus
+        # user session and it may have worked sometimes (without logging we
+        # don't know) so as root suspend can no longer inhibited.
+        if os.geteuid() == 0:  # is root
+            # Dev note (buhtz, 2025-04): But does this need to be a "Fail"?
+            logger.debug(
+                'Inhibit Suspend aborted because BIT was started as root.')
+            return
+
+        # Connect directly to the socket instead of dbus.SessionBus because
+        # the dbus.SessionBus was initiated before we loaded the environ
+        # variables and might not work.
+        try:
+            self.bus = dbus.bus.BusConnection(
+                os.environ['DBUS_SESSION_BUS_ADDRESS'])
+        except KeyError:
+            # This code may hang forever (if BIT is run as root via cron
+            # job and no user is logged in). See #1592
+            self.bus = dbus.SessionBus()
+
+    def _inhibit_via_freedesktop_login_one(self):
+        """Inhibit using system bus and login1 method.
+
+        Method should be available on modern systems with and without
+        systemd. Uninhibition is done via closing a file descriptor.
+        """
+        self._open_system_bus()
+
+        if not self.bus:
+            return False
+
+        try:
+            obj = self.bus.get_object(
+                bus_name='org.freedesktop.login1',
+                object_path='/org/freedesktop/login1')
+
+            iface = dbus.Interface(
+                object=obj,
+                dbus_interface='org.freedesktop.login1.Manager')
+
+            # Inhibition is active until this file descriptor is closed
+            file_desc = iface.Inhibit(
+                'sleep', self.app_id, self.reason, "block").take()
+
+        except dbus.DBusException as exc:
+            logger.error(exc)
+            return False
+
+        self.file_descs.append(file_desc)
+
+        return True
+
+    def _inhibit_generic_in_session(self,
+                                    bus_name: str,
+                                    object_path: str,
+                                    dbus_interface: str,
+                                    args: tuple) -> bool:
+        try:
+            obj = self.bus.get_object(
+                bus_name=bus_name, object_path=object_path)
+
+            self.interface = dbus.Interface(
+                object=obj, dbus_interface=dbus_interface)
+
+            self.cookie = self.interface.Inhibit(*args)
+
+        except dbus.DBusException as exc:
+            logger.error(exc)
+            return False
+
+        return True
+
+    def _inhibit_via_freedesktop_power_management(self):
+        return self._inhibit_generic_in_session(
+            bus_name='org.freedesktop.PowerManagement',
+            object_path='/org/freedesktop/Inhibit',
+            dbus_interface='org.freedesktop.PowerManager.Inhibit',
+            args=(
+                self.app_id,
+                self.reason
+            )
+        )
+
+    def _inhibit_via_gnome(self):
+        return self._inhibit_generic_in_session(
+            bus_name='org.gnome.SessionManager',
+            object_path='/org/gnome/SessionManager',
+            dbus_interface='org.gnome.SessionManager.Inhibit',
+            args=(
+                self.app_id,
+                0,  # xwindow-id not relevant today
+                self.reason,
+                dbus.UInt32(4),  # 4 = SUSPEND
+            )
+        )
+
+    def _inhibit_via_mate(self):
+        return self._inhibit_generic_in_session(
+            bus_name='org.mate.SessionManager',
+            object_path='/org/mate/SessionManager',
+            dbus_interface='org.mate.SessionManager.Inhibit',
+            args=(
+                self.app_id,
+                0,  # xwindow-id not relevant today
+                self.reason,
+                dbus.UInt32(4),  # 4 = SUSPEND
+            )
+        )
 
     def __enter__(self):
+        for name, inhibit in self.providers.items():
+            logger.debug(f'Try inhibiting suspend mode via "{name}"')
 
-        result = inhibit_suspend(
-            app_id=self.app_id,
-            reason=self.reason,
-            flags=FLAG_SUSPENDING | FLAG_IDLE)
-
-        if result is not None:
-            self.cookie, self.bus, self.props = result
+            if inhibit():
+                logger.info(f'Inhibiting suspend mode via "{name}"')
+                return self
 
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        if self.cookie is None:
-            return
+        try:
+            if self.cookie:
+                self.interface.UnInhibit(self.cookie)
 
-        uninhibit_suspend(cookie=self.cookie,
-                          bus=self.bus,
-                          dbus_props=self.props)
+            for fd in self.file_descs:
+                os.close(fd)
+
+        except dbus.exceptions.DBusException as exc:
+            logger.error(f'Released suspend mode inhibition failed. {exc}')
+
+        else:
+            logger.info('Released suspend mode inhibition')
