@@ -21,7 +21,6 @@ run, even if no new snapshot is created.
 ![Dialog tab - Remove and Retention](_images/tab_remove_retention.png)
 
 Here is a brief overview of the rules available:
-
       
 - **Keep the most recent snapshot**: The last (or freshest) snapshot will be retained.
 - **Keep named snapshots**: All snapshots with a name are excluded from every
@@ -46,6 +45,14 @@ Here is a brief overview of the rules available:
     this manual. Later rules **do override** earlier ones and are **not
     constrained** by them. The only exception is the first rule
     *Keep named snapshots*.
+
+In the examples below:
+
+- The <span style="color: #e655ec;"><strong>item in pink is the current snapshot</strong></span>.
+- <strong>Items in black are the existing snapshots</strong>.
+- <span style="color: #60a776;"><strong>Items in green are snapshots identified for retention</strong></span>.
+- <span style="color: #d23c48;"><strong>Items in red are snapshots identified for removal</strong></span>.
+- <span style="color: #6681a5;"><strong>Items in blue (sometimes <span style="color: #e655ec;">mixed with pink</span>) in the final column are the final retained snapshots</strong></span>.
 
 ## Rules in details
 ### Keep the most recent snapshot
