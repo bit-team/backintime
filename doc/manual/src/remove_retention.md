@@ -71,7 +71,7 @@ rule. It is a guarantee that they won't be removed. See
 **Remove snapshots older than `N` Years**
 
 - Calculation is based on 12 months.
-- Current months is ignored.
+- Current month is ignored.
 - _Example_: Older than two years, at date 2025-04-17, result in
   removing backups before (or older than) 2023-04-01.
 ![Rule - Remove older than 2 years](_images/rule_older_than_n_years.png)
@@ -109,7 +109,7 @@ rules below for more illustrated examples.
 **Keep all snapshots for the last `N` days**
 
 - Calculation is based on full days from 0:00 to 23:59.
-- Current day is considered.
+- Current day is included.
 
 _Example_:
 
@@ -118,7 +118,7 @@ _Example_:
 **Keep the last snapshot for each day for the last `N` days**
 
 - Calculation is based on full days from 0:00 to 23:59.
-- Current day is considered.
+- Current day is included.
 
 _Example_:
 
@@ -127,7 +127,7 @@ _Example_:
 **Keep the last snapshot for each week for the last `N` weeks**
 
 - Calculation is based on full calendar weeks starting from Monday.
-- Current week is considered.
+- Current week is included.
 
 _Example_:
 
@@ -136,7 +136,7 @@ _Example_:
 **Keep the last snapshot for each month for the last `N` months**
 
 - Calculation is based on full calendar months.
-- Current months is considered.
+- Current month is included.
 
 _Example_:
 
@@ -145,7 +145,7 @@ _Example_:
 **Keep the last snapshot for each year for all years**
 
 - Calculation is based on calendar years.
-- Current year is considered.
+- Current year is included.
 - Despite it is present in the graphical frontend, that behavior cannot be
   changed, if _Retention Policy_ is enabled.
 
@@ -158,7 +158,7 @@ The remove command can be executed on the local machine or on a remote host via
 SSH. The latter can save time and resources.
 
 ## Interactions between and mutual constraints of the rules
-All rules are applied and executed immediatily one by one and in the order as
+All rules are applied and executed immediately one by one and in the order as
 presented in the GUI and here in the manual. This contain the potential of
 confusing interactions between the rules.
 
