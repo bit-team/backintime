@@ -364,8 +364,8 @@ class MainWindow(QMainWindow):
 
         if not config.canBackup(profile_id):
             msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive, please plug it in. '
-                    'Then press OK.')
+                + _('If it is on a removable drive, please plug it in.') \
+                + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
@@ -1348,11 +1348,13 @@ class MainWindow(QMainWindow):
             self.timeLine.checkSelection()
 
     def btnTakeSnapshotClicked(self):
-        backintime.takeSnapshotAsync(self.config)
-        self.updateTakeSnapshot(True)
+        self._take_snapshot_clicked(checksum=False)
 
     def btnTakeSnapshotChecksumClicked(self):
-        backintime.takeSnapshotAsync(self.config, checksum = True)
+        self._take_snapshot_clicked(checksum=True)
+
+    def _take_snapshot_clicked(self, checksum):
+        backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
 
     def btnStopTakeSnapshotClicked(self):
@@ -1414,12 +1416,15 @@ class MainWindow(QMainWindow):
             try:
                 item.setHidden(True)
             except RuntimeError:
-                #item has been deleted
-                #probably because user pressed refresh
+                # item has been deleted
+                # probably because user pressed refresh
                 pass
 
         # try to use filter(..)
-        items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
+        items = [
+            item for item in self.timeLine.selectedItems()
+            if not isinstance(item, snapshots.RootSnapshot)
+        ]
 
         if not items:
             return

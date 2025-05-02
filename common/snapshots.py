@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Rafael @rafaelhdr
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -40,7 +41,6 @@ from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
 
-
 class Snapshots:
     """
     Collection of take-snapshot and restore commands.
@@ -57,6 +57,7 @@ class Snapshots:
         cfg (config.Config): current config
     """
     SNAPSHOT_VERSION = 3
+
 
     def __init__(self, cfg = None):
         self.config = cfg
@@ -713,6 +714,47 @@ class Snapshots:
 
             return True
 
+    def warn_about_include_entries_missing_in_source(self):
+        """Log a warning if include list entries are missing in the backup
+        source.
+
+        If one ore more entries can not be found in the backup source a
+        warning message is logged.
+        """
+        missing_entries = self.get_include_entries_missing_in_source()
+
+        if missing_entries:
+            # Dev note (2025-03, buhtz): Make this a module constant if #2070
+            # is fixed.
+            msg = _(
+                'The following entries from the include list have no '
+                'corresponding file or directory in the backup source:')
+            # Dev note (buhtz, 2025-03): To my research there is no elegant
+            # solution to this problem.
+            # Take care to keep this string consistent with the previous "msg"
+            msg_untranslated = \
+                'The following entries from the include list have no ' \
+                'corresponding file or directory in the backup source:'
+            msg_suffix = ' "' + '", "'.join(missing_entries) + '"'
+
+            self.setTakeSnapshotMessage(1, msg + msg_suffix)
+            # Don't translate log entries
+            logger.warning(msg_untranslated + msg_suffix)
+
+    def get_include_entries_missing_in_source(self):
+        """Return include list entries that are missing in the backup source.
+
+        If one ore more entries can not be found in the backup source a
+        warning message is logged.
+
+        Returns:
+            list: List of entries missing.
+        """
+        include_entries = list(zip(*self.config.include()))[0]
+        missing_entries = filter(lambda entry: not Path(entry).exists(),
+                                 include_entries)
+        return list(missing_entries)
+
     # TODO Refactor: This functions is extremely difficult to understand.
     def backup(self, force=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
@@ -823,6 +865,7 @@ class Snapshots:
                 else:
                     self.config.setCurrentHashId(hash_id)
 
+                self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()
 
                 if not include_folders:
@@ -875,6 +918,7 @@ class Snapshots:
 
                             if self.config.canBackup():
                                 break
+
                     if not self.config.canBackup(profile_id):
                         logger.error('Backup directory not '
                                         'accessible. Tries stopped.',
