@@ -12,7 +12,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 Snapshots can be automatically deleted or retained based on rules.
 These rules allow for fine-grained management of the backup archive,
 reducing storage space usage. The process runs at the end of every snapshot
-run, if no new snapshot is created.
+run, even if no new snapshot is created.
 
 !!! note
     The feature was also known as _Auto-remove_ or _Smart Remove_ in earlier
