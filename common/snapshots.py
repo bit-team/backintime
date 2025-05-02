@@ -871,7 +871,6 @@ class Snapshots:
                 if not include_folders:
                     logger.info('Nothing to do', self)
 
-
                 elif not self.config.PLUGIN_MANAGER.processBegin():
                     logger.info('A plugin prevented the backup', self)
 
@@ -910,7 +909,6 @@ class Snapshots:
                                 timeout=30)
 
                         logger.warning(
-
                             'Cannot start backup yet: target directory '
                             'not accessible. Will retry each second in '
                             'the next 30 seconds. Please wait.')
@@ -920,6 +918,7 @@ class Snapshots:
 
                             if self.config.canBackup():
                                 break
+
                     if not self.config.canBackup(profile_id):
                         logger.error('Backup directory not '
                                         'accessible. Tries stopped.',
@@ -3252,7 +3251,6 @@ def lastSnapshot(cfg):
     sids = listSnapshots(cfg)
     if sids:
         return sids[0]
-
 
 
 if __name__ == '__main__':
