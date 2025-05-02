@@ -8,8 +8,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # File was split from "common/tools.py".
-"""Shutdown the system
-"""
+"""Shutdown the system via DBus"""
 import os
 import subprocess
 import dbus
@@ -17,10 +16,19 @@ import logger
 
 
 class ShutdownAgent:
-    """Shutdown the system after the current snapshot has finished.
+    """Shutdown the system after the current snapshot has finished."""
 
-    """
+    # The order is relevant. Don't modify it without a good reason.
     DBUS_SHUTDOWN = {
+        'login1': {
+            'bus': 'systembus',
+            'service': 'org.freedesktop.login1',
+            'objectPath': '/org/freedesktop/login1',
+            'method': 'PowerOff',
+            'interface': 'org.freedesktop.login1.Manager',
+            # False=non-interactive (no confirmation dialog)
+            'arguments': (False,)
+        },
         'gnome':   {
             'bus': 'sessionbus',
             'service': 'org.gnome.SessionManager',
@@ -107,14 +115,6 @@ class ShutdownAgent:
             'interface': 'org.enlightenment.wm.Core',
             'arguments': ()
         },
-        'z_freed': {
-            'bus': 'systembus',
-            'service': 'org.freedesktop.login1',
-            'objectPath': '/org/freedesktop/login1',
-            'method': 'PowerOff',
-            'interface': 'org.freedesktop.login1.Manager',
-            'arguments': (True,)
-        }
     }
 
     def __init__(self):
@@ -188,7 +188,7 @@ class ShutdownAgent:
 
     def ask_before_quit(self):
         """
-        Indicate if ShutDown is ready to fire and so the application
+        Indicate if the agent is ready to fire and so the application
         shouldn't be closed.
 
         Dev note (buhtz, 2025-04): Makes not much sense to me, this method.
