@@ -13,12 +13,13 @@ adoc_to_manpage () {
     manfile="${file%.adoc}.gz"
 
     echo "Convert $file into $manfile"
-    asciidoctor --backend manpage "$file" --out-file=- | gzip > "$manfile"
+    asciidoctor --backend manpage "$file" --out-file=- | gzip --best > "$manfile"
 }
 
 # Script got argument
 if [ $# -gt 0 ]; then
-    adoc_to_manpage "$1"
+    file=$1
+    adoc_to_manpage "$file"
     exit 0
 fi
 
