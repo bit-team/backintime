@@ -14,6 +14,7 @@ adoc_to_manpage () {
 
     echo "Convert $file into $manfile"
     asciidoctor --backend manpage "$file" --out-file=- | gzip > "$manfile"
+}
 
 # Script got argument
 if [ $# -gt 0 ]; then
@@ -27,4 +28,5 @@ fi
 for file in *.adoc; do
     adoc_to_manpage "$file"
 done
+exit 0
 
