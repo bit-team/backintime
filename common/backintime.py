@@ -218,6 +218,7 @@ def argParse(args):
     Returns:
         argparser.Namespace:        new parsed Namespace
     """
+    print(f'{args=} {sys.argv=}')  # DEBUG
     def join(args, subArgs):
         """
         Add new arguments to existing Namespace.
@@ -252,6 +253,7 @@ def argParse(args):
                 sub.append(i)
 
     args, unknownArgs = mainParser.parse_known_args(args)
+    print(f'{args=} {unknownArgs=}')  # DEBUG
 
     # Read subparsers again
     if sub:
