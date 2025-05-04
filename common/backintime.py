@@ -33,7 +33,6 @@ import cliarguments
 import clicommands
 from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
-from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from version import __version__
 from shutdownagent import ShutdownAgent
@@ -104,37 +103,6 @@ def takeSnapshot(cfg, force=True):
 
     return ret
 
-
-def _mount(cfg):
-    """
-    Mount external filesystems.
-
-    Args:
-        cfg (config.Config): Config that should be used.
-    """
-    try:
-        hash_id = mount.Mount(cfg=cfg).mount()
-
-    except MountException as ex:
-        logger.error(str(ex))
-        sys.exit(RETURN_ERR)
-
-    else:
-        cfg.setCurrentHashId(hash_id)
-
-
-def _umount(cfg):
-    """
-    Unmount external filesystems.
-
-    Args:
-        cfg (config.Config): Config that should be used.
-    """
-    try:
-        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
-
-    except MountException as ex:
-        logger.error(str(ex))
 
 
 def encfs_deprecation_warning():

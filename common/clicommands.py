@@ -26,12 +26,15 @@ import password
 import encfstools
 import cli
 import config
+import bitbase
+import mount
+from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
-RETURN_OK = 0
-RETURN_ERR = 1
-RETURN_NO_CFG = 2
+RETURN_OK = bitbase.RETURN_OK
+RETURN_ERR = bitbase.RETURN_ERR
+RETURN_NO_CFG = bitbase.RETURN_NO_CFG
 
 
 def _get_config(args: argparse.Namespace) -> config.Config:
@@ -65,33 +68,31 @@ def backup(args: argparse.Namespace, force: bool = True):
     sys.exit(int(ret))
 
 
-def backup_job(args):
+def backup_job(args: argparse.Namespace):
     """
     Command for taking a new snapshot in background. Mainly used for cronjobs.
     This will run the snapshot inside a daemon and detach from it. It will
     return immediately back to commandline.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     cli.BackupJobDaemon(backup, args).start()
 
 
-def benchmark_cipher(args):
+def benchmark_cipher(args: argparse.Namespace):
     """
     Command for transferring a file with scp to remote host with all
     available ciphers and print its speed and time.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments.
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     cli.set_quiet(args)
     cli.rename_head()
@@ -103,59 +104,57 @@ def benchmark_cipher(args):
         ssh.benchmarkCipher(args.FILE_SIZE)
         sys.exit(RETURN_OK)
 
-    else:
-        logger.error("SSH is not configured for profile '%s'!" % cfg.profileName())
-        sys.exit(RETURN_ERR)
+    # else
+    logger.error(
+        f"SSH is not configured for profile '{cfg.profileName()}'!")
+    sys.exit(bitbase.RETURN_ERR)
 
 
-def check_config(args):
-    """
-    Command for checking the config file.
+def check_config(args: argparse.Namespace):
+    """Check the config file.
+
+    In case of no errors application exists with 0, otherwise 1.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments.
 
     Raises:
-        SystemExit:     0 if config is okay, 1 if not
+        SystemExit: 0 if config is okay, 1 if not.
+
     """
     force_stdout = cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
 
+    msg = f'\nConfig {cfg._LOCAL_CONFIG_PATH} profile ' \
+          f"'{cfg.profileName()}'"
+
     if cli.checkConfig(cfg, crontab=not args.no_crontab):
-        print("\nConfig %(cfg)s profile '%(profile)s' is fine."
-              % {'cfg': cfg._LOCAL_CONFIG_PATH,
-                 'profile': cfg.profileName()},
-              file=force_stdout)
-        sys.exit(RETURN_OK)
+        print(f'{msg} is fine.', file=force_stdout)
+        sys.exit(bitbase.RETURN_OK)
 
-    else:
-        print("\nConfig %(cfg)s profile '%(profile)s' has errors."
-              % {'cfg': cfg._LOCAL_CONFIG_PATH,
-                 'profile': cfg.profileName()},
-              file=force_stdout)
-        sys.exit(RETURN_ERR)
+    # else
+    print(f'{msg} has errors.', file=force_stdout)
+    sys.exit(bitbase.RETURN_ERR)
 
 
-def decode(args):
-    """
-    Command for decoding paths given paths with 'encfsctl'.
+def decode(args: argparse.Namespace):
+    """Decoding paths given paths with 'encfsctl'.
+
     Will listen on stdin if no path was given.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
     if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
-        logger.error("Profile '%s' is not encrypted." % cfg.profileName())
-        sys.exit(RETURN_ERR)
+        logger.error(f"Profile '{cfg.profileName()}' is not encrypted.")
+        sys.exit(bitbase.RETURN_ERR)
 
     _mount(cfg)
     d = encfstools.Decode(cfg)
@@ -541,3 +540,33 @@ def unmount(args):
     _mount(cfg)
     _umount(cfg)
     sys.exit(RETURN_OK)
+
+
+def _mount(cfg: config.Config):
+    """Mount external filesystems of current selected profile.
+
+    Args:
+        cfg: Config to identify the current profile.
+    """
+    try:
+        hash_id = mount.Mount(cfg=cfg).mount()
+
+    except MountException as ex:
+        logger.error(str(ex))
+        sys.exit(bitbase.RETURN_ERR)
+
+    else:
+        cfg.setCurrentHashId(hash_id)
+
+
+def _umount(cfg: config.Config):
+    """Unmount external filesystems of current selected profile.
+
+    Args:
+        cfg: Config to identify the current profile.
+    """
+    try:
+        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
+
+    except MountException as ex:
+        logger.error(str(ex))

@@ -244,6 +244,7 @@ class RestoreDialog:
         s.restore(self.sid, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.logFile)
 
+
 class BackupJobDaemon(daemon.Daemon):
     def __init__(self, func, args):
         super(BackupJobDaemon, self).__init__()
