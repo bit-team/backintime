@@ -24,7 +24,8 @@ RETURN_ERR = 1
 RETURN_NO_CFG = 2
 
 
-def create_parsers(app_name: str = 'backintime'
+def create_parsers(app_name: str,
+                   cmd_func_dict: dict[str, callable]
                   ) -> dict[argparse.ArgumentParser]:
     """Define parsers for commandline arguments.
 
@@ -134,7 +135,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    backupCP.set_defaults(func = command_backup)
+    backupCP.set_defaults(func = cmd_func_dict[command])
     parsers[command] = backupCP
 
     command = 'backup-job'
@@ -148,7 +149,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    backupJobCP.set_defaults(func = command_backup_job)
+    backupJobCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = backupJobCP
 
     command = 'benchmark-cipher'
@@ -159,7 +160,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    benchmarkCipherCP.set_defaults(func = benchmarkCipher)
+    benchmarkCipherCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = benchmarkCipherCP
     benchmarkCipherCP.add_argument              ('FILE_SIZE',
                                                  type = int,
@@ -177,7 +178,7 @@ def create_parsers(app_name: str = 'backintime'
     checkConfigCP.add_argument                  ('--no-crontab',
                                                  action = 'store_true',
                                                  help = 'Do not install crontab entries.')
-    checkConfigCP.set_defaults(func = checkConfig)
+    checkConfigCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = checkConfigCP
 
     command = 'decode'
@@ -188,7 +189,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    decodeCP.set_defaults(func = decode)
+    decodeCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = decodeCP
     decodeCP.add_argument                       ('PATH',
                                                  type = str,
@@ -205,7 +206,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    lastSnapshotCP.set_defaults(func = lastSnapshot)
+    lastSnapshotCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = lastSnapshotCP
 
     command = 'last-snapshot-path'
@@ -217,7 +218,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    lastSnapshotsPathCP.set_defaults(func = lastSnapshotPath)
+    lastSnapshotsPathCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = lastSnapshotsPathCP
 
     command = 'pw-cache'
@@ -228,7 +229,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogConfig,
                                                  help = description,
                                                  description = description)
-    pwCacheCP.set_defaults(func = pwCache)
+    pwCacheCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = pwCacheCP
     pwCacheCP.add_argument                      ('ACTION',
                                                  action = 'store',
@@ -245,7 +246,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    removeCP.set_defaults(func = remove)
+    removeCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = removeCP
 
     command = 'remove-and-do-not-ask-again'
@@ -257,7 +258,7 @@ def create_parsers(app_name: str = 'backintime'
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    removeDoNotAskCP.set_defaults(func = removeAndDoNotAskAgain)
+    removeDoNotAskCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = removeDoNotAskCP
 
     command = 'restore'
@@ -425,66 +426,3 @@ class printDiagnostics(argparse.Action):
         print(json.dumps(diagnostics, indent=4))
 
         sys.exit(RETURN_OK)
-
-
-def command_backup(args, force=True):
-    """
-    Command for force taking a new snapshot.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-        force (bool):   take the snapshot even if it wouldn't need to or would
-                        be prevented (e.g. running on battery)
-
-    Raises:
-        SystemExit:     0 if successful, 1 if not
-    """
-    setQuiet(args)
-    printHeader()
-    cfg = getConfig(args)
-    ret = takeSnapshot(cfg, force)
-    sys.exit(int(ret))
-
-
-def command_backup_job(args):
-    """
-    Command for taking a new snapshot in background. Mainly used for cronjobs.
-    This will run the snapshot inside a daemon and detach from it. It will
-    return immediately back to commandline.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    cli.BackupJobDaemon(backup, args).start()
-
-
-def command_benchmark_cipher(args):
-    """
-    Command for transferring a file with scp to remote host with all
-    available ciphers and print its speed and time.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    setQuiet(args)
-    printHeader()
-
-    cfg = getConfig(args)
-
-    if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
-        ssh = sshtools.SSH(cfg)
-        ssh.benchmarkCipher(args.FILE_SIZE)
-        sys.exit(RETURN_OK)
-
-    else:
-        logger.error("SSH is not configured for profile '%s'!" % cfg.profileName())
-        sys.exit(RETURN_ERR)
