@@ -32,10 +32,6 @@ from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
-# RETURN_OK = bitbase.RETURN_OK
-# RETURN_ERR = bitbase.RETURN_ERR
-# RETURN_NO_CFG = bitbase.RETURN_NO_CFG
-
 
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""

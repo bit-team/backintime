@@ -15,400 +15,625 @@ import sys
 import argparse
 import json
 import tools
-from argparse import ArgumentParser
-from pathlib import Path
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
-import bitbase
-import config
-import diagnostics
-from version import __version__
+import bitbase  # noqa: E402
+import config  # noqa: E402
+import diagnostics  # noqa: E402
+import logger  # noqa: E402
+from argparse import (ArgumentParser,
+                      Namespace,
+                      Action,
+                      _SubParsersAction,
+                      ) # noqa: E402
+from pathlib import Path  # noqa: E402
+from version import __version__  # noqa: E402
 
-RETURN_OK = bitbase.RETURN_OK
-RETURN_ERR = bitbase.RETURN_ERR
-RETURN_NO_CFG = bitbase.RETURN_NO_CFG
+
+class ParserAgent:
+    """Create and manage all parsers."""
+
+    def __init__(self,
+                 app_name: str,
+                 bin_name: str,
+                 cmd_func_dict: dict[str, callable]
+                 ):
+        # Name of the application e.g. "Back In Time"
+        self.app_name = app_name
+
+        # Name of the binary e.g. "backintime"
+        self.bin_name = bin_name
+
+        # Mapping of command name and handler function
+        self._cmd_func_dict = cmd_func_dict
+
+        # Public parsers indexed by their (command) name
+        self.parsers = {}
+
+        # Helper
+        self._command_subparsers = None
+
+        # ???
+        self._aliases = []
+
+        # Used as epilog for command parses
+        epilog = "Run '%(prog)s -h' to get help for additional arguments."
+        self._epilog_cfg = f'{epilog} Additional arguments: --config, --debug'
+        self._epilog_com = f'{epilogConfig} --profile, --profile-id, --quiet'
+
+        # Command exclusive parsers
+        self._cmd_excl_parsers = None
+        self._create_command_exclusive_parsers()
+
+        self._create_main_parser()
+
+        self._create_command_parsers()
+
+    def _create_main_parser(self):
+        """Main argument parser"""
+
+        desc = f'{self.app_name} - a simple backup tool for GNU/Linux.'
+        epi = (
+            'For backwards compatibility commands can also be used with '
+            "trailing '--'. All listed arguments will work with all commands. "
+            "Some commands have extra arguments. Run '%(prog)s <COMMAND> -h' "
+            'to see the extra arguments.')
+
+        common_parser = self._create_common_parser()
+
+        parser = ArgumentParser(
+            prog=self.bin_name,
+            parents=[common_parser],
+            description=desc,
+            epilog=epi)
+
+        parser.add_argument(
+            '--version', '-v',
+            action='version',
+            version='%(prog)s ' + __version__,
+            help="show %(prog)s's version number.")
+
+        parser.add_argument(
+            '--license',
+            action=ActionPrintLicense,
+            nargs=0,
+            help="show %(prog)s's license.")
+
+        parser.add_argument(
+            '--diagnostics',
+            action=ActionPrintDiagnostics,
+            nargs=0,
+            help='show helpful info (in JSON format) for better support in '
+                 'case of issues')
+
+        self.parsers['main'] = parser
+
+    def _create_debug_parser(self) -> ArgumentParser:
+        parser = ArgumentParser(add_help=False)
+        parser.add_argument(
+            '--debug',
+            action='store_true',
+            help='Increase verbosity.')
+
+        return parser
+
+    def _create_config_parser(self) -> ArgumentParser:
+        parser = ArgumentParser(add_help=False)
+
+        parser.add_argument(
+            '--config',
+            metavar='PATH',
+            type=str,
+            action='store',
+            help='Read config from %(metavar)s. '
+                'Default = ~/.config/backintime/config')
+
+        parser.add_argument(
+            '--share-path',
+            metavar='PATH',
+            type=str,
+            action='store',
+            help='Write runtime data (locks, messages, log and '
+                'mountpoints) to %(metavar)s.')
+
+        return parser
+
+    def _create_common_parser(self) -> ArgumentParser:
+        """Common arguments used by all commands"""
+
+        debug_parser = self._create_debug_parser()
+        config_parser = self._create_config_parser()
+
+        parser = ArgumentParser(
+            add_help=False,
+            parents=[
+                config_parser,
+                debug_parser,
+            ]
+        )
+
+        # Allow only one of "--profile" or "--profile-id"
+        profile_group = parser.add_mutually_exclusive_group()
+
+        for switch, name in (('--profile', 'NAME'), ('--profile-id', 'ID')):
+            profile_group.add_argument(
+                switch,
+                metavar=name,
+                type=str,
+                action='store',
+                help='Select profile by %(metavar)s.')
+
+        parser.add_argument(
+            '--quiet',
+            action='store_true',
+            help='Be quiet. Suppress messages on stdout.')
+
+        return parser
+
+    def _create_command_exclusive_parsers(self):
+        self._create_snapshots_only_parser()
+        self._create_rsync_only_parser()
+        self._create_remove_only_parser()
+
+    def _create_snapshots_only_parser(self):
+        """Arguments used only by commands
+            - snapshots-path
+            - snapshots-list-path
+            - last-snapshot-path
+        """
+        parser = ArgumentParser(add_help=False)
+        parser.add_argument(
+            '--keep-mount',
+            action='store_true',
+            help="Don't unmount on exit.")
+
+        self._cmd_excl_parsers['snapshots'] = parser
+
+    def _create_rsync_only_parser(self):
+        """Arguments used only by rsync related commands:
+            - backup
+            - restore
+        """
+        parser = ArgumentParser(add_help=False)
+        parser.add_argument(
+            '--checksum',
+            action='store_true',
+            help='force to use checksum for checking if files have been changed.')
+
+        self._cmd_excl_parsers['rsync'] = parser
+
+    def _create_remove_only_parser(self):
+        """Arguments used only by command:
+            - remove
+        """
+        parser = ArgumentParser(add_help=False)
+        parser.add_argument(
+            'SNAPSHOT_ID',
+            type=str,
+            action='store',
+            nargs='*',
+            help='ID of snapshots which should be removed.')
+
+        self._cmd_excl_parsers['remove'] = parser
+
+    def _create_cmd_backup(self):
+        name = 'backup'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        self._aliases.append(('b', nargs))
+
+        desc = 'Take a new snapshot. Ignore if the profile is not scheduled ' \
+            'or if the machine is running on battery.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['rsync']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_backup_job(self):
+        name = 'backup-job'
+        nargs = 0
+        self._aliases.append((name, nargs))
+
+        desc = 'Take a new snapshot in background only if the profile is ' \
+               'scheduled and the machine is not on battery. This is used ' \
+               'by cron jobs.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['rsync']],
+            epilog=self._epi_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_benchmark_ciphier(self):
+        name = 'benchmark-cipher'
+        nargs = '?'
+        self._aliases.append((name, nargs))
+        desc = 'Show a benchmark of all ciphers for ssh transfer.'
+
+        parser = self._command_subparsers.add_parser(
+            name, epilog=self._epi_com, help=desc, description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+        parser.add_argument(
+            'FILE_SIZE',
+            type=int,
+            action='store',
+            default=40,
+            nargs='?',
+            help='File size used for benchmark.')
+
+    def _create_cmd_check_config(self):
+        name = 'check-config'
+        desc = 'Check the profiles configuration and install crontab entries.'
+        parser = self._command_subparsers.add_parser(
+            name, epilog=self._epilog_com, help=desc, description=desc)
+
+        parser.add_argument(
+            '--no-crontab',
+            action='store_true',
+            help='Do not install crontab entries.')
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_decode(self):
+        name = 'decode'
+        nargs = '*'
+        self._aliases.append((name, nargs))
+        desc = "Decode paths with 'encfsctl decode'"
+
+        parser = self._command_subparsers.add_parser(
+            name, epilog=self._epi_com, help=desc, description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            'PATH',
+            type=str,
+            action='store',
+            nargs='*',
+            help='Decode PATH. If no PATH is specified on command line '
+                 'a list of filenames will be read from stdin.')
+
+        self.parsers[name] = parser
+
+    def _create_cmd_last_snapshot(self):
+        name = 'last-snapshot'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = 'Show the ID of the last snapshot.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_last_snapshot_path(self):
+        name = 'last-snapshot-path'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = 'Show the path of the last snapshot.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['snapshots']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_pw_cache(self):
+        name = 'pw-cache'
+        nargs = '*'
+        self._aliases.append((name, nargs))
+        desc = 'Control Password Cache for non-interactive cronjobs.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_cfg,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            'ACTION',
+            action='store',
+            choices=['start', 'stop', 'restart', 'reload', 'status'],
+            nargs='?',
+            help='Command to send to Password Cache daemon.')
+
+        self.parsers[name] = parser
+
+    def _create_cmd_remove(self):
+        name = 'remove'
+        nargs = '*'
+        self._aliases.append((name, nargs))
+        desc = 'Remove a snapshot.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['remove']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
+    def _create_cmd_remove_and_donot_ask_again(self):
+        name = 'remove-and-do-not-ask-again'
+        nargs = '*'
+        self._aliases.append((name, nargs))
+        desc = "Remove snapshots and don't ask for confirmation before. " \
+               "Be careful!"
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['remove']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
+    def _create_cmd_restore(self):
+        name = 'restore'
+        nargs = '*'
+        self._aliases.append((name, nargs))
+        desc = 'Restore files.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['rsync']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        backup_group = parser.add_mutually_exclusive_group()
+
+        parser.add_argument(
+            'WHAT',
+            type=str,
+            action='store',
+            nargs='?',
+            help='Restore file or directory WHAT.')
+
+        parser.add_argument(
+            'WHERE',
+            type=str,
+            action='store',
+            nargs='?',
+            help="Restore to WHERE. An empty argument '' will restore to "
+                 "original destination.")
+
+        parser.add_argument(
+            'SNAPSHOT_ID',
+            type=str,
+            action='store',
+            nargs='?',
+            help='Which SNAPSHOT_ID should be used. This can be a snapshot ID '
+                 'or an integer starting with 0 for the last snapshot, 1 for '
+                 'the second to last, ... the very first snapshot is -1')
+
+        parser.add_argument(
+            '--delete',
+            action='store_true',
+            help='Restore and delete newer files which are not in the '
+                 'snapshot. WARNING: deleting files in filesystem root could '
+                 'break your whole system!!!')
+
+        backup_group.add_argument(
+            '--local-backup',
+            action='store_true',
+            help='Create backup files before changing local files.')
+
+        backup_group.add_argument(
+            '--no-local-backup',
+            action='store_true',
+            help='Temporarily disable creation of backup files before '
+                 'changing local files. This can be switched off permanently '
+                 'in Settings, too.')
+
+        parser.add_argument(
+            '--only-new',
+            action='store_true',
+            help='Only restore files which do not exist or are newer than '
+                 'those in destination. Using "rsync --update" option.')
+
+        self.parsers[name] = parser
+
+    def _create_cmd_shutdown(self):
+        name = 'shutdown'
+        nargs = 0
+        desc = 'Shut down the computer after the snapshot is done.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
+    def _create_cmd_smart_remove(self):
+        name = 'smart-remove'
+        nargs = 0
+        desc = 'Remove snapshots based on "Smart Removal" pattern.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
+    def _create_cmd_snapshots_list(self):
+        name = 'snapshots-list'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = 'Show a list of snapshot IDs.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['snapshots']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
+    def _create_cmd_snapshots_list_path(self):
+        name = 'snapshots-list-path'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = "Show the paths to snapshots."
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['snapshots']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+
+    def _create_command_parsers(self):
+        self._command_subparsers = self.parsers['main'].add_subparsers(
+            title='Commands', dest='command')
+
+        self._create_cmd_backup()
+        self._create_cmd_backup_job()
+        self._create_cmd_benchmark_ciphier()
+        self._create_cmd_check_config()
+        self._create_cmd_decode()
+        self._create_cmd_last_snapshot()
+        self._create_cmd_last_snapshot_path()
+        self._create_cmd_pw_cache()
+        self._create_cmd_remove()
+        self._create_cmd_remove_and_donot_ask_again()
+        self._create_cmd_restore()
+        self._create_cmd_shutdown()
+        self._create_cmd_smart_remove()
+        self._create_cmd_snapshots_list()
+
+def parse_arguments(args: Namespace,
+                    parsers: list[ArgumentParser]) -> Namespace:
+    """Parse arguments given on commandline.
+
+    Args:
+        args: Namespace that should be enhanced or ``None``.
+
+    Returns:
+        New parsed Namespace.
+    """
+
+    def join(args, subArgs):
+        """
+        Add new arguments to existing Namespace.
+
+        Args:
+            args (argparse.Namespace):
+                        main Namespace that should get new arguments
+            subArgs (argparse.Namespace):
+                        second Namespace which have new arguments
+                        that should be merged into ``args``
+        """
+        for key, value in vars(subArgs).items():
+            # Only add new values if it isn't set already or if there really IS
+            # a value
+            if getattr(args, key, None) is None or value:
+                setattr(args, key, value)
+
+    # First parse the main parser without subparsers
+    # otherwise positional args in subparsers will be to greedy
+    # but only if -h or --help is not involved because otherwise
+    # help will not work for subcommands
+    mainParser = parsers['main']
+    sub = []
+
+    if '-h' not in sys.argv and '--help' not in sys.argv:
+
+        for i in mainParser._actions:
+
+            if isinstance(i, argparse._SubParsersAction):
+                # Remove subparsers
+                mainParser._remove_action(i)
+                sub.append(i)
+
+    args, unknownArgs = mainParser.parse_known_args(args)
+    print(f'{args=} {unknownArgs=}')  # DEBUG
+
+    # Read subparsers again
+    if sub:
+        [mainParser._add_action(i) for i in sub]
+
+    # Parse it again for unknown args
+    if unknownArgs:
+        subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
+        join(args, subArgs)
+
+    # Finally parse only the command parser, otherwise we miss some arguments
+    # from command
+    if unknownArgs and 'command' in args and args.command in parsers:
+        commandParser = parsers[args.command]
+        subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
+        join(args, subArgs)
+
+    try:
+        logger.DEBUG = args.debug
+    except AttributeError:
+        pass
+
+    args_dict = vars(args)
+    used_args = {
+        key: args_dict[key]
+        for key
+        in filter(lambda key: args_dict[key] is not None, args_dict)
+    }
+
+    logger.debug(f'Argument(s) used: {used_args}')
+
+    # Report unknown arguments but not if we run aliasParser next because we
+    # will parse again in there.
+    if unknownArgs and not ('func' in args and args.func is alias_parser):
+        mainParser.error(f'Unknown argument(s): {unknownArgs}')
+
+    return args
 
 
 def create_parsers(app_name: str,
                    cmd_func_dict: dict[str, callable]
                    ) -> dict[argparse.ArgumentParser]:
-    """Define parsers for commandline arguments.
-
-    Args:
-        app_name: String representing the current application.
-
-    Returns:
-        Dictionary of argument parsers index by command names.
-    """
-    parsers = {}
-
-    debugArgsParser = argparse.ArgumentParser(add_help = False)
-    debugArgsParser.add_argument('--debug',
-                                 action = 'store_true',
-                                 help = 'Increase verbosity.')
-
-    configArgsParser = argparse.ArgumentParser(add_help = False)
-    configArgsParser.add_argument('--config',
-                                 metavar = 'PATH',
-                                 type = str,
-                                 action = 'store',
-                                 help = 'Read config from %(metavar)s. ' +
-                                        'Default = ~/.config/backintime/config')
-
-    configArgsParser.add_argument('--share-path',
-                                 metavar = 'PATH',
-                                 type = str,
-                                 action = 'store',
-                                 help = 'Write runtime data (locks, messages, log and mountpoints) to %(metavar)s.')
-
-    # Common arguments used by all commands
-    commonArgsParser = argparse.ArgumentParser(
-        add_help=False,
-        parents=[
-            configArgsParser,
-            debugArgsParser
-        ]
-    )
-
-    profileGroup = commonArgsParser.add_mutually_exclusive_group()
-    profileGroup.add_argument    ('--profile',
-                                  metavar = 'NAME',
-                                  type = str,
-                                  action = 'store',
-                                  help = 'Select profile by %(metavar)s.')
-    profileGroup.add_argument    ('--profile-id',
-                                  metavar = 'ID',
-                                  type = int,
-                                  action = 'store',
-                                  help = 'Select profile by %(metavar)s.')
-    commonArgsParser.add_argument('--quiet',
-                                  action = 'store_true',
-                                  help = 'Be quiet. Suppress messages on stdout.')
-
-    # Aarguments used only by snapshots-path, snapshots-list-path and last-snapshot-path
-    snapshotPathParser = argparse.ArgumentParser(add_help = False)
-    snapshotPathParser.add_argument('--keep-mount',
-                                    action = 'store_true',
-                                    help = "Don't unmount on exit.")
-
-    # Arguments used only by rsync commands (backup and restore)
-    rsyncArgsParser = argparse.ArgumentParser(add_help = False)
-    rsyncArgsParser.add_argument('--checksum',
-                                 action = 'store_true',
-                                 help = 'force to use checksum for checking if files have been changed.')
-
-    # Arguments used only by snapshot remove
-    removeArgsParser = argparse.ArgumentParser(add_help = False)
-    removeArgsParser.add_argument('SNAPSHOT_ID',
-                                  type = str,
-                                  action = 'store',
-                                  nargs = '*',
-                                  help = 'ID of snapshots which should be removed.')
-
-    parsers['main'] = _main_parser(
-        parent_parser=commonArgsParser, bin_name=app_name)
-
-    # -- Define COMMANDS ---
-    epilog = f"Run '{app_name} -h' to get help for additional arguments."
-    epilogCommon = f'{epilog} Additional arguments: --config, --debug, ' \
-        '--profile, --profile-id, --quiet'
-    epilogConfig = f'{epilog} Additional arguments: --config, --debug'
-
-    subparsers = parsers['main'].add_subparsers(
-        title='Commands', dest='command')
-
-    # ------
-
-    command = 'backup'
-    nargs = 0
-    aliases = [(command, nargs), ('b', nargs)]
-    description = 'Take a new snapshot. Ignore if the profile ' +\
-                  'is not scheduled or if the machine is running on battery.'
-    backupCP = subparsers.add_parser(
-        command,
-        parents=[rsyncArgsParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    backupCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = backupCP
-
-    # ------
-
-    command = 'backup-job'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Take a new snapshot in background only ' \
-                  'if the profile is scheduled and the machine ' \
-                  'is not on battery. This is used by cron jobs.'
-    backupJobCP = subparsers.add_parser(
-        command,
-        parents=[rsyncArgsParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    backupJobCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = backupJobCP
-
-    # ---
-
-    command = 'benchmark-cipher'
-    nargs = '?'
-    aliases.append((command, nargs))
-    description = 'Show a benchmark of all ciphers for ssh transfer.'
-    benchmarkCipherCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    benchmarkCipherCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = benchmarkCipherCP
-    benchmarkCipherCP.add_argument(
-        'FILE_SIZE',
-        type=int,
-        action='store',
-        default=40,
-        nargs='?',
-        help='File size used for benchmark.')
-
-    # ---
-
-    command = 'check-config'
-    description = 'Check the profiles configuration and install crontab entries.'
-    checkConfigCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    checkConfigCP.add_argument(
-        '--no-crontab',
-        action='store_true',
-        help='Do not install crontab entries.')
-    checkConfigCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = checkConfigCP
-
-    # ---
-
-    command = 'decode'
-    nargs = '*'
-    aliases.append((command, nargs))  # ????
-    description = "Decode paths with 'encfsctl decode'"
-    decodeCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    decodeCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = decodeCP
-    decodeCP.add_argument(
-        'PATH',
-        type=str,
-        action='store',
-        nargs='*',
-        help='Decode PATH. If no PATH is specified on command line '
-             'a list of filenames will be read from stdin.')
-
-    # ---
-
-    command = 'last-snapshot'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Show the ID of the last snapshot.'
-    lastSnapshotCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    lastSnapshotCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = lastSnapshotCP
-
-    # ---
-
-    command = 'last-snapshot-path'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Show the path of the last snapshot.'
-    lastSnapshotsPathCP = subparsers.add_parser(
-        command,
-        parents=[snapshotPathParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    lastSnapshotsPathCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = lastSnapshotsPathCP
-
-    # ---
-
-    command = 'pw-cache'
-    nargs = '*'
-    aliases.append((command, nargs))
-    description = 'Control Password Cache for non-interactive cronjobs.'
-    pwCacheCP = subparsers.add_parser(
-        command,
-        epilog=epilogConfig,
-        help=description,
-        description=description)
-    pwCacheCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = pwCacheCP
-    pwCacheCP.add_argument(
-        'ACTION',
-        action='store',
-        choices=['start', 'stop', 'restart', 'reload', 'status'],
-        nargs='?',
-        help='Command to send to Password Cache daemon.')
-
-    # ---
-
-    command = 'remove'
-    nargs = '*'
-    aliases.append((command, nargs))
-    description = 'Remove a snapshot.'
-    removeCP = subparsers.add_parser(
-        command,
-        parents=[removeArgsParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    removeCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = removeCP
-
-    # ---
-
-    command = 'remove-and-do-not-ask-again'
-    nargs = '*'
-    aliases.append((command, nargs))
-    description = "Remove snapshots and don't ask for confirmation before. " \
-                  "Be careful!"
-    removeDoNotAskCP = subparsers.add_parser(
-        command,
-        parents=[removeArgsParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    removeDoNotAskCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = removeDoNotAskCP
-
-    # ---
-
-    command = 'restore'
-    nargs = '*'
-    aliases.append((command, nargs))
-    description = 'Restore files.'
-    restoreCP = subparsers.add_parser(
-        command,
-        parents=[rsyncArgsParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    restoreCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = restoreCP
-    backupGroup = restoreCP.add_mutually_exclusive_group()
-    restoreCP.add_argument(
-        'WHAT',
-        type=str,
-        action='store',
-        nargs='?',
-        help='Restore file or directory WHAT.')
-
-    restoreCP.add_argument(
-        'WHERE',
-        type=str,
-        action='store',
-        nargs='?',
-        help="Restore to WHERE. An empty argument '' will restore to "
-             "original destination.")
-
-    restoreCP.add_argument(
-        'SNAPSHOT_ID',
-        type=str,
-        action='store',
-        nargs='?',
-        help='Which SNAPSHOT_ID should be used. This can be a snapshot ID or '
-             'an integer starting with 0 for the last snapshot, 1 for the '
-             'second to last, ... the very first snapshot is -1')
-
-    restoreCP.add_argument(
-        '--delete',
-        action='store_true',
-        help='Restore and delete newer files which are not in the snapshot. '
-             'WARNING: deleting files in filesystem root could break your '
-             'whole system!!!')
-
-    backupGroup.add_argument(
-        '--local-backup',
-        action='store_true',
-        help='Create backup files before changing local files.')
-
-    backupGroup.add_argument(
-        '--no-local-backup',
-        action='store_true',
-        help='Temporarily disable creation of backup files before changing '
-             'local files. This can be switched off permanently in Settings, '
-             'too.')
-
-    restoreCP.add_argument(
-        '--only-new',
-        action='store_true',
-        help='Only restore files which do not exist or are newer than '
-             'those in destination. Using "rsync --update" option.')
-
-    # ---
-
-    command = 'shutdown'
-    nargs = 0
-    description = 'Shut down the computer after the snapshot is done.'
-    shutdownCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    shutdownCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = shutdownCP
-
-    # ---
-
-    command = 'smart-remove'
-    nargs = 0
-    description = 'Remove snapshots based on "Smart Removal" pattern.'
-    smartRemoveCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    smartRemoveCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = smartRemoveCP
-
-    # ---
-
-    command = 'snapshots-list'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Show a list of snapshot IDs.'
-    snapshotsListCP = subparsers.add_parser(
-        command,
-        parents=[snapshotPathParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    snapshotsListCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = snapshotsListCP
-
-    # ---
-
-    command = 'snapshots-list-path'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = "Show the paths to snapshots."
-    snapshotsListPathCP = subparsers.add_parser(
-        command,
-        parents=[snapshotPathParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    snapshotsListPathCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = snapshotsListPathCP
-
     # ---
 
     command = 'snapshots-path'
@@ -457,42 +682,6 @@ def create_parsers(app_name: str,
     return parsers
 
 
-def _main_parser(parent_parser: ArgumentParser, bin_name: str
-                 ) -> ArgumentParser:
-    """Main argument parser"""
-    desc = f'{config.Config.APP_NAME} - a simple backup tool for GNU/Linux.'
-    epi = (
-        'For backwards compatibility commands can also be used with trailing '
-        "'--'. All listed arguments will work with all commands. Some "
-        "commands have extra arguments. Run '%(prog)s <COMMAND> -h' to "
-        'see the extra arguments.'
-    )
-
-    parser = ArgumentParser(
-        prog=bin_name, parents=[parent_parser], description=desc, epilog=epi)
-
-    parser.add_argument(
-        '--version', '-v',
-        action='version',
-        version='%(prog)s ' + __version__,
-        help="show %(prog)s's version number.")
-
-    parser.add_argument(
-        '--license',
-        action=ActionPrintLicense,
-        nargs=0,
-        help="show %(prog)s's license.")
-
-    parser.add_argument(
-        '--diagnostics',
-        action=ActionPrintDiagnostics,
-        nargs=0,
-        help='show helpful info (in JSON format) for better support in case '
-             'of issues')
-
-    return parser
-
-
 class ActionPrintLicense(argparse.Action):
     """Print license text."""
 
@@ -517,28 +706,48 @@ class ActionPrintDiagnostics(argparse.Action):
         sys.exit(RETURN_OK)
 
 
-class PseudoAliasAction(argparse.Action):
+def alias_parser(args: Namespace):
+    """Call commands which where given with leading -- for backwards
+    compatibility.
+
+    Args:
+        args: Previously parsed arguments
     """
-    Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+
+    if not args.quiet:
+        logger.info(f"Run command '{args.aliases}' instead of argument "
+                    f"'{args.replace}' due to backwards compatibility.")
+
+    argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
+
+    newArgs = parse_arguments(argv)
+
+    if 'func' in dir(newArgs):
+        newArgs.func(newArgs)
+
+
+class PseudoAliasAction(Action):
+    """Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
     """
+
     def __call__(self, parser, namespace, values, option_string=None):
         """
-        Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
-
         Args:
             parser (argparse.ArgumentParser): NotImplemented
-            namespace (argparse.Namespace):   Namespace that should get modified
-            values:                           NotImplemented
-            option_string:                    NotImplemented
+            namespace (argparse.Namespace): Namespace that should get modified
+            values: NotImplemented
+            option_string: NotImplemented
         """
-        #TODO: find a more elegant way to solve this
         dest = self.dest.replace('_', '-')
+
         if self.dest == 'b':
             replace = '-b'
             alias = 'backup'
+
         else:
             replace = '--%s' % dest
             alias = dest
-        setattr(namespace, 'func', aliasParser)
+
+        setattr(namespace, 'func', alias_parser)
         setattr(namespace, 'replace', replace)
         setattr(namespace, 'alias', alias)

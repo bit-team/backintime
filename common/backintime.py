@@ -41,7 +41,7 @@ RETURN_OK = 0
 RETURN_ERR = 1
 RETURN_NO_CFG = 2
 
-parsers = {}
+# parsers = {}
 
 
 def takeSnapshotAsync(cfg, checksum=False):
@@ -159,13 +159,13 @@ def startApp(app_name='backintime'):
         'smart-remove': clicommands.smart_remove,
         'unmount': clicommands.unmount,
     }
-    global parsers  # REFACTOR!
+    # global parsers  # REFACTOR!
     parsers = cliarguments.create_parsers(
         app_name='backintime', cmd_func_dict=cmd_func)
 
     logger.openlog()
 
-    args = argParse(None)
+    args = cliarguments.parse_arguments(args=None, parsers=parsers)
 
     # Name, Version, As Root, OS
     msg = ''
@@ -205,111 +205,6 @@ def startApp(app_name='backintime'):
         profile_name=args.profile,
         checksum=args.checksum,
         check=False)
-
-
-def argParse(args):
-    """
-    Parse arguments given on commandline.
-
-    Args:
-        args (argparse.Namespace):  Namespace that should be enhanced
-                                    or ``None``
-
-    Returns:
-        argparser.Namespace:        new parsed Namespace
-    """
-    print(f'{args=} {sys.argv=}')  # DEBUG
-    def join(args, subArgs):
-        """
-        Add new arguments to existing Namespace.
-
-        Args:
-            args (argparse.Namespace):
-                        main Namespace that should get new arguments
-            subArgs (argparse.Namespace):
-                        second Namespace which have new arguments
-                        that should be merged into ``args``
-        """
-        for key, value in vars(subArgs).items():
-            # Only add new values if it isn't set already or if there really IS
-            # a value
-            if getattr(args, key, None) is None or value:
-                setattr(args, key, value)
-
-    # First parse the main parser without subparsers
-    # otherwise positional args in subparsers will be to greedy
-    # but only if -h or --help is not involved because otherwise
-    # help will not work for subcommands
-    mainParser = parsers['main']
-    sub = []
-
-    if '-h' not in sys.argv and '--help' not in sys.argv:
-
-        for i in mainParser._actions:
-
-            if isinstance(i, argparse._SubParsersAction):
-                # Remove subparsers
-                mainParser._remove_action(i)
-                sub.append(i)
-
-    args, unknownArgs = mainParser.parse_known_args(args)
-    print(f'{args=} {unknownArgs=}')  # DEBUG
-
-    # Read subparsers again
-    if sub:
-        [mainParser._add_action(i) for i in sub]
-
-    # Parse it again for unknown args
-    if unknownArgs:
-        subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
-        join(args, subArgs)
-
-    # Finally parse only the command parser, otherwise we miss some arguments
-    # from command
-    if unknownArgs and 'command' in args and args.command in parsers:
-        commandParser = parsers[args.command]
-        subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
-        join(args, subArgs)
-
-    try:
-        logger.DEBUG = args.debug
-    except AttributeError:
-        pass
-
-    args_dict = vars(args)
-    used_args = {
-        key: args_dict[key]
-        for key
-        in filter(lambda key: args_dict[key] is not None, args_dict)
-    }
-
-    logger.debug(f'Argument(s) used: {used_args}')
-
-    # Report unknown arguments but not if we run aliasParser next because we
-    # will parse again in there.
-    if unknownArgs and not ('func' in args and args.func is aliasParser):
-        mainParser.error(f'Unknown argument(s): {unknownArgs}')
-
-    return args
-
-
-def aliasParser(args):
-    """
-    Call commands which where given with leading -- for backwards
-    compatibility.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-    """
-    if not args.quiet:
-        logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
-                    % {'alias': args.alias, 'replace': args.replace})
-    argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
-    newArgs = argParse(argv)
-    if 'func' in dir(newArgs):
-        newArgs.func(newArgs)
-
 
 
 if __name__ == '__main__':
