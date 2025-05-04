@@ -12,6 +12,7 @@
 #
 # Split from backintime.py
 import sys
+import argparse
 from datetime import datetime
 from time import sleep
 import tools
@@ -24,6 +25,7 @@ import sshtools
 import password
 import encfstools
 import cli
+import config
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
@@ -32,7 +34,17 @@ RETURN_ERR = 1
 RETURN_NO_CFG = 2
 
 
-def backup(args, force=True):
+def _get_config(args: argparse.Namespace) -> config.Config:
+    """A dirty little helper. Feel free to refactor."""
+    return cli.get_config_and_select_profile(
+        config_path=args.config_path,
+        data_path=args.share_path,
+        profile_id=args.profile_id,
+        profile_name=args.profile,
+        checksum=args.checksum)
+
+
+def backup(args: argparse.Namespace, force: bool = True):
     """
     Command for force taking a new snapshot.
 
@@ -46,8 +58,9 @@ def backup(args, force=True):
         SystemExit:     0 if successful, 1 if not
     """
     cli.set_quiet(args)
-    printHeader()
-    cfg = getConfig(args)
+    cli.print_header()
+    cfg = _get_config(args)
+
     ret = takeSnapshot(cfg, force)
     sys.exit(int(ret))
 
@@ -81,9 +94,9 @@ def benchmark_cipher(args):
         SystemExit:     0
     """
     cli.set_quiet(args)
-    printHeader()
+    cli.rename_head()
 
-    cfg = getConfig(args)
+    cfg = _get_config(args)
 
     if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
         ssh = sshtools.SSH(cfg)
@@ -107,8 +120,8 @@ def check_config(args):
         SystemExit:     0 if config is okay, 1 if not
     """
     force_stdout = cli.set_quiet(args)
-    printHeader()
-    cfg = getConfig(args)
+    cli.print_header()
+    cfg = _get_config(args)
 
     if cli.checkConfig(cfg, crontab=not args.no_crontab):
         print("\nConfig %(cfg)s profile '%(profile)s' is fine."
@@ -138,7 +151,7 @@ def decode(args):
         SystemExit:     0
     """
     force_stdout = cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
 
     if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
         logger.error("Profile '%s' is not encrypted." % cfg.profileName())
@@ -182,7 +195,7 @@ def last_snapshot(args):
         SystemExit:     0
     """
     force_stdout = cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
     if sid:
@@ -210,7 +223,7 @@ def last_snapshot_path(args):
         SystemExit:     0
     """
     force_stdout = cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
     if sid:
@@ -238,9 +251,9 @@ def pw_cache(args):
         SystemExit:     0 if daemon is running, 1 if not
     """
     force_stdout = cli.set_quiet(args)
-    printHeader()
+    cli.print_header()
 
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     ret = RETURN_OK
     daemon = password.Password_Cache(cfg)
 
@@ -282,9 +295,9 @@ def remove(args, force=False):
         SystemExit:     0
     """
     cli.set_quiet(args)
-    printHeader()
+    cli.print_header()
 
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     _mount(cfg)
 
     cli.remove(cfg, args.SNAPSHOT_ID, force)
@@ -320,8 +333,8 @@ def restore(args):
         SystemExit:     0
     """
     cli.set_quiet(args)
-    printHeader()
-    cfg = getConfig(args)
+    cli.print_header()
+    cfg = _get_config(args)
     _mount(cfg)
 
     if cfg.backupOnRestore() and not args.no_local_backup:
@@ -357,8 +370,8 @@ def shutdown(args):
                         supported.
     """
     cli.set_quiet(args)
-    printHeader()
-    cfg = getConfig(args)
+    cli.print_header()
+    cfg = _get_config(args)
 
     sd = ShutdownAgent()
 
@@ -405,7 +418,7 @@ def snapshots_path(args):
         SystemExit:     0
     """
     force_stdout = cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     if args.keep_mount:
         _mount(cfg)
     if args.quiet:
@@ -428,7 +441,7 @@ def snapshots_list(args):
         SystemExit:     0
     """
     force_stdout = cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     _mount(cfg)
 
     if args.quiet:
@@ -459,7 +472,7 @@ def snapshots_list_path(args):
         SystemExit:     0
     """
     force_stdout = cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     _mount(cfg)
 
     if args.quiet:
@@ -491,8 +504,8 @@ def smart_remove(args):
                         2 if Smart-Removal is not configured
     """
     cli.set_quiet(args)
-    printHeader()
-    cfg = getConfig(args)
+    cli.print_header()
+    cfg = _get_config(args)
     sn = snapshots.Snapshots(cfg)
 
     enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = cfg.smartRemove()
@@ -524,7 +537,7 @@ def unmount(args):
         SystemExit:     0
     """
     cli.set_quiet(args)
-    cfg = getConfig(args)
+    cfg = _get_config(args)
     _mount(cfg)
     _umount(cfg)
     sys.exit(RETURN_OK)

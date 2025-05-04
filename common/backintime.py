@@ -247,9 +247,15 @@ def startApp(app_name='backintime'):
 
     # No arguments/commands
     cli.set_quiet(args)
-    printHeader()
+    cli.print_header()
 
-    return getConfig(args, False)
+    return cli.get_config_and_select_profile(
+        config_path=args.config_path,
+        data_path=args.share_path,
+        profile_id=args.profile_id,
+        profile_name=args.profile,
+        checksum=args.checksum,
+        check=False)
 
 
 def argParse(args):
@@ -336,20 +342,6 @@ def argParse(args):
     return args
 
 
-def printHeader():
-    """
-    Print application name, version and legal notes.
-    """
-    print('')
-    print('Back In Time')
-    print('Version: ' + __version__)
-    print('')
-    print('Back In Time comes with ABSOLUTELY NO WARRANTY.')
-    print('This is free software, and you are welcome to redistribute it')
-    print("under certain conditions; type `backintime --license' for details.")
-    print('')
-
-
 def aliasParser(args):
     """
     Call commands which where given with leading -- for backwards
@@ -367,49 +359,6 @@ def aliasParser(args):
     if 'func' in dir(newArgs):
         newArgs.func(newArgs)
 
-
-def getConfig(args, check=True):
-    """
-    Load config and change to profile selected on commandline.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-        check (bool):   if ``True`` check if config is valid
-
-    Returns:
-        config.Config:  current config with requested profile selected
-
-    Raises:
-        SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
-                        2 if ``check`` is ``True`` and config is not configured
-    """
-    cfg = config.Config(config_path=args.config, data_path=args.share_path)
-    logger.debug('config file: "{}"; share path: "{}"; profiles: "{}"'.format(
-        cfg._LOCAL_CONFIG_PATH,
-        cfg._LOCAL_DATA_FOLDER,
-        ', '.join(f'{profile_id}={cfg.profileName(profile_id)}'
-                  for profile_id in cfg.profiles())
-    ))
-
-    if 'profile_id' in args and args.profile_id:
-        if not cfg.setCurrentProfile(args.profile_id):
-            logger.error('Profile-ID not found: %s' % args.profile_id)
-            sys.exit(RETURN_ERR)
-
-    if 'profile' in args and args.profile:
-        if not cfg.setCurrentProfileByName(args.profile):
-            logger.error('Profile not found: %s' % args.profile)
-            sys.exit(RETURN_ERR)
-
-    if check and not cfg.isConfigured():
-        logger.error('%(app)s is not configured!' % {'app': cfg.APP_NAME})
-        sys.exit(RETURN_NO_CFG)
-
-    if 'checksum' in args:
-        cfg.forceUseChecksum = args.checksum
-
-    return cfg
 
 
 if __name__ == '__main__':

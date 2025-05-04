@@ -13,6 +13,12 @@ import tools
 import daemon
 import snapshots
 import bcolors
+import config
+import logger
+import bitbase
+from typing import Optional
+from version import __version__
+
 
 def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
     if what is None:
@@ -268,3 +274,67 @@ def set_quiet(args):
         atexit.register(sys.stdout.close)
         atexit.register(force_stdout.close)
     return force_stdout
+
+
+def print_header():
+    """Print application name, version and legal notes."""
+    print(
+        '\nBack In Timei\n'
+        f'Version: {__version__}\n'
+        '\n'
+        'Back In Time comes with ABSOLUTELY NO WARRANTY.\n'
+        'This is free software, and you are welcome to redistribute it\n'
+        "under certain conditions; type `backintime --license' for details.\n"
+        '\n'
+    )
+
+
+def get_config_and_select_profile(
+        config_path: str,
+        data_path: str,
+        profile_id: int,
+        profile_name: str,
+        checksum: Optional[bool] = None,
+        check: bool = True) -> config.Config:
+    """Load config and change to profile selected on commandline.
+
+    Args:
+        args: Previously parsed arguments.
+        check: If ``True`` check if config is valid.
+
+    Returns:
+        Current config with requested profile selected.
+
+    Raises: SystemExit: 1 if ``profile`` or ``profile_id`` is no valid
+        profile. 2 if ``check`` is ``True`` and config is not configured
+
+    """
+    cfg = config.Config(
+        config_path=config_path,
+        data_path=data_path)
+
+    # logger.debug('config file: "{}"; share path: "{}"; profiles: "{}"'.format(
+    #     cfg._LOCAL_CONFIG_PATH,
+    #     cfg._LOCAL_DATA_FOLDER,
+    #     ', '.join(f'{profile_id}={cfg.profileName(profile_id)}'
+    #               for profile_id in cfg.profiles())
+    # ))
+
+    if profile_id is not None:
+        if not cfg.setCurrentProfile(profile_id):
+            logger.error(f'Profile-ID not found: {profile_id}')
+            sys.exit(bitbase.RETURN_ERR)
+
+    if profile_name is not None:
+        if not cfg.setCurrentProfileByName(profile_name):
+            logger.error(f'Profile not found: {profile_name}')
+            sys.exit(bitbase.RETURN_ERR)
+
+    if check and not cfg.isConfigured():
+        logger.error(f'{cfg.APP_NAME} is not configured!')
+        sys.exit(bitbase.RETURN_NO_CFG)
+
+    if checksum is not None:
+        cfg.forceUseChecksum = checksum
+
+    return cfg

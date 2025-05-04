@@ -16,17 +16,18 @@ import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
+import bitbase
 import config
 from version import __version__
 
-RETURN_OK = 0
-RETURN_ERR = 1
-RETURN_NO_CFG = 2
+RETURN_OK = bitbase.RETURN_OK
+RETURN_ERR = bitbase.RETURN_ERR
+RETURN_NO_CFG = bitbase.RETURN_NO_CFG
 
 
 def create_parsers(app_name: str,
                    cmd_func_dict: dict[str, callable]
-                  ) -> dict[argparse.ArgumentParser]:
+                   ) -> dict[argparse.ArgumentParser]:
     """Define parsers for commandline arguments.
 
     Args:
