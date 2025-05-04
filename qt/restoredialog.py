@@ -9,16 +9,14 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-
-import tools
+from inhibitsuspend import InhibitSuspend
 
 
 class RestoreDialog(QDialog):
-    def __init__(self, parent, sid, what, where = '', **kwargs):
+    def __init__(self, parent, sid, what, where='', **kwargs):
         super(RestoreDialog, self).__init__(parent)
         self.resize(600, 500)
 
@@ -39,23 +37,23 @@ class RestoreDialog(QDialog):
 
         self.mainLayout = QVBoxLayout(self)
 
-        #text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setReadOnly(True)
         self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         self.txtLogView.setMaximumBlockCount(100000)
         self.mainLayout.addWidget(self.txtLogView)
 
-        #buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
-        showLog = buttonBox.addButton(_('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
+        showLog = buttonBox.addButton(
+            _('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
         self.mainLayout.addWidget(buttonBox)
         self.btnClose = buttonBox.button(QDialogButtonBox.StandardButton.Close)
         self.btnClose.setEnabled(False)
         buttonBox.rejected.connect(self.close)
-        showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.logFile)))
+        showLog.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl(self.logFile)))
 
-        #restore in separate thread
+        # restore in separate thread
         self.thread = RestoreThread(self)
         self.thread.finished.connect(self.threadFinished)
 
@@ -78,8 +76,6 @@ class RestoreDialog(QDialog):
             self.txtLogView.appendPlainText(newLog.rstrip('\n'))
 
     def exec(self):
-        # inhibit suspend/hibernate during restore
-        self.config.inhibitCookie = tools.inhibitSuspend(reason='restoring')
         self.show()
         self.refreshTimer.start()
         self.thread.start()
@@ -90,16 +86,12 @@ class RestoreDialog(QDialog):
     def threadFinished(self):
         self.btnClose.setEnabled(True)
 
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
-                *self.config.inhibitCookie)
-
 
 class RestoreThread(QThread):
     """
     run restore in a separate Thread to prevent GUI freeze and speed up restore
     """
+
     def __init__(self, parent):
         super(RestoreThread, self).__init__()
         self.parent = parent
@@ -108,7 +100,14 @@ class RestoreThread(QThread):
         self.buffer = ''
 
     def run(self):
-        self.parent.snapshots.restore(self.parent.sid, self.parent.what, self.callback, self.parent.where, **self.parent.kwargs)
+        with InhibitSuspend(reason='restoring'):
+            self.parent.snapshots.restore(
+                self.parent.sid,
+                self.parent.what,
+                self.callback,
+                self.parent.where,
+                **self.parent.kwargs)
+
         self.log.close()
 
     def callback(self, line, *args):

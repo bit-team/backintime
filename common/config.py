@@ -242,7 +242,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.current_hash_id = 'local'
         self.pw = None
         self.forceUseChecksum = False
-        self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
 
         language_used = tools.initiate_translation(self.language())
@@ -1367,7 +1366,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 path = path[: -1]
         return path
 
-    def isConfigured(self, profile_id=None):
+    def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
         It is assumed as configured if a snapshot path (backup destination) is
@@ -1379,11 +1378,10 @@ class Config(configfile.ConfigFileWithProfiles):
         if bool(path and includes):
             return True
 
-        else:
-            logger.debug(f'Profile ({profile_id=}) is not configured because '
-                         f'snapshot path is "{bool(path)}" and/or includes '
-                         f'are "{bool(includes)}".', self)
-            return False
+        logger.debug(f'Profile ({profile_id=}) is not configured because '
+                        f'snapshot path is "{bool(path)}" and/or includes '
+                        f'are "{bool(includes)}".', self)
+        return False
 
     def canBackup(self, profile_id=None):
         """Checks if snapshots_path exists.

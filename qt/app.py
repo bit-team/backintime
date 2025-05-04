@@ -42,6 +42,7 @@ import guiapplicationinstance
 import mount
 import progress
 import encfsmsgbox
+from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
@@ -100,6 +101,7 @@ from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
+from shutdowndlg import get_shutdown_confirmation
 
 
 class MainWindow(QMainWindow):
@@ -362,8 +364,8 @@ class MainWindow(QMainWindow):
 
         if not config.canBackup(profile_id):
             msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive, please plug it in. '
-                    'Then press OK.')
+                + _('If it is on a removable drive, please plug it in.') \
+                + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
@@ -1124,7 +1126,10 @@ class MainWindow(QMainWindow):
                 if takeSnapshotMessage[0] == 0:
                     takeSnapshotMessage = (0, _('Done, no backup needed'))
 
-            self.shutdown.shutdown()
+            # Check `activate_shutdown` here, instead of shutdownagent.py
+            # function `shutdown` should just focus on shutting down a machine
+            if self.shutdown.activate_shutdown and get_shutdown_confirmation():
+                self.shutdown.shutdown()
 
         if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
             self.lastTakeSnapshotMessage = takeSnapshotMessage
@@ -1343,11 +1348,13 @@ class MainWindow(QMainWindow):
             self.timeLine.checkSelection()
 
     def btnTakeSnapshotClicked(self):
-        backintime.takeSnapshotAsync(self.config)
-        self.updateTakeSnapshot(True)
+        self._take_snapshot_clicked(checksum=False)
 
     def btnTakeSnapshotChecksumClicked(self):
-        backintime.takeSnapshotAsync(self.config, checksum = True)
+        self._take_snapshot_clicked(checksum=True)
+
+    def _take_snapshot_clicked(self, checksum):
+        backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
 
     def btnStopTakeSnapshotClicked(self):
@@ -1409,12 +1416,15 @@ class MainWindow(QMainWindow):
             try:
                 item.setHidden(True)
             except RuntimeError:
-                #item has been deleted
-                #probably because user pressed refresh
+                # item has been deleted
+                # probably because user pressed refresh
                 pass
 
         # try to use filter(..)
-        items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
+        items = [
+            item for item in self.timeLine.selectedItems()
+            if not isinstance(item, snapshots.RootSnapshot)
+        ]
 
         if not items:
             return
@@ -2257,26 +2267,20 @@ class RemoveSnapshotThread(QThread):
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(
-            reason='deleting snapshots')
+        with InhibitSuspend(reason='deleting snapshots'):
 
-        for item, sid in [(x, x.snapshot_id) for x in self.items]:
-            self.snapshots.remove(sid)
-            self.hideTimelineItem.emit(item)
-            if sid == last_snapshot:
-                renew_last_snapshot = True
+            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
 
-        self.refreshSnapshotList.emit()
+            self.refreshSnapshotList.emit()
 
-        # set correct last snapshot again
-        if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(
-                snapshots.lastSnapshot(self.config))
-
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
-                *self.config.inhibitCookie)
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(self.config))
 
 
 class FillTimeLineThread(QThread):

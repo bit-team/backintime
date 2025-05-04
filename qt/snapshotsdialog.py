@@ -36,6 +36,7 @@ import restoredialog
 import messagebox
 import snapshots
 import logger
+from inhibitsuspend import InhibitSuspend
 
 DIFF_PARAMS = '%1 %2'
 
@@ -482,28 +483,22 @@ class RemoveFileThread(QThread):
 
     def __init__(self, parent, items):
         self.parent = parent
-        self.config = parent.config
+        # self.config = parent.config
         self.snapshots = parent.snapshots
         self.items = items
         super(RemoveFileThread, self).__init__(parent)
 
     def run(self):
-        # inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(
-            reason='deleting files')
+        with InhibitSuspend(reason='deleting files'):
 
-        for item in self.items:
-            self.snapshots.deletePath(item.snapshot_id, self.parent.path)
+            for item in self.items:
 
-            try:
-                item.setHidden(True)
+                self.snapshots.deletePath(item.snapshot_id, self.parent.path)
 
-            except RuntimeError:
-                # item has been deleted
-                # probably because user refreshed treeview
-                pass
+                try:
+                    item.setHidden(True)
 
-        # release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(
-                *self.config.inhibitCookie)
+                except RuntimeError:
+                    # item has been deleted
+                    # probably because user refreshed treeview
+                    pass

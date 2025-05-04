@@ -171,6 +171,8 @@ for langfile in `ls po/*.po`; do
 done
 
 # Start Makefile
+printf ".PHONY: test test-v unittest unittest-v\n" >> ${MAKEFILE}
+
 printf "LANGS=$langs\n\n" >> ${MAKEFILE}
 
 printf "PREFIX=/usr\n" >> ${MAKEFILE}
@@ -293,33 +295,12 @@ cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
-# test
-for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
-    PYTEST=$(which $i 2>/dev/null)
-    if [ -n "${PYTEST}" ]; then
-        break
-    fi
-done
-
-# Use "python", "python3" or if available "py.test-3"
-CMD="${PYTHON}"
-
-printf "test:\tunittest\n\n" >> ${MAKEFILE}
-printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
-for v in "" "-v"; do
-    # Provide unittests with and without verbosity -v
-    printf "unittest${v}:\n" >> ${MAKEFILE}
-
-    # Use pytest if available
-    if [ -n "${PYTEST}" ]; then
-        printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
-    # Fallback to unittest module
-    else
-        for i in $(ls -1 test/test_*.py); do
-            printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
-        done
-    fi
-    printf "\n" >> ${MAKEFILE}
+for target in test test-v unittest unittest-v; do
+    printf "\n\n%s:\n" "$target" >> ${MAKEFILE}
+    printf "\t@echo \"Target '%s' not available anymore. " "$target">> ${MAKEFILE}
+    printf "Use a test runner of your own choice " >> ${MAKEFILE}
+    printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
+    printf "\n\t@false" >> ${MAKEFILE}
 done
 
 # Copy Makefile
@@ -343,6 +324,7 @@ if [ "$(printf '%s\n' "$PYTHON_VERSION_REQUIRED" "$PYTHON_VERSION_CURRENT" | sor
     printf "But minimal version ${PYTHON_VERSION_REQUIRED} required.\n"
     exit 1
 fi
+
 
 printf "All OK. Now run:\n"
 printf "    make\n"
