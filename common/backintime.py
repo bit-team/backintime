@@ -584,12 +584,13 @@ def startApp(app_name='backintime'):
     # Call commands
     if 'func' in dir(args):
         args.func(args)
+        return None
 
-    else:
-        setQuiet(args)
-        printHeader()
+    # No arguments/commands
+    setQuiet(args)
+    printHeader()
 
-        return getConfig(args, False)
+    return getConfig(args, False)
 
 
 def argParse(args):

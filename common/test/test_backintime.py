@@ -159,6 +159,7 @@ under certain conditions; type `backintime --license' for details.
             'to globalEngineChanged(QString)',
             'Inhibition (via',
             'Inhibiting suspend mode failed',
+            'INFO: Suspend mode inhibited',
         ]
 
         # remove lines via startswith()
