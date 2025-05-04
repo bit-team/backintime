@@ -157,7 +157,7 @@ def decode(args: argparse.Namespace):
         sys.exit(bitbase.RETURN_ERR)
 
     _mount(cfg)
-    d = encfstools.Decode(cfg)
+    decoder = encfstools.Decode(cfg)
 
     if not args.PATH:
 
@@ -171,109 +171,107 @@ def decode(args: argparse.Namespace):
             if not path:
                 break
 
-            print(d.path(path), file=force_stdout)
+            print(decoder.path(path), file=force_stdout)
 
     else:
-        print('\n'.join(d.list(args.PATH)), file=force_stdout)
+        print('\n'.join(decoder.list(args.PATH)), file=force_stdout)
 
-    d.close()
+    decoder.close()
     _umount(cfg)
 
-    sys.exit(RETURN_OK)
+    sys.exit(bitbase.RETURN_OK)
 
 
-def last_snapshot(args):
-    """
-    Command for printing the very last snapshot in current profile.
+def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
+    """Print info about the very last (youngest) snapshot in current profile.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
+
     if sid:
-        if args.quiet:
-            msg = '{}'
-        else:
-            msg = 'SnapshotID: {}'
-        print(msg.format(sid), file=force_stdout)
+        # Path or ID
+        label = 'SnapshotPath' if path_info else 'SnapshotID'
+        data = sid.path() if path_info else sid
+
+        msg = f'{data}' if args.quiet else f'{label}: {data}'
+        print(msg, file=force_stdout)
+
     else:
-        logger.error("There are no snapshots in '%s'" % cfg.profileName())
-    _umount(cfg)
-    sys.exit(RETURN_OK)
+        logger.error(f"There are no snapshots in '{cfg.profileName()}'")
+
+    if not args.keep_mount:
+        _umount(cfg)
+
+    sys.exit(bitbase.RETURN_OK)
 
 
-def last_snapshot_path(args):
+def last_snapshot(args: argparse.Namespace):
+    """Print the very last (youngest) snapshot in current profile.
+
+    Args:
+        args: Previously parsed arguments
+
+    Raises:
+        SystemExit: 0
     """
-    Command for printing the path of the very last snapshot in
+    _last_snapshot_base(args=args, path_info=False)
+
+
+def last_snapshot_path(args: argparse.Namespace):
+    """Print the path of the very last (youngest) snapshot in
     current profile.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments.
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
-    force_stdout = cli.set_quiet(args)
-    cfg = _get_config(args)
-    _mount(cfg)
-    sid = snapshots.lastSnapshot(cfg)
-    if sid:
-        if args.quiet:
-            msg = '{}'
-        else:
-            msg = 'SnapshotPath: {}'
-        print(msg.format(sid.path()), file=force_stdout)
-    else:
-        logger.error("There are no snapshots in '%s'" % cfg.profileName())
-    if not args.keep_mount:
-        _umount(cfg)
-    sys.exit(RETURN_OK)
+    _last_snapshot_base(args=args, path_info=True)
 
 
-def pw_cache(args):
-    """
-    Command for starting password cache daemon.
+def pw_cache(args: argparse.Namespace):
+    """Startpassword cache daemon.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments
 
     Raises:
-        SystemExit:     0 if daemon is running, 1 if not
+        SystemExit: 0 if daemon is running, 1 if not.
     """
     force_stdout = cli.set_quiet(args)
     cli.print_header()
 
     cfg = _get_config(args)
-    ret = RETURN_OK
+    ret = bitbase.RETURN_OK
+
     daemon = password.Password_Cache(cfg)
 
     if args.ACTION and args.ACTION != 'status':
+        # call action method
         getattr(daemon, args.ACTION)()
 
     elif args.ACTION == 'status':
 
-        print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME},
-              end=' ',
-              file=force_stdout)
+        print(f'{cfg.APP_NAME} Password Cache: ', end=' ', file=force_stdout)
 
         if daemon.status():
-            print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC,
+            print(f'{cli.bcolors.OKGREEN}running{cli.bcolors.ENDC}',
                   file=force_stdout)
-            ret = RETURN_OK
+            ret = bitbase.RETURN_OK
 
         else:
-            print(cli.bcolors.FAIL + 'not running' + cli.bcolors.ENDC,
+            print(f'{cli.bcolors.FAIL}not running{cli.bcolors.ENDC}',
                   file=force_stdout)
-            ret = RETURN_ERR
+            ret = bitbase.RETURN_ERR
 
     else:
         daemon.run()
@@ -281,17 +279,15 @@ def pw_cache(args):
     sys.exit(ret)
 
 
-def remove(args, force=False):
-    """
-    Command for removing snapshots.
+def remove(args: argparse.Namespace, force: bool = False):
+    """Remove snapshots.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-        force (bool):   don't ask before removing (BE CAREFUL!)
+        args: Previously parsed arguments.
+        force: Don't ask before removing (BE CAREFUL!).
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     cli.set_quiet(args)
     cli.print_header()
@@ -302,34 +298,29 @@ def remove(args, force=False):
     cli.remove(cfg, args.SNAPSHOT_ID, force)
     _umount(cfg)
 
-    sys.exit(RETURN_OK)
+    sys.exit(bitbase.RETURN_OK)
 
 
 def remove_and_donot_ask_again(args):
-    """
-    Command for removing snapshots without asking before remove
-    (BE CAREFUL!)
+    """Removing snapshots without asking (BE CAREFUL!).
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments.
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
-    remove(args, True)
+    remove(args=args, force=True)
 
 
-def restore(args):
-    """
-    Command for restoring files from snapshots.
+def restore(args: argparse.Namespace):
+    """Restore files from snapshots.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments.
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     cli.set_quiet(args)
     cli.print_header()
@@ -351,22 +342,20 @@ def restore(args):
 
     _umount(cfg)
 
-    sys.exit(RETURN_OK)
+    sys.exit(bitbase.RETURN_OK)
 
 
-def shutdown(args):
-    """
-    Command for shutting down the computer after the current snapshot has
+def shutdown(args: argparse.Namespace):
+    """Shut down the computer after the current snapshot has
     finished.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments
 
     Raises:
-        SystemExit:     0 if successful; 1 if it failed either because there is
-                        no active snapshot for this profile or shutdown is not
-                        supported.
+        SystemExit: 0 if successful; 1 if it failed either because there is no
+            active snapshot for this profile or shutdown is not supported.
+
     """
     cli.set_quiet(args)
     cli.print_header()
@@ -382,12 +371,12 @@ def shutdown(args):
     profile = '='.join((cfg.currentProfile(), cfg.profileName()))
 
     if not instance.busy():
-        logger.info('There is no active snapshot for profile %s. Skip shutdown.'
-                    %profile)
-        sys.exit(RETURN_ERR)
+        logger.info('Skip shutdown because there is no active snapshot '
+                    f'for profile {profile}.')
+        sys.exit(bitbase.RETURN_ERR)
 
-    print('Shutdown is waiting for the snapshot in profile %s to end.\nPress CTRL+C to interrupt shutdown.\n'
-          %profile)
+    print(f'Shutdown is waiting for the snapshot in profile {profile} to end.'
+          '\nPress CTRL+C to interrupt shutdown.\n')
     sd.activate_shutdown = True
 
     try:
@@ -399,115 +388,115 @@ def shutdown(args):
         print('Shutdown interrupted.')
 
     else:
-        logger.info('Shutdown now.')
+        logger.info('Shuting down now.')
         sd.shutdown()
 
-    sys.exit(RETURN_OK)
+    sys.exit(bitbase.RETURN_OK)
 
 
-def snapshots_path(args):
-    """
-    Command for printing the full snapshot path of current profile.
+def snapshots_path(args: argparse.Namespace):
+    """Print the full snapshot path of current profile.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments.
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
+
     if args.keep_mount:
         _mount(cfg)
-    if args.quiet:
-        msg = '{}'
-    else:
-        msg = 'SnapshotsPath: {}'
+
+    msg = '{}' if args.quiet else 'SnapshotsPath: {}'
     print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
-    sys.exit(RETURN_OK)
+
+    sys.exit(bitbase.RETURN_OK)
 
 
-def snapshots_list(args):
-    """
-    Command for printing a list of all snapshots in current profile.
+def _snapshots_list_base(args: argparse.Namespace, path_info: bool):
+    """Print infos about a list of all snapshots in current profile.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Ppreviously parsed arguments
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
     _mount(cfg)
 
-    if args.quiet:
-        msg = '{}'
+    if path_info:
+        msg = '{}' if args.quiet else 'SnapshotPath: {}'
     else:
-        msg = 'SnapshotID: {}'
-    no_sids = True
-    #use snapshots.listSnapshots instead of iterSnapshots because of sorting
-    for sid in snapshots.listSnapshots(cfg, reverse = False):
-        print(msg.format(sid), file=force_stdout)
-        no_sids = False
-    if no_sids:
-        logger.error("There are no snapshots in '%s'" % cfg.profileName())
+        msg = '{}' if args.quiet else 'SnapshotID: {}'
+
+    # Use snapshots.listSnapshots instead of iterSnapshots because of sorting
+    if path_info:
+        data = [
+            sid.path() for sid in snapshots.listSnapshots(cfg, reverse=False)]
+    else:
+        data = [
+            sid for sid in snapshots.listSnapshots(cfg, reverse=False)]
+
+    for sid_info in data:
+        print(msg.format(sid_info), file=force_stdout)
+
+    if not data:
+        logger.error(f"There are no snapshots in '{cfg.profileName()}'")
+
     if not args.keep_mount:
         _umount(cfg)
-    sys.exit(RETURN_OK)
+
+    sys.exit(bitbase.RETURN_OK)
 
 
-def snapshots_list_path(args):
-    """
-    Command for printing a list of all snapshots paths in current profile.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    force_stdout = cli.set_quiet(args)
-    cfg = _get_config(args)
-    _mount(cfg)
-
-    if args.quiet:
-        msg = '{}'
-    else:
-        msg = 'SnapshotPath: {}'
-    no_sids = True
-    #use snapshots.listSnapshots instead of iterSnapshots because of sorting
-    for sid in snapshots.listSnapshots(cfg, reverse = False):
-        print(msg.format(sid.path()), file=force_stdout)
-        no_sids = False
-    if no_sids:
-        logger.error("There are no snapshots in '%s'" % cfg.profileName())
-    if not args.keep_mount:
-        _umount(cfg)
-    sys.exit(RETURN_OK)
-
-
-def smart_remove(args):
-    """
-    Command for running Smart-Removal from Terminal.
+def snapshots_list(args: argparse.Namespace):
+    """Print a list of all snapshots in current profile.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Ppreviously parsed arguments
 
     Raises:
-        SystemExit:     0 if okay
-                        2 if Smart-Removal is not configured
+        SystemExit: 0
+    """
+    _snapshots_list_base(args=args, path_info=False)
+
+
+def snapshots_list_path(args: argparse.Namespace):
+    """Print a list of all snapshots paths in current profile.
+
+    Args:
+        args: Previously parsed arguments.
+
+    Raises:
+        SystemExit: 0
+    """
+    _snapshots_list_base(args=args, path_info=True)
+
+
+def smart_remove(args: argparse.Namespace):
+    """Run Remove & Retention (aka Smart-Removal) from Terminal.
+
+    Args:
+        args: Previously parsed arguments.
+
+    Raises:
+        SystemExit: 0 if okay. 2 if Smart-Removal is not configured.
     """
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
     sn = snapshots.Snapshots(cfg)
 
-    enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = cfg.smartRemove()
+    enabled, \
+        keep_all, \
+        keep_one_per_day, \
+        keep_one_per_week, \
+        keep_one_per_month = cfg.smartRemove()
+
     if enabled:
         _mount(cfg)
         del_snapshots = sn.smartRemoveList(datetime.today(),
@@ -515,31 +504,33 @@ def smart_remove(args):
                                            keep_one_per_day,
                                            keep_one_per_week,
                                            keep_one_per_month)
-        logger.info('Smart Removal will remove {} snapshots'.format(len(del_snapshots)))
-        sn.smartRemove(del_snapshots, log = logger.info)
+        logger.info(f'{len(del_snapshots)} snapshots are marked for removal.')
+        sn.smartRemove(del_snapshots, log=logger.info)
         _umount(cfg)
-        sys.exit(RETURN_OK)
-    else:
-        logger.error('Smart Removal is not configured.')
-        sys.exit(RETURN_NO_CFG)
+        sys.exit(bitbase.RETURN_OK)
+
+    # else
+    logger.error('Remove & Retention is not configured.')
+    sys.exit(bitbase.RETURN_NO_CFG)
 
 
 def unmount(args):
-    """
-    Command for unmounting all filesystems.
+    """Unmount all filesystems.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
+        args: Previously parsed arguments
 
     Raises:
-        SystemExit:     0
+        SystemExit: 0
     """
     cli.set_quiet(args)
+
     cfg = _get_config(args)
+
     _mount(cfg)
     _umount(cfg)
-    sys.exit(RETURN_OK)
+
+    sys.exit(bitbase.RETURN_OK)
 
 
 def _mount(cfg: config.Config):
