@@ -63,7 +63,14 @@ def create_parsers(app_name: str,
                                  help = 'Write runtime data (locks, messages, log and mountpoints) to %(metavar)s.')
 
     # Common arguments used by all commands
-    commonArgsParser = argparse.ArgumentParser(add_help = False, parents = [configArgsParser, debugArgsParser])
+    commonArgsParser = argparse.ArgumentParser(
+        add_help=False,
+        parents=[
+            configArgsParser,
+            debugArgsParser
+        ]
+    )
+
     profileGroup = commonArgsParser.add_mutually_exclusive_group()
     profileGroup.add_argument    ('--profile',
                                   metavar = 'NAME',
@@ -453,7 +460,7 @@ def create_parsers(app_name: str,
 def _main_parser(parent_parser: ArgumentParser, bin_name: str
                  ) -> ArgumentParser:
     """Main argument parser"""
-    desc = f'{config.Config.APP_NAME} - a simple backup tool for GNU/Linux.',
+    desc = f'{config.Config.APP_NAME} - a simple backup tool for GNU/Linux.'
     epi = (
         'For backwards compatibility commands can also be used with trailing '
         "'--'. All listed arguments will work with all commands. Some "
