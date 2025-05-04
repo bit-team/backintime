@@ -246,7 +246,7 @@ def startApp(app_name='backintime'):
         return None
 
     # No arguments/commands
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
 
     return getConfig(args, False)
@@ -350,33 +350,6 @@ def printHeader():
     print('')
 
 
-class PseudoAliasAction(argparse.Action):
-    """
-    Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
-    """
-    def __call__(self, parser, namespace, values, option_string=None):
-        """
-        Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
-
-        Args:
-            parser (argparse.ArgumentParser): NotImplemented
-            namespace (argparse.Namespace):   Namespace that should get modified
-            values:                           NotImplemented
-            option_string:                    NotImplemented
-        """
-        #TODO: find a more elegant way to solve this
-        dest = self.dest.replace('_', '-')
-        if self.dest == 'b':
-            replace = '-b'
-            alias = 'backup'
-        else:
-            replace = '--%s' % dest
-            alias = dest
-        setattr(namespace, 'func', aliasParser)
-        setattr(namespace, 'replace', replace)
-        setattr(namespace, 'alias', alias)
-
-
 def aliasParser(args):
     """
     Call commands which where given with leading -- for backwards
@@ -437,28 +410,6 @@ def getConfig(args, check=True):
         cfg.forceUseChecksum = args.checksum
 
     return cfg
-
-
-def setQuiet(args):
-    """
-    Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
-    commandline. Return the original :py:data:`sys.stdout` file object which can
-    be used to print absolute necessary information.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Returns:
-        sys.stdout:     default sys.stdout
-    """
-    force_stdout = sys.stdout
-    if args.quiet:
-        # do not replace with subprocess.DEVNULL - will not work
-        sys.stdout = open(os.devnull, 'w')
-        atexit.register(sys.stdout.close)
-        atexit.register(force_stdout.close)
-    return force_stdout
 
 
 if __name__ == '__main__':

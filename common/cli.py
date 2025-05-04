@@ -8,6 +8,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
+import atexit
 import tools
 import daemon
 import snapshots
@@ -245,3 +246,25 @@ class BackupJobDaemon(daemon.Daemon):
 
     def run(self):
         self.func(self.args, False)
+
+
+def set_quiet(args):
+    """
+    Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
+    commandline. Return the original :py:data:`sys.stdout` file object which
+    can be used to print absolute necessary information.
+
+    Args:
+        args (argparse.Namespace):
+                        previously parsed arguments
+
+    Returns:
+        sys.stdout:     default sys.stdout
+    """
+    force_stdout = sys.stdout
+    if args.quiet:
+        # do not replace with subprocess.DEVNULL - will not work
+        sys.stdout = open(os.devnull, 'w')
+        atexit.register(sys.stdout.close)
+        atexit.register(force_stdout.close)
+    return force_stdout

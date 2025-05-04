@@ -427,3 +427,30 @@ class printDiagnostics(argparse.Action):
         print(json.dumps(diagnostics, indent=4))
 
         sys.exit(RETURN_OK)
+
+
+class PseudoAliasAction(argparse.Action):
+    """
+    Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+    """
+    def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+
+        Args:
+            parser (argparse.ArgumentParser): NotImplemented
+            namespace (argparse.Namespace):   Namespace that should get modified
+            values:                           NotImplemented
+            option_string:                    NotImplemented
+        """
+        #TODO: find a more elegant way to solve this
+        dest = self.dest.replace('_', '-')
+        if self.dest == 'b':
+            replace = '-b'
+            alias = 'backup'
+        else:
+            replace = '--%s' % dest
+            alias = dest
+        setattr(namespace, 'func', aliasParser)
+        setattr(namespace, 'replace', replace)
+        setattr(namespace, 'alias', alias)

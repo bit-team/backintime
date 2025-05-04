@@ -11,33 +11,20 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from backintime.py
-import os
 import sys
-import argparse
-import atexit
-import subprocess
 from datetime import datetime
 from time import sleep
-import json
-import pathlib
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
-import config
 import logger
 import snapshots
 import sshtools
-import mount
 import password
 import encfstools
 import cli
-import cliarguments
-from bitbase import URL_ENCRYPT_TRANSITION
-from diagnostics import collect_diagnostics, collect_minimal_diagnostics
-from exceptions import MountException
 from applicationinstance import ApplicationInstance
-from version import __version__
 from shutdownagent import ShutdownAgent
 
 RETURN_OK = 0
@@ -58,7 +45,7 @@ def backup(args, force=True):
     Raises:
         SystemExit:     0 if successful, 1 if not
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
     cfg = getConfig(args)
     ret = takeSnapshot(cfg, force)
@@ -93,7 +80,7 @@ def benchmark_cipher(args):
     Raises:
         SystemExit:     0
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
 
     cfg = getConfig(args)
@@ -119,7 +106,7 @@ def check_config(args):
     Raises:
         SystemExit:     0 if config is okay, 1 if not
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     printHeader()
     cfg = getConfig(args)
 
@@ -150,7 +137,7 @@ def decode(args):
     Raises:
         SystemExit:     0
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     cfg = getConfig(args)
 
     if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
@@ -194,7 +181,7 @@ def last_snapshot(args):
     Raises:
         SystemExit:     0
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     cfg = getConfig(args)
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
@@ -222,7 +209,7 @@ def last_snapshot_path(args):
     Raises:
         SystemExit:     0
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     cfg = getConfig(args)
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
@@ -250,7 +237,7 @@ def pw_cache(args):
     Raises:
         SystemExit:     0 if daemon is running, 1 if not
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     printHeader()
 
     cfg = getConfig(args)
@@ -294,7 +281,7 @@ def remove(args, force=False):
     Raises:
         SystemExit:     0
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
 
     cfg = getConfig(args)
@@ -332,7 +319,7 @@ def restore(args):
     Raises:
         SystemExit:     0
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
     cfg = getConfig(args)
     _mount(cfg)
@@ -369,7 +356,7 @@ def shutdown(args):
                         no active snapshot for this profile or shutdown is not
                         supported.
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
     cfg = getConfig(args)
 
@@ -417,7 +404,7 @@ def snapshots_path(args):
     Raises:
         SystemExit:     0
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     cfg = getConfig(args)
     if args.keep_mount:
         _mount(cfg)
@@ -440,7 +427,7 @@ def snapshots_list(args):
     Raises:
         SystemExit:     0
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     cfg = getConfig(args)
     _mount(cfg)
 
@@ -471,7 +458,7 @@ def snapshots_list_path(args):
     Raises:
         SystemExit:     0
     """
-    force_stdout = setQuiet(args)
+    force_stdout = cli.set_quiet(args)
     cfg = getConfig(args)
     _mount(cfg)
 
@@ -503,7 +490,7 @@ def smart_remove(args):
         SystemExit:     0 if okay
                         2 if Smart-Removal is not configured
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     printHeader()
     cfg = getConfig(args)
     sn = snapshots.Snapshots(cfg)
@@ -536,7 +523,7 @@ def unmount(args):
     Raises:
         SystemExit:     0
     """
-    setQuiet(args)
+    cli.set_quiet(args)
     cfg = getConfig(args)
     _mount(cfg)
     _umount(cfg)
