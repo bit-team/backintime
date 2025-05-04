@@ -190,6 +190,7 @@ def startApp(app_name='backintime'):
         config.Config:  current config if no command was given in arguments
     """
     # Workaround (maybe)
+    # Mapping the command names to their handler functions
     cmd_func = {
         'backup': clicommands.backup,
         'backup-job': clicommands.backup_job,
@@ -199,8 +200,15 @@ def startApp(app_name='backintime'):
         'last-snapshot': clicommands.last_snapshot,
         'last-snapshot-path': clicommands.last_snapshot_path,
         'pw-cache': clicommands.pw_cache,
-        'remove': cliarguments.remove,
-        'remove-and-do-not-ask-again': cliarguments.remove_and_donot_ask_again,
+        'remove': clicommands.remove,
+        'remove-and-do-not-ask-again': clicommands.remove_and_donot_ask_again,
+        'restore': clicommands.restore,
+        'shutdown': clicommands.shutdown,
+        'snapshots-path': clicommands.snapshots_path,
+        'snapshots-list': clicommands.snapshots_list,
+        'snapshots-list-path': clicommands.snapshots_list_path,
+        'smart-remove': clicommands.smart_remove,
+        'unmount': clicommands.unmount,
     }
     global parsers  # REFACTOR!
     parsers = cliarguments.create_parsers(
@@ -451,228 +459,6 @@ def setQuiet(args):
         atexit.register(sys.stdout.close)
         atexit.register(force_stdout.close)
     return force_stdout
-
-
-def shutdown(args):
-    """
-    Command for shutting down the computer after the current snapshot has
-    finished.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0 if successful; 1 if it failed either because there is
-                        no active snapshot for this profile or shutdown is not
-                        supported.
-    """
-    setQuiet(args)
-    printHeader()
-    cfg = getConfig(args)
-
-    sd = ShutdownAgent()
-
-    if not sd.can_shutdown():
-        logger.warning('Shutdown is not supported.')
-        sys.exit(RETURN_ERR)
-
-    instance = ApplicationInstance(cfg.takeSnapshotInstanceFile(), False)
-    profile = '='.join((cfg.currentProfile(), cfg.profileName()))
-
-    if not instance.busy():
-        logger.info('There is no active snapshot for profile %s. Skip shutdown.'
-                    %profile)
-        sys.exit(RETURN_ERR)
-
-    print('Shutdown is waiting for the snapshot in profile %s to end.\nPress CTRL+C to interrupt shutdown.\n'
-          %profile)
-    sd.activate_shutdown = True
-
-    try:
-        while instance.busy():
-            logger.debug('Snapshot is still active. Wait for shutdown.')
-            sleep(5)
-
-    except KeyboardInterrupt:
-        print('Shutdown interrupted.')
-
-    else:
-        logger.info('Shutdown now.')
-        sd.shutdown()
-
-    sys.exit(RETURN_OK)
-
-
-def snapshotsPath(args):
-    """
-    Command for printing the full snapshot path of current profile.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    force_stdout = setQuiet(args)
-    cfg = getConfig(args)
-    if args.keep_mount:
-        _mount(cfg)
-    if args.quiet:
-        msg = '{}'
-    else:
-        msg = 'SnapshotsPath: {}'
-    print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
-    sys.exit(RETURN_OK)
-
-
-def snapshotsList(args):
-    """
-    Command for printing a list of all snapshots in current profile.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    force_stdout = setQuiet(args)
-    cfg = getConfig(args)
-    _mount(cfg)
-
-    if args.quiet:
-        msg = '{}'
-    else:
-        msg = 'SnapshotID: {}'
-    no_sids = True
-    #use snapshots.listSnapshots instead of iterSnapshots because of sorting
-    for sid in snapshots.listSnapshots(cfg, reverse = False):
-        print(msg.format(sid), file=force_stdout)
-        no_sids = False
-    if no_sids:
-        logger.error("There are no snapshots in '%s'" % cfg.profileName())
-    if not args.keep_mount:
-        _umount(cfg)
-    sys.exit(RETURN_OK)
-
-
-def snapshotsListPath(args):
-    """
-    Command for printing a list of all snapshots paths in current profile.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    force_stdout = setQuiet(args)
-    cfg = getConfig(args)
-    _mount(cfg)
-
-    if args.quiet:
-        msg = '{}'
-    else:
-        msg = 'SnapshotPath: {}'
-    no_sids = True
-    #use snapshots.listSnapshots instead of iterSnapshots because of sorting
-    for sid in snapshots.listSnapshots(cfg, reverse = False):
-        print(msg.format(sid.path()), file=force_stdout)
-        no_sids = False
-    if no_sids:
-        logger.error("There are no snapshots in '%s'" % cfg.profileName())
-    if not args.keep_mount:
-        _umount(cfg)
-    sys.exit(RETURN_OK)
-
-
-def unmount(args):
-    """
-    Command for unmounting all filesystems.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    setQuiet(args)
-    cfg = getConfig(args)
-    _mount(cfg)
-    _umount(cfg)
-    sys.exit(RETURN_OK)
-
-
-def smartRemove(args):
-    """
-    Command for running Smart-Removal from Terminal.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0 if okay
-                        2 if Smart-Removal is not configured
-    """
-    setQuiet(args)
-    printHeader()
-    cfg = getConfig(args)
-    sn = snapshots.Snapshots(cfg)
-
-    enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = cfg.smartRemove()
-    if enabled:
-        _mount(cfg)
-        del_snapshots = sn.smartRemoveList(datetime.today(),
-                                           keep_all,
-                                           keep_one_per_day,
-                                           keep_one_per_week,
-                                           keep_one_per_month)
-        logger.info('Smart Removal will remove {} snapshots'.format(len(del_snapshots)))
-        sn.smartRemove(del_snapshots, log = logger.info)
-        _umount(cfg)
-        sys.exit(RETURN_OK)
-    else:
-        logger.error('Smart Removal is not configured.')
-        sys.exit(RETURN_NO_CFG)
-
-
-def restore(args):
-    """
-    Command for restoring files from snapshots.
-
-    Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-
-    Raises:
-        SystemExit:     0
-    """
-    setQuiet(args)
-    printHeader()
-    cfg = getConfig(args)
-    _mount(cfg)
-
-    if cfg.backupOnRestore() and not args.no_local_backup:
-        backup = True
-    else:
-        backup = args.local_backup
-
-    cli.restore(cfg,
-                args.SNAPSHOT_ID,
-                args.WHAT,
-                args.WHERE,
-                delete=args.delete,
-                backup=backup,
-                only_new=args.only_new)
-
-    _umount(cfg)
-
-    sys.exit(RETURN_OK)
 
 
 if __name__ == '__main__':

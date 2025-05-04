@@ -270,7 +270,7 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    restoreCP.set_defaults(func = restore)
+    restoreCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = restoreCP
     backupGroup = restoreCP.add_mutually_exclusive_group()
     restoreCP.add_argument                      ('WHAT',
@@ -319,7 +319,7 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    shutdownCP.set_defaults(func = shutdown)
+    shutdownCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = shutdownCP
 
     command = 'smart-remove'
@@ -329,7 +329,7 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    smartRemoveCP.set_defaults(func = smartRemove)
+    smartRemoveCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = smartRemoveCP
 
     command = 'snapshots-list'
@@ -341,7 +341,7 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    snapshotsListCP.set_defaults(func = snapshotsList)
+    snapshotsListCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = snapshotsListCP
 
     command = 'snapshots-list-path'
@@ -353,7 +353,7 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    snapshotsListPathCP.set_defaults(func = snapshotsListPath)
+    snapshotsListPathCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = snapshotsListPathCP
 
     command = 'snapshots-path'
@@ -365,7 +365,7 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    snapshotsPathCP.set_defaults(func = snapshotsPath)
+    snapshotsPathCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = snapshotsPathCP
 
     command = 'unmount'
@@ -376,10 +376,11 @@ def create_parsers(app_name: str,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    unmountCP.set_defaults(func = unmount)
+    unmountCP.set_defaults(func=cmd_func_dict[command])
     parsers[command] = unmountCP
 
-    #define aliases for all commands with trailing --
+    # define aliases for all commands with trailing --
+    # DEPRECATED and REMOVE it
     group = parser.add_mutually_exclusive_group()
     for alias, nargs in aliases:
         if len(alias) == 1:
