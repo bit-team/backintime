@@ -11,13 +11,18 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from backintime.py
+import sys
 import argparse
+import json
 import tools
+from argparse import ArgumentParser
+from pathlib import Path
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
 import bitbase
 import config
+import diagnostics
 from version import __version__
 
 RETURN_OK = bitbase.RETURN_OK
@@ -94,29 +99,8 @@ def create_parsers(app_name: str,
                                   nargs = '*',
                                   help = 'ID of snapshots which should be removed.')
 
-    # Main argument parser
-    parser = argparse.ArgumentParser(prog = app_name,
-                                     parents = [commonArgsParser],
-                                     description = '%(app)s - a simple backup tool for GNU/Linux.'
-                                                   % {'app': config.Config.APP_NAME},
-                                     epilog = "For backwards compatibility commands can also be used with trailing '--'. "
-                                              "All listed arguments will work with all commands. Some commands have extra arguments. "
-                                              "Run '%(app_name)s <COMMAND> -h' to see the extra arguments."
-                                              % {'app_name': app_name})
-
-    parsers['main'] = parser
-    parser.add_argument('--version', '-v',
-                        action = 'version',
-                        version = '%(prog)s ' + __version__,
-                        help = "show %(prog)s's version number.")
-    parser.add_argument('--license',
-                        action = printLicense,
-                        nargs = 0,
-                        help = "show %(prog)s's license.")
-    parser.add_argument('--diagnostics',
-                        action = printDiagnostics,
-                        nargs = 0,
-                        help = "show helpful info for better support in case of issues (in JSON format)")
+    parsers['main'] = _main_parser(
+        parent_parser=commonArgsParser, bin_name=app_name)
 
     #######################
     ### define commands ###
@@ -397,36 +381,63 @@ def create_parsers(app_name: str,
     return parsers
 
 
-class printLicense(argparse.Action):
-    """
-    Print custom license
-    """
+def _main_parser(parent_parser: ArgumentParser, bin_name: str
+                 ) -> ArgumentParser:
+    """Main argument parser"""
+    desc = f'{config.Config.APP_NAME} - a simple backup tool for GNU/Linux.',
+    epi = (
+        'For backwards compatibility commands can also be used with trailing '
+        "'--'. All listed arguments will work with all commands. Some "
+        "commands have extra arguments. Run '%(prog)s <COMMAND> -h' to "
+        'see the extra arguments.'
+    )
+
+    parser = ArgumentParser(
+        prog=bin_name, parents=[parent_parser], description=desc, epilog=epi)
+
+    parser.add_argument(
+        '--version', '-v',
+        action='version',
+        version='%(prog)s ' + __version__,
+        help="show %(prog)s's version number.")
+
+    parser.add_argument(
+        '--license',
+        action=ActionPrintLicense,
+        nargs=0,
+        help="show %(prog)s's license.")
+
+    parser.add_argument(
+        '--diagnostics',
+        action=ActionPrintDiagnostics,
+        nargs=0,
+        help='show helpful info (in JSON format) for better support in case '
+             'of issues')
+
+    return parser
+
+
+class ActionPrintLicense(argparse.Action):
+    """Print license text."""
 
     def __init__(self, *args, **kwargs):
-        super(printLicense, self).__init__(*args, **kwargs)
+        super(ActionPrintLicense, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        license_path = pathlib.Path(tools.docPath()) / 'LICENSE'
+        license_path = Path(tools.docPath()) / 'LICENSE'
         print(license_path.read_text('utf-8'))
-        sys.exit(RETURN_OK)
+        sys.exit(bitbase.RETURN_OK)
 
 
-class printDiagnostics(argparse.Action):
-    """
-    Print information that is helpful for the support team
-    to narrow down problems and bugs.
-    The info is printed using the machine- and human-readable JSON format
-    """
+class ActionPrintDiagnostics(argparse.Action):
+    """See `collect_diagnostics()` for details."""
 
     def __init__(self, *args, **kwargs):
-        super(printDiagnostics, self).__init__(*args, **kwargs)
+        super(ActionPrintDiagnostics, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-
-        diagnostics = collect_diagnostics()
-
-        print(json.dumps(diagnostics, indent=4))
-
+        data = diagnostics.collect_diagnostics()
+        print(json.dumps(data, indent=4))
         sys.exit(RETURN_OK)
 
 

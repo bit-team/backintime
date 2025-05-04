@@ -32,9 +32,9 @@ from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
-RETURN_OK = bitbase.RETURN_OK
-RETURN_ERR = bitbase.RETURN_ERR
-RETURN_NO_CFG = bitbase.RETURN_NO_CFG
+# RETURN_OK = bitbase.RETURN_OK
+# RETURN_ERR = bitbase.RETURN_ERR
+# RETURN_NO_CFG = bitbase.RETURN_NO_CFG
 
 
 def _get_config(args: argparse.Namespace) -> config.Config:
@@ -64,7 +64,9 @@ def backup(args: argparse.Namespace, force: bool = True):
     cli.print_header()
     cfg = _get_config(args)
 
-    ret = takeSnapshot(cfg, force)
+    tools.envLoad(cfg.cronEnvFile())
+    ret = snapshots.Snapshots(cfg).backup(force)
+
     sys.exit(int(ret))
 
 
@@ -102,7 +104,7 @@ def benchmark_cipher(args: argparse.Namespace):
     if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
         ssh = sshtools.SSH(cfg)
         ssh.benchmarkCipher(args.FILE_SIZE)
-        sys.exit(RETURN_OK)
+        sys.exit(bitbase.RETURN_OK)
 
     # else
     logger.error(
@@ -365,7 +367,7 @@ def shutdown(args: argparse.Namespace):
 
     if not sd.can_shutdown():
         logger.warning('Shutdown is not supported.')
-        sys.exit(RETURN_ERR)
+        sys.exit(bitbase.RETURN_ERR)
 
     instance = ApplicationInstance(cfg.takeSnapshotInstanceFile(), False)
     profile = '='.join((cfg.currentProfile(), cfg.profileName()))

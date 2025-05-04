@@ -83,26 +83,7 @@ def takeSnapshotAsync(cfg, checksum=False):
         except:
             pass
 
-    subprocess.Popen(cmd, env = env)
-
-
-def takeSnapshot(cfg, force=True):
-    """
-    Take a new snapshot.
-
-    Args:
-        cfg (config.Config):    config that should be used
-        force (bool):           take the snapshot even if it wouldn't need to
-                                or would be prevented (e.g. running on battery)
-
-    Returns:
-        bool:                   ``True`` if there was an error
-    """
-    tools.envLoad(cfg.cronEnvFile())
-    ret = snapshots.Snapshots(cfg).backup(force)
-
-    return ret
-
+    subprocess.Popen(cmd, env=env)
 
 
 def encfs_deprecation_warning():
