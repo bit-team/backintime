@@ -152,17 +152,14 @@ def startApp(app_name='backintime'):
     if 'func' in dir(args):
         args.func(args)
         return None
-
-    print('5'*300)  # DEBUG
+ 
+    print(args)  # DEBUG
     # No arguments/commands
-    # cli.set_quiet(args)
-    print('6'*300)  # DEBUG
+    cli.set_quiet(args)
     cli.print_header()
 
-    print('X'*300)
-    print(args)  # DEBUG
     return cli.get_config_and_select_profile(
-        config_path=args.config_path,
+        config_path=args.config,
         data_path=args.share_path,
         profile_id=args.profile_id,
         profile_name=args.profile,
