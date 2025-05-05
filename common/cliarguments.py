@@ -11,6 +11,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from backintime.py
+"""Module about CLI argument parsing and parsers."""
 import sys
 import argparse
 import json
@@ -19,14 +20,13 @@ import tools
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
 import bitbase  # noqa: E402
-import config  # noqa: E402
 import diagnostics  # noqa: E402
 import logger  # noqa: E402
-from argparse import (ArgumentParser,
+import clicommands  # noqa: E402
+from argparse import (ArgumentParser,  # noqa: E402
                       Namespace,
                       Action,
-                      _SubParsersAction,
-                      ) # noqa: E402
+                      )
 from pathlib import Path  # noqa: E402
 from version import __version__  # noqa: E402
 
@@ -36,8 +36,7 @@ class ParserAgent:
 
     def __init__(self,
                  app_name: str,
-                 bin_name: str,
-                 cmd_func_dict: dict[str, callable]
+                 bin_name: str
                  ):
         # Name of the application e.g. "Back In Time"
         self.app_name = app_name
@@ -45,8 +44,27 @@ class ParserAgent:
         # Name of the binary e.g. "backintime"
         self.bin_name = bin_name
 
-        # Mapping of command name and handler function
-        self._cmd_func_dict = cmd_func_dict
+        # Mapping the command names to their handler functions
+        self._cmd_func_dict = {
+            'backup': clicommands.backup,
+            'backup-job': clicommands.backup_job,
+            'benchmark-cipher': clicommands.benchmark_cipher,
+            'check-config': clicommands.check_config,
+            'decode': clicommands.decode,
+            'last-snapshot': clicommands.last_snapshot,
+            'last-snapshot-path': clicommands.last_snapshot_path,
+            'pw-cache': clicommands.pw_cache,
+            'remove': clicommands.remove,
+            'remove-and-do-not-ask-again':
+                clicommands.remove_and_donot_ask_again,
+            'restore': clicommands.restore,
+            'shutdown': clicommands.shutdown,
+            'snapshots-path': clicommands.snapshots_path,
+            'snapshots-list': clicommands.snapshots_list,
+            'snapshots-list-path': clicommands.snapshots_list_path,
+            'smart-remove': clicommands.smart_remove,
+            'unmount': clicommands.unmount,
+        }
 
         # Public parsers indexed by their (command) name
         self.parsers = {}
@@ -60,15 +78,21 @@ class ParserAgent:
         # Used as epilog for command parses
         epilog = "Run '%(prog)s -h' to get help for additional arguments."
         self._epilog_cfg = f'{epilog} Additional arguments: --config, --debug'
-        self._epilog_com = f'{epilogConfig} --profile, --profile-id, --quiet'
+        self._epilog_com \
+            = f'{self._epilog_cfg} --profile, --profile-id, --quiet'
 
         # Command exclusive parsers
-        self._cmd_excl_parsers = None
+        self._cmd_excl_parsers = {}
         self._create_command_exclusive_parsers()
 
         self._create_main_parser()
 
         self._create_command_parsers()
+
+    @property
+    def main_parser(self) -> ArgumentParser:
+        """The main parser"""
+        return self.parsers['main']
 
     def _create_main_parser(self):
         """Main argument parser"""
@@ -127,7 +151,7 @@ class ParserAgent:
             type=str,
             action='store',
             help='Read config from %(metavar)s. '
-                'Default = ~/.config/backintime/config')
+                 'Default = ~/.config/backintime/config')
 
         parser.add_argument(
             '--share-path',
@@ -135,7 +159,7 @@ class ParserAgent:
             type=str,
             action='store',
             help='Write runtime data (locks, messages, log and '
-                'mountpoints) to %(metavar)s.')
+                 'mountpoints) to %(metavar)s.')
 
         return parser
 
@@ -199,7 +223,8 @@ class ParserAgent:
         parser.add_argument(
             '--checksum',
             action='store_true',
-            help='force to use checksum for checking if files have been changed.')
+            help='force to use checksum for checking if '
+                 'files have been changed.')
 
         self._cmd_excl_parsers['rsync'] = parser
 
@@ -247,7 +272,7 @@ class ParserAgent:
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._cmd_excl_parsers['rsync']],
-            epilog=self._epi_com,
+            epilog=self._epilog_com,
             help=desc,
             description=desc)
 
@@ -261,7 +286,7 @@ class ParserAgent:
         desc = 'Show a benchmark of all ciphers for ssh transfer.'
 
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epi_com, help=desc, description=desc)
+            name, epilog=self._epilog_com, help=desc, description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -295,7 +320,7 @@ class ParserAgent:
         desc = "Decode paths with 'encfsctl decode'"
 
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epi_com, help=desc, description=desc)
+            name, epilog=self._epilog_com, help=desc, description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -466,7 +491,6 @@ class ParserAgent:
 
     def _create_cmd_shutdown(self):
         name = 'shutdown'
-        nargs = 0
         desc = 'Shut down the computer after the snapshot is done.'
         parser = self._command_subparsers.add_parser(
             name,
@@ -480,7 +504,6 @@ class ParserAgent:
 
     def _create_cmd_smart_remove(self):
         name = 'smart-remove'
-        nargs = 0
         desc = 'Remove snapshots based on "Smart Removal" pattern.'
 
         parser = self._command_subparsers.add_parser(
@@ -599,7 +622,7 @@ class ParserAgent:
 
 
 def parse_arguments(args: Namespace,
-                    parsers: list[ArgumentParser]) -> Namespace:
+                    agent: ParserAgent) -> Namespace:
     """Parse arguments given on commandline.
 
     Args:
@@ -609,18 +632,18 @@ def parse_arguments(args: Namespace,
         New parsed Namespace.
     """
 
-    def join(args, subArgs):
+    def join(args, sub_args):
         """
         Add new arguments to existing Namespace.
 
         Args:
             args (argparse.Namespace):
                         main Namespace that should get new arguments
-            subArgs (argparse.Namespace):
+            sub_args (argparse.Namespace):
                         second Namespace which have new arguments
                         that should be merged into ``args``
         """
-        for key, value in vars(subArgs).items():
+        for key, value in vars(sub_args).items():
             # Only add new values if it isn't set already or if there really IS
             # a value
             if getattr(args, key, None) is None or value:
@@ -630,36 +653,37 @@ def parse_arguments(args: Namespace,
     # otherwise positional args in subparsers will be to greedy
     # but only if -h or --help is not involved because otherwise
     # help will not work for subcommands
-    mainParser = parsers['main']
+    main_parser = agent.main_parser
     sub = []
 
     if '-h' not in sys.argv and '--help' not in sys.argv:
 
-        for i in mainParser._actions:
+        for i in main_parser._actions:
 
             if isinstance(i, argparse._SubParsersAction):
                 # Remove subparsers
-                mainParser._remove_action(i)
+                main_parser._remove_action(i)
                 sub.append(i)
 
-    args, unknownArgs = mainParser.parse_known_args(args)
-    print(f'{args=} {unknownArgs=}')  # DEBUG
+    args, unknown_args = main_parser.parse_known_args(args)
 
     # Read subparsers again
-    if sub:
-        [mainParser._add_action(i) for i in sub]
+    for i in sub:
+        main_parser._add_action(i)
 
     # Parse it again for unknown args
-    if unknownArgs:
-        subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
-        join(args, subArgs)
+    if unknown_args:
+        sub_args, unknown_args = main_parser.parse_known_args(unknown_args)
+        join(args, sub_args)
 
     # Finally parse only the command parser, otherwise we miss some arguments
     # from command
-    if unknownArgs and 'command' in args and args.command in parsers:
-        commandParser = parsers[args.command]
-        subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
-        join(args, subArgs)
+    if (unknown_args
+            and 'command' in args
+            and args.command in agent.parsers):
+        cmd_parser = agent.parsers[args.command]
+        sub_args, unknown_args = cmd_parser.parse_known_args(unknown_args)
+        join(args, sub_args)
 
     try:
         logger.DEBUG = args.debug
@@ -677,8 +701,8 @@ def parse_arguments(args: Namespace,
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.
-    if unknownArgs and not ('func' in args and args.func is alias_parser):
-        mainParser.error(f'Unknown argument(s): {unknownArgs}')
+    if unknown_args and not ('func' in args and args.func is alias_parser):
+        main_parser.error(f'Unknown argument(s): {unknown_args}')
 
     return args
 
@@ -687,10 +711,13 @@ class ActionPrintLicense(argparse.Action):
     """Print license text."""
 
     def __init__(self, *args, **kwargs):
-        super(ActionPrintLicense, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
         license_path = Path(tools.docPath()) / 'LICENSE'
+        # Dev note (buhtz, 2025-05): ToDo
+        # display aboutdlg license text (see bitbase)
+        # and show path of all license files in LICENSES dir
         print(license_path.read_text('utf-8'))
         sys.exit(bitbase.RETURN_OK)
 
@@ -699,12 +726,12 @@ class ActionPrintDiagnostics(argparse.Action):
     """See `collect_diagnostics()` for details."""
 
     def __init__(self, *args, **kwargs):
-        super(ActionPrintDiagnostics, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
         data = diagnostics.collect_diagnostics()
         print(json.dumps(data, indent=4))
-        sys.exit(RETURN_OK)
+        sys.exit(bitbase.RETURN_OK)
 
 
 def alias_parser(args: Namespace):
@@ -721,10 +748,13 @@ def alias_parser(args: Namespace):
 
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
 
-    newArgs = parse_arguments(argv)
+    new_args = parse_arguments(
+        argv,
+        agent=ParserAgent(bitbase.APP_NAME, 'backintime')
+    )
 
-    if 'func' in dir(newArgs):
-        newArgs.func(newArgs)
+    if 'func' in dir(new_args):
+        new_args.func(new_args)
 
 
 class PseudoAliasAction(Action):
@@ -746,7 +776,7 @@ class PseudoAliasAction(Action):
             alias = 'backup'
 
         else:
-            replace = '--%s' % dest
+            replace = f'--{dest}'
             alias = dest
 
         setattr(namespace, 'func', alias_parser)

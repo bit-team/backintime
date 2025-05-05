@@ -9,39 +9,20 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-import sys
-import argparse
-import atexit
 import subprocess
-from datetime import datetime
-from time import sleep
-import json
 import pathlib
+from datetime import datetime
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
+import bitbase
 import config
 import logger
-import snapshots
-import sshtools
-import mount
-import password
-import encfstools
 import cli
 import cliarguments
-import clicommands
-from bitbase import URL_ENCRYPT_TRANSITION
-from diagnostics import collect_diagnostics, collect_minimal_diagnostics
-from applicationinstance import ApplicationInstance
+from diagnostics import collect_minimal_diagnostics
 from version import __version__
-from shutdownagent import ShutdownAgent
-
-RETURN_OK = 0
-RETURN_ERR = 1
-RETURN_NO_CFG = 2
-
-# parsers = {}
 
 
 def takeSnapshotAsync(cfg, checksum=False):
@@ -120,7 +101,7 @@ def encfs_deprecation_warning():
     logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
                    'Removal is schedule for minor release 1.7 in year 2026. '
                    'For details and alternatives '
-                   f'read: {URL_ENCRYPT_TRANSITION}')
+                   f'read: {bitbase.URL_ENCRYPT_TRANSITION}')
 
 
     # refresh timestamp
@@ -138,34 +119,12 @@ def startApp(app_name='backintime'):
     Returns:
         config.Config:  current config if no command was given in arguments
     """
-    # Workaround (maybe)
-    # Mapping the command names to their handler functions
-    cmd_func = {
-        'backup': clicommands.backup,
-        'backup-job': clicommands.backup_job,
-        'benchmark-cipher': clicommands.benchmark_cipher,
-        'check-config': clicommands.check_config,
-        'decode': clicommands.decode,
-        'last-snapshot': clicommands.last_snapshot,
-        'last-snapshot-path': clicommands.last_snapshot_path,
-        'pw-cache': clicommands.pw_cache,
-        'remove': clicommands.remove,
-        'remove-and-do-not-ask-again': clicommands.remove_and_donot_ask_again,
-        'restore': clicommands.restore,
-        'shutdown': clicommands.shutdown,
-        'snapshots-path': clicommands.snapshots_path,
-        'snapshots-list': clicommands.snapshots_list,
-        'snapshots-list-path': clicommands.snapshots_list_path,
-        'smart-remove': clicommands.smart_remove,
-        'unmount': clicommands.unmount,
-    }
-    # global parsers  # REFACTOR!
-    parsers = cliarguments.create_parsers(
-        app_name='backintime', cmd_func_dict=cmd_func)
+    parser_agent = cliarguments.ParserAgent(
+        app_name=bitbase.APP_NAME, bin_name=app_name)
 
     logger.openlog()
 
-    args = cliarguments.parse_arguments(args=None, parsers=parsers)
+    args = cliarguments.parse_arguments(args=None, agent=parser_agent)
 
     # Name, Version, As Root, OS
     msg = ''

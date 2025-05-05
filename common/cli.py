@@ -20,13 +20,15 @@ from typing import Optional
 from version import __version__
 
 
-def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
+def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
     if what is None:
         what = input('File to restore: ')
+
     what = tools.preparePath(os.path.abspath(os.path.expanduser(what)))
 
     if where is None:
         where = input('Restore to (empty for original path): ')
+
     if where:
         where = tools.preparePath(os.path.abspath(os.path.expanduser(where)))
 
@@ -34,24 +36,37 @@ def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
 
     sid = selectSnapshot(snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
     print('')
+
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
 
-def remove(cfg, snapshot_ids = None, force = None):
+
+def remove(cfg, snapshot_ids=None, force=None):
     snapshotsList = snapshots.listSnapshots(cfg)
+
     if not snapshot_ids:
         snapshot_ids = (None,)
-    sids = [selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove') for sid in snapshot_ids]
+
+    sids = [
+        selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove')
+        for sid in snapshot_ids
+    ]
 
     if not force:
         print('Do you really want to remove these backups?')
-        [print(sid.displayName) for sid in sids]
+
+        for sid in sids:
+            print(sid.displayName)
+
         if not 'yes' == input('(no/yes): '):
             return
 
     s = snapshots.Snapshots(cfg)
-    [s.remove(sid) for sid in sids]
 
-def checkConfig(cfg, crontab = True):
+    for sid in sids:
+        s.remove(sid)
+
+
+def checkConfig(cfg, crontab=True):
     import mount
     from exceptions import MountException
 
@@ -154,7 +169,8 @@ def checkConfig(cfg, crontab = True):
 
     return True
 
-def selectSnapshot(snapshotsList, cfg, snapshot_id = None, msg = 'SnapshotID'):
+
+def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
     """
     check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one
@@ -162,63 +178,89 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id = None, msg = 'SnapshotID'):
     len_snapshots = len(snapshotsList)
 
     if not snapshot_id is None:
+
         try:
             sid = snapshots.SID(snapshot_id, cfg)
+
             if sid in snapshotsList:
                 return sid
             else:
                 print('SnapshotID %s not found.' % snapshot_id)
+
         except ValueError:
             try:
                 index = int(snapshot_id)
                 return snapshotsList[index]
+
             except (ValueError, IndexError):
                 print('Invalid SnaphotID index: %s' % snapshot_id)
+
     snapshot_id = None
 
     columns = (terminalSize()[1] - 25) // 26 + 1
     rows = len_snapshots // columns
+
     if len_snapshots % columns > 0:
         rows += 1
 
     print('SnapshotID\'s:')
+
     for row in range(rows):
         line = []
+
         for column in range(columns):
             index = row + column * rows
+
             if index > len_snapshots - 1:
                 continue
-            line.append('{i:>4}: {s}'.format(i = index, s = snapshotsList[index]))
+
+            line.append('{i:>4}: {s}'.format(i=index, s=snapshotsList[index]))
+
         print(' '.join(line))
+
     print('')
+
     while snapshot_id is None:
+
         try:
             index = int(input(msg + ' (0 - %d): ' % (len_snapshots - 1)))
             snapshot_id = snapshotsList[index]
+
         except (ValueError, IndexError):
             print('Invalid Input')
             continue
+
     return snapshot_id
+
 
 def terminalSize():
     """
     get terminal size
     """
     for fd in (sys.stdin, sys.stdout, sys.stderr):
+
         try:
             import fcntl
             import termios
             import struct
-            return [int(x) for x in struct.unpack('hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))]
+            return [
+                int(x) for x in struct.unpack(
+                    'hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))
+            ]
+
         except ImportError:
             pass
+
     return [24, 80]
 
-def frame(msg, size = 32):
-    ret  = ' +' + '-' * size +       '+\n'
+
+def frame(msg, size=32):
+    ret = ' +' + '-' * size + '+\n'
     ret += ' |' + msg.center(size) + '|\n'
-    ret += ' +' + '-' * size +       '+'
+    ret += ' +' + '-' * size + '+'
+
     return ret
+
 
 class RestoreDialog:
     def __init__(self, cfg, sid, what, where, **kwargs):

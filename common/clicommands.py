@@ -11,6 +11,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from backintime.py
+"""Module about CLI commands"""
 import sys
 import argparse
 from datetime import datetime
@@ -93,7 +94,7 @@ def benchmark_cipher(args: argparse.Namespace):
         SystemExit: 0
     """
     cli.set_quiet(args)
-    cli.rename_head()
+    cli.print_header()
 
     cfg = _get_config(args)
 
@@ -326,16 +327,16 @@ def restore(args: argparse.Namespace):
     _mount(cfg)
 
     if cfg.backupOnRestore() and not args.no_local_backup:
-        backup = True
+        isbackup = True
     else:
-        backup = args.local_backup
+        isbackup = args.local_backup
 
     cli.restore(cfg,
                 args.SNAPSHOT_ID,
                 args.WHAT,
                 args.WHERE,
                 delete=args.delete,
-                backup=backup,
+                backup=isbackup,
                 only_new=args.only_new)
 
     _umount(cfg)
@@ -436,8 +437,7 @@ def _snapshots_list_base(args: argparse.Namespace, path_info: bool):
         data = [
             sid.path() for sid in snapshots.listSnapshots(cfg, reverse=False)]
     else:
-        data = [
-            sid for sid in snapshots.listSnapshots(cfg, reverse=False)]
+        data = list(snapshots.listSnapshots(cfg, reverse=False))
 
     for sid_info in data:
         print(msg.format(sid_info), file=force_stdout)
