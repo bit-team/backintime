@@ -505,13 +505,13 @@ class MainWindow(QMainWindow):
                 self.btnRemoveSnapshotClicked, ['Delete'],
                 None),
             'act_snapshot_logview': (
-                icon.VIEW_SNAPSHOT_LOG, _('View backup log'),
+                icon.VIEW_SNAPSHOT_LOG, _('Open backup log'),
                 self.btnSnapshotLogViewClicked, None,
-                None),
+                _('View log of the selected backup.')),
             'act_last_logview': (
-                icon.VIEW_LAST_LOG, _('View last log'),
+                icon.VIEW_LAST_LOG, _('Open last backup log'),
                 self.btnLastLogViewClicked, None,
-                None),
+                _('View log of the latest backup.')),
             'act_settings': (
                 icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
