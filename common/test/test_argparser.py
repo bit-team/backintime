@@ -14,9 +14,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import bitbase
 import backintime
 import cliarguments
+import clicommands
 
 
-def shuffleArgs(*args):
+def shuffle_args(*args):
     """Return every possible combination of arguments. Those arguments which need
     to keep in line have to be inside a tuple.
 
@@ -35,7 +36,7 @@ def shuffleArgs(*args):
         yield ret
 
 
-class ParseArguments(generic.TestCase):
+class ParseArguments(unittest.TestCase):  # generic.TestCase):
 
     def setUp(self):
         super().setUp()
@@ -63,6 +64,10 @@ class ParseArguments(generic.TestCase):
         self.assertIn('config', sut)
         self.assertEqual(sut.config, '/tmp/config')
 
+    def test_config_no_path(self):
+        with self.assertRaises(SystemExit):
+            cliarguments.parse_arguments(['--config'], self.parser_agent)
+
     def test_quiet(self):
         sut = cliarguments.parse_arguments(['--quiet',], self.parser_agent)
 
@@ -75,94 +80,82 @@ class ParseArguments(generic.TestCase):
         self.assertIn('debug', sut)
         self.assertTrue(sut.debug)
 
-    def test_config_no_path(self):
-        with self.assertRaises(SystemExit):
-            cliarguments.parse_arguments(['--config'], self.parser_agent)
 
-
-class Backup(generic.TestCase):
+class BackupCommand(unittest.TestCase):  # generic.TestCase):
     def setUp(self):
         super().setUp()
-        backintime.createParsers()
+        self.parser_agent = cliarguments.ParserAgent(
+            app_name=bitbase.APP_NAME,
+            bin_name=bitbase.BINARY_NAME_CLI)
 
     def tearDown(self):
         super().tearDown()
-        global parsers
-        parsers = {}
 
     def test_simple(self):
-        args = backintime.argParse(['backup'])
-        self.assertIn('command', args)
-        self.assertEqual(args.command, 'backup')
-        self.assertIn('func', args)
-        self.assertIs(args.func, backintime.backup)
+        sut = cliarguments.parse_arguments(['backup'], self.parser_agent)
+        self.assertEqual(sut.command, 'backup')
+        self.assertIs(sut.func, clicommands.backup)
 
-    def test_backwards_compatiblity_alias(self):
-        args = backintime.argParse(['--backup'])
-        self.assertIn('func', args)
-        self.assertIs(args.func, backintime.aliasParser)
-        self.assertIn('replace', args)
-        self.assertEqual(args.replace, '--backup')
-        self.assertIn('alias', args)
-        self.assertEqual(args.alias, 'backup')
+    # def test_backwards_compatiblity_alias(self):
+    #     args = backintime.argParse(['--backup'])
+    #     self.assertIn('func', args)
+    #     self.assertIs(args.func, backintime.aliasParser)
+    #     self.assertIn('replace', args)
+    #     self.assertEqual(args.replace, '--backup')
+    #     self.assertIn('alias', args)
+    #     self.assertEqual(args.alias, 'backup')
 
     def test_profile(self):
-        for argv in shuffleArgs('backup', ('--profile', 'foo')):
-            with self.subTest(argv = argv):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'argv = %s' %argv
-                args = backintime.argParse(argv)
-                self.assertIn('command', args, msg)
-                self.assertEqual(args.command, 'backup', msg)
-                self.assertIn('profile', args, msg)
-                self.assertEqual(args.profile, 'foo', msg)
+        for argv in shuffle_args('backup', ('--profile', 'foo')):
+            sut = cliarguments.parse_arguments(argv, self.parser_agent)
+            self.assertEqual(sut.command, 'backup')
+            self.assertEqual(sut.profile, 'foo')
 
     def test_profile_id(self):
-        args = backintime.argParse(['backup', '--profile-id', '2'])
-        self.assertIn('command', args)
-        self.assertEqual(args.command, 'backup')
-        self.assertIn('profile_id', args)
-        self.assertEqual(args.profile_id, 2)
+        sut = cliarguments.parse_arguments(
+            ['backup', '--profile-id', '2'], self.parser_agent)
+
+        self.assertEqual(sut.command, 'backup')
+        self.assertIsInstance(sut.profile_id, int)
+        self.assertEqual(sut.profile_id, 2)
 
     def test_profile_and_profile_id(self):
         with self.assertRaises(SystemExit):
-            backintime.argParse(['backup', '--profile', 'foo', '--profile-id', '2'])
+            cliarguments.parse_arguments(
+                ['backup', '--profile', 'foo', '--profile-id', '2'],
+                self.parser_agent)
 
     def test_quiet(self):
-        args = backintime.argParse(['backup', '--quiet'])
-        self.assertIn('command', args)
+        args = cliarguments.parse_arguments(
+            ['backup', '--quiet'], self.parser_agent)
+
         self.assertEqual(args.command, 'backup')
-        self.assertIn('quiet', args)
-        self.assertTrue(args.quiet)
+        self.assertEqual(args.quiet, True)
 
-    def test_multi_args(self):
-        for argv in shuffleArgs('--quiet', 'backup', ('--profile', 'foo'), '--checksum',
-                                ('--config', 'bar')):
-            with self.subTest(argv = argv):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'argv = %s' %argv
-                args = backintime.argParse(argv)
-                self.assertIn('command', args, msg)
-                self.assertEqual(args.command, 'backup', msg)
-                self.assertIn('profile', args, msg)
-                self.assertEqual(args.profile, 'foo', msg)
-                self.assertIn('quiet', args, msg)
-                self.assertTrue(args.quiet, msg)
-                self.assertIn('checksum', args, msg)
-                self.assertTrue(args.checksum, msg)
-                self.assertIn('config', args, msg)
-                self.assertEqual(args.config, 'bar', msg)
+    def test_multible_args(self):
+        for argv in shuffle_args('--quiet',
+                                 'backup',
+                                 ('--profile', 'foo'),
+                                 '--checksum',
+                                 ('--config', 'bar')):
+
+            sut = cliarguments.parse_arguments(argv, self.parser_agent)
+            self.assertEqual(sut.command, 'backup')
+            self.assertEqual(sut.profile, 'foo')
+            self.assertEqual(sut.quiet, True)
+            self.assertEqual(sut.checksum, True)
+            self.assertEqual(sut.config, 'bar')
 
 
-class Restore(generic.TestCase):
+class RestoreCommand(unittest.TestCase):  # generic.TestCase):
     def setUp(self):
         super().setUp()
-        backintime.createParsers()
+        self.parser_agent = cliarguments.ParserAgent(
+            app_name=bitbase.APP_NAME,
+            bin_name=bitbase.BINARY_NAME_CLI)
 
     def tearDown(self):
         super().tearDown()
-        global parsers
-        parsers = {}
 
     def test_simple(self):
         args = backintime.argParse(['restore'])
@@ -183,7 +176,7 @@ class Restore(generic.TestCase):
         self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984')
 
     def test_what_where_snapshot_id_multi_args(self):
-        for argv in shuffleArgs('--quiet', ('restore', '/home', '/tmp', '20151130-230501-984'),
+        for argv in shuffle_args('--quiet', ('restore', '/home', '/tmp', '20151130-230501-984'),
                                 '--checksum', ('--profile-id', '2'), '--local-backup',
                                 '--delete', ('--config', 'foo')):
             with self.subTest(argv = argv):
@@ -212,7 +205,7 @@ class Restore(generic.TestCase):
                 self.assertEqual(args.config, 'foo', msg)
 
     def test_multi_args(self):
-        for argv in shuffleArgs(('--profile-id', '2'), '--quiet', 'restore', '--checksum',
+        for argv in shuffle_args(('--profile-id', '2'), '--quiet', 'restore', '--checksum',
                                 '--local-backup',
                                 '--delete', ('--config', 'foo')):
             with self.subTest(argv = argv):

@@ -85,6 +85,7 @@ class ParserAgent:
         self._cmd_excl_parsers = {}
         self._create_command_exclusive_parsers()
 
+        # Start creating all parsers, etc
         self._create_main_parser()
 
         self._create_command_parsers()
@@ -164,7 +165,9 @@ class ParserAgent:
         return parser
 
     def _create_common_parser(self) -> ArgumentParser:
-        """Common arguments used by all commands"""
+        """Common arguments used by all commands
+
+        """
 
         debug_parser = self._create_debug_parser()
         config_parser = self._create_config_parser()
@@ -180,11 +183,12 @@ class ParserAgent:
         # Allow only one of "--profile" or "--profile-id"
         profile_group = parser.add_mutually_exclusive_group()
 
-        for switch, name in (('--profile', 'NAME'), ('--profile-id', 'ID')):
+        for switch, name, typ in (('--profile', 'NAME', str),
+                                  ('--profile-id', 'ID', int)):
             profile_group.add_argument(
                 switch,
                 metavar=name,
-                type=str,
+                type=typ,
                 action='store',
                 help='Select profile by %(metavar)s.')
 
