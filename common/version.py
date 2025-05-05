@@ -16,7 +16,7 @@ import re
 __version__ = '1.6.0-dev.0927479b'
 
 # Version string ends with lower case ``rc`` and optionally with a number.
-IS_RELEASE_CANDIDATE = bool(re.search(r'^.+rc\d+$', __version__))
+IS_RELEASE_CANDIDATE = bool(re.search(r'^.+rc\d*$', __version__))
 
 # Version ends with anything than a number
 IS_UNSTABLE_DEV_VERSION = bool(re.match(r'^\d+\.\d+\.\d+\D', __version__))
