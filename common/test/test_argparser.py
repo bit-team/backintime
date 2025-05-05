@@ -11,6 +11,7 @@ import sys
 import itertools
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+import bitbase
 import backintime
 import cliarguments
 
@@ -34,46 +35,49 @@ def shuffleArgs(*args):
         yield ret
 
 
-class General(generic.TestCase):
+class ParseArguments(generic.TestCase):
 
     def setUp(self):
         super().setUp()
         self.parser_agent = cliarguments.ParserAgent(
             app_name=bitbase.APP_NAME,
-            bin_name='backintime')
-
-
-        backintime.createParsers()
+            bin_name=bitbase.BINARY_NAME_CLI)
 
     def tearDown(self):
         super().tearDown()
-        global parsers
-        parsers = {}
 
     def test_invalid_arg(self):
-        with self.assertRaises(SystemExit):
-            cliarguments.parse_arguments(['not_existing_command'])
-        with self.assertRaises(SystemExit):
-            backintime.argParse(['--not_existing_argument'])
+        sut = [
+            ['not_existing_command'],
+            ['--not_existing_command'],
+        ]
+
+        for args in sut:
+            with self.assertRaises(SystemExit):
+                cliarguments.parse_arguments(args, self.parser_agent)
 
     def test_config(self):
-        args = backintime.argParse(['--config', '/tmp/config'])
-        self.assertIn('config', args)
-        self.assertEqual(args.config, '/tmp/config')
+        sut = cliarguments.parse_arguments(
+            ['--config', '/tmp/config'], self.parser_agent)
+
+        self.assertIn('config', sut)
+        self.assertEqual(sut.config, '/tmp/config')
 
     def test_quiet(self):
-        args = backintime.argParse(['--quiet',])
-        self.assertIn('quiet', args)
-        self.assertTrue(args.quiet)
+        sut = cliarguments.parse_arguments(['--quiet',], self.parser_agent)
+
+        self.assertIn('quiet', sut)
+        self.assertTrue(sut.quiet)
 
     def test_debug(self):
-        args = backintime.argParse(['--debug',])
-        self.assertIn('debug', args)
-        self.assertTrue(args.debug)
+        sut = cliarguments.parse_arguments(['--debug',], self.parser_agent)
+
+        self.assertIn('debug', sut)
+        self.assertTrue(sut.debug)
 
     def test_config_no_path(self):
         with self.assertRaises(SystemExit):
-            backintime.argParse(['--config'])
+            cliarguments.parse_arguments(['--config'], self.parser_agent)
 
 
 class Backup(generic.TestCase):
