@@ -195,7 +195,7 @@ class AboutDlg(QDialog):
         logger.critical(f'Unknown link "{link}". Please open a bug report.')
 
     def _get_authors(self):
-        fp = Path('/usr/share/doc') / bitbase.BINARY_NAME_CLI / 'AUTHORS'
+        fp = Path('/usr/share/doc') / bitbase.PACKAGE_NAME_CLI / 'AUTHORS'
 
         if fp.is_file():
             return fp.read_text()
@@ -213,7 +213,9 @@ class AboutDlg(QDialog):
 
     def _license_directory(self):
         """Determine the license folder."""
-        for pkg in (bitbase.BINARY_NAME_GUI,
+        for pkg in (bitbase.PACKAGE_NAME_GUI,
+                    bitbase.PACKAGE_NAME_CLI,
+                    bitbase.BINARY_NAME_GUI,
                     bitbase.BINARY_NAME_CLI,
                     bitbase.BINARY_NAME_BASE):
             for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
