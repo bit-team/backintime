@@ -11,8 +11,8 @@ import subprocess
 import sys
 from test import generic
 import json
-import config
 import version
+import bitbase
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -249,6 +249,6 @@ under certain conditions; type `backintime --license' for details.
 
         diagnostics = json.loads(output)
         self.assertEqual(diagnostics["backintime"]["name"],
-                         config.Config.APP_NAME)
+                         bitbase.APP_NAME)
         self.assertEqual(diagnostics["backintime"]["version"],
                          version.__version__)

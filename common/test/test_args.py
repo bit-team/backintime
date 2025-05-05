@@ -5,24 +5,27 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# pylint: disable=missing-function-docstring, wrong-import-position
+"""Tests about argument parsings."""
 import unittest
 import os
 import sys
 import itertools
-from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-import bitbase
-import backintime
-import cliarguments
-import clicommands
+
+import bitbase  # noqa: E402, RUF100
+import cliarguments  # noqa: E402, RUF100
+import clicommands  # noqa: E402, RUF100
 
 
 def shuffle_args(*args):
-    """Return every possible combination of arguments. Those arguments which need
-    to keep in line have to be inside a tuple.
+    """Return every possible combination of arguments.
+
+    Those arguments which need to keep in line have to be inside a tuple.
 
     Args:
         args: Two or more arguments (str)
+
     """
     for i in itertools.permutations(args):
         ret = []
@@ -36,16 +39,14 @@ def shuffle_args(*args):
         yield ret
 
 
-class ParseArguments(unittest.TestCase):  # generic.TestCase):
+class Basics(unittest.TestCase):
+    """Basic tests about parsing arguments."""
 
     def setUp(self):
         super().setUp()
         self.parser_agent = cliarguments.ParserAgent(
             app_name=bitbase.APP_NAME,
             bin_name=bitbase.BINARY_NAME_CLI)
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_invalid_arg(self):
         sut = [
@@ -81,15 +82,14 @@ class ParseArguments(unittest.TestCase):  # generic.TestCase):
         self.assertTrue(sut.debug)
 
 
-class BackupCommand(unittest.TestCase):  # generic.TestCase):
+class BackupCommand(unittest.TestCase):
+    """Tests about arguments related to the 'backup' command."""
+
     def setUp(self):
         super().setUp()
         self.parser_agent = cliarguments.ParserAgent(
             app_name=bitbase.APP_NAME,
             bin_name=bitbase.BINARY_NAME_CLI)
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_simple(self):
         sut = cliarguments.parse_arguments(['backup'], self.parser_agent)
@@ -147,15 +147,14 @@ class BackupCommand(unittest.TestCase):  # generic.TestCase):
             self.assertEqual(sut.config, 'bar')
 
 
-class RestoreCommand(unittest.TestCase):  # generic.TestCase):
+class RestoreCommand(unittest.TestCase):
+    """Tests about arguments related to the 'restore' command."""
+
     def setUp(self):
         super().setUp()
         self.parser_agent = cliarguments.ParserAgent(
             app_name=bitbase.APP_NAME,
             bin_name=bitbase.BINARY_NAME_CLI)
-
-    def tearDown(self):
-        super().tearDown()
 
     def test_simple(self):
         sut = cliarguments.parse_arguments(['restore'], self.parser_agent)
@@ -180,11 +179,11 @@ class RestoreCommand(unittest.TestCase):  # generic.TestCase):
                                      '/tmp',
                                      '20151130-230501-984'
                                  ),
-                                '--checksum',
-                                ('--profile-id', '2'),
-                                '--local-backup',
-                                '--delete',
-                                ('--config', 'foo')):
+                                 '--checksum',
+                                 ('--profile-id', '2'),
+                                 '--local-backup',
+                                 '--delete',
+                                 ('--config', 'foo')):
             sut = cliarguments.parse_arguments(argv, self.parser_agent)
 
             self.assertEqual(sut.quiet, True)

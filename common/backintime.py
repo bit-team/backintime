@@ -152,7 +152,7 @@ def startApp(app_name='backintime'):
     if 'func' in dir(args):
         args.func(args)
         return None
- 
+
     # No arguments/commands
     cli.set_quiet(args)
     cli.print_header()
