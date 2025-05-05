@@ -311,11 +311,13 @@ def set_quiet(args):
         sys.stdout:     default sys.stdout
     """
     force_stdout = sys.stdout
+
     if args.quiet:
         # do not replace with subprocess.DEVNULL - will not work
         sys.stdout = open(os.devnull, 'w')
         atexit.register(sys.stdout.close)
         atexit.register(force_stdout.close)
+
     return force_stdout
 
 
