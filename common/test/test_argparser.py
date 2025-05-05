@@ -158,98 +158,98 @@ class RestoreCommand(unittest.TestCase):  # generic.TestCase):
         super().tearDown()
 
     def test_simple(self):
-        args = backintime.argParse(['restore'])
-        self.assertIn('command', args)
-        self.assertEqual(args.command, 'restore')
-        self.assertIn('func', args)
-        self.assertIs(args.func, backintime.restore)
+        sut = cliarguments.parse_arguments(['restore'], self.parser_agent)
+        self.assertEqual(sut.command, 'restore')
+        self.assertIs(sut.func, clicommands.restore)
 
     def test_what_where_snapshot_id(self):
-        args = backintime.argParse(['restore', '/home', '/tmp', '20151130-230501-984'])
-        self.assertIn('command', args)
-        self.assertEqual(args.command, 'restore')
-        self.assertIn('WHAT', args)
-        self.assertEqual(args.WHAT, '/home')
-        self.assertIn('WHERE', args)
-        self.assertEqual(args.WHERE, '/tmp')
-        self.assertIn('SNAPSHOT_ID', args)
-        self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984')
+        sut = cliarguments.parse_arguments(
+            ['restore', '/home', '/tmp', '20151130-230501-984'],
+            self.parser_agent)
+
+        self.assertEqual(sut.command, 'restore')
+        self.assertEqual(sut.WHAT, '/home')
+        self.assertEqual(sut.WHERE, '/tmp')
+        self.assertEqual(sut.SNAPSHOT_ID, '20151130-230501-984')
 
     def test_what_where_snapshot_id_multi_args(self):
-        for argv in shuffle_args('--quiet', ('restore', '/home', '/tmp', '20151130-230501-984'),
-                                '--checksum', ('--profile-id', '2'), '--local-backup',
-                                '--delete', ('--config', 'foo')):
-            with self.subTest(argv = argv):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'argv = %s' %argv
-                args = backintime.argParse(argv)
-                self.assertIn('quiet', args, msg)
-                self.assertTrue(args.quiet, msg)
-                self.assertIn('checksum', args, msg)
-                self.assertTrue(args.checksum, msg)
-                self.assertIn('profile_id', args, msg)
-                self.assertEqual(args.profile_id, 2, msg)
-                self.assertIn('command', args, msg)
-                self.assertEqual(args.command, 'restore', msg)
-                self.assertIn('WHAT', args, msg)
-                self.assertEqual(args.WHAT, '/home', msg)
-                self.assertIn('WHERE', args, msg)
-                self.assertEqual(args.WHERE, '/tmp', msg)
-                self.assertIn('SNAPSHOT_ID', args, msg)
-                self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984', msg)
-                self.assertIn('local_backup', args, msg)
-                self.assertTrue(args.local_backup, msg)
-                self.assertIn('delete', args, msg)
-                self.assertTrue(args.delete, msg)
-                self.assertIn('config', args, msg)
-                self.assertEqual(args.config, 'foo', msg)
-
-    def test_multi_args(self):
-        for argv in shuffle_args(('--profile-id', '2'), '--quiet', 'restore', '--checksum',
+        for argv in shuffle_args('--quiet',
+                                 (
+                                     'restore',
+                                     '/home',
+                                     '/tmp',
+                                     '20151130-230501-984'
+                                 ),
+                                '--checksum',
+                                ('--profile-id', '2'),
                                 '--local-backup',
-                                '--delete', ('--config', 'foo')):
-            with self.subTest(argv = argv):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'argv = %s' %argv
-                args = backintime.argParse(argv)
-                self.assertIn('quiet', args, msg)
-                self.assertTrue(args.quiet, msg)
-                self.assertIn('checksum', args, msg)
-                self.assertTrue(args.checksum, msg)
-                self.assertIn('profile_id', args, msg)
-                self.assertEqual(args.profile_id, 2, msg)
-                self.assertIn('command', args, msg)
-                self.assertEqual(args.command, 'restore', msg)
-                self.assertIn('local_backup', args, msg)
-                self.assertTrue(args.local_backup, msg)
-                self.assertIn('delete', args, msg)
-                self.assertTrue(args.delete, msg)
-                self.assertIn('config', args, msg)
-                self.assertEqual(args.config, 'foo', msg)
+                                '--delete',
+                                ('--config', 'foo')):
+            sut = cliarguments.parse_arguments(argv, self.parser_agent)
+
+            self.assertEqual(sut.quiet, True)
+            self.assertEqual(sut.checksum, True)
+            self.assertEqual(sut.profile_id, 2)
+            self.assertEqual(sut.command, 'restore')
+            self.assertEqual(sut.WHAT, '/home')
+            self.assertEqual(sut.WHERE, '/tmp')
+            self.assertEqual(sut.SNAPSHOT_ID, '20151130-230501-984')
+            self.assertEqual(sut.local_backup, True)
+            self.assertEqual(sut.delete, True)
+            self.assertEqual(sut.config, 'foo')
+
+    def test_multible_args(self):
+        for argv in shuffle_args(('--profile-id', '2'),
+                                 '--quiet',
+                                 'restore',
+                                 '--checksum',
+                                 '--local-backup',
+                                 '--delete',
+                                 ('--config', 'foo')):
+            sut = cliarguments.parse_arguments(argv, self.parser_agent)
+
+            self.assertEqual(sut.quiet, True)
+            self.assertEqual(sut.checksum, True)
+            self.assertEqual(sut.profile_id, 2)
+            self.assertEqual(sut.command, 'restore')
+            self.assertEqual(sut.local_backup, True)
+            self.assertEqual(sut.delete, True)
+            self.assertEqual(sut.config, 'foo')
 
     def test_snapshot_id_index(self):
-        args = backintime.argParse(['restore', '/home', '/tmp', '1'])
-        self.assertIn('SNAPSHOT_ID', args)
-        self.assertEqual(args.SNAPSHOT_ID, '1')
+        sut = cliarguments.parse_arguments(
+            ['restore', '/home', '/tmp', '1'], self.parser_agent)
+
+        self.assertIsInstance(sut.SNAPSHOT_ID, str)
+        self.assertEqual(sut.SNAPSHOT_ID, '1')
 
     def test_empty_where(self):
-        args = backintime.argParse(['restore', '/home', '', '20151130-230501-984'])
-        self.assertIn('WHERE', args)
-        self.assertEqual(args.WHERE, '')
+        sut = cliarguments.parse_arguments(
+            ['restore', '/home', '', '20151130-230501-984'], self.parser_agent)
+
+        self.assertEqual(sut.WHERE, '')
 
     def test_where_space_in_path(self):
-        args = backintime.argParse(['restore', '/home', '/tmp/foo bar/baz', '20151130-230501-984'])
-        self.assertIn('WHERE', args)
-        self.assertEqual(args.WHERE, '/tmp/foo bar/baz')
+        sut = cliarguments.parse_arguments(
+            ['restore', '/home', '/tmp/foo bar/baz', '20151130-230501-984'],
+            self.parser_agent)
+
+        self.assertEqual(sut.WHERE, '/tmp/foo bar/baz')
 
     def test_what_space_in_path(self):
-        args = backintime.argParse(['restore', '/home/foo bar/baz', '/tmp', '20151130-230501-984'])
-        self.assertIn('WHAT', args)
-        self.assertEqual(args.WHAT, '/home/foo bar/baz')
+        sut = cliarguments.parse_arguments(
+            ['restore', '/home/foo bar/baz', '/tmp', '20151130-230501-984'],
+            self.parser_agent
+        )
+
+        self.assertEqual(sut.WHAT, '/home/foo bar/baz')
 
     def test_local_backup_and_no_local_backup(self):
         with self.assertRaises(SystemExit):
-            backintime.argParse(('restore', '--local-backup', '--no-local-backup'))
+            cliarguments.parse_arguments(
+                ('restore', '--local-backup', '--no-local-backup'),
+                self.parser_agent
+            )
 
 
 if __name__ == '__main__':
