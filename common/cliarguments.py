@@ -526,6 +526,49 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
+    def _create_cmd_snapshots_path(self):
+        name = 'snapshots-path'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = 'Show the path where snapshots are stored.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[self._cmd_excl_parsers['snapshots']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_unmount(self):
+        name = 'unmount'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = 'Unmount the profile.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_aliase_switches(self):
+        # define aliases for all commands with trailing --
+        # DEPRECATED and REMOVE it
+        group = parsers['main'].add_mutually_exclusive_group()
+
+        for alias, nargs in self._aliases:
+            if len(alias) == 1:
+                arg = '-%s' % alias
+            else:
+                arg = '--%s' % alias
+
+            group.add_argument(arg,
+                            nargs=nargs,
+                            action=PseudoAliasAction,
+                            help=argparse.SUPPRESS)
+
 
     def _create_command_parsers(self):
         self._command_subparsers = self.parsers['main'].add_subparsers(
@@ -545,6 +588,10 @@ class ParserAgent:
         self._create_cmd_shutdown()
         self._create_cmd_smart_remove()
         self._create_cmd_snapshots_list()
+        self._create_cmd_snapshots_list_path()
+        self._create_cmd_snapshots_path()
+        self._create_cmd_unmount(self)
+
 
 def parse_arguments(args: Namespace,
                     parsers: list[ArgumentParser]) -> Namespace:
@@ -636,33 +683,7 @@ def create_parsers(app_name: str,
                    ) -> dict[argparse.ArgumentParser]:
     # ---
 
-    command = 'snapshots-path'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Show the path where snapshots are stored.'
-    snapshotsPathCP = subparsers.add_parser(
-        command,
-        parents=[snapshotPathParser],
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    snapshotsPathCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = snapshotsPathCP
-
     # ---
-
-    command = 'unmount'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Unmount the profile.'
-    unmountCP = subparsers.add_parser(
-        command,
-        epilog=epilogCommon,
-        help=description,
-        description=description)
-    unmountCP.set_defaults(func=cmd_func_dict[command])
-    parsers[command] = unmountCP
-
     # ---
 
     # define aliases for all commands with trailing --
