@@ -324,7 +324,7 @@ def set_quiet(args):
 def print_header():
     """Print application name, version and legal notes."""
     print(
-        '\nBack In Timei\n'
+        f'\n{bitbase.APP_NAME}\n'
         f'Version: {__version__}\n'
         '\n'
         'Back In Time comes with ABSOLUTELY NO WARRANTY.\n'

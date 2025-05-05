@@ -37,11 +37,12 @@ from shutdownagent import ShutdownAgent
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
     return cli.get_config_and_select_profile(
-        config_path=args.config_path,
+        config_path=args.config,
         data_path=args.share_path,
         profile_id=args.profile_id,
         profile_name=args.profile,
-        checksum=args.checksum)
+        checksum=getattr(args, 'checksum', None)
+    )
 
 
 def backup(args: argparse.Namespace, force: bool = True):
