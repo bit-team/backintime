@@ -556,19 +556,22 @@ class ParserAgent:
     def _create_cmd_aliase_switches(self):
         # define aliases for all commands with trailing --
         # DEPRECATED and REMOVE it
-        group = parsers['main'].add_mutually_exclusive_group()
+        group = self.parsers['main'].add_mutually_exclusive_group()
 
         for alias, nargs in self._aliases:
-            if len(alias) == 1:
-                arg = '-%s' % alias
-            else:
-                arg = '--%s' % alias
 
-            group.add_argument(arg,
-                            nargs=nargs,
-                            action=PseudoAliasAction,
-                            help=argparse.SUPPRESS)
+            arg = f'-{alias}'
+            if len(alias) != 1:
+                arg = f'-{arg}'
 
+            logger.debug(f'COMANND ALIAS: "{alias}" -> "{arg}"', self)
+            group.add_argument(
+                arg,
+                nargs=nargs,
+                action=PseudoAliasAction,
+                # Don't show that alias in help (-h | --help) output
+                help=argparse.SUPPRESS
+            )
 
     def _create_command_parsers(self):
         self._command_subparsers = self.parsers['main'].add_subparsers(
@@ -590,7 +593,9 @@ class ParserAgent:
         self._create_cmd_snapshots_list()
         self._create_cmd_snapshots_list_path()
         self._create_cmd_snapshots_path()
-        self._create_cmd_unmount(self)
+        self._create_cmd_unmount()
+
+        self._create_cmd_aliase_switches()
 
 
 def parse_arguments(args: Namespace,
@@ -676,31 +681,6 @@ def parse_arguments(args: Namespace,
         mainParser.error(f'Unknown argument(s): {unknownArgs}')
 
     return args
-
-
-def create_parsers(app_name: str,
-                   cmd_func_dict: dict[str, callable]
-                   ) -> dict[argparse.ArgumentParser]:
-    # ---
-
-    # ---
-    # ---
-
-    # define aliases for all commands with trailing --
-    # DEPRECATED and REMOVE it
-    group = parsers['main'].add_mutually_exclusive_group()
-    for alias, nargs in aliases:
-        if len(alias) == 1:
-            arg = '-%s' % alias
-        else:
-            arg = '--%s' % alias
-
-        group.add_argument(arg,
-                           nargs=nargs,
-                           action=PseudoAliasAction,
-                           help=argparse.SUPPRESS)
-
-    return parsers
 
 
 class ActionPrintLicense(argparse.Action):
