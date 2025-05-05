@@ -153,7 +153,6 @@ def startApp(app_name='backintime'):
         args.func(args)
         return None
  
-    print(args)  # DEBUG
     # No arguments/commands
     cli.set_quiet(args)
     cli.print_header()
@@ -163,7 +162,9 @@ def startApp(app_name='backintime'):
         data_path=args.share_path,
         profile_id=args.profile_id,
         profile_name=args.profile,
-        checksum=args.checksum,
+        # Dev note (buhtz, 2025): There is not a default value in all cases,
+        # because "--checksum" is exclusive to rsync-related commands.
+        checksum=getattr(args, 'checksum', None),
         check=False)
 
 
