@@ -15,11 +15,8 @@ import re
 # Version string regularyly used by the application and presented to users.
 __version__ = '1.6.0-dev.0927479b'
 
+# Version string ends with lower case ``rc`` and optionally with a number.
+IS_RELEASE_CANDIDATE = bool(re.search(r'^.+rc\d+$', __version__))
 
-def is_release_candidate() -> bool:
-    """Test if the current version is a release candidate.
-
-    It is the case if the version string ends with lower case ``rc`` and
-    optionally with a number.
-    """
-    return bool(re.search(r'^.+rc\d+$', __version__))
+# Version ends with anything than a number
+IS_UNSTABLE_DEV_VERSION = bool(re.match(r'^\d+\.\d+\.\d+\D', __version__))

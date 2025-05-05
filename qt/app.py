@@ -322,7 +322,7 @@ class MainWindow(QMainWindow):
                 self.filesView.header().resizeSection(idx, width)
 
         # Release Candidate
-        if version.is_release_candidate():
+        if version.IS_RELEASE_CANDIDATE:
             last_vers = state_data.msg_release_candidate
             if last_vers != version.__version__:
                 state_data.msg_release_candidate = version.__version__
@@ -635,7 +635,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.is_release_candidate():
+        if version.IS_RELEASE_CANDIDATE:
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self.slot_help_release_candidate)
