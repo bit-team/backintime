@@ -10,24 +10,26 @@ import os
 import sys
 import itertools
 from test import generic
-
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import backintime
 
+
 def shuffleArgs(*args):
-    """
-    Return every possible combination of arguments. Those arguments which need
+    """Return every possible combination of arguments. Those arguments which need
     to keep in line have to be inside a tuple.
 
-    args:   two or more arguments (str)
+    Args:
+        args: Two or more arguments (str)
     """
     for i in itertools.permutations(args):
         ret = []
+
         for j in i:
             if isinstance(j, (tuple, list)):
                 ret.extend(j)
             else:
                 ret.append(j)
+
         yield ret
 
 
