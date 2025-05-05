@@ -12,6 +12,7 @@ import itertools
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import backintime
+import cliarguments
 
 
 def shuffleArgs(*args):
@@ -34,8 +35,14 @@ def shuffleArgs(*args):
 
 
 class General(generic.TestCase):
+
     def setUp(self):
         super().setUp()
+        self.parser_agent = cliarguments.ParserAgent(
+            app_name=bitbase.APP_NAME,
+            bin_name='backintime')
+
+
         backintime.createParsers()
 
     def tearDown(self):
@@ -45,7 +52,7 @@ class General(generic.TestCase):
 
     def test_invalid_arg(self):
         with self.assertRaises(SystemExit):
-            backintime.argParse(['not_existing_command'])
+            cliarguments.parse_arguments(['not_existing_command'])
         with self.assertRaises(SystemExit):
             backintime.argParse(['--not_existing_argument'])
 
