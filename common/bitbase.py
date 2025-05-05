@@ -11,8 +11,10 @@ from pathlib import Path
 
 APP_NAME = 'Back In Time'
 BINARY_NAME_BASE = 'backintime'
-BINARY_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
 BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
+PACKAGE_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
 COPYRIGHT = 'Copyright © 2008-2024 ' \
             'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
