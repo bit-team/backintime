@@ -44,6 +44,7 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
+  - sudo apt-get install -y asciidoctor
 
 jobs:
   exclude:
@@ -68,6 +69,7 @@ script:
   # run unit tests - ensure that functionality is correct
   - cd common
   - ./configure
+  - make
   - pytest --verbose
   - cd ..
   - cd qt
