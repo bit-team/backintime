@@ -22,7 +22,6 @@ import logger
 import cli
 import cliarguments
 from diagnostics import collect_minimal_diagnostics
-from version import __version__
 
 
 def takeSnapshotAsync(cfg, checksum=False):
@@ -42,12 +41,16 @@ def takeSnapshotAsync(cfg, checksum=False):
 
     if '1' != cfg.currentProfile():
         cmd.extend(('--profile-id', str(cfg.currentProfile())))
+
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
+
     if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
         cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
+
     if logger.DEBUG:
         cmd.append('--debug')
+
     if checksum:
         cmd.append('--checksum')
 
