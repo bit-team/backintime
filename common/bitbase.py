@@ -11,13 +11,20 @@ from pathlib import Path
 
 APP_NAME = 'Back In Time'
 BINARY_NAME_BASE = 'backintime'
-BINARY_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
 BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
+PACKAGE_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
 COPYRIGHT = 'Copyright © 2008-2024 ' \
             'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
             'Copyright © 2022 ' \
             'Christian Buhtz, Michael Büker, Jürgen Altfeld'
+
+# Used in context of CLI and argument parsing
+RETURN_OK = 0
+RETURN_ERR = 1
+RETURN_NO_CFG = 2
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (

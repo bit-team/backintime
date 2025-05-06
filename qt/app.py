@@ -322,7 +322,7 @@ class MainWindow(QMainWindow):
                 self.filesView.header().resizeSection(idx, width)
 
         # Release Candidate
-        if version.is_release_candidate():
+        if version.IS_RELEASE_CANDIDATE:
             last_vers = state_data.msg_release_candidate
             if last_vers != version.__version__:
                 state_data.msg_release_candidate = version.__version__
@@ -505,13 +505,13 @@ class MainWindow(QMainWindow):
                 self.btnRemoveSnapshotClicked, ['Delete'],
                 None),
             'act_snapshot_logview': (
-                icon.VIEW_SNAPSHOT_LOG, _('View backup log'),
+                icon.VIEW_SNAPSHOT_LOG, _('Open backup log'),
                 self.btnSnapshotLogViewClicked, None,
-                None),
+                _('View log of the selected backup.')),
             'act_last_logview': (
-                icon.VIEW_LAST_LOG, _('View last log'),
+                icon.VIEW_LAST_LOG, _('Open last backup log'),
                 self.btnLastLogViewClicked, None,
-                None),
+                _('View log of the latest backup.')),
             'act_settings': (
                 icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
@@ -635,7 +635,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.is_release_candidate():
+        if version.IS_RELEASE_CANDIDATE:
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self.slot_help_release_candidate)
@@ -2495,7 +2495,7 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.appStart()
 
     logger.openlog()
-    qapp = qttools.createQApplication(cfg.APP_NAME)
+    qapp = qttools.createQApplication(bitbase.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
 

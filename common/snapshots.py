@@ -718,7 +718,7 @@ class Snapshots:
         """Log a warning if include list entries are missing in the backup
         source.
 
-        If one ore more entries can not be found in the backup source a
+        If one or more entries can not be found in the backup source a
         warning message is logged.
         """
         missing_entries = self.get_include_entries_missing_in_source()
@@ -744,7 +744,7 @@ class Snapshots:
     def get_include_entries_missing_in_source(self):
         """Return include list entries that are missing in the backup source.
 
-        If one ore more entries can not be found in the backup source a
+        If one or more entries can not be found in the backup source a
         warning message is logged.
 
         Returns:

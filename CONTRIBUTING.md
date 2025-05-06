@@ -139,7 +139,7 @@ distribution.
 
 * Runtime dependencies for the CLI
 
-  - `python3` (>= 3.9)
+  - `python3` (>= 3.11)
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
@@ -180,6 +180,7 @@ distribution.
   - `gzip`
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
+  - `asciidoctor`
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `flake8`
