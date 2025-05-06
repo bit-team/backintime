@@ -26,10 +26,12 @@ import gettext
 import hashlib
 import ipaddress
 from datetime import datetime, timedelta
+from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
 from bitbase import TimeUnit
 import logger
+
 
 # Try to import keyring
 is_keyring_available = False
@@ -238,6 +240,8 @@ def initiate_translation(language_code):
 
     set_lc_time_by_language_code(used_code)
 
+    logger.debug(f'Language code used: "{used_code}"')
+
     return used_code
 
 
@@ -277,7 +281,7 @@ def set_lc_time_by_language_code(language_code: str):
         locale.setlocale(locale.LC_TIME, code)
 
     except locale.Error:
-        logger.warning(
+        logger.debug(
             f'Determined normalized locale code "{code}" (from language code '
             f'"{language_code}") not available (or invalid). The code will be '
             'ignored. This might lead to unusual display of dates and '
@@ -322,6 +326,8 @@ def get_language_names(language_code):
 
     Language codes from `get_available_language_codes()` are combined with
     `languages.language_names` to prepare the list.
+    If ``language_code`` is not
+    one of the available languages English is used.
 
     Args:
         language_code (str): Usually the current language used by Back In Time.
@@ -333,6 +339,8 @@ def get_language_names(language_code):
         the language itself (native) and in English (the source language);
         e.g. ``ja`` (Japanese) for ``de`` (German) locale
         is ``('Japanisch', '日本語', 'Japanese')``.
+        If ``language_code`` is not one of the available languages the first
+        element in the tuple is ``None``.
     """
     result = {}
     codes = ['en'] + get_available_language_codes()
@@ -352,7 +360,7 @@ def get_language_names(language_code):
         else:
             names = (
                 # in currents locale language
-                lang[language_code],
+                lang.get(language_code, None),
                 # native
                 lang['_native'],
                 # in English (source language)
@@ -387,6 +395,7 @@ def get_native_language_and_completeness(language_code: str
 # | Candidates for refactoring and moving |
 # | into better suited modules/classes    |
 # |---------------------------------------|
+
 
 NTFS_FILESYSTEM_WARNING = _(
     'The destination filesystem for {path} is formatted with NTFS, which has '
@@ -541,6 +550,34 @@ def is_writeable(folder):
 
     return True, None
 
+# |-----------------------------------|
+# | Manimpulation of basic data types |
+# |-----------------------------------|
+
+
+def nested_dict_update(org: dict, update: dict) -> dict:
+    """Nested update of dict-like 'org' with dict-like 'update'.
+
+    See *Deep merge dictionaries of dictionaries in Python* at
+    StackOverflow: https://stackoverflow.com/q/7204805/4865723
+    Credits for current solution:
+
+    https://stackoverflow.com/a/52319248/4865723
+    """
+    for key in update:
+
+        if (key in org
+                and isinstance(org[key], MutableMapping)
+                and isinstance(update[key], MutableMapping)):
+
+            nested_dict_update(org[key], update[key])
+
+            continue
+
+        org[key] = update[key]
+
+    return org
+
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
@@ -590,8 +627,9 @@ def addSourceToPathEnviron():
 def get_git_repository_info(path=None, hash_length=None):
     """Return the current branch and last commit hash.
 
-    About the length of a commit hash. There is no strict rule but it is
-    common sense that 8 to 10 characters are enough to be unique.
+    The information will be extracted from the git folder without using git
+    binary. About the length of a commit hash. There is no strict rule but it
+    is common sense that 8 to 10 characters are enough to be unique.
 
     Credits: https://stackoverflow.com/a/51224861/4865723
 
@@ -603,11 +641,13 @@ def get_git_repository_info(path=None, hash_length=None):
     Returns:
         (dict): Dict with keys "branch" and "hash" if it is a git repo,
                 otherwise an `None`.
+
     """
 
     if not path:
         # Default is current working dir
         path = pathlib.Path.cwd()
+
     elif isinstance(path, str):
         # WORKAROUND until cmoplete migration to pathlib
         path = pathlib.Path(path)
@@ -674,7 +714,7 @@ def readFile(path, default=None):
     return ret_val
 
 
-def readFileLines(path, default = None):
+def readFileLines(path, default=None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
     content as a list of lines or ``default`` if ``path`` does not exist.
@@ -943,9 +983,12 @@ def processCmdline(pid):
     try:
         with open('/proc/{}/cmdline'.format(pid), 'rt') as f:
             return f.read().strip('\n')
+
     except OSError as e:
-        logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        logger.warning('Failed to read process cmdline from {}: [{}] {}'
+                       .format(e.filename, e.errno, e.strerror))
         return ''
+
 
 def pidsWithName(name):
     """
@@ -960,6 +1003,7 @@ def pidsWithName(name):
     # /proc/###/stat stores just the first 16 chars of the process name
     return [x for x in pids() if processName(x) == name[:15]]
 
+
 def processExists(name):
     """
     Check if process ``name`` is currently running.
@@ -972,38 +1016,44 @@ def processExists(name):
     """
     return len(pidsWithName(name)) > 0
 
+
 def processAlive(pid):
-    """
-    Check if the process with PID ``pid`` is alive.
+    """Check if the process with PID ``pid`` is alive.
 
     Args:
-        pid (int):  Process Indicator
+        pid (int): Process Indicator
 
     Returns:
-        bool:       ``True`` if the process with PID ``pid`` is alive
+        bool: ``True`` if alive otherwise ``False``.
 
     Raises:
-        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to all
-                    processes
+        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to
+            all processes.
     """
     if pid < 0:
         return False
-    elif pid == 0:
-        raise ValueError('invalid PID 0')
-    else:
-        try:
-            os.kill(pid, 0) #this will raise an exception if the pid is not valid
-        except OSError as err:
-            if err.errno == errno.ESRCH:
-                # ESRCH == No such process
-                return False
-            elif err.errno == errno.EPERM:
-                # EPERM clearly means there's a process to deny access to
-                return True
-            else:
-                raise
-        else:
+
+    if pid == 0:
+        raise ValueError('Invalid PID 0')
+
+    try:
+        # Signal 0 is a dummy signal without effect. But an OSError is raised
+        # if the process does not exists.
+        os.kill(pid, 0)
+
+    except OSError as err:
+        if err.errno == errno.ESRCH:
+            # ESRCH == No such process
+            return False
+
+        if err.errno == errno.EPERM:
+            # EPERM clearly means there's a process to deny access to
             return True
+
+        raise
+
+    return True
+
 
 def checkXServer():
     """
@@ -1022,8 +1072,8 @@ def checkXServer():
     #       https://cgit.freedesktop.org/xorg/app/xdpyinfo/tree/xdpyinfo.c
     if checkCommand('xdpyinfo'):
         proc = subprocess.Popen(['xdpyinfo'],
-                                stdout = subprocess.DEVNULL,
-                                stderr = subprocess.DEVNULL)
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL)
         proc.communicate()
         return proc.returncode == 0
     else:
@@ -1063,12 +1113,14 @@ def is_Qt_working(systray_required=False):
                               stderr=subprocess.PIPE,
                               universal_newlines=True) as proc:
 
-            std_output, error_output = proc.communicate(timeout=30)  # to get the exit code
-            # "timeout" fixes #1592 (qt_probing.py may hang as root): Kill after timeout
+            # to get the exit code "timeout" fixes #1592 (qt_probing.py may
+            # hang as root): Kill after timeout
+            std_output, error_output = proc.communicate(timeout=30)
 
             logger.debug(f"Qt probing result: exit code {proc.returncode}")
 
-            if proc.returncode != 2 or logger.DEBUG:  # if some Qt parts are missing: Show details
+            # if some Qt parts are missing: Show details
+            if proc.returncode != 2 or logger.DEBUG:
                 logger.debug(f"Qt probing stdout:\n{std_output}")
                 logger.debug(f"Qt probing errout:\n{error_output}")
 
@@ -1082,7 +1134,8 @@ def is_Qt_working(systray_required=False):
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
-        logger.info("Qt probing sub process killed after timeout without response")
+        logger.info("Qt probing sub process killed after timeout "
+                    "without response")
         logger.debug(f"Qt probing stdout:\n{outs}")
         logger.debug(f"Qt probing errout:\n{errs}")
 
@@ -1105,6 +1158,7 @@ def preparePath(path):
     path = os.sep + path
     return path
 
+
 def powerStatusAvailable():
     """
     Check if org.freedesktop.UPower is available so that
@@ -1118,11 +1172,15 @@ def powerStatusAvailable():
             bus = dbus.SystemBus()
             proxy = bus.get_object('org.freedesktop.UPower',
                                    '/org/freedesktop/UPower')
-            return 'OnBattery' in proxy.GetAll('org.freedesktop.UPower',
-                            dbus_interface = 'org.freedesktop.DBus.Properties')
+            return 'OnBattery' in proxy.GetAll(
+                'org.freedesktop.UPower',
+                dbus_interface='org.freedesktop.DBus.Properties')
+
         except dbus.exceptions.DBusException:
             pass
+
     return False
+
 
 def onBattery():
     """
@@ -1131,19 +1189,27 @@ def onBattery():
     Returns:
         bool:   ``True`` if system is running on battery
     """
-    if dbus:
-        try:
-            bus = dbus.SystemBus()
-            proxy = bus.get_object('org.freedesktop.UPower',
-                                   '/org/freedesktop/UPower')
-            return bool(proxy.Get('org.freedesktop.UPower',
-                                  'OnBattery',
-                                  dbus_interface = 'org.freedesktop.DBus.Properties'))
-        except dbus.exceptions.DBusException:
-            pass
+    if dbus is None:
+        return False
+
+    try:
+        bus = dbus.SystemBus()
+        proxy = bus.get_object('org.freedesktop.UPower',
+                                '/org/freedesktop/UPower')
+        return bool(proxy.Get(
+            'org.freedesktop.UPower',
+            'OnBattery',
+            dbus_interface='org.freedesktop.DBus.Properties'))
+
+    except dbus.exceptions.DBusException as exc:
+        logger.debug('DBus exception while determining if running on '
+                     f'battery. {exc}')
+        pass
+
     return False
 
-def rsyncCaps(data = None):
+
+def rsyncCaps(data=None):
     """
     Get capabilities of the installed rsync binary. This can be different from
     version to version and also on build arguments used when building rsync.
@@ -1156,26 +1222,29 @@ def rsyncCaps(data = None):
     """
     if not data:
         proc = subprocess.Popen(['rsync', '--version'],
-                                stdout = subprocess.PIPE,
-                                universal_newlines = True)
+                                stdout=subprocess.PIPE,
+                                universal_newlines=True)
         data = proc.communicate()[0]
     caps = []
-    #rsync >= 3.1 does provide --info=progress2
+
+    # rsync >= 3.1 does provide --info=progress2
     matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+
     for matcher in matchers:
         m = re.match(matcher, data)
         if m and Version(m.group(1)) >= Version('3.1'):
             caps.append('progress2')
             break
 
-    #all other capabilities are separated by ',' between
-    #'Capabilities:' and '\n\n'
+    # all other capabilities are separated by ',' between
+    # 'Capabilities:' and '\n\n'
     m = re.match(r'.*Capabilities:(.+)\n\n.*', data, re.DOTALL)
     if not m:
         return caps
 
     for line in m.group(1).split('\n'):
-        caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
+        caps.extend(
+            [i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
 
@@ -1317,7 +1386,7 @@ def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
     return cmd
 
 
-def rsyncRemove(config, run_local = True):
+def rsyncRemove(config, run_local=True):
     """
     Get rsync command and all args for removing snapshots with rsync.
 
@@ -1334,7 +1403,7 @@ def rsyncRemove(config, run_local = True):
         cmd.extend(rsyncSshArgs(config))
     return cmd
 
-#TODO: check if we really need this
+# TODO: check if we really need this
 def tempFailureRetry(func, *args, **kwargs):
     while True:
         try:
@@ -1344,6 +1413,7 @@ def tempFailureRetry(func, *args, **kwargs):
                 continue
             else:
                 raise
+
 
 def md5sum(path):
     """
@@ -1363,6 +1433,7 @@ def md5sum(path):
                 break
             md5.update(data)
     return md5.hexdigest()
+
 
 def checkCronPattern(s):
     """
@@ -1429,9 +1500,9 @@ def envSave(f):
     """
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
-    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
-                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
-                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
+    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS',
+                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID',
+                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID',
                 'KDE_FULL_SESSION'):
         if key in env:
             env_file.setStrValue(key, env[key])
@@ -1476,7 +1547,7 @@ def keyringSupported():
 
     try:
         for b in backend.get_all_keyring():
-            logger.debug(b)
+            logger.debug(str(b))
     except Exception as e:
         logger.debug("Available backends cannot be listed: " + repr(e))
 
@@ -1510,7 +1581,6 @@ def keyringSupported():
     for backend_package, backends in backends_to_check:
         result = backend_package  # e.g. keyring.backends
 
-
         try:
             # Load the backend step-by-step.
             # e.g. When the target is "keyring.backends.Gnome.Keyring" then in
@@ -1519,7 +1589,7 @@ def keyringSupported():
             for b in backends:
                 result = getattr(result, b)
 
-        except AttributeError as err:
+        except AttributeError:
             # # Debug message if backend is not available.
             # logger.debug('Metaclass {}.{} not found: {}'
             #              .format(backend_package.__name__,
@@ -1668,6 +1738,7 @@ def filesystem(path):
         return args[2]
     return None
 
+
 def _uuidFromDev_via_filesystem(dev):
     """Get the UUID for the block device ``dev`` from ``/dev/disk/by-uuid`` in
     the filesystem.
@@ -1678,7 +1749,6 @@ def _uuidFromDev_via_filesystem(dev):
     Returns:
         str: The UUID or ``None`` if nothing found.
     """
-
 
     # /dev/disk/by-uuid
     path_DISK_BY_UUID = pathlib.Path(DISK_BY_UUID)
@@ -1717,9 +1787,10 @@ def _uuidFromDev_via_blkid_command(dev):
     # Call "blkid" command
     try:
         # If device does not exist, blkid will exit with a non-zero code
-        output = subprocess.check_output(['blkid', dev],
-                                        stderr = subprocess.DEVNULL,
-                                        universal_newlines=True)
+        output = subprocess.check_output(
+            ['blkid', dev],
+            stderr=subprocess.DEVNULL,
+            universal_newlines=True)
 
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
@@ -1733,6 +1804,7 @@ def _uuidFromDev_via_blkid_command(dev):
 
     return None
 
+
 def _uuidFromDev_via_udevadm_command(dev):
     """Get the UUID for the block device ``dev`` via the extern command
     ``udevadm``.
@@ -1745,9 +1817,10 @@ def _uuidFromDev_via_udevadm_command(dev):
     """
     # Call "udevadm" command
     try:
-        output = subprocess.check_output(['udevadm', 'info', f'--name={dev}'],
-                                        stderr = subprocess.DEVNULL,
-                                        universal_newlines=True)
+        output = subprocess.check_output(
+            ['udevadm', 'info', f'--name={dev}'],
+            stderr=subprocess.DEVNULL,
+            universal_newlines=True)
 
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
@@ -1822,6 +1895,7 @@ def isRoot():
     # is the original user who executed "sudo").
     return os.geteuid() == 0
 
+
 def usingSudo():
     """
     Check if 'sudo' was used to start this process.
@@ -1834,6 +1908,7 @@ def usingSudo():
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
+
 
 def patternHasNotEncryptableWildcard(pattern):
     """
@@ -1868,7 +1943,7 @@ def readTimeStamp(fname):
     """
 
     if not os.path.exists(fname):
-        logger.debug(f"No timestamp file '{fname}'")
+        # logger.debug(f"No timestamp file '{fname}'")
         return
 
     with open(fname, 'r') as f:
@@ -1891,8 +1966,7 @@ def readTimeStamp(fname):
 
         else:
             # valid time stamp
-            logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
-
+            # logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
             return stamp
 
 
@@ -1903,106 +1977,14 @@ def writeTimeStamp(fname):
         fname (str): Full path to timestamp file.
     """
     now = datetime.now().strftime('%Y%m%d %H%M')
-    logger.debug(f"Write timestamp '{now}' into file '{fname}'")
+    # logger.debug(f"Write timestamp '{now}' into file '{fname}'")
     makeDirs(os.path.dirname(fname))
 
     with open(fname, 'w') as f:
         f.write(now)
 
 
-INHIBIT_LOGGING_OUT = 1
-INHIBIT_USER_SWITCHING = 2
-INHIBIT_SUSPENDING = 4
-INHIBIT_IDLE = 8
-
-INHIBIT_DBUS = (
-               {'service':      'org.gnome.SessionManager',
-                'objectPath':   '/org/gnome/SessionManager',
-                'methodSet':    'Inhibit',
-                'methodUnSet':  'Uninhibit',
-                'interface':    'org.gnome.SessionManager',
-                'arguments':    (0, 1, 2, 3)
-               },
-               {'service':      'org.mate.SessionManager',
-                'objectPath':   '/org/mate/SessionManager',
-                'methodSet':    'Inhibit',
-                'methodUnSet':  'Uninhibit',
-                'interface':    'org.mate.SessionManager',
-                'arguments':    (0, 1, 2, 3)
-               },
-               {'service':      'org.freedesktop.PowerManagement',
-                'objectPath':   '/org/freedesktop/PowerManagement/Inhibit',
-                'methodSet':    'Inhibit',
-                'methodUnSet':  'UnInhibit',
-                'interface':    'org.freedesktop.PowerManagement.Inhibit',
-                'arguments':    (0, 2)
-               })
-
-def inhibitSuspend(app_id = sys.argv[0],
-                    toplevel_xid = None,
-                    reason = 'take snapshot',
-                    flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
-    """
-    Prevent machine to go to suspend or hibernate.
-    Returns the inhibit cookie which is used to end the inhibitor.
-    """
-    if ON_TRAVIS or dbus is None:
-        # no suspend on travis (no dbus either)
-        return
-
-    # Fixes #1592 (BiT hangs as root when trying to establish a dbus user session connection)
-    # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus user session
-    #              and it may have worked sometimes (without logging we don't know)
-    #              so as root suspend can no longer inhibited.
-    if isRoot():
-        logger.debug("Inhibit Suspend failed because BIT was started as root.")
-        return
-
-    if not app_id:
-        app_id = 'backintime'
-    try:
-        if not toplevel_xid:
-            toplevel_xid = 0
-    except IndexError:
-        toplevel_xid = 0
-
-    for dbus_props in INHIBIT_DBUS:
-        try:
-            #connect directly to the socket instead of dbus.SessionBus because
-            #the dbus.SessionBus was initiated before we loaded the environ
-            #variables and might not work
-            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
-            else:
-                bus = dbus.SessionBus()  # This code may hang forever (if BiT is run as root via cron job and no user is logged in). See #1592
-            interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-            proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
-            cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
-            logger.debug('Inhibit Suspend started. Reason: {}'.format(reason))
-            return (cookie, bus, dbus_props)
-        except dbus.exceptions.DBusException:
-            pass
-    logger.warning('Inhibit Suspend failed.')
-
-def unInhibitSuspend(cookie, bus, dbus_props):
-    """
-    Release inhibit.
-    """
-    assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
-    assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
-    assert isinstance(dbus_props, dict), 'dbus_props is not dict type: %s' % dbus_props
-    try:
-        interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-        proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
-        proxy(cookie)
-        logger.debug('Release inhibit Suspend')
-        return None
-    except dbus.exceptions.DBusException:
-        logger.warning('Release inhibit Suspend failed.')
-        return (cookie, bus, dbus_props)
-
-
-def splitCommands(cmds, head = '', tail = '', maxLength = 0):
+def splitCommands(cmds, head='', tail='', maxLength=0):
     """
     Split a list of commands ``cmds`` into multiple commands with each length
     lower than ``maxLength``.
@@ -2144,195 +2126,6 @@ class Alarm:
 
         else:
             self.callback()
-
-
-class ShutDown:
-    """
-    Shutdown the system after the current snapshot has finished.
-    This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
-    """
-    DBUS_SHUTDOWN ={'gnome':   {'bus':          'sessionbus',
-                                'service':      'org.gnome.SessionManager',
-                                'objectPath':   '/org/gnome/SessionManager',
-                                'method':       'Shutdown',
-                                    #methods    Shutdown
-                                    #           Reboot
-                                    #           Logout
-                                'interface':    'org.gnome.SessionManager',
-                                'arguments':    ()
-                                    #arg (only with Logout)
-                                    #           0 normal
-                                    #           1 no confirm
-                                    #           2 force
-                               },
-                    'kde':     {'bus':          'sessionbus',
-                                'service':      'org.kde.ksmserver',
-                                'objectPath':   '/KSMServer',
-                                'method':       'logout',
-                                'interface':    'org.kde.KSMServerInterface',
-                                'arguments':    (-1, 2, -1)
-                                    #1st arg   -1 confirm
-                                    #           0 no confirm
-                                    #2nd arg   -1 full dialog with default logout
-                                    #           0 logout
-                                    #           1 restart
-                                    #           2 shutdown
-                                    #3rd arg   -1 wait 30sec
-                                    #           2 immediately
-                               },
-                    'xfce':    {'bus':          'sessionbus',
-                                'service':      'org.xfce.SessionManager',
-                                'objectPath':   '/org/xfce/SessionManager',
-                                'method':       'Shutdown',
-                                    #methods    Shutdown
-                                    #           Restart
-                                    #           Suspend (no args)
-                                    #           Hibernate (no args)
-                                    #           Logout (two args)
-                                'interface':    'org.xfce.Session.Manager',
-                                'arguments':    (True,)
-                                    #arg        True    allow saving
-                                    #           False   don't allow saving
-                                    #1st arg (only with Logout)
-                                    #           True    show dialog
-                                    #           False   don't show dialog
-                                    #2nd arg (only with Logout)
-                                    #           True    allow saving
-                                    #           False   don't allow saving
-                               },
-                    'mate':    {'bus':          'sessionbus',
-                                'service':      'org.mate.SessionManager',
-                                'objectPath':   '/org/mate/SessionManager',
-                                'method':       'Shutdown',
-                                    #methods    Shutdown
-                                    #           Logout
-                                'interface':    'org.mate.SessionManager',
-                                'arguments':    ()
-                                    #arg (only with Logout)
-                                    #           0 normal
-                                    #           1 no confirm
-                                    #           2 force
-                               },
-                    'e17':     {'bus':          'sessionbus',
-                                'service':      'org.enlightenment.Remote.service',
-                                'objectPath':   '/org/enlightenment/Remote/RemoteObject',
-                                'method':       'Halt',
-                                    #methods    Halt -> Shutdown
-                                    #           Reboot
-                                    #           Logout
-                                    #           Suspend
-                                    #           Hibernate
-                                'interface':    'org.enlightenment.Remote.Core',
-                                'arguments':    ()
-                               },
-                    'e19':     {'bus':          'sessionbus',
-                                'service':      'org.enlightenment.wm.service',
-                                'objectPath':   '/org/enlightenment/wm/RemoteObject',
-                                'method':       'Shutdown',
-                                    #methods    Shutdown
-                                    #           Restart
-                                'interface':    'org.enlightenment.wm.Core',
-                                'arguments':    ()
-                               },
-                    'z_freed': {'bus':          'systembus',
-                                'service':      'org.freedesktop.login1',
-                                'objectPath':   '/org/freedesktop/login1',
-                                'method':       'PowerOff',
-                                'interface':    'org.freedesktop.login1.Manager',
-                                'arguments':    (True,)
-                               }
-                   }
-
-    def __init__(self):
-        self.is_root = isRoot()
-        if self.is_root:
-            self.proxy, self.args = None, None
-        else:
-            self.proxy, self.args = self._prepair()
-        self.activate_shutdown = False
-        self.started = False
-
-    def _prepair(self):
-        """
-        Try to connect to the given dbus services. If successful it will
-        return a callable dbus proxy and those arguments.
-        """
-        try:
-            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                sessionbus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
-            else:
-                sessionbus = dbus.SessionBus()
-            systembus  = dbus.SystemBus()
-        except:
-            return (None, None)
-        des = list(self.DBUS_SHUTDOWN.keys())
-        des.sort()
-        for de in des:
-            if de == 'gnome' and self.unity7():
-                continue
-            dbus_props = self.DBUS_SHUTDOWN[de]
-            try:
-                if dbus_props['bus'] == 'sessionbus':
-                    bus = sessionbus
-                else:
-                    bus = systembus
-                interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-                proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
-                return (proxy, dbus_props['arguments'])
-            except dbus.exceptions.DBusException:
-                continue
-        return (None, None)
-
-    def canShutdown(self):
-        """
-        Indicate if a valid dbus service is available to shutdown system.
-        """
-        return not self.proxy is None or self.is_root
-
-    def askBeforeQuit(self):
-        """
-        Indicate if ShutDown is ready to fire and so the application
-        shouldn't be closed.
-        """
-        return self.activate_shutdown and not self.started
-
-    def shutdown(self):
-        """
-        Run 'shutdown -h now' if we are root or
-        call the dbus proxy to start the shutdown.
-        """
-        if not self.activate_shutdown:
-            return False
-
-        if self.is_root:
-            self.started = True
-            proc = subprocess.Popen(['shutdown', '-h', 'now'])
-            proc.communicate()
-            return proc.returncode
-
-        if self.proxy is None:
-            return False
-
-        else:
-            self.started = True
-
-            return self.proxy(*self.args)
-
-    def unity7(self):
-        """
-        Unity >= 7.0 doesn't shutdown automatically. It will
-        only show shutdown dialog and wait for user input.
-        """
-        if not checkCommand('unity'):
-            return False
-        proc = subprocess.Popen(['unity', '--version'],
-                                stdout = subprocess.PIPE,
-                                universal_newlines = True)
-        unity_version = proc.communicate()[0]
-        m = re.match(r'unity ([\d\.]+)', unity_version)
-
-        return m and Version(m.group(1)) >= Version('7.0') and processExists('unity-panel-service')
-
 
 class SetupUdev:
     """
@@ -2520,7 +2313,7 @@ class Execute:
 
         self.pausable = True
         self.printable_cmd = ' '.join(self.cmd)
-        logger.debug(f'Call command "{self.printable_cmd}"', self.parent, 2)
+        # logger.debug(f'Call command "{self.printable_cmd}"', self.parent, 2)
 
     def run(self):
         """Run the command using ``subprocess.Popen``.
@@ -2548,7 +2341,8 @@ class Execute:
 
         stderr = subprocess.STDOUT if self.join_stderr else subprocess.DEVNULL
 
-        logger.debug(f"Starting command '{self.printable_cmd}'")
+        logger.debug(
+            f'Starting command: "{self.printable_cmd}"')
 
         self.currentProc = subprocess.Popen(
             self.cmd, stdout=subprocess.PIPE, stderr=stderr)
@@ -2596,20 +2390,21 @@ class Execute:
             signal.signal(signal.SIGTSTP, signal.SIG_DFL)
             signal.signal(signal.SIGCONT, signal.SIG_DFL)
             signal.signal(signal.SIGHUP, signal.SIG_DFL)
+
         except ValueError:
             # signal only work in qt main thread
             # TODO What does this imply?
             pass
 
         if ret_val == 0:
-            msg = f'Command "{self.printable_cmd[:16]}" returns {ret_val}'
+            msg = f'Command "{self.printable_cmd[:16]}" returned {ret_val}'
             if out:
                 msg += ': ' + out.decode().strip('\n')
             logger.debug(msg, self.parent, 2)
 
         else:
             msg = f'Command "{self.printable_cmd}" ' \
-                  f'returns {bcolors.WARNING}{ret_val}{bcolors.ENDC}'
+                  f'returned {bcolors.WARNING}{ret_val}{bcolors.ENDC}'
             if out:
                 msg += ' | ' + out.decode().strip('\n')
             logger.warning(msg, self.parent, 2)

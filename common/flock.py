@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Manage file lock.
 
 Offer context managers to manage file lock (flock) files.
@@ -49,6 +49,7 @@ class _FlockContext:
     a single-user file lock is used by default until Back In Time is started
     once as root.
     """
+
     def __init__(self,
                  filename: str,
                  disable: bool = False):
@@ -187,6 +188,7 @@ class GlobalFlock(_FlockContext):
     If it is a multi-user or single-user flock depends on the several
     aspects. See :class:`_FlockContext` for details.
     """
+
     def __init__(self, disable: bool = False):
         """See :func:`_FlockContext.__init__()` for details.
         """

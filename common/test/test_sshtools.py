@@ -1,20 +1,11 @@
-# Back In Time
-# Copyright (C) 2016-2022 Taylor Raack, Germar Reitze
+# SPDX-FileCopyrightText: © 2016-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2016-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation,Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import random
@@ -33,6 +24,7 @@ from exceptions import MountException
 
 SKIP_MESSAGE_SSH = 'Skip as this test requires a local ssh server, public ' \
                    'and private keys installed'
+
 
 @unittest.skipIf(not generic.LOCAL_SSH, SKIP_MESSAGE_SSH)
 class General(generic.SSHTestCase):
@@ -224,6 +216,7 @@ class General(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
         self.assertRegex(ssh.randomId(size = 6), r'[A-Z0-9]{6}')
 
+
 class SshKey(generic.TestCaseCfg):
     def test_generate(self):
         with TemporaryDirectory() as tmp:
@@ -296,6 +289,7 @@ class SshKey(generic.TestCaseCfg):
                 if os.path.exists(knownHostsSic):
                     shutil.copyfile(knownHostsSic, knownHosts)
 
+
 @unittest.skipIf(not generic.LOCAL_SSH, SKIP_MESSAGE_SSH)
 class StartSshAgent(generic.SSHTestCase):
     # running this test requires that user has public / private key pair created and ssh server running
@@ -358,6 +352,7 @@ class StartSshAgent(generic.SSHTestCase):
         mockWhich.return_value = ''
         with self.assertRaises(MountException):
             self.ssh.startSshAgent()
+
 
 class SSHCopyID(unittest.TestCase):
     def test_complete_command(self):

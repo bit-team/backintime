@@ -1,21 +1,13 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import sys
 import os
 import subprocess
@@ -83,25 +75,30 @@ class QtSysTrayIcon:
         self.menuProgress.setVisible(False)
         self.contextMenu.addSeparator()
 
-        self.btnPause = self.contextMenu.addAction(icon.PAUSE, _('Pause snapshot process'))
+        self.btnPause = self.contextMenu.addAction(
+            icon.PAUSE, _('Pause backup process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
         self.btnPause.triggered.connect(action)
 
-        self.btnResume = self.contextMenu.addAction(icon.RESUME, _('Resume snapshot process'))
+        self.btnResume = self.contextMenu.addAction(
+            icon.RESUME, _('Resume backup process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
         self.btnResume.triggered.connect(action)
         self.btnResume.setVisible(False)
 
-        self.btnStop = self.contextMenu.addAction(icon.STOP, _('Stop snapshot process'))
+        self.btnStop = self.contextMenu.addAction(
+            icon.STOP, _('Stop backup process'))
         self.btnStop.triggered.connect(self.onBtnStop)
         self.contextMenu.addSeparator()
 
-        self.btnDecode = self.contextMenu.addAction(icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
+        self.btnDecode = self.contextMenu.addAction(
+            icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
         self.btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
         self.btnDecode.toggled.connect(self.onBtnDecode)
 
-        self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
+        self.openLog = self.contextMenu.addAction(
+            icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
         self.startBIT = self.contextMenu.addAction(
             icon.BIT_LOGO,
@@ -201,6 +198,10 @@ class QtSysTrayIcon:
             self.menuProgress.setVisible(False)
 
     def getMenuProgress(self, pg):
+        """See common/app.py::MainWindow.getProgressBarFormat().
+
+        The code is a near duplicate.
+        """
         data = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
@@ -241,7 +242,8 @@ class QtSysTrayIcon:
         self.btnStop.setEnabled(False)
         self.btnPause.setEnabled(False)
         self.btnResume.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
+        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
+
 
 if __name__ == '__main__':
 

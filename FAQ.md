@@ -8,6 +8,8 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
+<sub>January 2025</sub>
+
 # FAQ - Frequently Asked Questions
 
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
@@ -19,6 +21,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to read log entries?](#how-to-read-log-entries)
    * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
+   * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
 - [Backups (snapshots)](#backups-snapshots)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
@@ -27,6 +30,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
    * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
    * [What happens when I remove a snapshot?](#what-happens-when-i-remove-a-snapshot)
+   * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
+   * [How to use extended filesystem attributes (xattr) to exclude files/directories?](#how-to-use-extended-filesystem-attributes-xattr-to-exclude-filesdirectories)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
    * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
@@ -34,17 +39,21 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
    * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
+   * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
-   * [Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))](#ubuntu---warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
    * [What happens if there is not enough disk space for the current backup?](#what-happens-if-there-is-not-enough-disk-space-for-the-current-backup)
    * [NTFS Compatibility](#ntfs-compatibility)
+   * [GUI does not scale on high resolution or 4k monitors](#gui-does-not-scale-on-high-resolution-or-4k-monitors)
+   * [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
+   * [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
+   * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
 - [user-callback and other PlugIns](#user-callback-and-other-plugins)
    * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
    * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
@@ -53,10 +62,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
+   * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
-- [Uncategorized questions](#uncategorized-questions)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-i-saw-that-it-saves-the-names-for-uids-and-gids-so-i-assume-it-can-restore-correctly-even-if-the-ids-change-great---are-there-additional-benefits)
+- [Project & Contributing & more](#project--Contributing--more)
+   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
+   + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
+   * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
+   * [How to review a Pull Request](#how-to-review-a-pull-request)
 - [Testing & Building](#testing--building)
    * [SSH related tests are skipped](#ssh-related-tests-are-skipped)
    * [Setup SSH Server to run unit tests](#setup-ssh-server-to-run-unit-tests)
@@ -187,6 +200,29 @@ You can avoid this by moving the file/folder in the last snapshot too:
 5. Remove the next to last snapshot (the one where you moved the folder manually)
    to avoid problems with permissions when you try to restore from that snapshot
 
+## How does _Back In Time_ compare with _Timeshift_?
+
+Back In Time and Timeshift are both Linux application that provides back up functionality.
+
+1. Similarity 
+   - Both programs are backup tools for Linux and they create snapshots at a specific time.
+   - For both programs, snapshots are taken using rsync and hard-links, while
+   Common files are shared between snapshots which saves disk space.
+   - Both programs support GUI and CLI
+   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots 
+   completely and create snapshots manually when required
+
+2. Back In Time
+   - It is designed to protect user data including any folders or files.
+   - It backs up certain folders and files that you want to protect. Modified files are transferred, 
+   while unchanged files are linked to the new folder. You can restore certain files and folders.
+   - It's great for protecting your personal data
+
+3. TimeShift
+   - It is designed for system snapshots which allows restoring whole Linux system 
+   to a previous state without affecting any user data.
+   - It backs up system files, not including any personal data unless user explicitly configured.
+   - It's good for restoring your system after an update failure or configuration change.
 
 # Backups (snapshots)
 
@@ -230,7 +266,7 @@ counter = 1.
 | fileB  |       2 |         1 |
 | fileC  |       3 |         1 |
 
-Lets say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
+Let's say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
 BIT first makes hardlinks of all files. ``rsync`` than delete all hardlinks of
 files that has changed and copy the new files.
 
@@ -409,6 +445,62 @@ others, so other snapshots are not affected. However, the data of identical file
 not stored redundantly by multiple snapshots, so removing a snapshot will only
 recover the space used by files that are unique to that snapshot.
 
+## How can I exclude cache folders to improve backup speed and reduce storage?
+
+**Why exclude cache folders?**
+
+Cache folders typically contain temporary files that are not necessary for backups. 
+Excluding them can significantly improve backup speed and reduce storage usage.
+
+**How to exclude cache folders:**
+
+1. Open Back in Time.
+2. Go to the **Exclude Patterns** settings:
+   - Click the "Exclude" tab in the configuration window.
+   - Click the **Add** button to create a new exclude pattern.
+
+3. Add the following patterns to exclude common cache directories:
+   ```plaintext
+   .var/app/**/[Cc]ache/
+   .var/app/**/media_cache/
+   .mozilla/firefox/**/cache/
+   .config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage/
+   ```
+
+**Explanation**:
+
+- `/**/` matches any directory structure leading to the specified folder.
+- `[Cc]ache` matches folder names with either uppercase or lowercase "Cache."
+
+4. Decide whether to include or exclude the folder itself:
+   - To exclude only the folder’s content, use `/*` at the end of the pattern:
+     ```plaintext
+     .var/app/**/[Cc]ache/*
+     ```
+   - To exclude the folder and its contents, omit the `/*`:
+     ```plaintext
+     .var/app/**/[Cc]ache/
+     ```
+
+**Tips for better results:**
+
+- **Check Backup Logs**:  
+  After running a backup, review the logs to identify additional folders that may 
+  slow down the process. Example log entries for cache files:
+  ```plaintext
+  [E] Skipping file /path/to/cache/file: Too many small files.
+  ```
+
+- **Customize Patterns**:  
+  Adjust the patterns to suit your specific applications. For example, modify paths 
+  for browsers or other software you use.
+
+- **Test Exclude Patterns**:  
+  Test your backup after adding patterns to ensure they work as intended.
+
+## How to use extended filesystem attributes (xattr) to exclude files/directories?
+Please see [Issue #817](https://github.com/bit-team/backintime/issues/817) for
+details.
 
 # Restore
 
@@ -506,6 +598,39 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
+## Can I use a systemd timer instead of cron?
+
+While there is no support within *Back In Time* to directly create a systemd
+timer, users can create a user timer and service units. Templates are provided
+below. Optionally adjust the value for `OnCalendar=` with a valid setting. See
+[`man systemd.timer`](https://manpages.debian.org/testing/systemd/systemd.timer.5)
+for more.
+
+**Timer**:
+```ini
+# ~/.config/systemd/user/backintime-backup-job.timer
+[Unit]
+Description=Start a backintime snapshot once daily
+
+[Timer]
+OnCalendar=daily
+AccuracySec=1m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+**Service**:
+```ini
+# ~/.config/systemd/user/backintime-backup-job.service
+[Unit]
+Description=Run backintime snapshot generation
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup-job
+```
 
 # Problems, Errors & Solutions
 ## WARNING: A backup is already running
@@ -547,15 +672,6 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-## Ubuntu - Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
-
-In newer Ubuntu-based distros you may get this warning if you install _Back In
-Time_ from PPA.  The reason is that public keys of signed packages shall be
-stored in a new folder now (for details see
-https://itsfoss.com/apt-key-deprecated/).
-
-A solution is described in
-[#1338](https://github.com/bit-team/backintime/issues/1338#issuecomment-1454740118)
 ## Segmentation fault on Exit
 This problem existed at least since version 1.2.1, and will hopefully be fixed
 with version 1.5.0. For all affected versions, it does not impact the
@@ -621,6 +737,85 @@ If *Back In Time* tries to copy files where the filename contains those characte
 It is recommended that only devices formatted with Unix style file systems (such as ext4) be used.
 
 For more information, refer to [this Microsoft page](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions).
+
+## GUI does not scale on high resolution or 4k monitors
+The technical details are complex and many components of the operating system
+are involved. BIT itself is not involved and also not responsible for
+it. Several approaches might help:
+- Check your desktop environment or window manager for settings regarding
+  scaling.
+- Because BIT is using Qt for its GUI, modifying the environment variable
+  `QT_SCALE_FACTOR` or `QT_AUTO_SCREEN_SCALE_FACTOR`.
+  See [this article](https://doc.qt.io/qt-6/highdpi.html) and
+  [Issue #1946](https://github.com/bit-team/backintime/issues/1946) about more
+  details.
+## Tray icon or other icons not shown correctly
+
+**Status: Fixed in v1.4.0**
+
+Missing installations of Qt-supported themes and icons can cause this effect.
+_Back In Time_ may activate the wrong theme in this
+case leading to some missing icons. A fix for the next release is in preparation.
+
+As clean solution, please check your Linux settings (Appearance, Styles, Icons)
+and install all themes and icons packages for your preferred style via
+your package manager.
+
+See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
+and [#1364](https://github.com/bit-team/backintime/issues/1364).
+
+## Non-working password safe and BiT forgets passwords (keyring backend issues)
+
+**Status: Fixed in v1.3.3 (mostly) and v1.4.0**
+
+_Back in Time_ does only support selected "known-good" backends
+to set and query passwords from a user-session password safe by
+using the [`keyring`](https://github.com/jaraco/keyring) library.
+
+Enabling a supported keyring requires manual configuration of a configuration
+file until there is e.g. a settings GUI for this.
+
+Symptoms are DEBUG log output (with the command line argument `--debug`) of
+keyring problems can be recognized by output like:
+
+```
+DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends...' can't be used with BackInTime
+DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends.chainer' can't be used with BackInTime
+```
+
+To diagnose and solve this follow these steps in a terminal:
+
+```
+# Show default backend
+python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
+
+# List available backends:
+keyring --list-backends 
+
+# Find out the config file folder:
+python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
+
+# Create a config file named "keyringrc.cfg" in this folder with one of the available backends (listed above)
+[backend]
+default-keyring=keyring.backends.kwallet.DBusKeyring
+```
+
+See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
+
+## Incompatibility with rsync 3.2.4 or newer
+
+**Status: Fixed in v1.3.3**
+
+The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible
+with `rsync >= 3.2.4`
+([#1247](https://github.com/bit-team/backintime/issues/1247)).
+
+If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a
+workaround. Add `--old-args` in
+[_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
+Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
+environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
+_Back In Time_. In that case you may not see any problems.
 
 # user-callback and other PlugIns
 
@@ -794,7 +989,6 @@ Mount `/volume1/backups` to `/volume1/volume1/backups`
 **Suggestion**
 
 DSM 5 isn't really up to date any more and might be a security risk. It is strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
-
 
 1. Make a new volume named ``volume1`` (should already exist, else create it)
 
@@ -1071,6 +1265,19 @@ and then use just:
   ssh backup@<synology-ip>
   ```
 
+## Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works
+The reason (known for DSM version 7) is that the setup of ssh and sftp is
+customized by Synology.
+
+Solution ([Screenshot in Issue #1674](https://github.com/bit-team/backintime/issues/1674#issuecomment-2106059151)):
+1. Go to: _Control Panel_ > _File Services_ > _Advanced Settings_ > _Change user root directories_ > _Select User_
+2. Add the name of the user used for SSH on the Synology in that list.
+3. At _Change root directory to:_ select _User home_.
+
+See also
+- [Issue #1674](https://github.com/bit-team/backintime/issues/1674)
+- ["Change the default folder in a Synology NAS" - StackOverflow](https://stackoverflow.com/a/77454561/4865723)
+
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
@@ -1173,9 +1380,9 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
    ```
 
 
-# Uncategorized questions
+# Project & Contributing & more
 
-## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? I saw that it saves the names for uids and gids, so I assume it can restore correctly even if the ids change. Great! :-) Are there additional benefits?
+## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
 which will make it possible to restore permissions correctly even if UID/GID
@@ -1207,6 +1414,74 @@ with much more experience and skills in packaging. We always recommend using
 the official repositories of GNU/Linux distributions and contacting their
 maintainers if _Back In Time_ is unavailable or out dated.
 
+## Is BIT really not supported by Canonical Ubuntu?
+
+Ubuntu consists of
+[several repositories](https://help.ubuntu.com/community/Repositories), each
+offering different levels of support. The `main` repository is maintained
+by Canonical and receives regular security updates and bug fixes throughout
+the 5-year support period of LTS releases.
+
+In contrast, the `universe` repository is community-managed, meaning security
+updates and bug fixes are not guaranteed and depend heavily on community
+activity and volunteers. Therefore, packages in `universe` may not always be
+up-to-date with the same but well-maintained packages in Debian GNU/Linux and
+might miss important fixes.
+
+_Back In Time_ is one such package in the `universe` repository. That
+[package](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=backintime)
+is copied from the
+[Debian GNU/Linux repository](https://packages.debian.org/search?searchon=sourcenames&keywords=backintime).
+It can be said that _Back In Time_ is not maintained by Canonical Ubuntu, but
+by volunteers from the Community of Ubuntu.
+
+## Move project to alternative code hoster (e.g. Codeberg, GitLab, …)
+
+We also believe that staying with Microsoft GitHub is not a good idea. Microsoft
+GitHub does not offer any exclusive feature for our project that another hoster
+could not also provide. But a migration is a matter of time and resources we
+currently do not have. But it is on our list. And with the current state of
+discussion we seem to target [Codeberg.org](https://codeberg.org).
+
+For more details please see
+[this thread on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/O5XZ5SPW6WIFBFKWUBHSOUIBKEUIBPNM/).
+
+
+## How to review a Pull Request
+Reviewing a Pull Request (PR) isn’t just about the code—it’s also about
+functionality. Changes can be tested by installing _Back In Time_ and trying
+them out, even without reading the code. This allows issues to be identified
+from a user’s perspective. A second pair of eyes helps catch errors, spot
+overlooked issues, and improve overall quality. Fresh perspectives, knowledge
+sharing, and better maintainability contribute to the long-term stability of
+the project.
+
+Check PRs labeled with
+[PR: Waiting for
+review](https://github.com/bit-team/backintime/pulls?q=is%3Aopen+is%3Apr+label%3A%22PR%3A+Waiting+for+review%22).
+Checking the [milestone](https://github.com/bit-team/backintime/milestones)
+assigned to PR can also help gauge their priority and urgency.
+
+- Start by carefully reading the PR description to understand the proposed
+  changes. Ask back if something is not clear.
+- When giving feedback, consider the contributor’s level of experience and
+  skills. Keep it polite and constructive—every beginner could be a future
+  maintainer.
+      
+To **test functionality**,
+[check out the PR code locally](https://docs.github.com//pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally)
+on a virtual machine or your local machine. Running _Back In Time_ in a test
+environment provides insights, that can be shared as findings, observations,
+or suggestions for improvement.
+      
+About **code review**:
+- Code should follow
+  [project standards](CONTRIBUTING.md#best-practice-and-recommendations)
+  and be structured for long-term maintainability.
+- Is a PR too large or complex, suggest to breaking it down into smaller parts.
+- How is the documentation?
+- Are there unit tests?
+- Does the changelog need an entry?
 
 # Testing & Building
 

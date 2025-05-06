@@ -77,10 +77,20 @@ class ScheduleWidget(QGroupBox):
         self._rowidx_cronpattern = _create_form_entry(
             _('Hours:'), self._edit_cronpattern)
 
+        # Offset
+        self._spin_offset = QSpinBox(self)
+        self._spin_offset.setSingleStep(1)
+        self._spin_offset.setRange(0, 59)
+        hlayout = QHBoxLayout()
+        hlayout.addWidget(self._spin_offset)
+        hlayout.addWidget(QLabel(_('after the hour'), self))
+        hlayout.addStretch()
+        self._rowidx_offset = _create_form_entry(_('Minutes:'), hlayout)
+
         # Udev
         self._rowidx_udev = _create_form_entry(
             _('Run Back In Time as soon as the drive is connected (only once'
-              ' every X days). You will be prompted for your sudo password.'))
+              ' every X days). A sudo password prompt will appear.'))
 
         # Repeatedly (like anacron)
         self._rowidx_repeated = _create_form_entry(
@@ -131,21 +141,21 @@ class ScheduleWidget(QGroupBox):
             config.Config.NONE: _('Disabled'),
             config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
             config.Config._5_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
+                'Every minute', 'Every {n} minutes', 5).format(n=5),
             config.Config._10_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
+                'Every minute', 'Every {n} minutes', 10).format(n=10),
             config.Config._30_MIN: ngettext(
-                'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
+                'Every minute', 'Every {n} minutes', 30).format(n=30),
             config.Config._1_HOUR: ngettext(
                 'Every hour', 'Every {n} hours', 1).format(n=1),
             config.Config._2_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 2).format(n=2),
+                'Every hour', 'Every {n} hours', 2).format(n=2),
             config.Config._4_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 4).format(n=4),
+                'Every hour', 'Every {n} hours', 4).format(n=4),
             config.Config._6_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 6).format(n=6),
+                'Every hour', 'Every {n} hours', 6).format(n=6),
             config.Config._12_HOURS: ngettext(
-                'Every {n} hour', 'Every {n} hours', 12).format(n=12),
+                'Every hour', 'Every {n} hours', 12).format(n=12),
             config.Config.CUSTOM_HOUR: _('Custom hours'),
             config.Config.DAY: _('Every day'),
             config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
@@ -235,6 +245,11 @@ class ScheduleWidget(QGroupBox):
             self._rowidx_time,
             backup_mode_id >= config.Config.DAY)
 
+        layout.setRowVisible(
+            self._rowidx_offset,
+            backup_mode_id in config.Config.HOURLY_BACKUPS
+        )
+
         vis = config.Config.REPEATEDLY <= backup_mode_id <= config.Config.UDEV
         layout.setRowVisible(
             self._rowidx_period,
@@ -259,6 +274,7 @@ class ScheduleWidget(QGroupBox):
         self._combo_time.select_by_data(cfg.scheduleTime())
         self._combo_day.select_by_data(cfg.scheduleDay())
         self._combo_weekday.select_by_data(cfg.scheduleWeekday())
+        self._spin_offset.setValue(cfg.schedule_offset())
 
         self._edit_cronpattern.setText(cfg.customBackupTime())
 
@@ -301,6 +317,12 @@ class ScheduleWidget(QGroupBox):
 
         cfg.setScheduleMode(self._combo_schedule_mode.current_data)
         cfg.setScheduleTime(self._combo_time.current_data)
+
+        if cfg.scheduleMode() in config.Config.HOURLY_BACKUPS:
+            cfg.set_schedule_offset(self._spin_offset.value())
+        else:
+            cfg.set_schedule_offset(config.Config.DEFAULT_OFFSET)
+
         cfg.setScheduleWeekday(self._combo_weekday.current_data)
         cfg.setScheduleDay(self._combo_day.current_data)
         cfg.setCustomBackupTime(self._edit_cronpattern.text())

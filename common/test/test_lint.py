@@ -29,6 +29,7 @@ TRAVIS_REASON = ('Running linter tests is mandatory on TravisCI only. On '
 PYLINT_AVAILABLE = shutil.which('pylint') is not None
 RUFF_AVAILABLE = shutil.which('ruff') is not None
 FLAKE8_AVAILABLE = shutil.which('flake8') is not None
+REUSE_AVAILABLE = shutil.which('reuse') is not None
 
 ANY_LINTER_AVAILABLE = any((
     PYLINT_AVAILABLE,
@@ -43,10 +44,15 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'languages.py',
+    'inhibitsuspend.py',
     'schedule.py',
+    'shutdownagent.py',
+    'singleton.py',
     'ssh_max_arg.py',
     'version.py',
     'test/test_lint.py',
+    'test/test_mount.py',
+    'test/test_singleton.py',
     'test/test_uniquenessset.py',
 )]
 
@@ -220,7 +226,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         error_n = len(proc.stdout.splitlines())
         if error_n > 0:
-            print(proc.stdout)
+            print(f'\n{proc.stdout}')
 
         self.assertEqual(0, error_n, f'Ruff found {error_n} problem(s).')
 
@@ -311,7 +317,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0311',  # bad-indentation
             'W0404',  # reimported
             'W0611',  # unused-import
-            # 'W0612',  # unused-variable
+            'W0612',  # unused-variable
             'W0614',  # unused-wildcard-import
             'W0707',  # raise-missing-from
             'W1301',  # unused-format-string-key
@@ -321,7 +327,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W4904',  # deprecated-class
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
-            'R0801',  # duplicate-code
+            # See PyLint bugs:
+            # https://github.com/pylint-dev/pylint/issues/214
+            # https://github.com/pylint-dev/pylint/issues/7920
+            # 'R0801',  # duplicate-code
 
             # Enable asap. This list is a selection of existing (not all!)
             # problems currently existing in the BIT code base. Quite easy to
@@ -352,3 +361,28 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # any other errors?
         self.assertEqual(r.stderr, '')
+
+    @unittest.skipUnless(REUSE_AVAILABLE, BASE_REASON.format('REUSE'))
+    def test060_reuse(self):
+        """The reuse linter check license and copyright information in the
+        repository.
+
+        The info need to be complete and available for all files. The
+        info need to be provided as meta data conforming the SPDX standard.
+        """
+        proc = subprocess.run(
+            ['reuse', 'lint', '--lines'],
+            check=False,
+            universal_newlines=True,
+            capture_output=True
+        )
+
+        error_n = len(proc.stdout.splitlines())
+        if error_n > 0:
+            print(proc.stdout)
+
+        self.assertEqual(
+            0, error_n, f'REUSE linter found {error_n} problem(s).')
+
+        # any other errors?
+        self.assertEqual(proc.stderr, '')

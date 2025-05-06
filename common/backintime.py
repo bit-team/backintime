@@ -1,20 +1,13 @@
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
 import argparse
@@ -28,7 +21,6 @@ import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
-
 import config
 import logger
 import snapshots
@@ -37,10 +29,12 @@ import mount
 import password
 import encfstools
 import cli
+from bitbase import URL_ENCRYPT_TRANSITION
 from diagnostics import collect_diagnostics, collect_minimal_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from version import __version__
+from shutdownagent import ShutdownAgent
 
 RETURN_OK = 0
 RETURN_ERR = 1
@@ -48,7 +42,8 @@ RETURN_NO_CFG = 2
 
 parsers = {}
 
-def takeSnapshotAsync(cfg, checksum = False):
+
+def takeSnapshotAsync(cfg, checksum=False):
     """
     Fork a new backintime process with 'backup' command which will
     take a new snapshot in background.
@@ -57,9 +52,12 @@ def takeSnapshotAsync(cfg, checksum = False):
         cfg (config.Config): config that should be used
     """
     cmd = []
+
     if cfg.ioniceOnUser():
         cmd.extend(('ionice', '-c2', '-n7'))
+
     cmd.append('backintime')
+
     if '1' != cfg.currentProfile():
         cmd.extend(('--profile-id', str(cfg.currentProfile())))
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
@@ -70,19 +68,24 @@ def takeSnapshotAsync(cfg, checksum = False):
         cmd.append('--debug')
     if checksum:
         cmd.append('--checksum')
+
     cmd.append('backup')
 
     # child process need to start its own ssh-agent because otherwise
     # it would be lost without ssh-agent if parent will close
     env = os.environ.copy()
+
     for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
         try:
             del env[i]
+
         except:
             pass
+
     subprocess.Popen(cmd, env = env)
 
-def takeSnapshot(cfg, force = True):
+
+def takeSnapshot(cfg, force=True):
     """
     Take a new snapshot.
 
@@ -96,36 +99,43 @@ def takeSnapshot(cfg, force = True):
     """
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
+
     return ret
+
 
 def _mount(cfg):
     """
     Mount external filesystems.
 
     Args:
-        cfg (config.Config):    config that should be used
+        cfg (config.Config): Config that should be used.
     """
     try:
-        hash_id = mount.Mount(cfg = cfg).mount()
+        hash_id = mount.Mount(cfg=cfg).mount()
+
     except MountException as ex:
         logger.error(str(ex))
         sys.exit(RETURN_ERR)
+
     else:
         cfg.setCurrentHashId(hash_id)
+
 
 def _umount(cfg):
     """
     Unmount external filesystems.
 
     Args:
-        cfg (config.Config):    config that should be used
+        cfg (config.Config): Config that should be used.
     """
     try:
-        mount.Mount(cfg = cfg).umount(cfg.current_hash_id)
+        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
+
     except MountException as ex:
         logger.error(str(ex))
 
-def createParsers(app_name = 'backintime'):
+
+def createParsers(app_name='backintime'):
     """
     Define parsers for commandline arguments.
 
@@ -491,6 +501,47 @@ def createParsers(app_name = 'backintime'):
                            help=argparse.SUPPRESS)
 
 
+def encfs_deprecation_warning():
+    """Warn about encfs deprecation in syslog.
+
+    See Issue #1734 for details. This function is a workraound and will be
+    removed if #1734 is closed.
+    """
+
+    # Don't warn if EncFS isn't installed
+    if not tools.checkCommand('encfs'):
+        return
+
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+    if xdg_state:
+        xdg_state = pathlib.Path(xdg_state)
+    else:
+        xdg_state = pathlib.Path.home() / '.local' / 'state'
+    fp = xdg_state / 'backintime.encfs-warning.timestamp'
+
+    # ensure existence
+    if not fp.exists():
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        fp.touch()
+
+    # Calculate age of that file
+    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+    # Don't warn if to young
+    if delta.days < 30:
+        return
+
+    logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
+                   'Removal is schedule for minor release 1.7 in year 2026. '
+                   'For details and alternatives '
+                   f'read: {URL_ENCRYPT_TRANSITION}')
+
+
+    # refresh timestamp
+    fp.touch()
+
+
 def startApp(app_name='backintime'):
     """
     Start the requested command or return config if there was no command
@@ -527,6 +578,8 @@ def startApp(app_name='backintime'):
             "It looks like you're using 'sudo' to start "
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
+
+    encfs_deprecation_warning()
 
     # Call commands
     if 'func' in dir(args):
@@ -622,6 +675,7 @@ def argParse(args):
 
     return args
 
+
 def printHeader():
     """
     Print application name, version and legal notes.
@@ -634,6 +688,7 @@ def printHeader():
     print('This is free software, and you are welcome to redistribute it')
     print("under certain conditions; type `backintime --license' for details.")
     print('')
+
 
 class PseudoAliasAction(argparse.Action):
     """
@@ -661,6 +716,7 @@ class PseudoAliasAction(argparse.Action):
         setattr(namespace, 'replace', replace)
         setattr(namespace, 'alias', alias)
 
+
 def aliasParser(args):
     """
     Call commands which where given with leading -- for backwards
@@ -678,7 +734,8 @@ def aliasParser(args):
     if 'func' in dir(newArgs):
         newArgs.func(newArgs)
 
-def getConfig(args, check = True):
+
+def getConfig(args, check=True):
     """
     Load config and change to profile selected on commandline.
 
@@ -694,7 +751,7 @@ def getConfig(args, check = True):
         SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
                         2 if ``check`` is ``True`` and config is not configured
     """
-    cfg = config.Config(config_path = args.config, data_path = args.share_path)
+    cfg = config.Config(config_path=args.config, data_path=args.share_path)
     logger.debug('config file: "{}"; share path: "{}"; profiles: "{}"'.format(
         cfg._LOCAL_CONFIG_PATH,
         cfg._LOCAL_DATA_FOLDER,
@@ -713,7 +770,7 @@ def getConfig(args, check = True):
             sys.exit(RETURN_ERR)
 
     if check and not cfg.isConfigured():
-        logger.error('%(app)s is not configured!' %{'app': cfg.APP_NAME})
+        logger.error('%(app)s is not configured!' % {'app': cfg.APP_NAME})
         sys.exit(RETURN_NO_CFG)
 
     if 'checksum' in args:
@@ -743,10 +800,12 @@ def setQuiet(args):
         atexit.register(force_stdout.close)
     return force_stdout
 
+
 class printLicense(argparse.Action):
     """
     Print custom license
     """
+
     def __init__(self, *args, **kwargs):
         super(printLicense, self).__init__(*args, **kwargs)
 
@@ -754,6 +813,7 @@ class printLicense(argparse.Action):
         license_path = pathlib.Path(tools.docPath()) / 'LICENSE'
         print(license_path.read_text('utf-8'))
         sys.exit(RETURN_OK)
+
 
 class printDiagnostics(argparse.Action):
     """
@@ -773,7 +833,8 @@ class printDiagnostics(argparse.Action):
 
         sys.exit(RETURN_OK)
 
-def backup(args, force = True):
+
+def backup(args, force=True):
     """
     Command for force taking a new snapshot.
 
@@ -792,6 +853,7 @@ def backup(args, force = True):
     ret = takeSnapshot(cfg, force)
     sys.exit(int(ret))
 
+
 def backupJob(args):
     """
     Command for taking a new snapshot in background. Mainly used for cronjobs.
@@ -806,6 +868,7 @@ def backupJob(args):
         SystemExit:     0
     """
     cli.BackupJobDaemon(backup, args).start()
+
 
 def shutdown(args):
     """
@@ -825,13 +888,15 @@ def shutdown(args):
     printHeader()
     cfg = getConfig(args)
 
-    sd = tools.ShutDown()
-    if not sd.canShutdown():
+    sd = ShutdownAgent()
+
+    if not sd.can_shutdown():
         logger.warning('Shutdown is not supported.')
         sys.exit(RETURN_ERR)
 
     instance = ApplicationInstance(cfg.takeSnapshotInstanceFile(), False)
     profile = '='.join((cfg.currentProfile(), cfg.profileName()))
+
     if not instance.busy():
         logger.info('There is no active snapshot for profile %s. Skip shutdown.'
                     %profile)
@@ -840,16 +905,21 @@ def shutdown(args):
     print('Shutdown is waiting for the snapshot in profile %s to end.\nPress CTRL+C to interrupt shutdown.\n'
           %profile)
     sd.activate_shutdown = True
+
     try:
         while instance.busy():
             logger.debug('Snapshot is still active. Wait for shutdown.')
             sleep(5)
+
     except KeyboardInterrupt:
         print('Shutdown interrupted.')
+
     else:
         logger.info('Shutdown now.')
         sd.shutdown()
+
     sys.exit(RETURN_OK)
+
 
 def snapshotsPath(args):
     """
@@ -872,6 +942,7 @@ def snapshotsPath(args):
         msg = 'SnapshotsPath: {}'
     print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
     sys.exit(RETURN_OK)
+
 
 def snapshotsList(args):
     """
@@ -903,6 +974,7 @@ def snapshotsList(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def snapshotsListPath(args):
     """
     Command for printing a list of all snapshots paths in current profile.
@@ -933,6 +1005,7 @@ def snapshotsListPath(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def lastSnapshot(args):
     """
     Command for printing the very last snapshot in current profile.
@@ -958,6 +1031,7 @@ def lastSnapshot(args):
         logger.error("There are no snapshots in '%s'" % cfg.profileName())
     _umount(cfg)
     sys.exit(RETURN_OK)
+
 
 def lastSnapshotPath(args):
     """
@@ -987,6 +1061,7 @@ def lastSnapshotPath(args):
         _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def unmount(args):
     """
     Command for unmounting all filesystems.
@@ -1004,6 +1079,7 @@ def unmount(args):
     _umount(cfg)
     sys.exit(RETURN_OK)
 
+
 def benchmarkCipher(args):
     """
     Command for transferring a file with scp to remote host with all
@@ -1018,14 +1094,18 @@ def benchmarkCipher(args):
     """
     setQuiet(args)
     printHeader()
+
     cfg = getConfig(args)
+
     if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
         ssh = sshtools.SSH(cfg)
         ssh.benchmarkCipher(args.FILE_SIZE)
         sys.exit(RETURN_OK)
+
     else:
         logger.error("SSH is not configured for profile '%s'!" % cfg.profileName())
         sys.exit(RETURN_ERR)
+
 
 def pwCache(args):
     """
@@ -1040,22 +1120,35 @@ def pwCache(args):
     """
     force_stdout = setQuiet(args)
     printHeader()
+
     cfg = getConfig(args)
     ret = RETURN_OK
     daemon = password.Password_Cache(cfg)
+
     if args.ACTION and args.ACTION != 'status':
         getattr(daemon, args.ACTION)()
+
     elif args.ACTION == 'status':
-        print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME}, end=' ', file = force_stdout)
+
+        print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME},
+              end=' ',
+              file=force_stdout)
+
         if daemon.status():
-            print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC, file = force_stdout)
+            print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC,
+                  file=force_stdout)
             ret = RETURN_OK
+
         else:
-            print(cli.bcolors.FAIL + 'not running' + cli.bcolors.ENDC, file = force_stdout)
+            print(cli.bcolors.FAIL + 'not running' + cli.bcolors.ENDC,
+                  file=force_stdout)
             ret = RETURN_ERR
+
     else:
         daemon.run()
+
     sys.exit(ret)
+
 
 def decode(args):
     """
@@ -1071,27 +1164,38 @@ def decode(args):
     """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
+
     if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
         logger.error("Profile '%s' is not encrypted." % cfg.profileName())
         sys.exit(RETURN_ERR)
+
     _mount(cfg)
     d = encfstools.Decode(cfg)
+
     if not args.PATH:
+
         while True:
+
             try:
                 path = input()
             except EOFError:
                 break
+
             if not path:
                 break
-            print(d.path(path), file = force_stdout)
+
+            print(d.path(path), file=force_stdout)
+
     else:
-        print('\n'.join(d.list(args.PATH)), file = force_stdout)
+        print('\n'.join(d.list(args.PATH)), file=force_stdout)
+
     d.close()
     _umount(cfg)
+
     sys.exit(RETURN_OK)
 
-def remove(args, force = False):
+
+def remove(args, force=False):
     """
     Command for removing snapshots.
 
@@ -1105,11 +1209,15 @@ def remove(args, force = False):
     """
     setQuiet(args)
     printHeader()
+
     cfg = getConfig(args)
     _mount(cfg)
+
     cli.remove(cfg, args.SNAPSHOT_ID, force)
     _umount(cfg)
+
     sys.exit(RETURN_OK)
+
 
 def removeAndDoNotAskAgain(args):
     """
@@ -1124,6 +1232,7 @@ def removeAndDoNotAskAgain(args):
         SystemExit:     0
     """
     remove(args, True)
+
 
 def smartRemove(args):
     """
@@ -1158,6 +1267,7 @@ def smartRemove(args):
         logger.error('Smart Removal is not configured.')
         sys.exit(RETURN_NO_CFG)
 
+
 def restore(args):
     """
     Command for restoring files from snapshots.
@@ -1173,19 +1283,24 @@ def restore(args):
     printHeader()
     cfg = getConfig(args)
     _mount(cfg)
+
     if cfg.backupOnRestore() and not args.no_local_backup:
         backup = True
     else:
         backup = args.local_backup
+
     cli.restore(cfg,
                 args.SNAPSHOT_ID,
                 args.WHAT,
                 args.WHERE,
-                delete = args.delete,
-                backup = backup,
-                only_new = args.only_new)
+                delete=args.delete,
+                backup=backup,
+                only_new=args.only_new)
+
     _umount(cfg)
+
     sys.exit(RETURN_OK)
+
 
 def checkConfig(args):
     """
@@ -1201,18 +1316,21 @@ def checkConfig(args):
     force_stdout = setQuiet(args)
     printHeader()
     cfg = getConfig(args)
-    if cli.checkConfig(cfg, crontab = not args.no_crontab):
+
+    if cli.checkConfig(cfg, crontab=not args.no_crontab):
         print("\nConfig %(cfg)s profile '%(profile)s' is fine."
               % {'cfg': cfg._LOCAL_CONFIG_PATH,
                  'profile': cfg.profileName()},
-              file = force_stdout)
+              file=force_stdout)
         sys.exit(RETURN_OK)
+
     else:
         print("\nConfig %(cfg)s profile '%(profile)s' has errors."
               % {'cfg': cfg._LOCAL_CONFIG_PATH,
                  'profile': cfg.profileName()},
-              file = force_stdout)
+              file=force_stdout)
         sys.exit(RETURN_ERR)
+
 
 if __name__ == '__main__':
     startApp()

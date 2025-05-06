@@ -24,7 +24,7 @@ site_dir: html
 # sub directories. See https://github.com/mkdocs/mkdocs/discussions/3847
 use_directory_urls: false
 
-# site_url: https://backintime-docs.readthedocs.io/en/latest/
+site_url: https://backintime-docs.readthedocs.io/en/latest/
 # site_description: Back In Time is a simple backup tool for Linux inspired by "FlyBack".
 
 # Repository information
@@ -32,13 +32,14 @@ repo_name: backintime
 # repo_url: https://github.com/bit-team/backintime
 
 # Entrie labels determined by the the 1st level heading
-nav: 
+nav:
   - 'index.md'
   - 'quick-start.md'
   - 'main-window.md'
   - 'settings.md'
   - 'snapshots-dialog.md'
   - 'log.md'
+  - 'remove_retention.md'
   - 'user-callback.md'
   - 'additional.md'
 
@@ -47,7 +48,7 @@ markdown_extensions:
   # https://squidfunk.github.io/mkdocs-material/reference/admonitions/
   - admonition
   - toc:
-      permalink: true  
+      permalink: true
   - footnotes
   # Syntax highlightening in code blocks
   - pymdownx.highlight:
@@ -83,7 +84,9 @@ theme:
       - toc.follow
       # Highlight search results
       - search.highlight
-      # Link current document to GitHub
+      # Footer
+      # - navigation.footer
+      # Link current document to Microsoft GitHub
       - content.action.edit
       - content.action.view
       # Copy and highlight code blocks
@@ -106,3 +109,13 @@ theme:
         icon: material/toggle-switch-off
         name: Switch to system preference
 
+extra:
+  social:
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@backintime
+      name: Back In Time in the Fediverse on Mastodon as @backintime@fosstodon.org
+    - icon: fontawesome/brands/github
+      link: https://github.com/bit-team/backintime
+      name: Source code repository at Microsoft GitHub
+
+copyright: © Back In Time Team

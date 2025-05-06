@@ -38,6 +38,7 @@ try:
 except NameError:
     _ = lambda val: val
 
+import bitbase
 import tools
 import configfile
 import logger
@@ -53,10 +54,8 @@ from exceptions import PermissionDeniedByPolicy, \
 
 
 class Config(configfile.ConfigFileWithProfiles):
-    APP_NAME = 'Back In Time'
-    COPYRIGHT = 'Copyright (C) 2008-2024 Oprea Dan, Bart de Koning, ' \
-                'Richard Bailey, Germar Reitze, Christian Buhtz, ' \
-                'Michael Büker, Jürgen Altfeld et al.'
+    APP_NAME = bitbase.APP_NAME
+    COPYRIGHT = bitbase.COPYRIGHT
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
@@ -79,6 +78,13 @@ class Config(configfile.ConfigFileWithProfiles):
     WEEK = 30
     MONTH = 40
     YEAR = 80
+
+    HOURLY_BACKUPS = (HOUR,
+                      _2_HOURS,
+                      _4_HOURS,
+                      _6_HOURS,
+                      _12_HOURS,
+                      CUSTOM_HOUR)
 
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
@@ -123,6 +129,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
+    DEFAULT_OFFSET = 0
 
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
@@ -235,8 +242,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.current_hash_id = 'local'
         self.pw = None
         self.forceUseChecksum = False
-        self.xWindowId = None
-        self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
 
         language_used = tools.initiate_translation(self.language())
@@ -251,7 +256,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.default_profile_name = _('Main profile')
 
         # ToDo Those hidden labels exist to speed up their translation.
-        # Unhide them after the upcoming release (1.5.0).
         # See: https://github.com/bit-team/backintime/issues/
         # 1735#issuecomment-2197646518
         _HIDDEN_NEW_MODE_LABELS = (
@@ -317,7 +321,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('Snapshots directory is not valid.')
+                        _('Backup directory is not valid.')
                     )
                 )
                 return False
@@ -345,10 +349,12 @@ class Config(configfile.ConfigFileWithProfiles):
                 path = item[0]
                 if path == snapshots_path:
                     self.notifyError(
-                        '{}\n{}'.format(
+                        '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The directory cannot be included in the '
-                              'backup.')
+                            _('Directory: {path}').format(path=path),
+                            _('This directory cannot be included in the '
+                              'backup as it is part of the backup '
+                              'destination itself.')
                         )
                     )
 
@@ -357,11 +363,13 @@ class Config(configfile.ConfigFileWithProfiles):
                 if len(path) >= len(snapshots_path2):
                     if path[: len(snapshots_path2)] == snapshots_path2:
                         self.notifyError(
-                            '{}\n{}'.format(
+                            '{}\n{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
-                                _('The sub-directories cannot be included in '
-                                  'the backup.')
+                                _('Directory: {path}').format(path=path),
+                                _('This directory cannot be included in the '
+                                'backup as it is part of the backup '
+                                'destination itself.')
                             )
                         )
 
@@ -418,6 +426,10 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
+    def is_mode_encrypted(self, profile_id=None):
+        mode = self.snapshotsMode(profile_id)
+        return mode in ('local_encfs', 'ssh_encfs')
+
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
         #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
@@ -446,27 +458,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setLanguage(self, language: str):
         self.setStrValue('global.language', language if language else '')
-
-    def manual_starts_countdown(self) -> int:
-        """Countdown value about how often the users started the Back In Time
-        GUI.
-
-        It is an internal variable not meant to be used or manipulated be the
-        users. At the end of the countown the
-        :py:class:`ApproachTranslatorDialog` is presented to the user.
-
-        """
-        return self.intValue('internal.manual_starts_countdown', 10)
-
-    def decrement_manual_starts_countdown(self):
-        """Counts down to -1.
-
-        See :py:func:`manual_starts_countdown()` for details.
-        """
-        val = self.manual_starts_countdown()
-
-        if val > -1:
-            self.setIntValue('internal.manual_starts_countdown', val - 1)
 
     # SSH
     def sshSnapshotsPath(self, profile_id = None):
@@ -870,6 +861,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def setScheduleMode(self, value, profile_id = None):
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
+    def schedule_offset(self, profile_id = None):
+        return self.profileIntValue('schedule.offset', Config.DEFAULT_OFFSET, profile_id)
+
+    def set_schedule_offset(self, value, profile_id = None):
+        self.setProfileIntValue('schedule.offset', value, profile_id)
+
     def scheduleDebug(self, profile_id = None):
         #?Enable debug output to system log for schedule mode.
         return self.profileBoolValue('schedule.debug', False, profile_id)
@@ -950,26 +947,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def removeOldSnapshotsEnabled(self, profile_id = None):
         return self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id)
 
-    def removeOldSnapshotsDate(self, profile_id = None):
+    def removeOldSnapshotsDate(self, profile_id=None):
         enabled, value, unit = self.removeOldSnapshots(profile_id)
         if not enabled:
             return datetime.date(1, 1, 1)
 
-        if unit == self.DAY:
-            date = datetime.date.today()
-            date = date - datetime.timedelta(days = value)
-            return date
-
-        if unit == self.WEEK:
-            date = datetime.date.today()
-            date = date - datetime.timedelta(days = date.weekday() + 7 * value)
-            return date
-
-        if unit == self.YEAR:
-            date = datetime.date.today()
-            return date.replace(day = 1, year = date.year - value)
-
-        return datetime.date(1, 1, 1)
+        return _remove_old_snapshots_date(value, unit)
 
     def setRemoveOldSnapshots(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.remove_old_snapshots.enabled', enabled, profile_id)
@@ -986,7 +969,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.profileIntValue('snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id))
 
     def minFreeSpaceEnabled(self, profile_id = None):
-        return self.profileBoolValue('snapshots.min_free_space.enabled', True, profile_id)
+        return self.profileBoolValue('snapshots.min_free_space.enabled', False, profile_id)
 
     def minFreeSpaceMib(self, profile_id = None):
         enabled, value, unit = self.minFreeSpace(profile_id)
@@ -1014,7 +997,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def minFreeInodesEnabled(self, profile_id = None):
         #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR
         #?free inodes in % is reached.
-        return self.profileBoolValue('snapshots.min_free_inodes.enabled', True, profile_id)
+        return self.profileBoolValue('snapshots.min_free_inodes.enabled', False, profile_id)
 
     def setMinFreeInodes(self, enabled, value, profile_id = None):
         self.setProfileBoolValue('snapshots.min_free_inodes.enabled', enabled, profile_id)
@@ -1383,7 +1366,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 path = path[: -1]
         return path
 
-    def isConfigured(self, profile_id=None):
+    def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
         It is assumed as configured if a snapshot path (backup destination) is
@@ -1394,11 +1377,11 @@ class Config(configfile.ConfigFileWithProfiles):
 
         if bool(path and includes):
             return True
-        else:
-            logger.debug(f'Profile ({profile_id=}) is not configured because '
-                         f'snapshot path is "{bool(path)}" and/or includes '
-                         f'are "{bool(includes)}".', self)
-            return False
+
+        logger.debug(f'Profile ({profile_id=}) is not configured because '
+                        f'snapshot path is "{bool(path)}" and/or includes '
+                        f'are "{bool(includes)}".', self)
+        return False
 
     def canBackup(self, profile_id=None):
         """Checks if snapshots_path exists.
@@ -1488,11 +1471,12 @@ class Config(configfile.ConfigFileWithProfiles):
                 'Cron is not running despite the crontab command being '
                 'available. Scheduled backup jobs will not run.')
             self.notifyError(_(
-                'Cron is not running despite the crontab command being '
+                'Cron is not running, even though the crontab command is '
                 'available. Scheduled backup jobs will not run. '
-                'Cron might be installed but not enabled. Try the command '
-                '"systemctl enable cron" or consult the support channels of '
-                'your GNU/Linux distribution.'))
+                'Cron might be installed but not enabled. Try running the two '
+                'commands "systemctl enable cron" and '
+                '"systemctl start cron", or consult the support channels of '
+                'the currently used GNU/Linux distribution for assistance.'))
 
         return True
 
@@ -1532,6 +1516,7 @@ class Config(configfile.ConfigFileWithProfiles):
         minute = self.scheduleTime(profile_id) % 100
         day = self.scheduleDay(profile_id)
         weekday = self.scheduleWeekday(profile_id)
+        offset = str(self.schedule_offset(profile_id))
 
         if self.AT_EVERY_BOOT == backup_mode:
             cron_line = '@reboot {cmd}'
@@ -1542,17 +1527,17 @@ class Config(configfile.ConfigFileWithProfiles):
         elif self._30_MIN == backup_mode:
             cron_line = '*/30 * * * * {cmd}'
         elif self._1_HOUR == backup_mode:
-            cron_line = '0 * * * * {cmd}'
+            cron_line = offset + ' * * * * {cmd}'
         elif self._2_HOURS == backup_mode:
-            cron_line = '0 */2 * * * {cmd}'
+            cron_line = offset + ' */2 * * * {cmd}'
         elif self._4_HOURS == backup_mode:
-            cron_line = '0 */4 * * * {cmd}'
+            cron_line = offset + ' */4 * * * {cmd}'
         elif self._6_HOURS == backup_mode:
-            cron_line = '0 */6 * * * {cmd}'
+            cron_line = offset + ' */6 * * * {cmd}'
         elif self._12_HOURS == backup_mode:
-            cron_line = '0 */12 * * * {cmd}'
+            cron_line = offset + ' */12 * * * {cmd}'
         elif self.CUSTOM_HOUR == backup_mode:
-            cron_line = '0 ' + self.customBackupTime(profile_id) + ' * * * {cmd}'
+            cron_line = offset + ' ' + self.customBackupTime(profile_id) + ' * * * {cmd}'
         elif self.DAY == backup_mode:
             cron_line = '%s %s * * * {cmd}' % (minute, hour)
         elif self.REPEATEDLY == backup_mode:
@@ -1569,7 +1554,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 self.notifyError(_(
                     "Could not install Udev rule for profile {profile_id}. "
-                    "DBus Service '{dbus_interface}' wasn't available")
+                    "DBus Service '{dbus_interface}' wasn't available.")
                     .format(profile_id=profile_id,
                             dbus_interface='net.launchpad.backintime.'
                                            'serviceHelper'))
@@ -1665,3 +1650,27 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
+
+
+def _remove_old_snapshots_date(value, unit):
+    """Dev note (buhtz, 2025-01): The function exist to decople that code from
+    Config class and make it testable to investigate its behavior.
+
+    See issue #1943 for further reading.
+    """
+    if unit == Config.DAY:
+        date = datetime.date.today()
+        date = date - datetime.timedelta(days=value)
+        return date
+
+    if unit == Config.WEEK:
+        date = datetime.date.today()
+        # Always beginning (Monday) of the week
+        date = date - datetime.timedelta(days=date.weekday() + 7 * value)
+        return date
+
+    if unit == Config.YEAR:
+        date = datetime.date.today()
+        return date.replace(day=1, year=date.year - value)
+
+    return datetime.date(1, 1, 1)

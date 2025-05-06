@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2).
-# See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about Cron-related behavior of the config module.
 
 See also test_schedule.py for low-level-Cron-behavior implemented in schedule
@@ -27,6 +27,7 @@ import config
 
 class Cron(unittest.TestCase):
     """Cron-related behavior of Config class."""
+
     def test_cron_lines(self):
         """Creation of crontab lines per profile"""
         # Mock reading a config file
@@ -62,6 +63,7 @@ class Cron(unittest.TestCase):
 
 class CrontabDebug(pyfakefs_ut.TestCase):
     """Debug behavior when scheduled via crontab"""
+
     def setUp(self):
         """Setup a fake filesystem with a config file."""
         self.setUpPyfakefs(allow_root_user=False)
@@ -75,27 +77,27 @@ class CrontabDebug(pyfakefs_ut.TestCase):
 
     def _create_config_file(self, parent_path):
         """Minimal config file"""
-        # pylint: disable-next=R0801
+        # pylint: disable-next=duplicate-code
         cfg_content = inspect.cleandoc('''
             config.version=6
-            profile1.snapshots.include.1.type=0
-            profile1.snapshots.include.1.value=rootpath/source
-            profile1.snapshots.include.size=1
             profile1.snapshots.no_on_battery=false
             profile1.snapshots.notify.enabled=true
             profile1.snapshots.path=rootpath/destination
             profile1.snapshots.path.host=test-host
             profile1.snapshots.path.profile=1
             profile1.snapshots.path.user=test-user
-            profile1.snapshots.preserve_acl=false
-            profile1.snapshots.preserve_xattr=false
             profile1.snapshots.remove_old_snapshots.enabled=true
             profile1.snapshots.remove_old_snapshots.unit=80
             profile1.snapshots.remove_old_snapshots.value=10
+            profile1.snapshots.include.1.type=0
+            profile1.snapshots.include.1.value=rootpath/source
+            profile1.snapshots.include.size=1
+            profile1.snapshots.preserve_acl=false
+            profile1.snapshots.preserve_xattr=false
             profile1.snapshots.rsync_options.enabled=false
             profile1.snapshots.rsync_options.value=
             profiles.version=1
-        ''')
+        ''')  # pylint: disable=R0801
 
         # config file location
         config_fp = parent_path / 'config_path' / 'config'

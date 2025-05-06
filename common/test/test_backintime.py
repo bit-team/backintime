@@ -100,9 +100,9 @@ under certain conditions; type `backintime --license' for details.
 (INFO: Update to config version \d+
 )?
  \+--------------------------------\+
- |  Check/prepare snapshot path   |
+ |  Check/prepare backup path   |
  \+--------------------------------\+
-Check/prepare snapshot path: done
+Check/prepare backup path: done
 
  \+--------------------------------\+
  |          Check config          |
@@ -157,6 +157,8 @@ under certain conditions; type `backintime --license' for details.
             "qt.qpa.plugin: Could not find the Qt platform plugin",
             'qt.dbus.integration: Could not connect "org.freedesktop.IBus" '
             'to globalEngineChanged(QString)',
+            'Inhibition (via',
+            'Inhibiting suspend mode failed',
         ]
 
         # remove lines via startswith()
@@ -182,8 +184,8 @@ under certain conditions; type `backintime --license' for details.
         filtered_log_output = '\n'.join(filtered_log_output)
 
         self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
-INFO: Take a new snapshot. Profile: 1 Main profile
-INFO: Call rsync to take the snapshot
+INFO: Create a new backup. Profile: 1 Main profile
+INFO: Call rsync to create a backup
 INFO: Save config file
 INFO: Save permissions
 INFO: Unlock''', re.MULTILINE))

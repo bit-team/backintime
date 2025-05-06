@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2022 Jürgen Altfeld (aryoda)
+SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
 
 SPDX-License-Identifier: GPL-2.0-or-later
 

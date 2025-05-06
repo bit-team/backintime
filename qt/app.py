@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Samuel Moore
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -17,23 +18,23 @@ if not os.getenv('DISPLAY', ''):
 
 import pathlib
 import re
+import json
 import subprocess
 import shutil
+import textwrap
 import signal
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
-
 # We need to import common/tools.py
 import qttools_path
 qttools_path.registerBackintimePath('common')
-
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
-
 import qttools
-
 import backintime
+import bitbase
+import config
 import tools
 import logger
 import snapshots
@@ -41,9 +42,11 @@ import guiapplicationinstance
 import mount
 import progress
 import encfsmsgbox
+from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
-
+from statedata import StateData
 from PyQt6.QtGui import (QAction,
+                         QActionGroup,
                          QShortcut,
                          QDesktopServices,
                          QPalette,
@@ -74,28 +77,31 @@ from PyQt6.QtWidgets import (QWidget,
                              QDialog,
                              QApplication,
                              )
-from PyQt6.QtCore import (Qt,
+from PyQt6.QtCore import (QDir,
+                          QEvent,
                           QObject,
                           QPoint,
                           pyqtSlot,
                           pyqtSignal,
+                          QSortFilterProxyModel,
+                          Qt,
                           QTimer,
                           QThread,
-                          QEvent,
-                          QSortFilterProxyModel,
-                          QDir,
                           QUrl)
-from manageprofiles import SettingsDialog
 import snapshotsdialog
 import logviewdialog
-from restoredialog import RestoreDialog
-from restoreconfigdialog import RestoreConfigDialog
 import languagedialog
 import messagebox
-from aboutdlg import AboutDlg
-import qttools
-from usermessagedialog import UserMessageDialog
 import version
+from shutdownagent import ShutdownAgent
+from manageprofiles import SettingsDialog
+from restoredialog import RestoreDialog
+from restoreconfigdialog import RestoreConfigDialog
+from usermessagedialog import UserMessageDialog
+from aboutdlg import AboutDlg
+from timeline import TimeLine, SnapshotItem
+from bitwidgets import ProfileCombo
+from shutdowndlg import get_shutdown_confirmation
 
 
 class MainWindow(QMainWindow):
@@ -114,7 +120,7 @@ class MainWindow(QMainWindow):
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
-        self.shutdown = tools.ShutDown()
+        self.shutdown = ShutdownAgent()
 
         # Import on module level not possible because of Qt restrictions.
         import icon
@@ -122,6 +128,8 @@ class MainWindow(QMainWindow):
 
         # window icon
         self.qapp.setWindowIcon(icon.BIT_LOGO)
+
+        state_data = StateData()
 
         # shortcuts without buttons
         self._create_shortcuts_without_actions()
@@ -131,7 +139,7 @@ class MainWindow(QMainWindow):
         self._create_main_toolbar()
 
         # timeline (left widget)
-        self.timeLine = qttools.TimeLine(self)
+        self.timeLine = TimeLine(self)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         # right widget
@@ -185,7 +193,7 @@ class MainWindow(QMainWindow):
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
             _("This directory doesn't exist\n"
-              "in the current selected snapshot."),
+              "in the current selected backup."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
@@ -224,13 +232,10 @@ class MainWindow(QMainWindow):
         self.filesViewDelegate = QStyledItemDelegate(self)
         self.filesView.setItemDelegate(self.filesViewDelegate)
 
-        sortColumn = self.config.intValue(
-            'qt.main_window.files_view.sort.column', 0)
-        sortOrder = self.config.boolValue(
-            'qt.main_window.files_view.sort.ascending', True)
-        sortOrder = Qt.SortOrder.AscendingOrder if sortOrder else Qt.SortOrder.DescendingOrder
+        sortColumn, sortOrder = state_data.files_view_sorting
 
-        self.filesView.header().setSortIndicator(sortColumn, sortOrder)
+        self.filesView.header().setSortIndicator(
+            sortColumn, Qt.SortOrder(sortOrder))
         self.filesViewModel.sort(
             self.filesView.header().sortIndicatorSection(),
             self.filesView.header().sortIndicatorOrder())
@@ -291,50 +296,37 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
-        self.path = self.config.profileStrValue(
-            'qt.last_path',
-            self.config.strValue('qt.last_path', '/')
-        )
+        self.path = self.config.profileStrValue('qt.last_path', '/')
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
-        # restore size and position
-        x = self.config.intValue('qt.main_window.x', -1)
-        y = self.config.intValue('qt.main_window.y', -1)
-        if x >= 0 and y >= 0:
-            self.move(x, y)
+        # restore position and size
+        try:
+            self.move(*state_data.mainwindow_coords)
+            self.resize(*state_data.mainwindow_dims)
+        except KeyError:
+            pass
 
-        w = self.config.intValue('qt.main_window.width', 800)
-        h = self.config.intValue('qt.main_window.height', 500)
-        self.resize(w, h)
+        self.mainSplitter.setSizes(
+            state_data.mainwindow_main_splitter_widths)
+        self.secondSplitter.setSizes(
+            state_data.mainwindow_second_splitter_widths)
 
-        mainSplitterLeftWidth = self.config.intValue(
-            'qt.main_window.main_splitter_left_w', 150)
-        mainSplitterRightWidth = self.config.intValue(
-            'qt.main_window.main_splitter_right_w', 450)
-        sizes = [mainSplitterLeftWidth, mainSplitterRightWidth]
-        self.mainSplitter.setSizes(sizes)
+        # FilesView: Column width
+        try:
+            files_view_col_widths = state_data.files_view_col_widths
+        except KeyError:
+            pass
+        else:
+            for idx, width in enumerate(files_view_col_widths):
+                self.filesView.header().resizeSection(idx, width)
 
-        secondSplitterLeftWidth = self.config.intValue(
-            'qt.main_window.second_splitter_left_w', 150)
-        secondSplitterRightWidth = self.config.intValue(
-            'qt.main_window.second_splitter_right_w', 300)
-        sizes = [secondSplitterLeftWidth, secondSplitterRightWidth]
-        self.secondSplitter.setSizes(sizes)
-
-        filesViewColumnNameWidth = self.config.intValue(
-            'qt.main_window.files_view.name_width', -1)
-        filesViewColumnSizeWidth = self.config.intValue(
-            'qt.main_window.files_view.size_width', -1)
-        filesViewColumnDateWidth = self.config.intValue(
-            'qt.main_window.files_view.date_width', -1)
-
-        if (filesViewColumnNameWidth > 0
-                and filesViewColumnSizeWidth > 0
-                and filesViewColumnDateWidth > 0):
-            self.filesView.header().resizeSection(0, filesViewColumnNameWidth)
-            self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
-            self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
+        # Release Candidate
+        if version.is_release_candidate():
+            last_vers = state_data.msg_release_candidate
+            if last_vers != version.__version__:
+                state_data.msg_release_candidate = version.__version__
+                self._open_release_candidate_dialog()
 
         # Force dialog to import old configuration
         if not config.isConfigured():
@@ -371,9 +363,9 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            msg = _("Can't find snapshots directory.") + '\n' \
-                + _('If it is on a removable drive please plug it in and then '
-                    'press OK.')
+            msg = _("Can't find backup directory.") + '\n' \
+                + _('If it is on a removable drive, please plug it in.') \
+                + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
@@ -408,24 +400,24 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
-        # Finished countdown of manual GUI starts
-        if 0 == self.config.manual_starts_countdown():
+        # Countdown of manual GUI starts finished?
+        if 0 == state_data.manual_starts_countdown():
 
             # Do nothing if English is the current used language
             if self.config.language_used != 'en':
 
                 # Show the message only if the current used language is
-                # translated equal or less then 97%
-                self._open_approach_translator_dialog(cutoff=97)
+                # translated equal or less then {cutoff}%
+                self._open_approach_translator_dialog(cutoff=99)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
-        self.config.decrement_manual_starts_countdown()
+        state_data.decrement_manual_starts_countdown()
 
-        # If the encfs-deprecation warning was never shown before
-        if self.config.boolValue('internal.msg_shown_encfs') == False:
-
+        # If the encfs-deprecation warning in its latest stage was not shown
+        # yet.
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             # Are there profiles using EncFS?
             encfs_profiles = []
             for pid in self.config.profiles():
@@ -435,25 +427,19 @@ class MainWindow(QMainWindow):
 
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
+                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
                 dlg.exec()
-                self.config.setBoolValue('internal.msg_shown_encfs', True)
-
-        # Release Candidate
-        if version.is_release_candidate():
-            last_vers = self.config.strValue('internal.msg_rc')
-            if last_vers != version.__version__:
-                self.config.setStrValue('internal.msg_rc', version.__version__)
-                self._open_release_candidate_dialog()
 
     @property
     def showHiddenFiles(self):
-        return self.config.boolValue('qt.show_hidden_files', False)
+        state_data = StateData()
+        return state_data.mainwindow_show_hidden
 
-    # TODO The qt.show_hidden_files key should be a constant instead of a duplicated string
     @showHiddenFiles.setter
     def showHiddenFiles(self, value):
-        self.config.setBoolValue('qt.show_hidden_files', value)
+        state_data = StateData()
+        state_data.mainwindow_show_hidden = value
 
     def _create_actions(self):
         """Create all action objects used by this main window.
@@ -484,48 +470,48 @@ class MainWindow(QMainWindow):
             #     tooltip
             # ),
             'act_take_snapshot': (
-                icon.TAKE_SNAPSHOT, _('Take a snapshot'),
+                icon.TAKE_SNAPSHOT, _('Create a backup'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
                 _('Use modification time & size for file change detection.')),
 
             'act_take_snapshot_checksum': (
-                icon.TAKE_SNAPSHOT, _('Take a snapshot (checksum mode)'),
+                icon.TAKE_SNAPSHOT, _('Create a backup (checksum mode)'),
                 self.btnTakeSnapshotChecksumClicked, ['Ctrl+Shift+S'],
                 _('Use checksums for file change detection.')),
 
             'act_pause_take_snapshot': (
-                icon.PAUSE, _('Pause snapshot process'),
+                icon.PAUSE, _('Pause backup process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
                 None),
 
             'act_resume_take_snapshot': (
-                icon.RESUME, _('Resume snapshot process'),
+                icon.RESUME, _('Resume backup process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
                 None),
             'act_stop_take_snapshot': (
-                icon.STOP, _('Stop snapshot process'),
+                icon.STOP, _('Stop backup process'),
                 self.btnStopTakeSnapshotClicked, None,
                 None),
             'act_update_snapshots': (
-                icon.REFRESH_SNAPSHOT, _('Refresh snapshot list'),
+                icon.REFRESH_SNAPSHOT, _('Refresh backup list'),
                 self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
                 None),
             'act_name_snapshot': (
-                icon.SNAPSHOT_NAME, _('Name snapshot'),
+                icon.SNAPSHOT_NAME, _('Name backup'),
                 self.btnNameSnapshotClicked, ['F2'],
                 None),
             'act_remove_snapshot': (
-                icon.REMOVE_SNAPSHOT, _('Remove snapshot'),
+                icon.REMOVE_SNAPSHOT, _('Remove backup'),
                 self.btnRemoveSnapshotClicked, ['Delete'],
                 None),
             'act_snapshot_logview': (
-                icon.VIEW_SNAPSHOT_LOG, _('View snapshot log'),
+                icon.VIEW_SNAPSHOT_LOG, _('Open backup log'),
                 self.btnSnapshotLogViewClicked, None,
-                None),
+                _('View log of the selected backup.')),
             'act_last_logview': (
-                icon.VIEW_LAST_LOG, _('View last log'),
+                icon.VIEW_LAST_LOG, _('Open last backup log'),
                 self.btnLastLogViewClicked, None,
-                None),
+                _('View log of the latest backup.')),
             'act_settings': (
                 icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
@@ -533,7 +519,7 @@ class MainWindow(QMainWindow):
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
-                _('Shut down system after snapshot has finished.')),
+                _('Shut down system after backup has finished.')),
             'act_setup_language': (
                 icon.LANGUAGE, _('Setup language…'),
                 self.slot_setup_language, None,
@@ -542,25 +528,40 @@ class MainWindow(QMainWindow):
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
                 None),
-            'act_help_help': (
-                icon.HELP, _('Help'),
-                self.btnHelpClicked, ['F1'],
-                None),
-            'act_help_configfile': (
-                icon.HELP, _('Profiles config file'),
-                self.btnHelpConfigClicked, None, None),
+            'act_help_user_manual': (
+                icon.HELP, _('User manual'),
+                self.btn_help_user_manual, ['F1'],
+                _('Open user manual in browser (local if '
+                  'available otherwise online)'),
+            ),
+            'act_help_man_backintime': (
+                icon.HELP, _('man page: Back In Time'),
+                self.btn_help_man_backintime, None,
+                _('Displays man page about Back In Time (backintime)')
+            ),
+            'act_help_man_config': (
+                icon.HELP, _('man page: Profiles config file'),
+                self.btn_help_man_config,
+                None,
+                _('Displays man page about profiles config file '
+                  '(backintime-config)')
+            ),
             'act_help_website': (
-                icon.WEBSITE, _('Website'),
-                self.btnWebsiteClicked, None, None),
+                icon.WEBSITE, _('Project website'),
+                self.btnWebsiteClicked,
+                None,
+                _('Open Back In Time website in browser')),
             'act_help_changelog': (
                 icon.CHANGELOG, _('Changelog'),
                 self.btnChangelogClicked, None, None),
             'act_help_faq': (
                 icon.FAQ, _('FAQ'),
-                self.btnFaqClicked, None, None),
+                self.btnFaqClicked, None,
+                _('Open Frequently Asked Questions (FAQ) in browser')),
             'act_help_question': (
                 icon.QUESTION, _('Ask a question'),
-                self.btnAskQuestionClicked, None, None),
+                self.btnAskQuestionClicked, None,
+                None),
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self.btnReportBugClicked, None, None),
@@ -606,7 +607,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, _('Compare snapshots…'),
+                icon.SNAPSHOTS, _('Compare backups…'),
                 self.btnSnapshotsClicked, None, None),
         }
 
@@ -645,7 +646,7 @@ class MainWindow(QMainWindow):
         # Fine tuning
         self.act_shutdown.toggled.connect(self.btnShutdownToggled)
         self.act_shutdown.setCheckable(True)
-        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_shutdown.setEnabled(self.shutdown.can_shutdown())
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
@@ -698,8 +699,9 @@ class MainWindow(QMainWindow):
                 self.act_restore_parent_to,
             ),
             _('&Help'): (
-                self.act_help_help,
-                self.act_help_configfile,
+                self.act_help_user_manual,
+                self.act_help_man_backintime,
+                self.act_help_man_config,
                 self.act_help_website,
                 self.act_help_changelog,
                 self.act_help_faq,
@@ -738,14 +740,68 @@ class MainWindow(QMainWindow):
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
 
+    def _button_styles(self):
+        return (
+            (
+                _('Icons only'),
+                Qt.ToolButtonStyle.ToolButtonIconOnly),
+            (
+                _('Text only'),
+                Qt.ToolButtonStyle.ToolButtonTextOnly),
+            (
+                _('Text below icons'),
+                Qt.ToolButtonStyle.ToolButtonTextUnderIcon),
+            (
+                _('Text beside icon'),
+                Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
+        )
+
+    def _set_toolbar_button_style(self, toolbar, style):
+        """Set toolbar button style and store the selected index."""
+        toolbar.setToolButtonStyle(style)
+        StateData().toolbar_button_style = style.value
+
+    def _context_menu_button_style(self,
+                                    point: QPoint,
+                                    toolbar: QToolBar) -> None:
+        """Open a context menu to modify styling of tooblar buttons
+        buttons.
+        """
+        menu = QMenu(self)
+        group = QActionGroup(self)
+
+
+        for text, style in self._button_styles():
+            action = QAction(text, self)
+            action.setCheckable(True)
+            action.setChecked(toolbar.toolButtonStyle() == style)
+            group.addAction(action)
+            action.triggered.connect(
+                lambda _, s=style:
+                self._set_toolbar_button_style(toolbar, s)
+                )
+
+        menu.addActions(group.actions())
+
+        menu.exec(toolbar.mapToGlobal(point))
+
     def _create_main_toolbar(self):
         """Create the main toolbar and connect it to actions."""
 
         toolbar = self.addToolBar('main')
         toolbar.setFloatable(False)
 
+        # Context menu to modify button styling for main toolbar
+        toolbar.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        toolbar.customContextMenuRequested.connect(
+            lambda point: self._context_menu_button_style(point, toolbar))
+
+        # Restore button styling for main toolbar
+        toolbar.setToolButtonStyle(
+            Qt.ToolButtonStyle(StateData().toolbar_button_style))
+
         # Drop-Down: Profiles
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         self.comboProfilesAction = toolbar.addWidget(self.comboProfiles)
 
         actions_for_toolbar = [
@@ -766,18 +822,23 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
+            button_tip = act.text()
+
             # Assume an explicit tooltip if it is different from "text()".
             # Note that Qt use "text()" as "toolTip()" by default.
-            if act.toolTip() != act.text():
+            if act.toolTip() != button_tip:
 
                 if QApplication.instance().isRightToLeft():
                     # RTL/BIDI language like Hebrew
-                    button_tip = f'{act.toolTip()} :{act.text()}'
+                    button_tip = f'{act.toolTip()} :{button_tip}'
                 else:
                     # (default) LTR language (e.g. English)
-                    button_tip = f'{act.text()}: {act.toolTip()}'
+                    button_tip = f'{button_tip}: {act.toolTip()}'
 
-                toolbar.widgetForAction(act).setToolTip(button_tip)
+            button_tip = textwrap.fill(
+                button_tip, width=26, break_long_words=False)
+
+            toolbar.widgetForAction(act).setToolTip(button_tip)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
@@ -835,55 +896,51 @@ class MainWindow(QMainWindow):
         return toolbar
 
     def closeEvent(self, event):
-        if self.shutdown.askBeforeQuit():
-            msg = _('If you close this window, Back In Time will not be able '
-                    'to shut down your system when the snapshot is finished.')
+        state_data = StateData()
+        profile_state = state_data.profile(self.config.current_profile_id)
+
+        # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
+        if self.shutdown.ask_before_quit():
+            msg = _('If this window is closed, Back In Time will not be able '
+                    'to shut down your system when the backup is finished.')
             msg = msg + '\n'
-            msg = msg + _('Do you really want to close it?')
+            msg = msg + _('Close the window anyway?')
             answer = messagebox.warningYesNo(self, msg)
             if answer != QMessageBox.StandardButton.Yes:
                 return event.ignore()
 
-        self.config.setStrValue('qt.last_path', self.path)
-        self.config.setProfileStrValue('qt.last_path', self.path)
-
-        self.config.setProfileIntValue(
-            'qt.places.SortColumn',
-            self.places.header().sortIndicatorSection())
-        self.config.setProfileIntValue(
-            'qt.places.SortOrder',
-            self.places.header().sortIndicatorOrder())
-
-        self.config.setIntValue('qt.main_window.x', self.x())
-        self.config.setIntValue('qt.main_window.y', self.y())
-        self.config.setIntValue('qt.main_window.width', self.width())
-        self.config.setIntValue('qt.main_window.height', self.height())
-
-        sizes = self.mainSplitter.sizes()
-        self.config.setIntValue('qt.main_window.main_splitter_left_w', sizes[0])
-        self.config.setIntValue('qt.main_window.main_splitter_right_w', sizes[1])
-
-        sizes = self.secondSplitter.sizes()
-        self.config.setIntValue('qt.main_window.second_splitter_left_w', sizes[0])
-        self.config.setIntValue('qt.main_window.second_splitter_right_w', sizes[1])
-
-        self.config.setIntValue('qt.main_window.files_view.name_width', self.filesView.header().sectionSize(0))
-        self.config.setIntValue('qt.main_window.files_view.size_width', self.filesView.header().sectionSize(1))
-        self.config.setIntValue('qt.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
-
-        self.config.setIntValue('qt.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
-        self.config.setBoolValue('qt.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.SortOrder.AscendingOrder)
+        profile_state.last_path = pathlib.Path(self.path)
+        profile_state.places_sorting = (
+            self.places.header().sortIndicatorSection(),
+            self.places.header().sortIndicatorOrder().value,
+        )
+        state_data.mainwindow_coords = (self.x(), self.y())
+        state_data.mainwindow_dims = (self.width(), self.height())
+        state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
+        state_data.mainwindow_second_splitter_widths \
+            = self.secondSplitter.sizes()
+        state_data.files_view_col_widths = [
+            self.filesView.header().sectionSize(idx)
+            for idx
+            in range(self.filesView.header().count())
+        ]
+        state_data.files_view_sorting = (
+            self.filesView.header().sortIndicatorSection(),
+            self.filesView.header().sortIndicatorOrder().value
+        )
 
         self.filesViewModel.deleteLater()
 
-        #umount
+        # umount
         try:
-            mnt = mount.Mount(cfg = self.config, parent = self)
+            mnt = mount.Mount(cfg=self.config, parent=self)
             mnt.umount(self.config.current_hash_id)
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
 
         self.config.save()
+        state_data.save()
 
         # cleanup temporary local copies of files which were opened in GUI
         for d in self.tmpDirs:
@@ -899,7 +956,8 @@ class MainWindow(QMainWindow):
 
         self.comboProfiles.clear()
 
-        qttools.update_combo_profiles(self.config, self.comboProfiles, self.config.currentProfile())
+        qttools.update_combo_profiles(
+            self.config, self.comboProfiles, self.config.currentProfile())
         profiles = self.config.profilesSortedByName()
 
         self.comboProfilesAction.setVisible(len(profiles) > 1)
@@ -913,12 +971,18 @@ class MainWindow(QMainWindow):
         self.updatePlaces()
         self.updateFilesView(0)
 
+        profile_id = self.config.currentProfile()
+        state_data = StateData()
+        profile_state = state_data.profile(profile_id)
+
         # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(self.config.currentProfile())
+        current_mode = self.config.snapshotsMode(profile_id)
         if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile.
-            if self.config.profileBoolValue('msg_shown_encfs') is False:
-                self.config.setProfileBoolValue('msg_shown_encfs', True)
+            # Show the profile specific warning dialog only once per profile
+            # and only if the global warning was shown before.
+            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
+                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
@@ -926,7 +990,7 @@ class MainWindow(QMainWindow):
         if self.disableProfileChanged:
             return
 
-        profile_id = self.comboProfiles.currentProfileID()
+        profile_id = self.comboProfiles.current_profile_id()
         if not profile_id:
             return
 
@@ -969,10 +1033,14 @@ class MainWindow(QMainWindow):
 
     def remount(self, new_profile_id, old_profile_id):
         try:
-            mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
+            mnt = mount.Mount(cfg=self.config,
+                              profile_id=old_profile_id,
+                              parent=self)
             hash_id = mnt.remount(new_profile_id)
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
+
         else:
             self.config.setCurrentHashId(hash_id)
 
@@ -981,7 +1049,7 @@ class MainWindow(QMainWindow):
         if raiseCmd is None:
             return
 
-        logger.debug("Raise cmd: %s" %raiseCmd, self)
+        logger.debug("Raise cmd: %s" % raiseCmd, self)
         self.qapp.alert(self)
 
     def updateTakeSnapshot(self, force_wait_lock=False):
@@ -1058,7 +1126,10 @@ class MainWindow(QMainWindow):
                 if takeSnapshotMessage[0] == 0:
                     takeSnapshotMessage = (0, _('Done, no backup needed'))
 
-            self.shutdown.shutdown()
+            # Check `activate_shutdown` here, instead of shutdownagent.py
+            # function `shutdown` should just focus on shutting down a machine
+            if self.shutdown.activate_shutdown and get_shutdown_confirmation():
+                self.shutdown.shutdown()
 
         if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
             self.lastTakeSnapshotMessage = takeSnapshotMessage
@@ -1096,11 +1167,30 @@ class MainWindow(QMainWindow):
         #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
+        """Generates formatted components of a progress bar display.
+
+        This generator yields individual parts of a progress message, including
+        the percentage completed, optionally the amount sent, current
+        speed, estimated time remaining (ETA), and a custom message.
+        Values are extracted from the provided progress object `pg`.
+
+        Args:
+            pg (progress.ProgressFile): An object that provides progress
+                information through methods like `intValue` and `strValue`.
+                Expected keys include 'percent', 'sent', 'speed', and 'eta'.
+            message (str): A custom message to append at the end of the
+                progress bar.
+
+        Yields:
+            str: Formatted strings representing different segments of the
+                progress bar.
+        """
         d = (
-            ('sent', '{}:'.format(_('Sent'))),
-            ('speed', '{}:'.format(_('Speed'))),
-            ('eta', '{}:'.format(_('ETA')))
+            ('sent', _('Sent:')),
+            ('speed', _('Speed:')),
+            ('eta',    _('ETA:'))
         )
+
         yield '{}%'.format(pg.intValue('percent'))
 
         for key, txt in d:
@@ -1131,7 +1221,7 @@ class MainWindow(QMainWindow):
     def addPlace(self, name, path, icon):
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        qttools.py::HeaderItem.__init__().
+        timeline.py::HeaderItem.__init__().
         """
         item = QTreeWidgetItem()
 
@@ -1218,7 +1308,7 @@ class MainWindow(QMainWindow):
             item = self.timeLine.currentItem()
 
         if not item is None:
-            if not item.snapshotID().isRoot:
+            if not item.snapshot_id.isRoot:
                 enabled = True
 
         # update remove/name snapshot buttons
@@ -1233,7 +1323,7 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if not sid or sid == self.sid:
             return
 
@@ -1243,7 +1333,7 @@ class MainWindow(QMainWindow):
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         self.timeLine.clear()
-        self.timeLine.addRoot(snapshots.RootSnapshot(self.config))
+        self.timeLine.add_root(snapshots.RootSnapshot(self.config))
 
         if refreshSnapshotsList:
             self.snapshotsList = []
@@ -1258,11 +1348,13 @@ class MainWindow(QMainWindow):
             self.timeLine.checkSelection()
 
     def btnTakeSnapshotClicked(self):
-        backintime.takeSnapshotAsync(self.config)
-        self.updateTakeSnapshot(True)
+        self._take_snapshot_clicked(checksum=False)
 
     def btnTakeSnapshotChecksumClicked(self):
-        backintime.takeSnapshotAsync(self.config, checksum = True)
+        self._take_snapshot_clicked(checksum=True)
+
+    def _take_snapshot_clicked(self, checksum):
+        backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
 
     def btnStopTakeSnapshotClicked(self):
@@ -1270,7 +1362,7 @@ class MainWindow(QMainWindow):
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
+        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
     def btnUpdateSnapshotsClicked(self):
         self.updateTimeLine()
@@ -1281,13 +1373,14 @@ class MainWindow(QMainWindow):
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if sid.isRoot:
             return
 
         name = sid.name
 
-        new_name, accept = QInputDialog.getText(self, _('Snapshot Name'), '', text = name)
+        new_name, accept = QInputDialog.getText(
+            self, _('Backup name'), '', text = name)
         if not accept:
             return
 
@@ -1296,18 +1389,19 @@ class MainWindow(QMainWindow):
             return
 
         sid.name = new_name
-        item.updateText()
+        item.update_text()
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).show()  # no SID argument in constructor means "show last log"
+            # no SID argument in constructor means "show last log"
+            logviewdialog.LogViewDialog(self).show()
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()
         if item is None:
             return
 
-        sid = item.snapshotID()
+        sid = item.snapshot_id
         if sid.isRoot:
             return
 
@@ -1315,30 +1409,33 @@ class MainWindow(QMainWindow):
             dlg = logviewdialog.LogViewDialog(self, sid)
             dlg.show()
             if sid != dlg.sid:
-                self.timeLine.setCurrentSnapshotID(dlg.sid)
+                self.timeLine.set_current_snapshot_id(dlg.sid)
 
     def btnRemoveSnapshotClicked (self):
         def hideItem(item):
             try:
                 item.setHidden(True)
             except RuntimeError:
-                #item has been deleted
-                #probably because user pressed refresh
+                # item has been deleted
+                # probably because user pressed refresh
                 pass
 
         # try to use filter(..)
-        items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
+        items = [
+            item for item in self.timeLine.selectedItems()
+            if not isinstance(item, snapshots.RootSnapshot)
+        ]
 
         if not items:
             return
 
         question_msg = '{}\n{}'.format(
             ngettext(
-                'Are you sure you want to remove this snapshot?',
-                'Are you sure you want to remove these snapshots?',
+                'Remove this backup?',
+                'Remove these backups?',
                 len(items)
             ),
-            '\n'.join([item.snapshotID().displayName for item in items]))
+            '\n'.join([item.snapshot_id.displayName for item in items]))
 
         answer = messagebox.warningYesNo(self, question_msg)
 
@@ -1350,7 +1447,7 @@ class MainWindow(QMainWindow):
             item.setDisabled(True)
 
             if item is self.timeLine.currentItem():
-                self.timeLine.selectRootItem()
+                self.timeLine.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.updateTimeLine)
@@ -1369,17 +1466,23 @@ class MainWindow(QMainWindow):
 
     def btnAboutClicked(self):
         with self.suspendMouseButtonNavigation():
-            dlg = AboutDlg(self)
+            dlg = AboutDlg(
+                using_translation=self.config.language_used != 'en',
+                parent=self
+            )
             dlg.exec()
 
-    def btnHelpClicked(self):
+    def btn_help_user_manual(self):
+        qttools.open_user_manual()
+
+    def btn_help_man_backintime(self):
         self.openManPage('backintime')
 
-    def btnHelpConfigClicked(self):
+    def btn_help_man_config(self):
         self.openManPage('backintime-config')
 
     def btnWebsiteClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime')
+        qttools.open_url(bitbase.URL_WEBSITE)
 
     def btnChangelogClicked(self):
         def aHref(m):
@@ -1399,16 +1502,13 @@ class MainWindow(QMainWindow):
         messagebox.showInfo(self, _('Changelog'), msg)
 
     def btnFaqClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/blob/-/FAQ.md')
+        qttools.open_url(bitbase.URL_FAQ)
 
     def btnAskQuestionClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/issues')
+        qttools.open_url(bitbase.URL_ISSUES)
 
     def btnReportBugClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/issues/new')
-
-    def openUrl(self, url):
-        return QDesktopServices.openUrl(QUrl(url))
+        self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
@@ -1437,9 +1537,9 @@ class MainWindow(QMainWindow):
         qttools.set_wrapped_tooltip(
             cb,
             [
-                _("Newer versions of files will be renamed with trailing "
-                  "{suffix} before restoring. If you don't need them anymore "
-                  "you can remove them with the following command:").format(
+                _("Before restoring, newer versions of files will be renamed "
+                  "with the appended {suffix}. These files can be removed "
+                  "with the following command:").format(
                       suffix=self.snapshots.backupSuffix()),
                 'find ./ -name "*{suffix}" -delete'.format(
                     suffix=self.snapshots.backupSuffix())
@@ -1493,9 +1593,9 @@ class MainWindow(QMainWindow):
             cb,
             _('Restore selected files or directories to the original '
               'destination and delete files or directories which are not in '
-              'the snapshot. Be extremely careful because this will delete '
-              'files and directories which were excluded during taking the '
-              'snapshot.')
+              'the backup. Be extremely careful because this will delete '
+              'files and directories which were excluded during the creation '
+              'of the backup.')
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
@@ -1503,19 +1603,17 @@ class MainWindow(QMainWindow):
         if restoreTo:
             msg = ngettext(
                 # singular
-                'Do you really want to restore this element into the '
-                'new directory?',
+                'Really restore this element into the new directory?',
                 # plural
-                'Do you really want to restore these elements into the '
-                'new directory?',
+                'Really restore these elements into the new directory?',
                 len(paths))
             msg = f'{msg}\n{restoreTo}'
         else:
             msg = ngettext(
                 # singular
-                'Do you really want to restore this element?',
+                'Really restore this element?',
                 # plural
-                'Do you really want to restore these elements?',
+                'Really restore these elements?',
                 len(paths))
 
         confirm, opt = messagebox.warningYesNoOptions(
@@ -1532,17 +1630,17 @@ class MainWindow(QMainWindow):
 
     def confirmDelete(self, warnRoot=False, restoreTo=None):
         if restoreTo:
-            msg = _('Are you sure you want to remove all newer files '
-                    'in {path}?').format(path=restoreTo)
+            msg = _('All newer files in {path} will be removed. '
+                    'Proceed?').format(path=restoreTo)
         else:
-            msg = _('Are you sure you want to remove all newer files in your '
-                    'original directory?')
+            msg = _('All newer files in the original directory will be '
+                    'removed. Proceed?')
 
         if warnRoot:
             msg = f'<p>{msg}</p><p>'
             msg = msg + _(
                 '{BOLD}Warning{BOLDEND}: Deleting files in the filesystem '
-                'root could break your entire system.').format(
+                'root could break the entire system.').format(
                     BOLD='<strong>', BOLDEND='</strong>')
             msg = msg + '</p>'
 
@@ -1627,7 +1725,7 @@ class MainWindow(QMainWindow):
             if dlg.exec() == QDialog.DialogCode.Accepted:
 
                 if dlg.sid != self.sid:
-                    self.timeLine.setCurrentSnapshotID(dlg.sid)
+                    self.timeLine.set_current_snapshot_id(dlg.sid)
 
     def btnFolderUpClicked(self):
 
@@ -1703,26 +1801,27 @@ class MainWindow(QMainWindow):
 
         self.openPath(rel_path)
 
-    def tmpCopy(self, full_path, sid = None):
-        """
-        Create a temporary local copy of the file ``full_path`` and add the
-        temp folder to ``self.tmpDirs`` which will remove them on exit.
+    def tmpCopy(self, full_path, sid=None):
+        """Create a temporary local copy a file or directory.
+
+        The name of is of the pattern ``backintime_[tmp_str]_[snapshotID]``.
+        Clean up is done when closing BIT based on ``self.tmpDirs``.
 
         Args:
-            full_path (str):        path to original file
-            sid (snapshots.SID):    snapshot ID used as temp folder suffix
+            full_path (str): Path to original file or directory.
+            sid (snapshots.SID): Snapshot identifier.
 
         Returns:
-            str:                    temporary path to file
+            str: Path to the temporary file or directory.
         """
         if sid:
             sid = '_' + sid.sid
 
-        d = TemporaryDirectory(suffix = sid)
+        d = TemporaryDirectory(prefix='backintime_', suffix=sid)
         tmp_file = os.path.join(d.name, os.path.basename(full_path))
 
         if os.path.isdir(full_path):
-            shutil.copytree(full_path, tmp_file)
+            shutil.copytree(full_path, tmp_file, symlinks=True)
         else:
             shutil.copy(full_path, d.name)
 
@@ -1755,13 +1854,24 @@ class MainWindow(QMainWindow):
                 self.run = QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
-    def updateFilesView(self, changed_from, selected_file = None, show_snapshots = False): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
+    def updateFilesView(self,
+                        changed_from,
+                        selected_file=None,
+                        show_snapshots=False):
+        """
+        changed_from? WTF!
+            0 - files view change directory,
+            1 - files view,
+            2 - time_line,
+            3 - places
+        """
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
 
         if 0 == changed_from:
             # update places
             self.places.setCurrentItem(None)
+
             for place_index in range(self.places.topLevelItemCount()):
                 item = self.places.topLevelItem(place_index)
                 if self.path == str(item.data(0, Qt.ItemDataRole.UserRole)):
@@ -1771,13 +1881,14 @@ class MainWindow(QMainWindow):
         text = ''
         if self.sid.isRoot:
             text = _('Now')
+
         else:
             name = self.sid.displayName
             # buhtz (2023-07)3 blanks at the end of that string as a
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Snapshot'), name)
+            text = '{}: {}   '.format(_('Backup'), name)
 
         self.filesWidget.setTitle(text)
 
@@ -1791,8 +1902,10 @@ class MainWindow(QMainWindow):
         full_path = self.sid.pathBackup(self.path)
 
         if os.path.isdir(full_path):
+
             if self.showHiddenFiles:
                 self.filesViewProxyModel.setFilterRegularExpression(r'')
+
             else:
                 self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
 
@@ -1956,8 +2069,8 @@ class MainWindow(QMainWindow):
 
         def _complete_text(language: str, percent: int) -> str:
             # (2023-08): Move to packages meta-data (pyproject.toml).
-            _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
-            _URL_PROJECT = 'https://github.com/bit-team/backintime'
+            _URL_PLATFORM = bitbase.URL_TRANSLATION
+            _URL_PROJECT = bitbase.URL_WEBSITE
 
             txt = _(
                 'Hello'
@@ -2015,22 +2128,28 @@ class MainWindow(QMainWindow):
     def _open_release_candidate_dialog(self):
         html_contact_list = (
             '<ul>'
+            '<li>{mastodon}</li>'
             '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
+                mastodon=_('In the Fediverse at Mastodon: {link_and_label}.') \
+                    .format(link_and_label='<a href="https://fosstodon.org'
+                                           '/@backintime">'
+                                           '@backintime@fosstodon.org'
+                                           '</a>'),
                 email=_('Email to {link_and_label}.').format(
                     link_and_label='<a href="mailto:backintime@tuta.io">'
                                    'backintime@tuta.io</a>'),
-                mailinglist=_('Mailing list {link_and_label}').format(
+                mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
                                    'bit-dev@python.org</a>'),
                 issue=_('{link_and_label} on the project website.').format(
-                    link_and_label='<a href="https://github.com/bit-team/'
-                                   'backintime/issues/new">{open_issue}</a>').format(
-                                       open_issue=_('Open an issue')),
+                    link_and_label='<a href="{url}">{open_issue}</a>').format(
+                        url=bitbase.URL_ISSUES_CREATE_NEW,
+                        open_issue=_('Open an issue')),
                 alternative=_('Alternatively, you can use another channel '
                               'of your choice.')
             )
@@ -2129,12 +2248,14 @@ class ExtraMouseButtonEventFilter(QObject):
             return super(ExtraMouseButtonEventFilter, self) \
                 .eventFilter(receiver, event)
 
+
 class RemoveSnapshotThread(QThread):
     """
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
-    hideTimelineItem = pyqtSignal(qttools.SnapshotItem)
+    hideTimelineItem = pyqtSignal(SnapshotItem)
+
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -2144,25 +2265,22 @@ class RemoveSnapshotThread(QThread):
     def run(self):
         last_snapshot = snapshots.lastSnapshot(self.config)
         renew_last_snapshot = False
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting snapshots')
 
-        for item, sid in [(x, x.snapshotID()) for x in self.items]:
-            self.snapshots.remove(sid)
-            self.hideTimelineItem.emit(item)
-            if sid == last_snapshot:
-                renew_last_snapshot = True
+        # inhibit suspend/hibernate during delete
+        with InhibitSuspend(reason='deleting snapshots'):
 
-        self.refreshSnapshotList.emit()
+            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
 
-        #set correct last snapshot again
-        if renew_last_snapshot:
-            self.snapshots.createLastSnapshotSymlink(snapshots.lastSnapshot(self.config))
+            self.refreshSnapshotList.emit()
 
-        #release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(self.config))
 
 
 class FillTimeLineThread(QThread):
@@ -2197,6 +2315,173 @@ class SetupCron(QThread):
         self.config.setupCron()
 
 
+def _get_state_data_from_config(cfg: config.Config) -> StateData:
+    """Get data related to application state from the config instance.
+
+    It migrates state data from the config file to an instance of
+    `StateData` which later is saved in a separate file.
+
+    This function is a temporary workaround. See PR #1850.
+
+    Args:
+       cfg: The config instance.
+
+    Returns:
+        dict: The state data.
+        """
+
+    data = StateData()
+
+    # internal.manual_starts_countdown
+    data['manual_starts_countdown'] \
+        = cfg.intValue('internal.manual_starts_countdown', 10)
+
+    # internal.msg_rc
+    val = cfg.strValue('internal.msg_rc', None)
+    if val:
+        data.msg_release_candidate = val
+
+    # internal.msg_shown_encfs
+    val = cfg.boolValue('internal.msg_shown_encfs', 0)
+    if val:
+        data.msg_encfs_global = val
+
+    # qt.show_hidden_files
+    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
+
+    # Coordinates and dimensions
+    val = (
+        cfg.intValue('qt.main_window.x', None),
+        cfg.intValue('qt.main_window.y', None)
+    )
+
+    if all(val):
+        data.mainwindow_coords = val
+
+    val = (
+        cfg.intValue('qt.main_window.width', None),
+        cfg.intValue('qt.main_window.height', None)
+    )
+    if all(val):
+        data.mainwindow_dims = val
+
+    val = (
+        cfg.intValue('qt.logview.width', None),
+        cfg.intValue('qt.logview.height', None)
+    )
+    if all(val):
+        data.logview_dims = val
+
+    # files view
+    # Dev note (buhtz, 2024-12): Ignore the column width values because of a
+    # bug. Three columns are tracked but the widget has four columns. The "Typ"
+    # column is treated as "Date" and the width of the real "Date" column (4th)
+    # was never stored.
+    # The new state file will load and store width values for all existing
+    # columns.
+    # qt.main_window.files_view.name_width
+    # qt.main_window.files_view.size_width
+    # qt.main_window.files_view.date_width
+
+    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
+    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
+    data.files_view_sorting = (col, 0 if order else 1)
+
+    # splitter width
+    widths = (
+        cfg.intValue('qt.main_window.main_splitter_left_w', None),
+        cfg.intValue('qt.main_window.main_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_main_splitter_widths = widths
+
+    widths = (
+        cfg.intValue('qt.main_window.second_splitter_left_w', None),
+        cfg.intValue('qt.main_window.second_splitter_right_w', None)
+    )
+    if all(widths):
+        data.mainwindow_second_splitter_widths = widths
+
+    # each profile
+    for profile_id in cfg.profiles():
+        profile_state = data.profile(profile_id)
+
+        # profile specific encfs warning
+        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
+        profile_state.msg_encfs = val
+
+        # qt.last_path
+        if cfg.hasProfileKey('qt.last_path', profile_id):
+            profile_state.last_path \
+                = cfg.profileStrValue('qt.last_path', None, profile_id)
+
+        # Places: sorting
+        sorting = (
+            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
+            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.places_sorting = sorting
+
+        # Manage profiles - Exclude tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.exclude_sorting = sorting
+
+        # Manage profiles - Include tab: sorting
+        sorting = (
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortColumn', None, profile_id),
+            cfg.profileIntValue(
+                'qt.settingsdialog.include.SortOrder', None, profile_id)
+        )
+        if all(sorting):
+            profile_state.include_sorting = sorting
+
+    return data
+
+
+def load_state_data(cfg: config.Config) -> None:
+    """Initiate the `State` instance.
+
+    The state file is loaded and its data stored in `State`. The later is a
+    singleton and can be used everywhere.
+
+    Args:
+       args: Arguments given from command line.
+    """
+    fp = StateData.file_path()
+
+    try:
+        # load file
+        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
+
+    except FileNotFoundError:
+        logger.debug('State file not found. Using config file and migrate it'
+                     'into a state file.')
+        fp.parent.mkdir(parents=True, exist_ok=True)
+        state_data = _get_state_data_from_config(cfg)
+
+    except json.decoder.JSONDecodeError as exc:
+        logger.warning(f'Unable to read and decode state file "{fp}". '
+                       'Ignnoring it.')
+        logger.debug(f'{exc=}')
+
+        try:
+            raw_content = fp.read_text(encoding='utf-8')
+            logger.debug(f'raw_content="{raw_content}"')
+        except Exception as exc_raw:
+            logger.debug(f'{exc_raw=}')
+
+        # Empty state data with default values
+        state_data = StateData()
+
+
 if __name__ == '__main__':
     cfg = backintime.startApp('backintime-qt')
 
@@ -2214,10 +2499,11 @@ if __name__ == '__main__':
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
 
+    load_state_data(cfg)
+
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
     if cfg.isConfigured():
-        cfg.xWindowId = mainWindow.winId()
         mainWindow.show()
         qapp.exec()
 

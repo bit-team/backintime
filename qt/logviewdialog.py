@@ -1,20 +1,13 @@
-# Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
-# Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import (QDialog,
                              QLabel,
@@ -23,15 +16,15 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QComboBox,
                              QDialogButtonBox,
-                             QCheckBox,
-                             )
+                             QCheckBox)
 from PyQt6.QtCore import QFileSystemWatcher
 import qttools
 import snapshots
 import encfstools
 import snapshotlog
 import tools
-import qttools
+from statedata import StateData
+from bitwidgets import SnapshotCombo, ProfileCombo
 
 
 class LogViewDialog(QDialog):
@@ -57,16 +50,15 @@ class LogViewDialog(QDialog):
         self.enableUpdate = False
         self.decode = None
 
-        w = self.config.intValue('qt.logview.width', 800)
-        h = self.config.intValue('qt.logview.height', 500)
-        self.resize(w, h)
+        state_data = StateData()
+        self.resize(*state_data.logview_dims)
 
         import icon
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
         if self.sid is None:
             self.setWindowTitle(_('Last Log View'))
         else:
-            self.setWindowTitle(_('Snapshot Log View'))
+            self.setWindowTitle(_('Backup Log View'))
 
         self.mainLayout = QVBoxLayout(self)
 
@@ -77,16 +69,17 @@ class LogViewDialog(QDialog):
         self.lblProfile = QLabel(_('Profile:'), self)
         layout.addWidget(self.lblProfile)
 
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
         # snapshots
-        self.lblSnapshots = QLabel(_('Snapshots:'), self)
+        self.lblSnapshots = QLabel(_('Backups:'), self)
         layout.addWidget(self.lblSnapshots)
-        self.comboSnapshots = qttools.SnapshotCombo(self)
+        self.comboSnapshots = SnapshotCombo(self)
         layout.addWidget(self.comboSnapshots, 1)
-        self.comboSnapshots.currentIndexChanged.connect(self.comboSnapshotsChanged)
+        self.comboSnapshots.currentIndexChanged.connect(
+            self.comboSnapshotsChanged)
 
         if self.sid is None:
             self.lblSnapshots.hide()
@@ -109,13 +102,17 @@ class LogViewDialog(QDialog):
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), snapshotlog.LogFilter.ERROR_AND_CHANGES)
+        self.comboFilter.addItem(
+            ' + '.join((_('Errors'), _('Changes'))),
+            snapshotlog.LogFilter.ERROR_AND_CHANGES)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
         self.comboFilter.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
         self.comboFilter.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
         self.comboFilter.addItem(ngettext('Information', 'Information', 2),
                                  snapshotlog.LogFilter.INFORMATION)
-        self.comboFilter.addItem(_('rsync transfer failures (experimental)'), snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
+        self.comboFilter.addItem(
+            _('rsync transfer failures (experimental)'),
+            snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
 
         # text view
         self.txtLogView = QPlainTextEdit(self)
@@ -147,7 +144,7 @@ class LogViewDialog(QDialog):
         if self.sid is None:
             # only watch if we show the last log
             log = self.config.takeSnapshotLogFile(
-                self.comboProfiles.currentProfileID())
+                self.comboProfiles.current_profile_id())
             self.watcher.addPath(log)
         # passes the path to the changed file to updateLog()
         self.watcher.fileChanged.connect(self.updateLog)
@@ -167,8 +164,8 @@ class LogViewDialog(QDialog):
     def profileChanged(self, index):
         if not self.enableUpdate:
             return
-        profile_id = self.comboProfiles.currentProfileID()
-        self.mainWindow.comboProfiles.setCurrentProfileID(profile_id)
+        profile_id = self.comboProfiles.current_profile_id()
+        self.mainWindow.comboProfiles.set_current_profile_id(profile_id)
         self.mainWindow.comboProfileChanged(None)
 
         self.updateDecode()
@@ -177,7 +174,7 @@ class LogViewDialog(QDialog):
     def comboSnapshotsChanged(self, index):
         if not self.enableUpdate:
             return
-        self.sid = self.comboSnapshots.currentSnapshotID()
+        self.sid = self.comboSnapshots.current_snapshot_id()
         self.updateLog()
 
     def comboFilterChanged(self, index):
@@ -201,9 +198,9 @@ class LogViewDialog(QDialog):
         if self.sid:
             self.comboSnapshots.clear()
             for sid in snapshots.iterSnapshots(self.config):
-                self.comboSnapshots.addSnapshotID(sid)
+                self.comboSnapshots.add_snapshot_id(sid)
                 if sid == self.sid:
-                    self.comboSnapshots.setCurrentSnapshotID(sid)
+                    self.comboSnapshots.set_current_snapshot_id(sid)
 
     def updateDecode(self):
         if self.config.snapshotsMode() == 'ssh_encfs':
@@ -231,29 +228,37 @@ class LogViewDialog(QDialog):
 
         mode = self.comboFilter.itemData(self.comboFilter.currentIndex())
 
-        # TODO This expressions is hard to understand (watchPath is not a boolean!)
+        # TODO This expressions is hard to understand (watchPath is not a
+        # boolean!)
         if watchPath and self.sid is None:
-            # remove path from watch to prevent multiple updates at the same time
+            # remove path from watch to prevent multiple updates at the same
+            # time
             self.watcher.removePath(watchPath)
             # append only new lines to txtLogView
-            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            for line in log.get(mode = mode,
-                                decode = self.decode,
-                                skipLines = self.txtLogView.document().lineCount() - 1):
+            log = snapshotlog.SnapshotLog(
+                self.config, self.comboProfiles.current_profile_id())
+            for line in log.get(mode=mode,
+                                decode=self.decode,
+                                skipLines=self.txtLogView.document().lineCount()-1):
                 self.txtLogView.appendPlainText(line)
 
             # re-add path to watch after 5sec delay
-            alarm = tools.Alarm(callback = lambda: self.watcher.addPath(watchPath),
-                                overwrite = False)
+            alarm = tools.Alarm(
+                callback=lambda: self.watcher.addPath(watchPath),
+                overwrite=False)
             alarm.start(5)
 
         elif self.sid is None:
-            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            self.txtLogView.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
+            log = snapshotlog.SnapshotLog(
+                self.config, self.comboProfiles.current_profile_id())
+            self.txtLogView.setPlainText(
+                '\n'.join(log.get(mode=mode, decode=self.decode)))
+
         else:
-            self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
+            self.txtLogView.setPlainText(
+                '\n'.join(self.sid.log(mode, decode=self.decode)))
 
     def closeEvent(self, event):
-        self.config.setIntValue('qt.logview.width', self.width())
-        self.config.setIntValue('qt.logview.height', self.height())
+        state_data = StateData()
+        state_data.logview_dims = (self.width(), self.height())
         event.accept()

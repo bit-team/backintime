@@ -15,17 +15,19 @@ from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor, QFont
-from PyQt6.QtWidgets import (QDialog,
-                             QVBoxLayout,
-                             QHBoxLayout,
+from PyQt6.QtWidgets import (QCheckBox,
+                             QDialog,
                              QGridLayout,
-                             QMessageBox,
                              QGroupBox,
+                             QHBoxLayout,
                              QLabel,
-                             QToolButton,
                              QLineEdit,
-                             QCheckBox,
-                             QToolTip)
+                             QMessageBox,
+                             QStyle,
+                             QToolButton,
+                             QToolTip,
+                             QVBoxLayout,
+                             QWidget)
 import config
 import tools
 import qttools
@@ -34,11 +36,13 @@ import sshtools
 import logger
 import encfsmsgbox
 import mount
+from statedata import StateData
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
-from bitbase import URL_ENCRYPT_TRANSITION
+from bitwidgets import HLineWidget
+from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
 
 
 class GeneralTab(QDialog):
@@ -66,11 +70,12 @@ class GeneralTab(QDialog):
         # EncFS deprecation (#1734, #1735)
         self._lbl_encfs_warning = self._create_label_encfs_deprecation()
         tab_layout.addWidget(self._lbl_encfs_warning)
+        tab_layout.addWidget(HLineWidget())
 
         # Where to save snapshots
         groupBox = QGroupBox(self)
         self.modeLocal = groupBox
-        groupBox.setTitle(_('Where to save snapshots'))
+        groupBox.setTitle(_('Where to save backups'))
         tab_layout.addWidget(groupBox)
 
         vlayout = QVBoxLayout(groupBox)
@@ -88,7 +93,6 @@ class GeneralTab(QDialog):
         self.btnSnapshotsPath.setToolButtonStyle(
             Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.btnSnapshotsPath.setIcon(self.icon.FOLDER)
-        self.btnSnapshotsPath.setText(_('Directory'))
         self.btnSnapshotsPath.setMinimumSize(32, 28)
         hlayout.addWidget(self.btnSnapshotsPath)
         self.btnSnapshotsPath.clicked.connect(
@@ -265,7 +269,7 @@ class GeneralTab(QDialog):
         self.txt_profile.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txt_profile)
 
-        self.lblFullPath = QLabel(_('Full snapshot path:'), self)
+        self.lblFullPath = QLabel(_('Full backup path:'), self)
         self.lblFullPath.setWordWrap(True)
         vlayout2.addWidget(self.lblFullPath)
 
@@ -388,9 +392,9 @@ class GeneralTab(QDialog):
             if not self.txtSshPrivateKeyFile.text():
 
                 question = '{}\n{}'.format(
-                        _('You did not choose a private key file for SSH.'),
-                        _('Would you like to generate a new password-less '
-                          'public/private key pair?'))
+                        _('A private key file for SSH was not chosen.'),
+                        _('Should a new password-less public/private key '
+                          'pair be generated?'))
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes
                 if answer:
@@ -485,8 +489,8 @@ class GeneralTab(QDialog):
         except NoPubKeyLogin as ex:
             logger.error(str(ex), self)
 
-            question = _('Would you like to copy your public SSH key to '
-                         'the remote host to enable password-less login?')
+            question = _('Copy public SSH key to the remote host to '
+                         'enable password-less login?')
             rc_copy_id = sshtools.sshCopyId(
                 self.config.sshPrivateKeyFile() + '.pub',
                 self.config.sshUser(),
@@ -530,8 +534,8 @@ class GeneralTab(QDialog):
             lblFingerprint.setFont(QFont('Monospace'))
             options.append({'widget': lblFingerprint, 'retFunc': None})
             lblQuestion = QLabel(
-                _("Please verify this fingerprint. Would you like to "
-                  "add it to your 'known_hosts' file?")
+                _("Please verify this fingerprint. Add it to the "
+                  "'known_hosts' file?")
             )
             options.append({'widget': lblQuestion, 'retFunc': None})
 
@@ -547,7 +551,7 @@ class GeneralTab(QDialog):
             messagebox.critical(self, str(ex))
             return False
 
-        # okay, lets try to mount
+        # okay, let's try to mount
         try:
             hash_id = mnt.mount(
                 mode=self.config.snapshotsMode(),
@@ -572,44 +576,56 @@ class GeneralTab(QDialog):
         return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
+        # Icon
+        icon = self.style().standardIcon(
+            QStyle.StandardPixmap.SP_MessageBoxWarning)
+        size = self.style().pixelMetric(
+            QStyle.PixelMetric.PM_LargeIconSize)
+        icon_label = QLabel(self)
+        pixmap = icon.pixmap(size*2)
+        icon_label.setPixmap(pixmap)
+
         # encfs deprecation warning (see #1734, #1735)
-        label = QLabel('<b>{}:</b> {}'.format(
-            _('Warning'),
-            _('Support for EncFS will be discontinued in the foreseeable '
-              'future. A decision on a replacement for continued support of '
-              'encrypted backups is still pending, depending on project '
-              'resources and contributor availability. More details are '
-              'available in this {whitepaper}.').format(
-                  whitepaper='<a href="{}">{}</a>'.format(
-                      URL_ENCRYPT_TRANSITION,
-                      _('whitepaper'))
-                  )
-        ))
-        label.setWordWrap(True)
-        label.setOpenExternalLinks(True)
+        txt = _('EncFS profile creation will be removed in the next minor '
+                'release (1.7), scheduled for 2026.')
+        txt = txt + ' ' + _('Support for EncFS is being discontinued due '
+                            'to security vulnerabilities.')
+        txt = txt + ' ' + _('For more details, including potential '
+                            'alternatives, please refer to this '
+                            '{whitepaper}.') \
+                            .format(whitepaper='<a href="{}">{}</a>'.format(
+                                URL_ENCRYPT_TRANSITION,
+                                _('whitepaper')))
+        txt_label = QLabel(txt)
+        txt_label.setWordWrap(True)
+        txt_label.setOpenExternalLinks(True)
 
         # Show URL in tooltip without anoing http-protocol prefix.
-        label.linkHovered.connect(
+        txt_label.linkHovered.connect(
             lambda url: QToolTip.showText(
                 QCursor.pos(), url.replace('https://', ''))
         )
 
-        return label
+        wdg = QWidget()
+        layout = QHBoxLayout(wdg)
+        layout.addWidget(icon_label, stretch=0)
+        layout.addWidget(txt_label, stretch=1)
+
+        return wdg
 
     def _slot_snapshots_path_clicked(self):
         old_path = self.editSnapshotsPath.text()
 
         path = str(qttools.getExistingDirectory(
             self,
-            _('Where to save snapshots'),
+            _('Where to save backups'),
             self.editSnapshotsPath.text()
         ))
 
         if path:
 
             if old_path and old_path != path:
-                question = _('Are you sure you want to change '
-                             'snapshots directory?')
+                question = _('Really change the backup directory?')
 
                 answer = messagebox.warningYesNo(self, question)
                 answer = answer == QMessageBox.StandardButton.Yes
@@ -657,7 +673,7 @@ class GeneralTab(QDialog):
             path = self.editSnapshotsPath.text()
 
         self.lblFullPath.setText(
-            _('Full snapshot path:') + ' ' +
+            _('Full backup path:') + ' ' +
             os.path.join(
                 path,
                 'backintime',
@@ -677,6 +693,9 @@ class GeneralTab(QDialog):
         parent dialog.
         """
         active_mode = self.get_active_snapshots_mode()
+
+        state_data = StateData()
+        profile_state = state_data.profile(self.config.currentProfile())
 
         # hide/show group boxes related to current mode
         # note: self.modeLocalEncfs = self.modeLocal
@@ -733,8 +752,8 @@ class GeneralTab(QDialog):
             if self._parent_dialog.isVisible():
                 # Show the profile specific warning dialog only once per
                 # profile.
-                if self.config.profileBoolValue('msg_shown_encfs') is False:
-                    self.config.setProfileBoolValue('msg_shown_encfs', True)
+                if profile_state.msg_encfs < ENCFS_MSG_STAGE:
+                    profile_state.msg_encfs = ENCFS_MSG_STAGE
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
         else:

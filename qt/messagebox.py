@@ -1,22 +1,20 @@
-#    Copyright (C) 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit,\
-    QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QScrollArea
+from PyQt6.QtWidgets import (QApplication,
+                             QDialog,
+                             QDialogButtonBox,
+                             QInputDialog,
+                             QLabel,
+                             QLineEdit,
+                             QMessageBox,
+                             QScrollArea,
+                             QVBoxLayout)
 import qttools
 
 
@@ -30,7 +28,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog = QInputDialog()
 
     timer = QTimer()
-    if not timeout is None:
+    if timeout is not None:
         timer.timeout.connect(dialog.reject)
         timer.setInterval(timeout * 1000)
         timer.start()
@@ -78,13 +76,35 @@ def warning(text, title=None, widget_to_center_on=None):
 
     Args:
         text(str): The warning message central to the dialog.
-        title(str): Title of the message box dialog.
+        title(str): Title of the message box dialog (default: 'Warning').
         widget_to_center_on(QWidget): Center the message box on that widget.
     """
     QMessageBox.warning(
         widget_to_center_on,
         title if title else _('Warning'),
         text)
+
+
+def question(text, title=None, widget_to_center_on=None):
+    """Show a modal question message box.
+
+    The message box is centered on the primary screen if
+    ``widget_to_center_on`` is not given.
+
+    Args:
+        text(str): The question central to the dialog.
+        title(str): Title of the message box dialog (default: 'Question').
+        widget_to_center_on(QWidget): Center the message box on that widget.
+
+    Return:
+        bool: ``True`` if the answer was "Yes", otherwise ``False``.
+    """
+    answer = QMessageBox.question(
+        widget_to_center_on,
+        title if title else _('Question'),
+        text)
+
+    return answer == QMessageBox.StandardButton.Yes
 
 
 def critical(parent, msg):
@@ -105,7 +125,7 @@ def warningYesNo(parent, msg):
         defaultButton=QMessageBox.StandardButton.No)
 
 
-def warningYesNoOptions(parent, msg, options = ()):
+def warningYesNoOptions(parent, msg, options=()):
 
     # Create a dialog
     dlg = QDialog(parent)
@@ -122,7 +142,9 @@ def warningYesNoOptions(parent, msg, options = ()):
         layout.addWidget(opt['widget'])
 
     # Button box
-    buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Yes | QDialogButtonBox.StandardButton.No)
+    buttonBox = QDialogButtonBox(
+        QDialogButtonBox.StandardButton.Yes
+        | QDialogButtonBox.StandardButton.No)
     buttonBox.button(QDialogButtonBox.StandardButton.No).setDefault(True)
     layout.addWidget(buttonBox)
     buttonBox.accepted.connect(dlg.accept)
@@ -134,8 +156,7 @@ def warningYesNoOptions(parent, msg, options = ()):
     return (
         ret,
         {
-            opt['id']:opt['retFunc']()
-            for opt in options
+            opt['id']: opt['retFunc']() for opt in options
             if opt['retFunc'] is not None
         }
     )

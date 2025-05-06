@@ -11,8 +11,9 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
+import re
 import copy
-from PyQt6.QtGui import QPalette, QBrush, QIcon
+from PyQt6.QtGui import QPalette, QBrush
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -35,12 +36,17 @@ from PyQt6.QtCore import Qt
 import tools
 import qttools
 import messagebox
+from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
-from manageprofiles.tab_auto_remove import AutoRemoveTab
+from manageprofiles.tab_remove_retention import RemoveRetentionTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
+from bitwidgets import ProfileCombo
+
+
+MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
 
 class SettingsDialog(QDialog):
@@ -71,7 +77,7 @@ class SettingsDialog(QDialog):
 
         self.firstUpdateAll = True
         self.disableProfileChanged = True
-        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfiles = ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
         self.disableProfileChanged = False
@@ -227,11 +233,11 @@ class SettingsDialog(QDialog):
             [
                 _('Exclude files bigger than value in {size_unit}.')
                 .format(size_unit='MiB'),
-                _("With 'Full rsync mode' disabled, this will only impact "
-                  "new files since for rsync, this is a transfer option, not "
-                  "an exclusion option. Therefore, large files that have "
-                  "been backed up previously will persist in snapshots even "
-                  "if they have been modified.")
+                _("With 'Full rsync mode' disabled, this setting affects only "
+                  "newly created files, as rsync treats it as transfer option "
+                  "rather than an exclusion rule. Consequently, large files "
+                  "that have already been backed up will remain in backups "
+                  "even if they are modified.")
             ]
         )
         hlayout.addWidget(self.cbExcludeBySize)
@@ -245,9 +251,20 @@ class SettingsDialog(QDialog):
         self.cbExcludeBySize.stateChanged.connect(enabled)
 
         # TAB: Auto-remove
-        self._tab_auto_remove = AutoRemoveTab(self)
-        _add_tab(self._tab_auto_remove, _('&Auto-remove'))
-
+        self._tab_retention = RemoveRetentionTab(self)
+        _add_tab(self._tab_retention,
+                 # Mask the "&" character, so Qt does not interpret it as a
+                 # shortcut indicator. Doing this via regex to prevent
+                 # confusing our translators. hide this from
+                 # our translators.
+                 re.sub(
+                     # "&" followed by whitespace
+                     r'&(?=\s)',
+                     # replace with this
+                     '&&',
+                     # act on that string
+                     _('&Remove & Retention')
+                 ))
         # TAB: Options
         self._tab_options = OptionsTab(self)
         _add_tab(self._tab_options, _('&Options'))
@@ -314,9 +331,8 @@ class SettingsDialog(QDialog):
         self.updateProfiles(reloadSettings=False)
 
     def removeProfile(self):
-        question = _('Are you sure you want to delete '
-                     'the profile "{name}"?').format(
-                         name=self.config.profileName())
+        question = _('Delete the profile "{name}"?').format(
+            name=self.config.profileName())
 
         if self.questionHandler(question):
             self.config.removeProfile()
@@ -326,7 +342,7 @@ class SettingsDialog(QDialog):
         if self.disableProfileChanged:
             return
 
-        current_profile_id = self.comboProfiles.currentProfileID()
+        current_profile_id = self.comboProfiles.current_profile_id()
         if not current_profile_id:
             return
 
@@ -355,14 +371,13 @@ class SettingsDialog(QDialog):
 
         # Default patterns that are not still in the list widget
         recommend = list(filter(
-            lambda val: not self.listExclude.findItems(
-                val, Qt.MatchFlag.MatchFixedString),
+            lambda val: not self.listExclude.findItems(val, MATCH_FLAGS),
             self.config.DEFAULT_EXCLUDE
         ))
 
         if not recommend:
             text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
-                    'already included.)').format(
+                     'already included.)').format(
                         BOLD='<strong>', ENDBOLD='</strong>')
 
         else:
@@ -382,6 +397,8 @@ class SettingsDialog(QDialog):
             self.btnRemoveProfile.setEnabled(True)
         self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
 
+        profile_state = StateData().profile(self.config.currentProfile())
+
         # TAB: General
         self._tab_general.load_values()
 
@@ -391,16 +408,6 @@ class SettingsDialog(QDialog):
         for include in self.config.include():
             self.addInclude(include)
 
-        includeSortColumn = int(
-            self.config.profileIntValue('qt.settingsdialog.include.SortColumn',
-                                        1)
-        )
-        includeSortOrder = Qt.SortOrder(
-            self.config.profileIntValue('qt.settingsdialog.include.SortOrder',
-                                        Qt.SortOrder.AscendingOrder)
-        )
-        self.listInclude.sortItems(includeSortColumn, includeSortOrder)
-
         # TAB: Exclude
         self.listExclude.clear()
 
@@ -409,16 +416,20 @@ class SettingsDialog(QDialog):
         self.cbExcludeBySize.setChecked(self.config.excludeBySizeEnabled())
         self.spbExcludeBySize.setValue(self.config.excludeBySize())
 
-        excludeSortColumn = int(self.config.profileIntValue(
-            'qt.settingsdialog.exclude.SortColumn', 1))
-        excludeSortOrder = Qt.SortOrder(
-            self.config.profileIntValue('qt.settingsdialog.exclude.SortOrder',
-                                        Qt.SortOrder.AscendingOrder)
-        )
-        self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
+        try:
+            incl_sort = profile_state.include_sorting
+            excl_sort = profile_state.exclude_sorting
+            self.listInclude.sortItems(
+                incl_sort[0], Qt.SortOrder(incl_sort[1])
+            )
+            self.listExclude.sortItems(
+                excl_sort[0], Qt.SortOrder(excl_sort[1]))
+        except KeyError:
+            pass
+
         self._update_exclude_recommend_label()
 
-        self._tab_auto_remove.load_values()
+        self._tab_retention.load_values()
         self._tab_options.load_values()
         self._tab_expert_options.load_values()
 
@@ -426,7 +437,7 @@ class SettingsDialog(QDialog):
         # These tabs need to be stored before the Generals tab, because the
         # latter is doing some premount checking and need to know this settings
         # first.
-        self._tab_auto_remove.store_values()
+        self._tab_retention.store_values()
         self._tab_options.store_values()
         self._tab_expert_options.store_values()
 
@@ -437,13 +448,14 @@ class SettingsDialog(QDialog):
         if success is False:
             return False
 
+        profile_state = StateData().profile(self.config.currentProfile())
+
         # include list
-        self.config.setProfileIntValue(
-            'qt.settingsdialog.include.SortColumn',
-            self.listInclude.header().sortIndicatorSection())
-        self.config.setProfileIntValue(
-            'qt.settingsdialog.include.SortOrder',
-            self.listInclude.header().sortIndicatorOrder())
+        profile_state.include_sorting = (
+            self.listInclude.header().sortIndicatorSection(),
+            self.listInclude.header().sortIndicatorOrder().value
+        )
+        # Why?
         self.listInclude.sortItems(1, Qt.SortOrder.AscendingOrder)
 
         include_list = []
@@ -455,12 +467,11 @@ class SettingsDialog(QDialog):
         self.config.setInclude(include_list)
 
         # exclude patterns
-        self.config.setProfileIntValue(
-            'qt.settingsdialog.exclude.SortColumn',
-            self.listExclude.header().sortIndicatorSection())
-        self.config.setProfileIntValue(
-            'qt.settingsdialog.exclude.SortOrder',
-            self.listExclude.header().sortIndicatorOrder())
+        profile_state.exclude_sorting = (
+            self.listExclude.header().sortIndicatorSection(),
+            self.listExclude.header().sortIndicatorOrder().value
+        )
+        # Why?
         self.listExclude.sortItems(1, Qt.SortOrder.AscendingOrder)
 
         exclude_list = []
@@ -492,8 +503,7 @@ class SettingsDialog(QDialog):
             item.setIcon(0, self.icon.FILE)
 
         # Prevent duplicates
-        duplicates = self.listInclude.findItems(
-            data[0], Qt.MatchFlag.MatchFixedString)
+        duplicates = self.listInclude.findItems(data[0], MATCH_FLAGS)
 
         if duplicates:
             self.listInclude.setCurrentItem(duplicates[0])
@@ -525,12 +535,12 @@ class SettingsDialog(QDialog):
 
         return item
 
-    def fillCombo(self, combo, d):
-        keys = list(d.keys())
-        keys.sort()
+    # def fillCombo(self, combo, d):
+    #     keys = list(d.keys())
+    #     keys.sort()
 
-        for key in keys:
-            combo.addItem(QIcon(), d[key], key)
+    #     for key in keys:
+    #         combo.addItem(QIcon(), d[key], key)
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):
@@ -577,10 +587,10 @@ class SettingsDialog(QDialog):
             return
 
         # Duplicate?
-        duplicates = self.listExclude.findItems(
-            pattern, Qt.MatchFlag.MatchFixedString)
+        duplicates = self.listExclude.findItems(pattern, MATCH_FLAGS)
 
         if duplicates:
+            # TODO notify user about duplicates
             self.listExclude.setCurrentItem(duplicates[0])
             return
 
@@ -644,13 +654,7 @@ class SettingsDialog(QDialog):
                 and not (self.cbCopyUnsafeLinks.isChecked()
                          or self.cbCopyLinks.isChecked()):
 
-                question_msg = _(
-                    '"{path}" is a symlink. The linked target will not be '
-                    'backed up until you include it, too.\nWould you like '
-                    'to include the symlink target instead?'
-                ).format(path=path)
-
-                if self.questionHandler(question_msg):
+                if self._ask_include_symlinks_target(path):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
@@ -660,6 +664,16 @@ class SettingsDialog(QDialog):
                     continue
 
             self.addInclude((path, 1))
+
+    def _ask_include_symlinks_target(self, path):
+        question_msg = _(
+            '"{path}" is a symlink. The linked target will not be backed up '
+            'until it is included, too.').format(path=path)
+
+        question_msg = question_msg + '\n' + _(
+            "Include the symlink's target instead?")
+
+        return self.questionHandler(question_msg)
 
     def btnIncludeAddClicked(self):
         """Development Note (buhtz 2023-12):
@@ -674,12 +688,7 @@ class SettingsDialog(QDialog):
                 and not (self.cbCopyUnsafeLinks.isChecked()
                          or self.cbCopyLinks.isChecked()):
 
-                question_msg = _(
-                    '"{path}" is a symlink. The linked target will not be '
-                    'backed up until you include it, too.\nWould you like '
-                    'to include the symlink target instead?') \
-                    .format(path=path)
-                if self.questionHandler(question_msg):
+                if self._ask_include_symlinks_target(path):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
@@ -700,11 +709,11 @@ class SettingsDialog(QDialog):
 
         active_mode = self._tab_general.get_active_snapshots_mode()
 
-        enabled = active_mode in ('ssh', 'ssh_encfs')
-
         self.updateExcludeItems()
+        self.lblSshEncfsExcludeWarning.setVisible(active_mode == 'ssh_encfs')
 
-        self._tab_auto_remove.update_items_state(enabled)
+        enabled = active_mode in ('ssh', 'ssh_encfs')
+        self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 
     def updateExcludeItems(self):

@@ -15,6 +15,7 @@ import re
 import tempfile
 import string
 import shutil
+import json
 from pathlib import Path
 from subprocess import run, check_output
 from common import languages
@@ -258,6 +259,18 @@ def check_syntax_of_po_files():
 
         return True
 
+    def _potential_harmful_strings(to_check):
+        """Check if the translated string contain harmful content.
+
+        URLs indicated by 'href' can be harmful if the string is used in a
+        QLabel with activated HTML interpretation.
+        """
+        if re.search('href', to_check, re.IGNORECASE):
+            print(f'CRITICAL - Potential harmful string: "{to_check}"')
+            return False
+
+        return True
+
     def _other_errors(to_check):
         """Check if there are any other errors that could be thrown via
         printing this string."""
@@ -320,18 +333,20 @@ def check_syntax_of_po_files():
 
     print('Checking syntax of po files…')
 
+    # collect translator-credit string
+    translators = {}
+
     # Each po file
     for po_path in all_po_files_in_local_dir():
         error_count = 0
         # Language code determined by po-filename
         lang_code = po_path.with_suffix('').name
 
-        # print(f'{lang_code}', end=' ')
-
         pof = polib.pofile(po_path)
 
         # Each translated entry
         for entry in pof.translated_entries():
+
             # Plural form?
             if entry.msgstr_plural or entry.msgid_plural:
                 # Ignoring plural form because this is to complex, not logical
@@ -339,6 +354,7 @@ def check_syntax_of_po_files():
                 continue
 
             if (not _curly_brackets_balanced(entry.msgstr)
+                    or not _potential_harmful_strings(entry.msgstr)
                     or not _other_errors(entry.msgstr)
                     or not _place_holders(entry.msgstr,
                                           entry.msgid,
@@ -346,10 +362,20 @@ def check_syntax_of_po_files():
                 print(f'\nSource string: {entry.msgid}\n')
                 error_count += 1
 
+            # translator string?
+            if entry.msgid == 'translator-credits-placeholder':
+                translators[languages.names[lang_code]['en']] \
+                    = entry.msgstr.split('\n')
+
         if error_count:
             print(f' {lang_code} >> {error_count} errors')
         else:
             print(f' {lang_code} >> OK')
+
+    translators = {
+        key: translators[key] for key in sorted(translators.keys())}
+    print('\nTRANSLATORS:')
+    print(json.dumps(translators, indent=4, ensure_ascii=False))
 
     print('')
 
@@ -411,8 +437,9 @@ def create_languages_file():
     with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
 
         date_now = datetime.datetime.now().strftime('%c')
+        handle.write(get_spdx_metadata_lines())
         handle.write(
-            f'# Generated at {date_now} with help\n# of package "babel" '
+            f'#\n# Generated at {date_now} with help\n# of package "babel" '
             'and "polib".\n')
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
@@ -552,7 +579,7 @@ def get_shortcut_groups() -> dict[str, list]:
         '&General',
         '&Include',
         '&Exclude',
-        '&Auto-remove',
+        '&Remove & Retention',
         '&Options',
         'Back In &Time',
         'E&xpert Options',
@@ -650,8 +677,28 @@ def check_shortcuts():
                 print(err_msg)
 
 
-if __name__ == '__main__':
+def get_spdx_metadata_lines() -> str:
+    """Extract the SPDX meta data lines from the current source file."""
+    result = ''
 
+    with Path(__file__).open('r') as handle:
+
+        for line in handle:
+
+            # ignore shebang
+            if line.startswith('#!'):
+                continue
+
+            # stop
+            if line.startswith('"""') or line.startswith('import'):
+                break
+
+            result = result + line
+       
+    return result
+
+
+if __name__ == '__main__':
     check_existence()
 
     FIN_MSG = 'Please check the result via "git diff" before committing.'
@@ -689,7 +736,7 @@ if __name__ == '__main__':
           'Optional use --remove-obsolete-entries\n'
           '  weblate - Update the po files with translations from '
           'external translation service Weblate. (Download from Weblate)\n'
-          '  shortcut - Check po files for redundant keyboard shortcuts '
+          '  shortcuts - Check po files for redundant keyboard shortcuts '
           'using "&"\n'
           '  syntax - Check syntax of po files. (Also done via "weblate" '
           'command)')
