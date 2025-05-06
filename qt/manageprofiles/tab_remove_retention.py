@@ -175,16 +175,15 @@ class RemoveRetentionTab(QDialog):
 
     def _label_rule_execute_order(self) -> QWidget:
         # Icon
-        icon = self.style().standardPixmap(
+        icon = self.style().standardIcon(
             QStyle.StandardPixmap.SP_MessageBoxInformation)
-        icon = icon.scaled(
-            icon.width()*2,
-            icon.height()*2,
-            Qt.AspectRatioMode.KeepAspectRatio)
-
+        size = self.style().pixelMetric(
+            QStyle.PixelMetric.PM_LargeIconSize)
         icon_label = QLabel(self)
-        icon_label.setPixmap(icon)
-        icon_label.setFixedSize(icon.size())
+        pixmap = icon.pixmap(size)
+        icon_label.setPixmap(pixmap)
+
+        icon_label.setFixedSize(pixmap.size())
 
         # Info text
         txt = _(
