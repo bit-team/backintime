@@ -44,6 +44,8 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'konfig.py',
+    # 'cliarguments.py',
+    # 'clicommands.py',
     'languages.py',
     'inhibitsuspend.py',
     'schedule.py',
@@ -51,6 +53,7 @@ full_test_files = [_base_dir / fp for fp in (
     'singleton.py',
     'ssh_max_arg.py',
     'version.py',
+    'test/test_args.py',
     'test/test_lint.py',
     'test/test_mount.py',
     'test/test_singleton.py',
@@ -290,7 +293,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         self.assertEqual(r.stderr, '')
 
     @unittest.skipUnless(PYLINT_AVAILABLE, BASE_REASON.format('PyLint'))
-    def test050_pylint_exclusive_ruleset(self):
+    def test050_pylint_reduced_ruleset(self):
         """Use Pylint to check for specific rules only.
 
         Some facts about PyLint

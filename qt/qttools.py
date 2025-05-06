@@ -367,10 +367,14 @@ def createQApplication(app_name='Back In Time'):
             f"Error reading QT QPA platform plugin or style: {repr(e)}")
 
     # Release Candidate indicator
-    if version.is_release_candidate():
+    if version.IS_RELEASE_CANDIDATE:
         app_name = f'{app_name} -- RELEASE CANDIDATE -- ' \
                    f'({version.__version__})'
+    elif version.IS_UNSTABLE_DEV_VERSION:
+        app_name = f'{app_name} -- UNSTABLE DEVELOPMENT ' \
+                   f'VERSION -- ({version.__version__})'
 
+    # This will influence the main window title
     qapp.setApplicationName(app_name)
 
     try:
