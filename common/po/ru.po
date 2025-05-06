@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-11 10:25+0200\n"
+"POT-Creation-Date: 2025-04-30 10:02+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
@@ -19,73 +19,73 @@ msgstr ""
 "X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:37 common/tools.py:80 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:77
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: common/config.py:148 common/config.py:258
+#: common/config.py:148 common/config.py:256
 msgid "Main profile"
 msgstr "Основной профиль"
 
-#: common/config.py:265
+#: common/config.py:262
 msgid "Local (EncFS encrypted)"
 msgstr "Локально (шифрование EncFS)"
 
-#: common/config.py:266
+#: common/config.py:263
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (шифрование EncFS)"
 
-#: common/config.py:277
+#: common/config.py:274
 msgid "Local"
 msgstr "Локально"
 
-#: common/config.py:279
+#: common/config.py:276
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:279 common/config.py:289
+#: common/config.py:276 common/config.py:286
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
 msgstr "SSH приватный ключ"
 
-#: common/config.py:282
+#: common/config.py:279
 msgid "Local encrypted"
 msgstr "Локально, зашифровано"
 
-#: common/config.py:283 common/config.py:290
+#: common/config.py:280 common/config.py:287
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: common/config.py:288
+#: common/config.py:285
 msgid "SSH encrypted"
 msgstr "SSH зашифровано"
 
-#: common/config.py:295
+#: common/config.py:292
 msgid "Default"
 msgstr "По-умолчанию"
 
-#: common/config.py:326 common/config.py:338 common/config.py:356
-#: common/config.py:370
+#: common/config.py:323 common/config.py:335 common/config.py:353
+#: common/config.py:367
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Профиль: \"{name}\""
 
-#: common/config.py:327
+#: common/config.py:324
 #, fuzzy
 msgid "Backup directory is not valid."
 msgstr "Каталог снимков задан неверно."
 
-#: common/config.py:339
+#: common/config.py:336
 msgid "At least one directory must be selected for backup."
 msgstr "Хотя бы один каталог должен быть выбран для резервного копирования."
 
-#: common/config.py:357 common/config.py:372
+#: common/config.py:354 common/config.py:369
 #, fuzzy, python-brace-format
 msgid "Directory: {path}"
 msgstr "Восстановить {path}"
 
-#: common/config.py:358 common/config.py:373
+#: common/config.py:355 common/config.py:370
 #, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
@@ -173,7 +173,7 @@ msgstr "Пожалуйста, подтвердите пароль."
 msgid "Password doesn't match."
 msgstr "Пароль не подходит."
 
-#: common/encfstools.py:516 common/snapshots.py:1042
+#: common/encfstools.py:516 common/snapshots.py:1055
 msgid "Take snapshot"
 msgstr "Сделать снимок"
 
@@ -199,144 +199,144 @@ msgstr "Точка монтирования {mntpoint} не пустая."
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Введите пароль для {mode} профиля \"{profile}\":"
 
-#: common/snapshots.py:363 common/snapshots.py:617
+#: common/snapshots.py:372 common/snapshots.py:626
 msgid "FAILED"
 msgstr "НЕУСПЕШНО"
 
-#: common/snapshots.py:560 common/snapshots.py:628
+#: common/snapshots.py:569 common/snapshots.py:637
 msgid "Restore permissions"
 msgstr "Восстановить права"
 
-#: common/snapshots.py:623 qt/app.py:292 qt/app.py:1082 qt/app.py:1117
+#: common/snapshots.py:632 qt/app.py:295 qt/app.py:1089 qt/app.py:1124
 #: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "Готово"
 
-#: common/snapshots.py:743
+#: common/snapshots.py:752
 msgid "Deferring backup while on battery"
 msgstr "Отсрочка резервного копирования при работе от батареи"
 
-#: common/snapshots.py:842 qt/app.py:363
+#: common/snapshots.py:856 qt/app.py:366
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Невозможно найти каталог снимков."
 
-#: common/snapshots.py:846 qt/app.py:364
+#: common/snapshots.py:860
 #, fuzzy
-msgid "If it is on a removable drive, please plug it in. Then press OK."
+msgid "If it is on a removable drive, please plug it in."
 msgstr ""
 "Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК."
 
-#: common/snapshots.py:849
-#, python-format
-msgid "Waiting %s second."
-msgid_plural "Waiting %s seconds."
+#: common/snapshots.py:863
+#, fuzzy, python-brace-format
+msgid "Waiting {n} second."
+msgid_plural "Waiting {n} seconds."
 msgstr[0] "Ждать %s секунду."
 msgstr[1] "Ждать %s секунды."
 msgstr[2] "Ждать %s секунд."
 
-#: common/snapshots.py:914
+#: common/snapshots.py:928
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Не удалось создать снимок {snapshot_id}."
 
-#: common/snapshots.py:946
+#: common/snapshots.py:960
 msgid "Please be patient. Finalizing…"
 msgstr "Пожалуйста, подождите. Завершение…"
 
-#: common/snapshots.py:1077
+#: common/snapshots.py:1090
 msgid "Can't create directory."
 msgstr "Невозможно создать каталог."
 
-#: common/snapshots.py:1094
+#: common/snapshots.py:1107
 msgid "Saving config file…"
 msgstr "Сохранение файла конфигурации…"
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1188
 msgid "Saving permissions…"
 msgstr "Сохранение разрешений…"
 
-#: common/snapshots.py:1290
+#: common/snapshots.py:1303
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Найдены остатки {snapshot_id}, с которыми можно продолжить."
 
-#: common/snapshots.py:1314
+#: common/snapshots.py:1327
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Удаление остатков папки {snapshot_id}, оставшихся после последнего запуска"
 
-#: common/snapshots.py:1325
+#: common/snapshots.py:1338
 msgid "Can't remove directory"
 msgstr "Невозможно удалить каталог"
 
-#: common/snapshots.py:1379
+#: common/snapshots.py:1392
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1430
+#: common/snapshots.py:1443
 msgid "Success"
 msgstr "Успешно"
 
-#: common/snapshots.py:1433
+#: common/snapshots.py:1446
 msgid "Partial transfer due to error"
 msgstr "Неполная передача из-за ошибки"
 
-#: common/snapshots.py:1434
+#: common/snapshots.py:1447
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Частичный перенос из-за исчезновения исходных файлов (см. «man rsync»)"
 
-#: common/snapshots.py:1438
+#: common/snapshots.py:1451
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "rsync завершился c кодом {exit_code}"
 
-#: common/snapshots.py:1451
+#: common/snapshots.py:1464
 msgid "See 'man rsync' for more details"
 msgstr "Подробнее см. «man rsync»"
 
-#: common/snapshots.py:1458
+#: common/snapshots.py:1471
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Неудачные коды выхода из rsync - это номера сигналов, см. 'kill -l' и 'man "
 "kill'"
 
-#: common/snapshots.py:1479
+#: common/snapshots.py:1492
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ничего не изменилось, нет необходимости в резервной копии"
 
-#: common/snapshots.py:1523
+#: common/snapshots.py:1536
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Невозможно переименовать {new_path} в {path}."
 
-#: common/snapshots.py:1855
+#: common/snapshots.py:1868
 msgid "Smart removal"
 msgstr "Умное удаление"
 
-#: common/snapshots.py:1888
+#: common/snapshots.py:1901
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Удалить старые резервные копии"
 
-#: common/snapshots.py:1921
+#: common/snapshots.py:1934
 msgid "Apply retention policy"
 msgstr ""
 
-#: common/snapshots.py:1931
+#: common/snapshots.py:1944
 msgid "Trying to keep min free space"
 msgstr "Стараться сохранять минимальное свободное место"
 
-#: common/snapshots.py:1970
+#: common/snapshots.py:1983
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Попытка сохранить минимум {perc} свободных инодов"
 
-#: common/snapshots.py:3106 qt/app.py:1849
+#: common/snapshots.py:3119 qt/app.py:1878
 msgid "Now"
 msgstr "Сейчас"
 
@@ -407,7 +407,7 @@ msgstr "Скопировать открытый ssh-ключ \"{pubkey}\" на �
 msgid "Please enter a password for \"{user}\"."
 msgstr "Пожалуйста, подтвердите пароль для \"{user}\"."
 
-#: common/tools.py:400
+#: common/tools.py:401
 #, fuzzy, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -416,20 +416,20 @@ msgstr ""
 "Файловая система назначения {path} отформатирована в FAT, не поддерживающая "
 "\"жесткие\" ссылки. Используйте нативные файловые системы Linux."
 
-#: common/tools.py:432
+#: common/tools.py:433
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} существует, но не является каталогом."
 
-#: common/tools.py:446
+#: common/tools.py:447
 msgid "Creation of following directory failed:"
 msgstr "Не удалось создать каталог:"
 
-#: common/tools.py:448 common/tools.py:544
+#: common/tools.py:449 common/tools.py:545
 msgid "Write access may be restricted."
 msgstr "Доступ на запись может быть ограничен."
 
-#: common/tools.py:488
+#: common/tools.py:489
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -438,7 +438,7 @@ msgstr ""
 "Файловая система назначения {path} отформатирована в FAT, не поддерживающая "
 "\"жесткие\" ссылки. Используйте нативные файловые системы Linux."
 
-#: common/tools.py:499
+#: common/tools.py:500
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -449,15 +449,15 @@ msgstr ""
 "Убедитесь, что удаленный SMB-сервер поддерживает симлинки, или активируйте "
 "{copyLinks} в {expertOptions}."
 
-#: common/tools.py:503 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:504 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
 msgstr "Копировать ссылки (разыменование символических ссылок)"
 
-#: common/tools.py:504
+#: common/tools.py:505
 msgid "Expert Options"
 msgstr "Расширенные настройки"
 
-#: common/tools.py:508
+#: common/tools.py:509
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -466,7 +466,7 @@ msgstr ""
 "Файловая система назначения для {path} смонтирована через sshfs. sshfs не "
 "поддерживает жесткие ссылки. Используйте режим «SSH»."
 
-#: common/tools.py:542
+#: common/tools.py:543
 msgid "File creation failed in this directory:"
 msgstr "Не удалось создать файл в каталоге:"
 
@@ -513,15 +513,15 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: qt/aboutdlg.py:236 qt/app.py:547
+#: qt/aboutdlg.py:236 qt/app.py:550
 msgid "Project website"
 msgstr ""
 
-#: qt/aboutdlg.py:241 qt/app.py:529
+#: qt/aboutdlg.py:241 qt/app.py:532
 msgid "User manual"
 msgstr ""
 
-#: qt/aboutdlg.py:242 qt/app.py:531
+#: qt/aboutdlg.py:242 qt/app.py:534
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 
@@ -534,11 +534,11 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
 
-#: qt/app.py:172
+#: qt/app.py:175
 msgid "Shortcuts"
 msgstr "Ярлыки"
 
-#: qt/app.py:192
+#: qt/app.py:195
 #, fuzzy
 msgid ""
 "This directory doesn't exist\n"
@@ -547,15 +547,15 @@ msgstr ""
 "Этой папки не существует\n"
 "в выбранном снимке."
 
-#: qt/app.py:257
+#: qt/app.py:260
 msgid "Add to Include"
 msgstr "Включить"
 
-#: qt/app.py:259
+#: qt/app.py:262
 msgid "Add to Exclude"
 msgstr "Добавить в исключения"
 
-#: qt/app.py:331
+#: qt/app.py:334
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -563,7 +563,7 @@ msgid ""
 msgstr ""
 "Похоже, что {app_name} запускается впервые, так как конфигурация не найдена."
 
-#: qt/app.py:336
+#: qt/app.py:339
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
@@ -572,166 +572,172 @@ msgstr ""
 "Импортировать существующую конфигурацию (из резервной целевой папки или с "
 "другого компьютера)?"
 
-#: qt/app.py:470
+#: qt/app.py:367
+#, fuzzy
+msgid "If it is on a removable drive, please plug it in. Then press OK."
+msgstr ""
+"Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК."
+
+#: qt/app.py:473
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:472
+#: qt/app.py:475
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Используйте время модификации и размер для обнаружения изменений файла."
 
-#: qt/app.py:475
+#: qt/app.py:478
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Сделать снимок (режим контрольной суммы)"
 
-#: qt/app.py:477
+#: qt/app.py:480
 msgid "Use checksums for file change detection."
 msgstr "Использовать контрольную сумму для обнаружения изменений."
 
-#: qt/app.py:480 qt/qtsystrayicon.py:79
+#: qt/app.py:483 qt/qtsystrayicon.py:79
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Приостановить процесс создания снимка"
 
-#: qt/app.py:485 qt/qtsystrayicon.py:84
+#: qt/app.py:488 qt/qtsystrayicon.py:84
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Продолжить процесс создания снимка"
 
-#: qt/app.py:489 qt/qtsystrayicon.py:90
+#: qt/app.py:492 qt/qtsystrayicon.py:90
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Остановить процесс создания снимка"
 
-#: qt/app.py:493
+#: qt/app.py:496
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Обновить список моментальных снимков"
 
-#: qt/app.py:497
+#: qt/app.py:500
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:501
+#: qt/app.py:504
 #, fuzzy
 msgid "Remove backup"
 msgstr "Удалить снимок"
 
-#: qt/app.py:505
+#: qt/app.py:508
 #, fuzzy
 msgid "View backup log"
 msgstr "Смотреть последний log"
 
-#: qt/app.py:509
+#: qt/app.py:512
 msgid "View last log"
 msgstr "Смотреть последний log"
 
-#: qt/app.py:513
+#: qt/app.py:516
 msgid "Manage profiles…"
 msgstr "Управление профилями…"
 
-#: qt/app.py:517
+#: qt/app.py:520
 msgid "Shutdown"
 msgstr "Выключить"
 
-#: qt/app.py:519
+#: qt/app.py:522
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Выключить систему после завершения создания снимка."
 
-#: qt/app.py:521
+#: qt/app.py:524
 msgid "Setup language…"
 msgstr "Изменить язык…"
 
-#: qt/app.py:525
+#: qt/app.py:528
 msgid "Exit"
 msgstr "Выйти"
 
-#: qt/app.py:535
+#: qt/app.py:538
 msgid "man page: Back In Time"
 msgstr ""
 
-#: qt/app.py:537
+#: qt/app.py:540
 msgid "Displays man page about Back In Time (backintime)"
 msgstr ""
 
-#: qt/app.py:540
+#: qt/app.py:543
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "config файл профиля"
 
-#: qt/app.py:543
+#: qt/app.py:546
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 
-#: qt/app.py:550
+#: qt/app.py:553
 msgid "Open Back In Time website in browser"
 msgstr ""
 
-#: qt/app.py:552 qt/app.py:1468
+#: qt/app.py:555 qt/app.py:1497
 msgid "Changelog"
 msgstr "Список изменений"
 
-#: qt/app.py:555
+#: qt/app.py:558
 msgid "FAQ"
 msgstr "Часто задаваемые вопросы"
 
-#: qt/app.py:557
+#: qt/app.py:560
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr ""
 
-#: qt/app.py:559
+#: qt/app.py:562
 msgid "Ask a question"
 msgstr "Задать вопрос"
 
-#: qt/app.py:563
+#: qt/app.py:566
 msgid "Report a bug"
 msgstr "Сообщить об ошибке"
 
-#: qt/app.py:566
+#: qt/app.py:569
 msgid "Translation"
 msgstr "Перевод"
 
-#: qt/app.py:568
+#: qt/app.py:571
 msgid "Shows the message about participation in translation again."
 msgstr "Показать сообщение об участии в переводе."
 
-#: qt/app.py:572
+#: qt/app.py:575
 msgid "Encryption Transition (EncFS)"
 msgstr "Миграция с шифрования EncFS"
 
-#: qt/app.py:574
+#: qt/app.py:577
 msgid "Shows the message about EncFS removal again."
 msgstr "Показать сообщение об удалении EncFS."
 
-#: qt/app.py:576
+#: qt/app.py:579
 msgid "About"
 msgstr "О программе"
 
-#: qt/app.py:579 qt/restoredialog.py:38 qt/snapshotsdialog.py:172
-#: qt/snapshotsdialog.py:177
+#: qt/app.py:582 qt/restoredialog.py:36 qt/snapshotsdialog.py:173
+#: qt/snapshotsdialog.py:178
 msgid "Restore"
 msgstr "Восстановить"
 
-#: qt/app.py:581
+#: qt/app.py:584
 #, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr ""
 "Восстановление выбранных файлов или каталогов в исходное место назначения."
 
-#: qt/app.py:584 qt/app.py:1640 qt/app.py:1672 qt/snapshotsdialog.py:174
+#: qt/app.py:587 qt/app.py:1669 qt/app.py:1701 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Восстановить в…"
 
-#: qt/app.py:586
+#: qt/app.py:589
 #, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr ""
 "Восстановление выбранных файлов или каталогов в новое место назначения."
 
-#: qt/app.py:592
+#: qt/app.py:595
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -740,7 +746,7 @@ msgstr ""
 "Восстановление текущей показанной папки и всего ее содержимого в исходное "
 "место назначения."
 
-#: qt/app.py:598
+#: qt/app.py:601
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -749,61 +755,61 @@ msgstr ""
 "Восстановление текущей показанной папки и всего ее содержимого в новое место"
 " назначения."
 
-#: qt/app.py:601
+#: qt/app.py:604
 msgid "Up"
 msgstr "Вверх"
 
-#: qt/app.py:604 qt/restoreconfigdialog.py:103
+#: qt/app.py:607 qt/restoreconfigdialog.py:103
 msgid "Show hidden files"
 msgstr "Показать скрытые файлы"
 
-#: qt/app.py:607
+#: qt/app.py:610
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Сравнить снимки…"
 
-#: qt/app.py:637 qt/app.py:2152
+#: qt/app.py:640 qt/app.py:2181
 msgid "Release Candidate"
 msgstr ""
 
-#: qt/app.py:640
+#: qt/app.py:643
 #, fuzzy
 msgid "Shows the message about this Release Candidate again."
 msgstr "Показать сообщение об удалении EncFS."
 
-#: qt/app.py:676
+#: qt/app.py:679
 msgid "Back In &Time"
 msgstr ""
 
-#: qt/app.py:681
+#: qt/app.py:684
 msgid "&Backup"
 msgstr "&Резервное копирование"
 
-#: qt/app.py:692
+#: qt/app.py:695
 msgid "&Restore"
 msgstr "&Восстановление"
 
-#: qt/app.py:698
+#: qt/app.py:701
 msgid "&Help"
 msgstr "&Справка"
 
-#: qt/app.py:743
+#: qt/app.py:746
 msgid "Icons only"
 msgstr ""
 
-#: qt/app.py:746
+#: qt/app.py:749
 msgid "Text only"
 msgstr ""
 
-#: qt/app.py:749
+#: qt/app.py:752
 msgid "Text below icons"
 msgstr ""
 
-#: qt/app.py:752
+#: qt/app.py:755
 msgid "Text beside icon"
 msgstr ""
 
-#: qt/app.py:897
+#: qt/app.py:904
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -812,68 +818,68 @@ msgstr ""
 "Если вы закроете это окно - Back In Time не сможет выключить систему после "
 "завершения создания снимка."
 
-#: qt/app.py:900
+#: qt/app.py:907
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1072
+#: qt/app.py:1079
 msgid "Working:"
 msgstr "Работаю:"
 
-#: qt/app.py:1120
+#: qt/app.py:1127
 msgid "Done, no backup needed"
 msgstr "Сделано, сохранять ничего не надо"
 
-#: qt/app.py:1129
+#: qt/app.py:1139
 msgid "Working"
 msgstr "Работаю"
 
-#: qt/app.py:1138 qt/messagebox.py:84
+#: qt/app.py:1148 qt/messagebox.py:84
 msgid "Error"
 msgstr "Ошибка"
 
-#: qt/app.py:1161
-msgid "Sent"
-msgstr "Отправлено"
+#: qt/app.py:1189 qt/qtsystrayicon.py:206
+msgid "Sent:"
+msgstr "Отправлено:"
 
-#: qt/app.py:1162
-msgid "Speed"
-msgstr "Скорость"
+#: qt/app.py:1190 qt/qtsystrayicon.py:207
+msgid "Speed:"
+msgstr "Скорость:"
 
-#: qt/app.py:1163
-msgid "ETA"
-msgstr "Приблизительно оставшееся время"
+#: qt/app.py:1191 qt/qtsystrayicon.py:208
+msgid "ETA:"
+msgstr "До завершения:"
 
-#: qt/app.py:1225
+#: qt/app.py:1254
 msgid "Global"
 msgstr "Общее"
 
-#: qt/app.py:1226
+#: qt/app.py:1255
 msgid "Root"
 msgstr "Корневой каталог"
 
-#: qt/app.py:1227
+#: qt/app.py:1256
 msgid "Home"
 msgstr "Домашний каталог"
 
-#: qt/app.py:1255
+#: qt/app.py:1284
 #, fuzzy
 msgid "Backup directories"
 msgstr "Резервные директории"
 
-#: qt/app.py:1352
+#: qt/app.py:1381
 #, fuzzy
 msgid "Backup name"
 msgstr "&Резервное копирование"
 
-#: qt/app.py:1400
+#: qt/app.py:1429
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/app.py:1498
+#: qt/app.py:1527
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -882,7 +888,7 @@ msgstr ""
 "Создать резервные копии с последующим {suffix} перед\n"
 "перезаписью или удалением локальных файлов."
 
-#: qt/app.py:1506 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1535 qt/manageprofiles/tab_options.py:65
 #, fuzzy, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -892,7 +898,7 @@ msgstr ""
 "трейлингом {suffix}. Если они вам больше не нужны, то можете удалить их с "
 "помощью команды:"
 
-#: qt/app.py:1522
+#: qt/app.py:1551
 #, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
@@ -903,12 +909,12 @@ msgstr ""
 "или элементы новее, чем имеющиеся.\n"
 "Использует опцию \"rsync --update\"."
 
-#: qt/app.py:1557
+#: qt/app.py:1586
 #, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Удалять более новые файлы в исходной папке."
 
-#: qt/app.py:1560
+#: qt/app.py:1589
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -920,7 +926,7 @@ msgstr ""
 " файлов/папок, которых нет в снимке. Будьте предельно осторожны, потому что "
 "при этом будут удалены файлы/папки, исключенные при создании снимка."
 
-#: qt/app.py:1572
+#: qt/app.py:1601
 #, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
@@ -934,7 +940,7 @@ msgstr[2] ""
 "Вы действительно хотите восстановить эти файлы в новую папку\n"
 "{path}?"
 
-#: qt/app.py:1580
+#: qt/app.py:1609
 #, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
@@ -942,16 +948,16 @@ msgstr[0] "Вы действительно хотите восстановить
 msgstr[1] "Вы действительно хотите восстановить эти файлы?"
 msgstr[2] "Вы действительно хотите восстановить эти файлы?"
 
-#: qt/app.py:1599
+#: qt/app.py:1628
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1602
+#: qt/app.py:1631
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1608
+#: qt/app.py:1637
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -960,22 +966,22 @@ msgstr ""
 "{BOLD}ВНИМАНИЕ{BOLDEND}: Удаление файлов в корне файловой системы может "
 "сломать всю вашу систему."
 
-#: qt/app.py:1857
+#: qt/app.py:1886
 #, fuzzy
 msgid "Backup"
 msgstr "&Резервное копирование"
 
-#: qt/app.py:1896
+#: qt/app.py:1925
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Восстановить {path}"
 
-#: qt/app.py:1898
+#: qt/app.py:1927
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Восстановить {path} в…"
 
-#: qt/app.py:2042
+#: qt/app.py:2071
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -992,47 +998,47 @@ msgstr ""
 "Приносим извинения за неудобства — это сообщение больше не появится. Снова найти это диалоговое окно можно будет в меню помощи.\n"
 "Ваша команда Back In Time"
 
-#: qt/app.py:2071
+#: qt/app.py:2100
 msgid "translation platform"
 msgstr "платформы для перевода"
 
-#: qt/app.py:2076
+#: qt/app.py:2105
 msgid "Website"
 msgstr "Сайт"
 
-#: qt/app.py:2090
+#: qt/app.py:2119
 msgid "Your translation"
 msgstr "Ваш перевод"
 
-#: qt/app.py:2103
+#: qt/app.py:2132
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2108
+#: qt/app.py:2137
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2111
+#: qt/app.py:2140
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2115
+#: qt/app.py:2144
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr ""
 
-#: qt/app.py:2118
+#: qt/app.py:2147
 msgid "Open an issue"
 msgstr ""
 
-#: qt/app.py:2119
+#: qt/app.py:2148
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:2124
+#: qt/app.py:2153
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1045,7 +1051,7 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:2175
+#: qt/app.py:2204
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Смена языка произойдет только после перезапуска Back In Time."
 
@@ -2034,18 +2040,6 @@ msgstr "Запустить {appname}"
 msgid "Working…"
 msgstr "Работаю…"
 
-#: qt/qtsystrayicon.py:202
-msgid "Sent:"
-msgstr "Отправлено:"
-
-#: qt/qtsystrayicon.py:203
-msgid "Speed:"
-msgstr "Скорость:"
-
-#: qt/qtsystrayicon.py:204
-msgid "ETA:"
-msgstr "До завершения:"
-
 #: qt/restoreconfigdialog.py:68
 msgid "Import configuration"
 msgstr "Импорт конфигурации"
@@ -2074,32 +2068,59 @@ msgstr ""
 "Если каталог находится в сети или на съемном диске, его сначала нужно "
 "примонтировать вручную."
 
-#: qt/restoredialog.py:51
+#: qt/restoredialog.py:49
 msgid "Show full Log"
 msgstr "Показать весь лог"
 
-#: qt/snapshotsdialog.py:57
+#: qt/shutdowndlg.py:27
+msgid "Countdown to Shutdown"
+msgstr ""
+
+#: qt/shutdowndlg.py:28
+#, fuzzy
+msgid "The backup has finished."
+msgstr "Выключить систему после завершения создания снимка."
+
+#: qt/shutdowndlg.py:35
+#, fuzzy
+msgid "Cancel Shutdown"
+msgstr "Выключить"
+
+#: qt/shutdowndlg.py:36
+#, fuzzy
+msgid "Shutdown Now"
+msgstr "Выключить"
+
+#: qt/shutdowndlg.py:68
+#, python-brace-format
+msgid "The system will shut down in {n} second."
+msgid_plural "The system will shut down in {n} seconds."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: qt/snapshotsdialog.py:58
 #, fuzzy
 msgid "Options about comparing backups"
 msgstr "Параметры сравнения снимков"
 
-#: qt/snapshotsdialog.py:64
+#: qt/snapshotsdialog.py:65
 msgid "Command:"
 msgstr "Команда:"
 
-#: qt/snapshotsdialog.py:68
+#: qt/snapshotsdialog.py:69
 msgid "Parameters:"
 msgstr "Параметры:"
 
-#: qt/snapshotsdialog.py:73
+#: qt/snapshotsdialog.py:74
 msgid "Use %1 and %2 for path parameters"
 msgstr "Использовать %1 и %2 для комманды"
 
-#: qt/snapshotsdialog.py:90
+#: qt/snapshotsdialog.py:91
 msgid "Please set a diff command or press Cancel."
 msgstr "Задайте команду diff или нвжмите «Отмена»."
 
-#: qt/snapshotsdialog.py:96
+#: qt/snapshotsdialog.py:97
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2107,74 +2128,74 @@ msgid ""
 msgstr ""
 "Команда «{cmd}» не найдена в системе. Выберите другую или нажмите «Отмена»."
 
-#: qt/snapshotsdialog.py:104
+#: qt/snapshotsdialog.py:105
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Для команды diff не заданы аргументы. Используется значение по умолчанию "
 "«{params}»."
 
-#: qt/snapshotsdialog.py:129 qt/timeline.py:45
+#: qt/snapshotsdialog.py:130 qt/timeline.py:45
 #, fuzzy
 msgid "Backups"
 msgstr "&Резервное копирование"
 
-#: qt/snapshotsdialog.py:140
+#: qt/snapshotsdialog.py:141
 #, fuzzy
 msgid "Differing backups only"
 msgstr "Только различающиеся снимки"
 
-#: qt/snapshotsdialog.py:149
+#: qt/snapshotsdialog.py:150
 #, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Только снимки, равные:"
 
-#: qt/snapshotsdialog.py:161
+#: qt/snapshotsdialog.py:162
 msgid "Deep check (more accurate, but slow)"
 msgstr "Глубокая проверка (более точная, но медленная)"
 
-#: qt/snapshotsdialog.py:182
+#: qt/snapshotsdialog.py:183
 msgid "Delete"
 msgstr "Удалить"
 
-#: qt/snapshotsdialog.py:187
+#: qt/snapshotsdialog.py:188
 msgid "Select All"
 msgstr "Выделить всё"
 
-#: qt/snapshotsdialog.py:200
+#: qt/snapshotsdialog.py:201
 msgid "Compare"
 msgstr "Сравнение"
 
-#: qt/snapshotsdialog.py:215
+#: qt/snapshotsdialog.py:216
 msgid "Go To"
 msgstr "Перейти к"
 
-#: qt/snapshotsdialog.py:217
+#: qt/snapshotsdialog.py:218
 #, fuzzy
 msgid "Options"
 msgstr "Параметры"
 
-#: qt/snapshotsdialog.py:380
+#: qt/snapshotsdialog.py:381
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
 
-#: qt/snapshotsdialog.py:426
+#: qt/snapshotsdialog.py:427
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Вы действительно хотите удалить файл {file} в снимке {snapshot_id}?"
 
-#: qt/snapshotsdialog.py:431
+#: qt/snapshotsdialog.py:432
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "Вы действительно хотите удалить \"{file}\" в {count} снимках?"
 
-#: qt/snapshotsdialog.py:434
+#: qt/snapshotsdialog.py:435
 msgid "WARNING: This cannot be revoked."
 msgstr "ВНИМАНИЕ: Это не может быть отменено."
 
-#: qt/snapshotsdialog.py:452
+#: qt/snapshotsdialog.py:453
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Исключить {path} из будущих снимков?"
@@ -2227,17 +2248,15 @@ msgstr "Последняя проверка {time}"
 #~ msgid "Do you really want to close it?"
 #~ msgstr "Вы действительно хотите закрыть это?"
 
+#~ msgid "ETA"
+#~ msgstr "Приблизительно оставшееся время"
+
 #, python-brace-format
 #~ msgid "Every {n} hour"
 #~ msgid_plural "Every {n} hours"
 #~ msgstr[0] "Каждый {n} час"
 #~ msgstr[1] "Каждые {n} часа"
 #~ msgstr[2] "Каждые {n} часов"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive please plug it in."
-#~ msgstr ""
-#~ "Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК."
 
 #~ msgid "License"
 #~ msgstr "Лицензия"
@@ -2254,6 +2273,9 @@ msgstr "Последняя проверка {time}"
 #~ "дописыванием {suffix}. Если они вам больше не нужны, то можно удалить их "
 #~ "командой {cmd}"
 
+#~ msgid "Sent"
+#~ msgstr "Отправлено"
+
 #~ msgid "Snapshot"
 #~ msgstr "Снимок"
 
@@ -2268,6 +2290,9 @@ msgstr "Последняя проверка {time}"
 
 #~ msgid "Snapshots:"
 #~ msgstr "Снимки:"
+
+#~ msgid "Speed"
+#~ msgstr "Скорость"
 
 #~ msgid "Take a snapshot"
 #~ msgstr "Сделать снимок"

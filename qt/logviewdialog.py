@@ -96,21 +96,21 @@ class LogViewDialog(QDialog):
         layout.addWidget(self.comboFilter, 1)
         self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
 
-        self.comboFilter.add_item(_('All'), snapshotlog.LogFilter.NO_FILTER)
+        self.comboFilter.addItem(_('All'), snapshotlog.LogFilter.NO_FILTER)
 
         # Note about ngettext plural forms: n=102 means "Other" in Arabic and
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboFilter.add_item(
+        self.comboFilter.addItem(
             ' + '.join((_('Errors'), _('Changes'))),
             snapshotlog.LogFilter.ERROR_AND_CHANGES)
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.add_item(_('Errors'), snapshotlog.LogFilter.ERROR)
-        self.comboFilter.add_item(_('Changes'), snapshotlog.LogFilter.CHANGES)
-        self.comboFilter.add_item(ngettext('Information', 'Information', 2),
+        self.comboFilter.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
+        self.comboFilter.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
+        self.comboFilter.addItem(ngettext('Information', 'Information', 2),
                                  snapshotlog.LogFilter.INFORMATION)
-        self.comboFilter.add_item(
+        self.comboFilter.addItem(
             _('rsync transfer failures (experimental)'),
             snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
 

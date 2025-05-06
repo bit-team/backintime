@@ -180,6 +180,7 @@ distribution.
   - `gzip`
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
+  - `asciidoctor`
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `flake8`

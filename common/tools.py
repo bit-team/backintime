@@ -1943,7 +1943,7 @@ def readTimeStamp(fname):
     """
 
     if not os.path.exists(fname):
-        logger.debug(f"No timestamp file '{fname}'")
+        # logger.debug(f"No timestamp file '{fname}'")
         return
 
     with open(fname, 'r') as f:
@@ -1966,8 +1966,7 @@ def readTimeStamp(fname):
 
         else:
             # valid time stamp
-            logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
-
+            # logger.debug(f"Read timestamp '{stamp}' from file '{fname}'")
             return stamp
 
 
@@ -1978,7 +1977,7 @@ def writeTimeStamp(fname):
         fname (str): Full path to timestamp file.
     """
     now = datetime.now().strftime('%Y%m%d %H%M')
-    logger.debug(f"Write timestamp '{now}' into file '{fname}'")
+    # logger.debug(f"Write timestamp '{now}' into file '{fname}'")
     makeDirs(os.path.dirname(fname))
 
     with open(fname, 'w') as f:
@@ -2314,7 +2313,7 @@ class Execute:
 
         self.pausable = True
         self.printable_cmd = ' '.join(self.cmd)
-        logger.debug(f'Call command "{self.printable_cmd}"', self.parent, 2)
+        # logger.debug(f'Call command "{self.printable_cmd}"', self.parent, 2)
 
     def run(self):
         """Run the command using ``subprocess.Popen``.
@@ -2342,7 +2341,8 @@ class Execute:
 
         stderr = subprocess.STDOUT if self.join_stderr else subprocess.DEVNULL
 
-        logger.debug(f"Starting command '{self.printable_cmd}'")
+        logger.debug(
+            f'Starting command: "{self.printable_cmd}"')
 
         self.currentProc = subprocess.Popen(
             self.cmd, stdout=subprocess.PIPE, stderr=stderr)
@@ -2390,20 +2390,21 @@ class Execute:
             signal.signal(signal.SIGTSTP, signal.SIG_DFL)
             signal.signal(signal.SIGCONT, signal.SIG_DFL)
             signal.signal(signal.SIGHUP, signal.SIG_DFL)
+
         except ValueError:
             # signal only work in qt main thread
             # TODO What does this imply?
             pass
 
         if ret_val == 0:
-            msg = f'Command "{self.printable_cmd[:16]}" returns {ret_val}'
+            msg = f'Command "{self.printable_cmd[:16]}" returned {ret_val}'
             if out:
                 msg += ': ' + out.decode().strip('\n')
             logger.debug(msg, self.parent, 2)
 
         else:
             msg = f'Command "{self.printable_cmd}" ' \
-                  f'returns {bcolors.WARNING}{ret_val}{bcolors.ENDC}'
+                  f'returned {bcolors.WARNING}{ret_val}{bcolors.ENDC}'
             if out:
                 msg += ' | ' + out.decode().strip('\n')
             logger.warning(msg, self.parent, 2)

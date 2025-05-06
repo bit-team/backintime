@@ -12,7 +12,7 @@ CURRENT=$(pwd)
 NEW="backintime-$VER"
 
 # clean up
-rm ./common/man/C/*.gz
+rm ./doc/manpages/*.gz
 
 cd ..
 
@@ -34,14 +34,17 @@ tar cfz backintime-$VER.tar.gz \
     --exclude-vcs \
     ${NEW}/AUTHORS \
     ${NEW}/CHANGES \
-    ${NEW}/LICENSE \
-    ${NEW}/README.md \
-    ${NEW}/FAQ.md \
     ${NEW}/CONTRIBUTING.md \
+    ${NEW}/FAQ.md \
     ${NEW}/HISTORY.md \
+    ${NEW}/LICENSES.md \
+    ${NEW}/README.md \
+    ${NEW}/REUSE.toml \
     ${NEW}/TRANSLATIONS \
     ${NEW}/VERSION \
     ${NEW}/updateversion.sh \
+    ${NEW}/update_language_files.py \
+    ${NEW}/create-manpage-backintime-config.py \
     ${NEW}/common \
     ${NEW}/qt \
     ${NEW}/LICENSES \

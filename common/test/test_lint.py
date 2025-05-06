@@ -45,7 +45,7 @@ full_test_files = [_base_dir / fp for fp in (
     'bitbase.py',
     'konfig.py',
     'languages.py',
-    'inhibitpowermgmt.py',
+    'inhibitsuspend.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
