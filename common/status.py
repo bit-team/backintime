@@ -45,8 +45,7 @@ class BackupStatus():
                         Command line arguments when called from command line.
 
         cfg (config.Config):
-                        Current configuration object. Used when called from
-                        an active session after backup.
+                        Current configuration object.
 
     Command line options (via args):
         --profile <name> or --profile-id <id>:
