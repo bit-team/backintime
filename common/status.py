@@ -5,14 +5,26 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""
+status.py
+
+Provides tools for managing and reporting backup status for profiles
+used by the Back In Time backup system.
+
+Supports command-line arguments to filter output by profile, show only issues,
+or return the status in JSON format.
+
+Status file is stored at $XDG_STATE_HOME/backupstatus.json (typically:
+~/.local/state/backupstatus.json).
+"""
 import json
 import os
 import pathlib
 from pathlib import Path
 from datetime import datetime
 from time import sleep
-import config
 import argparse
+import config
 import logger
 import sshtools
 from exceptions import MountException
@@ -22,22 +34,11 @@ import snapshots
 class BackupStatus():
     """
     A context manager that tracks and provides the most recent backup status
-    for all profiles. The status is stored in a JSON file and can be
-    retrieved in a human-readable format or as a JSON-formatted string.
-    The status includes information about the last successful backup,
-    the last run completed, and the backup mode and paths. The status is
-    stored in a file located at $XDG_STATE_HOME/backupstatus.json.
+    for all profiles.
 
-    Command line options:
-        --profile <name> or --profile-id <id>:
-                        Get the status of a specific profile.
-        --issues:
-                        Get the status of profiles with an unsuccessful
-                        last run.
-        --json:
-                        Get the status as a JSON-formatted string.
-        --help:
-                        Show the help message and exit.
+    The status includes information about the last successful backup, the last
+    run completed, snapshot mode, and relevant paths. It can be retrieved in
+    either a human-readable or JSON-formatted string.
 
     Args:
         args (argparse.Namespace, optional):
@@ -46,6 +47,16 @@ class BackupStatus():
         cfg (config.Config):
                         Current configuration object. Used when called from
                         an active session after backup.
+
+    Command line options (via args):
+        --profile <name> or --profile-id <id>:
+                        Get the status of a specific profile.
+        --issues:
+                        Get the status of profiles with an unsuccessful
+                        last run.
+        --json:
+                        Get the status as a JSON-formatted string.
+
 
     Returns:
         `__repr__`:
@@ -61,38 +72,29 @@ class BackupStatus():
         self.all_status = not (self.profile or self.profile_id)
         self.issues = args.issues if args else None
         self.json = args.json if args else None
-        self.args = args
         self.cfg = cfg
         self.status = {}
-        xdg_state = os.environ.get('XDG_STATE_HOME', None)
-        if xdg_state:
-            xdg_state = Path(xdg_state)
-        else:
-            xdg_state = Path.home() / '.local' / 'state'
 
-        self.path = xdg_state / 'backupstatus.json'
-
-        logger.debug(f'Backup status path: {self.path}')
-
-    def updateStatus(self):
+    def update_status(self):
         """
-        Add the most recent backup to the backup status object.
+        Called after a backup run is complete. Updates the status for the
+        current profile or all profiles if no status file exists.
         """
         # Log file sometimes doesn't save right away due to buffering, reducing
         # timer at snapshotlog line 242 would avoid the need to do this
         sleep(2)
+        if snapshots.NewSnapshot(self.cfg).saveToContinue:
+            print("save to continue")
         if self.status == {}:
-            self._createStatusFile()
+            self._create_status_file()
         else:
             self.status[
                 self.cfg.profileName(self.profile_id)
-                ] = self._createProfileStatus()
+                ] = self._create_profile_status()
 
-    def _getStatus(self):
+    def _get_status(self):
         """
-        Get status of either selected profile, all profiles, or profiles
-        with an unsuccessful last run. Removes certain keys if returning
-        a list (no specific profile specified).
+        Get the status dict for the current profile.
 
         Returns:
             json str: If self.json is True
@@ -107,19 +109,29 @@ class BackupStatus():
                 self.cfg.profileName(self.profile_id) == key
                 )
 
-        # Check if --issues flag used and if it is, only return profiles
-        # without successful last backup
         def issues_filter(key):
+            """Returns true if --issues flag is set and last backup for profile
+            has errors or no backup exists."""
             return (
                 not self.issues or not self.status[key].get('Last Backup') or
                 self.status[key]['Last Backup'].get('Status') == 'Errors'
                 )
 
+        def remove_keys(dic, keys):
+            """Helper function to remove specified keys from a dict. """
+            if isinstance(dic, dict):
+                return {
+                    key: remove_keys(value, keys) for key, value in dic.items()
+                    if not self.all_status or key not in keys
+                }
+
+            return dic
+
         # Fields to remove if returning list of statuses
         keys_to_remove = ['Backup mode', 'Paths']
 
         result = {
-            key: self._removeKeys(value, keys_to_remove)
+            key: remove_keys(value, keys_to_remove)
             for key, value in self.status.items()
             if (self.all_status or profile_filter(key)) and issues_filter(key)
         }
@@ -131,7 +143,7 @@ class BackupStatus():
 
         return result
 
-    def _createProfileStatus(self):
+    def _create_profile_status(self):
         """
         Create status entry for profile specified by self.profile_id.
         """
@@ -146,29 +158,30 @@ class BackupStatus():
                 ssh = sshtools.SSH(cfg)
                 ssh.mount()
 
-            lastLog = self.cfg.takeSnapshotLogFile(self.profile_id)
-            lastLogDT = self._dateOf(lastLog)
+            last_log = self.cfg.takeSnapshotLogFile(self.profile_id)
+            last_log_ts = self._date_of(last_log)
 
-            lastBackup = snapshots.lastSnapshot(self.cfg)
-            lastBackupDT = lastBackup.date if lastBackup else None
+            last_backup = snapshots.lastSnapshot(self.cfg)
+            last_backup_ts = last_backup.date if last_backup else None
 
-            lastSuccess = next(
+            last_success = next(
                     (backup for backup in snapshots.listSnapshots(self.cfg)
                         if not backup.failed), None
                     )
-            lastSuccessDT = lastSuccess.date if lastSuccess else None
+            last_success_ts = last_success.date if last_success else None
 
-            status = {'Last Run Completed': str(lastLogDT)}
+            status = {'Last Run Completed': str(last_log_ts)}
 
-            if lastBackup and lastSuccessDT == lastBackupDT:
-                profileStatus = "Success"
+            if last_backup and last_success_ts == last_backup_ts:
+                profile_status = "Success"
             else:
-                profileStatus = "Errors"
-            if lastBackupDT:
-                status['Last Backup'] = {'Status': profileStatus,
-                                         'Completed At': str(lastBackupDT)}
-            if lastSuccessDT != lastBackupDT:
-                status['Last Full Backup'] = str(lastSuccessDT)
+                profile_status = "Errors"
+
+            if last_backup_ts:
+                status['Last Backup'] = {'Status': profile_status,
+                                         'Completed At': str(last_backup_ts)}
+            if last_success_ts != last_backup_ts:
+                status['Last Full Backup'] = str(last_success_ts)
 
             # Add mode and paths to backup detail
             status.update({
@@ -195,7 +208,7 @@ class BackupStatus():
             if ssh:
                 ssh.umount()
 
-    def _createStatusFile(self):
+    def _create_status_file(self):
         """
         Get the backup status for all profiles. Called when no snapshot
         status file exists.
@@ -204,35 +217,24 @@ class BackupStatus():
 
         for profile in self.cfg.profiles():
             self.profile_id = profile
-            profile_data = self._createProfileStatus()
+            profile_data = self._create_profile_status()
             self.status.update(
                 {self.cfg.profileName(self.profile_id): profile_data}
                 )
 
         self.profile_id = backup_id
 
-    def _dateOf(self, filename):
-        filePath = pathlib.Path(filename)
+    def _date_of(self, filename):
+        file_path = pathlib.Path(filename)
         try:
-            timestamp = filePath.stat().st_mtime
-            timestampDT = datetime.fromtimestamp(timestamp)
-            return timestampDT.strftime("%Y-%m-%d %H:%M:%S")
+            timestamp = file_path.stat().st_mtime
+            timestamp_ts = datetime.fromtimestamp(timestamp)
+            return timestamp_ts.strftime("%Y-%m-%d %H:%M:%S")
 
         except FileNotFoundError:
             return None
 
-    def _removeKeys(self, dic, keys):
-        """Recursively removes specified keys from a dict (dic). """
-        if isinstance(dic, dict):
-            return {
-                key: self._removeKeys(value, keys)
-                for key, value in dic.items()
-                if not self.all_status or key not in keys
-            }
-
-        return dic
-
-    def _longestKey(self, dic, depth=0):
+    def _longest_key(self, dic, depth=0):
         """
         Get the length of the longest key from a dict (dic) to assist
         with formatting the output.
@@ -246,7 +248,7 @@ class BackupStatus():
             if isinstance(value, dict):
                 max_len = max(
                             max_len,
-                            self._longestKey(value, depth=depth + 1)
+                            self._longest_key(value, depth=depth + 1)
                             )
 
         return max_len
@@ -256,13 +258,15 @@ class BackupStatus():
         Return dict (dic) as a human readable formatted string.
         """
         human = []
+        singly_nested = 2
+        doubly_nested = 4
         if width == -1:
-            width = self._longestKey(dic) + 1
+            width = self._longest_key(dic) + 1
         if indent == 0:
             human.append('')
 
         for key, value in dic.items():
-            if indent != 4:
+            if indent != doubly_nested:
                 human.append('')
 
             if isinstance(value, dict):
@@ -277,37 +281,46 @@ class BackupStatus():
                     human.append(f"{' ' * (indent + 2)}[{item}],")
                 human.append(f'{' ' * indent}]')
 
+            elif indent == singly_nested:
+                human.append(f"{' ' * indent}{key:{width + 2}}: {value}")
+
             else:
-                if indent == 2:
-                    human.append(f"{' ' * indent}{key:{width + 2}}: {value}")
-                else:
-                    human.append(f"{' ' * indent}{key:{width}}: {value}")
+                human.append(f"{' ' * indent}{key:{width}}: {value}")
 
         return '\n'.join(human)
 
+    def _file_path(self):
+        xdg_state = os.environ.get('XDG_STATE_HOME', None)
+        if xdg_state:
+            xdg_state = Path(xdg_state)
+        else:
+            xdg_state = Path.home() / '.local' / 'state'
+
+        return xdg_state / 'backupstatus.json'
+
     def __str__(self):
         if not self.status:
-            self._createStatusFile()
+            self._create_status_file()
 
-        return self._getStatus()
+        return self._get_status()
 
     def __repr__(self):
         if not self.status:
-            self._createStatusFile()
+            self._create_status_file()
 
         self.json = True
-        return self._getStatus()
+        return self._get_status()
 
     def __enter__(self):
         try:
-            with open(self.path, 'r') as f:
+            with open(self._file_path(), 'r', encoding='utf-8') as f:
                 self.status = json.load(f)
         except FileNotFoundError:
             logger.warning('Status file not found, creating new file.')
-            self._createStatusFile()
+            self._create_status_file()
         except json.JSONDecodeError:
             logger.warning('Error reading status file, creating new file.')
-            self._createStatusFile()
+            self._create_status_file()
         return self
 
     def __exit__(self, exc_type, exc_value, _):
@@ -315,7 +328,7 @@ class BackupStatus():
             logger.error(f"{exc_type.__name__}: {exc_value}")
 
         try:
-            with open(self.path, 'w', encoding="utf-8") as f:
+            with open(self._file_path(), 'w', encoding="utf-8") as f:
                 json.dump(self.status, f, indent=2)
 
         except (OSError, TypeError) as e:

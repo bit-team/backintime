@@ -104,8 +104,8 @@ def takeSnapshot(cfg, force=True):
 
     # Update snapshotsatus.json with most recent snapshot attempt
     with BackupStatus(cfg=cfg) as status:
-        status.updateStatus()
-        
+        status.update_status()
+
     return ret
 
 
@@ -509,7 +509,7 @@ def createParsers(app_name='backintime'):
     backupStatusCP.add_argument               ('--json',
                                                 action = 'store_true',
                                                 help = "output in json format")
-    
+
     command = 'unmount'
     nargs = 0
     aliases.append((command, nargs))
