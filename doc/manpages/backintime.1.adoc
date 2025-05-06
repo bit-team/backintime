@@ -1,0 +1,369 @@
+////
+SPDX-FileCopyrightText: © 2012 Germar Reitze
+SPDX-FileCopyrightText: © 2013 Oprea Dan
+SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
+SPDX-FileCopyrightText: © 2023 Christian Buhtz <c.buhtz@posteo.jp>
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>.
+////
+= backintime(1)
+:doctype: manpage
+:manmanual: Back In Time
+:mansource: backintime {version}
+:man-linkstyle: pass:[blue R < >]
+
+== NAME
+backintime - a simple backup tool for Linux.
+
+== SYNOPSIS
+*backintime*
+[--checksum]
+[--config PATH]
+[--debug]
+[--delete]
+[--help | -h]
+[--keep-mount]
+[--license]
+[--local-backup | --no-local-backup]
+[--no-crontab]
+[--only-new]
+[--profile NAME | --profile-id ID]
+[--quiet]
+[--share-path PATH]
+[--version]
+[--diagnostics]
+
+{
+backup
+| backup-job
+| benchmark-cipher [FILE-SIZE]
+| check-config
+| decode [PATH]
+| last-snapshot
+| last-snapshot-path
+| pw-cache [start|stop|restart|reload|status]
+| remove[-and-do-not-ask-again] [SNAPSHOT_ID]
+| restore [WHAT [WHERE [SNAPSHOT_ID]]]
+| shutdown
+| smart-remove
+| snapshots-list
+| snapshots-list-path
+| snapshots-path
+| unmount
+}
+
+== DESCRIPTION
+Back In Time is a simple backup tool for Linux. The backup is done by taking
+snapshots of a specified set of folders. This is the command line tool. The
+graphical tool is *backintime-qt*(1).
+
+All you have to do is configure: where to save snapshots, what folders to
+backup. You can also specify a backup schedule: disabled, every 5 minutes,
+every 10 minutes, every hour, every day, every week, every month. To configure
+it use the graphical interfaces *backintime-qt*(1).
+
+It acts as a 'user mode' backup tool. This means that you can backup/restore
+only folders you have write access to (actually you can backup read-only
+folders, but you can't restore them).
+
+If you want to run it as root you need to use 'sudo -i backintime'.
+
+A new snapshot is created only if something changed since the last snapshot (if
+any).
+
+A snapshot contains all the files from the selected folders (except for exclude
+patterns). In order to reduce disk space it use hard-links (if possible)
+between snapshots for unchanged files. This way a file of 10MiB, unchanged for
+10 snapshots, will use only 10MiB on the disk.
+
+When you restore a file 'A', if it already exists on the file system it will be
+renamed to 'A.backup.currentdate'.
+
+For automatic backup it use 'cron' so there is no need for a daemon, but 'cron'
+must be running.
+
+=== Modes
+_Local_ ::
+
+Store snapshots on local HDD's (internal or USB). The drive has to
+be mounted before creating a new snapshot.
+
+_Local encrypted_ ::
+
+Store encrypted snapshots on local HDD's (internal or USB). Back In Time uses
+'encfs' with standard configuration to encrypt all data. Please take a look at
+_A NOTE ON SECURITY_.
+
+_SSH_ ::
+
+With Mode set to SSH you can store the backup on a remote host using the
+SecureShellHost protocol (ssh). The remote path will be mount local using sshfs
+to provide file-access for the graphical interface and the backup
+process. Rsync and other processes called during backup process will run
+directly on the remote host using ssh.
+
+
+To prepare your user account for ssh-mode you have to create a password-less
+login to the remote host (for further information look at
+http://www.debian-administration.org/articles/152). Type in terminal
+'ssh-keygen -t rsa' hit enter for default path and enter a passphrase for the
+private key.
+
+
+Finally type 'ssh-copy-id -i ~/.ssh/id_rsa.pub <REMOTE_USER>@<HOST>' and enter
+your password on remote host.
+
+
+In Settingsdialog you need to set the host and remote user. If you enter a
+relative path (no leading / ) it will start from remote users homedir. The
+password has to be the passphrase for your private key.
+
+*Cipher* (the algorithm used to encrypt the data during transfer)
++
+To optimize performance you can choose the cipher used by ssh. Depending on
+your environment you can have a massive speed increase compared to the default
+cipher.
+
+_benchmark-cipher_ will give you an overview over which cipher is the fastest
+in your environment.
+
+If the bottleneck of your environment is the hard-drive or the network you will
+not see a big difference between the ciphers. In this case you should rather
+stay on 'default'.
+
+Please read security information about the cipher before using them in
+untrusted networks (Wifi, Internet). Some of them (Arcfour, 3DES, ...) should
+be handled as not secure anymore.
+
+*Remote Host*
++
+If your remote host is an embedded Linux NAS or any other device with limited
+functions, you could run into some problems caused by feature-less
+commands. For example some devices may not have hardlink support for 'cp',
+'chmod' and 'rsync'. In this case it may help to install so-called Optware or
+Entware on your device if available.
+
+
+*WARNING: THIS IS ONLY FOR EXPERIENCED USERS!*
++
+If you don't know how to compile packages and how to modify a Linux system you
+should NOT try to do this. There is a significant chance to break your device
+and make it completely unusable with the following procedure. We will not take
+any warranty for this. Make a backup of your device before proceed! You have
+been warned!
+
+
+You should install at least packages called 'bash', 'coreutils' and
+'rsync'. You will have to change users default shell from '/bin/sh' to
+'/opt/bin/bash' in '/etc/passwd'. To add '/opt/bin:/opt/sbin:' to the start of
+the PATH environment you can use 'Add prefix to SSH commands' in 'Expert
+Options' with 'PATH=/opt/bin:/opt/sbin:\\$PATH'.
+
+
+To check if it does work you can compare the output of '/bin/cp --help' and
+'/opt/bin/cp --help'. If 'ssh <user>@<host> cp --help' called from your PC will
+print the same as '/opt/bin/cp --help' called on the remote host (via
+interactive ssh session) you are ready to go.
+
+If you have questions on how to install and configure the Optware please refer
+to the community of your device. You can also take a look on Back In Time FAQ
+on GitHub https://github.com/bit-team/backintime/blob/-/FAQ.md
+
+If you successfully modified your device to be able to make backups over ssh,
+it would be nice if you write a 'How to' on Launchpad's Answers so we can add
+this to the FAQ.
+
+_SSH encrypted_ ::
+
+Store encrypted snapshots on remote hosts using SSH. Backintime uses 'encfs
+--reverse' to mount the root filesystem '/'. Rsync will sync this encrypted
+view of '/' to a remote host over SSH. All encoding will be done on the local
+machine. So the password will never be exposed to the remote host and you can
+use the (normally) more powerful processor in you local machine for encryption
+instead of weak NAS CPU's. The downside on this is 'encfs --reverse' does not
+support 'Filename Initialization Vector Chaining' and 'Per-File Initialization
+Vectors' from the standard configuration (take a look at 'man encfs' for
+further information). Please take a look at _A NOTE ON SECURITY_.
+
+Because of all data is transferred encrypted the log output shows encrypted
+filenames, too. In the Logview-Dialog you can use 'decode' option to decrypt
+the paths automatically or you can use 'backintime decode' to manually decrypt
+paths. Back In Time will show all snapshots decoded so you can browse all files
+as normal.
+
+Exclude does not support wildcards ('foo*', '[fF]oo', 'fo?') because after
+encoding a file these wildcards can't match any more. Only separate asterisk
+that match a full file or folder will work ('foo/*', 'foo/**/bar'). All other
+excludes that have wildcards will be silently ignored.
+
+Please refer to the 'SSH' section above for information on setting up the SSH
+connection.
+
+=== Password
+If 'Save Password to Keyring' is activated Back In Time will save the Password
+into GnomeKeyring (Seahorse) or KDE-KWallet. Both are secure password storages
+which encrypt the password with the users login-password. So they can only be
+accessed if the user is logged in.
+
+A backup cronjob during the user isn't logged in can not collect the password
+from keyring. Also if the homedir is encrypted the keyring is not accessible
+from cronjobs (even if the user is logged in). For these cases the password can
+be cached in RAM. If 'Cache Password for Cron' is activated Back In Time will
+start a small daemon in user-space which will collect the password from keyring
+and provide them for cronjobs. They will never be written to the harddrive but
+a user with root permissions could access the daemon and read the password.
+
+=== user-callback
+During backup process the application can call a user callback at different
+steps. This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default
+$XDG_CONFIG_HOME is ~/.config).
+
+. The first argument is the profile id (1=Main Profile, ...).
+. The second argument is the profile name.
+. The third argument is the reason:
+.. Backup process begins.
+.. Backup process ends.
+.. A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.
+.. There was an error. The second argument is the error code. The Error codes are:
+... The application is not configured.
+... A "take snapshot" process is already running.
+... Can't find snapshots folder (is it on a removable drive ?).
+... A snapshot for "now" already exist.
+.. On (graphical) App start.
+.. On (graphical) App close.
+.. Mount all necessary drives.
+.. Unmount all drives.
+
+
+== OPTIONS
+*--checksum* :: Force to use checksum for checking if files have been
+   changed. This is the same as 'Use checksum to detect changes' in
+   Options. But you can use this to periodically run checksums from
+   cronjobs. Only valid with _backup_, _backup-job_ and _restore_.
+
+*--config PATH* :: Read config from PATH. Default: ~/.config/backintime/config
+
+*--debug* :: Show debug messages.
+
+*--delete* :: Restore and delete newer files which are not in the
+   snapshot. WARNING: deleting files in filesystem root could break your whole
+   system!!! Only valid with _restore_.
+
+*-h*, *--help* :: Display a short help
+
+*--keep-mount* :: Don't unmount on exit. Only valid with _snapshots-path_,
+   _snapshots-list-path_ and _last-snapshot-path_.
+
+*--license* :: Show license
+
+*--diagnostics* :: Show diagnistic information to support debugging.
+
+*--local-backup* :: Create backup files before changing local files. Only valid
+   with _restore_.
+
+*--no-crontab* :: Do not install crontab entries. Only valid with
+   _check-config_.
+
+*--no-local-backup* :: Temporary disable creation of backup files before
+   changing local files. Only valid with _restore_.
+
+*--only-new* :: Only restore files which does not exist or are newer than those
+   in destination. Using "rsync --update" option. Only valid with
+   _restore_.
+
+*--profile NAME* :: Select profile by name.
+
+*--profile-id ID* :: Select profile by id.
+
+*--quiet* :: Suppress status messages on standard output.
+
+*--share-path PATH* :: Write runtime data (locks, messages, log and
+   mountpoints) to PATH.
+
+*-v*, *--version* :: Show version.
+
+== COMMANDS
+*backup* | *-b* | *--backup* :: Take a snapshot now.
+
+*backup-job* | *--backup-job* :: Take a snapshot (if needed) depending on
+ schedule rules (used for cron jobs). Back In Time will run in background for
+ this.
+
+*benchmark-cipher | --benchmark-cipher [FILE-SIZE]* :: Show a benchmark of all
+ ciphers for ssh transfer.
+
+*check-config* :: Verify the profile in config, create snapshot path and
+ crontab entries.
+
+*decode | --decode [PATH]* Decode encrypted PATH. If no PATH is given Back In
+ Time will read paths from standard input.
+
+*last-snapshot | --last-snapshot* :: Display last snapshot ID (if any)
+
+*last-snapshot-path | --last-snapshot-path* :: Display the path to the last
+ snapshot (if any).
+
+*pw-cache | --pw-cache [start|stop|restart|reload|status]* :: Control the
+ Password Cache Daemon. If no argument is given the Password Cache will start
+ in foreground.
+
+*remove[-and-do-not-ask-again] | --remove[-and-do-not-ask-again] [SNAPSHOT_ID]*
+ :: Remove the snapshot. If SNAPSHOT_ID is missing it will be
+ prompted. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot)
+ or the exact SnapshotID (19 characters like
+ '20130606-230501-984'). _remove-and-do-not-ask-again_ will remove the snapshot
+ immediately. Be careful with this!
+
+*restore | --restore [WHAT [WHERE [SNAPSHOT_ID]]]* :: Restore file WHAT to path
+ WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be
+ prompted. To restore to the original path WHERE can be an empty string or just
+ press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0 for
+ the last snapshot) or the exact SnapshotID (19 characters like
+ '20130606-230501-984').
+
+*shutdown* :: Shutdown the computer after the snapshot is done.
+
+*smart-remove* :: Remove snapshots based on the configured Smart-Remove
+ pattern.
+
+*snapshots-list | --snapshots-list* :: Display the list of snapshot IDs (if
+ any).
+
+*snapshots-list-path | --snapshots-list-path* :: Display the paths to snapshots
+ (if any).
+
+*snapshots-path | --snapshots-path* :: Display path where is saves the
+ snapshots (if configured).
+
+*unmount | --unmount* :: Unmount the profile.
+
+== A NOTE ON SECURITY AND ENCFS
+Because of security issues with EncFS it is planned to remove it from Back In
+Time. To continue the support of encrypted snapshots it is the goal to replace
+it with an alternative if possible. See this document for details and the
+current state of the transition process.
+
+ https://github.com/bit-team/backintime/doc/ENCRYPT_TRANSITION.md
+
+The security issues are mentioned in a security audit from 2014 and not fixed
+until today. The EnCFS project is not maintained anymore and his former
+maintainer recommend to switch to GoCryptFS. See the following links for
+further readings:
+
+* EncFS Security Audit (updated blog post): https://defuse.ca/audits/encfs.htm
+* EncFS Security Audit (original mailing list entry): https://sourceforge.net/p/encfs/mailman/message/31849549
+* Back In Time Issue #1734 about transition of the encryption feature: https://github.com/bit-team/backintime/issues/1734
+
+== SEE ALSO
+*backintime-qt*(1), *backintime-config*(1), *backintime-askpass*(1)*
+
+*Back In Time* project website: https://github.com/bit-team/backintime
+
+*Back In Time* mailing list: https://mail.python.org/mailman3/lists/bit-dev.python.org
+
+== AUTHOR
+*Back In Time* Team
