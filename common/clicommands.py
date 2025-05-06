@@ -207,7 +207,7 @@ def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
     else:
         logger.error(f"There are no snapshots in '{cfg.profileName()}'")
 
-    if not args.keep_mount:
+    if not getattr(args, 'keep_mount', None):
         _umount(cfg)
 
     sys.exit(bitbase.RETURN_OK)

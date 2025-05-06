@@ -747,8 +747,8 @@ def alias_parser(args: Namespace):
     """
 
     if not args.quiet:
-        logger.info(f"Run command '{args.aliases}' instead of argument "
-                    f"'{args.replace}' due to backwards compatibility.")
+        logger.warning(f"Run command '{args.alias}' instead of argument "
+                       f"'{args.replace}' due to backwards compatibility.")
 
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
 

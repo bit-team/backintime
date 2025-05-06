@@ -106,7 +106,6 @@ def encfs_deprecation_warning():
                    'For details and alternatives '
                    f'read: {bitbase.URL_ENCRYPT_TRANSITION}')
 
-
     # refresh timestamp
     fp.touch()
 
