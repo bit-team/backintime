@@ -26,7 +26,7 @@ from snapshots import Snapshots
 from usercallbackplugin import UserCallbackPlugin
 
 
-class Reasons(unittest.TestCase):
+class UserCallback(unittest.TestCase):
     """Simple test related to to UserCallbackPlugin class.
 
     Dev note (buhtz, 2024-02-08): Test value is low because they depend on
@@ -40,7 +40,6 @@ class Reasons(unittest.TestCase):
      - Unit tests about logger output. But migrate "logger" to Python's
        inbuild "logging" module first.
     """
-
     def _generic_called_with(self, the_step, reason, *args):
         sut = UserCallbackPlugin()
         sut.config = Config()
@@ -52,16 +51,16 @@ class Reasons(unittest.TestCase):
             func_callback.assert_called_once()
             func_callback.assert_called_with(reason, *args)
 
-    def test_processBegin(self):
+    def test_reason_processBegin(self):
         self._generic_called_with(UserCallbackPlugin.processBegin, '1')
 
-    def test_processEnd(self):
+    def test_reason_processEnd(self):
         self._generic_called_with(UserCallbackPlugin.processEnd, '2')
 
-    def test_processnewSnapshot(self):
+    def test_reason_processnewSnapshot(self):
         self._generic_called_with(UserCallbackPlugin.newSnapshot, '3', 'id1', 'path')
 
-    def test_error(self):
+    def test_reason_error(self):
         sut = UserCallbackPlugin()
         sut.config = Config()
         sut.script = ''
@@ -80,13 +79,13 @@ class Reasons(unittest.TestCase):
             func_callback.assert_called_once()
             func_callback.assert_called_with('4', 'code2')
 
-    def test_appStart(self):
+    def test_reason_appStart(self):
         self._generic_called_with(UserCallbackPlugin.appStart, '5')
 
-    def test_appExit(self):
+    def test_reason_appExit(self):
         self._generic_called_with(UserCallbackPlugin.appExit, '6')
 
-    def test_mount(self):
+    def test_reason_mount(self):
         sut = UserCallbackPlugin()
         sut.config = Config()
         sut.script = ''
@@ -105,7 +104,7 @@ class Reasons(unittest.TestCase):
             func_callback.assert_called_once()
             func_callback.assert_called_with('7', profileID='123')
 
-    def test_unmount(self):
+    def test_reason_unmount(self):
         sut = UserCallbackPlugin()
         sut.config = Config()
         sut.script = ''
