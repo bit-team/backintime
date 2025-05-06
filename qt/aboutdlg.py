@@ -26,9 +26,9 @@ from PyQt6.QtGui import QPalette
 import logger
 import bitbase
 import tools
+import version
 import messagebox
 import qttools
-import version
 
 _HREF_LICENSES_DIR = 'LICENSES-dir'
 _HREF_LICENSES_MD = 'LICENSES-md'
