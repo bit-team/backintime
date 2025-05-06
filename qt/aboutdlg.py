@@ -26,7 +26,7 @@ from PyQt6.QtGui import QPalette
 import logger
 import bitbase
 import tools
-import backintime
+import version
 import messagebox
 import qttools
 
@@ -295,7 +295,7 @@ class AboutDlg(QDialog):
             _('{BOLD}Version{BOLDEND}: {version}').format(
                 BOLD='<strong>',
                 BOLDEND='</strong>',
-                version=backintime.__version__)
+                version=version.__version__)
         )
 
     def _create_git_label(self):

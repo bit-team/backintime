@@ -21,6 +21,11 @@ COPYRIGHT = 'Copyright © 2008-2024 ' \
             'Copyright © 2022 ' \
             'Christian Buhtz, Michael Büker, Jürgen Altfeld'
 
+# Used in context of CLI and argument parsing
+RETURN_OK = 0
+RETURN_ERR = 1
+RETURN_NO_CFG = 2
+
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
     'Launchpad translators <https://translations.launchpad.net/backintime/'

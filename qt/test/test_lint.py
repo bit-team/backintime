@@ -288,7 +288,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         self.assertEqual(r.stderr, '')
 
     @unittest.skipUnless(PYLINT_AVAILABLE, BASE_REASON.format('PyLint'))
-    def test050_pylint_exclusive_ruleset(self):
+    def test050_pylint_reduced_ruleset(self):
         """Use Pylint to check for specific rules only.
 
         Some facts about PyLint
