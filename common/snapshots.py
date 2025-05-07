@@ -54,6 +54,7 @@ def _update_backup_status_after_takeSnapshot(func):
                 status.update_status()
     return wrapper
 
+
 class Snapshots:
     """
     Collection of take-snapshot and restore commands.

@@ -57,8 +57,8 @@ class BackupStatus:
                 returns a human-readable formatted string.
     """
     def __init__(self,
-                 args: argparse.Namespace=None,
-                 cfg: config.Config=None):
+                 args: argparse.Namespace = None,
+                 cfg: config.Config = None):
 
         self.profile = args.profile if args else None
         self.profile_id = args.profile_id if args else None
@@ -104,15 +104,15 @@ class BackupStatus:
         return self._get_formatted_status()
 
     def __repr__(self):
-        json = self.json
+        j = self.json
 
         self.json = True
         result = str(self)
 
-        self.json = json
+        self.json = j
 
         return result
-        
+
     def update_status(self):
         """
         Called after a backup run is complete. Updates the status for the
