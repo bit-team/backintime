@@ -222,7 +222,7 @@ def last_snapshot(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _last_snapshot_base(args=args, path_info=False)
+    # _last_snapshot_base(args=args, path_info=False)
 
 
 def last_snapshot_path(args: argparse.Namespace):
@@ -236,6 +236,14 @@ def last_snapshot_path(args: argparse.Namespace):
         SystemExit: 0
     """
     _last_snapshot_base(args=args, path_info=True)
+
+
+def show(args: argparse.Namespace):
+    # List of IDs and paths
+    idps = snapshots.get_backup_ids_and_paths(_get_config(args),
+                                              descending=True,
+                                              include_new=False)
+    print(idps)
 
 
 def pw_cache(args: argparse.Namespace):
