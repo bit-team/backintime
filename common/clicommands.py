@@ -32,6 +32,7 @@ import mount
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
+from status import BackupStatus
 
 
 def _get_config(args: argparse.Namespace) -> config.Config:
@@ -512,6 +513,10 @@ def smart_remove(args: argparse.Namespace):
     logger.error('Remove & Retention is not configured.')
     sys.exit(bitbase.RETURN_NO_CFG)
 
+
+def backup_status(args: argparse.Namespace):
+    with BackupStatus(args, cfg=_get_config(args)) as status:
+        print(status)
 
 def unmount(args):
     """Unmount all filesystems.

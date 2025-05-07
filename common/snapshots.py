@@ -40,6 +40,19 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
+from status import BackupStatus
+
+
+def _update_backup_status_after_takeSnapshot(func):
+    """Decorator for the Snapshots:takeSnapshot() method which ensures that
+    the status file is updated after the backup process completes."""
+    def wrapper(self, sid, now, include_folders):
+        try:
+            return func(self, sid, now, include_folders)
+        finally:
+            with BackupStatus(cfg=self.config) as status:
+                status.update_status()
+    return wrapper
 
 class Snapshots:
     """
@@ -1292,6 +1305,7 @@ class Snapshots:
             group = self.groupName(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
 
+    @_update_backup_status_after_takeSnapshot
     def takeSnapshot(self, sid, now, include_folders):
         """This is the main backup routine.
 

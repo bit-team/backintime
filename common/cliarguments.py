@@ -62,6 +62,7 @@ class ParserAgent:
             'snapshots-path': clicommands.snapshots_path,
             'snapshots-list': clicommands.snapshots_list,
             'snapshots-list-path': clicommands.snapshots_list_path,
+            'status': clicommands.backup_status,
             'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
         }
@@ -567,6 +568,43 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
+    def _create_cmd_backup_status(self):
+        name = 'status'
+        nargs = 0
+        self._aliases.append((name, nargs))
+        desc = 'Show a summary of the last backup from each profile.'
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        profileGroup = parser.add_mutually_exclusive_group()
+        profileGroup.add_argument(
+            '--profile',
+            metavar = 'NAME',
+            type = str,
+            action = 'store',
+            help = 'a more detailed summary of the profile with '
+            'the name, %(metavar)s')
+        profileGroup.add_argument(
+            '--profile-id',
+            metavar = 'ID',
+            type = int,
+            action = 'store',
+            help = 'a more detailed summary of the profile with '
+            'the id, %(metavar)s')
+        profileGroup.add_argument(
+            '--issues',
+            action = 'store_true',
+            help = 'show only profiles with errors on most recent '
+            'run or no backup history at all')
+        parser.add_argument(
+            '--json',
+            action = 'store_true',
+            help = "output in json format")
+        self.parsers[name] = parser
+
     def _create_cmd_unmount(self):
         name = 'unmount'
         nargs = 0
@@ -605,6 +643,7 @@ class ParserAgent:
             title='Commands', dest='command')
 
         self._create_cmd_backup()
+        self._create_cmd_backup_status()
         self._create_cmd_backup_job()
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
