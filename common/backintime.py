@@ -23,6 +23,7 @@ import cli
 import cliarguments
 from diagnostics import collect_minimal_diagnostics
 
+
 def takeSnapshotAsync(cfg, checksum=False):
     """
     Fork a new backintime process with 'backup' command which will
