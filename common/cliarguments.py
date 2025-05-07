@@ -570,39 +570,42 @@ class ParserAgent:
 
     def _create_cmd_backup_status(self):
         name = 'status'
-        nargs = 0
-        self._aliases.append((name, nargs))
+
         desc = 'Show a summary of the last backup from each profile.'
+
         parser = self._command_subparsers.add_parser(
             name,
             epilog=self._epilog_com,
             help=desc,
             description=desc)
+
         parser.set_defaults(func=self._cmd_func_dict[name])
-        profileGroup = parser.add_mutually_exclusive_group()
-        profileGroup.add_argument(
+
+        group = parser.add_mutually_exclusive_group()
+        group.add_argument(
             '--profile',
             metavar = 'NAME',
             type = str,
             action = 'store',
             help = 'a more detailed summary of the profile with '
             'the name, %(metavar)s')
-        profileGroup.add_argument(
+        group.add_argument(
             '--profile-id',
             metavar = 'ID',
             type = int,
             action = 'store',
             help = 'a more detailed summary of the profile with '
             'the id, %(metavar)s')
-        profileGroup.add_argument(
-            '--issues',
+        group.add_argument(
+            '--issues', '-i',
             action = 'store_true',
             help = 'show only profiles with errors on most recent '
             'run or no backup history at all')
         parser.add_argument(
-            '--json',
+            '--json', '-j',
             action = 'store_true',
             help = "output in json format")
+
         self.parsers[name] = parser
 
     def _create_cmd_unmount(self):

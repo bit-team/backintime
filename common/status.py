@@ -5,11 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""
-status.py
-
-Provides tools for managing and reporting backup status for profiles
-used by the Back In Time backup system.
+"""Provide tools for managing and reporting status of backup profiles.
 
 Supports command-line arguments to filter output by profile, show only issues,
 or return the status in JSON format.
@@ -30,10 +26,8 @@ from exceptions import MountException
 import snapshots
 
 
-class BackupStatus():
-    """
-    A context manager that tracks and provides the most recent backup status
-    for all profiles.
+class BackupStatus:
+    """Context manager tracking and providng most recent backup status.
 
     The status includes information about the last successful backup, the last
     run completed, snapshot mode, and relevant paths. It can be retrieved in
@@ -62,9 +56,10 @@ class BackupStatus():
         `__str__`:
                 returns a human-readable formatted string.
     """
-    def __init__(
-            self, args: argparse.Namespace = None, cfg: config.Config = None
-            ):
+    def __init__(self,
+                 args: argparse.Namespace=None,
+                 cfg: config.Config=None):
+
         self.profile = args.profile if args else None
         self.profile_id = args.profile_id if args else None
         self.all_status = not (self.profile or self.profile_id)
@@ -72,9 +67,52 @@ class BackupStatus():
         self.json = args.json if args else None
         self.cfg = cfg
         self.status = {}
+
         if self.profile:
             self.profile_id = self.cfg.profileIntValue(self.profile)
 
+    def __enter__(self):
+        try:
+            with open(self._file_path(), 'r', encoding='utf-8') as f:
+                self.status = json.load(f)
+
+        except FileNotFoundError:
+            logger.warning('Status file not found, creating new file.')
+            self._create_status_dict()
+
+        except json.JSONDecodeError:
+            logger.warning('Error reading status file, creating new file.')
+            self._create_status_dict()
+
+        return self
+
+    def __exit__(self, exc_type, exc_value, _):
+        if exc_type:
+            logger.error(f"{exc_type.__name__}: {exc_value}")
+
+        try:
+            with open(self._file_path(), 'w', encoding='utf-8') as f:
+                json.dump(self.status, f, indent=2)
+
+        except (OSError, TypeError) as exc:
+            logger.error(f'Error writing status file: {exc}')
+
+    def __str__(self):
+        if not self.status:
+            self._create_status_dict()
+
+        return self._get_formatted_status()
+
+    def __repr__(self):
+        json = self.json
+
+        self.json = True
+        result = str(self)
+
+        self.json = json
+
+        return result
+        
     def update_status(self):
         """
         Called after a backup run is complete. Updates the status for the
@@ -82,10 +120,10 @@ class BackupStatus():
         """
         if self.status == {}:
             self._create_status_dict()
-        else:
-            self.status[
-                self.cfg.profileName(self.profile_id)
-                ] = self._create_profile_status()
+            return
+
+        profile_name = self.cfg.profileName(self.profile_id)
+        self.status[profile_name] = self._create_profile_status()
 
     def _create_status_dict(self):
         """
@@ -97,9 +135,9 @@ class BackupStatus():
         for profile in self.cfg.profiles():
             self.profile_id = profile
             profile_data = self._create_profile_status()
-            self.status.update(
-                {self.cfg.profileName(self.profile_id): profile_data}
-                )
+
+            status_dict = {self.cfg.profileName(self.profile_id): profile_data}
+            self.status.update(status_dict)
 
         self.profile_id = backup_id
 
@@ -142,6 +180,7 @@ class BackupStatus():
             if last_backup_ts:
                 status['Last Backup'] = {'Status': profile_status,
                                          'Completed At': str(last_backup_ts)}
+
             if last_success_ts != last_backup_ts:
                 status['Last Full Backup'] = str(
                     last_success_ts
@@ -290,42 +329,3 @@ class BackupStatus():
             xdg_state = Path.home() / '.local' / 'state'
 
         return xdg_state / 'backupstatus.json'
-
-    def __str__(self):
-        if not self.status:
-            self._create_status_dict()
-
-        return self._get_formatted_status()
-
-    def __repr__(self):
-        if not self.status:
-            self._create_status_dict()
-
-        self.json = True
-        return self._get_formatted_status()
-
-    def __enter__(self):
-        try:
-            with open(self._file_path(), 'r', encoding='utf-8') as f:
-                self.status = json.load(f)
-
-        except FileNotFoundError:
-            logger.warning('Status file not found, creating new file.')
-            self._create_status_dict()
-
-        except json.JSONDecodeError:
-            logger.warning('Error reading status file, creating new file.')
-            self._create_status_dict()
-
-        return self
-
-    def __exit__(self, exc_type, exc_value, _):
-        if exc_type:
-            logger.error(f"{exc_type.__name__}: {exc_value}")
-
-        try:
-            with open(self._file_path(), 'w', encoding="utf-8") as f:
-                json.dump(self.status, f, indent=2)
-
-        except (OSError, TypeError) as e:
-            logger.error(f"Error writing status file: {e}")
