@@ -39,7 +39,7 @@ import flock
 import bitbase
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
-from exceptions import MountException, LastSnapshotSymlink
+from exceptions import MountException
 from uniquenessset import UniquenessSet
 
 
@@ -2546,7 +2546,9 @@ class SID:
                 self.date = datetime.datetime(*self.split())
 
             elif date == 'last_snapshot':
-                raise LastSnapshotSymlink()
+                # Undefined state
+                raise RuntimeError(
+                    'This class can not handle last-snapshot symlinks.')
 
             else:
                 raise ValueError("'date' must be in snapshot ID format "
@@ -3186,45 +3188,53 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg, includeNewSnapshot=False):
+def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False):
     """A generator to iterate over snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config): Current config instance.
-        includeNewSnapshot (bool): Include a NewSnapshot instance if
+        cfg: Current config instance.
+        includeNewSnapshot: Include a NewSnapshot instance if
             'new_snapshot' directory is available (default: False).
 
     Yields:
         SID: Snapshot IDs
     """
-    path = cfg.snapshotsFullPath()
+    path = Path(cfg.snapshotsFullPath())
 
-    if not os.path.exists(path):
+    if not path.exists():
         return None
 
-    for item in os.listdir(path):
+    for item in path.iterdir():
 
-        if item == NewSnapshot.NEWSNAPSHOT:
-            newSid = NewSnapshot(cfg)
+        if item.name == bitbase.DIR_NAME_NEWSNAPSHOT:
+            sid = NewSnapshot(cfg)
 
-            if newSid.exists() and includeNewSnapshot:
-                yield newSid
+            if includeNewSnapshot and sid.exists():
+                yield sid
 
             continue
 
+        elif item.name == bitbase.DIR_NAME_LAST_SNAPSHOT:
+            # Ignore last snapshot symlink
+            continue
+
         try:
-            sid = SID(item, cfg)
+            sid = SID(item.name, cfg)
 
             if sid.exists():
                 yield sid
 
-        # REFACTOR!
-        # LastSnapshotSymlink is an exception instance and could be caught
-        # explicit. But not sure about its purpose.
-        except Exception as e:
-            if not isinstance(e, LastSnapshotSymlink):
-                logger.debug(
-                    "'{}' is not a snapshot ID: {}".format(item, str(e)))
+        # Dev note (buhtz, 2025-05): I am not a friend of catching exceptions
+        # at this point. But previously all Exceptions where caught at this
+        # point.  Now catching ValueError's only, is a compromise.
+        except ValueError as exc:
+            # Raised byi SID.__init__() in case of invalid date format
+            logger.warning(f'"{item.name}" is not a snapshot ID. {exc=}')
+
+        # except Exception as e:
+        #     if not isinstance(e, LastSnapshotSymlink):
+        #         logger.debug(
+        #             "'{}' is not a snapshot ID: {}".format(item, str(e)))
 
 
 def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
