@@ -518,8 +518,6 @@ def backup_status(args: argparse.Namespace):
     """Handler for CLI command 'status'"""
     with BackupStatus(args, cfg=_get_config(args)) as status:
         print(status)
-        print('-'*50)
-        print(repr(status))
 
 
 def unmount(args):
