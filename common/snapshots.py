@@ -36,10 +36,12 @@ import mount
 import progress
 import snapshotlog
 import flock
+import bitbase
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 from uniquenessset import UniquenessSet
+
 
 class Snapshots:
     """
