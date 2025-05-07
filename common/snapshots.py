@@ -2288,32 +2288,39 @@ class Snapshots:
             os.remove(full_path)
         os.chmod(dirname, dir_st.st_mode)
 
-    def createLastSnapshotSymlink(self, sid):
-        """
-        Create symlink 'last_snapshot' to snapshot ``sid``
+    def createLastSnapshotSymlink(self, sid: SID) -> bool:
+        """Create symlink 'last_snapshot' to snapshot ``sid``.
 
         Args:
-            sid (SID):  snapshot that should be linked.
+            sid: Snapshot that should be linked.
 
         Returns:
-            bool:       ``True`` if successful
+            bool: ``True`` if successful.
         """
         if sid is None:
             return
+
         symlink = self.config.lastSnapshotSymlink()
+
         try:
             if os.path.islink(symlink):
                 if os.path.basename(os.path.realpath(symlink)) == sid.sid:
                     return True
+
                 os.remove(symlink)
+
             if os.path.exists(symlink):
-                logger.error('Could not remove symlink %s' %symlink, self)
+                logger.error(f'Could not remove symlink {symlink}', self)
                 return False
-            logger.debug('Create symlink %s => %s' %(symlink, sid), self)
+
+            logger.debug(f'Create symlink {symlink} => {sid}', self)
             os.symlink(sid.sid, symlink)
+
             return True
-        except Exception as e:
-            logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
+
+        except Exception as exc:
+            logger.error(f'Failed to create symlink {symlink}: {exc}', self)
+
             return False
 
     def rsyncSuffix(self, includeFolders=None, excludeFolders=None):
@@ -3030,15 +3037,14 @@ class GenericNonSnapshot(SID):
 
 
 class NewSnapshot(GenericNonSnapshot):
-    """
-    Snapshot ID object for 'new_snapshot' folder
+    """Snapshot ID object for 'new_snapshot' folder.
 
     Args:
-        cfg (config.Config):    current config
+        cfg (config.Config): Current config
     """
 
-    NEWSNAPSHOT    = 'new_snapshot'
-    SAVETOCONTINUE = 'save_to_continue'
+    NEWSNAPSHOT = bitbase.DIR_NAME_NEWSNAPSHOT
+    SAVETOCONTINUE = bitbase.DIR_NAME_SAVETOCONTINUE
 
     def __init__(self, cfg):
         self.config = cfg
