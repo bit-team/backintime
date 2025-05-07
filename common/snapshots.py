@@ -3231,11 +3231,6 @@ def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False):
             # Raised byi SID.__init__() in case of invalid date format
             logger.warning(f'"{item.name}" is not a snapshot ID. {exc=}')
 
-        # except Exception as e:
-        #     if not isinstance(e, LastSnapshotSymlink):
-        #         logger.debug(
-        #             "'{}' is not a snapshot ID: {}".format(item, str(e)))
-
 
 def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
     """
