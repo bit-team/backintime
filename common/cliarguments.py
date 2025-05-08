@@ -167,9 +167,7 @@ class ParserAgent:
         return parser
 
     def _create_common_parser(self) -> ArgumentParser:
-        """Common arguments used by all commands
-
-        """
+        """Common arguments used by all commands"""
 
         debug_parser = self._create_debug_parser()
         config_parser = self._create_config_parser()
@@ -185,14 +183,20 @@ class ParserAgent:
         # Allow only one of "--profile" or "--profile-id"
         profile_group = parser.add_mutually_exclusive_group()
 
-        for switch, name, typ in (('--profile', 'NAME', str),
-                                  ('--profile-id', 'ID', int)):
-            profile_group.add_argument(
-                switch,
-                metavar=name,
-                type=typ,
-                action='store',
-                help='Select profile by %(metavar)s.')
+        help = 'Select profile by %(metavar)s.'
+        profile_group.add_argument(
+            '--profile',
+            metavar='NAME',
+            type=str,
+            action='store',
+            help=help)
+
+        profile_group.add_argument(
+            '--profile-id',
+            metavar='ID',
+            type=int,
+            action='store',
+            help=help)
 
         parser.add_argument(
             '--quiet',
@@ -571,32 +575,38 @@ class ParserAgent:
 
     def _create_cmd_list(self):
         name = 'list'
-        desc ='List backups.'
 
         parser = self._command_subparsers.add_parser(
             name,
-            # parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc
+            help='List backups',
+            description="List backup ID's (default) or paths (--path)"
         )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--path',
+            action='store_true',
+            help='List backup paths instead of their ID')
+
         self.parsers[name] = parser
 
     def _create_cmd_last(self):
         name = 'last'
-        desc ='Show last backup.'
 
         parser = self._command_subparsers.add_parser(
             name,
-            # parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc
+            help='Show last backup',
+            description="Show last backup's ID (default) or path (--path)"
         )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--path',
+            action='store_true',
+            help='Show path instead of ID')
+
         self.parsers[name] = parser
 
     def _create_cmd_unmount(self):

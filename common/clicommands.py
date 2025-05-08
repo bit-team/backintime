@@ -222,7 +222,7 @@ def last_snapshot(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    # _last_snapshot_base(args=args, path_info=False)
+    _last_snapshot_base(args=args, path_info=False)
 
 
 def last_snapshot_path(args: argparse.Namespace):
@@ -236,14 +236,6 @@ def last_snapshot_path(args: argparse.Namespace):
         SystemExit: 0
     """
     _last_snapshot_base(args=args, path_info=True)
-
-
-def show(args: argparse.Namespace):
-    # List of IDs and paths
-    idps = snapshots.get_backup_ids_and_paths(_get_config(args),
-                                              descending=True,
-                                              include_new=False)
-    print(idps)
 
 
 def pw_cache(args: argparse.Namespace):
@@ -484,27 +476,47 @@ def snapshots_list_path(args: argparse.Namespace):
     _snapshots_list_base(args=args, path_info=True)
 
 
-def list_backups(args: argparse.Namespace):
-    """The 'list' command."""
-    print('LIST')
+def list_backups(args: argparse.Namespace, last_only: bool = False):
+    """Commands 'list' and 'last'.
 
+    """
     cfg = _get_config(args)
     _mount(cfg)
 
-    backups = snapshots.get_backup_ids_paths(
+    # raw data
+    backups = snapshots.get_backup_ids_and_paths(
         cfg=cfg, descending=True, include_new=False)
 
-    if args.path:
-        label = '' if args.quiet else 'Backup Path: '
-        result = '\n'.join(
-            #   list(map(lambda e: e[0], a))
-        )
+    if last_only:
+        backups = backups[-1:]
 
-    # outdev = cli.set_quiet(args)
+    if args.path:
+        # Path
+        def _element(e):
+            return str(e[1])
+    else:
+        # ID
+        def _element(e):
+            return e[0]
+
+    # one line for each ID/Path
+    result = '\n'.join(
+        map(_element, backups)
+    )
+
+    print(result)
+    _umount(cfg)
+
+    if not backups:
+        logger.error(f"There are no snapshots in '{cfg.profileName()}'")
+        sys.exit(bitbase.RETURN_ERR)
+
+    sys.exit(bitbase.RETURN_OK)
+
 
 def last_backup(args: argparse.Namespace):
     """The 'last' command."""
-    print('LAST')
+    list_backups(args=args, last_only=True)
 
 
 def smart_remove(args: argparse.Namespace):
