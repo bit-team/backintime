@@ -1355,7 +1355,7 @@ class Config(configfile.ConfigFileWithProfiles):
             "restore%s.lock" % self.fileId(profile_id))
 
     def lastSnapshotSymlink(self, profile_id = None):
-        return os.path.join(self.snapshotsFullPath(profile_id), 'last_snapshot')
+        return os.path.join(self.snapshotsFullPath(profile_id), bitbase.DIR_NAME_LAST_SNAPSHOT)
 
     def encfsconfigBackupFolder(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
