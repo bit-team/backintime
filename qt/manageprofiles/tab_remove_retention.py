@@ -174,16 +174,7 @@ class RemoveRetentionTab(QDialog):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
-        # Icon
-        icon = self.style().standardIcon(
-            QStyle.StandardPixmap.SP_MessageBoxInformation)
-        size = self.style().pixelMetric(
-            QStyle.PixelMetric.PM_LargeIconSize)
-        icon_label = QLabel(self)
-        pixmap = icon.pixmap(size)
-        icon_label.setPixmap(pixmap)
-
-        icon_label.setFixedSize(pixmap.size())
+        icon_label = qttools.create_icon_label_info(fixed_size_widget=True)
 
         # Info text
         txt = _(
