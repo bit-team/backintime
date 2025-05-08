@@ -62,6 +62,8 @@ class ParserAgent:
             'snapshots-path': clicommands.snapshots_path,
             'snapshots-list': clicommands.snapshots_list,
             'snapshots-list-path': clicommands.snapshots_list_path,
+            'list': clicommands.list_backups,
+            'last': clicommands.last_backup,
             'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
         }
@@ -567,6 +569,36 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
+    def _create_cmd_list(self):
+        name = 'list'
+        desc ='List backups.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            # parents=[self._cmd_excl_parsers['snapshots']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc
+        )
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_last(self):
+        name = 'last'
+        desc ='Show last backup.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            # parents=[self._cmd_excl_parsers['snapshots']],
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc
+        )
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
     def _create_cmd_unmount(self):
         name = 'unmount'
         nargs = 0
@@ -620,6 +652,8 @@ class ParserAgent:
         self._create_cmd_snapshots_list()
         self._create_cmd_snapshots_list_path()
         self._create_cmd_snapshots_path()
+        self._create_cmd_list()
+        self._create_cmd_last()
         self._create_cmd_unmount()
 
         self._create_cmd_aliase_switches()

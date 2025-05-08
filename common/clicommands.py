@@ -484,6 +484,29 @@ def snapshots_list_path(args: argparse.Namespace):
     _snapshots_list_base(args=args, path_info=True)
 
 
+def list_backups(args: argparse.Namespace):
+    """The 'list' command."""
+    print('LIST')
+
+    cfg = _get_config(args)
+    _mount(cfg)
+
+    backups = snapshots.get_backup_ids_paths(
+        cfg=cfg, descending=True, include_new=False)
+
+    if args.path:
+        label = '' if args.quiet else 'Backup Path: '
+        result = '\n'.join(
+            #   list(map(lambda e: e[0], a))
+        )
+
+    # outdev = cli.set_quiet(args)
+
+def last_backup(args: argparse.Namespace):
+    """The 'last' command."""
+    print('LAST')
+
+
 def smart_remove(args: argparse.Namespace):
     """Run Remove & Retention (aka Smart-Removal) from Terminal.
 
