@@ -3272,12 +3272,17 @@ def lastSnapshot(cfg):
 def get_backup_ids_and_paths(cfg: config.Config,
                              descending: bool = True,
                              include_new: bool = False
-                             ) -> list[tuple[str, str]]:
+                             ) -> list[tuple[str, Path]]:
     """
     Args:
         cfg: The config instance.
-        descending: IDs sorted beginning with oldest.
-        include_new:
+        descending: Backups sorted by their IDs beginning with oldest.
+        include_new: Include incomplete backups without ID, named
+            `new-snapshot` (default: ``False``).
+
+    Return:
+       A list of two-item tuples with backup ID and paths.
+
     """
     result = []
 

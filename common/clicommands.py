@@ -479,7 +479,15 @@ def snapshots_list_path(args: argparse.Namespace):
 def list_backups(args: argparse.Namespace, last_only: bool = False):
     """Commands 'list' and 'last'.
 
+    Args:
+        args: Parsed command-line arguments.
+        last_only: Show the last (newest) backup only (default: ``False``).
+
+    Raises:
+        SystemExit: With errors or no backups available
+            `bitbase.RETURN_ERR` (1),  otherwise `bitbase.RETURN_OK' (0).
     """
+
     cfg = _get_config(args)
     _mount(cfg)
 
@@ -508,14 +516,17 @@ def list_backups(args: argparse.Namespace, last_only: bool = False):
     _umount(cfg)
 
     if not backups:
-        logger.error(f"There are no snapshots in '{cfg.profileName()}'")
+        logger.error(f'No backups in profile "{cfg.profileName()}"')
         sys.exit(bitbase.RETURN_ERR)
 
     sys.exit(bitbase.RETURN_OK)
 
 
 def last_backup(args: argparse.Namespace):
-    """The 'last' command."""
+    """The 'last' command.
+
+    See `list_backup()` for details.
+    """
     list_backups(args=args, last_only=True)
 
 
