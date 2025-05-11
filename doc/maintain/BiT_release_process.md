@@ -325,15 +325,23 @@ expected. The following list suggests several actions and scenarios.
   or distros based on them. Additionally use a none-systemd distro like _Devuan
   GNU/Linux_.
 - Run _Back In Time_ and perform the following actions as user and as root.
-- Always start from terminal to catch silent errors and warnings.
-- Create snapshot profils in all available flavors (Local, SSH, with and
-  without encryption).
-- Run the snapshots.
-- Restore snapshots.
-- Delete snapshots.
-- Schedule the snapshots using regular cron (e.g. _Every 5 minutes_) and
-  anacron-like cron (_Repeatedly (anacran)_). Additionally schedule with udev
-  (_When drive gets connected (udev)_).
+  - Always start from terminal to catch silent errors and warnings.
+  - Create backup profils in all available flavors (Local, SSH, each with and
+    without encryption).
+  - Take backup.
+  - Restore backup.
+  - Delete backup.
+  - Schedule backups using
+    - regular cron (e.g. _Every 5 minutes_)
+    - anacron-like cron (_Repeatedly (anacran)_)
+    - driven by USB-event using udev (_When drive gets connected (udev)_).
+  - GUI Tests
+    - Open and all available dialogs, check how they look and if BIT might
+      crash.
+    - Additionally use `qt6ct` and repeat the tests.
+    - Try some fancy desktop environments (Mate, Budgie, …)
+    - As the cherry on top of the ice cream, check the translation of the GUI
+      in your native language(s).
 
 ## Other noteworthy things
 

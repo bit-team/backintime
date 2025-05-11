@@ -486,10 +486,11 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
                                   '20151219-010324-123'])
 
     def test_list_invalid_snapshot(self):
-        #invalid snapshot shouldn't be added
+        # invalid snapshot shouldn't be added
         os.makedirs(os.path.join(self.snapshotPath,
                                  '20151219-000324-abc',
                                  'backup'))
+
         l4 = snapshots.listSnapshots(self.cfg)
         self.assertListEqual(l4, ['20151219-040324-123',
                                   '20151219-030324-123',

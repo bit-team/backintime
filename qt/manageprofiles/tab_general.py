@@ -23,7 +23,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLabel,
                              QLineEdit,
                              QMessageBox,
-                             QStyle,
                              QToolButton,
                              QToolTip,
                              QVBoxLayout,
@@ -576,14 +575,7 @@ class GeneralTab(QDialog):
         return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
-        # Icon
-        icon = self.style().standardIcon(
-            QStyle.StandardPixmap.SP_MessageBoxWarning)
-        size = self.style().pixelMetric(
-            QStyle.PixelMetric.PM_LargeIconSize)
-        icon_label = QLabel(self)
-        pixmap = icon.pixmap(size*2)
-        icon_label.setPixmap(pixmap)
+        icon_label = qttools.create_icon_label_warning()
 
         # encfs deprecation warning (see #1734, #1735)
         txt = _('EncFS profile creation will be removed in the next minor '
