@@ -290,7 +290,9 @@ class ParserAgent:
         desc = 'Show a benchmark of all ciphers for ssh transfer.'
 
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epilog_com, help=desc, description=desc)
+            name,
+            epilog=self._epilog_com,
+            description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -302,6 +304,12 @@ class ParserAgent:
             default=40,
             nargs='?',
             help='File size used for benchmark.')
+
+        # # self._command_subparsers._name_parser_map.pop(name)
+        # self._command_subparsers._choices_actions = [
+        #         action for action in self._command_subparsers._choices_actions
+        #             if action.dest != name
+        #             ]
 
     def _create_cmd_check_config(self):
         name = 'check-config'
@@ -668,6 +676,28 @@ def parse_arguments(args: Namespace,
                 # Remove subparsers
                 main_parser._remove_action(i)
                 sub.append(i)
+    # else:
+    #     help_text = main_parser.format_help()
+    #     print(help_text)
+    #     print('-'*50)
+
+    #     HIDDEN_COMMANDS = ['benchmark-cipher']
+    #     # Entferne versteckte Subparser aus Hilfezeilen UND aus Kommando-Liste
+    #     for cmd in HIDDEN_COMMANDS:
+    #         # Entferne aus der Kommando-Klammerliste (z. B. {visible,benchmark-cipher})
+    #         help_text = help_text.replace(f",{cmd}", "")
+    #         help_text = help_text.replace(f"{cmd},", "")
+    #         help_text = help_text.replace(f"{cmd}", "")  # Fallback
+
+    #         # Entferne aus der zeilenweisen Liste
+    #         help_text_lines = help_text.splitlines()
+    #         help_text_lines = [
+    #             line for line in help_text_lines if not line.strip().startswith(cmd)
+    #         ]
+    #         help_text = "\n".join(help_text_lines)
+
+    #     print(help_text)
+    #     sys.exit(0)
 
     args, unknown_args = main_parser.parse_known_args(args)
 
