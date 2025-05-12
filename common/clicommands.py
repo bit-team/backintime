@@ -14,6 +14,8 @@
 """Module about CLI commands"""
 import sys
 import argparse
+from warnings import warn
+from exceptions, FutureWarning
 from datetime import datetime
 from time import sleep
 import tools
@@ -94,6 +96,7 @@ def benchmark_cipher(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    warn('foobar', FutureWarning)
     cli.set_quiet(args)
     cli.print_header()
 

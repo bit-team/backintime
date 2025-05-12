@@ -48,7 +48,6 @@ class ParserAgent:
         self._cmd_func_dict = {
             'backup': clicommands.backup,
             'backup-job': clicommands.backup_job,
-            'benchmark-cipher': clicommands.benchmark_cipher,
             'check-config': clicommands.check_config,
             'decode': clicommands.decode,
             'last-snapshot': clicommands.last_snapshot,
@@ -64,6 +63,8 @@ class ParserAgent:
             'snapshots-list-path': clicommands.snapshots_list_path,
             'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
+            # deprecated (#2120, #2124)
+            'benchmark-cipher': clicommands.benchmark_cipher,
         }
 
         # Public parsers indexed by their (command) name
