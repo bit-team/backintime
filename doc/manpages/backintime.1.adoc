@@ -40,7 +40,6 @@ backintime - a simple backup tool for Linux.
 {
 backup
 | backup-job
-| benchmark-cipher [FILE-SIZE]
 | check-config
 | decode [PATH]
 | last-snapshot
@@ -127,13 +126,6 @@ password has to be the passphrase for your private key.
 To optimize performance you can choose the cipher used by ssh. Depending on
 your environment you can have a massive speed increase compared to the default
 cipher.
-
-_benchmark-cipher_ will give you an overview over which cipher is the fastest
-in your environment.
-
-If the bottleneck of your environment is the hard-drive or the network you will
-not see a big difference between the ciphers. In this case you should rather
-stay on 'default'.
 
 Please read security information about the cipher before using them in
 untrusted networks (Wifi, Internet). Some of them (Arcfour, 3DES, ...) should
@@ -292,9 +284,6 @@ $XDG_CONFIG_HOME is ~/.config).
 *backup-job* | *--backup-job* :: Take a snapshot (if needed) depending on
  schedule rules (used for cron jobs). Back In Time will run in background for
  this.
-
-*benchmark-cipher | --benchmark-cipher [FILE-SIZE]* :: Show a benchmark of all
- ciphers for ssh transfer.
 
 *check-config* :: Verify the profile in config, create snapshot path and
  crontab entries.
