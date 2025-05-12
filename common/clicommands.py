@@ -15,7 +15,6 @@
 import sys
 import argparse
 from warnings import warn
-from exceptions, FutureWarning
 from datetime import datetime
 from time import sleep
 import tools
