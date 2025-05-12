@@ -1283,16 +1283,17 @@ See also
 If you want to use a different volume as the destination for the backup use these addional steps:
 
 1. Follow all steps under **Howto (like create addional user in the example name of the user 'backup')
-2. Create in the Synology DSM GUI in Control panel a new shared folder name it "backup" for example
-![Image](https://github.com/user-attachments/assets/48b5b654-04c4-4326-8fa1-b41800330682)
+2. Create in the Synology DSM GUI in Control panel a new shared folder name it
+   "backup" for example
+   ![Synology DSM7 Basic Setup](doc/image.misc/faq_synology7_separate_dest_volume01.png)
 3. Optional in step-2 Enable shared folder encryption (Depending on your needs, dont loose your encryption key)
    Advantage: backup folder (volume) is encrypted, even in case of theft of your Synology NAs
    Disadvantage: On each Reboot you need to mount the folder manually
-![Image](https://github.com/user-attachments/assets/38ddebbc-adef-4655-b168-4cf999299696)
-4. As user root or with sudo edit the file: /etc/passwd (Be careful, if you break it, you could break your NAS)
-   vi /etc/passwd
-   Edit the line for your user backup, so the home dir is on the newly created folder:
-   backup:x:1038:100:Back in Time User:/volume1/backup:/bin/sh
+   ![Synology DSM7 Additional Security Measure](doc/images.misc/faq_synology7_separate_dest_volume02.png)
+4. As user root or with sudo edit the file: `/etc/passwd` (Be careful, if you break it, you could break your NAS)
+   - `vi /etc/passwd`
+   - Edit the line for your user backup, so the home dir is on the newly
+     created folder: `backup:x:1038:100:Back in Time User:/volume1/backup:/bin/sh`
 5. Continue with your normal setup of BIT
 
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
