@@ -22,7 +22,7 @@ import tools
 import password
 import password_ipc
 from mount import MountControl
-from exceptions import MountException, NoPubKeyLogin, KnownHost
+from bitexc import MountException, NoPubKeyLogin, KnownHost
 import bcolors
 import version
 

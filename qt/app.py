@@ -43,7 +43,7 @@ import mount
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
-from exceptions import MountException
+from bitexc import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
                          QActionGroup,

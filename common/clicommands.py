@@ -31,7 +31,7 @@ import cli
 import config
 import bitbase
 import mount
-from exceptions import MountException
+from bitexc import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 

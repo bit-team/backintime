@@ -108,7 +108,7 @@ import config
 import logger
 import password
 import tools
-from exceptions import HashCollision, MountException
+from bitexc import HashCollision, MountException
 
 
 class Mount:
@@ -188,8 +188,8 @@ class Mount:
             str: Hash ID used as mountpoint.
 
         Raises:
-            exceptions.MountException: If a check failed.
-            exceptions.HashCollision: If hash ID was used before but umount
+            bitexc.MountException: If a check failed.
+            bitexc.HashCollision: If hash ID was used before but umount
                 info wasn't identical.
         """
         self.config.PLUGIN_MANAGER.load(cfg=self.config)
@@ -236,7 +236,7 @@ class Mount:
                             unmounted.
 
         Raises:
-            exceptions.MountException: If a check failed.
+            bitexc.MountException: If a check failed.
         """
         self.config.PLUGIN_MANAGER.load(cfg=self.config)
         self.config.PLUGIN_MANAGER.unmount(self.profile_id)
@@ -288,7 +288,7 @@ class Mount:
             bool: ``True`` if all checks where okay.
 
         Raises:
-            exceptions.MountException: If a check failed.
+            bitexc.MountException: If a check failed.
         """
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
@@ -338,9 +338,9 @@ class Mount:
             str:                    Hash ID used as mountpoint
 
         Raises:
-            exceptions.MountException:
+            bitexc.MountException:
                                     if a check failed
-            exceptions.HashCollision:
+            bitexc.HashCollision:
                                     if Hash ID was used before but umount info
                                     wasn't identical
         """
@@ -502,8 +502,8 @@ class MountControl:
             str: Hash ID used as mountpoint.
 
         Raises:
-            exceptions.MountException: If a check failed.
-            exceptions.HashCollision: If Hash ID was used before but umount
+            bitexc.MountException: If a check failed.
+            bitexc.HashCollision: If Hash ID was used before but umount
                 info wasn't identical.
         """
         self.createMountStructure()
@@ -555,7 +555,7 @@ class MountControl:
         mount lock, remove symlink and release mountprocess lock.
 
         Raises:
-            exceptions.MountException:  if a check failed
+            bitexc.MountException:  if a check failed
         """
         self.mountProcessLockAcquire()
 
@@ -612,7 +612,7 @@ class MountControl:
         overwritten by backends which subclasses :py:class:`MountControl`.
 
         Raises:
-            exceptions.MountException: If unmount failed.
+            bitexc.MountException: If unmount failed.
         """
         try:
             subprocess.check_call(['fusermount', '-u', self.currentMountpoint])
@@ -633,7 +633,7 @@ class MountControl:
             bool:       ``True`` if all checks where okay
 
         Raises:
-            exceptions.MountException:
+            bitexc.MountException:
                         if backend can not mount
 
         Note:
@@ -651,7 +651,7 @@ class MountControl:
             bool:       ``True`` if all checks where okay
 
         Raises:
-            exceptions.MountException:
+            bitexc.MountException:
                         if backend wasn't mount successful
 
         Note:
@@ -668,7 +668,7 @@ class MountControl:
             bool:       ``True`` if all checks where okay
 
         Raises:
-            exceptions.MountException:
+            bitexc.MountException:
                         if backend can not umount
 
         Note:
@@ -686,7 +686,7 @@ class MountControl:
             bool:       ``True`` if all checks where okay
 
         Raises:
-            exceptions.MountException:
+            bitexc.MountException:
                         if backend wasn't unmounted successful
 
         Note:
@@ -699,7 +699,7 @@ class MountControl:
         Check if command in ``self.mountproc`` is installed.
 
         Raises:
-            exceptions.MountException: If either command is not available.
+            bitexc.MountException: If either command is not available.
         """
 
         if not tools.checkCommand(self.mountproc):
@@ -720,7 +720,7 @@ class MountControl:
             bool:   ``True`` if mountpoint is mounted
 
         Raises:
-            exceptions.MountException:
+            bitexc.MountException:
                     if mountpoint is not mounted but also not empty
         """
         if os.path.ismount(self.currentMountpoint):
@@ -787,7 +787,7 @@ class MountControl:
                 the lock.
 
         Raises:
-            exceptions.MountException: If timed out.
+            bitexc.MountException: If timed out.
         """
         lock_path = self.mount_root
         lockSuffix = '.lock'

@@ -20,7 +20,7 @@ import tools
 import sshtools
 import logger
 from mount import MountControl
-from exceptions import MountException, EncodeValueError
+from bitexc import MountException, EncodeValueError
 
 
 class EncFS_mount(MountControl):
