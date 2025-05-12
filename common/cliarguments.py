@@ -707,7 +707,7 @@ def parse_arguments(args: Namespace,
         # Manipulate the main parsers output only (not the subparsers)
         if sys.argv[1] in ['-h', '--help']:
             print_usage_without_deprecations(main_parser)
-            
+
     args, unknown_args = main_parser.parse_known_args(args)
 
     # Read subparsers again
