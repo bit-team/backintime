@@ -1,4 +1,4 @@
-<!-- 
+<!--
 SPDX-FileCopyrightText: © 2022 Back In Time Team
 SPDX-FileCopyrightText: © 2024 Paul Worrall (@Silver-Saucepan)
 
@@ -43,7 +43,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
-   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
+   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
@@ -204,22 +204,22 @@ You can avoid this by moving the file/folder in the last snapshot too:
 
 Back In Time and Timeshift are both Linux application that provides back up functionality.
 
-1. Similarity 
+1. Similarity
    - Both programs are backup tools for Linux and they create snapshots at a specific time.
    - For both programs, snapshots are taken using rsync and hard-links, while
    Common files are shared between snapshots which saves disk space.
    - Both programs support GUI and CLI
-   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots 
+   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots
    completely and create snapshots manually when required
 
 2. Back In Time
    - It is designed to protect user data including any folders or files.
-   - It backs up certain folders and files that you want to protect. Modified files are transferred, 
+   - It backs up certain folders and files that you want to protect. Modified files are transferred,
    while unchanged files are linked to the new folder. You can restore certain files and folders.
    - It's great for protecting your personal data
 
 3. TimeShift
-   - It is designed for system snapshots which allows restoring whole Linux system 
+   - It is designed for system snapshots which allows restoring whole Linux system
    to a previous state without affecting any user data.
    - It backs up system files, not including any personal data unless user explicitly configured.
    - It's good for restoring your system after an update failure or configuration change.
@@ -449,7 +449,7 @@ recover the space used by files that are unique to that snapshot.
 
 **Why exclude cache folders?**
 
-Cache folders typically contain temporary files that are not necessary for backups. 
+Cache folders typically contain temporary files that are not necessary for backups.
 Excluding them can significantly improve backup speed and reduce storage usage.
 
 **How to exclude cache folders:**
@@ -484,18 +484,18 @@ Excluding them can significantly improve backup speed and reduce storage usage.
 
 **Tips for better results:**
 
-- **Check Backup Logs**:  
-  After running a backup, review the logs to identify additional folders that may 
+- **Check Backup Logs**:
+  After running a backup, review the logs to identify additional folders that may
   slow down the process. Example log entries for cache files:
   ```plaintext
   [E] Skipping file /path/to/cache/file: Too many small files.
   ```
 
-- **Customize Patterns**:  
-  Adjust the patterns to suit your specific applications. For example, modify paths 
+- **Customize Patterns**:
+  Adjust the patterns to suit your specific applications. For example, modify paths
   for browsers or other software you use.
 
-- **Test Exclude Patterns**:  
+- **Test Exclude Patterns**:
   Test your backup after adding patterns to ensure they work as intended.
 
 ## How to use extended filesystem attributes (xattr) to exclude files/directories?
@@ -641,7 +641,7 @@ this signal file.
 
 Since _Back In Time_ does only start a new backup job (for the same profile) if the signal
 file does not exist, such a file need to be deleted first. But before this is done manually,
-it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via 
+it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via
 
 ```bash
 ps aux | grep -i backintime
@@ -684,13 +684,13 @@ See also:
 
 ## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
-After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
-permissions are handled differently. Before 1.2.0 all destination file 
-permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
-option which tells rsync to preserve the source file permission. 
+After updating to >= 1.2.0, BiT does a (nearly) full backup because file
+permissions are handled differently. Before 1.2.0 all destination file
+permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms`
+option which tells rsync to preserve the source file permission.
 That's why so many files seem to be changed.
 
-If you don't like the new behavior, you can use "Expert Options" 
+If you don't like the new behavior, you can use "Expert Options"
 -> "Paste additional options to rsync" to add the value
 `--no-perms --no-group --no-owner` in that field.
 
@@ -790,7 +790,7 @@ To diagnose and solve this follow these steps in a terminal:
 python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
 
 # List available backends:
-keyring --list-backends 
+keyring --list-backends
 
 # Find out the config file folder:
 python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
@@ -1110,7 +1110,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Enable User Home Service (Control Panel / User / Advanced). There is no need to create a volume since everything is stored in the home directory.
 
 1. Make a new user named ``backup`` (or use your existing account). Add this user to the user group
-   ``Administrators``. Without this, you will not be able to log in! 
+   ``Administrators``. Without this, you will not be able to log in!
 
 1. Enable SSH (Control Panel / Terminal & SNMP / Terminal)
 
@@ -1139,7 +1139,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 	/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 	/usr/bin/ssh-copy-id: WARNING: All keys were skipped because they already exist on the remote system.
    ```
-	
+
 1. If so, copy the public key manually to the NAS as root with
 
    ```bash
@@ -1278,6 +1278,23 @@ See also
 - [Issue #1674](https://github.com/bit-team/backintime/issues/1674)
 - ["Change the default folder in a Synology NAS" - StackOverflow](https://stackoverflow.com/a/77454561/4865723)
 
+## Synology: use different volume for backup
+
+If you want to use a different volume as the destination for the backup use these addional steps:
+
+1. Follow all steps under **Howto (like create addional user in the example name of the user 'backup')
+2. Create in the Synology DSM GUI in Control panel a new shared folder name it "backup" for example
+![Image](https://github.com/user-attachments/assets/48b5b654-04c4-4326-8fa1-b41800330682)
+3. Optional in step-2 Enable shared folder encryption (Depending on your needs, dont loose your encryption key)
+   Advantage: backup folder (volume) is encrypted, even in case of theft of your Synology NAs
+   Disadvantage: On each Reboot you need to mount the folder manually
+![Image](https://github.com/user-attachments/assets/38ddebbc-adef-4655-b168-4cf999299696)
+4. As user root or with sudo edit the file: /etc/passwd (Be careful, if you break it, you could break your NAS)
+   vi /etc/passwd
+   Edit the line for your user backup, so the home dir is on the newly created folder:
+   backup:x:1038:100:Back in Time User:/volume1/backup:/bin/sh
+5. Continue with your normal setup of BIT
+
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
@@ -1308,7 +1325,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	/opt/bin/ipkg install bash coreutils rsync nano
 	exit
    ```
-	
+
 1. Back in MBWE's web admin go to *Users* and add a new user (``<REMOTE_USER>``
    in this How-to) with *Create User Private Share* set to *Yes*.
 
@@ -1326,7 +1343,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	#save and exit by press CTRL+O and CTRL+X
 	exit
    ```
-	
+
 1. Next create the ssh-key for your local user.
    In the terminal
 
@@ -1347,7 +1364,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	ssh <REMOTE_USER>@<MBWE> #this time you shouldn't been asked for password anymore
 	exit
    ```
-	
+
 1. You can test if everything is done by enter this
 
    ```bash
@@ -1361,7 +1378,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	or: cp [OPTION]... SOURCE... DIRECTORY
 	or: cp [OPTION]... -t DIRECTORY SOURCE...
 	Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
-	
+
 	Mandatory arguments to long options are mandatory for short options too.
 	-a, --archive same as -dR --preserve=all
 	    --backup[=CONTROL] make a backup of each existing destination file
@@ -1375,7 +1392,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
    ```bash
 	BusyBox v1.1.1 (2009.12.24-08:39+0000) multi-call binary
-	
+
 	Usage: cp [OPTION]... SOURCE DEST
    ```
 
@@ -1467,13 +1484,13 @@ assigned to PR can also help gauge their priority and urgency.
 - When giving feedback, consider the contributor’s level of experience and
   skills. Keep it polite and constructive—every beginner could be a future
   maintainer.
-      
+
 To **test functionality**,
 [check out the PR code locally](https://docs.github.com//pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally)
 on a virtual machine or your local machine. Running _Back In Time_ in a test
 environment provides insights, that can be shared as findings, observations,
 or suggestions for improvement.
-      
+
 About **code review**:
 - Code should follow
   [project standards](CONTRIBUTING.md#best-practice-and-recommendations)
