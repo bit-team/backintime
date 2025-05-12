@@ -13,7 +13,7 @@ import pluginmanager
 import logger
 import gettext
 from subprocess import Popen, PIPE
-from exceptions import StopException
+from bitexc import StopException
 
 _ = gettext.gettext
 

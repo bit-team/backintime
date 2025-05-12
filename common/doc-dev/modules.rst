@@ -13,7 +13,7 @@ common
    configfile
    diagnostics
    encfstools
-   exceptions
+   bitexc
    flock
    guiapplicationinstance
    logger

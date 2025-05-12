@@ -1,7 +1,7 @@
-exceptions module
+bitexc module
 =================
 
-.. automodule:: exceptions
+.. automodule:: bitexc
     :members:
     :undoc-members:
     :show-inheritance:

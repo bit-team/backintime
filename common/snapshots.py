@@ -39,7 +39,7 @@ import flock
 import bitbase
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
-from exceptions import MountException
+from bitexc import MountException
 from uniquenessset import UniquenessSet
 
 
