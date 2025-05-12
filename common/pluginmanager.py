@@ -18,7 +18,7 @@ tools.registerBackintimePath('common', 'plugins')
 tools.registerBackintimePath('qt', 'plugins')
 
 import logger
-from bitexc import StopException
+from exceptions import StopException
 
 
 class Plugin:

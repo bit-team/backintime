@@ -68,7 +68,7 @@ def remove(cfg, snapshot_ids=None, force=None):
 
 def checkConfig(cfg, crontab=True):
     import mount
-    from bitexc import MountException
+    from exceptions import MountException
 
     def announceTest():
         print()

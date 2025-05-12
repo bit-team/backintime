@@ -20,7 +20,7 @@ import logger
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 from mount import Mount
-from bitexc import MountException
+from exceptions import MountException
 
 
 @patch('time.sleep')  # speed up unittest

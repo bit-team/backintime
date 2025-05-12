@@ -36,7 +36,7 @@ import logger
 import encfsmsgbox
 import mount
 from statedata import StateData
-from bitexc import MountException, NoPubKeyLogin, KnownHost
+from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget

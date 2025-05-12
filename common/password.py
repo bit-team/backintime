@@ -16,7 +16,7 @@ import tools
 import daemon
 import password_ipc
 import logger
-from bitexc import Timeout
+from exceptions import Timeout
 
 
 class Password_Cache(daemon.Daemon):

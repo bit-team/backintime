@@ -20,7 +20,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import mount
 import sshtools
 import tools
-from bitexc import MountException
+from exceptions import MountException
 
 SKIP_MESSAGE_SSH = 'Skip as this test requires a local ssh server, public ' \
                    'and private keys installed'
