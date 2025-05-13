@@ -34,6 +34,33 @@ from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
 
+def _deprecation_msg(command: str, replacement: str) -> str:
+    if not replacement:
+        replacement = _('A replacement is not planned.')
+
+    msg = _(
+        'The command "{command}" is deprecated and will be removed from Back '
+        'In Time in the foreseeable future. {replacement} Feel free to '
+        'contact the project team if you have any questions or suggestions.')
+
+    return msg.format(
+        command=command,
+        replacement=replacement)
+
+def _show_deprecation_message(cmd: str):
+    """Centralize management of deprecation message regarding CLI commands and
+    flags.
+    """
+    replacement = {
+        'benchmark-cipher': None,
+    }[cmd]
+
+    msg = _deprecation_msg(cmd, replacement)
+
+    # ToDo: Switch this later to ERROR
+    logger.warning(msg)
+
+
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
     return cli.get_config_and_select_profile(
@@ -94,6 +121,8 @@ def benchmark_cipher(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    _show_deprecation_message('benchmark-cipher')
+
     cli.set_quiet(args)
     cli.print_header()
 
