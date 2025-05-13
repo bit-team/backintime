@@ -22,6 +22,7 @@ adoc_to_manpage () {
     echo "Convert $file into $manfile"
     if ! asciidoctor --backend manpage --attribute=version="$BIT_VERSION" "$file" --out-file=- | gzip --best > "$manfile"; then
         exit 1
+    fi
 
     # This is how Debian Lintian would validate a man page file
     LC_ALL=C.UTF-8 MANROFFSEQ='' MANWIDTH=80 man --warnings -E UTF-8 -l -Tutf8 -Z "$manfile" > /dev/null
