@@ -750,7 +750,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.pw.password(
             parent, profile_id, mode, pw_id, only_from_keyring)
 
-    def setPassword(self, password, profile_id=None, mode=None, pw_id=1):
+    def setPassword(self, password_value, profile_id=None, mode=None, pw_id=1):
         if self.pw is None:
             self.pw = password.Password(self)
 
@@ -760,7 +760,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
-        self.pw.setPassword(password, profile_id, mode, pw_id)
+        self.pw.setPassword(password_value, profile_id, mode, pw_id)
 
     def modeNeedPassword(self, mode, pw_id = 1):
         need_pw = self.SNAPSHOT_MODES[mode][pw_id + 1]
