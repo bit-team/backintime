@@ -36,7 +36,7 @@ adoc_to_manpage () {
 if [ $# -gt 0 ]; then
     file=$1
     adoc_to_manpage "$file"
-    exit 0
+    exit
 fi
 
 # No arguments...
@@ -45,5 +45,3 @@ fi
 for file in *.adoc; do
     adoc_to_manpage "$file"
 done
-exit 0
-
