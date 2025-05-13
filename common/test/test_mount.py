@@ -215,18 +215,11 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 
         self.mount = mount.Mount(cfg=self.cfg)
 
-    def test_pre_mount_check(self):
-        """preMountCheck always returns True for 'local' mode.
-        """
-        for first_run in True, False:
-            with self.subTest(first_run=first_run):
-                self.assertTrue(self.mount.preMountCheck(first_run=first_run))
-
     def test_pre_mount_check_always_true(self):
         """preMountCheck always returns True for 'local' mode, on first run and
         even if still initialised.
         """
-        for first in [True, False]:
+        for first in True, False:
             self.assertTrue(self.mount.preMountCheck(first_run=first))
 
     def test_mount(self):
