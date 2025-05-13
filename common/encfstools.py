@@ -30,10 +30,13 @@ class EncFS_mount(MountControl):
     def __init__(self, *args, **kwargs):
         # TODO: Remove these debug calls as they are just to help me
         # setup testing!
+        logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        logger.debug("REMOVE THESE TEMPORARY DEBUG LINES!")
         logger.debug("EncFS_mount args:")
         logger.debug(str(args))
         logger.debug("EncFS_mount kwargs:")
         logger.debug(str(kwargs))
+        logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
 
@@ -43,6 +46,7 @@ class EncFS_mount(MountControl):
         self.config_path = None
 
         self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
+        print(f"{self.path=}")
         self.setattrKwargs('reverse', False, **kwargs)
         self.setattrKwargs('config_path', None, **kwargs)
         self.setattrKwargs('password', None, store = False, **kwargs)

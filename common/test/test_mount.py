@@ -16,17 +16,24 @@ import shutil
 import string
 from unittest import mock
 from pathlib import Path
-# from tempfile import TemporaryDirectory
+from tempfile import TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
-# from pyfakefs.fake_filesystem_unittest import Pause
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
 
 
-def _create_config_file(parent_path, mode='local'):
-    """Minimal config file"""
-    defaults = '''
+def _create_config_file(parent_path, mode='local', local_encfs_snapshots_path='/tmp/bit-test-snapshots'):
+    """Minimal config file
+
+    Args:
+        parent_path: Parent directory for backintime config file.
+
+    Keyword Args:
+        mode: One of 'local', 'ssh', 'local_encfs' or 'ssh_encfs'
+        local_encfs_snapshots_path:
+    """
+    defaults = f'''
             config.version=6
             profile1.snapshots.include.1.type=0
             profile1.snapshots.include.1.value=rootpath/source
@@ -62,6 +69,7 @@ def _create_config_file(parent_path, mode='local'):
             {defaults}
             profile1.name=test-local_encfs-mount
             profile1.snapshots.mode=local_encfs
+            profile1.snapshots.local_encfs.path={local_encfs_snapshots_path}
             ''',
         'ssh_encfs': f'''
             {defaults}
@@ -244,7 +252,7 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 class MountWithLocalEncFS(pyfakefs_ut.TestCase):
     """Test high-level Mount with 'local_encfs' backend.
     """
-    test_password = 'test_password'
+    test_password = 'test_password_8'
 
     def setUp(self):
         """Setup a fake filesystem."""
@@ -255,11 +263,10 @@ class MountWithLocalEncFS(pyfakefs_ut.TestCase):
         encfs_path = shutil.which('encfs')
 
         self.setUpPyfakefs(allow_root_user=False)
-        self.fs.add_real_file(encfs_path)
-        # Ensure encfs_path is executable. Pyfakefs seems to add it
-        # with read-only permissions.
-        # https://github.com/pytest-dev/pyfakefs/issues/1119
-        os.chmod(encfs_path, 0o100555)
+        # read_only=False writes the file to the fake filesystem,
+        # but ensures that the permissions are preserved.
+        # https://github.com/pytest-dev/pyfakefs/discussions/1138
+        self.fs.add_real_file(encfs_path, read_only=False)
 
         # Remember, we are using pyfakefs, so no real files are created.
         self.temp_path = Path('bit-test')
@@ -296,9 +303,11 @@ class MountWithLocalEncFS(pyfakefs_ut.TestCase):
             with self.subTest(first_run=first_run):
                 self.assertTrue(self.mount.preMountCheck(first_run=first_run))
 
-    @mock.patch('getpass.getpass', return_value=test_password)
+    # Mock passwordFromUser to bypass the interactive password
+    # confirmation dialog.
+    @mock.patch('password.Password.passwordFromUser', return_value=test_password)
     @mock.patch('configfile.ConfigFile.askQuestion', return_value=True)
-    def test_unconfigured_mount(self, _mock_getpass, _mock_ask_question):
+    def test_uninitialised_mount(self, _mock_ask_question, _mock_passwordFromUser):
         """High-level Mount.mount returns the output from backend.mount.
         Due to inheritence, this is the same as MountControl.mount.
         If all goes well, MountControl.mount returns self.hash_id.
@@ -308,34 +317,52 @@ class MountWithLocalEncFS(pyfakefs_ut.TestCase):
         https://pytest-pyfakefs.readthedocs.io/en/latest/troubleshooting.html#subprocess-built-in
 
         For this test, we need to suspend patching and use a real temp dir:
-        https://pytest-pyfakefs.readthedocs.io/en/latest/usage.html#suspending-patching
+        https://pytest-pyfakefs.readthedocs.io/en/latest/convenience.html#suspending-patching
         """
 
-    #     # Pause pyfakefs and switch back to real filesystem
-    #     with Pause(self.fs):
-    #         with TemporaryDirectory(prefix='bit.') as temp_dir:
-    #             temp_path = Path(temp_dir)
+        # Pause pyfakefs and switch back to real filesystem
+        with pyfakefs_ut.Pause(self.fs):
+            with TemporaryDirectory(prefix='bit.') as temp_dir:
+                temp_path = Path(temp_dir)
 
-    #             _config_fp = _create_config_file(
-    #                 parent_path=temp_path,
-    #                 mode=self.mode
-    #             )
-    #             cfg = config.Config(str(_config_fp))
+                local_encfs_snapshots_path = temp_path / 'local-encfs-snapshots'
+                local_encfs_snapshots_path.mkdir()
 
-    #             # setup mount root
-    #             fp = Path.cwd() / ''.join(random.choices(
-    #                 string.ascii_letters,
-    #                 k=10
-    #             ))
-    #             fp.mkdir()
-    #             # pylint: disable-next=protected-access
-    #             cfg._LOCAL_MOUNT_ROOT = str(fp)
+                _config_fp = _create_config_file(
+                    parent_path=temp_path,
+                    mode=self.mode,
+                    local_encfs_snapshots_path=local_encfs_snapshots_path,
+                )
+                cfg = config.Config(str(_config_fp))
 
-    #             unconfigured_mount = mount.Mount(cfg=cfg, tmp_mount=True)
-    #             self.assertEqual(
-    #                 'local',
-    #                 unconfigured_mount.mount(check=False)
-    #             )
+                # Ensure the correct test password is set, to hopefully
+                # bypass all the interactive shenanigans that would
+                # normally occur.
+                cfg.setPassword(self.test_password)
+
+                # setup mount root
+                fp = temp_path / ''.join(random.choices(
+                    string.ascii_letters,
+                    k=10
+                ))
+                fp.mkdir()
+                # pylint: disable-next=protected-access
+                cfg._LOCAL_MOUNT_ROOT = str(fp)
+
+                uninitialised_mount = mount.Mount(cfg=cfg, tmp_mount=True)
+                # TODO: Make this test better?
+                # mount() returns the 8 character hash_id.
+                # Perhaps there's a more substantial test we can do of
+                # this?
+                mount_hash = uninitialised_mount.mount(check=False)
+                self.assertEqual(
+                    8,
+                    len(mount_hash)
+                )
+
+                # We need to unmount it, otherwise the test fails when
+                # it tries to delete the temporary directory.
+                uninitialised_mount.umount(hash_id=mount_hash)
 
     # def test_umount(self):
     #     """
