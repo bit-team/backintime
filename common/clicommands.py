@@ -53,6 +53,7 @@ def _show_deprecation_message(cmd: str):
     """
     replacement = {
         'benchmark-cipher': None,
+        'snapshots-path': None,
     }[cmd]
 
     msg = _deprecation_msg(cmd, replacement)
@@ -432,6 +433,8 @@ def snapshots_path(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    _show_deprecation_message('snapshots-path')
+
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
