@@ -47,10 +47,10 @@ import encfstools
 import password
 import pluginmanager
 import schedule
-from exceptions import PermissionDeniedByPolicy, \
-                       InvalidChar, \
-                       InvalidCmd, \
-                       LimitExceeded
+from exceptions import (PermissionDeniedByPolicy,
+                        InvalidChar,
+                        InvalidCmd,
+                        LimitExceeded)
 
 
 class Config(configfile.ConfigFileWithProfiles):

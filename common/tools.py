@@ -71,7 +71,11 @@ except ImportError:
 
 import configfile
 import bcolors
-from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
+from exceptions import (Timeout,
+                        InvalidChar,
+                        InvalidCmd,
+                        LimitExceeded,
+                        PermissionDeniedByPolicy)
 import languages
 
 # Workaround:

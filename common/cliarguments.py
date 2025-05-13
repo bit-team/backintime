@@ -48,7 +48,6 @@ class ParserAgent:
         self._cmd_func_dict = {
             'backup': clicommands.backup,
             'backup-job': clicommands.backup_job,
-            'benchmark-cipher': clicommands.benchmark_cipher,
             'check-config': clicommands.check_config,
             'decode': clicommands.decode,
             'last-snapshot': clicommands.last_snapshot,
@@ -64,6 +63,8 @@ class ParserAgent:
             'snapshots-list-path': clicommands.snapshots_list_path,
             'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
+            # deprecated (#2120, #2124)
+            'benchmark-cipher': clicommands.benchmark_cipher,
         }
 
         # Public parsers indexed by their (command) name
@@ -290,7 +291,10 @@ class ParserAgent:
         desc = 'Show a benchmark of all ciphers for ssh transfer.'
 
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epilog_com, help=desc, description=desc)
+            name,
+            epilog=self._epilog_com,
+            help=None,  # suppress help output
+            description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -625,6 +629,37 @@ class ParserAgent:
         self._create_cmd_aliase_switches()
 
 
+def print_usage_without_deprecations(parser):
+    """Hidde commands form the parsers help output, print it and exit.
+
+    This is a workaround because argparse can suppress arguments but not
+    commands (subparsers). The help output contain a online list of
+    commands. This line is the one that gets manipulated here.
+
+        Commands:
+            {backup,backup-job,check-config,...,unmount}
+
+    A second location where a command appears is the line-by-line help output.
+
+        Commands:
+            backup      Bla bla
+            foo         bar
+
+    Simply set `help=None` to hide a command in this list, when creating the
+    subparser.
+    """
+    text = parser.format_help()
+
+    deprecated_cmds = ['benchmark-cipher']
+
+    for cmd in deprecated_cmds:
+        text = text.replace(cmd, '')
+        text = text.replace(',,', ',')
+
+    print(text)
+    sys.exit(0)
+
+
 def parse_arguments(args: Namespace,
                     agent: ParserAgent) -> Namespace:
     """Parse arguments given on commandline.
@@ -668,6 +703,10 @@ def parse_arguments(args: Namespace,
                 # Remove subparsers
                 main_parser._remove_action(i)
                 sub.append(i)
+    else:
+        # Manipulate the main parsers output only (not the subparsers)
+        if sys.argv[1] in ['-h', '--help']:
+            print_usage_without_deprecations(main_parser)
 
     args, unknown_args = main_parser.parse_known_args(args)
 

@@ -101,8 +101,7 @@ absolute.
 In `Cipher` you can choose the cipher (algorithm used to encrypt) for SSH
 transfer. Depending on the involved systems it could be faster to select a
 different cipher than default. Some of them might not work because they are
-known to be insecure. You can run `backintime benchmark-cipher` to compare
-transfer speed of all ciphers.
+known to be insecure.
 
 In `Private Key` you need to select your private SSH key. If this does not yet
 exist, you can create a new public/private SSH key without password by clicking
