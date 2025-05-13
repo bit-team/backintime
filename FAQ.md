@@ -719,7 +719,8 @@ By default, *Back In Time* will finally remove the oldest snapshots until there 
 more than 1 GiB free space again.
 
 ## NTFS Compatibility
-Although devices formatted with the NTFS file system can generally be used with *Back In Time*, there are some limitations to be aware of.
+Although devices formatted with the NTFS file system can generally be used with
+*Back In Time*, there are some limitations to be aware of.
 
 NTFS File systems do not support the following characters in filenames or directories:
 
@@ -735,9 +736,11 @@ NTFS File systems do not support the following characters in filenames or direct
 * (asterisk)
 ```
 
-If *Back In Time* tries to copy files where the filename contains those character, an "Invalid argument (22)" error message will be displayed.
+If *Back In Time* tries to copy files where the filename contains those
+character, an "Invalid argument (22)" error message will be displayed.
 
-It is recommended that only devices formatted with Unix style file systems (such as ext4) be used.
+It is recommended that only devices formatted with Unix style file systems
+(such as ext4) be used.
 
 For more information, refer to [this Microsoft page](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions).
 
@@ -981,9 +984,9 @@ This way can change with newer versions of *BackInTime* or QNAPs QTS!
 
 **Issue**
 
-*BackInTime* cannot use Synology DSM 5 directly because the SSH connection to the NAS
-refers to a different root file system than SFTP does. With SSH you access the
-real root, with SFTP you access a fake root (`/volume1`)
+*BackInTime* cannot use Synology DSM 5 directly because the SSH connection to the
+NAS refers to a different root file system than SFTP does. With SSH you access
+the real root, with SFTP you access a fake root (`/volume1`)
 
 **Solution**
 
@@ -991,7 +994,8 @@ Mount `/volume1/backups` to `/volume1/volume1/backups`
 
 **Suggestion**
 
-DSM 5 isn't really up to date any more and might be a security risk. It is strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
+DSM 5 isn't really up to date any more and might be a security risk. It is
+strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
 
 1. Make a new volume named ``volume1`` (should already exist, else create it)
 
@@ -1017,12 +1021,13 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 1. Log on as root by SSH
 
-1. Modify the shell of user ``backup``. Set it to ``/bin/sh`` (``vi /etc/passwd``
-   then navigate to the line that begins with ``backup``, press :kbd:`I` to enter
-   ``Insert Mode``, replace ``/sbin/nologin`` with ``/bin/sh``, then finally save
-   and exit by pressing :kbd:`ESC` and type ``:wq`` followed by :kbd:`Enter`)
-   This step might have to be repeated after a major update of the Synology DSM!
-   Note: This is quite a dirty hack! It is suggested to upgrade to DSM 6 which doesn't need this any more!
+1. Modify the shell of user ``backup``. Set it to ``/bin/sh`` (``vi /etc/passwd`` then
+   navigate to the line that begins with ``backup``, press :kbd:`I` to enter ``Insert
+   Mode``, replace ``/sbin/nologin`` with ``/bin/sh``, then finally save and exit by
+   pressing :kbd:`ESC` and type ``:wq`` followed by :kbd:`Enter`) This step might have
+   to be repeated after a major update of the Synology DSM!  Note: This is
+   quite a dirty hack! It is suggested to upgrade to DSM 6 which doesn't need
+   this any more!
 
 1. Make a new directory ``/volume1/volume1/backups``
 
@@ -1108,10 +1113,12 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 ## How to use Synology DSM 6 with BIT over SSH
 
-1. Enable User Home Service (Control Panel / User / Advanced). There is no need to create a volume since everything is stored in the home directory.
+1. Enable User Home Service (Control Panel / User / Advanced). There is no need
+   to create a volume since everything is stored in the home directory.
 
-1. Make a new user named ``backup`` (or use your existing account). Add this user to the user group
-   ``Administrators``. Without this, you will not be able to log in!
+1. Make a new user named ``backup`` (or use your existing account). Add this user
+   to the user group ``Administrators``. Without this, you will not be able to log
+   in!
 
 1. Enable SSH (Control Panel / Terminal & SNMP / Terminal)
 
@@ -1120,9 +1127,10 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Since DSM 5.1: Enable Backup Service (Backup & Replication / Backup Service)
    (This seems not to be available/required anymore with DSM 6!) (Tests needed!)
 
-1. On DSM 6 you can edit the user-root-dir for sFTP:
-   Control Panel -> File Services -> FTP -> General -> Advanced Settings -> Security Settings -> Change user root directories -> Select User
-   Now select the user ``backup`` and Change root directory to ``User home``
+1. On DSM 6 you can edit the user-root-dir for sFTP: Control Panel -> File
+   Services -> FTP -> General -> Advanced Settings -> Security Settings ->
+   Change user root directories -> Select User. Now select the user ``backup`` and
+   Change root directory to ``User home``
 
 1. On the workstation on which you try to use BIT make SSH keys for user
    ``backup``, send the public key to the NAS
@@ -1206,12 +1214,11 @@ Select User > select the user ``backup`` > Edit and Change root directory to ``U
 home``
 
 1. Make sure the 'homes' shared folder has the default permissions and that
-non-admin users and groups are not assigned Read or Write permissions on the
-'homes' folder. The default permissions are described in [this
-guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
+   non-admin users and groups are not assigned Read or Write permissions on the
+   'homes' folder. The default permissions are described in [this guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
 
-1. On the workstation on which you need to use BIT, make an SSH key pair for user
-``backup``, and send the public key to the NAS:
+1. On the workstation on which you need to use BIT, make an SSH key pair for
+   user ``backup``, and send the public key to the NAS:
 
    ```bash
 	ssh-keygen -t rsa -f ~/.ssh/backup_id_rsa
@@ -1219,8 +1226,9 @@ guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
 	ssh backup@<synology-ip>
    ```
 
-1. Although not strictly necessary, Synology recommend setting the permissions for
-the `.ssh` directory and the `authorized_keys` file to `700`, and `600` respectively:
+1. Although not strictly necessary, Synology recommend setting the permissions
+   for the `.ssh` directory and the `authorized_keys` file to `700`, and `600`
+   respectively:
 
     ```bash
     backup@NAS:~$ chmod 700 .ssh
@@ -1280,27 +1288,35 @@ See also
 
 ## Synology: use different volume for backup
 
-If you want to use a different volume as the destination for the backup use these addional steps:
+This was tested and related to Synology DSM version 7, but might work with
+other versions, too. Feel free to report back.
 
-1. Follow all steps under **Howto (like create addional user in the example name of the user 'backup')
+If you want to use a different volume as the destination for the backup use
+these additional steps:
+
+1. Follow all steps under **Howto (like create additional user in the example
+   name of the user 'backup')
 2. Create in the Synology DSM GUI in Control panel a new shared folder name it
    "backup" for example
 
    ![Synology DSM7 Basic Setup](doc/images.misc/faq_synology7_separate_dest_volume01.png)
 
-3. Optional in step-2 Enable shared folder encryption (Depending on your needs, dont loose your encryption key)
-   Advantage: backup folder (volume) is encrypted, even in case of theft of your Synology NAs
-   Disadvantage: On each Reboot you need to mount the folder manually
+3. Optional in step-2 Enable shared folder encryption (Depending on your needs,
+   don't loose your encryption key) Advantage: backup folder (volume) is
+   encrypted, even in case of theft of your Synology NAs Disadvantage: On each
+   Reboot you need to mount the folder manually
 
    ![Synology DSM7 Additional Security Measure](doc/images.misc/faq_synology7_separate_dest_volume02.png)
 
-4. As user root or with sudo edit the file: `/etc/passwd` (Be careful, if you break it, you could break your NAS)
+4. As user root or with sudo edit the file: `/etc/passwd` (Be careful, if you
+   break it, you could break your NAS)
    - `vi /etc/passwd`
    - Edit the line for your user backup, so the home dir is on the newly
      created folder: `backup:x:1038:100:Back in Time User:/volume1/backup:/bin/sh`
 5. Continue with your normal setup of BIT
 
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
+
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
 The BusyBox that is used by WD in MBWE for serving basic commands like ``cp``
