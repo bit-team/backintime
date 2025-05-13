@@ -371,12 +371,10 @@ class ParserAgent:
         name = 'last-snapshot-path'
         nargs = 0
         self._aliases.append((name, nargs))
-        desc = 'Show the path of the last snapshot.'
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=argparse.SUPPRESS)
+            epilog=self._epilog_com)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
