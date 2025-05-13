@@ -58,13 +58,15 @@ class ParserAgent:
                 clicommands.remove_and_donot_ask_again,
             'restore': clicommands.restore,
             'shutdown': clicommands.shutdown,
-            'snapshots-path': clicommands.snapshots_path,
             'snapshots-list': clicommands.snapshots_list,
             'snapshots-list-path': clicommands.snapshots_list_path,
             'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
-            # deprecated (#2120, #2124)
+            # Deprecated commands (#2124)
+            # See #2120
             'benchmark-cipher': clicommands.benchmark_cipher,
+            # See #2130
+            'snapshots-path': clicommands.snapshots_path,
         }
 
         # Public parsers indexed by their (command) name
@@ -566,7 +568,7 @@ class ParserAgent:
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
             epilog=self._epilog_com,
-            help=desc,
+            help=None,  # supress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -650,7 +652,10 @@ def print_usage_without_deprecations(parser):
     """
     text = parser.format_help()
 
-    deprecated_cmds = ['benchmark-cipher']
+    deprecated_cmds = [
+        'benchmark-cipher',
+        'snapshots-path',
+    ]
 
     for cmd in deprecated_cmds:
         text = text.replace(cmd, '')
