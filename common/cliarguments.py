@@ -573,7 +573,7 @@ class ParserAgent:
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
             epilog=self._epilog_com,
-            help=None,  # supress help output
+            help=None,  # suppress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
