@@ -1105,8 +1105,6 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 ## How to use Synology DSM 6 with BIT over SSH
 
-**HowTo**
-
 1. Enable User Home Service (Control Panel / User / Advanced). There is no need to create a volume since everything is stored in the home directory.
 
 1. Make a new user named ``backup`` (or use your existing account). Add this user to the user group
@@ -1188,18 +1186,16 @@ in a terminal (on the client PC).
 
 ## How to use Synology DSM 7 with BIT over SSH
 
-**HowTo**
-
-1. Enable User Home Service (Control Panel > User & Group > Advanced).
+1. Enable *User Home Service* (Control Panel > User & Group > Advanced).
 
 1. Make a new user named ``backup`` (or use your existing account) and add this
 user to the user group ``Administrators``.
 
-1. Enable SSH (Control Panel > Terminal & SNMP > Terminal)
+1. Enable *SSH* (Control Panel > Terminal & SNMP > Terminal)
 
-1. Enable SFTP (Control Panel > File Services > FTP > SFTP)
+1. Enable *SFTP* (Control Panel > File Services > FTP > SFTP)
 
-1. Enable rsync (Control Panel > File Services > rsync)
+1. Enable *rsync* (Control Panel > File Services > rsync)
 
 1. Edit the user-root-directory for SFTP: Control Panel > File Services > FTP >
 General > Advanced Settings > Security Settings > Change user root directories >
@@ -1219,8 +1215,9 @@ guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
 	ssh-copy-id -i ~/.ssh/backup_id_rsa.pub backup@<synology-ip>
 	ssh backup@<synology-ip>
    ```
+
 1. Although not strictly necessary, Synology recommend setting the permissions for
-the .ssh directory and the authorized_keys file to 700, and 600 respectively:
+the `.ssh` directory and the `authorized_keys` file to `700`, and `600` respectively:
 
     ```bash
     backup@NAS:~$ chmod 700 .ssh
