@@ -1228,7 +1228,7 @@ the `.ssh` directory and the `authorized_keys` file to `700`, and `600` respecti
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
 ``backup``.
 
-**Using a non-standard SSH port with a Synology NAS**
+#### Using a non-standard SSH port with a Synology NAS**
 
 If you want to use the Synology NAS with a non-standard SSH/SFTP port as advised
 by the Security Advisor package, you have to change the Port in 3 places (the
