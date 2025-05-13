@@ -16,7 +16,7 @@ os: linux
 # Support End of "noble" (24.04 LTS) is April 2029
 dist: noble
 
-language: python, ruby
+language: python
 
 arch:
  - amd64
@@ -42,9 +42,9 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
-  - sudo apt-get install -y ruby rubygems asciidoctor
-  - gem install asciidoctor --user-install
-  - asciidoctor
+  # ruby stuff not working on TravisCI, for unknown reason. Support ticket pending
+  # - sudo apt-get install -y ruby rubygems asciidoctor
+  # - asciidoctor
 
 jobs:
   exclude:
