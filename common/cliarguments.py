@@ -116,7 +116,9 @@ class ParserAgent:
             prog=self.bin_name,
             parents=[common_parser],
             description=desc,
-            epilog=epi)
+            epilog=epi,
+            allow_abbrev=False
+        )
 
         parser.add_argument(
             '--version', '-v',
@@ -585,7 +587,8 @@ class ParserAgent:
             name,
             help='Show information about backups',
             description="List backup ID's (default) or paths (--path) or "
-                        "just the last (--last)"
+                        "just the last (--last)",
+            allow_abbrev=False
         )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
