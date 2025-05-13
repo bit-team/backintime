@@ -61,8 +61,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
+      * [Using a non-standard port](#using-a-non-standard-port)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
-   * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
+     * [Using a non-standard SSH port with a Synology NAS](#using-a-non-standard-ssh-port-with-a-synology-nas)
+     * ["sshfs: No such file or directory" using BIT, but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
@@ -1163,7 +1165,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
    ``backup``.
 
-**Using a non-standard port with a Synology NAS**
+### Using a non-standard port
 
 If you want to use the Synology NAS with non-standard SSH/SFTP port
 (standard is 22), you have to change the Port on total 3 places:
@@ -1228,7 +1230,7 @@ the `.ssh` directory and the `authorized_keys` file to `700`, and `600` respecti
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
 ``backup``.
 
-#### Using a non-standard SSH port with a Synology NAS**
+### Using a non-standard SSH port with a Synology NAS
 
 If you want to use the Synology NAS with a non-standard SSH/SFTP port as advised
 by the Security Advisor package, you have to change the Port in 3 places (the
@@ -1262,7 +1264,7 @@ and then use just:
   ssh backup@<synology-ip>
   ```
 
-## Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works
+### "sshfs: No such file or directory" using BIT, but manually ssh with rsync works
 The reason (known for DSM version 7) is that the setup of ssh and sftp is
 customized by Synology.
 
