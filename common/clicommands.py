@@ -94,8 +94,25 @@ def backup(args: argparse.Namespace, force: bool = True):
 
     # Run backup in background?
     if args.background:
-        cli.BackupJobDaemon(backup, args).start()
-        return
+        # "Force" will be False
+        cli.BackupJobDaemon(_do_backup, args).start()
+    else:
+        _do_backup(args, force)
+
+
+def _do_backup(args: argparse.Namespace, force: bool):
+    """
+    Command for force taking a new snapshot.
+
+    Args:
+        args (argparse.Namespace):
+                        previously parsed arguments
+        force (bool):   take the snapshot even if it wouldn't need to or would
+                        be prevented (e.g. running on battery)
+
+    Raises:
+        SystemExit:     0 if successful, 1 if not
+    """
 
     cli.set_quiet(args)
     cli.print_header()
