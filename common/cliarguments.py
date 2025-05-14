@@ -15,6 +15,7 @@
 import sys
 import argparse
 import json
+import re
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
@@ -50,23 +51,24 @@ class ParserAgent:
             'backup-job': clicommands.backup_job,
             'check-config': clicommands.check_config,
             'decode': clicommands.decode,
-            'last-snapshot': clicommands.last_snapshot,
-            'last-snapshot-path': clicommands.last_snapshot_path,
             'pw-cache': clicommands.pw_cache,
             'remove': clicommands.remove,
             'remove-and-do-not-ask-again':
                 clicommands.remove_and_donot_ask_again,
             'restore': clicommands.restore,
             'shutdown': clicommands.shutdown,
-            'snapshots-list': clicommands.snapshots_list,
-            'snapshots-list-path': clicommands.snapshots_list_path,
+            'show': clicommands.show_backups,
             'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
             # See #2120
             'benchmark-cipher': clicommands.benchmark_cipher,
-            # See #2130
+            # See #2130 for this five commands
             'snapshots-path': clicommands.snapshots_path,
+            'last-snapshot': clicommands.last_snapshot,
+            'last-snapshot-path': clicommands.last_snapshot_path,
+            'snapshots-list': clicommands.snapshots_list,
+            'snapshots-list-path': clicommands.snapshots_list_path,
         }
 
         # Public parsers indexed by their (command) name
@@ -114,7 +116,9 @@ class ParserAgent:
             prog=self.bin_name,
             parents=[common_parser],
             description=desc,
-            epilog=epi)
+            epilog=epi,
+            allow_abbrev=False
+        )
 
         parser.add_argument(
             '--version', '-v',
@@ -168,9 +172,7 @@ class ParserAgent:
         return parser
 
     def _create_common_parser(self) -> ArgumentParser:
-        """Common arguments used by all commands
-
-        """
+        """Common arguments used by all commands"""
 
         debug_parser = self._create_debug_parser()
         config_parser = self._create_config_parser()
@@ -186,14 +188,20 @@ class ParserAgent:
         # Allow only one of "--profile" or "--profile-id"
         profile_group = parser.add_mutually_exclusive_group()
 
-        for switch, name, typ in (('--profile', 'NAME', str),
-                                  ('--profile-id', 'ID', int)):
-            profile_group.add_argument(
-                switch,
-                metavar=name,
-                type=typ,
-                action='store',
-                help='Select profile by %(metavar)s.')
+        help = 'Select profile by %(metavar)s.'
+        profile_group.add_argument(
+            '--profile',
+            metavar='NAME',
+            type=str,
+            action='store',
+            help=help)
+
+        profile_group.add_argument(
+            '--profile-id',
+            metavar='ID',
+            type=int,
+            action='store',
+            help=help)
 
         parser.add_argument(
             '--quiet',
@@ -353,7 +361,7 @@ class ParserAgent:
         parser = self._command_subparsers.add_parser(
             name,
             epilog=self._epilog_com,
-            help=desc,
+            help=None,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -363,13 +371,10 @@ class ParserAgent:
         name = 'last-snapshot-path'
         nargs = 0
         self._aliases.append((name, nargs))
-        desc = 'Show the path of the last snapshot.'
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            epilog=self._epilog_com)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -536,7 +541,7 @@ class ParserAgent:
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
             epilog=self._epilog_com,
-            help=desc,
+            help=None,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -553,7 +558,7 @@ class ParserAgent:
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
             epilog=self._epilog_com,
-            help=desc,
+            help=None,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -568,9 +573,36 @@ class ParserAgent:
             name,
             parents=[self._cmd_excl_parsers['snapshots']],
             epilog=self._epilog_com,
-            help=None,  # supress help output
+            help=None,  # suppress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
+    def _create_cmd_show(self):
+        name = 'show'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            help='Show information about backups',
+            description="List backup ID's (default) or paths (--path) or "
+                        "just the last (--last)",
+            allow_abbrev=False
+        )
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--path',
+            action='store_true',
+            default=False,
+            help='List backup paths instead of their ID')
+
+        parser.add_argument(
+            '--last',
+            action='store_true',
+            default=False,
+            help='Show the last (youngest) backup only')
+
         self.parsers[name] = parser
 
     def _create_cmd_unmount(self):
@@ -615,18 +647,19 @@ class ParserAgent:
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
         self._create_cmd_decode()
-        self._create_cmd_last_snapshot()
-        self._create_cmd_last_snapshot_path()
         self._create_cmd_pw_cache()
         self._create_cmd_remove()
         self._create_cmd_remove_and_donot_ask_again()
         self._create_cmd_restore()
         self._create_cmd_shutdown()
         self._create_cmd_smart_remove()
+        self._create_cmd_show()
+        self._create_cmd_unmount()
+        self._create_cmd_last_snapshot()
+        self._create_cmd_last_snapshot_path()
         self._create_cmd_snapshots_list()
         self._create_cmd_snapshots_list_path()
         self._create_cmd_snapshots_path()
-        self._create_cmd_unmount()
 
         self._create_cmd_aliase_switches()
 
@@ -647,21 +680,63 @@ def print_usage_without_deprecations(parser):
             backup      Bla bla
             foo         bar
 
-    Simply set `help=None` to hide a command in this list, when creating the
-    subparser.
     """
-    text = parser.format_help()
+    text = parser.format_help().splitlines()
+    # for idx, t in enumerate(text):
+    #     print(f'{idx=} {t=}')
 
     deprecated_cmds = [
         'benchmark-cipher',
         'snapshots-path',
+        'last-snapshot',
+        'last-snapshot-path',
+        'snapshots-list',
+        'snapshots-list-path',
     ]
 
-    for cmd in deprecated_cmds:
-        text = text.replace(cmd, '')
-        text = text.replace(',,', ',')
+    def _remove_cmds_from_cmd_list(line: str):
+        """Remove all deprecated commands from that one line like this:
 
-    print(text)
+            {backup,backup-job,check-config,...,unmount}
+
+        Usually there are two of this lines in a help-usage-output.
+        """
+        for cmd in deprecated_cmds:
+            # replace "cmd" between delemiters with ","
+            pattern = r'(?<=[{,])' + re.escape(cmd) + r'(?=[,}])'
+            line = re.sub(pattern, ',', line)
+            # clean up to much ","
+            line = re.sub(r',+', ',', line)
+            line = re.sub(r'{,', '{', line)
+            line = re.sub(r',}', '}', line)
+
+        return line
+
+    rex = re.compile(r'.*{.*}.*')
+    line_idx_to_remove = []
+
+    for idx, line in enumerate(text[:]):
+        # Remove commands from the one-line-list
+        if rex.match(line):
+            # print(f'     {line=} modified into')
+            text[idx] = _remove_cmds_from_cmd_list(line)
+            # print(f'{text[idx]=}\n')
+            continue
+
+        # Line-by-line command description?
+        for cmd in deprecated_cmds:
+            pattern = r'\s+' + re.escape(cmd) + r'(?=\s|$)'
+            if re.match(pattern, line):
+                # print(f'found {cmd=} at {idx=}')
+                line_idx_to_remove.append(idx)
+                continue
+
+    # remove lines with deprecated commands
+    for idx in reversed(line_idx_to_remove):
+        # print(f'del {idx=} {text[idx]=}')
+        del text[idx]
+
+    print('\n'.join(text))
     sys.exit(0)
 
 

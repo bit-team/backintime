@@ -37,6 +37,7 @@ import progress
 import snapshotlog
 import flock
 import bitbase
+from typing import Generator
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
@@ -59,7 +60,6 @@ class Snapshots:
         cfg (config.Config): current config
     """
     SNAPSHOT_VERSION = 3
-
 
     def __init__(self, cfg = None):
         self.config = cfg
@@ -3136,6 +3136,7 @@ class RootSnapshot(GenericNonSnapshot):
     Args:
         cfg (config.Config):    current config
     """
+
     def __init__(self, cfg):
         self.config = cfg
         self.profileID = cfg.currentProfile()
@@ -3188,7 +3189,8 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False):
+def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
+                  ) -> Generator[SID, None, None]:
     """A generator to iterate over snapshots in current snapshot path.
 
     Args:
@@ -3240,7 +3242,8 @@ def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
         cfg (config.Config): Current config instance.
         includeNewSnapshot (bool): Include a NewSnapshot instance if
             'new_snapshot' directory is available (default: False).
-        reverse (bool): Sort reverse (default: True).
+        reverse (bool): Sort reverse (descending, newest/youngest first)
+            (default: True).
 
     Returns:
         list: List of :py:class:`SID` objects.
@@ -3264,6 +3267,32 @@ def lastSnapshot(cfg):
     sids = listSnapshots(cfg)
     if sids:
         return sids[0]
+
+
+def get_backup_ids_and_paths(cfg: config.Config,
+                             descending: bool = True,
+                             include_new: bool = False
+                             ) -> list[tuple[str, Path]]:
+    """
+    Args:
+        cfg: The config instance.
+        descending: Backups sorted by their IDs beginning with oldest.
+        include_new: Include incomplete backups without ID, named
+            `new-snapshot` (default: ``False``).
+
+    Return:
+       A list of two-item tuples with backup ID and paths.
+
+    """
+    result = []
+
+    all_sids = sorted(
+        iterSnapshots(cfg=cfg, includeNewSnapshot=include_new),
+        reverse=not descending)
+
+    result = [(str(sid), Path(sid.path())) for sid in all_sids]
+
+    return result
 
 
 if __name__ == '__main__':

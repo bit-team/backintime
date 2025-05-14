@@ -36,9 +36,9 @@ from shutdownagent import ShutdownAgent
 
 def _deprecation_msg(command: str, replacement: str) -> str:
     if not replacement:
-        replacement = _('A replacement is not planned.')
+        replacement = 'A replacement is not planned.'
 
-    msg = _(
+    msg = (
         'The command "{command}" is deprecated and will be removed from Back '
         'In Time in the foreseeable future. {replacement} Feel free to '
         'contact the project team if you have any questions or suggestions.')
@@ -54,6 +54,10 @@ def _show_deprecation_message(cmd: str):
     replacement = {
         'benchmark-cipher': None,
         'snapshots-path': None,
+        'snapshots-list': 'Use "show" instead.',
+        'snapshots-list-path': 'Use "show --path" instead.',
+        'last-snapshot': 'Use "show --last" instead.',
+        'last-snapshot-path': 'Use "show --last --path" instead.',
     }[cmd]
 
     msg = _deprecation_msg(cmd, replacement)
@@ -252,6 +256,7 @@ def last_snapshot(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    _show_deprecation_message('last-snapshot')
     _last_snapshot_base(args=args, path_info=False)
 
 
@@ -265,6 +270,7 @@ def last_snapshot_path(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    _show_deprecation_message('last-snapshot-path')
     _last_snapshot_base(args=args, path_info=True)
 
 
@@ -493,6 +499,7 @@ def snapshots_list(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    _show_deprecation_message('snapshots-list')
     _snapshots_list_base(args=args, path_info=False)
 
 
@@ -505,7 +512,53 @@ def snapshots_list_path(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    _show_deprecation_message('snapshots-list-path')
     _snapshots_list_base(args=args, path_info=True)
+
+
+def show_backups(args: argparse.Namespace):
+    """Command 'show'.
+
+    Args:
+        args: Parsed command-line arguments.
+
+    Raises:
+        SystemExit: With errors or no backups available
+            `bitbase.RETURN_ERR` (1),  otherwise `bitbase.RETURN_OK' (0).
+    """
+
+    cfg = _get_config(args)
+    _mount(cfg)
+
+    # raw data
+    backups = snapshots.get_backup_ids_and_paths(
+        cfg=cfg, descending=True, include_new=False)
+
+    if args.last:
+        backups = backups[-1:]
+
+    if args.path:
+        # Path
+        def _element(e):
+            return str(e[1])
+    else:
+        # ID
+        def _element(e):
+            return e[0]
+
+    # one line for each ID/Path
+    result = '\n'.join(
+        map(_element, backups)
+    )
+
+    print(result)
+    _umount(cfg)
+
+    if not backups:
+        logger.error(f'No backups in profile "{cfg.profileName()}"')
+        sys.exit(bitbase.RETURN_ERR)
+
+    sys.exit(bitbase.RETURN_OK)
 
 
 def smart_remove(args: argparse.Namespace):

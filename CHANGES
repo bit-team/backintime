@@ -1,4 +1,3 @@
-
 Back In Time
 
 Version 1.6.0-dev (development of upcoming release)
@@ -9,10 +8,12 @@ Version 1.6.0-dev (development of upcoming release)
 * Changed: Man pages generated from AsciiDoc, except backintime-config (#2085)
 * Changed: Deprecate command "benchmark-cipher" (#2120)
 * Changed: Deprecate command "snapshots-path" (#2130)
+* Changed: Deprecate commands "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" (#2130)
 * Added: "ETA" value in status bar (#2101)
 * Added: Shutdown confirmation dialog (#2102) (Huaide Jiang @LatiosInAltoMare)
 * Added: Check and warn if include list entries do not exists in backup source (#1586) (@rafaelhdr)
 * Added: Asciidoctor as build dependence (#2085)
+* Added: New "show" command to replace "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" (#2130)
 * Removed: **Breaking** Drop Python support for version 3.9 & 3.10 (#2129)
 * Removed: Stop using QWindow.winId() (#2084)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
