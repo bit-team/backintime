@@ -61,6 +61,7 @@ def _show_deprecation_message(cmd: str):
         'snapshots-list-path': 'Use "show --path" instead.',
         'last-snapshot': 'Use "show --last" instead.',
         'last-snapshot-path': 'Use "show --last --path" instead.',
+        'smart-remove': 'Use "prune" instead.',
     }[cmd]
 
     msg = _deprecation_msg(cmd, replacement)
@@ -563,15 +564,18 @@ def show_backups(args: argparse.Namespace):
 
     sys.exit(bitbase.RETURN_OK)
 
-
 def smart_remove(args: argparse.Namespace):
-    """Run Remove & Retention (aka Smart-Removal) from Terminal.
+    _show_deprecation_message('smart-remove')
+    prune(args)
+
+def prune(args: argparse.Namespace):
+    """Run Remove & Retention (aka Smart-Removal).
 
     Args:
         args: Previously parsed arguments.
 
     Raises:
-        SystemExit: 0 if okay. 2 if Smart-Removal is not configured.
+        SystemExit: 0 if okay. 2 if Remove & Retention is not configured.
     """
     cli.set_quiet(args)
     cli.print_header()
@@ -591,7 +595,7 @@ def smart_remove(args: argparse.Namespace):
                                            keep_one_per_day,
                                            keep_one_per_week,
                                            keep_one_per_month)
-        logger.info(f'{len(del_snapshots)} snapshots are marked for removal.')
+        logger.info(f'{len(del_snapshots)} backups are marked for removal.')
         sn.smartRemove(del_snapshots, log=logger.info)
         _umount(cfg)
         sys.exit(bitbase.RETURN_OK)
