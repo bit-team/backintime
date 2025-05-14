@@ -40,7 +40,7 @@ _backintime()
           --help --debug --checksum --no-crontab --delete \
           --local-backup --no-local-backup --only-new --share-path \
 	      --diagnostics --last --path"
-    actions="backup backup-job show unmount \
+    actions="backup show unmount \
              pw-cache decode remove restore check-config \
              prune shutdown"
     pw_cache_commands="start stop restart reload status"
