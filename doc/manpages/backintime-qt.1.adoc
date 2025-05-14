@@ -41,7 +41,6 @@ backintime-qt - a simple backup tool.
 {
 backup
 | backup-job
-| benchmark-cipher [FILE-SIZE]
 | check-config
 | decode [PATH]
 | last-snapshot
@@ -113,9 +112,6 @@ If you want to run it as root you need to use `backintime-qt_polkit`.
 *backup-job* | *--backup-job*:: Take a snapshot (if needed) depending on
  schedule rules (used for cron jobs). Back In Time will run in background for
  this.
-
-*benchmark-cipher* | *--benchmark-cipher* [FILE-SIZE]:: Show a benchmark of all
-ciphers for ssh transfer.
 
 *check-config*:: Verify the profile in config, create snapshot path and crontab
 entries.

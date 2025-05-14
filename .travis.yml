@@ -42,7 +42,8 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
-  - sudo apt-get install -y asciidoctor
+  - sudo apt-get install -y ruby rubygems asciidoctor
+  - sudo gem install asciidoctor
 
 jobs:
   exclude:

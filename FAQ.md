@@ -1,4 +1,4 @@
-<!-- 
+<!--
 SPDX-FileCopyrightText: © 2022 Back In Time Team
 SPDX-FileCopyrightText: © 2024 Paul Worrall (@Silver-Saucepan)
 
@@ -43,7 +43,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
-   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
+   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
@@ -61,8 +61,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
+      * [Using a non-standard port](#using-a-non-standard-port)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
-   * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
+     * [Using a non-standard SSH port with a Synology NAS](#using-a-non-standard-ssh-port-with-a-synology-nas)
+     * ["sshfs: No such file or directory" using BIT, but manually ssh with rsync works](#sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
+   * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
    * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
@@ -204,22 +207,22 @@ You can avoid this by moving the file/folder in the last snapshot too:
 
 Back In Time and Timeshift are both Linux application that provides back up functionality.
 
-1. Similarity 
+1. Similarity
    - Both programs are backup tools for Linux and they create snapshots at a specific time.
    - For both programs, snapshots are taken using rsync and hard-links, while
    Common files are shared between snapshots which saves disk space.
    - Both programs support GUI and CLI
-   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots 
+   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots
    completely and create snapshots manually when required
 
 2. Back In Time
    - It is designed to protect user data including any folders or files.
-   - It backs up certain folders and files that you want to protect. Modified files are transferred, 
+   - It backs up certain folders and files that you want to protect. Modified files are transferred,
    while unchanged files are linked to the new folder. You can restore certain files and folders.
    - It's great for protecting your personal data
 
 3. TimeShift
-   - It is designed for system snapshots which allows restoring whole Linux system 
+   - It is designed for system snapshots which allows restoring whole Linux system
    to a previous state without affecting any user data.
    - It backs up system files, not including any personal data unless user explicitly configured.
    - It's good for restoring your system after an update failure or configuration change.
@@ -449,7 +452,7 @@ recover the space used by files that are unique to that snapshot.
 
 **Why exclude cache folders?**
 
-Cache folders typically contain temporary files that are not necessary for backups. 
+Cache folders typically contain temporary files that are not necessary for backups.
 Excluding them can significantly improve backup speed and reduce storage usage.
 
 **How to exclude cache folders:**
@@ -484,18 +487,18 @@ Excluding them can significantly improve backup speed and reduce storage usage.
 
 **Tips for better results:**
 
-- **Check Backup Logs**:  
-  After running a backup, review the logs to identify additional folders that may 
+- **Check Backup Logs**:
+  After running a backup, review the logs to identify additional folders that may
   slow down the process. Example log entries for cache files:
   ```plaintext
   [E] Skipping file /path/to/cache/file: Too many small files.
   ```
 
-- **Customize Patterns**:  
-  Adjust the patterns to suit your specific applications. For example, modify paths 
+- **Customize Patterns**:
+  Adjust the patterns to suit your specific applications. For example, modify paths
   for browsers or other software you use.
 
-- **Test Exclude Patterns**:  
+- **Test Exclude Patterns**:
   Test your backup after adding patterns to ensure they work as intended.
 
 ## How to use extended filesystem attributes (xattr) to exclude files/directories?
@@ -641,7 +644,7 @@ this signal file.
 
 Since _Back In Time_ does only start a new backup job (for the same profile) if the signal
 file does not exist, such a file need to be deleted first. But before this is done manually,
-it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via 
+it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via
 
 ```bash
 ps aux | grep -i backintime
@@ -684,13 +687,13 @@ See also:
 
 ## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
-After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
-permissions are handled differently. Before 1.2.0 all destination file 
-permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
-option which tells rsync to preserve the source file permission. 
+After updating to >= 1.2.0, BiT does a (nearly) full backup because file
+permissions are handled differently. Before 1.2.0 all destination file
+permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms`
+option which tells rsync to preserve the source file permission.
 That's why so many files seem to be changed.
 
-If you don't like the new behavior, you can use "Expert Options" 
+If you don't like the new behavior, you can use "Expert Options"
 -> "Paste additional options to rsync" to add the value
 `--no-perms --no-group --no-owner` in that field.
 
@@ -716,7 +719,8 @@ By default, *Back In Time* will finally remove the oldest snapshots until there 
 more than 1 GiB free space again.
 
 ## NTFS Compatibility
-Although devices formatted with the NTFS file system can generally be used with *Back In Time*, there are some limitations to be aware of.
+Although devices formatted with the NTFS file system can generally be used with
+*Back In Time*, there are some limitations to be aware of.
 
 NTFS File systems do not support the following characters in filenames or directories:
 
@@ -732,9 +736,11 @@ NTFS File systems do not support the following characters in filenames or direct
 * (asterisk)
 ```
 
-If *Back In Time* tries to copy files where the filename contains those character, an "Invalid argument (22)" error message will be displayed.
+If *Back In Time* tries to copy files where the filename contains those
+character, an "Invalid argument (22)" error message will be displayed.
 
-It is recommended that only devices formatted with Unix style file systems (such as ext4) be used.
+It is recommended that only devices formatted with Unix style file systems
+(such as ext4) be used.
 
 For more information, refer to [this Microsoft page](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions).
 
@@ -790,7 +796,7 @@ To diagnose and solve this follow these steps in a terminal:
 python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
 
 # List available backends:
-keyring --list-backends 
+keyring --list-backends
 
 # Find out the config file folder:
 python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
@@ -978,9 +984,9 @@ This way can change with newer versions of *BackInTime* or QNAPs QTS!
 
 **Issue**
 
-*BackInTime* cannot use Synology DSM 5 directly because the SSH connection to the NAS
-refers to a different root file system than SFTP does. With SSH you access the
-real root, with SFTP you access a fake root (`/volume1`)
+*BackInTime* cannot use Synology DSM 5 directly because the SSH connection to the
+NAS refers to a different root file system than SFTP does. With SSH you access
+the real root, with SFTP you access a fake root (`/volume1`)
 
 **Solution**
 
@@ -988,7 +994,8 @@ Mount `/volume1/backups` to `/volume1/volume1/backups`
 
 **Suggestion**
 
-DSM 5 isn't really up to date any more and might be a security risk. It is strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
+DSM 5 isn't really up to date any more and might be a security risk. It is
+strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
 
 1. Make a new volume named ``volume1`` (should already exist, else create it)
 
@@ -1014,12 +1021,13 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 1. Log on as root by SSH
 
-1. Modify the shell of user ``backup``. Set it to ``/bin/sh`` (``vi /etc/passwd``
-   then navigate to the line that begins with ``backup``, press :kbd:`I` to enter
-   ``Insert Mode``, replace ``/sbin/nologin`` with ``/bin/sh``, then finally save
-   and exit by pressing :kbd:`ESC` and type ``:wq`` followed by :kbd:`Enter`)
-   This step might have to be repeated after a major update of the Synology DSM!
-   Note: This is quite a dirty hack! It is suggested to upgrade to DSM 6 which doesn't need this any more!
+1. Modify the shell of user ``backup``. Set it to ``/bin/sh`` (``vi /etc/passwd`` then
+   navigate to the line that begins with ``backup``, press :kbd:`I` to enter ``Insert
+   Mode``, replace ``/sbin/nologin`` with ``/bin/sh``, then finally save and exit by
+   pressing :kbd:`ESC` and type ``:wq`` followed by :kbd:`Enter`) This step might have
+   to be repeated after a major update of the Synology DSM!  Note: This is
+   quite a dirty hack! It is suggested to upgrade to DSM 6 which doesn't need
+   this any more!
 
 1. Make a new directory ``/volume1/volume1/backups``
 
@@ -1105,12 +1113,12 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 ## How to use Synology DSM 6 with BIT over SSH
 
-**HowTo**
+1. Enable User Home Service (Control Panel / User / Advanced). There is no need
+   to create a volume since everything is stored in the home directory.
 
-1. Enable User Home Service (Control Panel / User / Advanced). There is no need to create a volume since everything is stored in the home directory.
-
-1. Make a new user named ``backup`` (or use your existing account). Add this user to the user group
-   ``Administrators``. Without this, you will not be able to log in! 
+1. Make a new user named ``backup`` (or use your existing account). Add this user
+   to the user group ``Administrators``. Without this, you will not be able to log
+   in!
 
 1. Enable SSH (Control Panel / Terminal & SNMP / Terminal)
 
@@ -1119,9 +1127,10 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Since DSM 5.1: Enable Backup Service (Backup & Replication / Backup Service)
    (This seems not to be available/required anymore with DSM 6!) (Tests needed!)
 
-1. On DSM 6 you can edit the user-root-dir for sFTP:
-   Control Panel -> File Services -> FTP -> General -> Advanced Settings -> Security Settings -> Change user root directories -> Select User
-   Now select the user ``backup`` and Change root directory to ``User home``
+1. On DSM 6 you can edit the user-root-dir for sFTP: Control Panel -> File
+   Services -> FTP -> General -> Advanced Settings -> Security Settings ->
+   Change user root directories -> Select User. Now select the user ``backup`` and
+   Change root directory to ``User home``
 
 1. On the workstation on which you try to use BIT make SSH keys for user
    ``backup``, send the public key to the NAS
@@ -1139,7 +1148,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 	/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 	/usr/bin/ssh-copy-id: WARNING: All keys were skipped because they already exist on the remote system.
    ```
-	
+
 1. If so, copy the public key manually to the NAS as root with
 
    ```bash
@@ -1165,7 +1174,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
    ``backup``.
 
-**Using a non-standard port with a Synology NAS**
+### Using a non-standard port
 
 If you want to use the Synology NAS with non-standard SSH/SFTP port
 (standard is 22), you have to change the Port on total 3 places:
@@ -1188,18 +1197,16 @@ in a terminal (on the client PC).
 
 ## How to use Synology DSM 7 with BIT over SSH
 
-**HowTo**
-
-1. Enable User Home Service (Control Panel > User & Group > Advanced).
+1. Enable *User Home Service* (Control Panel > User & Group > Advanced).
 
 1. Make a new user named ``backup`` (or use your existing account) and add this
 user to the user group ``Administrators``.
 
-1. Enable SSH (Control Panel > Terminal & SNMP > Terminal)
+1. Enable *SSH* (Control Panel > Terminal & SNMP > Terminal)
 
-1. Enable SFTP (Control Panel > File Services > FTP > SFTP)
+1. Enable *SFTP* (Control Panel > File Services > FTP > SFTP)
 
-1. Enable rsync (Control Panel > File Services > rsync)
+1. Enable *rsync* (Control Panel > File Services > rsync)
 
 1. Edit the user-root-directory for SFTP: Control Panel > File Services > FTP >
 General > Advanced Settings > Security Settings > Change user root directories >
@@ -1207,20 +1214,21 @@ Select User > select the user ``backup`` > Edit and Change root directory to ``U
 home``
 
 1. Make sure the 'homes' shared folder has the default permissions and that
-non-admin users and groups are not assigned Read or Write permissions on the
-'homes' folder. The default permissions are described in [this
-guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
+   non-admin users and groups are not assigned Read or Write permissions on the
+   'homes' folder. The default permissions are described in [this guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
 
-1. On the workstation on which you need to use BIT, make an SSH key pair for user
-``backup``, and send the public key to the NAS:
+1. On the workstation on which you need to use BIT, make an SSH key pair for
+   user ``backup``, and send the public key to the NAS:
 
    ```bash
 	ssh-keygen -t rsa -f ~/.ssh/backup_id_rsa
 	ssh-copy-id -i ~/.ssh/backup_id_rsa.pub backup@<synology-ip>
 	ssh backup@<synology-ip>
    ```
-1. Although not strictly necessary, Synology recommend setting the permissions for
-the .ssh directory and the authorized_keys file to 700, and 600 respectively:
+
+1. Although not strictly necessary, Synology recommend setting the permissions
+   for the `.ssh` directory and the `authorized_keys` file to `700`, and `600`
+   respectively:
 
     ```bash
     backup@NAS:~$ chmod 700 .ssh
@@ -1231,7 +1239,7 @@ the .ssh directory and the authorized_keys file to 700, and 600 respectively:
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
 ``backup``.
 
-**Using a non-standard SSH port with a Synology NAS**
+### Using a non-standard SSH port with a Synology NAS
 
 If you want to use the Synology NAS with a non-standard SSH/SFTP port as advised
 by the Security Advisor package, you have to change the Port in 3 places (the
@@ -1265,7 +1273,7 @@ and then use just:
   ssh backup@<synology-ip>
   ```
 
-## Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works
+### "sshfs: No such file or directory" using BIT, but manually ssh with rsync works
 The reason (known for DSM version 7) is that the setup of ssh and sftp is
 customized by Synology.
 
@@ -1278,7 +1286,37 @@ See also
 - [Issue #1674](https://github.com/bit-team/backintime/issues/1674)
 - ["Change the default folder in a Synology NAS" - StackOverflow](https://stackoverflow.com/a/77454561/4865723)
 
+## Synology: use different volume for backup
+
+This was tested and related to Synology DSM version 7, but might work with
+other versions, too. Feel free to report back.
+
+If you want to use a different volume as the destination for the backup use
+these additional steps:
+
+1. Follow all steps under **Howto (like create additional user in the example
+   name of the user 'backup')
+2. Create in the Synology DSM GUI in Control panel a new shared folder name it
+   "backup" for example
+
+   ![Synology DSM7 Basic Setup](doc/images.misc/faq_synology7_separate_dest_volume01.png)
+
+3. Optional in step-2 Enable shared folder encryption (Depending on your needs,
+   don't loose your encryption key) Advantage: backup folder (volume) is
+   encrypted, even in case of theft of your Synology NAs Disadvantage: On each
+   Reboot you need to mount the folder manually
+
+   ![Synology DSM7 Additional Security Measure](doc/images.misc/faq_synology7_separate_dest_volume02.png)
+
+4. As user root or with sudo edit the file: `/etc/passwd` (Be careful, if you
+   break it, you could break your NAS)
+   - `vi /etc/passwd`
+   - Edit the line for your user backup, so the home dir is on the newly
+     created folder: `backup:x:1038:100:Back in Time User:/volume1/backup:/bin/sh`
+5. Continue with your normal setup of BIT
+
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
+
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
 The BusyBox that is used by WD in MBWE for serving basic commands like ``cp``
@@ -1308,7 +1346,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	/opt/bin/ipkg install bash coreutils rsync nano
 	exit
    ```
-	
+
 1. Back in MBWE's web admin go to *Users* and add a new user (``<REMOTE_USER>``
    in this How-to) with *Create User Private Share* set to *Yes*.
 
@@ -1326,7 +1364,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	#save and exit by press CTRL+O and CTRL+X
 	exit
    ```
-	
+
 1. Next create the ssh-key for your local user.
    In the terminal
 
@@ -1347,7 +1385,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	ssh <REMOTE_USER>@<MBWE> #this time you shouldn't been asked for password anymore
 	exit
    ```
-	
+
 1. You can test if everything is done by enter this
 
    ```bash
@@ -1361,7 +1399,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	or: cp [OPTION]... SOURCE... DIRECTORY
 	or: cp [OPTION]... -t DIRECTORY SOURCE...
 	Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
-	
+
 	Mandatory arguments to long options are mandatory for short options too.
 	-a, --archive same as -dR --preserve=all
 	    --backup[=CONTROL] make a backup of each existing destination file
@@ -1375,7 +1413,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
    ```bash
 	BusyBox v1.1.1 (2009.12.24-08:39+0000) multi-call binary
-	
+
 	Usage: cp [OPTION]... SOURCE DEST
    ```
 
@@ -1467,13 +1505,13 @@ assigned to PR can also help gauge their priority and urgency.
 - When giving feedback, consider the contributor’s level of experience and
   skills. Keep it polite and constructive—every beginner could be a future
   maintainer.
-      
+
 To **test functionality**,
 [check out the PR code locally](https://docs.github.com//pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally)
 on a virtual machine or your local machine. Running _Back In Time_ in a test
 environment provides insights, that can be shared as findings, observations,
 or suggestions for improvement.
-      
+
 About **code review**:
 - Code should follow
   [project standards](CONTRIBUTING.md#best-practice-and-recommendations)
