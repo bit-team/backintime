@@ -43,8 +43,9 @@ before_install:
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
   # ruby stuff not working on TravisCI, for unknown reason. Support ticket pending
-  # - sudo apt-get install -y ruby rubygems asciidoctor
-  # - asciidoctor
+  - sudo apt-get install -y ruby rubygems asciidoctor
+  - sudo gem install asciidoctor
+  - asciidoctor
 
 jobs:
   exclude:
