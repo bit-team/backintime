@@ -52,7 +52,7 @@ def _show_deprecation_message(cmd: str):
     flags.
 
     As an exception the deprecation messages for flag-aliases (e.g. '--backup'
-    for 'backpu') are managed in `cliargument:alias_parser()`.
+    for 'backup') are managed in `cliargument.alias_parser()`.
     """
     replacement = {
         'benchmark-cipher': None,
