@@ -869,7 +869,6 @@ def alias_parser(args: Namespace):
         logger.info(f"Run command '{args.alias}' instead of argument "
                     f"'{args.replace}' due to backwards compatibility.")
 
-
     msg = (
         f'The command alias "{args.replace}" is deprecated and will be '
         'removed from Back In Time in the foreseeable future, without any '
