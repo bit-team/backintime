@@ -293,8 +293,6 @@ class BackupJobDaemon(daemon.Daemon):
         self.func = func
         self.args = args
 
-        logger.info('Initialized BackupJobDaemon', self)
-
     def run(self):
         self.func(self.args, False)
 

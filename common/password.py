@@ -145,9 +145,9 @@ class Password_Cache(daemon.Daemon):
             return False
         return True
 
-    def cleanupHandler(self, signum, frame):
+    def cleanup_handler(self, signum, frame):
         self.fifo.delfifo()
-        super(Password_Cache, self).cleanupHandler(signum, frame)
+        super(Password_Cache, self).cleanup_handler(signum, frame)
 
 
 class Password:
