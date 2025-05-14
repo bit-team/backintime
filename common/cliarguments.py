@@ -56,11 +56,12 @@ class ParserAgent:
                 clicommands.remove_and_donot_ask_again,
             'restore': clicommands.restore,
             'shutdown': clicommands.shutdown,
+            'prune': clicommands.prune,
             'show': clicommands.show_backups,
-            'smart-remove': clicommands.smart_remove,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
             'backup-job': clicommands.backup_job,
+            'smart-remove': clicommands.smart_remove,
             # See #2120
             'benchmark-cipher': clicommands.benchmark_cipher,
             # See #2130 for this five commands
@@ -539,6 +540,20 @@ class ParserAgent:
 
         self.parsers[name] = parser
 
+    def _create_cmd_prune(self):
+        name = 'prune'
+        desc = 'Remove and keep backups based on "Remove & Retention" policy.'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            epilog=self._epilog_com,
+            help=desc,
+            description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
     def _create_cmd_snapshots_list(self):
         name = 'snapshots-list'
         nargs = 0
@@ -660,9 +675,10 @@ class ParserAgent:
         self._create_cmd_remove_and_donot_ask_again()
         self._create_cmd_restore()
         self._create_cmd_shutdown()
-        self._create_cmd_smart_remove()
+        self._create_cmd_prune()
         self._create_cmd_show()
         self._create_cmd_unmount()
+        self._create_cmd_smart_remove()
         self._create_cmd_last_snapshot()
         self._create_cmd_last_snapshot_path()
         self._create_cmd_snapshots_list()
@@ -875,8 +891,15 @@ def alias_parser(args: Namespace):
     """
 
     if not args.quiet:
-        logger.warning(f"Run command '{args.alias}' instead of argument "
-                       f"'{args.replace}' due to backwards compatibility.")
+        logger.info(f"Run command '{args.alias}' instead of argument "
+                    f"'{args.replace}' due to backwards compatibility.")
+
+    msg = (
+        f'The command alias "{args.replace}" is deprecated and will be '
+        'removed from Back In Time in the foreseeable future, without any '
+        'replacement.')
+    # ToDo: Switch this later to ERROR
+    logger.warning(msg)
 
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
 
