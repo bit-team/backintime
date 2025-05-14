@@ -48,7 +48,6 @@ class ParserAgent:
         # Mapping the command names to their handler functions
         self._cmd_func_dict = {
             'backup': clicommands.backup,
-            'backup-job': clicommands.backup_job,
             'check-config': clicommands.check_config,
             'decode': clicommands.decode,
             'pw-cache': clicommands.pw_cache,
@@ -61,6 +60,7 @@ class ParserAgent:
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
+            'backup-job': clicommands.backup_job,
             'smart-remove': clicommands.smart_remove,
             # See #2120
             'benchmark-cipher': clicommands.benchmark_cipher,
@@ -264,17 +264,25 @@ class ParserAgent:
         self._aliases.append((name, nargs))
         self._aliases.append(('b', nargs))
 
-        desc = 'Take a new snapshot. Ignore if the profile is not scheduled ' \
-            'or if the machine is running on battery.'
-
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._cmd_excl_parsers['rsync']],
             epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            help='Create new backup, if scheduled and not on battery.',
+            description='Create a new backup, but only if the profile is '
+                        'scheduled and if the machine is not running on '
+                        'battery.'
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--background',
+            action='store_true',
+            default=False,
+            help='Run in background via daemonization.',
+        )
+
         self.parsers[name] = parser
 
     def _create_cmd_backup_job(self):
@@ -708,6 +716,7 @@ def print_usage_without_deprecations(parser):
         'last-snapshot-path',
         'snapshots-list',
         'snapshots-list-path',
+        'backup-job',
     ]
 
     def _remove_cmds_from_cmd_list(line: str):

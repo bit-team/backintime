@@ -1625,7 +1625,7 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd += '--debug '
 
         # command
-        cmd += 'backup-job'
+        cmd += 'backup --background'
 
         # Redirect stdout to nirvana
         if self.redirectStdoutInCron(profile_id):

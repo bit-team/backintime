@@ -61,6 +61,7 @@ def _show_deprecation_message(cmd: str):
         'snapshots-list-path': 'Use "show --path" instead.',
         'last-snapshot': 'Use "show --last" instead.',
         'last-snapshot-path': 'Use "show --last --path" instead.',
+        'backup-job': 'Use "backup --background" instead.',
         'smart-remove': 'Use "prune" instead.',
     }[cmd]
 
@@ -94,6 +95,29 @@ def backup(args: argparse.Namespace, force: bool = True):
     Raises:
         SystemExit:     0 if successful, 1 if not
     """
+
+    # Run backup in background?
+    if args.background:
+        # "Force" will be False
+        cli.BackupJobDaemon(_do_backup, args).start()
+    else:
+        _do_backup(args, force)
+
+
+def _do_backup(args: argparse.Namespace, force: bool):
+    """
+    Command for force taking a new snapshot.
+
+    Args:
+        args (argparse.Namespace):
+                        previously parsed arguments
+        force (bool):   take the snapshot even if it wouldn't need to or would
+                        be prevented (e.g. running on battery)
+
+    Raises:
+        SystemExit:     0 if successful, 1 if not
+    """
+
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
@@ -116,7 +140,9 @@ def backup_job(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    cli.BackupJobDaemon(backup, args).start()
+    _show_deprecation_message('backup-job')
+    args.background = True
+    backup(args)
 
 
 def benchmark_cipher(args: argparse.Namespace):
