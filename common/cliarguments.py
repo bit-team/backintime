@@ -726,6 +726,7 @@ def print_usage_without_deprecations(parser):
         'snapshots-list',
         'snapshots-list-path',
         'backup-job',
+        'smart-remove',
         'remove-and-do-not-ask-again',
     ]
 
