@@ -866,8 +866,15 @@ def alias_parser(args: Namespace):
     """
 
     if not args.quiet:
-        logger.warning(f"Run command '{args.alias}' instead of argument "
-                       f"'{args.replace}' due to backwards compatibility.")
+        logger.info(f"Run command '{args.alias}' instead of argument "
+                    f"'{args.replace}' due to backwards compatibility.")
+
+    msg = (
+        f'The command alias "{args.replace}" is deprecated and will be '
+        'removed from Back In Time in the foreseeable future, without any '
+        'replacement.')
+    # ToDo: Switch this later to ERROR
+    logger.warning(msg)
 
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
 

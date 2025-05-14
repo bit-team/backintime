@@ -50,6 +50,9 @@ def _deprecation_msg(command: str, replacement: str) -> str:
 def _show_deprecation_message(cmd: str):
     """Centralize management of deprecation message regarding CLI commands and
     flags.
+
+    As an exception the deprecation messages for flag-aliases (e.g. '--backup'
+    for 'backup') are managed in `cliargument.alias_parser()`.
     """
     replacement = {
         'benchmark-cipher': None,
