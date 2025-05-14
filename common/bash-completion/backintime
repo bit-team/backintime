@@ -36,13 +36,13 @@ _backintime()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="--profile --profile-id --quiet --config --version --license       \
-          --help --debug --checksum --no-crontab --keep-mount --delete      \
-          --local-backup --no-local-backup --only-new --share-path          \
-	  --diagnostics"
+    opts="--profile --profile-id --quiet --config --version --license \
+          --help --debug --checksum --no-crontab --delete \
+          --local-backup --no-local-backup --only-new --share-path \
+	      --diagnostics --last --path"
     actions="backup backup-job show unmount \
-             pw-cache decode remove restore check-config   \
-             smart-remove shutdown"
+             pw-cache decode remove restore check-config \
+             prune shutdown"
     pw_cache_commands="start stop restart reload status"
 
     # extract the current action
