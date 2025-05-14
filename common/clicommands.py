@@ -47,6 +47,7 @@ def _deprecation_msg(command: str, replacement: str) -> str:
         command=command,
         replacement=replacement)
 
+
 def _show_deprecation_message(cmd: str):
     """Centralize management of deprecation message regarding CLI commands and
     flags.
@@ -63,6 +64,8 @@ def _show_deprecation_message(cmd: str):
         'last-snapshot-path': 'Use "show --last --path" instead.',
         'backup-job': 'Use "backup --background" instead.',
         'smart-remove': 'Use "prune" instead.',
+        'remove-and-do-not-ask-again':
+            'Use "remove --skip-confirmation" instead.',
     }[cmd]
 
     msg = _deprecation_msg(cmd, replacement)
@@ -345,12 +348,11 @@ def pw_cache(args: argparse.Namespace):
     sys.exit(ret)
 
 
-def remove(args: argparse.Namespace, force: bool = False):
+def remove(args: argparse.Namespace):
     """Remove snapshots.
 
     Args:
         args: Previously parsed arguments.
-        force: Don't ask before removing (BE CAREFUL!).
 
     Raises:
         SystemExit: 0
@@ -361,7 +363,11 @@ def remove(args: argparse.Namespace, force: bool = False):
     cfg = _get_config(args)
     _mount(cfg)
 
-    cli.remove(cfg, args.SNAPSHOT_ID, force)
+    cli.remove(
+        cfg=cfg,
+        snapshot_ids=args.SNAPSHOT_ID,
+        force=args.skip_confirmation)
+
     _umount(cfg)
 
     sys.exit(bitbase.RETURN_OK)
@@ -376,7 +382,9 @@ def remove_and_donot_ask_again(args):
     Raises:
         SystemExit: 0
     """
-    remove(args=args, force=True)
+    _show_deprecation_message('remove-and-do-not-ask-again')
+    args.skip_confirmation = True
+    remove(args=args)
 
 
 def restore(args: argparse.Namespace):

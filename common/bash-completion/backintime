@@ -39,7 +39,7 @@ _backintime()
     opts="--profile --profile-id --quiet --config --version --license \
           --help --debug --checksum --no-crontab --delete \
           --local-backup --no-local-backup --only-new --share-path \
-	      --diagnostics --last --path"
+	      --diagnostics --last --path --background"
     actions="backup show unmount \
              pw-cache decode remove restore check-config \
              prune shutdown"
