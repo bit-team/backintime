@@ -12,12 +12,12 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 = backintime-askpass(1)
 :doctype: manpage
 :manmanual: Back In Time
-:mansource: backintime {version}
+:mansource: backintime-askpass {version}
 :man-linkstyle: pass:[blue R < >]
 
 == NAME
 
-backintime-askpass - a simple backup tool for Linux
+backintime-askpass - Helper tool for *Back In Time*
 
 == SYNOPSIS
 
@@ -25,9 +25,11 @@ backintime-askpass - a simple backup tool for Linux
 
 == DESCRIPTION
 
-Back In Time is a simple backup tool for Linux. This is a helper tool for
-piping passwords into ssh/sshfs and encfs. Options will be read from
-environment variables. It doesn't provide any useful end-user service.
+This is a helper tool for piping passwords into ssh/sshfs and encfs. Options
+will be read from environment variables. It doesn't provide any useful end-user
+service.
+
+See *backintime* (1) for details about *Back In Time* itself.
 
 == ENVIRON
 
