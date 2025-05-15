@@ -167,8 +167,10 @@ class ParserAgent:
             metavar='PATH',
             type=str,
             action='store',
-            help='Write runtime data (locks, messages, log and '
-                 'mountpoints) to %(metavar)s.')
+            help=argparse.SUPPRESS
+            # help='Write runtime data (locks, messages, log and '
+            #      'mountpoints) to %(metavar)s.'
+        )
 
         return parser
 
@@ -677,18 +679,18 @@ class ParserAgent:
 
         self._create_cmd_backup()
         self._create_cmd_backup_job()
+        self._create_cmd_show()
+        self._create_cmd_restore()
+        self._create_cmd_remove()
+        self._create_cmd_remove_and_donot_ask_again()
+        self._create_cmd_prune()
+        self._create_cmd_smart_remove()
+        self._create_cmd_unmount()
+        self._create_cmd_shutdown()
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
         self._create_cmd_decode()
         self._create_cmd_pw_cache()
-        self._create_cmd_remove()
-        self._create_cmd_remove_and_donot_ask_again()
-        self._create_cmd_restore()
-        self._create_cmd_shutdown()
-        self._create_cmd_prune()
-        self._create_cmd_show()
-        self._create_cmd_unmount()
-        self._create_cmd_smart_remove()
         self._create_cmd_last_snapshot()
         self._create_cmd_last_snapshot_path()
         self._create_cmd_snapshots_list()
@@ -771,17 +773,6 @@ def print_usage_without_deprecations(parser):
 
     print('\n'.join(text))
     sys.exit(0)
-
-
-def _show_deprecation_msg(flag: str, replaced_by: str = None):
-    replacement = f'Use {replaced_by} instead.' if replaced_by else ''
-    msg = (
-        f'The flag "{flag}" is deprecated and will be removed from Back '
-        f'In Time in the foreseeable future. {replacement} Feel free to '
-        'contact the project team if you have any questions or suggestions.')
-
-    # ToDo: Switch this later to ERROR
-    logger.warning(msg)
 
 
 def parse_arguments(args: Namespace,
@@ -868,8 +859,11 @@ def parse_arguments(args: Namespace,
 
     # Deprecated (#2125)
     if args.profile_id:
-        _show_deprecation_msg('--profile-id', '--profile')
+        clicommands.show_deprecation_message('--profile-id')
         args.profile = str(args.profile_id)
+
+    if args.share_path:
+        clicommands.show_deprecation_message('--share-path')
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.
