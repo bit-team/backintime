@@ -197,12 +197,13 @@ class ParserAgent:
             help='Select profile by name or id.'
         )
 
-        # profile_group.add_argument(
-        #     '--profile-id',
-        #     metavar='ID',
-        #     type=int,
-        #     action='store',
-        #     help=help)
+        # Deprecated (#2125)
+        profile_group.add_argument(
+            '--profile-id',
+            metavar='ID',
+            type=int,
+            action='store',
+            help=argparse.SUPPRESS)
 
         parser.add_argument(
             '--quiet',
@@ -771,6 +772,17 @@ def print_usage_without_deprecations(parser):
     print('\n'.join(text))
     sys.exit(0)
 
+    
+def _show_deprecation_msg(flag: str, replaced_by: str = None):
+    replacement = f'Use {replaced_by} instead.' if replaced_by else ''
+    msg = (
+        f'The flag "{flag}" is deprecated and will be removed from Back '
+        f'In Time in the foreseeable future. {replacement} Feel free to '
+        'contact the project team if you have any questions or suggestions.')
+
+    # ToDo: Switch this later to ERROR
+    logger.warning(msg)
+
 
 def parse_arguments(args: Namespace,
                     agent: ParserAgent) -> Namespace:
@@ -853,6 +865,11 @@ def parse_arguments(args: Namespace,
     }
 
     logger.debug(f'Argument(s) used: {used_args}')
+
+    # Deprecated (#2125)
+    if 'profile_id' in args:
+        _show_deprecation_msg('--profile-id', '--profile')
+        args.profile = str(args.profile_id)
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.
