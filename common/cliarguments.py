@@ -772,7 +772,7 @@ def print_usage_without_deprecations(parser):
     print('\n'.join(text))
     sys.exit(0)
 
-    
+
 def _show_deprecation_msg(flag: str, replaced_by: str = None):
     replacement = f'Use {replaced_by} instead.' if replaced_by else ''
     msg = (
@@ -867,7 +867,7 @@ def parse_arguments(args: Namespace,
     logger.debug(f'Argument(s) used: {used_args}')
 
     # Deprecated (#2125)
-    if 'profile_id' in args:
+    if args.profile_id:
         _show_deprecation_msg('--profile-id', '--profile')
         args.profile = str(args.profile_id)
 
