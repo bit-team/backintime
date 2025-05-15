@@ -52,8 +52,6 @@ class ParserAgent:
             'decode': clicommands.decode,
             'pw-cache': clicommands.pw_cache,
             'remove': clicommands.remove,
-            'remove-and-do-not-ask-again':
-                clicommands.remove_and_donot_ask_again,
             'restore': clicommands.restore,
             'shutdown': clicommands.shutdown,
             'prune': clicommands.prune,
@@ -62,6 +60,8 @@ class ParserAgent:
             # Deprecated commands (#2124)
             'backup-job': clicommands.backup_job,
             'smart-remove': clicommands.smart_remove,
+            'remove-and-do-not-ask-again':
+                clicommands.remove_and_donot_ask_again,
             # See #2120
             'benchmark-cipher': clicommands.benchmark_cipher,
             # See #2130 for this five commands
@@ -297,7 +297,7 @@ class ParserAgent:
             name,
             parents=[self._cmd_excl_parsers['rsync']],
             epilog=self._epilog_com,
-            help=desc,
+            help='Take new backup in background',
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -425,21 +425,30 @@ class ParserAgent:
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
+        parser.add_argument(
+            '--skip-confirmation',
+            action='store_true',
+            default=False,
+            help='Skip confirmation question. Be careful!'
+        )
+
         self.parsers[name] = parser
 
     def _create_cmd_remove_and_donot_ask_again(self):
         name = 'remove-and-do-not-ask-again'
         nargs = '*'
         self._aliases.append((name, nargs))
-        desc = "Remove snapshots and don't ask for confirmation before. " \
-               "Be careful!"
 
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._cmd_excl_parsers['remove']],
             epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            help=name,  # On purpose, because the command name is to long.
+                        # Ohterwise print_usage_without_deprecations() wont
+                        # work.
+            description="Remove backup and don't ask for confirmation "
+                        "before."
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -717,6 +726,8 @@ def print_usage_without_deprecations(parser):
         'snapshots-list',
         'snapshots-list-path',
         'backup-job',
+        'smart-remove',
+        'remove-and-do-not-ask-again',
     ]
 
     def _remove_cmds_from_cmd_list(line: str):
@@ -743,22 +754,18 @@ def print_usage_without_deprecations(parser):
     for idx, line in enumerate(text[:]):
         # Remove commands from the one-line-list
         if rex.match(line):
-            # print(f'     {line=} modified into')
             text[idx] = _remove_cmds_from_cmd_list(line)
-            # print(f'{text[idx]=}\n')
             continue
 
         # Line-by-line command description?
         for cmd in deprecated_cmds:
             pattern = r'\s+' + re.escape(cmd) + r'(?=\s|$)'
             if re.match(pattern, line):
-                # print(f'found {cmd=} at {idx=}')
                 line_idx_to_remove.append(idx)
                 continue
 
     # remove lines with deprecated commands
     for idx in reversed(line_idx_to_remove):
-        # print(f'del {idx=} {text[idx]=}')
         del text[idx]
 
     print('\n'.join(text))
