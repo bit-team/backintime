@@ -85,7 +85,7 @@ class ParserAgent:
         epilog = "Run '%(prog)s -h' to get help for additional arguments."
         self._epilog_cfg = f'{epilog} Additional arguments: --config, --debug'
         self._epilog_com \
-            = f'{self._epilog_cfg} --profile, --profile-id, --quiet'
+            = f'{self._epilog_cfg} --profile, --quiet'
 
         # Command exclusive parsers
         self._cmd_excl_parsers = {}
@@ -189,20 +189,20 @@ class ParserAgent:
         # Allow only one of "--profile" or "--profile-id"
         profile_group = parser.add_mutually_exclusive_group()
 
-        help = 'Select profile by %(metavar)s.'
         profile_group.add_argument(
             '--profile',
-            metavar='NAME',
+            metavar='NAME|ID',
             type=str,
             action='store',
-            help=help)
+            help='Select profile by name or id.'
+        )
 
-        profile_group.add_argument(
-            '--profile-id',
-            metavar='ID',
-            type=int,
-            action='store',
-            help=help)
+        # profile_group.add_argument(
+        #     '--profile-id',
+        #     metavar='ID',
+        #     type=int,
+        #     action='store',
+        #     help=help)
 
         parser.add_argument(
             '--quiet',

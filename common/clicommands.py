@@ -79,8 +79,7 @@ def _get_config(args: argparse.Namespace) -> config.Config:
     return cli.get_config_and_select_profile(
         config_path=args.config,
         data_path=args.share_path,
-        profile_id=args.profile_id,
-        profile_name=args.profile,
+        profile=args.profile,
         checksum=getattr(args, 'checksum', None)
     )
 

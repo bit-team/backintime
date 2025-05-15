@@ -162,8 +162,7 @@ def startApp(app_name='backintime'):
     return cli.get_config_and_select_profile(
         config_path=args.config,
         data_path=args.share_path,
-        profile_id=args.profile_id,
-        profile_name=args.profile,
+        profile=args.profile,
         # Dev note (buhtz, 2025): There is not a default value in all cases,
         # because "--checksum" is exclusive to rsync-related commands.
         checksum=getattr(args, 'checksum', None),
