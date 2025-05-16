@@ -54,7 +54,7 @@ def show_deprecation_message(cmd_flag: str):
     for 'backup') are managed in `cliargument.alias_parser()`.
     """
 
-    # 'None' means no replacement planed.
+    # 'None' means no replacement planned.
     replacement = {
         'benchmark-cipher': None,
         'snapshots-path': None,

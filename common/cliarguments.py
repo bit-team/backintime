@@ -532,7 +532,7 @@ class ParserAgent:
                 self._reusable_parsers['profile']
             ],
             help=name,  # On purpose, because the command name is to long.
-                        # Ohterwise print_usage_without_deprecations() wont
+                        # Otherwise print_usage_without_deprecations() won't
                         # work.
             description="Remove backup and don't ask for confirmation "
                         "before."
