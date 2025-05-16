@@ -169,7 +169,7 @@ class AboutDlg(QDialog):
 
     def _slot_license_link_acivated(self, link):
         if link in (_HREF_LICENSES_DIR, _HREF_LICENSES_MD):
-            fp = self._license_directory()
+            fp = bitbase.DIR_LICENSES
 
             if link == _HREF_LICENSES_MD:
                 fp = fp.parent / 'LICENSES.md'
@@ -210,21 +210,6 @@ class AboutDlg(QDialog):
         logger.warning(f'Can not find file {fp}')
 
         return '(Can not find AUTHORS information file.)'
-
-    def _license_directory(self):
-        """Determine the license folder."""
-        for pkg in (bitbase.PACKAGE_NAME_GUI,
-                    bitbase.PACKAGE_NAME_CLI,
-                    bitbase.BINARY_NAME_GUI,
-                    bitbase.BINARY_NAME_CLI,
-                    bitbase.BINARY_NAME_BASE):
-            for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
-
-                fp = path / pkg / 'LICENSES'
-                if fp.is_dir():
-                    return fp
-
-        return None
 
     def _project_buttons(self):
         wdg = QWidget(self)

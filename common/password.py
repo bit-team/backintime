@@ -30,15 +30,22 @@ class Password_Cache(daemon.Daemon):
 
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
+
         if self.config is None:
             self.config = config.Config()
+
         cachePath = self.config.passwordCacheFolder()
+
         if not tools.mkdir(cachePath, 0o700):
             msg = 'Failed to create secure Password_Cache folder'
             logger.error(msg, self)
+
             raise PermissionError(msg)
+
         pid = self.config.passwordCachePid()
+
         super(Password_Cache, self).__init__(pid, umask = 0o077, *args, **kwargs)
+
         self.dbKeyring = {}
         self.dbUsr = {}
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
@@ -62,6 +69,7 @@ class Password_Cache(daemon.Daemon):
         if not self.collectPasswords():
             logger.debug('Nothing to cache. Quit.', self)
             sys.exit(0)
+
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self.reloadHandler)
@@ -122,27 +130,36 @@ class Password_Cache(daemon.Daemon):
         """
         run_daemon = False
         profiles = self.config.profiles()
+
         for profile_id in profiles:
             mode = self.config.snapshotsMode(profile_id)
+
             for pw_id in (1, 2):
+
                 if self.config.modeNeedPassword(mode, pw_id):
+
                     if self.config.passwordUseCache(profile_id):
                         run_daemon = True
+
                         if self.config.passwordSave(profile_id) and self.keyringSupported:
                             service_name = self.config.keyringServiceName(profile_id, mode, pw_id)
                             user_name = self.config.keyringUserName(profile_id)
-
                             password = tools.password(service_name, user_name)
+
                             if password is None:
                                 continue
+
                             self.dbKeyring['%s/%s' %(service_name, user_name)] = password
+
         return run_daemon
 
     def checkVersion(self):
         info = configfile.ConfigFile()
         info.load(self.config.passwordCacheInfo())
+
         if info.intValue('version') < self.PW_CACHE_VERSION:
             return False
+
         return True
 
     def cleanup_handler(self, signum, frame):

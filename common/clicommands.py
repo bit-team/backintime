@@ -54,7 +54,7 @@ def show_deprecation_message(cmd_flag: str):
     for 'backup') are managed in `cliargument.alias_parser()`.
     """
 
-    # 'None' means no replacement planed.
+    # 'None' means no replacement planned.
     replacement = {
         'benchmark-cipher': None,
         'snapshots-path': None,
@@ -366,7 +366,7 @@ def remove(args: argparse.Namespace):
 
     cli.remove(
         cfg=cfg,
-        snapshot_ids=args.SNAPSHOT_ID,
+        snapshot_ids=args.BACKUP_ID,
         force=args.skip_confirmation)
 
     _umount(cfg)
@@ -408,7 +408,7 @@ def restore(args: argparse.Namespace):
         isbackup = args.local_backup
 
     cli.restore(cfg,
-                args.SNAPSHOT_ID,
+                args.BACKUP_ID,
                 args.WHAT,
                 args.WHERE,
                 delete=args.delete,
