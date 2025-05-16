@@ -12,7 +12,7 @@ _bit_extr_opts()
     local c=0 last="" opts=""
     while [[ $c -le ${COMP_CWORD} ]]; do
         case "${last}" in
-            --profile|--profile-id|--config)
+            --profile|--config)
                 if [[ ${COMP_WORDS[$c]} != -* ]]; then
                     opts="${opts} ${last} ${COMP_WORDS[$c]}"
                 fi ;;
@@ -36,9 +36,9 @@ _backintime()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="--profile --profile-id --quiet --config --version --license \
+    opts="--profile --quiet --config --version --license \
           --help --debug --checksum --no-crontab --delete \
-          --local-backup --no-local-backup --only-new --share-path \
+          --local-backup --no-local-backup --only-new \
 	      --diagnostics --last --path --background"
     actions="backup show unmount \
              pw-cache decode remove restore check-config \

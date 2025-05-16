@@ -85,7 +85,7 @@ class ParserAgent:
         epilog = "Run '%(prog)s -h' to get help for additional arguments."
         self._epilog_cfg = f'{epilog} Additional arguments: --config, --debug'
         self._epilog_com \
-            = f'{self._epilog_cfg} --profile, --profile-id, --quiet'
+            = f'{self._epilog_cfg} --profile, --quiet'
 
         # Command exclusive parsers
         self._cmd_excl_parsers = {}
@@ -167,8 +167,10 @@ class ParserAgent:
             metavar='PATH',
             type=str,
             action='store',
-            help='Write runtime data (locks, messages, log and '
-                 'mountpoints) to %(metavar)s.')
+            help=argparse.SUPPRESS
+            # help='Write runtime data (locks, messages, log and '
+            #      'mountpoints) to %(metavar)s.'
+        )
 
         return parser
 
@@ -189,20 +191,21 @@ class ParserAgent:
         # Allow only one of "--profile" or "--profile-id"
         profile_group = parser.add_mutually_exclusive_group()
 
-        help = 'Select profile by %(metavar)s.'
         profile_group.add_argument(
             '--profile',
-            metavar='NAME',
+            metavar='NAME|ID',
             type=str,
             action='store',
-            help=help)
+            help='Select profile by name or id.'
+        )
 
+        # Deprecated (#2125)
         profile_group.add_argument(
             '--profile-id',
             metavar='ID',
             type=int,
             action='store',
-            help=help)
+            help=argparse.SUPPRESS)
 
         parser.add_argument(
             '--quiet',
@@ -676,18 +679,18 @@ class ParserAgent:
 
         self._create_cmd_backup()
         self._create_cmd_backup_job()
+        self._create_cmd_show()
+        self._create_cmd_restore()
+        self._create_cmd_remove()
+        self._create_cmd_remove_and_donot_ask_again()
+        self._create_cmd_prune()
+        self._create_cmd_smart_remove()
+        self._create_cmd_unmount()
+        self._create_cmd_shutdown()
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
         self._create_cmd_decode()
         self._create_cmd_pw_cache()
-        self._create_cmd_remove()
-        self._create_cmd_remove_and_donot_ask_again()
-        self._create_cmd_restore()
-        self._create_cmd_shutdown()
-        self._create_cmd_prune()
-        self._create_cmd_show()
-        self._create_cmd_unmount()
-        self._create_cmd_smart_remove()
         self._create_cmd_last_snapshot()
         self._create_cmd_last_snapshot_path()
         self._create_cmd_snapshots_list()
@@ -853,6 +856,14 @@ def parse_arguments(args: Namespace,
     }
 
     logger.debug(f'Argument(s) used: {used_args}')
+
+    # Deprecated (#2125)
+    if args.profile_id:
+        clicommands.show_deprecation_message('--profile-id')
+        args.profile = str(args.profile_id)
+
+    if args.share_path:
+        clicommands.show_deprecation_message('--share-path')
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.

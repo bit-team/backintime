@@ -34,27 +34,27 @@ from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
 
-def _deprecation_msg(command: str, replacement: str) -> str:
+def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
     if not replacement:
         replacement = 'A replacement is not planned.'
 
-    msg = (
-        'The command "{command}" is deprecated and will be removed from Back '
-        'In Time in the foreseeable future. {replacement} Feel free to '
+    kind = 'flag' if cmd_flag[0] == '-' else 'command'
+
+    return (
+        f'The {kind} "{cmd_flag}" is deprecated and will be removed from Back '
+        f'In Time in the foreseeable future. {replacement} Feel free to '
         'contact the project team if you have any questions or suggestions.')
 
-    return msg.format(
-        command=command,
-        replacement=replacement)
 
-
-def _show_deprecation_message(cmd: str):
+def show_deprecation_message(cmd_flag: str):
     """Centralize management of deprecation message regarding CLI commands and
     flags.
 
     As an exception the deprecation messages for flag-aliases (e.g. '--backup'
     for 'backup') are managed in `cliargument.alias_parser()`.
     """
+
+    # 'None' means no replacement planed.
     replacement = {
         'benchmark-cipher': None,
         'snapshots-path': None,
@@ -66,9 +66,11 @@ def _show_deprecation_message(cmd: str):
         'smart-remove': 'Use "prune" instead.',
         'remove-and-do-not-ask-again':
             'Use "remove --skip-confirmation" instead.',
-    }[cmd]
+        '--profile-id': 'Use "--profile" instead.',
+        '--share-path': None,
+    }[cmd_flag]
 
-    msg = _deprecation_msg(cmd, replacement)
+    msg = _deprecation_msg(cmd_flag, replacement)
 
     # ToDo: Switch this later to ERROR
     logger.warning(msg)
@@ -79,8 +81,7 @@ def _get_config(args: argparse.Namespace) -> config.Config:
     return cli.get_config_and_select_profile(
         config_path=args.config,
         data_path=args.share_path,
-        profile_id=args.profile_id,
-        profile_name=args.profile,
+        profile=args.profile,
         checksum=getattr(args, 'checksum', None)
     )
 
@@ -143,7 +144,7 @@ def backup_job(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('backup-job')
+    show_deprecation_message('backup-job')
     args.background = True
     backup(args)
 
@@ -159,7 +160,7 @@ def benchmark_cipher(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('benchmark-cipher')
+    show_deprecation_message('benchmark-cipher')
 
     cli.set_quiet(args)
     cli.print_header()
@@ -289,7 +290,7 @@ def last_snapshot(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('last-snapshot')
+    show_deprecation_message('last-snapshot')
     _last_snapshot_base(args=args, path_info=False)
 
 
@@ -303,7 +304,7 @@ def last_snapshot_path(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('last-snapshot-path')
+    show_deprecation_message('last-snapshot-path')
     _last_snapshot_base(args=args, path_info=True)
 
 
@@ -382,7 +383,7 @@ def remove_and_donot_ask_again(args):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('remove-and-do-not-ask-again')
+    show_deprecation_message('remove-and-do-not-ask-again')
     args.skip_confirmation = True
     remove(args=args)
 
@@ -477,7 +478,7 @@ def snapshots_path(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('snapshots-path')
+    show_deprecation_message('snapshots-path')
 
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
@@ -537,7 +538,7 @@ def snapshots_list(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('snapshots-list')
+    show_deprecation_message('snapshots-list')
     _snapshots_list_base(args=args, path_info=False)
 
 
@@ -550,7 +551,7 @@ def snapshots_list_path(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    _show_deprecation_message('snapshots-list-path')
+    show_deprecation_message('snapshots-list-path')
     _snapshots_list_base(args=args, path_info=True)
 
 
@@ -599,7 +600,7 @@ def show_backups(args: argparse.Namespace):
     sys.exit(bitbase.RETURN_OK)
 
 def smart_remove(args: argparse.Namespace):
-    _show_deprecation_message('smart-remove')
+    show_deprecation_message('smart-remove')
     prune(args)
 
 def prune(args: argparse.Namespace):
