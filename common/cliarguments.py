@@ -70,25 +70,23 @@ def _license_info() -> tuple[str, str]:
         result = None
 
     # all used licenses
-    try:
+    licenses = None
+    if bitbase.DIR_LICENSES:
         licenses = [
             f.with_suffix('').name for f in bitbase.DIR_LICENSES.iterdir()]
 
-    except FileNotFoundError:
-        licenses = None
+        if result:
+            licenses.remove(result)
+            licenses = ', '.join(licenses)
 
-    else:
-        if licenses:
-            if result:
-                licenses.remove(result)
-                result = (result, ', '.join(licenses))
-        else:
-            result = (result, None)
+    # combine
+    result = (result, licenses)
 
-
+    # any errors?
     if not result[0]:
         result = (
-            f'Unable to extract license info from {__file__}',result[1])
+            f'Unable to extract license info from {__file__}',
+            result[1])
         logger.error(result[0])
 
     if not result[1]:
