@@ -46,11 +46,11 @@ from version import __version__  # noqa: E402
 
 
 def _license_info() -> tuple[str, str]:
-    """Collect license info and return a tuple with two strings.
+    """Collect license info.
 
     The projects primary license is extracted from SPDX head of the current
-    file. Additional licenses in use are extract from the filenames in LICENSES
-    directory. This info is combined and returned as two strings.
+    file. Additional licenses in use are extracted from the filenames in
+    LICENSES directory. This info is combined and returned as two strings.
 
     Returns:
         Primary or project license and additional licenses.
