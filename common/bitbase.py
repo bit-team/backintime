@@ -1,5 +1,4 @@
-# SPDX-FileCopyr
-# ightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -81,7 +80,9 @@ def _determine_licenses_dir():
 
     return None
 
+
 DIR_LICENSES = _determine_licenses_dir()
+
 
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling.

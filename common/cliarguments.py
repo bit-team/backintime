@@ -46,6 +46,16 @@ from version import __version__  # noqa: E402
 
 
 def _license_info() -> tuple[str, str]:
+    """Collect license info an return a tuple with two strings.
+
+    The projects primary license is extracted from SPDX head of the current
+    file. Additional licenses in use are extract from the filenames in LICENSES
+    directory. This info is combined and returned as two strings.
+
+    Returns:
+        Primary or project license and additional licenses.
+
+    """
     # Extract the SPDX license info from current file.
     # interpreted as primary/project license
     prim = re.search(
@@ -177,7 +187,7 @@ class ParserAgent:
         ])
 
         return epi
-   
+
     def _create_reusable_parsers(self):
         self._create_common_parser()
         self._create_profile_parser()
@@ -201,7 +211,7 @@ class ParserAgent:
                         'to create and manage incremental backups',
             epilog=self._epi,
             # because of ASCII art in epilog
-            formatter_class=argparse.RawTextHelpFormatter,  
+            formatter_class=argparse.RawTextHelpFormatter,
             allow_abbrev=False
         )
 
