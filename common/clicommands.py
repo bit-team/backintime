@@ -220,8 +220,6 @@ def decode(args: argparse.Namespace):
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
-    print('X'*199)
-    print(cfg.snapshotsMode())
     if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
         logger.error(f"Profile '{cfg.profileName()}' is not encrypted.")
         sys.exit(bitbase.RETURN_ERR)

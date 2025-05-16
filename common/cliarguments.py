@@ -46,7 +46,7 @@ from version import __version__  # noqa: E402
 
 
 def _license_info() -> tuple[str, str]:
-    """Collect license info an return a tuple with two strings.
+    """Collect license info and return a tuple with two strings.
 
     The projects primary license is extracted from SPDX head of the current
     file. Additional licenses in use are extract from the filenames in LICENSES
@@ -149,12 +149,6 @@ class ParserAgent:
         self._aliases = []
 
         # Used as epilog for command parses
-        epilog = "Run '%(prog)s -h' to get help for additional arguments."
-        self._epilog_cfg = f'{epilog} Additional arguments: --config, --debug'
-        self._epilog_com \
-            = f'{self._epilog_cfg} --profile, --quiet'
-
-        self._epi = self._build_epilog()
         self._reusable_parsers = {}
 
         # Start creating all parsers, etc
@@ -209,7 +203,7 @@ class ParserAgent:
             ],
             description=f'command-line interface (CLI) for {self.app_name}, '
                         'to create and manage incremental backups',
-            epilog=self._epi,
+            epilog=self._build_epilog(),
             # because of ASCII art in epilog
             formatter_class=argparse.RawTextHelpFormatter,
             allow_abbrev=False
@@ -374,7 +368,6 @@ class ParserAgent:
                 self._reusable_parsers['profile'],
                 self._reusable_parsers['rsync']
             ],
-            epilog=self._epilog_com,
             help='take new backup in background',
             description=desc)
 
@@ -389,7 +382,6 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
             help=None,  # suppress help output
             description=desc)
 
@@ -459,7 +451,6 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
             help=None,
             description=desc)
 
@@ -473,7 +464,7 @@ class ParserAgent:
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._reusable_parsers['snapshots']],
-            epilog=self._epilog_com)
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -542,7 +533,6 @@ class ParserAgent:
                 self._reusable_parsers['common'],
                 self._reusable_parsers['profile']
             ],
-            epilog=self._epilog_com,
             help=name,  # On purpose, because the command name is to long.
                         # Ohterwise print_usage_without_deprecations() wont
                         # work.
@@ -654,7 +644,6 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
             help=desc,
             description=desc)
 
@@ -690,7 +679,6 @@ class ParserAgent:
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._reusable_parsers['snapshots']],
-            epilog=self._epilog_com,
             help=None,
             description=desc)
 
@@ -707,7 +695,6 @@ class ParserAgent:
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._reusable_parsers['snapshots']],
-            epilog=self._epilog_com,
             help=None,
             description=desc)
 
@@ -722,7 +709,6 @@ class ParserAgent:
         parser = self._command_subparsers.add_parser(
             name,
             parents=[self._reusable_parsers['snapshots']],
-            epilog=self._epilog_com,
             help=None,  # suppress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])
