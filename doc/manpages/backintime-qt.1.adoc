@@ -18,143 +18,50 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 == NAME
 
-backintime-qt - a simple backup tool.
+backintime-qt - Graphical Frontend for Back In Time
 
 == SYNOPSIS
 
 *backintime-qt*
-[--checksum]
-[--config PATH]
-[--debug]
-[--delete]
 [--help | -h]
-[--keep-mount]
-[--license]
-[--local-backup | --no-local-backup]
-[--no-crontab]
-[--only-new]
-[--profile NAME | --profile-id ID]
-[--quiet]
-[--share-path PATH]
 [--version]
-
-{
-backup
-| backup-job
-| check-config
-| decode [PATH]
-| last-snapshot
-| last-snapshot-path
-| pw-cache [start|stop|restart|reload|status]
-| remove[-and-do-not-ask-again] [SNAPSHOT_ID]
-| restore [WHAT [WHERE [SNAPSHOT_ID]]]
-| shutdown
-| smart-remove
-| snapshots-list
-| snapshots-list-path
-| snapshots-path
-| unmount
-}
+[--license]
+[--debug]
+<command>
+[<args>]
 
 == DESCRIPTION
 
-Back In Time is a simple backup tool for Linux. This is the Qt version.  For
-more information about Back In Time see *backintime*(1).
+A graphical frontend (GUI) for *Back In Time*, offering a user-friendly and
+configurable interface for managing incremental backups. Modified files are
+copied, while unchanged files are efficiently linked using the hard link
+feature of *rsync*(1) to minimize storage usage.
 
-If you want to run it as root you need to use `backintime-qt_polkit`.
+Backups can be restored easily via the file manager, the command line, or
+directly within the *Back In Time* interface.
+
+For detailed information, see *backintime* (1). Command-line options and
+arguments provided to *backintime-qt*(1) are passed directly to
+*backintime*(1).
+
+To run the application with root privileges, use *backintime-qt_polkit*.
 
 == OPTIONS
 
-*--checksum*:: Use checksum to detect file changes. Valid with _backup_,
-   _backup-job_, and _restore_.
-
-*--config PATH*:: Read config from PATH (Default:
-   `~/.config/backintime/config`).
-
-*--debug*::   Show debug messages.
-
-*--delete*:: Restore and delete newer files not in snapshot. Can be dangerous
-   when restoring to `/`.
-
 *-h*, *--help*::  Display a short help.
-
-*--keep-mount*:: Don't unmount on exit. Valid with _snapshots-path_,
-   _snapshots-list-path_, _last-snapshot-path_.
-
-*--license*:: Show license.
-
-*--local-backup*:: Create backup files before modifying local files. Valid with
-   _restore_.
-
-*--no-crontab*:: Skip installing crontab entries. Valid with _check-config_.
-
-*--no-local-backup*:: Temporarily disable backup creation. Valid with
-   _restore_.
-
-*--only-new*:: Restore only missing or newer files. Uses `rsync
-   --update`. Valid with _restore_.
-
-*--profile NAME*:: Select profile by name.
-
-*--profile-id ID*:: Select profile by ID.
-
-*--quiet*:: Suppress status output.
-
-*--share-path PATH*:: Write runtime data (locks, messages, log, mountpoints) to
-   PATH.
 
 *-v*, *--version*:: Show version.
 
+*--license*:: Show license.
+
+*--debug*::   Show debug messages.
+
+See *backintime*(1) for more options.
+
 == COMMANDS
 
-*backup* | *-b* | *--backup*::  Take a snapshot now.
+See *backintime*(1) for commands.
 
-*backup-job* | *--backup-job*:: Take a snapshot (if needed) depending on
- schedule rules (used for cron jobs). Back In Time will run in background for
- this.
-
-*check-config*:: Verify the profile in config, create snapshot path and crontab
-entries.
-
-*decode* | *--decode* [PATH]:: Decode encrypted PATH. If no PATH is given Back
-In Time will read paths from standard input.
-
-*last-snapshot* | *--last-snapshot*:: Display last snapshot ID (if any).
-
-*last-snapshot-path* | *--last-snapshot-path*:: Display the path to the last
-snapshot (if any).
-
-*pw-cache* | *--pw-cache* [start|stop|restart|reload|status]:: Control the
-Password Cache Daemon. If no argument is given the Password Cache will start in
-foreground.
-
-*remove[-and-do-not-ask-again]* | *--remove[-and-do-not-ask-again]* [SNAPSHOT_ID]::
-Remove the snapshot. If SNAPSHOT_ID is missing it will be prompted. SNAPSHOT_ID
-can be an index (starting with 0 for the last snapshot) or the exact SnapshotID
-(19 characters like '20130606-230501-984'). _remove-and-do-not-ask-again_ will
-remove the snapshot immediately. Be careful with this!
-
-*restore* | *--restore* [WHAT [WHERE [SNAPSHOT_ID]]]:: Restore file WHAT to
-path WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be
-prompted. To restore to the original path WHERE can be an empty string or
-just press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0
-for the last snapshot) or the exact SnapshotID (19 characters like
-'20130606-230501-984').
-
-*shutdown*:: Shutdown the computer after the snapshot is done.
-
-*smart-remove*:: Remove snapshots based on the configured Smart-Remove pattern.
-
-*snapshots-list* | *--snapshots-list*:: Display the list of snapshot IDs (if
-any).
-
-*snapshots-list-path* | *--snapshots-list-path*:: Display the paths to
-snapshots (if any).
-
-*snapshots-path* | *--snapshots-path*:: Display path where is saves the
-snapshots (if configured).
-
-*unmount* | *--unmount*:: Unmount the profile.
 
 == SEE ALSO
 
