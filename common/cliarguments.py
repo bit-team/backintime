@@ -154,15 +154,14 @@ class ParserAgent:
         self._create_main_parser()
         self._create_command_parsers()
 
-
     def _build_epilog(self):
         # Create with "Text ASCII Generator" by "patorjk"
         # https://patorjk.com/software/taag
         # Font used is "Mini"
         logo = '\n'.join([
-            r'    _              ___       ___',
-            r'   |_)  _.  _ |     |  ._     | o ._ _   _',
-            r'   |_) (_| (_ |<   _|_ | |    | | | | | (/_   '
+            r'  _              ___       ___',
+            r' |_)  _.  _ |     |  ._     | o ._ _   _   Version:',
+            rf' |_) (_| (_ |<   _|_ | |    | | | | | (/_  {__version__}'
         ])
 
         prj_license, add_licenses = _license_info()
@@ -170,10 +169,9 @@ class ParserAgent:
         epi = '\n'.join([
             logo,
             '',
-            f'            Version : {__version__}',
             f'            Project : {bitbase.URL_WEBSITE}',
             f'        User Manual : {bitbase.USER_MANUAL_ONLINE_URL}',
-            f'          Copyright : see file LICENSES.md',
+            '          Copyright : see file LICENSES.md',
             f'    Project License : {prj_license}',
             f'Additional Licenses : {add_licenses}',
         ])
@@ -228,7 +226,6 @@ class ParserAgent:
             help='show helpful info (in JSON format) for better support in '
                  'case of issues')
 
-
     def _create_common_parser(self) -> ArgumentParser:
         """Common arguments used independent from commands"""
 
@@ -266,7 +263,6 @@ class ParserAgent:
 
         self._reusable_parsers['common'] = parser
 
-
     def _create_profile_parser(self):
         """Parser used by commands with profile selection involved."""
 
@@ -276,7 +272,7 @@ class ParserAgent:
         profile_group = parser.add_mutually_exclusive_group()
 
         profile_group.add_argument(
-            '--profile',
+            '--profile', '-p',
             metavar='NAME|ID',
             type=str,
             action='store',
@@ -924,6 +920,7 @@ def parse_arguments(args: Namespace,
                 # Remove subparsers
                 main_parser._remove_action(i)
                 sub.append(i)
+
     else:
         # Manipulate the main parsers output only (not the subparsers)
         if sys.argv[1] in ['-h', '--help']:
