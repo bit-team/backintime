@@ -59,6 +59,30 @@ USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 # message is displayed.
 ENCFS_MSG_STAGE = 2
 
+# Names used for backup directories (or symlinks to them) indicating a specific
+# state.
+DIR_NAME_LAST_SNAPSHOT = 'last_snapshot'
+DIR_NAME_NEWSNAPSHOT = 'new_snapshot'
+DIR_NAME_SAVETOCONTINUE = 'save_to_continue'
+
+
+def _determine_licenses_dir():
+    for pkg in (PACKAGE_NAME_GUI,
+                PACKAGE_NAME_CLI,
+                BINARY_NAME_GUI,
+                BINARY_NAME_CLI,
+                BINARY_NAME_BASE):
+        for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
+
+            fp = path / pkg / 'LICENSES'
+            if fp.is_dir():
+                return fp
+
+    return None
+
+
+DIR_LICENSES = _determine_licenses_dir()
+
 
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling.

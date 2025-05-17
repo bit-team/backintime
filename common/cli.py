@@ -337,14 +337,16 @@ def print_header():
 def get_config_and_select_profile(
         config_path: str,
         data_path: str,
-        profile_id: int,
-        profile_name: str,
+        profile: str,
         checksum: Optional[bool] = None,
         check: bool = True) -> config.Config:
     """Load config and change to profile selected on commandline.
 
     Args:
-        args: Previously parsed arguments.
+        config_path: Path to config file.
+        data_path: Path to "share_path".
+        profile: Name or ID of the profile.
+        checksum: Use checksum option.
         check: If ``True`` check if config is valid.
 
     Returns:
@@ -358,22 +360,15 @@ def get_config_and_select_profile(
         config_path=config_path,
         data_path=data_path)
 
-    # logger.debug('config file: "{}"; share path: "{}"; profiles: "{}"'.format(
-    #     cfg._LOCAL_CONFIG_PATH,
-    #     cfg._LOCAL_DATA_FOLDER,
-    #     ', '.join(f'{profile_id}={cfg.profileName(profile_id)}'
-    #               for profile_id in cfg.profiles())
-    # ))
-
-    if profile_id is not None:
-        if not cfg.setCurrentProfile(profile_id):
-            logger.error(f'Profile-ID not found: {profile_id}')
-            sys.exit(bitbase.RETURN_ERR)
-
-    if profile_name is not None:
-        if not cfg.setCurrentProfileByName(profile_name):
-            logger.error(f'Profile not found: {profile_name}')
-            sys.exit(bitbase.RETURN_ERR)
+    if profile:
+        if profile.isdigit():
+            if not cfg.setCurrentProfile(int(profile)):
+                logger.error(f'Profile-ID not found: {profile}')
+                sys.exit(bitbase.RETURN_ERR)
+        else:
+            if not cfg.setCurrentProfileByName(profile):
+                logger.error(f'Profile not found: {profile}')
+                sys.exit(bitbase.RETURN_ERR)
 
     if check and not cfg.isConfigured():
         logger.error(f'{cfg.APP_NAME} is not configured!')

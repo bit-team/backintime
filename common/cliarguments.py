@@ -11,10 +11,24 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from backintime.py
-"""Module about CLI argument parsing and parsers."""
+"""Module about CLI argument parsing and parsers.
+
+A note about conventions:
+ - Help text starts with lower letter, with the exception of names.
+ - Help text ends not with a period.
+
+Example (good):
+    --help    show this help
+
+
+Example (don't):
+    --help    Show this help.
+
+"""
 import sys
 import argparse
 import json
+import re
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
@@ -29,6 +43,58 @@ from argparse import (ArgumentParser,  # noqa: E402
                       )
 from pathlib import Path  # noqa: E402
 from version import __version__  # noqa: E402
+
+
+def _license_info() -> tuple[str, str]:
+    """Collect license info.
+
+    The projects primary license is extracted from SPDX head of the current
+    file. Additional licenses in use are extracted from the filenames in
+    LICENSES directory. This info is combined and returned as two strings.
+
+    Returns:
+        Primary or project license and additional licenses.
+
+    """
+    # Extract the SPDX license info from current file.
+    # interpreted as primary/project license
+    prim = re.search(
+        r'SPDX-License-Identifier:\s(:?.*)',
+        Path(__file__).read_text(encoding='utf-8')
+    )
+
+    try:
+        result = prim.groups()[0]
+
+    except (AttributeError, IndexError):
+        result = None
+
+    # all used licenses
+    licenses = None
+    if bitbase.DIR_LICENSES:
+        licenses = [
+            f.with_suffix('').name for f in bitbase.DIR_LICENSES.iterdir()]
+
+        if result:
+            licenses.remove(result)
+            licenses = ', '.join(licenses)
+
+    # combine
+    result = (result, licenses)
+
+    # any errors?
+    if not result[0]:
+        result = (
+            f'Unable to extract license info from {__file__}',
+            result[1])
+        logger.error(result[0])
+
+    if not result[1]:
+        result = (
+            result[0], 'Unable to extract licenses from LICENSES directory.')
+        logger.error(result[1])
+
+    return result
 
 
 class ParserAgent:
@@ -47,19 +113,26 @@ class ParserAgent:
         # Mapping the command names to their handler functions
         self._cmd_func_dict = {
             'backup': clicommands.backup,
-            'backup-job': clicommands.backup_job,
-            'benchmark-cipher': clicommands.benchmark_cipher,
             'check-config': clicommands.check_config,
             'decode': clicommands.decode,
-            'last-snapshot': clicommands.last_snapshot,
-            'last-snapshot-path': clicommands.last_snapshot_path,
             'pw-cache': clicommands.pw_cache,
             'remove': clicommands.remove,
-            'remove-and-do-not-ask-again':
-                clicommands.remove_and_donot_ask_again,
             'restore': clicommands.restore,
             'shutdown': clicommands.shutdown,
+            'prune': clicommands.prune,
+            'show': clicommands.show_backups,
+            'unmount': clicommands.unmount,
+            # Deprecated commands (#2124)
+            'backup-job': clicommands.backup_job,
+            'smart-remove': clicommands.smart_remove,
+            'remove-and-do-not-ask-again':
+                clicommands.remove_and_donot_ask_again,
+            # See #2120
+            'benchmark-cipher': clicommands.benchmark_cipher,
+            # See #2130 for this five commands
             'snapshots-path': clicommands.snapshots_path,
+            'last-snapshot': clicommands.last_snapshot,
+            'last-snapshot-path': clicommands.last_snapshot_path,
             'snapshots-list': clicommands.snapshots_list,
             'snapshots-list-path': clicommands.snapshots_list_path,
             'status': clicommands.backup_status,
@@ -77,19 +150,42 @@ class ParserAgent:
         self._aliases = []
 
         # Used as epilog for command parses
-        epilog = "Run '%(prog)s -h' to get help for additional arguments."
-        self._epilog_cfg = f'{epilog} Additional arguments: --config, --debug'
-        self._epilog_com \
-            = f'{self._epilog_cfg} --profile, --profile-id, --quiet'
-
-        # Command exclusive parsers
-        self._cmd_excl_parsers = {}
-        self._create_command_exclusive_parsers()
+        self._reusable_parsers = {}
 
         # Start creating all parsers, etc
+        self._create_reusable_parsers()
         self._create_main_parser()
-
         self._create_command_parsers()
+
+    def _build_epilog(self):
+        # Create with "Text ASCII Generator" by "patorjk"
+        # https://patorjk.com/software/taag
+        # Font used is "Mini"
+        logo = '\n'.join([
+            r'  _              ___       ___',
+            r' |_)  _.  _ |     |  ._     | o ._ _   _   Version:',
+            rf' |_) (_| (_ |<   _|_ | |    | | | | | (/_  {__version__}'
+        ])
+
+        prj_license, add_licenses = _license_info()
+
+        epi = '\n'.join([
+            logo,
+            '',
+            f'            Project : {bitbase.URL_WEBSITE}',
+            f'        User Manual : {bitbase.USER_MANUAL_ONLINE_URL}',
+            '          Copyright : see file LICENSES.md',
+            f'    Project License : {prj_license}',
+            f'Additional Licenses : {add_licenses}',
+        ])
+
+        return epi
+
+    def _create_reusable_parsers(self):
+        self._create_common_parser()
+        self._create_profile_parser()
+        self._create_snapshots_only_parser()  # deprecated
+        self._create_rsync_only_parser()
 
     @property
     def main_parser(self) -> ArgumentParser:
@@ -98,24 +194,24 @@ class ParserAgent:
 
     def _create_main_parser(self):
         """Main argument parser"""
-
-        desc = f'{self.app_name} - a simple backup tool for GNU/Linux.'
-        epi = (
-            'For backwards compatibility commands can also be used with '
-            "trailing '--'. All listed arguments will work with all commands. "
-            "Some commands have extra arguments. Run '%(prog)s <COMMAND> -h' "
-            'to see the extra arguments.')
-
-        common_parser = self._create_common_parser()
-
         parser = ArgumentParser(
             prog=self.bin_name,
-            parents=[common_parser],
-            description=desc,
-            epilog=epi)
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common']
+            ],
+            description=f'command-line interface (CLI) for {self.app_name}, '
+                        'to create and manage incremental backups',
+            epilog=self._build_epilog(),
+            # because of ASCII art in epilog
+            formatter_class=argparse.RawTextHelpFormatter,
+            allow_abbrev=False
+        )
+
+        self.parsers['main'] = parser
 
         parser.add_argument(
-            '--version', '-v',
+            '-v', '--version',
             action='version',
             version='%(prog)s ' + __version__,
             help="show %(prog)s's version number.")
@@ -124,7 +220,7 @@ class ParserAgent:
             '--license',
             action=ActionPrintLicense,
             nargs=0,
-            help="show %(prog)s's license.")
+            help="show %(prog)s's license")
 
         parser.add_argument(
             '--diagnostics',
@@ -133,18 +229,9 @@ class ParserAgent:
             help='show helpful info (in JSON format) for better support in '
                  'case of issues')
 
-        self.parsers['main'] = parser
+    def _create_common_parser(self) -> ArgumentParser:
+        """Common arguments used independent from commands"""
 
-    def _create_debug_parser(self) -> ArgumentParser:
-        parser = ArgumentParser(add_help=False)
-        parser.add_argument(
-            '--debug',
-            action='store_true',
-            help='Increase verbosity.')
-
-        return parser
-
-    def _create_config_parser(self) -> ArgumentParser:
         parser = ArgumentParser(add_help=False)
 
         parser.add_argument(
@@ -152,58 +239,58 @@ class ParserAgent:
             metavar='PATH',
             type=str,
             action='store',
-            help='Read config from %(metavar)s. '
-                 'Default = ~/.config/backintime/config')
+            help='read config from %(metavar)s '
+                 '(Default: $XDG_CONFIG_HOME/backintime/config)')
 
         parser.add_argument(
             '--share-path',
             metavar='PATH',
             type=str,
             action='store',
-            help='Write runtime data (locks, messages, log and '
-                 'mountpoints) to %(metavar)s.')
-
-        return parser
-
-    def _create_common_parser(self) -> ArgumentParser:
-        """Common arguments used by all commands
-
-        """
-
-        debug_parser = self._create_debug_parser()
-        config_parser = self._create_config_parser()
-
-        parser = ArgumentParser(
-            add_help=False,
-            parents=[
-                config_parser,
-                debug_parser,
-            ]
+            # Hide because deprecated (#2125)
+            help=argparse.SUPPRESS
+            # help='Write runtime data (locks, messages, log and '
+            #      'mountpoints) to %(metavar)s.'
         )
-
-        # Allow only one of "--profile" or "--profile-id"
-        profile_group = parser.add_mutually_exclusive_group()
-
-        for switch, name, typ in (('--profile', 'NAME', str),
-                                  ('--profile-id', 'ID', int)):
-            profile_group.add_argument(
-                switch,
-                metavar=name,
-                type=typ,
-                action='store',
-                help='Select profile by %(metavar)s.')
 
         parser.add_argument(
             '--quiet',
             action='store_true',
-            help='Be quiet. Suppress messages on stdout.')
+            help='be quiet and suppress messages on stdout')
 
-        return parser
+        parser.add_argument(
+            '--debug',
+            action='store_true',
+            default=False,
+            help='increase verbosity')
 
-    def _create_command_exclusive_parsers(self):
-        self._create_snapshots_only_parser()
-        self._create_rsync_only_parser()
-        self._create_remove_only_parser()
+        self._reusable_parsers['common'] = parser
+
+    def _create_profile_parser(self):
+        """Parser used by commands with profile selection involved."""
+
+        parser = ArgumentParser(add_help=False)
+
+        # Allow only one of "--profile" or "--profile-id"
+        profile_group = parser.add_mutually_exclusive_group()
+
+        profile_group.add_argument(
+            '--profile', '-p',
+            metavar='NAME|ID',
+            type=str,
+            action='store',
+            help='select profile by name or id'
+        )
+
+        # Deprecated (#2125)
+        profile_group.add_argument(
+            '--profile-id',
+            metavar='ID',
+            type=int,
+            action='store',
+            help=argparse.SUPPRESS)
+
+        self._reusable_parsers['profile'] = parser
 
     def _create_snapshots_only_parser(self):
         """Arguments used only by commands
@@ -217,7 +304,7 @@ class ParserAgent:
             action='store_true',
             help="Don't unmount on exit.")
 
-        self._cmd_excl_parsers['snapshots'] = parser
+        self._reusable_parsers['snapshots'] = parser
 
     def _create_rsync_only_parser(self):
         """Arguments used only by rsync related commands:
@@ -231,21 +318,7 @@ class ParserAgent:
             help='force to use checksum for checking if '
                  'files have been changed.')
 
-        self._cmd_excl_parsers['rsync'] = parser
-
-    def _create_remove_only_parser(self):
-        """Arguments used only by command:
-            - remove
-        """
-        parser = ArgumentParser(add_help=False)
-        parser.add_argument(
-            'SNAPSHOT_ID',
-            type=str,
-            action='store',
-            nargs='*',
-            help='ID of snapshots which should be removed.')
-
-        self._cmd_excl_parsers['remove'] = parser
+        self._reusable_parsers['rsync'] = parser
 
     def _create_cmd_backup(self):
         name = 'backup'
@@ -253,17 +326,28 @@ class ParserAgent:
         self._aliases.append((name, nargs))
         self._aliases.append(('b', nargs))
 
-        desc = 'Take a new snapshot. Ignore if the profile is not scheduled ' \
-            'or if the machine is running on battery.'
-
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['rsync']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['rsync'],
+                self._reusable_parsers['common'],
+            ],
+            help='create new backup, if scheduled and not on battery',
+            description='Create a new backup, but only if the profile is '
+                        'scheduled and if the machine is not running on '
+                        'battery.'
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--background',
+            action='store_true',
+            default=False,
+            help='run in background via daemonization',
+        )
+
         self.parsers[name] = parser
 
     def _create_cmd_backup_job(self):
@@ -276,9 +360,12 @@ class ParserAgent:
                'by cron jobs.'
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['rsync']],
-            epilog=self._epilog_com,
-            help=desc,
+            parents=[
+                self._reusable_parsers['common'],
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['rsync']
+            ],
+            help='take new backup in background',
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -291,7 +378,9 @@ class ParserAgent:
         desc = 'Show a benchmark of all ciphers for ssh transfer.'
 
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epilog_com, help=desc, description=desc)
+            name,
+            help=None,  # suppress help output
+            description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -306,9 +395,15 @@ class ParserAgent:
 
     def _create_cmd_check_config(self):
         name = 'check-config'
-        desc = 'Check the profiles configuration and install crontab entries.'
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epilog_com, help=desc, description=desc)
+            name,
+            parents=[
+                self._reusable_parsers['common'],
+            ],
+            help='check full configuration',
+            description='Check configuration of all profiles and '
+                        'install crontab entries.'
+        )
 
         parser.add_argument(
             '--no-crontab',
@@ -322,10 +417,16 @@ class ParserAgent:
         name = 'decode'
         nargs = '*'
         self._aliases.append((name, nargs))
-        desc = "Decode paths with 'encfsctl decode'"
 
         parser = self._command_subparsers.add_parser(
-            name, epilog=self._epilog_com, help=desc, description=desc)
+            name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='decode paths in encrypted profiles',
+            description="Decode paths with 'encfsctl decode'."
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -347,8 +448,7 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
-            help=desc,
+            help=None,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -358,13 +458,10 @@ class ParserAgent:
         name = 'last-snapshot-path'
         nargs = 0
         self._aliases.append((name, nargs))
-        desc = 'Show the path of the last snapshot.'
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[self._reusable_parsers['snapshots']],
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -373,13 +470,12 @@ class ParserAgent:
         name = 'pw-cache'
         nargs = '*'
         self._aliases.append((name, nargs))
-        desc = 'Control Password Cache for non-interactive cronjobs.'
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_cfg,
-            help=desc,
-            description=desc)
+            parents=[self._reusable_parsers['common']],
+            help='control Password Cache',
+            description='Control Password Cache for non-interactive cronjobs.')
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -388,7 +484,7 @@ class ParserAgent:
             action='store',
             choices=['start', 'stop', 'restart', 'reload', 'status'],
             nargs='?',
-            help='Command to send to Password Cache daemon.')
+            help='command to send to Password Cache daemon')
 
         self.parsers[name] = parser
 
@@ -396,15 +492,30 @@ class ParserAgent:
         name = 'remove'
         nargs = '*'
         self._aliases.append((name, nargs))
-        desc = 'Remove a snapshot.'
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['remove']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='remove a backup',
+            description='Remove a backup.')
 
         parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            'BACKUP_ID',
+            type=str,
+            action='store',
+            nargs='*',
+            help='ID of backup to be removed')
+
+        parser.add_argument(
+            '--skip-confirmation',
+            action='store_true',
+            default=False,
+            help='skip confirmation question; be careful!'
+        )
 
         self.parsers[name] = parser
 
@@ -412,17 +523,28 @@ class ParserAgent:
         name = 'remove-and-do-not-ask-again'
         nargs = '*'
         self._aliases.append((name, nargs))
-        desc = "Remove snapshots and don't ask for confirmation before. " \
-               "Be careful!"
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['remove']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[
+                self._reusable_parsers['common'],
+                self._reusable_parsers['profile']
+            ],
+            help=name,  # On purpose, because the command name is to long.
+                        # Otherwise print_usage_without_deprecations() won't
+                        # work.
+            description="Remove backup and don't ask for confirmation "
+                        "before."
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            'BACKUP_ID',
+            type=str,
+            action='store',
+            nargs='*',
+            help='ID of snapshots which should be removed.')
 
         self.parsers[name] = parser
 
@@ -430,14 +552,18 @@ class ParserAgent:
         name = 'restore'
         nargs = '*'
         self._aliases.append((name, nargs))
-        desc = 'Restore files.'
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['rsync']],
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['rsync'],
+                self._reusable_parsers['common'],
+            ],
+            help='restores backup or files or folders from them',
+            description='Restores entire backups or selected files and '
+                        'folders from them.'
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -448,24 +574,23 @@ class ParserAgent:
             type=str,
             action='store',
             nargs='?',
-            help='Restore file or directory WHAT.')
+            help='restore file or directory WHAT')
 
         parser.add_argument(
             'WHERE',
             type=str,
             action='store',
             nargs='?',
-            help="Restore to WHERE. An empty argument '' will restore to "
-                 "original destination.")
+            help='restore to WHERE; empty argument will default to '
+                 'original destination')
 
         parser.add_argument(
-            'SNAPSHOT_ID',
+            'BACKUP_ID',
             type=str,
             action='store',
             nargs='?',
-            help='Which SNAPSHOT_ID should be used. This can be a snapshot ID '
-                 'or an integer starting with 0 for the last snapshot, 1 for '
-                 'the second to last, ... the very first snapshot is -1')
+            help='specific ID or an integer as index (0=last backup; -1=very '
+                 'first backup)')
 
         parser.add_argument(
             '--delete',
@@ -496,12 +621,15 @@ class ParserAgent:
 
     def _create_cmd_shutdown(self):
         name = 'shutdown'
-        desc = 'Shut down the computer after the snapshot is done.'
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='shutdown after backup',
+            description='Shut down the computer after the backup is finished.'
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -513,9 +641,27 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
             help=desc,
             description=desc)
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        self.parsers[name] = parser
+
+    def _create_cmd_prune(self):
+        name = 'prune'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='prune backups based on configured "Remove & '
+                 'Retention" rules',
+            description='Remove and keep backups based on "Remove & '
+                        'Retention" policy.'
+        )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
@@ -529,9 +675,8 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
+            parents=[self._reusable_parsers['snapshots']],
+            help=None,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -546,9 +691,8 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
+            parents=[self._reusable_parsers['snapshots']],
+            help=None,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -561,9 +705,8 @@ class ParserAgent:
         desc = 'Show the path where snapshots are stored.'
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._cmd_excl_parsers['snapshots']],
-            epilog=self._epilog_com,
-            help=desc,
+            parents=[self._reusable_parsers['snapshots']],
+            help=None,  # suppress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
@@ -608,16 +751,50 @@ class ParserAgent:
 
         self.parsers[name] = parser
 
+    def _create_cmd_show(self):
+        name = 'show'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='show information about backups',
+            description="List backup ID's (default) or paths (--path) or "
+                        "just the last (--last)",
+            allow_abbrev=False
+        )
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--path',
+            action='store_true',
+            default=False,
+            help='list backup paths instead of their ID')
+
+        parser.add_argument(
+            '--last',
+            action='store_true',
+            default=False,
+            help='show the last (youngest) backup only')
+
+        self.parsers[name] = parser
+
     def _create_cmd_unmount(self):
         name = 'unmount'
         nargs = 0
         self._aliases.append((name, nargs))
-        desc = 'Unmount the profile.'
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
-            help=desc,
-            description=desc)
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='unmount the profile',
+            description='Unmount the profile.'
+        )
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
@@ -648,23 +825,100 @@ class ParserAgent:
         self._create_cmd_backup()
         self._create_cmd_backup_status()
         self._create_cmd_backup_job()
+        self._create_cmd_show()
+        self._create_cmd_restore()
+        self._create_cmd_remove()
+        self._create_cmd_remove_and_donot_ask_again()
+        self._create_cmd_prune()
+        self._create_cmd_smart_remove()
+        self._create_cmd_unmount()
+        self._create_cmd_shutdown()
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
         self._create_cmd_decode()
+        self._create_cmd_pw_cache()
         self._create_cmd_last_snapshot()
         self._create_cmd_last_snapshot_path()
-        self._create_cmd_pw_cache()
-        self._create_cmd_remove()
-        self._create_cmd_remove_and_donot_ask_again()
-        self._create_cmd_restore()
-        self._create_cmd_shutdown()
-        self._create_cmd_smart_remove()
         self._create_cmd_snapshots_list()
         self._create_cmd_snapshots_list_path()
         self._create_cmd_snapshots_path()
-        self._create_cmd_unmount()
 
         self._create_cmd_aliase_switches()
+
+
+def print_usage_without_deprecations(parser):
+    """Hidde commands form the parsers help output, print it and exit.
+
+    This is a workaround because argparse can suppress arguments but not
+    commands (subparsers). The help output contain a online list of
+    commands. This line is the one that gets manipulated here.
+
+        Commands:
+            {backup,backup-job,check-config,...,unmount}
+
+    A second location where a command appears is the line-by-line help output.
+
+        Commands:
+            backup      Bla bla
+            foo         bar
+
+    """
+    text = parser.format_help().splitlines()
+    # for idx, t in enumerate(text):
+    #     print(f'{idx=} {t=}')
+
+    deprecated_cmds = [
+        'benchmark-cipher',
+        'snapshots-path',
+        'last-snapshot',
+        'last-snapshot-path',
+        'snapshots-list',
+        'snapshots-list-path',
+        'backup-job',
+        'smart-remove',
+        'remove-and-do-not-ask-again',
+    ]
+
+    def _remove_cmds_from_cmd_list(line: str):
+        """Remove all deprecated commands from that one line like this:
+
+            {backup,backup-job,check-config,...,unmount}
+
+        Usually there are two of this lines in a help-usage-output.
+        """
+        for cmd in deprecated_cmds:
+            # replace "cmd" between delemiters with ","
+            pattern = r'(?<=[{,])' + re.escape(cmd) + r'(?=[,}])'
+            line = re.sub(pattern, ',', line)
+            # clean up to much ","
+            line = re.sub(r',+', ',', line)
+            line = re.sub(r'{,', '{', line)
+            line = re.sub(r',}', '}', line)
+
+        return line
+
+    rex = re.compile(r'.*{.*}.*')
+    line_idx_to_remove = []
+
+    for idx, line in enumerate(text[:]):
+        # Remove commands from the one-line-list
+        if rex.match(line):
+            text[idx] = _remove_cmds_from_cmd_list(line)
+            continue
+
+        # Line-by-line command description?
+        for cmd in deprecated_cmds:
+            pattern = r'\s+' + re.escape(cmd) + r'(?=\s|$)'
+            if re.match(pattern, line):
+                line_idx_to_remove.append(idx)
+                continue
+
+    # remove lines with deprecated commands
+    for idx in reversed(line_idx_to_remove):
+        del text[idx]
+
+    print('\n'.join(text))
+    sys.exit(0)
 
 
 def parse_arguments(args: Namespace,
@@ -711,6 +965,11 @@ def parse_arguments(args: Namespace,
                 main_parser._remove_action(i)
                 sub.append(i)
 
+    else:
+        # Manipulate the main parsers output only (not the subparsers)
+        if sys.argv[1] in ['-h', '--help']:
+            print_usage_without_deprecations(main_parser)
+
     args, unknown_args = main_parser.parse_known_args(args)
 
     # Read subparsers again
@@ -744,6 +1003,14 @@ def parse_arguments(args: Namespace,
     }
 
     logger.debug(f'Argument(s) used: {used_args}')
+
+    # Deprecated (#2125)
+    if args.profile_id:
+        clicommands.show_deprecation_message('--profile-id')
+        args.profile = str(args.profile_id)
+
+    if args.share_path:
+        clicommands.show_deprecation_message('--share-path')
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.
@@ -789,8 +1056,15 @@ def alias_parser(args: Namespace):
     """
 
     if not args.quiet:
-        logger.warning(f"Run command '{args.alias}' instead of argument "
-                       f"'{args.replace}' due to backwards compatibility.")
+        logger.info(f"Run command '{args.alias}' instead of argument "
+                    f"'{args.replace}' due to backwards compatibility.")
+
+    msg = (
+        f'The command alias "{args.replace}" is deprecated and will be '
+        'removed from Back In Time in the foreseeable future, without any '
+        'replacement.')
+    # ToDo: Switch this later to ERROR
+    logger.warning(msg)
 
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
 

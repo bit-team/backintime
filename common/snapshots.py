@@ -36,9 +36,11 @@ import mount
 import progress
 import snapshotlog
 import flock
+import bitbase
+from typing import Generator
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
-from exceptions import MountException, LastSnapshotSymlink
+from exceptions import MountException
 from uniquenessset import UniquenessSet
 from status import BackupStatus
 
@@ -53,6 +55,7 @@ def _update_backup_status_after_takeSnapshot(func):
             with BackupStatus(cfg=self.config) as status:
                 status.update_status()
     return wrapper
+
 
 
 class Snapshots:
@@ -71,7 +74,6 @@ class Snapshots:
         cfg (config.Config): current config
     """
     SNAPSHOT_VERSION = 3
-
 
     def __init__(self, cfg = None):
         self.config = cfg
@@ -2304,32 +2306,39 @@ class Snapshots:
             os.remove(full_path)
         os.chmod(dirname, dir_st.st_mode)
 
-    def createLastSnapshotSymlink(self, sid):
-        """
-        Create symlink 'last_snapshot' to snapshot ``sid``
+    def createLastSnapshotSymlink(self, sid: SID) -> bool:
+        """Create symlink 'last_snapshot' to snapshot ``sid``.
 
         Args:
-            sid (SID):  snapshot that should be linked.
+            sid: Snapshot that should be linked.
 
         Returns:
-            bool:       ``True`` if successful
+            bool: ``True`` if successful.
         """
         if sid is None:
             return
+
         symlink = self.config.lastSnapshotSymlink()
+
         try:
             if os.path.islink(symlink):
                 if os.path.basename(os.path.realpath(symlink)) == sid.sid:
                     return True
+
                 os.remove(symlink)
+
             if os.path.exists(symlink):
-                logger.error('Could not remove symlink %s' %symlink, self)
+                logger.error(f'Could not remove symlink {symlink}', self)
                 return False
-            logger.debug('Create symlink %s => %s' %(symlink, sid), self)
+
+            logger.debug(f'Create symlink {symlink} => {sid}', self)
             os.symlink(sid.sid, symlink)
+
             return True
-        except Exception as e:
-            logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
+
+        except Exception as exc:
+            logger.error(f'Failed to create symlink {symlink}: {exc}', self)
+
             return False
 
     def rsyncSuffix(self, includeFolders=None, excludeFolders=None):
@@ -2553,7 +2562,9 @@ class SID:
                 self.date = datetime.datetime(*self.split())
 
             elif date == 'last_snapshot':
-                raise LastSnapshotSymlink()
+                # Undefined state
+                raise RuntimeError(
+                    'This class can not handle last-snapshot symlinks.')
 
             else:
                 raise ValueError("'date' must be in snapshot ID format "
@@ -3046,15 +3057,14 @@ class GenericNonSnapshot(SID):
 
 
 class NewSnapshot(GenericNonSnapshot):
-    """
-    Snapshot ID object for 'new_snapshot' folder
+    """Snapshot ID object for 'new_snapshot' folder.
 
     Args:
-        cfg (config.Config):    current config
+        cfg (config.Config): Current config
     """
 
-    NEWSNAPSHOT    = 'new_snapshot'
-    SAVETOCONTINUE = 'save_to_continue'
+    NEWSNAPSHOT = bitbase.DIR_NAME_NEWSNAPSHOT
+    SAVETOCONTINUE = bitbase.DIR_NAME_SAVETOCONTINUE
 
     def __init__(self, cfg):
         self.config = cfg
@@ -3142,6 +3152,7 @@ class RootSnapshot(GenericNonSnapshot):
     Args:
         cfg (config.Config):    current config
     """
+
     def __init__(self, cfg):
         self.config = cfg
         self.profileID = cfg.currentProfile()
@@ -3194,45 +3205,49 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg, includeNewSnapshot=False):
+def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
+                  ) -> Generator[SID, None, None]:
     """A generator to iterate over snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config): Current config instance.
-        includeNewSnapshot (bool): Include a NewSnapshot instance if
+        cfg: Current config instance.
+        includeNewSnapshot: Include a NewSnapshot instance if
             'new_snapshot' directory is available (default: False).
 
     Yields:
         SID: Snapshot IDs
     """
-    path = cfg.snapshotsFullPath()
+    path = Path(cfg.snapshotsFullPath())
 
-    if not os.path.exists(path):
+    if not path.exists():
         return None
 
-    for item in os.listdir(path):
+    for item in path.iterdir():
 
-        if item == NewSnapshot.NEWSNAPSHOT:
-            newSid = NewSnapshot(cfg)
+        if item.name == bitbase.DIR_NAME_NEWSNAPSHOT:
+            sid = NewSnapshot(cfg)
 
-            if newSid.exists() and includeNewSnapshot:
-                yield newSid
+            if includeNewSnapshot and sid.exists():
+                yield sid
 
             continue
 
+        elif item.name == bitbase.DIR_NAME_LAST_SNAPSHOT:
+            # Ignore last snapshot symlink
+            continue
+
         try:
-            sid = SID(item, cfg)
+            sid = SID(item.name, cfg)
 
             if sid.exists():
                 yield sid
 
-        # REFACTOR!
-        # LastSnapshotSymlink is an exception instance and could be caught
-        # explicit. But not sure about its purpose.
-        except Exception as e:
-            if not isinstance(e, LastSnapshotSymlink):
-                logger.debug(
-                    "'{}' is not a snapshot ID: {}".format(item, str(e)))
+        # Dev note (buhtz, 2025-05): I am not a friend of catching exceptions
+        # at this point. But previously all Exceptions where caught at this
+        # point.  Now catching ValueError's only, is a compromise.
+        except ValueError as exc:
+            # Raised by SID.__init__() in case of invalid date format
+            logger.warning(f'"{item.name}" is not a snapshot ID. {exc=}')
 
 
 def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
@@ -3243,7 +3258,8 @@ def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
         cfg (config.Config): Current config instance.
         includeNewSnapshot (bool): Include a NewSnapshot instance if
             'new_snapshot' directory is available (default: False).
-        reverse (bool): Sort reverse (default: True).
+        reverse (bool): Sort reverse (descending, newest/youngest first)
+            (default: True).
 
     Returns:
         list: List of :py:class:`SID` objects.
@@ -3267,6 +3283,32 @@ def lastSnapshot(cfg):
     sids = listSnapshots(cfg)
     if sids:
         return sids[0]
+
+
+def get_backup_ids_and_paths(cfg: config.Config,
+                             descending: bool = True,
+                             include_new: bool = False
+                             ) -> list[tuple[str, Path]]:
+    """
+    Args:
+        cfg: The config instance.
+        descending: Backups sorted by their IDs beginning with oldest.
+        include_new: Include incomplete backups without ID, named
+            `new-snapshot` (default: ``False``).
+
+    Return:
+       A list of two-item tuples with backup ID and paths.
+
+    """
+    result = []
+
+    all_sids = sorted(
+        iterSnapshots(cfg=cfg, includeNewSnapshot=include_new),
+        reverse=not descending)
+
+    result = [(str(sid), Path(sid.path())) for sid in all_sids]
+
+    return result
 
 
 if __name__ == '__main__':
