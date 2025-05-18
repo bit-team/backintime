@@ -17,9 +17,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 :man-linkstyle: pass:[blue R < >]
 
 == NAME
-backintime - a simple backup tool for Linux.
+backintime - Create and manage incremental backups using rsync
 
 == SYNOPSIS
+*backintime* [<global args>] <commands> [<args>]
+
 *backintime*
 [-h | --help]
 [-p | --profile NAME|ID]
@@ -229,8 +231,7 @@ $XDG_CONFIG_HOME is ~/.config).
 .. Unmount all drives.
 
 
-== OPTIONS
-
+== GLOBAL OPTIONS
 *-h*, *--help* :: Display a short help
 
 *-p*, *--profile NAME|ID* :: Select profile by name or ID.
@@ -248,6 +249,74 @@ $XDG_CONFIG_HOME is ~/.config).
 
 *--diagnostics* :: Show diagnostic information to support debugging.
 
+== COMMANDS
+=== backup
+Create a new backup, but only if the profile is scheduled and if the machine is
+not running on battery.
+
+*--checksum* :: Force to use checksum for checking if files have been changed.
+*--background* :: Run in background via daemonization.
+
+=== show
+List backup ID's or paths.
+
+*--path* :: List backup paths instead of their ID.
+*--last* :: Show the last (youngest) backup only.
+
+=== restore
+Restores entire backups or selected files and folders from them.
+
+*--checksum* :: Force to use checksum for checking if files have been changed.
+*--delete* :: Restore and delete newer files which are not in the snapshot. WARNING: deleting files in filesystem root could break your whole system!!!
+*--local-backup* :: Create backup files before changing local files.
+*--no-local-backup* :: Temporarily disable creation of backup files before changing local files. This can be switched off permanently in Settings, too.
+*--only-new* :: Only restore files which do not exist or are newer than those in destination. Using "rsync --update" option.
+*WHAT* :: Restore file or directory WHAT.
+*WHERE* :: Restore to WHERE; empty argument will default to original destination.
+*BACKUP_ID* :: Specific ID or an integer as index (0=last backup; -1=very first backup).
+
+=== remove
+Remove a backup.
+
+*--skip-confirmation* :: Skip the confirmation question. Be careful!
+*BACKUP_ID* :: ID of the backup to be removed.
+
+=== prune
+Remove and keep backups based on "Remove & Retention" policy.
+
+=== unmount
+Unmount the profile.
+
+=== shutdown
+Shut down the computer after the backup is finished.
+
+=== check-config
+Checks the configuration of all profiles. The config file is verified, the
+backup destination path is created for each profile, and crontab entries are
+setup for scheduled profiles.
+
+*pw-cache | --pw-cache [start|stop|restart|reload|status]* :: Control the
+ Password Cache Daemon. If no argument is given the Password Cache will start
+ in foreground.
+
+*shutdown* :: Shutdown the computer after the snapshot is done.
+
+*smart-remove* :: Remove snapshots based on the configured Smart-Remove
+ pattern.
+
+*snapshots-list | --snapshots-list* :: Display the list of snapshot IDs (if
+ any).
+
+*snapshots-list-path | --snapshots-list-path* :: Display the paths to snapshots
+ (if any).
+
+*snapshots-path | --snapshots-path* :: Display path where is saves the
+ snapshots (if configured).
+
+*unmount | --unmount* :: Unmount the profile.
+
+
+== COMMAND OPTIONS
 ---- CLEAN --------------------
 
 *--checksum* :: Force to use checksum for checking if files have been
@@ -279,58 +348,6 @@ $XDG_CONFIG_HOME is ~/.config).
 *--share-path PATH* :: Write runtime data (locks, messages, log and
    mountpoints) to PATH.
 
-
-== COMMANDS
-*backup* | *-b* | *--backup* :: Take a snapshot now.
-
-*backup-job* | *--backup-job* :: Take a snapshot (if needed) depending on
- schedule rules (used for cron jobs). Back In Time will run in background for
- this.
-
-*check-config* :: Verify the profile in config, create snapshot path and
- crontab entries.
-
-*decode | --decode [PATH]* Decode encrypted PATH. If no PATH is given Back In
- Time will read paths from standard input.
-
-*last-snapshot | --last-snapshot* :: Display last snapshot ID (if any)
-
-*last-snapshot-path | --last-snapshot-path* :: Display the path to the last
- snapshot (if any).
-
-*pw-cache | --pw-cache [start|stop|restart|reload|status]* :: Control the
- Password Cache Daemon. If no argument is given the Password Cache will start
- in foreground.
-
-*remove[-and-do-not-ask-again] | --remove[-and-do-not-ask-again] [SNAPSHOT_ID]*
- :: Remove the snapshot. If SNAPSHOT_ID is missing it will be
- prompted. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot)
- or the exact SnapshotID (19 characters like
- '20130606-230501-984'). _remove-and-do-not-ask-again_ will remove the snapshot
- immediately. Be careful with this!
-
-*restore | --restore [WHAT [WHERE [SNAPSHOT_ID]]]* :: Restore file WHAT to path
- WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be
- prompted. To restore to the original path WHERE can be an empty string or just
- press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0 for
- the last snapshot) or the exact SnapshotID (19 characters like
- '20130606-230501-984').
-
-*shutdown* :: Shutdown the computer after the snapshot is done.
-
-*smart-remove* :: Remove snapshots based on the configured Smart-Remove
- pattern.
-
-*snapshots-list | --snapshots-list* :: Display the list of snapshot IDs (if
- any).
-
-*snapshots-list-path | --snapshots-list-path* :: Display the paths to snapshots
- (if any).
-
-*snapshots-path | --snapshots-path* :: Display path where is saves the
- snapshots (if configured).
-
-*unmount | --unmount* :: Unmount the profile.
 
 == A NOTE ON SECURITY AND ENCFS
 Because of security issues with EncFS it is planned to remove it from Back In
