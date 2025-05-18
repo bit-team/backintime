@@ -21,42 +21,40 @@ backintime - a simple backup tool for Linux.
 
 == SYNOPSIS
 *backintime*
-[--checksum]
+[-h | --help]
+[-p | --profile NAME|ID]
 [--config PATH]
-[--debug]
-[--delete]
-[--help | -h]
-[--keep-mount]
-[--license]
-[--local-backup | --no-local-backup]
-[--no-crontab]
-[--only-new]
-[--profile NAME | --profile-id ID]
 [--quiet]
-[--share-path PATH]
-[--version]
+[--debug]
+[-v | --version]
+[--license]
 [--diagnostics]
+<commands> [<args>]
 
+*backintime*
+[-h | --help]
+[-p | --profile NAME|ID]
+[--config PATH]
+[--quiet]
+[--debug]
+[-v | --version]
+[--license]
+[--diagnostics]
 {
-backup
-| backup-job
-| check-config
-| decode [PATH]
-| last-snapshot
-| last-snapshot-path
-| pw-cache [start|stop|restart|reload|status]
-| remove[-and-do-not-ask-again] [SNAPSHOT_ID]
-| restore [WHAT [WHERE [SNAPSHOT_ID]]]
-| shutdown
-| smart-remove
-| snapshots-list
-| snapshots-list-path
-| snapshots-path
-| unmount
+    backup [--checksum] [--background]
+    | show [--path] [--last]
+    | restore [--checksum] [--delete] [--local-backup | --no-local-backup] [--only-new] [WHAT] [WHERE] [BACKUP_ID]
+    | remove [--skip-confirmation] [BACKUP_ID ...]
+    | prune
+    | unmount
+    | shutdown
+    | check-config [--no-crontab]
+    | pw-cache [{start,stop,restart,reload,status}]
 }
 
+
 == DESCRIPTION
-Back In Time is a simple backup tool for Linux. The backup is done by taking
+*Back In Time* is a simple backup tool for Linux. The backup is done by taking
 snapshots of a specified set of folders. This is the command line tool. The
 graphical tool is *backintime-qt*(1).
 
@@ -232,27 +230,38 @@ $XDG_CONFIG_HOME is ~/.config).
 
 
 == OPTIONS
+
+*-h*, *--help* :: Display a short help
+
+*-p*, *--profile NAME|ID* :: Select profile by name or ID.
+
+*--config PATH* :: Read config from PATH. (Default:
+   $XDG_CONFIG_HOME/backintime/config)
+
+*--quiet* :: Suppress status messages on standard output.
+
+*--debug* :: Show debug messages.
+
+*-v*, *--version* :: Show version.
+
+*--license* :: Show license.
+
+*--diagnostics* :: Show diagnostic information to support debugging.
+
+---- CLEAN --------------------
+
 *--checksum* :: Force to use checksum for checking if files have been
    changed. This is the same as 'Use checksum to detect changes' in
    Options. But you can use this to periodically run checksums from
    cronjobs. Only valid with _backup_, _backup-job_ and _restore_.
 
-*--config PATH* :: Read config from PATH. Default: ~/.config/backintime/config
-
-*--debug* :: Show debug messages.
-
 *--delete* :: Restore and delete newer files which are not in the
    snapshot. WARNING: deleting files in filesystem root could break your whole
    system!!! Only valid with _restore_.
 
-*-h*, *--help* :: Display a short help
-
 *--keep-mount* :: Don't unmount on exit. Only valid with _snapshots-path_,
    _snapshots-list-path_ and _last-snapshot-path_.
 
-*--license* :: Show license
-
-*--diagnostics* :: Show diagnostic information to support debugging.
 
 *--local-backup* :: Create backup files before changing local files. Only valid
    with _restore_.
@@ -267,16 +276,9 @@ $XDG_CONFIG_HOME is ~/.config).
    in destination. Using "rsync --update" option. Only valid with
    _restore_.
 
-*--profile NAME* :: Select profile by name.
-
-*--profile-id ID* :: Select profile by id.
-
-*--quiet* :: Suppress status messages on standard output.
-
 *--share-path PATH* :: Write runtime data (locks, messages, log and
    mountpoints) to PATH.
 
-*-v*, *--version* :: Show version.
 
 == COMMANDS
 *backup* | *-b* | *--backup* :: Take a snapshot now.
