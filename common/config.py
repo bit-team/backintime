@@ -959,6 +959,33 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('snapshots.remove_old_snapshots.value', value, profile_id)
         self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
 
+    def warnFreeSpace(self, profile_id=None):
+        return (self.profileBoolValue('snapshots.warn_free_space.enabled', False, profile_id),
+                self.profileIntValue('snapshots.warn_free_space.value', 3, profile_id),
+                self.profileIntValue('snapshots.warn_free_space.unit', self.DISK_UNIT_GB, profile_id))
+
+    def warnFreeSpaceEnabled(self, profile_id=None):
+        return self.profileBoolValue('snapshots.warn_free_space.enabled', False, profile_id)
+
+    def warnFreeSpaceMib(self, profile_id=None):
+        enabled, value, unit = self.warnFreeSpace(profile_id)
+        if not enabled:
+            return 0
+
+        if unit == self.DISK_UNIT_MB:
+            return value
+
+        value *= 1024  # Gb
+        if unit == self.DISK_UNIT_GB:
+            return value
+
+        return 0
+
+    def setWarnFreeSpace(self, enabled, value, unit, profile_id=None):
+        self.setProfileBoolValue('snapshots.warn_free_space.enabled', enabled, profile_id)
+        self.setProfileIntValue('snapshots.warn_free_space.value', value, profile_id)
+        self.setProfileIntValue('snapshots.warn_free_space.unit', unit, profile_id)
+
     def minFreeSpace(self, profile_id = None):
                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
                 #?free space is reached.
