@@ -374,6 +374,26 @@ class Config(configfile.ConfigFileWithProfiles):
                         )
 
                         return False
+
+            # check warn free space
+            warn_enabled, warn_value, warn_unit = self.warnFreeSpace(profile_id)
+            warn_mib = self.warnFreeSpaceMib(profile_id)
+            warn_mib = warn_value if warn_unit == self.DISK_UNIT_MB else warn_value * 1024
+
+            min_enabled, min_value, min_unit = self.minFreeSpace(profile_id)
+            min_mib = self.minFreeSpaceMib(profile_id)
+            min_mib = min_value if min_unit == self.DISK_UNIT_MB else min_value * 1024
+
+            if warn_enabled and min_enabled and warn_mib < min_mib:
+                self.notifyError(
+                    '{}\n{}'.format(
+                        _('Profile: "{name}"').format(name=profile_name),
+                        _('The warning threshold for free space must '
+                        'be greater than or equal to the removing '
+                        'threshold for free space')
+                    )
+                )
+
         return True
 
     def host(self):
