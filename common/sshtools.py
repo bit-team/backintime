@@ -1309,3 +1309,27 @@ def writeKnownHostsFile(key):
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')
+
+
+def select_private_key_file(files: list[Path]):
+    """
+    Select a suitable SSH private key file from the given list of files.
+    
+    Args:
+        files: List of Path objects representing SSH key files to choose from
+        
+    Returns:
+        Path object pointing to the selected private key file, or None if no suitable file found
+    """
+
+    _PREFERRED = ('id_ed25519', 'id_ecdsa', 'id_rsa')
+    _IGNORE_RE = re.compile(r'\.pub$|authorized_keys|known_hosts|config|backup|\.old$', re.IGNORECASE)
+
+    valid_files = [f for f in files if f.is_file() and not _IGNORE_RE.search(f.name)]
+
+    for name in _PREFERRED:
+        for f in valid_files:
+            if f.name == name:
+                return f
+
+    return valid_files[0] if valid_files else None

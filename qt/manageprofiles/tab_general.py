@@ -310,7 +310,18 @@ class GeneralTab(QDialog):
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
         self.comboSshCipher.select_by_data(self.config.sshCipher())
-        self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
+
+        key_path = self.config.sshPrivateKeyFile()
+        if not key_path:
+            try:
+                ssh_dir = Path.home() / '.ssh'
+                if ssh_dir.exists():
+                    selected = sshtools.select_private_key_file(ssh_dir.iterdir())
+                    if selected is not None:
+                        key_path = str(selected)
+            except (OSError, PermissionError) as e:
+                logger.warning("Cannot scan %s: %s", ssh_dir, e)
+        self.txtSshPrivateKeyFile.setText(key_path or '')
 
         # local_encfs
         if self.mode == 'local_encfs':

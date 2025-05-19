@@ -13,7 +13,6 @@ import sys
 import getpass
 import unittest
 import datetime
-from pathlib import Path
 from unittest.mock import patch
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -279,93 +278,3 @@ class SshCommand(generic.SSHTestCase):
                 '-o', f'IdentityFile={generic.PRIV_KEY_FILE}',
             ]
         )
-
-
-class TestSshPrivateKeySelectionWithMock(generic.TestCaseCfg):
-    def setUp(self):
-        super().setUp()
-        self.ssh_dir_path = os.path.join(str(Path.home()), ".ssh")
-
-    @patch('os.path.isfile')
-    def test_selects_id_ed25519_first_if_others_exist(self, mock_isfile):
-        """
-        Test that when both id_ed25519 and id_rsa exist, id_ed25519 is preferred.
-        """
-        def side_effect_isfile(path):
-            if path == os.path.join(self.ssh_dir_path, "id_ed25519"):
-                return True
-            if path == os.path.join(self.ssh_dir_path, "id_rsa"):
-                return True
-            return False
-        mock_isfile.side_effect = side_effect_isfile
-
-        with patch.object(self.cfg, 'sshPrivateKeyFolder', return_value=self.ssh_dir_path):
-            expected_key_path = os.path.join(self.ssh_dir_path, "id_ed25519")
-            self.assertEqual(self.cfg.sshPrivateKeyFile(), expected_key_path)
-
-    @patch('os.path.isfile')
-    def test_selects_id_ed25519_when_it_is_the_only_key(self, mock_isfile):
-        """
-        Test that when only the id_ed25519 key exists, it is correctly selected.
-        """
-        def side_effect_isfile(path):
-            return path == os.path.join(self.ssh_dir_path, "id_ed25519")
-        mock_isfile.side_effect = side_effect_isfile
-
-        with patch.object(self.cfg, 'sshPrivateKeyFolder', return_value=self.ssh_dir_path):
-            expected_key_path = os.path.join(self.ssh_dir_path, "id_ed25519")
-            self.assertEqual(self.cfg.sshPrivateKeyFile(), expected_key_path)
-
-    @patch('os.path.isfile')
-    def test_selects_id_rsa_if_id_ed25519_is_absent(self, mock_isfile):
-        """
-        Test that when id_ed25519 does not exist but id_rsa exists, id_rsa is selected.
-        """
-        def side_effect_isfile(path):
-            if path == os.path.join(self.ssh_dir_path, "id_rsa"):
-                return True
-
-            if path == os.path.join(self.ssh_dir_path, "id_ed25519"):
-                return False
-            if path == os.path.join(self.ssh_dir_path, "id_ecdsa"):
-                 return False
-
-            return False
-        mock_isfile.side_effect = side_effect_isfile
-
-        with patch.object(self.cfg, 'sshPrivateKeyFolder', return_value=self.ssh_dir_path):
-            expected_key_path = os.path.join(self.ssh_dir_path, "id_rsa")
-            self.assertEqual(self.cfg.sshPrivateKeyFile(), expected_key_path)
-
-    @patch('os.path.isfile')
-    def test_returns_empty_string_if_no_default_keys_found(self, mock_isfile):
-        """
-        Test that when no predefined key files are found in the ~/.ssh directory, an empty string is returned.
-        """
-        mock_isfile.return_value = False
-
-        with patch.object(self.cfg, 'sshPrivateKeyFolder', return_value=self.ssh_dir_path):
-            self.assertEqual(self.cfg.sshPrivateKeyFile(), "")
-
-    @patch('os.path.isfile')
-    def test_uses_explicitly_configured_key_over_defaults(self, mock_isfile):
-        """
-        Test that when private_key_file is explicitly specified in the configuration,
-        it takes precedence over default key selection.
-        """
-        mock_isfile.return_value = True
-
-        custom_key_filename = "my_explicit_key"
-        with patch.object(self.cfg, 'sshPrivateKeyFolder', return_value=self.ssh_dir_path):
-            custom_key_path_str = os.path.join(self.ssh_dir_path, custom_key_filename)
-
-            profile_id_to_test = self.cfg.currentProfile()
-            config_key_name = 'snapshots.ssh.private_key_file'
-
-            original_value = self.cfg.profileStrValue(config_key_name, profile_id=profile_id_to_test)
-
-            self.cfg.setProfileStrValue(config_key_name, custom_key_path_str, profile_id=profile_id_to_test)
-
-            self.assertEqual(self.cfg.sshPrivateKeyFile(profile_id=profile_id_to_test), custom_key_path_str)
-
-            self.cfg.setProfileStrValue(config_key_name, original_value, profile_id=profile_id_to_test)

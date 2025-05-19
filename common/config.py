@@ -523,20 +523,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return (host, port, user, path, cipher)
 
     def sshPrivateKeyFile(self, profile_id = None):
-        ssh = self.sshPrivateKeyFolder()
-        default = ''
-        key_names = ['id_ed25519', 'id_ecdsa', 'id_dsa', 'id_rsa', 'identity']
-        for f in key_names:
-            private_key = os.path.join(ssh, f)
-            if os.path.isfile(private_key):
-                default = private_key
-                break
-        #?Private key file used for password-less authentication on remote host.
-        #?;absolute path to private key file;~/.ssh/id_dsa
-        f = self.profileStrValue('snapshots.ssh.private_key_file', default, profile_id)
-        if f:
-            return f
-        return default
+        return self.profileStrValue('snapshots.ssh.private_key_file', '', profile_id)
 
     def sshPrivateKeyFolder(self):
         return os.path.join(os.path.expanduser('~'), '.ssh')
