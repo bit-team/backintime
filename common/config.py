@@ -525,7 +525,8 @@ class Config(configfile.ConfigFileWithProfiles):
     def sshPrivateKeyFile(self, profile_id = None):
         ssh = self.sshPrivateKeyFolder()
         default = ''
-        for f in ['id_dsa', 'id_rsa', 'identity']:
+        key_names = ['id_ed25519', 'id_ecdsa', 'id_dsa', 'id_rsa', 'identity']
+        for f in key_names:
             private_key = os.path.join(ssh, f)
             if os.path.isfile(private_key):
                 default = private_key
