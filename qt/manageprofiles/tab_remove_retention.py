@@ -93,7 +93,9 @@ class RemoveRetentionTab(QDialog):
             = self._groupbox_retention_policy()
 
         # return spin_unit_space, spin_inodes
-        self._checkbox_space, \
+        self._checkbox_warn_space, \
+            self._spin_unit_warn_space, \
+            self._checkbox_space, \
             self._spin_unit_space, \
             self._checkbox_inodes, \
             self._spin_inodes \
@@ -130,6 +132,12 @@ class RemoveRetentionTab(QDialog):
         self.cbSmartRemoveRunRemoteInBackground.setChecked(
             self.config.smartRemoveRunRemoteInBackground())
 
+        # warn free space
+        enabled, value, unit = self.config.warnFreeSpace()
+        self._checkbox_warn_space.setChecked(enabled)
+        self._spin_unit_warn_space.set_value(value)
+        self._spin_unit_warn_space.select_unit(unit)
+
         # min free space
         enabled, value, unit = self.config.minFreeSpace()
         self._checkbox_space.setChecked(enabled)
@@ -159,6 +167,11 @@ class RemoveRetentionTab(QDialog):
 
         self.config.setSmartRemoveRunRemoteInBackground(
             self.cbSmartRemoveRunRemoteInBackground.isChecked())
+
+        self.config.setWarnFreeSpace(
+            self._spin_unit_warn_space.isEnabled(),
+            self._spin_unit_warn_space.value(),
+            self._spin_unit_warn_space.unit())
 
         self.config.setMinFreeSpace(
             self._spin_unit_space.isEnabled(),
@@ -356,6 +369,18 @@ class RemoveRetentionTab(QDialog):
                 one_per_week, one_per_month)
 
     def _remove_free_space_inodes(self) -> tuple:
+        # less free space warning
+        WARN_FREE_SPACE_UNITS = {
+            config.Config.DISK_UNIT_MB: 'MiB',
+            config.Config.DISK_UNIT_GB: 'GiB'
+        }
+        spin_unit_warn_space = SpinBoxWithUnit(
+            self, (1, 99999), WARN_FREE_SPACE_UNITS)
+
+        checkbox_warn_space = StateBindCheckBox(
+            _('show warning if the free space is less than'), self)
+        checkbox_warn_space.bind(spin_unit_warn_space)
+
         # enabled, value, unit = self.config.minFreeSpace()
 
         # free space less than
@@ -389,10 +414,12 @@ class RemoveRetentionTab(QDialog):
         grid.setColumnStretch(2, 0)
 
         # wdg, row, col
-        grid.addWidget(checkbox_space, 0, 0, 1, 2)
-        grid.addWidget(spin_unit_space, 0, 2)
-        grid.addWidget(checkbox_inodes, 1, 0, 1, 2)
-        grid.addWidget(spin_inodes, 1, 2)
+        grid.addWidget(checkbox_warn_space, 0, 0, 1, 2)
+        grid.addWidget(spin_unit_warn_space, 0, 2)
+        grid.addWidget(checkbox_space, 1, 0, 1, 2)
+        grid.addWidget(spin_unit_space, 1, 2)
+        grid.addWidget(checkbox_inodes, 2, 0, 1, 2)
+        grid.addWidget(spin_inodes, 2, 2)
 
         self._tab_layout.addWidget(
             groupbox,
@@ -400,4 +427,4 @@ class RemoveRetentionTab(QDialog):
             0, 1, 3
         )
 
-        return checkbox_space, spin_unit_space, checkbox_inodes, spin_inodes
+        return checkbox_warn_space, spin_unit_warn_space, checkbox_space, spin_unit_space, checkbox_inodes, spin_inodes
