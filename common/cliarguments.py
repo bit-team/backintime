@@ -313,7 +313,7 @@ class ParserAgent:
             '--checksum',
             action='store_true',
             help='force to use checksum for checking if '
-                 'files have been changed.')
+                 'files have been changed')
 
         self._reusable_parsers['rsync'] = parser
 

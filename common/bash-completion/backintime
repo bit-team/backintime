@@ -41,7 +41,7 @@ _backintime()
           --local-backup --no-local-backup --only-new \
 	      --diagnostics --last --path --background"
     actions="backup show unmount \
-             pw-cache decode remove restore check-config \
+             pw-cache remove restore check-config \
              prune shutdown"
     pw_cache_commands="start stop restart reload status"
 
