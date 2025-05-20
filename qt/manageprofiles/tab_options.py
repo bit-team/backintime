@@ -19,6 +19,8 @@ import config
 import tools
 import qttools
 from manageprofiles import combobox
+from manageprofiles.statebindcheckbox import StateBindCheckBox
+from manageprofiles.spinboxunit import SpinBoxWithUnit
 
 
 class OptionsTab(QDialog):
@@ -83,6 +85,23 @@ class OptionsTab(QDialog):
             _('Create a new backup whether there were changes or not.'))
         tab_layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
+        # warn free space
+        hlayout = QHBoxLayout()
+        tab_layout.addLayout(hlayout)
+
+        WARN_FREE_SPACE_UNITS = {
+            config.Config.DISK_UNIT_MB: 'MiB',
+            config.Config.DISK_UNIT_GB: 'GiB'
+        }
+        self.suWarnFreeSpace = SpinBoxWithUnit(
+            self, (1, 99999), WARN_FREE_SPACE_UNITS)
+
+        self.cbWarnFreeSpace = StateBindCheckBox(
+            _('Show warning if the free space is less than'), self)
+        self.cbWarnFreeSpace.bind(self.suWarnFreeSpace)
+        hlayout.addWidget(self.cbWarnFreeSpace)
+        hlayout.addWidget(self.suWarnFreeSpace)
+
         # log level
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
@@ -110,6 +129,10 @@ class OptionsTab(QDialog):
         self.cbUseChecksum.setChecked(self.config.useChecksum())
         self.cbTakeSnapshotRegardlessOfChanges.setChecked(
             self.config.takeSnapshotRegardlessOfChanges())
+        enabled, value, unit = self.config.warnFreeSpace()
+        self.cbWarnFreeSpace.setChecked(enabled)
+        self.suWarnFreeSpace.set_value(value)
+        self.suWarnFreeSpace.select_unit(unit)
         self.comboLogLevel.select_by_data(self.config.logLevel())
 
     def store_values(self):
@@ -122,6 +145,10 @@ class OptionsTab(QDialog):
         self.config.setUseChecksum(self.cbUseChecksum.isChecked())
         self.config.setTakeSnapshotRegardlessOfChanges(
             self.cbTakeSnapshotRegardlessOfChanges.isChecked())
+        self.config.setWarnFreeSpace(
+            self.suWarnFreeSpace.isEnabled(),
+            self.suWarnFreeSpace.value(),
+            self.suWarnFreeSpace.unit())
         self.config.setLogLevel(
             self.comboLogLevel.itemData(self.comboLogLevel.currentIndex()))
 
