@@ -394,6 +394,7 @@ class Config(configfile.ConfigFileWithProfiles):
                     )
                 )
 
+                return False
         return True
 
     def host(self):
