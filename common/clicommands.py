@@ -69,6 +69,7 @@ def show_deprecation_message(cmd_flag: str):
             'Use "remove --skip-confirmation" instead.',
         '--profile-id': 'Use "--profile" instead.',
         '--share-path': None,
+        'decode': None,
     }[cmd_flag]
 
     msg = _deprecation_msg(cmd_flag, replacement)
@@ -218,6 +219,7 @@ def decode(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
+    show_deprecation_message('decode')
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 

@@ -114,7 +114,6 @@ class ParserAgent:
         self._cmd_func_dict = {
             'backup': clicommands.backup,
             'check-config': clicommands.check_config,
-            'decode': clicommands.decode,
             'pw-cache': clicommands.pw_cache,
             'remove': clicommands.remove,
             'restore': clicommands.restore,
@@ -123,6 +122,7 @@ class ParserAgent:
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
+            'decode': clicommands.decode,
             'backup-job': clicommands.backup_job,
             'smart-remove': clicommands.smart_remove,
             'remove-and-do-not-ask-again':
@@ -316,7 +316,7 @@ class ParserAgent:
             '--checksum',
             action='store_true',
             help='force to use checksum for checking if '
-                 'files have been changed.')
+                 'files have been changed')
 
         self._reusable_parsers['rsync'] = parser
 
@@ -877,6 +877,7 @@ def print_usage_without_deprecations(parser):
         'backup-job',
         'smart-remove',
         'remove-and-do-not-ask-again',
+        'decode',
     ]
 
     def _remove_cmds_from_cmd_list(line: str):
