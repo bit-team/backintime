@@ -716,28 +716,25 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
             help=desc,
             description=desc)
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
-        group = parser.add_mutually_exclusive_group()
-        group.add_argument(
-            '-p', '--profile',
-            metavar = 'NAME|ID',
-            type = str,
-            action = 'store',
-            help = 'a more detailed summary of profile '
-            ' %(metavar)s')
-        group.add_argument(
-            '-i','--issues',
-            action = 'store_true',
-            help = 'show only profiles with errors on most recent '
-            'run or no backup history at all')
         parser.add_argument(
-            '-j', '--json',
-            action = 'store_true',
-            help = "output in json format")
+            '--issues', '-i',
+            ACTION='store_true',
+            help='show only profiles with errors on most recent '
+                 'run or no backup history at all')
+
+        parser.add_argument(
+            '--json', '-j',
+            action='store_true',
+            help="output in json format")
 
         self.parsers[name] = parser
 
