@@ -45,9 +45,9 @@ class BackupStatus:
 
     def __init__(self,
                  cfg: config.Config,
-                 all_status: bool,
-                 issues: bool,
-                 format_json: bool):
+                 all_status: bool = True,
+                 issues: bool = False,
+                 format_json: bool = False):
 
         self.cfg = cfg
         self.issues = issues
