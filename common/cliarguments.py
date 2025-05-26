@@ -718,7 +718,6 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            epilog=self._epilog_com,
             help=desc,
             description=desc)
 
@@ -726,26 +725,19 @@ class ParserAgent:
 
         group = parser.add_mutually_exclusive_group()
         group.add_argument(
-            '--profile',
-            metavar = 'NAME',
+            '-p', '--profile',
+            metavar = 'NAME|ID',
             type = str,
             action = 'store',
-            help = 'a more detailed summary of the profile with '
-            'the name, %(metavar)s')
+            help = 'a more detailed summary of profile '
+            ' %(metavar)s')
         group.add_argument(
-            '--profile-id',
-            metavar = 'ID',
-            type = int,
-            action = 'store',
-            help = 'a more detailed summary of the profile with '
-            'the id, %(metavar)s')
-        group.add_argument(
-            '--issues', '-i',
+            '-i','--issues',
             action = 'store_true',
             help = 'show only profiles with errors on most recent '
             'run or no backup history at all')
         parser.add_argument(
-            '--json', '-j',
+            '-j', '--json',
             action = 'store_true',
             help = "output in json format")
 

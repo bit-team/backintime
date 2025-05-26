@@ -644,9 +644,24 @@ def prune(args: argparse.Namespace):
 
 
 def backup_status(args: argparse.Namespace):
-    """Handler for CLI command 'status'"""
-    with BackupStatus(args, cfg=_get_config(args)) as status:
-        print(status)
+    """
+    Handler for CLI command 'status'.
+
+    Args:
+        args (argparse.Namespace):
+                        Parsed command-line arguments.
+    """
+    cfg = _get_config(args)
+    profile_id = cfg.current_profile_id if args.profile else None
+
+    status_object = BackupStatus(
+        cfg = cfg,
+        profile_id = profile_id,
+        issues = bool(args.issues),
+        format_json = bool(args.json)
+    )
+
+    print(status_object.get_status())
 
 
 def unmount(args):

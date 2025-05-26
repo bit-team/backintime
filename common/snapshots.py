@@ -45,19 +45,6 @@ from uniquenessset import UniquenessSet
 from status import BackupStatus
 
 
-def _update_backup_status_after_takeSnapshot(func):
-    """Decorator for the Snapshots:takeSnapshot() method which ensures that
-    the status file is updated after the backup process completes."""
-    def wrapper(self, sid, now, include_folders):
-        try:
-            return func(self, sid, now, include_folders)
-        finally:
-            with BackupStatus(cfg=self.config) as status:
-                status.update_status()
-    return wrapper
-
-
-
 class Snapshots:
     """
     Collection of take-snapshot and restore commands.
@@ -964,9 +951,11 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
+                                BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                new = NewSnapshot(self.config)
+                                BackupStatus(self.config).update_status(now)
+                                new = NewSnapshot(cfg = self.config)
 
                                 if new.exists():
                                     new.saveToContinue = False
@@ -1308,7 +1297,6 @@ class Snapshots:
             group = self.groupName(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
 
-    @_update_backup_status_after_takeSnapshot
     def takeSnapshot(self, sid, now, include_folders):
         """This is the main backup routine.
 
