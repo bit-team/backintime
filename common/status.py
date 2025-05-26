@@ -52,7 +52,7 @@ class BackupStatus:
         self.cfg = cfg
         self.issues = issues
         self.json = format_json
-        self.all_status = all_status,
+        self.all_status = all_status
         self.status = {}
 
     def get_status(self):
@@ -95,7 +95,7 @@ class BackupStatus:
             timestamp (datetime, optional):
                         Timestamp to use as the last run time.
         """
-        profile_name = self.cfg.profileName(self.profile_id)
+        profile_name = self.cfg.profileName()
         self._read_status_file()
         self.status[profile_name] = self._create_profile_status(timestamp)
         self._write_status_file()
@@ -373,14 +373,14 @@ def _human(dic: dict, indent: int = 0, width: int = None) -> str:
     """
     human = []
     singly_nested = 2
-    doubly_nested = 4
+    # doubly_nested = 4
 
     if width is None:
         width = _longest_key(dic)
 
     for key, value in dic.items():
         if isinstance(value, dict):
-            if indent == 0 and len(human):
+            if indent == 0 and human:
                 human.append('')
 
             human.append(f"{' ' * indent}{key}:")
