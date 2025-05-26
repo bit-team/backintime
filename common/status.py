@@ -19,7 +19,6 @@ $XDG_STATE_HOME/backintime-backup-status.json
 """
 import json
 import os
-import pathlib
 from pathlib import Path
 from datetime import datetime
 import config
@@ -38,25 +37,22 @@ class BackupStatus:
     human-readable string or JSON.
 
     Args:
-        cfg (config.Config):
-                        Configuration object.
-        profile_id (int, optional):
-                        ID of a specific profile to filter by.
-        issues (bool, optional):
-                        If True, only profiles with issues are shown.
-        json (bool, optional):
-                        If True, output is in JSON format.
+        cfg: Configuration object.
+        all_status: Status for all profiles.
+        issues: If True, only profiles with issues are shown.
+        json: If True, output is in JSON format.
     """
+
     def __init__(self,
                  cfg: config.Config,
-                 profile_id: int = None,
-                 issues: bool = False,
-                 format_json: bool = False):
+                 all_status: bool,
+                 issues: bool,
+                 format_json: bool):
+
         self.cfg = cfg
-        self.profile_id = profile_id
         self.issues = issues
         self.json = format_json
-        self.all_status = profile_id is None and not issues
+        self.all_status = all_status,
         self.status = {}
 
     def get_status(self):
@@ -69,14 +65,16 @@ class BackupStatus:
                         on self.json).
         """
         self._read_status_file()
+
         status = self.status.get(
-            self.cfg.profileName(self.profile_id),
+            self.cfg.profileName(),
             None
         )
-        if status is None or status['Last Run'] is None or\
-                status['Last Run'] == 'Not available':
+
+        if status is None or status['Last Run'] in [None, 'Not available']:
+
             logger.warning(
-                f'No status found for profile {self.profile_id}. '
+                f'No status found for profile "{self.cfg.currentProfile()}". '
                 'Trying to create new status entry.'
             )
             self.update_status()
@@ -136,18 +134,16 @@ class BackupStatus:
         Create a status dictionary for all profiles and save it disk.
         Called when no backup status file exists.
         """
-        temp_id = self.profile_id or self.cfg.current_profile_id
 
         for profile in self.cfg.profiles():
-            self.profile_id = profile
-            profile_data = self._create_profile_status()
-            self.status[self.cfg.profileName(self.profile_id)] = profile_data
-
-        self.profile_id = temp_id
+            profile_data = self._create_profile_status(profile_id=profile)
+            self.status[self.cfg.profileName(profile)] = profile_data
 
         self._write_status_file()
 
-    def _create_profile_status(self, timestamp: datetime = None) -> dict:
+    def _create_profile_status(self,
+                               profile_id: str,
+                               timestamp: datetime = None) -> dict:
         """
         Create a status entry for a single profile. Called for each profile by
         _create_status_file() when no backup status file exists or by
@@ -162,29 +158,28 @@ class BackupStatus:
             dict:
                         Status data for the profile.
         """
-        self.cfg.setCurrentProfile(self.profile_id)
-        cfg = self.cfg
-        profile = cfg.profileName(self.profile_id)
+        original_profile_id = self.cfg.currentProfile()
+        self.cfg.setCurrentProfile(profile_id)
 
         try:
             ssh = None
-            if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
-                logger.info('Connecting to: ' + profile)
-                ssh = sshtools.SSH(cfg)
+            if self.cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
+                logger.info('Connecting to: ' + self.cfg.profileName())
+                ssh = sshtools.SSH(self.cfg)
                 ssh.mount()
 
             # Get the last run timestamp
-            # If a timestamp is provided, use it for the last run
             if timestamp is not None:
+                # If a timestamp is provided, use it for the last run
                 last_log_ts = timestamp.strftime("%Y-%m-%d %H:%M:%S")
-            # Else use the timestamp from the last log file
             else:
-                last_log = self.cfg.takeSnapshotLogFile(self.profile_id)
+                # use the timestamp from the last log file
+                last_log = self.cfg.takeSnapshotLogFile(profile_id)
                 last_log_ts = _date_of(last_log)
 
-            status = {'Last Run':
-                      str(last_log_ts) if last_log_ts else None
-                      }
+            status = {
+                'Last Run': str(last_log_ts) if last_log_ts else None
+            }
 
             # Get the timestamp for most recent backup (w or w/out errors)
             last_backup = snapshots.lastSnapshot(self.cfg)
@@ -206,8 +201,10 @@ class BackupStatus:
 
             # If there has been a backup, add its status and timestamp
             if last_backup_ts:
-                status['Last Backup'] = {'Status': profile_status,
-                                         'Completed At': str(last_backup_ts)}
+                status['Last Backup'] = {
+                    'Status': profile_status,
+                    'Completed At': str(last_backup_ts)
+                }
 
             # If last backup was with errors, add the last successful
             # backup timestamp
@@ -225,21 +222,25 @@ class BackupStatus:
                     'Log file': self.cfg.takeSnapshotLogFile(),
                 }})
 
-            return status
-
         except MountException:
             ssh = None
             logger.warning('Unable to establish connection with : '
-                           f'{cfg.sshHost(profile_id=cfg.current_profile_id)}')
-            return ({
-                'Last Run': 'Not available',
-                    'Note': 'Connect the drive and get status for this '
-                    f'profile to update (id={self.profile_id})'
-                    })
+                           f'{self.cfg.sshHost(profile_id=profile_id)}')
+            status = (
+                {
+                    'Last Run': 'Unknown',
+                    'Note': 'Connect the drive to get status for this '
+                            f'profile (id={profile_id})'
+                }
+            )
 
         finally:
             if ssh:
                 ssh.umount()
+
+        self.cfg.setCurrentProfile(original_profile_id)
+
+        return status
 
     def _get_formatted_status(self) -> str:
         """
@@ -269,15 +270,17 @@ class BackupStatus:
             because no profile is specified, the issues flag is set,
             or the profile name matches the key."""
 
-            return self.all_status or self.issues\
-                or self.cfg.profileName(self.profile_id) == key
+            return self.all_status or self.issues \
+                or self.cfg.profileName() == key
 
         def issues_filter(key):
             """Returns true if --issues flag is not set or it is set and
             either no backup exists or last backup for profile has errors."""
 
-            return not self.issues or not self.status[key].get('Last Backup')\
-                or self.status[key]['Last Backup'].get('Status') == 'Errors'
+            return (not self.issues
+                    or not self.status[key].get('Last Backup')
+                    or self.status[key]['Last Backup'].get(
+                        'Status') == 'Errors')
 
         def remove_keys(dic, keys):
             """Helper function to remove specified keys from a dict."""
@@ -300,20 +303,25 @@ class BackupStatus:
             if profile_filter(key) and issues_filter(key)
         }
 
-        return (json.dumps(result, indent=2) if self.json
-                else _human(result) + '\n\n')
+        if self.json:
+            return json.dumps(result, indent=2)
+
+        return _human(result)
 
 
 def _date_of(filename: str) -> str:
     """Return the modified date of a file (or None if file doesn't exist)."""
-    file_path = pathlib.Path(filename)
+    file_path = Path(filename)
+
     try:
         timestamp = file_path.stat().st_mtime
-        timestamp_ts = datetime.fromtimestamp(timestamp)
-        return timestamp_ts.strftime("%Y-%m-%d %H:%M:%S")
 
     except FileNotFoundError:
         return None
+
+    timestamp_ts = datetime.fromtimestamp(timestamp)
+
+    return timestamp_ts.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def _longest_key(dic: dict, depth: int = 0) -> int:
@@ -369,14 +377,12 @@ def _human(dic: dict, indent: int = 0, width: int = None) -> str:
 
     if width is None:
         width = _longest_key(dic)
-    if indent == 0:
-        human.append('')
 
     for key, value in dic.items():
-        if indent != doubly_nested:
-            human.append('')
-
         if isinstance(value, dict):
+            if indent == 0 and len(human):
+                human.append('')
+
             human.append(f"{' ' * indent}{key}:")
             human.append(
                 _human(value, indent=indent + 2, width=width)
@@ -396,7 +402,7 @@ def _status_file_path() -> Path:
     Get the path to the status file based on XDG state home.
 
     Returns:
-        pathlib.Path: Path to the status file.
+        Path: Path to the status file.
     """
     xdg_state = os.environ.get(
         'XDG_STATE_HOME',

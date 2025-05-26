@@ -712,28 +712,28 @@ class ParserAgent:
     def _create_cmd_status(self):
         name = 'status'
 
-        desc = 'Show a summary of the last backup from each profile.'
-
         parser = self._command_subparsers.add_parser(
             name,
             parents=[
                 self._reusable_parsers['profile'],
                 self._reusable_parsers['common'],
             ],
-            help=desc,
-            description=desc)
+            help='summarize last backups form all profiles',
+            description='Show a summary of the last backup from all profiles.')
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
         parser.add_argument(
             '--issues', '-i',
             action='store_true',
+            default=False,
             help='show only profiles with errors on most recent '
                  'run or no backup history at all')
 
         parser.add_argument(
             '--json', '-j',
             action='store_true',
+            default=False,
             help="output in json format")
 
         self.parsers[name] = parser

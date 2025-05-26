@@ -602,9 +602,11 @@ def show_backups(args: argparse.Namespace):
 
     sys.exit(bitbase.RETURN_OK)
 
+
 def smart_remove(args: argparse.Namespace):
     show_deprecation_message('smart-remove')
     prune(args)
+
 
 def prune(args: argparse.Namespace):
     """Run Remove & Retention (aka Smart-Removal).
@@ -651,13 +653,12 @@ def status(args: argparse.Namespace):
                         Parsed command-line arguments.
     """
     cfg = _get_config(args)
-    profile_id = cfg.current_profile_id if args.profile else None
 
     status_object = BackupStatus(
-        cfg = cfg,
-        profile_id = profile_id,
-        issues = bool(args.issues),
-        format_json = bool(args.json)
+        cfg=cfg,
+        all_status=False if args.profile else True,
+        issues=args.issues,
+        format_json=args.json
     )
 
     print(status_object.get_status())
