@@ -727,7 +727,7 @@ class ParserAgent:
 
         parser.add_argument(
             '--issues', '-i',
-            ACTION='store_true',
+            action='store_true',
             help='show only profiles with errors on most recent '
                  'run or no backup history at all')
 
