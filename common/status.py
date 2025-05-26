@@ -71,7 +71,7 @@ class BackupStatus:
             None
         )
 
-        if status is None or status['Last Run'] in [None, 'Not available']:
+        if status is None or status['Last Run'] in [None, 'Unknown']:
 
             logger.warning(
                 f'No status found for profile "{self.cfg.currentProfile()}". '
