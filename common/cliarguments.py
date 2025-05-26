@@ -121,6 +121,7 @@ class ParserAgent:
             'prune': clicommands.prune,
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
+            'status': clicommands.status,
             # Deprecated commands (#2124)
             'decode': clicommands.decode,
             'backup-job': clicommands.backup_job,
@@ -135,9 +136,6 @@ class ParserAgent:
             'last-snapshot-path': clicommands.last_snapshot_path,
             'snapshots-list': clicommands.snapshots_list,
             'snapshots-list-path': clicommands.snapshots_list_path,
-            'status': clicommands.backup_status,
-            'smart-remove': clicommands.smart_remove,
-            'unmount': clicommands.unmount,
         }
 
         # Public parsers indexed by their (command) name
@@ -711,7 +709,7 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
-    def _create_cmd_backup_status(self):
+    def _create_cmd_status(self):
         name = 'status'
 
         desc = 'Show a summary of the last backup from each profile.'
@@ -815,7 +813,7 @@ class ParserAgent:
             title='Commands', dest='command')
 
         self._create_cmd_backup()
-        self._create_cmd_backup_status()
+        self._create_cmd_status()
         self._create_cmd_backup_job()
         self._create_cmd_show()
         self._create_cmd_restore()

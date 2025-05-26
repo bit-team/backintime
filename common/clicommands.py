@@ -643,9 +643,8 @@ def prune(args: argparse.Namespace):
     sys.exit(bitbase.RETURN_NO_CFG)
 
 
-def backup_status(args: argparse.Namespace):
-    """
-    Handler for CLI command 'status'.
+def status(args: argparse.Namespace):
+    """Handler for CLI command 'status'.
 
     Args:
         args (argparse.Namespace):
