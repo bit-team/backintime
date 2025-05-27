@@ -143,7 +143,7 @@ under certain conditions; type `backintime --license' for details.
         line_beginnings_to_exclude = [
             'WARNING',
             'Warning',
-            'ERROR: Error writing status file: [Error 2] No such file',
+            'ERROR: Error writing status file',
         ]
 
         # Warnings currently known:
