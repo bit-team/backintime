@@ -91,7 +91,9 @@ def _license_info() -> tuple[str, str]:
 
     if not result[1]:
         result = (
-            result[0], 'Unable to extract licenses from LICENSES directory.')
+            result[0],
+            'Unable to extract licenses from LICENSES '
+            f'directory "{bitbase.DIR_LICENSES}".')
         logger.error(result[1])
 
     return result
