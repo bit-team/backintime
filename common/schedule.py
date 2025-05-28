@@ -18,6 +18,7 @@ import logger
 import tools
 from typing import Callable
 from bitbase import ScheduleMode, TimeUnit
+from exceptions import InvalidChar, InvalidCmd, LimitExceeded
 
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
 """The string is used in crontab file to mark entries as owned by Back
@@ -216,6 +217,7 @@ def is_cron_running():
 
 def create_cron_line(schedule_mode: ScheduleMode,
                      backup_mode: str,
+                     cron_command: str,
                      dest_path: str,
                      hour: int,
                      minute: int,
@@ -224,8 +226,7 @@ def create_cron_line(schedule_mode: ScheduleMode,
                      offset: str,
                      custom_backup_time: str,
                      repeat_unit: TimeUnit,
-                     udev_is_ready: bool,
-                     cached_uuid: str,
+                     udev_setup: tools.SetupUdev,
                      pid: str,
                      notify_callback: Callable) -> str:
     """Create a crontab line based on the given arguments.
@@ -268,7 +269,7 @@ def create_cron_line(schedule_mode: ScheduleMode,
         else:
             cron_line = '0 * * * * {cmd}'
     elif ScheduleMode.UDEV == schedule_mode:
-        if not udev_is_ready:
+        if not udev_setup.isReady:
             logger.error(
                 "Failed to install Udev rule for profile %s. DBus "
                 "Service 'net.launchpad.backintime.serviceHelper' not "
@@ -293,27 +294,18 @@ def create_cron_line(schedule_mode: ScheduleMode,
         uuid = tools.uuidFromPath(dest_path)
 
         if uuid is None:
-            # try using cached uuid
-            # Devices uuid used to automatically set up udev rule if the
-            # drive is not connected.
-            uuid = cached_uuid
-
-        if not uuid:
             logger.error(
                 "Couldn't find UUID for \"{dest_path}\"", self)
             notify_callback(_("Couldn't find UUID for {path}").format(
                 path=f'"{dest_path}"'))
             return None
 
-        # cache uuid in config
-        self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
-
         try:
-            self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
+            udev_setup.addRule(cron_command, uuid)
 
-        except (InvalidChar, InvalidCmd, LimitExceeded) as e:
-            logger.error(str(e), self)
-            self.notifyError(str(e))
+        except (InvalidChar, InvalidCmd, LimitExceeded) as exc:
+            logger.error(str(exc), self)
+            notify_callback(str(exc))
 
             return None
 
