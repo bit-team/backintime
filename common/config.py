@@ -1584,22 +1584,12 @@ class Config(configfile.ConfigFileWithProfiles):
             uuid = tools.uuidFromPath(dest_path)
 
             if uuid is None:
-                # try using cached uuid
-                # Devices uuid used to automatically set up udev rule if the
-                # drive is not connected.
-                uuid = self.profileStrValue(
-                    'snapshots.path.uuid', '', profile_id)
-
-                if not uuid:
-                    logger.error(
-                        "Couldn't find UUID for \"{dest_path}\"", self)
-                    self.notifyError(_("Couldn't find UUID for {path}")
-                                     .format(path=f'"{dest_path}"'))
-                    return None
-
-            else:
-                # cache uuid in config
-                self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
+                logger.error(
+                    "Couldn't find UUID for \"{dest_path}\"", self)
+                self.notifyError(
+                    _("Couldn't find UUID for {path}").format(
+                        path=f'"{dest_path}"'))
+                return None
 
             try:
                 self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
@@ -1618,7 +1608,6 @@ class Config(configfile.ConfigFileWithProfiles):
             cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
 
         return cron_line
-
 
     def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings
