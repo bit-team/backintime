@@ -715,6 +715,9 @@ class GeneralTab(QDialog):
             # self.modeLocalEncfs = self.modeLocal
             # self.modeSshEncfs = self.modeSsh
 
+            self._wdg_schedule.allow_udev(
+                active_mode in ('local', 'local_encfs'))
+
         if self.config.modeNeedPassword(active_mode):
 
             self.lblPassword1.setText(
