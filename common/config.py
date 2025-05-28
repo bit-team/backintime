@@ -856,7 +856,7 @@ class Config(configfile.ConfigFileWithProfiles):
         #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
         #?40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
-        return self.profileIntValue('schedule.mode', self.NONE, profile_id)
+        return self.profileIntValue('schedule.mode', Config.NONE, profile_id)
 
     def setScheduleMode(self, value, profile_id = None):
         self.setProfileIntValue('schedule.mode', value, profile_id)
@@ -1488,28 +1488,35 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         profile_ids = self.profiles()
 
-        # For each profile: cronline and the command (backintime)
-        cron_lines = [
-            self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
-            for pid in profile_ids
-        ]
+        cron_lines = []
 
-        # Remove empty lines (profiles not scheduled)
-        cron_lines = list(filter(None, cron_lines))
+        # For each profile: cronline and the command (backintime)
+        for pid in profile_ids:
+            one_line = self._cron_line(pid)
+
+            # Filter empty strings and None (profiles not scheduled)
+            if one_line:
+                cron_lines.append(
+                    one_line.replace('{cmd}', self._cron_cmd(pid)))
 
         return cron_lines
 
-    def _cron_line(self, profile_id):
-        """Create a crontab line based on the snapshot profiles settings."""
+    def _cron_line(self, profile_id) -> str:
+        """Create a crontab line based on the profiles settings.
+
+        Returns:
+            A crontab line containing '{cmd}' placeholder or `None` if an error
+            occured.
+        """
         cron_line = ''
-        profile_name = self.profileName(profile_id)
+        # profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
 
-        logger.debug(
-            f"Profile: {profile_name} | Automatic backup: {backup_mode}",
-            self)
+        # logger.debug(
+        #     f'Profile: {profile_name} | Automatic backup: {backup_mode}',
+        #     self)
 
-        if self.NONE == backup_mode:
+        if Config.NONE == backup_mode:
             return cron_line
 
         hour = self.scheduleTime(profile_id) // 100
@@ -1545,7 +1552,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 cron_line = '*/15 * * * * {cmd}'
             else:
                 cron_line = '0 * * * * {cmd}'
-        elif self.UDEV == backup_mode:
+        elif Config.UDEV == backup_mode:
             if not self.setupUdev.isReady:
                 logger.error(
                     "Failed to install Udev rule for profile %s. DBus "
@@ -1560,6 +1567,7 @@ class Config(configfile.ConfigFileWithProfiles):
                                            'serviceHelper'))
 
             mode = self.snapshotsMode(profile_id)
+
             if mode == 'local':
                 dest_path = self.snapshotsFullPath(profile_id)
             elif mode == 'local_encfs':
@@ -1570,27 +1578,38 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(_(
                     "Udev schedule doesn't work with mode {mode}")
                     .format(mode=mode))
-                return False
+
+                return None
+
             uuid = tools.uuidFromPath(dest_path)
+
             if uuid is None:
-                #try using cached uuid
-                #?Devices uuid used to automatically set up udev rule if the drive is not connected.
-                uuid = self.profileStrValue('snapshots.path.uuid', '', profile_id)
+                # try using cached uuid
+                # Devices uuid used to automatically set up udev rule if the
+                # drive is not connected.
+                uuid = self.profileStrValue(
+                    'snapshots.path.uuid', '', profile_id)
+
                 if not uuid:
                     logger.error(
                         "Couldn't find UUID for \"{dest_path}\"", self)
                     self.notifyError(_("Couldn't find UUID for {path}")
                                      .format(path=f'"{dest_path}"'))
-                    return False
+                    return None
+
             else:
-                #cache uuid in config
+                # cache uuid in config
                 self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
+
             try:
                 self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
+
             except (InvalidChar, InvalidCmd, LimitExceeded) as e:
                 logger.error(str(e), self)
                 self.notifyError(str(e))
-                return False
+
+                return None
+
         elif self.WEEK == backup_mode:
             cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
         elif self.MONTH == backup_mode:
@@ -1599,6 +1618,7 @@ class Config(configfile.ConfigFileWithProfiles):
             cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
 
         return cron_line
+
 
     def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings
