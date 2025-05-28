@@ -102,6 +102,16 @@ class OptionsTab(QDialog):
         hlayout.addWidget(self.cbWarnFreeSpace)
         hlayout.addWidget(self.suWarnFreeSpace)
 
+        tooltip = [
+            _('Shows a warning when free space on the backup destination disk is less '
+            'than the specified value.'),
+            _('If the Remove & Retention policy is enabled and old backups are removed '
+            'based on available free space, this value cannot be lower than the value '
+            'set in the policy.')
+        ]
+        qttools.set_wrapped_tooltip(self.suWarnFreeSpace, tooltip)
+        qttools.set_wrapped_tooltip(self.cbWarnFreeSpace, tooltip)
+
         # log level
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
