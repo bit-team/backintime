@@ -60,24 +60,24 @@ class Config(configfile.ConfigFileWithProfiles):
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
 
-    NONE = 0
-    AT_EVERY_BOOT = 1
-    _5_MIN = 2
-    _10_MIN = 4
-    _30_MIN = 7
-    HOUR = 10
-    _1_HOUR = 10
-    _2_HOURS = 12
-    _4_HOURS = 14
-    _6_HOURS = 16
-    _12_HOURS = 18
-    CUSTOM_HOUR = 19
-    DAY = 20
-    REPEATEDLY = 25
-    UDEV = 27
-    WEEK = 30
-    MONTH = 40
-    YEAR = 80
+    NONE = bitbase.ScheduleMode.DISABLED
+    AT_EVERY_BOOT = bitbase.ScheduleMode.AT_EVERY_BOOT
+    _5_MIN = bitbase.ScheduleMode.MINUTES_5
+    _10_MIN = bitbase.ScheduleMode.MINUTES_10
+    _30_MIN = bitbase.ScheduleMode.MINUTES_30
+    HOUR = bitbase.ScheduleMode.HOUR
+    _1_HOUR = bitbase.ScheduleMode.HOUR_1
+    _2_HOURS = bitbase.ScheduleMode.HOURS_2
+    _4_HOURS = bitbase.ScheduleMode.HOURS_4
+    _6_HOURS = bitbase.ScheduleMode.HOURS_6
+    _12_HOURS = bitbase.ScheduleMode.HOURS_12
+    CUSTOM_HOUR = bitbase.ScheduleMode.CUSTOM_HOUR
+    DAY = bitbase.ScheduleMode.DAY
+    REPEATEDLY = bitbase.ScheduleMode.REPEATEDLY
+    UDEV = bitbase.ScheduleMode.UDEV
+    WEEK = bitbase.ScheduleMode.WEEK
+    MONTH = bitbase.ScheduleMode.MONTH
+    YEAR = bitbase.ScheduleMode.YEAR
 
     HOURLY_BACKUPS = (HOUR,
                       _2_HOURS,
@@ -882,6 +882,12 @@ class Config(configfile.ConfigFileWithProfiles):
         #?\fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly),
         #?40 (monthly) and 80 (yearly);0-2400
         return self.profileIntValue('schedule.time', 0, profile_id)
+
+    def scheduleHourMinute(self, profile_id: str = None
+                                  ) -> tuple[int, int]:
+        the_time = self.scheduleTime(profile_id)
+
+        return (the_time // 100, the_time % 100)
 
     def setScheduleTime(self, value, profile_id = None):
         self.setProfileIntValue('schedule.time', value, profile_id)

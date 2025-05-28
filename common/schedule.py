@@ -15,6 +15,9 @@ features.
 """
 import subprocess
 import logger
+import tools
+from typing import Callable
+from bitbase import ScheduleMode, TimeUnit
 
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
 """The string is used in crontab file to mark entries as owned by Back
@@ -209,3 +212,116 @@ def is_cron_running():
             return False
 
     return True
+
+
+def create_cron_line(schedule_mode: ScheduleMode,
+                     backup_mode: str,
+                     dest_path: str,
+                     hour: int,
+                     minute: int,
+                     day: int,
+                     weekday: int,
+                     offset: str,
+                     custom_backup_time: str,
+                     repeat_unit: TimeUnit,
+                     udev_is_ready: bool,
+                     cached_uuid: str,
+                     pid: str,
+                     notify_callback: Callable) -> str:
+    """Create a crontab line based on the given arguments.
+
+    Returns:
+        A crontab line containing '{cmd}' placeholder or `None` if an error
+        occured.
+    """
+    cron_line = ''
+
+    if schedule_mode is ScheduleMode.DISABLED:
+        # Might raise an exception?
+        return cron_line
+
+    if ScheduleMode.AT_EVERY_BOOT == schedule_mode:
+        cron_line = '@reboot {cmd}'
+    elif ScheduleMode.MINUTES_5 == schedule_mode:
+        cron_line = '*/5 * * * * {cmd}'
+    elif ScheduleMode.MINUTES_10 == schedule_mode:
+        cron_line = '*/10 * * * * {cmd}'
+    elif ScheduleMode.MINUTES_30 == schedule_mode:
+        cron_line = '*/30 * * * * {cmd}'
+    elif ScheduleMode.HOUR_1 == schedule_mode:
+        cron_line = offset + ' * * * * {cmd}'
+    elif ScheduleMode.HOURS_2 == schedule_mode:
+        cron_line = offset + ' */2 * * * {cmd}'
+    elif ScheduleMode.HOURS_4 == schedule_mode:
+        cron_line = offset + ' */4 * * * {cmd}'
+    elif ScheduleMode.HOURS_6 == schedule_mode:
+        cron_line = offset + ' */6 * * * {cmd}'
+    elif ScheduleMode.HOURS_12 == schedule_mode:
+        cron_line = offset + ' */12 * * * {cmd}'
+    elif ScheduleMode.CUSTOM_HOUR == schedule_mode:
+        cron_line = offset + ' ' + custom_backup_time + ' * * * {cmd}'
+    elif ScheduleMode.DAY == schedule_mode:
+        cron_line = '%s %s * * * {cmd}' % (minute, hour)
+    elif ScheduleMode.REPEATEDLY == schedule_mode:
+        if repeat_unit <= TimeUnit.DAY:
+            cron_line = '*/15 * * * * {cmd}'
+        else:
+            cron_line = '0 * * * * {cmd}'
+    elif ScheduleMode.UDEV == schedule_mode:
+        if not udev_is_ready:
+            logger.error(
+                "Failed to install Udev rule for profile %s. DBus "
+                "Service 'net.launchpad.backintime.serviceHelper' not "
+                "available" % pid, self)
+
+            notify_callback(_(
+                "Could not install Udev rule for profile {profile_id}. "
+                "DBus Service '{dbus_interface}' wasn't available."
+            ).format(
+                profile_id=pid,
+                dbus_interface='net.launchpad.backintime.serviceHelper'))
+
+        if backup_mode not in ('local', 'local_encfs'):
+            logger.error(
+                f"Udev scheduling doesn't work with mode {mode}", self)
+            notify_callback(
+                _("Udev schedule doesn't work with mode {mode}").format(
+                    mode=backup_mode))
+
+            return None
+
+        uuid = tools.uuidFromPath(dest_path)
+
+        if uuid is None:
+            # try using cached uuid
+            # Devices uuid used to automatically set up udev rule if the
+            # drive is not connected.
+            uuid = cached_uuid
+
+        if not uuid:
+            logger.error(
+                "Couldn't find UUID for \"{dest_path}\"", self)
+            notify_callback(_("Couldn't find UUID for {path}").format(
+                path=f'"{dest_path}"'))
+            return None
+
+        # cache uuid in config
+        self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
+
+        try:
+            self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
+
+        except (InvalidChar, InvalidCmd, LimitExceeded) as e:
+            logger.error(str(e), self)
+            self.notifyError(str(e))
+
+            return None
+
+    elif ScheduleMode.WEEK == schedule_mode:
+        cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
+    elif ScheduleMode.MONTH == schedule_mode:
+        cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
+    elif ScheduleMode.YEAR == schedule_mode:
+        cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
+
+    return cron_line
