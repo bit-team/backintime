@@ -97,7 +97,7 @@ class OptionsTab(QDialog):
             self, (1, 99999), WARN_FREE_SPACE_UNITS)
 
         self.cbWarnFreeSpace = StateBindCheckBox(
-            _('Show warning if the free space is less than'), self)
+            _('Warn if the free disk space falls below'), self)
         self.cbWarnFreeSpace.bind(self.suWarnFreeSpace)
         hlayout.addWidget(self.cbWarnFreeSpace)
         hlayout.addWidget(self.suWarnFreeSpace)
