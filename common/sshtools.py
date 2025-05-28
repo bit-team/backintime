@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+L# SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2012-2022 Taylor Raack
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
@@ -436,6 +436,13 @@ class SSH(MountControl):
                         pw_id=1,
                         refresh=True,
                     )
+
+                if self.password:
+                    thread.stop()
+                    logger.debug('Provide password through temp FIFO', self)
+                    thread = password_ipc.TempPasswordThread(self.password)
+                    env['ASKPASS_TEMP'] = thread.temp_file
+                    thread.start()
 
                 proc = subprocess.Popen(['ssh-add', self.private_key_file],
                                         stdin=subprocess.PIPE,
