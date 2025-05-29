@@ -625,9 +625,6 @@ class GeneralTab(QDialog):
                 if not answer:
                     return
 
-                # Why?
-                self.config.removeProfileKey('snapshots.path.uuid')
-
             self.editSnapshotsPath.setText(self.config.preparePath(path))
 
     def _slot_ssh_private_key_file_clicked(self):
