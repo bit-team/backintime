@@ -1493,7 +1493,6 @@ class Config(configfile.ConfigFileWithProfiles):
         for pid in profile_ids:
             result = self._cron_line(pid)
 
-
             try:
                 cron_lines.append(
                     result.replace('{cmd}', self._cron_cmd(pid))
