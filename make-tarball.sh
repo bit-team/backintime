@@ -22,7 +22,10 @@ cd ..
 #     cp -aR ${CURRENT} ${NEW}
 # fi
 
-cp --exclude=.git -aR ${CURRENT} ${NEW}
+cp -aR ${CURRENT} ${NEW}
+rm -rf ${NEW}/.git
+rm -rf ${NEW}/.github
+rm -rf ${NEW}/.pytest_cache
 
 rm backintime-$VER.tar.gz
 
