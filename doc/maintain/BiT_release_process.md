@@ -328,6 +328,8 @@ expected. The following list suggests several actions and scenarios.
   - Always start from terminal to catch silent errors and warnings.
   - Create backup profils in all available flavors (Local, SSH, each with and
     without encryption).
+    * Keep the variants of that flavors in mind and test them: SSH key with and
+      without passphrase, cached, in keyring, ...
   - Take backup.
   - Restore backup.
   - Delete backup.
