@@ -32,15 +32,17 @@ from PyQt6.QtCore import (QDir,
                           QLibraryInfo,
                           QT_VERSION_STR,
                           QUrl)
-from PyQt6.QtWidgets import (QWidget,
-                             QFileDialog,
-                             QAbstractItemView,
-                             QListView,
-                             QTreeView,
-                             QDialog,
+from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
+                             QDialog,
+                             QFileDialog,
+                             QLabel,
+                             QListView,
+                             QSystemTrayIcon,
+                             QStyle,
                              QStyleFactory,
-                             QSystemTrayIcon)
+                             QTreeView,
+                             QWidget)
 
 from packaging.version import Version
 
@@ -184,6 +186,62 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
         combo_profiles.add_profile_id(profile_id)
         if profile_id == current_profile_id:
             combo_profiles.set_current_profile_id(profile_id)
+
+
+def create_icon_label(
+        icon_type: QStyle.StandardPixmap,
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        fixed_size_widget: bool = False) -> QLabel:
+    """Return a ``QLabel`` instance containing an icon.
+
+    Args:
+        icon_type: The icon, eg. info or warning.
+        icon_size: Size reference.
+        fixed_size_widget: Fix label size to its icon (default: False)
+
+    Returns:
+        The QLabel
+    """
+    style = QApplication.style()
+    ico = style.standardIcon(icon_type)
+    sz = style.pixelMetric(icon_size)
+
+    pixmap = ico.pixmap(sz)
+
+    label = QLabel()
+    label.setPixmap(pixmap)
+
+    if fixed_size_widget:
+        label.setFixedSize(pixmap.size())
+
+    return label
+
+
+def create_icon_label_info(
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        fixed_size_widget: bool = False) -> QLabel:
+    """Return a QLabel with an info icon.
+
+    See `create_icon_label` for details.
+    """
+    return create_icon_label(
+        icon_type=QStyle.StandardPixmap.SP_MessageBoxInformation,
+        icon_size=icon_size,
+        fixed_size_widget=fixed_size_widget)
+
+
+def create_icon_label_warning(
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        fixed_size_widget: bool = False) -> QLabel:
+    """Return a QLabel with a warning icon.
+
+    See `create_icon_label` for details.
+    """
+    return create_icon_label(
+        icon_type=QStyle.StandardPixmap.SP_MessageBoxWarning,
+        icon_size=icon_size,
+        fixed_size_widget=fixed_size_widget)
+
 
 # |---------------------|
 # | Misc / Uncatgorized |
@@ -367,10 +425,14 @@ def createQApplication(app_name='Back In Time'):
             f"Error reading QT QPA platform plugin or style: {repr(e)}")
 
     # Release Candidate indicator
-    if version.is_release_candidate():
+    if version.IS_RELEASE_CANDIDATE:
         app_name = f'{app_name} -- RELEASE CANDIDATE -- ' \
                    f'({version.__version__})'
+    elif version.IS_UNSTABLE_DEV_VERSION:
+        app_name = f'{app_name} -- UNSTABLE DEVELOPMENT ' \
+                   f'VERSION -- ({version.__version__})'
 
+    # This will influence the main window title
     qapp.setApplicationName(app_name)
 
     try:

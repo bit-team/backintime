@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
 # SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Rafael @rafaelhdr
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -30,14 +31,16 @@ import config
 import configfile
 import logger
 import tools
-import inhibitpowermgmt
 import encfstools
 import mount
 import progress
 import snapshotlog
 import flock
+import bitbase
+from typing import Generator
+from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
-from exceptions import MountException, LastSnapshotSymlink
+from exceptions import MountException
 from uniquenessset import UniquenessSet
 
 
@@ -713,10 +716,48 @@ class Snapshots:
 
             return True
 
-    # TODO Refactor: This functions is extremely difficult to understand:
-    #  - Nested "if"s
-    #  - Fuzzy names of classes, attributes and methods
-    # - unclear variable names (at least for the return values)
+    def warn_about_include_entries_missing_in_source(self):
+        """Log a warning if include list entries are missing in the backup
+        source.
+
+        If one or more entries can not be found in the backup source a
+        warning message is logged.
+        """
+        missing_entries = self.get_include_entries_missing_in_source()
+
+        if missing_entries:
+            # Dev note (2025-03, buhtz): Make this a module constant if #2070
+            # is fixed.
+            msg = _(
+                'The following entries from the include list have no '
+                'corresponding file or directory in the backup source:')
+            # Dev note (buhtz, 2025-03): To my research there is no elegant
+            # solution to this problem.
+            # Take care to keep this string consistent with the previous "msg"
+            msg_untranslated = \
+                'The following entries from the include list have no ' \
+                'corresponding file or directory in the backup source:'
+            msg_suffix = ' "' + '", "'.join(missing_entries) + '"'
+
+            self.setTakeSnapshotMessage(1, msg + msg_suffix)
+            # Don't translate log entries
+            logger.warning(msg_untranslated + msg_suffix)
+
+    def get_include_entries_missing_in_source(self):
+        """Return include list entries that are missing in the backup source.
+
+        If one or more entries can not be found in the backup source a
+        warning message is logged.
+
+        Returns:
+            list: List of entries missing.
+        """
+        include_entries = list(zip(*self.config.include()))[0]
+        missing_entries = filter(lambda entry: not Path(entry).exists(),
+                                 include_entries)
+        return list(missing_entries)
+
+    # TODO Refactor: This functions is extremely difficult to understand.
     def backup(self, force=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
@@ -736,18 +777,19 @@ class Snapshots:
         """
         ret_val, ret_error = False, True
         sleep = True
-        inhibit_cookie = None
 
         self.config.PLUGIN_MANAGER.load(self)
 
-        if not self.config.isConfigured():
+        # check configuration
+        if self.config.isConfigured() is False:
             logger.warning('Not configured', self)
-            # not configured
             self.config.PLUGIN_MANAGER.error(1)
+            return ret_error
 
-        elif (not force
-              and self.config.noSnapshotOnBattery()
-              and tools.onBattery()):
+        # No backup on battery
+        if (not force
+                and self.config.noSnapshotOnBattery()
+                and tools.onBattery()):
 
             self.setTakeSnapshotMessage(
                 0, _('Deferring backup while on battery'))
@@ -755,205 +797,208 @@ class Snapshots:
             logger.info('Deferring backup while on battery', self)
             logger.warning('Backup not performed', self)
             ret_error = False
+            return ret_error
 
-        elif not force and not self.config.backupScheduled():
+        if not force and not self.config.backupScheduled():
             logger.info(f'Profile "{self.config.profileName()}" is not '
                         'scheduled to run now.', self)
             ret_error = False
+            return ret_error
 
-        else:
-            instance = ApplicationInstance(
-                self.config.takeSnapshotInstanceFile(),
-                False,
-                flock=True
-            )
+        # Backup already running?
+        instance = ApplicationInstance(
+            self.config.takeSnapshotInstanceFile(),
+            False,
+            flock=True
+        )
 
-            restore_instance = ApplicationInstance(
-                self.config.restoreInstanceFile(),
-                False
-            )
+        if not instance.check():
+            logger.warning(
+                'A backup process is already running. The PID of the running '
+                f'backup is stored in {instance.pidFile}. Consider deleting '
+                'the PID file if there is actually no backup process running.',
+                self)
+            self.config.PLUGIN_MANAGER.error(2)
+            return ret_error
 
-            if not instance.check():
-                logger.warning(
-                    'A backup is already running. The pid of the already '
-                    f'running backup is in file {instance.pidFile}. Maybe '
-                    'delete it.', self)
+        # Restore already running?
+        restore_instance = ApplicationInstance(
+            self.config.restoreInstanceFile(),
+            False
+        )
 
-                # a backup is already running
-                self.config.PLUGIN_MANAGER.error(2)
+        if not restore_instance.check():
+            logger.warning(
+                'A restore process is already running. Backup has been '
+                'stopped. The PID of the running restore is stored in '
+                f'{restore_instance.pidFile}. Consider deleting the PID file '
+                'if there is actually no restore process running.', self)
+            return ret_error
 
-            elif not restore_instance.check():
-                logger.warning(
-                    'Restore is still running. Stop backup until restore is '
-                    'done. The pid of the already running restore is in '
-                    f'{restore_instance.pidFile}. Maybe delete it.', self)
+        # -- do the backup --
+        if (self.config.noSnapshotOnBattery()
+                and not tools.powerStatusAvailable()):
+            logger.warning('Backups disabled on battery but power '
+                           'status is not available', self)
 
-            else:
-                if (self.config.noSnapshotOnBattery()
-                        and not tools.powerStatusAvailable()):
-                    logger.warning('Backups disabled on battery but power '
-                                   'status is not available', self)
+        instance.startApplication()
 
-                instance.startApplication()
+        # Global flock to block backups from other profiles or users
+        # (and run them serialized). The argument "disabled" is a
+        # workaround (#1751) that should be removed/refactored after
+        # this method ("backup()") is refactored.
+        with flock.GlobalFlock(disable=not self.config.globalFlock()):
+            logger.info('Lock', self)
+            now = datetime.datetime.today()
 
-                # Global flock to block backups from other profiles or users
-                # (and run them serialized). The argument "disabled" is a
-                # workaround (#1751) that should be removed/refactored after
-                # this method ("backup()") is refactored.
-                with flock.GlobalFlock(disable=not self.config.globalFlock()):
-                    logger.info('Lock', self)
+            with InhibitSuspend():  # inhibit suspend mode while backup
+                # mount
+                try:
+                    hash_id = mount.Mount(cfg=self.config).mount()
 
-                    now = datetime.datetime.today()
+                except MountException as ex:
+                    logger.error(str(ex), self)
+                    instance.exitApplication()
+                    logger.info('Unlock', self)
+                    time.sleep(2)
 
-                    # TODO Use contextmanager instead.
-                    # inhibit suspend/hibernate during snapshot is running
-                    inhibit_cookie = inhibitpowermgmt.inhibit_suspend()
+                    return True
 
-                    # mount
-                    try:
-                        hash_id = mount.Mount(cfg=self.config).mount()
+                else:
+                    self.config.setCurrentHashId(hash_id)
 
-                    except MountException as ex:
-                        logger.error(str(ex), self)
-                        instance.exitApplication()
-                        logger.info('Unlock', self)
-                        time.sleep(2)
+                self.warn_about_include_entries_missing_in_source()
+                include_folders = self.config.include()
 
-                        return True
+                if not include_folders:
+                    logger.info('Nothing to do', self)
+
+                elif not self.config.PLUGIN_MANAGER.processBegin():
+                    logger.info('A plugin prevented the backup', self)
+
+                else:
+                    # take snapshot process begin
+                    self.setTakeSnapshotMessage(0, '…')
+                    self.snapshotLog.new(now)
+
+                    profile_id = self.config.currentProfile()
+                    profile_name = self.config.profileName()
+
+                    logger.info(f"Create a new backup. Profile: {profile_id} "
+                                f"{profile_name}", self)
+
+                    if not self.config.canBackup(profile_id):
+
+                        if (self.config.PLUGIN_MANAGER.hasGuiPlugins
+                                and self.config.notify()):
+
+                            message = (
+                                _("Can't find backup directory.")
+                                + '\n'
+                                + self.config.snapshotsFullPath(profile_id)
+                                + '\n'
+                                + _('If it is on a removable drive, '
+                                    'please plug it in.')
+                                + '\n'
+                                + gettext.ngettext('Waiting {n} second.',
+                                                    'Waiting {n} seconds.',
+                                                    30).format(n=30)
+                            )
+
+                            self.setTakeSnapshotMessage(
+                                type_id=1,
+                                message=message,
+                                timeout=30)
+
+                        logger.warning(
+                            'Cannot start backup yet: target directory '
+                            'not accessible. Will retry each second in '
+                            'the next 30 seconds. Please wait.')
+                        for _idx in range(30):
+
+                            time.sleep(1)
+
+                            if self.config.canBackup():
+                                break
+
+                    if not self.config.canBackup(profile_id):
+                        logger.error('Backup directory not '
+                                        'accessible. Tries stopped.',
+                                        self)
+                        # Can't find snapshots directory (is it on a
+                        # removable drive ?)
+                        self.config.PLUGIN_MANAGER.error(3)
 
                     else:
-                        self.config.setCurrentHashId(hash_id)
+                        ret_error = False
+                        sid = SID(now, self.config)
 
-                    include_folders = self.config.include()
-
-                    if not include_folders:
-                        logger.info('Nothing to do', self)
-
-                    elif not self.config.PLUGIN_MANAGER.processBegin():
-                        logger.info('A plugin prevented the backup', self)
-
-                    else:
-                        # take snapshot process begin
-                        self.setTakeSnapshotMessage(0, '…')
-                        self.snapshotLog.new(now)
-
-                        profile_id = self.config.currentProfile()
-                        profile_name = self.config.profileName()
-
-                        logger.info(f"Create a new backup. Profile: {profile_id} "
-                                    f"{profile_name}", self)
-
-                        if not self.config.canBackup(profile_id):
-
-                            if (self.config.PLUGIN_MANAGER.hasGuiPlugins
-                                    and self.config.notify()):
-
-                                message = (
-                                    _("Can't find backup directory.")
-                                    + '\n'
-                                    + self.config.snapshotsFullPath(profile_id)
-                                    + '\n'
-                                    + _('If it is on a removable drive, '
-                                        'please plug it in.')
-                                    + '\n'
-                                    + gettext.ngettext('Waiting {n} second.',
-                                                       'Waiting {n} seconds.',
-                                                       30).format(n=30)
-                                )
-
-                                self.setTakeSnapshotMessage(
-                                    type_id=1,
-                                    message=message,
-                                    timeout=30)
-
+                        if sid.exists():
                             logger.warning(
-                                'Cannot start backup yet: target directory '
-                                'not accessible. Will retry each second in '
-                                'the next 30 seconds. Please wait.')
-                            for _idx in range(30):
-
-                                time.sleep(1)
-
-                                if self.config.canBackup():
-                                    break
-                        if not self.config.canBackup(profile_id):
-                            logger.error('Backup directory not '
-                                         'accessible. Tries stopped.',
-                                         self)
-                            # Can't find snapshots directory (is it on a
-                            # removable drive ?)
-                            self.config.PLUGIN_MANAGER.error(3)
+                                f'Backup directory "{sid.path()}" '
+                                'already exists',
+                                self)
+                            # This snapshot already exists
+                            self.config.PLUGIN_MANAGER.error(4, sid)
 
                         else:
-                            ret_error = False
-                            sid = SID(now, self.config)
 
-                            if sid.exists():
-                                logger.warning(
-                                    f'Backup directory "{sid.path()}" '
-                                    'already exists',
-                                    self)
-                                # This snapshot already exists
-                                self.config.PLUGIN_MANAGER.error(4, sid)
+                            try:
+                                # TODO
+                                # rename ret_val to new_snapshot_created
+                                # and ret_error to has_error for clearer
+                                # code
+                                ret_val, ret_error = self.takeSnapshot(
+                                    sid, now, include_folders)
+
+                            except:  # TODO too broad exception
+                                new = NewSnapshot(self.config)
+
+                                if new.exists():
+                                    new.saveToContinue = False
+                                    new.failed = True
+
+                                raise
+
+                        if not ret_val:
+                            self.remove(sid)
+
+                            if ret_error:
+                                logger.error(
+                                    'Failed to create backup.', self)
+                                msg = _('Failed to create backup '
+                                        '{snapshot_id}.').format(
+                                            snapshot_id=sid.displayID)
+                                self.setTakeSnapshotMessage(1, msg)
+                                # Fixes #1491
+                                self.config.PLUGIN_MANAGER.error(5, msg)
+
+                                time.sleep(2)
 
                             else:
+                                logger.warning("No new backup", self)
 
-                                try:
-                                    # TODO
-                                    # rename ret_val to new_snapshot_created
-                                    # and ret_error to has_error for clearer
-                                    # code
-                                    ret_val, ret_error = self.takeSnapshot(
-                                        sid, now, include_folders)
+                        else:  # new snapshot taken...
 
-                                except:  # TODO too broad exception
-                                    new = NewSnapshot(self.config)
+                            if ret_error:
+                                logger.error('New backup created but '
+                                                'errors detected',
+                                                self)
+                                # Fixes #1491
+                                self.config.PLUGIN_MANAGER.error(
+                                    6, sid.displayID)
 
-                                    if new.exists():
-                                        new.saveToContinue = False
-                                        new.failed = True
+                            # Why ignore errors now?
+                            ret_error = False
+                            # Probably because a new snapshot has been
+                            # created (= changes transferred) and
+                            # "continue on errors" is enabled
 
-                                    raise
-
-                            if not ret_val:
-                                self.remove(sid)
-
-                                if ret_error:
-                                    logger.error(
-                                        'Failed to create backup.', self)
-                                    msg = _('Failed to create backup '
-                                            '{snapshot_id}.').format(
-                                                snapshot_id=sid.displayID)
-                                    self.setTakeSnapshotMessage(1, msg)
-                                    # Fixes #1491
-                                    self.config.PLUGIN_MANAGER.error(5, msg)
-
-                                    time.sleep(2)
-
-                                else:
-                                    logger.warning("No new backup", self)
-
-                            else:  # new snapshot taken...
-
-                                if ret_error:
-                                    logger.error('New backup created but '
-                                                 'errors detected',
-                                                 self)
-                                    # Fixes #1491
-                                    self.config.PLUGIN_MANAGER.error(
-                                        6, sid.displayID)
-
-                                # Why ignore errors now?
-                                ret_error = False
-                                # Probably because a new snapshot has been
-                                # created (= changes transferred) and
-                                # "continue on errors" is enabled
-
-                            if not ret_error:
-                                # Start auto- and smart-remove
-                                self.freeSpace(now)
-                                self.setTakeSnapshotMessage(
-                                    0, _('Please be patient. Finalizing…'))
+                        if not ret_error:
+                            # Start auto- and smart-remove
+                            self.freeSpace(now)
+                            self.setTakeSnapshotMessage(
+                                0, _('Please be patient. Finalizing…'))
 
                         time.sleep(2)
                         sleep = False
@@ -966,33 +1011,29 @@ class Snapshots:
                         # Take snapshot process end
                         self.config.PLUGIN_MANAGER.processEnd()
 
-                    if sleep:
-                        time.sleep(2)
-                        sleep = False
+                        if sleep:
+                            time.sleep(2)
+                            sleep = False
 
-                    # unmount
-                    try:
-                        mount.Mount(cfg=self.config) \
-                             .umount(self.config.current_hash_id)
+                        # unmount
+                        try:
+                            mount.Mount(cfg=self.config) \
+                                .umount(self.config.current_hash_id)
 
-                    except MountException as ex:
-                        logger.error(str(ex), self)
+                        except MountException as ex:
+                            logger.error(str(ex), self)
 
-                    if not ret_error:
-                        self.clearTakeSnapshotMessage()
+                        if not ret_error:
+                            self.clearTakeSnapshotMessage()
 
-                    instance.exitApplication()
+                        instance.exitApplication()
 
-                    logger.info('Unlock', self)
-                    # --- END GlobalFlock context ---
+                        logger.info('Unlock', self)
+                        # --- END GlobalFlock context ---
 
-        if sleep:
-            # max 1 backup / second
-            time.sleep(2)
-
-        # release inhibit suspend
-        if inhibit_cookie:
-            inhibitpowermgmt.uninhibit_suspend(*inhibit_cookie)
+            if sleep:
+                # max 1 backup / second
+                time.sleep(2)
 
         return ret_error
 
@@ -2251,32 +2292,39 @@ class Snapshots:
             os.remove(full_path)
         os.chmod(dirname, dir_st.st_mode)
 
-    def createLastSnapshotSymlink(self, sid):
-        """
-        Create symlink 'last_snapshot' to snapshot ``sid``
+    def createLastSnapshotSymlink(self, sid: SID) -> bool:
+        """Create symlink 'last_snapshot' to snapshot ``sid``.
 
         Args:
-            sid (SID):  snapshot that should be linked.
+            sid: Snapshot that should be linked.
 
         Returns:
-            bool:       ``True`` if successful
+            bool: ``True`` if successful.
         """
         if sid is None:
             return
+
         symlink = self.config.lastSnapshotSymlink()
+
         try:
             if os.path.islink(symlink):
                 if os.path.basename(os.path.realpath(symlink)) == sid.sid:
                     return True
+
                 os.remove(symlink)
+
             if os.path.exists(symlink):
-                logger.error('Could not remove symlink %s' %symlink, self)
+                logger.error(f'Could not remove symlink {symlink}', self)
                 return False
-            logger.debug('Create symlink %s => %s' %(symlink, sid), self)
+
+            logger.debug(f'Create symlink {symlink} => {sid}', self)
             os.symlink(sid.sid, symlink)
+
             return True
-        except Exception as e:
-            logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
+
+        except Exception as exc:
+            logger.error(f'Failed to create symlink {symlink}: {exc}', self)
+
             return False
 
     def rsyncSuffix(self, includeFolders=None, excludeFolders=None):
@@ -2627,7 +2675,9 @@ class SID:
                 self.date = datetime.datetime(*self.split())
 
             elif date == 'last_snapshot':
-                raise LastSnapshotSymlink()
+                # Undefined state
+                raise RuntimeError(
+                    'This class can not handle last-snapshot symlinks.')
 
             else:
                 raise ValueError("'date' must be in snapshot ID format "
@@ -3120,15 +3170,14 @@ class GenericNonSnapshot(SID):
 
 
 class NewSnapshot(GenericNonSnapshot):
-    """
-    Snapshot ID object for 'new_snapshot' folder
+    """Snapshot ID object for 'new_snapshot' folder.
 
     Args:
-        cfg (config.Config):    current config
+        cfg (config.Config): Current config
     """
 
-    NEWSNAPSHOT    = 'new_snapshot'
-    SAVETOCONTINUE = 'save_to_continue'
+    NEWSNAPSHOT = bitbase.DIR_NAME_NEWSNAPSHOT
+    SAVETOCONTINUE = bitbase.DIR_NAME_SAVETOCONTINUE
 
     def __init__(self, cfg):
         self.config = cfg
@@ -3216,6 +3265,7 @@ class RootSnapshot(GenericNonSnapshot):
     Args:
         cfg (config.Config):    current config
     """
+
     def __init__(self, cfg):
         self.config = cfg
         self.profileID = cfg.currentProfile()
@@ -3268,45 +3318,49 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg, includeNewSnapshot=False):
+def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
+                  ) -> Generator[SID, None, None]:
     """A generator to iterate over snapshots in current snapshot path.
 
     Args:
-        cfg (config.Config): Current config instance.
-        includeNewSnapshot (bool): Include a NewSnapshot instance if
+        cfg: Current config instance.
+        includeNewSnapshot: Include a NewSnapshot instance if
             'new_snapshot' directory is available (default: False).
 
     Yields:
         SID: Snapshot IDs
     """
-    path = cfg.snapshotsFullPath()
+    path = Path(cfg.snapshotsFullPath())
 
-    if not os.path.exists(path):
+    if not path.exists():
         return None
 
-    for item in os.listdir(path):
+    for item in path.iterdir():
 
-        if item == NewSnapshot.NEWSNAPSHOT:
-            newSid = NewSnapshot(cfg)
+        if item.name == bitbase.DIR_NAME_NEWSNAPSHOT:
+            sid = NewSnapshot(cfg)
 
-            if newSid.exists() and includeNewSnapshot:
-                yield newSid
+            if includeNewSnapshot and sid.exists():
+                yield sid
 
             continue
 
+        elif item.name == bitbase.DIR_NAME_LAST_SNAPSHOT:
+            # Ignore last snapshot symlink
+            continue
+
         try:
-            sid = SID(item, cfg)
+            sid = SID(item.name, cfg)
 
             if sid.exists():
                 yield sid
 
-        # REFACTOR!
-        # LastSnapshotSymlink is an exception instance and could be caught
-        # explicit. But not sure about its purpose.
-        except Exception as e:
-            if not isinstance(e, LastSnapshotSymlink):
-                logger.debug(
-                    "'{}' is not a snapshot ID: {}".format(item, str(e)))
+        # Dev note (buhtz, 2025-05): I am not a friend of catching exceptions
+        # at this point. But previously all Exceptions where caught at this
+        # point.  Now catching ValueError's only, is a compromise.
+        except ValueError as exc:
+            # Raised by SID.__init__() in case of invalid date format
+            logger.warning(f'"{item.name}" is not a snapshot ID. {exc=}')
 
 
 def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
@@ -3317,7 +3371,8 @@ def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
         cfg (config.Config): Current config instance.
         includeNewSnapshot (bool): Include a NewSnapshot instance if
             'new_snapshot' directory is available (default: False).
-        reverse (bool): Sort reverse (default: True).
+        reverse (bool): Sort reverse (descending, newest/youngest first)
+            (default: True).
 
     Returns:
         list: List of :py:class:`SID` objects.
@@ -3341,6 +3396,32 @@ def lastSnapshot(cfg):
     sids = listSnapshots(cfg)
     if sids:
         return sids[0]
+
+
+def get_backup_ids_and_paths(cfg: config.Config,
+                             descending: bool = True,
+                             include_new: bool = False
+                             ) -> list[tuple[str, Path]]:
+    """
+    Args:
+        cfg: The config instance.
+        descending: Backups sorted by their IDs beginning with oldest.
+        include_new: Include incomplete backups without ID, named
+            `new-snapshot` (default: ``False``).
+
+    Return:
+       A list of two-item tuples with backup ID and paths.
+
+    """
+    result = []
+
+    all_sids = sorted(
+        iterSnapshots(cfg=cfg, includeNewSnapshot=include_new),
+        reverse=not descending)
+
+    result = [(str(sid), Path(sid.path())) for sid in all_sids]
+
+    return result
 
 
 if __name__ == '__main__':

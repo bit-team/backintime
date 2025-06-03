@@ -1,0 +1,54 @@
+////
+SPDX-FileCopyrightText: © 2015 Germar Reitze
+SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
+SPDX-FileCopyrightText: © 2023 Christian Buhtz <c.buhtz@posteo.jp>
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>.
+////
+= backintime-askpass(1)
+:doctype: manpage
+:manmanual: Back In Time
+:mansource: backintime-askpass {version}
+:man-linkstyle: pass:[blue R < >]
+
+== NAME
+
+backintime-askpass - Helper tool for *Back In Time*
+
+== SYNOPSIS
+
+*backintime-askpass*
+
+== DESCRIPTION
+
+This utility is a helper tool used to provide passwords to ssh, sshfs, and
+encfs via standard input. Configuration options are read from environment
+variables. It is not intended for direct end-user interaction and is primarily
+used by *backintime* (1).
+
+For more information about *Back In Time*, see *backintime* (1).
+
+== ENVIRON
+
+*ASKPASS_PROFILE_ID*:: Back In Time Profile-ID.
+
+*ASKPASS_MODE*:: Backup mode (or backend). Take a look at
+ *backintime-config*(1), section _profile<N>.snapshots.mode_.
+
+*ASKPASS_TEMP*:: Temp FIFO socket used to pipe the password.
+
+== SEE ALSO
+
+*backintime*(1), *backintime-qt*(1), *backintime-config*(1)
+
+*Back In Time* project website: https://github.com/bit-team/backintime
+
+*Back In Time* mailing list: https://mail.python.org/mailman3/lists/bit-dev.python.org
+
+== AUTHOR
+
+*Back In Time* Team

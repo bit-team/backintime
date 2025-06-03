@@ -32,11 +32,11 @@ from PyQt6.QtCore import (Qt,
 from timeline import TimeLine
 from bitwidgets import SnapshotCombo
 import tools
-import inhibitpowermgmt
 import restoredialog
 import messagebox
 import snapshots
 import logger
+from inhibitsuspend import InhibitSuspend
 
 DIFF_PARAMS = '%1 %2'
 
@@ -489,7 +489,7 @@ class RemoveFileThread(QThread):
         super(RemoveFileThread, self).__init__(parent)
 
     def run(self):
-        with inhibitpowermgmt.InhibitSuspend(reason='deleting files'):
+        with InhibitSuspend(reason='deleting files'):
 
             for item in self.items:
 

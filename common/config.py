@@ -47,10 +47,10 @@ import encfstools
 import password
 import pluginmanager
 import schedule
-from exceptions import PermissionDeniedByPolicy, \
-                       InvalidChar, \
-                       InvalidCmd, \
-                       LimitExceeded
+from exceptions import (PermissionDeniedByPolicy,
+                        InvalidChar,
+                        InvalidCmd,
+                        LimitExceeded)
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -750,7 +750,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.pw.password(
             parent, profile_id, mode, pw_id, only_from_keyring)
 
-    def setPassword(self, password, profile_id=None, mode=None, pw_id=1):
+    def setPassword(self, password_value, profile_id=None, mode=None, pw_id=1):
         if self.pw is None:
             self.pw = password.Password(self)
 
@@ -760,7 +760,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
-        self.pw.setPassword(password, profile_id, mode, pw_id)
+        self.pw.setPassword(password_value, profile_id, mode, pw_id)
 
     def modeNeedPassword(self, mode, pw_id = 1):
         need_pw = self.SNAPSHOT_MODES[mode][pw_id + 1]
@@ -856,7 +856,7 @@ class Config(configfile.ConfigFileWithProfiles):
         #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
         #?40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
-        return self.profileIntValue('schedule.mode', self.NONE, profile_id)
+        return self.profileIntValue('schedule.mode', Config.NONE, profile_id)
 
     def setScheduleMode(self, value, profile_id = None):
         self.setProfileIntValue('schedule.mode', value, profile_id)
@@ -1355,7 +1355,7 @@ class Config(configfile.ConfigFileWithProfiles):
             "restore%s.lock" % self.fileId(profile_id))
 
     def lastSnapshotSymlink(self, profile_id = None):
-        return os.path.join(self.snapshotsFullPath(profile_id), 'last_snapshot')
+        return os.path.join(self.snapshotsFullPath(profile_id), bitbase.DIR_NAME_LAST_SNAPSHOT)
 
     def encfsconfigBackupFolder(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
@@ -1366,7 +1366,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 path = path[: -1]
         return path
 
-    def isConfigured(self, profile_id=None):
+    def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
         It is assumed as configured if a snapshot path (backup destination) is
@@ -1378,11 +1378,10 @@ class Config(configfile.ConfigFileWithProfiles):
         if bool(path and includes):
             return True
 
-        else:
-            logger.debug(f'Profile ({profile_id=}) is not configured because '
-                         f'snapshot path is "{bool(path)}" and/or includes '
-                         f'are "{bool(includes)}".', self)
-            return False
+        logger.debug(f'Profile ({profile_id=}) is not configured because '
+                        f'snapshot path is "{bool(path)}" and/or includes '
+                        f'are "{bool(includes)}".', self)
+        return False
 
     def canBackup(self, profile_id=None):
         """Checks if snapshots_path exists.
@@ -1489,28 +1488,35 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         profile_ids = self.profiles()
 
-        # For each profile: cronline and the command (backintime)
-        cron_lines = [
-            self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
-            for pid in profile_ids
-        ]
+        cron_lines = []
 
-        # Remove empty lines (profiles not scheduled)
-        cron_lines = list(filter(None, cron_lines))
+        # For each profile: cronline and the command (backintime)
+        for pid in profile_ids:
+            one_line = self._cron_line(pid)
+
+            # Filter empty strings and None (profiles not scheduled)
+            if one_line:
+                cron_lines.append(
+                    one_line.replace('{cmd}', self._cron_cmd(pid)))
 
         return cron_lines
 
-    def _cron_line(self, profile_id):
-        """Create a crontab line based on the snapshot profiles settings."""
+    def _cron_line(self, profile_id) -> str:
+        """Create a crontab line based on the profiles settings.
+
+        Returns:
+            A crontab line containing '{cmd}' placeholder or `None` if an error
+            occured.
+        """
         cron_line = ''
-        profile_name = self.profileName(profile_id)
+        # profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
 
-        logger.debug(
-            f"Profile: {profile_name} | Automatic backup: {backup_mode}",
-            self)
+        # logger.debug(
+        #     f'Profile: {profile_name} | Automatic backup: {backup_mode}',
+        #     self)
 
-        if self.NONE == backup_mode:
+        if Config.NONE == backup_mode:
             return cron_line
 
         hour = self.scheduleTime(profile_id) // 100
@@ -1546,7 +1552,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 cron_line = '*/15 * * * * {cmd}'
             else:
                 cron_line = '0 * * * * {cmd}'
-        elif self.UDEV == backup_mode:
+        elif Config.UDEV == backup_mode:
             if not self.setupUdev.isReady:
                 logger.error(
                     "Failed to install Udev rule for profile %s. DBus "
@@ -1561,6 +1567,7 @@ class Config(configfile.ConfigFileWithProfiles):
                                            'serviceHelper'))
 
             mode = self.snapshotsMode(profile_id)
+
             if mode == 'local':
                 dest_path = self.snapshotsFullPath(profile_id)
             elif mode == 'local_encfs':
@@ -1571,27 +1578,28 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(_(
                     "Udev schedule doesn't work with mode {mode}")
                     .format(mode=mode))
-                return False
+
+                return None
+
             uuid = tools.uuidFromPath(dest_path)
+
             if uuid is None:
-                #try using cached uuid
-                #?Devices uuid used to automatically set up udev rule if the drive is not connected.
-                uuid = self.profileStrValue('snapshots.path.uuid', '', profile_id)
-                if not uuid:
-                    logger.error(
-                        "Couldn't find UUID for \"{dest_path}\"", self)
-                    self.notifyError(_("Couldn't find UUID for {path}")
-                                     .format(path=f'"{dest_path}"'))
-                    return False
-            else:
-                #cache uuid in config
-                self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
+                logger.error(
+                    "Couldn't find UUID for \"{dest_path}\"", self)
+                self.notifyError(
+                    _("Couldn't find UUID for {path}").format(
+                        path=f'"{dest_path}"'))
+                return None
+
             try:
                 self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
+
             except (InvalidChar, InvalidCmd, LimitExceeded) as e:
                 logger.error(str(e), self)
                 self.notifyError(str(e))
-                return False
+
+                return None
+
         elif self.WEEK == backup_mode:
             cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
         elif self.MONTH == backup_mode:
@@ -1626,7 +1634,7 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd += '--debug '
 
         # command
-        cmd += 'backup-job'
+        cmd += 'backup --background'
 
         # Redirect stdout to nirvana
         if self.redirectStdoutInCron(profile_id):

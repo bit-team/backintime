@@ -11,13 +11,20 @@ from pathlib import Path
 
 APP_NAME = 'Back In Time'
 BINARY_NAME_BASE = 'backintime'
-BINARY_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
 BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
+PACKAGE_NAME_CLI = f'{BINARY_NAME_BASE}-common'
+PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
 COPYRIGHT = 'Copyright © 2008-2024 ' \
             'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
             'Copyright © 2022 ' \
             'Christian Buhtz, Michael Büker, Jürgen Altfeld'
+
+# Used in context of CLI and argument parsing
+RETURN_OK = 0
+RETURN_ERR = 1
+RETURN_NO_CFG = 2
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
@@ -51,6 +58,30 @@ USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 # last shown intensity is stored in the state data file. If they don't fit, the
 # message is displayed.
 ENCFS_MSG_STAGE = 2
+
+# Names used for backup directories (or symlinks to them) indicating a specific
+# state.
+DIR_NAME_LAST_SNAPSHOT = 'last_snapshot'
+DIR_NAME_NEWSNAPSHOT = 'new_snapshot'
+DIR_NAME_SAVETOCONTINUE = 'save_to_continue'
+
+
+def _determine_licenses_dir():
+    for pkg in (PACKAGE_NAME_GUI,
+                PACKAGE_NAME_CLI,
+                BINARY_NAME_GUI,
+                BINARY_NAME_CLI,
+                BINARY_NAME_BASE):
+        for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
+
+            fp = path / pkg / 'LICENSES'
+            if fp.is_dir():
+                return fp
+
+    return None
+
+
+DIR_LICENSES = _determine_licenses_dir()
 
 
 class TimeUnit(Enum):

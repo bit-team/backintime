@@ -17,7 +17,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QHBoxLayout,
                              QLabel,
                              QSpinBox,
-                             QStyle,
                              QToolTip,
                              QWidget)
 from PyQt6.QtCore import Qt
@@ -174,17 +173,7 @@ class RemoveRetentionTab(QDialog):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
-        # Icon
-        icon = self.style().standardPixmap(
-            QStyle.StandardPixmap.SP_MessageBoxInformation)
-        icon = icon.scaled(
-            icon.width()*2,
-            icon.height()*2,
-            Qt.AspectRatioMode.KeepAspectRatio)
-
-        icon_label = QLabel(self)
-        icon_label.setPixmap(icon)
-        icon_label.setFixedSize(icon.size())
+        icon_label = qttools.create_icon_label_info(fixed_size_widget=True)
 
         # Info text
         txt = _(

@@ -9,7 +9,7 @@
 # TravisCI (https://travis-ci.org) configuration file
 os: linux
  
-# Support End of "Focal" (20.04 LTS) is April 2025
+# Support End of "Focal" (20.04 LTS) was April 2025
 # dist: focal
 # Support End of "Jammy" (22.04 LTS) is April 2027
 # dist: jammy
@@ -22,8 +22,6 @@ arch:
  - amd64
 
 python:
-  - "3.9"
-  - "3.10"
   - "3.11"
   - "3.12"
   - "3.13"
@@ -44,11 +42,11 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
+  - sudo apt-get install -y ruby rubygems asciidoctor
+  - sudo gem install asciidoctor
 
 jobs:
   exclude:
-    - python: "3.9"
-    - python: "3.10"
     - python: "3.11"
     - python: "3.12"
 
@@ -69,7 +67,8 @@ script:
   # run unit tests - ensure that functionality is correct
   - cd common
   - ./configure
-  - make unittest-v
+  - make
+  - pytest --verbose
   - cd ..
   - cd qt
   - ./configure

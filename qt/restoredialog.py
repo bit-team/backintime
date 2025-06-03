@@ -12,7 +12,7 @@ import os
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-import inhibitpowermgmt
+from inhibitsuspend import InhibitSuspend
 
 
 class RestoreDialog(QDialog):
@@ -37,23 +37,23 @@ class RestoreDialog(QDialog):
 
         self.mainLayout = QVBoxLayout(self)
 
-        # text view
         self.txtLogView = QPlainTextEdit(self)
         self.txtLogView.setReadOnly(True)
         self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         self.txtLogView.setMaximumBlockCount(100000)
         self.mainLayout.addWidget(self.txtLogView)
 
-        #buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
-        showLog = buttonBox.addButton(_('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
+        showLog = buttonBox.addButton(
+            _('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
         self.mainLayout.addWidget(buttonBox)
         self.btnClose = buttonBox.button(QDialogButtonBox.StandardButton.Close)
         self.btnClose.setEnabled(False)
         buttonBox.rejected.connect(self.close)
-        showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.logFile)))
+        showLog.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl(self.logFile)))
 
-        #restore in separate thread
+        # restore in separate thread
         self.thread = RestoreThread(self)
         self.thread.finished.connect(self.threadFinished)
 
@@ -76,9 +76,6 @@ class RestoreDialog(QDialog):
             self.txtLogView.appendPlainText(newLog.rstrip('\n'))
 
     def exec(self):
-        # inhibit suspend/hibernate during restore
-        self.inhibit_cookie \
-            = inhibitpowermgmt.inhibit_suspend(reason='restoring')
         self.show()
         self.refreshTimer.start()
         self.thread.start()
@@ -89,15 +86,12 @@ class RestoreDialog(QDialog):
     def threadFinished(self):
         self.btnClose.setEnabled(True)
 
-        # release inhibit suspend
-        if self.inhibit_cookie:
-            inhibitpowermgmt.uninhibit_suspend(*self.inhibit_cookie)
-
 
 class RestoreThread(QThread):
     """
     run restore in a separate Thread to prevent GUI freeze and speed up restore
     """
+
     def __init__(self, parent):
         super(RestoreThread, self).__init__()
         self.parent = parent
@@ -106,7 +100,14 @@ class RestoreThread(QThread):
         self.buffer = ''
 
     def run(self):
-        self.parent.snapshots.restore(self.parent.sid, self.parent.what, self.callback, self.parent.where, **self.parent.kwargs)
+        with InhibitSuspend(reason='restoring'):
+            self.parent.snapshots.restore(
+                self.parent.sid,
+                self.parent.what,
+                self.callback,
+                self.parent.where,
+                **self.parent.kwargs)
+
         self.log.close()
 
     def callback(self, line, *args):

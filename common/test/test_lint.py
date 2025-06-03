@@ -42,14 +42,19 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
+    'askpass.py',
     'bitbase.py',
+    # 'cliarguments.py',
+    # 'clicommands.py',
+    'daemon.py',
     'languages.py',
-    'inhibitpowermgmt.py',
+    'inhibitsuspend.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
     'ssh_max_arg.py',
     'version.py',
+    'test/test_args.py',
     'test/test_lint.py',
     'test/test_mount.py',
     'test/test_singleton.py',
@@ -288,7 +293,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         self.assertEqual(r.stderr, '')
 
     @unittest.skipUnless(PYLINT_AVAILABLE, BASE_REASON.format('PyLint'))
-    def test050_pylint_exclusive_ruleset(self):
+    def test050_pylint_reduced_ruleset(self):
         """Use Pylint to check for specific rules only.
 
         Some facts about PyLint
