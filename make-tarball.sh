@@ -55,5 +55,5 @@ echo ""
 echo "RESULT:"
 realpath backintime-$VER.tar.gz
 
-# rm -rf backintime-$VER
+rm -rf ${NEW}
 
