@@ -232,43 +232,34 @@ def create_cron_line(schedule_mode: ScheduleMode,
     """Create a crontab line based on the given arguments.
 
     Returns:
-        A crontab line containing '{cmd}' placeholder or `None` if an error
-        occured.
+        A crontab line or `None` in case of errors or unscheduled profiles.
     """
-    cron_line = ''
+    try:
+        return _simple_cron_line(
+            schedule_mode=schedule_mode,
+            minute=minute,
+            hour=hour,
+            offset=offset,
+            day=day,
+            weekday=weekday,
+            cmd=cron_command)
+    except KeyError:
+        pass
 
-    if schedule_mode is ScheduleMode.DISABLED:
+    if ScheduleMode.DISABLED is schedule_mode:
         # Might raise an exception?
-        return cron_line
+        return ''
 
-    if ScheduleMode.AT_EVERY_BOOT == schedule_mode:
-        cron_line = '@reboot {cmd}'
-    elif ScheduleMode.MINUTES_5 == schedule_mode:
-        cron_line = '*/5 * * * * {cmd}'
-    elif ScheduleMode.MINUTES_10 == schedule_mode:
-        cron_line = '*/10 * * * * {cmd}'
-    elif ScheduleMode.MINUTES_30 == schedule_mode:
-        cron_line = '*/30 * * * * {cmd}'
-    elif ScheduleMode.HOUR_1 == schedule_mode:
-        cron_line = offset + ' * * * * {cmd}'
-    elif ScheduleMode.HOURS_2 == schedule_mode:
-        cron_line = offset + ' */2 * * * {cmd}'
-    elif ScheduleMode.HOURS_4 == schedule_mode:
-        cron_line = offset + ' */4 * * * {cmd}'
-    elif ScheduleMode.HOURS_6 == schedule_mode:
-        cron_line = offset + ' */6 * * * {cmd}'
-    elif ScheduleMode.HOURS_12 == schedule_mode:
-        cron_line = offset + ' */12 * * * {cmd}'
-    elif ScheduleMode.CUSTOM_HOUR == schedule_mode:
-        cron_line = offset + ' ' + custom_backup_time + ' * * * {cmd}'
-    elif ScheduleMode.DAY == schedule_mode:
-        cron_line = '%s %s * * * {cmd}' % (minute, hour)
-    elif ScheduleMode.REPEATEDLY == schedule_mode:
+    if ScheduleMode.CUSTOM_HOUR is schedule_mode:
+        return f'{offset}  {custom_backup_time} * * * {cron_command}'
+
+    if ScheduleMode.REPEATEDLY is schedule_mode:
         if repeat_unit <= TimeUnit.DAY:
-            cron_line = '*/15 * * * * {cmd}'
+            return f'*/15 * * * * {cron_command}'
         else:
-            cron_line = '0 * * * * {cmd}'
-    elif ScheduleMode.UDEV == schedule_mode:
+            return f'0 * * * * {cron_command}'
+
+    if ScheduleMode.UDEV is schedule_mode:
         if not udev_setup.isReady:
             logger.error(
                 "Failed to install Udev rule for profile %s. DBus "
@@ -282,13 +273,6 @@ def create_cron_line(schedule_mode: ScheduleMode,
                 profile_id=pid,
                 dbus_interface='net.launchpad.backintime.serviceHelper'))
 
-        if backup_mode not in ('local', 'local_encfs'):
-            logger.error(
-                f"Udev scheduling doesn't work with mode {mode}", self)
-            notify_callback(
-                _("Udev schedule doesn't work with mode {mode}").format(
-                    mode=backup_mode))
-
             return None
 
         uuid = tools.uuidFromPath(dest_path)
@@ -298,22 +282,40 @@ def create_cron_line(schedule_mode: ScheduleMode,
                 "Couldn't find UUID for \"{dest_path}\"", self)
             notify_callback(_("Couldn't find UUID for {path}").format(
                 path=f'"{dest_path}"'))
+
             return None
 
         try:
             udev_setup.addRule(cron_command, uuid)
 
         except (InvalidChar, InvalidCmd, LimitExceeded) as exc:
-            logger.error(str(exc), self)
+            logger.error(str(exc))
             notify_callback(str(exc))
 
             return None
 
-    elif ScheduleMode.WEEK == schedule_mode:
-        cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
-    elif ScheduleMode.MONTH == schedule_mode:
-        cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
-    elif ScheduleMode.YEAR == schedule_mode:
-        cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
 
-    return cron_line
+def _simple_cron_line(schedule_mode: ScheduleMode,
+                      minute,
+                      hour,
+                      offset,
+                      day,
+                      weekday,
+                      cmd) -> str:
+    result = {
+        ScheduleMode.AT_EVERY_BOOT: '@reboot {cmd}',
+        ScheduleMode.MINUTES_5: '*/5 * * * * {cmd}',
+        ScheduleMode.MINUTES_10: '*/10 * * * * {cmd}',
+        ScheduleMode.MINUTES_30: '*/30 * * * * {cmd}',
+        ScheduleMode.HOUR_1: '{offset} * * * * {cmd}',
+        ScheduleMode.HOURS_2: '{offset} */2 * * * {cmd}',
+        ScheduleMode.HOURS_4: '{offset} */4 * * * {cmd}',
+        ScheduleMode.HOURS_6: '{offset} */6 * * * {cmd}',
+        ScheduleMode.HOURS_12: '{offset} */12 * * * {cmd}',
+        ScheduleMode.DAY: '{minute} {hour} * * * {cmd}',
+        ScheduleMode.WEEK: '{minute} {hour} * * {weekday} {cmd}',
+        ScheduleMode.MONTH: '{minute} {hour} {day} * * {cmd}',
+        ScheduleMode.YEAR: '{minute} {hour} 1 1 * {cmd}',
+    }[schedule_mode]
+
+    return result.format(**locals())

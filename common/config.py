@@ -1502,12 +1502,67 @@ class Config(configfile.ConfigFileWithProfiles):
 
             # Filter empty strings and None (profiles not scheduled)
             if one_line:
-                cron_lines.append(
-                    one_line.replace('{cmd}', self._cron_cmd(pid)))
+                cron_lines.append(one_line)
+                # one_line.replace('{cmd}', self._cron_cmd(pid)))
 
         return cron_lines
 
     def _cron_line(self, profile_id) -> str:
+        """Return a cron line for the specified profile.
+
+        Dev note (2025-05-29): Profiles scheduled via Udev rules are an
+        exceptional case. There is no cron line but the udev rules is
+        installed. This behavior should be separated and be more explicit in a
+        future refactoring session.
+       
+        Returns:
+            `None` in case of errors or profile is not configured for
+            scheduling.
+        """
+        schedule_mode = self.scheduleMode(profile_id)
+        schedule_mode = bitbase.ScheduleMode(schedule_mode)
+
+        backup_mode = self.snapshotsMode(profile_id)
+
+        dest_path = None
+        if schedule_mode == Config.UDEV:
+            if backup_mode == 'local':
+                dest_path = self.snapshotsFullPath(profile_id)
+            elif backup_mode == 'local_encfs':
+                dest_path = self.localEncfsPath(profile_id)
+            else:
+                logger.error(
+                    f"Udev scheduling doesn't work with mode {backup_mode}",
+                    self)
+                self.notifyError(_(
+                    "Udev schedule doesn't work with mode {mode}")
+                    .format(mode=backup_mode))
+
+                return None
+
+        hour, minute = self.scheduleHourMinute(profile_id)
+        day = self.scheduleDay(profile_id)
+        weekday = self.scheduleWeekday(profile_id)
+        offset = str(self.schedule_offset(profile_id))
+
+        return schedule.create_cron_line(
+            schedule_mode=schedule_mode,
+            backup_mode=backup_mode,
+            cron_command=self._cron_cmd(profile_id),
+            dest_path=dest_path,
+            hour=hour,
+            minute=minute,
+            day=day,
+            weekday=weekday,
+            offset=offset,
+            custom_backup_time=self.customBackupTime(profile_id),
+            repeat_unit=bitbase.TimeUnit(
+                self.scheduleRepeatedUnit(profile_id)),
+            udev_setup=self.setupUdev,
+            pid=profile_id,
+            notify_callback=self.notifyError)
+
+    def _DEPRECATED_cron_line(self, profile_id) -> str:
         """Create a crontab line based on the profiles settings.
 
         Returns:
