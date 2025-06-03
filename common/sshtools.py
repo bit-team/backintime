@@ -437,6 +437,13 @@ class SSH(MountControl):
                         refresh=True,
                     )
 
+                if self.password:
+                    thread.stop()
+                    logger.debug('Provide password through temp FIFO', self)
+                    thread = password_ipc.TempPasswordThread(self.password)
+                    env['ASKPASS_TEMP'] = thread.temp_file
+                    thread.start()
+
                 proc = subprocess.Popen(['ssh-add', self.private_key_file],
                                         stdin=subprocess.PIPE,
                                         stdout=subprocess.PIPE,

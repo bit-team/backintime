@@ -636,9 +636,6 @@ class GeneralTab(QDialog):
                 if not answer:
                     return
 
-                # Why?
-                self.config.removeProfileKey('snapshots.path.uuid')
-
             self.editSnapshotsPath.setText(self.config.preparePath(path))
 
     def _slot_ssh_private_key_file_clicked(self):
@@ -725,6 +722,9 @@ class GeneralTab(QDialog):
             self.modeSsh.setVisible(active_mode in ('ssh', 'ssh_encfs'))
             # self.modeLocalEncfs = self.modeLocal
             # self.modeSshEncfs = self.modeSsh
+
+            self._wdg_schedule.allow_udev(
+                active_mode in ('local', 'local_encfs'))
 
         if self.config.modeNeedPassword(active_mode):
 
