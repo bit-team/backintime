@@ -41,6 +41,7 @@ from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_remove_retention import RemoveRetentionTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
+from manageprofiles.tab_include import IncludeTab
 from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
 from bitwidgets import ProfileCombo
@@ -114,43 +115,10 @@ class SettingsDialog(QDialog):
         _add_tab(self._tab_general, _('&General'))
 
         # TAB: Include
-        tabWidget = QWidget(self)
-        self.tabs.addTab(tabWidget, _('&Include'))
-        layout = QVBoxLayout(tabWidget)
-
-        self.listInclude = QTreeWidget(self)
-        self.listInclude.setSelectionMode(
-            QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.listInclude.setRootIsDecorated(False)
-        self.listInclude.setHeaderLabels(
-            [_('Include files and directories'), 'Count'])
-
-        self.listInclude.header().setSectionResizeMode(
-            0, QHeaderView.ResizeMode.Stretch)
-        self.listInclude.header().setSectionsClickable(True)
-        self.listInclude.header().setSortIndicatorShown(True)
-        self.listInclude.header().setSectionHidden(1, True)
-        self.listIncludeSortLoop = False
-        self.listInclude.header().sortIndicatorChanged \
-            .connect(self.includeCustomSortOrder)
-
-        layout.addWidget(self.listInclude)
-        self.listIncludeCount = 0
-
-        buttonsLayout = QHBoxLayout()
-        layout.addLayout(buttonsLayout)
-
-        self.btnIncludeFile = QPushButton(icon.ADD, _('Add file'), self)
-        buttonsLayout.addWidget(self.btnIncludeFile)
-        self.btnIncludeFile.clicked.connect(self.btnIncludeFileClicked)
-
-        self.btnIncludeAdd = QPushButton(icon.ADD, _('Add directory'), self)
-        buttonsLayout.addWidget(self.btnIncludeAdd)
-        self.btnIncludeAdd.clicked.connect(self.btnIncludeAddClicked)
-
-        self.btnIncludeRemove = QPushButton(icon.REMOVE, _('Remove'), self)
-        buttonsLayout.addWidget(self.btnIncludeRemove)
-        self.btnIncludeRemove.clicked.connect(self.btnIncludeRemoveClicked)
+        self._tab_include = IncludeTab(self)
+        _add_tab(self._tab_include, _('&Include'))
+        # For backward compatibility with existing logic below
+        self.listInclude = self._tab_include.listInclude
 
         # TAB: Exclude
         tabWidget = QWidget(self)
@@ -493,37 +461,6 @@ class SettingsDialog(QDialog):
 
         return answer == QMessageBox.StandardButton.Yes
 
-    def addInclude(self, data):
-        item = QTreeWidgetItem()
-
-        # Directory(0) or file(1)?
-        if data[1] == 0:
-            item.setIcon(0, self.icon.FOLDER)
-        else:
-            item.setIcon(0, self.icon.FILE)
-
-        # Prevent duplicates
-        duplicates = self.listInclude.findItems(data[0], MATCH_FLAGS)
-
-        if duplicates:
-            self.listInclude.setCurrentItem(duplicates[0])
-            return
-
-        # First column
-        item.setText(0, data[0])
-        item.setData(0, Qt.ItemDataRole.UserRole, data[1])
-        self.listIncludeCount += 1
-
-        # Second (hidden!) column.
-        # Don't know why we need it.
-        item.setText(1, str(self.listIncludeCount).zfill(6))
-        item.setData(1, Qt.ItemDataRole.UserRole, self.listIncludeCount)
-
-        self.listInclude.addTopLevelItem(item)
-
-        # Select/highlight that entry.
-        self.listInclude.setCurrentItem(item)
-
     def _add_exclude_pattern(self, pattern):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
@@ -629,41 +566,6 @@ class SettingsDialog(QDialog):
         for path in self.config.DEFAULT_EXCLUDE:
             self.addExclude(path)
 
-    def btnIncludeRemoveClicked(self):
-        for item in self.listInclude.selectedItems():
-            index = self.listInclude.indexOfTopLevelItem(item)
-            if index < 0:
-                continue
-
-            self.listInclude.takeTopLevelItem(index)
-
-        if self.listInclude.topLevelItemCount() > 0:
-            self.listInclude.setCurrentItem(self.listInclude.topLevelItem(0))
-
-    def btnIncludeFileClicked(self):
-        """Development Note (buhtz 2023-12):
-        This is a candidate for refactoring. See btnIncludeAddClicked() with
-        much duplicated code.
-        """
-
-        for path in qttools.getOpenFileNames(self, _('Include file')):
-            if not path:
-                continue
-
-            if os.path.islink(path) \
-                and not (self.cbCopyUnsafeLinks.isChecked()
-                         or self.cbCopyLinks.isChecked()):
-
-                if self._ask_include_symlinks_target(path):
-                    path = os.path.realpath(path)
-
-            path = self.config.preparePath(path)
-
-            for index in range(self.listInclude.topLevelItemCount()):
-                if path == self.listInclude.topLevelItem(index).text(0):
-                    continue
-
-            self.addInclude((path, 1))
 
     def _ask_include_symlinks_target(self, path):
         question_msg = _(
@@ -675,29 +577,6 @@ class SettingsDialog(QDialog):
 
         return self.questionHandler(question_msg)
 
-    def btnIncludeAddClicked(self):
-        """Development Note (buhtz 2023-12):
-        This is a candidate for refactoring. See btnIncludeFileClicked() with
-        much duplicated code.
-        """
-        for path in qttools.getExistingDirectories(self, _('Include directory')):
-            if not path:
-                continue
-
-            if os.path.islink(path) \
-                and not (self.cbCopyUnsafeLinks.isChecked()
-                         or self.cbCopyLinks.isChecked()):
-
-                if self._ask_include_symlinks_target(path):
-                    path = os.path.realpath(path)
-
-            path = self.config.preparePath(path)
-
-            for index in range(self.listInclude.topLevelItemCount()):
-                if path == self.listInclude.topLevelItem(index).text(0):
-                    continue
-
-            self.addInclude((path, 0))
 
     def slot_combo_modes_changed(self, *params):
         """Hide/show widget elements related to one of
@@ -783,10 +662,6 @@ class SettingsDialog(QDialog):
         header.model().sort(newColumn, newOrder)
 
         return loop
-
-    def includeCustomSortOrder(self, *args):
-        self.listIncludeSortLoop = self.customSortOrder(
-            self.listInclude.header(), self.listIncludeSortLoop, *args)
 
     def excludeCustomSortOrder(self, *args):
         self.listExcludeSortLoop = self.customSortOrder(
