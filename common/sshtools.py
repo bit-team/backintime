@@ -90,7 +90,7 @@ class SSH(MountControl):
     def __init__(self, *args, **kwargs):
 
         # init MountControl
-        super(SSH, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Workaround for linters
         self.user = None
