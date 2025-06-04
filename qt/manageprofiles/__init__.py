@@ -118,7 +118,7 @@ class SettingsDialog(QDialog):
         self._tab_include = IncludeTab(self)
         _add_tab(self._tab_include, _('&Include'))
         # For backward compatibility with existing logic below
-        self.listInclude = self._tab_include.listInclude
+        self.listInclude = self._tab_include.list_include
 
         # TAB: Exclude
         tabWidget = QWidget(self)

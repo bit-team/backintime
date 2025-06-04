@@ -144,7 +144,7 @@ class IncludeTab(QWidget):
         )
 
     def _custom_sort_order(self, header, loop, new_column, new_order):
-        """Implements custom sort toggle behavior."""
+        """Implements custom sort toggle behavior.Private"""
         if new_column == 0 and new_order == Qt.SortOrder.AscendingOrder:
             if loop:
                 new_column, new_order = 1, Qt.SortOrder.AscendingOrder
