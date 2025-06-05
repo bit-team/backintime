@@ -979,11 +979,11 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
 
     def warnFreeSpaceEnabled(self, profile_id=None):
-        value = self.profileBoolValue('snapshots.warn_free_space_mib', 0, profile_id)
+        value = self.profileIntValue('snapshots.warn_free_space_mib', 0, profile_id)
         return value > 0
 
     def warnFreeSpaceMiB(self, profile_id=None):
-        return self.profileIntValue('snapshots.warn_free_space_mib', 0, profile_id),
+        return self.profileIntValue('snapshots.warn_free_space_mib', 0, profile_id)
 
     def warnFreeSpaceGiB(self, profile_id=None):
         value = self.warnFreeSpaceMiB(profile_id)
