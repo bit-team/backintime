@@ -94,5 +94,11 @@ class TimeUnit(Enum):
 
 class DiskSizeUnit(Enum):
     """Describe the size in a filesystem"""
-    MiB = 10  # Config.DISK_UNIT_MB
-    GiB = 20  # Config.DISK_UNIT_GB
+    MIB = 10  # Config.DISK_UNIT_MB
+    GIB = 20  # Config.DISK_UNIT_GB
+
+    def __str__(self):
+        return {
+            self.MIB: 'MiB',
+            self.GIB: 'GiB',
+        }[self]

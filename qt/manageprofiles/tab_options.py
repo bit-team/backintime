@@ -93,10 +93,7 @@ class OptionsTab(QDialog):
         self.suWarnFreeSpace = SpinBoxWithUnit(
             self,
             (1, 99999),
-            {
-                DiskSizeUnit.MiB: 'MiB',
-                DiskSizeUnit.GiB: 'GiB',
-            }
+            {unit: str(unit) for unit in DiskSizeUnit}
         )
 
         self.cbWarnFreeSpace = StateBindCheckBox(
@@ -142,8 +139,9 @@ class OptionsTab(QDialog):
         self.cbUseChecksum.setChecked(self.config.useChecksum())
         self.cbTakeSnapshotRegardlessOfChanges.setChecked(
             self.config.takeSnapshotRegardlessOfChanges())
-        enabled, value, unit = self.config.warnFreeSpace()
-        self.cbWarnFreeSpace.setChecked(enabled)
+        value, unit = self.config.warnFreeSpace()
+        print(f'load :: {value=} {unit=}')
+        self.cbWarnFreeSpace.setChecked(self.config.warnFreeSpaceEnabled())
         self.suWarnFreeSpace.set_value(value)
         self.suWarnFreeSpace.select_unit(unit)
         self.comboLogLevel.select_by_data(self.config.logLevel())
@@ -158,10 +156,13 @@ class OptionsTab(QDialog):
         self.config.setUseChecksum(self.cbUseChecksum.isChecked())
         self.config.setTakeSnapshotRegardlessOfChanges(
             self.cbTakeSnapshotRegardlessOfChanges.isChecked())
-        self.config.setWarnFreeSpace(
-            self.suWarnFreeSpace.isEnabled(),
-            self.suWarnFreeSpace.value(),
-            self.suWarnFreeSpace.unit())
+        if self.suWarnFreeSpace.isEnabled():
+            self.config.setWarnFreeSpace(
+                self.suWarnFreeSpace.value(),
+                self.suWarnFreeSpace.unit())
+        else:
+            self.config.setWarnFreeSpaceDisabled()
+
         self.config.setLogLevel(
             self.comboLogLevel.itemData(self.comboLogLevel.currentIndex()))
 
