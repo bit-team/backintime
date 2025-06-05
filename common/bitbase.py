@@ -85,9 +85,14 @@ DIR_LICENSES = _determine_licenses_dir()
 
 
 class TimeUnit(Enum):
-    """Describe time units used in context of scheduling.
-    """
+    """Describe time units used in context of scheduling."""
     HOUR = 10  # Config.HOUR
     DAY = 20  # Config.DAY
     WEEK = 30  # Config.WEEK
     MONTH = 40  # Config.MONTH
+
+
+class DiskSizeUnit(Enum):
+    """Describe the size in a filesystem"""
+    MiB = 10  # Config.DISK_UNIT_MB
+    GiB = 20  # Config.DISK_UNIT_GB

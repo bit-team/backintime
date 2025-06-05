@@ -86,8 +86,8 @@ class Config(configfile.ConfigFileWithProfiles):
                       _12_HOURS,
                       CUSTOM_HOUR)
 
-    DISK_UNIT_MB = 10
-    DISK_UNIT_GB = 20
+    DISK_UNIT_MB = bitbase.DiskSizeUnit.MiB
+    DISK_UNIT_GB = bitbase.DiskSizeUnit.GiB
 
     # Used when new snapshot profile is created.
     DEFAULT_EXCLUDE = [
