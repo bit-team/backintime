@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raak
 # SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Devin Black
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -77,6 +78,12 @@ class IncludeTab(QWidget):
         self.btn_include_remove.clicked.connect(
             self.btn_include_remove_clicked
         )
+    
+    def load_includes(self):
+        
+        self.list_include.clear()
+        for include in self.config.include():
+            self.add_include(include)
 
     def add_include(self, data):
         """Add a file or directory to the list."""

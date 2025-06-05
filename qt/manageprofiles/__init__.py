@@ -371,10 +371,7 @@ class SettingsDialog(QDialog):
         self._tab_general.load_values()
 
         # TAB: Include
-        self.listInclude.clear()
-
-        for include in self.config.include():
-            self.addInclude(include)
+        self._tab_include.load_includes()
 
         # TAB: Exclude
         self.listExclude.clear()
