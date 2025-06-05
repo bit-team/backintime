@@ -18,6 +18,7 @@ from PyQt6.QtWidgets import (QDialog,
 import config
 import tools
 import qttools
+from bitbase import DiskSizeUnit
 from manageprofiles import combobox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
@@ -89,12 +90,14 @@ class OptionsTab(QDialog):
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
 
-        WARN_FREE_SPACE_UNITS = {
-            config.Config.DISK_UNIT_MB: 'MiB',
-            config.Config.DISK_UNIT_GB: 'GiB'
-        }
         self.suWarnFreeSpace = SpinBoxWithUnit(
-            self, (1, 99999), WARN_FREE_SPACE_UNITS)
+            self,
+            (1, 99999),
+            {
+                DiskSizeUnit.MiB: 'MiB',
+                DiskSizeUnit.GiB: 'GiB',
+            }
+        )
 
         self.cbWarnFreeSpace = StateBindCheckBox(
             _('Warn if the free disk space falls below'), self)

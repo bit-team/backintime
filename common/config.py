@@ -376,25 +376,23 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
 
             # check warn free space
-            warn_enabled, warn_value, warn_unit = self.warnFreeSpace(profile_id)
-            warn_mib = self.warnFreeSpaceMib(profile_id)
-            warn_mib = warn_value if warn_unit == self.DISK_UNIT_MB else warn_value * 1024
+            if self.warnFreeSpaceEnabled(profile_id):
+                warn_mib = self.warnFreeSpaceMiB(profile_id)
 
-            min_enabled, min_value, min_unit = self.minFreeSpace(profile_id)
-            min_mib = self.minFreeSpaceMib(profile_id)
-            min_mib = min_value if min_unit == self.DISK_UNIT_MB else min_value * 1024
+                min_enabled, min_value, min_unit = self.minFreeSpace(profile_id)
+                min_mib = self.minFreeSpaceMib(profile_id)
+                min_mib = min_value if min_unit == self.DISK_UNIT_MB else min_value * 1024
 
-            if warn_enabled and min_enabled and warn_mib < min_mib:
-                self.notifyError(
-                    '{}\n{}'.format(
-                        _('Profile: "{name}"').format(name=profile_name),
-                        _('The warning threshold for free space must '
-                        'be greater than or equal to the removing '
-                        'threshold for free space')
-                    )
-                )
+                if min_enabled and warn_mib < min_mib:
+                    self.notifyError(
+                        '{}\n{}'.format(
+                            _('Profile: "{name}"').format(name=profile_name),
+                            _('The warning threshold for free space must '
+                              'be greater than or equal to the removing '
+                              'threshold for free space')))
 
-                return False
+                    return False
+
         return True
 
     def host(self):
@@ -980,32 +978,30 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('snapshots.remove_old_snapshots.value', value, profile_id)
         self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
 
-    def warnFreeSpace(self, profile_id=None):
-        return (self.profileBoolValue('snapshots.warn_free_space.enabled', False, profile_id),
-                self.profileIntValue('snapshots.warn_free_space.value', 3, profile_id),
-                self.profileIntValue('snapshots.warn_free_space.unit', self.DISK_UNIT_GB, profile_id))
-
     def warnFreeSpaceEnabled(self, profile_id=None):
-        return self.profileBoolValue('snapshots.warn_free_space.enabled', False, profile_id)
+        value = self.profileBoolValue('snapshots.warn_free_space_mib', 0, profile_id)
+        return value > 0
 
-    def warnFreeSpaceMib(self, profile_id=None):
-        enabled, value, unit = self.warnFreeSpace(profile_id)
-        if not enabled:
-            return 0
+    def warnFreeSpaceMiB(self, profile_id=None):
+        return self.profileIntValue('snapshots.warn_free_space_mib', 0, profile_id),
 
-        if unit == self.DISK_UNIT_MB:
+    def warnFreeSpaceGiB(self, profile_id=None):
+        value = self.warnFreeSpaceMiB(profile_id)
+
+        if self.warnFreeSpaceEnabled(profile_id) == False:
             return value
 
-        value *= 1024  # Gb
-        if unit == self.DISK_UNIT_GB:
-            return value
+        return int(value / 1024)
 
-        return 0
+    def setWarnFreeSpaceDisabled(self, profile_id=None):
+        self.setWarnFreeSpace(0, None, profile_id)
 
-    def setWarnFreeSpace(self, enabled, value, unit, profile_id=None):
-        self.setProfileBoolValue('snapshots.warn_free_space.enabled', enabled, profile_id)
-        self.setProfileIntValue('snapshots.warn_free_space.value', value, profile_id)
-        self.setProfileIntValue('snapshots.warn_free_space.unit', unit, profile_id)
+    def setWarnFreeSpace(self, value, unit, profile_id=None):
+        if value > 0:
+            if unit == bitbase.DiskSizeUnit.GiB:
+                value = value * 1024
+
+        self.setProfileIntValue('snapshots.warn_free_space_mib', value, profile_id)
 
     def minFreeSpace(self, profile_id = None):
                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
