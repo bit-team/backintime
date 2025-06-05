@@ -78,9 +78,9 @@ class IncludeTab(QWidget):
         self.btn_include_remove.clicked.connect(
             self.btn_include_remove_clicked
         )
-    
+
     def load_includes(self):
-        
+
         self.list_include.clear()
         for include in self.config.include():
             self.add_include(include)
