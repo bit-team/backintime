@@ -1426,7 +1426,58 @@ class Config(configfile.ConfigFileWithProfiles):
             unit=self.scheduleRepeatedUnit(profile_id)
         )
 
-    def setupCron(self):
+    def setup_automation(self):
+        """Update schedule and event base automated backup job execution.
+
+        This affects crontab and udev rules.
+        """
+        self._setup_schedule_based_automation()
+        self._setup_event_based_automation()
+
+    def _setup_event_based_automation(self):
+        """Update udev rules for event based automated profiles."""
+        self.setupUdev.clean()
+
+        # --- TODO add rules ---
+        profile_ids = self.profile_ids_automated_via_udev_evnts()
+
+        if not len(profile_ids):
+            return
+
+        for pid in profile_ids:
+            backup_mode = self.snapshotsMode(pid)
+            if backup_mode == 'local':
+                dest_path = self.snapshotsFullPath(pid)
+            elif backup_mode == 'local_encfs':
+                dest_path = self.localEncfsPath(pid)
+            else:
+                logger.error(
+                    f"Udev scheduling doesn't work with mode {backup_mode}",
+                    self)
+                self.notifyError(_(
+                    "Udev schedule doesn't work with mode {mode}")
+                    .format(mode=backup_mode))
+                return
+
+            # Add rule
+            schedule.add_udev_rule(
+                pid=pid,
+                udev_setup=self.setupUdev,
+                dest_path=dest_path,
+                exec_command=self._cron_cmd(pid),
+                notify_callback=self.notifyError)
+
+        # Save Udev rules
+        try:
+            if self.setupUdev.isReady and self.setupUdev.save():
+                logger.debug('Udev rules added successfully', self)
+
+        except PermissionDeniedByPolicy as err:
+            logger.error(str(err), self)
+            self.notifyError(str(err))
+            return False
+
+    def _setup_schedule_based_automation(self):
         """Update the current users crontab file based on profile settings.
 
         The crontab files is read, all entries related to Back In Time are
@@ -1439,7 +1490,6 @@ class Config(configfile.ConfigFileWithProfiles):
         Returns:
             bool: ``True`` if successful or ``False`` on errors.
         """
-        self.setupUdev.clean()
 
         # Lines of current users crontab file
         org_crontab_lines = schedule.read_crontab()
@@ -1453,24 +1503,14 @@ class Config(configfile.ConfigFileWithProfiles):
             crontab_lines,
             self.profiles_cron_lines())
 
-        # Save Udev rules
-        try:
-            if self.setupUdev.isReady and self.setupUdev.save():
-                logger.debug('Udev rules added successfully', self)
-
-        except PermissionDeniedByPolicy as err:
-            logger.error(str(err), self)
-            self.notifyError(str(err))
-            return False
-
         # Crontab modified?
         if crontab_lines == org_crontab_lines:
-            return True
+            return
 
-        if schedule.write_crontab(crontab_lines) == False:
+        if schedule.write_crontab(crontab_lines) is False:
             logger.error('Failed to write new crontab.')
             self.notifyError(_('Failed to write new crontab.'))
-            return False
+            return
 
         if not schedule.is_cron_running():
             logger.error(
@@ -1484,7 +1524,25 @@ class Config(configfile.ConfigFileWithProfiles):
                 '"systemctl start cron", or consult the support channels of '
                 'the currently used GNU/Linux distribution for assistance.'))
 
-        return True
+    def profile_ids_automated_via_cron_schedule(self):
+        """Return list of profile ids configured to time based automation
+        using cron rules."""
+        return list(filter(
+            lambda pid: bitbase.ScheduleMode(self.scheduleMode(pid))
+            not in (bitbase.ScheduleMode.DISABLED,
+                    bitbase.ScheduleMode.UDEV),
+            self.profiles()
+        ))
+
+    def profile_ids_automated_via_udev_evnts(self):
+        """Return list of profile ids configured to event based automation
+        using udev."""
+
+        return list(filter(
+            lambda pid: bitbase.ScheduleMode(self.scheduleMode(pid))
+            == bitbase.ScheduleMode.UDEV,
+            self.profiles()
+        ))
 
     def profiles_cron_lines(self):
         """Return a list of crontab lines for each of the existing profiles.
@@ -1492,53 +1550,19 @@ class Config(configfile.ConfigFileWithProfiles):
         Return:
             list: The list of crontab lines.
         """
-        profile_ids = self.profiles()
-
-        cron_lines = []
-
-        # For each profile: cronline and the command (backintime)
-        for pid in profile_ids:
-            one_line = self._cron_line(pid)
-
-            # Filter empty strings and None (profiles not scheduled)
-            if one_line:
-                cron_lines.append(one_line)
-                # one_line.replace('{cmd}', self._cron_cmd(pid)))
-
-        return cron_lines
+        profile_ids = self.profile_ids_automated_via_cron_schedule()
+        return [self._cron_line(pid) for pid in profile_ids]
 
     def _cron_line(self, profile_id) -> str:
         """Return a cron line for the specified profile.
 
-        Dev note (2025-05-29): Profiles scheduled via Udev rules are an
-        exceptional case. There is no cron line but the udev rules is
-        installed. This behavior should be separated and be more explicit in a
-        future refactoring session.
-       
         Returns:
             `None` in case of errors or profile is not configured for
             scheduling.
         """
         schedule_mode = self.scheduleMode(profile_id)
         schedule_mode = bitbase.ScheduleMode(schedule_mode)
-
         backup_mode = self.snapshotsMode(profile_id)
-
-        dest_path = None
-        if schedule_mode == Config.UDEV:
-            if backup_mode == 'local':
-                dest_path = self.snapshotsFullPath(profile_id)
-            elif backup_mode == 'local_encfs':
-                dest_path = self.localEncfsPath(profile_id)
-            else:
-                logger.error(
-                    f"Udev scheduling doesn't work with mode {backup_mode}",
-                    self)
-                self.notifyError(_(
-                    "Udev schedule doesn't work with mode {mode}")
-                    .format(mode=backup_mode))
-
-                return None
 
         hour, minute = self.scheduleHourMinute(profile_id)
         day = self.scheduleDay(profile_id)
@@ -1549,7 +1573,6 @@ class Config(configfile.ConfigFileWithProfiles):
             schedule_mode=schedule_mode,
             backup_mode=backup_mode,
             cron_command=self._cron_cmd(profile_id),
-            dest_path=dest_path,
             hour=hour,
             minute=minute,
             day=day,
@@ -1558,117 +1581,8 @@ class Config(configfile.ConfigFileWithProfiles):
             custom_backup_time=self.customBackupTime(profile_id),
             repeat_unit=bitbase.TimeUnit(
                 self.scheduleRepeatedUnit(profile_id)),
-            udev_setup=self.setupUdev,
             pid=profile_id,
             notify_callback=self.notifyError)
-
-    def _DEPRECATED_cron_line(self, profile_id) -> str:
-        """Create a crontab line based on the profiles settings.
-
-        Returns:
-            A crontab line containing '{cmd}' placeholder or `None` if an error
-            occured.
-        """
-        cron_line = ''
-        # profile_name = self.profileName(profile_id)
-        backup_mode = self.scheduleMode(profile_id)
-
-        # logger.debug(
-        #     f'Profile: {profile_name} | Automatic backup: {backup_mode}',
-        #     self)
-
-        if Config.NONE == backup_mode:
-            return cron_line
-
-        hour = self.scheduleTime(profile_id) // 100
-        minute = self.scheduleTime(profile_id) % 100
-        day = self.scheduleDay(profile_id)
-        weekday = self.scheduleWeekday(profile_id)
-        offset = str(self.schedule_offset(profile_id))
-
-        if self.AT_EVERY_BOOT == backup_mode:
-            cron_line = '@reboot {cmd}'
-        elif self._5_MIN == backup_mode:
-            cron_line = '*/5 * * * * {cmd}'
-        elif self._10_MIN == backup_mode:
-            cron_line = '*/10 * * * * {cmd}'
-        elif self._30_MIN == backup_mode:
-            cron_line = '*/30 * * * * {cmd}'
-        elif self._1_HOUR == backup_mode:
-            cron_line = offset + ' * * * * {cmd}'
-        elif self._2_HOURS == backup_mode:
-            cron_line = offset + ' */2 * * * {cmd}'
-        elif self._4_HOURS == backup_mode:
-            cron_line = offset + ' */4 * * * {cmd}'
-        elif self._6_HOURS == backup_mode:
-            cron_line = offset + ' */6 * * * {cmd}'
-        elif self._12_HOURS == backup_mode:
-            cron_line = offset + ' */12 * * * {cmd}'
-        elif self.CUSTOM_HOUR == backup_mode:
-            cron_line = offset + ' ' + self.customBackupTime(profile_id) + ' * * * {cmd}'
-        elif self.DAY == backup_mode:
-            cron_line = '%s %s * * * {cmd}' % (minute, hour)
-        elif self.REPEATEDLY == backup_mode:
-            if self.scheduleRepeatedUnit(profile_id) <= self.DAY:
-                cron_line = '*/15 * * * * {cmd}'
-            else:
-                cron_line = '0 * * * * {cmd}'
-        elif Config.UDEV == backup_mode:
-            if not self.setupUdev.isReady:
-                logger.error(
-                    "Failed to install Udev rule for profile %s. DBus "
-                    "Service 'net.launchpad.backintime.serviceHelper' not "
-                    "available" % profile_id, self)
-
-                self.notifyError(_(
-                    "Could not install Udev rule for profile {profile_id}. "
-                    "DBus Service '{dbus_interface}' wasn't available.")
-                    .format(profile_id=profile_id,
-                            dbus_interface='net.launchpad.backintime.'
-                                           'serviceHelper'))
-
-            mode = self.snapshotsMode(profile_id)
-
-            if mode == 'local':
-                dest_path = self.snapshotsFullPath(profile_id)
-            elif mode == 'local_encfs':
-                dest_path = self.localEncfsPath(profile_id)
-            else:
-                logger.error(
-                    f"Udev scheduling doesn't work with mode {mode}", self)
-                self.notifyError(_(
-                    "Udev schedule doesn't work with mode {mode}")
-                    .format(mode=mode))
-
-                return None
-
-            uuid = tools.uuidFromPath(dest_path)
-
-            if uuid is None:
-                logger.error(
-                    "Couldn't find UUID for \"{dest_path}\"", self)
-                self.notifyError(
-                    _("Couldn't find UUID for {path}").format(
-                        path=f'"{dest_path}"'))
-                return None
-
-            try:
-                self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
-
-            except (InvalidChar, InvalidCmd, LimitExceeded) as e:
-                logger.error(str(e), self)
-                self.notifyError(str(e))
-
-                return None
-
-        elif self.WEEK == backup_mode:
-            cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
-        elif self.MONTH == backup_mode:
-            cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
-        elif self.YEAR == backup_mode:
-            cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
-
-        return cron_line
 
     def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings

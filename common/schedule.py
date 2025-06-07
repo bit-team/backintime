@@ -215,10 +215,49 @@ def is_cron_running():
     return True
 
 
+def add_udev_rule(pid: str,
+                  udev_setup: tools.SetupUdev,
+                  dest_path: str,
+                  exec_command: str,
+                  notify_callback: Callable
+                  ):
+
+    if not udev_setup.isReady:
+        logger.error(
+            "Failed to install Udev rule for profile %s. DBus "
+            "Service 'net.launchpad.backintime.serviceHelper' not "
+            "available" % pid)
+
+        notify_callback(_(
+            "Could not install Udev rule for profile {profile_id}. "
+            "DBus Service '{dbus_interface}' wasn't available."
+        ).format(
+            profile_id=pid,
+            dbus_interface='net.launchpad.backintime.serviceHelper'))
+
+        return
+
+    uuid = tools.uuidFromPath(dest_path)
+
+    if uuid is None:
+        logger.error(
+            "Couldn't find UUID for \"{dest_path}\"", self)
+        notify_callback(_("Couldn't find UUID for {path}").format(
+            path=f'"{dest_path}"'))
+
+        return
+
+    try:
+        udev_setup.addRule(exec_command, uuid)
+
+    except (InvalidChar, InvalidCmd, LimitExceeded) as exc:
+        logger.error(str(exc))
+        notify_callback(str(exc))
+
+
 def create_cron_line(schedule_mode: ScheduleMode,
                      backup_mode: str,
                      cron_command: str,
-                     dest_path: str,
                      hour: int,
                      minute: int,
                      day: int,
@@ -226,7 +265,6 @@ def create_cron_line(schedule_mode: ScheduleMode,
                      offset: str,
                      custom_backup_time: str,
                      repeat_unit: TimeUnit,
-                     udev_setup: tools.SetupUdev,
                      pid: str,
                      notify_callback: Callable) -> str:
     """Create a crontab line based on the given arguments.
@@ -259,40 +297,12 @@ def create_cron_line(schedule_mode: ScheduleMode,
         else:
             return f'0 * * * * {cron_command}'
 
-    if ScheduleMode.UDEV is schedule_mode:
-        if not udev_setup.isReady:
-            logger.error(
-                "Failed to install Udev rule for profile %s. DBus "
-                "Service 'net.launchpad.backintime.serviceHelper' not "
-                "available" % pid, self)
+    msg = (f'Unexpected error while creating cron line for profile "{pid}" '
+           f'with schedule mode "{schedule_mode}".')
+    logger.error(msg)
+    notify_callback(msg)
 
-            notify_callback(_(
-                "Could not install Udev rule for profile {profile_id}. "
-                "DBus Service '{dbus_interface}' wasn't available."
-            ).format(
-                profile_id=pid,
-                dbus_interface='net.launchpad.backintime.serviceHelper'))
-
-            return None
-
-        uuid = tools.uuidFromPath(dest_path)
-
-        if uuid is None:
-            logger.error(
-                "Couldn't find UUID for \"{dest_path}\"", self)
-            notify_callback(_("Couldn't find UUID for {path}").format(
-                path=f'"{dest_path}"'))
-
-            return None
-
-        try:
-            udev_setup.addRule(cron_command, uuid)
-
-        except (InvalidChar, InvalidCmd, LimitExceeded) as exc:
-            logger.error(str(exc))
-            notify_callback(str(exc))
-
-            return None
+    return None
 
 
 def _simple_cron_line(schedule_mode: ScheduleMode,
