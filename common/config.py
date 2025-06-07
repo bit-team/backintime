@@ -47,10 +47,7 @@ import encfstools
 import password
 import pluginmanager
 import schedule
-from exceptions import (PermissionDeniedByPolicy,
-                        InvalidChar,
-                        InvalidCmd,
-                        LimitExceeded)
+from exceptions import PermissionDeniedByPolicy
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -856,9 +853,12 @@ class Config(configfile.ConfigFileWithProfiles):
         #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
         #?40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
-        return self.profileIntValue('schedule.mode', Config.NONE, profile_id)
+        value = self.profileIntValue('schedule.mode', Config.NONE.value, profile_id)
+        return bitbase.ScheduleMode(value)
 
     def setScheduleMode(self, value, profile_id = None):
+        if isinstance(value, bitbase.ScheduleMode):
+            value = value.value
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
     def schedule_offset(self, profile_id = None):
@@ -930,9 +930,11 @@ class Config(configfile.ConfigFileWithProfiles):
         #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.schedule.mode\fR = 25|27;
         #?10|20|30|40;20
-        return self.profileIntValue('schedule.repeatedly.unit', self.DAY, profile_id)
+        return self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
 
     def setScheduleRepeatedUnit(self, value, profile_id = None):
+        if isinstance(value, bitbase.TimeUnit):
+            value = value.value
         self.setProfileIntValue('schedule.repeatedly.unit', value, profile_id)
 
     def removeOldSnapshots(self, profile_id = None):
@@ -1413,7 +1415,9 @@ class Config(configfile.ConfigFileWithProfiles):
         Returns:
             (bool): The answer.
         """
-        if self.scheduleMode(profile_id) not in (self.REPEATEDLY, self.UDEV):
+        if self.scheduleMode(profile_id) not in (
+                bitbase.ScheduleMode.REPEATEDLY,
+                bitbase.ScheduleMode.UDEV):
             return True
 
         last_time = tools.readTimeStamp(self.anacronSpoolFile(profile_id))
@@ -1562,7 +1566,6 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         schedule_mode = self.scheduleMode(profile_id)
         schedule_mode = bitbase.ScheduleMode(schedule_mode)
-        backup_mode = self.snapshotsMode(profile_id)
 
         hour, minute = self.scheduleHourMinute(profile_id)
         day = self.scheduleDay(profile_id)
@@ -1571,7 +1574,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return schedule.create_cron_line(
             schedule_mode=schedule_mode,
-            backup_mode=backup_mode,
             cron_command=self._cron_cmd(profile_id),
             hour=hour,
             minute=minute,

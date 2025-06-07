@@ -14,9 +14,9 @@ Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
 import subprocess
+from typing import Callable
 import logger
 import tools
-from typing import Callable
 from bitbase import ScheduleMode, TimeUnit
 from exceptions import InvalidChar, InvalidCmd, LimitExceeded
 
@@ -221,12 +221,12 @@ def add_udev_rule(pid: str,
                   exec_command: str,
                   notify_callback: Callable
                   ):
+    """Initiate adding udev rule for profile."""
 
     if not udev_setup.isReady:
         logger.error(
-            "Failed to install Udev rule for profile %s. DBus "
-            "Service 'net.launchpad.backintime.serviceHelper' not "
-            "available" % pid)
+            f'Failed to install Udev rule for profile {pid}. DBus Service '
+            '"net.launchpad.backintime.serviceHelper" not available')
 
         notify_callback(_(
             "Could not install Udev rule for profile {profile_id}. "
@@ -241,7 +241,7 @@ def add_udev_rule(pid: str,
 
     if uuid is None:
         logger.error(
-            "Couldn't find UUID for \"{dest_path}\"", self)
+            f"Couldn't find UUID for \"{dest_path}\"")
         notify_callback(_("Couldn't find UUID for {path}").format(
             path=f'"{dest_path}"'))
 
@@ -255,8 +255,8 @@ def add_udev_rule(pid: str,
         notify_callback(str(exc))
 
 
-def create_cron_line(schedule_mode: ScheduleMode,
-                     backup_mode: str,
+# pylint: disable-next=too-many-arguments,too-many-positional-arguments
+def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
                      cron_command: str,
                      hour: int,
                      minute: int,
@@ -294,8 +294,8 @@ def create_cron_line(schedule_mode: ScheduleMode,
     if ScheduleMode.REPEATEDLY is schedule_mode:
         if repeat_unit <= TimeUnit.DAY:
             return f'*/15 * * * * {cron_command}'
-        else:
-            return f'0 * * * * {cron_command}'
+
+        return f'0 * * * * {cron_command}'
 
     msg = (f'Unexpected error while creating cron line for profile "{pid}" '
            f'with schedule mode "{schedule_mode}".')
@@ -305,13 +305,15 @@ def create_cron_line(schedule_mode: ScheduleMode,
     return None
 
 
-def _simple_cron_line(schedule_mode: ScheduleMode,
-                      minute,
-                      hour,
-                      offset,
-                      day,
-                      weekday,
-                      cmd) -> str:
+# pylint: disable-next=too-many-arguments,too-many-positional-arguments
+def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+                      minute,  # pylint: disable=unused-argument
+                      hour,  # pylint: disable=unused-argument
+                      offset,  # pylint: disable=unused-argument
+                      day,  # pylint: disable=unused-argument
+                      weekday,  # pylint: disable=unused-argument
+                      cmd  # pylint: disable=unused-argument
+                      ) -> str:
     result = {
         ScheduleMode.AT_EVERY_BOOT: '@reboot {cmd}',
         ScheduleMode.MINUTES_5: '*/5 * * * * {cmd}',
