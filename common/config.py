@@ -76,12 +76,7 @@ class Config(configfile.ConfigFileWithProfiles):
     MONTH = bitbase.ScheduleMode.MONTH
     YEAR = bitbase.ScheduleMode.YEAR
 
-    HOURLY_BACKUPS = (HOUR,
-                      _2_HOURS,
-                      _4_HOURS,
-                      _6_HOURS,
-                      _12_HOURS,
-                      CUSTOM_HOUR)
+    HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
@@ -930,7 +925,8 @@ class Config(configfile.ConfigFileWithProfiles):
         #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.schedule.mode\fR = 25|27;
         #?10|20|30|40;20
-        return self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
+        value = self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
+        return bitbase.TimeUnit(value)
 
     def setScheduleRepeatedUnit(self, value, profile_id = None):
         if isinstance(value, bitbase.TimeUnit):
@@ -943,7 +939,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 #?Snapshots older than this times units will be removed
                 self.profileIntValue('snapshots.remove_old_snapshots.value', 10, profile_id),
                 #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                self.profileIntValue('snapshots.remove_old_snapshots.unit', self.YEAR, profile_id))
+                bitbase.TimeUnit(self.profileIntValue('snapshots.remove_old_snapshots.unit', bitbase.TimeUnit.YEAR, profile_id)))
 
     def keepOnlyOneSnapshot(self, profile_id = None):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.

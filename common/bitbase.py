@@ -90,6 +90,7 @@ class TimeUnit(Enum):
     DAY = 20  # Config.DAY
     WEEK = 30  # Config.WEEK
     MONTH = 40  # Config.MONTH
+    YEAR = 80  # Config.YEAR
 
 
 class ScheduleMode(Enum):
@@ -131,3 +132,12 @@ class ScheduleMode(Enum):
     WEEK = 30
     MONTH = 40
     YEAR = 80
+
+HOURLY_BACKUPS = (
+    ScheduleMode.HOUR,
+    ScheduleMode.HOUR_1,
+    ScheduleMode.HOURS_2,
+    ScheduleMode.HOURS_4,
+    ScheduleMode.HOURS_6,
+    ScheduleMode.HOURS_12,
+    ScheduleMode.CUSTOM_HOUR)

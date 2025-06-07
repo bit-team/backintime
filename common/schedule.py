@@ -292,7 +292,7 @@ def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
         return f'{offset}  {custom_backup_time} * * * {cron_command}'
 
     if ScheduleMode.REPEATEDLY is schedule_mode:
-        if repeat_unit <= TimeUnit.DAY:
+        if repeat_unit.value <= TimeUnit.DAY.value:
             return f'*/15 * * * * {cron_command}'
 
         return f'0 * * * * {cron_command}'
