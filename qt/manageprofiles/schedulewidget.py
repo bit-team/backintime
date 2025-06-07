@@ -20,11 +20,11 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLineEdit,
                              QSpinBox,
                              QWidget)
+from bitbase import ScheduleMode, TimeUnit, HOURLY_BACKUPS
 import config
 import tools
 import qttools
 from manageprofiles import combobox
-from bitbase import ScheduleMode, TimeUnit, HOURLY_BACKUPS
 
 
 class ScheduleWidget(QGroupBox):
@@ -264,7 +264,8 @@ class ScheduleWidget(QGroupBox):
             schedule_mode in HOURLY_BACKUPS
         )
 
-        vis = ScheduleMode.REPEATEDLY.value <= schedule_mode.value <= ScheduleMode.UDEV.value
+        vis = ScheduleMode.REPEATEDLY.value <= schedule_mode.value \
+            <= ScheduleMode.UDEV.value
         layout.setRowVisible(
             self._rowidx_period,
             vis)

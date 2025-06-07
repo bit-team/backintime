@@ -133,6 +133,7 @@ class ScheduleMode(Enum):
     MONTH = 40
     YEAR = 80
 
+
 HOURLY_BACKUPS = (
     ScheduleMode.HOUR,
     ScheduleMode.HOUR_1,
