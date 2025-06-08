@@ -560,8 +560,8 @@ class SettingsDialog(QDialog):
         if not self.config.checkConfig():
             return False
 
-        if not self.config.setupCron():
-            return False
+        # This should raise exceptions in case of errors
+        self.config.setup_automation()
 
         return self.config.save()
 
