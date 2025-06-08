@@ -1438,7 +1438,6 @@ class Config(configfile.ConfigFileWithProfiles):
         """Update udev rules for event based automated profiles."""
         self.setupUdev.clean()
 
-        # --- TODO add rules ---
         profile_ids = self.profile_ids_automated_via_udev_evnts()
 
         if not len(profile_ids):
