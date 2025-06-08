@@ -25,7 +25,6 @@ import locale
 import gettext
 import hashlib
 import ipaddress
-import json
 import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
@@ -589,7 +588,25 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 # |-------------------|
 
 
-def free_space_local(path: pathlib.Path) -> int:
+def free_space(path: pathlib.Path, ssh_command: list[str] = None
+               ) -> int | None:
+    """Get free space in MiB on (remote) filesystem containing ``path``.
+
+    Args:
+        path: File or directory.
+        ssh_command: See `_free_space_ssh()` for details.
+
+    Returns:
+        Free space in Mebibyte (MiB) or ``None`` in case of errors.
+    """
+
+    if ssh_command:
+        return _free_space_ssh(path, ssh_command)
+
+    return _free_space_local(path)
+
+
+def _free_space_local(path: pathlib.Path) -> int:
     """Get free space in MiB on filesystem containing ``path``.
 
     Args:
@@ -601,7 +618,7 @@ def free_space_local(path: pathlib.Path) -> int:
     return round(shutil.disk_usage(path).free / 1024 / 1024)
 
 
-def free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
+def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
     """Get free space in MiB on remote filesystem.
 
     Use Config.sshCommand() to construct ``ssh_command`` regarding the backup
