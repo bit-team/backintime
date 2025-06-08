@@ -47,10 +47,7 @@ import encfstools
 import password
 import pluginmanager
 import schedule
-from exceptions import (PermissionDeniedByPolicy,
-                        InvalidChar,
-                        InvalidCmd,
-                        LimitExceeded)
+from exceptions import PermissionDeniedByPolicy
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -60,31 +57,26 @@ class Config(configfile.ConfigFileWithProfiles):
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
 
-    NONE = 0
-    AT_EVERY_BOOT = 1
-    _5_MIN = 2
-    _10_MIN = 4
-    _30_MIN = 7
-    HOUR = 10
-    _1_HOUR = 10
-    _2_HOURS = 12
-    _4_HOURS = 14
-    _6_HOURS = 16
-    _12_HOURS = 18
-    CUSTOM_HOUR = 19
-    DAY = 20
-    REPEATEDLY = 25
-    UDEV = 27
-    WEEK = 30
-    MONTH = 40
-    YEAR = 80
+    NONE = bitbase.ScheduleMode.DISABLED
+    AT_EVERY_BOOT = bitbase.ScheduleMode.AT_EVERY_BOOT
+    _5_MIN = bitbase.ScheduleMode.MINUTES_5
+    _10_MIN = bitbase.ScheduleMode.MINUTES_10
+    _30_MIN = bitbase.ScheduleMode.MINUTES_30
+    HOUR = bitbase.ScheduleMode.HOUR
+    _1_HOUR = bitbase.ScheduleMode.HOUR_1
+    _2_HOURS = bitbase.ScheduleMode.HOURS_2
+    _4_HOURS = bitbase.ScheduleMode.HOURS_4
+    _6_HOURS = bitbase.ScheduleMode.HOURS_6
+    _12_HOURS = bitbase.ScheduleMode.HOURS_12
+    CUSTOM_HOUR = bitbase.ScheduleMode.CUSTOM_HOUR
+    DAY = bitbase.ScheduleMode.DAY
+    REPEATEDLY = bitbase.ScheduleMode.REPEATEDLY
+    UDEV = bitbase.ScheduleMode.UDEV
+    WEEK = bitbase.ScheduleMode.WEEK
+    MONTH = bitbase.ScheduleMode.MONTH
+    YEAR = bitbase.ScheduleMode.YEAR
 
-    HOURLY_BACKUPS = (HOUR,
-                      _2_HOURS,
-                      _4_HOURS,
-                      _6_HOURS,
-                      _12_HOURS,
-                      CUSTOM_HOUR)
+    HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
@@ -856,9 +848,12 @@ class Config(configfile.ConfigFileWithProfiles):
         #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
         #?40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
-        return self.profileIntValue('schedule.mode', Config.NONE, profile_id)
+        value = self.profileIntValue('schedule.mode', Config.NONE.value, profile_id)
+        return bitbase.ScheduleMode(value)
 
     def setScheduleMode(self, value, profile_id = None):
+        if isinstance(value, bitbase.ScheduleMode):
+            value = value.value
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
     def schedule_offset(self, profile_id = None):
@@ -882,6 +877,12 @@ class Config(configfile.ConfigFileWithProfiles):
         #?\fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly),
         #?40 (monthly) and 80 (yearly);0-2400
         return self.profileIntValue('schedule.time', 0, profile_id)
+
+    def scheduleHourMinute(self, profile_id: str = None
+                                  ) -> tuple[int, int]:
+        the_time = self.scheduleTime(profile_id)
+
+        return (the_time // 100, the_time % 100)
 
     def setScheduleTime(self, value, profile_id = None):
         self.setProfileIntValue('schedule.time', value, profile_id)
@@ -924,9 +925,12 @@ class Config(configfile.ConfigFileWithProfiles):
         #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.schedule.mode\fR = 25|27;
         #?10|20|30|40;20
-        return self.profileIntValue('schedule.repeatedly.unit', self.DAY, profile_id)
+        value = self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
+        return bitbase.TimeUnit(value)
 
     def setScheduleRepeatedUnit(self, value, profile_id = None):
+        if isinstance(value, bitbase.TimeUnit):
+            value = value.value
         self.setProfileIntValue('schedule.repeatedly.unit', value, profile_id)
 
     def removeOldSnapshots(self, profile_id = None):
@@ -935,7 +939,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 #?Snapshots older than this times units will be removed
                 self.profileIntValue('snapshots.remove_old_snapshots.value', 10, profile_id),
                 #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                self.profileIntValue('snapshots.remove_old_snapshots.unit', self.YEAR, profile_id))
+                bitbase.TimeUnit(self.profileIntValue('snapshots.remove_old_snapshots.unit', bitbase.TimeUnit.YEAR, profile_id)))
 
     def keepOnlyOneSnapshot(self, profile_id = None):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.
@@ -1407,7 +1411,9 @@ class Config(configfile.ConfigFileWithProfiles):
         Returns:
             (bool): The answer.
         """
-        if self.scheduleMode(profile_id) not in (self.REPEATEDLY, self.UDEV):
+        if self.scheduleMode(profile_id) not in (
+                bitbase.ScheduleMode.REPEATEDLY,
+                bitbase.ScheduleMode.UDEV):
             return True
 
         last_time = tools.readTimeStamp(self.anacronSpoolFile(profile_id))
@@ -1420,7 +1426,57 @@ class Config(configfile.ConfigFileWithProfiles):
             unit=self.scheduleRepeatedUnit(profile_id)
         )
 
-    def setupCron(self):
+    def setup_automation(self):
+        """Update schedule and event base automated backup job execution.
+
+        This affects crontab and udev rules.
+        """
+        self._setup_schedule_based_automation()
+        self._setup_event_based_automation()
+
+    def _setup_event_based_automation(self):
+        """Update udev rules for event based automated profiles."""
+        self.setupUdev.clean()
+
+        profile_ids = self.profile_ids_automated_via_udev_evnts()
+
+        if not len(profile_ids):
+            return
+
+        for pid in profile_ids:
+            backup_mode = self.snapshotsMode(pid)
+            if backup_mode == 'local':
+                dest_path = self.snapshotsFullPath(pid)
+            elif backup_mode == 'local_encfs':
+                dest_path = self.localEncfsPath(pid)
+            else:
+                logger.error(
+                    f"Udev scheduling doesn't work with mode {backup_mode}",
+                    self)
+                self.notifyError(_(
+                    "Udev schedule doesn't work with mode {mode}")
+                    .format(mode=backup_mode))
+                return
+
+            # Add rule
+            schedule.add_udev_rule(
+                pid=pid,
+                udev_setup=self.setupUdev,
+                dest_path=dest_path,
+                exec_command=self._cron_cmd(pid),
+                notify_callback=self.notifyError)
+
+        # Save Udev rules
+        try:
+            if self.setupUdev.isReady and self.setupUdev.save():
+                logger.debug('Udev rules added successfully', self)
+
+        except PermissionDeniedByPolicy as err:
+            logger.error(str(err), self)
+            self.notifyError(str(err))
+            return False
+
+    def _setup_schedule_based_automation(self):
         """Update the current users crontab file based on profile settings.
 
         The crontab files is read, all entries related to Back In Time are
@@ -1433,7 +1489,6 @@ class Config(configfile.ConfigFileWithProfiles):
         Returns:
             bool: ``True`` if successful or ``False`` on errors.
         """
-        self.setupUdev.clean()
 
         # Lines of current users crontab file
         org_crontab_lines = schedule.read_crontab()
@@ -1447,24 +1502,14 @@ class Config(configfile.ConfigFileWithProfiles):
             crontab_lines,
             self.profiles_cron_lines())
 
-        # Save Udev rules
-        try:
-            if self.setupUdev.isReady and self.setupUdev.save():
-                logger.debug('Udev rules added successfully', self)
-
-        except PermissionDeniedByPolicy as err:
-            logger.error(str(err), self)
-            self.notifyError(str(err))
-            return False
-
         # Crontab modified?
         if crontab_lines == org_crontab_lines:
-            return True
+            return
 
-        if schedule.write_crontab(crontab_lines) == False:
+        if schedule.write_crontab(crontab_lines) is False:
             logger.error('Failed to write new crontab.')
             self.notifyError(_('Failed to write new crontab.'))
-            return False
+            return
 
         if not schedule.is_cron_running():
             logger.error(
@@ -1478,7 +1523,25 @@ class Config(configfile.ConfigFileWithProfiles):
                 '"systemctl start cron", or consult the support channels of '
                 'the currently used GNU/Linux distribution for assistance.'))
 
-        return True
+    def profile_ids_automated_via_cron_schedule(self):
+        """Return list of profile ids configured to time based automation
+        using cron rules."""
+        return list(filter(
+            lambda pid: bitbase.ScheduleMode(self.scheduleMode(pid))
+            not in (bitbase.ScheduleMode.DISABLED,
+                    bitbase.ScheduleMode.UDEV),
+            self.profiles()
+        ))
+
+    def profile_ids_automated_via_udev_evnts(self):
+        """Return list of profile ids configured to event based automation
+        using udev."""
+
+        return list(filter(
+            lambda pid: bitbase.ScheduleMode(self.scheduleMode(pid))
+            == bitbase.ScheduleMode.UDEV,
+            self.profiles()
+        ))
 
     def profiles_cron_lines(self):
         """Return a list of crontab lines for each of the existing profiles.
@@ -1486,128 +1549,37 @@ class Config(configfile.ConfigFileWithProfiles):
         Return:
             list: The list of crontab lines.
         """
-        profile_ids = self.profiles()
-
-        cron_lines = []
-
-        # For each profile: cronline and the command (backintime)
-        for pid in profile_ids:
-            one_line = self._cron_line(pid)
-
-            # Filter empty strings and None (profiles not scheduled)
-            if one_line:
-                cron_lines.append(
-                    one_line.replace('{cmd}', self._cron_cmd(pid)))
-
-        return cron_lines
+        profile_ids = self.profile_ids_automated_via_cron_schedule()
+        return [self._cron_line(pid) for pid in profile_ids]
 
     def _cron_line(self, profile_id) -> str:
-        """Create a crontab line based on the profiles settings.
+        """Return a cron line for the specified profile.
 
         Returns:
-            A crontab line containing '{cmd}' placeholder or `None` if an error
-            occured.
+            `None` in case of errors or profile is not configured for
+            scheduling.
         """
-        cron_line = ''
-        # profile_name = self.profileName(profile_id)
-        backup_mode = self.scheduleMode(profile_id)
+        schedule_mode = self.scheduleMode(profile_id)
+        schedule_mode = bitbase.ScheduleMode(schedule_mode)
 
-        # logger.debug(
-        #     f'Profile: {profile_name} | Automatic backup: {backup_mode}',
-        #     self)
-
-        if Config.NONE == backup_mode:
-            return cron_line
-
-        hour = self.scheduleTime(profile_id) // 100
-        minute = self.scheduleTime(profile_id) % 100
+        hour, minute = self.scheduleHourMinute(profile_id)
         day = self.scheduleDay(profile_id)
         weekday = self.scheduleWeekday(profile_id)
         offset = str(self.schedule_offset(profile_id))
 
-        if self.AT_EVERY_BOOT == backup_mode:
-            cron_line = '@reboot {cmd}'
-        elif self._5_MIN == backup_mode:
-            cron_line = '*/5 * * * * {cmd}'
-        elif self._10_MIN == backup_mode:
-            cron_line = '*/10 * * * * {cmd}'
-        elif self._30_MIN == backup_mode:
-            cron_line = '*/30 * * * * {cmd}'
-        elif self._1_HOUR == backup_mode:
-            cron_line = offset + ' * * * * {cmd}'
-        elif self._2_HOURS == backup_mode:
-            cron_line = offset + ' */2 * * * {cmd}'
-        elif self._4_HOURS == backup_mode:
-            cron_line = offset + ' */4 * * * {cmd}'
-        elif self._6_HOURS == backup_mode:
-            cron_line = offset + ' */6 * * * {cmd}'
-        elif self._12_HOURS == backup_mode:
-            cron_line = offset + ' */12 * * * {cmd}'
-        elif self.CUSTOM_HOUR == backup_mode:
-            cron_line = offset + ' ' + self.customBackupTime(profile_id) + ' * * * {cmd}'
-        elif self.DAY == backup_mode:
-            cron_line = '%s %s * * * {cmd}' % (minute, hour)
-        elif self.REPEATEDLY == backup_mode:
-            if self.scheduleRepeatedUnit(profile_id) <= self.DAY:
-                cron_line = '*/15 * * * * {cmd}'
-            else:
-                cron_line = '0 * * * * {cmd}'
-        elif Config.UDEV == backup_mode:
-            if not self.setupUdev.isReady:
-                logger.error(
-                    "Failed to install Udev rule for profile %s. DBus "
-                    "Service 'net.launchpad.backintime.serviceHelper' not "
-                    "available" % profile_id, self)
-
-                self.notifyError(_(
-                    "Could not install Udev rule for profile {profile_id}. "
-                    "DBus Service '{dbus_interface}' wasn't available.")
-                    .format(profile_id=profile_id,
-                            dbus_interface='net.launchpad.backintime.'
-                                           'serviceHelper'))
-
-            mode = self.snapshotsMode(profile_id)
-
-            if mode == 'local':
-                dest_path = self.snapshotsFullPath(profile_id)
-            elif mode == 'local_encfs':
-                dest_path = self.localEncfsPath(profile_id)
-            else:
-                logger.error(
-                    f"Udev scheduling doesn't work with mode {mode}", self)
-                self.notifyError(_(
-                    "Udev schedule doesn't work with mode {mode}")
-                    .format(mode=mode))
-
-                return None
-
-            uuid = tools.uuidFromPath(dest_path)
-
-            if uuid is None:
-                logger.error(
-                    "Couldn't find UUID for \"{dest_path}\"", self)
-                self.notifyError(
-                    _("Couldn't find UUID for {path}").format(
-                        path=f'"{dest_path}"'))
-                return None
-
-            try:
-                self.setupUdev.addRule(self._cron_cmd(profile_id), uuid)
-
-            except (InvalidChar, InvalidCmd, LimitExceeded) as e:
-                logger.error(str(e), self)
-                self.notifyError(str(e))
-
-                return None
-
-        elif self.WEEK == backup_mode:
-            cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
-        elif self.MONTH == backup_mode:
-            cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
-        elif self.YEAR == backup_mode:
-            cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
-
-        return cron_line
+        return schedule.create_cron_line(
+            schedule_mode=schedule_mode,
+            cron_command=self._cron_cmd(profile_id),
+            hour=hour,
+            minute=minute,
+            day=day,
+            weekday=weekday,
+            offset=offset,
+            custom_backup_time=self.customBackupTime(profile_id),
+            repeat_unit=bitbase.TimeUnit(
+                self.scheduleRepeatedUnit(profile_id)),
+            pid=profile_id,
+            notify_callback=self.notifyError)
 
     def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings

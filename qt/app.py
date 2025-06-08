@@ -2312,7 +2312,7 @@ class SetupCron(QThread):
         super(SetupCron, self).__init__(parent)
 
     def run(self):
-        self.config.setupCron()
+        self.config.setup_automation()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

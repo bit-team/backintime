@@ -2131,6 +2131,7 @@ class Alarm:
         else:
             self.callback()
 
+
 class SetupUdev:
     """
     Setup Udev rules for starting BackInTime when a drive get connected.
