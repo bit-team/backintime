@@ -1473,13 +1473,6 @@ class MainWindow(QMainWindow):
             dlg.exec()
 
     def btn_help_user_manual(self):
-        # DEBUG
-        x = tools.free_space_local(pathlib.Path.cwd())
-        print(f'{x=} MiB')
-        x = tools.free_space_ssh(
-            pathlib.Path('/Daten/Media'), self.config.sshCommand([]))
-        print(f'{x=} MiB')
-        return
         qttools.open_user_manual()
 
     def btn_help_man_backintime(self):

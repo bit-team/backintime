@@ -22,7 +22,6 @@ import bz2
 import pwd
 import getpass
 import grp
-import subprocess
 import shutil
 import time
 import re
@@ -1983,7 +1982,7 @@ class Snapshots:
             minFreeSpace = self.config.minFreeSpaceMib()
 
             logger.debug(
-                f'Keep min free disk space: {minFreeSapce} MiB',
+                f'Keep min free disk space: {minFreeSpace} MiB',
                 self)
 
             snapshots = listSnapshots(self.config, reverse=False)
