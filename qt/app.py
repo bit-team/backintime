@@ -1374,7 +1374,7 @@ class MainWindow(QMainWindow):
             proceed = messagebox.warning(
                 f'<p>{msg}</p><p>{qst}</p>', as_question=True)
 
-            if proceed == False:
+            if proceed is False:
                 return
 
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
