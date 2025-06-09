@@ -25,6 +25,7 @@ import locale
 import gettext
 import hashlib
 import ipaddress
+import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
@@ -582,10 +583,79 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 
     return org
 
+# |-------------------|
+# | File system stuff |
+# |-------------------|
+
+
+def free_space(path: pathlib.Path, ssh_command: list[str] = None
+               ) -> int | None:
+    """Get free space in MiB on (remote) filesystem containing ``path``.
+
+    Args:
+        path: File or directory.
+        ssh_command: See `_free_space_ssh()` for details.
+
+    Returns:
+        Free space in Mebibyte (MiB) or ``None`` in case of errors.
+    """
+
+    if ssh_command:
+        return _free_space_ssh(path, ssh_command)
+
+    return _free_space_local(path)
+
+
+def _free_space_local(path: pathlib.Path) -> int:
+    """Get free space in MiB on filesystem containing ``path``.
+
+    Args:
+        path: File or directory.
+
+    Returns:
+        Free space in Mebibyte (MiB).
+    """
+    return round(shutil.disk_usage(path).free / 1024 / 1024)
+
+
+def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
+    """Get free space in MiB on remote filesystem.
+
+    Use Config.sshCommand() to construct ``ssh_command`` regarding the backup
+    profile of interest. This is a workaround and will be refactored one day.
+
+    Args:
+        path: File or directory on remote system.
+        ssh_command: SSH command used as prefix to the ``stat`` command.
+
+    Returns:
+        Free space in Mebibyte (MiB) or ``None`` in case of errors.
+    """
+    try:
+        result = subprocess.check_output(
+            ssh_command + [
+                'stat',
+                '--file-system',
+                # %a: Free blocks available for the user.
+                # %S: Blocksize
+                '--format=%a,%S',
+                str(path) if path else './'
+            ],
+            text=True
+        )
+    except subprocess.CalledProcessError as exc:
+        logger.error(f'Unable to get free space via SSH. {exc}')
+        return None
+
+    available, blocksize = [int(val) for val in result.strip().split(',')]
+
+    return round(available * blocksize / 1024 / 1024)
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
+
+
 def registerBackintimePath(*path):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
@@ -1772,6 +1842,7 @@ def _uuidFromDev_via_filesystem(dev):
 
     # Nothing found
     return None
+
 
 def _uuidFromDev_via_blkid_command(dev):
     """Get the UUID for the block device ``dev`` via the extern command

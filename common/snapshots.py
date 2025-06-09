@@ -22,7 +22,6 @@ import bz2
 import pwd
 import getpass
 import grp
-import subprocess
 import shutil
 import time
 import re
@@ -1982,7 +1981,9 @@ class Snapshots:
 
             minFreeSpace = self.config.minFreeSpaceMib()
 
-            logger.debug("Keep min free disk space: {} MiB".format(minFreeSpace), self)
+            logger.debug(
+                f'Keep min free disk space: {minFreeSpace} MiB',
+                self)
 
             snapshots = listSnapshots(self.config, reverse=False)
 
@@ -1990,10 +1991,18 @@ class Snapshots:
                 if len(snapshots) <= 1:
                     break
 
-                free_space = self.statFreeSpaceLocal(self.config.snapshotsFullPath())
+                # Prepare getting free space value
+                if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
+                    # ...on remote host
+                    dest_path = self.config.sshSnapshotsFullPath()
+                    ssh_cmd = self.config.sshCommand(
+                        [], nice=False, ionice=False)
+                else:
+                    # ...on local machine
+                    dest_path = self.config.snapshotsFullPath()
+                    ssh_cmd = None
 
-                if free_space is None:
-                    free_space = self.statFreeSpaceSsh()
+                free_space = tools.free_space(dest_path, ssh_cmd)
 
                 if free_space is None:
                     logger.warning('Failed to get free space. Skipping', self)
@@ -2061,65 +2070,6 @@ class Snapshots:
         # Set correct last snapshot again
         if last_snapshot is not snapshots[-1]:
             self.createLastSnapshotSymlink(snapshots[-1])
-
-    def statFreeSpaceLocal(self, path):
-        """
-        Get free space on filesystem containing ``path`` in MiB using
-        :py:func:`os.statvfs()`. Depending on remote SFTP server this might fail
-        on sshfs mounted shares.
-
-        Args:
-            path (str): full path
-
-        Returns:
-            int         free space in MiB
-        """
-        try:
-            info = os.statvfs(path)
-            if info.f_blocks != info.f_bavail:
-                return info.f_frsize * info.f_bavail // (1024 * 1024)
-        except Exception as e:
-            logger.debug('Failed to get free space for %s: %s'
-                         %(path, str(e)),
-                         self)
-        logger.warning('Failed to stat snapshot path', self)
-
-    def statFreeSpaceSsh(self):
-        """
-        Get free space on remote filesystem in MiB. This will call ``df`` on
-        remote host and parse its output.
-
-        Returns:
-            int         free space in MiB
-        """
-        if self.config.snapshotsMode() not in ('ssh', 'ssh_encfs'):
-            return None
-
-        snapshots_path_ssh = self.config.sshSnapshotsFullPath()
-
-        if not len(snapshots_path_ssh):
-            snapshots_path_ssh = './'
-
-        cmd = self.config.sshCommand(['df', snapshots_path_ssh],
-                                     nice=False,
-                                     ionice=False)
-
-        df = subprocess.Popen(cmd,
-                              stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE)
-
-        output = df.communicate()[0]
-
-        # Filesystem     1K-blocks      Used Available Use% Mounted on
-        # /tmp           127266564 115596412   5182296  96% /
-        #                                      ^^^^^^^
-        for line in output.split(b'\n'):
-            m = re.match(r'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line.decode(), re.M)
-
-            if m:
-                return int(int(m.group(1)) / 1024)
-
-        logger.warning('Failed to get free space on remote', self)
 
     def filter(self,
                base_sid,
