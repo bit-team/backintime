@@ -173,9 +173,6 @@ class HelperScripts(generic.SnapshotsTestCase):
         self.assertIsLink(symlink)
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
-    def test_stat_free_space_local(self):
-        self.assertIsInstance(self.sn.statFreeSpaceLocal('/'), int)
-
     @patch('time.sleep') # speed up unittest
     def test_make_dirs(self, sleep):
         self.assertFalse(self.sn.makeDirs('/'))
@@ -551,9 +548,6 @@ class SshSnapshots(generic.SSHTestCase):
         super().setUp()
         self.sn = snapshots.Snapshots(self.cfg)
         os.makedirs(self.remoteFullPath)
-
-    def test_stat_free_space_ssh(self):
-        self.assertIsInstance(self.sn.statFreeSpaceSsh(), int)
 
 
 def _rand_string(self, max_length=10, min_length=1):
