@@ -92,7 +92,7 @@ class OptionsTab(QDialog):
 
         self.suWarnFreeSpace = SpinBoxWithUnit(
             self,
-            (1, 99999),
+            (1, 9999999),
             {unit: str(unit) for unit in DiskSizeUnit}
         )
 
@@ -140,7 +140,6 @@ class OptionsTab(QDialog):
         self.cbTakeSnapshotRegardlessOfChanges.setChecked(
             self.config.takeSnapshotRegardlessOfChanges())
         value, unit = self.config.warnFreeSpace()
-        print(f'load :: {value=} {unit=}')
         self.cbWarnFreeSpace.setChecked(self.config.warnFreeSpaceEnabled())
         self.suWarnFreeSpace.set_value(value)
         self.suWarnFreeSpace.select_unit(unit)

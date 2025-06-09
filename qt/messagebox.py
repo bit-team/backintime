@@ -14,7 +14,8 @@ from PyQt6.QtWidgets import (QApplication,
                              QLineEdit,
                              QMessageBox,
                              QScrollArea,
-                             QVBoxLayout)
+                             QVBoxLayout,
+                             QWidget)
 import qttools
 
 
@@ -68,24 +69,35 @@ def info(text, title=None, widget_to_center_on=None):
         text)
 
 
-def warning(text, title=None, widget_to_center_on=None):
+def warning(text: str,
+            title: str = None,
+            widget_to_center_on: QWidget = None,
+            as_question: bool = False) -> bool | None:
     """Show a modal warning message box.
 
     The message box is centered on the primary screen if
     ``widget_to_center_on`` is not given.
 
     Args:
-        text(str): The warning message central to the dialog.
-        title(str): Title of the message box dialog (default: 'Warning').
-        widget_to_center_on(QWidget): Center the message box on that widget.
+        text: The warning message central to the dialog.
+        title: Title of the message box dialog (default: 'Warning').
+        widget_to_center_on: Center the message box on that widget.
+        as_question: Use Yes and No buttons.
     """
-    QMessageBox.warning(
+    buttons = QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No \
+        if as_question else QMessageBox.StandardButton.OK
+
+    answer = QMessageBox.warning(
         widget_to_center_on,
         title if title else _('Warning'),
-        text)
+        text,
+        buttons
+    )
+
+    return answer == QMessageBox.StandardButton.Yes
 
 
-def question(text, title=None, widget_to_center_on=None):
+def question(text, title=None, widget_to_center_on=None) -> bool:
     """Show a modal question message box.
 
     The message box is centered on the primary screen if

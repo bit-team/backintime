@@ -1003,7 +1003,6 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setWarnFreeSpace(value=0, unit=None, profile_id=profile_id)
 
     def setWarnFreeSpace(self, value, unit, profile_id=None):
-        print(f'setWarnFSP :: {value=} {unit=} {profile_id=}')
         self.setProfileIntValue('snapshots.warn_free_space.value', value, profile_id)
         if unit != None:
             self.setProfileIntValue('snapshots.warn_free_space.unit', unit.value, profile_id)
