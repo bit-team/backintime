@@ -243,29 +243,28 @@ def initiate_translation(language_code):
     used_code = _determine_current_used_language_code(
         translation, language_code)
 
-    set_lc_time_by_language_code(used_code)
+    set_locale_by_language_code(used_code)
 
     logger.debug(f'Language code used: "{used_code}"')
 
     return used_code
 
 
-def set_lc_time_by_language_code(language_code: str):
-    """Set ``LC_TIME`` based on a specific language code.
+def set_locale_by_language_code(language_code: str):
+    """Set ``LC_ALL`` based on a specific language code.
 
     Args:
         language_code(str): A language code consisting of two letters.
 
-    The reason is to display correctly translated weekday and months
-    names. Python's :mod:`datetime` module, as well
-    ``PyQt6.QtCore.QDate``, use :mod:`locale` to determine the
-    correct translation. The module :mod:`gettext` and
-    ``PyQt6.QtCore.QTranslator`` is not involved so their setup does
-    not take effect.
+    The reason is to display correctly translated weekday and months names.
+    Python's :mod:`datetime` module, as well ``PyQt6.QtCore.QDate``,
+    use :mod:`locale` to determine the correct translation. The
+    module :mod:`gettext` and ``PyQt6.QtCore.QTranslator`` is not involved
+    so their setup does not take effect.
 
-    Be aware that a language code (e.g. ``de``) is not the same as a locale code
-    (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter based
-    on the language code. A warning is logged if it is not possible.
+    Be aware that a language code (e.g. ``de``) is not the same as a locale
+    code (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter
+    based on the language code. A warning is logged if it is not possible.
     """
 
     # Determine the normalized locale code (e.g. "de_DE.UTF-8") by
@@ -281,9 +280,7 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-        #              f'language code "{language_code}".')
-        locale.setlocale(locale.LC_TIME, code)
+        locale.setlocale(locale.LC_ALL, code)
 
     except locale.Error:
         logger.debug(
