@@ -34,9 +34,6 @@ class OptionsTab(QDialog):
 
         tab_layout = QVBoxLayout(self)
 
-        # layoutWidget = QWidget(self)
-        # layout = QVBoxLayout(layoutWidget)
-
         self.cbNotify = QCheckBox(_('Enable notifications'), self)
         tab_layout.addWidget(self.cbNotify)
 

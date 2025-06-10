@@ -30,6 +30,7 @@ class SpinBoxWithUnit(QWidget):
 
         layout = QHBoxLayout(self)
 
+
         self._spin = QSpinBox(self)
         self._spin.setRange(*range_min_max)
         layout.addWidget(self._spin)
