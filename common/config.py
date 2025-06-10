@@ -368,14 +368,13 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
 
             # check warn free space
-            if self.warnFreeSpaceEnabled(profile_id):
+            if self.warnFreeSpaceEnabled(profile_id) \
+                   and self.minFreeSpaceEnabled(profile_id):
+
                 warn_mib = self.warnFreeSpaceMiB(profile_id)
-
-                min_enabled, min_value, min_unit = self.minFreeSpace(profile_id)
                 min_mib = self.minFreeSpaceMib(profile_id)
-                min_mib = min_value if min_unit == self.DISK_UNIT_MB else min_value * 1024
 
-                if min_enabled and warn_mib < min_mib:
+                if warn_mib < min_mib:
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
