@@ -1025,7 +1025,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if unit == bitbase.DiskSizeUnit.MIB:
             return value
 
-        if unit == bitbase.DiskSizeUnit.Gib:
+        if unit == bitbase.DiskSizeUnit.GIB:
             return value * 1024
 
         raise ValueError(f'Unhandled disk size unit. {enabled=} {value=} {unit=}')
