@@ -1025,14 +1025,13 @@ class Config(configfile.ConfigFileWithProfiles):
         if not enabled:
             return 0
 
-        if self.DISK_UNIT_MB == unit:
+        if unit == bitbase.DiskSizeUnit.MIB:
             return value
 
-        value *= 1024 #Gb
-        if self.DISK_UNIT_GB == unit:
-            return value
+        if unit == bitbase.DiskSizeUnit.Gib:
+            return value * 1024
 
-        return 0
+        raise ValueError(f'Unhandled disk size unit. {enabled=} {value=} {unit=}')
 
     def setMinFreeSpace(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.min_free_space.enabled', enabled, profile_id)
