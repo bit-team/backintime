@@ -303,8 +303,8 @@ class SettingsDialog(QDialog):
         # the value of the other has changed.
         self._tab_retention.event_remove_free_space_value_changed.register(
             self._tab_options.remove_free_space_value_changed)
-        # self._tab_options.event_warn_free_space_value_changed.register(
-        #     self._tab_retention.warn_free_space_value_changed)
+        self._tab_options.event_warn_free_space_value_changed.register(
+            self._tab_retention.warn_free_space_value_changed)
 
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())

@@ -110,8 +110,12 @@ class OptionsTab(QDialog):
         qttools.set_wrapped_tooltip(self.suWarnFreeSpace, tooltip)
         qttools.set_wrapped_tooltip(self.cbWarnFreeSpace, tooltip)
 
-        # Events
+        # Event: Notify observers if "remove less free space" value has changed
         self.event_warn_free_space_value_changed = Event()
+        self.suWarnFreeSpace.spin.valueChanged.connect(
+            lambda value:
+            self.event_warn_free_space_value_changed.notify(value)
+        )
 
         # log level
         hlayout = QHBoxLayout()
@@ -170,32 +174,13 @@ class OptionsTab(QDialog):
         """Event handler in case the value of 'Remove if less than X free
         space' in 'Remove & Retention' tab was modified.
 
-        That value is used to define the minimum lower limit of 'Warn on free
-        space' value.
-
+        That value can not be lower than 'Warn on free space' value.
         """
-        print(f'\nremove_free_space_value_changed {value=}')
+        warn_val = self.suWarnFreeSpace.value()
 
-        warn_min = self.suWarnFreeSpace.spin.minimum()
-        warn_max = self.suWarnFreeSpace.spin.maximum()
-        print(f'{warn_min=} {warn_max=}')
+        if warn_val < value:
+            self.suWarnFreeSpace.set_value(value)
 
-        if value > warn_min:
-            warn_min = value
-            warn_val = self.suWarnFreeSpace.value()
-            print(f'{warn_val=}')
-            if warn_val < warn_min:
-                warn_val = warn_min
-                print(f'modified {warn_val=}')
-
-            self.suWarnFreeSpace.set_value(warn_val)
-            self.suWarnFreeSpace.spin.setRange(
-                warn_min, self.suWarnFreeSpace.spin.maximum())
-
-        elif value < warn_min:
-             self.suWarnFreeSpace.spin.setRange(
-                value, self.suWarnFreeSpace.spin.maximum())
-      
     def _combo_log_level(self):
         fill = {
             0: _('None'),

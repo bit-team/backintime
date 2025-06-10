@@ -176,6 +176,17 @@ class RemoveRetentionTab(QDialog):
             self._spin_inodes.isEnabled(),
             self._spin_inodes.value())
 
+    def warn_free_space_value_changed(self, value):
+        """See tab_options.py::OptionsTab.remove_free_space_value_changed().
+
+        The remove value need to be lower than the warn value.
+
+        """
+        remove_value = self._spin_unit_space.value()
+
+        if remove_value >= value:
+            self._spin_unit_space.set_value(value)
+
     def update_items_state(self, enabled):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
 
