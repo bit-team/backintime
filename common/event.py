@@ -8,7 +8,36 @@
 #
 # Code originally from the "Feedybus" project. Author of that project is also
 # the author of this file.
-"""Module offering an event class do realize observer pattern."""
+"""Module offering an event class do realize observer pattern.
+
+It is not a classic textbook-accurate implementation of the observer pattern,
+but rather a simple, pragmatic and pythonic solution. The solution is inspired
+by discussion and code in https://stackoverflow.com/a/48339861/4865723 .
+
+The subject owns an instance of the `Event` class and teh observer registers to
+that instance. Thats it.
+
+Example :
+
+    .. python::
+        class SomeData:
+            def __init__(self):
+                self.event_data_modified = Event()
+
+            def do_modify_data(self):
+                # ... modify data ...
+
+                # Notify observers
+                self.event_data_modified.notify()
+
+
+        class ListWidget:
+            def _init__(self, data):
+                data.register(self._handle_data_modified)
+
+            def _handle_data_modified(self):
+                print('data was modified')
+"""
 from contextlib import contextmanager
 
 

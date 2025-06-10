@@ -19,6 +19,7 @@ import config
 import tools
 import qttools
 from bitbase import DiskSizeUnit
+from event import Event
 from manageprofiles import combobox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
@@ -109,6 +110,9 @@ class OptionsTab(QDialog):
         qttools.set_wrapped_tooltip(self.suWarnFreeSpace, tooltip)
         qttools.set_wrapped_tooltip(self.cbWarnFreeSpace, tooltip)
 
+        # Events
+        self.event_warn_free_space_value_changed = Event()
+
         # log level
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
@@ -162,6 +166,36 @@ class OptionsTab(QDialog):
         self.config.setLogLevel(
             self.comboLogLevel.itemData(self.comboLogLevel.currentIndex()))
 
+    def remove_free_space_value_changed(self, value):
+        """Event handler in case the value of 'Remove if less than X free
+        space' in 'Remove & Retention' tab was modified.
+
+        That value is used to define the minimum lower limit of 'Warn on free
+        space' value.
+
+        """
+        print(f'\nremove_free_space_value_changed {value=}')
+
+        warn_min = self.suWarnFreeSpace.spin.minimum()
+        warn_max = self.suWarnFreeSpace.spin.maximum()
+        print(f'{warn_min=} {warn_max=}')
+
+        if value > warn_min:
+            warn_min = value
+            warn_val = self.suWarnFreeSpace.value()
+            print(f'{warn_val=}')
+            if warn_val < warn_min:
+                warn_val = warn_min
+                print(f'modified {warn_val=}')
+
+            self.suWarnFreeSpace.set_value(warn_val)
+            self.suWarnFreeSpace.spin.setRange(
+                warn_min, self.suWarnFreeSpace.spin.maximum())
+
+        elif value < warn_min:
+             self.suWarnFreeSpace.spin.setRange(
+                value, self.suWarnFreeSpace.spin.maximum())
+      
     def _combo_log_level(self):
         fill = {
             0: _('None'),

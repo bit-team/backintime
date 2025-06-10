@@ -297,6 +297,235 @@ class SettingsDialog(QDialog):
 
         self.finished.connect(self._slot_finished)
 
+        # Observe other widgets values:
+        # "Warn free space" (Options tab) and "Remove at min free space"
+        # (Retention & Remove tab). Both widgets/tabs will be informed if
+        # the value of the other has changed.
+        self._tab_retention.event_remove_free_space_value_changed.register(
+            self._tab_options.remove_free_space_value_changed)
+        # self._tab_options.event_warn_free_space_value_changed.register(
+        #     self._tab_retention.warn_free_space_value_changed)
+
+    def addProfile(self):
+        ret_val = QInputDialog.getText(self, _('New profile'), str())
+        if not ret_val[1]:
+            return
+
+        name = ret_val[0].strip()
+        if not name:
+            return
+
+        profile_id = self.config.addProfile(name)
+        if profile_id is None:
+            return
+
+        self.config.setCurrentProfile(profile_id)
+        self.updateProfiles()
+
+    def editProfile(self):
+        ret_val = QInputDialog.getText(
+            self, _('Rename profile'), str(),
+            text=self.config.profileName())
+
+        if not ret_val[1]:
+            return
+
+        name = ret_val[0].strip()
+        if not name:
+            return
+
+        if not self.config.setProfileName(name):
+            return
+
+        self.updateProfiles(reloadSettings=False)
+
+    def removeProfile(self):
+        question = _('Delete the profile "{name}"?').format(
+            name=self.config.profileName())
+
+        if self.questionHandler(question):
+            self.config.removeProfile()
+            self.updateProfiles()
+
+    def profileChanged(self, index):
+        if self.disableProfileChanged:
+            return
+
+        current_profile_id = self.comboProfiles.current_profile_id()
+        if not current_profile_id:
+            return
+
+        if current_profile_id != self.config.currentProfile():
+            self.saveProfile()
+            self.config.setCurrentProfile(current_profile_id)
+            self.updateProfile()
+
+    def updateProfiles(self, reloadSettings=True):
+        if reloadSettings:
+            self.updateProfile()
+
+        current_profile_id = self.config.currentProfile()
+
+        self.disableProfileChanged = True
+
+        self.comboProfiles.clear()
+
+        qttools.update_combo_profiles(
+            self.config, self.comboProfiles, current_profile_id)
+
+        self.disableProfileChanged = False
+
+    def _update_exclude_recommend_label(self):
+        """Update the label about recommended exclude patterns."""
+
+        # Default patterns that are not still in the list widget
+        recommend = list(filter(
+            lambda val: not self.listExclude.findItems(val, MATCH_FLAGS),
+            self.config.DEFAULT_EXCLUDE
+        ))
+
+        if not recommend:
+            text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
+                     'already included.)').format(
+                        BOLD='<strong>', ENDBOLD='</strong>')
+
+        else:
+            text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
+                BOLD='<strong>',
+                ENDBOLD='</strong>',
+                files=', '.join(sorted(recommend)))
+
+        self._label_exclude_recommend.setText(text)
+
+    def updateProfile(self):
+        if self.config.currentProfile() == '1':
+            self.btnEditProfile.setEnabled(False)
+            self.btnRemoveProfile.setEnabled(False)
+        else:
+            self.btnEditProfile.setEnabled(True)
+            self.btnRemoveProfile.setEnabled(True)
+        self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
+
+        profile_state = StateData().profile(self.config.currentProfile())
+
+        # TAB: General
+        self._tab_general.load_values()
+
+        # TAB: Include
+        self.listInclude.clear()
+
+        for include in self.config.include():
+            self.addInclude(include)
+
+        # TAB: Exclude
+        self.listExclude.clear()
+
+        for exclude in self.config.exclude():
+            self._add_exclude_pattern(exclude)
+        self.cbExcludeBySize.setChecked(self.config.excludeBySizeEnabled())
+        self.spbExcludeBySize.setValue(self.config.excludeBySize())
+
+        try:
+            incl_sort = profile_state.include_sorting
+            excl_sort = profile_state.exclude_sorting
+            self.listInclude.sortItems(
+                incl_sort[0], Qt.SortOrder(incl_sort[1])
+            )
+            self.listExclude.sortItems(
+                excl_sort[0], Qt.SortOrder(excl_sort[1]))
+        except KeyError:
+            pass
+
+        self._update_exclude_recommend_label()
+
+        self._tab_retention.load_values()
+        self._tab_options.load_values()
+        self._tab_expert_options.load_values()
+
+    def saveProfile(self):
+        # These tabs need to be stored before the Generals tab, because the
+        # latter is doing some premount checking and need to know this settings
+        # first.
+        self._tab_retention.store_values()
+        self._tab_options.store_values()
+        self._tab_expert_options.store_values()
+
+        # Dev note: This return "False" if something goes wrong. Otherwise it
+        # returns a dict with several mounting related information.
+        success = self._tab_general.store_values()
+
+        if success is False:
+            return False
+
+        profile_state = StateData().profile(self.config.currentProfile())
+
+        # include list
+        profile_state.include_sorting = (
+            self.listInclude.header().sortIndicatorSection(),
+            self.listInclude.header().sortIndicatorOrder().value
+        )
+        # Why?
+        self.listInclude.sortItems(1, Qt.SortOrder.AscendingOrder)
+
+        include_list = []
+        for index in range(self.listInclude.topLevelItemCount()):
+            item = self.listInclude.topLevelItem(index)
+            include_list.append(
+                (item.text(0), item.data(0, Qt.ItemDataRole.UserRole)))
+
+        self.config.setInclude(include_list)
+
+        # exclude patterns
+        profile_state.exclude_sorting = (
+            self.listExclude.header().sortIndicatorSection(),
+            self.listExclude.header().sortIndicatorOrder().value
+        )
+        # Why?
+        self.listExclude.sortItems(1, Qt.SortOrder.AscendingOrder)
+
+        exclude_list = []
+        for index in range(self.listExclude.topLevelItemCount()):
+            item = self.listExclude.topLevelItem(index)
+            exclude_list.append(item.text(0))
+
+        self.config.setExclude(exclude_list)
+        self.config.setExcludeBySize(self.cbExcludeBySize.isChecked(),
+                                     self.spbExcludeBySize.value())
+
+        return True
+
+    def errorHandler(self, message):
+        messagebox.critical(self, message)
+
+    def questionHandler(self, message):
+        answer = messagebox.warningYesNo(self, message)
+
+        return answer == QMessageBox.StandardButton.Yes
+
+    def addInclude(self, data):
+        item = QTreeWidgetItem()
+
+        # Directory(0) or file(1)?
+        if data[1] == 0:
+            item.setIcon(0, self.icon.FOLDER)
+        else:
+            item.setIcon(0, self.icon.FILE)
+
+        # Prevent duplicates
+        duplicates = self.listInclude.findItems(data[0], MATCH_FLAGS)
+
+        if duplicates:
+            self.listInclude.setCurrentItem(duplicates[0])
+            return
+
+        # First column
+        item.setText(0, data[0])
+        item.setData(0, Qt.ItemDataRole.UserRole, data[1])
+        self.listIncludeCount += 1
+
+        # Second (hidden!) column.
+        # Don't know why we need it.
+
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
         if not ret_val[1]:
