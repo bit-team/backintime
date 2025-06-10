@@ -93,6 +93,18 @@ class TimeUnit(Enum):
     YEAR = 80  # Config.YEAR
 
 
+class DiskSizeUnit(Enum):
+    """Describe the size in a filesystem"""
+    MIB = 10  # Config.DISK_UNIT_MB
+    GIB = 20  # Config.DISK_UNIT_GB
+
+    def __str__(self):
+        return {
+            self.MIB: 'MiB',
+            self.GIB: 'GiB',
+        }[self]
+
+
 class ScheduleMode(Enum):
     """Describe schedule mode.
 

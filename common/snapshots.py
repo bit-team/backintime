@@ -866,6 +866,19 @@ class Snapshots:
                 else:
                     self.config.setCurrentHashId(hash_id)
 
+                # Free space check
+                if self.config.warnFreeSpaceEnabled():
+                    real_mib = self.get_free_space_at_destination()
+                    warn_mib = self.config.warnFreeSpaceMiB()
+                    if warn_mib >= real_mib:
+                        msg = f'Only {real_mib:n} MiB free space available ' \
+                              'on the destination, which is below the ' \
+                              f'configured threshold of {warn_mib:n} MiB. ' \
+                              'The backup will proceed anyway.'
+                        logger.warning(msg)
+                        self.setTakeSnapshotMessage(1, msg)
+
+                # Inlcude/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()
 
@@ -1904,6 +1917,20 @@ class Snapshots:
                 log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
+    def get_free_space_at_destination(self) -> int:
+        # Prepare getting free space value
+        if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
+            # ...on remote host
+            dest_path = self.config.sshSnapshotsFullPath()
+            ssh_cmd = self.config.sshCommand(
+                [], nice=False, ionice=False)
+        else:
+            # ...on local machine
+            dest_path = self.config.snapshotsFullPath()
+            ssh_cmd = None
+
+        return tools.free_space(dest_path, ssh_cmd)
+
     def freeSpace(self, now):
         """Remove old backups based on several rules (if enabled).
 
@@ -1991,18 +2018,7 @@ class Snapshots:
                 if len(snapshots) <= 1:
                     break
 
-                # Prepare getting free space value
-                if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
-                    # ...on remote host
-                    dest_path = self.config.sshSnapshotsFullPath()
-                    ssh_cmd = self.config.sshCommand(
-                        [], nice=False, ionice=False)
-                else:
-                    # ...on local machine
-                    dest_path = self.config.snapshotsFullPath()
-                    ssh_cmd = None
-
-                free_space = tools.free_space(dest_path, ssh_cmd)
+                free_space = self.get_free_space_at_destination()
 
                 if free_space is None:
                     logger.warning('Failed to get free space. Skipping', self)
