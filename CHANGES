@@ -30,6 +30,7 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: Stop using QWindow.winId() (#2084)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
+* Fixed: Use LC_ALL instead of LC_TIME to set the locale
 * Fixed: Optimize subparsers and usage output (#2132)
 * Fixed: Re-design about dialog (#1936)
 * Fixed: Stop waking up monitor when inhibit suspend on backup starts (#714, #1090)
