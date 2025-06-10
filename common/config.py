@@ -78,9 +78,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
-    DISK_UNIT_MB = bitbase.DiskSizeUnit.MIB
-    DISK_UNIT_GB = bitbase.DiskSizeUnit.GIB
-
     # Used when new snapshot profile is created.
     DEFAULT_EXCLUDE = [
         '.gvfs',

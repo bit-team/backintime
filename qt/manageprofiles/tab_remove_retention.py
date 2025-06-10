@@ -26,7 +26,7 @@ import qttools
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
 from bitwidgets import HLineWidget
-from bitbase import TimeUnit
+from bitbase import TimeUnit, DiskSizeUnit
 
 
 class RemoveRetentionTab(QDialog):
@@ -360,12 +360,11 @@ class RemoveRetentionTab(QDialog):
         # enabled, value, unit = self.config.minFreeSpace()
 
         # free space less than
-        MIN_FREE_SPACE_UNITS = {
-            config.Config.DISK_UNIT_MB: 'MiB',
-            config.Config.DISK_UNIT_GB: 'GiB'
-        }
         spin_unit_space = SpinBoxWithUnit(
-            self, (1, 99999), MIN_FREE_SPACE_UNITS)
+            self,
+            (1, 99999),
+            {item: str(item) for item in DiskSizeUnit}
+        )
 
         checkbox_space = StateBindCheckBox(
             _('… the free space is less than'), self)
