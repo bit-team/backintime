@@ -498,7 +498,7 @@ def initiate_translator(language_code: str) -> QTranslator:
             'fall back to the source language (English). This does not '
             'affect the translation of Back In Time-specific GUI elements.')
 
-    tools.set_lc_time_by_language_code(language_code)
+    tools.set_locale_by_language_code(language_code)
 
     return translator
 
