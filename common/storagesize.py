@@ -34,7 +34,7 @@ class StorageSize:
     """Describe the size of an object in a data storage.
 
     The object can be free or used space on disc, file size, etc. The value
-    is stored internaly in Bytes.
+    is stored internally in Bytes.
     """
     _FACTORS = {
         SizeUnit.B: 0,

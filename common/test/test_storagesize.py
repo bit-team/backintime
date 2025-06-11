@@ -162,7 +162,7 @@ class Addition(unittest.TestCase):
         self.assertEqual(sut.unit, SizeUnit.B)
 
 
-class Substraction(unittest.TestCase):
+class Subtraction(unittest.TestCase):
     def test_simple(self):
         a = StorageSize(1024, SizeUnit.B)
         b = StorageSize(1024, SizeUnit.B)
