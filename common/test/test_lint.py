@@ -56,6 +56,8 @@ full_test_files = [_base_dir / fp for fp in (
     'storagesize.py',
     'version.py',
     'test/test_args.py',
+    'test/test_diagnostics.py',
+    'test/test_languages.py',
     'test/test_lint.py',
     'test/test_mount.py',
     'test/test_singleton.py',

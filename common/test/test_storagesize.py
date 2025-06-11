@@ -5,6 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# pylint: disable=missing-function-docstring,missing-class-docstring
 """Test related to storagesize.py"""
 import unittest
 from storagesize import SizeUnit, StorageSize
@@ -34,11 +35,33 @@ class Basics(unittest.TestCase):
 
     def test_str(self):
         sut = StorageSize(456789123456)
-        self.assertFalse(True)
+        self.assertEqual(str(sut), '456.789.123.456 Byte')
+
+        sut.unit = SizeUnit.MIB
+        self.assertEqual(str(sut), '435.628 MiB')
+
+        sut.unit = SizeUnit.GIB
+        self.assertEqual(str(sut), '425 GiB')
+
+    def test_print(self):
+        sut = StorageSize(456789123456)
+        self.assertEqual(sut.as_unit(SizeUnit.B), '456.789.123.456 Byte')
+        self.assertEqual(sut.as_unit(SizeUnit.MIB), '435.628 MiB')
+        self.assertEqual(sut.as_unit(SizeUnit.GIB), '425 GiB')
 
     def test_repr(self):
-        sut = StorageSize(456789123456)
-        self.assertFalse(True)
+        val = 456789123456
+        sut = StorageSize(val)
+        self.assertIn(f'{val}', repr(sut))
+        self.assertIn(str(SizeUnit.B), repr(sut))
+
+        sut.unit = SizeUnit.MIB
+        self.assertIn(f'{val}', repr(sut))
+        self.assertIn(str(SizeUnit.MIB), repr(sut))
+
+        sut.unit = SizeUnit.GIB
+        self.assertIn(f'{val}', repr(sut))
+        self.assertIn(str(SizeUnit.GIB), repr(sut))
 
 
 class Convert(unittest.TestCase):
@@ -87,11 +110,12 @@ class Convert(unittest.TestCase):
         self.assertEqual(sut.mebibyte, 1024)
         self.assertEqual(sut.gibibyte, 1)
 
-    def test_gibibyte_to(self):
+    def test_mebibyte_to(self):
         sut = StorageSize(1, SizeUnit.MIB)
         self.assertEqual(sut.value(SizeUnit.B), 1048576)
         self.assertEqual(sut.mebibyte, 1)
         self.assertEqual(sut.gibibyte, 0)
+
 
 class Rounding(unittest.TestCase):
     """Rounding behavior"""
@@ -107,6 +131,7 @@ class Rounding(unittest.TestCase):
 
         # 2 decimal places
         self.assertEqual(sut.value(SizeUnit.MIB, 2), 1.53)
+
 
 class Addition(unittest.TestCase):
     def test_simple(self):
@@ -135,6 +160,7 @@ class Addition(unittest.TestCase):
 
         sut = StorageSize(1024, SizeUnit.B) + StorageSize(1024, SizeUnit.GIB)
         self.assertEqual(sut.unit, SizeUnit.B)
+
 
 class Substraction(unittest.TestCase):
     def test_simple(self):
@@ -274,7 +300,6 @@ class LessGreaterOrEqual(unittest.TestCase):
         a = StorageSize(1023, SizeUnit.B)
         b = StorageSize(1024, SizeUnit.B)
         self.assertTrue(a <= b)
-
 
     def test_le_and_ge_integer(self):
         a = StorageSize(1024, SizeUnit.B)
