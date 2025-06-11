@@ -93,6 +93,24 @@ DIR_NAME_NEWSNAPSHOT = 'new_snapshot'
 DIR_NAME_SAVETOCONTINUE = 'save_to_continue'
 
 
+def _determine_licenses_dir():
+    for pkg in (PACKAGE_NAME_GUI,
+                PACKAGE_NAME_CLI,
+                BINARY_NAME_GUI,
+                BINARY_NAME_CLI,
+                BINARY_NAME_BASE):
+        for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
+
+            fp = path / pkg / 'LICENSES'
+            if fp.is_dir():
+                return fp
+
+    return None
+
+
+DIR_LICENSES = _determine_licenses_dir()
+
+
 class TimeUnit(Enum):
     """Describe time units used in context of scheduling."""
     HOUR = 10  # Config.HOUR
@@ -107,3 +125,67 @@ class StorageSizeUnit(Enum):
     system objects."""
     MB = 10  # Config.DISK_UNIT_MB
     GB = 20  # Config.DISK_UNIT_GB
+    YEAR = 80  # Config.YEAR
+
+
+class DiskSizeUnit(Enum):
+    """Describe the size in a filesystem"""
+    MIB = 10  # Config.DISK_UNIT_MB
+    GIB = 20  # Config.DISK_UNIT_GB
+
+    def __str__(self):
+        return {
+            self.MIB: 'MiB',
+            self.GIB: 'GiB',
+        }[self]
+
+
+class ScheduleMode(Enum):
+    """Describe schedule mode.
+
+    0 = Disabled
+    1 = at every boot
+    2 = every 5 minute
+    4 = every 10 minute
+    7 = every 30 minute
+    10 = every hour
+    12 = every 2 hours
+    14 = every 4 hours
+    16 = every 6 hours
+    18 = every 12 hours
+    19 = custom defined hours
+    20 = every day
+    25 = daily anacron
+    27 = when drive get connected
+    30 = every week
+    40 = every month
+    80 = every year
+    """
+    DISABLED = 0
+    AT_EVERY_BOOT = 1
+    MINUTES_5 = 2
+    MINUTES_10 = 4
+    MINUTES_30 = 7
+    HOUR = 10
+    HOUR_1 = 10
+    HOURS_2 = 12
+    HOURS_4 = 14
+    HOURS_6 = 16
+    HOURS_12 = 18
+    CUSTOM_HOUR = 19
+    DAY = 20
+    REPEATEDLY = 25
+    UDEV = 27
+    WEEK = 30
+    MONTH = 40
+    YEAR = 80
+
+
+HOURLY_BACKUPS = (
+    ScheduleMode.HOUR,
+    ScheduleMode.HOUR_1,
+    ScheduleMode.HOURS_2,
+    ScheduleMode.HOURS_4,
+    ScheduleMode.HOURS_6,
+    ScheduleMode.HOURS_12,
+    ScheduleMode.CUSTOM_HOUR)

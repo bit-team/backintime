@@ -169,7 +169,7 @@ class RestoreCommand(unittest.TestCase):
         self.assertEqual(sut.command, 'restore')
         self.assertEqual(sut.WHAT, '/home')
         self.assertEqual(sut.WHERE, '/tmp')
-        self.assertEqual(sut.SNAPSHOT_ID, '20151130-230501-984')
+        self.assertEqual(sut.BACKUP_ID, '20151130-230501-984')
 
     def test_what_where_snapshot_id_multi_args(self):
         for argv in shuffle_args('--quiet',
@@ -192,7 +192,7 @@ class RestoreCommand(unittest.TestCase):
             self.assertEqual(sut.command, 'restore')
             self.assertEqual(sut.WHAT, '/home')
             self.assertEqual(sut.WHERE, '/tmp')
-            self.assertEqual(sut.SNAPSHOT_ID, '20151130-230501-984')
+            self.assertEqual(sut.BACKUP_ID, '20151130-230501-984')
             self.assertEqual(sut.local_backup, True)
             self.assertEqual(sut.delete, True)
             self.assertEqual(sut.config, 'foo')
@@ -219,8 +219,8 @@ class RestoreCommand(unittest.TestCase):
         sut = cliarguments.parse_arguments(
             ['restore', '/home', '/tmp', '1'], self.parser_agent)
 
-        self.assertIsInstance(sut.SNAPSHOT_ID, str)
-        self.assertEqual(sut.SNAPSHOT_ID, '1')
+        self.assertIsInstance(sut.BACKUP_ID, str)
+        self.assertEqual(sut.BACKUP_ID, '1')
 
     def test_empty_where(self):
         sut = cliarguments.parse_arguments(

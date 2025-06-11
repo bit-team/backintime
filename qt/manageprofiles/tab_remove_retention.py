@@ -26,6 +26,7 @@ import qttools
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
 from bitwidgets import HLineWidget
+from bitbase import TimeUnit, DiskSizeUnit
 
 
 class RemoveRetentionTab(QDialog):
@@ -243,9 +244,9 @@ class RemoveRetentionTab(QDialog):
     def _remove_older_than(self) -> QWidget:
         # units
         units = {
-            config.Config.DAY: _('Day(s)'),
-            config.Config.WEEK: _('Week(s)'),
-            config.Config.YEAR: _('Year(s)')
+            TimeUnit.DAY: _('Day(s)'),
+            TimeUnit.WEEK: _('Week(s)'),
+            TimeUnit.YEAR: _('Year(s)')
         }
         spin_unit = SpinBoxWithUnit(self, (1, 999), units)
 
@@ -255,12 +256,12 @@ class RemoveRetentionTab(QDialog):
 
         # tooltip
         tip = (
-            f'<strong>{units[config.Config.DAY]}</strong>: '
+            f'<strong>{units[TimeUnit.DAY]}</strong>: '
             + _('Full days. Current day is ignored.'),
-            f'<strong>{units[config.Config.WEEK]}</strong>: '
+            f'<strong>{units[TimeUnit.WEEK]}</strong>: '
             + _('Calendar weeks with Monday as first day. '
                 'Current week is ignored.'),
-            f'<strong>{units[config.Config.YEAR]}</strong>: '
+            f'<strong>{units[TimeUnit.YEAR]}</strong>: '
             + _('12 months periods. Current month is ignored.')
         )
 
@@ -359,12 +360,11 @@ class RemoveRetentionTab(QDialog):
         # enabled, value, unit = self.config.minFreeSpace()
 
         # free space less than
-        MIN_FREE_SPACE_UNITS = {
-            config.Config.DISK_UNIT_MB: 'MiB',
-            config.Config.DISK_UNIT_GB: 'GiB'
-        }
         spin_unit_space = SpinBoxWithUnit(
-            self, (1, 99999), MIN_FREE_SPACE_UNITS)
+            self,
+            (1, 99999),
+            {item: str(item) for item in DiskSizeUnit}
+        )
 
         checkbox_space = StateBindCheckBox(
             _('… the free space is less than'), self)

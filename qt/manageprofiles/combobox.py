@@ -50,12 +50,19 @@ class BitComboBox(QComboBox):
         """Data linked to the current selected entry."""
         return self.itemData(self.currentIndex())
 
-    def select_by_data(self, data: Any):
-        """Select an entry in the combo box by its underlying data."""
+    def _idx_by_data(self, data: Any) -> int:
         for idx in range(self.count()):
             if self.itemData(idx) == data:
-                self.setCurrentIndex(idx)
-                return
+                return idx
 
-        raise ValueError('Unable to select combo box entry because data not '
+        raise ValueError('Unable to find combo box entry because data not '
                          f'found in it. Data is: {data} (type: {type(data)})')
+
+    def enable_by_data(self, data: Any, enable: bool = True):
+        """Enable or disable an entry based on its underlying data."""
+        idx = self._idx_by_data(data)
+        self.model().item(idx).setEnabled(enable)
+
+    def select_by_data(self, data: Any):
+        """Select an entry in the combo box by its underlying data."""
+        self.setCurrentIndex(self._idx_by_data(data))
