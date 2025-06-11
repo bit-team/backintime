@@ -35,18 +35,18 @@ class Basics(unittest.TestCase):
 
     def test_str(self):
         sut = StorageSize(456789123456)
-        self.assertEqual(str(sut), '456789123456 Byte')
+        self.assertEqual(str(sut), '456,789,123,456 Byte')
 
         sut.unit = SizeUnit.MIB
-        self.assertEqual(str(sut), '435628 MiB')
+        self.assertEqual(str(sut), '435,628 MiB')
 
         sut.unit = SizeUnit.GIB
         self.assertEqual(str(sut), '425 GiB')
 
     def test_print(self):
         sut = StorageSize(456789123456)
-        self.assertEqual(sut.as_unit(SizeUnit.B), '456789123456 Byte')
-        self.assertEqual(sut.as_unit(SizeUnit.MIB), '435628 MiB')
+        self.assertEqual(sut.as_unit(SizeUnit.B), '456,789,123,456 Byte')
+        self.assertEqual(sut.as_unit(SizeUnit.MIB), '435,628 MiB')
         self.assertEqual(sut.as_unit(SizeUnit.GIB), '425 GiB')
 
     def test_repr(self):
