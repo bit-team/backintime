@@ -878,7 +878,7 @@ class Snapshots:
                         logger.warning(msg)
                         self.setTakeSnapshotMessage(1, msg)
 
-                # Inlcude/Exclude entry check
+                # Include/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()
 
