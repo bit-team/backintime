@@ -30,7 +30,6 @@ class SpinBoxWithUnit(QWidget):
 
         layout = QHBoxLayout(self)
 
-
         self._spin = QSpinBox(self)
         self._spin.setRange(*range_min_max)
         layout.addWidget(self._spin)
@@ -41,7 +40,7 @@ class SpinBoxWithUnit(QWidget):
     @property
     def spin(self) -> QSpinBox:
         return self._spin
-   
+
     @property
     def data_and_unit(self) -> tuple[int, Any]:
         """Data linked to the current selected entry."""
