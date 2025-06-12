@@ -88,10 +88,13 @@ class StorageSize:
         su.unit = unit
         return str(su)
 
-    def value(self, unit: SizeUnit, decimal_places: int = 0) -> int | float:
+    def value(self, unit: SizeUnit = None, decimal_places: int = 0
+              ) -> int | float:
         """Return the value in specified unit.
 
         Rounding to nearest integer by default using Python `round()`."""
+        if unit is None:
+            unit = self.unit
 
         fx = StorageSize._FACTORS[unit]
 

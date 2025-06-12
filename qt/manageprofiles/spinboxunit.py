@@ -9,6 +9,7 @@
 from typing import Any
 from PyQt6.QtWidgets import QSpinBox, QWidget, QHBoxLayout
 from manageprofiles.combobox import BitComboBox
+from storagesize import StorageSize, SizeUnit
 
 
 class SpinBoxWithUnit(QWidget):
@@ -56,3 +57,32 @@ class SpinBoxWithUnit(QWidget):
     def set_value(self, val: int) -> None:
         """Set value of spin box."""
         self._spin.setValue(val)
+
+
+class StorageSizeWidget(SpinBoxWithUnit):
+    def __init__(self,
+                 parent: QWidget,
+                 range_min_max: tuple[int, int]):
+        super().__init__(
+            parent=parent,
+            range_min_max=range_min_max,
+            content_dict={unit: str(unit) for unit in SizeUnit})
+
+        self._combo.currentIndexChanged.connect(self._on_unit_changed)
+
+    def get_storagesize(self) -> StorageSize:
+        val, unit = self.data_and_unit
+        return StorageSize(val, unit)
+
+    def set_storagesize(self, value: StorageSize):
+        self.set_value(value.value())
+        self.select_unit(value.unit)
+
+    def _on_unit_changed(self, idx):
+        print('_on_unit_changed()')  # DEBUG
+
+        value = self.get_storagesize()
+        print(f'before {value=}')
+        value.unit = self._combo.current_data
+        self.set_value(value.value())
+        print(f'after {value=}')

@@ -1355,21 +1355,14 @@ class MainWindow(QMainWindow):
 
     def _take_snapshot_clicked(self, checksum):
         sn = snapshots.Snapshots(self.config)
-        real_mib = sn.get_free_space_at_destination()
-        warn_mib = sn.config.warnFreeSpaceMiB()
-        if warn_mib >= real_mib:
-            _val, unit = sn.config.warnFreeSpace()
-            msg = _('Only {free} {unit} free space available on the '
+        real = sn.get_free_space_at_destination()
+        warn = sn.config.warnFreeSpace()
+        if warn >= real:
+            msg = _('Only {free} free space available on the '
                     'destination, which is below the configured threshold '
                     'of {threshold} {unit}.').format(
-                        free='{:n}'.format(
-                            real_mib if unit == bitbase.DiskSizeUnit.MIB
-                            else round(real_mib / 1024)),
-                        threshold='{:n}'.format(
-                            warn_mib if unit == bitbase.DiskSizeUnit.MIB
-                            else round(warn_mib / 1024)),
-                        unit=unit
-                    )
+                        free=str(real),
+                        threshold=str(warn))
             qst = _('Proceed with the backup?')
             proceed = messagebox.warning(
                 f'<p>{msg}</p><p>{qst}</p>', as_question=True)

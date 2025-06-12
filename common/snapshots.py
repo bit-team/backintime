@@ -36,6 +36,7 @@ import progress
 import snapshotlog
 import flock
 import bitbase
+from storagesize import StorageSize
 from typing import Generator
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
@@ -1917,7 +1918,12 @@ class Snapshots:
                 log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
-    def get_free_space_at_destination(self) -> int:
+    def get_free_space_at_destination(self) -> StorageSize | None:
+        """Free space at destination.
+
+        Return:
+            A StorageSize object holding the value or `None` in case of errors.
+        """
         # Prepare getting free space value
         if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
             # ...on remote host

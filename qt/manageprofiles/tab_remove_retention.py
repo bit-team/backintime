@@ -24,9 +24,9 @@ from PyQt6.QtGui import QCursor
 import config
 import qttools
 from manageprofiles.statebindcheckbox import StateBindCheckBox
-from manageprofiles.spinboxunit import SpinBoxWithUnit
+from manageprofiles.spinboxunit import SpinBoxWithUnit, StorageSizeWidget
 from bitwidgets import HLineWidget
-from bitbase import TimeUnit, DiskSizeUnit
+from bitbase import TimeUnit
 
 
 class RemoveRetentionTab(QDialog):
@@ -132,10 +132,9 @@ class RemoveRetentionTab(QDialog):
             self.config.smartRemoveRunRemoteInBackground())
 
         # min free space
-        enabled, value, unit = self.config.minFreeSpace()
+        enabled, value = self.config.minFreeSpaceAsStorageSize()
         self._checkbox_space.setChecked(enabled)
-        self._spin_unit_space.set_value(value)
-        self._spin_unit_space.select_unit(unit)
+        self._spin_unit_space.set_storagesize(value)
 
         # min free inodes
         self._checkbox_inodes.setChecked(self.config.minFreeInodesEnabled())
@@ -163,8 +162,7 @@ class RemoveRetentionTab(QDialog):
 
         self.config.setMinFreeSpace(
             self._spin_unit_space.isEnabled(),
-            self._spin_unit_space.value(),
-            self._spin_unit_space.unit())
+            self._spin_unit_space.get_storagesize())
 
         self.config.setMinFreeInodes(
             self._spin_inodes.isEnabled(),
@@ -360,11 +358,7 @@ class RemoveRetentionTab(QDialog):
         # enabled, value, unit = self.config.minFreeSpace()
 
         # free space less than
-        spin_unit_space = SpinBoxWithUnit(
-            self,
-            (1, 99999),
-            {item: str(item) for item in DiskSizeUnit}
-        )
+        spin_unit_space = StorageSizeWidget(self, (1, 99999))
 
         checkbox_space = StateBindCheckBox(
             _('… the free space is less than'), self)

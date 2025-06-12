@@ -18,10 +18,9 @@ from PyQt6.QtWidgets import (QDialog,
 import config
 import tools
 import qttools
-from bitbase import DiskSizeUnit
 from manageprofiles import combobox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
-from manageprofiles.spinboxunit import SpinBoxWithUnit
+from manageprofiles.spinboxunit import StorageSizeWidget
 
 
 class OptionsTab(QDialog):
@@ -90,12 +89,7 @@ class OptionsTab(QDialog):
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
 
-        self.suWarnFreeSpace = SpinBoxWithUnit(
-            self,
-            (1, 9999999),
-            {unit: str(unit) for unit in DiskSizeUnit}
-        )
-
+        self.suWarnFreeSpace = StorageSizeWidget(self, (1, 9999999))
         self.cbWarnFreeSpace = StateBindCheckBox(
             _('Warn if the free disk space falls below'), self)
         self.cbWarnFreeSpace.bind(self.suWarnFreeSpace)
@@ -139,10 +133,9 @@ class OptionsTab(QDialog):
         self.cbUseChecksum.setChecked(self.config.useChecksum())
         self.cbTakeSnapshotRegardlessOfChanges.setChecked(
             self.config.takeSnapshotRegardlessOfChanges())
-        value, unit = self.config.warnFreeSpace()
+        value = self.config.warnFreeSpace()
         self.cbWarnFreeSpace.setChecked(self.config.warnFreeSpaceEnabled())
-        self.suWarnFreeSpace.set_value(value)
-        self.suWarnFreeSpace.select_unit(unit)
+        self.suWarnFreeSpace.set_storagesize(value)
         self.comboLogLevel.select_by_data(self.config.logLevel())
 
     def store_values(self):
@@ -157,8 +150,7 @@ class OptionsTab(QDialog):
             self.cbTakeSnapshotRegardlessOfChanges.isChecked())
         if self.suWarnFreeSpace.isEnabled():
             self.config.setWarnFreeSpace(
-                self.suWarnFreeSpace.value(),
-                self.suWarnFreeSpace.unit())
+                self.suWarnFreeSpace.get_storagesize())
         else:
             self.config.setWarnFreeSpaceDisabled()
 

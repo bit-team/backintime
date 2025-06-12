@@ -28,6 +28,11 @@ class Basics(unittest.TestCase):
             sut = StorageSize(value)
             self.assertEqual(sut.value(SizeUnit.B), value)
 
+    def test_value_default_unit(self):
+        for unit in SizeUnit:
+            sut = StorageSize(12, unit)
+            self.assertEqual(sut.value(), 12)
+
     def test_byte_property(self):
         for value in [1, 20, 300, 456789123456]:
             sut = StorageSize(value)
