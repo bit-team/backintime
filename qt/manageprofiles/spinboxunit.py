@@ -38,6 +38,10 @@ class SpinBoxWithUnit(QWidget):
         layout.addWidget(self._combo)
 
     @property
+    def spin(self) -> QSpinBox:
+        return self._spin
+
+    @property
     def data_and_unit(self) -> tuple[int, Any]:
         """Data linked to the current selected entry."""
         return (self._spin.value(), self._combo.current_data)

@@ -19,6 +19,7 @@ import config
 import tools
 import qttools
 from bitbase import DiskSizeUnit
+from event import Event
 from manageprofiles import combobox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
@@ -33,9 +34,6 @@ class OptionsTab(QDialog):
         self._parent_dialog = parent
 
         tab_layout = QVBoxLayout(self)
-
-        # layoutWidget = QWidget(self)
-        # layout = QVBoxLayout(layoutWidget)
 
         self.cbNotify = QCheckBox(_('Enable notifications'), self)
         tab_layout.addWidget(self.cbNotify)
@@ -112,6 +110,13 @@ class OptionsTab(QDialog):
         qttools.set_wrapped_tooltip(self.suWarnFreeSpace, tooltip)
         qttools.set_wrapped_tooltip(self.cbWarnFreeSpace, tooltip)
 
+        # Event: Notify observers if "remove less free space" value has changed
+        self.event_warn_free_space_value_changed = Event()
+        self.suWarnFreeSpace.spin.valueChanged.connect(
+            lambda value:
+            self.event_warn_free_space_value_changed.notify(value)
+        )
+
         # log level
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
@@ -164,6 +169,17 @@ class OptionsTab(QDialog):
 
         self.config.setLogLevel(
             self.comboLogLevel.itemData(self.comboLogLevel.currentIndex()))
+
+    def remove_free_space_value_changed(self, value):
+        """Event handler in case the value of 'Remove if less than X free
+        space' in 'Remove & Retention' tab was modified.
+
+        That value can not be lower than 'Warn on free space' value.
+        """
+        warn_val = self.suWarnFreeSpace.value()
+
+        if warn_val < value:
+            self.suWarnFreeSpace.set_value(value)
 
     def _combo_log_level(self):
         fill = {

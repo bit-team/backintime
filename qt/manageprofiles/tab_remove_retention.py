@@ -23,16 +23,15 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 import config
 import qttools
+from bitbase import TimeUnit, DiskSizeUnit
+from event import Event
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
 from bitwidgets import HLineWidget
-from bitbase import TimeUnit, DiskSizeUnit
 
 
 class RemoveRetentionTab(QDialog):
     """The 'Remove & Retention' tab in the Manage Profiles dialog."""
-
-    _STRETCH_FX = (1, )
 
     def __init__(self, parent):
         super().__init__(parent=parent)
@@ -93,17 +92,24 @@ class RemoveRetentionTab(QDialog):
             self.spbKeepOnePerMonth \
             = self._groupbox_retention_policy()
 
-        # return spin_unit_space, spin_inodes
         self._checkbox_space, \
             self._spin_unit_space, \
             self._checkbox_inodes, \
             self._spin_inodes \
             = self._remove_free_space_inodes()
 
+        # Layout
         self._tab_layout.setColumnStretch(0, 2)
         self._tab_layout.setColumnStretch(1, 1)
         self._tab_layout.setColumnStretch(2, 0)
         self._tab_layout.setRowStretch(self._tab_layout.rowCount(), 1)
+
+        # Event: Notify observers if "warn free space" value has changed
+        self.event_remove_free_space_value_changed = Event()
+        self._spin_unit_space.spin.valueChanged.connect(
+            lambda value:
+            self.event_remove_free_space_value_changed.notify(value)
+        )
 
     @property
     def config(self) -> config.Config:
@@ -169,6 +175,17 @@ class RemoveRetentionTab(QDialog):
         self.config.setMinFreeInodes(
             self._spin_inodes.isEnabled(),
             self._spin_inodes.value())
+
+    def warn_free_space_value_changed(self, value):
+        """See tab_options.py::OptionsTab.remove_free_space_value_changed().
+
+        The remove value need to be lower than the warn value.
+
+        """
+        remove_value = self._spin_unit_space.value()
+
+        if remove_value >= value:
+            self._spin_unit_space.set_value(value)
 
     def update_items_state(self, enabled):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
@@ -357,8 +374,6 @@ class RemoveRetentionTab(QDialog):
                 one_per_week, one_per_month)
 
     def _remove_free_space_inodes(self) -> tuple:
-        # enabled, value, unit = self.config.minFreeSpace()
-
         # free space less than
         spin_unit_space = SpinBoxWithUnit(
             self,
