@@ -25,7 +25,8 @@ import config
 import qttools
 from event import Event
 from manageprofiles.statebindcheckbox import StateBindCheckBox
-from manageprofiles.spinboxunit import SpinBoxWithUnit, StorageSizeWidget
+from manageprofiles.spinboxunit import SpinBoxWithUnit
+from manageprofiles.storagesizewidget import StorageSizeWidget
 from bitwidgets import HLineWidget
 from bitbase import TimeUnit
 
@@ -106,7 +107,7 @@ class RemoveRetentionTab(QDialog):
 
         # Event: Notify observers if "warn free space" value has changed
         self.event_remove_free_space_value_changed = Event()
-        self._spin_unit_space.spin.valueChanged.connect(
+        self._spin_unit_space.event_value_changed.register(
             lambda value:
             self.event_remove_free_space_value_changed.notify(value)
         )
@@ -180,10 +181,10 @@ class RemoveRetentionTab(QDialog):
         The remove value need to be lower than the warn value.
 
         """
-        remove_value = self._spin_unit_space.value()
+        remove_value = self._spin_unit_space.get_storagesize()
 
         if remove_value >= value:
-            self._spin_unit_space.set_value(value)
+            self._spin_unit_space.set_storagesize(value, dont_touch_unit=True)
 
     def update_items_state(self, enabled):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)

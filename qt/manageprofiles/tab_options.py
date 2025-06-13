@@ -21,7 +21,7 @@ import qttools
 from event import Event
 from manageprofiles import combobox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
-from manageprofiles.spinboxunit import StorageSizeWidget
+from manageprofiles.storagesizewidget import StorageSizeWidget
 
 
 class OptionsTab(QDialog):
@@ -106,7 +106,7 @@ class OptionsTab(QDialog):
 
         # Event: Notify observers if "remove less free space" value has changed
         self.event_warn_free_space_value_changed = Event()
-        self.suWarnFreeSpace.spin.valueChanged.connect(
+        self.suWarnFreeSpace.event_value_changed.register(
             lambda value:
             self.event_warn_free_space_value_changed.notify(value)
         )
@@ -168,10 +168,10 @@ class OptionsTab(QDialog):
 
         That value can not be lower than 'Warn on free space' value.
         """
-        warn_val = self.suWarnFreeSpace.value()
+        warn_val = self.suWarnFreeSpace.get_storagesize()
 
         if warn_val < value:
-            self.suWarnFreeSpace.set_value(value)
+            self.suWarnFreeSpace.set_storagesize(value, dont_touch_unit=True)
 
     def _combo_log_level(self):
         fill = {
