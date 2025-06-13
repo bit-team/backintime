@@ -14,8 +14,8 @@ It is not a classic textbook-accurate implementation of the observer pattern,
 but rather a simple, pragmatic and pythonic solution. The solution is inspired
 by discussion and code in https://stackoverflow.com/a/48339861/4865723 .
 
-The subject owns an instance of the `Event` class and teh observer registers to
-that instance. Thats it.
+The subject owns an instance of the `Event` class and the observer registers to
+that instance. That's it.
 
 Example :
 
@@ -53,7 +53,7 @@ class Event:
     def notify(self, *args, **kwargs):
         """Notify registered observers.
 
-        The args, and kwargs are given to te observers.
+        The args, and kwargs are given to the observers.
         """
         for callback in self._callbacks:
             callback(*args, **kwargs)

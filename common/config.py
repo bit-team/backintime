@@ -988,14 +988,6 @@ class Config(configfile.ConfigFileWithProfiles):
         unit = self.profileIntValue('snapshots.warn_free_space.unit', SizeUnit.MIB, profile_id)
         return StorageSize(value, SizeUnit(unit))
 
-    # def warnFreeSpaceMiB(self, profile_id=None):
-    #     value, unit = self.warnFreeSpace(profile_id)
-    #     return value if unit == bitbase.DiskSizeUnit.MIB else value * 1024
-
-    # def warnFreeSpaceGiB(self, profile_id=None):
-    #     value, unit = self.warnFreeSpace(profile_id)
-    #     return value if unit == bitbase.DiskSizeUnit.GIB else int(value / 1024)
-
     def setWarnFreeSpaceDisabled(self, profile_id=None):
         self.setWarnFreeSpace(value=StorageSize(0), profile_id=profile_id)
 
@@ -1024,19 +1016,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def minFreeSpaceEnabled(self, profile_id = None):
         return self.profileBoolValue('snapshots.min_free_space.enabled', False, profile_id)
-
-    # def minFreeSpaceMib(self, profile_id = None):
-    #     enabled, value, unit = self.minFreeSpace(profile_id)
-    #     if not enabled:
-    #         return 0
-
-    #     if unit == bitbase.DiskSizeUnit.MIB:
-    #         return value
-
-    #     if unit == bitbase.DiskSizeUnit.GIB:
-    #         return value * 1024
-
-    #     raise ValueError(f'Unhandled disk size unit. {enabled=} {value=} {unit=}')
 
     def setMinFreeSpace(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.min_free_space.enabled', enabled, profile_id)
