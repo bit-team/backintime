@@ -828,7 +828,9 @@ class SettingsDialog(QDialog):
                                 self.originalCurrentProfile)
             self.parent.updateProfiles()
 
+        print('X'*100)
         # store windows position and size
         state_data = StateData()
         state_data.manageprofiles_coords = (self.x(), self.y())
-        state_data.manaageprofiles_dims = (self.width(), self.height())
+        state_data.manageprofiles_dims = (self.width(), self.height())
+        print(state_data.__dict__)

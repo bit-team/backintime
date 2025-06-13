@@ -383,11 +383,12 @@ class StateData(dict, metaclass=singleton.Singleton):
         Raises:
             KeyError
         """
-        return self['gui']['manageprofiles']['dims']
+        return self['gui']['manage_profiles']['dims']
 
     @manageprofiles_dims.setter
     def manageprofiles_dims(self, vals: tuple[int, int]) -> None:
-        self['gui']['manageprofiles']['dims'] = vals
+        self['gui']['manage_profiles']['dims'] = vals
+        print(f'{self["gui"]["manage_profiles"]=}')
 
     @property
     def manageprofiles_coords(self) -> tuple[int, int]:
@@ -396,8 +397,8 @@ class StateData(dict, metaclass=singleton.Singleton):
         Raises:
             KeyError
         """
-        return self['gui']['manageprofiles']['coords']
+        return self['gui']['manage_profiles']['coords']
 
     @manageprofiles_coords.setter
     def manageprofiles_coords(self, vals: tuple[int, int]) -> None:
-        self['gui']['manageprofiles']['coords'] = vals
+        self['gui']['manage_profiles']['coords'] = vals
