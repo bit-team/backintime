@@ -17,11 +17,13 @@ class Basics(unittest.TestCase):
     def test_set_value(self):
         sut = StorageSize(0)
 
+        # pylint: disable=protected-access
         self.assertEqual(sut._bytes, 0)
 
         sut.set_value(1738)
+        # pylint: disable=protected-access
         self.assertEqual(sut._bytes, 1738)
-        
+
     def test_default_unit(self):
         sut = StorageSize(0)
         self.assertEqual(sut.unit, SizeUnit.B)
@@ -87,6 +89,7 @@ class Basics(unittest.TestCase):
 
         for unit in SizeUnit:
             sut.unit = unit
+            # pylint: disable=protected-access
             self.assertEqual(sut._bytes, expected_bytes)
             self.assertEqual(sut.value(), expected_value[unit])
 
