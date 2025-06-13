@@ -166,7 +166,7 @@ class RemoveRetentionTab(QDialog):
         self.config.setSmartRemoveRunRemoteInBackground(
             self.cbSmartRemoveRunRemoteInBackground.isChecked())
 
-        self.config.setMinFreeSpace(
+        self.config.setMinFreeSpaceWithStorageSize(
             self._spin_unit_space.isEnabled(),
             self._spin_unit_space.get_storagesize())
 

@@ -370,7 +370,7 @@ class Config(configfile.ConfigFileWithProfiles):
                    and self.minFreeSpaceEnabled(profile_id):
 
                 warn = self.warnFreeSpace(profile_id)
-                min_free = self.minFreeSpaceAsStorageSize(profile_id)
+                _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
                 if warn < min_free:
                     self.notifyError(
@@ -1001,7 +1001,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setWarnFreeSpace(self, value: StorageSize, profile_id=None):
         self.setProfileIntValue('snapshots.warn_free_space.value', value.value(), profile_id)
-        self.setProfileIntValue('snapshots.warn_free_space.unit', int(value.unit), profile_id)
+        self.setProfileIntValue('snapshots.warn_free_space.unit', value.unit.value, profile_id)
 
     def minFreeSpace(self, profile_id = None):
                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
@@ -1047,7 +1047,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setMinFreeSpace(
             enabled=enabled,
             value=value.value(),
-            unit=int(value.unit)
+            unit=value.unit.value
         )
 
     def minFreeInodes(self, profile_id = None):
