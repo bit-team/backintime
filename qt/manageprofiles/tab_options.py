@@ -138,7 +138,7 @@ class OptionsTab(QDialog):
         self.cbUseChecksum.setChecked(self.config.useChecksum())
         self.cbTakeSnapshotRegardlessOfChanges.setChecked(
             self.config.takeSnapshotRegardlessOfChanges())
-        value = self.config.warnFreeSpaceAsStorageSize()
+        value = self.config.warnFreeSpace()
         self.cbWarnFreeSpace.setChecked(self.config.warnFreeSpaceEnabled())
         self.suWarnFreeSpace.set_storagesize(value)
         self.comboLogLevel.select_by_data(self.config.logLevel())
