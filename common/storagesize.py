@@ -45,9 +45,11 @@ class StorageSize:
     def __init__(self, value: int, unit: SizeUnit = SizeUnit.B):
 
         # Original value in Bytes
-        self._bytes = StorageSize.value_to_bytes(value, unit)
+        self._bytes = None
         # Unit used to represent the value (e.g. in strings)
         self._unit = unit
+
+        self.set_value(value)
 
     def __repr__(self) -> str:
         return f'({self._bytes}, {self._unit}) ' \
@@ -88,10 +90,18 @@ class StorageSize:
         su.unit = unit
         return str(su)
 
-    def value(self, unit: SizeUnit, decimal_places: int = 0) -> int | float:
+    def set_value(self, value: int):
+        """Set the value based on the current size unit.
+        """
+        self._bytes = StorageSize.value_to_bytes(value, self.unit)
+
+    def value(self, unit: SizeUnit = None, decimal_places: int = 0
+              ) -> int | float:
         """Return the value in specified unit.
 
         Rounding to nearest integer by default using Python `round()`."""
+        if unit is None:
+            unit = self.unit
 
         fx = StorageSize._FACTORS[unit]
 
@@ -103,7 +113,6 @@ class StorageSize:
     def value_to_bytes(value: int, unit: SizeUnit):
         """Convert value in given size unit into bytes."""
         fx = StorageSize._FACTORS[unit]
-
         return value * (1024**fx)
 
     def __add__(self, other: StorageSize | int) -> StorageSize:

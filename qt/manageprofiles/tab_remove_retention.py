@@ -23,11 +23,12 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 import config
 import qttools
-from bitbase import TimeUnit, DiskSizeUnit
 from event import Event
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
+from manageprofiles.storagesizewidget import StorageSizeWidget
 from bitwidgets import HLineWidget
+from bitbase import TimeUnit
 
 
 class RemoveRetentionTab(QDialog):
@@ -106,7 +107,7 @@ class RemoveRetentionTab(QDialog):
 
         # Event: Notify observers if "warn free space" value has changed
         self.event_remove_free_space_value_changed = Event()
-        self._spin_unit_space.spin.valueChanged.connect(
+        self._spin_unit_space.event_value_changed.register(
             lambda value:
             self.event_remove_free_space_value_changed.notify(value)
         )
@@ -138,10 +139,9 @@ class RemoveRetentionTab(QDialog):
             self.config.smartRemoveRunRemoteInBackground())
 
         # min free space
-        enabled, value, unit = self.config.minFreeSpace()
+        enabled, value = self.config.minFreeSpaceAsStorageSize()
         self._checkbox_space.setChecked(enabled)
-        self._spin_unit_space.set_value(value)
-        self._spin_unit_space.select_unit(unit)
+        self._spin_unit_space.set_storagesize(value)
 
         # min free inodes
         self._checkbox_inodes.setChecked(self.config.minFreeInodesEnabled())
@@ -167,10 +167,9 @@ class RemoveRetentionTab(QDialog):
         self.config.setSmartRemoveRunRemoteInBackground(
             self.cbSmartRemoveRunRemoteInBackground.isChecked())
 
-        self.config.setMinFreeSpace(
+        self.config.setMinFreeSpaceWithStorageSize(
             self._spin_unit_space.isEnabled(),
-            self._spin_unit_space.value(),
-            self._spin_unit_space.unit())
+            self._spin_unit_space.get_storagesize())
 
         self.config.setMinFreeInodes(
             self._spin_inodes.isEnabled(),
@@ -182,10 +181,10 @@ class RemoveRetentionTab(QDialog):
         The remove value need to be lower than the warn value.
 
         """
-        remove_value = self._spin_unit_space.value()
+        remove_value = self._spin_unit_space.get_storagesize()
 
         if remove_value >= value:
-            self._spin_unit_space.set_value(value)
+            self._spin_unit_space.set_storagesize(value, dont_touch_unit=True)
 
     def update_items_state(self, enabled):
         self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
@@ -375,11 +374,7 @@ class RemoveRetentionTab(QDialog):
 
     def _remove_free_space_inodes(self) -> tuple:
         # free space less than
-        spin_unit_space = SpinBoxWithUnit(
-            self,
-            (1, 99999),
-            {item: str(item) for item in DiskSizeUnit}
-        )
+        spin_unit_space = StorageSizeWidget(self, (1, 99999))
 
         checkbox_space = StateBindCheckBox(
             _('… the free space is less than'), self)

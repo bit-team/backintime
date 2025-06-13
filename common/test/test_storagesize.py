@@ -14,6 +14,16 @@ from storagesize import SizeUnit, StorageSize
 class Basics(unittest.TestCase):
     """Basic behavior"""
 
+    def test_set_value(self):
+        sut = StorageSize(0)
+
+        # pylint: disable=protected-access
+        self.assertEqual(sut._bytes, 0)
+
+        sut.set_value(1738)
+        # pylint: disable=protected-access
+        self.assertEqual(sut._bytes, 1738)
+
     def test_default_unit(self):
         sut = StorageSize(0)
         self.assertEqual(sut.unit, SizeUnit.B)
@@ -27,6 +37,11 @@ class Basics(unittest.TestCase):
         for value in [1, 20, 300, 456789123456]:
             sut = StorageSize(value)
             self.assertEqual(sut.value(SizeUnit.B), value)
+
+    def test_value_default_unit(self):
+        for unit in SizeUnit:
+            sut = StorageSize(12, unit)
+            self.assertEqual(sut.value(), 12)
 
     def test_byte_property(self):
         for value in [1, 20, 300, 456789123456]:
@@ -62,6 +77,21 @@ class Basics(unittest.TestCase):
         sut.unit = SizeUnit.GIB
         self.assertIn(f'{val}', repr(sut))
         self.assertIn(str(SizeUnit.GIB), repr(sut))
+
+    def test_intern_always_bytes(self):
+        sut = StorageSize(1024, SizeUnit.MIB)
+        expected_bytes = 1024*(1024**2)
+        expected_value = {
+            SizeUnit.B: expected_bytes,
+            SizeUnit.MIB: 1024,
+            SizeUnit.GIB: 1
+        }
+
+        for unit in SizeUnit:
+            sut.unit = unit
+            # pylint: disable=protected-access
+            self.assertEqual(sut._bytes, expected_bytes)
+            self.assertEqual(sut.value(), expected_value[unit])
 
 
 class Convert(unittest.TestCase):

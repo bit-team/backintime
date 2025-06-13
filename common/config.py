@@ -47,6 +47,7 @@ import encfstools
 import password
 import pluginmanager
 import schedule
+from storagesize import StorageSize, SizeUnit
 from exceptions import PermissionDeniedByPolicy
 
 
@@ -368,10 +369,10 @@ class Config(configfile.ConfigFileWithProfiles):
             if self.warnFreeSpaceEnabled(profile_id) \
                    and self.minFreeSpaceEnabled(profile_id):
 
-                warn_mib = self.warnFreeSpaceMiB(profile_id)
-                min_mib = self.minFreeSpaceMib(profile_id)
+                warn = self.warnFreeSpace(profile_id)
+                _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
-                if warn_mib < min_mib:
+                if warn < min_free:
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
@@ -982,26 +983,17 @@ class Config(configfile.ConfigFileWithProfiles):
         value = self.profileIntValue('snapshots.warn_free_space.value', 0, profile_id)
         return value > 0
 
-    def warnFreeSpace(self, profile_id=None):
+    def warnFreeSpace(self, profile_id=None) -> StorageSize:
         value = self.profileIntValue('snapshots.warn_free_space.value', 0, profile_id)
-        unit = self.profileIntValue('snapshots.warn_free_space.unit', bitbase.DiskSizeUnit.MIB, profile_id)
-        return (value, bitbase.DiskSizeUnit(unit))
-
-    def warnFreeSpaceMiB(self, profile_id=None):
-        value, unit = self.warnFreeSpace(profile_id)
-        return value if unit == bitbase.DiskSizeUnit.MIB else value * 1024
-
-    def warnFreeSpaceGiB(self, profile_id=None):
-        value, unit = self.warnFreeSpace(profile_id)
-        return value if unit == bitbase.DiskSizeUnit.GIB else int(value / 1024)
+        unit = self.profileIntValue('snapshots.warn_free_space.unit', SizeUnit.MIB, profile_id)
+        return StorageSize(value, SizeUnit(unit))
 
     def setWarnFreeSpaceDisabled(self, profile_id=None):
-        self.setWarnFreeSpace(value=0, unit=None, profile_id=profile_id)
+        self.setWarnFreeSpace(value=StorageSize(0, SizeUnit.MIB), profile_id=profile_id)
 
-    def setWarnFreeSpace(self, value, unit, profile_id=None):
-        self.setProfileIntValue('snapshots.warn_free_space.value', value, profile_id)
-        if unit != None:
-            self.setProfileIntValue('snapshots.warn_free_space.unit', unit.value, profile_id)
+    def setWarnFreeSpace(self, value: StorageSize, profile_id=None):
+        self.setProfileIntValue('snapshots.warn_free_space.value', value.value(), profile_id)
+        self.setProfileIntValue('snapshots.warn_free_space.unit', value.unit.value, profile_id)
 
     def minFreeSpace(self, profile_id = None):
                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
@@ -1011,29 +1003,31 @@ class Config(configfile.ConfigFileWithProfiles):
             #?Keep at least value + unit free space.;1-99999
             self.profileIntValue('snapshots.min_free_space.value', 1, profile_id),
             #?10 = MB\n20 = GB;10|20;20
-            bitbase.DiskSizeUnit(self.profileIntValue('snapshots.min_free_space.unit', bitbase.DiskSizeUnit.GIB, profile_id))
+            SizeUnit(self.profileIntValue('snapshots.min_free_space.unit', SizeUnit.GIB, profile_id))
+        )
+
+    def minFreeSpaceAsStorageSize(self, profile_id = None):
+        enabled, value, unit = self.minFreeSpace(profile_id)
+
+        return (
+            enabled,
+            StorageSize(value, SizeUnit(unit))
         )
 
     def minFreeSpaceEnabled(self, profile_id = None):
         return self.profileBoolValue('snapshots.min_free_space.enabled', False, profile_id)
 
-    def minFreeSpaceMib(self, profile_id = None):
-        enabled, value, unit = self.minFreeSpace(profile_id)
-        if not enabled:
-            return 0
-
-        if unit == bitbase.DiskSizeUnit.MIB:
-            return value
-
-        if unit == bitbase.DiskSizeUnit.GIB:
-            return value * 1024
-
-        raise ValueError(f'Unhandled disk size unit. {enabled=} {value=} {unit=}')
-
     def setMinFreeSpace(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.min_free_space.enabled', enabled, profile_id)
         self.setProfileIntValue('snapshots.min_free_space.value', value, profile_id)
         self.setProfileIntValue('snapshots.min_free_space.unit', unit, profile_id)
+
+    def setMinFreeSpaceWithStorageSize(self, enabled, value: StorageSize, profile_id = None):
+        self.setMinFreeSpace(
+            enabled=enabled,
+            value=value.value(),
+            unit=value.unit.value
+        )
 
     def minFreeInodes(self, profile_id = None):
         #?Keep at least value % free inodes.;1-15

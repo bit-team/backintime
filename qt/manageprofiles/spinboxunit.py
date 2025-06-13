@@ -39,6 +39,7 @@ class SpinBoxWithUnit(QWidget):
 
     @property
     def spin(self) -> QSpinBox:
+        """The spinbox widget"""
         return self._spin
 
     @property
@@ -51,6 +52,7 @@ class SpinBoxWithUnit(QWidget):
         self._combo.select_by_data(data)
 
     def unit(self) -> Any:
+        """The unit selected in the combo box"""
         return self._combo.current_data
 
     def value(self) -> int:
