@@ -53,7 +53,6 @@ class SettingsDialog(QDialog):
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
 
-
         self.state_data = StateData()
         self.parent = parent
         self.config = parent.config
@@ -299,8 +298,11 @@ class SettingsDialog(QDialog):
 
         # restore position and size
         try:
-            self.move(*self.state_data.manageprofiles_coords)
-            self.resize(*self.state_data.manageprofiles_dims)
+            active_mode = self._tab_general.get_active_snapshots_mode()
+            dims, coords = self.state_data.get_manageprofiles_dims_coords(
+                active_mode)
+            self.move(*coords)
+            self.resize(*dims)
         except KeyError:
             pass
         
@@ -828,9 +830,10 @@ class SettingsDialog(QDialog):
                                 self.originalCurrentProfile)
             self.parent.updateProfiles()
 
-        print('X'*100)
         # store windows position and size
         state_data = StateData()
-        state_data.manageprofiles_coords = (self.x(), self.y())
-        state_data.manageprofiles_dims = (self.width(), self.height())
-        print(state_data.__dict__)
+        state_data.set_manageprofiles_dims_coords(
+            self._tab_general.get_active_snapshots_mode(),
+            (self.width(), self.height()),
+            (self.x(), self.y())
+        )

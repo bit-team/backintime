@@ -376,29 +376,17 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['gui']['mainwindow']['toolbar_button_style'] = value
 
     
-    @property
-    def manageprofiles_dims(self) -> tuple[int, int]:
-        """Dimensions of the manage profiles dialog.
-
-        Raises:
-            KeyError
-        """
-        return self['gui']['manage_profiles']['dims']
-
-    @manageprofiles_dims.setter
-    def manageprofiles_dims(self, vals: tuple[int, int]) -> None:
-        self['gui']['manage_profiles']['dims'] = vals
-        print(f'{self["gui"]["manage_profiles"]=}')
-
-    @property
-    def manageprofiles_coords(self) -> tuple[int, int]:
-        """Coordinates (position) of the manage profiles dialog.
-
-        Raises:
-            KeyError
-        """
-        return self['gui']['manage_profiles']['coords']
-
-    @manageprofiles_coords.setter
-    def manageprofiles_coords(self, vals: tuple[int, int]) -> None:
-        self['gui']['manage_profiles']['coords'] = vals
+    def get_manageprofiles_dims_coords(self, profile_mode: str
+                                       ) -> tuple[tuple[int, int],
+                                                  tuple[int, int]]:
+        return (
+            self['gui']['manage_profiles']['dims'][profile_mode],
+            self['gui']['manage_profiles']['coords'][profile_mode]
+        )
+            
+    def set_manageprofiles_dims_coords(self,
+                                       profile_mode: str,
+                                       dims: tuple[int, int],
+                                       coords: tuple[int, int]):
+        self['gui']['manage_profiles']['dims'][profile_mode] = dims
+        self['gui']['manage_profiles']['coords'][profile_mode] = coords
