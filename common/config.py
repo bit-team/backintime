@@ -989,7 +989,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return StorageSize(value, SizeUnit(unit))
 
     def setWarnFreeSpaceDisabled(self, profile_id=None):
-        self.setWarnFreeSpace(value=StorageSize(0), profile_id=profile_id)
+        self.setWarnFreeSpace(value=StorageSize(0, SizeUnit.MIB), profile_id=profile_id)
 
     def setWarnFreeSpace(self, value: StorageSize, profile_id=None):
         self.setProfileIntValue('snapshots.warn_free_space.value', value.value(), profile_id)
