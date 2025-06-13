@@ -9,7 +9,6 @@
 from typing import Any
 from PyQt6.QtWidgets import QSpinBox, QWidget, QHBoxLayout
 from manageprofiles.combobox import BitComboBox
-from storagesize import StorageSize, SizeUnit
 
 
 class SpinBoxWithUnit(QWidget):
@@ -40,6 +39,7 @@ class SpinBoxWithUnit(QWidget):
 
     @property
     def spin(self) -> QSpinBox:
+        """The spinbox widget"""
         return self._spin
 
     @property
@@ -52,6 +52,7 @@ class SpinBoxWithUnit(QWidget):
         self._combo.select_by_data(data)
 
     def unit(self) -> Any:
+        """The unit selected in the combo box"""
         return self._combo.current_data
 
     def value(self) -> int:
@@ -61,42 +62,3 @@ class SpinBoxWithUnit(QWidget):
     def set_value(self, val: int) -> None:
         """Set value of spin box."""
         self._spin.setValue(val)
-
-
-class StorageSizeWidget(SpinBoxWithUnit):
-    def __init__(self,
-                 parent: QWidget,
-                 range_min_max: tuple[int, int],
-                 value: StorageSize = StorageSize(0, SizeUnit.MIB)):
-
-        content_dict = {unit: str(unit) for unit in SizeUnit}
-        del content_dict[SizeUnit.B]  # exclude Bytes
-
-        super().__init__(
-            parent=parent,
-            range_min_max=range_min_max,
-            content_dict=content_dict,
-        )
-
-        print(f'{parent=} {range_min_max=} {value=}')
-        self._value = None
-        self.set_storagesize(value)
-
-        self._combo.currentIndexChanged.connect(self._on_unit_changed)
-        self._spin.valueChanged.connect(self._on_spin_changed)
-
-    def get_storagesize(self) -> StorageSize:
-        val, unit = self.data_and_unit
-        return StorageSize(val, unit)
-
-    def set_storagesize(self, value: StorageSize):
-        self._value = value
-        self.set_value(value.value())
-        self.select_unit(value.unit)
-
-    def _on_spin_changed(self, val):
-        self._value.set_value(val)
-
-    def _on_unit_changed(self, idx):
-        self._value.unit = self.unit()
-        self.set_value(self._value.value())
