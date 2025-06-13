@@ -374,3 +374,30 @@ class StateData(dict, metaclass=singleton.Singleton):
     @toolbar_button_style.setter
     def toolbar_button_style(self, value) -> None:
         self['gui']['mainwindow']['toolbar_button_style'] = value
+
+    
+    @property
+    def manageprofiles_dims(self) -> tuple[int, int]:
+        """Dimensions of the manage profiles dialog.
+
+        Raises:
+            KeyError
+        """
+        return self['gui']['manageprofiles']['dims']
+
+    @manageprofiles_dims.setter
+    def manageprofiles_dims(self, vals: tuple[int, int]) -> None:
+        self['gui']['manageprofiles']['dims'] = vals
+
+    @property
+    def manageprofiles_coords(self) -> tuple[int, int]:
+        """Coordinates (position) of the manage profiles dialog.
+
+        Raises:
+            KeyError
+        """
+        return self['gui']['manageprofiles']['coords']
+
+    @manageprofiles_coords.setter
+    def manageprofiles_coords(self, vals: tuple[int, int]) -> None:
+        self['gui']['manageprofiles']['coords'] = vals

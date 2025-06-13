@@ -53,6 +53,8 @@ class SettingsDialog(QDialog):
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
 
+
+        self.state_data = StateData()
         self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -295,6 +297,13 @@ class SettingsDialog(QDialog):
         self.tabs.setUsesScrollButtons(scrollButtonDefault)
         self.resize(size)
 
+        # restore position and size
+        try:
+            self.move(*self.state_data.manageprofiles_coords)
+            self.resize(*self.state_data.manageprofiles_dims)
+        except KeyError:
+            pass
+        
         self.finished.connect(self._slot_finished)
 
         # Observe other widgets values:
@@ -406,7 +415,7 @@ class SettingsDialog(QDialog):
             self.btnRemoveProfile.setEnabled(True)
         self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
 
-        profile_state = StateData().profile(self.config.currentProfile())
+        profile_state = self.state_data.profile(self.config.currentProfile())
 
         # TAB: General
         self._tab_general.load_values()
@@ -543,13 +552,6 @@ class SettingsDialog(QDialog):
         self.listExclude.addTopLevelItem(item)
 
         return item
-
-    # def fillCombo(self, combo, d):
-    #     keys = list(d.keys())
-    #     keys.sort()
-
-    #     for key in keys:
-    #         combo.addItem(QIcon(), d[key], key)
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):
@@ -825,3 +827,8 @@ class SettingsDialog(QDialog):
             self.parent.remount(self.originalCurrentProfile,
                                 self.originalCurrentProfile)
             self.parent.updateProfiles()
+
+        # store windows position and size
+        state_data = StateData()
+        state_data.manageprofiles_coords = (self.x(), self.y())
+        state_data.manaageprofiles_dims = (self.width(), self.height())
