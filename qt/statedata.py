@@ -43,6 +43,7 @@ class StateData(dict, metaclass=singleton.Singleton):
             'manage_profiles': {
                 'incl_sorting': {},
                 'excl_sorting': {},
+                'dims': {},
             },
             'logview': {},
         },
@@ -381,7 +382,7 @@ class StateData(dict, metaclass=singleton.Singleton):
                                                   tuple[int, int]]:
         return (
             self['gui']['manage_profiles']['dims'][profile_mode],
-            self['gui']['manage_profiles']['coords'][profile_mode]
+            self['gui']['manage_profiles']['coords']
         )
             
     def set_manageprofiles_dims_coords(self,
@@ -389,4 +390,4 @@ class StateData(dict, metaclass=singleton.Singleton):
                                        dims: tuple[int, int],
                                        coords: tuple[int, int]):
         self['gui']['manage_profiles']['dims'][profile_mode] = dims
-        self['gui']['manage_profiles']['coords'][profile_mode] = coords
+        self['gui']['manage_profiles']['coords'] = coords

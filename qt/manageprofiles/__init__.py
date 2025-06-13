@@ -296,16 +296,8 @@ class SettingsDialog(QDialog):
         self.tabs.setUsesScrollButtons(scrollButtonDefault)
         self.resize(size)
 
-        # restore position and size
-        try:
-            active_mode = self._tab_general.get_active_snapshots_mode()
-            dims, coords = self.state_data.get_manageprofiles_dims_coords(
-                active_mode)
-            self.move(*coords)
-            self.resize(*dims)
-        except KeyError:
-            pass
-        
+        self._restore_dims_and_coords()
+
         self.finished.connect(self._slot_finished)
 
         # Observe other widgets values:
@@ -370,6 +362,21 @@ class SettingsDialog(QDialog):
             self.saveProfile()
             self.config.setCurrentProfile(current_profile_id)
             self.updateProfile()
+
+    def _restore_dims_and_coords(self, move=True):
+        active_mode = self._tab_general.get_active_snapshots_mode()
+
+        try:
+            dims, coords = self.state_data.get_manageprofiles_dims_coords(
+                active_mode)
+
+        except KeyError:
+            pass
+
+        else:
+            if move:
+                self.move(*coords)
+            self.resize(*dims)
 
     def updateProfiles(self, reloadSettings=True):
         if reloadSettings:
@@ -728,6 +735,9 @@ class SettingsDialog(QDialog):
         enabled = active_mode in ('ssh', 'ssh_encfs')
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
+
+        # Resize (but not move) window based on backup mode
+        self._restore_dims_and_coords(move=False)
 
     def updateExcludeItems(self):
         for index in range(self.listExclude.topLevelItemCount()):
