@@ -667,8 +667,20 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # cipher used to transfer data
         c = self.sshCipher(profile_id)
-        if cipher and c != 'default':
-            ssh += ['-o', f'Ciphers={c}']
+        if c != 'default':
+            # Using cipher is deprecated (#2143) and will be removed (#2176)
+            # in foreseen future.
+            logger.critical(
+                'Configuring and using a cipher within Back In Time is '
+                f'deprecated. The configured cipher is "{c}". '
+                'Behavior will be removed in foreseen future. '
+                'Use config file of your SSH client to setup a cipher. '
+                'First remove config key "profile<N>.snapshots.ssh.cipher=" '
+                'from BITs config file ("~/.config/backintime/config") first.'
+            )
+
+            if cipher:
+                ssh += ['-o', f'Ciphers={c}']
 
         # custom arguments
         if custom_args:
