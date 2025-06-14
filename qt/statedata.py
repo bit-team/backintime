@@ -231,6 +231,19 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['message']['release_candidate'] = val
 
     @property
+    def msg_cipher_deprecation(self) -> bool:
+        """Cipher deprecation message shown."""
+        try:
+            return self['message']['cipher_deprecation']
+        except KeyError:
+            self.msg_cipher_deprecation = False
+            return self.msg_cipher_deprecation
+
+    @msg_cipher_deprecation.setter
+    def msg_cipher_deprecation(self, val: bool) -> None:
+        self['message']['cipher_deprecation'] = val
+
+    @property
     def msg_encfs_global(self) -> int:
         """Last stage of global EncFS deprecation message that was shown."""
         try:

@@ -671,12 +671,12 @@ class Config(configfile.ConfigFileWithProfiles):
             # Using cipher is deprecated (#2143) and will be removed (#2176)
             # in foreseen future.
             logger.critical(
-                'Configuring and using a cipher within Back In Time is '
-                f'deprecated. The configured cipher is "{c}". '
-                'Behavior will be removed in foreseen future. '
-                'Use config file of your SSH client to setup a cipher. '
-                'First remove config key "profile<N>.snapshots.ssh.cipher=" '
-                'from BITs config file ("~/.config/backintime/config") first.'
+                'Using a configured cipher in Back In Time is deprecated. '
+                f'Configured cipher: "{c}". Behavior will be removed in a '
+                'future release. Configure the cipher using the SSH client '
+                'config file instead. First remove key "profile<N>.snapshots'
+                '.ssh.cipher=" from Back In Time\'s config file '
+                '("~/.config/backintime/config").'
             )
 
             if cipher:
