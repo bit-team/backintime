@@ -318,7 +318,7 @@ def _date_of(filename: str) -> str:
 
     timestamp_ts = datetime.fromtimestamp(timestamp)
 
-    return timestamp_ts.strftime("%Y-%m-%d %H:%M:%S")
+    return timestamp_ts.strftime("%x %X")
 
 
 def _longest_key(dic: dict, depth: int = 0) -> int:
