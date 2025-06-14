@@ -110,12 +110,9 @@ class BackupStatus:
             with open(_status_file_path(), 'r', encoding='utf-8') as f:
                 self.status = json.load(f)
 
-        except FileNotFoundError:
-            logger.warning('Status file not found, creating new file.')
-            self._create_status_file()
-
-        except json.JSONDecodeError:
-            logger.warning('Error reading status file, creating new file.')
+        except (FileNotFoundError, json.JSONDecodeError) as exc:
+            logger.warning('Problems while reading status file. '
+                           f'Creating new file. Error was {exc}')
             self._create_status_file()
 
     def _write_status_file(self):
