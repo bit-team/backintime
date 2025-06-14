@@ -107,8 +107,8 @@ class BackupStatus:
         status file for all profiles.
         """
         try:
-            with open(_status_file_path(), 'r', encoding='utf-8') as f:
-                self.status = json.load(f)
+            with open(_status_file_path(), 'r', encoding='utf-8') as handle:
+                self.status = json.load(handle)
 
         except (FileNotFoundError, json.JSONDecodeError) as exc:
             logger.warning('Problems while reading status file. '
