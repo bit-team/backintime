@@ -278,6 +278,7 @@ class Config(configfile.ConfigFileWithProfiles):
                     )
         }
 
+        # Deprecated: #2176
         self.SSH_CIPHERS = {
             'default': _('Default'),
             'aes128-ctr': 'AES128-CTR',

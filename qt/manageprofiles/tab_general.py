@@ -133,10 +133,10 @@ class GeneralTab(QDialog):
         self.txtSshPath.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txtSshPath)
 
-        self.lblSshCipher = QLabel(_('Cipher:'), self)
-        hlayout3.addWidget(self.lblSshCipher)
-        self.comboSshCipher = self._cipher_combobox()
-        hlayout3.addWidget(self.comboSshCipher)
+        # self.lblSshCipher = QLabel(_('Cipher:'), self)
+        # hlayout3.addWidget(self.lblSshCipher)
+        # self.comboSshCipher = self._cipher_combobox()
+        # hlayout3.addWidget(self.comboSshCipher)
 
         self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
         hlayout3.addWidget(self.lblSshPrivateKeyFile)
@@ -175,12 +175,10 @@ class GeneralTab(QDialog):
         # Align the width of that three labels
         width = max(
             self.lblSshHost.sizeHint().width(),
-            self.lblSshPath.sizeHint().width(),
-            self.lblSshCipher.sizeHint().width()
+            self.lblSshPath.sizeHint().width()
         )
         self.lblSshHost.setMinimumWidth(width)
         self.lblSshPath.setMinimumWidth(width)
-        self.lblSshCipher.setMinimumWidth(width)
 
         self.wdgSshProxy = SshProxyWidget(
             self,
@@ -309,7 +307,7 @@ class GeneralTab(QDialog):
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
-        self.comboSshCipher.select_by_data(self.config.sshCipher())
+        # self.comboSshCipher.select_by_data(self.config.sshCipher())
         self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
 
         # local_encfs
@@ -383,7 +381,7 @@ class GeneralTab(QDialog):
         self.config.setSshProxyPort(sshproxy_vals['port'])
         self.config.setSshProxyUser(sshproxy_vals['user'])
         self.config.setSshSnapshotsPath(self.txtSshPath.text())
-        self.config.setSshCipher(self.comboSshCipher.current_data)
+        # self.config.setSshCipher(self.comboSshCipher.current_data)
 
         # SSH key file
         if mode in ('ssh', 'ssh_encfs'):
@@ -571,8 +569,8 @@ class GeneralTab(QDialog):
 
         return combobox.BitComboBox(self, snapshot_modes)
 
-    def _cipher_combobox(self) -> combobox.BitComboBox:
-        return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
+    # def _cipher_combobox(self) -> combobox.BitComboBox:
+    #     return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
         icon_label = qttools.create_icon_label_warning()
