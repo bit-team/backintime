@@ -21,6 +21,7 @@ import tools  # noqa: E402
 from version import __version__  # noqa: E402
 
 
+# pylint: disable-next=too-many-public-methods
 class StateData(dict, metaclass=singleton.Singleton):
     """Manage state data for Back In Time.
 
