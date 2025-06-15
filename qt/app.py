@@ -2309,7 +2309,9 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def slot_edit_user_callback(self):
-        EditUserCallback(self).exec()
+        fp = pathlib.Path(self.config.takeSnapshotUserCallback())
+        dlg = EditUserCallback(parent=self, script_path=fp)
+        dlg.exec()
 
 
 class ExtraMouseButtonEventFilter(QObject):

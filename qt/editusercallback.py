@@ -17,10 +17,11 @@ from pathlib import Path
 from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QPlainTextEdit,
-                             QVBoxLayout
+                             QVBoxLayout,
+                             QWidget
                              )
 from PyQt6.QtCore import QSize, QTimer
-from PyQt6.QtGui import QFont, QFontDatabase
+from PyQt6.QtGui import QFontDatabase
 import messagebox
 from statedata import StateData
 
@@ -28,10 +29,10 @@ from statedata import StateData
 class EditUserCallback(QDialog):
     """Dialog to edit the user-callback script."""
 
-    def __init__(self, parent):
+    def __init__(self, parent: QWidget, script_path: Path):
         super().__init__(parent)
-        self.config = parent.config
-        self.script_fp = Path(self.config.takeSnapshotUserCallback())
+        # self.config = parent.config
+        self.script_fp = script_path
 
         import icon  # pylint: disable=import-outside-toplevel
         self.setWindowIcon(icon.SETTINGS_DIALOG)
@@ -51,6 +52,7 @@ class EditUserCallback(QDialog):
             QTimer.singleShot(5, self._double_size)
 
         layout = QVBoxLayout(self)
+
         self.edit_widget = QPlainTextEdit(self)
         self.edit_widget.setFont(
             QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont))
@@ -78,11 +80,13 @@ class EditUserCallback(QDialog):
         current_size = self.size()
         self.resize(QSize(current_size.width()*2, current_size.height()*2))
 
-    def _warn_if_no_shebang(self, script):
+    def _warn_if_no_shebang(self) -> bool:
+        script_text = self.edit_widget.toPlainText()
+
         # Shebang in first line?
         has_shebang = bool(re.match(
             r'^#!/[\w/-]+(?:\s+[\w.-]+)*$',
-            script.split('\n')[0]))
+            script_text.split('\n')[0]))
 
         if has_shebang is False:
             messagebox.warning(
@@ -95,7 +99,7 @@ class EditUserCallback(QDialog):
 
     def accept(self):
         """OK pressed"""
-        if not self._warn_if_no_shebang(self.edit_widget.toPlainText()):
+        if not self._warn_if_no_shebang():
             return
 
         with self.script_fp.open('wt', encoding='utf-8') as handle:
