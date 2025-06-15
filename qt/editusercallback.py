@@ -22,6 +22,7 @@ from PyQt6.QtWidgets import (QDialog,
                              )
 from PyQt6.QtCore import QSize, QTimer
 from PyQt6.QtGui import QFontDatabase
+from bitbase import DEFAULT_CALLBACK
 import messagebox
 from statedata import StateData
 
@@ -57,12 +58,21 @@ class EditUserCallback(QDialog):
         self.edit_widget.setFont(
             QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont))
 
+        script_text = ''
+
         try:
             with self.script_fp.open('rt', encoding='utf-8') as handle:
-                self.edit_widget.setPlainText(handle.read())
+                script_text = handle.read()
 
         except FileNotFoundError:
-            pass
+            # Use default example script
+            try:
+                with DEFAULT_CALLBACK.open('rt', encoding='utf-8') as handle:
+                    script_text = handle.read()
+            except FileNotFoundError:
+                pass
+
+        self.edit_widget.setPlainText(script_text)
 
         layout.addWidget(self.edit_widget)
 
