@@ -1371,7 +1371,7 @@ class MainWindow(QMainWindow):
         if warn >= real:
             msg = _('Only {free} free space available on the '
                     'destination, which is below the configured threshold '
-                    'of {threshold} {unit}.').format(
+                    'of {threshold}.').format(
                         free=str(real),
                         threshold=str(warn))
             qst = _('Proceed with the backup?')
