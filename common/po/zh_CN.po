@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 08:21+0200\n"
-"PO-Revision-Date: 2025-04-30 12:13+0000\n"
+"PO-Revision-Date: 2025-06-15 07:09+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
@@ -94,7 +94,7 @@ msgstr "此目录不能包含在备份中，因为它是备份目标本身的一
 msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
-msgstr ""
+msgstr "可用空间的警告阈值必须大于或等于可用空间的删除阈值。"
 
 #: common/config.py:1505
 #, python-brace-format
@@ -211,7 +211,7 @@ msgstr "已完成"
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
-msgstr ""
+msgstr "包含列表中的以下条目在备份源中没有对应的文件或目录："
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
@@ -544,7 +544,7 @@ msgstr "是否导入现有配置（从备份目标目录或另一台计算机）
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "然后按确定。"
 
 #: qt/app.py:478
 msgid "Create a backup"
@@ -587,23 +587,20 @@ msgid "Remove backup"
 msgstr "移除备份"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
-msgstr "查看备份日志"
+msgstr "打开备份日志"
 
 #: qt/app.py:515
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "必须至少选择一个目录进行备份。"
+msgstr "查看所选备份的日志。"
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "查看备份日志"
+msgstr "打开最新备份日志"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "查看最新备份的日志。"
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -828,9 +825,8 @@ msgid ""
 msgstr ""
 
 #: qt/app.py:1377
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "是否移除所选备份？"
+msgstr "是否继续备份？"
 
 #: qt/app.py:1410
 msgid "Backup name"
