@@ -584,7 +584,7 @@ class MainWindow(QMainWindow):
                 icon.ENCRYPT,
                 'SSH Cipher deprecation',
                 self.slot_help_cipher_deprecation, None,
-                _('Shows the message about deprecation of SSH cipher again.')),
+                'Shows the message about deprecation of SSH cipher again.'),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
