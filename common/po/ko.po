@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-03-10 15:41+0000\n"
 "Last-Translator: darkcircle <darkcircle@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -353,11 +353,6 @@ msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr "SSH 개인 키를 잠금 해제할 수 없습니다. 잘못된 암호거나 cron 암호를 사용할 수 없습니다."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "{host}의 {cipher} 암호화에 실패했습니다."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -709,11 +704,6 @@ msgstr "Transition 암호화 (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "EncFS 제거에 대한 메시지를 다시 보기."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "번역 참여에 대한 메세지를 다시 보기."
 
 #: qt/app.py:589
 msgid "About"
@@ -2194,6 +2184,10 @@ msgstr "마지막 확인 시간 {time}"
 #~ msgid_plural "Are you sure you want to remove these snapshots?"
 #~ msgstr[0] "정말 이 스냅샷(들)을 제거하시겠습니까?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "{host}의 {cipher} 암호화에 실패했습니다."
+
 #~ msgid "Cipher:"
 #~ msgstr "암호:"
 
@@ -2228,6 +2222,10 @@ msgstr "마지막 확인 시간 {time}"
 
 #~ msgid "Sent"
 #~ msgstr "전송"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "번역 참여에 대한 메세지를 다시 보기."
 
 #~ msgid "Snapshot"
 #~ msgstr "스냅샷"

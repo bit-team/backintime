@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovenian <https://translate.codeberg.org/projects/backintime/common/sl/>\n"
@@ -363,11 +363,6 @@ msgid ""
 msgstr ""
 "Zasebnega ključa ssh ni bilo mogoče odkleniti. Napačno geslo ali geslo ni na"
 " voljo za cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Šifra {cipher} ni uspela za {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -729,10 +724,6 @@ msgstr ""
 
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
-msgstr ""
-
-#: qt/app.py:587
-msgid "Shows the message about deprecation of SSH cipher again."
 msgstr ""
 
 #: qt/app.py:589
@@ -2297,6 +2288,10 @@ msgstr "Zadnj pregled {time}"
 #~ msgstr[1] "Ali res želite odstraniti ta posnetek?"
 #~ msgstr[2] "Ali res želite odstraniti ta posnetka?"
 #~ msgstr[3] "Ali res želite odstraniti te posnetke?"
+
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Šifra {cipher} ni uspela za {host}."
 
 #~ msgid "Cipher:"
 #~ msgstr "Šifriranje:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-03-21 12:46+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
@@ -366,11 +366,6 @@ msgid ""
 msgstr ""
 "Nedaří se odemknout soukromou část ssh klíče. Heslo je buď chybně zadané "
 "nebo není k dispozici plánovači cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Použití šifry {cipher} se na stroji {host} nezdařilo."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -739,11 +734,6 @@ msgstr "Přechod na jiné šifrování (z EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Znovu zobrazit zprávu o odebrání EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Znovu zobrazí pozvání k účastni na překládání."
 
 #: qt/app.py:589
 msgid "About"
@@ -2323,6 +2313,10 @@ msgstr "Minulá kontrola {time}"
 #~ msgstr[1] "Opravdu chcete tyto zachycené stavy odstranit?"
 #~ msgstr[2] "Opravdu chcete tyto zachycené stavy odstranit?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Použití šifry {cipher} se na stroji {host} nezdařilo."
+
 #~ msgid "Cipher:"
 #~ msgstr "Šifra:"
 
@@ -2360,6 +2354,10 @@ msgstr "Minulá kontrola {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Odesláno"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Znovu zobrazí pozvání k účastni na překládání."
 
 #~ msgid "Snapshot"
 #~ msgstr "Zachycený stav"

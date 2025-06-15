@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
@@ -364,11 +364,6 @@ msgid ""
 msgstr ""
 "Tidak dapat membuka kunci kunci privat SSH. Kata sandi salah atau tidak "
 "tersedia untuk cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Cipher {cipher} gagal untuk {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -733,11 +728,6 @@ msgstr "Transisi Enkripsi (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Menampilkan lagi pesan tentang penghapusan EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Menampilkan lagi pesan tentang partisipasi dalam penerjemahan."
 
 #: qt/app.py:589
 msgid "About"
@@ -2299,6 +2289,10 @@ msgstr "Pemeriksaan terakhir {time}"
 #~ msgid_plural "Are you sure you want to remove these snapshots?"
 #~ msgstr[0] "Yakin hendak membuang snapshot ini?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Cipher {cipher} gagal untuk {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Cipher:"
 
@@ -2336,6 +2330,10 @@ msgstr "Pemeriksaan terakhir {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Terkirim"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Menampilkan lagi pesan tentang partisipasi dalam penerjemahan."
 
 #~ msgid "Snapshot"
 #~ msgstr "Snapshot"

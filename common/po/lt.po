@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-29 14:06+0000\n"
 "Last-Translator: Mooo <mooo@noreply.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
@@ -354,11 +354,6 @@ msgstr "Nerasta jokio ssh-agent. Įsitikinkite, kad jis įdiegtas."
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
-msgstr ""
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
 msgstr ""
 
 #: common/sshtools.py:713
@@ -718,11 +713,6 @@ msgstr ""
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr ""
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Dar kartą parodo pranešimą apie dalyvavimą programos vertime."
 
 #: qt/app.py:589
 msgid "About"
@@ -2344,6 +2334,10 @@ msgstr "Paskutinis tikrinimas {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Išsiųsta"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Dar kartą parodo pranešimą apie dalyvavimą programos vertime."
 
 #~ msgid "Snapshot"
 #~ msgstr "Momentinė kopija"

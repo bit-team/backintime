@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
@@ -365,11 +365,6 @@ msgid ""
 msgstr ""
 "لم يمكن فتح مفتاح SSH الخاص. كلمة المرور خاطئة أو كلمة المرور غير متاحة لـ "
 "cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "فشل تشفير {cipher} لـ {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -730,11 +725,6 @@ msgstr "الإنتقال الى تشفير EncFS"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "عرض الرسالة حول إزالة ميزة التشفير EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "عرض رسالة المشاركة في الترجمة."
 
 #: qt/app.py:589
 msgid "About"
@@ -2317,6 +2307,10 @@ msgstr "آخر فحص {time}"
 #~ msgstr[4] "هل أنت متأكد أنك تريد إزالة هذه اللقطات؟"
 #~ msgstr[5] "هل أنت متأكد أنك تريد إزالة هذه اللقطات؟"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "فشل تشفير {cipher} لـ {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "تشفير:"
 
@@ -2356,6 +2350,10 @@ msgstr "آخر فحص {time}"
 
 #~ msgid "Sent"
 #~ msgstr "أرسل"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "عرض رسالة المشاركة في الترجمة."
 
 #~ msgid "Snapshot"
 #~ msgstr "لقطة"

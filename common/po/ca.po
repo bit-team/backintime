@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-08 07:24+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -361,11 +361,6 @@ msgid ""
 msgstr ""
 "No s'ha pogut desbloquejar la clau privada ssh. O la contrasenya és "
 "incorrecta o no és disponible per al cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "El xifratge {cipher} ha fallat per a {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -722,11 +717,6 @@ msgstr "Transició del xifratge (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Mostra de nou el missatge sobre l'eliminació d'EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Mostra de nou el missatge sobre la participació en la traducció."
 
 #: qt/app.py:589
 msgid "About"
@@ -2275,6 +2265,10 @@ msgstr "Última comprovació {time}"
 #~ msgstr[0] "Segur que voleu esborrar la instantània?"
 #~ msgstr[1] "Segur que voleu esborrar les instantànies?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "El xifratge {cipher} ha fallat per a {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Xifratge:"
 
@@ -2311,6 +2305,10 @@ msgstr "Última comprovació {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Enviat"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Mostra de nou el missatge sobre la participació en la traducció."
 
 #~ msgid "Snapshot"
 #~ msgstr "Instantàna"

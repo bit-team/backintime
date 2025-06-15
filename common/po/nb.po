@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
@@ -362,11 +362,6 @@ msgid ""
 msgstr ""
 "Klarte ikke å låse opp den private SSH-nøkkelen. Enten er passordet feil, "
 "eller så er ikke passordet tilgjengelig for cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Chiffer {cipher} feilet for {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -730,11 +725,6 @@ msgstr "Krypteringsovergang (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Viser meldingen om fjerning av EncFS igjen."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Viser meldingen om deltakelse i oversettelsen igjen."
 
 #: qt/app.py:589
 msgid "About"
@@ -2299,6 +2289,10 @@ msgstr "Sist sjekket {time}"
 #~ msgstr[0] "Er du sikker på at du vil fjerne dette øyeblikksbildet?"
 #~ msgstr[1] "Er du sikker på at du vil fjerne disse øyeblikksbildene?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Chiffer {cipher} feilet for {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Chiffer:"
 
@@ -2336,6 +2330,10 @@ msgstr "Sist sjekket {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Sendt"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Viser meldingen om deltakelse i oversettelsen igjen."
 
 #~ msgid "Snapshot"
 #~ msgstr "Øyeblikksbilde"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-01 17:53+0000\n"
 "Last-Translator: reno-tx <reno-tx@noreply.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
@@ -366,11 +366,6 @@ msgid ""
 msgstr ""
 "Нисам могао откључати ssh приватни кључ. Погрешна лозинка или лозинка није "
 "доступна за cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Шифра {cipher} није успела за {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -735,11 +730,6 @@ msgstr "Прелазак на шифровање (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Поново приказује поруку о уклањању EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Поново приказује поруку о учешћу у преводу."
 
 #: qt/app.py:589
 msgid "About"
@@ -2308,6 +2298,10 @@ msgstr "Задња провера {time}"
 #~ msgstr[1] "Да ли сте сигурни да желите да уклоните ове снимке?"
 #~ msgstr[2] "Да ли сте сигурни да желите да уклоните ове снимке?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Шифра {cipher} није успела за {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Шифра:"
 
@@ -2345,6 +2339,10 @@ msgstr "Задња провера {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Послато"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Поново приказује поруку о учешћу у преводу."
 
 #~ msgid "Snapshot"
 #~ msgstr "Снимак"

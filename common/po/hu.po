@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -368,11 +368,6 @@ msgid ""
 msgstr ""
 "Nem sikerült feloldani az SSH személyes kulcsát. Hibás a jelszó vagy a "
 "jelszó nem érhető el a cron számára."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "A(z) {cipher} titkosító meghiúsult a(z) {host} kiszolgálónál."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -744,12 +739,6 @@ msgstr "Titkosítási átmenet (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Ismét megjeleníti az EncFS eltávolításával kapcsolatos üzenetet."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr ""
-"Ismét megjeleníti a fordításban való részvétellel kapcsolatos üzenetet."
 
 #: qt/app.py:589
 msgid "About"
@@ -2336,6 +2325,10 @@ msgstr "Utolsó ellenőrzés {time}"
 #~ msgstr[0] "Biztosan el szeretné távolítani ezt a pillanatképet?"
 #~ msgstr[1] "Biztosan el szeretné távolítani ezeket a pillanatképeket?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "A(z) {cipher} titkosító meghiúsult a(z) {host} kiszolgálónál."
+
 #~ msgid "Cipher:"
 #~ msgstr "Titkosító:"
 
@@ -2373,6 +2366,11 @@ msgstr "Utolsó ellenőrzés {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Elküldve"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr ""
+#~ "Ismét megjeleníti a fordításban való részvétellel kapcsolatos üzenetet."
 
 #~ msgid "Snapshot"
 #~ msgstr "Pillanatkép"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-04 23:53+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
@@ -361,11 +361,6 @@ msgstr ""
 "Не вдалося розблокувати приватний ключ SSH. Пароль неправильний або "
 "недоступний для cron."
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Помилка шифру {cipher} для сервера {host}."
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "Віддалений шлях існує, але це не каталог."
@@ -715,11 +710,6 @@ msgstr "Перехід на нове шифрування (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Показує повідомлення про видалення EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Показує повідомлення про участь у перекладі."
 
 #: qt/app.py:589
 msgid "About"
@@ -2238,6 +2228,10 @@ msgstr "Остання перевірка {time}"
 #~ msgstr[1] "Бажаєте видалити ці резервні копії?"
 #~ msgstr[2] "Бажаєте видалити ці резервні копії?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Помилка шифру {cipher} для сервера {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Шифр:"
 
@@ -2274,6 +2268,10 @@ msgstr "Остання перевірка {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Надіслано"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Показує повідомлення про участь у перекладі."
 
 #~ msgid "Snapshot"
 #~ msgstr "Копія"

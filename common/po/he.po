@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-14 12:04+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -355,11 +355,6 @@ msgid ""
 msgstr ""
 "לא ניתן לשחרר את נעילת מפתח ה־ssh הפרטי. הסיסמה שגויה או שהסיסמה לא זמינה "
 "ל־cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "מצפין {cipher} נכשל עבור המשתמש {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -713,11 +708,6 @@ msgstr "תעבורה מוצפנת (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "הצגת ההודעה על הסרת EncFS שוב."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "הצגת ההודעה בנוגע להשתתפות בתרגום שוב."
 
 #: qt/app.py:589
 msgid "About"
@@ -2236,6 +2226,10 @@ msgstr "בדיקה אחרונה {time}"
 #~ msgstr[0] "להסיר את תמונת המצב?"
 #~ msgstr[1] "להסיר את תמונות המצב?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "מצפין {cipher} נכשל עבור המשתמש {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "צופן:"
 
@@ -2271,6 +2265,10 @@ msgstr "בדיקה אחרונה {time}"
 
 #~ msgid "Sent"
 #~ msgstr "נשלח"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "הצגת ההודעה בנוגע להשתתפות בתרגום שוב."
 
 #~ msgid "Snapshot"
 #~ msgstr "תמונת מצב"

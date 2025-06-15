@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icelandic (Back In Time)\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-01-03 03:42+0000\n"
 "Last-Translator: sveinki <sveinki@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
@@ -354,11 +354,6 @@ msgid ""
 msgstr ""
 "Tókst ekki að aflæsa ssh-einkalykli. Rangt lykilorð eða að lykilorð er ekki "
 "tiltækt fyrir cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Dulritunaraðferðin {cipher} tókst ekki fyrir {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -719,11 +714,6 @@ msgstr "Encryption Transition (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Birtir aftur skilaboðin um fjarlægingu EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Birtir aftur skilaboðin um þátttöku í þýðingum."
 
 #: qt/app.py:589
 msgid "About"
@@ -2182,6 +2172,10 @@ msgstr "Síðasta athugun {time}"
 #~ msgstr[0] "Ertu viss um að þú viljir fjarlægja þetta skyndiafrit?"
 #~ msgstr[1] "Ertu viss um að þú viljir fjarlægja þessi skyndiafrit?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Dulritunaraðferðin {cipher} tókst ekki fyrir {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Dulritunaraðferð (cipher):"
 
@@ -2210,6 +2204,10 @@ msgstr "Síðasta athugun {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Sent"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Birtir aftur skilaboðin um þátttöku í þýðingum."
 
 #~ msgid "Snapshot"
 #~ msgstr "Skyndiafrit"

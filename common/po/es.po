@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-17 20:04+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
@@ -362,11 +362,6 @@ msgid ""
 msgstr ""
 "No se pudo desbloquear la clave privada SSH. Contraseña incorrecta o "
 "contraseña inaccesible para cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "El cifrado {cipher} falló para {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -735,12 +730,6 @@ msgstr "Transición de cifrado (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Muestra nuevamente el mensaje sobre la eliminación de EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr ""
-"Muestra nuevamente el mensaje sobre la participación en la traducción."
 
 #: qt/app.py:589
 msgid "About"
@@ -2280,6 +2269,10 @@ msgstr "Última comprobación {time}"
 #~ msgstr[0] "¿Confirma que quiere eliminar esta instantánea?"
 #~ msgstr[1] "¿Confirma que quiere eliminar estas instantáneas?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "El cifrado {cipher} falló para {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Cifrado:"
 
@@ -2316,6 +2309,11 @@ msgstr "Última comprobación {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Enviado"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr ""
+#~ "Muestra nuevamente el mensaje sobre la participación en la traducción."
 
 #~ msgid "Snapshot"
 #~ msgstr "Instantánea"

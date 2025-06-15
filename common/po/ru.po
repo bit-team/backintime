@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
@@ -369,11 +369,6 @@ msgstr ""
 "Не удалось разблокировать приватный ключ ssh. Неверный пароль или пароль не "
 "подходит для cron."
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Пароль {cipher} не верен для {host}."
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "Удаленный путь существует, но не является каталогом."
@@ -731,11 +726,6 @@ msgstr "Миграция с шифрования EncFS"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Показать сообщение об удалении EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Показать сообщение об участии в переводе."
 
 #: qt/app.py:589
 msgid "About"
@@ -2294,6 +2284,10 @@ msgstr "Последняя проверка {time}"
 #~ msgstr[1] "Вы точно хотите удалить эти снимки?"
 #~ msgstr[2] "Вы точно хотите удалить эти снимки?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Пароль {cipher} не верен для {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "шифр:"
 
@@ -2332,6 +2326,10 @@ msgstr "Последняя проверка {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Отправлено"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Показать сообщение об участии в переводе."
 
 #~ msgid "Snapshot"
 #~ msgstr "Снимок"

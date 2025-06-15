@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-12 09:18+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
@@ -369,11 +369,6 @@ msgstr ""
 "Ne povas malŝlosi privata ŝlosilo de ssh. Neĝusta pasvorto aŭ pasvorto ne "
 "ricevebla por cron."
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Ĉifro {cipher} malsukcesas por {host}."
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "Fora vojo ekzistas, sed ne estas dosierujo."
@@ -730,11 +725,6 @@ msgstr "Ŝanĝi la kriptadon (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Vidigas ree la mesaĝon pri la fortigado de EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Vidigas la mesaĝon pri partopreni je la tradukoj ree."
 
 #: qt/app.py:589
 msgid "About"
@@ -2289,6 +2279,10 @@ msgstr "Lasta kontrolo {time}"
 #~ msgstr[0] "Ĉu vi certas ke vi volas forigi tion momentaĵon?"
 #~ msgstr[1] "Ĉu vi certas ke vi volas forigi tiojn momentaĵojn?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Ĉifro {cipher} malsukcesas por {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Ĉifro:"
 
@@ -2325,6 +2319,10 @@ msgstr "Lasta kontrolo {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Sendita"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Vidigas la mesaĝon pri partopreni je la tradukoj ree."
 
 #~ msgid "Snapshot"
 #~ msgstr "Momentaĵo"

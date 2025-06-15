@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-04 23:53+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <nurikucukler@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
@@ -357,11 +357,6 @@ msgid ""
 msgstr ""
 "Ssh özel anahtarının kilidi açılamadı. Parola yanlış ya da Cron için parola "
 "yok."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "{host} için {cipher} şifresi başarısız oldu."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -723,11 +718,6 @@ msgstr "Şifreleme Geçişi (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "EncFS kaldırma mesajını tekrar gösterir."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Çeviriye katılım mesajını tekrar gösterir."
 
 #: qt/app.py:589
 msgid "About"
@@ -2252,6 +2242,10 @@ msgstr "Son denetim {time}"
 #~ msgstr[0] "Bu anlık görüntüyü silmek istediğinizden emin misiniz?"
 #~ msgstr[1] "Bu anlık görüntüleri silmek istediğinizden emin misiniz?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "{host} için {cipher} şifresi başarısız oldu."
+
 #~ msgid "Cipher:"
 #~ msgstr "Şifre:"
 
@@ -2289,6 +2283,10 @@ msgstr "Son denetim {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Gönder"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Çeviriye katılım mesajını tekrar gösterir."
 
 #~ msgid "Snapshot"
 #~ msgstr "Anlık görüntü"

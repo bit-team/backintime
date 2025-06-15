@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-30 12:13+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
@@ -362,11 +362,6 @@ msgid ""
 msgstr ""
 "Ssh privaatvõtme lukust lahtivõtmine ei õnnestunud. Salasõna oli kas vale "
 "või polnud croni jaoks leitav."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "{cipher} šifti kasutamine hostis {host} ei õnnestunud."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -723,11 +718,6 @@ msgstr "Muudatused krüptimise kasutamisel (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Näitab uuesti teate EncFSi kasutusel eemaldamise kohta."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Kuvab uuesti teate tõlkimises osalemise kohta."
 
 #: qt/app.py:589
 msgid "About"
@@ -2264,6 +2254,10 @@ msgstr "Viimati kontrollitud {time}"
 #~ msgstr[0] "Kas oled kindel, et soovid kustutada selle hetktõmmise?"
 #~ msgstr[1] "Kas oled kindel, et soovid kustutada need hetktõmmised?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "{cipher} šifti kasutamine hostis {host} ei õnnestunud."
+
 #~ msgid "Cipher:"
 #~ msgstr "Šiffer:"
 
@@ -2301,6 +2295,10 @@ msgstr "Viimati kontrollitud {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Saadetud"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Kuvab uuesti teate tõlkimises osalemise kohta."
 
 #~ msgid "Snapshot"
 #~ msgstr "Hetktõmmis"

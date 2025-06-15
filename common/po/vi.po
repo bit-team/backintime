@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
@@ -367,11 +367,6 @@ msgstr ""
 "Không thể mở khóa SSH riêng. Mật khẩu bị sai hay không thể truy cập bởi "
 "cron."
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Thuật toán mã hóa {cipher} thất bại cho {host}."
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "Đường dẫn từ xa tồn tại nhưng không phải là một thư mục."
@@ -728,11 +723,6 @@ msgstr "Chuyển đổi mã hóa (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Hiển thị lại thông báo về việc gỡ bỏ EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Hiển thị lại thông báo về việc tham gia dịch thuật."
 
 #: qt/app.py:589
 msgid "About"
@@ -2281,6 +2271,10 @@ msgstr "Kiểm tra lần cuối: {time}"
 #~ msgid_plural "Are you sure you want to remove these snapshots?"
 #~ msgstr[0] "Bạn có chắc chắn muốn xóa snapshot không?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Thuật toán mã hóa {cipher} thất bại cho {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Thuật toán mã hóa:"
 
@@ -2317,6 +2311,10 @@ msgstr "Kiểm tra lần cuối: {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Đã gửi"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Hiển thị lại thông báo về việc tham gia dịch thuật."
 
 #~ msgid "Snapshot"
 #~ msgstr "Snapshot"

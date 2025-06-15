@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-08 07:24+0000\n"
 "Last-Translator: GiannosOB <giannosob@noreply.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
@@ -365,11 +365,6 @@ msgid ""
 msgstr ""
 "Δεν ήταν δυνατό το ξεκλείδωμα του ιδιωτικού κλειδιού SSH. Λάθος κωδικός ή "
 "δεν υπάρχει διαθέσιμος κωδικός για cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Το κρυπτογράφημα {cipher} απέτυχε για τον {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -739,11 +734,6 @@ msgstr "Μετάβαση κρυπτογράφησης (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με την αφαίρεση του EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με τη συμμετοχή στη μετάφραση."
 
 #: qt/app.py:589
 msgid "About"
@@ -2311,6 +2301,10 @@ msgstr "Τελευταίος έλεγχος {time}"
 #~ msgstr[0] "Είστε σίγουροι ότι θέλετε να διαγράψετε το παρακάτω στιγμιότυπο;"
 #~ msgstr[1] "Είστε σίγουροι ότι θέλετε να διαγράψετε τα παρακάτω στιγμιότυπα;"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Το κρυπτογράφημα {cipher} απέτυχε για τον {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Κρυπτοαλγόριθμος:"
 
@@ -2347,6 +2341,10 @@ msgstr "Τελευταίος έλεγχος {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Στάλθηκαν"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με τη συμμετοχή στη μετάφραση."
 
 #~ msgid "Snapshot"
 #~ msgstr "Στιγμιότυπο"

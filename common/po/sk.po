@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
@@ -370,11 +370,6 @@ msgstr ""
 "Nepodarilo sa odomknúť súkromný kľúč SSH. Nesprávne heslo alebo heslo nie je"
 " dostupné pre cron."
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Šifra {cipher} zlyhala pre {host}."
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "Vzdialená cesta existuje, ale nie je to adresár."
@@ -735,11 +730,6 @@ msgstr "Prechod na šifrovanie (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Znova zobraziť správu o odstránení EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Znova zobraziť správu o účasti na preklade."
 
 #: qt/app.py:589
 msgid "About"
@@ -2302,6 +2292,10 @@ msgstr "Posledná kontrola {time}"
 #~ msgstr[1] "Ste si istí, že chcete odstrániť snímku?"
 #~ msgstr[2] "Ste si istí, že chcete odstrániť snímky?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Šifra {cipher} zlyhala pre {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Šifra:"
 
@@ -2338,6 +2332,10 @@ msgstr "Posledná kontrola {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Odoslané"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Znova zobraziť správu o účasti na preklade."
 
 #~ msgid "Snapshot"
 #~ msgstr "Snímka"

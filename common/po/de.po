@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-04-30 12:13+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
@@ -365,11 +365,6 @@ msgstr ""
 "Privater SSH-Schlüssel konnte nicht entsperrt werden. Passwort falsch oder "
 "für cron nicht verfügbar."
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Verschlüsselungsverfahren {cipher} für {host} fehlgeschlagen."
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr ""
@@ -725,11 +720,6 @@ msgstr "Umstellung der Verschlüsselung (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Zeigt die Meldung über das Entfernen von EncFS erneut an."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Zeigt die Meldung über die Teilnahme an der Übersetzung erneut an."
 
 #: qt/app.py:589
 msgid "About"
@@ -2280,6 +2270,10 @@ msgstr "Letzte Überprüfung {time}"
 #~ msgstr[0] "Sind Sie sicher, dass Sie den Schnappschuss löschen wollen?"
 #~ msgstr[1] "Sind Sie sicher, dass Sie diese Schnappschüsse löschen wollen?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Verschlüsselungsverfahren {cipher} für {host} fehlgeschlagen."
+
 #~ msgid "Cipher:"
 #~ msgstr "Chiffre:"
 
@@ -2317,6 +2311,10 @@ msgstr "Letzte Überprüfung {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Gesendet"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Zeigt die Meldung über die Teilnahme an der Übersetzung erneut an."
 
 #~ msgid "Snapshot"
 #~ msgstr "Schnappschuss"

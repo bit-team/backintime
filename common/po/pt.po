@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-19 08:58+0000\n"
 "Last-Translator: N4ta <codeberg@n4ta.anonaddy.me>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
@@ -364,11 +364,6 @@ msgid ""
 msgstr ""
 "Não foi possível desbloquear a chave privada SSH. Senha incorreta ou senha "
 "não disponível para cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Cifra {cipher} falhou para {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -729,11 +724,6 @@ msgstr "Transição Encriptada (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Mostra a mensagem sobre a remoção EncFS novamente."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Mostra a mensagem sobre participação nas traduções novamente."
 
 #: qt/app.py:589
 msgid "About"
@@ -2271,6 +2261,10 @@ msgstr "Última marcação {time}"
 #~ msgstr[0] "Você tem certeza de que deseja remover esta captura?"
 #~ msgstr[1] "Você tem certeza de que deseja remover estas capturas?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Cifra {cipher} falhou para {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Cifra:"
 
@@ -2307,6 +2301,10 @@ msgstr "Última marcação {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Enviado"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Mostra a mensagem sobre participação nas traduções novamente."
 
 #~ msgid "Snapshot"
 #~ msgstr "Captura"

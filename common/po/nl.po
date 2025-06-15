@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2024-10-02 06:42+0000\n"
 "Last-Translator: reneald <reneald@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
@@ -370,11 +370,6 @@ msgid ""
 msgstr ""
 "Kon SSH-privésleutel niet ontgrendelen. Het wachtwoord is ongeldig of is "
 "niet beschikbaar voor cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Versleutelingsmethode {cipher} mislukt voor {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -742,11 +737,6 @@ msgstr "Versleutelingsovergang (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Toont opnieuw het bericht over het verwijderen van EncFS."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Toont het bericht over deelname aan vertaling opnieuw."
 
 #: qt/app.py:589
 msgid "About"
@@ -2316,6 +2306,10 @@ msgstr "Laatste controle {time}"
 #~ msgstr[0] "Weet u zeker dat u deze momentopname wilt verwijderen?"
 #~ msgstr[1] "Weet u zeker dat u deze momentopnames wilt verwijderen?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Versleutelingsmethode {cipher} mislukt voor {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Versleutelingsmethode:"
 
@@ -2354,6 +2348,10 @@ msgstr "Laatste controle {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Verzonden"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Toont het bericht over deelname aan vertaling opnieuw."
 
 #~ msgid "Snapshot"
 #~ msgstr "Momentopname"

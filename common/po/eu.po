@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-06-14 14:59+0000\n"
 "Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
@@ -361,11 +361,6 @@ msgid ""
 msgstr ""
 "Ezin da SSH-ren gako pribatua desblokeatu. Okerreko pasahitza edo cron-"
 "entzat baliozkoa ez den pasahitza."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "{cipher} zifraketak huts egin du {host}rentzat."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -721,11 +716,6 @@ msgstr "Enkriptazio-trantsizioa (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "EncFS kentzeari buruzko mezua erakusten du berriro."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Itzulpenean parte hartzeari buruzko mezua erakusten du berriro."
 
 #: qt/app.py:589
 msgid "About"
@@ -2257,6 +2247,10 @@ msgstr "Azken kontrola {time}"
 #~ msgstr[0] "Seguru zaude babeskopia ezabatu nahi duzula?"
 #~ msgstr[1] "Seguru zaude babeskopiak ezabatu nahi dituzula?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "{cipher} zifraketak huts egin du {host}rentzat."
+
 #~ msgid "Cipher:"
 #~ msgstr "Zifratu:"
 
@@ -2292,6 +2286,10 @@ msgstr "Azken kontrola {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Bidalita"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Itzulpenean parte hartzeari buruzko mezua erakusten du berriro."
 
 #~ msgid "Snapshot"
 #~ msgstr "Babeskopia"

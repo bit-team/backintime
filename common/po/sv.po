@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-27 07:59+0000\n"
 "Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
@@ -357,11 +357,6 @@ msgid ""
 msgstr ""
 "Kunde inte låsa upp privat ssh-nyckel. Fel lösenord eller lösenordet är inte"
 " tillgängligt för cron."
-
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Chiffer {cipher} misslyckades för {host}."
 
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
@@ -718,11 +713,6 @@ msgstr "Övergång till kryptering (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Visar meddelandet om borttagningen av EncFS igen."
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "Visar meddelandet om att delta i översättningen igen."
 
 #: qt/app.py:589
 msgid "About"
@@ -2247,6 +2237,10 @@ msgstr "Senaste kontroll {time}"
 #~ msgstr[0] "Är du säker på att du vill ta bort denna ögonblicksavbild?"
 #~ msgstr[1] "Är du säker på att du vill ta bort de här ögonblicksavbilderna?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Chiffer {cipher} misslyckades för {host}."
+
 #~ msgid "Cipher:"
 #~ msgstr "Chiffer:"
 
@@ -2282,6 +2276,10 @@ msgstr "Senaste kontroll {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Skickat"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Visar meddelandet om att delta i översättningen igen."
 
 #~ msgid "Snapshot"
 #~ msgstr "Ögonblicksavbilder"

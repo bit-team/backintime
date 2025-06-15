@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:14+0200\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
 "PO-Revision-Date: 2025-05-23 11:50+0000\n"
 "Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
@@ -346,11 +346,6 @@ msgid ""
 "for cron."
 msgstr "無法解鎖 ssh 私鑰。 密碼錯誤或密碼不可用於 cron。"
 
-#: common/sshtools.py:566
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "{host} 的密碼 {cipher} 失敗。"
-
 #: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "遠端路徑存在但不是目錄。"
@@ -687,11 +682,6 @@ msgstr "加密轉換 (EncFS)"
 #: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "再次顯示有關 EncFS 刪除的訊息。"
-
-#: qt/app.py:587
-#, fuzzy
-msgid "Shows the message about deprecation of SSH cipher again."
-msgstr "再次顯示參與翻譯的訊息。"
 
 #: qt/app.py:589
 msgid "About"
@@ -2155,6 +2145,10 @@ msgstr "最後一次檢查{time}"
 #~ msgid_plural "Are you sure you want to remove these snapshots?"
 #~ msgstr[0] "確認要刪除快照?"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "{host} 的密碼 {cipher} 失敗。"
+
 #~ msgid "Cipher:"
 #~ msgstr "密碼:"
 
@@ -2186,6 +2180,10 @@ msgstr "最後一次檢查{time}"
 
 #~ msgid "Sent"
 #~ msgstr "傳送"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "再次顯示參與翻譯的訊息。"
 
 #~ msgid "Snapshot"
 #~ msgstr "快照"
