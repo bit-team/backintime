@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-29 17:51+0000\n"
+"PO-Revision-Date: 2025-06-09 11:28+0000\n"
 "Last-Translator: pablolucas890 <pablolucas890@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
@@ -97,7 +97,6 @@ msgid "Failed to write new crontab."
 msgstr "Falha ao escrever um novo crontab."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -107,8 +106,9 @@ msgid ""
 msgstr ""
 "Cron não está em execução, embora o comando crontab esteja disponível. Os "
 "backups agendados não serão executados. O cron pode estar instalado, mas não"
-" habilitado. Tente o comando 'systemctl enable cron' ou consulte os canais "
-"de suporte da sua distribuição GNU/Linux."
+" habilitado. Tente os dois comandos \"systemctl enable cron\" e \"systemctl "
+"start cron\", ou consulte os canais de suporte da distribuição GNU/Linux "
+"usada atualmente para assistência."
 
 #: common/config.py:1556
 #, python-brace-format
@@ -214,9 +214,8 @@ msgid "Deferring backup while on battery"
 msgstr "Backup adiado devido ao uso de bateria"
 
 #: common/snapshots.py:856 qt/app.py:366
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Não foi possível encontrar o diretório de snapshots."
+msgstr "Não foi possível encontrar o diretório de backups."
 
 #: common/snapshots.py:860
 #, fuzzy
@@ -224,16 +223,16 @@ msgid "If it is on a removable drive, please plug it in."
 msgstr "Se estiver em uma unidade removível, por favor, insira-o."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Aguardando %s segundo."
-msgstr[1] "Aguardando %s segundos."
+msgstr[0] "Aguardando {n} segundo."
+msgstr[1] "Aguardando {n} segundos."
 
 #: common/snapshots.py:928
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Falha ao criar o snapshot {snapshot_id}."
+msgstr "Falha ao criar o backup {snapshot_id}."
 
 #: common/snapshots.py:960
 msgid "Please be patient. Finalizing…"
@@ -252,16 +251,15 @@ msgid "Saving permissions…"
 msgstr "Salvando as permissões…"
 
 #: common/snapshots.py:1303
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Foi encontrado o snapshot remanescente {snapshot_id} que pode ser "
-"continuado."
+"Foi encontrado o backup incompleto {snapshot_id} que pode ser continuado."
 
 #: common/snapshots.py:1327
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "Removendo o diretório {snapshot_id} remanescente da última execução"
+msgstr "Removendo o diretório {snapshot_id} incompleto da última execução"
 
 #: common/snapshots.py:1338
 msgid "Can't remove directory"
@@ -302,9 +300,8 @@ msgstr ""
 "'man kill'"
 
 #: common/snapshots.py:1492
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Nada mudou, nenhum novo snapshot é necessário"
+msgstr "Nada mudou, nenhum novo backup é necessário"
 
 #: common/snapshots.py:1536
 #, python-brace-format
@@ -316,9 +313,8 @@ msgid "Smart removal"
 msgstr "Remoção Inteligente"
 
 #: common/snapshots.py:1901
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Aplicar regras para remover snapshots antigos"
+msgstr "Aplicar regras para remover os backups antigos"
 
 #: common/snapshots.py:1934
 msgid "Apply retention policy"
@@ -471,9 +467,8 @@ msgid "File creation failed in this directory:"
 msgstr "A criação de arquivo falhou neste diretório:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Sobre o Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
@@ -534,9 +529,8 @@ msgstr ""
 " online)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
@@ -548,13 +542,12 @@ msgid "Shortcuts"
 msgstr "Atalhos"
 
 #: qt/app.py:195
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
 "Esse diretório não existe\n"
-"no atual snapshot selecionado."
+"no backup atual selecionado."
 
 #: qt/app.py:260
 msgid "Add to Include"
@@ -2101,7 +2094,7 @@ msgstr "Mostrar Log Completo"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Contagem regressiva para o desligamento"
 
 #: qt/shutdowndlg.py:28
 #, fuzzy
@@ -2122,8 +2115,8 @@ msgstr "Desligar"
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O sistema irá desligar em {n} segundo."
+msgstr[1] "O sistema irá desligar em {n} segundos."
 
 #: qt/snapshotsdialog.py:58
 #, fuzzy

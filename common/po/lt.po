@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-11 01:30+0000\n"
+"PO-Revision-Date: 2025-05-29 14:06+0000\n"
 "Last-Translator: Mooo <mooo@noreply.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
 "Language: lt\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
@@ -72,13 +72,13 @@ msgid "Profile: \"{name}\""
 msgstr "Profilis: „{name}“"
 
 #: common/config.py:324
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Momentinių kopijų aplankas negalioja!"
+msgstr "Atsarginės kopijos katalogas yra netinkamas."
 
 #: common/config.py:336
 msgid "At least one directory must be selected for backup."
 msgstr ""
+"Privalo būti pasirinktas bent vienas atsarginei kopijai skirtas katalogas."
 
 #: common/config.py:354 common/config.py:369
 #, python-brace-format
@@ -90,6 +90,8 @@ msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
+"Šis katalogas negali būti įtrauktas į atsarginę kopiją, nes jis yra "
+"atsarginės kopijos paskirties dalis."
 
 #: common/config.py:1466
 #, fuzzy
@@ -106,13 +108,13 @@ msgid ""
 msgstr ""
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
-"Nepavyko įdiegti Udev taisyklės profiliui {profile_id}.DBus "
-"Service'{dbus_interface}', buvo nepasiekiamas"
+"Nepavyko įdiegti Udev taisyklės, skirtos profiliui {profile_id}. DBus "
+"tarnyba „{dbus_interface}“ buvo neprieinama."
 
 #: common/config.py:1571
 #, fuzzy, python-brace-format
@@ -120,9 +122,9 @@ msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Suplanuoti udev neveikia naudojant režimą {mode}"
 
 #: common/config.py:1582
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Nepavyko rasti UUID adresui \"{path}\""
+msgstr "Nepavyko rasti UUID keliui „{path}“"
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -142,14 +144,13 @@ msgid "The last profile cannot be removed."
 msgstr "Paskutinis profilis negali būti pašalintas."
 
 #: common/encfstools.py:81
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount '{command}'"
-msgstr "Neįmanoma įrengti '{command}'"
+msgstr "Nepavyko prijungti „{command}“"
 
 #: common/encfstools.py:131
-#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "Konfiguracija užšifruotam aplankui nerasta."
+msgstr "Nerasta šifruoto katalogo konfigūracija."
 
 #: common/encfstools.py:139
 msgid "Create a new encrypted directory?"
@@ -160,9 +161,8 @@ msgid "Cancel"
 msgstr "Atsisakyti"
 
 #: common/encfstools.py:152
-#, fuzzy
 msgid "Please confirm the password."
-msgstr "Patvirtinkite slaptažodį."
+msgstr "Pakartokite slaptažodį."
 
 #: common/encfstools.py:158
 msgid "Password doesn't match."
@@ -180,7 +180,7 @@ msgstr ""
 #: common/mount.py:709
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-msgstr ""
+msgstr "Komanda {command} nerasta. Įdiekite ją (pvz., per „{installcommand}“)"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -216,19 +216,16 @@ msgid "Can't find backup directory."
 msgstr "Nepavyksta surasti atsarginės kopijos katalogo."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr ""
-"Nepavyko rasti momentinių nuotraukų aplanko.\n"
-"Jei jis yra keičiamame diske, prijunkite jį ir paspauskite OK."
+msgstr "Jeigu jis yra keičiamajame diske, tada prijunkite jį."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Laukiama %s sekundę."
-msgstr[1] "Laukiama %s sekundes."
-msgstr[2] "Laukiama %s sekundžių."
+msgstr[0] "Laukiama {n} sekundę."
+msgstr[1] "Laukiama {n} sekundes."
+msgstr[2] "Laukiama {n} sekundžių."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -252,14 +249,15 @@ msgid "Saving permissions…"
 msgstr "Įrašomi leidimai…"
 
 #: common/snapshots.py:1303
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "Rastas likęs {snapshot_id}, kurį galima tęsti."
+msgstr ""
+"Rasta neužbaigta atsarginė kopija {snapshot_id}, kuri gali būti pratęsta."
 
 #: common/snapshots.py:1327
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "Šalinamas atlikęs {snapshot_id} aplankas iš praeitos operacijos"
+msgstr "Šalinamas neužbaigtas {snapshot_id} katalogas iš praeito paleidimo"
 
 #: common/snapshots.py:1338
 msgid "Can't remove directory"
@@ -288,7 +286,7 @@ msgstr ""
 
 #: common/snapshots.py:1464
 msgid "See 'man rsync' for more details"
-msgstr ""
+msgstr "Išsamesnei informacijai žiūrėkite „man rsync“"
 
 #: common/snapshots.py:1471
 msgid ""
@@ -296,9 +294,8 @@ msgid ""
 msgstr ""
 
 #: common/snapshots.py:1492
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Niekas nepakito, įrašyti naujos momentinės kopijos neprivaloma"
+msgstr "Niekas nepakito, nėra reikalo daryti naują atsarginę kopiją"
 
 #: common/snapshots.py:1536
 #, python-brace-format
@@ -339,7 +336,7 @@ msgstr "Nepavyksta prijungti {sshfs}"
 
 #: common/sshtools.py:300
 msgid "ssh-agent not found. Please ensure it is installed."
-msgstr ""
+msgstr "Nerasta jokio ssh-agent. Įsitikinkite, kad jis įdiegtas."
 
 #: common/sshtools.py:470
 msgid ""
@@ -375,7 +372,7 @@ msgstr ""
 
 #: common/sshtools.py:1012 common/sshtools.py:1021
 msgid "Look at 'man backintime' for further instructions"
-msgstr ""
+msgstr "Tolimesniems nurodymams žiūrėkite „man backintime“"
 
 #: common/sshtools.py:1016
 #, python-brace-format
@@ -400,13 +397,13 @@ msgid "Please enter a password for \"{user}\"."
 msgstr "Įveskite naudotojo „{user}“ slaptažodį."
 
 #: common/tools.py:401
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Paskirties failų sistema, skirta {path}, suformatuota naudojant FAT, kuri "
-"nepalaiko kietųjų nuorodų. Prašome naudoti savąją Linux failų sistemą."
+"{path} paskirties failų sistema yra suformatuota naudojant NTFS tipą, kuris "
+"turi žinomų nesuderinamumų su Unix stiliaus failų sistemomis."
 
 #: common/tools.py:433
 #, python-brace-format
@@ -415,31 +412,31 @@ msgstr "{path} nėra tinkamas katalogas."
 
 #: common/tools.py:447
 msgid "Creation of following directory failed:"
-msgstr ""
+msgstr "Nepavyko sukurti šio katalogo:"
 
 #: common/tools.py:449 common/tools.py:545
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Gali būti, kad yra apribota rašymo prieiga."
 
 #: common/tools.py:489
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"Paskirties failų sistema, skirta {path}, suformatuota naudojant FAT, kuri "
-"nepalaiko kietųjų nuorodų. Prašome naudoti savąją Linux failų sistemą."
+"{path} paskirties failų sistema yra suformatuota naudojant FAT tipą, kuris "
+"nepalaiko įkoduotų saitų. Naudokite savąją GNU/Linux failų sistemą."
 
 #: common/tools.py:500
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"Paskirties{path} failų sistema yra SMB resursas. Įsitikinkite, kad SMB "
-"serveris palaiko simbolines sąsajas, arba {expertOptions} įjunkite "
-"{copyLinks}."
+"{path} paskirties failų sistema yra viešinys, prijungtas per SMB. "
+"Įsitikinkite, kad nuotolinis SMB serveris palaiko simbolines nuorodas arba "
+"perėję į „{expertOptions}“ aktyvinkite „{copyLinks}“."
 
 #: common/tools.py:504 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
@@ -450,17 +447,17 @@ msgid "Expert Options"
 msgstr "Parinktys ekspertams"
 
 #: common/tools.py:509
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"Paskirties failų sistema, skirta {path}, yra sshfs prijungta dalis. sshfs "
-"nepalaiko kietųjų nuorodų. Vietoj to naudokite režimą „SSH“."
+"{path} paskirties failų sistema yra viešinys, prijungtas per sshfs. Sshfs "
+"nepalaiko įkoduotų saitų. Vietoj to, naudokite „SSH“ veikseną."
 
 #: common/tools.py:543
 msgid "File creation failed in this directory:"
-msgstr ""
+msgstr "Nepavyko sukurti failo šiame kataloge:"
 
 #: qt/aboutdlg.py:49
 msgid "About Back In Time"
@@ -514,6 +511,8 @@ msgstr "Naudotojo vadovas"
 #: qt/aboutdlg.py:242 qt/app.py:534
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
+"Atverti naudotojo vadovą naršyklėje (jei prieinama vietinį, o priešingu "
+"atveju internete)"
 
 #: qt/aboutdlg.py:272
 msgid "Back In Time"
@@ -530,13 +529,12 @@ msgid "Shortcuts"
 msgstr "Nuorodos"
 
 #: qt/app.py:195
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
-"Šis aplankas neegzistuoja\n"
-"pasirinktoje momentinėje kopijoje."
+"Šio katalogo nėra šiuo metu\n"
+"pasirinktoje atsarginėje kopijoje."
 
 #: qt/app.py:260
 #, fuzzy
@@ -554,12 +552,16 @@ msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
 "found."
 msgstr ""
+"Atrodo, kad {app_name} paleista pirmą kartą, nes nerasta jokios "
+"konfigūracijos."
 
 #: qt/app.py:339
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
+"Importuoti esamą konfigūraciją (iš atsarginės kopijos paskirties katalogo "
+"arba kito kompiuterio)?"
 
 #: qt/app.py:367
 #, fuzzy
@@ -602,6 +604,7 @@ msgid "Refresh backup list"
 msgstr "Įkelti iš naujo atsarginių kopijų sąrašą"
 
 #: qt/app.py:500
+#, fuzzy
 msgid "Name backup"
 msgstr "Atsarginės kopijos pavadinimas"
 
@@ -632,7 +635,7 @@ msgstr "Išjungti sistemą, kai atsarginės kopijos darymas bus užbaigtas."
 
 #: qt/app.py:524
 msgid "Setup language…"
-msgstr ""
+msgstr "Nustatyti kalbą…"
 
 #: qt/app.py:528
 msgid "Exit"
@@ -657,7 +660,7 @@ msgstr ""
 
 #: qt/app.py:553
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Atverti naršyklėje Back In Time internetinę svetainę"
 
 #: qt/app.py:555 qt/app.py:1497
 msgid "Changelog"
@@ -685,7 +688,7 @@ msgstr "Vertimas"
 
 #: qt/app.py:571
 msgid "Shows the message about participation in translation again."
-msgstr ""
+msgstr "Dar kartą parodo pranešimą apie dalyvavimą programos vertime."
 
 #: qt/app.py:575
 msgid "Encryption Transition (EncFS)"
@@ -705,36 +708,31 @@ msgid "Restore"
 msgstr "Atkurti"
 
 #: qt/app.py:584
-#, fuzzy
 msgid "Restore the selected files or directories to the original destination."
-msgstr ""
-"Atkurkite pasirinktus failus arba aplankus į pradinę paskirties vietą."
+msgstr "Atkurti pasirinktus failus ar katalogus į pradinę paskirties vietą."
 
 #: qt/app.py:587 qt/app.py:1669 qt/app.py:1701 qt/snapshotsdialog.py:175
-#, fuzzy
 msgid "Restore to …"
-msgstr "Atkurti į …"
+msgstr "Atkurti į…"
 
 #: qt/app.py:589
-#, fuzzy
 msgid "Restore the selected files or directories to a new destination."
-msgstr "Atkurkite pasirinktus failus arba aplankus į naują paskirties vietą."
+msgstr "Atkurti pasirinktus failus ar katalogus į naują paskirties vietą."
 
 #: qt/app.py:595
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr ""
-"Atkurkite pasirinktus failus arba aplankus į originalią paskirties vietą."
+"Atkurti šiuo metu rodomą katalogą ir visą jo turinį į pradinę paskirties "
+"vietą."
 
 #: qt/app.py:601
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr ""
-"Atkurkite šiuo metu rodomą aplanką ir visą jo turinį į naują paskirties "
+"Atkurti šiuo metu rodomą katalogą ir visą jo turinį į naują paskirties "
 "vietą."
 
 #: qt/app.py:604
@@ -746,17 +744,16 @@ msgid "Show hidden files"
 msgstr "Rodyti paslėptus failus"
 
 #: qt/app.py:610
-#, fuzzy
 msgid "Compare backups…"
-msgstr "Išsaugoti momentinę nuotrauką…"
+msgstr "Palyginti atsargines kopijas…"
 
 #: qt/app.py:640 qt/app.py:2181
 msgid "Release Candidate"
-msgstr ""
+msgstr "Kandidatinė versija"
 
 #: qt/app.py:643
 msgid "Shows the message about this Release Candidate again."
-msgstr ""
+msgstr "Dar kartą parodo pranešimą apie šią kandidatinę versiją."
 
 #: qt/app.py:679
 msgid "Back In &Time"
@@ -833,14 +830,12 @@ msgid "ETA:"
 msgstr ""
 
 #: qt/app.py:1254
-#, fuzzy
 msgid "Global"
-msgstr "Globalus"
+msgstr "Visuotiniai"
 
 #: qt/app.py:1255
-#, fuzzy
 msgid "Root"
-msgstr "Root"
+msgstr "Šaknis"
 
 #: qt/app.py:1256
 #, fuzzy
@@ -848,9 +843,8 @@ msgid "Home"
 msgstr "Pradžia"
 
 #: qt/app.py:1284
-#, fuzzy
 msgid "Backup directories"
-msgstr "Atsarginių kopijų aplankai"
+msgstr "Atsarginių kopijų katalogai"
 
 #: qt/app.py:1381
 msgid "Backup name"
@@ -882,20 +876,18 @@ msgstr ""
 "Jei jums jų nebereikia, galite juos pašalinti naudodami {cmd}"
 
 #: qt/app.py:1551
-#, fuzzy
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Atkurkite tik tuos failus, kurių nėra arba\n"
-"yra naujesnės nei paskirties vietos.\n"
-"Naudojant parinktį „rsync --update“."
+"Atkurti tik tuos elementus, kurių nėra arba\n"
+"kurie yra naujesni nei esantys paskirties vietoje.\n"
+"Naudojama „rsync --update“ parinktis."
 
 #: qt/app.py:1586
-#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "Pašalinkite naujesnius failus iš pradinio aplanko."
+msgstr "Pašalinti naujesnius elementus iš pradinio katalogo."
 
 #: qt/app.py:1589
 #, fuzzy
@@ -911,18 +903,11 @@ msgstr ""
 "Būkite labai atsargūs!!!"
 
 #: qt/app.py:1601
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] ""
-"Ar tikrai norite atkurti failus\n"
-"į naują aplanką {path}"
-msgstr[1] ""
-"Ar tikrai norite atkurti failus\n"
-"į naują aplanką {path}"
-msgstr[2] ""
-"Ar tikrai norite atkurti failus\n"
-"į naują aplanką {path}"
+msgstr[0] "Ar tikrai atkurti šį elementą į naują katalogą?"
+msgstr[1] "Ar tikrai atkurti šiuos elementus į naują katalogą?"
+msgstr[2] "Ar tikrai atkurti šiuos elementus į naują katalogą?"
 
 #: qt/app.py:1609
 msgid "Really restore this element?"
@@ -942,27 +927,27 @@ msgstr ""
 "Visi pradiniame kataloge esantys naujesni failai bus pašalinti. Tęsti?"
 
 #: qt/app.py:1637
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"ĮSPĖJIMAS: Failų, esančių failų sistemos šaknyje trynimas gali sugadinti "
-"jūsų visą operacinę sistemą!!!"
+"{BOLD}Įspėjimas{BOLDEND}: Failų sistemos šaknyje esančių failų ištrynimas "
+"gali sugadinti visą sistemą."
 
 #: qt/app.py:1886
 msgid "Backup"
-msgstr ""
+msgstr "Atsarginė kopija"
 
 #: qt/app.py:1925
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path}"
-msgstr "Atstatyti {path}"
+msgstr "Atkurti {path}"
 
 #: qt/app.py:1927
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Atstatyti {path} į …"
+msgstr "Atkurti {path} į…"
 
 #: qt/app.py:2071
 #, python-brace-format
@@ -975,11 +960,11 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 "Sveiki,\n"
-"Jau kelis kartus naudojotės „Back In Time“ {language} kalba.\n"
-"Jūsų įdiegtos „Back In Time“ versijos vertimas į {language} kalbą yra {perc} užbaigtas. Nepaisant jūsų įgūdžių lygio, galite prisidėti prie vertimo, taip talkindami „Back In Time“ projektui.\n"
+"Jau kelis kartus naudojotės Back In Time {language} kalba.\n"
+"Jūsų įdiegtos Back In Time versijos vertimas į {language} kalbą yra {perc} užbaigtas. Nepaisant jūsų įgūdžių lygio, galite prisidėti prie vertimo, taip talkindami Back In Time projektui.\n"
 "Jei norėtumėte prisidėti, apsilankykite {translation_platform_url}. Jeigu jums reikalinga pagalba ar turite klausimų, apsilankykite {back_in_time_project_website}.\n"
 "Atsiprašome už sutrukdymą, ši žinutė daugiau nebebus rodoma. Ši informacija pasiekiama bet kuriuo laiku pagalbos meniu.\n"
-"Jūsų „Back In Time“ komanda"
+"Jūsų Back In Time komanda"
 
 #: qt/app.py:2100
 msgid "translation platform"
@@ -990,37 +975,36 @@ msgid "Website"
 msgstr "Internetinė svetainė"
 
 #: qt/app.py:2119
-#, fuzzy
 msgid "Your translation"
-msgstr "Vertimai"
+msgstr "Jūsų vertimas"
 
 #: qt/app.py:2132
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr ""
+msgstr "Fediverse ties Mastodon: {link_and_label}."
 
 #: qt/app.py:2137
 #, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr ""
+msgstr "El. paštas {link_and_label}."
 
 #: qt/app.py:2140
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr ""
+msgstr "El. pašto grupė {link_and_label}."
 
 #: qt/app.py:2144
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} apsilankius projekto internetinėje svetainėje."
 
 #: qt/app.py:2147
 msgid "Open an issue"
-msgstr ""
+msgstr "Pateikti pranešimą apie klaidą"
 
 #: qt/app.py:2148
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "Arba savo nuožiūra galite naudoti kitą susisiekimo kanalą."
 
 #: qt/app.py:2153
 #, python-brace-format
@@ -1034,6 +1018,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Ši Back In Time versija yra kandidatinė versija ir, pirmiausia, yra skirta stabilumo testavimui ruošiant programą kitai oficialiai versijai.\n"
+"Nėra renkami jokie naudotojo duomenys ir jokia telemetrija. Vis dėlto, Back In Time komandą labai domina, ar kandidatinė versija yra naudojama ir, ar yra verta ir toliau pateikti tokias išankstines versijas.\n"
+"Štai kodėl komanda maloniai prašo trumpo atsiliepimo apie tai, ar testavote šią versiją, net jeigu nesusidūrėte su jokiomis problemomis. Netgi trumpas kelių minučių bandomasis paleidimas labai mums padėtų.\n"
+"Yra prieinami šie susisiekimo būdai:\n"
+"{contact_list}\n"
+"Šis pranešimas šioje versijoje daugiau nebebus rodomas, tačiau bet kuriuo metu gali būti pasiektas per pagalbos meniu.\n"
+"Dėkojame už jūsų palaikymą ir už tai, kad padedate mums tobulinti Back In Time!\n"
+"Jūsų Back In Time komanda"
 
 #: qt/app.py:2204
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1045,21 +1037,23 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"EncFS profilio kūrimas bus pašalintas kitoje mažesnėje laidoje (1.7), kurią "
+"planuojama išleisti 2026 metais."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
 msgid "It is not recommended to use that mode for a profile furthermore."
-msgstr ""
+msgstr "Daugiau neberekomenduojama naudoti tos veiksenos profiliams."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
 #: qt/manageprofiles/tab_general.py:598
 msgid "whitepaper"
-msgstr ""
+msgstr "dokumentą"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
 #: qt/manageprofiles/tab_general.py:591
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
-msgstr ""
+msgstr "EncFS palaikymas yra nutraukiamas dėl saugumo pažeidžiamumų."
 
 #: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:593
 #, python-brace-format
@@ -1067,16 +1061,20 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Išsamesnei informacijai, įskaitant galimas alternatyvas, skaitykite šį "
+"{whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
-msgstr ""
+msgstr "Šie profiliai naudoja EncFS šifravimą:"
 
 #: qt/encfsmsgbox.py:87
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Pakeitimas yra suplanuotas, bet negali būti garantuota, kad jis bus "
+"pristatytas laiku."
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
@@ -1084,12 +1082,16 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Naudotojai yra kviečiami prisijungti prie šios diskusijos. Atnaujintą "
+"informaciją apie kitus žingsnius galite sužinoti perskaitę šį {whitepaper}."
 
 #: qt/encfsmsgbox.py:92
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
 msgstr ""
+"Šis pranešimas daugiau nebebus rodomas. Šis dialogas bet kuriuo metu yra "
+"prieinamas pagalbos meniu."
 
 #: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
@@ -1097,7 +1099,7 @@ msgstr ""
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
-msgstr ""
+msgstr "Sąrankos kalba"
 
 #: qt/languagedialog.py:97
 msgid "System default"
@@ -1113,14 +1115,12 @@ msgid "Translated: {percent}"
 msgstr "Išversta: {percent}"
 
 #: qt/logviewdialog.py:59
-#, fuzzy
 msgid "Last Log View"
-msgstr "Paskutinio \"log\" vaizdas"
+msgstr "Paskutinio žurnalo rodinys"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Paskutinio \"log\" vaizdas"
+msgstr "Atsarginės kopijos žurnalo rodinys"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1226,9 +1226,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Išskirkite šablonus, failus ar aplankus"
 
 #: qt/manageprofiles/__init__.py:217
-#, fuzzy
 msgid "Add default"
-msgstr "Pridėti numatytąjį"
+msgstr "Pridėti numatytuosius"
 
 #: qt/manageprofiles/__init__.py:230
 msgid "Exclude files bigger than:"
@@ -1270,9 +1269,8 @@ msgid "Restore Config"
 msgstr "Atkurti konfigūraciją"
 
 #: qt/manageprofiles/__init__.py:283
-#, fuzzy
 msgid "Edit user-callback"
-msgstr "Redaguoti naudotojo-galinį iškvietimą"
+msgstr "Taisyti naudotojo atgalinę iškvietą"
 
 #: qt/manageprofiles/__init__.py:301
 msgid "New profile"
@@ -1292,11 +1290,13 @@ msgstr "Ištrinti profilį „{name}“?"
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
+"{BOLD}Primygtinai rekomenduojama{ENDBOLD}: (Visos rekomendacijos jau "
+"įtrauktos.)"
 
 #: qt/manageprofiles/__init__.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Labai patariama"
+msgstr "{BOLD}Primygtinai rekomenduojama{ENDBOLD}: {files}"
 
 #: qt/manageprofiles/__init__.py:608
 msgid "Exclude pattern"
@@ -1378,7 +1378,7 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
-"Pakartotinai paleiskite „Back In Time“. Tai naudinga, jei kompiuteriu "
+"Pakartotinai paleiskite Back In Time. Tai naudinga, jei kompiuteriu "
 "nesinaudojama reguliariai."
 
 #: qt/manageprofiles/schedulewidget.py:109
@@ -1456,14 +1456,12 @@ msgid "Every week"
 msgstr "Kas savaitę"
 
 #: qt/manageprofiles/schedulewidget.py:164
-#, fuzzy
 msgid "Every month"
 msgstr "Kas mėnesį"
 
 #: qt/manageprofiles/schedulewidget.py:165
-#, fuzzy
 msgid "Every year"
-msgstr "Kasmet"
+msgstr "Kas metus"
 
 #: qt/manageprofiles/schedulewidget.py:214
 #, fuzzy
@@ -1537,9 +1535,9 @@ msgstr ""
 #: qt/manageprofiles/tab_expert_options.py:47
 #: qt/manageprofiles/tab_expert_options.py:67
 #: qt/manageprofiles/tab_expert_options.py:92
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr "Paleiskite „rsync“ su „{cmd}“:"
+msgstr "Paleisti „rsync“ su „{cmd}“:"
 
 #: qt/manageprofiles/tab_expert_options.py:54
 #: qt/manageprofiles/tab_expert_options.py:73
@@ -1591,7 +1589,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:151
 msgid "KB/sec"
-msgstr "KB/sek."
+msgstr "KB/sek"
 
 #: qt/manageprofiles/tab_expert_options.py:156
 #, fuzzy
@@ -1623,9 +1621,8 @@ msgstr ""
 "{example}."
 
 #: qt/manageprofiles/tab_expert_options.py:301
-#, fuzzy
 msgid "Paste additional options to rsync"
-msgstr "Įklijuokite papildomas parinktis į rsync"
+msgstr "Įdėti papildomas parinktis, skirtas rsync"
 
 #: qt/manageprofiles/tab_expert_options.py:309
 msgid "Prefix to run before every command on remote host."
@@ -1646,14 +1643,12 @@ msgstr ""
 "%(default)s: %(def_value)s"
 
 #: qt/manageprofiles/tab_expert_options.py:318
-#, fuzzy
 msgid "default"
-msgstr "numatytasis"
+msgstr "pagal numatymą"
 
 #: qt/manageprofiles/tab_expert_options.py:324
-#, fuzzy
 msgid "Add prefix to SSH commands"
-msgstr "Pridėkite priešdėlį prie SSH komandų"
+msgstr "Pridėti SSH komandoms priešdėlį"
 
 #: qt/manageprofiles/tab_expert_options.py:334
 #, fuzzy
@@ -1723,22 +1718,20 @@ msgid "Private Key:"
 msgstr "Privatus raktas:"
 
 #: qt/manageprofiles/tab_general.py:153
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
 msgstr ""
-"Pasirinkite esamą privataus rakto failą (pagal nutylėjimą užvadintą "
-"\"id_rsa\")"
+"Pasirinkti esamą privataus rakto failą (įprastai, pavadinimu „id_ed25519“, o"
+" senesnėse sąrankose „id_rsa“)."
 
 #: qt/manageprofiles/tab_general.py:165
-#, fuzzy
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
 msgstr ""
-"Sukurti naują SSH raktą be slaptažodžio (negalima, jei privataus rakto "
-"failas jau pasirinktas)"
+"Sukurti naują SSH raktą be slaptažodžio (neleidžiama, jei privataus rakto "
+"failas jau pasirinktas)."
 
 #: qt/manageprofiles/tab_general.py:201 qt/manageprofiles/tab_general.py:208
 #: qt/manageprofiles/tab_general.py:212
@@ -1764,9 +1757,8 @@ msgid "Full backup path:"
 msgstr "Visas atsarginės kopijos kelias:"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "Privataus rakto failas \"{file}\" neegzistuoja."
+msgstr "Nebuvo pasirinktas privataus rakto failas, skirtas SSH."
 
 #: qt/manageprofiles/tab_general.py:396
 #, fuzzy
@@ -1809,18 +1801,17 @@ msgid "Really change the backup directory?"
 msgstr "Ar tikrai pakeisti atsarginės kopijos katalogą?"
 
 #: qt/manageprofiles/tab_general.py:664
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Nepavyko sukurti naujo SSH rakto {path}"
+msgstr "Nepavyko sukurti naujo SSH rakto ties {path}."
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
 msgstr "Įjungti pranešimus"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Išjunkite momentines kopijas, kai naudojate akumuliatorių"
+msgstr "Išjungti atsargines kopijas, kai naudojama akumuliatoriaus energija"
 
 #: qt/manageprofiles/tab_options.py:47
 #, fuzzy
@@ -1849,19 +1840,17 @@ msgid "Backup replaced files on restore"
 msgstr "Atkūrimo metu sukurkite pakeistų failų atsarginę kopiją"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Tęskite klaidas (išsaugokite neišsamias momentines kopijas)"
+msgstr "Tęsti, kai yra klaidų (palikti neužbaigtas atsargines kopijas)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
 msgstr "Pakeitimų aptikimui naudoti kontrolines sumas"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
 msgstr ""
-"Padarykite naują momentinę kopiją, nepaisant ar buvo pakeitimų, ar ne."
+"Sukurti naują atsarginę kopiją, nepaisant to, ar buvo pakeitimų, ar ne."
 
 #: qt/manageprofiles/tab_options.py:90
 msgid "Log Level:"
@@ -1878,10 +1867,13 @@ msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
+"Šios taisyklės yra apdorojamos nuo viršaus į apačią. Vėlesnės taisyklės "
+"nustelbia ankstesnes. Norėdami gauti daugiau informacijos ir pavyzdžių, "
+"žiūrėkite {manual}."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
-msgstr ""
+msgstr "naudotojo vadovą"
 
 #: qt/manageprofiles/tab_remove_retention.py:209
 msgid "Open user manual in browser."
@@ -1904,10 +1896,13 @@ msgid "Keep named backups."
 msgstr "Palikti atsargines kopijas, turinčias pavadinimus."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
+#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"Atsarginės kopijos, kurioms buvo suteiktas pavadinimas, kartu su įprastomis "
+"laiko žymomis, bus bet kokiomis sąlygomis iš"
 
 #: qt/manageprofiles/tab_remove_retention.py:259
 #, fuzzy
@@ -1915,9 +1910,8 @@ msgid "Year(s)"
 msgstr "Metai (-ų)"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
-msgstr "Pašalinti momentinę kopiją"
+msgstr "Šalinti atsargines kopijas, kurios senesnės nei"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Full days. Current day is ignored."
@@ -1929,7 +1923,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:275
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 mėnesių laikotarpiai. Dabartinio mėnesio yra nepaisoma."
 
 #: qt/manageprofiles/tab_remove_retention.py:290
 msgid "Retention policy"
@@ -1953,7 +1947,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:306
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Dienos skaičiuojamos, pradedant nuo šiandien."
 
 #: qt/manageprofiles/tab_remove_retention.py:307
 #, fuzzy
@@ -2006,6 +2000,8 @@ msgstr "Mėnesis(iai)."
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr ""
+"Metai yra skaičiuojami kaip kalendoriniai metai, pradedant dabartiniais "
+"metais."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
 #, fuzzy
@@ -2017,9 +2013,8 @@ msgid "all years."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:381
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "Jei laisvos vietos mažiau nei"
+msgstr "…laisvos vietos yra mažiau nei"
 
 #: qt/manageprofiles/tab_remove_retention.py:386
 #, fuzzy
@@ -2070,12 +2065,16 @@ msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
+"Pasirinkite atsarginės kopijos katalogą, iš kurio turėtų būti importuotas "
+"konfigūracijos failas. Kelias gali atrodyti taip: {samplePath}"
 
 #: qt/restoreconfigdialog.py:182
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
+"Jei katalogo vieta yra išoriniame ar nuotoliniame diske, jis privalo būti iš"
+" anksto prijungtas rankiniu būdu."
 
 #: qt/restoredialog.py:49
 msgid "Show full Log"
@@ -2083,7 +2082,7 @@ msgstr "Rodyti visą žurnalą"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Atvirkštinis skaičiavimas iki išjungimo"
 
 #: qt/shutdowndlg.py:28
 #, fuzzy
@@ -2091,22 +2090,20 @@ msgid "The backup has finished."
 msgstr "Išjungti sistemą, kai atsarginės kopijos darymas bus užbaigtas."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Išjungti"
+msgstr "Atsisakyti išjungimo"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Išjungti"
+msgstr "Išjungti dabar"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Sistema išsijungs po {n} sekundės."
+msgstr[1] "Sistema išsijungs po {n} sekundžių."
+msgstr[2] "Sistema išsijungs po {n} sekundžių."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"
@@ -2135,6 +2132,8 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
+"Šioje sistemoje nepavyko rasti „{cmd}“ komandos. Pabandykite kažką kito arba"
+" paspauskite „Atsisakyti“."
 
 #: qt/snapshotsdialog.py:105
 #, python-brace-format
@@ -2143,7 +2142,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:130 qt/timeline.py:45
 msgid "Backups"
-msgstr ""
+msgstr "Atsarginės kopijos"
 
 #: qt/snapshotsdialog.py:141
 #, fuzzy
@@ -2188,11 +2187,10 @@ msgstr ""
 "nereikalingas."
 
 #: qt/snapshotsdialog.py:427
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
-"Ar tikrai norite ištrinti \"{file}\" momentinėje nuotraukoje "
-"\"{snapshot_id}\"?"
+"Ar tikrai ištrinti {file_or_dir}, esantį atsarginėje kopijoje {backup_id}?"
 
 #: qt/snapshotsdialog.py:432
 #, fuzzy, python-brace-format

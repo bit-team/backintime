@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-06-14 14:59+0000\n"
+"Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profila: \"{name}\""
 
 #: common/config.py:324
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Babeskopien karpeta ez da baliozkoa."
+msgstr "Babeskopien direktorioa ez da baliozkoa."
 
 #: common/config.py:336
 msgid "At least one directory must be selected for backup."
@@ -98,7 +97,6 @@ msgid "Failed to write new crontab."
 msgstr "Huts egin du crontab berria idazten."
 
 #: common/config.py:1474
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -109,16 +107,17 @@ msgstr ""
 "Cron ez da exekutatzen crontab agindua eskuragarri egon arren. "
 "Programatutako babeskopia lanak ez dira exekutatuko. Baliteke Cron "
 "instalatuta egotea baina gaituta ez egotea. Saiatu \"systemctl enable cron\""
-" komandoa edo kontsultatu zure GNU Linux banaketaren laguntza kanalak."
+" eta \"systemctl start cron\" komandoak exekutatzen edo kontsultatu zure "
+"GNU/Linux banaketaren laguntza kanalak."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Ezin izan da Udev araua instalatu {profile_id} profilarentzat. "
-"'{dbus_interface}' DBus zerbitzua ez zegoen erabilgarri"
+"'{dbus_interface}' DBus zerbitzua ez zegoen erabilgarri."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -216,24 +215,22 @@ msgid "Deferring backup while on battery"
 msgstr "Atzeratu babeskopia bateriaz dabilen bitartean"
 
 #: common/snapshots.py:856 qt/app.py:366
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Ezin da aurkitu babeskopien karpeta."
+msgstr "Ezin da aurkitu babeskopien direktorioa."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Unitate eramangarri batean badago konekta ezazu."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Itxaroten segundo %s ."
-msgstr[1] "Itxaroten %s segundo."
+msgstr[0] "Segundo {n} itxaroten."
+msgstr[1] "{n} segundo itxaroten ."
 
 #: common/snapshots.py:928
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Huts egin du {snapshot_id} babeskopia egiten."
 
@@ -254,14 +251,15 @@ msgid "Saving permissions…"
 msgstr "Baimenak gordetzen…"
 
 #: common/snapshots.py:1303
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "'{snapshot_id}' jarraitu daitekeen soberakina aurkitu da."
+msgstr ""
+"'{snapshot_id}' jarraitu daitekeen osatu gabeko babeskopia aurkitu da."
 
 #: common/snapshots.py:1327
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "Azken exekuziotik '{snapshot_id}' karpeta soberakina kentzen"
+msgstr "Azken exekuziotik '{snapshot_id}' karpeta osatu gabea kentzen"
 
 #: common/snapshots.py:1338
 msgid "Can't remove directory"
@@ -269,7 +267,7 @@ msgstr "Ezin da karpeta ezabatu"
 
 #: common/snapshots.py:1392
 msgid "Creating backup"
-msgstr ""
+msgstr "Babeskopia sortzen"
 
 #: common/snapshots.py:1443
 msgid "Success"
@@ -302,7 +300,6 @@ msgstr ""
 "'man kill'"
 
 #: common/snapshots.py:1492
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ez dago aldaketarik. Ez da babeskopia berririk egin behar"
 
@@ -316,7 +313,6 @@ msgid "Smart removal"
 msgstr "Ezabatze adimenduna"
 
 #: common/snapshots.py:1901
-#, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Aplikatu babeskopia zaharrak ezabatzeko arauak"
 
@@ -470,23 +466,20 @@ msgid "File creation failed in this directory:"
 msgstr "Ezin izan da fitxategia sortu direktorio honetan:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time aplikazioari buruz"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Egile-eskubideak:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Egileak"
+msgstr "Egileak:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Itzulpenak"
+msgstr "Itzultzaileak:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -494,16 +487,16 @@ msgstr "Alexander Gabilondo <alexgabi@disroot.org>"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Itzultzailearen kredituak ez daude erabilgarri hizkuntza honetarako."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "esteka hau"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Jarraitu {thislink} hizkuntza guztien itzultzaile kredituak lortzeko."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -512,6 +505,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Proiektu honetan erabiltzen diren lizentzia guztiak {dir_link} direktorioan "
+"daude. Fitxategiaren lizentzia eta copyrightari buruzko informazioa SPDX "
+"metadatuak erabiliz ateratzeko, ikusi {readme_link}."
 
 #: qt/aboutdlg.py:236 qt/app.py:550
 msgid "Project website"
@@ -528,26 +524,24 @@ msgstr ""
 "badago bestela lineakoa)"
 
 #: qt/aboutdlg.py:272
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Bertsioa{BOLDEND}: {version}"
 
 #: qt/app.py:175
 msgid "Shortcuts"
 msgstr "Lasterbideak"
 
 #: qt/app.py:195
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
-"Karpeta hau ez da existitzen\n"
+"Direktorio hau ez da existitzen\n"
 "une honetan hautatutako babeskopian."
 
 #: qt/app.py:260
@@ -576,13 +570,12 @@ msgstr ""
 "ordenagailu batetik)?"
 
 #: qt/app.py:367
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in. Then press OK."
-msgstr "Unitate eramangarri batean badago konekta ezazu eta sakatu Ados."
+msgstr "Unitate eramangarri batean badago, konekta ezazu eta sakatu Ados."
 
 #: qt/app.py:473
 msgid "Create a backup"
-msgstr ""
+msgstr "Sortu babeskopia bat"
 
 #: qt/app.py:475
 msgid "Use modification time & size for file change detection."
@@ -590,7 +583,6 @@ msgstr ""
 "Erabili denbora eta tamaina aldaketak fitxategi-aldaketak hautemateko."
 
 #: qt/app.py:478
-#, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Egin babeskopia (kontrol baturarekin)"
 
@@ -599,38 +591,32 @@ msgid "Use checksums for file change detection."
 msgstr "Erabili kontrol-batura aldaketak detektatzeko."
 
 #: qt/app.py:483 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
 msgstr "Pausatu babeskopia prozesua"
 
 #: qt/app.py:488 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "Laburtu babeskopia prozesua"
+msgstr "Babeskopia prozesuaren txosten laburra egin"
 
 #: qt/app.py:492 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
 msgstr "Gelditu babeskopia prozesua"
 
 #: qt/app.py:496
-#, fuzzy
 msgid "Refresh backup list"
 msgstr "Freskatu babeskopien zerrenda"
 
 #: qt/app.py:500
 msgid "Name backup"
-msgstr ""
+msgstr "Izena eman babeskopiari"
 
 #: qt/app.py:504
-#, fuzzy
 msgid "Remove backup"
 msgstr "Kendu babeskopia"
 
 #: qt/app.py:508
-#, fuzzy
 msgid "View backup log"
-msgstr "Ikusi azken erregistroa"
+msgstr "Ikusi babeskopiaren erregistroa"
 
 #: qt/app.py:512
 msgid "View last log"
@@ -645,7 +631,6 @@ msgid "Shutdown"
 msgstr "Itzali"
 
 #: qt/app.py:522
-#, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Itzali sistema babeskopia bukatu ondoren."
 
@@ -762,7 +747,6 @@ msgid "Show hidden files"
 msgstr "Erakutsi ezkututko fitxategiak"
 
 #: qt/app.py:610
-#, fuzzy
 msgid "Compare backups…"
 msgstr "Konparatu babeskopiak…"
 
@@ -807,7 +791,6 @@ msgid "Text beside icon"
 msgstr "Testua ikonoen ondoan"
 
 #: qt/app.py:904
-#, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -817,7 +800,7 @@ msgstr ""
 
 #: qt/app.py:907
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Leihoa itxi edonola?"
 
 #: qt/app.py:1079
 msgid "Working:"
@@ -864,15 +847,14 @@ msgid "Backup directories"
 msgstr "Babeskopia direktorioak"
 
 #: qt/app.py:1381
-#, fuzzy
 msgid "Backup name"
-msgstr "&Babeskopia"
+msgstr "Babeskopiaren izena"
 
 #: qt/app.py:1429
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ezabatu babeskopia hau?"
+msgstr[1] "Ezabatu babeskopia hauek?"
 
 #: qt/app.py:1527
 #, python-brace-format
@@ -884,13 +866,13 @@ msgstr ""
 "fitxategi lokalak gainidatzi edo ezabatu aurretik."
 
 #: qt/app.py:1535 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"Fitxategien bertsio berriak berrizendatuko dira '{suffix}' kokapenarekin "
-"leheneratu baino lehen. Ez badituzu gehiago behar ezabatu ditzakezu honako "
+"Leheneratu baino lehen, fitxategien bertsio berriak berrizendatuko dira "
+"'{suffix}' gehituta. Ez badituzu gehiago behar ezabatu ditzakezu honako "
 "aginduarekin:"
 
 #: qt/app.py:1551
@@ -908,27 +890,26 @@ msgid "Remove newer elements in original directory."
 msgstr "Ezabatu jatorrizko karpetako fitxategirik berrienak."
 
 #: qt/app.py:1589
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
-"Leheneratu hautatutako fitxategiak edo karpetak jatorrizko kokalekura eta "
-"ezabatu babeskopian ez dauden fitxategi edo karpetak. Kontu handiz egin, "
-"honek babeskopia egitean baztertutako fitxategi eta karpetak ezabatuko ditu."
+"Leheneratu hautatutako fitxategiak edo direktorioak jatorrizko kokalekura "
+"eta ezabatu babeskopian ez dauden fitxategi edo direktorioak. Kontu handiz "
+"egin, honek babeskopia egitean baztertutako fitxategi eta karpetak ezabatuko"
+" ditu."
 
 #: qt/app.py:1601
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] "Seguru zaude elementu hau karpeta berrian leheneratu nahi duzula?"
+msgstr[0] ""
+"Seguru zaude elementu hau direktorio berrian leheneratu nahi duzula?"
 msgstr[1] ""
-"Seguru zaude fitxategi hauek karpeta berrian leheneratu nahi dituzula?"
+"Seguru zaude fitxategi hauek direktorio berrian leheneratu nahi dituzula?"
 
 #: qt/app.py:1609
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Ziur zaude fitxategi hau berreskuratu nahi duzula?"
@@ -937,25 +918,24 @@ msgstr[1] "Ziur zaude fitxategi horiek berreskuratu nahi dituzula?"
 #: qt/app.py:1628
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "{path}-eko fitxategi guztiak ezabatuko dira. Ekin?"
 
 #: qt/app.py:1631
 msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
+msgstr "Jatorrizko direktorioko fitxategi berri guztiak ezabatuko dira. Ekin?"
 
 #: qt/app.py:1637
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"{BOLD}KONTUZ{BOLDEND}: fitxategi-sistemaren erroko fitxategiak ezabatzeak "
+"{BOLD}Kontuz{BOLDEND}: fitxategi-sistemaren erroko fitxategiak ezabatzeak "
 "sistema osoa hondatu dezake."
 
 #: qt/app.py:1886
-#, fuzzy
 msgid "Backup"
-msgstr "&Babeskopia"
+msgstr "Babeskopia"
 
 #: qt/app.py:1925
 #, python-brace-format
@@ -997,9 +977,9 @@ msgid "Your translation"
 msgstr "Zure Itzulpena"
 
 #: qt/app.py:2132
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "Fedibertsoko Mastodonen: {link_and_label}"
+msgstr "Fedibertsoko Mastodonen: {link_and_label}."
 
 #: qt/app.py:2137
 #, python-brace-format
@@ -1007,9 +987,9 @@ msgid "Email to {link_and_label}."
 msgstr "Mezu elektronikoa {link_and_label} helbidera."
 
 #: qt/app.py:2140
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Posta-zerrenda {link_and_label}"
+msgstr "Posta-zerrenda {link_and_label}."
 
 #: qt/app.py:2144
 #, python-brace-format
@@ -1125,9 +1105,8 @@ msgid "System default"
 msgstr "Sistemak lehenetsia"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
-msgstr "Erabili sistema eragileen hizkuntza."
+msgstr "Erabili sistema eragilearen hizkuntza."
 
 #: qt/languagedialog.py:161
 #, python-brace-format
@@ -1139,9 +1118,8 @@ msgid "Last Log View"
 msgstr "Azken erregistroaren ikuspegia"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Azken erregistroaren ikuspegia"
+msgstr "Babeskopiaren erregistroaren ikuspegia"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
 #: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
@@ -1149,9 +1127,8 @@ msgid "Profile:"
 msgstr "Profila:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Babeskopia"
+msgstr "Babeskopiak:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
@@ -1261,16 +1238,15 @@ msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Utzi kanpoan {size_unit} baino handiagoak diren fitxategiak."
 
 #: qt/manageprofiles/__init__.py:236
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"'rsync osoko modua' desgaituta badago horrek fitxategi berriei soilik "
+"'rsync osoko modua' desgaituta badago, horrek fitxategi berriei soilik "
 "eragingo die zeren eta rsync-entzat hori transferentzia aukera bat da, ez "
-"baztertze aukera bat. Beraz babeskopia lehendik egina zituzten fitxategi "
+"baztertze aukera bat. Beraz, babeskopia lehendik egina zituzten fitxategi "
 "handiak mantenduko dira irudian nahiz eta aldaketak jasan."
 
 #: qt/manageprofiles/__init__.py:266
@@ -1302,7 +1278,7 @@ msgid "Rename profile"
 msgstr "Berrizendatu profila"
 
 #: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Seguru zaude \"{name}\" profila ezabatu nahi duzula?"
 
@@ -1335,17 +1311,17 @@ msgid "Include file"
 msgstr "Sartu fitxategia"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" esteka sinboliko bat da. Estekatutako objektuaren babeskopia ez da egingo are eta bera ere gehitu arte.\n"
-"Nahi duzu gehitu esteka sinbolikoen helburu-objektuak?"
+"\"{path}\" esteka sinboliko bat da. Estekatutako objektuaren babeskopia ez "
+"da egingo are eta bera ere gehitu arte."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Sartu symlink-en helburua horren ordez?"
 
 #: qt/manageprofiles/__init__.py:683
 msgid "Include directory"
@@ -1387,7 +1363,6 @@ msgid "Minutes:"
 msgstr "Minutuak:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
@@ -1436,11 +1411,11 @@ msgstr "Abiatze/berrabiaratze guztietan"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "minutu {n}etik behin"
-msgstr[1] "{n} minututik behin"
+msgstr[0] "minutuero"
+msgstr[1] "{n} minutuan behin"
 
 #: qt/manageprofiles/schedulewidget.py:150
 #: qt/manageprofiles/schedulewidget.py:152
@@ -1566,7 +1541,6 @@ msgid "on remote host"
 msgstr "urrutiko ostalarian"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
 msgstr "eskuzko babeskopia egitean"
 
@@ -1700,7 +1674,6 @@ msgid "Mode:"
 msgstr "Modua:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
 msgstr "Non gorde babeskopiak"
 
@@ -1756,17 +1729,14 @@ msgid "Advanced"
 msgstr "Aurreratua"
 
 #: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
 msgid "Full backup path:"
-msgstr "Babeskopiaren bide osoa:"
+msgstr "Babeskopien bide osoa:"
 
 #: qt/manageprofiles/tab_general.py:395
-#, fuzzy
 msgid "A private key file for SSH was not chosen."
-msgstr "\"{file}\" gako pribatuko fitxategirik ez dago."
+msgstr "SSHrako gako fitxategi pribaturik ez da aukeratu."
 
 #: qt/manageprofiles/tab_general.py:396
-#, fuzzy
 msgid "Should a new password-less public/private key pair be generated?"
 msgstr "Nahi al duzu pasahitzik gabeko gako publiko/pribatu parea sortzea?"
 
@@ -1776,7 +1746,6 @@ msgid "Private key file \"{file}\" does not exist."
 msgstr "\"{file}\" gako pribatuko fitxategirik ez dago."
 
 #: qt/manageprofiles/tab_general.py:492
-#, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
 "Nahi al duzu kopiatzea zure SSH gako publikoa urrutiko ostalarira pasahitzik"
@@ -1793,16 +1762,14 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} gakoaren hatz-marka hau da:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
-"Egiaztatu hatz-marka! Nahi al duzu bera gehitzea zure 'known_hosts' "
+"Egiaztatu hatz-marka. Nahi al duzu bera gehitzea zure 'known_hosts' "
 "fitxategira?"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Karpeta zifratu berri bat sortu?"
+msgstr "Benetan nahi duzu babeskopien direktorioa aldatu?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1814,7 +1781,6 @@ msgid "Enable notifications"
 msgstr "Gaitu notifikazioak"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
 msgstr "Ezgaitu babeskopiak egitea bateriaz funtzionatzean"
 
@@ -1823,36 +1789,32 @@ msgid "Power status not available from system"
 msgstr "Energia egoera ez dago eskurtagarri sistemarentzat"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
 msgstr "Egin babeskopia bat aldiko"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Beste babeskopiak blokeatuko dira oraingo babeskopia egiten den bitartean. "
-"Hau aukera globala da, beraz, erabiltzaile honen profil guztiei eragiten "
-"die. Baina beste erabiltzaileentzat aktibatu behar da ere."
+"Beste babeskopiak blokeatuko dira uneko babeskopia osatu arte. Hau aukera "
+"globala da, beraz, erabiltzaile honen profil guztiei eragiten die. Baina "
+"beste erabiltzaileentzat aktibatu behar da ere."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
 msgstr "Egin berreskurapenean ordeztutako fitxategien babeskopia"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Jarraitu erroreak egon arren (mantendu babeskopia osatu gabea)"
+msgstr "Jarraitu erroreak egon arren (mantendu babeskopia osatu gabeak)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
 msgstr "Erabili kontrol-batura aldaketak detektatzeko"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
 msgstr "Egin babeskopia berria aldaketarik izan ote den kontuan izan gabe."
 
@@ -1865,14 +1827,13 @@ msgid "None"
 msgstr "Ezer Ez"
 
 #: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
 "Hurrengo arauak goitik behera prozesatzen dira. Azken arauek aurrekoak "
-"gainidazten dituzte eta ez dira haiek mugatuta. Ikusi {manual} -eko "
-"xehetasunak eta adibideak."
+"gainidazten dituzte. Ikusi {manual} -eko xehetasunak eta adibideak."
 
 #: qt/manageprofiles/tab_remove_retention.py:196
 msgid "user manual"
@@ -1883,40 +1844,35 @@ msgid "Open user manual in browser."
 msgstr "Ireki erabiltzailearen eskuliburua nabigatzailean."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
 msgid "Keep the most recent backup."
 msgstr "Mantendu duela gutxiko babeskopiak."
 
 #: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
-"Azken irudia, freskoena alegia, zirkunstantzia guztietan mantentzen da."
+"Azken babeskopia, freskoena alegia, zirkunstantzia guztietan mantentzen da."
 
 #: qt/manageprofiles/tab_remove_retention.py:229
 msgid "That behavior cannot be changed."
 msgstr "Portaera hori ezin da aldatu."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "Keep named backups."
 msgstr "Mantendu izena duten babeskopiak."
 
 #: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Ohiko denbora-zigiluaz gain, izena eman zaien babeskopia-irudiak ez dira "
-"ezabatuko."
+"Ohiko denbora-zigiluaz gain, izena eman zaien babeskopiak mantenduko dira "
+"edozein zirkunstantzian eta ez dira ezabatuko."
 
 #: qt/manageprofiles/tab_remove_retention.py:259
 msgid "Year(s)"
 msgstr "urtez"
 
 #: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
 msgid "Remove backups older than"
 msgstr "Kendu hau baino zaharragoak diren babeskopiak"
 
@@ -1961,7 +1917,6 @@ msgid "The days are counted starting from today."
 msgstr "Egunak gaur hasita kontatzen dira."
 
 #: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
 msgid "Keep all backups for the last"
 msgstr "Mantendu babeskopia guztiak"
 
@@ -1971,9 +1926,8 @@ msgid "day(s)."
 msgstr "eguna(k)."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "Mantendu eguneko babeskopia bana azkeneko"
+msgstr "Mantendu eguneko babeskopia bana"
 
 #: qt/manageprofiles/tab_remove_retention.py:329
 msgid ""
@@ -1983,9 +1937,8 @@ msgstr ""
 "Asteak kontatzen dira uneko astean hasita. Astea astelehenean hasten da."
 
 #: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "Mantendu asteko babeskopia bana azkeneko"
+msgstr "Mantendu asteko babeskopia bana"
 
 #: qt/manageprofiles/tab_remove_retention.py:337
 msgid "week(s)."
@@ -1998,9 +1951,8 @@ msgstr ""
 "Hilabeteak egutegiko hilabete gisa kontatzen dira, uneko hilabetean hasita."
 
 #: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
-msgstr "Mantendu hilabeteko babeskopia bana azkeneko"
+msgstr "Mantendu hilabeteko babeskopia bana"
 
 #: qt/manageprofiles/tab_remove_retention.py:350
 msgid "month(s)."
@@ -2012,26 +1964,22 @@ msgid ""
 msgstr "Urteak egutegiko urte gisa kontatzen dira uneko urtean hasita."
 
 #: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Mantendu urteko babeskopia bana azkeneko"
+msgstr "Mantendu urteko babeskopia bana"
 
 #: qt/manageprofiles/tab_remove_retention.py:359
 msgid "all years."
 msgstr "urte guztiak."
 
 #: qt/manageprofiles/tab_remove_retention.py:381
-#, fuzzy
 msgid "… the free space is less than"
-msgstr "toki librea hau baino txikiagoa bada:"
+msgstr "...toki librea hau baino txikiagoa bada"
 
 #: qt/manageprofiles/tab_remove_retention.py:386
-#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "... nodo libreak hauek baino gutxiago badira:"
+msgstr "... nodo libreak hauek baino gutxiago badira"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
 msgid "Remove oldest backup if …"
 msgstr "Babeskopia zaharrenak ezabatu baldin eta …"
 
@@ -2070,13 +2018,13 @@ msgid "Import"
 msgstr "Inportatu"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 "Hautatu konfigurazio fitxategia inportatu behar den babeskopien direktorioa."
-" Bidea honelakoa izan daiteke: {samplePath}"
+" Bidea honelako itxura izan behar du: {samplePath}"
 
 #: qt/restoreconfigdialog.py:182
 msgid ""
@@ -2092,32 +2040,28 @@ msgstr "Erakutsi erregistro osoa"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Itzaltzeko atzera-kontua"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Itzali sistema babeskopia bukatu ondoren."
+msgstr "Babeskopia osatu da."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Itzali"
+msgstr "Utzi itzalketa"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Itzali"
+msgstr "Itzali orain"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sistema segundo {n} barru itzaliko da."
+msgstr[1] "Sistema {n} segundo barru itzaliko da."
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Options about comparing backups"
 msgstr "Irudiak alderatzeko aukerak"
 
@@ -2154,17 +2098,14 @@ msgstr ""
 "erabiltzen."
 
 #: qt/snapshotsdialog.py:130 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Babeskopia"
+msgstr "Babeskopiak"
 
 #: qt/snapshotsdialog.py:141
-#, fuzzy
 msgid "Differing backups only"
 msgstr "Babeskopia desberdinak soilik"
 
 #: qt/snapshotsdialog.py:150
-#, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Zerrendatu bakarrik berdinak diren babeskopiak hona:"
 
@@ -2197,26 +2138,26 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Ezin da babeskopia bat bere buruarekin alderatu, konparazioa erredundantea "
+"izango litzatekeelako."
 
 #: qt/snapshotsdialog.py:427
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
-"Ziur zaude \"{snapshot_id}\" babeskopiako \"{file}\" fitxategia ezabatu nahi"
-" duzula?"
+"Ziur zaude {backup_id} babeskopiako {file_or_dir} ezabatu nahi duzula?"
 
 #: qt/snapshotsdialog.py:432
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr ""
-"Ziur zaude {count} babeskopiako \"{file}\" fitxategia ezabatu nahi duzula?"
+msgstr "Ziur zaude {count} babeskopiako \"{file_or_dir}\" ezabatu nahi duzula?"
 
 #: qt/snapshotsdialog.py:435
 msgid "WARNING: This cannot be revoked."
 msgstr "KONTUZ: Honek ez dauka atzera bueltarik."
 
 #: qt/snapshotsdialog.py:453
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Baztertu {path} hurrengo babeskopietan?"
 
@@ -2237,9 +2178,8 @@ msgid "Last week"
 msgstr "Joan den astean"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "Hau EZ da babeskopia bat zure fitxategi lokalen ikuspegia baizik"
+msgstr "Hau EZ da babeskopia bat zure fitxategi lokalen ikuspegia baizik."
 
 #: qt/timeline.py:275
 #, python-brace-format

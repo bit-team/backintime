@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-12 14:10+0000\n"
+"PO-Revision-Date: 2025-05-04 23:53+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -219,17 +219,16 @@ msgid "Can't find backup directory."
 msgstr "Не вдається знайти каталог резервних копій."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Якщо він знаходиться на знімному диску, підключіть диск."
+msgstr "Якщо він знаходиться на знімному диску, будь ласка, підключіть диск."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Очікування %s секунда."
-msgstr[1] "Очікування %s секунди."
-msgstr[2] "Очікування %s секунд."
+msgstr[0] "Очікування {n} секунда."
+msgstr[1] "Очікування {n} секунди."
+msgstr[2] "Очікування {n} секунд."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -2024,30 +2023,27 @@ msgstr "Показати повний журнал"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Відлік до вимкнення"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Вимкнути систему після завершення резервування."
+msgstr "Резервування завершено."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Вимкнення"
+msgstr "Скасувати вимкнення"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Вимкнення"
+msgstr "Вимкнути зараз"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Система завершить роботу через {n} секунду."
+msgstr[1] "Система завершить роботу через {n} секунди."
+msgstr[2] "Система завершить роботу через {n} секунд."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"

@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-15 00:47+0000\n"
-"Last-Translator: sybahd <sybahd@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-05-09 04:41+0000\n"
+"Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -214,15 +214,14 @@ msgid "Can't find backup directory."
 msgstr "バックアップフォルダが見つかりません。"
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "もしリムーバブルドライブ上にあるのなら、それを接続してからOKを押してください。"
+msgstr "もしリムーバブルドライブ上にあるのなら、それを接続してください。"
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "%s 秒待機中。"
+msgstr[0] "{n} 秒待機中。"
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -837,12 +836,12 @@ msgstr ""
 "末尾に {suffix} を付けたバックアップコピーを作成する。"
 
 #: qt/app.py:1535 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"復元をする際に、より新しいファイルがある場合は拡張子 {suffix} がファイル名に付与されます。もし不要の場合は以下のコマンドで削除してください :"
+"復元をする際に、より新しいファイルがある場合は拡張子 {suffix} がファイル名に付与されます。もし不要の場合は次のコマンドで削除してください :"
 
 #: qt/app.py:1551
 msgid ""
@@ -869,10 +868,9 @@ msgstr ""
 " 削除されるので、十分注意してください。"
 
 #: qt/app.py:1601
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] "本当に新しいディレクトリに復元しますか？"
+msgstr[0] "本当にこれらを新しいディレクトリに復元しますか？"
 
 #: qt/app.py:1609
 msgid "Really restore this element?"
@@ -1186,7 +1184,6 @@ msgid "Exclude files bigger than value in {size_unit}."
 msgstr "({size_unit}単位で)この値よりも大きいファイルは除外する。"
 
 #: qt/manageprofiles/__init__.py:236
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1306,11 +1303,10 @@ msgid "Minutes:"
 msgstr "分:"
 
 #: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
-msgstr "ドライブが接続されたら Back In Time を実行 (ただし X日に一回)。 sudo のパスワードを求められます。"
+msgstr "ドライブが接続されたら Back In Time を実行 (ただし X日に一回)。 sudo のパスワードプロンプトが表示されるでしょう。"
 
 #: qt/manageprofiles/schedulewidget.py:97
 msgid ""
@@ -1347,10 +1343,10 @@ msgstr "起動/再起動毎に"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "{n} 分毎"
+msgstr[0] "毎{n}分ごと"
 
 #: qt/manageprofiles/schedulewidget.py:150
 #: qt/manageprofiles/schedulewidget.py:152
@@ -1612,11 +1608,10 @@ msgid "Private Key:"
 msgstr "秘密鍵:"
 
 #: qt/manageprofiles/tab_general.py:153
-#, fuzzy
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
-msgstr "すでにある秘密鍵を使用する (通常 「id_rsa」というファイル名)。"
+msgstr "すでにある秘密鍵を使用する (通常 「id_ed25519」等の名前です、旧版では「id_rsa」というファイル名の場合もあります)。"
 
 #: qt/manageprofiles/tab_general.py:165
 msgid ""
@@ -1934,28 +1929,25 @@ msgstr "すべてのログを見る"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "シャットダウンまでのカウントダウン"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "バックアップの作成終了後に電源を切る。"
+msgstr "バックアップは完了しました。"
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "電源を切る"
+msgstr "シャットダウンをキャンセルする"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "電源を切る"
+msgstr "いますぐシャットダウンする"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
+msgstr[0] "{n} 秒後にシステムはシャットダウンします。"
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"

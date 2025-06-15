@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-11 12:32+0000\n"
+"PO-Revision-Date: 2025-04-30 12:13+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -219,17 +219,16 @@ msgid "Can't find backup directory."
 msgstr "Nie można odnaleźć katalogu kopii zapasowych."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Jeśli jest na dysku wymiennym, podłącz go."
+msgstr "Jeśli znajduje się na dysku wymiennym, podłącz go."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Pozostała %s sekunda."
-msgstr[1] "Pozostały %s sekundy."
-msgstr[2] "Pozostało %s sekund."
+msgstr[0] "Pozostała {n} sekunda."
+msgstr[1] "Pozostały {n} sekundy."
+msgstr[2] "Pozostało {n} sekund."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -2062,30 +2061,27 @@ msgstr "Pokaż pełny dziennik"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Odliczanie do zamknięcia"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Zamknij system po zakończeniu tworzenia kopii zapasowej."
+msgstr "Kopia zapasowa została ukończona."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Zamknięcie"
+msgstr "Anuluj zamknięcie"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Zamknięcie"
+msgstr "Zamknij teraz"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "System zostanie zamknięty za {n} sekundę."
+msgstr[1] "System zostanie zamknięty za {n} sekundy."
+msgstr[2] "System zostanie zamknięty za {n} sekund."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"

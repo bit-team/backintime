@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-12 09:18+0000\n"
-"Last-Translator: Umeaman <umeaman@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-05-27 07:59+0000\n"
+"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
@@ -47,7 +47,7 @@ msgstr "SSH"
 #: common/config.py:276 common/config.py:286
 #: qt/manageprofiles/tab_general.py:648
 msgid "SSH private key"
-msgstr "Privat SSH-nyckel"
+msgstr "SSH privat nyckel"
 
 #: common/config.py:279
 msgid "Local encrypted"
@@ -218,16 +218,15 @@ msgid "Can't find backup directory."
 msgstr "Kan inte hitta katalogen för säkerhetskopian."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Om den finns på en flyttbar enhet, anslut den."
+msgstr "Om den finns på en flyttbar enhet, vänligen anslut den."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Väntar %s sekund."
-msgstr[1] "Väntar %s sekunder."
+msgstr[0] "Väntar{n} sekund."
+msgstr[1] "Väntar {n} sekunder."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -2031,29 +2030,26 @@ msgstr "Visa fullständig logg"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Nedräkning till avstängning"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Stäng av systemet när säkerhetskopieringen har slutförts."
+msgstr "Säkerhetskopieringen har slutförts."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Stäng av"
+msgstr "Avbryt avstängning"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Stäng av"
+msgstr "Stäng av nu"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Systemet kommer att stängas av om {n} sekund."
+msgstr[1] "Systemet kommer att stängas av om {n} sekunder."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"

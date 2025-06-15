@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
+"PO-Revision-Date: 2025-05-14 12:04+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
 "Language: he\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
@@ -72,9 +72,8 @@ msgid "Profile: \"{name}\""
 msgstr "פרופיל: „{name}”"
 
 #: common/config.py:324
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "תיקיית תמונות מצב אינה תקנית."
+msgstr "תיקיית הגיבוי שגויה."
 
 #: common/config.py:336
 msgid "At least one directory must be selected for backup."
@@ -109,13 +108,13 @@ msgstr ""
 "enable cron” או להיוועץ בערוצי התמיכה של הפצת הגנו/לינוקס שלך."
 
 #: common/config.py:1556
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "לא ניתן להתקין כלל Udev לפרופיל {profile_id}. שירות ה־D-Bus‏ "
-"‚{dbus_interface}’ לא היה זמין"
+"‚{dbus_interface}’ לא היה זמין."
 
 #: common/config.py:1571
 #, python-brace-format
@@ -212,14 +211,12 @@ msgid "Deferring backup while on battery"
 msgstr "הגיבוי מושהה בעת שימוש בסוללה"
 
 #: common/snapshots.py:856 qt/app.py:366
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "לא ניתן למצוא את תיקיית תמונות המצב."
+msgstr "לא ניתן למצוא את תיקיית הגיבויים."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "אם היא נמצאת על כונן נשלף יש לחבר אותו."
+msgstr "אם היא נמצאת על כונן נשלף, יש לחבר אותו."
 
 #: common/snapshots.py:863
 #, fuzzy, python-brace-format
@@ -229,9 +226,9 @@ msgstr[0] "בהמתנה של שנייה אחת."
 msgstr[1] "בהמתנה של %s שניות."
 
 #: common/snapshots.py:928
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "שמירת תמונת המצב {snapshot_id} נכשלה."
+msgstr "יצירת הגיבוי {snapshot_id} נכשלה."
 
 #: common/snapshots.py:960
 msgid "Please be patient. Finalizing…"
@@ -250,14 +247,14 @@ msgid "Saving permissions…"
 msgstr "הרשאות נשמרות…"
 
 #: common/snapshots.py:1303
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "נמצאו שאריות של תמונת מצב {snapshot_id} שאפשר להמשיך."
+msgstr "נמצאו שאריות של הגיבוי {snapshot_id} שאפשר להמשיך."
 
 #: common/snapshots.py:1327
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "התיקייה {snapshot_id} שנשארה מהריצה האחרונה נמחקת"
+msgstr "התיקייה {snapshot_id} החלקית שנשארה מהריצה האחרונה נמחקת"
 
 #: common/snapshots.py:1338
 msgid "Can't remove directory"

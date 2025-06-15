@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-14 06:43+0000\n"
-"Last-Translator: cofemei <cofemei@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-05-23 11:50+0000\n"
+"Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
@@ -215,10 +215,10 @@ msgid "If it is on a removable drive, please plug it in."
 msgstr "如果它在可移動磁碟中，請插入。"
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "等待 %s 秒。"
+msgstr[0] "等待{n} 秒。"
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -247,9 +247,9 @@ msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "發現尚未完成的快照 {snapshot_id} 可繼續處理。"
 
 #: common/snapshots.py:1327
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "正在刪除上次執行中剩餘的目錄：{snapshot_id}"
+msgstr "正在從上次執行中移除不完整的 {snapshot_id} 目錄"
 
 #: common/snapshots.py:1338
 msgid "Can't remove directory"
@@ -257,7 +257,7 @@ msgstr "無法刪除目錄"
 
 #: common/snapshots.py:1392
 msgid "Creating backup"
-msgstr ""
+msgstr "建立備份"
 
 #: common/snapshots.py:1443
 msgid "Success"
@@ -286,9 +286,8 @@ msgid ""
 msgstr "rsync 異常終止，請參閱 “kill -l” 和 “man Kill”"
 
 #: common/snapshots.py:1492
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "沒有任何改變，不需要新的快照"
+msgstr "沒有任何變化，無需新的備份"
 
 #: common/snapshots.py:1536
 #, python-brace-format
@@ -447,17 +446,15 @@ msgstr "Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "版權："
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "作者"
+msgstr "作者："
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "翻譯"
+msgstr "譯者："
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -465,16 +462,16 @@ msgstr "Kuntao Zhao <kt.zhao@gmail.com>"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "‌當前語言沒有列出翻譯人員資訊。"
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "此連結"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "依照{thislink}取得所有語言的翻譯資訊。"
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -483,6 +480,8 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"本項目所使用的所有授權都位於 {dir_link} 目錄中。若要使用 SPDX 元資料提取每個檔案的許可證和版權信息，請參閱 "
+"{readme_link}。"
 
 #: qt/aboutdlg.py:236 qt/app.py:550
 msgid "Project website"
@@ -503,7 +502,7 @@ msgstr "Back In Time"
 #: qt/aboutdlg.py:293
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}版本{BOLDEND}：{version}"
 
 #: qt/app.py:175
 msgid "Shortcuts"
@@ -544,7 +543,7 @@ msgstr "如果它在可移動磁碟中，請插入可移動磁碟並按下確定
 
 #: qt/app.py:473
 msgid "Create a backup"
-msgstr ""
+msgstr "建立備份"
 
 #: qt/app.py:475
 msgid "Use modification time & size for file change detection."
@@ -576,7 +575,7 @@ msgstr "重新整理快照列表"
 
 #: qt/app.py:500
 msgid "Name backup"
-msgstr ""
+msgstr "命名備份"
 
 #: qt/app.py:504
 msgid "Remove backup"
@@ -759,7 +758,7 @@ msgstr "如果您關閉此窗口，Back In Time 將無法在快照完成後關�
 
 #: qt/app.py:907
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "仍要關閉視窗？"
 
 #: qt/app.py:1079
 msgid "Working:"

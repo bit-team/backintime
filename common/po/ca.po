@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-14 06:43+0000\n"
+"PO-Revision-Date: 2025-05-08 07:24+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
 "Language: ca\n"
@@ -184,7 +184,7 @@ msgstr "No es pot desmuntar {mountprocess} des de {mountpoint}."
 #, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"No s'ha trobat {command}. Si us plau instal·leu p. ex. {installcommand}"
+"No s'ha trobat {command}. Instal·leu-lo (p. ex. amb «{installcommand}»)"
 
 #: common/mount.py:733
 #, python-brace-format
@@ -223,11 +223,11 @@ msgid "If it is on a removable drive, please plug it in."
 msgstr "Si es troba en una unitat extraïble, connecteu-la."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Esperant %s segon."
-msgstr[1] "Esperant %s segons."
+msgstr[0] "Esperant {n} segon."
+msgstr[1] "Esperant {n} segons."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -802,7 +802,7 @@ msgstr ""
 
 #: qt/app.py:907
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Voleu tancar la finestra de totes maneres?"
 
 #: qt/app.py:1079
 msgid "Working:"
@@ -855,8 +855,8 @@ msgstr "Nom de la còpia"
 #: qt/app.py:1429
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Voleu eliminar aquesta còpia?"
+msgstr[1] "Voleu eliminar aquestes còpies?"
 
 #: qt/app.py:1527
 #, python-brace-format
@@ -936,9 +936,8 @@ msgstr ""
 "podria trencar tot el sistema."
 
 #: qt/app.py:1886
-#, fuzzy
 msgid "Backup"
-msgstr "&Còpia de seguretat"
+msgstr "Còpia de seguretat"
 
 #: qt/app.py:1925
 #, python-brace-format
@@ -980,9 +979,9 @@ msgid "Your translation"
 msgstr "la teva traducció"
 
 #: qt/app.py:2132
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "In the Fediverse at Mastodon:{link_and_label}"
+msgstr "Al fedivers, a Mastodon: {link_and_label}."
 
 #: qt/app.py:2137
 #, python-brace-format
@@ -1319,13 +1318,13 @@ msgid "Include file"
 msgstr "Inclou un fitxer"
 
 #: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"«{path}» és un enllaç simbòlic. L'objectiu enllaçat no es copiarà fins que no l'incloguin.\n"
-"Voleu incloure l'objectiu de l'enllaç simbòlic?"
+"«{path}» és un enllaç simbòlic. L'objectiu enllaçat no es copiarà fins que "
+"no s'inclogui també."
 
 #: qt/manageprofiles/__init__.py:674
 msgid "Include the symlink's target instead?"
@@ -1419,10 +1418,10 @@ msgstr "En cada inici/reinici"
 #: qt/manageprofiles/schedulewidget.py:144
 #: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Cada {n} minut"
+msgstr[0] "Cada minut"
 msgstr[1] "Cada {n} minuts"
 
 #: qt/manageprofiles/schedulewidget.py:150
@@ -1492,7 +1491,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
-msgstr "SSH Proxy"
+msgstr "Servidor intermediari SSH"
 
 #: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:116
 #: qt/manageprofiles/tab_general.py:254
@@ -1514,10 +1513,10 @@ msgid ""
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
-"Connecteu-vos a l'amfitrió del destí mitjançant aquest servidor intermediari"
-" (també conegut com a jump host). Vegeu \"-J\" a la documentació de l'ordre "
-"\"ssh\" o \"ProxyJump\" a la pàgina del manual \"ssh_config\" per obtenir "
-"més informació."
+"Connecteu-vos a l'amfitrió de destinació mitjançant aquest servidor "
+"intermediari (també conegut com a jump host). Vegeu «-J» a la documentació "
+"de l'ordre «ssh» o «ProxyJump» a la pàgina del manual de l'«ssh_config» per "
+"a obtenir més informació."
 
 #: qt/manageprofiles/tab_expert_options.py:39
 msgid "Caution:"
@@ -1587,7 +1586,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:151
 msgid "KB/sec"
-msgstr "KB/s"
+msgstr "kB/s"
 
 #: qt/manageprofiles/tab_expert_options.py:156
 msgid "Limit rsync bandwidth usage:"
@@ -1620,7 +1619,7 @@ msgstr "Enganxa les opcions addicionals al 'rsync'"
 
 #: qt/manageprofiles/tab_expert_options.py:309
 msgid "Prefix to run before every command on remote host."
-msgstr "Prefix per executar-se abans de cada comanda a l'amfitrió remot."
+msgstr "Prefix per a executar abans de cada ordre a l'amfitrió remot."
 
 #: qt/manageprofiles/tab_expert_options.py:310
 #, python-brace-format
@@ -1681,9 +1680,8 @@ msgid "Mode:"
 msgstr "Mode:"
 
 #: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
 msgid "Where to save backups"
-msgstr "A on desar instanànies"
+msgstr "A on desar còpies"
 
 #: qt/manageprofiles/tab_general.py:104
 msgid "SSH Settings"
@@ -1779,9 +1777,8 @@ msgstr ""
 "«known_hosts»?"
 
 #: qt/manageprofiles/tab_general.py:628
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Voleu crear una nova carpeta xifrada?"
+msgstr "Realment voleu canviar el directori de les còpies?"
 
 #: qt/manageprofiles/tab_general.py:664
 #, python-brace-format
@@ -1819,9 +1816,8 @@ msgid "Backup replaced files on restore"
 msgstr "La còpia de seguretat ha substituïts fitxers en restaurar"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Continua amb errors (Mantingues instantànies incompletes)"
+msgstr "Continua si hi ha errors (mantingues còpies incompletes)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
@@ -2039,7 +2035,7 @@ msgstr "No s'ha trobat cap configuració"
 
 #: qt/restoreconfigdialog.py:149
 msgid "Import"
-msgstr "Importar"
+msgstr "Importa"
 
 #: qt/restoreconfigdialog.py:177
 #, fuzzy, python-brace-format
@@ -2064,29 +2060,26 @@ msgstr "Mostra el registre complet"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Compte enrere per a aturar"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Apaga el sistema després d'acabar la còpia."
+msgstr "S'ha acabat la còpia de seguretat."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Aturada"
+msgstr "Cancel·la l'aturada"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Aturada"
+msgstr "Atura ara"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "El sistema s'aturarà en {n} segon."
+msgstr[1] "El sistema s'aturarà en {n} segons."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"
@@ -2106,7 +2099,7 @@ msgstr "Utilitza %1 i %2 per els paràmetres de les rutes"
 
 #: qt/snapshotsdialog.py:91
 msgid "Please set a diff command or press Cancel."
-msgstr "Definiu una diff command o premeu Cancel·lar."
+msgstr "Definiu una ordre diff o premeu Cancel·la."
 
 #: qt/snapshotsdialog.py:97
 #, python-brace-format
@@ -2125,9 +2118,8 @@ msgstr ""
 "defecte «{params}»."
 
 #: qt/snapshotsdialog.py:130 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Còpia de seguretat"
+msgstr "Còpies de seguretat"
 
 #: qt/snapshotsdialog.py:141
 #, fuzzy

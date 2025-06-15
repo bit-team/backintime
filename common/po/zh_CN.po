@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-11 16:46+0000\n"
+"PO-Revision-Date: 2025-04-30 12:13+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -210,15 +210,14 @@ msgid "Can't find backup directory."
 msgstr "找不到备份目录。"
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "如果它位于可移动驱动器上，请将其插入。"
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "等待 %s 秒。"
+msgstr[0] "等待 {n} 秒。"
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -594,7 +593,7 @@ msgstr "管理配置…"
 
 #: qt/app.py:520
 msgid "Shutdown"
-msgstr "关机"
+msgstr "关闭"
 
 #: qt/app.py:522
 msgid "Shut down system after backup has finished."
@@ -1906,28 +1905,25 @@ msgstr "显示完整日志"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "关闭倒计时"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "备份完成后关闭系统。"
+msgstr "备份已完成。"
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "关机"
+msgstr "取消关闭"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "关机"
+msgstr "立即关闭"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
+msgstr[0] "系统将在 {n} 秒后关闭。"
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"

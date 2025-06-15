@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-13 03:44+0000\n"
+"PO-Revision-Date: 2025-04-30 12:13+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -219,16 +219,15 @@ msgid "Can't find backup directory."
 msgstr "Ei õnnestu leida varukoopiate kausta."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Kui ta asub eemaldataval andmekandjal, siis palun ühenda see."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Ootame %s sekundi."
-msgstr[1] "Ootame %s sekundit."
+msgstr[0] "Ootan {n} sekundi."
+msgstr[1] "Ootan {n} sekundit."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -2045,29 +2044,26 @@ msgstr "Näita tervet logi"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Pöördloendus väljalülitamiseni"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Kui varukoopia tegemine on lõppenud, siis pane arvuti kinni."
+msgstr "Varukoopia tegemine on lõppenud."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Lülita välja"
+msgstr "Katkesta väljalülitamine"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Lülita välja"
+msgstr "Lülita välja kohe"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Arvuti lülitub välja {n} sekundi pärast."
+msgstr[1] "Arvuti lülitub välja {n} sekundi pärast."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"

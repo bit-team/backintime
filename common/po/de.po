@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-11 14:00+0000\n"
+"PO-Revision-Date: 2025-04-30 12:13+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -218,16 +218,15 @@ msgid "Can't find backup directory."
 msgstr "Schnappschuss-Verzeichnis wurde nicht gefunden."
 
 #: common/snapshots.py:860
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Wenn es auf einem Wechsellaufwerk ist, bitte dieses verbinden."
+msgstr "Wenn es auf einem Wechsellaufwerk ist, dieses bitte verbinden."
 
 #: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Warte %s Sekunde."
-msgstr[1] "Warte %s Sekunden."
+msgstr[0] "Warte {n} Sekunde."
+msgstr[1] "Warte {n} Sekunden."
 
 #: common/snapshots.py:928
 #, python-brace-format
@@ -2062,29 +2061,26 @@ msgstr "Komplettes Protokoll anzeigen"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Countdown zum Herunterfahren"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr "Rechner herunterfahren, nachdem die Sicherung erstellt wurde."
+msgstr "Die Sicherung ist abgeschlossen."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Herunterfahren"
+msgstr "Herunterfahren abbrechen"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Herunterfahren"
+msgstr "Jetzt Herunterfahren"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Das System wird in {n} Sekunde heruntergefahren."
+msgstr[1] "Das System wird in {n} Sekunden heruntergefahren."
 
 #: qt/snapshotsdialog.py:58
 msgid "Options about comparing backups"
