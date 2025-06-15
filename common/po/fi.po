@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:21+0200\n"
+"POT-Creation-Date: 2025-06-15 09:10+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
@@ -164,7 +164,7 @@ msgstr "Ole hyvä ja vahvista salasana."
 msgid "Password doesn't match."
 msgstr "Salasanat eivät täsmää."
 
-#: common/encfstools.py:516 common/snapshots.py:1105
+#: common/encfstools.py:516 common/snapshots.py:1107
 msgid "Take snapshot"
 msgstr "Ota otos"
 
@@ -227,126 +227,126 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Viivästetään varmuuskopiointia akkukäytön ajan"
 
-#: common/snapshots.py:909 qt/app.py:366
+#: common/snapshots.py:911 qt/app.py:366
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Tilannevedosten hakemistoa ei löydy."
 
-#: common/snapshots.py:913 qt/app.py:367
+#: common/snapshots.py:915 qt/app.py:367
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Jos se on irrotettavassa asemassa, liitä se."
 
-#: common/snapshots.py:916
+#: common/snapshots.py:918
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Odotetaan %s sekunti."
 msgstr[1] "Odotetaan %s sekuntia."
 
-#: common/snapshots.py:982
+#: common/snapshots.py:984
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Otoksen {snapshot_id} luominen epäonnistui."
 
-#: common/snapshots.py:1014
+#: common/snapshots.py:1016
 msgid "Please be patient. Finalizing…"
 msgstr "Ole kärsivällinen; viimeistellään…"
 
-#: common/snapshots.py:1140
+#: common/snapshots.py:1142
 msgid "Can't create directory."
 msgstr "Hakemistoa ei voi luoda."
 
-#: common/snapshots.py:1157
+#: common/snapshots.py:1159
 msgid "Saving config file…"
 msgstr "Tallennetaan määritystiedostoa…"
 
-#: common/snapshots.py:1238
+#: common/snapshots.py:1240
 msgid "Saving permissions…"
 msgstr "Tallennetaan käyttöoikeuksia…"
 
-#: common/snapshots.py:1353
+#: common/snapshots.py:1355
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Löytyi jäljelle jäänyt tilannevedos {snapshot_id}, jota voidaan jatkaa."
 
-#: common/snapshots.py:1377
+#: common/snapshots.py:1379
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Poistetaan jäljelle jäänyt {snapshot_id}-hakemisto viimeisestä suorituksesta"
 
-#: common/snapshots.py:1388
+#: common/snapshots.py:1390
 msgid "Can't remove directory"
 msgstr "Ei voi poistaa hakemistoa"
 
-#: common/snapshots.py:1442
+#: common/snapshots.py:1444
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1493
+#: common/snapshots.py:1495
 msgid "Success"
 msgstr "Onnistui"
 
-#: common/snapshots.py:1496
+#: common/snapshots.py:1498
 msgid "Partial transfer due to error"
 msgstr "Osittain siirretty johtuen virheestä"
 
-#: common/snapshots.py:1497
+#: common/snapshots.py:1499
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Osittain siirretty johtuen puuttuvista lähdetiedostoista ( kts. 'man rsync')"
 
-#: common/snapshots.py:1501
+#: common/snapshots.py:1503
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' päättyi paluukoodilla {exit_code}"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1516
 msgid "See 'man rsync' for more details"
 msgstr "Katso lisätietoja: 'man rsync'"
 
-#: common/snapshots.py:1521
+#: common/snapshots.py:1523
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatiiviset rsync-poistumiskoodit ovat signaalinumeroita, katso 'kill -l' "
 "ja 'man kill'"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1544
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Mikään ei ole muuttunut: uusi otos ei ole tarpeen"
 
-#: common/snapshots.py:1586
+#: common/snapshots.py:1588
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Ei voi uudelleennimetä {new_path} {path}:ksi."
 
-#: common/snapshots.py:1918
+#: common/snapshots.py:1920
 msgid "Smart removal"
 msgstr "Älykäs poisto"
 
-#: common/snapshots.py:1970
+#: common/snapshots.py:1972
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Sovella säännöt poistaaksesi vanhat tilannevedokset"
 
-#: common/snapshots.py:2003
+#: common/snapshots.py:2005
 msgid "Apply retention policy"
 msgstr "Sovella säilytyskäytäntö"
 
-#: common/snapshots.py:2013
+#: common/snapshots.py:2015
 msgid "Trying to keep min free space"
 msgstr "Yritetään pitää vapaa vähimmäistila"
 
-#: common/snapshots.py:2051
+#: common/snapshots.py:2053
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Yritetään pitää vähintään {perc} inodeja vapaana"
 
-#: common/snapshots.py:3137 qt/app.py:1910
+#: common/snapshots.py:3139 qt/app.py:1912
 msgid "Now"
 msgstr "Nyt"
 
@@ -693,7 +693,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Avaa Back In Time -verkkosivusto selaimessa"
 
-#: qt/app.py:560 qt/app.py:1529
+#: qt/app.py:560 qt/app.py:1531
 msgid "Changelog"
 msgstr "Muutosloki"
 
@@ -742,7 +742,7 @@ msgstr "Palauta"
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Palauta valitut tiedostot tai hakemistot alkuperäiseen kohteeseen."
 
-#: qt/app.py:597 qt/app.py:1701 qt/app.py:1733 qt/snapshotsdialog.py:175
+#: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Palauta kohteeseen…"
 
@@ -777,7 +777,7 @@ msgstr "Näytä piilotiedostot"
 msgid "Compare backups…"
 msgstr "Vertaa otoksia…"
 
-#: qt/app.py:650 qt/app.py:2213
+#: qt/app.py:650 qt/app.py:2215
 msgid "Release Candidate"
 msgstr "Julkaisuehdokas"
 
@@ -874,29 +874,29 @@ msgstr "Koti"
 msgid "Backup directories"
 msgstr "Varmuuskopiohakemistot"
 
-#: qt/app.py:1372
+#: qt/app.py:1374
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold} {unit}."
+"configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1377
+#: qt/app.py:1379
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1410
+#: qt/app.py:1412
 #, fuzzy
 msgid "Backup name"
 msgstr "&Varmuuskopio"
 
-#: qt/app.py:1461
+#: qt/app.py:1463
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/app.py:1559
+#: qt/app.py:1561
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -905,7 +905,7 @@ msgstr ""
 "Varmuuskopioi paikalliset tiedostot ennen korvaamista\n"
 "tai poistamista ”{suffix}”-päätteelle."
 
-#: qt/app.py:1567 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1569 qt/manageprofiles/tab_options.py:65
 #, fuzzy, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -914,7 +914,7 @@ msgstr ""
 "Tiedostojen uudempien versioiden nimiin lisätään ”{suffix}” ennen "
 "palauttamista. Ellei niitä enää tarvita, ne voi poistaa tällä komennolla:"
 
-#: qt/app.py:1583
+#: qt/app.py:1585
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -924,11 +924,11 @@ msgstr ""
 "ovat uudempia kuin kohteessa.\n"
 "Käytetään ”rsync --update” -asetusta."
 
-#: qt/app.py:1618
+#: qt/app.py:1620
 msgid "Remove newer elements in original directory."
 msgstr "Poista uudemmat elementit alkuperäisestä hakemistosta."
 
-#: qt/app.py:1621
+#: qt/app.py:1623
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -941,30 +941,30 @@ msgstr ""
 "koska tämä poistaa tiedostot ja hakemistot, jotka jätettiin pois "
 "tilannekuvan ottamisen aikana."
 
-#: qt/app.py:1633
+#: qt/app.py:1635
 #, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Haluatko todella palauttaa tämän elementin uuteen hakemistoon?"
 msgstr[1] "Haluatko todella palauttaa nämä elementit uuteen hakemistoon?"
 
-#: qt/app.py:1641
+#: qt/app.py:1643
 #, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Haluatko varmasti palauttaa tämän tiedoston?"
 msgstr[1] "Haluatko varmasti palauttaa nämä tiedostot?"
 
-#: qt/app.py:1660
+#: qt/app.py:1662
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1663
+#: qt/app.py:1665
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1669
+#: qt/app.py:1671
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -973,22 +973,22 @@ msgstr ""
 "{BOLD}Varoitus{BOLDEND}: Tiedostojen poistaminen tiedostojärjestelmän "
 "juuressa, voi rikkoa koko järjestelmän."
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 #, fuzzy
 msgid "Backup"
 msgstr "&Varmuuskopio"
 
-#: qt/app.py:1957
+#: qt/app.py:1959
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Palauta {path}"
 
-#: qt/app.py:1959
+#: qt/app.py:1961
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Palauta {path} kohteeseen…"
 
-#: qt/app.py:2103
+#: qt/app.py:2105
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1005,47 +1005,47 @@ msgstr ""
 "Pyydämme anteeksi keskeytystä eikä tätä ilmoitusta näytetä uudestaan. Tämä viesti on saatavilla koska tahansa help -menun kautta.\n"
 "Sinun Back In Time Team"
 
-#: qt/app.py:2132
+#: qt/app.py:2134
 msgid "translation platform"
 msgstr "Käännökset"
 
-#: qt/app.py:2137
+#: qt/app.py:2139
 msgid "Website"
 msgstr "Sivusto"
 
-#: qt/app.py:2151
+#: qt/app.py:2153
 msgid "Your translation"
 msgstr "Käännökset"
 
-#: qt/app.py:2164
+#: qt/app.py:2166
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Fediversumissa Mastodonissa: {link_and_label}"
 
-#: qt/app.py:2169
+#: qt/app.py:2171
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Lähetä sähköpostia osoitteeseen {link_and_label}."
 
-#: qt/app.py:2172
+#: qt/app.py:2174
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Postituslista {link_and_label}"
 
-#: qt/app.py:2176
+#: qt/app.py:2178
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} projektin verkkosivustolla."
 
-#: qt/app.py:2179
+#: qt/app.py:2181
 msgid "Open an issue"
 msgstr "Avaa vikalippu"
 
-#: qt/app.py:2180
+#: qt/app.py:2182
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Vaihtoehtoisesti voit käyttää toista valitsemaasi kanavaa."
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1066,7 +1066,7 @@ msgstr ""
 "Kiitos tuestasi ja siitä, että autat meitä parantamaan Back In Timea!\n"
 "Back In Time -joukkueesi"
 
-#: qt/app.py:2285
+#: qt/app.py:2287
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Kielivalinta astuu voimaan uudelleenkäynnistyksen jälkeen."
 

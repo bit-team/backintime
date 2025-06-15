@@ -160,6 +160,7 @@ under certain conditions; type `backintime --license' for details.
             'Inhibition (via',
             'Inhibiting suspend mode failed',
             'INFO: Suspend mode inhibited',
+            'ERROR: Unexpected DBusException',
         ]
 
         # remove lines via startswith()

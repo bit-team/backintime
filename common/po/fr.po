@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:21+0200\n"
+"POT-Creation-Date: 2025-06-15 09:10+0200\n"
 "PO-Revision-Date: 2025-05-03 12:53+0000\n"
 "Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
@@ -162,7 +162,7 @@ msgstr "Veuillez confirmer le mot de passe."
 msgid "Password doesn't match."
 msgstr "Le mot de passe ne correspond pas."
 
-#: common/encfstools.py:516 common/snapshots.py:1105
+#: common/encfstools.py:516 common/snapshots.py:1107
 msgid "Take snapshot"
 msgstr "Prendre un instantané"
 
@@ -225,121 +225,121 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Différer la sauvegarde lors du fonctionnement sur batterie"
 
-#: common/snapshots.py:909 qt/app.py:366
+#: common/snapshots.py:911 qt/app.py:366
 msgid "Can't find backup directory."
 msgstr "Répertoire des sauvegardes inaccessible."
 
-#: common/snapshots.py:913 qt/app.py:367
+#: common/snapshots.py:915 qt/app.py:367
 msgid "If it is on a removable drive, please plug it in."
 msgstr "S'il se trouve sur un disque externe, veuillez le connecter."
 
-#: common/snapshots.py:916
+#: common/snapshots.py:918
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Prochain essai dans {n} seconde."
 msgstr[1] "Prochain essai dans {n} secondes."
 
-#: common/snapshots.py:982
+#: common/snapshots.py:984
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Échec de création de la sauvegarde {snapshot_id}."
 
-#: common/snapshots.py:1014
+#: common/snapshots.py:1016
 msgid "Please be patient. Finalizing…"
 msgstr "Veuillez patienter. Finalisation…"
 
-#: common/snapshots.py:1140
+#: common/snapshots.py:1142
 msgid "Can't create directory."
 msgstr "Échec de création du répertoire."
 
-#: common/snapshots.py:1157
+#: common/snapshots.py:1159
 msgid "Saving config file…"
 msgstr "Enregistrement du fichier de configuration…"
 
-#: common/snapshots.py:1238
+#: common/snapshots.py:1240
 msgid "Saving permissions…"
 msgstr "Enregistrement des permissions…"
 
-#: common/snapshots.py:1353
+#: common/snapshots.py:1355
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "La sauvegarde {snapshot_id} est incomplète et peut être poursuivie."
 
-#: common/snapshots.py:1377
+#: common/snapshots.py:1379
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Suppression du répertoire incomplet {snapshot_id} de la dernière exécution"
 
-#: common/snapshots.py:1388
+#: common/snapshots.py:1390
 msgid "Can't remove directory"
 msgstr "Échec de suppression du répertoire"
 
-#: common/snapshots.py:1442
+#: common/snapshots.py:1444
 msgid "Creating backup"
 msgstr "Création de la sauvegarde"
 
-#: common/snapshots.py:1493
+#: common/snapshots.py:1495
 msgid "Success"
 msgstr "Succès"
 
-#: common/snapshots.py:1496
+#: common/snapshots.py:1498
 msgid "Partial transfer due to error"
 msgstr "Transfert partiel en raison d'une erreur"
 
-#: common/snapshots.py:1497
+#: common/snapshots.py:1499
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfert partiel dû à la disparition de fichiers sources (voir 'man rsync')"
 
-#: common/snapshots.py:1501
+#: common/snapshots.py:1503
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' s'est terminé avec le code d'état {exit_code}"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1516
 msgid "See 'man rsync' for more details"
 msgstr "Voir 'man rsync' pour plus de détails"
 
-#: common/snapshots.py:1521
+#: common/snapshots.py:1523
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Les codes d'état négatifs de rsync sont des numéros de signal, voir 'kill "
 "-l' et 'man kill'"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1544
 msgid "Nothing changed, no new backup necessary"
 msgstr "Pas de changement, nouvelle sauvegarde non nécessaire"
 
-#: common/snapshots.py:1586
+#: common/snapshots.py:1588
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Échec de renommage de {new_path} en {path}."
 
-#: common/snapshots.py:1918
+#: common/snapshots.py:1920
 msgid "Smart removal"
 msgstr "Suppression intelligente"
 
-#: common/snapshots.py:1970
+#: common/snapshots.py:1972
 msgid "Apply rules to remove old backups"
 msgstr "Appliquer les règles pour supprimer les anciennes sauvegardes"
 
-#: common/snapshots.py:2003
+#: common/snapshots.py:2005
 msgid "Apply retention policy"
 msgstr "Appliquer la politique de conservation"
 
-#: common/snapshots.py:2013
+#: common/snapshots.py:2015
 msgid "Trying to keep min free space"
 msgstr "Tentative de garder un minimum d'espace libre"
 
-#: common/snapshots.py:2051
+#: common/snapshots.py:2053
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentative de garder un minimum de {perc} d'inodes libres"
 
-#: common/snapshots.py:3137 qt/app.py:1910
+#: common/snapshots.py:3139 qt/app.py:1912
 msgid "Now"
 msgstr "Maintenant"
 
@@ -689,7 +689,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Ouvrir le site de Back In Time dans le navigateur"
 
-#: qt/app.py:560 qt/app.py:1529
+#: qt/app.py:560 qt/app.py:1531
 msgid "Changelog"
 msgstr "Notes de version"
 
@@ -741,7 +741,7 @@ msgstr ""
 "Restaurer les fichiers ou répertoires sélectionnés à leur emplacement "
 "d'origine."
 
-#: qt/app.py:597 qt/app.py:1701 qt/app.py:1733 qt/snapshotsdialog.py:175
+#: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Restaurer vers …"
 
@@ -779,7 +779,7 @@ msgstr "Afficher les fichiers cachés"
 msgid "Compare backups…"
 msgstr "Comparer des sauvegardes…"
 
-#: qt/app.py:650 qt/app.py:2213
+#: qt/app.py:650 qt/app.py:2215
 msgid "Release Candidate"
 msgstr "Version candidate"
 
@@ -875,29 +875,29 @@ msgstr "Répertoire personnel"
 msgid "Backup directories"
 msgstr "Répertoires sauvegardés"
 
-#: qt/app.py:1372
+#: qt/app.py:1374
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold} {unit}."
+"configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1377
+#: qt/app.py:1379
 #, fuzzy
 msgid "Proceed with the backup?"
 msgstr "Supprimer cette sauvegarde ?"
 
-#: qt/app.py:1410
+#: qt/app.py:1412
 msgid "Backup name"
 msgstr "Nom de la sauvegarde"
 
-#: qt/app.py:1461
+#: qt/app.py:1463
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Supprimer cette sauvegarde ?"
 msgstr[1] "Supprimer ces sauvegardes ?"
 
-#: qt/app.py:1559
+#: qt/app.py:1561
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -906,7 +906,7 @@ msgstr ""
 "Créer des copies de sauvegarde avec le suffixe '{suffix}' \n"
 "avant d'écraser ou de supprimer les fichiers locaux."
 
-#: qt/app.py:1567 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1569 qt/manageprofiles/tab_options.py:65
 #, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -916,7 +916,7 @@ msgstr ""
 " '{suffix}' avant la restauration. Si vous n'en avez plus besoin, vous "
 "pouvez les supprimer avec la commande suivante :"
 
-#: qt/app.py:1583
+#: qt/app.py:1585
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -926,11 +926,11 @@ msgstr ""
 " ou qui sont plus récents que ceux de la destination.\n"
 "Utilise l'option \"rsync --update\"."
 
-#: qt/app.py:1618
+#: qt/app.py:1620
 msgid "Remove newer elements in original directory."
 msgstr "Supprimer du répertoire d'origine les éléments plus récents."
 
-#: qt/app.py:1621
+#: qt/app.py:1623
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -942,7 +942,7 @@ msgstr ""
 " la sauvegarde. Prudence extrême requise : cette option va supprimer les "
 "fichiers et répertoires qui n'étaient pas inclus dans la sauvegarde."
 
-#: qt/app.py:1633
+#: qt/app.py:1635
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
@@ -950,26 +950,26 @@ msgstr[0] ""
 msgstr[1] ""
 "Voulez-vous vraiment restaurer ces éléments dans le nouveau répertoire ?"
 
-#: qt/app.py:1641
+#: qt/app.py:1643
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Voulez-vous vraiment restaurer cet élément ?"
 msgstr[1] "Voulez-vous vraiment restaurer ces éléments ?"
 
-#: qt/app.py:1660
+#: qt/app.py:1662
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "Tous les fichiers plus récents situés dans {path} seront supprimés. "
 "Continuer ?"
 
-#: qt/app.py:1663
+#: qt/app.py:1665
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Tous les fichiers plus récents situés dans le dossier d'origine seront "
 "supprimés. Continuer ?"
 
-#: qt/app.py:1669
+#: qt/app.py:1671
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -978,21 +978,21 @@ msgstr ""
 "{BOLD}Avertissement{BOLDEND} : Supprimer des fichiers à la racine du système"
 " de fichiers pourrait endommager l'ensemble de votre système."
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 msgid "Backup"
 msgstr "Sauvegarde"
 
-#: qt/app.py:1957
+#: qt/app.py:1959
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurer {path}"
 
-#: qt/app.py:1959
+#: qt/app.py:1961
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaurer {path} vers…"
 
-#: qt/app.py:2103
+#: qt/app.py:2105
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1009,47 +1009,47 @@ msgstr ""
 "Nous nous excusons pour l'interruption, ce message n'apparaîtra plus. Ce dialogue est accessible à tout moment via le menu Aide.\n"
 "L'équipe Back In Time"
 
-#: qt/app.py:2132
+#: qt/app.py:2134
 msgid "translation platform"
 msgstr "plateforme de traduction"
 
-#: qt/app.py:2137
+#: qt/app.py:2139
 msgid "Website"
 msgstr "Site Web"
 
-#: qt/app.py:2151
+#: qt/app.py:2153
 msgid "Your translation"
 msgstr "Votre traduction"
 
-#: qt/app.py:2164
+#: qt/app.py:2166
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Dans le Fediverse chez Mastodon : {link_and_label}."
 
-#: qt/app.py:2169
+#: qt/app.py:2171
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Envoyer un courriel à {link_and_label}."
 
-#: qt/app.py:2172
+#: qt/app.py:2174
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Liste de diffusion {link_and_label}."
 
-#: qt/app.py:2176
+#: qt/app.py:2178
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} sur le site web du projet."
 
-#: qt/app.py:2179
+#: qt/app.py:2181
 msgid "Open an issue"
 msgstr "Créer un ticket"
 
-#: qt/app.py:2180
+#: qt/app.py:2182
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Ou aussi, par tout moyen à votre convenance."
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1070,7 +1070,7 @@ msgstr ""
 "Merci pour votre soutien et pour l'aide apportée à l'amélioration de Back In Time !\n"
 "Votre équipe Back In Time"
 
-#: qt/app.py:2285
+#: qt/app.py:2287
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Le changement de langue ne prend effet qu'après le redémarrage de Back In "

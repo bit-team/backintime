@@ -869,15 +869,17 @@ class Snapshots:
 
                 # Free space check
                 if self.config.warnFreeSpaceEnabled():
-                    real_mib = self.get_free_space_at_destination()
-                    warn_mib = self.config.warnFreeSpaceMiB()
-                    if warn_mib >= real_mib:
-                        msg = f'Only {real_mib:n} MiB free space available ' \
-                              'on the destination, which is below the ' \
-                              f'configured threshold of {warn_mib:n} MiB. ' \
-                              'The backup will proceed anyway.'
-                        logger.warning(msg)
-                        self.setTakeSnapshotMessage(1, msg)
+                    real = self.get_free_space_at_destination()
+
+                    if real is not None:
+                        warn = self.config.warnFreeSpace()
+                        if warn >= real:
+                            msg = f'Only {real} free space available ' \
+                                'on the destination, which is below the ' \
+                                f'configured threshold of {warn}. ' \
+                                'The backup will proceed anyway.'
+                            logger.warning(msg)
+                            self.setTakeSnapshotMessage(1, msg)
 
                 # Include/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
@@ -2012,10 +2014,10 @@ class Snapshots:
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
-            minFreeSpace = self.config.minFreeSpaceMib()
+            _enabled, minFreeSpace = self.config.minFreeSpaceAsStorageSize()
 
             logger.debug(
-                f'Keep min free disk space: {minFreeSpace} MiB',
+                f'Keep min free disk space: {minFreeSpace}',
                 self)
 
             snapshots = listSnapshots(self.config, reverse=False)
@@ -2038,7 +2040,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = "free disk space: {} MiB. Remove backup {}"
+                msg = "free disk space: {}. Remove backup {}"
                 logger.debug(msg.format(free_space, snapshots[0].withoutTag), self)
                 self.remove(snapshots[0])
                 del snapshots[0]

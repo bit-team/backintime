@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:21+0200\n"
+"POT-Creation-Date: 2025-06-15 09:10+0200\n"
 "PO-Revision-Date: 2025-03-12 10:20+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
@@ -167,7 +167,7 @@ msgstr "Моля потвърдете паролата."
 msgid "Password doesn't match."
 msgstr "Паролата не съвпада."
 
-#: common/encfstools.py:516 common/snapshots.py:1105
+#: common/encfstools.py:516 common/snapshots.py:1107
 msgid "Take snapshot"
 msgstr "Снимка на екрана"
 
@@ -228,126 +228,126 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Отлагане на архивирането, докато устройството работи на батерия"
 
-#: common/snapshots.py:909 qt/app.py:366
+#: common/snapshots.py:911 qt/app.py:366
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Директорията за моментни архиви не може да бъде намерена."
 
-#: common/snapshots.py:913 qt/app.py:367
+#: common/snapshots.py:915 qt/app.py:367
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
 "Директорията за моментни архиви не може да бъде открита. Ако е на преносимо "
 "устройство, моля включете го и натиснете ОК."
 
-#: common/snapshots.py:916
+#: common/snapshots.py:918
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Изчакване %s секунда."
 msgstr[1] "Изчакване %s секунди."
 
-#: common/snapshots.py:982
+#: common/snapshots.py:984
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Неуспех при създаването на моментен архив {snapshot_id}."
 
-#: common/snapshots.py:1014
+#: common/snapshots.py:1016
 msgid "Please be patient. Finalizing…"
 msgstr "Моля изчакайте. Финализиране…"
 
-#: common/snapshots.py:1140
+#: common/snapshots.py:1142
 msgid "Can't create directory."
 msgstr "Директорията не може да бъде създадена."
 
-#: common/snapshots.py:1157
+#: common/snapshots.py:1159
 msgid "Saving config file…"
 msgstr "Запазване на конфигурационен файл…"
 
-#: common/snapshots.py:1238
+#: common/snapshots.py:1240
 msgid "Saving permissions…"
 msgstr "Запазване на правата…"
 
-#: common/snapshots.py:1353
+#: common/snapshots.py:1355
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Намерен е моментен архив {snapshot_id}, който може да бъде продължен."
 
-#: common/snapshots.py:1377
+#: common/snapshots.py:1379
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Премахване на остатъчна {snapshot_id} директория от последния опит"
 
-#: common/snapshots.py:1388
+#: common/snapshots.py:1390
 msgid "Can't remove directory"
 msgstr "Директорията не може да бъде премахната"
 
-#: common/snapshots.py:1442
+#: common/snapshots.py:1444
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1493
+#: common/snapshots.py:1495
 msgid "Success"
 msgstr "Успешно"
 
-#: common/snapshots.py:1496
+#: common/snapshots.py:1498
 msgid "Partial transfer due to error"
 msgstr "Частично прехвърляне поради грешка"
 
-#: common/snapshots.py:1497
+#: common/snapshots.py:1499
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Частично прехвърляне поради изчезнали изходни файлове (вж. 'man rsync')"
 
-#: common/snapshots.py:1501
+#: common/snapshots.py:1503
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' завърши с код за изход {exit_code}"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1516
 msgid "See 'man rsync' for more details"
 msgstr "За повече информация вижте 'man rsync'"
 
-#: common/snapshots.py:1521
+#: common/snapshots.py:1523
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Отрицателните изходни кодове на rsync са номера на сигнали, вижте 'kill -l' "
 "и 'man kill'"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1544
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Няма открити промени, не е нужен нов моментен архив"
 
-#: common/snapshots.py:1586
+#: common/snapshots.py:1588
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{new_path} не може да бъде преименуван на {path}."
 
-#: common/snapshots.py:1918
+#: common/snapshots.py:1920
 msgid "Smart removal"
 msgstr "Умно премахване"
 
-#: common/snapshots.py:1970
+#: common/snapshots.py:1972
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Приложи правилата за премахване на старите моментни архиви"
 
-#: common/snapshots.py:2003
+#: common/snapshots.py:2005
 msgid "Apply retention policy"
 msgstr "Приложи правилата за запаметяване"
 
-#: common/snapshots.py:2013
+#: common/snapshots.py:2015
 msgid "Trying to keep min free space"
 msgstr "Опит за запазване на минимално свободно пространство"
 
-#: common/snapshots.py:2051
+#: common/snapshots.py:2053
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Опит за запазване на минимум {perc} свободни inode"
 
-#: common/snapshots.py:3137 qt/app.py:1910
+#: common/snapshots.py:3139 qt/app.py:1912
 msgid "Now"
 msgstr "Сега"
 
@@ -697,7 +697,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Отваря уебсайта на Back In Time в браузър"
 
-#: qt/app.py:560 qt/app.py:1529
+#: qt/app.py:560 qt/app.py:1531
 msgid "Changelog"
 msgstr "История на промените"
 
@@ -747,7 +747,7 @@ msgid "Restore the selected files or directories to the original destination."
 msgstr ""
 "Възстановете избраните файлове или директории на първоначалното място."
 
-#: qt/app.py:597 qt/app.py:1701 qt/app.py:1733 qt/snapshotsdialog.py:175
+#: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Възстановяване в …"
 
@@ -783,7 +783,7 @@ msgstr "Показване на скритите файлове"
 msgid "Compare backups…"
 msgstr "Сравни архиви…"
 
-#: qt/app.py:650 qt/app.py:2213
+#: qt/app.py:650 qt/app.py:2215
 msgid "Release Candidate"
 msgstr "Тестова Версия"
 
@@ -880,29 +880,29 @@ msgstr "Домашна директория"
 msgid "Backup directories"
 msgstr "Резевни директории"
 
-#: qt/app.py:1372
+#: qt/app.py:1374
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold} {unit}."
+"configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1377
+#: qt/app.py:1379
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1410
+#: qt/app.py:1412
 #, fuzzy
 msgid "Backup name"
 msgstr "&Резервно копие"
 
-#: qt/app.py:1461
+#: qt/app.py:1463
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/app.py:1559
+#: qt/app.py:1561
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -911,7 +911,7 @@ msgstr ""
 "Създайте резервни копия, завършващи със {suffix} преди\n"
 "да бъдат презаписани или премахнати локални файлове."
 
-#: qt/app.py:1567 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1569 qt/manageprofiles/tab_options.py:65
 #, fuzzy, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -921,7 +921,7 @@ msgstr ""
 "преди възстановяването. Ако те не са необходими вече, може да ги премахнете "
 "посредством командата:"
 
-#: qt/app.py:1583
+#: qt/app.py:1585
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -931,11 +931,11 @@ msgstr ""
 "или са по-нови от тези в крайната папка.\n"
 "Използвайки опцията \"rsync --update\"."
 
-#: qt/app.py:1618
+#: qt/app.py:1620
 msgid "Remove newer elements in original directory."
 msgstr "Премахнете по-новите файлове от първоначалната директория."
 
-#: qt/app.py:1621
+#: qt/app.py:1623
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -949,7 +949,7 @@ msgstr ""
 "файлове/директории, които са били изключени по време на създаването на "
 "архива или са по-нови от него."
 
-#: qt/app.py:1633
+#: qt/app.py:1635
 #, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
@@ -957,23 +957,23 @@ msgstr[0] "Наистина ли искате да възстановите то
 msgstr[1] ""
 "Наистина ли искате да възстановите тези файлове в новата директория?"
 
-#: qt/app.py:1641
+#: qt/app.py:1643
 #, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Наистина ли искате да възстановите този файл?"
 msgstr[1] "Наистина ли искате да възстановите файловете?"
 
-#: qt/app.py:1660
+#: qt/app.py:1662
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1663
+#: qt/app.py:1665
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1669
+#: qt/app.py:1671
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -982,22 +982,22 @@ msgstr ""
 "{BOLD}ПРЕДУПРЕЖДЕНИЕ{BOLDEND}: Изтриването на файлове в коренната част на "
 "файловата система може да разруши цялата ви система."
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 #, fuzzy
 msgid "Backup"
 msgstr "&Резервно копие"
 
-#: qt/app.py:1957
+#: qt/app.py:1959
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Възстановете {path}"
 
-#: qt/app.py:1959
+#: qt/app.py:1961
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Възстановете {path} в …"
 
-#: qt/app.py:2103
+#: qt/app.py:2105
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1014,49 +1014,49 @@ msgstr ""
 "Извиняваме се за прекъсването и това съобщение няма да бъде показвано отново. Този диалог е достъпен по всяко време чрез менюто за помощ.\n"
 "Вашият екип на Back In Time"
 
-#: qt/app.py:2132
+#: qt/app.py:2134
 msgid "translation platform"
 msgstr "платформа за превод"
 
-#: qt/app.py:2137
+#: qt/app.py:2139
 msgid "Website"
 msgstr "Уебсайт"
 
-#: qt/app.py:2151
+#: qt/app.py:2153
 msgid "Your translation"
 msgstr "Вашият превод"
 
-#: qt/app.py:2164
+#: qt/app.py:2166
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "В Fediverse в платформата Mastodon: {link_and_label}"
 
-#: qt/app.py:2169
+#: qt/app.py:2171
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Писмо до {link_and_label}."
 
-#: qt/app.py:2172
+#: qt/app.py:2174
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Пощенски списък на адрес {link_and_label}"
 
-#: qt/app.py:2176
+#: qt/app.py:2178
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} на уебсайта на проекта."
 
-#: qt/app.py:2179
+#: qt/app.py:2181
 msgid "Open an issue"
 msgstr "Отвори нов сигнал за нередност"
 
-#: qt/app.py:2180
+#: qt/app.py:2182
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Като алтернатива можете да използвате друг канал за комуникация по ваш "
 "избор."
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1077,7 +1077,7 @@ msgstr ""
 "Благодарим ви за подкрепата и че ни помагате да подобрим Back In Time!\n"
 "Вашият екип Back In Time"
 
-#: qt/app.py:2285
+#: qt/app.py:2287
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Езиковите настройки влизат в сила само след рестартиране на Back In Time."

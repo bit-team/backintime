@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:21+0200\n"
-"PO-Revision-Date: 2025-04-30 12:13+0000\n"
+"POT-Creation-Date: 2025-06-15 09:10+0200\n"
+"PO-Revision-Date: 2025-06-15 07:09+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
@@ -94,7 +94,7 @@ msgstr "此目录不能包含在备份中，因为它是备份目标本身的一
 msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
-msgstr ""
+msgstr "可用空间的警告阈值必须大于或等于可用空间的删除阈值。"
 
 #: common/config.py:1505
 #, python-brace-format
@@ -158,7 +158,7 @@ msgstr "请确认密码。"
 msgid "Password doesn't match."
 msgstr "密码不匹配。"
 
-#: common/encfstools.py:516 common/snapshots.py:1105
+#: common/encfstools.py:516 common/snapshots.py:1107
 msgid "Take snapshot"
 msgstr "创建快照"
 
@@ -211,122 +211,122 @@ msgstr "已完成"
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
-msgstr ""
+msgstr "包含列表中的以下条目在备份源中没有对应的文件或目录："
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
 msgstr "在电池供电时推迟备份"
 
-#: common/snapshots.py:909 qt/app.py:366
+#: common/snapshots.py:911 qt/app.py:366
 msgid "Can't find backup directory."
 msgstr "找不到备份目录。"
 
-#: common/snapshots.py:913 qt/app.py:367
+#: common/snapshots.py:915 qt/app.py:367
 msgid "If it is on a removable drive, please plug it in."
 msgstr "如果它位于可移动驱动器上，请将其插入。"
 
-#: common/snapshots.py:916
+#: common/snapshots.py:918
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "等待 {n} 秒。"
 
-#: common/snapshots.py:982
+#: common/snapshots.py:984
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "无法创建备份 {snapshot_id}。"
 
-#: common/snapshots.py:1014
+#: common/snapshots.py:1016
 msgid "Please be patient. Finalizing…"
 msgstr "请耐心等待。正在最后确定…"
 
-#: common/snapshots.py:1140
+#: common/snapshots.py:1142
 msgid "Can't create directory."
 msgstr "无法创建目录。"
 
-#: common/snapshots.py:1157
+#: common/snapshots.py:1159
 msgid "Saving config file…"
 msgstr "保存配置文件…"
 
-#: common/snapshots.py:1238
+#: common/snapshots.py:1240
 msgid "Saving permissions…"
 msgstr "保存权限…"
 
-#: common/snapshots.py:1353
+#: common/snapshots.py:1355
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "找到可以继续的不完整备份 {snapshot_id}。"
 
-#: common/snapshots.py:1377
+#: common/snapshots.py:1379
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "正在从上次运行中移除不完整的 {snapshot_id} 目录"
 
-#: common/snapshots.py:1388
+#: common/snapshots.py:1390
 msgid "Can't remove directory"
 msgstr "无法移除目录"
 
-#: common/snapshots.py:1442
+#: common/snapshots.py:1444
 msgid "Creating backup"
 msgstr "正在创建备份"
 
-#: common/snapshots.py:1493
+#: common/snapshots.py:1495
 msgid "Success"
 msgstr "成功"
 
-#: common/snapshots.py:1496
+#: common/snapshots.py:1498
 msgid "Partial transfer due to error"
 msgstr "由于错误仅部分转移"
 
-#: common/snapshots.py:1497
+#: common/snapshots.py:1499
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "由于源文件消失导致仅部分传输（请参阅“man rsync”）"
 
-#: common/snapshots.py:1501
+#: common/snapshots.py:1503
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "“rsync”以退出代码 {exit_code} 结束"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1516
 msgid "See 'man rsync' for more details"
 msgstr "要了解详情，请查看“man rsync”"
 
-#: common/snapshots.py:1521
+#: common/snapshots.py:1523
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "负的 rsync 退出代码是信号编号，请参阅“kill -l”和“man Kill”"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1544
 msgid "Nothing changed, no new backup necessary"
 msgstr "没有任何更改，无需新备份"
 
-#: common/snapshots.py:1586
+#: common/snapshots.py:1588
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "无法将 {new_path} 重命名为 {path}。"
 
-#: common/snapshots.py:1918
+#: common/snapshots.py:1920
 msgid "Smart removal"
 msgstr "智能移除"
 
-#: common/snapshots.py:1970
+#: common/snapshots.py:1972
 msgid "Apply rules to remove old backups"
 msgstr "应用规则以移除旧备份"
 
-#: common/snapshots.py:2003
+#: common/snapshots.py:2005
 msgid "Apply retention policy"
 msgstr "应用保留策略"
 
-#: common/snapshots.py:2013
+#: common/snapshots.py:2015
 msgid "Trying to keep min free space"
 msgstr "尝试保留最小可用空间"
 
-#: common/snapshots.py:2051
+#: common/snapshots.py:2053
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
-#: common/snapshots.py:3137 qt/app.py:1910
+#: common/snapshots.py:3139 qt/app.py:1912
 msgid "Now"
 msgstr "现在"
 
@@ -544,7 +544,7 @@ msgstr "是否导入现有配置（从备份目标目录或另一台计算机）
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "然后按确定。"
 
 #: qt/app.py:478
 msgid "Create a backup"
@@ -587,23 +587,20 @@ msgid "Remove backup"
 msgstr "移除备份"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
-msgstr "查看备份日志"
+msgstr "打开备份日志"
 
 #: qt/app.py:515
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "必须至少选择一个目录进行备份。"
+msgstr "查看所选备份的日志。"
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "查看备份日志"
+msgstr "打开最新备份日志"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "查看最新备份的日志。"
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -645,7 +642,7 @@ msgstr "显示配置的配置文件手册页（backintime-config）"
 msgid "Open Back In Time website in browser"
 msgstr "在浏览器中打开 Back In Time 网站"
 
-#: qt/app.py:560 qt/app.py:1529
+#: qt/app.py:560 qt/app.py:1531
 msgid "Changelog"
 msgstr "更新日志"
 
@@ -694,7 +691,7 @@ msgstr "恢复"
 msgid "Restore the selected files or directories to the original destination."
 msgstr "将所选文件或目录恢复到原目标。"
 
-#: qt/app.py:597 qt/app.py:1701 qt/app.py:1733 qt/snapshotsdialog.py:175
+#: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "恢复至…"
 
@@ -726,7 +723,7 @@ msgstr "显示隐藏文件"
 msgid "Compare backups…"
 msgstr "比较备份…"
 
-#: qt/app.py:650 qt/app.py:2213
+#: qt/app.py:650 qt/app.py:2215
 msgid "Release Candidate"
 msgstr "候选版本"
 
@@ -820,28 +817,27 @@ msgstr "主目录"
 msgid "Backup directories"
 msgstr "备份目录"
 
-#: qt/app.py:1372
+#: qt/app.py:1374
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold} {unit}."
+"configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1377
-#, fuzzy
+#: qt/app.py:1379
 msgid "Proceed with the backup?"
-msgstr "是否移除所选备份？"
+msgstr "是否继续备份？"
 
-#: qt/app.py:1410
+#: qt/app.py:1412
 msgid "Backup name"
 msgstr "备份名称"
 
-#: qt/app.py:1461
+#: qt/app.py:1463
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "是否移除所选备份？"
 
-#: qt/app.py:1559
+#: qt/app.py:1561
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -850,14 +846,14 @@ msgstr ""
 "在覆盖或移除本地文件前创建带有后缀 {suffix}\n"
 "的备份副本。"
 
-#: qt/app.py:1567 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1569 qt/manageprofiles/tab_options.py:65
 #, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr "在恢复之前，将使用附加的后缀 {suffix} 重命名较新版本的文件。可以使用以下命令移除这些文件："
 
-#: qt/app.py:1583
+#: qt/app.py:1585
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -867,11 +863,11 @@ msgstr ""
 "比目标更新的元素。\n"
 "使用“rsync --update”选项。"
 
-#: qt/app.py:1618
+#: qt/app.py:1620
 msgid "Remove newer elements in original directory."
 msgstr "移除原目录中的较新元素。"
 
-#: qt/app.py:1621
+#: qt/app.py:1623
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -879,47 +875,47 @@ msgid ""
 "the creation of the backup."
 msgstr "将所选文件或目录恢复到原目标，并删除不在备份中的文件或目录。请务必小心，因为这将删除创建备份期间排除的文件和目录。"
 
-#: qt/app.py:1633
+#: qt/app.py:1635
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "是否确定要将所选元素恢复到新目录？"
 
-#: qt/app.py:1641
+#: qt/app.py:1643
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "是否确定要恢复所选元素？"
 
-#: qt/app.py:1660
+#: qt/app.py:1662
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "将会移除 {path} 中的所有较新文件。是否继续？"
 
-#: qt/app.py:1663
+#: qt/app.py:1665
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "将会移除原始目录中的所有较新文件。是否继续？"
 
-#: qt/app.py:1669
+#: qt/app.py:1671
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr "{BOLD}警告{BOLDEND}：删除文件系统根目录中的文件可能会破坏整个系统。"
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 msgid "Backup"
 msgstr "备份"
 
-#: qt/app.py:1957
+#: qt/app.py:1959
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "恢复 {path}"
 
-#: qt/app.py:1959
+#: qt/app.py:1961
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "恢复 {path} 至…"
 
-#: qt/app.py:2103
+#: qt/app.py:2105
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -936,47 +932,47 @@ msgstr ""
 "我们为这次的突然提示感到抱歉，且该信息将不会再次显示。您可以随时通过帮助菜单重新打开本对话框。\n"
 "Back In Time 团队"
 
-#: qt/app.py:2132
+#: qt/app.py:2134
 msgid "translation platform"
 msgstr "翻译平台"
 
-#: qt/app.py:2137
+#: qt/app.py:2139
 msgid "Website"
 msgstr "网站"
 
-#: qt/app.py:2151
+#: qt/app.py:2153
 msgid "Your translation"
 msgstr "您的翻译"
 
-#: qt/app.py:2164
+#: qt/app.py:2166
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "在联邦宇宙 Mastodon：{link_and_label}。"
 
-#: qt/app.py:2169
+#: qt/app.py:2171
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "发送电子邮件至 {link_and_label}。"
 
-#: qt/app.py:2172
+#: qt/app.py:2174
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "邮件列表 {link_and_label}。"
 
-#: qt/app.py:2176
+#: qt/app.py:2178
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} 在项目网站上。"
 
-#: qt/app.py:2179
+#: qt/app.py:2181
 msgid "Open an issue"
 msgstr "打开问题"
 
-#: qt/app.py:2180
+#: qt/app.py:2182
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "或者，您可以使用您选择的另一种途径。"
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -997,7 +993,7 @@ msgstr ""
 "感谢您的支持和帮助我们改进 Back In Time！\n"
 "您的 Back In Time 团队"
 
-#: qt/app.py:2285
+#: qt/app.py:2287
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "语言设置仅在重新启动 Back In Time 后生效。"
 

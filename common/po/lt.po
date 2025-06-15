@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 08:21+0200\n"
+"POT-Creation-Date: 2025-06-15 09:10+0200\n"
 "PO-Revision-Date: 2025-05-29 14:06+0000\n"
 "Last-Translator: Mooo <mooo@noreply.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
@@ -160,7 +160,7 @@ msgstr "Pakartokite slaptažodį."
 msgid "Password doesn't match."
 msgstr "Slaptažodžiai nesutampa."
 
-#: common/encfstools.py:516 common/snapshots.py:1105
+#: common/encfstools.py:516 common/snapshots.py:1107
 msgid "Take snapshot"
 msgstr "Daryti momentinę kopiją"
 
@@ -223,15 +223,15 @@ msgstr ""
 "Atsarginės kopijos darymas atidedamas, kol naudojama akumuliatoriaus "
 "energija"
 
-#: common/snapshots.py:909 qt/app.py:366
+#: common/snapshots.py:911 qt/app.py:366
 msgid "Can't find backup directory."
 msgstr "Nepavyksta surasti atsarginės kopijos katalogo."
 
-#: common/snapshots.py:913 qt/app.py:367
+#: common/snapshots.py:915 qt/app.py:367
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Jeigu jis yra keičiamajame diske, tada prijunkite jį."
 
-#: common/snapshots.py:916
+#: common/snapshots.py:918
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
@@ -239,105 +239,105 @@ msgstr[0] "Laukiama {n} sekundę."
 msgstr[1] "Laukiama {n} sekundes."
 msgstr[2] "Laukiama {n} sekundžių."
 
-#: common/snapshots.py:982
+#: common/snapshots.py:984
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Nepavyko sukurti atsarginės kopijos {snapshot_id}."
 
-#: common/snapshots.py:1014
+#: common/snapshots.py:1016
 msgid "Please be patient. Finalizing…"
 msgstr "Būkite kantrūs. Užbaigiama…"
 
-#: common/snapshots.py:1140
+#: common/snapshots.py:1142
 msgid "Can't create directory."
 msgstr "Nepavyksta sukurti katalogo."
 
-#: common/snapshots.py:1157
+#: common/snapshots.py:1159
 msgid "Saving config file…"
 msgstr "Įrašomas konfigūracijos failas…"
 
-#: common/snapshots.py:1238
+#: common/snapshots.py:1240
 msgid "Saving permissions…"
 msgstr "Įrašomi leidimai…"
 
-#: common/snapshots.py:1353
+#: common/snapshots.py:1355
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Rasta neužbaigta atsarginė kopija {snapshot_id}, kuri gali būti pratęsta."
 
-#: common/snapshots.py:1377
+#: common/snapshots.py:1379
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Šalinamas neužbaigtas {snapshot_id} katalogas iš praeito paleidimo"
 
-#: common/snapshots.py:1388
+#: common/snapshots.py:1390
 msgid "Can't remove directory"
 msgstr "Nepavyksta pašalinti katalogo"
 
-#: common/snapshots.py:1442
+#: common/snapshots.py:1444
 msgid "Creating backup"
 msgstr "Kuriama atsarginė kopija"
 
-#: common/snapshots.py:1493
+#: common/snapshots.py:1495
 msgid "Success"
 msgstr "Pavyko"
 
-#: common/snapshots.py:1496
+#: common/snapshots.py:1498
 msgid "Partial transfer due to error"
 msgstr ""
 
-#: common/snapshots.py:1497
+#: common/snapshots.py:1499
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 
-#: common/snapshots.py:1501
+#: common/snapshots.py:1503
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr ""
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1516
 msgid "See 'man rsync' for more details"
 msgstr "Išsamesnei informacijai žiūrėkite „man rsync“"
 
-#: common/snapshots.py:1521
+#: common/snapshots.py:1523
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1544
 msgid "Nothing changed, no new backup necessary"
 msgstr "Niekas nepakito, nėra reikalo daryti naują atsarginę kopiją"
 
-#: common/snapshots.py:1586
+#: common/snapshots.py:1588
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Nepavyksta pervadinti {new_path} į {path}."
 
-#: common/snapshots.py:1918
+#: common/snapshots.py:1920
 msgid "Smart removal"
 msgstr "Išmanus šalinimas"
 
-#: common/snapshots.py:1970
+#: common/snapshots.py:1972
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Senų momentinių kopijų pašalinimas"
 
-#: common/snapshots.py:2003
+#: common/snapshots.py:2005
 msgid "Apply retention policy"
 msgstr ""
 
-#: common/snapshots.py:2013
+#: common/snapshots.py:2015
 #, fuzzy
 msgid "Trying to keep min free space"
 msgstr "Bandyti"
 
-#: common/snapshots.py:2051
+#: common/snapshots.py:2053
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Bandoma išlaikyti mažiausiai {perc} laisvų inodų"
 
-#: common/snapshots.py:3137 qt/app.py:1910
+#: common/snapshots.py:3139 qt/app.py:1912
 msgid "Now"
 msgstr "Dabar"
 
@@ -678,7 +678,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Atverti naršyklėje Back In Time internetinę svetainę"
 
-#: qt/app.py:560 qt/app.py:1529
+#: qt/app.py:560 qt/app.py:1531
 msgid "Changelog"
 msgstr "Keitinių žurnalas"
 
@@ -727,7 +727,7 @@ msgstr "Atkurti"
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Atkurti pasirinktus failus ar katalogus į pradinę paskirties vietą."
 
-#: qt/app.py:597 qt/app.py:1701 qt/app.py:1733 qt/snapshotsdialog.py:175
+#: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Atkurti į…"
 
@@ -763,7 +763,7 @@ msgstr "Rodyti paslėptus failus"
 msgid "Compare backups…"
 msgstr "Palyginti atsargines kopijas…"
 
-#: qt/app.py:650 qt/app.py:2213
+#: qt/app.py:650 qt/app.py:2215
 msgid "Release Candidate"
 msgstr "Kandidatinė versija"
 
@@ -862,30 +862,30 @@ msgstr "Pradžia"
 msgid "Backup directories"
 msgstr "Atsarginių kopijų katalogai"
 
-#: qt/app.py:1372
+#: qt/app.py:1374
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold} {unit}."
+"configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1377
+#: qt/app.py:1379
 #, fuzzy
 msgid "Proceed with the backup?"
 msgstr "Šalinti šią atsarginę kopiją?"
 
-#: qt/app.py:1410
+#: qt/app.py:1412
 msgid "Backup name"
 msgstr "Atsarginės kopijos pavadinimas"
 
-#: qt/app.py:1461
+#: qt/app.py:1463
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Šalinti šią atsarginę kopiją?"
 msgstr[1] "Šalinti šias atsargines kopijas?"
 msgstr[2] "Šalinti šias atsargines kopijas?"
 
-#: qt/app.py:1559
+#: qt/app.py:1561
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -894,7 +894,7 @@ msgstr ""
 "Sukurkite atsargines kopijas su pabaiga {suffix} prieš tai\n"
 "vietinių failų perrašymas arba pašalinimas."
 
-#: qt/app.py:1567 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1569 qt/manageprofiles/tab_options.py:65
 #, fuzzy, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -903,7 +903,7 @@ msgstr ""
 "Prieš atkuriant, naujesnės failų versijos bus pervardytos su pabaiga {suffix}.\n"
 "Jei jums jų nebereikia, galite juos pašalinti naudodami {cmd}"
 
-#: qt/app.py:1583
+#: qt/app.py:1585
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -913,11 +913,11 @@ msgstr ""
 "kurie yra naujesni nei esantys paskirties vietoje.\n"
 "Naudojama „rsync --update“ parinktis."
 
-#: qt/app.py:1618
+#: qt/app.py:1620
 msgid "Remove newer elements in original directory."
 msgstr "Pašalinti naujesnius elementus iš pradinio katalogo."
 
-#: qt/app.py:1621
+#: qt/app.py:1623
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -930,31 +930,31 @@ msgstr ""
 "Tai ištrins failus/aplankus, kurie nebuvo įtraukti į kopiją jos kūrimo metu.\n"
 "Būkite labai atsargūs!!!"
 
-#: qt/app.py:1633
+#: qt/app.py:1635
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Ar tikrai atkurti šį elementą į naują katalogą?"
 msgstr[1] "Ar tikrai atkurti šiuos elementus į naują katalogą?"
 msgstr[2] "Ar tikrai atkurti šiuos elementus į naują katalogą?"
 
-#: qt/app.py:1641
+#: qt/app.py:1643
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Ar tikrai atkurti šį elementą?"
 msgstr[1] "Ar tikrai atkurti šiuos elementus?"
 msgstr[2] "Ar tikrai atkurti šiuos elementus?"
 
-#: qt/app.py:1660
+#: qt/app.py:1662
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Visi naujesni failai, esantys {path}, bus pašalinti. Tęsti?"
 
-#: qt/app.py:1663
+#: qt/app.py:1665
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Visi pradiniame kataloge esantys naujesni failai bus pašalinti. Tęsti?"
 
-#: qt/app.py:1669
+#: qt/app.py:1671
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -963,21 +963,21 @@ msgstr ""
 "{BOLD}Įspėjimas{BOLDEND}: Failų sistemos šaknyje esančių failų ištrynimas "
 "gali sugadinti visą sistemą."
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 msgid "Backup"
 msgstr "Atsarginė kopija"
 
-#: qt/app.py:1957
+#: qt/app.py:1959
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Atkurti {path}"
 
-#: qt/app.py:1959
+#: qt/app.py:1961
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Atkurti {path} į…"
 
-#: qt/app.py:2103
+#: qt/app.py:2105
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -994,47 +994,47 @@ msgstr ""
 "Atsiprašome už sutrukdymą, ši žinutė daugiau nebebus rodoma. Ši informacija pasiekiama bet kuriuo laiku pagalbos meniu.\n"
 "Jūsų Back In Time komanda"
 
-#: qt/app.py:2132
+#: qt/app.py:2134
 msgid "translation platform"
 msgstr "vertimo platformoje"
 
-#: qt/app.py:2137
+#: qt/app.py:2139
 msgid "Website"
 msgstr "Internetinė svetainė"
 
-#: qt/app.py:2151
+#: qt/app.py:2153
 msgid "Your translation"
 msgstr "Jūsų vertimas"
 
-#: qt/app.py:2164
+#: qt/app.py:2166
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Fediverse ties Mastodon: {link_and_label}."
 
-#: qt/app.py:2169
+#: qt/app.py:2171
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "El. paštas {link_and_label}."
 
-#: qt/app.py:2172
+#: qt/app.py:2174
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "El. pašto grupė {link_and_label}."
 
-#: qt/app.py:2176
+#: qt/app.py:2178
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} apsilankius projekto internetinėje svetainėje."
 
-#: qt/app.py:2179
+#: qt/app.py:2181
 msgid "Open an issue"
 msgstr "Pateikti pranešimą apie klaidą"
 
-#: qt/app.py:2180
+#: qt/app.py:2182
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Arba savo nuožiūra galite naudoti kitą susisiekimo kanalą."
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1055,7 +1055,7 @@ msgstr ""
 "Dėkojame už jūsų palaikymą ir už tai, kad padedate mums tobulinti Back In Time!\n"
 "Jūsų Back In Time komanda"
 
-#: qt/app.py:2285
+#: qt/app.py:2287
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Kalbos nustatymai įsigalios tik paleidus Back In Time iš naujo."
 

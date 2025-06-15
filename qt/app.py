@@ -1367,19 +1367,21 @@ class MainWindow(QMainWindow):
     def _take_snapshot_clicked(self, checksum):
         sn = snapshots.Snapshots(self.config)
         real = sn.get_free_space_at_destination()
-        warn = sn.config.warnFreeSpace()
-        if warn >= real:
-            msg = _('Only {free} free space available on the '
-                    'destination, which is below the configured threshold '
-                    'of {threshold} {unit}.').format(
-                        free=str(real),
-                        threshold=str(warn))
-            qst = _('Proceed with the backup?')
-            proceed = messagebox.warning(
-                f'<p>{msg}</p><p>{qst}</p>', as_question=True)
 
-            if proceed is False:
-                return
+        if real is not None:
+            warn = sn.config.warnFreeSpace()
+            if warn >= real:
+                msg = _('Only {free} free space available on the '
+                        'destination, which is below the configured threshold '
+                        'of {threshold}.').format(
+                            free=str(real),
+                            threshold=str(warn))
+                qst = _('Proceed with the backup?')
+                proceed = messagebox.warning(
+                    f'<p>{msg}</p><p>{qst}</p>', as_question=True)
+
+                if proceed is False:
+                    return
 
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
