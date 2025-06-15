@@ -725,7 +725,7 @@ class Snapshots:
         """
         missing_entries = self.get_include_entries_missing_in_source()
 
-        if True:  # missing_entries:
+        if missing_entries:
             # Dev note (2025-03, buhtz): Make this a module constant if #2070
             # is fixed.
             msg = _(
