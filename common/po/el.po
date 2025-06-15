@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-30 10:02+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-06-15 08:21+0200\n"
+"PO-Revision-Date: 2025-05-08 07:24+0000\n"
+"Last-Translator: GiannosOB <giannosob@noreply.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -19,73 +19,72 @@ msgstr ""
 "X-Generator: Weblate 5.10.2\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
-#: qt/messagebox.py:77
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
+#: qt/messagebox.py:92
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: common/config.py:148 common/config.py:256
+#: common/config.py:138 common/config.py:246
 msgid "Main profile"
 msgstr "Κύριο Προφίλ"
 
-#: common/config.py:262
+#: common/config.py:252
 msgid "Local (EncFS encrypted)"
 msgstr "Τοπικό (EncFS κρυπτογραφημένο)"
 
-#: common/config.py:263
+#: common/config.py:253
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (EncFS κρυπτογραφημένο)"
 
-#: common/config.py:274
+#: common/config.py:264
 msgid "Local"
 msgstr "Τοπικό"
 
-#: common/config.py:276
+#: common/config.py:266
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:276 common/config.py:286
-#: qt/manageprofiles/tab_general.py:648
+#: common/config.py:266 common/config.py:276
+#: qt/manageprofiles/tab_general.py:635
 msgid "SSH private key"
-msgstr "Ιδιωτικό κλειδί SSH"
+msgstr "SSH ιδιωτικό κλειδί"
 
-#: common/config.py:279
+#: common/config.py:269
 msgid "Local encrypted"
 msgstr "Τοπικά κρυπτογραφημένο"
 
-#: common/config.py:280 common/config.py:287
+#: common/config.py:270 common/config.py:277
 msgid "Encryption"
 msgstr "Κρυπτογράφηση"
 
-#: common/config.py:285
+#: common/config.py:275
 msgid "SSH encrypted"
 msgstr "SSH κρυπτογραφημένο"
 
-#: common/config.py:292
+#: common/config.py:283
 msgid "Default"
 msgstr "Προεπιλογή"
 
-#: common/config.py:323 common/config.py:335 common/config.py:353
-#: common/config.py:367
+#: common/config.py:314 common/config.py:326 common/config.py:344
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Προφίλ: \"{name}\""
 
-#: common/config.py:324
-#, fuzzy
+#: common/config.py:315
 msgid "Backup directory is not valid."
-msgstr "Ο φάκελος στιγμιοτύπων δεν είναι έγκυρος."
+msgstr "Ο κατάλογος αντιγράφων ασφαλείας δεν είναι έγκυρος."
 
-#: common/config.py:336
+#: common/config.py:327
 msgid "At least one directory must be selected for backup."
 msgstr "Πρέπει να επιλεχτεί τουλάχιστον ένας φάκελος για αντίγραφα ασφαλείας."
 
-#: common/config.py:354 common/config.py:369
+#: common/config.py:345 common/config.py:360
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Κατάλογος: {path}"
 
-#: common/config.py:355 common/config.py:370
+#: common/config.py:346 common/config.py:361
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -93,12 +92,22 @@ msgstr ""
 "Αυτός ο κατάλογος δεν μπορεί να συμπεριληφθεί στο αντίγραφο ασφαλείας, καθώς"
 " αποτελεί μέρος του ίδιου του προορισμού δημιουργίας αντιγράφων ασφαλείας."
 
-#: common/config.py:1466
+#: common/config.py:380
+msgid ""
+"The warning threshold for free space must be greater than or equal to the "
+"removing threshold by free space."
+msgstr ""
+
+#: common/config.py:1505
+#, python-brace-format
+msgid "Udev schedule doesn't work with mode {mode}"
+msgstr "Ο χρονοπρογραμματισμός με Udev δεν δουλεύει με τη λειτουργία {mode}"
+
+#: common/config.py:1559
 msgid "Failed to write new crontab."
 msgstr "Αποτυχία εγγραφής καινούργιου crontab."
 
-#: common/config.py:1474
-#, fuzzy
+#: common/config.py:1567
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -106,30 +115,12 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Το Cron δεν εκτελείται παρά το γεγονός ότι η εντολή crontab είναι διαθέσιμη."
-" Οι προγραμματισμένες εργασίες δημιουργίας αντιγράφων ασφαλείας δεν θα "
-"εκτελεστούν. Το Cron μπορεί να είναι εγκατεστημένο αλλά να μην είναι "
-"ενεργοποιημένο. Δοκιμάστε την εντολή \"systemctl enable cron\" ή "
-"συμβουλευτείτε τα κανάλια υποστήριξης της GNU/Linux διανομής σας."
-
-#: common/config.py:1556
-#, fuzzy, python-brace-format
-msgid ""
-"Could not install Udev rule for profile {profile_id}. DBus Service "
-"'{dbus_interface}' wasn't available."
-msgstr ""
-"Αποτυχία εγκατάστασης κανόνα Udev για το προφίλ {profile_id}. Η υπηρεσία "
-"DBus '{dbus_interface}' δεν ήταν διαθέσιμη"
-
-#: common/config.py:1571
-#, python-brace-format
-msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Ο χρονοπρογραμματισμός με Udev δεν δουλεύει με τη λειτουργία {mode}"
-
-#: common/config.py:1582
-#, python-brace-format
-msgid "Couldn't find UUID for {path}"
-msgstr "Δεν βρέθηκε το UUID για το {path}"
+"Το Cron δεν εκτελείται, παρόλο που η εντολή crontab είναι διαθέσιμη. Οι "
+"προγραμματισμένες εργασίες δημιουργίας αντιγράφων ασφαλείας δεν θα "
+"εκτελεστούν. Το Cron ενδέχεται να είναι εγκατεστημένο αλλά όχι "
+"ενεργοποιημένο. Δοκιμάστε να εκτελέσετε τις δύο εντολές \"systemctl enable "
+"cron\" και \"systemctl start cron\" ή συμβουλευτείτε τα κανάλια υποστήριξης "
+"της διανομής GNU/Linux που χρησιμοποιείται αυτήν τη στιγμή για βοήθεια."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -173,7 +164,7 @@ msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό."
 msgid "Password doesn't match."
 msgstr "Ο κωδικός δεν ταιριάζει."
 
-#: common/encfstools.py:516 common/snapshots.py:1055
+#: common/encfstools.py:516 common/snapshots.py:1105
 msgid "Take snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
@@ -194,149 +185,166 @@ msgstr ""
 msgid "Mountpoint {mntpoint} not empty."
 msgstr "Το σημείο προσάρτησης {mntpoint} δεν είναι κενό."
 
-#: common/password.py:279
+#: common/password.py:296
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Καταχώρηση κωδικού για {mode} προφίλ \"{profile}\":"
 
-#: common/snapshots.py:372 common/snapshots.py:626
+#: common/schedule.py:232
+#, python-brace-format
+msgid ""
+"Could not install Udev rule for profile {profile_id}. DBus Service "
+"'{dbus_interface}' wasn't available."
+msgstr ""
+"Δεν ήταν δυνατή η εγκατάσταση του κανόνα Udev για το προφίλ {profile_id}. Η "
+"υπηρεσία DBus '{dbus_interface}' δεν ήταν διαθέσιμη."
+
+#: common/schedule.py:245
+#, python-brace-format
+msgid "Couldn't find UUID for {path}"
+msgstr "Δεν βρέθηκε το UUID για το {path}"
+
+#: common/snapshots.py:375 common/snapshots.py:629
 msgid "FAILED"
 msgstr "ΑΠΟΤΥΧΙΑ"
 
-#: common/snapshots.py:569 common/snapshots.py:637
+#: common/snapshots.py:572 common/snapshots.py:640
 msgid "Restore permissions"
 msgstr "Επαναφορά δικαιωμάτων"
 
-#: common/snapshots.py:632 qt/app.py:295 qt/app.py:1089 qt/app.py:1124
+#: common/snapshots.py:635 qt/app.py:295 qt/app.py:1100 qt/app.py:1135
 #: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "Ολοκληρώθηκε"
 
-#: common/snapshots.py:752
+#: common/snapshots.py:732
+msgid ""
+"The following entries from the include list have no corresponding file or "
+"directory in the backup source:"
+msgstr ""
+
+#: common/snapshots.py:795
 msgid "Deferring backup while on battery"
 msgstr "Αναβολή του backup όσο το σύστημα βρίσκεται σε μπαταρία"
 
-#: common/snapshots.py:856 qt/app.py:366
-#, fuzzy
+#: common/snapshots.py:909 qt/app.py:366
 msgid "Can't find backup directory."
-msgstr "Αδυναμία δημιουργίας φακέλου στιγμιοτύπων."
+msgstr "Δεν είναι δυνατή η εύρεση του καταλόγου αντιγράφων ασφαλείας.."
 
-#: common/snapshots.py:860
-#, fuzzy
+#: common/snapshots.py:913 qt/app.py:367
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Εάν βρίσκεται σε αφαιρούμενη συσκευή, παρακαλώ συνδέστε την."
+msgstr "Εάν βρίσκεται σε αφαιρούμενη μονάδα δίσκου, συνδέστε την."
 
-#: common/snapshots.py:863
-#, fuzzy, python-brace-format
+#: common/snapshots.py:916
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Αναμονή %s δευτερόλεπτο."
-msgstr[1] "Αναμονή %s δευτερόλεπτα."
+msgstr[0] "Αναμονή {n} δευτερόλεπτο."
+msgstr[1] "Αναμονή {n} δευτερόλεπτα."
 
-#: common/snapshots.py:928
-#, fuzzy, python-brace-format
+#: common/snapshots.py:982
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Αποτυχία λήψης στιγμιότυπου {snapshot_id}."
+msgstr "Αποτυχία δημηιουργίας αντιγράφου ασφαλείας {snapshot_id}."
 
-#: common/snapshots.py:960
+#: common/snapshots.py:1014
 msgid "Please be patient. Finalizing…"
-msgstr "Παρακαλώ για την υπομονή σας. Ολοκληρώνεται…"
+msgstr "Παρακαλώ να είστε υπομονετικοί. Οριστικοποίηση…"
 
-#: common/snapshots.py:1090
+#: common/snapshots.py:1140
 msgid "Can't create directory."
-msgstr "Αδυναμία δημιουργίας φακέλου."
+msgstr "Δεν είναι δυνατή η δημιουργία καταλόγου."
 
-#: common/snapshots.py:1107
+#: common/snapshots.py:1157
 msgid "Saving config file…"
 msgstr "Αποθήκευση αρχείου ρυθμίσεων…"
 
-#: common/snapshots.py:1188
+#: common/snapshots.py:1238
 msgid "Saving permissions…"
 msgstr "Αποθήκευση δικαιωμάτων…"
 
-#: common/snapshots.py:1303
-#, fuzzy, python-brace-format
+#: common/snapshots.py:1353
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Βρέθηκε παλαιότερο στιγμιότυπο {snapshot_id} το οποίο μπορεί να συνεχιστεί."
+"Βρέθηκε ένα μη ολοκληρωμένο αντίγραφο ασφαλείας {snapshot_id} του οποίου η "
+"δημιουργία μπορεί να συνεχιστεί."
 
-#: common/snapshots.py:1327
-#, fuzzy, python-brace-format
+#: common/snapshots.py:1377
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
-"Αφαίρεση του εναπομείναντα φακέλου {snapshot_id} της τελευταίας εκτέλεσης"
+"Αφαίρεση του ελλιπούς καταλόγου {snapshot_id} από την τελευταία εκτέλεση"
 
-#: common/snapshots.py:1338
+#: common/snapshots.py:1388
 msgid "Can't remove directory"
 msgstr "Αδυναμία αφαίρεσης καταλόγου"
 
-#: common/snapshots.py:1392
+#: common/snapshots.py:1442
 msgid "Creating backup"
-msgstr ""
+msgstr "Δημιουργία αντιγράφων ασφαλείας"
 
-#: common/snapshots.py:1443
+#: common/snapshots.py:1493
 msgid "Success"
 msgstr "Επιτυχία"
 
-#: common/snapshots.py:1446
+#: common/snapshots.py:1496
 msgid "Partial transfer due to error"
 msgstr "Μερική μεταφορά λόγω σφάλματος"
 
-#: common/snapshots.py:1447
+#: common/snapshots.py:1497
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Μερική μεταφορά λόγω εξαφανισμένων αρχείων πηγής (δείτε 'man rsync')"
 
-#: common/snapshots.py:1451
+#: common/snapshots.py:1501
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "Η διεργασία 'rsync' τελείωσε με κωδικό {exit_code}"
 
-#: common/snapshots.py:1464
+#: common/snapshots.py:1514
 msgid "See 'man rsync' for more details"
 msgstr "Δείτε το 'man rsync' για περισσότερες λεπτομέρειες"
 
-#: common/snapshots.py:1471
+#: common/snapshots.py:1521
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Οι αρνητικοί αριθμοί ως κωδικοί εξόδου του rsync είναι αριθμοί σήματος, "
 "δείτε 'kill -l' και 'man kill'"
 
-#: common/snapshots.py:1492
-#, fuzzy
+#: common/snapshots.py:1542
 msgid "Nothing changed, no new backup necessary"
-msgstr "Δεν άλλαξε τίποτα, δεν είναι απαραίτητη η λήψη νέου στιγμιότυπου"
+msgstr "Δεν άλλαξε τίποτα, δεν χρειάζεται νέο αντίγραφο ασφαλείας"
 
-#: common/snapshots.py:1536
+#: common/snapshots.py:1586
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Αδυναμία μετονομασίας {new_path} σε {path}."
 
-#: common/snapshots.py:1868
+#: common/snapshots.py:1918
 msgid "Smart removal"
 msgstr "Έξυπνη αφαίρεση"
 
-#: common/snapshots.py:1901
-#, fuzzy
+#: common/snapshots.py:1970
 msgid "Apply rules to remove old backups"
-msgstr "Εφαρμόστε κανόνες για να αφαιρέσετε παλιά στιγμιότυπα"
+msgstr "Εφαρμογή κανόνων για την κατάργηση παλιών αντιγράφων ασφαλείας"
 
-#: common/snapshots.py:1934
+#: common/snapshots.py:2003
 msgid "Apply retention policy"
 msgstr "Εφαρμόστε πολιτική διατήρησης"
 
-#: common/snapshots.py:1944
+#: common/snapshots.py:2013
 msgid "Trying to keep min free space"
 msgstr "Προσπάθεια διατήρησης ελάχιστου ελεύθερου χώρου"
 
-#: common/snapshots.py:1983
+#: common/snapshots.py:2051
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 "Προσπαάθεια διατήρησης ελάχιστου ποσοστού {perc} ελεύθερων συστημάτων "
 "αρχείου (inodes)"
 
-#: common/snapshots.py:3119 qt/app.py:1878
+#: common/snapshots.py:3137 qt/app.py:1910
 msgid "Now"
 msgstr "Τώρα"
 
@@ -350,7 +358,7 @@ msgid "ssh-agent not found. Please ensure it is installed."
 msgstr ""
 "το ssh-agent δε βρέθηκε. Παρακαλώ βεβαιωθείτε ότι είναι εγκατεστημένο."
 
-#: common/sshtools.py:470
+#: common/sshtools.py:477
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -358,61 +366,56 @@ msgstr ""
 "Δεν ήταν δυνατό το ξεκλείδωμα του ιδιωτικού κλειδιού SSH. Λάθος κωδικός ή "
 "δεν υπάρχει διαθέσιμος κωδικός για cron."
 
-#: common/sshtools.py:559
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr "Το κρυπτογράφημα {cipher} απέτυχε για τον {host}."
-
-#: common/sshtools.py:706
+#: common/sshtools.py:713
 msgid "Remote path exists but is not a directory."
 msgstr "Η απομακρυσμένη διαδρομή υπάρχει αλλά δεν είναι φάκελος."
 
-#: common/sshtools.py:711
+#: common/sshtools.py:718
 msgid "Remote path is not writable."
 msgstr "Η απομακρυσμένη διαδρομή δεν είναι εγγράψιμη."
 
-#: common/sshtools.py:716
+#: common/sshtools.py:723
 msgid "Remote path is not executable."
 msgstr "Η απομακρυσμένη διαδρομή δεν είναι εκτελέσιμη."
 
-#: common/sshtools.py:721
+#: common/sshtools.py:728
 msgid "Couldn't create remote path."
 msgstr "Αδυναμία δημιουργίας απομακρυσμένης διαδρομής."
 
-#: common/sshtools.py:1008
+#: common/sshtools.py:1015
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr ""
 "Ο απομακρυσμένος διακομιστής {host} δεν υποστηρίζει την εντολή {command}"
 
-#: common/sshtools.py:1012 common/sshtools.py:1021
+#: common/sshtools.py:1019 common/sshtools.py:1028
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Βλέπε 'man backintime' για περισσότερες οδηγίες"
 
-#: common/sshtools.py:1016
+#: common/sshtools.py:1023
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 "Οι εντολές ελέγχου στον διακομιστή {host} επέστρεψαν ένα άγνωστο σφάλμα"
 
-#: common/sshtools.py:1037
+#: common/sshtools.py:1044
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "O απομακρυσμένος διακομιστής {host} δεν υποστηρίζει hardlinks"
 
-#: common/sshtools.py:1191
+#: common/sshtools.py:1198
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 "Αντιγράψτε το δημόσιο κλειδί SSH \"{pubkey}\" στον απομακρυσμένο διακομιστή "
 "\"{host}\"."
 
-#: common/sshtools.py:1193
+#: common/sshtools.py:1200
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό του \"{user}\"."
 
-#: common/tools.py:401
+#: common/tools.py:404
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -421,20 +424,20 @@ msgstr ""
 "Το σύστημα αρχείων του προορισμού για το {path} είναι μορφοποιημένο με NTFS,"
 " το οποίο είναι ασύμβατο με συστήματα αρχείων προορισμού Unix."
 
-#: common/tools.py:433
+#: common/tools.py:436
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} δεν είναι έγκυρος κατάλογος."
 
-#: common/tools.py:447
+#: common/tools.py:450
 msgid "Creation of following directory failed:"
 msgstr "Η δημιουργία του ακόλουθου καταλόγου απέτυχε:"
 
-#: common/tools.py:449 common/tools.py:545
+#: common/tools.py:452 common/tools.py:548
 msgid "Write access may be restricted."
 msgstr "Τα δικαιώματα εγγραφής μπορεί να είναι περιορισμένα."
 
-#: common/tools.py:489
+#: common/tools.py:492
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -444,7 +447,7 @@ msgstr ""
 "το οποίο δεν υποστηρίζει hard-links. Παρακαλώ χρησιμοποιήστε ένα εγγενές "
 "σύστημα αρχείων GNU/Linux."
 
-#: common/tools.py:500
+#: common/tools.py:503
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -456,15 +459,15 @@ msgstr ""
 "υποστηρίζει συμβολικούς συνδέσμους ή ενεργοποιήστε το \"{copyLinks}\" στο "
 "\"{expertOptions}\"."
 
-#: common/tools.py:504 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:507 qt/manageprofiles/tab_expert_options.py:253
 msgid "Copy links (dereference symbolic links)"
 msgstr "Αντιγραφή συνδέσμων (αφαίρεση αναφοράς των συμβολικών συνδέσμων)"
 
-#: common/tools.py:505
+#: common/tools.py:508
 msgid "Expert Options"
 msgstr "Προχωρημένες Ρυθμίσεις"
 
-#: common/tools.py:509
+#: common/tools.py:512
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -474,28 +477,25 @@ msgstr ""
 "που προσαρτάται μέσω sshfs. Το Sshfs δεν υποστηρίζει σκληρούς συνδέσμους. "
 "Χρησιμοποιήστε τη λειτουργία \"SSH\"."
 
-#: common/tools.py:543
+#: common/tools.py:546
 msgid "File creation failed in this directory:"
 msgstr "Αδυναμία δημιουργίας φακέλου στον κατάλογο:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "ΣΧετικά με Back In Time"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "Πνευματική ιδιοκτησία:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Δικαιούχοι"
+msgstr "Συγγραφείς:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Μεταφράσεις"
+msgstr "Μεταφραστές:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -507,15 +507,18 @@ msgstr ""
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
 msgstr ""
+"Οι έπαινοι του μεταφραστή δεν είναι διαθέσιμοι για την τρέχουσα γλώσσα."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "αυτός ο σύνδεσμος"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
+"Ακολουθήστε {thislink} για να λάβετε έπαινους μεταφραστή για όλες τις "
+"γλώσσες."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -524,43 +527,45 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Όλες οι άδειες χρήσης που χρησιμοποιούνται σε αυτό το έργο βρίσκονται στον "
+"κατάλογο {dir_link}. Για να εξαγάγετε πληροφορίες άδειας χρήσης και "
+"πνευματικών δικαιωμάτων ανά αρχείο χρησιμοποιώντας μεταδεδομένα SPDX, "
+"ανατρέξτε στο {readme_link}."
 
-#: qt/aboutdlg.py:236 qt/app.py:550
+#: qt/aboutdlg.py:223 qt/app.py:555
 msgid "Project website"
 msgstr "Ιστοσελίδα του έργου"
 
-#: qt/aboutdlg.py:241 qt/app.py:532
+#: qt/aboutdlg.py:228 qt/app.py:537
 msgid "User manual"
 msgstr "Εγχειρίδιο χρήστη"
 
-#: qt/aboutdlg.py:242 qt/app.py:534
+#: qt/aboutdlg.py:229 qt/app.py:539
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικό εάν είναι "
 "διαθέσιμο διαφορετικά στο διαδίκτυο)"
 
-#: qt/aboutdlg.py:272
-#, fuzzy
+#: qt/aboutdlg.py:259
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
-#: qt/aboutdlg.py:293
+#: qt/aboutdlg.py:280
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Έκδοση{BOLDEND}: {version}"
 
 #: qt/app.py:175
 msgid "Shortcuts"
 msgstr "Συντομεύσεις"
 
 #: qt/app.py:195
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
 "Αυτός ο κατάλογος δεν υπάρχει\n"
-"στο τρέχον επιλεγμένο στιγμιότυπο."
+"στο τρέχον επιλεγμένο αντίγραφο ασφαλείας."
 
 #: qt/app.py:260
 msgid "Add to Include"
@@ -587,170 +592,171 @@ msgstr ""
 "Εισαγωγή υπάρχουσας παραμετροποίησης (από κατάλογο ανάκτησης ή από άλλο "
 "υπολογιστή);"
 
-#: qt/app.py:367
-#, fuzzy
-msgid "If it is on a removable drive, please plug it in. Then press OK."
+#: qt/app.py:368
+msgid "Then press OK."
 msgstr ""
-"Εάν βρίσκεται σε αφαιρούμενη συσκευή, παρακαλώ συνδέστε την και στην "
-"συνέχεια πατήστε ΟΚ."
 
-#: qt/app.py:473
+#: qt/app.py:478
 msgid "Create a backup"
-msgstr ""
+msgstr "Δημιουργήστε ένα αντίγραφο ασφαλείας"
 
-#: qt/app.py:475
+#: qt/app.py:480
 msgid "Use modification time & size for file change detection."
 msgstr "Χρήση ώρας τροποποίησης και μεγέθους, για ανίχνευση αλλαγής αρχείου."
 
-#: qt/app.py:478
-#, fuzzy
+#: qt/app.py:483
 msgid "Create a backup (checksum mode)"
-msgstr "Λήψη στιγμιοτύπου (κατάσταση checksum)"
+msgstr "Δημιουργία αντιγράφου ασφαλείας (λειτουργία ελέγχου αθροίσματος)"
 
-#: qt/app.py:480
+#: qt/app.py:485
 msgid "Use checksums for file change detection."
 msgstr "Χρήση των checksum για ανίχνευση αλλαγών αρχείου."
 
-#: qt/app.py:483 qt/qtsystrayicon.py:79
-#, fuzzy
+#: qt/app.py:488 qt/qtsystrayicon.py:79
 msgid "Pause backup process"
-msgstr "Παύση της διαδικασίας στιγμιοτύπου"
+msgstr "Παύση της διαδικασίας δημιουργίας αντιγράφων ασφαλείας"
 
-#: qt/app.py:488 qt/qtsystrayicon.py:84
-#, fuzzy
+#: qt/app.py:493 qt/qtsystrayicon.py:84
 msgid "Resume backup process"
-msgstr "Συνέχιση διαδικασίας στιγμιοτύπου"
+msgstr "Συνέχιση της διαδικασίας δημιουργίας αντιγράφων ασφαλείας"
 
-#: qt/app.py:492 qt/qtsystrayicon.py:90
-#, fuzzy
+#: qt/app.py:497 qt/qtsystrayicon.py:90
 msgid "Stop backup process"
-msgstr "Διακοπή διαδικασίας στιγμιοτύπου"
+msgstr "Διακοπή της διαδικασίας δημιουργίας αντιγράφων ασφαλείας"
 
-#: qt/app.py:496
-#, fuzzy
+#: qt/app.py:501
 msgid "Refresh backup list"
-msgstr "Ανανέωση λίστας στιγμιοτύπου"
+msgstr "Ανανέωση λίστας αντιγράφων ασφαλείας"
 
-#: qt/app.py:500
+#: qt/app.py:505
 msgid "Name backup"
+msgstr "Όνομα αντίγραφου ασφαλείας"
+
+#: qt/app.py:509
+msgid "Remove backup"
+msgstr "Κατάργηση αντιγράφου ασφαλείας"
+
+#: qt/app.py:513
+#, fuzzy
+msgid "Open backup log"
+msgstr "Εμφάνιση αρχείου καταγραφής αντιγράφων ασφαλείας"
+
+#: qt/app.py:515
+#, fuzzy
+msgid "View log of the selected backup."
+msgstr "Πρέπει να επιλεχτεί τουλάχιστον ένας φάκελος για αντίγραφα ασφαλείας."
+
+#: qt/app.py:517
+#, fuzzy
+msgid "Open last backup log"
+msgstr "Εμφάνιση αρχείου καταγραφής αντιγράφων ασφαλείας"
+
+#: qt/app.py:519
+msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:504
-#, fuzzy
-msgid "Remove backup"
-msgstr "Αφαίρεση στιγμιότυπου"
-
-#: qt/app.py:508
-#, fuzzy
-msgid "View backup log"
-msgstr "Προβολή τελευταίας καταγραφής"
-
-#: qt/app.py:512
-msgid "View last log"
-msgstr "Προβολή τελευταίας καταγραφής"
-
-#: qt/app.py:516
+#: qt/app.py:521
 msgid "Manage profiles…"
 msgstr "Διαχείριση προφιλ…"
 
-#: qt/app.py:520
+#: qt/app.py:525
 msgid "Shutdown"
 msgstr "Τερματισμός"
 
-#: qt/app.py:522
-#, fuzzy
+#: qt/app.py:527
 msgid "Shut down system after backup has finished."
 msgstr ""
-"Τερματισμός λειτουργίας συστήματος μετά την ολοκλήρωση του στιγμιοτύπου."
+"Τερματίστε τη λειτουργία του συστήματος μετά την ολοκλήρωση της δημιουργίας "
+"αντιγράφων ασφαλείας."
 
-#: qt/app.py:524
+#: qt/app.py:529
 msgid "Setup language…"
 msgstr "Καθορισμός γλώσσας…"
 
-#: qt/app.py:528
+#: qt/app.py:533
 msgid "Exit"
 msgstr "Έξοδος"
 
-#: qt/app.py:538
+#: qt/app.py:543
 msgid "man page: Back In Time"
 msgstr "man page: Back In Time"
 
-#: qt/app.py:540
+#: qt/app.py:545
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Εμφανίζει τη σελίδα χρήστη σχετικά με το Back In Time (backintime)"
 
-#: qt/app.py:543
+#: qt/app.py:548
 msgid "man page: Profiles config file"
 msgstr "man page: Αρχείο διαμόρφωσης προφίλ"
 
-#: qt/app.py:546
+#: qt/app.py:551
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Εμφανίζει τη σελίδα χρήστη σχετικά με το αρχείο διαμόρφωσης προφίλ "
 "(backintime-config)"
 
-#: qt/app.py:553
+#: qt/app.py:558
 msgid "Open Back In Time website in browser"
 msgstr "Ανοίξτε τον ιστότοπο Back In Time στο πρόγραμμα περιήγησης"
 
-#: qt/app.py:555 qt/app.py:1497
+#: qt/app.py:560 qt/app.py:1529
 msgid "Changelog"
 msgstr "Αρχείο αλλαγών"
 
-#: qt/app.py:558
+#: qt/app.py:563
 msgid "FAQ"
 msgstr "Συχνές Ερωτήσεις"
 
-#: qt/app.py:560
+#: qt/app.py:565
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Ανοίξτε τις Συχνές Ερωτήσεις (FAQ) στο πρόγραμμα περιήγησης"
 
-#: qt/app.py:562
+#: qt/app.py:567
 msgid "Ask a question"
 msgstr "Κάνε μια ερώτηση"
 
-#: qt/app.py:566
+#: qt/app.py:571
 msgid "Report a bug"
 msgstr "Αναφορά προβλήματος"
 
-#: qt/app.py:569
+#: qt/app.py:574
 msgid "Translation"
 msgstr "Μετάφραση"
 
-#: qt/app.py:571
+#: qt/app.py:576
 msgid "Shows the message about participation in translation again."
 msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με τη συμμετοχή στη μετάφραση."
 
-#: qt/app.py:575
+#: qt/app.py:580
 msgid "Encryption Transition (EncFS)"
 msgstr "Μετάβαση κρυπτογράφησης (EncFS)"
 
-#: qt/app.py:577
+#: qt/app.py:582
 msgid "Shows the message about EncFS removal again."
 msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με την αφαίρεση του EncFS."
 
-#: qt/app.py:579
+#: qt/app.py:589
 msgid "About"
 msgstr "Σχετικά"
 
-#: qt/app.py:582 qt/restoredialog.py:36 qt/snapshotsdialog.py:173
+#: qt/app.py:592 qt/restoredialog.py:36 qt/snapshotsdialog.py:173
 #: qt/snapshotsdialog.py:178
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: qt/app.py:584
+#: qt/app.py:594
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Επανέφερε τα επιλεγμένα αρχεία ή φακέλους στον αρχικό τους προορισμό."
 
-#: qt/app.py:587 qt/app.py:1669 qt/app.py:1701 qt/snapshotsdialog.py:175
+#: qt/app.py:597 qt/app.py:1701 qt/app.py:1733 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Επαναφορά στο…"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Επανέφερε τα επιλεγμένα αρχεία ή φακέλους σε ένα νέο προορισμό."
 
-#: qt/app.py:595
+#: qt/app.py:605
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
@@ -758,7 +764,7 @@ msgstr ""
 "Επαναφορά του τρέχοντος εμφανιζόμενου φακέλου και όλων των περιεχομένων του,"
 " στον αρχικό προορισμό."
 
-#: qt/app.py:601
+#: qt/app.py:611
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
@@ -766,128 +772,138 @@ msgstr ""
 "Επανέφερε τον τρέχοντα εμφανιζόμενο φάκελο και όλα τα περιεχόμενα του σε ένα"
 " νέο προορισμό."
 
-#: qt/app.py:604
+#: qt/app.py:614
 msgid "Up"
 msgstr "Επάνω"
 
-#: qt/app.py:607 qt/restoreconfigdialog.py:103
+#: qt/app.py:617 qt/restoreconfigdialog.py:103
 msgid "Show hidden files"
 msgstr "Προβολή κρυφών αρχείων"
 
-#: qt/app.py:610
-#, fuzzy
+#: qt/app.py:620
 msgid "Compare backups…"
-msgstr "Σύγκριση στιγμιοτύπων…"
+msgstr "Σύγκριση αντιγράφων ασφαλείας…"
 
-#: qt/app.py:640 qt/app.py:2181
+#: qt/app.py:650 qt/app.py:2213
 msgid "Release Candidate"
 msgstr "Απελευθέρωση υποψηφίου"
 
-#: qt/app.py:643
+#: qt/app.py:653
 msgid "Shows the message about this Release Candidate again."
 msgstr "Εμφανίζει ξανά το μήνυμα για αυτόν τον υποψήφιο έκδοσης."
 
-#: qt/app.py:679
+#: qt/app.py:689
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:684
+#: qt/app.py:694
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:695
+#: qt/app.py:705
 msgid "&Restore"
 msgstr "&Eπαναφορά"
 
-#: qt/app.py:701
+#: qt/app.py:711
 msgid "&Help"
 msgstr "&Βοήθεια"
 
-#: qt/app.py:746
+#: qt/app.py:757
 msgid "Icons only"
 msgstr "Μόνο εικονίδια"
 
-#: qt/app.py:749
+#: qt/app.py:760
 msgid "Text only"
 msgstr "Κείμενο μόνο"
 
-#: qt/app.py:752
+#: qt/app.py:763
 msgid "Text below icons"
 msgstr "Κείμενο κάτω από τα εικονίδια"
 
-#: qt/app.py:755
+#: qt/app.py:766
 msgid "Text beside icon"
 msgstr "Κείμενο δίπλα στο εικονίδιο"
 
-#: qt/app.py:904
-#, fuzzy
+#: qt/app.py:915
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
-"Αν κλείσετε αυτό το παράθυρο το Back In Time δεν θα μπορεί να τερματίσει το "
-"σύστημά σας όταν ολοκληρωθεί το στιγμιότυπο."
+"Εάν αυτό το παράθυρο είναι κλειστό, το Back In Time δεν θα μπορεί να "
+"τερματίσει τη λειτουργία του συστήματός σας όταν ολοκληρωθεί η δημιουργία "
+"αντιγράφων ασφαλείας."
 
-#: qt/app.py:907
+#: qt/app.py:918
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Να κλείσω το παράθυρο ούτως ή άλλως;"
 
-#: qt/app.py:1079
+#: qt/app.py:1090
 msgid "Working:"
 msgstr "Εργασία:"
 
-#: qt/app.py:1127
+#: qt/app.py:1138
 msgid "Done, no backup needed"
 msgstr "Ολοκληρώθηκε, δεν χρειάζεται backup"
 
-#: qt/app.py:1139
+#: qt/app.py:1150
 msgid "Working"
 msgstr "Εργασία"
 
-#: qt/app.py:1148 qt/messagebox.py:84
+#: qt/app.py:1159 qt/messagebox.py:125
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: qt/app.py:1189 qt/qtsystrayicon.py:206
+#: qt/app.py:1200 qt/qtsystrayicon.py:206
 msgid "Sent:"
 msgstr "Απεσταλμένα:"
 
-#: qt/app.py:1190 qt/qtsystrayicon.py:207
+#: qt/app.py:1201 qt/qtsystrayicon.py:207
 msgid "Speed:"
 msgstr "Ταχύτητα:"
 
-#: qt/app.py:1191 qt/qtsystrayicon.py:208
+#: qt/app.py:1202 qt/qtsystrayicon.py:208
 msgid "ETA:"
 msgstr "ΕΧΑ:"
 
-#: qt/app.py:1254
+#: qt/app.py:1265
 msgid "Global"
 msgstr "Γενικά"
 
-#: qt/app.py:1255
+#: qt/app.py:1266
 msgid "Root"
 msgstr "Ρίζα"
 
-#: qt/app.py:1256
+#: qt/app.py:1267
 msgid "Home"
 msgstr "Οικία"
 
-#: qt/app.py:1284
+#: qt/app.py:1295
 msgid "Backup directories"
 msgstr "Φάκελοι ανάκτησης"
 
-#: qt/app.py:1381
-#, fuzzy
-msgid "Backup name"
-msgstr "&Backup"
+#: qt/app.py:1372
+#, python-brace-format
+msgid ""
+"Only {free} free space available on the destination, which is below the "
+"configured threshold of {threshold} {unit}."
+msgstr ""
 
-#: qt/app.py:1429
+#: qt/app.py:1377
+#, fuzzy
+msgid "Proceed with the backup?"
+msgstr "Κατάργηση αυτού του αντιγράφου ασφαλείας;"
+
+#: qt/app.py:1410
+msgid "Backup name"
+msgstr "Όνομα αντιγράφου ασφαλείας"
+
+#: qt/app.py:1461
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Κατάργηση αυτού του αντιγράφου ασφαλείας;"
+msgstr[1] "Να καταργηθούν αυτά τα αντίγραφα ασφαλείας;"
 
-#: qt/app.py:1527
+#: qt/app.py:1559
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -896,17 +912,17 @@ msgstr ""
 "Δημιουργία αντιγράφων backup με επίθεμα {suffix}\n"
 "πριν την αντικατάσταση ή αφαίρεση τοπικών στοιχείων."
 
-#: qt/app.py:1535 qt/manageprofiles/tab_options.py:65
-#, fuzzy, python-brace-format
+#: qt/app.py:1567 qt/manageprofiles/tab_options.py:65
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"Οι νεότερες εκδόσεις αρχείων θα μετονομαστούν με επίθεμα {suffix} πριν "
-"επανέλθουν. Αν δεν τα χρειάζεστε πια, μπορείτε να τα αφαιρέσετε με την "
+"Πριν από την επαναφορά, οι νεότερες εκδόσεις των αρχείων θα μετονομαστούν με"
+" το προσαρτημένο {suffix}. Αυτά τα αρχεία μπορούν να καταργηθούν με την "
 "ακόλουθη εντολή:"
 
-#: qt/app.py:1551
+#: qt/app.py:1583
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -916,77 +932,72 @@ msgstr ""
 "είναι νεότερα από αυτά στον προορισμό.\n"
 "Χρησιμοποιώντας την επιλογή \"rsync --update\"."
 
-#: qt/app.py:1586
+#: qt/app.py:1618
 msgid "Remove newer elements in original directory."
 msgstr "Αφαίρεσε νέα στοιχεία από τον αρχικό φάκελο."
 
-#: qt/app.py:1589
-#, fuzzy
+#: qt/app.py:1621
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
-"Επαναφέρετε επιλεγμένα αρχεία ή καταλόγους στον αρχικό προορισμό και "
-"διαγράψτε αρχεία ή καταλόγους που δεν βρίσκονται στο στιγμιότυπο. Να είστε "
-"εξαιρετικά προσεκτικοί γιατί αυτό θα διαγράψει αρχεία και καταλόγους που "
-"εξαιρέθηκαν κατά τη λήψη του στιγμιότυπου."
+"Επαναφέρετε τα επιλεγμένα αρχεία ή καταλόγους στον αρχικό προορισμό και "
+"διαγράψτε αρχεία ή καταλόγους που δεν βρίσκονται στο αντίγραφο ασφαλείας. Να"
+" είστε εξαιρετικά προσεκτικοί, καθώς αυτό θα διαγράψει αρχεία και καταλόγους"
+" που εξαιρέθηκαν κατά τη δημιουργία του αντιγράφου ασφαλείας."
 
-#: qt/app.py:1601
-#, fuzzy
+#: qt/app.py:1633
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
-"Είστε σίγουροι ότι θέλετε να επαναφέρετε αυτό το στοιχείο μέσα στον νέο "
-"φάκελο;"
+"Θέλετε πραγματικά να επαναφέρετε αυτό το στοιχείο στον νέο κατάλογο;"
 msgstr[1] ""
-"Είστε σίγουροι ότι θέλετε να επαναφέρετε αυτά τα στοιχεία μέσα στον νέο "
-"φάκελο;"
+"Θέλετε πραγματικά να επαναφέρετε αυτά τα στοιχεία στον νέο κατάλογο;"
 
-#: qt/app.py:1609
-#, fuzzy
+#: qt/app.py:1641
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] ""
-"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
-msgstr[1] ""
-"Είστε σίγουροι ότι θέλετε να διαγράψετε τα {file} από {count} στιγμιότυπα;"
+msgstr[0] "Θέλετε πραγματικά να επαναφέρετε αυτό το στοιχείο;"
+msgstr[1] "Πραγματικά να αποκαταστήσετε αυτά τα στοιχεία;"
 
-#: qt/app.py:1628
+#: qt/app.py:1660
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
+"Όλα τα νεότερα αρχεία στη {path} θα καταργηθούν. Θέλετε να συνεχίσετε;"
 
-#: qt/app.py:1631
+#: qt/app.py:1663
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
+"Όλα τα νεότερα αρχεία στον αρχικό κατάλογο θα καταργηθούν. Θέλετε να "
+"συνεχίσετε;"
 
-#: qt/app.py:1637
-#, fuzzy, python-brace-format
+#: qt/app.py:1669
+#, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"{BOLD}Προσοχή{BOLDEND}: Διαγράφοντας αρχεία από το ριζικό φάκελλο μπορεί να "
-"έχει ως αποτέλεσμα την κατάρρευση του συστήματος."
+"{BOLD}Προειδοποίηση{BOLDEND}: Η διαγραφή αρχείων στη ρίζα του συστήματος "
+"αρχείων θα μπορούσε να προκαλέσει βλάβη σε ολόκληρο το σύστημα."
 
-#: qt/app.py:1886
-#, fuzzy
+#: qt/app.py:1918
 msgid "Backup"
-msgstr "&Backup"
+msgstr "Backup"
 
-#: qt/app.py:1925
+#: qt/app.py:1957
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Επαναφορά {path}"
 
-#: qt/app.py:1927
+#: qt/app.py:1959
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Επαναφορά {path} στο…"
 
-#: qt/app.py:2071
+#: qt/app.py:2103
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1003,49 +1014,49 @@ msgstr ""
 "Μας συγχωρείς για την διακοπή, και αυτό το μήνυμα δεν θα εμφανιστεί ξανά. Αυτή η ενημέρωση είναι διαθέσιμη οπότε θελήσεις μέσα απο το μενού help.\n"
 "H ομάδα του Back In Time"
 
-#: qt/app.py:2100
+#: qt/app.py:2132
 msgid "translation platform"
 msgstr "πλατφόρμα μετάφρασης"
 
-#: qt/app.py:2105
+#: qt/app.py:2137
 msgid "Website"
 msgstr "Ιστοσελίδα"
 
-#: qt/app.py:2119
+#: qt/app.py:2151
 msgid "Your translation"
 msgstr "Η μετάφρασή σου"
 
-#: qt/app.py:2132
-#, fuzzy, python-brace-format
+#: qt/app.py:2164
+#, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "Στο Fediverse στο Mastodon: {link_and_label}"
+msgstr "Στο Fediverse στο Mastodon: {link_and_label}."
 
-#: qt/app.py:2137
+#: qt/app.py:2169
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Email στο {link_and_label}."
 
-#: qt/app.py:2140
-#, fuzzy, python-brace-format
+#: qt/app.py:2172
+#, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Mailing list {link_and_label}"
+msgstr "Λίστα αλληλογραφίας {link_and_label}."
 
-#: qt/app.py:2144
+#: qt/app.py:2176
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} στην ιστοσελίδα του έργου."
 
-#: qt/app.py:2147
+#: qt/app.py:2179
 msgid "Open an issue"
 msgstr "Άνοιξε ένα ζήτημα"
 
-#: qt/app.py:2148
+#: qt/app.py:2180
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Εναλλακτικά, μπορείς να χρησιμοποιήσεις εναλλακτικό κανάλι επικοινωνίας της "
 "επιλογής σου."
 
-#: qt/app.py:2153
+#: qt/app.py:2185
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1066,13 +1077,13 @@ msgstr ""
 "Σας ευχαριστούμε για την υποστήριξη και για την βοήθεια να εξελίξουμε το Back In Time!\n"
 "Η δική σου ομάδα του Back In Time"
 
-#: qt/app.py:2204
+#: qt/app.py:2285
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Η επιλογή γλώσσας ενεργοποιείται έπειτα από επανεκκίνηση του Back In Time."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:589
+#: qt/manageprofiles/tab_general.py:579
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1085,17 +1096,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Δεν συνιστάται η χρήση αυτής της λειτουργίας για προφίλ επιπλέον."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:598
+#: qt/manageprofiles/tab_general.py:588
 msgid "whitepaper"
 msgstr "λευκή βίβλος"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:591
+#: qt/manageprofiles/tab_general.py:581
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Η υποστήριξη για το EncFS διακόπτεται λόγω τρωτών σημείων ασφαλείας."
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:593
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:583
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1146,9 +1157,8 @@ msgid "System default"
 msgstr "Προεπιλογή συστήματος"
 
 #: qt/languagedialog.py:107
-#, fuzzy
 msgid "Use operating system's language."
-msgstr "Χρήση της γλώσσας του λειτουργικού συστήματος."
+msgstr "Χρησιμοποιήστε τη γλώσσα του λειτουργικού συστήματος."
 
 #: qt/languagedialog.py:161
 #, python-brace-format
@@ -1160,39 +1170,37 @@ msgid "Last Log View"
 msgstr "Προβολή Τελευταίου αρχείου καταγραφής"
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Προβολή Τελευταίου αρχείου καταγραφής"
+msgstr "Προβολή αρχείου καταγραφής αντιγράφων ασφαλείας"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
-#: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:77
+#: qt/manageprofiles/tab_general.py:263 qt/restoreconfigdialog.py:282
 msgid "Profile:"
 msgstr "Προφίλ:"
 
 #: qt/logviewdialog.py:77
-#, fuzzy
 msgid "Backups:"
-msgstr "&Backup"
+msgstr "Αντίγραφα ασφαλείας:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
 msgstr "Φίλτρο:"
 
-#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:133
+#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:181
 msgid "All"
 msgstr "Όλα"
 
 #: qt/logviewdialog.py:106 qt/logviewdialog.py:110
-#: qt/manageprofiles/tab_options.py:132
+#: qt/manageprofiles/tab_options.py:180
 msgid "Changes"
 msgstr "Αλλαγές"
 
 #: qt/logviewdialog.py:106 qt/logviewdialog.py:109
-#: qt/manageprofiles/tab_options.py:131 qt/manageprofiles/tab_options.py:132
+#: qt/manageprofiles/tab_options.py:179 qt/manageprofiles/tab_options.py:180
 msgid "Errors"
 msgstr "Σφάλματα"
 
-#: qt/logviewdialog.py:111 qt/messagebox.py:60
+#: qt/logviewdialog.py:111 qt/messagebox.py:68
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Πληροφορία"
@@ -1210,48 +1218,48 @@ msgstr "[E] Σφάλμα, [I] Πληροφορία, [C] Αλλαγή"
 msgid "decode paths"
 msgstr "αποκωδικοποίηση μονοπατιών"
 
-#: qt/manageprofiles/__init__.py:68
+#: qt/manageprofiles/__init__.py:69
 msgid "Manage profiles"
 msgstr "Διαχείριση προφίλ"
 
-#: qt/manageprofiles/__init__.py:85
+#: qt/manageprofiles/__init__.py:86
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:90 qt/manageprofiles/__init__.py:205
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: qt/manageprofiles/__init__.py:93 qt/manageprofiles/__init__.py:151
-#: qt/manageprofiles/__init__.py:222
+#: qt/manageprofiles/__init__.py:94 qt/manageprofiles/__init__.py:152
+#: qt/manageprofiles/__init__.py:223
 msgid "Remove"
 msgstr "Αφαίρεση"
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:115
 msgid "&General"
 msgstr "&Γενικά"
 
-#: qt/manageprofiles/__init__.py:118
+#: qt/manageprofiles/__init__.py:119
 msgid "&Include"
 msgstr "&Συμπεριλαμβάνει"
 
-#: qt/manageprofiles/__init__.py:126
+#: qt/manageprofiles/__init__.py:127
 msgid "Include files and directories"
 msgstr "Συμπεριλαμβάνει αρχεία και καταλόγους"
 
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:144 qt/manageprofiles/__init__.py:209
 msgid "Add file"
 msgstr "Πρόσθεσε αρχείο"
 
-#: qt/manageprofiles/__init__.py:147 qt/manageprofiles/__init__.py:212
+#: qt/manageprofiles/__init__.py:148 qt/manageprofiles/__init__.py:213
 msgid "Add directory"
 msgstr "Προσθήκη καταλόγου"
 
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:158
 msgid "&Exclude"
 msgstr "&Εξαίρεση"
 
-#: qt/manageprofiles/__init__.py:161
+#: qt/manageprofiles/__init__.py:162
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1265,72 +1273,70 @@ msgstr ""
 "αρχείων είναι απρόβλεπτα σε αυτήν τη λειτουργία λόγω κρυπτογράφησης από το "
 "EncFS."
 
-#: qt/manageprofiles/__init__.py:184
+#: qt/manageprofiles/__init__.py:185
 msgid "Exclude patterns, files or directories"
 msgstr "Εξαιρέστε μοτίβα, αρχεία ή καταλόγους"
 
-#: qt/manageprofiles/__init__.py:217
+#: qt/manageprofiles/__init__.py:218
 msgid "Add default"
 msgstr "Προσθήκη προεπιλογής"
 
-#: qt/manageprofiles/__init__.py:230
+#: qt/manageprofiles/__init__.py:231
 msgid "Exclude files bigger than:"
 msgstr "Εξαίρεση αρχείων μεγαλύτερα από:"
 
-#: qt/manageprofiles/__init__.py:234
+#: qt/manageprofiles/__init__.py:235
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Εξαίρεση αρχείων μεγαλύτερα από {size_unit}."
 
-#: qt/manageprofiles/__init__.py:236
-#, fuzzy
+#: qt/manageprofiles/__init__.py:237
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"Με απενεργοποιημένη τη λειτουργία \"Πλήρης συγχρονισμός\", αυτό θα επηρεάσει"
-" μόνο τα νέα αρχεία, καθώς για το rsync, αυτή είναι μια επιλογή μεταφοράς "
-"και όχι μια επιλογή εξαίρεσης. Επομένως, τα μεγάλα αρχεία για τα οποία έχουν"
-" δημιουργηθεί αντίγραφα ασφαλείας στο παρελθόν θα παραμείνουν στα "
-"στιγμιότυπα ακόμα κι αν έχουν τροποποιηθεί."
+"Με απενεργοποιημένη την «Πλήρη λειτουργία rsync», αυτή η ρύθμιση επηρεάζει "
+"μόνο τα αρχεία που δημιουργήθηκαν πρόσφατα, καθώς το rsync την αντιμετωπίζει"
+" ως επιλογή μεταφοράς και όχι ως κανόνα εξαίρεσης. Συνεπώς, τα μεγάλα αρχεία"
+" που έχουν ήδη δημιουργηθεί αντίγραφα ασφαλείας θα παραμείνουν στα αντίγραφα"
+" ασφαλείας ακόμα και αν τροποποιηθούν."
 
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:267
 msgid "&Remove & Retention"
 msgstr "&Κατάργηση & Διατήρηση"
 
-#: qt/manageprofiles/__init__.py:270
-#, fuzzy
+#: qt/manageprofiles/__init__.py:271
 msgid "&Options"
-msgstr "Επιλογές"
+msgstr "&Επιλογές"
 
-#: qt/manageprofiles/__init__.py:274
+#: qt/manageprofiles/__init__.py:275
 msgid "E&xpert Options"
 msgstr "Επιλογές E&expert"
 
-#: qt/manageprofiles/__init__.py:281
+#: qt/manageprofiles/__init__.py:282
 msgid "Restore Config"
 msgstr "Επαναφορά παραμετροποίησης"
 
-#: qt/manageprofiles/__init__.py:283
+#: qt/manageprofiles/__init__.py:284
 msgid "Edit user-callback"
 msgstr "Επεξεργασία επανάκλησης χρήστη"
 
-#: qt/manageprofiles/__init__.py:301
+#: qt/manageprofiles/__init__.py:313
 msgid "New profile"
 msgstr "Νέο προφίλ"
 
-#: qt/manageprofiles/__init__.py:318
+#: qt/manageprofiles/__init__.py:330
 msgid "Rename profile"
 msgstr "Μετονομασία προφίλ"
 
-#: qt/manageprofiles/__init__.py:334
-#, fuzzy, python-brace-format
+#: qt/manageprofiles/__init__.py:346
+#, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε το προφίλ \"{name}\";"
+msgstr "Διαγραφή του προφίλ \"{name}\";"
 
-#: qt/manageprofiles/__init__.py:379
+#: qt/manageprofiles/__init__.py:406
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1338,89 +1344,88 @@ msgstr ""
 "{BOLD}Συνιστάται ανεπιφύλακτα{ENDBOLD}: (Όλες οι προτάσεις έχουν ήδη "
 "συμπεριληφθεί.)"
 
-#: qt/manageprofiles/__init__.py:384
+#: qt/manageprofiles/__init__.py:411
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Συνιστάται ανεπιφύλακτα{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/__init__.py:608
+#: qt/manageprofiles/__init__.py:628
 msgid "Exclude pattern"
 msgstr "Εξαίρεσε μοτίβο"
 
-#: qt/manageprofiles/__init__.py:621
+#: qt/manageprofiles/__init__.py:641
 msgid "Exclude file"
 msgstr "Εξαίρεση αρχείου"
 
-#: qt/manageprofiles/__init__.py:625
+#: qt/manageprofiles/__init__.py:645
 msgid "Exclude directory"
 msgstr "Εξαίρεση καταλόγου"
 
-#: qt/manageprofiles/__init__.py:649
+#: qt/manageprofiles/__init__.py:669
 msgid "Include file"
 msgstr "Συμπερίληψη αρχείου"
 
-#: qt/manageprofiles/__init__.py:670
-#, fuzzy, python-brace-format
+#: qt/manageprofiles/__init__.py:690
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"Το \"{path}\" είναι ένας συμβολικός σύνδεσμος. Στο συνδεδεμένο στόχος δεν θα δημιουργηθεί αντίγραφο ασφαλείας μέχρι να τον συμπεριλάβετε επίσης.\n"
-"Θα θέλατε να συμπεριλάβετε τον στόχο συμβολικού συνδέσμου;"
+"Το \"{path}\" είναι ένας συμβολικός σύνδεσμος. Δεν θα δημιουργηθεί αντίγραφο"
+" ασφαλείας του συνδεδεμένου προορισμού μέχρι να συμπεριληφθεί και αυτός."
 
-#: qt/manageprofiles/__init__.py:674
+#: qt/manageprofiles/__init__.py:694
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Να συμπεριληφθεί ο στόχος του συμβολικού συνδέσμου;"
 
-#: qt/manageprofiles/__init__.py:683
+#: qt/manageprofiles/__init__.py:703
 msgid "Include directory"
 msgstr "Συμπερίληψη καταλόγου"
 
-#: qt/manageprofiles/__init__.py:737
+#: qt/manageprofiles/__init__.py:760
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "Απενεργοποιήθηκε επειδή αυτό το μοτίβο δεν λειτουργεί στη λειτουργία 'SSH "
 "encrypted'."
 
-#: qt/manageprofiles/schedulewidget.py:37
+#: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
 msgstr "Προγραμματισμός"
 
-#: qt/manageprofiles/schedulewidget.py:63
+#: qt/manageprofiles/schedulewidget.py:64
 msgid "Day:"
 msgstr "Ημέρα:"
 
-#: qt/manageprofiles/schedulewidget.py:68
+#: qt/manageprofiles/schedulewidget.py:69
 msgid "Weekday:"
 msgstr "Καθημερινές:"
 
-#: qt/manageprofiles/schedulewidget.py:73
+#: qt/manageprofiles/schedulewidget.py:74
 msgid "Time:"
 msgstr "Ώρα:"
 
-#: qt/manageprofiles/schedulewidget.py:78
+#: qt/manageprofiles/schedulewidget.py:79
 msgid "Hours:"
 msgstr "Ώρα(ες):"
 
-#: qt/manageprofiles/schedulewidget.py:86
+#: qt/manageprofiles/schedulewidget.py:87
 msgid "after the hour"
 msgstr "μετά την ώρα"
 
-#: qt/manageprofiles/schedulewidget.py:88
+#: qt/manageprofiles/schedulewidget.py:89
 msgid "Minutes:"
 msgstr "Λεπτά:"
 
-#: qt/manageprofiles/schedulewidget.py:92
-#, fuzzy
+#: qt/manageprofiles/schedulewidget.py:93
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Εκτελέστε το Back In Time μόλις συνδεθεί η μονάδα δίσκου (μόνο μία φορά κάθε"
-" X ημέρες). Θα σας ζητηθεί ο κωδικός πρόσβασης sudo."
+"Εκτελέστε την επιλογή Back In Time μόλις συνδεθεί η μονάδα δίσκου (μόνο μία "
+"φορά κάθε X ημέρες). Θα εμφανιστεί ένα μήνυμα κωδικού πρόσβασης sudo."
 
-#: qt/manageprofiles/schedulewidget.py:97
+#: qt/manageprofiles/schedulewidget.py:98
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
@@ -1428,21 +1433,21 @@ msgstr ""
 "Τρέξτε το Back In Time επανειλημμένα. Αυτό είναι χρήσιμο εάν ο υπολογιστής "
 "δεν λειτουργεί τακτικά."
 
-#: qt/manageprofiles/schedulewidget.py:109
+#: qt/manageprofiles/schedulewidget.py:110
 msgid "Every:"
 msgstr "Κάθε:"
 
-#: qt/manageprofiles/schedulewidget.py:113
+#: qt/manageprofiles/schedulewidget.py:114
 msgid "Enable logging of debug messages"
 msgstr "Ενεργοποίηση καταγραφής μηνυμάτων εντοπισμού σφαλμάτων"
 
-#: qt/manageprofiles/schedulewidget.py:117
+#: qt/manageprofiles/schedulewidget.py:118
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 "Γράφει μηνύματα σε επίπεδο εντοπισμού σφαλμάτων στο αρχείο καταγραφής "
 "συστήματος μέσω \"--debug\"."
 
-#: qt/manageprofiles/schedulewidget.py:119
+#: qt/manageprofiles/schedulewidget.py:120
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
@@ -1450,81 +1455,81 @@ msgstr ""
 "Προσοχή: Χρησιμοποιήστε το μόνο προσωρινά για διαγνωστικά, καθώς παράγει "
 "μεγάλη ποσότητα εξόδου."
 
-#: qt/manageprofiles/schedulewidget.py:141
+#: qt/manageprofiles/schedulewidget.py:145
 msgid "Disabled"
 msgstr "Απενεργοποιημένο"
 
-#: qt/manageprofiles/schedulewidget.py:142
+#: qt/manageprofiles/schedulewidget.py:146
 msgid "At every boot/reboot"
 msgstr "Σε κάθε εκκίνηση/επανεκκίνηση"
 
-#: qt/manageprofiles/schedulewidget.py:144
-#: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
-#, fuzzy, python-brace-format
+#: qt/manageprofiles/schedulewidget.py:150
+#: qt/manageprofiles/schedulewidget.py:152
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Κάθε {n} λεπτό"
 msgstr[1] "Κάθε {n} λεπτά"
 
-#: qt/manageprofiles/schedulewidget.py:150
-#: qt/manageprofiles/schedulewidget.py:152
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
+#: qt/manageprofiles/schedulewidget.py:160
+#: qt/manageprofiles/schedulewidget.py:162
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Κάθε ώρα"
 msgstr[1] "Κάθε {n} ώρες"
 
-#: qt/manageprofiles/schedulewidget.py:159
+#: qt/manageprofiles/schedulewidget.py:163
 msgid "Custom hours"
 msgstr "Ώρες που μπορείτε να τις προσαρμόσετε"
 
-#: qt/manageprofiles/schedulewidget.py:160
+#: qt/manageprofiles/schedulewidget.py:164
 msgid "Every day"
 msgstr "Καθημερινά"
 
-#: qt/manageprofiles/schedulewidget.py:161
+#: qt/manageprofiles/schedulewidget.py:165
 msgid "Repeatedly (anacron)"
 msgstr "Επανειλημμένως"
 
-#: qt/manageprofiles/schedulewidget.py:162
+#: qt/manageprofiles/schedulewidget.py:166
 msgid "When drive gets connected (udev)"
 msgstr "Όταν συνδέεται δίσκος (udev)"
 
-#: qt/manageprofiles/schedulewidget.py:163
+#: qt/manageprofiles/schedulewidget.py:167
 msgid "Every week"
 msgstr "Κάθε εβδομάδα"
 
-#: qt/manageprofiles/schedulewidget.py:164
+#: qt/manageprofiles/schedulewidget.py:168
 msgid "Every month"
 msgstr "Κάθε μήνα"
 
-#: qt/manageprofiles/schedulewidget.py:165
+#: qt/manageprofiles/schedulewidget.py:169
 msgid "Every year"
 msgstr "Κάθε χρόνο"
 
-#: qt/manageprofiles/schedulewidget.py:214
+#: qt/manageprofiles/schedulewidget.py:228
 msgid "Hour(s)"
 msgstr "Ώρα(ες)"
 
-#: qt/manageprofiles/schedulewidget.py:215
-#: qt/manageprofiles/tab_remove_retention.py:257
+#: qt/manageprofiles/schedulewidget.py:229
+#: qt/manageprofiles/tab_remove_retention.py:263
 msgid "Day(s)"
 msgstr "Ημέρα(ες)"
 
-#: qt/manageprofiles/schedulewidget.py:216
-#: qt/manageprofiles/tab_remove_retention.py:258
+#: qt/manageprofiles/schedulewidget.py:230
+#: qt/manageprofiles/tab_remove_retention.py:264
 msgid "Week(s)"
 msgstr "Εβδομάδα(ες)"
 
-#: qt/manageprofiles/schedulewidget.py:217
+#: qt/manageprofiles/schedulewidget.py:231
 msgid "Month(s)"
 msgstr "Μήνας(ες)"
 
-#: qt/manageprofiles/schedulewidget.py:311
+#: qt/manageprofiles/schedulewidget.py:326
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1537,17 +1542,17 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "SSH Proxy"
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:116
-#: qt/manageprofiles/tab_general.py:254
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
+#: qt/manageprofiles/tab_general.py:251
 msgid "Host:"
 msgstr "Host:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:121
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:120
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:126
-#: qt/manageprofiles/tab_general.py:260
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:125
+#: qt/manageprofiles/tab_general.py:257
 msgid "User:"
 msgstr "Χρήστης:"
 
@@ -1593,9 +1598,8 @@ msgid "on remote host"
 msgstr "σε απομακρυσμένο κεντρικό υπολογιστή"
 
 #: qt/manageprofiles/tab_expert_options.py:79
-#, fuzzy
 msgid "when taking a manual backup"
-msgstr "όταν παίρνετε ένα χειροκίνητο στιγμιότυπο"
+msgstr "κατά τη λήψη μη αυτόματου αντιγράφου ασφαλείας"
 
 #: qt/manageprofiles/tab_expert_options.py:103
 msgid "Please install 'nocache' to enable this option."
@@ -1727,32 +1731,27 @@ msgstr "ανενεργό"
 msgid "enabled"
 msgstr "ενεργό"
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:284
+#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:284
 msgid "Mode:"
 msgstr "Λειτουργία:"
 
-#: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:77 qt/manageprofiles/tab_general.py:611
 msgid "Where to save backups"
-msgstr "Που να αποθηκεύσουμε στιγμιότυπα"
+msgstr "Πού να αποθηκεύσετε αντίγραφα ασφαλείας"
 
-#: qt/manageprofiles/tab_general.py:104
+#: qt/manageprofiles/tab_general.py:103
 msgid "SSH Settings"
 msgstr "Ρυθμίσεις SSH"
 
-#: qt/manageprofiles/tab_general.py:131
+#: qt/manageprofiles/tab_general.py:130
 msgid "Path:"
 msgstr "Διαδρομή:"
 
-#: qt/manageprofiles/tab_general.py:137
-msgid "Cipher:"
-msgstr "Κρυπτοαλγόριθμος:"
-
-#: qt/manageprofiles/tab_general.py:142
+#: qt/manageprofiles/tab_general.py:141
 msgid "Private Key:"
 msgstr "Ιδιωτικό κλειδί:"
 
-#: qt/manageprofiles/tab_general.py:153
+#: qt/manageprofiles/tab_general.py:152
 msgid ""
 "Choose an existing private key file (normally named \"id_ed25519\" and in "
 "older setups \"id_rsa\")."
@@ -1760,7 +1759,7 @@ msgstr ""
 "Διάλεξε ένα υπάρχων αρχείο ιδιωτικού κλειδιού (συνήθως ονομάζεται "
 "\"id_ed25519 και σε παλαιότερες εγκαταστάσεις \"id_rsa\")."
 
-#: qt/manageprofiles/tab_general.py:165
+#: qt/manageprofiles/tab_general.py:164
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)."
@@ -1768,79 +1767,73 @@ msgstr ""
 "Δημιούργησε ένα νέο κλειδί SSH χωρίς κωδικό (δεν επιτρέπεται εάν ήδη υπάρχει"
 " ένα αρχείο ιδιωτικού κλειδιού)."
 
-#: qt/manageprofiles/tab_general.py:201 qt/manageprofiles/tab_general.py:208
-#: qt/manageprofiles/tab_general.py:212
+#: qt/manageprofiles/tab_general.py:198 qt/manageprofiles/tab_general.py:205
+#: qt/manageprofiles/tab_general.py:209
 msgid "Password"
 msgstr "Κωδικός"
 
-#: qt/manageprofiles/tab_general.py:222
+#: qt/manageprofiles/tab_general.py:219
 msgid "Save Password to Keyring"
 msgstr "Αποθήκευση κωδικού στην Κλειδοθήκη"
 
-#: qt/manageprofiles/tab_general.py:226
+#: qt/manageprofiles/tab_general.py:223
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Αποθηκεύστε προσωρινά τον κωδικό πρόσβασης για το Cron (πρόβλημα ασφαλείας: "
 "ο root μπορεί να διαβάσει τον κωδικό πρόσβασης)"
 
-#: qt/manageprofiles/tab_general.py:242
+#: qt/manageprofiles/tab_general.py:239
 msgid "Advanced"
 msgstr "Προηγμένος"
 
-#: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:269 qt/manageprofiles/tab_general.py:663
 msgid "Full backup path:"
-msgstr "Πλήρης διαδρομή στιγμιότυπου:"
+msgstr "Πλήρης διαδρομή δημιουργίας αντιγράφων ασφαλείας:"
 
-#: qt/manageprofiles/tab_general.py:395
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:392
 msgid "A private key file for SSH was not chosen."
-msgstr "Το αρχείο ιδιωτικού κλειδιού \"{file}\" δεν υπάρχει."
+msgstr "Δεν επιλέχθηκε αρχείο ιδιωτικού κλειδιού για SSH."
 
-#: qt/manageprofiles/tab_general.py:396
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:393
 msgid "Should a new password-less public/private key pair be generated?"
 msgstr ""
-"Θα θέλατε να δημιουργήσετε ένα νέο ζευγάρι ιδιωτικού/δημόσιου κλειδιού χωρίς"
-" κωδικό;"
+"Πρέπει να δημιουργηθεί ένα νέο ζεύγος δημόσιου/ιδιωτικού κλειδιού χωρίς "
+"κωδικό πρόσβασης;"
 
-#: qt/manageprofiles/tab_general.py:407
+#: qt/manageprofiles/tab_general.py:404
 #, python-brace-format
 msgid "Private key file \"{file}\" does not exist."
 msgstr "Το αρχείο ιδιωτικού κλειδιού \"{file}\" δεν υπάρχει."
 
-#: qt/manageprofiles/tab_general.py:492
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:489
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
-"Θέλετε να αντιγράψετε το δημόσιο κλειδί SSH στον απομακρυσμένο κεντρικό "
-"υπολογιστή για να ενεργοποιήσετε τη σύνδεση χωρίς κωδικό πρόσβασης;"
+"Αντιγραφή δημόσιου κλειδιού SSH στον απομακρυσμένο κεντρικό υπολογιστή για "
+"ενεργοποίηση σύνδεσης χωρίς κωδικό πρόσβασης;"
 
-#: qt/manageprofiles/tab_general.py:526
+#: qt/manageprofiles/tab_general.py:523
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
 "Η αυθεντικότητα του απομακρυσμένου υπολογιστή {host} δεν μπορεί να "
 "εξακριβωθεί."
 
-#: qt/manageprofiles/tab_general.py:529
+#: qt/manageprofiles/tab_general.py:526
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Το αποτύπωμα κλειδιου {keytype} είναι:"
 
-#: qt/manageprofiles/tab_general.py:537
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:534
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
-"Παρακαλώ εξακριβώστε το αποτύπωμα. Θα θέλατε να το προσθέσετε στο αρχείο "
+"Επαληθεύστε αυτό το δακτυλικό αποτύπωμα. Θέλετε να το προσθέσετε στο αρχείο "
 "'known_hosts';"
 
-#: qt/manageprofiles/tab_general.py:628
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:618
 msgid "Really change the backup directory?"
-msgstr "Δημιουργία νέου κρυπτογραφημένου φακέλου;"
+msgstr "Πραγματικά να αλλάξω τον κατάλογο αντιγράφων ασφαλείας;"
 
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:651
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Αποτυχία δημιουργίας νέου κλειδιού SSH στο {path}."
@@ -1850,137 +1843,148 @@ msgid "Enable notifications"
 msgstr "Ενεργοποίησε τις ειδοποιήσεις"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Απενεργοποίησε τα στιγμιότυπα όντας σε λειτουργία με μπαταρία"
+msgstr "Απενεργοποίηση αντιγράφων ασφαλείας όταν λειτουργεί με μπαταρία"
 
 #: qt/manageprofiles/tab_options.py:47
 msgid "Power status not available from system"
 msgstr "Η κατάσταση ενέργειας δεν είναι διαθέσιμη από το σύστημα"
 
 #: qt/manageprofiles/tab_options.py:49
-#, fuzzy
 msgid "Run only one backup at a time"
-msgstr "Εκτέλεσε μόνο ένα στιγμιότυπο κάθε φορά"
+msgstr "Εκτελέστε μόνο ένα αντίγραφο ασφαλείας κάθε φορά"
 
 #: qt/manageprofiles/tab_options.py:53
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Άλλα στιγμιότυπα θα αποκλειστούν μέχρι να ολοκληρωθεί το τρέχον στιγμιότυπο."
-" Αυτή είναι μια καθολική επιλογή. Επομένως, θα επηρεάσει όλα τα προφίλ αυτού"
-" του χρήστη. Αλλά πρέπει να το ενεργοποιήσετε και για όλους τους άλλους "
-"χρήστες."
+"Άλλα αντίγραφα ασφαλείας θα αποκλειστούν μέχρι να ολοκληρωθεί η τρέχουσα "
+"δημιουργία αντιγράφων ασφαλείας. Αυτή είναι μια καθολική ρύθμιση, που "
+"σημαίνει ότι θα επηρεάσει όλα τα προφίλ αυτού του χρήστη. Ωστόσο, πρέπει να "
+"ενεργοποιηθεί και για όλους τους άλλους χρήστες."
 
 #: qt/manageprofiles/tab_options.py:60
 msgid "Backup replaced files on restore"
 msgstr "Το αντίγραφο ασφαλείας αντικατέστησε αρχεία κατά την επαναφορά"
 
 #: qt/manageprofiles/tab_options.py:75
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Συνέχισε παρά τα λάθη (κράτησε ημιτελή στιγμιότυπα)"
+msgstr ""
+"Συνέχεια σε περίπτωση σφαλμάτων (διατήρηση ελλιπών αντιγράφων ασφαλείας)"
 
 #: qt/manageprofiles/tab_options.py:79
 msgid "Use checksum to detect changes"
 msgstr "Χρησιμοποίησε checksum για να εντοπίσεις αλλαγές"
 
 #: qt/manageprofiles/tab_options.py:83
-#, fuzzy
 msgid "Create a new backup whether there were changes or not."
-msgstr "Δημιούργησε ενα νέο στιγμιότυπο είτε υπάρχουν αλλαγές είτε όχι."
+msgstr ""
+"Δημιουργήστε ένα νέο αντίγραφο ασφαλείας, ανεξάρτητα από το αν υπήρξαν "
+"αλλαγές ή όχι."
 
-#: qt/manageprofiles/tab_options.py:90
+#: qt/manageprofiles/tab_options.py:92
+msgid "Warn if the free disk space falls below"
+msgstr ""
+
+#: qt/manageprofiles/tab_options.py:98
+msgid ""
+"Shows a warning when free space on the backup destination disk is less than "
+"the specified value."
+msgstr ""
+
+#: qt/manageprofiles/tab_options.py:100
+msgid ""
+"If the Remove & Retention policy is enabled and old backups are removed "
+"based on available free space, this value cannot be lower than the value set"
+" in the policy."
+msgstr ""
+
+#: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"
 msgstr "Επίπεδο καταγραφής:"
 
-#: qt/manageprofiles/tab_options.py:130
+#: qt/manageprofiles/tab_options.py:178
 msgid "None"
 msgstr "Κανένα"
 
-#: qt/manageprofiles/tab_remove_retention.py:191
-#, fuzzy, python-brace-format
+#: qt/manageprofiles/tab_remove_retention.py:197
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
-"Οι παρακάτω κανόνες επεξεργάζονται από πάνω προς τα κάτω. Οι μεταγενέστεροι "
-"κανόνες υπερισχύουν των προγενέστερων και δεν περιορίζονται από αυτούς. "
-"Δείτε το {manual} για λεπτομέρειες και παραδείγματα."
+"Οι ακόλουθοι κανόνες υποβάλλονται σε επεξεργασία από πάνω προς τα κάτω. Οι "
+"μεταγενέστεροι κανόνες αντικαθιστούν τους προηγούμενους. Ανατρέξτε στο "
+"{manual} για λεπτομέρειες και παραδείγματα."
 
-#: qt/manageprofiles/tab_remove_retention.py:196
+#: qt/manageprofiles/tab_remove_retention.py:202
 msgid "user manual"
 msgstr "εγχειρίδιο χρήσης"
 
-#: qt/manageprofiles/tab_remove_retention.py:209
+#: qt/manageprofiles/tab_remove_retention.py:215
 msgid "Open user manual in browser."
 msgstr "Άνοιξε το εγχειρίδιο χρήσης στον φυλλομετρητή."
 
-#: qt/manageprofiles/tab_remove_retention.py:223
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:229
 msgid "Keep the most recent backup."
-msgstr "Κράτησε το πιο πρόσφατο στιγμιότυπο."
+msgstr "Κρατήστε το πιο πρόσφατο αντίγραφο ασφαλείας."
 
-#: qt/manageprofiles/tab_remove_retention.py:227
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:233
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
-"Το τελευταίο ή πιο φρέσκο στιγμιότυπο διατηρείται υπό οποιεσδήποτε συνθήκες."
+"Το τελευταίο ή πιο πρόσφατο αντίγραφο ασφαλείας διατηρείται σε κάθε "
+"περίπτωση."
 
-#: qt/manageprofiles/tab_remove_retention.py:229
+#: qt/manageprofiles/tab_remove_retention.py:235
 msgid "That behavior cannot be changed."
 msgstr "Αυτή η συμπεριφορά δεν δύναται να αλλάξει."
 
-#: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:247
 msgid "Keep named backups."
-msgstr "Κράτησε επώνυμα στιγμιότυπα."
+msgstr "Κρατήστε αντίγραφα ασφαλείας με όνομα."
 
-#: qt/manageprofiles/tab_remove_retention.py:244
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:250
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Τα στιγμιότυπα στα οποία έχει δοθεί ένα όνομα, εκτός από τη συνηθισμένη "
-"χρονική σήμανση, θα διατηρηθούν υπό οποιεσδήποτε συνθήκες και δεν θα "
-"αφαιρεθούν."
+"Τα αντίγραφα ασφαλείας στα οποία έχει δοθεί όνομα, εκτός από τη συνήθη "
+"χρονική σήμανση, θα διατηρούνται υπό οποιεσδήποτε συνθήκες και δεν θα "
+"καταργούνται."
 
-#: qt/manageprofiles/tab_remove_retention.py:259
+#: qt/manageprofiles/tab_remove_retention.py:265
 msgid "Year(s)"
 msgstr "Έτος(η)"
 
-#: qt/manageprofiles/tab_remove_retention.py:264
-#, fuzzy
-msgid "Remove backups older than"
-msgstr "Αφαίρεση στιγμιότυπων παλαιότερων από"
-
 #: qt/manageprofiles/tab_remove_retention.py:270
+msgid "Remove backups older than"
+msgstr "Αφαίρεση αντιγράφων ασφαλείας παλαιότερων από"
+
+#: qt/manageprofiles/tab_remove_retention.py:276
 msgid "Full days. Current day is ignored."
 msgstr "Ολόκληρες ημέρες. Η τρέχουσα ημέρα αγνοείται."
 
-#: qt/manageprofiles/tab_remove_retention.py:272
+#: qt/manageprofiles/tab_remove_retention.py:278
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Ημερολογιακές εβδομάδες με πρώτη μέρα τη Δευτέρα. Η τρέχουσα εβδομάδα "
 "αγνοείται."
 
-#: qt/manageprofiles/tab_remove_retention.py:275
+#: qt/manageprofiles/tab_remove_retention.py:281
 msgid "12 months periods. Current month is ignored."
 msgstr "περίοδοι 12 μηνών. Ο τρέχων μήνας αγνοείται."
 
-#: qt/manageprofiles/tab_remove_retention.py:290
+#: qt/manageprofiles/tab_remove_retention.py:296
 msgid "Retention policy"
 msgstr "Πολιτική διατήρησης"
 
-#: qt/manageprofiles/tab_remove_retention.py:295
+#: qt/manageprofiles/tab_remove_retention.py:301
 msgid "Run in background on remote host."
 msgstr "Εκτέλεση στο παρασκήνιο σε απομακρυσμένο κεντρικό υπολογιστή."
 
-#: qt/manageprofiles/tab_remove_retention.py:298
+#: qt/manageprofiles/tab_remove_retention.py:304
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -1990,32 +1994,31 @@ msgstr ""
 "μηχάνημα, όχι τοπικά. Οι εντολές \"bash\", \"screen\" και \"flock\" πρέπει "
 "να είναι εγκατεστημένες και διαθέσιμες στο απομακρυσμένο μηχάνημα."
 
-#: qt/manageprofiles/tab_remove_retention.py:302
+#: qt/manageprofiles/tab_remove_retention.py:308
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
 "Εάν επιλεγεί, το Back In Time θα ελέγξει πρώτα τον απομακρυσμένο κεντρικό "
 "υπολογιστή."
 
-#: qt/manageprofiles/tab_remove_retention.py:306
+#: qt/manageprofiles/tab_remove_retention.py:312
 msgid "The days are counted starting from today."
 msgstr "Οι ημέρες μετρούνται από σήμερα."
 
-#: qt/manageprofiles/tab_remove_retention.py:307
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid "Keep all backups for the last"
-msgstr "Κράτησε ολα τα στιγμιότυπα από την τελευταία"
+msgstr "Κρατήστε όλα τα αντίγραφα ασφαλείας για το τελευταίο"
 
-#: qt/manageprofiles/tab_remove_retention.py:312
-#: qt/manageprofiles/tab_remove_retention.py:324
+#: qt/manageprofiles/tab_remove_retention.py:318
+#: qt/manageprofiles/tab_remove_retention.py:330
 msgid "day(s)."
 msgstr "Ημέρα(ες)."
 
-#: qt/manageprofiles/tab_remove_retention.py:319
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:325
 msgid "Keep the last backup for each day for the last"
-msgstr "Κράτησε το τελευταίο στιγμιότυπο για κάθε μέρα από την τελευταία"
+msgstr ""
+"Κρατήστε το τελευταίο αντίγραφο ασφαλείας για κάθε ημέρα για την τελευταία"
 
-#: qt/manageprofiles/tab_remove_retention.py:329
+#: qt/manageprofiles/tab_remove_retention.py:335
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
@@ -2023,59 +2026,57 @@ msgstr ""
 "Οι εβδομάδες υπολογίζονται ξεκινώντας από την τρέχουσα εβδομάδα λειτουργίας."
 " Μια εβδομάδα ξεκινά τη Δευτέρα."
 
-#: qt/manageprofiles/tab_remove_retention.py:332
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:338
 msgid "Keep the last backup for each week for the last"
-msgstr "Κράτησε το τελευταίο στιγμιότυπο για κάθε εβδομάδα από την τελευταία"
+msgstr ""
+"Κρατήστε το τελευταίο αντίγραφο ασφαλείας για κάθε εβδομάδα για την "
+"τελευταία"
 
-#: qt/manageprofiles/tab_remove_retention.py:337
+#: qt/manageprofiles/tab_remove_retention.py:343
 msgid "week(s)."
 msgstr "Εβδομάδα(ες)."
 
-#: qt/manageprofiles/tab_remove_retention.py:342
+#: qt/manageprofiles/tab_remove_retention.py:348
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
 "Οι μήνες μετρούνται για ημερολογιακοί μήνες αρχίζοντας από τον τρέχον μήνα."
 
-#: qt/manageprofiles/tab_remove_retention.py:345
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:351
 msgid "Keep the last backup for each month for the last"
 msgstr ""
-"Κράτησε το τελευταίο στιγμιότυπο για κάθε μήνα από τον(τους) τελευταίο(ους)"
+"Κρατήστε το τελευταίο αντίγραφο ασφαλείας για κάθε μήνα για τον τελευταίο"
 
-#: qt/manageprofiles/tab_remove_retention.py:350
+#: qt/manageprofiles/tab_remove_retention.py:356
 msgid "month(s)."
 msgstr "Μήνας(ες)."
 
-#: qt/manageprofiles/tab_remove_retention.py:355
+#: qt/manageprofiles/tab_remove_retention.py:361
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Τα έτη μετρούνται ως ημερολογιακά έτη αρχίζοντας από το τρέχον έτος."
 
-#: qt/manageprofiles/tab_remove_retention.py:357
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:363
 msgid "Keep the last backup for each year for"
-msgstr "Κράτησε το τελευταίο στιγμιότυπο για κάθε έτος για"
+msgstr "Κρατήστε το τελευταίο αντίγραφο ασφαλείας για κάθε έτος"
 
-#: qt/manageprofiles/tab_remove_retention.py:359
+#: qt/manageprofiles/tab_remove_retention.py:365
 msgid "all years."
 msgstr "όλα τα έτη."
 
-#: qt/manageprofiles/tab_remove_retention.py:381
+#: qt/manageprofiles/tab_remove_retention.py:380
 msgid "… the free space is less than"
 msgstr "... ο ελεύθερος χώρος είναι μικρότερος από"
 
-#: qt/manageprofiles/tab_remove_retention.py:386
+#: qt/manageprofiles/tab_remove_retention.py:385
 msgid "… the free inodes are less than"
 msgstr "... τα ελεύθερα inodes είναι λιγότερα από"
 
-#: qt/manageprofiles/tab_remove_retention.py:395
-#, fuzzy
+#: qt/manageprofiles/tab_remove_retention.py:394
 msgid "Remove oldest backup if …"
-msgstr "Αφαίρεσε τα παλαιότερα στιγμιότυπα εάν …"
+msgstr "Διαγράψτε το παλαιότερο αντίγραφο ασφαλείας εάν…"
 
-#: qt/messagebox.py:93 qt/messagebox.py:103
+#: qt/messagebox.py:116 qt/messagebox.py:134 qt/messagebox.py:144
 msgid "Question"
 msgstr "Ερώτηση"
 
@@ -2110,13 +2111,14 @@ msgid "Import"
 msgstr "Εισαγωγή"
 
 #: qt/restoreconfigdialog.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Επιλέξτε τον κατάλογο στιγμιότυπων από τον οποίο πρέπει να εισαχθεί το "
-"αρχείο διαμόρφωσης. Η διαδρομή μπορεί να μοιάζει με: {samplePath}"
+"Επιλέξτε τον κατάλογο αντιγράφων ασφαλείας από τον οποίο θα πρέπει να "
+"εισαχθεί το αρχείο διαμόρφωσης. Η διαδρομή μπορεί να μοιάζει με: "
+"{samplePath}"
 
 #: qt/restoreconfigdialog.py:182
 msgid ""
@@ -2126,41 +2128,36 @@ msgstr ""
 "Εάν ο κατάλογος βρίσκεται σε εξωτερική ή απομακρυσμένη μονάδα δίσκου, πρέπει"
 " να τοποθετηθεί χειροκίνητα εκ των προτέρων."
 
-#: qt/restoredialog.py:49
+#: qt/restoredialog.py:48
 msgid "Show full Log"
 msgstr "Εμφάνιση πλήρους αρχείου καταγραφής"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
-msgstr ""
+msgstr "Αντίστροφη μέτρηση για το κλείσιμο"
 
 #: qt/shutdowndlg.py:28
-#, fuzzy
 msgid "The backup has finished."
-msgstr ""
-"Τερματισμός λειτουργίας συστήματος μετά την ολοκλήρωση του στιγμιοτύπου."
+msgstr "Το αντίγραφο ασφαλείας ολοκληρώθηκε."
 
 #: qt/shutdowndlg.py:35
-#, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Τερματισμός"
+msgstr "Ακύρωση τερματισμού λειτουργίας"
 
 #: qt/shutdowndlg.py:36
-#, fuzzy
 msgid "Shutdown Now"
-msgstr "Τερματισμός"
+msgstr "Τερματισμός λειτουργίας τώρα"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Το σύστημα θα απενεργοποιηθεί σε {n} δευτερόλεπτο."
+msgstr[1] "Το σύστημα θα απενεργοποιηθεί σε {n} δευτερόλεπτα."
 
 #: qt/snapshotsdialog.py:58
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "Επιλογές για σύγκριση στιγμιότυπων"
+msgstr "Επιλογές σχετικά με τη σύγκριση αντιγράφων ασφαλείας"
 
 #: qt/snapshotsdialog.py:65
 msgid "Command:"
@@ -2195,19 +2192,16 @@ msgstr ""
 "προεπιλεγμένη τιμή \"{params}\"."
 
 #: qt/snapshotsdialog.py:130 qt/timeline.py:45
-#, fuzzy
 msgid "Backups"
-msgstr "&Backup"
+msgstr "Αντίγραφα ασφαλείας"
 
 #: qt/snapshotsdialog.py:141
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Συγκρινόμενα στιγμιότυπα μόνο"
+msgstr "Μόνο διαφορετικά αντίγραφα ασφαλείας"
 
 #: qt/snapshotsdialog.py:150
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Πρόβαλε μόνο τα στιγμιότυπα που είναι ίσα με:"
+msgstr "Παραθέστε μόνο αντίγραφα ασφαλείας που είναι ίσα με:"
 
 #: qt/snapshotsdialog.py:162
 msgid "Deep check (more accurate, but slow)"
@@ -2238,28 +2232,29 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Δεν είναι δυνατόν να συγκρίνουμε ένα αντίγραφο ασφαλείας με τον εαυτό του, "
+"καθώς η σύγκριση θα ήταν περιττή."
 
 #: qt/snapshotsdialog.py:427
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
-"Θέλετε σίγουρα να διαγράψετε το αρχείο {file} που υπάρχει στο στιγμιότυπο "
-"{snapshot_id};"
+"Πραγματικά διαγράφεται το {file_or_dir} στο αντίγραφο ασφαλείας {backup_id};"
 
 #: qt/snapshotsdialog.py:432
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr ""
-"Είστε σίγουροι ότι θέλετε να διαγράψετε το {file} από {count} στιγμιότυπα;"
+"Πραγματικά διαγραφή του {file_or_dir} από {count} αντίγραφα ασφαλείας;"
 
 #: qt/snapshotsdialog.py:435
 msgid "WARNING: This cannot be revoked."
-msgstr "ΠΡΟΣΟΧΗ: Αυτό δεν μπορεί να αναιρεθεί."
+msgstr "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Αυτό δεν μπορεί να ανακληθεί."
 
 #: qt/snapshotsdialog.py:453
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "Εξαίρεση {path} από μελλοντικά στιγμιότυπα;"
+msgstr "Να εξαιρεθεί το {path} από μελλοντικά αντίγραφα ασφαλείας;"
 
 #: qt/timeline.py:70
 msgid "Today"
@@ -2278,11 +2273,10 @@ msgid "Last week"
 msgstr "Προηγούμενη εβδομάδα"
 
 #: qt/timeline.py:270
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
-"Αυτό ΔΕΝ είναι ένα στιγμιότυπο αλλά μια ζωντανή προβολή των τοπικών σας "
-"αρχείων"
+"Αυτό ΔΕΝ είναι αντίγραφο ασφαλείας, αλλά μια ζωντανή προβολή των τοπικών "
+"αρχείων."
 
 #: qt/timeline.py:275
 #, python-brace-format
@@ -2307,6 +2301,13 @@ msgstr "Τελευταίος έλεγχος {time}"
 #~ msgstr[0] "Είστε σίγουροι ότι θέλετε να διαγράψετε το παρακάτω στιγμιότυπο;"
 #~ msgstr[1] "Είστε σίγουροι ότι θέλετε να διαγράψετε τα παρακάτω στιγμιότυπα;"
 
+#, python-brace-format
+#~ msgid "Cipher {cipher} failed for {host}."
+#~ msgstr "Το κρυπτογράφημα {cipher} απέτυχε για τον {host}."
+
+#~ msgid "Cipher:"
+#~ msgstr "Κρυπτοαλγόριθμος:"
+
 #~ msgid "Do you really want to close it?"
 #~ msgstr "Είστε σίγουροι ότι θέλετε να το κλείσετε;"
 
@@ -2318,6 +2319,11 @@ msgstr "Τελευταίος έλεγχος {time}"
 #~ msgid_plural "Every {n} hours"
 #~ msgstr[0] "Κάθε {n} ώρα"
 #~ msgstr[1] "Κάθε {n} ώρες"
+
+#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
+#~ msgstr ""
+#~ "Εάν βρίσκεται σε αφαιρούμενη μονάδα δίσκου, συνδέστε την. Στη συνέχεια, "
+#~ "πατήστε OK."
 
 #~ msgid "License"
 #~ msgstr "Άδεια Χρήσης"
@@ -2335,6 +2341,10 @@ msgstr "Τελευταίος έλεγχος {time}"
 
 #~ msgid "Sent"
 #~ msgstr "Στάλθηκαν"
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με τη συμμετοχή στη μετάφραση."
 
 #~ msgid "Snapshot"
 #~ msgstr "Στιγμιότυπο"
@@ -2364,6 +2374,9 @@ msgstr "Τελευταίος έλεγχος {time}"
 #~ msgstr ""
 #~ "Ο υποφάκελος του αντιγράφου δεν μπορεί να εμπεριέχεται στον φάκελλο "
 #~ "ανάκτησης."
+
+#~ msgid "View last log"
+#~ msgstr "Προβολή τελευταίας καταγραφής"
 
 #~ msgid "View snapshot log"
 #~ msgstr "Πρόβαλε το αρχείο καταγραφής στιγμιότυπου"

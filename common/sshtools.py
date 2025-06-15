@@ -563,7 +563,7 @@ class SSH(MountControl):
                     'Ciper %s is not supported' %
                     self.config.SSH_CIPHERS[self.cipher], self)
 
-                msg = _('Cipher {cipher} failed for {host}.').format(
+                msg = 'Cipher {cipher} failed for {host}.'.format(
                     cipher=self.config.SSH_CIPHERS[self.cipher],
                     host=self.host)
 
