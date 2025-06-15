@@ -20,6 +20,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout
                              )
 from PyQt6.QtCore import QSize, QTimer
+from PyQt6.QtGui import QFont, QFontDatabase
 import messagebox
 from statedata import StateData
 
@@ -34,7 +35,10 @@ class EditUserCallback(QDialog):
 
         import icon  # pylint: disable=import-outside-toplevel
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle(self.script)
+        self.setWindowTitle(
+            _('User-callback: "{filename}"').format(
+                filename=str(self.script_fp))
+        )
 
         state_data = StateData()
 
@@ -48,6 +52,8 @@ class EditUserCallback(QDialog):
 
         layout = QVBoxLayout(self)
         self.edit_widget = QPlainTextEdit(self)
+        self.edit_widget.setFont(
+            QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont))
 
         try:
             with self.script_fp.open('rt', encoding='utf-8') as handle:
