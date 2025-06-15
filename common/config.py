@@ -278,6 +278,7 @@ class Config(configfile.ConfigFileWithProfiles):
                     )
         }
 
+        # Deprecated: #2176
         self.SSH_CIPHERS = {
             'default': _('Default'),
             'aes128-ctr': 'AES128-CTR',
@@ -667,8 +668,20 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # cipher used to transfer data
         c = self.sshCipher(profile_id)
-        if cipher and c != 'default':
-            ssh += ['-o', f'Ciphers={c}']
+        if c != 'default':
+            # Using cipher is deprecated (#2143) and will be removed (#2176)
+            # in foreseen future.
+            logger.critical(
+                'Using a configured cipher in Back In Time is deprecated. '
+                f'Configured cipher: "{c}". Behavior will be removed in a '
+                'future release. Configure the cipher using the SSH client '
+                'config file instead. First remove key "profile<N>.snapshots'
+                '.ssh.cipher=" from Back In Time\'s config file '
+                '("~/.config/backintime/config").'
+            )
+
+            if cipher:
+                ssh += ['-o', f'Ciphers={c}']
 
         # custom arguments
         if custom_args:

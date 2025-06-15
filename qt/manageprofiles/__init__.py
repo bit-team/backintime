@@ -291,12 +291,12 @@ class SettingsDialog(QDialog):
         self.updateProfiles()
         self.slot_combo_modes_changed()
 
-        # enable tabs scroll buttons again but keep dialog size
-        size = self.sizeHint()
-        self.tabs.setUsesScrollButtons(scrollButtonDefault)
-        self.resize(size)
-
         self._restore_dims_and_coords()
+
+        # # enable tabs scroll buttons again but keep dialog size
+        # size = self.sizeHint()
+        # self.tabs.setUsesScrollButtons(scrollButtonDefault)
+        # self.resize(size)
 
         self.finished.connect(self._slot_finished)
 
