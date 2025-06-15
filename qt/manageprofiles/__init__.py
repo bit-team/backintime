@@ -53,6 +53,7 @@ class SettingsDialog(QDialog):
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
 
+        self.state_data = StateData()
         self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -290,12 +291,23 @@ class SettingsDialog(QDialog):
         self.updateProfiles()
         self.slot_combo_modes_changed()
 
-        # enable tabs scroll buttons again but keep dialog size
-        size = self.sizeHint()
-        self.tabs.setUsesScrollButtons(scrollButtonDefault)
-        self.resize(size)
+        self._restore_dims_and_coords()
+
+        # # enable tabs scroll buttons again but keep dialog size
+        # size = self.sizeHint()
+        # self.tabs.setUsesScrollButtons(scrollButtonDefault)
+        # self.resize(size)
 
         self.finished.connect(self._slot_finished)
+
+        # Observe other widgets values:
+        # "Warn free space" (Options tab) and "Remove at min free space"
+        # (Retention & Remove tab). Both widgets/tabs will be informed if
+        # the value of the other has changed.
+        self._tab_retention.event_remove_free_space_value_changed.register(
+            self._tab_options.remove_free_space_value_changed)
+        self._tab_options.event_warn_free_space_value_changed.register(
+            self._tab_retention.warn_free_space_value_changed)
 
     def addProfile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
@@ -351,6 +363,21 @@ class SettingsDialog(QDialog):
             self.config.setCurrentProfile(current_profile_id)
             self.updateProfile()
 
+    def _restore_dims_and_coords(self, move=True):
+        active_mode = self._tab_general.get_active_snapshots_mode()
+
+        try:
+            dims, coords = self.state_data.get_manageprofiles_dims_coords(
+                active_mode)
+
+        except KeyError:
+            pass
+
+        else:
+            if move:
+                self.move(*coords)
+            self.resize(*dims)
+
     def updateProfiles(self, reloadSettings=True):
         if reloadSettings:
             self.updateProfile()
@@ -397,7 +424,7 @@ class SettingsDialog(QDialog):
             self.btnRemoveProfile.setEnabled(True)
         self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
 
-        profile_state = StateData().profile(self.config.currentProfile())
+        profile_state = self.state_data.profile(self.config.currentProfile())
 
         # TAB: General
         self._tab_general.load_values()
@@ -534,13 +561,6 @@ class SettingsDialog(QDialog):
         self.listExclude.addTopLevelItem(item)
 
         return item
-
-    # def fillCombo(self, combo, d):
-    #     keys = list(d.keys())
-    #     keys.sort()
-
-    #     for key in keys:
-    #         combo.addItem(QIcon(), d[key], key)
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):
@@ -716,6 +736,9 @@ class SettingsDialog(QDialog):
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 
+        # Resize (but not move) window based on backup mode
+        self._restore_dims_and_coords(move=False)
+
     def updateExcludeItems(self):
         for index in range(self.listExclude.topLevelItemCount()):
             item = self.listExclude.topLevelItem(index)
@@ -816,3 +839,11 @@ class SettingsDialog(QDialog):
             self.parent.remount(self.originalCurrentProfile,
                                 self.originalCurrentProfile)
             self.parent.updateProfiles()
+
+        # store windows position and size
+        state_data = StateData()
+        state_data.set_manageprofiles_dims_coords(
+            self._tab_general.get_active_snapshots_mode(),
+            (self.width(), self.height()),
+            (self.x(), self.y())
+        )

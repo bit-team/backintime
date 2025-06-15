@@ -36,6 +36,7 @@ import progress
 import snapshotlog
 import flock
 import bitbase
+from storagesize import StorageSize
 from typing import Generator
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
@@ -868,17 +869,19 @@ class Snapshots:
 
                 # Free space check
                 if self.config.warnFreeSpaceEnabled():
-                    real_mib = self.get_free_space_at_destination()
-                    warn_mib = self.config.warnFreeSpaceMiB()
-                    if warn_mib >= real_mib:
-                        msg = f'Only {real_mib:n} MiB free space available ' \
-                              'on the destination, which is below the ' \
-                              f'configured threshold of {warn_mib:n} MiB. ' \
-                              'The backup will proceed anyway.'
-                        logger.warning(msg)
-                        self.setTakeSnapshotMessage(1, msg)
+                    real = self.get_free_space_at_destination()
 
-                # Inlcude/Exclude entry check
+                    if real is not None:
+                        warn = self.config.warnFreeSpace()
+                        if warn >= real:
+                            msg = f'Only {real} free space available ' \
+                                'on the destination, which is below the ' \
+                                f'configured threshold of {warn}. ' \
+                                'The backup will proceed anyway.'
+                            logger.warning(msg)
+                            self.setTakeSnapshotMessage(1, msg)
+
+                # Include/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()
 
@@ -1917,7 +1920,12 @@ class Snapshots:
                 log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
-    def get_free_space_at_destination(self) -> int:
+    def get_free_space_at_destination(self) -> StorageSize | None:
+        """Free space at destination.
+
+        Return:
+            A StorageSize object holding the value or `None` in case of errors.
+        """
         # Prepare getting free space value
         if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
             # ...on remote host
@@ -2006,10 +2014,10 @@ class Snapshots:
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
-            minFreeSpace = self.config.minFreeSpaceMib()
+            _enabled, minFreeSpace = self.config.minFreeSpaceAsStorageSize()
 
             logger.debug(
-                f'Keep min free disk space: {minFreeSpace} MiB',
+                f'Keep min free disk space: {minFreeSpace}',
                 self)
 
             snapshots = listSnapshots(self.config, reverse=False)
@@ -2032,7 +2040,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = "free disk space: {} MiB. Remove backup {}"
+                msg = "free disk space: {}. Remove backup {}"
                 logger.debug(msg.format(free_space, snapshots[0].withoutTag), self)
                 self.remove(snapshots[0])
                 del snapshots[0]

@@ -400,6 +400,11 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+        # SSH Cipher deprecation
+        if state_data.msg_cipher_deprecation is False:
+            self._open_ssh_cipher_deprecation_dialog()
+            state_data.msg_cipher_deprecation = True
+
         # Countdown of manual GUI starts finished?
         if 0 == state_data.manual_starts_countdown():
 
@@ -575,6 +580,11 @@ class MainWindow(QMainWindow):
                 _('Encryption Transition (EncFS)'),
                 self.slot_help_encryption, None,
                 _('Shows the message about EncFS removal again.')),
+            'act_help_cipher': (
+                icon.ENCRYPT,
+                'SSH Cipher deprecation',
+                self.slot_help_cipher_deprecation, None,
+                'Shows the message about deprecation of SSH cipher again.'),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -709,6 +719,7 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
+                self.act_help_cipher,
                 self.act_help_about,
             )
         }
@@ -1355,27 +1366,22 @@ class MainWindow(QMainWindow):
 
     def _take_snapshot_clicked(self, checksum):
         sn = snapshots.Snapshots(self.config)
-        real_mib = sn.get_free_space_at_destination()
-        warn_mib = sn.config.warnFreeSpaceMiB()
-        if warn_mib >= real_mib:
-            _val, unit = sn.config.warnFreeSpace()
-            msg = _('Only {free} {unit} free space available on the '
-                    'destination, which is below the configured threshold '
-                    'of {threshold} {unit}.').format(
-                        free='{:n}'.format(
-                            real_mib if unit == bitbase.DiskSizeUnit.MIB
-                            else round(real_mib / 1024)),
-                        threshold='{:n}'.format(
-                            warn_mib if unit == bitbase.DiskSizeUnit.MIB
-                            else round(warn_mib / 1024)),
-                        unit=unit
-                    )
-            qst = _('Proceed with the backup?')
-            proceed = messagebox.warning(
-                f'<p>{msg}</p><p>{qst}</p>', as_question=True)
+        real = sn.get_free_space_at_destination()
 
-            if proceed is False:
-                return
+        if real is not None:
+            warn = sn.config.warnFreeSpace()
+            if warn >= real:
+                msg = _('Only {free} free space available on the '
+                        'destination, which is below the configured threshold '
+                        'of {threshold}.').format(
+                            free=str(real),
+                            threshold=str(warn))
+                qst = _('Proceed with the backup?')
+                proceed = messagebox.warning(
+                    f'<p>{msg}</p><p>{qst}</p>', as_question=True)
+
+                if proceed is False:
+                    return
 
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
@@ -2210,6 +2216,55 @@ class MainWindow(QMainWindow):
             full_label=rc_message)
         dlg.exec()
 
+    def _open_ssh_cipher_deprecation_dialog(self):
+        """SSH cipher deprecation warning (#2143, #2176)"""
+
+        # SSH profiles using cipher other than default
+        ssh_cipher_profiles = []
+        for pid in self.config.profiles():
+            if 'ssh' in self.config.snapshotsMode(pid):
+                if self.config.sshCipher(pid) != 'default':
+                    ssh_cipher_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})')
+
+        if not ssh_cipher_profiles:
+            return
+
+        def _complete_text(profiles: list[str]) -> str:
+            txt = (
+                'The following backup profiles are using an explicitly '
+                'configured SSH cipher.',
+                '{profiles}',
+                'Setting a cipher diretly within Back In Time is '
+                'deprecated and will be removed in future versions.',
+                'Recommended action:',
+                'Please configure the preferred cipher in the SSH client'
+                'config file (e.g. ~/.ssh/config) instead.'
+                ' First remove the config key '
+                '"profile<N>.snapshots.ssh.cipher=" from Back In Time '
+                'config file ("~/.config/backintime/config")',
+                'This message will not be shown again automatically, but is '
+                'available at any time via the Help menu.',
+                'Your Back In Time Team'
+            )
+            txt = '\n'.join(txt)
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            profiles = '<ul>' \
+                + ''.join(f'<li>{profile}</li>' for profile in profiles) \
+                + '</ul>'
+
+            return result.format(profiles=profiles)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title='SSH Cipher is deprecated',
+            full_label=_complete_text(ssh_cipher_profiles))
+        dlg.exec()
 
     # |-------|
     # | Slots |
@@ -2239,6 +2294,9 @@ class MainWindow(QMainWindow):
     def slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
 
+    def slot_help_cipher_deprecation(self):
+        self._open_ssh_cipher_deprecation_dialog()
+
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
         dlg.exec()
@@ -2250,13 +2308,15 @@ class ExtraMouseButtonEventFilter(QObject):
     and assign it to browse in file history.
     Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
     """
+
     def __init__(self, mainWindow):
         self.mainWindow = mainWindow
         super(ExtraMouseButtonEventFilter, self).__init__()
 
     def eventFilter(self, receiver, event):
         if (event.type() == QEvent.Type.MouseButtonPress
-            and event.button() in (Qt.MouseButton.XButton1, Qt.MouseButton.XButton2)):
+                and event.button() in (Qt.MouseButton.XButton1,
+                                       Qt.MouseButton.XButton2)):
 
             if event.button() == Qt.MouseButton.XButton1:
                 self.mainWindow.btnFolderHistoryPreviousClicked()
