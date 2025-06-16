@@ -8,10 +8,14 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import os
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
+from pathlib import Path
+from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtWidgets import (QDialog,
+                             QDialogButtonBox,
+                             QPlainTextEdit,
+                             QVBoxLayout)
+from PyQt6.QtCore import QMutex, QThread, QTimer, QUrl
+import messagebox
 from inhibitsuspend import InhibitSuspend
 
 
@@ -28,9 +32,9 @@ class RestoreDialog(QDialog):
         self.kwargs = kwargs
         import icon
 
-        self.logFile = self.config.restoreLogFile()
-        if os.path.exists(self.logFile):
-            os.remove(self.logFile)
+        self.logFile = Path(self.config.restoreLogFile())
+        if self.logFile.exists():
+            self.logFile.unlink()
 
         self.setWindowIcon(icon.RESTORE_DIALOG)
         self.setWindowTitle(_('Restore'))
@@ -50,8 +54,7 @@ class RestoreDialog(QDialog):
         self.btnClose = buttonBox.button(QDialogButtonBox.StandardButton.Close)
         self.btnClose.setEnabled(False)
         buttonBox.rejected.connect(self.close)
-        showLog.clicked.connect(
-            lambda: QDesktopServices.openUrl(QUrl(self.logFile)))
+        showLog.clicked.connect(self._slot_show_log)
 
         # restore in separate thread
         self.thread = RestoreThread(self)
@@ -62,6 +65,15 @@ class RestoreDialog(QDialog):
         self.refreshTimer.setInterval(200)
         self.refreshTimer.setSingleShot(False)
         self.refreshTimer.timeout.connect(self.refreshLog)
+
+    def _slot_show_log(self):
+        if not self.logFile.exists():
+            messagebox.critical(
+                self,
+                f'Log file ("{self.logFile}") not found.')
+            return
+
+        QDesktopServices.openUrl(QUrl(str(self.logFile)))
 
     def refreshLog(self):
         """
@@ -95,7 +107,7 @@ class RestoreThread(QThread):
     def __init__(self, parent):
         super(RestoreThread, self).__init__()
         self.parent = parent
-        self.log = open(parent.logFile, 'wt')
+        self.log = parent.logFile.open('wt')
         self.mutex = QMutex()
         self.buffer = ''
 
