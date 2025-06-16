@@ -273,9 +273,11 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     @property
     def mainwindow_maximized(self) -> bool:
+        """Main window maximized state"""
         return self.mainwindow_dims == [-1, -1]
 
     def set_mainwindow_maximized(self):
+        """Main window is maximized state"""
         self.mainwindow_dims = [-1, -1]
 
     @property
