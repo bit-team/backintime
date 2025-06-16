@@ -272,6 +272,13 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['gui']['mainwindow']['show_hidden'] = val
 
     @property
+    def mainwindow_maximized(self) -> bool:
+        return self.mainwindow_dims == [-1, -1]
+
+    def set_mainwindow_maximized(self):
+        self.mainwindow_dims = [-1, -1]
+
+    @property
     def mainwindow_dims(self) -> tuple[int, int]:
         """Dimensions of the main window.
 
