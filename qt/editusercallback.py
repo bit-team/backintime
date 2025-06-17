@@ -35,7 +35,9 @@ class EditUserCallback(QDialog):
         # self.config = parent.config
         self.script_fp = script_path
 
-        import icon  # pylint: disable=import-outside-toplevel
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
+
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(
             _('User-callback: "{filename}"').format(

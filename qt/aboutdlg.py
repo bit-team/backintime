@@ -237,7 +237,8 @@ class AboutDlg(QDialog):
         return wdg
 
     def _create_logo_widget(self):
-        import icon  # pylint: disable=import-outside-toplevel
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
 
         size = self.style().pixelMetric(
             QStyle.PixelMetric.PM_LargeIconSize)
