@@ -41,7 +41,7 @@ from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_remove_retention import RemoveRetentionTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
-from editusercallback import EditUserCallback
+# from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
 from bitwidgets import ProfileCombo
 
@@ -280,12 +280,12 @@ class SettingsDialog(QDialog):
             parent=self)
         btnRestore = buttonBox.addButton(
             _('Restore Config'), QDialogButtonBox.ButtonRole.ResetRole)
-        btnUserCallback = buttonBox.addButton(
-            _('Edit user-callback'), QDialogButtonBox.ButtonRole.ResetRole)
+        # btnUserCallback = buttonBox.addButton(
+        #     _('Edit user-callback'), QDialogButtonBox.ButtonRole.ResetRole)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         btnRestore.clicked.connect(self.restoreConfig)
-        btnUserCallback.clicked.connect(self.editUserCallback)
+        # btnUserCallback.clicked.connect(self.editUserCallback)
         self.mainLayout.addWidget(buttonBox)
 
         self.updateProfiles()
@@ -819,8 +819,8 @@ class SettingsDialog(QDialog):
         RestoreConfigDialog(self).exec()
         self.updateProfiles()
 
-    def editUserCallback(self, *args):
-        EditUserCallback(self).exec()
+    # def editUserCallback(self, *args):
+    #     EditUserCallback(self).exec()
 
     def accept(self):
         if self.validate():
