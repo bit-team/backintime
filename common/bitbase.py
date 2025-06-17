@@ -49,8 +49,13 @@ URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
 USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
 USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
-    'backintime-common' / 'manual' / 'index.html'
+    PACKAGE_NAME_CLI / 'manual' / 'index.html'
 USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
+
+DIR_CALLBACK_EXAMPLES = Path('/') / 'usr' / 'share' / 'doc' / \
+    PACKAGE_NAME_CLI / 'user-callback-examples'
+DEFAULT_CALLBACK = DIR_CALLBACK_EXAMPLES / 'user-callback.default'
+
 
 # About transition of encryption feature and the removal of EncFS (see #1734).
 # The warnings and deprecation messages are gradually increased in intensity
