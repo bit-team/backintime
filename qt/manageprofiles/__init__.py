@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raak
 # SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Devin Black
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
