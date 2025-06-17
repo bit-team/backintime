@@ -917,6 +917,7 @@ def which(cmd):
         fullpath = os.path.join(directory, cmd)
 
         if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            fullpath = str(pathlib.Path(fullpath).resolve())
             return fullpath
 
     return None

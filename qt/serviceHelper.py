@@ -104,8 +104,6 @@ class UdevRules(dbus.service.Object):
 
         self.su = self._which('su', '/bin/su')
         self.backintime = self._which('backintime', '/usr/bin/backintime')
-        self.nice = self._which('nice', '/usr/bin/nice')
-        self.ionice = self._which('ionice', '/usr/bin/ionice')
 
         self.max_rules = 100
         self.max_users = 20
@@ -115,8 +113,6 @@ class UdevRules(dbus.service.Object):
         proc = Popen(['which', exe], stdout=PIPE)
 
         ret = proc.communicate()
-        logger.debug('X'*200)
-        logger.debug(f'{ret=}')
         # ret = proc.communicate()[0].strip().decode()
         ret = ret[0].strip().decode()
 
@@ -141,13 +137,13 @@ class UdevRules(dbus.service.Object):
         whitelist = (
             (
                 # command itself
-                self.nice,  
+                self._which('nice', '/usr/bin/nice'),
                 # command options/switches beginning with "-n"
                 r'^-n'
             ),
             (
                 # command itself
-                self.ionice,
+                self._which('ionice', '/usr/bin/ionice'),
                 # command options/switches beginning with "-c" or "-n"
                 r'(^-c|^-n)'
             ),
@@ -157,10 +153,8 @@ class UdevRules(dbus.service.Object):
 
         # Remove whitelisted comamnds and their options/switches
         while parts:
-            logger.debug(f'while parts: {parts[0]=}')
 
             for c, switches in whitelist:
-                logger.debug(f'  {c=} {switches=}')
 
                 # whitelist command?
                 if parts[0] == c:
@@ -181,15 +175,13 @@ class UdevRules(dbus.service.Object):
         # See what's left in parts
         if not parts:
             msg = "Parameter 'cmd' does not contain the backintime command"
-            if logger.DEBUG:
-                msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+            msg = f'{msg}\n{cmd=}\nrest of {parts=}'
             raise InvalidCmd(msg)
 
         if parts[0] != self.backintime:
             msg = "Parameter 'cmd' contains non-whitelisted cmd/parameter " \
                   f"({parts[0]})"
-            if logger.DEBUG:
-                msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+            msg = f'{msg}\n{cmd=}\nrest of {parts=}'
             raise InvalidCmd(msg)
 
     def _checkLimits(self, owner, cmd):
