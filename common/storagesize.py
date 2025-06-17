@@ -145,6 +145,9 @@ class StorageSize:
 
         return self._bytes == other._bytes
 
+    def __hash__(self) -> int:
+        return hash(self._bytes)
+
     def __ne__(self, other: StorageSize | int) -> bool:
         """Not equal"""
         return not self == other
