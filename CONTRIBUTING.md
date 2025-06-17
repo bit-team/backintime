@@ -184,7 +184,7 @@ distribution.
   - Optional but recommended:
     - `pylint` (>= 3.3.0)
     - `flake8`
-    - `ruff` (>= 0.6.0)
+    - `ruff` (>= 0.12.0)
     - `codespell`
     - `reuse` (>= 4.0.0)
  
