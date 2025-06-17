@@ -31,6 +31,7 @@ from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
 from bitbase import TimeUnit
+from storagesize import StorageSize, SizeUnit
 import logger
 
 
@@ -586,37 +587,39 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
-               ) -> int | None:
-    """Get free space in MiB on (remote) filesystem containing ``path``.
+               ) -> StorageSize | None:
+    """Get free space as StorageSize on (remote) filesystem containing ``path``.
 
     Args:
         path: File or directory.
         ssh_command: See `_free_space_ssh()` for details.
 
     Returns:
-        Free space in Mebibyte (MiB) or ``None`` in case of errors.
+        Free space in StorageSize or ``None`` in case of errors.
     """
 
     if ssh_command:
-        return _free_space_ssh(path, ssh_command)
+        value = _free_space_ssh(path, ssh_command)
+    else:
+        value = _free_space_local(path)
 
-    return _free_space_local(path)
+    return StorageSize(value, SizeUnit.B) if value else value
 
 
 def _free_space_local(path: pathlib.Path) -> int:
-    """Get free space in MiB on filesystem containing ``path``.
+    """Get free space in Byte on filesystem containing ``path``.
 
     Args:
         path: File or directory.
 
     Returns:
-        Free space in Mebibyte (MiB).
+        Free space in Byte.
     """
-    return round(shutil.disk_usage(path).free / 1024 / 1024)
+    return shutil.disk_usage(path).free
 
 
 def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
-    """Get free space in MiB on remote filesystem.
+    """Get free space in Byte on remote filesystem.
 
     Use Config.sshCommand() to construct ``ssh_command`` regarding the backup
     profile of interest. This is a workaround and will be refactored one day.
@@ -626,7 +629,7 @@ def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
         ssh_command: SSH command used as prefix to the ``stat`` command.
 
     Returns:
-        Free space in Mebibyte (MiB) or ``None`` in case of errors.
+        Free space in Byte or ``None`` in case of errors.
     """
     try:
         result = subprocess.check_output(
@@ -646,7 +649,7 @@ def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
 
     available, blocksize = [int(val) for val in result.strip().split(',')]
 
-    return round(available * blocksize / 1024 / 1024)
+    return available * blocksize
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |

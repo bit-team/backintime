@@ -21,6 +21,7 @@ import tools  # noqa: E402
 from version import __version__  # noqa: E402
 
 
+# pylint: disable-next=too-many-public-methods
 class StateData(dict, metaclass=singleton.Singleton):
     """Manage state data for Back In Time.
 
@@ -43,8 +44,10 @@ class StateData(dict, metaclass=singleton.Singleton):
             'manage_profiles': {
                 'incl_sorting': {},
                 'excl_sorting': {},
+                'dims': {},
             },
             'logview': {},
+            'user_callback_edit': {},
         },
         'message': {
             'encfs': {}
@@ -230,6 +233,19 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['message']['release_candidate'] = val
 
     @property
+    def msg_cipher_deprecation(self) -> bool:
+        """Cipher deprecation message shown."""
+        try:
+            return self['message']['cipher_deprecation']
+        except KeyError:
+            self.msg_cipher_deprecation = False
+            return self.msg_cipher_deprecation
+
+    @msg_cipher_deprecation.setter
+    def msg_cipher_deprecation(self, val: bool) -> None:
+        self['message']['cipher_deprecation'] = val
+
+    @property
     def msg_encfs_global(self) -> int:
         """Last stage of global EncFS deprecation message that was shown."""
         try:
@@ -374,3 +390,46 @@ class StateData(dict, metaclass=singleton.Singleton):
     @toolbar_button_style.setter
     def toolbar_button_style(self, value) -> None:
         self['gui']['mainwindow']['toolbar_button_style'] = value
+
+    def get_manageprofiles_dims_coords(self, profile_mode: str
+                                       ) -> tuple[tuple[int, int],
+                                                  tuple[int, int]]:
+        """Dimension and coordinates of the Manage Profiles dialog window"""
+        return (
+            self['gui']['manage_profiles']['dims'][profile_mode],
+            self['gui']['manage_profiles']['coords']
+        )
+
+    def set_manageprofiles_dims_coords(self,
+                                       profile_mode: str,
+                                       dims: tuple[int, int],
+                                       coords: tuple[int, int]):
+        """Dimension and coordinates of the Manage Profiles dialog window"""
+        self['gui']['manage_profiles']['dims'][profile_mode] = dims
+        self['gui']['manage_profiles']['coords'] = coords
+
+    @property
+    def user_callback_edit_dims(self) -> tuple[int, int]:
+        """Dimensions of the user-callback edit dialog.
+
+        Raises:
+            KeyError
+        """
+        return self['gui']['user_callback_edit']['dims']
+
+    @user_callback_edit_dims.setter
+    def user_callback_edit_dims(self, vals: tuple[int, int]) -> None:
+        self['gui']['user_callback_edit']['dims'] = vals
+
+    @property
+    def user_callback_edit_coords(self) -> tuple[int, int]:
+        """Coordinates (position) of the user-callback edit dialog.
+
+        Raises:
+            KeyError
+        """
+        return self['gui']['user_callback_edit']['coords']
+
+    @user_callback_edit_coords.setter
+    def user_callback_edit_coords(self, vals: tuple[int, int]) -> None:
+        self['gui']['user_callback_edit']['coords'] = vals
