@@ -144,7 +144,7 @@ class SettingsDialog(QDialog):
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         btnRestore.clicked.connect(self.restoreConfig)
-        btnUserCallback.clicked.connect(self.editUserCallback)
+        # btnUserCallback.clicked.connect(self.editUserCallback)
         self.mainLayout.addWidget(buttonBox)
 
         self.updateProfiles()
@@ -346,8 +346,8 @@ class SettingsDialog(QDialog):
         RestoreConfigDialog(self).exec()
         self.updateProfiles()
 
-    def editUserCallback(self, *args):
-        EditUserCallback(self).exec()
+    # def editUserCallback(self, *args):
+    #     EditUserCallback(self).exec()
 
     def accept(self):
         if self.validate():
