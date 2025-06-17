@@ -125,38 +125,69 @@ class UdevRules(dbus.service.Object):
         return ret
 
     def _validateCmd(self, cmd):
+        """ ???
+        """
 
         if cmd.find("&&") != -1:
             raise InvalidCmd("Parameter 'cmd' contains '&&' concatenation")
-        # make sure it starts with an absolute path
-        elif not cmd.startswith(os.path.sep):
-            raise InvalidCmd("Parameter 'cmd' does not start with '/'")
 
-        parts = cmd.split()
+        # make sure it starts with an absolute path
+        if not cmd.startswith(os.path.sep):
+            raise InvalidCmd(
+                f'Parameter "cmd" does not start with "{os.path.sep}"')
 
         # make sure only well known commands and switches are used
         whitelist = (
-            (self.nice, r'^-n'),
-            (self.ionice, r'(^-c|^-n)'),
+            (
+                # command itself
+                self.nice,  
+                # command options/switches beginning with "-n"
+                r'^-n'
+            ),
+            (
+                # command itself
+                self.ionice,
+                # command options/switches beginning with "-c" or "-n"
+                r'(^-c|^-n)'
+            ),
         )
 
+        parts = cmd.split()
+
+        # Remove whitelisted comamnds and their options/switches
         while parts:
+
             for c, switches in whitelist:
+
+                # whitelist command?
                 if parts[0] == c:
+
+                    # remove from parts list
                     parts.pop(0)
+
+                    # every whitelisted option/switch
                     while parts and re.match(switches, parts[0]):
+                        # remove from parts list
                         parts.pop(0)
+
                     break
+
             else:
                 break
 
+        # See what's left in parts
         if not parts:
-            raise InvalidCmd(
-                "Parameter 'cmd' does not contain the backintime command")
+            msg = "Parameter 'cmd' does not contain the backintime command"
+            if logger.DEBUG:
+                msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+            raise InvalidCmd(msg)
 
-        elif parts[0] != self.backintime:
-            raise InvalidCmd("Parameter 'cmd' contains non-whitelisted "
-                             f"cmd/parameter ({parts[0]})")
+        if parts[0] != self.backintime:
+            msg = "Parameter 'cmd' contains non-whitelisted cmd/parameter " \
+                  f"({parts[0]})"
+            if logger.DEBUG:
+                msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+            raise InvalidCmd(msg)
 
     def _checkLimits(self, owner, cmd):
 
