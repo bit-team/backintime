@@ -41,6 +41,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
     'bitwidgets.py',
+    'editusercallback.py',
     'encfsmsgbox.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',

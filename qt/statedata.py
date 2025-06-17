@@ -21,6 +21,7 @@ import tools  # noqa: E402
 from version import __version__  # noqa: E402
 
 
+# pylint: disable-next=too-many-public-methods
 class StateData(dict, metaclass=singleton.Singleton):
     """Manage state data for Back In Time.
 
@@ -46,6 +47,7 @@ class StateData(dict, metaclass=singleton.Singleton):
                 'dims': {},
             },
             'logview': {},
+            'user_callback_edit': {},
         },
         'message': {
             'encfs': {}
@@ -270,6 +272,15 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['gui']['mainwindow']['show_hidden'] = val
 
     @property
+    def mainwindow_maximized(self) -> bool:
+        """Main window maximized state"""
+        return self.mainwindow_dims == [-1, -1]
+
+    def set_mainwindow_maximized(self):
+        """Main window is maximized state"""
+        self.mainwindow_dims = [-1, -1]
+
+    @property
     def mainwindow_dims(self) -> tuple[int, int]:
         """Dimensions of the main window.
 
@@ -405,3 +416,29 @@ class StateData(dict, metaclass=singleton.Singleton):
         """Dimension and coordinates of the Manage Profiles dialog window"""
         self['gui']['manage_profiles']['dims'][profile_mode] = dims
         self['gui']['manage_profiles']['coords'] = coords
+
+    @property
+    def user_callback_edit_dims(self) -> tuple[int, int]:
+        """Dimensions of the user-callback edit dialog.
+
+        Raises:
+            KeyError
+        """
+        return self['gui']['user_callback_edit']['dims']
+
+    @user_callback_edit_dims.setter
+    def user_callback_edit_dims(self, vals: tuple[int, int]) -> None:
+        self['gui']['user_callback_edit']['dims'] = vals
+
+    @property
+    def user_callback_edit_coords(self) -> tuple[int, int]:
+        """Coordinates (position) of the user-callback edit dialog.
+
+        Raises:
+            KeyError
+        """
+        return self['gui']['user_callback_edit']['coords']
+
+    @user_callback_edit_coords.setter
+    def user_callback_edit_coords(self, vals: tuple[int, int]) -> None:
+        self['gui']['user_callback_edit']['coords'] = vals

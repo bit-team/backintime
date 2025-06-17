@@ -93,6 +93,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
@@ -302,8 +303,11 @@ class MainWindow(QMainWindow):
 
         # restore position and size
         try:
-            self.move(*state_data.mainwindow_coords)
-            self.resize(*state_data.mainwindow_dims)
+            if state_data.mainwindow_maximized:
+                self.showMaximized()
+            else:
+                self.move(*state_data.mainwindow_coords)
+                self.resize(*state_data.mainwindow_dims)
         except KeyError:
             pass
 
@@ -521,6 +525,10 @@ class MainWindow(QMainWindow):
                 icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
+            'act_edit_user_callback': (
+                icon.EDIT_USER_CALLBACK, _('Edit user-callback'),
+                self.slot_edit_user_callback, None,
+                None),
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
@@ -701,6 +709,7 @@ class MainWindow(QMainWindow):
                 self.act_snapshot_logview,
                 self.act_last_logview,
                 self.act_update_snapshots,
+                self.act_edit_user_callback,
             ),
             _('&Restore'): (
                 self.act_restore,
@@ -741,6 +750,7 @@ class MainWindow(QMainWindow):
         backup = self.menuBar().actions()[1].menu()
         backup.insertSeparator(self.act_settings)
         backup.insertSeparator(self.act_snapshot_logview)
+        backup.insertSeparator(self.act_update_snapshots)
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
@@ -925,8 +935,11 @@ class MainWindow(QMainWindow):
             self.places.header().sortIndicatorSection(),
             self.places.header().sortIndicatorOrder().value,
         )
-        state_data.mainwindow_coords = (self.x(), self.y())
-        state_data.mainwindow_dims = (self.width(), self.height())
+        if self.isMaximized():
+            state_data.set_mainwindow_maximized()
+        else:
+            state_data.mainwindow_coords = (self.x(), self.y())
+            state_data.mainwindow_dims = (self.width(), self.height())
         state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
         state_data.mainwindow_second_splitter_widths \
             = self.secondSplitter.sizes()
@@ -2299,6 +2312,11 @@ class MainWindow(QMainWindow):
 
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg.exec()
+
+    def slot_edit_user_callback(self):
+        fp = pathlib.Path(self.config.takeSnapshotUserCallback())
+        dlg = EditUserCallback(parent=self, script_path=fp)
         dlg.exec()
 
 

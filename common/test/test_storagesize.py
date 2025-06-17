@@ -253,6 +253,39 @@ class Equal(unittest.TestCase):
         self.assertEqual(a, b)
 
 
+class Hash(unittest.TestCase):
+    def test_same_object_same_hash(self):
+        a = StorageSize(1024, SizeUnit.B)
+        b = StorageSize(1024, SizeUnit.B)
+
+        self.assertEqual(hash(a), hash(b))
+        self.assertEqual(a, b)
+
+    def test_same_object_same_hash_unit_irrelevant(self):
+        a = StorageSize(1024, SizeUnit.B)
+        b = StorageSize(1024, SizeUnit.B)
+        b.unit = SizeUnit.GIB
+
+        self.assertEqual(hash(a), hash(b))
+        self.assertEqual(a, b)
+
+    def test_different_objects_different_hash(self):
+        a = StorageSize(1004, SizeUnit.B)
+        b = StorageSize(1024, SizeUnit.B)
+        self.assertNotEqual(hash(a), hash(b))
+        self.assertNotEqual(a, b)
+
+    def test_hashable_in_set(self):
+        a = StorageSize(1004, SizeUnit.B)
+        s = {a}
+        self.assertIn(a, s)
+
+    def test_usable_as_dict_key(self):
+        a = StorageSize(1004, SizeUnit.B)
+        d = {a: "Foobar"}
+        self.assertEqual(d[a], "Foobar")
+
+
 class Greater(unittest.TestCase):
     def test_greater(self):
         a = StorageSize(1024, SizeUnit.B)
