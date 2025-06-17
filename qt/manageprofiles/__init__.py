@@ -42,7 +42,6 @@ from manageprofiles.tab_remove_retention import RemoveRetentionTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from manageprofiles.tab_include import IncludeTab
-from editusercallback import EditUserCallback
 from restoreconfigdialog import RestoreConfigDialog
 from bitwidgets import ProfileCombo
 
