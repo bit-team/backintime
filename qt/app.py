@@ -93,6 +93,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
@@ -400,6 +401,11 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+        # SSH Cipher deprecation
+        if state_data.msg_cipher_deprecation is False:
+            self._open_ssh_cipher_deprecation_dialog()
+            state_data.msg_cipher_deprecation = True
+
         # Countdown of manual GUI starts finished?
         if 0 == state_data.manual_starts_countdown():
 
@@ -516,6 +522,10 @@ class MainWindow(QMainWindow):
                 icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
+            'act_edit_user_callback': (
+                icon.EDIT_USER_CALLBACK, _('Edit user-callback'),
+                self.slot_edit_user_callback, None,
+                None),
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
@@ -575,6 +585,11 @@ class MainWindow(QMainWindow):
                 _('Encryption Transition (EncFS)'),
                 self.slot_help_encryption, None,
                 _('Shows the message about EncFS removal again.')),
+            'act_help_cipher': (
+                icon.ENCRYPT,
+                'SSH Cipher deprecation',
+                self.slot_help_cipher_deprecation, None,
+                'Shows the message about deprecation of SSH cipher again.'),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -691,6 +706,7 @@ class MainWindow(QMainWindow):
                 self.act_snapshot_logview,
                 self.act_last_logview,
                 self.act_update_snapshots,
+                self.act_edit_user_callback,
             ),
             _('&Restore'): (
                 self.act_restore,
@@ -709,6 +725,7 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
+                self.act_help_cipher,
                 self.act_help_about,
             )
         }
@@ -730,6 +747,7 @@ class MainWindow(QMainWindow):
         backup = self.menuBar().actions()[1].menu()
         backup.insertSeparator(self.act_settings)
         backup.insertSeparator(self.act_snapshot_logview)
+        backup.insertSeparator(self.act_update_snapshots)
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
@@ -1354,6 +1372,24 @@ class MainWindow(QMainWindow):
         self._take_snapshot_clicked(checksum=True)
 
     def _take_snapshot_clicked(self, checksum):
+        sn = snapshots.Snapshots(self.config)
+        real = sn.get_free_space_at_destination()
+
+        if real is not None:
+            warn = sn.config.warnFreeSpace()
+            if warn >= real:
+                msg = _('Only {free} free space available on the '
+                        'destination, which is below the configured threshold '
+                        'of {threshold}.').format(
+                            free=str(real),
+                            threshold=str(warn))
+                qst = _('Proceed with the backup?')
+                proceed = messagebox.warning(
+                    f'<p>{msg}</p><p>{qst}</p>', as_question=True)
+
+                if proceed is False:
+                    return
+
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
 
@@ -2187,6 +2223,55 @@ class MainWindow(QMainWindow):
             full_label=rc_message)
         dlg.exec()
 
+    def _open_ssh_cipher_deprecation_dialog(self):
+        """SSH cipher deprecation warning (#2143, #2176)"""
+
+        # SSH profiles using cipher other than default
+        ssh_cipher_profiles = []
+        for pid in self.config.profiles():
+            if 'ssh' in self.config.snapshotsMode(pid):
+                if self.config.sshCipher(pid) != 'default':
+                    ssh_cipher_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})')
+
+        if not ssh_cipher_profiles:
+            return
+
+        def _complete_text(profiles: list[str]) -> str:
+            txt = (
+                'The following backup profiles are using an explicitly '
+                'configured SSH cipher.',
+                '{profiles}',
+                'Setting a cipher diretly within Back In Time is '
+                'deprecated and will be removed in future versions.',
+                'Recommended action:',
+                'Please configure the preferred cipher in the SSH client'
+                'config file (e.g. ~/.ssh/config) instead.'
+                ' First remove the config key '
+                '"profile<N>.snapshots.ssh.cipher=" from Back In Time '
+                'config file ("~/.config/backintime/config")',
+                'This message will not be shown again automatically, but is '
+                'available at any time via the Help menu.',
+                'Your Back In Time Team'
+            )
+            txt = '\n'.join(txt)
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            profiles = '<ul>' \
+                + ''.join(f'<li>{profile}</li>' for profile in profiles) \
+                + '</ul>'
+
+            return result.format(profiles=profiles)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title='SSH Cipher is deprecated',
+            full_label=_complete_text(ssh_cipher_profiles))
+        dlg.exec()
 
     # |-------|
     # | Slots |
@@ -2216,8 +2301,16 @@ class MainWindow(QMainWindow):
     def slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
 
+    def slot_help_cipher_deprecation(self):
+        self._open_ssh_cipher_deprecation_dialog()
+
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg.exec()
+
+    def slot_edit_user_callback(self):
+        fp = pathlib.Path(self.config.takeSnapshotUserCallback())
+        dlg = EditUserCallback(parent=self, script_path=fp)
         dlg.exec()
 
 
@@ -2227,13 +2320,15 @@ class ExtraMouseButtonEventFilter(QObject):
     and assign it to browse in file history.
     Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
     """
+
     def __init__(self, mainWindow):
         self.mainWindow = mainWindow
         super(ExtraMouseButtonEventFilter, self).__init__()
 
     def eventFilter(self, receiver, event):
         if (event.type() == QEvent.Type.MouseButtonPress
-            and event.button() in (Qt.MouseButton.XButton1, Qt.MouseButton.XButton2)):
+                and event.button() in (Qt.MouseButton.XButton1,
+                                       Qt.MouseButton.XButton2)):
 
             if event.button() == Qt.MouseButton.XButton1:
                 self.mainWindow.btnFolderHistoryPreviousClicked()
@@ -2312,7 +2407,7 @@ class SetupCron(QThread):
         super(SetupCron, self).__init__(parent)
 
     def run(self):
-        self.config.setupCron()
+        self.config.setup_automation()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

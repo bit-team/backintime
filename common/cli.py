@@ -161,8 +161,11 @@ def checkConfig(cfg, crontab=True):
         test = 'Install crontab'
         announceTest()
 
-        if not cfg.setupCron():
+        try:
+            cfg.setup_automation()
+        except Exception as exc:
             failed()
+            print(str(exc))
             return False
 
         okay()

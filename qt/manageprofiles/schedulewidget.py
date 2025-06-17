@@ -20,6 +20,7 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLineEdit,
                              QSpinBox,
                              QWidget)
+from bitbase import ScheduleMode, TimeUnit, HOURLY_BACKUPS
 import config
 import tools
 import qttools
@@ -224,10 +225,10 @@ class ScheduleWidget(QGroupBox):
             BitComboBox: The widget.
         """
         repeatedly_units = {
-            config.Config.HOUR: _('Hour(s)'),
-            config.Config.DAY: _('Day(s)'),
-            config.Config.WEEK: _('Week(s)'),
-            config.Config.MONTH: _('Month(s)')
+            TimeUnit.HOUR: _('Hour(s)'),
+            TimeUnit.DAY: _('Day(s)'),
+            TimeUnit.WEEK: _('Week(s)'),
+            TimeUnit.MONTH: _('Month(s)')
         }
 
         return combobox.BitComboBox(self, repeatedly_units)
@@ -236,7 +237,7 @@ class ScheduleWidget(QGroupBox):
         """Handle value changed events for schedule mode combobox."""
         self._set_child_visibilities(self._combo_schedule_mode.current_data)
 
-    def _set_child_visibilities(self, backup_mode_id: int):
+    def _set_child_visibilities(self, schedule_mode: ScheduleMode):
         """Modify the visibility of child widgets (addressed by their index in
         the form layout) based on the selected schedule mode.
         """
@@ -244,26 +245,27 @@ class ScheduleWidget(QGroupBox):
 
         layout.setRowVisible(
             self._rowidx_cronpattern,
-            backup_mode_id == config.Config.CUSTOM_HOUR)
+            schedule_mode == ScheduleMode.CUSTOM_HOUR)
 
         layout.setRowVisible(
             self._rowidx_weekday,
-            backup_mode_id == config.Config.WEEK)
+            schedule_mode == ScheduleMode.WEEK)
 
         layout.setRowVisible(
             self._rowidx_day,
-            backup_mode_id == config.Config.MONTH)
+            schedule_mode == ScheduleMode.MONTH)
 
         layout.setRowVisible(
             self._rowidx_time,
-            backup_mode_id >= config.Config.DAY)
+            schedule_mode.value >= ScheduleMode.DAY.value)
 
         layout.setRowVisible(
             self._rowidx_offset,
-            backup_mode_id in config.Config.HOURLY_BACKUPS
+            schedule_mode in HOURLY_BACKUPS
         )
 
-        vis = config.Config.REPEATEDLY <= backup_mode_id <= config.Config.UDEV
+        vis = ScheduleMode.REPEATEDLY.value <= schedule_mode.value \
+            <= ScheduleMode.UDEV.value
         layout.setRowVisible(
             self._rowidx_period,
             vis)
@@ -273,11 +275,11 @@ class ScheduleWidget(QGroupBox):
 
         layout.setRowVisible(
             self._rowidx_repeated,
-            backup_mode_id == config.Config.REPEATEDLY)
+            schedule_mode == ScheduleMode.REPEATEDLY)
 
         layout.setRowVisible(
             self._rowidx_udev,
-            backup_mode_id == config.Config.UDEV)
+            schedule_mode == ScheduleMode.UDEV)
 
     def load_values(self, cfg: config.Config):
         """Set the values of the widgets regarding the current config."""
