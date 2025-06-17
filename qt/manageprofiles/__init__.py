@@ -42,6 +42,7 @@ class SettingsDialog(QDialog):
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
 
+        self.state_data = StateData()
         self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -150,7 +151,7 @@ class SettingsDialog(QDialog):
         self.updateProfiles()
         self.slot_combo_modes_changed()
 
-        self._restore_dims_and_coods()
+        self._restore_dims_and_coords()
 
         # enable tabs scroll buttons again but keep dialog size
         # size = self.sizeHint()
