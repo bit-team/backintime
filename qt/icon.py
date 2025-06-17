@@ -59,6 +59,7 @@ SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
                       QIcon.fromTheme('gtk-edit',
                       QIcon.fromTheme('edit-rename',
                       QIcon.fromTheme('accessories-text-editor'))))
+EDIT_USER_CALLBACK = SNAPSHOT_NAME
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
 VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
                       QIcon.fromTheme('text-x-generic'))

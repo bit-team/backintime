@@ -85,7 +85,7 @@ def warning(text: str,
         as_question: Use Yes and No buttons.
     """
     buttons = QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No \
-        if as_question else QMessageBox.StandardButton.OK
+        if as_question else QMessageBox.StandardButton.Ok
 
     answer = QMessageBox.warning(
         widget_to_center_on,
