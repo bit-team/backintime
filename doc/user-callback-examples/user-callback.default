@@ -1,5 +1,6 @@
 #!/bin/bash
 # SPDX-FileCopyrightText: © 2012-2015 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -8,46 +9,46 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
 # Script should return 0 if everything is alright. Returncode !0 will cancel
-# the running snapshot (BIT version >1.1.0).
+# the running backup.
 
 profile_id="$1"
 profile_name="$2"
 reason="$3"
 
 case $reason in
-    1) #Backup process begins
+    1) # Backup process begins
         ;;
-    2) #Backup process ends
+    2) # Backup process ends
         ;;
-    3) #A new snapshot was taken
+    3) # A new backup was taken
         snapshot_id="$4"
         snapshot_name="$5"
         ;;
-    4) #There was an error
+    4) # There was an error
         errorcode="$4"
         case $errorcode in
             1) # ERROR The application is not configured
               ;;
-            2) # ERROR A 'take snapshot' process is already running
+            2) # ERROR A 'take backup' process is already running
               ;;
-            3) # ERROR Can't find snapshots folder (is it on a removable drive ?)
+            3) # ERROR Can't find backup directory (is it on removable drive ?)
               ;;
-            4) # ERROR A snapshot for 'now' already exist
+            4) # ERROR A backup for 'now' already exist
               ;;
-            5) # ERROR: Error while taking a snapshot
+            5) # ERROR: Error while taking a backup
                ;;
-            6) # ERROR: New snapshot taken but with errors
+            6) # ERROR: New backup taken but with errors
                ;;
             *) # Unknown error number
                ;;
         esac
         ;;
-    5) #backintime-qt4 (GUI) started
+    5) # backintime-qt (GUI) started
         ;;
-    6) #backintime-qt4 (GUI) closed
+    6) # backintime-qt (GUI) closed
         ;;
-    7) #Mount drives
+    7) # Mount drives
         ;;
-    8) #Unmount the drives
+    8) # Unmount the drives
         ;;
 esac
