@@ -1,8 +1,9 @@
-# SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
-# SPDX-FileCopyrightText: © 2008 Canonical Ltd.
 # SPDX-FileCopyrightText: © 2004-2006 Red Hat Inc. <http://www.redhat.com>
 # SPDX-FileCopyrightText: © 2005-2007 Collabora Ltd. <http://www.collabora.co.uk>
+# SPDX-FileCopyrightText: © 2008 Canonical Ltd.
 # SPDX-FileCopyrightText: © 2009 David D. Lowe
+# SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 # SPDX-License-Identifier: MIT
@@ -156,8 +157,10 @@ class UdevRules(dbus.service.Object):
 
         # Remove whitelisted comamnds and their options/switches
         while parts:
+            logger.debug(f'while parts: {parts[0]=}')
 
             for c, switches in whitelist:
+                logger.debug(f'  {c=} {switches=}')
 
                 # whitelist command?
                 if parts[0] == c:
