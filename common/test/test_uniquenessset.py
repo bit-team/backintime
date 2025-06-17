@@ -58,7 +58,7 @@ class General(pyfakefs_ut.TestCase):
         See: <https://github.com/bit-team/backintime/
              pull/1916#issuecomment-2438703637>
         """
-        import pyfakefs
+        import pyfakefs  # noqa: PLC0415
         pyfakefs_version = packaging.version.parse(pyfakefs.__version__)
         min_required_version = packaging.version.parse('5.7.0')
 

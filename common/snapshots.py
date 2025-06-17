@@ -367,14 +367,17 @@ class Snapshots:
                                 or ``False`` if it failed
             msg (str):          message that should be send to callback
         """
-        if not callback is None:
-            if not ok:
-                # TODO
-                # This string might appear in a message dialog.
-                # Let us know the steps to reproduce that behavior.
-                msg = msg + ' : ' + _('FAILED')
-                self.restorePermissionFailed = True
-            callback(msg)
+        if callback is None:
+            return
+
+        if not ok:
+            # TODO
+            # This string might appear in a message dialog.
+            # Let us know the steps to reproduce that behavior.
+            msg = msg + ' : ' + _('FAILED')
+            self.restorePermissionFailed = True
+
+        callback(msg)
 
     def restorePermission(self, key_path, path, fileInfoDict, callback = None):
         """
@@ -540,12 +543,13 @@ class Snapshots:
 
                 src_path = '/' + items[1]
 
-                if items[0] == '/':
-                    src_delta = 0
-                else:
-                    src_delta = len(items[0])
+                src_delta = 0 if items[0] == '/' else len(items[0])
 
-            cmd.append(self.rsyncRemotePath('%s.%s' % (src_base, src_path), use_mode=['ssh'], quote=''))
+            cmd.append(
+                self.rsyncRemotePath('%s.%s' % (src_base, src_path),
+                                     use_mode=['ssh'],
+                                     quote='')
+            )
             cmd.append('%s/' % restore_to)
 
             proc = tools.Execute(cmd,
@@ -555,17 +559,19 @@ class Snapshots:
 
             self.restoreCallback(callback, True, proc.printable_cmd)
             proc.run()
+
             self.restoreCallback(callback, True, ' ')
             restored_paths.append((path, src_delta))
 
         try:
             os.remove(self.config.takeSnapshotProgressFile())
+
         except Exception as e:
             logger.debug('Failed to remove snapshot progress file %s: %s'
                          %(self.config.takeSnapshotProgressFile(), str(e)),
                          self)
 
-        #restore permissions
+        # restore permissions
         logger.info('Restore permissions', self)
         self.restoreCallback(callback, True, ' ')
         self.restoreCallback(
@@ -573,71 +579,81 @@ class Snapshots:
         self.restorePermissionFailed = False
         fileInfoDict = sid.fileInfo
 
-        #cache uids/gids
+        # cache uids/gids
         for uid, name in info.listValue('user', ('int:uid', 'str:name')):
             self.uid(name.encode(), callback = callback, backup = uid)
+
         for gid, name in info.listValue('group', ('int:gid', 'str:name')):
             self.gid(name.encode(), callback = callback, backup = gid)
 
         if fileInfoDict:
-            all_dirs = [] #restore dir permissions after all files are done
+            # restore dir permissions after all files are done
+            all_dirs = []
+
             for path, src_delta in restored_paths:
-                #explore items
+                # explore items
                 snapshot_path_to = sid.pathBackup(path).rstrip('/')
                 root_snapshot_path_to = sid.pathBackup().rstrip('/')
-                #use bytes instead of string from here
+
+                # use bytes instead of string from here
                 if isinstance(path, str):
                     path = path.encode()
+
                 if isinstance(restore_to, str):
                     restore_to = restore_to.encode()
 
                 if not restore_to:
                     path_items = path.strip(b'/').split(b'/')
                     curr_path = b'/'
+
                     for path_item in path_items:
                         curr_path = os.path.join(curr_path, path_item)
+
                         if curr_path not in all_dirs:
                             all_dirs.append(curr_path)
                 else:
                     if path not in all_dirs:
                         all_dirs.append(path)
 
-                if os.path.isdir(snapshot_path_to) and not os.path.islink(snapshot_path_to):
+                if os.path.isdir(snapshot_path_to)  \
+                       and not os.path.islink(snapshot_path_to):
+
                     head = len(root_snapshot_path_to.encode())
-                    for explore_path, dirs, files in os.walk(snapshot_path_to.encode()):
+
+                    for explore_path, dirs, files \
+                            in os.walk(snapshot_path_to.encode()):
+
                         for item in dirs:
                             item_path = os.path.join(explore_path, item)[head:]
+
                             if item_path not in all_dirs:
                                 all_dirs.append(item_path)
 
                         for item in files:
                             item_path = os.path.join(explore_path, item)[head:]
                             real_path = restore_to + item_path[src_delta:]
-                            self.restorePermission(item_path, real_path, fileInfoDict, callback)
+                            self.restorePermission(
+                                item_path, real_path, fileInfoDict, callback)
 
             all_dirs.reverse()
+
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
-                self.restorePermission(item_path, real_path, fileInfoDict, callback)
+                self.restorePermission(
+                    item_path, real_path, fileInfoDict, callback)
 
             self.restoreCallback(callback, True, '')
-
-            if self.restorePermissionFailed:
-                # TODO
-                # This string might appear in a message dialog.
-                # Let us know the steps to reproduce that behavior.
-                status = _('FAILED')
-
-            else:
-                # TODO
-                # This string might appear in a message dialog.
-                # Let us know the steps to reproduce that behavior.
-                status = _('Done')
 
             self.restoreCallback(
                 callback,
                 True,
-                '{}: {}'.format(_('Restore permissions'), status)
+                '{}: {}'.format(
+                    _('Restore permissions'),
+                    # TODO
+                    # This string might appear in a message dialog.
+                    # Let us know the steps to reproduce that behavior.
+                    _('FAILED') if self.restorePermissionFailed else _('Done')
+                )
             )
 
         instance.exitApplication()
