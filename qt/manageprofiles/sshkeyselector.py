@@ -1,19 +1,19 @@
-# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""Module with an improved combo box widget."""
-from typing import Any
-from pathlib import Path
+"""Module with widgets regarding SSH Key file selection"""
+# from pathlib import Path
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QButtonGroup,
-                             QLabel,
                              QHBoxLayout,
                              QRadioButton,
                              QVBoxLayout,
                              QWidget)
+import qttools
 from manageprofiles.combobox import BitComboBox
 
 
@@ -38,9 +38,13 @@ class SshKeyCombo(BitComboBox):
         }
 
         super().__init__(parent=parent, content_dict=content_dict)
+        role = Qt.ItemDataRole.ToolTipRole
+        self.setItemData(0, 'das ist foo', role)
+        self.setItemData(1, 'das ist bar', role)
 
 
 class SshKeySelector(QWidget):
+    """Main widget for selecting or generating key files"""
     def __init__(self, parent: QWidget):
         super().__init__(parent=parent)
 
@@ -50,10 +54,11 @@ class SshKeySelector(QWidget):
 
         # radio: no key
         self.radio_no = QRadioButton(_('Use system SSH configuration'))
-        self.radio_no.setToolTip(
-            _('Leaves the key file unselected. SSH connections will rely '
-              'on the system’s existing client configuration '
-              '(e.g., ~/.ssh/config).'))
+        tooltip = _(
+            'Leaves the key file unselected. SSH connections will rely '
+            'on the system’s existing client configuration '
+            '(e.g., ~/.ssh/config).')
+        qttools.set_wrapped_tooltip(self.radio_no, tooltip)
 
         # button group
         self.btn_group = QButtonGroup(self)
