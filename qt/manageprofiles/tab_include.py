@@ -23,6 +23,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QHeaderView,
                              QAbstractItemView)
 import qttools
+from qttools import custom_sort_order
 
 
 class IncludeTab(QWidget):
@@ -79,11 +80,36 @@ class IncludeTab(QWidget):
             self.btn_include_remove_clicked
         )
 
-    def load_includes(self):
+    def load_values(self,profile_state):
 
         self.list_include.clear()
         for include in self.config.include():
             self.add_include(include)
+
+        try:
+            incl_sort = profile_state.include_sorting
+            self.list_include.sortItems(
+                incl_sort[0], Qt.SortOrder(incl_sort[1])
+            )
+        except KeyError:
+            pass
+
+    def store_values(self, profile_state):
+        profile_state.include_sorting = (
+            self.list_include.header().sortIndicatorSection(),
+            self.list_include.header().sortIndicatorOrder().value
+        )
+
+        self.list_include.sortItems(1, Qt.SortOrder.AscendingOrder)
+
+        include_list = []
+        for index in range(self.list_include.topLevelItemCount()):
+            item = self.list_include.topLevelItem(index)
+            include_list.append(
+                (item.text(0), item.data(0, Qt.ItemDataRole.UserRole))
+            )
+
+        self.config.setInclude(include_list)
 
     def add_include(self, data):
         """Add a file or directory to the list."""
@@ -146,18 +172,6 @@ class IncludeTab(QWidget):
 
     def include_custom_sort_order(self, *args):
         """Trigger custom sort order when header is clicked."""
-        self.list_include_sort_loop = self._custom_sort_order(
+        self.list_include_sort_loop = custom_sort_order(
             self.list_include.header(), self.list_include_sort_loop, *args
         )
-
-    def _custom_sort_order(self, header, loop, new_column, new_order):
-        """Implements custom sort toggle behavior.Private"""
-        if new_column == 0 and new_order == Qt.SortOrder.AscendingOrder:
-            if loop:
-                new_column, new_order = 1, Qt.SortOrder.AscendingOrder
-                header.setSortIndicator(new_column, new_order)
-                loop = False
-            else:
-                loop = True
-        header.model().sort(new_column, new_order)
-        return loop

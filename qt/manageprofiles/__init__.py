@@ -11,10 +11,8 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import os
 import re
 import copy
-from PyQt6.QtGui import QPalette, QBrush
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -26,15 +24,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QWidget,
                              QTabWidget,
                              QLabel,
-                             QPushButton,
-                             QSpinBox,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
-                             QHeaderView,
-                             QCheckBox)
-from PyQt6.QtCore import Qt
-import tools
+                             QPushButton)
 import qttools
 import messagebox
 from statedata import StateData
@@ -43,11 +33,9 @@ from manageprofiles.tab_remove_retention import RemoveRetentionTab
 from manageprofiles.tab_options import OptionsTab
 from manageprofiles.tab_expert_options import ExpertOptionsTab
 from manageprofiles.tab_include import IncludeTab
+from manageprofiles.tab_exclude import ExcludeTab
 from restoreconfigdialog import RestoreConfigDialog
 from bitwidgets import ProfileCombo
-
-
-MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
 
 class SettingsDialog(QDialog):
@@ -118,106 +106,10 @@ class SettingsDialog(QDialog):
         # TAB: Include
         self._tab_include = IncludeTab(self)
         _add_tab(self._tab_include, _('&Include'))
-        # For backward compatibility with existing logic below
-        self.listInclude = self._tab_include.list_include
 
         # TAB: Exclude
-        tabWidget = QWidget(self)
-        self.tabs.addTab(tabWidget, _('&Exclude'))
-        layout = QVBoxLayout(tabWidget)
-
-        self.lblSshEncfsExcludeWarning = QLabel(_(
-            "{BOLD}Info{ENDBOLD}: "
-            "In 'SSH encrypted' mode, only single or double asterisks are "
-            "functional (e.g. {example2}). Other types of wildcards and "
-            "patterns will be ignored (e.g. {example1}). Filenames are "
-            "unpredictable in this mode due to encryption by EncFS.").format(
-                BOLD='<strong>',
-                ENDBOLD='</strong>',
-                example1="<code>'foo*'</code>, "
-                         "<code>'[fF]oo'</code>, "
-                         "<code>'fo?'</code>",
-                example2="<code>'foo/*'</code>, "
-                         "<code>'foo/**/bar'</code>"
-            ),
-            self
-        )
-        self.lblSshEncfsExcludeWarning.setWordWrap(True)
-        layout.addWidget(self.lblSshEncfsExcludeWarning)
-
-        self.listExclude = QTreeWidget(self)
-        self.listExclude.setSelectionMode(
-            QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.listExclude.setRootIsDecorated(False)
-        self.listExclude.setHeaderLabels(
-            [_('Exclude patterns, files or directories'), 'Count'])
-
-        self.listExclude.header().setSectionResizeMode(
-            0, QHeaderView.ResizeMode.Stretch)
-        self.listExclude.header().setSectionsClickable(True)
-        self.listExclude.header().setSortIndicatorShown(True)
-        self.listExclude.header().setSectionHidden(1, True)
-        self.listExcludeSortLoop = False
-        self.listExclude.header().sortIndicatorChanged \
-            .connect(self.excludeCustomSortOrder)
-
-        layout.addWidget(self.listExclude)
-
-        self._label_exclude_recommend = QLabel('', self)
-        self._label_exclude_recommend.setWordWrap(True)
-        layout.addWidget(self._label_exclude_recommend)
-
-        buttonsLayout = QHBoxLayout()
-        layout.addLayout(buttonsLayout)
-
-        self.btnExcludeAdd = QPushButton(icon.ADD, _('Add'), self)
-        buttonsLayout.addWidget(self.btnExcludeAdd)
-        self.btnExcludeAdd.clicked.connect(self.btnExcludeAddClicked)
-
-        self.btnExcludeFile = QPushButton(icon.ADD, _('Add file'), self)
-        buttonsLayout.addWidget(self.btnExcludeFile)
-        self.btnExcludeFile.clicked.connect(self.btnExcludeFileClicked)
-
-        self.btnExcludeFolder = QPushButton(icon.ADD, _('Add directory'), self)
-        buttonsLayout.addWidget(self.btnExcludeFolder)
-        self.btnExcludeFolder.clicked.connect(self.btnExcludeFolderClicked)
-
-        self.btnExcludeDefault = QPushButton(icon.DEFAULT_EXCLUDE,
-                                             _('Add default'),
-                                             self)
-        buttonsLayout.addWidget(self.btnExcludeDefault)
-        self.btnExcludeDefault.clicked.connect(self.btnExcludeDefaultClicked)
-
-        self.btnExcludeRemove = QPushButton(icon.REMOVE, _('Remove'), self)
-        buttonsLayout.addWidget(self.btnExcludeRemove)
-        self.btnExcludeRemove.clicked.connect(self.btnExcludeRemoveClicked)
-
-        # exclude files by size
-        hlayout = QHBoxLayout()
-        layout.addLayout(hlayout)
-        self.cbExcludeBySize = QCheckBox(
-            _('Exclude files bigger than:'), self)
-        qttools.set_wrapped_tooltip(
-            self.cbExcludeBySize,
-            [
-                _('Exclude files bigger than value in {size_unit}.')
-                .format(size_unit='MiB'),
-                _("With 'Full rsync mode' disabled, this setting affects only "
-                  "newly created files, as rsync treats it as transfer option "
-                  "rather than an exclusion rule. Consequently, large files "
-                  "that have already been backed up will remain in backups "
-                  "even if they are modified.")
-            ]
-        )
-        hlayout.addWidget(self.cbExcludeBySize)
-        self.spbExcludeBySize = QSpinBox(self)
-        self.spbExcludeBySize.setSuffix(' MiB')
-        self.spbExcludeBySize.setRange(0, 100000000)
-        hlayout.addWidget(self.spbExcludeBySize)
-        hlayout.addStretch()
-        enabled = lambda state: self.spbExcludeBySize.setEnabled(state)
-        enabled(False)
-        self.cbExcludeBySize.stateChanged.connect(enabled)
+        self._tab_exclude = ExcludeTab(self)
+        _add_tab(self._tab_exclude, _('&Exclude'))
 
         # TAB: Auto-remove
         self._tab_retention = RemoveRetentionTab(self)
@@ -261,7 +153,7 @@ class SettingsDialog(QDialog):
 
         self._restore_dims_and_coords()
 
-        # # enable tabs scroll buttons again but keep dialog size
+        # enable tabs scroll buttons again but keep dialog size
         # size = self.sizeHint()
         # self.tabs.setUsesScrollButtons(scrollButtonDefault)
         # self.resize(size)
@@ -361,28 +253,6 @@ class SettingsDialog(QDialog):
 
         self.disableProfileChanged = False
 
-    def _update_exclude_recommend_label(self):
-        """Update the label about recommended exclude patterns."""
-
-        # Default patterns that are not still in the list widget
-        recommend = list(filter(
-            lambda val: not self.listExclude.findItems(val, MATCH_FLAGS),
-            self.config.DEFAULT_EXCLUDE
-        ))
-
-        if not recommend:
-            text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
-                     'already included.)').format(
-                        BOLD='<strong>', ENDBOLD='</strong>')
-
-        else:
-            text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
-                BOLD='<strong>',
-                ENDBOLD='</strong>',
-                files=', '.join(sorted(recommend)))
-
-        self._label_exclude_recommend.setText(text)
-
     def updateProfile(self):
         if self.config.currentProfile() == '1':
             self.btnEditProfile.setEnabled(False)
@@ -392,34 +262,16 @@ class SettingsDialog(QDialog):
             self.btnRemoveProfile.setEnabled(True)
         self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
 
-        profile_state = self.state_data.profile(self.config.currentProfile())
+        profile_state = StateData().profile(self.config.currentProfile())
 
         # TAB: General
         self._tab_general.load_values()
 
         # TAB: Include
-        self._tab_include.load_includes()
+        self._tab_include.load_values(profile_state)
 
         # TAB: Exclude
-        self.listExclude.clear()
-
-        for exclude in self.config.exclude():
-            self._add_exclude_pattern(exclude)
-        self.cbExcludeBySize.setChecked(self.config.excludeBySizeEnabled())
-        self.spbExcludeBySize.setValue(self.config.excludeBySize())
-
-        try:
-            incl_sort = profile_state.include_sorting
-            excl_sort = profile_state.exclude_sorting
-            self.listInclude.sortItems(
-                incl_sort[0], Qt.SortOrder(incl_sort[1])
-            )
-            self.listExclude.sortItems(
-                excl_sort[0], Qt.SortOrder(excl_sort[1]))
-        except KeyError:
-            pass
-
-        self._update_exclude_recommend_label()
+        self._tab_exclude.load_values(profile_state)
 
         self._tab_retention.load_values()
         self._tab_options.load_values()
@@ -442,40 +294,11 @@ class SettingsDialog(QDialog):
 
         profile_state = StateData().profile(self.config.currentProfile())
 
-        # include list
-        profile_state.include_sorting = (
-            self.listInclude.header().sortIndicatorSection(),
-            self.listInclude.header().sortIndicatorOrder().value
-        )
-        # Why?
-        self.listInclude.sortItems(1, Qt.SortOrder.AscendingOrder)
+        # TAB: Include
+        self._tab_include.store_values(profile_state)
 
-        include_list = []
-        for index in range(self.listInclude.topLevelItemCount()):
-            item = self.listInclude.topLevelItem(index)
-            include_list.append(
-                (item.text(0), item.data(0, Qt.ItemDataRole.UserRole)))
-
-        self.config.setInclude(include_list)
-
-        # exclude patterns
-        profile_state.exclude_sorting = (
-            self.listExclude.header().sortIndicatorSection(),
-            self.listExclude.header().sortIndicatorOrder().value
-        )
-        # Why?
-        self.listExclude.sortItems(1, Qt.SortOrder.AscendingOrder)
-
-        exclude_list = []
-        for index in range(self.listExclude.topLevelItemCount()):
-            item = self.listExclude.topLevelItem(index)
-            exclude_list.append(item.text(0))
-
-        self.config.setExclude(exclude_list)
-        self.config.setExcludeBySize(self.cbExcludeBySize.isChecked(),
-                                     self.spbExcludeBySize.value())
-
-        return True
+        # TAB: Exclude
+        self._tab_exclude.store_values(profile_state)
 
     def errorHandler(self, message):
         messagebox.critical(self, message)
@@ -484,17 +307,6 @@ class SettingsDialog(QDialog):
         answer = messagebox.warningYesNo(self, message)
 
         return answer == QMessageBox.StandardButton.Yes
-
-    def _add_exclude_pattern(self, pattern):
-        item = QTreeWidgetItem()
-        item.setText(0, pattern)
-        item.setData(0, Qt.ItemDataRole.UserRole, pattern)
-        self._formatExcludeItem(item)
-
-        # Add item to the widget
-        self.listExclude.addTopLevelItem(item)
-
-        return item
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):
@@ -519,71 +331,6 @@ class SettingsDialog(QDialog):
 
         return self.config.save()
 
-    def btnExcludeRemoveClicked(self):
-        for item in self.listExclude.selectedItems():
-            index = self.listExclude.indexOfTopLevelItem(item)
-            if index < 0:
-                continue
-
-            self.listExclude.takeTopLevelItem(index)
-
-        if self.listExclude.topLevelItemCount() > 0:
-            self.listExclude.setCurrentItem(self.listExclude.topLevelItem(0))
-
-        self._update_exclude_recommend_label()
-
-    def addExclude(self, pattern):
-        """Initiate adding a new exclude pattern to the list widget.
-
-        See `_add_exclude_pattern()` also.
-        """
-        if not pattern:
-            return
-
-        # Duplicate?
-        duplicates = self.listExclude.findItems(pattern, MATCH_FLAGS)
-
-        if duplicates:
-            # TODO notify user about duplicates
-            self.listExclude.setCurrentItem(duplicates[0])
-            return
-
-        # Create new entry and add it to the list widget.
-        item = self._add_exclude_pattern(pattern)
-
-        # Select/highlight that entry.
-        self.listExclude.setCurrentItem(item)
-
-        self._update_exclude_recommend_label()
-
-    def btnExcludeAddClicked(self):
-        dlg = QInputDialog(self)
-        dlg.setInputMode(QInputDialog.InputMode.TextInput)
-        dlg.setWindowTitle(_('Exclude pattern'))
-        dlg.setLabelText('')
-        dlg.resize(400, 0)
-        if not dlg.exec():
-            return
-        pattern = dlg.textValue().strip()
-
-        if not pattern:
-            return
-
-        self.addExclude(pattern)
-
-    def btnExcludeFileClicked(self):
-        for path in qttools.getOpenFileNames(self, _('Exclude file')):
-            self.addExclude(path)
-
-    def btnExcludeFolderClicked(self):
-        for path in qttools.getExistingDirectories(self, _('Exclude directory')):
-            self.addExclude(path)
-
-    def btnExcludeDefaultClicked(self):
-        for path in self.config.DEFAULT_EXCLUDE:
-            self.addExclude(path)
-
-
     def _ask_include_symlinks_target(self, path):
         question_msg = _(
             '"{path}" is a symlink. The linked target will not be backed up '
@@ -605,87 +352,15 @@ class SettingsDialog(QDialog):
 
         active_mode = self._tab_general.get_active_snapshots_mode()
 
-        self.updateExcludeItems()
-        self.lblSshEncfsExcludeWarning.setVisible(active_mode == 'ssh_encfs')
+        self._tab_exclude.mode = active_mode
+        self._tab_exclude.update_exclude_items()
+        self._tab_exclude.lbl_ssh_encfs_exclude_warning.setVisible(
+        active_mode == 'ssh_encfs'
+    )
 
         enabled = active_mode in ('ssh', 'ssh_encfs')
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
-
-        # Resize (but not move) window based on backup mode
-        self._restore_dims_and_coords(move=False)
-
-    def updateExcludeItems(self):
-        for index in range(self.listExclude.topLevelItemCount()):
-            item = self.listExclude.topLevelItem(index)
-            self._formatExcludeItem(item)
-
-    def _format_exclude_item_encfs_invalid(self, item):
-        """Modify visual appearance of an item in the exclude list widget to
-        express that the item is invalid.
-
-        See :py:func:`_formatExcludeItem` for details.
-        """
-        # Icon
-        item.setIcon(0, self.icon.INVALID_EXCLUDE)
-
-        # ToolTip
-        item.setData(
-            0,
-            Qt.ItemDataRole.ToolTipRole,
-            _("Disabled because this pattern is not functional in "
-              "mode 'SSH encrypted'.")
-        )
-
-        # Fore- and Backgroundcolor (as disabled)
-        item.setBackground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
-                                               QPalette.ColorRole.Window))
-        item.setForeground(0, QPalette().brush(QPalette.ColorGroup.Disabled,
-                                               QPalette.ColorRole.Text))
-
-    def _formatExcludeItem(self, item):
-        """Modify visual appearance of an item in the exclude list widget.
-        """
-        if (self.mode == 'ssh_encfs'
-                and tools.patternHasNotEncryptableWildcard(item.text(0))):
-            # Invalid item (because of encfs restrictions)
-            self._format_exclude_item_encfs_invalid(item)
-
-        else:
-            # default background color
-            item.setBackground(0, QBrush())
-            item.setForeground(0, QBrush())
-
-            # Remove items tooltip
-            item.setData(0, Qt.ItemDataRole.ToolTipRole, None)
-
-            # Icon: default exclude item
-            if item.text(0) in self.config.DEFAULT_EXCLUDE:
-                item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
-
-            else:
-                # Icon: user defined
-                item.setIcon(0, self.icon.EXCLUDE)
-
-    def customSortOrder(self, header, loop, newColumn, newOrder):
-
-        if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
-
-            if loop:
-                newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
-                header.setSortIndicator(newColumn, newOrder)
-                loop = False
-
-            else:
-                loop = True
-
-        header.model().sort(newColumn, newOrder)
-
-        return loop
-
-    def excludeCustomSortOrder(self, *args):
-        self.listExcludeSortLoop = self.customSortOrder(
-            self.listExclude.header(), self.listExcludeSortLoop, *args)
 
     def restoreConfig(self, *args):
         RestoreConfigDialog(self).exec()
@@ -711,11 +386,3 @@ class SettingsDialog(QDialog):
             self.parent.remount(self.originalCurrentProfile,
                                 self.originalCurrentProfile)
             self.parent.updateProfiles()
-
-        # store windows position and size
-        state_data = StateData()
-        state_data.set_manageprofiles_dims_coords(
-            self._tab_general.get_active_snapshots_mode(),
-            (self.width(), self.height()),
-            (self.x(), self.y())
-        )
