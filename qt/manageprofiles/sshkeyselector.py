@@ -42,6 +42,11 @@ class SshKeyCombo(BitComboBox):
         self.setItemData(0, 'das ist foo', role)
         self.setItemData(1, 'das ist bar', role)
 
+    def _content_from_key_files(self) -> dict:
+        content = {}
+
+
+
 
 class SshKeySelector(QWidget):
     """Main widget for selecting or generating key files"""

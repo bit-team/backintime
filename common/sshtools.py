@@ -1316,3 +1316,30 @@ def writeKnownHostsFile(key):
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')
+
+def get_private_ssh_key_files() -> list[Path]:
+    """Return a list of existing private key files."""
+
+    # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
+    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+
+    # folder containing the key files
+    ssh_path = Path.home() / '.ssh'
+
+    # exclude this files
+    potential_key_files = filter(
+        # irrelvant files
+        lambda fp: fp.name not in ('known_hosts', 'authorized_keys')
+        # no public keys
+        and fp.suffix != '.pub',
+        ssh_path.iterdir()
+    )
+
+    result = []
+
+    for fp in potential_key_files:
+        with fp.open('r', encoding='utf-8') as handle:
+            if rex.match(handle.readline().strip()):
+                result.append(fp)
+
+    return result
