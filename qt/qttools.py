@@ -243,6 +243,18 @@ def create_icon_label_warning(
         fixed_size_widget=fixed_size_widget)
 
 
+def custom_sort_order(header, loop, new_column, new_order):
+    """Provides a toggled sort order across two columns for QTreeWidget."""
+    if new_column == 0 and new_order == Qt.SortOrder.AscendingOrder:
+        if loop:
+            new_column, new_order = 1, Qt.SortOrder.AscendingOrder
+            header.setSortIndicator(new_column, new_order)
+            loop = False
+        else:
+            loop = True
+    header.model().sort(new_column, new_order)
+    return loop
+
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|
