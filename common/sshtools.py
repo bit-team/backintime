@@ -1071,15 +1071,14 @@ def sshKeyGen(keyfile: str) -> bool:
     """
 
     if os.path.exists(keyfile):
-        logger.warning(
-            'SSH keyfile "{}" already exist. Skip creating a new one'
-            .format(keyfile))
+        logger.warning(f'SSH keyfile "{keyfile}" already exist. '
+                       'Skip creating a new one.')
 
         return False
 
     cmd = [
         'ssh-keygen',
-        # key type
+        # key type (#2194)
         '-t', 'rsa',
         # No passphrase
         '-N', '',

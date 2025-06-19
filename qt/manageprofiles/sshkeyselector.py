@@ -7,12 +7,16 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with widgets regarding SSH Key file selection"""
 # from pathlib import Path
-from PyQt6.QtCore import Qt
+from typing import Callable
+from pathlib import Path
+from functools import partial
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QButtonGroup,
                              QHBoxLayout,
                              QRadioButton,
                              QVBoxLayout,
                              QWidget)
+from PyQt6.QtGui import QColor, QPalette
 import sshtools
 import qttools
 from manageprofiles.combobox import BitComboBox
@@ -35,7 +39,10 @@ class SshKeyCombo(BitComboBox):
     ACT_ID_SELECT_FILE = 1
     ACT_ID_GENERATE_PAIR = 2
 
-    def __init__(self, parent: QWidget):
+    def __init__(self,
+                 parent: QWidget,
+                 select_key_handler: Callable,
+                 generate_pair_handler: Callable):
         import icon
 
         # key file entries
@@ -43,7 +50,7 @@ class SshKeyCombo(BitComboBox):
         content_dict = {
             fp: (
                 fp.name,
-                _('Full path: {path}').format(path=str(fp)),
+                SshKeyCombo._key_tooltip(fp),
                 icon.ENCRYPT
             )
             for fp in key_files
@@ -68,15 +75,85 @@ class SshKeyCombo(BitComboBox):
             content_dict=content_dict
         )
 
+        self._handlers = {
+            self.ACT_ID_SELECT_FILE: select_key_handler,
+            self.ACT_ID_GENERATE_PAIR: generate_pair_handler
+        }
+
+        self.currentIndexChanged.connect(self._on_selection_changed)
+
+    @staticmethod
+    def _key_tooltip(path: Path) -> str:
+        return _('Full path: {path}').format(path=str(path))
+
+    def _on_selection_changed(self, _idx):
+        data = self.current_data
+
+        try:
+            handler = self._handlers[data]
+        except KeyError:
+            return
+
+        handler()
+
+    def add_and_select(self, key_path: Path):
+        import icon
+
+        self.blockSignals(True)
+
+        self.insertItem(0, icon.ENCRYPT, key_path.name, userData=key_path)
+        self.setItemData(
+            0, SshKeyCombo._key_tooltip(key_path), Qt.ItemDataRole.ToolTipRole)
+        self.setCurrentIndex(0)
+
+        self.blockSignals(False)
+
+        self._fade_background()
+
+    def _fade_background(self, duration_ms=1400, steps=30):
+        palette = self.palette()
+        start = palette.color(QPalette.ColorRole.Highlight)
+        end = palette.color(QPalette.ColorRole.Base)
+
+        # Helper vars for color interpolation
+        diff_r = end.red() - start.red()
+        diff_g = end.green() - start.green()
+        diff_b = end.blue() - start.blue()
+
+        interval = duration_ms // steps
+        self._original_style = self.styleSheet()
+
+        def update_color(curr_step: int = 1):
+            if curr_step > steps:
+                self.setStyleSheet(self._original_style)
+                return
+
+            # interpolate color
+            color = QColor(
+                start.red() + diff_r * curr_step // steps,
+                start.green() + diff_g * curr_step // steps,
+                start.blue() + diff_b * curr_step // steps)
+
+            self.setStyleSheet(
+                f'QComboBox {{ background-color: {color.name()}; }}')
+            QTimer.singleShot(interval, partial(update_color, curr_step + 1))
+
+        update_color()
+
 
 class SshKeySelector(QWidget):
     """Main widget for selecting or generating key files"""
-    def __init__(self, parent: QWidget):
+
+    def __init__(self,
+                 parent: QWidget,
+                 select_key_handler: Callable,
+                 generate_pair_handler: Callable):
         super().__init__(parent=parent)
 
         # radio: key selector
         self.radio_key = QRadioButton(_('Private key:'))
-        self.selector = SshKeyCombo(self)
+        self.selector = SshKeyCombo(
+            self, select_key_handler, generate_pair_handler)
 
         # radio: no key
         self.radio_no = QRadioButton(_('Use system SSH configuration'))
@@ -88,8 +165,8 @@ class SshKeySelector(QWidget):
 
         # button group
         self.btn_group = QButtonGroup(self)
-        self.btn_group.addButton(self.radio_key)
         self.btn_group.addButton(self.radio_no)
+        self.btn_group.addButton(self.radio_key)
 
         # layout
         row_key = QHBoxLayout()
@@ -98,6 +175,22 @@ class SshKeySelector(QWidget):
         row_no = QHBoxLayout()
         row_no.addWidget(self.radio_no)
         layout = QVBoxLayout()
-        layout.addLayout(row_key)
         layout.addLayout(row_no)
+        layout.addLayout(row_key)
+        # zero margins
+        layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
+
+        # events
+        self.btn_group.buttonClicked.connect(self._slot_clicked)
+
+        # default state
+        self.radio_no.setChecked(True)
+        self._slot_clicked(self.radio_no)
+
+    def _slot_clicked(self, button):
+        self.selector.setEnabled(
+            True if button == self.radio_key else False)
+
+    def add_and_select_key(self, key_path: Path):
+        self.selector.add_and_select(key_path)

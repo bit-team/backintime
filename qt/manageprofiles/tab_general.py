@@ -168,7 +168,11 @@ class GeneralTab(QDialog):
         self.txtSshPrivateKeyFile.textChanged \
             .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
 
-        self.key_selector = SshKeySelector(self)
+        self.key_selector = SshKeySelector(
+            self,
+            self._slot_ssh_private_key_file_clicked,
+            self._slot_ssh_key_gen_clicked
+        )
         vlayout.addWidget(self.key_selector)
 
         # Align the width of that three labels
@@ -631,9 +635,12 @@ class GeneralTab(QDialog):
             start_dir = self.txtSshPrivateKeyFile.text()
         else:
             start_dir = self.config.sshPrivateKeyFolder()
+
         f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
+
         if f:
             self.txtSshPrivateKeyFile.setText(f)
+            self.key_selector.add_and_select_key(Path(f))
 
     def _slot_ssh_key_gen_clicked(self):
         priv_key_folder = self.config.sshPrivateKeyFolder()
@@ -642,14 +649,26 @@ class GeneralTab(QDialog):
         if isinstance(priv_key_folder, str):
             priv_key_folder = Path(priv_key_folder)
 
-        key_file_path = priv_key_folder / 'id_rsa'
+        # TODO: make it configurable
+        key_file_path = priv_key_folder / 'id_rsaFOXXXX'
 
+        # exists?
+        if key_file_path.exists():
+            # TODO: Offer alternative naming
+            msg = _('The file {path} already exists. Cannot create a new '
+                    'SSH key with that name.').format(path=key_file_path)
+            messagebox.critical(self, msg)
+            return
+
+        # Generate the key
         if sshtools.sshKeyGen(str(key_file_path)):
             self.txtSshPrivateKeyFile.setText(str(key_file_path))
-        else:
-            msg = _('Failed to create new SSH key in {path}.') \
-                .format(path=key_file_path)
-            messagebox.critical(self, msg)
+            self.key_selector.add_and_select_key(key_file_path)
+            return
+
+        msg = _('Failed to create new SSH key in {path}.') \
+            .format(path=key_file_path)
+        messagebox.critical(self, msg)
 
     def _slot_full_path_changed(self, _text: Any):
         if self.mode in ('ssh', 'ssh_encfs'):

@@ -65,7 +65,6 @@ class BitComboBox(QComboBox):
             if tip is not None:
                 self.setItemData(
                     self.count()-1, tip, Qt.ItemDataRole.ToolTipRole)
-                    
 
     @property
     def current_data(self) -> Any:
