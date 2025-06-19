@@ -10,6 +10,7 @@
 from typing import Callable
 from pathlib import Path
 from functools import partial
+from collections import deque
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QButtonGroup,
                              QHBoxLayout,
@@ -110,35 +111,54 @@ class SshKeyCombo(BitComboBox):
 
         self._fade_background()
 
-    def _fade_background(self, duration_ms=1400, steps=30):
+    def _fade_background(self, duration_ms=1200, steps=30):
         palette = self.palette()
-        start = palette.color(QPalette.ColorRole.Highlight)
-        end = palette.color(QPalette.ColorRole.Base)
+        high = palette.color(QPalette.ColorRole.Highlight)
+        base = palette.color(QPalette.ColorRole.Base)
 
         # Helper vars for color interpolation
-        diff_r = end.red() - start.red()
-        diff_g = end.green() - start.green()
-        diff_b = end.blue() - start.blue()
+        diff_r = high.red() - base.red()
+        diff_g = high.green() - base.green()
+        diff_b = high.blue() - base.blue()
+
+        colors = []
+        # base -> high
+        for curr_step in range(steps//2):
+            colors.append(QColor(
+                base.red() + diff_r * curr_step // steps,
+                base.green() + diff_g * curr_step // steps,
+                base.blue() + diff_b * curr_step // steps))
+
+        # Helper vars for color interpolation
+        diff_r = base.red() - high.red()
+        diff_g = base.green() - high.green()
+        diff_b = base.blue() - high.blue()
+
+        # high -> base
+        for curr_step in range(steps//2, steps):
+            colors.append(QColor(
+                high.red() + diff_r * curr_step // steps,
+                high.green() + diff_g * curr_step // steps,
+                high.blue() + diff_b * curr_step // steps))
+
+        colors.append(None)
+        colors = deque(colors)
 
         interval = duration_ms // steps
         self._original_style = self.styleSheet()
 
-        def update_color(curr_step: int = 1):
-            if curr_step > steps:
+        def update_color(col):
+            if col is None:
                 self.setStyleSheet(self._original_style)
                 return
 
-            # interpolate color
-            color = QColor(
-                start.red() + diff_r * curr_step // steps,
-                start.green() + diff_g * curr_step // steps,
-                start.blue() + diff_b * curr_step // steps)
-
             self.setStyleSheet(
-                f'QComboBox {{ background-color: {color.name()}; }}')
-            QTimer.singleShot(interval, partial(update_color, curr_step + 1))
+                f'QComboBox {{ background-color: {col.name()}; }}')
 
-        update_color()
+            QTimer.singleShot(
+                interval, partial(update_color, colors.popleft()))
+
+        update_color(colors.popleft())
 
 
 class SshKeySelector(QWidget):

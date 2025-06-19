@@ -1093,9 +1093,9 @@ def sshKeyGen(keyfile: str) -> bool:
 
     if proc.returncode:
         err = proc.communicate()[1]
-        logger.error(f'Failed to create a new ssh-key: {err}')
+        logger.error(f'Failed to create a new SSH key: {err}')
     else:
-        logger.info(f'Successfully created new ssh-key "{keyfile}".')
+        logger.info(f'New SSH key created: {keyfile}')
 
     return not proc.returncode
 
