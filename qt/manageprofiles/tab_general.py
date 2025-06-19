@@ -40,6 +40,7 @@ from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
+from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
 from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
 
@@ -133,11 +134,6 @@ class GeneralTab(QDialog):
         self.txtSshPath.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txtSshPath)
 
-        # self.lblSshCipher = QLabel(_('Cipher:'), self)
-        # hlayout3.addWidget(self.lblSshCipher)
-        # self.comboSshCipher = self._cipher_combobox()
-        # hlayout3.addWidget(self.comboSshCipher)
-
         self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
         hlayout3.addWidget(self.lblSshPrivateKeyFile)
         self.txtSshPrivateKeyFile = QLineEdit(self)
@@ -171,6 +167,9 @@ class GeneralTab(QDialog):
         # Disable SSH key generation button if a key file is already set
         self.txtSshPrivateKeyFile.textChanged \
             .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
+
+        self.key_selector = SshKeySelector(self)
+        vlayout.addWidget(self.key_selector)
 
         # Align the width of that three labels
         width = max(
