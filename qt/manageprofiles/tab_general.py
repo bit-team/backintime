@@ -645,7 +645,7 @@ class GeneralTab(QDialog):
         key_file_path = priv_key_folder / 'id_rsa'
 
         if sshtools.sshKeyGen(str(key_file_path)):
-            self.txtSshPrivateKeyFile.setText(key_file_path)
+            self.txtSshPrivateKeyFile.setText(str(key_file_path))
         else:
             msg = _('Failed to create new SSH key in {path}.') \
                 .format(path=key_file_path)

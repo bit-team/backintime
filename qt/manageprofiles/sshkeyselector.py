@@ -13,6 +13,7 @@ from PyQt6.QtWidgets import (QButtonGroup,
                              QRadioButton,
                              QVBoxLayout,
                              QWidget)
+import sshtools
 import qttools
 from manageprofiles.combobox import BitComboBox
 
@@ -31,21 +32,41 @@ class SshKeyCombo(BitComboBox):
 
     """
 
+    ACT_ID_SELECT_FILE = 1
+    ACT_ID_GENERATE_PAIR = 2
+
     def __init__(self, parent: QWidget):
+        import icon
+
+        # key file entries
+        key_files = sshtools.get_private_ssh_key_files()
         content_dict = {
-            'onekey': 'foo',
-            'twokey': 'bar'
+            fp: (
+                fp.name,
+                _('Full path: {path}').format(path=str(fp)),
+                icon.ENCRYPT
+            )
+            for fp in key_files
         }
 
-        super().__init__(parent=parent, content_dict=content_dict)
-        role = Qt.ItemDataRole.ToolTipRole
-        self.setItemData(0, 'das ist foo', role)
-        self.setItemData(1, 'das ist bar', role)
+        # select another key file
+        content_dict[self.ACT_ID_SELECT_FILE] = (
+            _('<Select another file…>'),
+            _('Create a new SSH key without passphrase.'),
+            icon.FOLDER
+        )
 
-    def _content_from_key_files(self) -> dict:
-        content = {}
+        # generate key files
+        content_dict[self.ACT_ID_GENERATE_PAIR] = (
+            _('<Generate new key-pair…>'),
+            _('Choose an existing private key file from somehwere else.'),
+            icon.ADD
+        )
 
-
+        super().__init__(
+            parent=parent,
+            content_dict=content_dict
+        )
 
 
 class SshKeySelector(QWidget):

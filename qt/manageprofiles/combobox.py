@@ -7,6 +7,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with an improved combo box widget."""
 from typing import Any
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QComboBox, QWidget
 
 
@@ -43,7 +44,28 @@ class BitComboBox(QComboBox):
         self._content_dict = content_dict
 
         for data, entry in self._content_dict.items():
-            self.addItem(entry, userData=data)
+
+            label = entry
+            tip = None
+            ico = None
+
+            if isinstance(label, (list, tuple)):
+                tip = label[1]
+                try:
+                    ico = label[2]
+                except IndexError:
+                    pass
+                label = label[0]
+
+            if ico:
+                self.addItem(ico, label, userData=data)
+            else:
+                self.addItem(label, userData=data)
+
+            if tip is not None:
+                self.setItemData(
+                    self.count()-1, tip, Qt.ItemDataRole.ToolTipRole)
+                    
 
     @property
     def current_data(self) -> Any:

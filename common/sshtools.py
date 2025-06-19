@@ -1059,17 +1059,15 @@ class SSH(MountControl):
         return ''.join(random.choice(chars) for x in range(size))
 
 
-def sshKeyGen(keyfile):
-    """
-    Generate a new ssh-key pair (private and public key) in ``keyfile`` and
-    ``keyfile``.pub
+def sshKeyGen(keyfile: str) -> bool:
+    """Generate a new pair of SSH keys (private & public) without passphrase.
 
     Args:
-        keyfile (str):  path for private key file
+        keyfile: Path for private key file and public (``.pub`` prefix added)
 
     Returns:
-        bool:           True if successful; False if ``keyfile`` already exist
-                        or if there was an error
+        ``True`` if successful; ``False`` if ``keyfile`` already exist or
+        if there was an error.
     """
 
     if os.path.exists(keyfile):
@@ -1079,19 +1077,26 @@ def sshKeyGen(keyfile):
 
         return False
 
-    cmd = ['ssh-keygen', '-t', 'rsa', '-N', '', '-f', keyfile]
+    cmd = [
+        'ssh-keygen',
+        # key type
+        '-t', 'rsa',
+        # No passphrase
+        '-N', '',
+        # Base filename
+        '-f', keyfile
+    ]
 
     proc = subprocess.Popen(cmd,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.PIPE,
                             universal_newlines=True)
 
-    err = proc.communicate()[1]
-
     if proc.returncode:
-        logger.error('Failed to create a new ssh-key: {}'.format(err))
+        err = proc.communicate()[1]
+        logger.error(f'Failed to create a new ssh-key: {err}')
     else:
-        logger.info('Successfully created new ssh-key "{}"'.format(keyfile))
+        logger.info(f'Successfully created new ssh-key "{keyfile}".')
 
     return not proc.returncode
 
@@ -1320,23 +1325,29 @@ def writeKnownHostsFile(key):
 def get_private_ssh_key_files() -> list[Path]:
     """Return a list of existing private key files."""
 
-    # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
-    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
-
     # folder containing the key files
     ssh_path = Path.home() / '.ssh'
 
-    # exclude this files
+    # exclude by filename
     potential_key_files = filter(
         # irrelvant files
-        lambda fp: fp.name not in ('known_hosts', 'authorized_keys')
+        lambda fp: fp.name not in (
+            'known_hosts',
+            'authorized_keys',
+            'config',
+            'backup'
+        )
         # no public keys
-        and fp.suffix != '.pub',
+        and fp.suffix  != '.pub',
         ssh_path.iterdir()
     )
 
     result = []
 
+    # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
+    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+
+    # check content
     for fp in potential_key_files:
         with fp.open('r', encoding='utf-8') as handle:
             if rex.match(handle.readline().strip()):
