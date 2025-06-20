@@ -532,22 +532,19 @@ class Config(configfile.ConfigFileWithProfiles):
         return (host, port, user, path, cipher)
 
     def sshPrivateKeyFile(self, profile_id = None):
-        ssh = self.sshPrivateKeyFolder()
-        default = ''
-        for f in ['id_dsa', 'id_rsa', 'identity']:
-            private_key = os.path.join(ssh, f)
-            if os.path.isfile(private_key):
-                default = private_key
-                break
+        # ssh = str(bitbase.DIR_SSH_KEYS)
+        # default = ''
+
+        # # See #2094
+        # for f in ['id_dsa', 'id_rsa', 'identity']:
+        #     private_key = os.path.join(ssh, f)
+        #     if os.path.isfile(private_key):
+        #         default = private_key
+        #         break
+
         #?Private key file used for password-less authentication on remote host.
         #?;absolute path to private key file;~/.ssh/id_dsa
-        f = self.profileStrValue('snapshots.ssh.private_key_file', default, profile_id)
-        if f:
-            return f
-        return default
-
-    def sshPrivateKeyFolder(self):
-        return os.path.join(os.path.expanduser('~'), '.ssh')
+        return self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
 
     def setSshPrivateKeyFile(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
@@ -610,11 +607,16 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         # keep connection alive
         args  = ['-o', 'ServerAliveInterval=240']
+
         # disable ssh banner
         args += ['-o', 'LogLevel=Error']
+
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
-        args += ['-o', 'IdentityFile={}'.format(self.sshPrivateKeyFile(profile_id))]
+        key_file = self.sshPrivateKeyFile(profile_id)
+        if key_file:
+            args += ['-o', f'IdentityFile={key_file}']
+
         return args
 
     def sshCommand(self,

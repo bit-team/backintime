@@ -214,3 +214,23 @@ class SshKeySelector(QWidget):
 
     def add_and_select_key(self, key_path: Path):
         self.selector.add_and_select(key_path)
+        self.radio_key.setChecked(True)
+
+    def set_key(self, key_path: Path | None) -> None:
+        if key_path:
+            self.selector.select_by_data(key_path)
+            self.radio_key.setChecked(True)
+            self.btn_group.buttonClicked.emit(self.radio_key)
+        else:
+            self.radio_no.setChecked(True)
+            self.btn_group.buttonClicked.emit(self.radio_no)
+
+
+    def get_key(self) -> Path | None:
+        if self.radio_no.isChecked():
+            return None
+
+        if isinstance(self.selector.current_data, Path):
+            return self.selector.current_data
+
+        return None

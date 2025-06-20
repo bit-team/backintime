@@ -87,6 +87,7 @@ def _determine_licenses_dir():
 
 
 DIR_LICENSES = _determine_licenses_dir()
+DIR_SSH_KEYS = Path.home() / '.ssh'
 
 
 class TimeUnit(Enum):

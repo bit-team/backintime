@@ -85,5 +85,8 @@ class BitComboBox(QComboBox):
         self.model().item(idx).setEnabled(enable)
 
     def select_by_data(self, data: Any):
-        """Select an entry in the combo box by its underlying data."""
+        """Select an entry in the combo box by its underlying data.
+
+        Raise: ???
+        """
         self.setCurrentIndex(self._idx_by_data(data))
