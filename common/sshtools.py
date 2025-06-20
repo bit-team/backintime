@@ -1353,6 +1353,6 @@ def get_private_ssh_key_files() -> list[Path]:
                 result.append(fp)
 
     # prioritze 'ed25519' keys and move them to the beginning of the list
-    result = sorted(result, key=lambda e: 0 if 'ed25519' in e else 1)
+    result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)
 
     return result

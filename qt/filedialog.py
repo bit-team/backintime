@@ -100,16 +100,16 @@ class FileDialog(QFileDialog):
         # toggle the filter
         self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 
-    def result(self) -> str | list[str] | None:
+    def result(self) -> Path | list[Path] | None:
         """Show the dialog and return the result.
 
         Returns:
-            One name or list of names.  ``None`` in case the dialog was
+            One path or list of pahts.  ``None`` in case the dialog was
             canceled.
         """
         if self.exec() != QDialog.DialogCode.Accepted:
             return None
 
-        result = self.selectedFiles()
+        result = [Path(fn) for fn in self.selectedFiles()]
 
         return result[0] if len(result) == 1 else result

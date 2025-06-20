@@ -42,6 +42,7 @@ from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
+from filedialog import FileDialog
 from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
 
 
@@ -636,11 +637,28 @@ class GeneralTab(QDialog):
         else:
             start_dir = self.config.sshPrivateKeyFolder()
 
-        f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
+        file_dialog = FileDialog(
+            parent=self,
+            title=_('SSH private key'),
+            start_dir=Path(start_dir)
+        )
 
-        if f:
-            self.txtSshPrivateKeyFile.setText(f)
-            self.key_selector.add_and_select_key(Path(f))
+        key_file = file_dialog.result()
+
+        if not key_file:
+            return
+
+        # No public key
+        if key_file.suffix.lower() == '.pub':
+
+            msg = _('The selected file {path} appears to be a public SSH '
+                    'key. Please select a private file (without a ".pub" '
+                    'extension).').format(path=key_file)
+            messagebox.warning(msg, _('No public SSH keys'), self)
+            return
+       
+        self.txtSshPrivateKeyFile.setText(str(key_file))
+        self.key_selector.add_and_select_key(key_file)
 
     def _slot_ssh_key_gen_clicked(self):
         priv_key_folder = self.config.sshPrivateKeyFolder()
