@@ -309,7 +309,7 @@ def getExistingDirectory(parent, title):
     return str()
 
 
-def getOpenFileName(parent, title):
+def getOpenFileNames(parent, title):
     """
     Workaround to give control about hidden files
     """

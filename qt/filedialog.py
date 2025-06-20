@@ -53,6 +53,7 @@ class FileDialog(QFileDialog):
 
         # setup behavior: single/multiple dirs/files
         if dirs_only:
+
             # Directories
             self.setOption(self.Option.ShowDirsOnly, dirs_only)
             self.setFileMode(self.FileMode.Directory)
