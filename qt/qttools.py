@@ -309,7 +309,7 @@ def getExistingDirectory(parent, title):
     return str()
 
 
-def getOpenFileNames(parent, title):
+def getOpenFileName(parent, title):
     """
     Workaround to give control about hidden files
     """
@@ -325,13 +325,14 @@ def getOpenFileNames(parent, title):
     return [str(), ]
 
 
-def getOpenFileName(parent, title):
+def getOpenFileName(parent, title, start_dir = None):
     """Workaround to give control about hidden files"""
     dlg = FileDialog(parent,
                      title=title,
                      show_hidden=True,
                      allow_multiselection=False,
-                     dirs_only=False)
+                     dirs_only=False,
+                     start_dir=start_dir)
     result = dlg.result()
 
     if result:

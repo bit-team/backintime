@@ -6,14 +6,9 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-# File split from qttools.py.
-"""Some helper functions and additional classes in context of Qt.
-
-    - Helpers for Qt Fonts.
-    - Helpers about path manipulation.
-    - FiledialogShowHidden
-    - Menu (tooltips in menus)
-"""
+# File splitted from qttools.py.
+"""Improved file dialog"""
+from pathlib import Path
 from PyQt6.QtGui import QShortcut
 from PyQt6.QtCore import QDir
 from PyQt6.QtWidgets import (QAbstractItemView,
@@ -23,8 +18,6 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeView,
                              QToolButton,
                              QWidget)
-# from qttools_path import registerBackintimePath
-# registerBackintimePath('common')
 
 
 class FileDialog(QFileDialog):
@@ -41,13 +34,16 @@ class FileDialog(QFileDialog):
                  title: str,
                  show_hidden: bool = True,
                  allow_multiselection: bool = True,
-                 dirs_only: bool = False):
-        super().__init__(parent, title)
+                 dirs_only: bool = False,
+                 start_dir: Path = None):
+        super().__init__(
+            parent=parent,
+            caption=title,
+            directory=str(start_dir) if start_dir else str(Path.cwd())
+        )
 
         # Qt own dialog
         self.setOption(QFileDialog.Option.DontUseNativeDialog, True)
-        #  ???
-        self.setOption(QFileDialog.Option.HideNameFilterDetails, True)
 
         self._add_button_show_hidden()
 
@@ -55,7 +51,7 @@ class FileDialog(QFileDialog):
         if not show_hidden:
             self._slot_toggle_button_show_hidden()
 
-        # single/multiple dirs/files
+        # setup behavior: single/multiple dirs/files
         if dirs_only:
             # Directories
             self.setOption(self.Option.ShowDirsOnly, dirs_only)
