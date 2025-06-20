@@ -94,11 +94,13 @@ class ExcludeTab(QWidget):
         buttons_layout.addWidget(self.btn_exclude_add)
         self.btn_exclude_add.clicked.connect(self.btn_exclude_add_clicked)
 
-        self.btn_exclude_file = QPushButton(self.icon.ADD, _('Add file'), self)
+        self.btn_exclude_file = QPushButton(
+            self.icon.ADD, _('Add files'), self)
         buttons_layout.addWidget(self.btn_exclude_file)
         self.btn_exclude_file.clicked.connect(self.btn_exclude_file_clicked)
 
-        self.btn_exclude_folder = QPushButton(self.icon.ADD, _('Add directory'), self)
+        self.btn_exclude_folder = QPushButton(
+            self.icon.ADD, _('Add directories'), self)
         buttons_layout.addWidget(self.btn_exclude_folder)
         self.btn_exclude_folder.clicked.connect(self.btn_exclude_folder_clicked)
 
@@ -266,11 +268,12 @@ class ExcludeTab(QWidget):
         self.add_exclude(pattern)
 
     def btn_exclude_file_clicked(self):
-        for path in qttools.getOpenFileNames(self, _('Exclude file')):
+        for path in qttools.getOpenFileNames(self, _('Exclude files')):
             self.add_exclude(path)
 
     def btn_exclude_folder_clicked(self):
-        for path in qttools.getExistingDirectories(self, _('Exclude directory')):
+        for path in qttools.getExistingDirectories(
+                self, _('Exclude directories')):
             self.add_exclude(path)
 
     def btn_exclude_default_clicked(self):
