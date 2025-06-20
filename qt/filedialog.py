@@ -29,7 +29,7 @@ class FileDialog(QFileDialog):
 
     # PyLint bug: https://github.com/pylint-dev/pylint/issues/8675
     # pylint: disable-next=too-many-positional-arguments,too-many-arguments
-    def __init__(self,
+    def __init__(self,  # noqa: PLR0913
                  parent: QWidget,
                  title: str,
                  show_hidden: bool = True,
