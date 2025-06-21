@@ -44,7 +44,8 @@ class SshKeyCombo(BitComboBox):
                  parent: QWidget,
                  select_key_handler: Callable,
                  generate_pair_handler: Callable):
-        import icon
+        # pylint: disable-next: import-outside-toplevel
+        import icon  # noqa: PLC0415
 
         # key file entries
         key_files = sshtools.get_private_ssh_key_files()
@@ -67,7 +68,7 @@ class SshKeyCombo(BitComboBox):
         # generate key files
         content_dict[self.ACT_ID_GENERATE_PAIR] = (
             _('<Generate new key-pair…>'),
-            _('Choose an existing private key file from somehwere else.'),
+            _('Choose an existing private key file from somewhere else.'),
             icon.ADD
         )
 
@@ -98,7 +99,8 @@ class SshKeyCombo(BitComboBox):
         handler()
 
     def add_and_select(self, key_path: Path):
-        import icon
+        # pylint: disable-next: import-outside-toplevel
+        import icon  # noqa: PLC0415
 
         self.blockSignals(True)
 
@@ -224,7 +226,6 @@ class SshKeySelector(QWidget):
         else:
             self.radio_no.setChecked(True)
             self.btn_group.buttonClicked.emit(self.radio_no)
-
 
     def get_key(self) -> Path | None:
         if self.radio_no.isChecked():

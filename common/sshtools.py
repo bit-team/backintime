@@ -1091,13 +1091,16 @@ def sshKeyGen(keyfile: str) -> bool:
                             stderr=subprocess.PIPE,
                             universal_newlines=True)
 
-    if proc.returncode:
-        err = proc.communicate()[1]
+    com = proc.communicate()
+    rc = proc.returncode
+
+    if rc:
+        err = com[1]
         logger.error(f'Failed to create a new SSH key: {err}')
     else:
         logger.info(f'New SSH key created: {keyfile}')
 
-    return not proc.returncode
+    return not rc
 
 
 def sshCopyIdCommand(
@@ -1329,7 +1332,7 @@ def get_private_ssh_key_files() -> list[Path]:
 
     # exclude by filename
     potential_key_files = filter(
-        # irrelvant files
+        # irrelevant files
         lambda fp: fp.name not in (
             'known_hosts',
             'authorized_keys',
@@ -1352,7 +1355,7 @@ def get_private_ssh_key_files() -> list[Path]:
             if rex.match(handle.readline().strip()):
                 result.append(fp)
 
-    # prioritze 'ed25519' keys and move them to the beginning of the list
+    # prioritize 'ed25519' keys and move them to the beginning of the list
     result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)
 
     return result
