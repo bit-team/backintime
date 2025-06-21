@@ -311,10 +311,15 @@ class GeneralTab(QDialog):
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
-        # self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
         val = self.config.sshPrivateKeyFile()
-        print(f'XXXXXXXXXXXX {val=}')
-        self.key_selector.set_key(Path(val) if val else None)
+        print(f'XXX---XXX {val=}')
+        if val is None or val == '':
+            # Select key by default if present
+            try:
+                val = sshtools.get_private_ssh_key_files()[0]
+            except IndexError:
+                val = False
+        self.key_selector.set_key(None if val == False else Path(val))
 
         # local_encfs
         if self.mode == 'local_encfs':

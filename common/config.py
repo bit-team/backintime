@@ -531,7 +531,7 @@ class Config(configfile.ConfigFileWithProfiles):
             path = './'
         return (host, port, user, path, cipher)
 
-    def sshPrivateKeyFile(self, profile_id = None):
+    def sshPrivateKeyFile(self, profile_id = None) -> str | bool | None:
         # ssh = str(bitbase.DIR_SSH_KEYS)
         # default = ''
 
@@ -544,7 +544,10 @@ class Config(configfile.ConfigFileWithProfiles):
 
         #?Private key file used for password-less authentication on remote host.
         #?;absolute path to private key file;~/.ssh/id_dsa
-        return self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
+        val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
+        print(f'----- {val=}')
+        print(f'----- {self.dict["profile1.snapshots.ssh.private_key_file"]=}')
+        return False if val == 'False' else val
 
     def setSshPrivateKeyFile(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)

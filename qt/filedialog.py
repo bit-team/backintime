@@ -74,6 +74,8 @@ class FileDialog(QFileDialog):
                 else self.FileMode.ExistingFile
             )
 
+        self._multiselect = allow_multiselection
+
     def _add_button_show_hidden(self):
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
@@ -110,6 +112,8 @@ class FileDialog(QFileDialog):
         if self.exec() != QDialog.DialogCode.Accepted:
             return None
 
-        result = [Path(fn) for fn in self.selectedFiles()]
 
-        return result[0] if len(result) == 1 else result
+        if self._multiselect:
+            return [Path(fn) for fn in self.selectedFiles()]
+
+        return Path(self.selectedFiles()[0])
