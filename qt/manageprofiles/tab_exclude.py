@@ -277,6 +277,7 @@ class ExcludeTab(QWidget):
             self.add_exclude(path)
 
     def btn_exclude_folder_clicked(self):
+        # pylint: disable=duplicate-code
         dlg = FileDialog(parent=self,
                          title=_('Exclude directories'),
                          show_hidden=True,

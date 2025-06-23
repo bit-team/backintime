@@ -158,6 +158,7 @@ class IncludeTab(QWidget):
 
     def btn_include_add_clicked(self):
         """Handle directory-adding button click."""
+        # pylint: disable=duplicate-code
         dlg = FileDialog(parent=self,
                          title=_('Include directories'),
                          show_hidden=True,
