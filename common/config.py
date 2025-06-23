@@ -531,14 +531,12 @@ class Config(configfile.ConfigFileWithProfiles):
             path = './'
         return (host, port, user, path, cipher)
 
-    def sshPrivateKeyFile(self, profile_id = None):
+    def sshPrivateKeyFile(self, profile_id=None):
         """The field can have three states:
         1. Field does not exists: Fresh profile. Provide a default value.
         2. Field exist but is empty: Using keys is disabled.
         3. Field has a path:
         """
-        # has = self.hasKey('snapshots.ssh.private_key_file')
-
         val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
 
         # Using keys is disabled
@@ -547,11 +545,11 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return val
 
-    def sshPrivateKeyFile_enabled(self, profile_id = None):
-        return self.sshPrivateKeyFile(profile_id) != False
+    def sshPrivateKeyFile_enabled(self, profile_id=None):
+        return self.sshPrivateKeyFile(profile_id) is not False
 
 
-    def setSshPrivateKeyFile(self, value, profile_id = None):
+    def setSshPrivateKeyFile(self, value, profile_id=None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
 
     def sshProxyHost(self, profile_id=None):

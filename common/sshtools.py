@@ -156,19 +156,18 @@ class SSH(MountControl):
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
-        if self.private_key_file != False:
+        if self.private_key_file is not False:
             self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
 
             if not self.private_key_fingerprint:
 
-                logger.warning('Couldn\'t get fingerprint for private '
-                            'key %(path)s. '
-                            'Most likely because the public key %(path)s.pub '
-                            'wasn\'t found. Using fallback to private keys '
-                            'path instead. But this can make troubles with '
-                            'passphrase-less keys.'
-                            % {'path': self.private_key_file},
-                            self)
+                logger.warning("Couldn't get fingerprint for private key "
+                               f'{self.private_key_file}. Most likely because'
+                               f' the public key {self.private_key_file.pub} '
+                               "wasn't found. Using fallback to private keys "
+                               'path instead. But this can make troubles with '
+                               'passphrase-less keys.',
+                               self)
                 self.private_key_fingerprint = self.private_key_file
 
             self.unlockSshAgent()
