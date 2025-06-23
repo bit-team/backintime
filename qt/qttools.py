@@ -292,6 +292,7 @@ def getExistingDirectories(parent, title):
 
     if result:
         return result
+
     return [str(), ]
 
 

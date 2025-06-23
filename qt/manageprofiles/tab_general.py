@@ -41,7 +41,7 @@ from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from bitwidgets import HLineWidget
-from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
+from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
 
 
 class GeneralTab(QDialog):
@@ -307,8 +307,19 @@ class GeneralTab(QDialog):
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
-        # self.comboSshCipher.select_by_data(self.config.sshCipher())
-        self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
+
+        # SSH: Priate key file
+        val = self.config.sshPrivateKeyFile()
+        if val == False:
+            # Disabled. Not using explicit ssh keys.
+            self.txtSshPrivateKeyFile.setText('False')
+        elif val == None:
+            # Key no exist. Try default.
+            try:
+                self.txtSshPrivateKeyFile.setText(
+                    str(sshtools.get_private_ssh_key_files()[0]))
+            except IndexError:
+                pass
 
         # local_encfs
         if self.mode == 'local_encfs':
@@ -631,13 +642,13 @@ class GeneralTab(QDialog):
         if old_file:
             start_dir = self.txtSshPrivateKeyFile.text()
         else:
-            start_dir = self.config.sshPrivateKeyFolder()
+            start_dir = DIR_SSH_KEYS
         f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
         if f:
             self.txtSshPrivateKeyFile.setText(f)
 
     def _slot_ssh_key_gen_clicked(self):
-        priv_key_folder = self.config.sshPrivateKeyFolder()
+        priv_key_folder = DIR_SSH_KEYS
 
         # Workaround
         if isinstance(priv_key_folder, str):

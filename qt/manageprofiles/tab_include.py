@@ -156,19 +156,21 @@ class IncludeTab(QWidget):
 
     def btn_include_add_clicked(self):
         """Handle directory-adding button click."""
-        for path in qttools.getExistingDirectories(
-            self, _('Include directories')
-        ):
+        dirs = qttools.getExistingDirectories(self, _('Include directories'))
+ 
+        for path in dirs:
+
             if not path:
                 continue
-            if os.path.islink(path) and not (
+
+            if path.is_symlink() and not (
                 self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
                 self._parent_dialog.cbCopyLinks.isChecked()
             ):
                 if self._parent_dialog._ask_include_symlinks_target(path):
-                    path = os.path.realpath(path)
-            path = self.config.preparePath(path)
-            self.add_include((path, 0))
+                    path = path.resolve()
+
+            self.add_include((str(path), 0))
 
     def include_custom_sort_order(self, *args):
         """Trigger custom sort order when header is clicked."""

@@ -6,7 +6,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-# File splitted from qttools.py.
+# File split from qttools.py.
 """Improved file dialog"""
 from pathlib import Path
 from PyQt6.QtGui import QShortcut
@@ -23,7 +23,7 @@ from PyQt6.QtWidgets import (QAbstractItemView,
 class FileDialog(QFileDialog):
     """Flexible non-native File dialog able to handle hidden files.
 
-    It is a non-native dialog. An extra toogle button for hidden files is added
+    It is a non-native dialog. An extra toggle button for hidden files is added
     including a shortcut Ctrl+H.
     """
 
@@ -74,6 +74,9 @@ class FileDialog(QFileDialog):
                 else self.FileMode.ExistingFile
             )
 
+        self._multiselect = allow_multiselection
+
+
     def _add_button_show_hidden(self):
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
@@ -100,16 +103,17 @@ class FileDialog(QFileDialog):
         # toggle the filter
         self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 
-    def result(self) -> str | list[str] | None:
+    def result(self) -> str | list[Path] | None:
         """Show the dialog and return the result.
 
         Returns:
-            One name or list of names.  ``None`` in case the dialog was
+            One path or list of paths.  ``None`` in case the dialog was
             canceled.
         """
         if self.exec() != QDialog.DialogCode.Accepted:
             return None
 
-        result = self.selectedFiles()
+        if self._multiselect:
+            return [Path(fn) for fn in self.selectedFiles()]
 
-        return result[0] if len(result) == 1 else result
+        return Path(self.selectedFiles()[0])

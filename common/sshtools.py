@@ -1230,9 +1230,10 @@ def sshKeyFingerprint(path):
     Returns:
         str:        hex fingerprint from key
     """
+    print(f'sshKeyFingerprint() :: {path=}')  # DEBUG
 
-    if not os.path.exists(path):
-        return
+    if path is None or os.path.exists(path) is False:
+        return None
 
     cmd = ['ssh-keygen', '-l', '-f', path]
 
@@ -1316,3 +1317,40 @@ def writeKnownHostsFile(key):
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')
+
+
+def get_private_ssh_key_files() -> list[Path]:
+    """Return a list of existing private key files."""
+
+    # folder containing the key files
+    ssh_path = Path.home() / '.ssh'
+
+    # exclude by filename
+    potential_key_files = filter(
+        # irrelevant files
+        lambda fp: fp.name not in (
+            'known_hosts',
+            'authorized_keys',
+            'config',
+            'backup'
+        )
+        # no public keys
+        and fp.suffix  != '.pub',
+        ssh_path.iterdir()
+    )
+
+    result = []
+
+    # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
+    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+
+    # check content
+    for fp in potential_key_files:
+        with fp.open('r', encoding='utf-8') as handle:
+            if rex.match(handle.readline().strip()):
+                result.append(fp)
+
+    # prioritize 'ed25519' keys and move them to the beginning of the list
+    result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)
+
+    return result

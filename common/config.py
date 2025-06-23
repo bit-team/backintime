@@ -532,22 +532,24 @@ class Config(configfile.ConfigFileWithProfiles):
         return (host, port, user, path, cipher)
 
     def sshPrivateKeyFile(self, profile_id = None):
-        ssh = self.sshPrivateKeyFolder()
-        default = ''
-        for f in ['id_dsa', 'id_rsa', 'identity']:
-            private_key = os.path.join(ssh, f)
-            if os.path.isfile(private_key):
-                default = private_key
-                break
-        #?Private key file used for password-less authentication on remote host.
-        #?;absolute path to private key file;~/.ssh/id_dsa
-        f = self.profileStrValue('snapshots.ssh.private_key_file', default, profile_id)
-        if f:
-            return f
-        return default
+        """The field can have three states:
+        1. Field does not exists: Fresh profile. Provide a default value.
+        2. Field exist but is empty: Using keys is disabled.
+        3. Field has a path:
+        """
+        # has = self.hasKey('snapshots.ssh.private_key_file')
 
-    def sshPrivateKeyFolder(self):
-        return os.path.join(os.path.expanduser('~'), '.ssh')
+        val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
+
+        # Using keys is disabled
+        if val == '':
+            return False
+
+        return val
+
+    def sshPrivateKeyFile_enabled(self, profile_id = None):
+        return self.sshPrivateKeyFile(profile_id) != False
+
 
     def setSshPrivateKeyFile(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
