@@ -612,11 +612,17 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         # keep connection alive
         args  = ['-o', 'ServerAliveInterval=240']
+
         # disable ssh banner
         args += ['-o', 'LogLevel=Error']
+
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
-        args += ['-o', 'IdentityFile={}'.format(self.sshPrivateKeyFile(profile_id))]
+        if self.sshPrivateKeyFile_enabled(profile_id):
+            key_file = self.sshPrivateKeyFile(profile_id)
+            if key_file:
+                args += ['-o', f'IdentityFile={key_file}']
+
         return args
 
     def sshCommand(self,

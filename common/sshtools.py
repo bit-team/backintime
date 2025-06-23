@@ -156,21 +156,22 @@ class SSH(MountControl):
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
-        self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
+        if self.private_key_file != False:
+            self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
 
-        if not self.private_key_fingerprint:
+            if not self.private_key_fingerprint:
 
-            logger.warning('Couldn\'t get fingerprint for private '
-                           'key %(path)s. '
-                           'Most likely because the public key %(path)s.pub '
-                           'wasn\'t found. Using fallback to private keys '
-                           'path instead. But this can make troubles with '
-                           'passphrase-less keys.'
-                           % {'path': self.private_key_file},
-                           self)
-            self.private_key_fingerprint = self.private_key_file
+                logger.warning('Couldn\'t get fingerprint for private '
+                            'key %(path)s. '
+                            'Most likely because the public key %(path)s.pub '
+                            'wasn\'t found. Using fallback to private keys '
+                            'path instead. But this can make troubles with '
+                            'passphrase-less keys.'
+                            % {'path': self.private_key_file},
+                            self)
+                self.private_key_fingerprint = self.private_key_file
 
-        self.unlockSshAgent()
+            self.unlockSshAgent()
 
     def _mount(self):
         """
@@ -342,6 +343,9 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException: If unlock failed.
         """
+        if self.private_key_file == False:
+            logger.info('Profile is configured to not using key file.')
+            return
 
         self.startSshAgent()
 
@@ -1230,7 +1234,6 @@ def sshKeyFingerprint(path):
     Returns:
         str:        hex fingerprint from key
     """
-    print(f'sshKeyFingerprint() :: {path=}')  # DEBUG
 
     if path is None or os.path.exists(path) is False:
         return None
