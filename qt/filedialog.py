@@ -76,7 +76,6 @@ class FileDialog(QFileDialog):
 
         self._multiselect = allow_multiselection
 
-
     def _add_button_show_hidden(self):
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
