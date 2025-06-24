@@ -112,7 +112,8 @@ class SshKeyCombo(BitComboBox):
                 self.select_by_data(key_path)
 
             else:
-                self.insertItem(0, icon.ENCRYPT, key_path.name, userData=key_path)
+                self.insertItem(
+                    0, icon.ENCRYPT, key_path.name, userData=key_path)
                 self.setItemData(
                     0,
                     SshKeyCombo._key_tooltip(key_path),

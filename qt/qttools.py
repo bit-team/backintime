@@ -15,6 +15,7 @@
     - Helpers about path manipulation.
     - FiledialogShowHidden
     - Menu (tooltips in menus)
+    - etc
 """
 import os
 import sys
@@ -452,14 +453,9 @@ def initiate_translator(language_code: str) -> QTranslator:
     return translator
 
 
-def indexFirstColumn(idx):
-    if idx.column() > 0:
-        idx = idx.sibling(idx.row(), 0)
-
-    return idx
-
 @contextmanager
 def block_signals(widget: QWidget) -> None:
+    """Context manager to temporary block Qt signals"""
     widget.blockSignals(True)
 
     yield
