@@ -199,8 +199,10 @@ schedules. You can use `crontab -l` to view them or `crontab -e` to edit.
   new backup for the month.
 
 !!! note
-    For hourly schedules (every hour, every x hours, and custom hours), there will be an option to specify how many minutes after the hour the 
-    schedule should run. This can be used to prevent multiple backup profiles from running at the same time.
+    For hourly schedules (every hour, every x hours, and custom hours),
+    there will be an option to specify how many minutes after the hour the
+    schedule should run. This can be used to prevent multiple backup profiles
+    from running at the same time.
 
 ## Include
 
