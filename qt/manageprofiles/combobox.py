@@ -90,3 +90,11 @@ class BitComboBox(QComboBox):
         Raise: ???
         """
         self.setCurrentIndex(self._idx_by_data(data))
+
+    def has_data(self, data: Any) -> bool:
+        """Check if an entry with that data exists."""
+        for idx in range(self.count()):
+            if self.itemData(idx) == data:
+                return True
+
+        return False

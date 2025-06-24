@@ -597,7 +597,11 @@ class GeneralTab(QDialog):
             start_dir = DIR_SSH_KEYS
 
         file_dialog = FileDialog(
-            parent=self, title=_('SSH private key'), start_dir=start_dir)
+            parent=self,
+            title=_('SSH private key'),
+            start_dir=start_dir,
+            allow_multiselection=False
+        )
 
         key_file = file_dialog.result()
 

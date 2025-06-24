@@ -105,14 +105,19 @@ class SshKeyCombo(BitComboBox):
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
 
-        self.blockSignals(True)
+        with qttools.block_signals(self):
 
-        self.insertItem(0, icon.ENCRYPT, key_path.name, userData=key_path)
-        self.setItemData(
-            0, SshKeyCombo._key_tooltip(key_path), Qt.ItemDataRole.ToolTipRole)
-        self.setCurrentIndex(0)
+            # still exists?
+            if self.has_data(key_path):
+                self.select_by_data(key_path)
 
-        self.blockSignals(False)
+            else:
+                self.insertItem(0, icon.ENCRYPT, key_path.name, userData=key_path)
+                self.setItemData(
+                    0,
+                    SshKeyCombo._key_tooltip(key_path),
+                    Qt.ItemDataRole.ToolTipRole)
+                self.setCurrentIndex(0)
 
         self._fade_background()
 

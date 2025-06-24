@@ -21,6 +21,7 @@ import sys
 import re
 import textwrap
 from typing import Union, Iterable
+from contextlib import contextmanager
 from PyQt6.QtGui import QDesktopServices, QFont, QIcon
 from PyQt6.QtCore import (QLibraryInfo,
                           QLocale,
@@ -456,3 +457,11 @@ def indexFirstColumn(idx):
         idx = idx.sibling(idx.row(), 0)
 
     return idx
+
+@contextmanager
+def block_signals(widget: QWidget) -> None:
+    widget.blockSignals(True)
+
+    yield
+
+    widget.blockSignals(False)
