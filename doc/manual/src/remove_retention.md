@@ -64,7 +64,7 @@ in the graphical frontend, that behavior cannot be changed.
 Beside the timestamp regularly used to identify backups, it is possible to
 attach a name to it. Those named backups are never touched by any other
 rule. It is a guarantee that they won't be removed. See
-[Main Window](main-window.md) for more details about named backups.
+[Main Window](main_window.md) for more details about named backups.
 
 ### Remove backups older than …
 

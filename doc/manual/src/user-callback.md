@@ -17,7 +17,7 @@ different steps. This script is named `user-callback` and contained in the direc
 `$XDG_CONFIG_HOME/backintime`. By default `$XDG_CONFIG_HOME` is
 `~/.config`). It can also be configured via the GUI: _Manage profiles_ >
 _Options_ > _Edit user-callback_ (see also
-[Options tab in Manage profiles dialog](settings.md#options)).
+[Options tab in Manage profiles dialog](manage-profiles.md#options)).
 
 ## Script arguments
 
