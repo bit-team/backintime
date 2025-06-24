@@ -531,25 +531,25 @@ class Config(configfile.ConfigFileWithProfiles):
             path = './'
         return (host, port, user, path, cipher)
 
-    def sshPrivateKeyFile(self, profile_id = None) -> str | bool | None:
-        # ssh = str(bitbase.DIR_SSH_KEYS)
-        # default = ''
-
-        # # See #2094
-        # for f in ['id_dsa', 'id_rsa', 'identity']:
-        #     private_key = os.path.join(ssh, f)
-        #     if os.path.isfile(private_key):
-        #         default = private_key
-        #         break
-
-        #?Private key file used for password-less authentication on remote host.
-        #?;absolute path to private key file;~/.ssh/id_dsa
+    def sshPrivateKeyFile(self, profile_id=None):
+        """The field can have three states:
+        1. Field does not exists: Fresh profile. Provide a default value.
+        2. Field exist but is empty: Using keys is disabled.
+        3. Field has a path:
+        """
         val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
-        print(f'----- {val=}')
-        print(f'----- {self.dict["profile1.snapshots.ssh.private_key_file"]=}')
-        return False if val == 'False' else val
 
-    def setSshPrivateKeyFile(self, value, profile_id = None):
+        # Using keys is disabled
+        if val == '':
+            return False
+
+        return val
+
+    def sshPrivateKeyFile_enabled(self, profile_id=None):
+        return self.sshPrivateKeyFile(profile_id) is not False
+
+
+    def setSshPrivateKeyFile(self, value, profile_id=None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
 
     def sshProxyHost(self, profile_id=None):
@@ -616,9 +616,10 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
-        key_file = self.sshPrivateKeyFile(profile_id)
-        if key_file:
-            args += ['-o', f'IdentityFile={key_file}']
+        if self.sshPrivateKeyFile_enabled(profile_id):
+            key_file = self.sshPrivateKeyFile(profile_id)
+            if key_file:
+                args += ['-o', f'IdentityFile={key_file}']
 
         return args
 

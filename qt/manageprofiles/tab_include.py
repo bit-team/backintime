@@ -24,10 +24,12 @@ from PyQt6.QtWidgets import (QWidget,
                              QAbstractItemView)
 import qttools
 from qttools import custom_sort_order
+from filedialog import FileDialog
 
 
 class IncludeTab(QWidget):
     """Tab for managing include files and directories."""
+
     def __init__(self, parent):
         super().__init__(parent=parent)
 
@@ -156,10 +158,14 @@ class IncludeTab(QWidget):
 
     def btn_include_add_clicked(self):
         """Handle directory-adding button click."""
-        path_list = qttools.getExistingDirectories(
-            self, _('Include directories'))
+        # pylint: disable=duplicate-code
+        dlg = FileDialog(parent=self,
+                         title=_('Include directories'),
+                         show_hidden=True,
+                         allow_multiselection=True,
+                         dirs_only=True)
 
-        for path in path_list:
+        for path in dlg.result()
 
             if not path:
                 continue
@@ -170,7 +176,7 @@ class IncludeTab(QWidget):
             ):
                 if self._parent_dialog._ask_include_symlinks_target(path):
                     path = path.resolve()
-            # path = self.config.preparePath(path)
+
             self.add_include((str(path), 0))
 
     def include_custom_sort_order(self, *args):

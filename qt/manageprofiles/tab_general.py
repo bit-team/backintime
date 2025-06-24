@@ -135,40 +135,6 @@ class GeneralTab(QDialog):
         self.txtSshPath.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txtSshPath)
 
-        # self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
-        # hlayout3.addWidget(self.lblSshPrivateKeyFile)
-        # self.txtSshPrivateKeyFile = QLineEdit(self)
-        # self.txtSshPrivateKeyFile.setReadOnly(True)
-        # hlayout3.addWidget(self.txtSshPrivateKeyFile)
-
-        # self.btnSshPrivateKeyFile = QToolButton(self)
-        # self.btnSshPrivateKeyFile.setToolButtonStyle(
-        #     Qt.ToolButtonStyle.ToolButtonIconOnly)
-        # self.btnSshPrivateKeyFile.setIcon(self.icon.FOLDER)
-        # self.btnSshPrivateKeyFile.setToolTip(
-        #     _('Choose an existing private key file (normally named '
-        #       '"id_ed25519" and in older setups "id_rsa").'))
-        # self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
-        # hlayout3.addWidget(self.btnSshPrivateKeyFile)
-        # self.btnSshPrivateKeyFile.clicked \
-        #     .connect(self._slot_ssh_private_key_file_clicked)
-
-        # self.btnSshKeyGen = QToolButton(self)
-        # self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
-        # self.btnSshKeyGen.setIcon(self.icon.ADD)
-        # qttools.set_wrapped_tooltip(
-        #     self.btnSshKeyGen,
-        #     _('Create a new SSH key without password (not allowed if a '
-        #       'private key file is already selected).')
-        # )
-        # self.btnSshKeyGen.setMinimumSize(32, 28)
-        # hlayout3.addWidget(self.btnSshKeyGen)
-        # self.btnSshKeyGen.clicked.connect(self._slot_ssh_key_gen_clicked)
-
-        # # Disable SSH key generation button if a key file is already set
-        # self.txtSshPrivateKeyFile.textChanged \
-        #     .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
-
         self.key_selector = SshKeySelector(
             self,
             self._slot_ssh_private_key_file_clicked,
@@ -311,15 +277,23 @@ class GeneralTab(QDialog):
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
+
+        # SSH: Priate key file
         val = self.config.sshPrivateKeyFile()
-        print(f'XXX---XXX {val=}')
-        if val is None or val == '':
+
+        if val is False:
+            # using key is disabled
+            val = None
+
+        elif val is None:
             # Select key by default if present
             try:
                 val = sshtools.get_private_ssh_key_files()[0]
             except IndexError:
-                val = False
-        self.key_selector.set_key(None if val == False else Path(val))
+                # no key available
+                pass
+
+        self.key_selector.set_key(Path(val) if val else val)
 
         # local_encfs
         if self.mode == 'local_encfs':
@@ -393,9 +367,11 @@ class GeneralTab(QDialog):
         self.config.setSshProxyUser(sshproxy_vals['user'])
         self.config.setSshSnapshotsPath(self.txtSshPath.text())
 
-        key_file = self.key_selector.get_key()
-        print(f'YyyyyyyyYYYY {key_file=}')
-        self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
+        # SSH key file
+        if mode in ('ssh', 'ssh_encfs'):
+
+            key_file = self.key_selector.get_key()
+            self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
         # save local_encfs
         self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
