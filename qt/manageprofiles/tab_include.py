@@ -165,7 +165,7 @@ class IncludeTab(QWidget):
                          allow_multiselection=True,
                          dirs_only=True)
 
-        for path in dlg.result()
+        for path in dlg.result():
 
             if not path:
                 continue

@@ -44,7 +44,7 @@ class SshKeyCombo(BitComboBox):
                  parent: QWidget,
                  select_key_handler: Callable,
                  generate_pair_handler: Callable):
-        # pylint: disable-next: import-outside-toplevel
+        # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
 
         # key file entries
@@ -84,6 +84,8 @@ class SshKeyCombo(BitComboBox):
 
         self.currentIndexChanged.connect(self._on_selection_changed)
 
+        self._original_style = None
+
     @staticmethod
     def _key_tooltip(path: Path) -> str:
         return _('Full path: {path}').format(path=str(path))
@@ -99,7 +101,8 @@ class SshKeyCombo(BitComboBox):
         handler()
 
     def add_and_select(self, key_path: Path):
-        # pylint: disable-next: import-outside-toplevel
+        """Add a new entry and select it after that."""
+        # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
 
         self.blockSignals(True)
@@ -211,14 +214,18 @@ class SshKeySelector(QWidget):
         self._slot_clicked(self.radio_no)
 
     def _slot_clicked(self, button):
-        self.selector.setEnabled(
-            True if button == self.radio_key else False)
+        self.selector.setEnabled(button == self.radio_key)
 
     def add_and_select_key(self, key_path: Path):
+        """Enable the drop down widget and add and select a new entry to it."""
         self.selector.add_and_select(key_path)
         self.radio_key.setChecked(True)
 
     def set_key(self, key_path: Path | None) -> None:
+        """Select an existing key based on its path.
+
+        If not enabled this will also enable the drop down. If path is ``None``
+        the drop down widget is disabled."""
         if key_path:
             self.selector.select_by_data(key_path)
             self.radio_key.setChecked(True)
@@ -228,6 +235,8 @@ class SshKeySelector(QWidget):
             self.btn_group.buttonClicked.emit(self.radio_no)
 
     def get_key(self) -> Path | None:
+        """Return the path of the current selected key or ``None`` if the
+        drop down widget is disabled."""
         if self.radio_no.isChecked():
             return None
 

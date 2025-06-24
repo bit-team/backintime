@@ -611,7 +611,7 @@ class GeneralTab(QDialog):
                     'extension).').format(path=key_file)
             messagebox.warning(msg, _('No public SSH keys'), self)
             return
-       
+
         # self.txtSshPrivateKeyFile.setText(str(key_file))
         self.key_selector.add_and_select_key(key_file)
 
