@@ -23,6 +23,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
 - [Backups (snapshots)](#backups-snapshots)
+   * [Backup or Snapshot?](#backup-or-snapshot)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
    * [How do backups with hard-links work?](#how-do-backups-with-hard-links-work)
    * [How can I check if my backups are using hard-links?](#how-can-i-check-if-my-backups-are-using-hard-links)
@@ -231,6 +232,12 @@ Back In Time and Timeshift are both Linux application that provides back up func
    - It's good for restoring your system after an update failure or configuration change.
 
 # Backups (snapshots)
+
+## Backup or Snapshot?
+Until _Back In Time_ version 1.6.0 the term _snapshot_ was used, instead of
+_backup_. Beginning with version 1.6.0 that term was rephrased into
+_backup_. The reason was to not giving the impression that _Back In Time_ does
+create images of storage volumes.
 
 ## Does _Back In Time_ create incremental or full backups?
 
