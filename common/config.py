@@ -531,7 +531,7 @@ class Config(configfile.ConfigFileWithProfiles):
             path = './'
         return (host, port, user, path, cipher)
 
-    def sshPrivateKeyFile(self, profile_id=None):
+    def sshPrivateKeyFile(self, profile_id=None) -> None | bool | str:
         """The field can have three states:
         1. Field does not exists: Fresh profile. Provide a default value.
         2. Field exist but is empty: Using keys is disabled.

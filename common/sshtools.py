@@ -1327,6 +1327,7 @@ def writeKnownHostsFile(key):
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')
 
+
 def get_private_ssh_key_files() -> list[Path]:
     """Return a list of existing private key files."""
 
