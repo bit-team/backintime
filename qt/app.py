@@ -2248,7 +2248,7 @@ class MainWindow(QMainWindow):
                 'The following backup profiles are using an explicitly '
                 'configured SSH cipher.',
                 '{profiles}',
-                'Setting a cipher diretly within Back In Time is '
+                'Setting a cipher directly within Back In Time is '
                 'deprecated and will be removed in future versions.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'

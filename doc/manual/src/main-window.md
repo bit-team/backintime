@@ -77,8 +77,8 @@ Toggle hidden files (starting with a dot) to be shown in files view.
 
 ![restore](_images/edit-undo_btn.svg) Restore
 
-Restore selected files or directores. This button has a sub-menu (hold down the
-button). Default action is `Restore`.
+Restore selected files or directories. This button has a sub-menu (hold down
+the button). Default action is `Restore`.
 
 ![restore](_images/edit-undo_btn.svg) Restore
 
