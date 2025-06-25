@@ -19,25 +19,26 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
    * [Where is the log file?](#where-is-the-log-file)
    * [How to read log entries?](#how-to-read-log-entries)
-   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
+   * [How to move backups to a new hard-drive?](#how-to-move-backups-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
 - [Backups (snapshots)](#backups-snapshots)
+   * [Backup or Snapshot?](#backup-or-snapshot)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
-   * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
-   * [How can I check if my snapshots are using hard-links?](#how-can-i-check-if-my-snapshots-are-using-hard-links)
+   * [How do backups with hard-links work?](#how-do-backups-with-hard-links-work)
+   * [How can I check if my backups are using hard-links?](#how-can-i-check-if-my-backups-are-using-hard-links)
    * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
-   * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
-   * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
-   * [What happens when I remove a snapshot?](#what-happens-when-i-remove-a-snapshot)
+   * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my backup logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-backup-logs)
+   * [Backup "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#backup-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
+   * [What happens when I remove a backup?](#what-happens-when-i-remove-a-backup)
    * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
    * [How to use extended filesystem attributes (xattr) to exclude files/directories?](#how-to-use-extended-filesystem-attributes-xattr-to-exclude-filesdirectories)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
-   * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
+   * [Back In Time doesn't find my old backups on my new Computer](#back-in-time-doesnt-find-my-old-backups-on-my-new-computer)
 - [Schedule](#schedule)
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
-   * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
+   * [Will a scheduled backup run as soon as the computer is back on?](#will-a-scheduled-backup-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
@@ -120,8 +121,8 @@ For a discussion about this topic see [Backup on OneDrive or Google Drive](https
 
 There are three distinct logs generated:
 
-1. The _snapshot log_ contains messages specific to a particular snapshot at a
-   given time. It is stored within each snapshot and can be accessed through
+1. The _backup log_ contains messages specific to a particular backup at a
+   given time. It is stored within each backup and can be accessed through
    the GUI.
 
 2. The _restore log_ contains messages specific to a particular restore
@@ -135,7 +136,7 @@ There are three distinct logs generated:
 
 ## How to read log entries?
 
-Both the _snapshot_ and _restore_ log files are plain text files and can be read
+Both the _backup_ and _restore_ log files are plain text files and can be read
 accordingly. Refer to [Where is the log file?](#where-is-the-log-file).
 The _application_ log is generated via [syslog](https://en.wikipedia.org/wiki/Syslog)
 using the identifier `backintime`. Depending on the version of _Back In time_ and the
@@ -153,7 +154,7 @@ GNU/Linux distribution used, there are three ways to get the log entries.
 
     `sudo grep backintime /var/log/syslog`
 
-## How to move snapshots to a new hard-drive?
+## How to move backups to a new hard-drive?
 
 There are three different solutions:
 
@@ -181,7 +182,9 @@ There are three different solutions:
    cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
    ```
 
-Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
+Make sure that your `/DESTINATION` contains a folder named `backintime`, which
+contains all the backups. BiT expects this folder, and needs it to import
+existing backups.
 
 ## How to move a large directory in the backup source without duplicating the files in the backup?
 
@@ -190,30 +193,31 @@ it will treat this like a new file/folder and
 create a new backup file for it (not hard-linked to the old one). With large
 directories this can fill up your backup drive quite fast.
 
-You can avoid this by moving the file/folder in the last snapshot too:
+You can avoid this by moving the file/directory in the last backup too:
 
-1. Create a new snapshot
+1. Create a new backup
 
-2. Move the original folder
+2. Move the original directory
 
-3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
+3. Manually move the same folder inside BiTs last backup in the same way you did with the original folder
 
-4. Create a new snapshot
+4. Create a new backup
 
-5. Remove the next to last snapshot (the one where you moved the folder manually)
-   to avoid problems with permissions when you try to restore from that snapshot
+5. Remove the next to last backup (the one where you moved the directory
+   manually) to avoid problems with permissions when you try to restore from
+   that backup
 
 ## How does _Back In Time_ compare with _Timeshift_?
 
 Back In Time and Timeshift are both Linux application that provides back up functionality.
 
 1. Similarity
-   - Both programs are backup tools for Linux and they create snapshots at a specific time.
-   - For both programs, snapshots are taken using rsync and hard-links, while
-   Common files are shared between snapshots which saves disk space.
+   - Both programs are backup tools for Linux and they create backups at a specific time.
+   - For both programs, backups are taken using rsync and hard-links, while
+   Common files are shared between backups which saves disk space.
    - Both programs support GUI and CLI
-   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots
-   completely and create snapshots manually when required
+   - Both programs allow you to schedule regular backups. You can also disable
+   scheduled backups completely and create backups manually when required
 
 2. Back In Time
    - It is designed to protect user data including any folders or files.
@@ -222,24 +226,30 @@ Back In Time and Timeshift are both Linux application that provides back up func
    - It's great for protecting your personal data
 
 3. TimeShift
-   - It is designed for system snapshots which allows restoring whole Linux system
+   - It is designed for system backups which allows restoring whole Linux system
    to a previous state without affecting any user data.
    - It backs up system files, not including any personal data unless user explicitly configured.
    - It's good for restoring your system after an update failure or configuration change.
 
 # Backups (snapshots)
 
+## Backup or Snapshot?
+Until _Back In Time_ version 1.6.0 the term _snapshot_ was used, instead of
+_backup_. Beginning with version 1.6.0 that term was rephrased into
+_backup_. The reason was to not giving the impression that _Back In Time_ does
+create images of storage volumes.
+
 ## Does _Back In Time_ create incremental or full backups?
 
 Back In Time does use `rsync` and its `--hard-links` feature.
-Because of that each snapshot is technically a full backup (contains each file)
+Because of that each backup is technically a full backup (contains each file)
 but copies only the really changed files (to save disk space) and "reuses" unchanged
 files by setting a so-called "hard-link".
 
 In technical terms it is not an
 [incremental backups](https://en.wikipedia.org/wiki/Incremental_backup).
 
-## How do snapshots with hard-links work?
+## How do backups with hard-links work?
 
 From the answer on Launchpad to the question
 [_Does auto remove smart mode merge incremental backups?_](https://answers.launchpad.net/backintime/+question/123486)
@@ -262,7 +272,7 @@ time you save a new file.
 First time you create a new backup with BIT all files will have an inode
 counter = 1.
 
-#### snapshot0
+#### backup0
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         1 |
@@ -273,7 +283,7 @@ Let's say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
 BIT first makes hardlinks of all files. ``rsync`` than delete all hardlinks of
 files that has changed and copy the new files.
 
-#### snapshot0
+#### backup0
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
@@ -281,30 +291,30 @@ files that has changed and copy the new files.
 | fileC  |       3 |         1 |
 
 
-#### snapshot1
+#### backup1
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
 | fileB  |       4 |         1 |
 | fileD  |       5 |         1 |
 
-Now change ``fileB`` again and make a new snapshot
+Now change ``fileB`` again and make a new backup
 
-#### snapshot0
+#### backup0
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         3 |
 | fileB  |       2 |         1 |
 | fileC  |       3 |         1 |
 
-#### snapshot1
+#### backup1
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         3 |
 | fileB  |       4 |         1 |
 | fileC  |       5 |         2 |
 
-#### snapshot2
+#### backup2
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         3 |
@@ -312,25 +322,25 @@ Now change ``fileB`` again and make a new snapshot
 | fileD  |       5 |         2 |
 
 
-Finally smart-remove is going to remove **snapshot0**. All that is done by
+Finally smart-remove is going to remove **backup0**. All that is done by
 smart-remove is to ``rm -rf`` (force delete everything) the whole directory
-of **snapshot0**.
+of **backup0**.
 
-#### snapshot0 (no longer exist)
+#### backup0 (no longer exist)
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | (empty)  |       1 |         2 |
 | (empty)  |       2 |         0 |
 | (empty)  |       3 |         0 |
 
-#### snapshot1
+#### backup1
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
 | fileB  |       4 |         1 |
 | fileD  |       5 |         2 |
 
-#### snapshot2
+#### backup2
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
@@ -345,23 +355,22 @@ I hope this will shed a light on the "magic" behind BIT. If it's even more
 confusing don't hesitate to ask ;)
 
 
-## How can I check if my snapshots are using hard-links?
+## How can I check if my backups are using hard-links?
 
 Please compare the inodes of a file that definitely didn't change between two
-snapshots. For this open two Terminals and ``cd`` into both snapshot folder.
+backups. For this open two terminals and ``cd`` into both backups directory.
 ``ls -lai`` will print a list where the first column is the inode which should
-be equal for the same file in both snapshots if the file didn't change and the
-snapshots are incremental.
-The third column is a counter (if the file is no directory) on how many
-hard-links exist for this inode. It should be >1. So if you took e.g. 3
-snapshots it should be 3.
+be equal for the same file in both backups if the file didn't change and the
+backups are incremental. The third column is a counter (if the file is no
+directory) on how many hard-links exist for this inode. It should be >1. So if
+you took e.g. 3 backups it should be 3.
 
-Don't be confused on the size of each snapshot. If you right click on
-preferences for a snapshot in a file manager and look for its size, it will
-look like they are all full snapshots (not incremental). But that's not
+Don't be confused on the size of each backup. If you right click on
+preferences for a backup in a file manager and look for its size, it will
+look like they are all full backups (not incremental). But that's not
 (necessary) the case.
 
-To get the correct size of each snapshot with respect on the hard-links you
+To get the correct size of each backups with respect on the hard-links you
 can run:
 
 ```bash
@@ -380,7 +389,7 @@ du -chld0 /media/<USER>/backintime/<HOST>/<USER>/1/*
 
 Starting with BIT Version 1.0.28 there is a new command line option
 ``--checksum`` which will do the same as *Use checksum to detect changes* in
-Options. It will calculate checksums for both the source and the last snapshots
+Options. It will calculate checksums for both the source and the last backups
 files and will only use this checksum to decide whether a file has changed or
 not. The normal mode (without checksums) is to compare modification times and sizes
 of the files which is much faster to detect changed files.
@@ -389,7 +398,7 @@ Because this takes ages, you may want to use this only on Sundays or only the
 first Sunday per month. Please deactivate the schedule for your profile in
 that case. Then run ``crontab -e``
 
-For daily snapshots on 2AM and ``--checksum`` every Sunday add:
+For daily backups on 2AM and ``--checksum`` every Sunday add:
 
 
 ```
@@ -410,7 +419,7 @@ For ``--checksum`` only at first Sunday per month add:
 Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> to exit
 (if you editor is `nano`. Maybe different depending on your default text editor).
 
-## What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
+## What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my backup logs?
 
 This are from `rsync` and indicating what changed and why.
 Please see the section `--itemize-changes` in the
@@ -418,35 +427,35 @@ Please see the section `--itemize-changes` in the
 of `rsync`. See also some
 [rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
 
-## Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
+## Backup "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
 
 [BiT Version 1.4.0 (2023-09-14)](https://github.com/bit-team/backintime/releases/tag/v1.4.0)
 introduced the **evaluation of `rsync` exit codes for better error recognition**:
 
-Before this release `rsync` exit codes were ignored and only the snapshot
+Before this release `rsync` exit codes were ignored and only the backup
 files parsed for errors (which does not find each error, eg. dead symbolic links
 logged as `symlink has no referent`).
 
-This "exit code 23" message may occur at the end of snapshot logs and BiT logs when
+This "exit code 23" message may occur at the end of backup logs and BiT logs when
 `rsync` was not able to transfer some (or even all) files
 See [this comment in issue 1587](https://github.com/bit-team/backintime/issues/1587#issuecomment-1856490208)
 for a list all known reasons for `rsync`'s exit code 23.
 
-Currently you can ignore this error after checking the full snapshot log
+Currently you can ignore this error after checking the full backup log
 which error is hidden behind "exit code 23" (and possibly fix it - eg. delete or update dead symbolic links).
 
 We plan to implement an improved handling of exit code 23 in the future
-(presumably by introducing warnings into the snapshot log).
+(presumably by introducing warnings into the backup log).
 
-## What happens when I remove a snapshot?
+## What happens when I remove a backup?
 
-Each snapshot is stored in a dated subdirectory of the "full snapshot path"
+Each backup is stored in a dated subdirectory of the "full backup path"
 shown in Settings.  It contains a ``backup`` directory of all the files as well
-as a log of the snapshot's creation and some other details.  Removing the
-snapshot removes this whole directory.  Each snapshot is independent of the
-others, so other snapshots are not affected. However, the data of identical files is
-not stored redundantly by multiple snapshots, so removing a snapshot will only
-recover the space used by files that are unique to that snapshot.
+as a log of the backup's creation and some other details.  Removing the
+backup removes this whole directory. Each backup is independent of the
+others, so other backups are not affected. However, the data of identical files is
+not stored redundantly by multiple backups, so removing a backup will only
+recover the space used by files that are unique to that backup.
 
 ## How can I exclude cache folders to improve backup speed and reduce storage?
 
@@ -525,14 +534,14 @@ Check if this correctly listed all those files you want to delete and than run:
 find /path/to/files -regextype posix-basic -regex ".*\.backup\.[[:digit:]]\{8\}" -delete
 ```
 
-## Back In Time doesn't find my old Snapshots on my new Computer
+## Back In Time doesn't find my old backups on my new Computer
 
 Back In Time prior to version 1.1.0 had an option called
 *Auto Host/User/Profile ID* (hidden under *General* > *Advanced*) which will
-always use the current host- and username for the full snapshot path.
+always use the current host- and username for the full backup path.
 When (re-)installing your computer you probably chose a different host name or
 username than on your old machine. With *Auto Host/User/Profile ID* activated
-Back In Time now try to find your Snapshots under the new host- and username
+Back In Time now try to find your backups under the new host- and username
 underneath the ``/path/to/backintime/`` path.
 
 The *Auto Host/User/Profile ID* option is gone in version 1.1.0 and above.
@@ -543,13 +552,13 @@ You have three options to fix this:
 - Disable *Auto Host/User/Profile ID* and change *Host* and *User* to match
   your old machine.
 
-- Rename the Snapshot path
+- Rename the backups path
   ``/path/to/backintime/OLDHOSTNAME/OLDUSERNAME/profile_id`` to match your new
   host- and username.
 
 - Upgrade to a more recent version of Back In Time (1.1.0 or above).
   The *Auto Host/User/Profile ID* option is gone and it also comes with
-  an assistant to restore the config from an old Snapshot on first start.
+  an assistant to restore the config from an old backup on first start.
 
 
 
@@ -565,29 +574,29 @@ every 15min (or once an hour if the schedule is set to *weeks*). With the
 ``--backup-job`` command, BIT will check if the profile is supposed to be run
 this time or exit immediately. For this it will read the time of the last
 successful run from ``~/.local/share/backintime/anacron/ID_PROFILENAME``.
-If this is older than the configured time, it will continue creating a snapshot.
+If this is older than the configured time, it will continue creating a backup.
 
-If the snapshot was successful without errors, BIT will write the current time
+If the backup was successful without errors, BIT will write the current time
 into ``~/.local/share/backintime/anacron/ID_PROFILENAME`` (even if *Repeatedly
 (anacron)* isn't chosen). So, if there was an error, BIT will try again at
 the next quarter hour.
 
-``backintime --backup`` will always create a new snapshot. No matter how many
-time elapsed since last successful snapshot.
+``backintime --backup`` will always create a new backup. No matter how many
+time elapsed since last successful backup.
 
-## Will a scheduled snapshot run as soon as the computer is back on?
+## Will a scheduled backup run as soon as the computer is back on?
 
 Depends on which schedule you choose:
 
 - the schedule ``Repeatedly (anacron)`` will use an anacron-like code. So if
   your computer is back on it will start the job if the given time is gone till
-  last snapshot.
+  last backup.
 
-- with ``When drive get connected (udev)`` *Back In Time* will start a snapshot as
-  soon as you connect your drive ;-)
+- with ``When drive get connected (udev)`` *Back In Time* will start a backup
+  as soon as you connect your drive ;-)
 
 - old fashion schedules like ``Every Day`` will use cron. This will only start a
-  new snapshot at the given time. If your computer is off, no snapshot will be
+  new backup at the given time. If your computer is off, no backup will be
   created.
 
 ## If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
@@ -613,7 +622,7 @@ for more.
 ```ini
 # ~/.config/systemd/user/backintime-backup-job.timer
 [Unit]
-Description=Start a backintime snapshot once daily
+Description=Start a backintime backup once daily
 
 [Timer]
 OnCalendar=daily
@@ -628,7 +637,7 @@ WantedBy=timers.target
 ```ini
 # ~/.config/systemd/user/backintime-backup-job.service
 [Unit]
-Description=Run backintime snapshot generation
+Description=Run backintime backup generation
 
 [Service]
 Type=oneshot
@@ -699,23 +708,23 @@ If you don't like the new behavior, you can use "Expert Options"
 
 ## What happens if I hibernate the computer while a backup is running?
 
-*Back In Time* will inhibit automatic suspend/hibernate while a snapshot/restore is
-running. If you manually force hibernate this will freeze the current process.
-It will continue as soon as you wake up the system again.
+*Back In Time* will inhibit automatic suspend/hibernate while a backup/restore
+is running. If you manually force hibernate this will freeze the current
+process.  It will continue as soon as you wake up the system again.
 
 ## What happens if I power down the computer while a backup is running, or if a power outage happens?
 
-This will kill the current process. The new snapshot will stay in ``new_snapshot``
-folder. Depending on which state the process was while killing the next
-scheduled snapshot can continue the leftover ``new_snapshot`` or it will remove
-it first and start a new one.
+This will kill the current process. The new backup will stay in
+``new_snapshot`` folder. Depending on which state the process was while killing
+the next scheduled backup can continue the leftover ``new_snapshot`` or it will
+remove it first and start a new one.
 
 ## What happens if there is not enough disk space for the current backup?
 
-*Back In Time* will try to create a new snapshot but rsync will fail when there is
-not enough space. Depending on ``Continue on errors`` setting the failed
-snapshot will be kept and marked ``With Errors`` or it will be removed.
-By default, *Back In Time* will finally remove the oldest snapshots until there is
+*Back In Time* will try to create a new backup but rsync will fail when there
+is not enough space. Depending on ``Continue on errors`` setting the failed
+backup will be kept and marked ``With Errors`` or it will be removed.  By
+default, *Back In Time* will finally remove the oldest backups until there is
 more than 1 GiB free space again.
 
 ## NTFS Compatibility
@@ -836,12 +845,12 @@ manually or automatically because of dependencies.
 Download the script, copy it to ``~/.config/backintime/user-callback`` and make
 it executable with ``chmod 755 ~/.config/backintime/user-callback``
 
-It will run every time a new snapshot is taken. Make sure to include
+It will run every time a new backup is taken. Make sure to include
 ``~/.apt-backup``.
 
 ## How to restore Debian/Ubuntu Package selection?
 
-If you made snapshots including apt-get package selection as described in the
+If you made backups including apt-get package selection as described in the
 FAQ "`How to backup Debian/Ubuntu Package selection?`_" you can easily restore
 your system after a disaster/on a new machine.
 
@@ -855,10 +864,10 @@ your system after a disaster/on a new machine.
     sudo apt-get install backintime-qt4
    ```
 
-1. connect your external drive with the snapshots
+1. connect your external drive with the backups
 
 1. Start *Back In Time*. It will ask you if you want to restore your
-   config. Sure you want! *Back In Time* should find your snapshots
+   config. Sure you want! *Back In Time* should find your backups
    automatically. Just select the one from which you want to
    restore the config and click Ok.
 
@@ -973,7 +982,7 @@ Finally install the current packages of ``bash``, ``coreutils`` and ``rsync``
    ```
 
 Now the error message should be gone and you should be able to take a first
-snapshot with *BackInTime*.
+backup with *BackInTime*.
 
 *BackInTime* changes permissions on the backup path. The owner of the
 backup has read permission, other users have no access.
@@ -1431,7 +1440,7 @@ to the old UID/GID.
 Hard to say which additional features *Back In Time* provides. You can script all of
 them in your own rsync script, too. But to name some features:
 
-- Inhibit suspend/hibernate during take snapshot
+- Inhibit suspend/hibernate during creating of a backup
 - Shutdown system after finish
 - Auto- and Smart-Removal
 - Plugin- and user-callback support
