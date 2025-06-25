@@ -114,25 +114,42 @@ maintainers if you encounter problems.
 # Known Problems and Workarounds
 
 In the latest stable release:
+- [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
 
+## OverflowError: Value 1702441408 out of range for UInt32
+The _Back In Time_ GUI crashes and this exception appears in its terminal
+output. Known to happen on restoring (#2084) and removing (#2192) of backups.
+Assuming it might happen also on creating backups.
+
+The current hypothesis the problem was introduced or happens more often since
+the migration from PyQt version 5 to version 6 (BIT version 1.5.0).
+
+A fix (PR #2099) will be released with
+[upcoming 1.6.0](https://github.com/bit-team/backintime/milestone/34).
+Don't use the latest development version and risk your data! Until the fix is
+released, there is a tiny workaround described in that
+[issue comment](https://github.com/bit-team/backintime/issues/2084#issuecomment-2787602155).
+
 ## File permissions handling and therefore possible non-differential backups
 
-In version 1.2.0, the handling of file permissions changed.
-In versions <= 1.1.24 (until 2017) all file permissions were set to `-rw-r--r--` in the backup target.
-In versions >= 1.2.0 (since 2019) `rsync` is executed with `--perms` option which tells `rsync` to
-preserve the source file permission.
+- In version 1.2.0, the handling of file permissions changed.
+- In versions <= 1.1.24 (until 2017) all file permissions were set to
+  `-rw-r--r--` in the backup target.
+- In versions >= 1.2.0 (since 2019) `rsync` is executed with `--perms` option
+  which tells `rsync` to preserve the source file permission.
 
-Therefore backups can be larger and slower, especially the first backup after upgrading to a version >= 1.2.0.
+Therefore backups can be larger and slower, especially the first backup after
+upgrading to a version >= 1.2.0.
 
-If you don't like the new behavior, you can use _Expert Options_ -> _Paste additional options to rsync_
-to add `--no-perms --no-group --no-owner` to it.
-Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
-files.
+If you don't like the new behavior, you can use _Expert Options_ ->
+_Paste additional options to rsync_ to add `--no-perms --no-group --no-owner`
+to it. Note that the exact file permissions can still be found in
+`fileinfo.bz2` and are also considered when restoring files.
 
 ## `qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
 

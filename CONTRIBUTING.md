@@ -164,7 +164,7 @@ distribution.
         - `python3-secretstorage`
         - `python3-keyring-kwallet`
         - `python3-gnomekeyring`
-      - For diff-like comparing files between backup snapshots **one** of these
+      - For diff-like comparing files between backups **one** of these
         packages
         - `kompare`
         - or `meld`
@@ -339,11 +339,11 @@ correct = _('One') + '\n' + _('Two')  # <- Separation into multiple strings is
 
 # Provide meaningful placeholder names
 problematic = _('Can not delete {var}.')
-correct = _('Can not delete {snapshot_path}.')
+correct = _('Can not delete {backup_path}.')
 
 # Avoid addressing the person with "you"
-problematic = _('Do you really want to delete this snapshot?')
-correct = _('Is it really intended to delete this snapshot?')
+problematic = _('Do you really want to delete this backup?')
+correct = _('Is it really intended to delete this backup?')
 ```
 
 ## Consider Right-to-Left (RTL) and Bidirectional (BIDI) languages
