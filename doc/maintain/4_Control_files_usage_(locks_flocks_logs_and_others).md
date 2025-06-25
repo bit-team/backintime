@@ -277,12 +277,14 @@ is different from the backup flock file: `restore<Profile ID>.lock.flock`
 State: 2025-06-25 (buhtz)
 
 - Currently not clear. See issue #2055.
-- Code location: `common/snapshots.py::Snapshots.smartRemove()`
+- Code location: `common/snapshots.py::Snapshots.smartRemove()` (introduced
+  with commit 91d838fb in year 2025 by Germar)
 - It seems that it is created only in SSH related modes when "Remove in
   background" is enabled. It is removed after the remove operation.
 - Can not find a location in code for the existence of this file is
-  checked. The assumption is, that it is part of an uncomplete
+  checked. The assumption is, that it is part of an incomplete
   feature/behavior.
+- Might be OK to remove it from code without replacement.
 
 ## See also
 
