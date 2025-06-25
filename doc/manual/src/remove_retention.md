@@ -9,10 +9,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 ## Overview
-Snapshots can be automatically deleted or retained based on rules.
+Backups can be automatically deleted or retained based on rules.
 These rules allow for fine-grained management of the backup archive,
-reducing storage space usage. The process runs at the end of every snapshot
-run, even if no new snapshot is created.
+reducing storage space usage. The process runs at the end of every backup
+run, even if no new backup is created.
 
 !!! note
     The feature was also known as _Auto-remove_ or _Smart Remove_ in earlier
@@ -22,53 +22,53 @@ run, even if no new snapshot is created.
 
 Here is a brief overview of the rules available:
       
-- **Keep the most recent snapshot**: The last (or freshest) snapshot will be retained.
-- **Keep named snapshots**: All snapshots with a name are excluded from every
+- **Keep the most recent backup**: The last (or freshest) backup will be retained.
+- **Keep named backups**: All backups with a name are excluded from every
   rule and never removed. This is the only one rule that can not be overruled
   by other rules.
-- **Remove snapshots older than `N` Days/Weeks/Years**: Snapshots older than
+- **Remove backups older than `N` Days/Weeks/Years**: Backups older than
   the specified time period are removed immediately.
-- **Retention policy**: Rules about which snapshots to keep. The
+- **Retention policy**: Rules about which backups to keep. The
   rest will be removed immediately.
-    - **Keep all snapshots for the last `N` days**
-    - **Keep the last snapshot for each day/week/month for the last `N` days/weeks/months**
-    - **Keep the last snapshot for each year for all years**
-- **Remove oldest snapshot if the free space is less than `N` GiB/MiB**: If the
-  threshold of free storage space is reached, the oldest snapshots will be
+    - **Keep all backups for the last `N` days**
+    - **Keep the last backup for each day/week/month for the last `N` days/weeks/months**
+    - **Keep the last backup for each year for all years**
+- **Remove oldest backup if the free space is less than `N` GiB/MiB**: If the
+  threshold of free storage space is reached, the oldest backups will be
   removed until enough storage space is available again.
-- **Remove oldest snapshot if the free inodes are less than `N` %**: If the
-  threshold of free inodes is reached, the oldest snapshots will be
+- **Remove oldest backup if the free inodes are less than `N` %**: If the
+  threshold of free inodes is reached, the oldest backups will be
   removed until enough inodes are available again.
 
 !!! warning
     All rules are processed from top to bottom, as presented in the GUI or in
     this manual. Later rules **do override** earlier ones and are **not
     constrained** by them. The only exception is the first rule
-    *Keep named snapshots*.
+    *Keep named backups*.
 
 In the examples below:
 
-- The <span style="color: #e655ec;"><strong>item in pink is the current snapshot</strong></span>.
-- <strong>Items in black are the existing snapshots</strong>.
-- <span style="color: #60a776;"><strong>Items in green are snapshots identified for retention</strong></span>.
-- <span style="color: #d23c48;"><strong>Items in red are snapshots identified for removal</strong></span>.
-- <span style="color: #6681a5;"><strong>Items in blue (sometimes <span style="color: #e655ec;">mixed with pink</span>) in the final column are the final retained snapshots</strong></span>.
+- The <span style="color: #e655ec;"><strong>item in pink is the current backup</strong></span>.
+- <strong>Items in black are the existing backups</strong>.
+- <span style="color: #60a776;"><strong>Items in green are backups identified for retention</strong></span>.
+- <span style="color: #d23c48;"><strong>Items in red are backups identified for removal</strong></span>.
+- <span style="color: #6681a5;"><strong>Items in blue (sometimes <span style="color: #e655ec;">mixed with pink</span>) in the final column are the final retained backups</strong></span>.
 
 ## Rules in details
-### Keep the most recent snapshot
-The most recently created snapshot, in other words the freshest one, will be
+### Keep the most recent backups
+The most recently created backups, in other words the freshest one, will be
 retained and not deleted by any of the configured rules. Despite it is present
 in the graphical frontend, that behavior cannot be changed.
 
-### Keep named snapshots
-Beside the timestamp regularly used to identify snapshots, it is possible to
-attach a name to it. Those named snapshots are never touched by any other
+### Keep named backups
+Beside the timestamp regularly used to identify backups, it is possible to
+attach a name to it. Those named backups are never touched by any other
 rule. It is a guarantee that they won't be removed. See
-[Main Window](main-window.md) for more details about named snapshots.
+[Main Window](main_window.md) for more details about named backups.
 
-### Remove snapshots older than …
+### Remove backups older than …
 
-**Remove snapshots older than `N` Years**
+**Remove backups older than `N` Years**
 
 - Calculation is based on 12 months.
 - Current month is ignored.
@@ -76,7 +76,7 @@ rule. It is a guarantee that they won't be removed. See
   removing backups before (or older than) 2023-04-01.
 ![Rule - Remove older than 2 years](_images/rule_older_than_n_years.png)
 
-**Remove snapshots older than `N` Weeks**
+**Remove backups older than `N` Weeks**
 
 - Calculation is based on calendar weeks with Monday as first day of a week.
 - Current week is ignored.
@@ -85,7 +85,7 @@ rule. It is a guarantee that they won't be removed. See
 
 ![Rule - Remove older than 2 weeks](_images/rule_older_than_n_weeks.png)
 
-**Remove snapshots older than `N` Days**
+**Remove backups older than `N` Days**
 
 - Calculation is based on full days from 0:00 to 23:59.
 - Current day is ignored.
@@ -95,18 +95,18 @@ rule. It is a guarantee that they won't be removed. See
 ![Rule - Remove older than 3 days](_images/rule_older_than_n_days.png)
 
 ### Retention policy
-Snapshots are retained if they fit at least one of the the rules from the
-retention policy. All other snapshots, not covered by the retention policy,
+Backups are retained if they fit at least one of the the rules from the
+retention policy. All other backups, not covered by the retention policy,
 will be removed.
 
 The values specified are treated as a period rather than a count. For example,
-imagine keeping the last snapshot of each month for the past six months,
+imagine keeping the last backup of each month for the past six months,
 including the current running months. However, only four of these six months
-have snapshots. In this case, only four snapshots are retained. The period is
-not extended further into the past to reach a total of six snapshots. See the
+have backups. In this case, only four backups are retained. The period is
+not extended further into the past to reach a total of six backups. See the
 rules below for more illustrated examples.
 
-**Keep all snapshots for the last `N` days**
+**Keep all backups for the last `N` days**
 
 - Calculation is based on full days from 0:00 to 23:59.
 - Current day is included.
@@ -115,7 +115,7 @@ _Example_:
 
 ![Rule - Keep all for the last 2 days](_images/rule_keep_all_for_n_days.png)
 
-**Keep the last snapshot for each day for the last `N` days**
+**Keep the last backup for each day for the last `N` days**
 
 - Calculation is based on full days from 0:00 to 23:59.
 - Current day is included.
@@ -124,7 +124,7 @@ _Example_:
 
 ![Rule - Keep last for each day for the last 5 days](_images/rule_keep_last_each_day_for_n_days.png)
 
-**Keep the last snapshot for each week for the last `N` weeks**
+**Keep the last backup for each week for the last `N` weeks**
 
 - Calculation is based on full calendar weeks starting from Monday.
 - Current week is included.
@@ -133,7 +133,7 @@ _Example_:
 
 ![Rule - Keep last for each week for the last 4 weeks](_images/rule_keep_last_each_week_for_n_weeks.png)
 
-**Keep the last snapshot for each month for the last `N` months**
+**Keep the last backup for each month for the last `N` months**
 
 - Calculation is based on full calendar months.
 - Current month is included.
@@ -142,7 +142,7 @@ _Example_:
 
 ![Rule - Keep last for each months for the last 4 months](_images/rule_keep_last_each_month_for_n_months.png)
 
-**Keep the last snapshot for each year for all years**
+**Keep the last backup for each year for all years**
 
 - Calculation is based on calendar years.
 - Current year is included.
@@ -165,28 +165,28 @@ confusing interactions between the rules.
 ### Example: Three years and all years.
 Imagine this two rules:
 
-1. Remove snapshots older than 3 years.
-2. Keep last snapshot for each year for all years.
+1. Remove backups older than 3 years.
+2. Keep last backup for each year for all years.
 
 We continue to assume that multiple backups per year have been available over
 the past five years.
 
 Rule 2 in isolation would result in five retained backups, one for each of the
 five existing years. But rule 1 will be executed beforehand. Rule 1 will remove
-all snapshots from four and five years ago.
+all backups from four and five years ago.
     
 ### Example: Six months but less storage space
 Imagine this two rules:
 
-1. Keep last snapshot for each months for 6 months.
-2. Remove oldest snapshots if the free space is less than 100 GiB.
+1. Keep last backup for each months for 6 months.
+2. Remove oldest backups if the free space is less than 100 GiB.
 
-The consequence of rule 1 is that six snapshots are kept, one for each
-months. Additionally imagine some more snapshots because of the other keep rules
+The consequence of rule 1 is that six backups are kept, one for each
+months. Additionally imagine some more backups because of the other keep rules
 beforehand. This consumes so much storage space that there is only 80 GiB free
 space left. This is less than the 100 GiB limit configured in rule 2. Because
-of that the two oldest snapshots (of months five and six) will be
+of that the two oldest backups (of months five and six) will be
 removed. After this 105 GiB storage space is available again and the rule
-stops. The final consequence is that snapshots of four months are kept, instead
+stops. The final consequence is that backups of four months are kept, instead
 of six months as configured in rule 1.
 

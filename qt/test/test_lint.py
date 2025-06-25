@@ -43,6 +43,7 @@ full_test_files = [_base_dir / fp for fp in (
     'bitwidgets.py',
     'editusercallback.py',
     'encfsmsgbox.py',
+    'filedialog.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/spinboxunit.py',
@@ -91,7 +92,6 @@ def create_pylint_cmd(include_error_codes=None):
         f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
         # Whitelist variable names
         '--good-names=idx,fp',
-        # '--reports=yes',
     ]
 
     if include_error_codes:

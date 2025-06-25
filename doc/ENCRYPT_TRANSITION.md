@@ -12,7 +12,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <sub>February 2025</sub>
 
 This document outlines the current status of the encryption feature in _Back In
-Time_. Support for encrypted snapshot profiles is undergoing significant
+Time_. Support for encrypted backup profiles is undergoing significant
 changes.
 
 **Please note** that we have a [pending PR implementing gocryptfs for local
@@ -26,7 +26,7 @@ encrypted profiles](https://github.com/bit-team/backintime/pull/1897).
  * [Further readings and resources](#further-readings-and-resources)
 
 ## Short summary
-- To realize encrypted snapshots in _Back In Time_, [EncFS] is used.
+- To realize encrypted backups in _Back In Time_, [EncFS] is used.
 - EncFS has known security issues and also is no longer maintained.
 - EncFS **deprecation starts in year 2025**.
 - EncFS library will be **removed** from _Back In Time_ **around the year 2029**.

@@ -62,12 +62,12 @@ class IncludeTab(QWidget):
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
 
-        self.btn_include_file = QPushButton(self.icon.ADD, _('Add file'), self)
+        self.btn_include_file = QPushButton(self.icon.ADD, _('Add files'), self)
         buttons_layout.addWidget(self.btn_include_file)
         self.btn_include_file.clicked.connect(self.btn_include_file_clicked)
 
         self.btn_include_add = QPushButton(
-            self.icon.ADD, _('Add directory'), self
+            self.icon.ADD, _('Add directories'), self
         )
         buttons_layout.addWidget(self.btn_include_add)
         self.btn_include_add.clicked.connect(self.btn_include_add_clicked)
@@ -142,7 +142,7 @@ class IncludeTab(QWidget):
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""
-        for path in qttools.getOpenFileNames(self, _('Include file')):
+        for path in qttools.getOpenFileNames(self, _('Include files')):
             if not path:
                 continue
             if os.path.islink(path) and not (
@@ -157,7 +157,7 @@ class IncludeTab(QWidget):
     def btn_include_add_clicked(self):
         """Handle directory-adding button click."""
         for path in qttools.getExistingDirectories(
-            self, _('Include directory')
+            self, _('Include directories')
         ):
             if not path:
                 continue

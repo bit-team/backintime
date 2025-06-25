@@ -300,6 +300,8 @@ class SettingsDialog(QDialog):
         # TAB: Exclude
         self._tab_exclude.store_values(profile_state)
 
+        return True
+
     def errorHandler(self, message):
         messagebox.critical(self, message)
 
@@ -362,6 +364,9 @@ class SettingsDialog(QDialog):
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 
+        # Resize (but don't move) dialog based on backup mode
+        self._restore_dims_and_coords(move=False)
+
     def restoreConfig(self, *args):
         RestoreConfigDialog(self).exec()
         self.updateProfiles()
@@ -386,3 +391,11 @@ class SettingsDialog(QDialog):
             self.parent.remount(self.originalCurrentProfile,
                                 self.originalCurrentProfile)
             self.parent.updateProfiles()
+
+        # store windows position and size
+        state_data = StateData()
+        state_data.set_manageprofiles_dims_coords(
+            self._tab_general.get_active_snapshots_mode(),
+            (self.width(), self.height()),
+            (self.x(), self.y())
+        )
