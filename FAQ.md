@@ -421,8 +421,8 @@ Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> 
 
 ## What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my backup logs?
 
-This are from `rsync` and indicating what changed and why.
-Please see the section `--itemize-changes` in the
+This are from `rsync` and indicating what changed and why.  Please see the
+section `--itemize-changes` in the
 [manpage](https://download.samba.org/pub/rsync/rsync.1#opt--itemize-changes)
 of `rsync`. See also some
 [rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
@@ -436,13 +436,14 @@ Before this release `rsync` exit codes were ignored and only the backup
 files parsed for errors (which does not find each error, eg. dead symbolic links
 logged as `symlink has no referent`).
 
-This "exit code 23" message may occur at the end of backup logs and BiT logs when
-`rsync` was not able to transfer some (or even all) files
-See [this comment in issue 1587](https://github.com/bit-team/backintime/issues/1587#issuecomment-1856490208)
+This "exit code 23" message may occur at the end of backup logs and BiT logs
+when `rsync` was not able to transfer some (or even all) files. See
+[this comment in issue 1587](https://github.com/bit-team/backintime/issues/1587#issuecomment-1856490208)
 for a list all known reasons for `rsync`'s exit code 23.
 
-Currently you can ignore this error after checking the full backup log
-which error is hidden behind "exit code 23" (and possibly fix it - eg. delete or update dead symbolic links).
+Currently you can ignore this error after checking the full backup log which
+error is hidden behind "exit code 23" (and possibly fix it - eg. delete or
+update dead symbolic links).
 
 We plan to implement an improved handling of exit code 23 in the future
 (presumably by introducing warnings into the backup log).
@@ -497,15 +498,15 @@ Excluding them can significantly improve backup speed and reduce storage usage.
 **Tips for better results:**
 
 - **Check Backup Logs**:
-  After running a backup, review the logs to identify additional folders that may
-  slow down the process. Example log entries for cache files:
+  After running a backup, review the logs to identify additional folders that
+  may slow down the process. Example log entries for cache files:
   ```plaintext
   [E] Skipping file /path/to/cache/file: Too many small files.
   ```
 
 - **Customize Patterns**:
-  Adjust the patterns to suit your specific applications. For example, modify paths
-  for browsers or other software you use.
+  Adjust the patterns to suit your specific applications. For example, modify
+  paths for browsers or other software you use.
 
 - **Test Exclude Patterns**:
   Test your backup after adding patterns to ensure they work as intended.
@@ -513,6 +514,21 @@ Excluding them can significantly improve backup speed and reduce storage usage.
 ## How to use extended filesystem attributes (xattr) to exclude files/directories?
 Please see [Issue #817](https://github.com/bit-team/backintime/issues/817) for
 details.
+
+## Are Samba shares supported? / Does Samba support hard links?
+There is no short answer to that. It depends on the configuration of the Samba
+server and the filesystem of the volume/harddisk it is using.
+
+Generally it is not recommended to use Samba shares as backup destination. Use
+an SSH profile instead.
+
+Further reading:
+- https://superuser.com/q/855946/486099
+- https://github.com/bit-team/backintime/issues/1883
+
+If you encounter clear rules about configuring Samba that it works with
+_Back In Time_ in a reliable way, please let us know the details. We will than
+integrate it into the documentation.
 
 # Restore
 
