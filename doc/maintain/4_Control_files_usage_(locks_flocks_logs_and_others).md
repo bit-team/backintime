@@ -26,6 +26,7 @@ Table of contents:
    + [Raise file (`app.lock.raise`)](#raise-file-applockraise)
    + [`save_to_continue` flag file in new snapshots](#save_to_continue-flag-file-in-new-snapshots)
    + [Restore lock file (`restore<Profile ID>.lock`)](#restore-lock-file-restoreprofile-idlock)
+   + [Remove & Retention (aka Smarkt Remove) (`smartremove.lck`)](#remove__retention_aka_smarkt_remove_smartremovelck)
 * [See also](#see-also)
    + [_Back in Time_ FAQ](#back-in-time-faq)
    + [Linux advisory locks](#linux-advisory-locks)
@@ -271,6 +272,9 @@ The flock file to serialize write access to the lock file (via a blocking adviso
 is different from the backup flock file: `restore<Profile ID>.lock.flock`
 
 
+### Remove & Retention (aka Smarkt Remove) (`smartremove.lck`)
+
+Currently not clear. See issue #2055.
 
 ## See also
 
