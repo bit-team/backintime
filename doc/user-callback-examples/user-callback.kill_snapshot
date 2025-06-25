@@ -7,7 +7,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
-# stop creating a new snapshot if conditions are not met. For example if the
+# stop creating a new backup if conditions are not met. For example if the
 # source drive isn't mounted. With version >= 1.1.0 you don't need to kill
 # processes any more. Just return a non zero returncode.
 
@@ -27,21 +27,21 @@ case $3 in
         ;;
     2) # Backup process ends
         ;;
-    3) # A new snapshot was taken
+    3) # A new backup was created
         ;;
-    4) #There was an error
+    4) # There was an error
         case $4 in
             1) # ERROR The application is not configured
               ;;
-            2) # ERROR A 'take snapshot' process is already running
+            2) # ERROR A 'create backup' process is already running
               ;;
-            3) # ERROR Can't find snapshots folder (is it on a removable drive ?)
+            3) # ERROR Can't find backups directory (is it on a removable drive ?)
               ;;
-            4) # ERROR A snapshot for 'now' already exist
+            4) # ERROR A backup for 'now' already exist
               ;;
-            5) # ERROR: Error while taking a snapshot
+            5) # ERROR: Error while creating a backup
                ;;
-            6) # ERROR: New snapshot taken but with errors
+            6) # ERROR: New backup created but with errors
                ;;
             *) # Unknown error number
                ;;

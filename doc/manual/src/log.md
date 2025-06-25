@@ -13,7 +13,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ![Last Log View](_images/light/last_log_view.png#only-light)
 ![Last Log View](_images/dark/last_log_view.png#only-dark)
 
-## Snapshot Log View
+## Backup Log View
 
-![Snapshot Log View](_images/light/snapshot_log_view.png#only-light)
-![Snapshot Log View](_images/dark/snapshot_log_view.png#only-dark)
+![Backup Log View](_images/light/backup_log_view.png#only-light)
+![Backup Log View](_images/dark/backup_log_view.png#only-dark)

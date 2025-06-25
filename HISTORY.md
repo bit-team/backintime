@@ -41,9 +41,9 @@ moved entirely to Launchpad, with the private blog being discontinued.
 
 ### Core functionality
 
-At first, _Back In Time_ used `diff` to compare the latest snapshot with the
-source, in order to check if a new snapshot was necessary. If the answer was
-yes, it would use `cp` to create a new snapshot.
+At first, _Back In Time_ used `diff` to compare the latest backup with the
+source, in order to check if a new backup was necessary. If the answer was
+yes, it would use `cp` to create a new backup.
 
 This was changed in version 0.9.2 in early 2009, when `diff` was replaced by
 `rsync` for the comparison. Copying was still done by `cp`, apparently without
@@ -51,7 +51,7 @@ special permissions handling.
 
 This changed when, shortly thereafter, version 0.9.24 introduced
 `fileinfo.bz2`, which holds permissions information on all files in a
-snapshot. Introduced to allow saving backups on non-Unix-permission-aware
+backup. Introduced to allow saving backups on non-Unix-permission-aware
 filesystems like NTFS, `fileinfo.bz2` is consulted upon restoring a file in
 order to recreate its original ownership and permissions.
 
@@ -118,7 +118,7 @@ As these bugs are currently understood, the underlying reason for the problem
 is differing ownership/permissions between the files in the source and on the
 backup drive. Since multiple hardlinks to the same file are, by definition,
 identical, they cannot have differing permissions. `rsync` fails to handle this
-case correctly when a new snapshot is created, leading to the files in question
+case correctly when a new backup is created, leading to the files in question
 being copied unnecessarily.
 
 With many users complaining and trading workarounds on Microsoft GitHub,

@@ -17,7 +17,7 @@ different steps. This script is named `user-callback` and contained in the direc
 `$XDG_CONFIG_HOME/backintime`. By default `$XDG_CONFIG_HOME` is
 `~/.config`). It can also be configured via the GUI: _Manage profiles_ >
 _Options_ > _Edit user-callback_ (see also
-[Options tab in Manage profiles dialog](settings.md#options)).
+[Options tab in Manage profiles dialog](manage-profiles.md#options)).
 
 ## Script arguments
 
@@ -29,7 +29,7 @@ _Options_ > _Edit user-callback_ (see also
 | ----- | -------------------------------------------------------------------|
 | **1** | A backup process is about to start.                                |
 | **2** | A backup process has ended.                                        |
-| **3** | A new snapshot was taken. The following two extra arguments are snapshot ID and snapshot path. |
+| **3** | A new backup was created. The following two extra arguments are backup ID and backup path. |
 | **4** | There was an error. See next table for [error codes](#errorcodes). |
 | **5** | The (graphical) application has started.                           |
 | **6** | The (graphical) application has closed.                            |
@@ -43,10 +43,10 @@ Possible **error codes** (see _Callback reason_ **4**) are:
 | ------| -------------------------------------------------------------------|
 | **1** | Configuration is either missing or invalid.                        |
 | **2** | A backup process is already running.[^1]                           |
-| **3** | Can't find snapshots folder.[^2]                                   |
-| **4** | A snapshot for "now" already exists. The fifth argument is the snapshot ID. |
-| **5** | Error while taking a snapshot.[^3] The fifth argument contains more error information. |
-| **6** | New snapshot taken but with errors.[^3] The fifth argument is the snapshot ID. |
+| **3** | Can't find backups directory.[^2]                                   |
+| **4** | A backup for "now" already exists. The fifth argument is the backup ID. |
+| **5** | Error while creating a backup.[^3] The fifth argument contains more error information. |
+| **6** | New backup created but with errors.[^3] The fifth argument is the backup ID. |
 
 ## Return value
 
@@ -99,7 +99,7 @@ echo >> "$LOG_FILE"
 
 [^1]: Ensure that manual and automatic backups do not run at the same time.
     
-[^2]: For example, if the snapshots folder is on a removable drive, which is
+[^2]: For example, if the backups directory is on a removable drive, which is
     either not mounted, or is mounted at a different location.
     
 [^3]: Supported added in _Back In Time_ version 1.4.0.
