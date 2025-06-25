@@ -295,13 +295,14 @@ def getExistingDirectories(parent, title):
     return [str(), ]
 
 
-def getExistingDirectory(parent, title):
+def getExistingDirectory(parent, title, start_dir=None):
     """Workaround to give control about hidden folders"""
     dlg = FileDialog(parent,
                      title=title,
                      show_hidden=True,
                      allow_multiselection=False,
-                     dirs_only=True)
+                     dirs_only=True,
+                     start_dir=start_dir)
     result = dlg.result()
 
     if result:
