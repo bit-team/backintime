@@ -274,7 +274,15 @@ is different from the backup flock file: `restore<Profile ID>.lock.flock`
 
 ### Remove & Retention (aka Smarkt Remove) (`smartremove.lck`)
 
-Currently not clear. See issue #2055.
+State: 2025-06-25 (buhtz)
+
+- Currently not clear. See issue #2055.
+- Code location: `common/snapshots.py::Snapshots.smartRemove()`
+- It seems that it is created only in SSH related modes when "Remove in
+  background" is enabled. It is removed after the remove operation.
+- Can not find a location in code for the existence of this file is
+  checked. The assumption is, that it is part of an uncomplete
+  feature/behavior.
 
 ## See also
 
