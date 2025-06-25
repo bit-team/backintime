@@ -10,10 +10,10 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
 # Script should return 0 if everything is alright. Returncode !0 will cancel
-# the running snapshot (BIT version >1.1.0).
+# the running backup (BIT version >1.1.0).
 
 # This script is meant for debugging purposes only (to check when
-# and how the backup process is started and snapshots are taken.
+# and how the backup process is started and backup are taken.
 # You can also add further checks (eg. check for existing mounts
 # or readable paths to diagnose problems with inaccessible mounts).
 
@@ -36,16 +36,16 @@ printLog() {
 }
 
 case $reason in
-    1) #Backup process begins
+    1) # Backup process begins
         printLog "1 - backup process begins"
         ;;
-    2) #Backup process ends
+    2) # Backup process ends
         printLog "2 - backup process ends"
         ;;
-    3) #A new snapshot was taken
+    3) # A new backup was taken
         snapshot_id="$4"
         snapshot_name="$5"
-        printLog "3 - snapshot taken (snapshot_id=$snapshot_id - snapshot_name=$snapshot_name)"
+        printLog "3 - backup created (snapshot_id=$snapshot_id - snapshot_name=$snapshot_name)"
         ;;
     4) #There was an error
         errorcode="$4"
