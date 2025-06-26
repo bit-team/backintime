@@ -378,7 +378,7 @@ def _show_qt_debug_info(qapp):
     logger.debug(msg)
 
 
-def createQApplication(app_name=bitbase.APP_NAME)
+def createQApplication(app_name=bitbase.APP_NAME):
 
     global qapp
 
@@ -393,8 +393,6 @@ def createQApplication(app_name=bitbase.APP_NAME)
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
 
     qapp = QApplication(sys.argv)
-
-    qt_platform_name = ''
 
     _show_qt_debug_info(qapp)
 

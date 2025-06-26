@@ -183,7 +183,7 @@ class QtSysTrayIcon:
         pg = progress.ProgressFile(self.config)
         if pg.fileReadable():
             pg.load()
-            percent = pg.intValue('percent')
+            # percent = pg.intValue('percent')
             ## disable progressbar in icon until BiT has it's own icon
             ## fixes bug #902
             # if percent != self.progressBar.value():
@@ -221,7 +221,7 @@ class QtSysTrayIcon:
         cmd = ['backintime-qt',]
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
-        proc = subprocess.Popen(cmd)
+        _proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
         dlg = logviewdialog.LogViewDialog(self, systray = True)
