@@ -303,8 +303,11 @@ class MainWindow(QMainWindow):
 
         # restore position and size
         try:
-            self.move(*state_data.mainwindow_coords)
-            self.resize(*state_data.mainwindow_dims)
+            if state_data.mainwindow_maximized:
+                self.showMaximized()
+            else:
+                self.move(*state_data.mainwindow_coords)
+                self.resize(*state_data.mainwindow_dims)
         except KeyError:
             pass
 
@@ -932,8 +935,11 @@ class MainWindow(QMainWindow):
             self.places.header().sortIndicatorSection(),
             self.places.header().sortIndicatorOrder().value,
         )
-        state_data.mainwindow_coords = (self.x(), self.y())
-        state_data.mainwindow_dims = (self.width(), self.height())
+        if self.isMaximized():
+            state_data.set_mainwindow_maximized()
+        else:
+            state_data.mainwindow_coords = (self.x(), self.y())
+            state_data.mainwindow_dims = (self.width(), self.height())
         state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
         state_data.mainwindow_second_splitter_widths \
             = self.secondSplitter.sizes()
@@ -2242,7 +2248,7 @@ class MainWindow(QMainWindow):
                 'The following backup profiles are using an explicitly '
                 'configured SSH cipher.',
                 '{profiles}',
-                'Setting a cipher diretly within Back In Time is '
+                'Setting a cipher directly within Back In Time is '
                 'deprecated and will be removed in future versions.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
