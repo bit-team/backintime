@@ -202,13 +202,22 @@ class GeneralTab(QDialog):
 
         grid = QGridLayout()
 
+        # Used for SSH passphrase & Encfs password
         self.lblPassword1 = QLabel(_('Password'), self)
         self.txtPassword1 = QLineEdit(self)
         self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
 
+        # Used for Encfs password in "ssh encrypted" mode *rofl*
         self.lblPassword2 = QLabel(_('Password'), self)
         self.txtPassword2 = QLineEdit(self)
         self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
+
+        # # DEBUG
+        # if logger.DEBUG:
+        #     self.lblPassword1.setToolTip('password 1')
+        #     self.txtPassword1.setToolTip('password 1')
+        #     self.lblPassword2.setToolTip('password 2')
+        #     self.txtPassword2.setToolTip('password 2')
 
         grid.addWidget(self.lblPassword1, 0, 0)
         grid.addWidget(self.txtPassword1, 0, 1)
@@ -293,6 +302,31 @@ class GeneralTab(QDialog):
         """Workaround. Remove until import of icon module is solved."""
         return self._parent_dialog.icon
 
+    def _load_passwords(self):
+        """A workaround to fix #2093 until the widgets are refactored and
+        redesigned.
+        """
+        # password
+        password_1 = self.config.password(
+            mode=self.mode, pw_id=1, only_from_keyring=True)
+        password_2 = self.config.password(
+            mode=self.mode, pw_id=2, only_from_keyring=True)
+
+        if password_1 is None:
+            password_1 = ''
+
+        if password_2 is None:
+            password_2 = ''
+
+        self.txtPassword1.setText(password_1)
+        self.txtPassword2.setText(password_2)
+
+        self.cbPasswordSave.setChecked(
+            self.keyringSupported and self.config.passwordSave(mode=self.mode))
+
+        self.cbPasswordUseCache.setChecked(
+            self.config.passwordUseCache(mode=self.mode))
+
     def load_values(self) -> Any:
         """Set the values of the widgets regarding the current config."""
 
@@ -314,26 +348,7 @@ class GeneralTab(QDialog):
         if self.mode == 'local_encfs':
             self.editSnapshotsPath.setText(self.config.localEncfsPath())
 
-        # password
-        password_1 = self.config.password(
-            mode=self.mode, pw_id=1, only_from_keyring=True)
-        password_2 = self.config.password(
-            mode=self.mode, pw_id=2, only_from_keyring=True)
-
-        if password_1 is None:
-            password_1 = ''
-
-        if password_2 is None:
-            password_2 = ''
-
-        self.txtPassword1.setText(password_1)
-        self.txtPassword2.setText(password_2)
-
-        self.cbPasswordSave.setChecked(
-            self.keyringSupported and self.config.passwordSave(mode=self.mode))
-
-        self.cbPasswordUseCache.setChecked(
-            self.config.passwordUseCache(mode=self.mode))
+        self._load_passwords()
 
         host, user, profile = self.config.hostUserProfile()
         self.txtHost.setText(host)
@@ -688,7 +703,6 @@ class GeneralTab(QDialog):
         # note: self.modeLocalEncfs = self.modeLocal
         # note: self.modeSshEncfs = self.modeSsh
         if active_mode != self.mode:
-            # logger.debug(f'{active_mode=} {self.mode=}')
             # # DevNote (buhtz): Widgets of the GUI related to the four
             # # snapshot modes are acccesed via "getattr(self, ...)".
             # # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
@@ -730,6 +744,7 @@ class GeneralTab(QDialog):
                 self.lblPassword2.hide()
                 self.txtPassword2.hide()
 
+            self._load_passwords()
         else:
             self.groupPassword1.hide()
 
