@@ -123,43 +123,42 @@ class EncFS_mount(MountControl):
         cfg = self.configFile()
 
         if os.path.isfile(cfg):
-            logger.debug(f'Found encfs config in {cfg}', self)
+            logger.debug(f'Found EncFS config in {cfg}', self)
             return True
 
-        else:
-            logger.debug(f'No encfs config in {cfg}', self)
-            msg = _('Configuration for the encrypted directory not found.')
+        logger.debug(f'No EncFS config in {cfg}', self)
+        msg = _('Configuration for the encrypted directory not found.')
 
-            if not self.tmp_mount:
-                raise MountException(msg)
+        if not self.tmp_mount:
+            raise MountException(msg)
 
-            else:
-                question = '{}\n{}'.format(
-                    msg,
-                    _('Create a new encrypted directory?')
-                )
+        question = '{}\n{}'.format(
+            msg,
+            _('Create a new encrypted directory?')
+        )
 
-                if not self.config.askQuestion(question):
-                    # TODO
-                    # This string can appear in a "critical" message dialog.
-                    # Let us know the steps to reproduce that behavior.
-                    raise MountException(_('Cancel'))
+        if not self.config.askQuestion(question):
+            # TODO
+            # This string can appear in a "critical" message dialog.
+            # Let us know the steps to reproduce that behavior.
+            raise MountException(_('Cancel'))
 
-                else:
-                    pw = password.Password(self.config)
-                    password_confirm = pw.passwordFromUser(
-                        self.parent,
-                        prompt=_('Please confirm the password.'))
+        pw = password.Password(self.config)
+        password_confirm = pw.passwordFromUser(
+            self.parent,
+            prompt=_('Please re-enter the EncFS password to confirm.'))
 
-                    if self.password == password_confirm:
-                        return False
+        if self.password == password_confirm:
+            return False
 
-                    else:
-                        raise MountException(_("Password doesn't match."))
+        raise MountException(
+            _('The EncFS passwords do not match.'))
 
     def checkVersion(self):
         """Check encfs version.
         1.7.2 had a bug with --reverse that will create corrupt files
+
+        Dev note (buhtz, 2025-06): EncFS itself is scheduled for removal.
 
         Dev note (buhtz, 2024-05): Looking at upstream it seems that the 1.7.2
         release was widthdrawn. The release before and after are from the year
