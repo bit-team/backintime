@@ -89,7 +89,7 @@ class SettingsDialog(QDialog):
         self.mainLayout.addWidget(self.tabs)
 
         # occupy whole space for tabs
-        scrollButtonDefault = self.tabs.usesScrollButtons()
+        # scrollButtonDefault = self.tabs.usesScrollButtons()
         self.tabs.setUsesScrollButtons(False)
 
         def _add_tab(wdg: QWidget, label: str):

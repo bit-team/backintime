@@ -315,29 +315,28 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0602',  # undefined-variable
             'E1101',  # no-member
             'I0021',  # useless-suppression
+            'R0801',  # duplicate-code
+            # 'W0221',  # arguments-differ
+            'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
+            'W0404',  # reimported
             'W0611',  # unused-import
+            'W0612',  # unused-variable
+            'W0614',  # unused-wildcard-import
+            'W0707',  # raise-missing-from
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement
+            'W4902',  # deprecated-method
+            'W4904',  # deprecated-class
 
             # Enable asap. This list is selection of existing (not all!)
             # problems currently exiting in the BIT code base. Quit easy to fix
             # because there count is low.
             # 'R0202',  # no-classmethod-decorator
             # 'R0203',  # no-staticmethod-decorator
-            'R0801',  # duplicate-code
             # 'W0123',  # eval-used
-            # 'W0237',  # arguments-renamed
-            # 'W0221',  # arguments-differ
-            # 'W0404',  # reimported
-            # 'W4902',  # deprecated-method
-            # 'W4904',  # deprecated-class
             # 'W0603',  # global-statement
-            # 'W0614',  # unused-wildcard-import
-            # 'W0611',  # unused-import
-            # 'W0612',  # unused-variable
-            # 'W0707',  # raise-missing-from
         ]
 
         cmd = create_pylint_cmd(err_codes)

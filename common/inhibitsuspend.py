@@ -103,7 +103,7 @@ class InhibitSuspend:
                 'sleep', self.app_id, self.reason, "block").take()
 
         except dbus.DBusException as exc:
-            logger.error(f'Inhibition (via "login1") failed: {exc}')
+            logger.debug(f'Inhibition (via "login1") failed: {exc}')
             return False
 
         self.file_descs.append(file_desc)
@@ -128,7 +128,7 @@ class InhibitSuspend:
             self.cookie = self.interface.Inhibit(*args)
 
         except dbus.DBusException as exc:
-            logger.error(f'Inhibition (via "{bus_name}") failed: {exc}')
+            logger.debug(f'Inhibition (via "{bus_name}") failed: {exc}')
             return False
 
         return True
@@ -171,14 +171,26 @@ class InhibitSuspend:
         )
 
     def __enter__(self):
+        failed = []
         for name, inhibit in self.providers.items():
-            logger.debug(f'Try inhibiting suspend mode via "{name}"')
+            # logger.debug(f'Try inhibiting suspend mode via "{name}"')
 
-            if inhibit():
+            result = inhibit()
+
+            if result:
                 logger.info(f'Suspend mode inhibited via "{name}"')
-                return self
+                break
 
-        logger.error('Inhibiting suspend mode failed.')
+            failed.append(name)
+
+        result = True
+        if failed:
+            if result:
+                logger.debug('Inhibiting suspend mode failed '
+                             f'beforehand with {failed}')
+            else:
+                logger.error('Inhibiting suspend mode failed. '
+                             f'Tried with {failed}')
 
         return self
 
