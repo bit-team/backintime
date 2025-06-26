@@ -210,6 +210,13 @@ class GeneralTab(QDialog):
         self.txtPassword2 = QLineEdit(self)
         self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
 
+        # DEBUG
+        if logger.DEBUG:
+            self.lblPassword1.setToolTip('password 1')
+            self.txtPassword1.setToolTip('password 1')
+            self.lblPassword2.setToolTip('password 2')
+            self.txtPassword2.setToolTip('password 2')
+
         grid.addWidget(self.lblPassword1, 0, 0)
         grid.addWidget(self.txtPassword1, 0, 1)
         grid.addWidget(self.lblPassword2, 1, 0)
@@ -314,11 +321,26 @@ class GeneralTab(QDialog):
         if self.mode == 'local_encfs':
             self.editSnapshotsPath.setText(self.config.localEncfsPath())
 
+        self._load_passwords()
+
+        host, user, profile = self.config.hostUserProfile()
+        self.txtHost.setText(host)
+        self.txtUser.setText(user)
+        self.txt_profile.setText(profile)
+
+        # Schedule
+        self._wdg_schedule.load_values(self.config)
+
+    def _load_passwords(self):
+        """A workaround to fix #2093 until the widgets are refactored and
+        redesigned.
+        """
         # password
         password_1 = self.config.password(
             mode=self.mode, pw_id=1, only_from_keyring=True)
         password_2 = self.config.password(
             mode=self.mode, pw_id=2, only_from_keyring=True)
+        print(f'_load_passwords() :: {password_1=} {password_2=}')
 
         if password_1 is None:
             password_1 = ''
@@ -335,13 +357,6 @@ class GeneralTab(QDialog):
         self.cbPasswordUseCache.setChecked(
             self.config.passwordUseCache(mode=self.mode))
 
-        host, user, profile = self.config.hostUserProfile()
-        self.txtHost.setText(host)
-        self.txtUser.setText(user)
-        self.txt_profile.setText(profile)
-
-        # Schedule
-        self._wdg_schedule.load_values(self.config)
 
     def store_values(self) -> bool:
         """Store the tab's values into the config instance.
@@ -679,7 +694,9 @@ class GeneralTab(QDialog):
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
+        print('y'*100)  # DEBUG
         active_mode = self.get_active_snapshots_mode()
+        print(f'handle_combo_modes_changed() :: {active_mode=}')
 
         state_data = StateData()
         profile_state = state_data.profile(self.config.currentProfile())
@@ -688,7 +705,7 @@ class GeneralTab(QDialog):
         # note: self.modeLocalEncfs = self.modeLocal
         # note: self.modeSshEncfs = self.modeSsh
         if active_mode != self.mode:
-            # logger.debug(f'{active_mode=} {self.mode=}')
+            logger.debug(f'{active_mode=} {self.mode=}')
             # # DevNote (buhtz): Widgets of the GUI related to the four
             # # snapshot modes are acccesed via "getattr(self, ...)".
             # # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
@@ -730,6 +747,7 @@ class GeneralTab(QDialog):
                 self.lblPassword2.hide()
                 self.txtPassword2.hide()
 
+            self._load_passwords()
         else:
             self.groupPassword1.hide()
 
