@@ -35,7 +35,6 @@ import qttools
 import backintime
 import bitbase
 import config
-import tools
 import logger
 import snapshots
 import guiapplicationinstance
@@ -146,7 +145,7 @@ class MainWindow(QMainWindow):
         # right widget
         self.filesWidget = QGroupBox(self)
         filesLayout = QVBoxLayout(self.filesWidget)
-        left, top, right, bottom = filesLayout.getContentsMargins()
+        right = filesLayout.getContentsMargins()[2]
         filesLayout.setContentsMargins(0, 0, right, 0)
 
         # main splitter
@@ -1368,7 +1367,7 @@ class MainWindow(QMainWindow):
 
         else:
             for sid in self.snapshotsList:
-                item = self.timeLine.addSnapshot(sid)
+                self.timeLine.addSnapshot(sid)
             self.timeLine.checkSelection()
 
     def btnTakeSnapshotClicked(self):
@@ -1562,7 +1561,7 @@ class MainWindow(QMainWindow):
                                 stdout = subprocess.PIPE,
                                 universal_newlines = True,
                                 env = env)
-        out, err = proc.communicate()
+        out, _err = proc.communicate()
         messagebox.showInfo(self, 'Manual Page {}'.format(man_page), out)
 
     def btnShowHiddenFilesToggled(self, checked):
@@ -1759,7 +1758,7 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def btnSnapshotsClicked(self):
-        path, idx = self.fileSelected(fullPath = True)
+        path, _idx = self.fileSelected(fullPath = True)
 
         with self.suspendMouseButtonNavigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
@@ -1798,7 +1797,7 @@ class MainWindow(QMainWindow):
             self.updateFilesView(0)
 
     def btnOpenCurrentItemClicked(self):
-        path, idx = self.fileSelected()
+        path, _idx = self.fileSelected()
 
         if not path:
             return
@@ -1936,7 +1935,7 @@ class MainWindow(QMainWindow):
 
         # try to keep old selected file
         if selected_file is None:
-            selected_file, idx = self.fileSelected()
+            selected_file, _idx = self.fileSelected()
 
         self.selected_file = selected_file
 
@@ -2560,13 +2559,13 @@ def load_state_data(cfg: config.Config) -> None:
 
     try:
         # load file
-        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
+        StateData(json.loads(fp.read_text(encoding='utf-8')))
 
     except FileNotFoundError:
         logger.debug('State file not found. Using config file and migrate it'
                      'into a state file.')
         fp.parent.mkdir(parents=True, exist_ok=True)
-        state_data = _get_state_data_from_config(cfg)
+        _get_state_data_from_config(cfg)
 
     except json.decoder.JSONDecodeError as exc:
         logger.warning(f'Unable to read and decode state file "{fp}". '
@@ -2580,7 +2579,7 @@ def load_state_data(cfg: config.Config) -> None:
             logger.debug(f'{exc_raw=}')
 
         # Empty state data with default values
-        state_data = StateData()
+        StateData()
 
 
 if __name__ == '__main__':

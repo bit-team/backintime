@@ -19,6 +19,7 @@
 import os
 import sys
 import re
+import json
 import textwrap
 from typing import Union, Iterable
 from PyQt6.QtGui import QDesktopServices, QFont, QIcon
@@ -341,7 +342,43 @@ def getOpenFileName(parent, title, start_dir = None):
     return str()
 
 
-def createQApplication(app_name='Back In Time'):
+def _show_qt_debug_info(qapp):
+    if not logger.DEBUG:
+        return
+
+    try:
+        info = {
+            # The platform name indicates eg. wayland vs. X11, see also:
+            # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+            # For more details see our X11/Wayland/Qt documentation in the
+            # directory doc/maintain
+            'QT QPA platform plugin': qapp.platformName(),
+            'QT_QPA_PLATFORMTHEME': 
+                os.environ.get('QT_QPA_PLATFORMTHEME', '<not set>'),
+                # styles and themes determine the look & feel of the GUI
+            'QT_STYLE_OVERRIDE':
+                os.environ.get('QT_STYLE_OVERRIDE', '<not set>'),
+            'QT active style': qapp.style().objectName(),
+            'QT fallback style': QIcon.fallbackThemeName(),
+            'QT supported styles': QStyleFactory.keys(),
+            'themeSearchPaths': QIcon.themeSearchPaths(),
+            'fallbackSearchPaths': QIcon.fallbackSearchPaths(),
+            # The Back In Time system tray icon can only be shown if the desktop
+            # environment supports this
+            'Is SystemTray available':
+                QSystemTrayIcon.isSystemTrayAvailable(),
+        }
+
+        # msg = '\n' + json.dumps(info, indent=4)
+        msg = json.dumps(info)
+
+    except Exception as exc:
+        msg = f'Error reading QT QPA platform plugin or style: {exc}'
+
+    logger.debug(msg)
+
+
+def createQApplication(app_name=bitbase.APP_NAME):
 
     global qapp
 
@@ -357,43 +394,13 @@ def createQApplication(app_name='Back In Time'):
 
     qapp = QApplication(sys.argv)
 
-    qt_platform_name = ""
-
-    try:
-        # The platform name indicates eg. wayland vs. X11, see also:
-        # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-        # For more details see our X11/Wayland/Qt documentation in the
-        # directory doc/maintain
-        qt_platform_name = qapp.platformName()
-        logger.debug(f"QT QPA platform plugin: {qt_platform_name}")
-        logger.debug(
-            "QT_QPA_PLATFORMTHEME="
-            f"{os.environ.get('QT_QPA_PLATFORMTHEME') or '<not set>'}")
-
-        # styles and themes determine the look & feel of the GUI
-        logger.debug(
-            "QT_STYLE_OVERRIDE="
-            f"{os.environ.get('QT_STYLE_OVERRIDE') or '<not set>'}")
-        logger.debug(f"QT active style: {qapp.style().objectName()}")
-        logger.debug(f"QT fallback style: {QIcon.fallbackThemeName()}")
-        logger.debug(f"QT supported styles: {QStyleFactory.keys()}")
-        logger.debug(f"themeSearchPaths: {str(QIcon.themeSearchPaths())}")
-        logger.debug(
-            f"fallbackSearchPaths: {str(QIcon.fallbackSearchPaths())}")
-
-        # The Back In Time system tray icon can only be shown if the desktop
-        # environment supports this
-        logger.debug("Is SystemTray available: "
-                     f"{str(QSystemTrayIcon.isSystemTrayAvailable())}")
-
-    except Exception as e:
-        logger.debug(
-            f"Error reading QT QPA platform plugin or style: {repr(e)}")
+    _show_qt_debug_info(qapp)
 
     # Release Candidate indicator
     if version.IS_RELEASE_CANDIDATE:
         app_name = f'{app_name} -- RELEASE CANDIDATE -- ' \
                    f'({version.__version__})'
+
     elif version.IS_UNSTABLE_DEV_VERSION:
         app_name = f'{app_name} -- UNSTABLE DEVELOPMENT ' \
                    f'VERSION -- ({version.__version__})'
@@ -405,17 +412,14 @@ def createQApplication(app_name='Back In Time'):
 
         if tools.isRoot():
             qapp.setApplicationName(app_name + " (root)")
-            logger.debug("Trying to set App ID for root user")
             qapp.setDesktopFileName("backintime-qt-root")
 
         else:
-            logger.debug("Trying to set App ID for non-privileged user")
             qapp.setDesktopFileName("backintime-qt")
 
-    except Exception as e:
-        logger.warning(
-            "Could not set App ID (required for Wayland App icon and more)")
-        logger.warning("Reason: " + repr(e))
+    except Exception as exc:
+        logger.warning('Could not set App ID (required for Wayland App icon '
+                       f'and more). Reason: {exc}')
 
     if (os.geteuid() == 0
             and qapp.style().objectName().lower() == 'windows'
@@ -428,7 +432,7 @@ def createQApplication(app_name='Back In Time'):
     if logger.DEBUG:
         qapp.setApplicationName(
             f'{qapp.applicationName()} '
-            f'[QT QPA platform: "{qt_platform_name}"]')
+            f'[QT QPA platform: "{qapp.platformName()}"]')
 
     return qapp
 
