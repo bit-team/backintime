@@ -14,7 +14,11 @@ Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
 import subprocess
+from typing import Callable
 import logger
+import tools
+from bitbase import ScheduleMode, TimeUnit
+from exceptions import InvalidChar, InvalidCmd, LimitExceeded
 
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
 """The string is used in crontab file to mark entries as owned by Back
@@ -209,3 +213,121 @@ def is_cron_running():
             return False
 
     return True
+
+
+def add_udev_rule(pid: str,
+                  udev_setup: tools.SetupUdev,
+                  dest_path: str,
+                  exec_command: str,
+                  notify_callback: Callable
+                  ):
+    """Initiate adding udev rule for profile."""
+
+    if not udev_setup.isReady:
+        logger.error(
+            f'Failed to install Udev rule for profile {pid}. DBus Service '
+            '"net.launchpad.backintime.serviceHelper" not available')
+
+        notify_callback(_(
+            "Could not install Udev rule for profile {profile_id}. "
+            "DBus Service '{dbus_interface}' wasn't available."
+        ).format(
+            profile_id=pid,
+            dbus_interface='net.launchpad.backintime.serviceHelper'))
+
+        return
+
+    uuid = tools.uuidFromPath(dest_path)
+
+    if uuid is None:
+        logger.error(
+            f"Couldn't find UUID for \"{dest_path}\"")
+        notify_callback(_("Couldn't find UUID for {path}").format(
+            path=f'"{dest_path}"'))
+
+        return
+
+    try:
+        udev_setup.addRule(exec_command, uuid)
+
+    except (InvalidChar, InvalidCmd, LimitExceeded) as exc:
+        logger.error(str(exc))
+        notify_callback(str(exc))
+
+
+# pylint: disable-next=too-many-arguments,too-many-positional-arguments
+def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+                     cron_command: str,
+                     hour: int,
+                     minute: int,
+                     day: int,
+                     weekday: int,
+                     offset: str,
+                     custom_backup_time: str,
+                     repeat_unit: TimeUnit,
+                     pid: str,
+                     notify_callback: Callable) -> str:
+    """Create a crontab line based on the given arguments.
+
+    Returns:
+        A crontab line or `None` in case of errors or unscheduled profiles.
+    """
+    try:
+        return _simple_cron_line(
+            schedule_mode=schedule_mode,
+            minute=minute,
+            hour=hour,
+            offset=offset,
+            day=day,
+            weekday=weekday,
+            cmd=cron_command)
+    except KeyError:
+        pass
+
+    if ScheduleMode.DISABLED is schedule_mode:
+        # Might raise an exception?
+        return ''
+
+    if ScheduleMode.CUSTOM_HOUR is schedule_mode:
+        return f'{offset}  {custom_backup_time} * * * {cron_command}'
+
+    if ScheduleMode.REPEATEDLY is schedule_mode:
+        if repeat_unit.value <= TimeUnit.DAY.value:
+            return f'*/15 * * * * {cron_command}'
+
+        return f'0 * * * * {cron_command}'
+
+    msg = (f'Unexpected error while creating cron line for profile "{pid}" '
+           f'with schedule mode "{schedule_mode}".')
+    logger.error(msg)
+    notify_callback(msg)
+
+    return None
+
+
+# pylint: disable-next=too-many-arguments,too-many-positional-arguments
+def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+                      minute,  # pylint: disable=unused-argument
+                      hour,  # pylint: disable=unused-argument
+                      offset,  # pylint: disable=unused-argument
+                      day,  # pylint: disable=unused-argument
+                      weekday,  # pylint: disable=unused-argument
+                      cmd  # pylint: disable=unused-argument
+                      ) -> str:
+    result = {
+        ScheduleMode.AT_EVERY_BOOT: '@reboot {cmd}',
+        ScheduleMode.MINUTES_5: '*/5 * * * * {cmd}',
+        ScheduleMode.MINUTES_10: '*/10 * * * * {cmd}',
+        ScheduleMode.MINUTES_30: '*/30 * * * * {cmd}',
+        ScheduleMode.HOUR_1: '{offset} * * * * {cmd}',
+        ScheduleMode.HOURS_2: '{offset} */2 * * * {cmd}',
+        ScheduleMode.HOURS_4: '{offset} */4 * * * {cmd}',
+        ScheduleMode.HOURS_6: '{offset} */6 * * * {cmd}',
+        ScheduleMode.HOURS_12: '{offset} */12 * * * {cmd}',
+        ScheduleMode.DAY: '{minute} {hour} * * * {cmd}',
+        ScheduleMode.WEEK: '{minute} {hour} * * {weekday} {cmd}',
+        ScheduleMode.MONTH: '{minute} {hour} {day} * * {cmd}',
+        ScheduleMode.YEAR: '{minute} {hour} 1 1 * {cmd}',
+    }[schedule_mode]
+
+    return result.format(**locals())

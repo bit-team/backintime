@@ -47,17 +47,22 @@ full_test_files = [_base_dir / fp for fp in (
     # 'cliarguments.py',
     # 'clicommands.py',
     'daemon.py',
+    'event.py',
     'languages.py',
     'inhibitsuspend.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
     'ssh_max_arg.py',
+    'storagesize.py',
     'version.py',
     'test/test_args.py',
+    'test/test_diagnostics.py',
+    'test/test_languages.py',
     'test/test_lint.py',
     'test/test_mount.py',
     'test/test_singleton.py',
+    'test/test_storagesize.py',
     'test/test_uniquenessset.py',
 )]
 
@@ -172,7 +177,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.6.0')
+            version_target = version.parse('0.12.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],

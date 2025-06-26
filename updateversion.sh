@@ -60,23 +60,4 @@ update_app_version () {
   echo "Update '$1'"
   sed --expression="s/^\(\s*\)__version__ = '.*'$/\1__version__ = '$VERSION'/" --in-place $1
 }
-
-update_man_page () {
-  echo "Update '$1'"
-  sed --expression="s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION_WITHOUT_BRANCH\"\3/" --in-place $1
-}
-
-update_omf () {
-  echo "Update '$1'"
-  sed --expression "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" --in-place $1
-}
-
 update_app_version common/version.py
-
-update_man_page common/man/C/backintime.1
-
-update_man_page common/man/C/backintime-config.1
-
-update_man_page common/man/C/backintime-askpass.1
-
-update_man_page qt/man/C/backintime-qt.1

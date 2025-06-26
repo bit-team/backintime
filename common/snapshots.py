@@ -22,7 +22,6 @@ import bz2
 import pwd
 import getpass
 import grp
-import subprocess
 import shutil
 import time
 import re
@@ -37,6 +36,7 @@ import progress
 import snapshotlog
 import flock
 import bitbase
+from storagesize import StorageSize
 from typing import Generator
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
@@ -367,14 +367,17 @@ class Snapshots:
                                 or ``False`` if it failed
             msg (str):          message that should be send to callback
         """
-        if not callback is None:
-            if not ok:
-                # TODO
-                # This string might appear in a message dialog.
-                # Let us know the steps to reproduce that behavior.
-                msg = msg + ' : ' + _('FAILED')
-                self.restorePermissionFailed = True
-            callback(msg)
+        if callback is None:
+            return
+
+        if not ok:
+            # TODO
+            # This string might appear in a message dialog.
+            # Let us know the steps to reproduce that behavior.
+            msg = msg + ' : ' + _('FAILED')
+            self.restorePermissionFailed = True
+
+        callback(msg)
 
     def restorePermission(self, key_path, path, fileInfoDict, callback = None):
         """
@@ -540,12 +543,13 @@ class Snapshots:
 
                 src_path = '/' + items[1]
 
-                if items[0] == '/':
-                    src_delta = 0
-                else:
-                    src_delta = len(items[0])
+                src_delta = 0 if items[0] == '/' else len(items[0])
 
-            cmd.append(self.rsyncRemotePath('%s.%s' % (src_base, src_path), use_mode=['ssh'], quote=''))
+            cmd.append(
+                self.rsyncRemotePath('%s.%s' % (src_base, src_path),
+                                     use_mode=['ssh'],
+                                     quote='')
+            )
             cmd.append('%s/' % restore_to)
 
             proc = tools.Execute(cmd,
@@ -555,17 +559,19 @@ class Snapshots:
 
             self.restoreCallback(callback, True, proc.printable_cmd)
             proc.run()
+
             self.restoreCallback(callback, True, ' ')
             restored_paths.append((path, src_delta))
 
         try:
             os.remove(self.config.takeSnapshotProgressFile())
+
         except Exception as e:
             logger.debug('Failed to remove snapshot progress file %s: %s'
                          %(self.config.takeSnapshotProgressFile(), str(e)),
                          self)
 
-        #restore permissions
+        # restore permissions
         logger.info('Restore permissions', self)
         self.restoreCallback(callback, True, ' ')
         self.restoreCallback(
@@ -573,71 +579,81 @@ class Snapshots:
         self.restorePermissionFailed = False
         fileInfoDict = sid.fileInfo
 
-        #cache uids/gids
+        # cache uids/gids
         for uid, name in info.listValue('user', ('int:uid', 'str:name')):
             self.uid(name.encode(), callback = callback, backup = uid)
+
         for gid, name in info.listValue('group', ('int:gid', 'str:name')):
             self.gid(name.encode(), callback = callback, backup = gid)
 
         if fileInfoDict:
-            all_dirs = [] #restore dir permissions after all files are done
+            # restore dir permissions after all files are done
+            all_dirs = []
+
             for path, src_delta in restored_paths:
-                #explore items
+                # explore items
                 snapshot_path_to = sid.pathBackup(path).rstrip('/')
                 root_snapshot_path_to = sid.pathBackup().rstrip('/')
-                #use bytes instead of string from here
+
+                # use bytes instead of string from here
                 if isinstance(path, str):
                     path = path.encode()
+
                 if isinstance(restore_to, str):
                     restore_to = restore_to.encode()
 
                 if not restore_to:
                     path_items = path.strip(b'/').split(b'/')
                     curr_path = b'/'
+
                     for path_item in path_items:
                         curr_path = os.path.join(curr_path, path_item)
+
                         if curr_path not in all_dirs:
                             all_dirs.append(curr_path)
                 else:
                     if path not in all_dirs:
                         all_dirs.append(path)
 
-                if os.path.isdir(snapshot_path_to) and not os.path.islink(snapshot_path_to):
+                if os.path.isdir(snapshot_path_to)  \
+                       and not os.path.islink(snapshot_path_to):
+
                     head = len(root_snapshot_path_to.encode())
-                    for explore_path, dirs, files in os.walk(snapshot_path_to.encode()):
+
+                    for explore_path, dirs, files \
+                            in os.walk(snapshot_path_to.encode()):
+
                         for item in dirs:
                             item_path = os.path.join(explore_path, item)[head:]
+
                             if item_path not in all_dirs:
                                 all_dirs.append(item_path)
 
                         for item in files:
                             item_path = os.path.join(explore_path, item)[head:]
                             real_path = restore_to + item_path[src_delta:]
-                            self.restorePermission(item_path, real_path, fileInfoDict, callback)
+                            self.restorePermission(
+                                item_path, real_path, fileInfoDict, callback)
 
             all_dirs.reverse()
+
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
-                self.restorePermission(item_path, real_path, fileInfoDict, callback)
+                self.restorePermission(
+                    item_path, real_path, fileInfoDict, callback)
 
             self.restoreCallback(callback, True, '')
-
-            if self.restorePermissionFailed:
-                # TODO
-                # This string might appear in a message dialog.
-                # Let us know the steps to reproduce that behavior.
-                status = _('FAILED')
-
-            else:
-                # TODO
-                # This string might appear in a message dialog.
-                # Let us know the steps to reproduce that behavior.
-                status = _('Done')
 
             self.restoreCallback(
                 callback,
                 True,
-                '{}: {}'.format(_('Restore permissions'), status)
+                '{}: {}'.format(
+                    _('Restore permissions'),
+                    # TODO
+                    # This string might appear in a message dialog.
+                    # Let us know the steps to reproduce that behavior.
+                    _('FAILED') if self.restorePermissionFailed else _('Done')
+                )
             )
 
         instance.exitApplication()
@@ -867,6 +883,21 @@ class Snapshots:
                 else:
                     self.config.setCurrentHashId(hash_id)
 
+                # Free space check
+                if self.config.warnFreeSpaceEnabled():
+                    real = self.get_free_space_at_destination()
+
+                    if real is not None:
+                        warn = self.config.warnFreeSpace()
+                        if warn >= real:
+                            msg = f'Only {real} free space available ' \
+                                'on the destination, which is below the ' \
+                                f'configured threshold of {warn}. ' \
+                                'The backup will proceed anyway.'
+                            logger.warning(msg)
+                            self.setTakeSnapshotMessage(1, msg)
+
+                # Include/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()
 
@@ -1907,6 +1938,25 @@ class Snapshots:
                 log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
+    def get_free_space_at_destination(self) -> StorageSize | None:
+        """Free space at destination.
+
+        Return:
+            A StorageSize object holding the value or `None` in case of errors.
+        """
+        # Prepare getting free space value
+        if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
+            # ...on remote host
+            dest_path = self.config.sshSnapshotsFullPath()
+            ssh_cmd = self.config.sshCommand(
+                [], nice=False, ionice=False)
+        else:
+            # ...on local machine
+            dest_path = self.config.snapshotsFullPath()
+            ssh_cmd = None
+
+        return tools.free_space(dest_path, ssh_cmd)
+
     def freeSpace(self, now):
         """Remove old backups based on several rules (if enabled).
 
@@ -1982,9 +2032,11 @@ class Snapshots:
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
-            minFreeSpace = self.config.minFreeSpaceMib()
+            _enabled, minFreeSpace = self.config.minFreeSpaceAsStorageSize()
 
-            logger.debug("Keep min free disk space: {} MiB".format(minFreeSpace), self)
+            logger.debug(
+                f'Keep min free disk space: {minFreeSpace}',
+                self)
 
             snapshots = listSnapshots(self.config, reverse=False)
 
@@ -1992,10 +2044,7 @@ class Snapshots:
                 if len(snapshots) <= 1:
                     break
 
-                free_space = self.statFreeSpaceLocal(self.config.snapshotsFullPath())
-
-                if free_space is None:
-                    free_space = self.statFreeSpaceSsh()
+                free_space = self.get_free_space_at_destination()
 
                 if free_space is None:
                     logger.warning('Failed to get free space. Skipping', self)
@@ -2009,7 +2058,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = "free disk space: {} MiB. Remove backup {}"
+                msg = "free disk space: {}. Remove backup {}"
                 logger.debug(msg.format(free_space, snapshots[0].withoutTag), self)
                 self.remove(snapshots[0])
                 del snapshots[0]
@@ -2063,65 +2112,6 @@ class Snapshots:
         # Set correct last snapshot again
         if last_snapshot is not snapshots[-1]:
             self.createLastSnapshotSymlink(snapshots[-1])
-
-    def statFreeSpaceLocal(self, path):
-        """
-        Get free space on filesystem containing ``path`` in MiB using
-        :py:func:`os.statvfs()`. Depending on remote SFTP server this might fail
-        on sshfs mounted shares.
-
-        Args:
-            path (str): full path
-
-        Returns:
-            int         free space in MiB
-        """
-        try:
-            info = os.statvfs(path)
-            if info.f_blocks != info.f_bavail:
-                return info.f_frsize * info.f_bavail // (1024 * 1024)
-        except Exception as e:
-            logger.debug('Failed to get free space for %s: %s'
-                         %(path, str(e)),
-                         self)
-        logger.warning('Failed to stat snapshot path', self)
-
-    def statFreeSpaceSsh(self):
-        """
-        Get free space on remote filesystem in MiB. This will call ``df`` on
-        remote host and parse its output.
-
-        Returns:
-            int         free space in MiB
-        """
-        if self.config.snapshotsMode() not in ('ssh', 'ssh_encfs'):
-            return None
-
-        snapshots_path_ssh = self.config.sshSnapshotsFullPath()
-
-        if not len(snapshots_path_ssh):
-            snapshots_path_ssh = './'
-
-        cmd = self.config.sshCommand(['df', snapshots_path_ssh],
-                                     nice=False,
-                                     ionice=False)
-
-        df = subprocess.Popen(cmd,
-                              stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE)
-
-        output = df.communicate()[0]
-
-        # Filesystem     1K-blocks      Used Available Use% Mounted on
-        # /tmp           127266564 115596412   5182296  96% /
-        #                                      ^^^^^^^
-        for line in output.split(b'\n'):
-            m = re.match(r'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line.decode(), re.M)
-
-            if m:
-                return int(int(m.group(1)) / 1024)
-
-        logger.warning('Failed to get free space on remote', self)
 
     def filter(self,
                base_sid,

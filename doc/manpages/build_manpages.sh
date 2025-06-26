@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
@@ -20,7 +20,10 @@ adoc_to_manpage () {
     manfile="${adocfile%.adoc}.gz"
 
     echo "Convert $file into $manfile"
-    if ! asciidoctor --backend manpage --attribute=version="$BIT_VERSION" "$file" --out-file=- | gzip --best > "$manfile"; then
+    asciidoctor --backend manpage --attribute=version="$BIT_VERSION" "$file" --out-file=- | gzip --best > "$manfile"
+    # check return codes of asciidoctor & gzip
+    read asciidoctor_return gzip_return _ <<< "${PIPESTATUS[@]}"
+    if (( asciidoctor_return != 0 || gzip_return !=0 )); then
         exit 1
     fi
 
