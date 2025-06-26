@@ -202,20 +202,22 @@ class GeneralTab(QDialog):
 
         grid = QGridLayout()
 
+        # Used for SSH passphrase & Encfs password
         self.lblPassword1 = QLabel(_('Password'), self)
         self.txtPassword1 = QLineEdit(self)
         self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
 
+        # Used for Encfs password in "ssh encrypted" mode *rofl*
         self.lblPassword2 = QLabel(_('Password'), self)
         self.txtPassword2 = QLineEdit(self)
         self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # DEBUG
-        if logger.DEBUG:
-            self.lblPassword1.setToolTip('password 1')
-            self.txtPassword1.setToolTip('password 1')
-            self.lblPassword2.setToolTip('password 2')
-            self.txtPassword2.setToolTip('password 2')
+        # # DEBUG
+        # if logger.DEBUG:
+        #     self.lblPassword1.setToolTip('password 1')
+        #     self.txtPassword1.setToolTip('password 1')
+        #     self.lblPassword2.setToolTip('password 2')
+        #     self.txtPassword2.setToolTip('password 2')
 
         grid.addWidget(self.lblPassword1, 0, 0)
         grid.addWidget(self.txtPassword1, 0, 1)
@@ -340,7 +342,6 @@ class GeneralTab(QDialog):
             mode=self.mode, pw_id=1, only_from_keyring=True)
         password_2 = self.config.password(
             mode=self.mode, pw_id=2, only_from_keyring=True)
-        print(f'_load_passwords() :: {password_1=} {password_2=}')
 
         if password_1 is None:
             password_1 = ''
@@ -694,9 +695,7 @@ class GeneralTab(QDialog):
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
-        print('y'*100)  # DEBUG
         active_mode = self.get_active_snapshots_mode()
-        print(f'handle_combo_modes_changed() :: {active_mode=}')
 
         state_data = StateData()
         profile_state = state_data.profile(self.config.currentProfile())
@@ -705,7 +704,6 @@ class GeneralTab(QDialog):
         # note: self.modeLocalEncfs = self.modeLocal
         # note: self.modeSshEncfs = self.modeSsh
         if active_mode != self.mode:
-            logger.debug(f'{active_mode=} {self.mode=}')
             # # DevNote (buhtz): Widgets of the GUI related to the four
             # # snapshot modes are acccesed via "getattr(self, ...)".
             # # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
