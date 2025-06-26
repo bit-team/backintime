@@ -306,7 +306,7 @@ class UdevRules(dbus.service.Object):
         try:
             # We don't need is_challenge return here, since we call
             # with AllowUserInteraction
-            (is_auth, _, details) = self.polkit.CheckAuthorization(
+            (is_auth, _unknown, _details) = self.polkit.CheckAuthorization(
                 (
                     'system-bus-name',
                     {'name': dbus.String(sender, variant_level=1)}

@@ -1861,6 +1861,7 @@ class Snapshots:
         if self.config.snapshotsMode() in ['ssh', 'ssh_encfs'] and self.config.smartRemoveRunRemoteInBackground():
             logger.info('[smart remove] remove snapshots in background: %s'
                         % del_snapshots, self)
+
             lckFile = os.path.normpath(
                 os.path.join(
                     del_snapshots[0].path(use_mode=['ssh', 'ssh_encfs']),
@@ -1870,6 +1871,7 @@ class Snapshots:
             )
 
             maxLength = self.config.sshMaxArgLength()
+
             if not maxLength:
                 import ssh_max_arg
                 user_host = '%s@%s' % (self.config.sshUser(),
@@ -1894,7 +1896,7 @@ class Snapshots:
             if logger.DEBUG:
                 head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"got exclusive flock\\\"; '
 
-            tail = 'rmdir \\$TMP) 9>\\\"%s\\\""' %lckFile
+            tail = 'rmdir \\$TMP) 9>\\\"%s\\\""' % lckFile
 
             cmds = []
 
@@ -1928,9 +1930,10 @@ class Snapshots:
                                                      quote = False,
                                                      nice = False,
                                                      ionice = False)).run()
+
         else:
             logger.info("[smart remove] remove snapshots: %s"
-                        %del_snapshots, self)
+                        % del_snapshots, self)
 
             for i, sid in enumerate(del_snapshots, 1):
                 log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))

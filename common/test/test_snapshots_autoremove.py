@@ -603,7 +603,7 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
 
 
 class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
-    """Covering the smart remove setting 'Keep the last snapshot for each month
+    """Covering the smart remove setting 'Keep the last backup for each month
     for the last N months'.
 
     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
@@ -715,6 +715,37 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
         self.assertEqual(len(sut), len(expect))
         for idx, expect_date in enumerate(expect):
             self.assertEqual(sut[idx].date.date(), expect_date)
+
+    def test_leap_year(self):
+        """Year 2024 the february has a 29th day."""
+        sids = create_SIDs(
+            [
+                date(2025, 8, 18),
+                date(2024, 6, 30),
+                date(2024, 2, 29),
+                date(2024, 2, 9),
+            ],
+            None,
+            self.cfg
+        )
+        now = sids[0].date.date() + timedelta(days=5)
+
+        months = 24
+        sut = self._org(
+            now=now,
+            n_months=months,
+            snapshots=sids)
+
+        expect = [
+            date(2025, 8, 18),
+            date(2024, 6, 30),
+            date(2024, 2, 29),
+        ]
+
+        self.assertEqual(len(sut), len(expect))
+        for idx, expect_date in enumerate(expect):
+            self.assertEqual(sut[idx].date.date(), expect_date)
+
 
 
 class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):

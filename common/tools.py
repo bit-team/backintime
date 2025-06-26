@@ -2082,9 +2082,12 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
     """
     while cmds:
         s = head
+
         while cmds and ((len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0):
             s += cmds.pop(0)
+
         s += tail
+
         yield s
 
 
