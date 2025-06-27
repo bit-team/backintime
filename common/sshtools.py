@@ -426,6 +426,7 @@ class SSH(MountControl):
 
                 # if backintime-askpass supplied an invalid cached password
                 if proc.returncode > 0:
+                    logger.debug('Cached SSH password invalid')
                     pw = password.Password()
 
                     # pw_id = 1 corresponds to the SSH password
