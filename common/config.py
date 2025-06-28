@@ -367,20 +367,26 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
 
             # check warn free space
-            if self.warnFreeSpaceEnabled(profile_id) \
-                   and self.minFreeSpaceEnabled(profile_id):
+            if (self.warnFreeSpaceEnabled(profile_id)
+                and self.minFreeSpaceEnabled(profile_id)):
 
                 warn = self.warnFreeSpace(profile_id)
                 _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
+                min_free = StorageSize(50, SizeUnit.GIB)  # DEBUG
                 if warn < min_free:
                     self.notifyError(
-                        '{}\n{}'.format(
+                        '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The warning threshold for free space must '
-                              'be greater than or equal to the removing '
-                              'threshold by free space.')))
-
+                            _('The value for "Remove oldest backup if free '
+                              'space is less than" ({val_one}) must be less '
+                              'than or equal the threshold for "Warn if '
+                              'free disk space falls below" ({val_two}).'
+                              ).format(val_one=min_free, val_two=warn),
+                            _('Please adjust the settings so that the backup '
+                              'removal limit is not higher than the '
+                              'warning limit.')
+                        ))
                     return False
 
         return True
@@ -547,7 +553,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def sshPrivateKeyFile_enabled(self, profile_id=None):
         return self.sshPrivateKeyFile(profile_id) is not False
-
 
     def setSshPrivateKeyFile(self, value, profile_id=None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
