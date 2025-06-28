@@ -116,6 +116,9 @@ def update_po_template():
     print(f'Execute "{cmd}".')
     run(cmd, check=True)
 
+    with polib.pofile(TEMPLATE_PO) as pof:
+        print('\n{len(pof)} entries in {TEMPLATE_PO}')
+
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
     """The po files are updated with the source strings from the pot-file (the
@@ -404,9 +407,6 @@ def create_completeness_dict():
 
     # "en" is the source language
     result['en'] = 100
-
-    # info
-    # print(json.dumps(result, indent=4))
 
     return result
 
