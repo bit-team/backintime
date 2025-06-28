@@ -74,6 +74,8 @@ class FileDialog(QFileDialog):
                 else self.FileMode.ExistingFile
             )
 
+        self._multiselect = allow_multiselection
+
     def _add_button_show_hidden(self):
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
@@ -100,16 +102,17 @@ class FileDialog(QFileDialog):
         # toggle the filter
         self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 
-    def result(self) -> str | list[str] | None:
+    def result(self) -> str | list[Path] | None:
         """Show the dialog and return the result.
 
         Returns:
-            One name or list of names.  ``None`` in case the dialog was
+            One path or list of paths.  ``None`` in case the dialog was
             canceled.
         """
         if self.exec() != QDialog.DialogCode.Accepted:
             return None
 
-        result = self.selectedFiles()
+        if self._multiselect:
+            return [Path(fn) for fn in self.selectedFiles()]
 
-        return result[0] if len(result) == 1 else result
+        return Path(self.selectedFiles()[0])

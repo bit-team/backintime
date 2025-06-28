@@ -41,7 +41,7 @@ from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from bitwidgets import HLineWidget
-from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE
+from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
 
 
 class GeneralTab(QDialog):
@@ -141,7 +141,7 @@ class GeneralTab(QDialog):
         self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
         hlayout3.addWidget(self.lblSshPrivateKeyFile)
         self.txtSshPrivateKeyFile = QLineEdit(self)
-        self.txtSshPrivateKeyFile.setReadOnly(True)
+        # self.txtSshPrivateKeyFile.setReadOnly(True)
         hlayout3.addWidget(self.txtSshPrivateKeyFile)
 
         self.btnSshPrivateKeyFile = QToolButton(self)
@@ -341,8 +341,20 @@ class GeneralTab(QDialog):
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
-        # self.comboSshCipher.select_by_data(self.config.sshCipher())
-        self.txtSshPrivateKeyFile.setText(self.config.sshPrivateKeyFile())
+
+        # SSH: Priate key file
+        val = self.config.sshPrivateKeyFile()
+        if val == None:
+            # Key no exist. Try default.
+            try:
+                val = str(sshtools.get_private_ssh_key_files()[0])
+            except IndexError:
+                pass
+        elif val == False:
+            # Disabled. Not using explicit ssh keys.
+            val = 'False'
+
+        self.txtSshPrivateKeyFile.setText(val)
 
         # local_encfs
         if self.mode == 'local_encfs':
@@ -401,29 +413,13 @@ class GeneralTab(QDialog):
         # SSH key file
         if mode in ('ssh', 'ssh_encfs'):
 
-            if not self.txtSshPrivateKeyFile.text():
+            val = self.txtSshPrivateKeyFile.text()
 
-                question = '{}\n{}'.format(
-                        _('A private key file for SSH was not chosen.'),
-                        _('Should a new password-less public/private key '
-                          'pair be generated?'))
-                answer = messagebox.warningYesNo(self, question)
-                answer = answer == QMessageBox.StandardButton.Yes
-                if answer:
-                    self.btnSshKeyGenClicked()
-
-                if not self.txtSshPrivateKeyFile.text():
-                    return False
-
-            if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
-                msg = _('Private key file "{file}" does not exist.') \
-                    .format(file=self.txtSshPrivateKeyFile.text())
-                messagebox.critical(self, msg)
-                self.txtSshPrivateKeyFile.setText('')
-
-                return False
-
-        self.config.setSshPrivateKeyFile(self.txtSshPrivateKeyFile.text())
+            # Disable use of key files
+            if val == 'False':
+                self.config.setSshPrivateKeyFile('')
+            else:
+                self.config.setSshPrivateKeyFile(val)
 
         # save local_encfs
         self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
@@ -641,18 +637,21 @@ class GeneralTab(QDialog):
             self.editSnapshotsPath.setText(self.config.preparePath(path))
 
     def _slot_ssh_private_key_file_clicked(self):
-        old_file = self.txtSshPrivateKeyFile.text()
+        curr_file = self.txtSshPrivateKeyFile.text()
 
-        if old_file:
-            start_dir = self.txtSshPrivateKeyFile.text()
+        if curr_file and curr_file != 'False':
+            start_dir = curr_file
         else:
-            start_dir = self.config.sshPrivateKeyFolder()
-        f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
-        if f:
-            self.txtSshPrivateKeyFile.setText(f)
+            start_dir = DIR_SSH_KEYS
+
+        key_file = qttools.getOpenFileName(
+            self, _('SSH private key'), start_dir)
+
+        if key_file:
+            self.txtSshPrivateKeyFile.setText(str(key_file))
 
     def _slot_ssh_key_gen_clicked(self):
-        priv_key_folder = self.config.sshPrivateKeyFolder()
+        priv_key_folder = DIR_SSH_KEYS
 
         # Workaround
         if isinstance(priv_key_folder, str):

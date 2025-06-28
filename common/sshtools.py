@@ -156,21 +156,21 @@ class SSH(MountControl):
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
-        self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
+        if self.private_key_file is not False:
+            self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
 
-        if not self.private_key_fingerprint:
+            if not self.private_key_fingerprint:
 
-            logger.warning('Couldn\'t get fingerprint for private '
-                           'key %(path)s. '
-                           'Most likely because the public key %(path)s.pub '
-                           'wasn\'t found. Using fallback to private keys '
-                           'path instead. But this can make troubles with '
-                           'passphrase-less keys.'
-                           % {'path': self.private_key_file},
-                           self)
-            self.private_key_fingerprint = self.private_key_file
+                logger.warning("Couldn't get fingerprint for private key "
+                               f'{self.private_key_file}. Most likely because'
+                               f' the public key {self.private_key_file.pub} '
+                               "wasn't found. Using fallback to private keys "
+                               'path instead. But this can make troubles with '
+                               'passphrase-less keys.',
+                               self)
+                self.private_key_fingerprint = self.private_key_file
 
-        self.unlockSshAgent()
+            self.unlockSshAgent()
 
     def _mount(self):
         """
@@ -342,6 +342,9 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException: If unlock failed.
         """
+        if self.private_key_file == False:
+            logger.info('Profile is configured to not using key file.')
+            return
 
         self.startSshAgent()
 
@@ -1234,8 +1237,8 @@ def sshKeyFingerprint(path):
         str:        hex fingerprint from key
     """
 
-    if not os.path.exists(path):
-        return
+    if path is None or os.path.exists(path) is False:
+        return None
 
     cmd = ['ssh-keygen', '-l', '-f', path]
 
@@ -1319,3 +1322,40 @@ def writeKnownHostsFile(key):
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')
+
+
+def get_private_ssh_key_files() -> list[Path]:
+    """Return a list of existing private key files."""
+
+    # folder containing the key files
+    ssh_path = Path.home() / '.ssh'
+
+    # exclude by filename
+    potential_key_files = filter(
+        # irrelevant files
+        lambda fp: fp.name not in (
+            'known_hosts',
+            'authorized_keys',
+            'config',
+            'backup'
+        )
+        # no public keys
+        and fp.suffix  != '.pub',
+        ssh_path.iterdir()
+    )
+
+    result = []
+
+    # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
+    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+
+    # check content
+    for fp in potential_key_files:
+        with fp.open('r', encoding='utf-8') as handle:
+            if rex.match(handle.readline().strip()):
+                result.append(fp)
+
+    # prioritize 'ed25519' keys and move them to the beginning of the list
+    result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)
+
+    return result

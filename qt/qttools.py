@@ -307,7 +307,8 @@ def getExistingDirectory(parent, title, start_dir=None):
     result = dlg.result()
 
     if result:
-        return result
+        return str(result)
+
     return str()
 
 
@@ -323,7 +324,7 @@ def getOpenFileNames(parent, title):
     result = dlg.result()
 
     if result:
-        return result
+        return [str(r) for r in result]
     return [str(), ]
 
 
@@ -338,7 +339,7 @@ def getOpenFileName(parent, title, start_dir = None):
     result = dlg.result()
 
     if result:
-        return result
+        return str(result)
     return str()
 
 
