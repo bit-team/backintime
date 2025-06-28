@@ -66,6 +66,43 @@ class General(generic.SSHTestCase):
         with self.assertRaisesRegex(MountException, r"Could not unlock ssh private key\. Wrong password or password not available for cron\."):
             ssh.unlockSshAgent(force = True)
 
+    def test_unlockSshAgentKeyWithPassword(self):
+        subprocess.run(
+            ['ssh-add', '-D'],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        private_key = os.path.join(
+            self.tmpDir.name,
+            'test_private_key'
+        )
+        private_key_password = 'test_private_key_password'
+
+        # generate temporary test key
+        subprocess.run(
+            [
+                'ssh-keygen',
+                '-f', private_key,
+                '-N', private_key_password
+            ],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        ssh = sshtools.SSH(
+            cfg=self.cfg,
+            private_key_file=private_key,
+            password=private_key_password,
+        )
+        ssh.unlockSshAgent(force=True)
+        ssh_add = subprocess.run(
+            ['ssh-add', '-l'],
+            capture_output=True,
+            text=True,
+        )
+        self.assertIn(ssh.private_key_fingerprint, ssh_add.stdout)
+
     def test_checkLogin(self):
         ssh = sshtools.SSH(cfg = self.cfg)
         ssh.checkLogin()
