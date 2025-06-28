@@ -67,6 +67,8 @@ script:
   - cd common
   - ./configure
   - make
+  # Install to ensure that backintime-askpass is on $PATH
+  - sudo make install
   - pytest --verbose
   - cd ..
   - cd qt

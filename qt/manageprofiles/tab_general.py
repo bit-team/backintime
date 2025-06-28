@@ -138,7 +138,7 @@ class GeneralTab(QDialog):
         self.key_selector = SshKeySelector(
             self,
             self._slot_ssh_private_key_file_clicked,
-            self._slot_ssh_key_gen_clicked
+            self._slot_ssh_key_gen_clicke
         )
         vlayout.addWidget(self.key_selector)
 
@@ -384,7 +384,6 @@ class GeneralTab(QDialog):
 
         # SSH key file
         if mode in ('ssh', 'ssh_encfs'):
-
             key_file = self.key_selector.get_key()
             self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
