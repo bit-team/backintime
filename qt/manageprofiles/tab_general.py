@@ -40,7 +40,9 @@ from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
+from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
+from filedialog import FileDialog
 from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
 
 
@@ -109,8 +111,8 @@ class GeneralTab(QDialog):
         vlayout.addLayout(hlayout1)
         hlayout2 = QHBoxLayout()
         vlayout.addLayout(hlayout2)
-        hlayout3 = QHBoxLayout()
-        vlayout.addLayout(hlayout3)
+        # hlayout3 = QHBoxLayout()
+        # vlayout.addLayout(hlayout3)
 
         self.lblSshHost = QLabel(_('Host:'), self)
         hlayout1.addWidget(self.lblSshHost)
@@ -133,44 +135,17 @@ class GeneralTab(QDialog):
         self.txtSshPath.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txtSshPath)
 
-        # self.lblSshCipher = QLabel(_('Cipher:'), self)
-        # hlayout3.addWidget(self.lblSshCipher)
-        # self.comboSshCipher = self._cipher_combobox()
-        # hlayout3.addWidget(self.comboSshCipher)
-
-        self.lblSshPrivateKeyFile = QLabel(_('Private Key:'), self)
-        hlayout3.addWidget(self.lblSshPrivateKeyFile)
-        self.txtSshPrivateKeyFile = QLineEdit(self)
-        # self.txtSshPrivateKeyFile.setReadOnly(True)
-        hlayout3.addWidget(self.txtSshPrivateKeyFile)
-
-        self.btnSshPrivateKeyFile = QToolButton(self)
-        self.btnSshPrivateKeyFile.setToolButtonStyle(
-            Qt.ToolButtonStyle.ToolButtonIconOnly)
-        self.btnSshPrivateKeyFile.setIcon(self.icon.FOLDER)
-        self.btnSshPrivateKeyFile.setToolTip(
-            _('Choose an existing private key file (normally named '
-              '"id_ed25519" and in older setups "id_rsa").'))
-        self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
-        hlayout3.addWidget(self.btnSshPrivateKeyFile)
-        self.btnSshPrivateKeyFile.clicked \
-            .connect(self._slot_ssh_private_key_file_clicked)
-
-        self.btnSshKeyGen = QToolButton(self)
-        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
-        self.btnSshKeyGen.setIcon(self.icon.ADD)
-        qttools.set_wrapped_tooltip(
-            self.btnSshKeyGen,
-            _('Create a new SSH key without password (not allowed if a '
-              'private key file is already selected).')
+        group_box = QGroupBox(self)
+        group_box.setTitle(_('Key file:'))
+        group_layout = QVBoxLayout()
+        group_box.setLayout(group_layout)
+        self.key_selector = SshKeySelector(
+            self,
+            self._slot_ssh_private_key_file_clicked,
+            self._slot_ssh_key_gen_clicked
         )
-        self.btnSshKeyGen.setMinimumSize(32, 28)
-        hlayout3.addWidget(self.btnSshKeyGen)
-        self.btnSshKeyGen.clicked.connect(self._slot_ssh_key_gen_clicked)
-
-        # Disable SSH key generation button if a key file is already set
-        self.txtSshPrivateKeyFile.textChanged \
-            .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
+        group_layout.addWidget(self.key_selector)
+        vlayout.addWidget(group_box)
 
         # Align the width of that three labels
         width = max(
@@ -344,17 +319,20 @@ class GeneralTab(QDialog):
 
         # SSH: Priate key file
         val = self.config.sshPrivateKeyFile()
-        if val == None:
-            # Key no exist. Try default.
-            try:
-                val = str(sshtools.get_private_ssh_key_files()[0])
-            except IndexError:
-                pass
-        elif val == False:
-            # Disabled. Not using explicit ssh keys.
-            val = 'False'
 
-        self.txtSshPrivateKeyFile.setText(val)
+        if val is False:
+            # using key is disabled
+            val = None
+
+        elif val is None:
+            # Select key by default if present
+            try:
+                val = sshtools.get_private_ssh_key_files()[0]
+            except IndexError:
+                # no key available
+                pass
+
+        self.key_selector.set_key(Path(val) if val else val)
 
         # local_encfs
         if self.mode == 'local_encfs':
@@ -408,18 +386,11 @@ class GeneralTab(QDialog):
         self.config.setSshProxyPort(sshproxy_vals['port'])
         self.config.setSshProxyUser(sshproxy_vals['user'])
         self.config.setSshSnapshotsPath(self.txtSshPath.text())
-        # self.config.setSshCipher(self.comboSshCipher.current_data)
 
         # SSH key file
         if mode in ('ssh', 'ssh_encfs'):
-
-            val = self.txtSshPrivateKeyFile.text()
-
-            # Disable use of key files
-            if val == 'False':
-                self.config.setSshPrivateKeyFile('')
-            else:
-                self.config.setSshPrivateKeyFile(val)
+            key_file = self.key_selector.get_key()
+            self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
         # save local_encfs
         self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
@@ -637,34 +608,56 @@ class GeneralTab(QDialog):
             self.editSnapshotsPath.setText(self.config.preparePath(path))
 
     def _slot_ssh_private_key_file_clicked(self):
-        curr_file = self.txtSshPrivateKeyFile.text()
+        key_file = self.key_selector.get_key()
 
-        if curr_file and curr_file != 'False':
-            start_dir = curr_file
+        if key_file:
+            start_dir = key_file.parent
         else:
             start_dir = DIR_SSH_KEYS
 
-        key_file = qttools.getOpenFileName(
-            self, _('SSH private key'), start_dir)
+        file_dialog = FileDialog(
+            parent=self,
+            title=_('SSH private key'),
+            start_dir=start_dir,
+            allow_multiselection=False
+        )
 
-        if key_file:
-            self.txtSshPrivateKeyFile.setText(str(key_file))
+        key_file = file_dialog.result()
+
+        if not key_file:
+            return
+
+        # No public key
+        if key_file.suffix.lower() == '.pub':
+            msg = _('The selected file {path} appears to be a public SSH '
+                    'key. Please select a private file (without a ".pub" '
+                    'extension).').format(path=key_file)
+            messagebox.warning(msg, _('No public SSH keys'), self)
+            return
+
+        # self.txtSshPrivateKeyFile.setText(str(key_file))
+        self.key_selector.add_and_select_key(key_file)
 
     def _slot_ssh_key_gen_clicked(self):
-        priv_key_folder = DIR_SSH_KEYS
+        # TODO: make it configurable (#2194)
+        key_file_path = DIR_SSH_KEYS / 'id_rsa'
 
-        # Workaround
-        if isinstance(priv_key_folder, str):
-            priv_key_folder = Path(priv_key_folder)
-
-        key_file_path = priv_key_folder / 'id_rsa'
-
-        if sshtools.sshKeyGen(str(key_file_path)):
-            self.txtSshPrivateKeyFile.setText(key_file_path)
-        else:
-            msg = _('Failed to create new SSH key in {path}.') \
-                .format(path=key_file_path)
+        if key_file_path.exists():
+            # TODO: Offer alternative naming (#2194)
+            msg = _('The file {path} already exists. Cannot create a new '
+                    'SSH key with that name.').format(path=key_file_path)
             messagebox.critical(self, msg)
+            return
+
+        # Generate the key
+        if sshtools.sshKeyGen(str(key_file_path)):
+            # self.txtSshPrivateKeyFile.setText(str(key_file_path))
+            self.key_selector.add_and_select_key(key_file_path)
+            return
+
+        msg = _('Failed to create new SSH key in {path}.') \
+            .format(path=key_file_path)
+        messagebox.critical(self, msg)
 
     def _slot_full_path_changed(self, _text: Any):
         if self.mode in ('ssh', 'ssh_encfs'):

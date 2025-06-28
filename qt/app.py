@@ -2049,20 +2049,24 @@ class MainWindow(QMainWindow):
         Returns:
             (tuple): Path as a string and the index.
         """
-        idx = qttools.indexFirstColumn(self.filesView.currentIndex())
-        selected_file = str(self.filesViewProxyModel.data(idx))
+        model_index = self.filesView.currentIndex()
+
+        if model_index.column() > 0:
+            model_index = model_index.sibling(model_index.row(), 0)
+
+        selected_file = str(self.filesViewProxyModel.data(model_index))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            idx = self.filesViewProxyModel.mapFromSource(
+            model_index = self.filesViewProxyModel.mapFromSource(
                 self.filesViewModel.index(self.path, 0))
 
         if fullPath:
             # resolve to full path
             selected_file = os.path.join(self.path, selected_file)
 
-        return (selected_file, idx)
+        return (selected_file, model_index)
 
     def multiFileSelected(self, fullPath = False):
         count = 0

@@ -46,6 +46,7 @@ full_test_files = [_base_dir / fp for fp in (
     'filedialog.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
+    'manageprofiles/sshkeyselector.py',
     'manageprofiles/spinboxunit.py',
     'manageprofiles/statebindcheckbox.py',
     'manageprofiles/storagesizewidget.py',

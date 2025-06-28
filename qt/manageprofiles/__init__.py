@@ -27,6 +27,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QPushButton)
 import qttools
 import messagebox
+from pathlib import Path
 from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_remove_retention import RemoveRetentionTab
@@ -333,7 +334,7 @@ class SettingsDialog(QDialog):
 
         return self.config.save()
 
-    def _ask_include_symlinks_target(self, path):
+    def _ask_include_symlinks_target(self, path: Path):
         question_msg = _(
             '"{path}" is a symlink. The linked target will not be backed up '
             'until it is included, too.').format(path=path)

@@ -102,7 +102,7 @@ class FileDialog(QFileDialog):
         # toggle the filter
         self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 
-    def result(self) -> str | list[Path] | None:
+    def result(self) -> Path | list[Path] | None:
         """Show the dialog and return the result.
 
         Returns:

@@ -1065,41 +1065,48 @@ class SSH(MountControl):
         return ''.join(random.choice(chars) for x in range(size))
 
 
-def sshKeyGen(keyfile):
-    """
-    Generate a new ssh-key pair (private and public key) in ``keyfile`` and
-    ``keyfile``.pub
+def sshKeyGen(keyfile: str) -> bool:
+    """Generate a new pair of SSH keys (private & public) without passphrase.
 
     Args:
-        keyfile (str):  path for private key file
+        keyfile: Path for private key file and public (``.pub`` prefix added)
 
     Returns:
-        bool:           True if successful; False if ``keyfile`` already exist
-                        or if there was an error
+        ``True`` if successful; ``False`` if ``keyfile`` already exist or
+        if there was an error.
     """
 
     if os.path.exists(keyfile):
-        logger.warning(
-            'SSH keyfile "{}" already exist. Skip creating a new one'
-            .format(keyfile))
+        logger.warning(f'SSH keyfile "{keyfile}" already exist. '
+                       'Skip creating a new one.')
 
         return False
 
-    cmd = ['ssh-keygen', '-t', 'rsa', '-N', '', '-f', keyfile]
+    cmd = [
+        'ssh-keygen',
+        # key type (#2194)
+        '-t', 'rsa',
+        # No passphrase
+        '-N', '',
+        # Base filename
+        '-f', keyfile
+    ]
 
     proc = subprocess.Popen(cmd,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.PIPE,
                             universal_newlines=True)
 
-    err = proc.communicate()[1]
+    com = proc.communicate()
+    rc = proc.returncode
 
-    if proc.returncode:
-        logger.error('Failed to create a new ssh-key: {}'.format(err))
+    if rc:
+        err = com[1]
+        logger.error(f'Failed to create a new SSH key: {err}')
     else:
-        logger.info('Successfully created new ssh-key "{}"'.format(keyfile))
+        logger.info(f'New SSH key created: {keyfile}')
 
-    return not proc.returncode
+    return not rc
 
 
 def sshCopyIdCommand(

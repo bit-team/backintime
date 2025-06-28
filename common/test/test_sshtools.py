@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: © 2016-2022 Taylor Raack
 # SPDX-FileCopyrightText: © 2016-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -13,6 +14,7 @@ import subprocess
 import stat
 import shutil
 import unittest
+from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 from test import generic
@@ -261,8 +263,8 @@ class SshKey(generic.TestCaseCfg):
             pubKey = secKey + '.pub'
             # create new key
             self.assertTrue(sshtools.sshKeyGen(secKey))
-            self.assertIsFile(secKey)
-            self.assertIsFile(pubKey)
+            self.assertTrue(Path(secKey).is_file())
+            self.assertTrue(Path(pubKey).is_file())
 
             # do not overwrite existing keys
             self.assertFalse(sshtools.sshKeyGen(secKey))
