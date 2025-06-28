@@ -347,6 +347,8 @@ class SSH(MountControl):
 
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
+        # Ensure ssh uses backintime-askpass
+        env['SSH_ASKPASS_REQUIRE'] = 'force'
         env['ASKPASS_PROFILE_ID'] = self.profile_id
         env['ASKPASS_MODE'] = self.mode
 
@@ -415,11 +417,11 @@ class SSH(MountControl):
                 # ssh-add below. See Issue #1852.
 
                 # Validate cached SSH key password:
+                logger.debug('Check if password is valid for private key')
                 proc = subprocess.run(
                         ['ssh-keygen', '-y', '-f', self.private_key_file],
                         capture_output=True,
-                        # Ensure ssh-keygen uses backintime-askpass
-                        env=env | {'SSH_ASKPASS_REQUIRE': 'prefer'}
+                        env=env,
                 )
 
                 # if backintime-askpass supplied an invalid cached password
