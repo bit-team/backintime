@@ -135,12 +135,17 @@ class GeneralTab(QDialog):
         self.txtSshPath.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txtSshPath)
 
+        group_box = QGroupBox(self)
+        group_box.setTitle(_('Key file:'))
+        group_layout = QVBoxLayout()
+        group_box.setLayout(group_layout)
         self.key_selector = SshKeySelector(
             self,
             self._slot_ssh_private_key_file_clicked,
-            self._slot_ssh_key_gen_clicke
+            self._slot_ssh_key_gen_clicked
         )
-        vlayout.addWidget(self.key_selector)
+        group_layout.addWidget(self.key_selector)
+        vlayout.addWidget(group_box)
 
         # Align the width of that three labels
         width = max(
