@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 09:10+0200\n"
-"PO-Revision-Date: 2025-05-14 12:04+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-06-23 14:17+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -231,11 +231,11 @@ msgid "If it is on a removable drive, please plug it in."
 msgstr "אם היא נמצאת על כונן נשלף, יש לחבר אותו."
 
 #: common/snapshots.py:918
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "בהמתנה של שנייה אחת."
-msgstr[1] "בהמתנה של %s שניות."
+msgstr[1] "בהמתנה של {n} שניות."
 
 #: common/snapshots.py:984
 #, python-brace-format
@@ -274,7 +274,7 @@ msgstr "לא ניתן להסיר תיקייה"
 
 #: common/snapshots.py:1444
 msgid "Creating backup"
-msgstr ""
+msgstr "נוצר גיבוי"
 
 #: common/snapshots.py:1495
 msgid "Success"
@@ -304,9 +304,8 @@ msgstr ""
 "קודים שליליים ביציאה של rsync הם מספרי אותות, ר׳ ‚kill -l’ ו־‚man kill’"
 
 #: common/snapshots.py:1544
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "דבר לא השתנה, לא צריך תמונת מצב חדשה"
+msgstr "דבר לא השתנה, לא צריך גיבוש חדש"
 
 #: common/snapshots.py:1588
 #, python-brace-format
@@ -318,9 +317,8 @@ msgid "Smart removal"
 msgstr "הסרה חכמה"
 
 #: common/snapshots.py:1972
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "החלת כללים להסרת תמונות מצב ישנות"
+msgstr "החלת כללים להסרת גיבויים ישנים"
 
 #: common/snapshots.py:2005
 msgid "Apply retention policy"
@@ -464,23 +462,20 @@ msgid "File creation failed in this directory:"
 msgstr "יצירת קבצים בתיקייה הזאת נכשלה:"
 
 #: qt/aboutdlg.py:49
-#, fuzzy
 msgid "About Back In Time"
-msgstr "&חזרה בזמן"
+msgstr "על חזרה בזמן"
 
 #: qt/aboutdlg.py:87
 msgid "Copyright:"
-msgstr ""
+msgstr "זכויות יוצרים:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "יוצרים"
+msgstr "יוצרים:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "תרגומים"
+msgstr "מתרגמים:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -488,16 +483,16 @@ msgstr "Yaron Shahrabani"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "אין תודות מתרגמים לשפה הנוכחית."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "לקישור הזה"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "אפשר לגשת {thislink} כדי לצפות בתודות למתרגמים בכל השפות."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
@@ -520,27 +515,25 @@ msgid "Open user manual in browser (local if available otherwise online)"
 msgstr "פתיחת מדריך המשתמש בדפדפן (מקומי אם זמין או מקוון אם לא)"
 
 #: qt/aboutdlg.py:259
-#, fuzzy
 msgid "Back In Time"
-msgstr "&חזרה בזמן"
+msgstr "חזרה בזמן"
 
 #: qt/aboutdlg.py:280
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}גרסה{BOLDEND}: {version}"
 
 #: qt/app.py:175
 msgid "Shortcuts"
 msgstr "קיצורים"
 
 #: qt/app.py:195
-#, fuzzy
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
 msgstr ""
 "התיקייה הזאת לא קיימת\n"
-"בתמונת המצב הנוכחית שנבחרה."
+"בגיבוי הנוכחי שנבחר."
 
 #: qt/app.py:260
 msgid "Add to Include"
@@ -565,58 +558,51 @@ msgstr "לייבא הגדרות קיימות (מתיקיית יעד גיבוי �
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "ואז ללחוץ על אישור."
 
 #: qt/app.py:478
 msgid "Create a backup"
-msgstr ""
+msgstr "יצירת גיבוי"
 
 #: qt/app.py:480
 msgid "Use modification time & size for file change detection."
 msgstr "להשתמש בזמן השינוי ובגודל לזיהוי שינויים בקובץ."
 
 #: qt/app.py:483
-#, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "שמירת תמונת מצב (עם סיכומי ביקורת)"
+msgstr "יצירת גיבוי (מצב סיכומי ביקורת)"
 
 #: qt/app.py:485
 msgid "Use checksums for file change detection."
 msgstr "להשתמש בסיכומי ביקורת לאיתור שינויים."
 
 #: qt/app.py:488 qt/qtsystrayicon.py:79
-#, fuzzy
 msgid "Pause backup process"
-msgstr "השהיית שמירת תמונת מצב"
+msgstr "השהיית תהליך גיבוי"
 
 #: qt/app.py:493 qt/qtsystrayicon.py:84
-#, fuzzy
 msgid "Resume backup process"
-msgstr "המשך שמירת תמונת מצב"
+msgstr "המשך תהליך גיבוי"
 
 #: qt/app.py:497 qt/qtsystrayicon.py:90
-#, fuzzy
 msgid "Stop backup process"
-msgstr "עצירת שמירת תמונת מצב"
+msgstr "עצירת תהליך הגיבוי"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "רענון רשימת תמונות המצב"
+msgstr "רענון רשימת הגיבויים"
 
 #: qt/app.py:505
 msgid "Name backup"
 msgstr ""
 
 #: qt/app.py:509
-#, fuzzy
 msgid "Remove backup"
-msgstr "הסרת תמונת מצב"
+msgstr "הסרת גיבוי"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
-msgstr "הצגת היומן האחרון"
+msgstr "פתיחת יומן גיבוי"
 
 #: qt/app.py:515
 #, fuzzy
@@ -624,13 +610,12 @@ msgid "View log of the selected backup."
 msgstr "יש לבחור לפחות תיקייה אחת לגיבוי."
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "הצגת היומן האחרון"
+msgstr "פתיחת יומן הגיבוי האחרון"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "הצגת יומן הגיבוי האחרון."
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -641,9 +626,8 @@ msgid "Shutdown"
 msgstr "כיבוי"
 
 #: qt/app.py:527
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "לכבות את המערכת אחרי ששמירת תמונת המצב הסתיימה."
+msgstr "לכבות את המערכת אחרי ששמירת הגיבוי הסתיימה."
 
 #: qt/app.py:529
 msgid "Setup language…"
@@ -751,9 +735,8 @@ msgid "Show hidden files"
 msgstr "הצגת קבצים נסתרים"
 
 #: qt/app.py:620
-#, fuzzy
 msgid "Compare backups…"
-msgstr "השוואת תמונות מצב…"
+msgstr "השוואת גיבויים…"
 
 #: qt/app.py:650 qt/app.py:2215
 msgid "Release Candidate"
@@ -806,7 +789,7 @@ msgstr ""
 
 #: qt/app.py:918
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "לסגור את החלון הזה בכל זאת?"
 
 #: qt/app.py:1090
 msgid "Working:"
@@ -861,7 +844,7 @@ msgstr ""
 
 #: qt/app.py:1379
 msgid "Proceed with the backup?"
-msgstr ""
+msgstr "להמשיך עם הגיבוי?"
 
 #: qt/app.py:1412
 #, fuzzy
@@ -871,8 +854,8 @@ msgstr "&גיבוי"
 #: qt/app.py:1463
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "להסיר את הגיבוי הזה?"
+msgstr[1] "להסיר את הגיבויים האלה?"
 
 #: qt/app.py:1561
 #, python-brace-format

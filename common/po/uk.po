@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 09:10+0200\n"
-"PO-Revision-Date: 2025-05-04 23:53+0000\n"
+"PO-Revision-Date: 2025-06-15 18:28+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
@@ -97,6 +97,8 @@ msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
 msgstr ""
+"Поріг попередження щодо вільного місця повинен бути більшим або дорівнювати "
+"порогу видалення за вільним місцем."
 
 #: common/config.py:1505
 #, python-brace-format
@@ -221,6 +223,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Такі записи зі списку включення не мають відповідних файлів або каталогів у "
+"джерелі резервної копії:"
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
@@ -545,7 +549,7 @@ msgid ""
 "in the current selected backup."
 msgstr ""
 "Такого каталогу немає\n"
-"в обраній резервній копії."
+"у вибраній резервній копії."
 
 #: qt/app.py:260
 msgid "Add to Include"
@@ -574,7 +578,7 @@ msgstr ""
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "Потім натисніть OK."
 
 #: qt/app.py:478
 msgid "Create a backup"
@@ -617,23 +621,20 @@ msgid "Remove backup"
 msgstr "Видалити копію"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
-msgstr "Переглянути журнал копій"
+msgstr "Відкрити журнал копії"
 
 #: qt/app.py:515
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Для резервного копіювання необхідно вибрати принаймні один каталог."
+msgstr "Переглянути журнал вибраної резервної копії."
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Переглянути журнал копій"
+msgstr "Відкрити журнал останньої копії"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Переглянути журнал останньої резервної копії."
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -723,7 +724,7 @@ msgstr "Відновити"
 #: qt/app.py:594
 msgid "Restore the selected files or directories to the original destination."
 msgstr ""
-"Відновити обрані файли чи каталоги до їхнього початкового розташування."
+"Відновити вибрані файли чи каталоги до їхнього початкового розташування."
 
 #: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
 msgid "Restore to …"
@@ -731,7 +732,7 @@ msgstr "Відновити до …"
 
 #: qt/app.py:599
 msgid "Restore the selected files or directories to a new destination."
-msgstr "Відновити обрані файли чи каталоги до вказаного розташування."
+msgstr "Відновити вибрані файли чи каталоги до вказаного розташування."
 
 #: qt/app.py:605
 msgid ""
@@ -861,11 +862,12 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Призначення має лише {free} вільного місця, що нижче налаштованого порога в "
+"{threshold}."
 
 #: qt/app.py:1379
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Видалити цю резервну копію?"
+msgstr "Продовжити резервне копіювання?"
 
 #: qt/app.py:1412
 msgid "Backup name"
@@ -917,7 +919,7 @@ msgid ""
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
-"Відновити обрані файли чи каталоги до початкового розташування і видалити "
+"Відновити вибрані файли чи каталоги до початкового розташування і видалити "
 "файли/каталоги, яких немає в резервній копії. Будьте дуже обережні, оскільки"
 " це призведе до видалення файлів і каталогів, які було виключено під час "
 "резервування."
@@ -1829,13 +1831,15 @@ msgstr "Резервувати незалежно від того, чи були
 
 #: qt/manageprofiles/tab_options.py:92
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Попереджати, якщо вільного місця менше, ніж"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Попереджає, коли вільного місця на диску призначення резервної копії менше "
+"за вказане значення."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1843,6 +1847,9 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Якщо ввімкнено політику Видалення і збереження і старі резервні копії "
+"видаляються на основі наявного вільного місця, це значення не може бути "
+"меншим за встановлене в політиці."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 09:10+0200\n"
-"PO-Revision-Date: 2025-05-05 11:23+0000\n"
+"PO-Revision-Date: 2025-06-16 10:37+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
@@ -97,6 +97,8 @@ msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
 msgstr ""
+"Advarselsgrænsen for fri plads skal være større end eller lig med "
+"fjernelsesgrænsen for fri plads."
 
 #: common/config.py:1505
 #, python-brace-format
@@ -219,6 +221,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"De følgende indgang i inkluderingslisten har ikke nogen tilsvarende fil "
+"eller mappe i tilstandsbillede-kilden:"
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
@@ -569,7 +573,7 @@ msgstr ""
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "Tryk derefter OK."
 
 #: qt/app.py:478
 msgid "Create a backup"
@@ -612,23 +616,20 @@ msgid "Remove backup"
 msgstr "Fjern tilstandsbillede"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
-msgstr "Vis tilstandsbillede-log"
+msgstr "Åben tilstandsbillede-log"
 
 #: qt/app.py:515
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Mindst en mappe skal vælges til backup."
+msgstr "Se log for det valgte tilstandsbillede."
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Vis tilstandsbillede-log"
+msgstr "Åben seneste tilstandsbillede-log"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Se log fra det seneste tilstandsbillede."
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -853,11 +854,12 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Kun {free} plads fri på målet, hvilket er under den opsatte grænse på "
+"{threshold}."
 
 #: qt/app.py:1379
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Slet dette tilstandsbillede?"
+msgstr "Forsæt med at danne tilstandsbillede?"
 
 #: qt/app.py:1412
 msgid "Backup name"
@@ -1822,13 +1824,15 @@ msgstr "Dan et nyt tilstandsbillede uanset om der var ændringer eller ej."
 
 #: qt/manageprofiles/tab_options.py:92
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Advar hvis den frie disk plads er under"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Vis en advarsel når den frie plads på tilstandsbillede-måldisken er mindre "
+"end den angivne værdi."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1836,6 +1840,9 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Hvis Fjern & Behold strategien er slået til og gamle tilstandsbilleder "
+"bliver fjernet baseret på tilgængelig fri plads, så kan denne værdi ikke "
+"være mindre end værdien sat i strategien."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"

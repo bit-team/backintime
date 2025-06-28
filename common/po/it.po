@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 09:10+0200\n"
-"PO-Revision-Date: 2025-05-19 08:58+0000\n"
+"PO-Revision-Date: 2025-06-16 10:37+0000\n"
 "Last-Translator: smart2128 <smart2128@noreply.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -97,6 +97,8 @@ msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
 msgstr ""
+"La soglia di avviso per lo spazio libero deve essere maggiore o uguale alla "
+"soglia di rimozione per spazio libero."
 
 #: common/config.py:1505
 #, python-brace-format
@@ -221,6 +223,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Le seguenti voci dall'elenco di inclusione non hanno alcun file o cartella "
+"corrispondente nell'origine del backup:"
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
@@ -582,7 +586,7 @@ msgstr ""
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "Poi premi OK."
 
 #: qt/app.py:478
 msgid "Create a backup"
@@ -627,23 +631,20 @@ msgid "Remove backup"
 msgstr "Rimuovi backup"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
-msgstr "Visualizza registro dei backup"
+msgstr "Apri registro del backup"
 
 #: qt/app.py:515
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Seleziona almeno una cartella per il backup."
+msgstr "Visualizza il registro del backup selezionato."
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Visualizza registro dei backup"
+msgstr "Visualizza il registro dell'ultimo backup"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Visualizza il registro dell'ultimo backup."
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -877,11 +878,12 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Solo {free} di spazio libero disponibili sulla destinazione, al di sotto "
+"della soglia configurata di {threshold}."
 
 #: qt/app.py:1379
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Vuoi rimuovere questo backup?"
+msgstr "Vuoi procedere con il backup?"
 
 #: qt/app.py:1412
 msgid "Backup name"
@@ -1857,13 +1859,15 @@ msgstr "Crea un nuovo backup in presenza di modifiche o meno."
 
 #: qt/manageprofiles/tab_options.py:92
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Avvisa se lo spazio libero sul disco scende sotto"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Mostra un avviso quando lo spazio libero sul disco di destinazione del "
+"backup è inferiore al valore specificato."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1871,6 +1875,9 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Se la politica di Rimozione e conservazione è abilitata e i vecchi backup "
+"vengono rimossi in base allo spazio libero disponibile, questo valore non "
+"può essere inferiore al valore impostato nella politica."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"

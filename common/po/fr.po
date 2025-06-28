@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 09:10+0200\n"
-"PO-Revision-Date: 2025-05-03 12:53+0000\n"
-"Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-06-23 14:17+0000\n"
+"Last-Translator: lann <lann@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
@@ -97,6 +97,8 @@ msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
 msgstr ""
+"Le seuil d'avertissement pour l'espace libre doit être plus grand ou égal au"
+" seuil de suppression par espace libre."
 
 #: common/config.py:1505
 #, python-brace-format
@@ -220,6 +222,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Les entrées suivantes de la liste d'inclusion ne correspondent à aucun "
+"fichier ou répertoire dans la source de sauvegarde :"
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
@@ -328,7 +332,7 @@ msgstr "Appliquer les règles pour supprimer les anciennes sauvegardes"
 
 #: common/snapshots.py:2005
 msgid "Apply retention policy"
-msgstr "Appliquer la politique de conservation"
+msgstr "Appliquer la stratégie de conservation"
 
 #: common/snapshots.py:2015
 msgid "Trying to keep min free space"
@@ -583,7 +587,7 @@ msgstr ""
 
 #: qt/app.py:368
 msgid "Then press OK."
-msgstr ""
+msgstr "Appuyez ensuite sur OK."
 
 #: qt/app.py:478
 msgid "Create a backup"
@@ -629,23 +633,20 @@ msgid "Remove backup"
 msgstr "Supprimer la sauvegarde"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open backup log"
 msgstr "Afficher le journal de la sauvegarde"
 
 #: qt/app.py:515
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Au moins un répertoire doit être sélectionné pour la sauvegarde."
+msgstr "Voir le journal de la sauvegarde sélectionnée."
 
 #: qt/app.py:517
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Afficher le journal de la sauvegarde"
+msgstr "Ouvrir le journal de la dernière sauvegarde"
 
 #: qt/app.py:519
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Voir le journal de la dernière sauvegarde."
 
 #: qt/app.py:521
 msgid "Manage profiles…"
@@ -881,11 +882,12 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Il y a seulement {free} d'espace libre disponible pour la destination, ce "
+"qui est plus bas que le seuil configuré {threshold}."
 
 #: qt/app.py:1379
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Supprimer cette sauvegarde ?"
+msgstr "Procéder à la sauvegarde ?"
 
 #: qt/app.py:1412
 msgid "Backup name"
@@ -1869,14 +1871,17 @@ msgstr ""
 "Créer une nouvelle sauvegarde qu'il y ait eu des modifications ou non."
 
 #: qt/manageprofiles/tab_options.py:92
+#, fuzzy
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Avertir si l'espace disque libre est inférieur à"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Affiche un avertissement lorsque l'espace libre sur le disque de destination"
+" de sauvegarde est inférieur à la valeur spécifiée."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1884,6 +1889,10 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Si la stratégie de suppression et de conservation est activée et que "
+"d'anciennes sauvegardes sont supprimées selon l'espace libre disponible, "
+"cette valeur ne peut pas être inférieure à celle définie dans cette "
+"stratégie."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"
@@ -1959,7 +1968,7 @@ msgstr "Période de 12 mois, en ignorant le mois actuel ."
 
 #: qt/manageprofiles/tab_remove_retention.py:296
 msgid "Retention policy"
-msgstr "Politique de conservation"
+msgstr "Stratégie de conservation"
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "Run in background on remote host."

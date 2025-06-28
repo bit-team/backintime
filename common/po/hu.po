@@ -7,17 +7,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-15 09:10+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-06-16 10:37+0000\n"
+"Last-Translator: hunluki <hunluki@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
@@ -73,9 +73,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
 
 #: common/config.py:315
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "A pillanatképek könyvtára nem érvényes."
+msgstr "A biztonsági mentés könyvtára nem érvényes."
 
 #: common/config.py:327
 msgid "At least one directory must be selected for backup."
@@ -99,6 +98,8 @@ msgid ""
 "The warning threshold for free space must be greater than or equal to the "
 "removing threshold by free space."
 msgstr ""
+"A szabad helyre való figyelmeztetési határértéknek nagyobbnak vagy "
+"egyenlőnek kell lennie mint az eltávolítási határértéknek."
 
 #: common/config.py:1505
 #, python-brace-format
@@ -221,34 +222,35 @@ msgid "Done"
 msgstr "Kész"
 
 #: common/snapshots.py:732
+#, fuzzy
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"A forráslista következő elemeinek nincs megfelelő fájl vagy könyvtár a "
+"mentésnél:"
 
 #: common/snapshots.py:795
 msgid "Deferring backup while on battery"
 msgstr "Biztonsági mentés elhalasztása akkumulátorról való működésnél"
 
 #: common/snapshots.py:911 qt/app.py:366
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Nem található a pillanatképek könyvtára."
+msgstr "Nem található a mentéskönyvtár."
 
 #: common/snapshots.py:915 qt/app.py:367
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Ha cserélhető meghajtón van, akkor helyezze be."
+msgstr "Ha külső meghajtón van, akkor csatlakoztassa."
 
 #: common/snapshots.py:918
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "%s másodperc várakozás."
 msgstr[1] "%s másodperc várakozás."
 
 #: common/snapshots.py:984
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Nem sikerült a(z) {snapshot_id} pillanatkép készítése."
 
@@ -269,12 +271,12 @@ msgid "Saving permissions…"
 msgstr "Jogosultságok mentése…"
 
 #: common/snapshots.py:1355
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "Található egy maradvány {snapshot_id} pillanatkép, amely folytatható."
+msgstr "Található egy félkész {snapshot_id} pillanatkép, ami folytatható."
 
 #: common/snapshots.py:1379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "A maradvány {snapshot_id} könyvtár eltávolítása a legutóbbi futtatásból"
@@ -285,7 +287,7 @@ msgstr "Nem lehet eltávolítani a könyvtárat"
 
 #: common/snapshots.py:1444
 msgid "Creating backup"
-msgstr ""
+msgstr "Biztonsági mentés készítése"
 
 #: common/snapshots.py:1495
 msgid "Success"
@@ -316,9 +318,8 @@ msgstr ""
 "„man kill” parancsokat"
 
 #: common/snapshots.py:1544
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Semmi sem változott, nincs szükség új pillanatképre"
+msgstr "Nincs változás, nincs szükség új pillanatképre"
 
 #: common/snapshots.py:1588
 #, python-brace-format
@@ -487,21 +488,20 @@ msgstr "A fájl létrehozása ebben a könyvtárban nem sikerült:"
 #: qt/aboutdlg.py:49
 #, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Névjegy"
 
 #: qt/aboutdlg.py:87
+#, fuzzy
 msgid "Copyright:"
-msgstr ""
+msgstr "Minden jog fenntartva:"
 
 #: qt/aboutdlg.py:91
-#, fuzzy
 msgid "Authors:"
-msgstr "Szerzők"
+msgstr "Szerzők:"
 
 #: qt/aboutdlg.py:95
-#, fuzzy
 msgid "Translators:"
-msgstr "Fordítások"
+msgstr "Fordítók:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
@@ -509,16 +509,16 @@ msgstr "Balázs Úr <balazs@urbalazs.hu> (@urbalazs)"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "A fordítók listája nem elérhető a jelenlegi nyelven."
 
 #: qt/aboutdlg.py:114
 msgid "this link"
-msgstr ""
+msgstr "ez a hivatkozás"
 
 #: qt/aboutdlg.py:116
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Kattints {thislink} az összes nyelv fordítóinak listájához."
 
 #: qt/aboutdlg.py:153
 #, python-brace-format
