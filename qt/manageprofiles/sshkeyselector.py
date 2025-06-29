@@ -61,14 +61,14 @@ class SshKeyCombo(BitComboBox):
         # select another key file
         content_dict[self.ACT_ID_SELECT_FILE] = (
             _('<Select another file…>'),
-            _('Create a new SSH key without passphrase.'),
+            _('Choose an existing private key file from somewhere else.'),
             icon.FOLDER
         )
 
         # generate key files
         content_dict[self.ACT_ID_GENERATE_PAIR] = (
             _('<Generate new key-pair…>'),
-            _('Choose an existing private key file from somewhere else.'),
+            _('Create a new SSH key without passphrase.'),
             icon.ADD
         )
 
