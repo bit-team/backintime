@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.3.4-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-15 09:10+0200\n"
+"POT-Creation-Date: 2025-06-28 22:31+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Vietnamese <https://translate.codeberg.org/projects/backintime/common/vi/>\n"
@@ -44,7 +44,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:266 common/config.py:276
-#: qt/manageprofiles/tab_general.py:635
+#: qt/manageprofiles/tab_general.py:620
 msgid "SSH private key"
 msgstr "Khóa SSH riêng"
 
@@ -65,7 +65,7 @@ msgid "Default"
 msgstr "Mặc định"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:379
+#: common/config.py:358 common/config.py:380
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Hồ sơ: “{name}”"
@@ -91,22 +91,30 @@ msgid ""
 "destination itself."
 msgstr "Thư mục con sao lưu không thể được thêm vào."
 
-#: common/config.py:380
+#: common/config.py:381
+#, python-brace-format
 msgid ""
-"The warning threshold for free space must be greater than or equal to the "
-"removing threshold by free space."
+"The value for \"Remove oldest backup if free space is less than\" "
+"({val_one}) must be less than or equal the threshold for \"Warn if free disk"
+" space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:1505
+#: common/config.py:386
+msgid ""
+"Please adjust the settings so that the backup removal limit is not higher "
+"than the warning limit."
+msgstr ""
+
+#: common/config.py:1516
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Lịch trình theo udev không hoạt động trong chế độ {mode}"
 
-#: common/config.py:1559
+#: common/config.py:1570
 msgid "Failed to write new crontab."
 msgstr "Ghi crontab mới thất bại."
 
-#: common/config.py:1567
+#: common/config.py:1578
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -142,29 +150,31 @@ msgstr "Hồ sơ cuối cùng không thể bị xóa bỏ."
 msgid "Unable to mount '{command}'"
 msgstr "Không thể mount '{command}'"
 
-#: common/encfstools.py:131
+#: common/encfstools.py:130
 #, fuzzy
 msgid "Configuration for the encrypted directory not found."
 msgstr "Không tìm thấy cấu hình cho thư mục đã mã hóa."
 
-#: common/encfstools.py:139
+#: common/encfstools.py:137
 #, fuzzy
 msgid "Create a new encrypted directory?"
 msgstr "Tạo một thư mục được mã hóa mới?"
 
-#: common/encfstools.py:146
+#: common/encfstools.py:144
 msgid "Cancel"
 msgstr "Hủy"
 
-#: common/encfstools.py:152
-msgid "Please confirm the password."
-msgstr "Vui lòng xác nhận mật khẩu."
+#: common/encfstools.py:149
+#, fuzzy
+msgid "Please re-enter the EncFS password to confirm."
+msgstr "Vui lòng nhập mật khẩu cho “{user}”."
 
-#: common/encfstools.py:158
-msgid "Password doesn't match."
+#: common/encfstools.py:155
+#, fuzzy
+msgid "The EncFS passwords do not match."
 msgstr "Mật khẩu không trùng khớp."
 
-#: common/encfstools.py:516 common/snapshots.py:1107
+#: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
 msgstr "Chụp snapshot"
 
@@ -204,148 +214,148 @@ msgstr ""
 msgid "Couldn't find UUID for {path}"
 msgstr "Không tìm thấy UUID cho {path}"
 
-#: common/snapshots.py:375 common/snapshots.py:629
+#: common/snapshots.py:377 common/snapshots.py:655
 msgid "FAILED"
 msgstr "THẤT BẠI"
 
-#: common/snapshots.py:572 common/snapshots.py:640
+#: common/snapshots.py:578 common/snapshots.py:651
 msgid "Restore permissions"
 msgstr "Khôi phục quyền hạn"
 
-#: common/snapshots.py:635 qt/app.py:295 qt/app.py:1100 qt/app.py:1135
+#: common/snapshots.py:655 qt/app.py:295 qt/app.py:1112 qt/app.py:1147
 #: qt/qtsystrayicon.py:73
 msgid "Done"
 msgstr "Xong"
 
-#: common/snapshots.py:732
+#: common/snapshots.py:748
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
 
-#: common/snapshots.py:795
+#: common/snapshots.py:811
 msgid "Deferring backup while on battery"
 msgstr "Trì hoãn sao lưu khi đang sử dụng pin"
 
-#: common/snapshots.py:911 qt/app.py:366
+#: common/snapshots.py:927 qt/app.py:369
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Không tạo được thư mục"
 
-#: common/snapshots.py:915 qt/app.py:367
+#: common/snapshots.py:931 qt/app.py:370
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
 "Không thể tìm thấy thư mục snapshots.\n"
 "Nếu nó nằm trên ổ cứng có thể tháo rời thì vui lòng cắm vào máy rồi ấn nút OK."
 
-#: common/snapshots.py:918
+#: common/snapshots.py:934
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Đang chờ %s giây."
 
-#: common/snapshots.py:984
+#: common/snapshots.py:1000
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Chụp snapshot {snapshot_id} thất bại."
 
-#: common/snapshots.py:1016
+#: common/snapshots.py:1032
 msgid "Please be patient. Finalizing…"
 msgstr ""
 
-#: common/snapshots.py:1142
+#: common/snapshots.py:1158
 msgid "Can't create directory."
 msgstr "Không tạo được thư mục."
 
-#: common/snapshots.py:1159
+#: common/snapshots.py:1175
 msgid "Saving config file…"
 msgstr "Đang lưu tập tin cấu hình…"
 
-#: common/snapshots.py:1240
+#: common/snapshots.py:1256
 msgid "Saving permissions…"
 msgstr "Đang lưu quyền hạn…"
 
-#: common/snapshots.py:1355
+#: common/snapshots.py:1371
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Tìm thấy {snapshot_id} đang dang dở và có thể tiếp tục."
 
-#: common/snapshots.py:1379
+#: common/snapshots.py:1395
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Đang xóa thư mục {snapshot_id} dang dở từ lần chạy trước"
 
-#: common/snapshots.py:1390
+#: common/snapshots.py:1406
 #, fuzzy
 msgid "Can't remove directory"
 msgstr "Không thể xóa thư mục"
 
-#: common/snapshots.py:1444
+#: common/snapshots.py:1460
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1495
+#: common/snapshots.py:1511
 msgid "Success"
 msgstr "Thành công"
 
-#: common/snapshots.py:1498
+#: common/snapshots.py:1514
 msgid "Partial transfer due to error"
 msgstr "Truyền một phần do lỗi"
 
-#: common/snapshots.py:1499
+#: common/snapshots.py:1515
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Truyền một phần do file nguồn biến mất (xem 'man rsync')"
 
-#: common/snapshots.py:1503
+#: common/snapshots.py:1519
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' kết thúc với mã kết thúc {exit_code}"
 
-#: common/snapshots.py:1516
+#: common/snapshots.py:1532
 msgid "See 'man rsync' for more details"
 msgstr "Xem 'man rsync' để biết nhiều chi tiết hơn"
 
-#: common/snapshots.py:1523
+#: common/snapshots.py:1539
 #, fuzzy
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "Mã kết thúc rsync âm là số chỉ thị, xem 'kill -l' và 'man kill'"
 
-#: common/snapshots.py:1544
+#: common/snapshots.py:1560
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Không có gì thay đổi, không cần snapshot mới"
 
-#: common/snapshots.py:1588
+#: common/snapshots.py:1604
 #, fuzzy, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Không thể đổi tên {new_path} thành {path}"
 
-#: common/snapshots.py:1920
+#: common/snapshots.py:1939
 #, fuzzy
 msgid "Smart removal"
 msgstr "Xóa thông minh"
 
-#: common/snapshots.py:1972
+#: common/snapshots.py:1991
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Đang xóa các snapshot cũ"
 
-#: common/snapshots.py:2005
+#: common/snapshots.py:2024
 msgid "Apply retention policy"
 msgstr ""
 
-#: common/snapshots.py:2015
+#: common/snapshots.py:2034
 msgid "Trying to keep min free space"
 msgstr "Đang cố gắng giữ dung lượng trống tối thiểu"
 
-#: common/snapshots.py:2053
+#: common/snapshots.py:2072
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Đang cố gắng giữ tổi thiểu {perc} inode trống"
 
-#: common/snapshots.py:3139 qt/app.py:1912
+#: common/snapshots.py:3158 qt/app.py:1924
 msgid "Now"
 msgstr "Vừa mới đây"
 
@@ -359,7 +369,7 @@ msgstr "Không thể mount {sshfs}"
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "Không tìm thấy ssh-agent. Đảm bảo rằng nó đã được cài."
 
-#: common/sshtools.py:477
+#: common/sshtools.py:483
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -367,47 +377,47 @@ msgstr ""
 "Không thể mở khóa SSH riêng. Mật khẩu bị sai hay không thể truy cập bởi "
 "cron."
 
-#: common/sshtools.py:713
+#: common/sshtools.py:719
 msgid "Remote path exists but is not a directory."
 msgstr "Đường dẫn từ xa tồn tại nhưng không phải là một thư mục."
 
-#: common/sshtools.py:718
+#: common/sshtools.py:724
 msgid "Remote path is not writable."
 msgstr "Đường dẫn từ xa không thể được viết vào."
 
-#: common/sshtools.py:723
+#: common/sshtools.py:729
 msgid "Remote path is not executable."
 msgstr "Đường dẫn từ xa không thể được thực thi."
 
-#: common/sshtools.py:728
+#: common/sshtools.py:734
 msgid "Couldn't create remote path."
 msgstr "Không tạo được đường dẫn từ xa."
 
-#: common/sshtools.py:1015
+#: common/sshtools.py:1021
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Máy từ xa {host} không hỗ trợ {command}"
 
-#: common/sshtools.py:1019 common/sshtools.py:1028
+#: common/sshtools.py:1025 common/sshtools.py:1034
 msgid "Look at 'man backintime' for further instructions"
 msgstr "Xem 'man backintime' cho các chỉ dẫn sâu hơn"
 
-#: common/sshtools.py:1023
+#: common/sshtools.py:1029
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr "Lệnh kiểm tra trên máy khách {host} trả về lỗi không xác định"
 
-#: common/sshtools.py:1044
+#: common/sshtools.py:1050
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Máy ở xa {host} không hỗ trợ harklink"
 
-#: common/sshtools.py:1198
+#: common/sshtools.py:1211
 #, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Sao chép khóa ssh công khai \"{pubkey}\" đến máy chủ từ xa \"{host}\""
 
-#: common/sshtools.py:1200
+#: common/sshtools.py:1213
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Vui lòng nhập mật khẩu cho “{user}”."
@@ -520,23 +530,23 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: qt/aboutdlg.py:223 qt/app.py:555
+#: qt/aboutdlg.py:223 qt/app.py:562
 msgid "Project website"
 msgstr ""
 
-#: qt/aboutdlg.py:228 qt/app.py:537
+#: qt/aboutdlg.py:228 qt/app.py:544
 msgid "User manual"
 msgstr ""
 
-#: qt/aboutdlg.py:229 qt/app.py:539
+#: qt/aboutdlg.py:229 qt/app.py:546
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 
-#: qt/aboutdlg.py:259
+#: qt/aboutdlg.py:260
 msgid "Back In Time"
 msgstr ""
 
-#: qt/aboutdlg.py:280
+#: qt/aboutdlg.py:281
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
@@ -562,7 +572,7 @@ msgstr "Thêm vào Bao gồm"
 msgid "Add to Exclude"
 msgstr "Thêm vào Loại trừ"
 
-#: qt/app.py:334
+#: qt/app.py:337
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -570,184 +580,188 @@ msgid ""
 msgstr ""
 "Có vẻ như {app_name} đang chạy lần đầu tiên vì không tìm thấy cấu hình nào."
 
-#: qt/app.py:339
+#: qt/app.py:342
 #, fuzzy
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr "Nhập cấu hình hiện có (từ thư mục sao lưu hoặc từ máy tính khác)?"
 
-#: qt/app.py:368
+#: qt/app.py:371
 msgid "Then press OK."
 msgstr ""
 
-#: qt/app.py:478
+#: qt/app.py:481
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:480
+#: qt/app.py:483
 msgid "Use modification time & size for file change detection."
 msgstr "Dùng thời gian thay đổi & kích cỡ để dò sự thay đổi của file."
 
-#: qt/app.py:483
+#: qt/app.py:486
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Chụp snapshot với checksum"
 
-#: qt/app.py:485
+#: qt/app.py:488
 msgid "Use checksums for file change detection."
 msgstr "Dùng checksum để phát hiện sự thay đổi của file."
 
-#: qt/app.py:488 qt/qtsystrayicon.py:79
+#: qt/app.py:491 qt/qtsystrayicon.py:79
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Tạm dừng quá trình chụp snapshot"
 
-#: qt/app.py:493 qt/qtsystrayicon.py:84
+#: qt/app.py:496 qt/qtsystrayicon.py:84
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Tiếp tục quá trình chụp snapshot"
 
-#: qt/app.py:497 qt/qtsystrayicon.py:90
+#: qt/app.py:500 qt/qtsystrayicon.py:90
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Dừng hẳn quá trình chụp snapshot"
 
-#: qt/app.py:501
+#: qt/app.py:504
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Tải lại danh sách snapshot"
 
-#: qt/app.py:505
+#: qt/app.py:508
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:509
+#: qt/app.py:512
 #, fuzzy
 msgid "Remove backup"
 msgstr "Xóa snapshot"
 
-#: qt/app.py:513
+#: qt/app.py:516
 #, fuzzy
 msgid "Open backup log"
 msgstr "Xem nhật ký cuối cùng"
 
-#: qt/app.py:515
+#: qt/app.py:518
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Phải chọn ít nhất một thư mục để sao lưu."
 
-#: qt/app.py:517
+#: qt/app.py:520
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Xem nhật ký cuối cùng"
 
-#: qt/app.py:519
+#: qt/app.py:522
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:521
+#: qt/app.py:524
 msgid "Manage profiles…"
 msgstr "Quản lý hồ sơ…"
 
-#: qt/app.py:525
+#: qt/app.py:528
+msgid "Edit user-callback"
+msgstr "Sửa user-callback"
+
+#: qt/app.py:532
 msgid "Shutdown"
 msgstr "Tắt máy"
 
-#: qt/app.py:527
+#: qt/app.py:534
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Tắt máy sau khi chụp snapshot hoàn tất."
 
-#: qt/app.py:529
+#: qt/app.py:536
 msgid "Setup language…"
 msgstr "Cài đặt ngôn ngữ…"
 
-#: qt/app.py:533
+#: qt/app.py:540
 msgid "Exit"
 msgstr "Thoát"
 
-#: qt/app.py:543
+#: qt/app.py:550
 msgid "man page: Back In Time"
 msgstr ""
 
-#: qt/app.py:545
+#: qt/app.py:552
 msgid "Displays man page about Back In Time (backintime)"
 msgstr ""
 
-#: qt/app.py:548
+#: qt/app.py:555
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "Tập tin cấu hình hồ sơ"
 
-#: qt/app.py:551
+#: qt/app.py:558
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 
-#: qt/app.py:558
+#: qt/app.py:565
 msgid "Open Back In Time website in browser"
 msgstr ""
 
-#: qt/app.py:560 qt/app.py:1531
+#: qt/app.py:567 qt/app.py:1543
 msgid "Changelog"
 msgstr "Nhật ký thay đổi"
 
-#: qt/app.py:563
+#: qt/app.py:570
 msgid "FAQ"
 msgstr "Câu hỏi thường gặp"
 
-#: qt/app.py:565
+#: qt/app.py:572
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr ""
 
-#: qt/app.py:567
+#: qt/app.py:574
 msgid "Ask a question"
 msgstr "Đặt câu hỏi"
 
-#: qt/app.py:571
+#: qt/app.py:578
 msgid "Report a bug"
 msgstr "Báo lỗi"
 
-#: qt/app.py:574
+#: qt/app.py:581
 msgid "Translation"
 msgstr "Phiên dịch"
 
-#: qt/app.py:576
+#: qt/app.py:583
 msgid "Shows the message about participation in translation again."
 msgstr "Hiển thị lại thông báo về việc tham gia dịch thuật."
 
-#: qt/app.py:580
+#: qt/app.py:587
 msgid "Encryption Transition (EncFS)"
 msgstr "Chuyển đổi mã hóa (EncFS)"
 
-#: qt/app.py:582
+#: qt/app.py:589
 msgid "Shows the message about EncFS removal again."
 msgstr "Hiển thị lại thông báo về việc gỡ bỏ EncFS."
 
-#: qt/app.py:589
+#: qt/app.py:596
 msgid "About"
 msgstr "Giới thiệu"
 
-#: qt/app.py:592 qt/restoredialog.py:36 qt/snapshotsdialog.py:173
+#: qt/app.py:599 qt/restoredialog.py:40 qt/snapshotsdialog.py:173
 #: qt/snapshotsdialog.py:178
 msgid "Restore"
 msgstr "Khôi phục"
 
-#: qt/app.py:594
+#: qt/app.py:601
 #, fuzzy
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Khôi phục các tập tin và thư mục được chọn về vị trí ban đầu."
 
-#: qt/app.py:597 qt/app.py:1703 qt/app.py:1735 qt/snapshotsdialog.py:175
+#: qt/app.py:604 qt/app.py:1715 qt/app.py:1747 qt/snapshotsdialog.py:175
 msgid "Restore to …"
 msgstr "Khôi phục đến …"
 
-#: qt/app.py:599
+#: qt/app.py:606
 #, fuzzy
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Khôi phục các tập tin và thư mục được chọn đến vị trí mới."
 
-#: qt/app.py:605
+#: qt/app.py:612
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -756,7 +770,7 @@ msgstr ""
 "Khôi phục thư mục hiện tại và tất cả nội dung bên trong nó về vị trí ban "
 "đầu."
 
-#: qt/app.py:611
+#: qt/app.py:618
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -764,61 +778,61 @@ msgid ""
 msgstr ""
 "Khôi phục thư mục hiện tại và tất cả nội dung bên trong nó đến vị trí mới."
 
-#: qt/app.py:614
+#: qt/app.py:621
 msgid "Up"
 msgstr "Lên"
 
-#: qt/app.py:617 qt/restoreconfigdialog.py:103
+#: qt/app.py:624 qt/restoreconfigdialog.py:103
 msgid "Show hidden files"
 msgstr "Hiện tập tin ẩn"
 
-#: qt/app.py:620
+#: qt/app.py:627
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Chụp snapshot…"
 
-#: qt/app.py:650 qt/app.py:2215
+#: qt/app.py:657 qt/app.py:2231
 msgid "Release Candidate"
 msgstr ""
 
-#: qt/app.py:653
+#: qt/app.py:660
 #, fuzzy
 msgid "Shows the message about this Release Candidate again."
 msgstr "Hiển thị lại thông báo về việc gỡ bỏ EncFS."
 
-#: qt/app.py:689
+#: qt/app.py:696
 msgid "Back In &Time"
 msgstr ""
 
-#: qt/app.py:694
+#: qt/app.py:701
 msgid "&Backup"
 msgstr "&Sao lưu"
 
-#: qt/app.py:705
+#: qt/app.py:713
 msgid "&Restore"
 msgstr "&Khôi phục"
 
-#: qt/app.py:711
+#: qt/app.py:719
 msgid "&Help"
 msgstr "T&rợ giúp"
 
-#: qt/app.py:757
+#: qt/app.py:766
 msgid "Icons only"
 msgstr ""
 
-#: qt/app.py:760
+#: qt/app.py:769
 msgid "Text only"
 msgstr ""
 
-#: qt/app.py:763
+#: qt/app.py:772
 msgid "Text below icons"
 msgstr ""
 
-#: qt/app.py:766
+#: qt/app.py:775
 msgid "Text beside icon"
 msgstr ""
 
-#: qt/app.py:915
+#: qt/app.py:924
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -827,77 +841,77 @@ msgstr ""
 "Nếu bạn đóng cửa sổ này, Back In Time sẽ không thể tắt máy của bạn khi quá "
 "trình chụp snapshot hoàn tất."
 
-#: qt/app.py:918
+#: qt/app.py:927
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1090
+#: qt/app.py:1102
 msgid "Working:"
 msgstr "Đang chạy:"
 
-#: qt/app.py:1138
+#: qt/app.py:1150
 msgid "Done, no backup needed"
 msgstr "Xong, không cần sao lưu"
 
-#: qt/app.py:1150
+#: qt/app.py:1162
 msgid "Working"
 msgstr "Đang chạy"
 
-#: qt/app.py:1159 qt/messagebox.py:125
+#: qt/app.py:1171 qt/messagebox.py:125
 msgid "Error"
 msgstr "Lỗi"
 
-#: qt/app.py:1200 qt/qtsystrayicon.py:206
+#: qt/app.py:1212 qt/qtsystrayicon.py:206
 msgid "Sent:"
 msgstr "Đã gửi:"
 
-#: qt/app.py:1201 qt/qtsystrayicon.py:207
+#: qt/app.py:1213 qt/qtsystrayicon.py:207
 msgid "Speed:"
 msgstr "Tốc độ:"
 
-#: qt/app.py:1202 qt/qtsystrayicon.py:208
+#: qt/app.py:1214 qt/qtsystrayicon.py:208
 msgid "ETA:"
 msgstr ""
 
-#: qt/app.py:1265
+#: qt/app.py:1277
 msgid "Global"
 msgstr "Toàn cục"
 
-#: qt/app.py:1266
+#: qt/app.py:1278
 msgid "Root"
 msgstr "Thư mục Root"
 
-#: qt/app.py:1267
+#: qt/app.py:1279
 msgid "Home"
 msgstr "Thư mục Home"
 
-#: qt/app.py:1295
+#: qt/app.py:1307
 #, fuzzy
 msgid "Backup directories"
 msgstr "Các thư mục sao lưu"
 
-#: qt/app.py:1374
+#: qt/app.py:1386
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1379
+#: qt/app.py:1391
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1412
+#: qt/app.py:1424
 #, fuzzy
 msgid "Backup name"
 msgstr "&Sao lưu"
 
-#: qt/app.py:1463
+#: qt/app.py:1475
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 
-#: qt/app.py:1561
+#: qt/app.py:1573
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix}\n"
@@ -906,7 +920,7 @@ msgstr ""
 "Tạo thêm bản sao lưu với {suffix} ở cuối tên\n"
 "trước khi ghi đè hoặc xóa các phần tử cục bộ."
 
-#: qt/app.py:1569 qt/manageprofiles/tab_options.py:65
+#: qt/app.py:1581 qt/manageprofiles/tab_options.py:65
 #, fuzzy, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -916,7 +930,7 @@ msgstr ""
 "tên trước khi khôi phục. Nếu bạn không cần chúng nữa, bạn có thể xóa chúng "
 "với {command}:"
 
-#: qt/app.py:1585
+#: qt/app.py:1597
 msgid ""
 "Only restore elements which do not exist or\n"
 "are newer than those in destination.\n"
@@ -926,12 +940,12 @@ msgstr ""
 "có phiên bản mới hơn so với trong thư mục đích.\n"
 "Sử dụng lệnh \"rsync --update\"."
 
-#: qt/app.py:1620
+#: qt/app.py:1632
 #, fuzzy
 msgid "Remove newer elements in original directory."
 msgstr "Xóa các tập tin có phiên bản mới hơn trong thư mục gốc."
 
-#: qt/app.py:1623
+#: qt/app.py:1635
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -945,7 +959,7 @@ msgstr ""
 "xóa bỏ các tệp tin và thư mục \n"
 "đã bị loại trừ trong khi chụp snapshot."
 
-#: qt/app.py:1635
+#: qt/app.py:1647
 #, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
@@ -953,22 +967,22 @@ msgstr[0] ""
 "Bạn có thật sự muốn khôi phục các phần tử này vào thư mục mới\n"
 " {path}?"
 
-#: qt/app.py:1643
+#: qt/app.py:1655
 #, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Bạn có thật sự muốn khôi phục các phần tử này?"
 
-#: qt/app.py:1662
+#: qt/app.py:1674
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1665
+#: qt/app.py:1677
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1671
+#: qt/app.py:1683
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -977,22 +991,22 @@ msgstr ""
 "CẢNH BÁO: Xóa các tập tin trong thư mục root của hệ thống tập tin có thể làm"
 " hỏng hệ thống của bạn!"
 
-#: qt/app.py:1920
+#: qt/app.py:1932
 #, fuzzy
 msgid "Backup"
 msgstr "&Sao lưu"
 
-#: qt/app.py:1959
+#: qt/app.py:1971
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Khôi phục {path}"
 
-#: qt/app.py:1961
+#: qt/app.py:1973
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Khôi phục {path} đến …"
 
-#: qt/app.py:2105
+#: qt/app.py:2121
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1009,47 +1023,47 @@ msgstr ""
 "Chúng tôi xin thứ lỗi về sự gián đoạn này, và thông báo này sẽ không xuất hiện nữa. Hộp thoại này lúc nào cũng có thể được tìm thấy trong menu trợ giúp.\n"
 "Nhóm phát triển Back In Time"
 
-#: qt/app.py:2134
+#: qt/app.py:2150
 msgid "translation platform"
 msgstr "nền tảng phiên dịch"
 
-#: qt/app.py:2139
+#: qt/app.py:2155
 msgid "Website"
 msgstr "Trang web"
 
-#: qt/app.py:2153
+#: qt/app.py:2169
 msgid "Your translation"
 msgstr "Bản dịch của bạn"
 
-#: qt/app.py:2166
+#: qt/app.py:2182
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2171
+#: qt/app.py:2187
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2174
+#: qt/app.py:2190
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2178
+#: qt/app.py:2194
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr ""
 
-#: qt/app.py:2181
+#: qt/app.py:2197
 msgid "Open an issue"
 msgstr ""
 
-#: qt/app.py:2182
+#: qt/app.py:2198
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:2187
+#: qt/app.py:2203
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1062,13 +1076,25 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:2287
+#: qt/app.py:2303
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Thiết đặt ngôn ngữ chỉ có tác dụng sau khi khởi động lại Back In Time."
 
+#: qt/editusercallback.py:43
+#, python-brace-format
+msgid "User-callback: \"{filename}\""
+msgstr ""
+
+#: qt/editusercallback.py:105
+#, python-brace-format
+msgid ""
+"The user-callback script must include a shebang on the first line (e.g. "
+"{example})."
+msgstr ""
+
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:579
+#: qt/manageprofiles/tab_general.py:561
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1082,17 +1108,17 @@ msgstr ""
 "chế độ đó cho hồ sơ nữa."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:588
+#: qt/manageprofiles/tab_general.py:570
 msgid "whitepaper"
 msgstr "sách trắng"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:581
+#: qt/manageprofiles/tab_general.py:563
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:583
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:565
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1126,6 +1152,11 @@ msgstr ""
 msgid "Your Back In Time Team"
 msgstr ""
 
+#: qt/filedialog.py:87
+#, fuzzy
+msgid "Show/hide hidden files and directories (Ctrl+H)"
+msgstr "Bao gồm các tập tin và thư mục"
+
 #: qt/languagedialog.py:35
 msgid "Setup language"
 msgstr "Thiết đặt ngôn ngữ"
@@ -1153,8 +1184,8 @@ msgstr "Xem nhật ký được lưu lần cuối cùng"
 msgid "Backup Log View"
 msgstr "Xem nhật ký được lưu lần cuối cùng"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:77
-#: qt/manageprofiles/tab_general.py:263 qt/restoreconfigdialog.py:282
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:67
+#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:282
 msgid "Profile:"
 msgstr "Hồ sơ:"
 
@@ -1201,152 +1232,65 @@ msgstr "[E] Lỗi, [I] Thông tin, [C] Thay đổi"
 msgid "decode paths"
 msgstr "giải mã đường dẫn"
 
-#: qt/manageprofiles/__init__.py:69
+#: qt/manageprofiles/__init__.py:59
 msgid "Manage profiles"
 msgstr "Quản lý hồ sơ"
 
-#: qt/manageprofiles/__init__.py:86
+#: qt/manageprofiles/__init__.py:76
 msgid "Edit"
 msgstr "Sửa"
 
-#: qt/manageprofiles/__init__.py:90 qt/manageprofiles/__init__.py:205
+#: qt/manageprofiles/__init__.py:80 qt/manageprofiles/tab_exclude.py:96
 msgid "Add"
 msgstr "Thêm"
 
-#: qt/manageprofiles/__init__.py:94 qt/manageprofiles/__init__.py:152
-#: qt/manageprofiles/__init__.py:223
+#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:117
+#: qt/manageprofiles/tab_include.py:78
 msgid "Remove"
 msgstr "Gỡ bỏ"
 
-#: qt/manageprofiles/__init__.py:115
+#: qt/manageprofiles/__init__.py:105
 msgid "&General"
 msgstr "&Tổng quan"
 
-#: qt/manageprofiles/__init__.py:119
+#: qt/manageprofiles/__init__.py:109
 msgid "&Include"
 msgstr "&Bao gồm"
 
-#: qt/manageprofiles/__init__.py:127
-#, fuzzy
-msgid "Include files and directories"
-msgstr "Bao gồm các tập tin và thư mục"
-
-#: qt/manageprofiles/__init__.py:144 qt/manageprofiles/__init__.py:209
-msgid "Add file"
-msgstr "Thêm tập tin"
-
-#: qt/manageprofiles/__init__.py:148 qt/manageprofiles/__init__.py:213
-#, fuzzy
-msgid "Add directory"
-msgstr "Thêm thư mục"
-
-#: qt/manageprofiles/__init__.py:158
+#: qt/manageprofiles/__init__.py:113
 msgid "&Exclude"
 msgstr "&Ngoại trừ"
 
-#: qt/manageprofiles/__init__.py:162
-#, python-brace-format
-msgid ""
-"{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
-"asterisks are functional (e.g. {example2}). Other types of wildcards and "
-"patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
-"this mode due to encryption by EncFS."
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:185
-#, fuzzy
-msgid "Exclude patterns, files or directories"
-msgstr "Loại trừ các pattern, tập tin hoặc thư mục"
-
-#: qt/manageprofiles/__init__.py:218
-msgid "Add default"
-msgstr "Thêm mặc định"
-
-#: qt/manageprofiles/__init__.py:231
-msgid "Exclude files bigger than:"
-msgstr "Loại trừ các tập tin có kích thước lớn hơn :"
-
-#: qt/manageprofiles/__init__.py:235
-#, fuzzy, python-brace-format
-msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Loại trừ các tập tin có kích thước lớn hơn : "
-
-#: qt/manageprofiles/__init__.py:237
-#, fuzzy
-msgid ""
-"With 'Full rsync mode' disabled, this setting affects only newly created "
-"files, as rsync treats it as transfer option rather than an exclusion rule. "
-"Consequently, large files that have already been backed up will remain in "
-"backups even if they are modified."
-msgstr ""
-"Loại trừ các tập tin có kích thước lớn hơn giá trị trong %(prefix)s.\n"
-"Khi 'chế độ rsync đầy đủ' đã tắt, cài đặt này chỉ có hiệu lực với các tập tin mới\n"
-"bởi vì đối với rsync đây là cài đặt chuyển đổi, không phải cài đặt loại trừ.\n"
-"Nên những tập tin lớn đã được sao lưu trước đó sẽ được giữ nguyên trong snapshot\n"
-"ngay cả khi chúng có thay đổi."
-
-#: qt/manageprofiles/__init__.py:267
+#: qt/manageprofiles/__init__.py:128
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:271
+#: qt/manageprofiles/__init__.py:132
 msgid "&Options"
 msgstr "Tùy &chọn"
 
-#: qt/manageprofiles/__init__.py:275
+#: qt/manageprofiles/__init__.py:136
 msgid "E&xpert Options"
 msgstr "Tùy chọn chuyên &gia"
 
-#: qt/manageprofiles/__init__.py:282
+#: qt/manageprofiles/__init__.py:143
 msgid "Restore Config"
 msgstr "Khôi phục cấu hình"
 
-#: qt/manageprofiles/__init__.py:284
-msgid "Edit user-callback"
-msgstr "Sửa user-callback"
-
-#: qt/manageprofiles/__init__.py:313
+#: qt/manageprofiles/__init__.py:174
 msgid "New profile"
 msgstr "Hồ sơ mới"
 
-#: qt/manageprofiles/__init__.py:330
+#: qt/manageprofiles/__init__.py:191
 msgid "Rename profile"
 msgstr "Đổi tên hồ sơ"
 
-#: qt/manageprofiles/__init__.py:346
+#: qt/manageprofiles/__init__.py:207
 #, fuzzy, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Bạn có chắc chắn muốn xóa hồ sơ \"{name}\" ?"
 
-#: qt/manageprofiles/__init__.py:406
-#, python-brace-format
-msgid ""
-"{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:411
-#, fuzzy, python-brace-format
-msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Rất khuyến khích"
-
-#: qt/manageprofiles/__init__.py:628
-msgid "Exclude pattern"
-msgstr "Loại trừ pattern"
-
-#: qt/manageprofiles/__init__.py:641
-msgid "Exclude file"
-msgstr "Loại trừ tập tin"
-
-#: qt/manageprofiles/__init__.py:645
-#, fuzzy
-msgid "Exclude directory"
-msgstr "Loại trừ thư mục"
-
-#: qt/manageprofiles/__init__.py:669
-msgid "Include file"
-msgstr "Bao gồm tập tin"
-
-#: qt/manageprofiles/__init__.py:690
+#: qt/manageprofiles/__init__.py:339
 #, fuzzy, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
@@ -1355,18 +1299,8 @@ msgstr ""
 "\"{path}\" là một liên kết tượng trưng. Tập tin gốc sẽ không được sao lưu cho đến khi bạn bao gồm nó vào nữa.\n"
 "Bạn có muốn bao gồm tập tin gốc thay vào đó?"
 
-#: qt/manageprofiles/__init__.py:694
+#: qt/manageprofiles/__init__.py:343
 msgid "Include the symlink's target instead?"
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:703
-#, fuzzy
-msgid "Include directory"
-msgstr "Bao gồm thư mục"
-
-#: qt/manageprofiles/__init__.py:760
-msgid ""
-"Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:38
@@ -1512,21 +1446,59 @@ msgstr ""
 "Giờ tùy chỉnh phải là các số giờ được ngăn cách bởi dấu phẩy (vd: "
 "8,12,18,23) hoặc theo định dạng */3 để sao lưu sau mỗi 3 tiếng."
 
+#: qt/manageprofiles/sshkeyselector.py:63
+msgid "<Select another file…>"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:64
+#, fuzzy
+msgid "Create a new SSH key without passphrase."
+msgstr "Tạo khoá SSH trong đường dẫn {path} thất bại"
+
+#: qt/manageprofiles/sshkeyselector.py:70
+msgid "<Generate new key-pair…>"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:71
+#, fuzzy
+msgid "Choose an existing private key file from somewhere else."
+msgstr "Chọn một tập tin khóa riêng đã tồn tại (thường được đặt tên \"id_rsa\")"
+
+#: qt/manageprofiles/sshkeyselector.py:91
+#, fuzzy, python-brace-format
+msgid "Full path: {path}"
+msgstr "Đường dẫn đầy đủ của snapshot:"
+
+#: qt/manageprofiles/sshkeyselector.py:185
+#, fuzzy
+msgid "Private key:"
+msgstr "Khóa riêng:"
+
+#: qt/manageprofiles/sshkeyselector.py:190
+msgid "Use system SSH configuration"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:192
+msgid ""
+"Leaves the key file unselected. SSH connections will rely on the system’s "
+"existing client configuration (e.g., ~/.ssh/config)."
+msgstr ""
+
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
 msgstr ""
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:115
-#: qt/manageprofiles/tab_general.py:251
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:117
+#: qt/manageprofiles/tab_general.py:235
 msgid "Host:"
 msgstr "Máy chủ:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:120
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:122
 msgid "Port:"
 msgstr "Cổng:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:125
-#: qt/manageprofiles/tab_general.py:257
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:127
+#: qt/manageprofiles/tab_general.py:241
 msgid "User:"
 msgstr "Người dùng:"
 
@@ -1535,6 +1507,87 @@ msgid ""
 "Connect to the target host via this proxy (also known as a jump host). See "
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:53
+#, python-brace-format
+msgid ""
+"{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
+"asterisks are functional (e.g. {example2}). Other types of wildcards and "
+"patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
+"this mode due to encryption by EncFS."
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:76
+#, fuzzy
+msgid "Exclude patterns, files or directories"
+msgstr "Loại trừ các pattern, tập tin hoặc thư mục"
+
+#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
+#, fuzzy
+msgid "Add files"
+msgstr "Thêm tập tin"
+
+#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
+#, fuzzy
+msgid "Add directories"
+msgstr "Thêm thư mục"
+
+#: qt/manageprofiles/tab_exclude.py:111
+msgid "Add default"
+msgstr "Thêm mặc định"
+
+#: qt/manageprofiles/tab_exclude.py:126
+msgid "Exclude files bigger than:"
+msgstr "Loại trừ các tập tin có kích thước lớn hơn :"
+
+#: qt/manageprofiles/tab_exclude.py:130
+#, fuzzy, python-brace-format
+msgid "Exclude files bigger than value in {size_unit}."
+msgstr "Loại trừ các tập tin có kích thước lớn hơn : "
+
+#: qt/manageprofiles/tab_exclude.py:132
+#, fuzzy
+msgid ""
+"With 'Full rsync mode' disabled, this setting affects only newly created "
+"files, as rsync treats it as transfer option rather than an exclusion rule. "
+"Consequently, large files that have already been backed up will remain in "
+"backups even if they are modified."
+msgstr ""
+"Loại trừ các tập tin có kích thước lớn hơn giá trị trong %(prefix)s.\n"
+"Khi 'chế độ rsync đầy đủ' đã tắt, cài đặt này chỉ có hiệu lực với các tập tin mới\n"
+"bởi vì đối với rsync đây là cài đặt chuyển đổi, không phải cài đặt loại trừ.\n"
+"Nên những tập tin lớn đã được sao lưu trước đó sẽ được giữ nguyên trong snapshot\n"
+"ngay cả khi chúng có thay đổi."
+
+#: qt/manageprofiles/tab_exclude.py:200
+#, python-brace-format
+msgid ""
+"{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:205
+#, fuzzy, python-brace-format
+msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
+msgstr "Rất khuyến khích"
+
+#: qt/manageprofiles/tab_exclude.py:263
+msgid "Exclude pattern"
+msgstr "Loại trừ pattern"
+
+#: qt/manageprofiles/tab_exclude.py:276
+#, fuzzy
+msgid "Exclude files"
+msgstr "Loại trừ tập tin"
+
+#: qt/manageprofiles/tab_exclude.py:282
+#, fuzzy
+msgid "Exclude directories"
+msgstr "Loại trừ thư mục"
+
+#: qt/manageprofiles/tab_exclude.py:313
+msgid ""
+"Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:39
@@ -1703,92 +1756,60 @@ msgstr "đang tắt"
 msgid "enabled"
 msgstr "đang bật"
 
-#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:284
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:284
 msgid "Mode:"
 msgstr "Chế độ:"
 
-#: qt/manageprofiles/tab_general.py:77 qt/manageprofiles/tab_general.py:611
+#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:593
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Nơi lưu các snapshot"
 
-#: qt/manageprofiles/tab_general.py:103
+#: qt/manageprofiles/tab_general.py:105
 msgid "SSH Settings"
 msgstr "Cài đặt SSH"
 
-#: qt/manageprofiles/tab_general.py:130
+#: qt/manageprofiles/tab_general.py:132
 msgid "Path:"
 msgstr "Đường dẫn:"
 
-#: qt/manageprofiles/tab_general.py:141
-msgid "Private Key:"
-msgstr "Khóa riêng:"
-
-#: qt/manageprofiles/tab_general.py:152
+#: qt/manageprofiles/tab_general.py:139
 #, fuzzy
-msgid ""
-"Choose an existing private key file (normally named \"id_ed25519\" and in "
-"older setups \"id_rsa\")."
-msgstr "Chọn một tập tin khóa riêng đã tồn tại (thường được đặt tên \"id_rsa\")"
+msgid "Key file:"
+msgstr "Hồ sơ mới"
 
-#: qt/manageprofiles/tab_general.py:164
-#, fuzzy
-msgid ""
-"Create a new SSH key without password (not allowed if a private key file is "
-"already selected)."
-msgstr ""
-"Tạo một khóa SSH mới mà không cần mật khẩu (không được phép nếu một tập tin "
-"khóa riêng đã được chọn)"
-
-#: qt/manageprofiles/tab_general.py:198 qt/manageprofiles/tab_general.py:205
-#: qt/manageprofiles/tab_general.py:209
+#: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
+#: qt/manageprofiles/tab_general.py:186
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: qt/manageprofiles/tab_general.py:219
+#: qt/manageprofiles/tab_general.py:203
 msgid "Save Password to Keyring"
 msgstr "Lưu mật khẩu vào Keyring"
 
-#: qt/manageprofiles/tab_general.py:223
+#: qt/manageprofiles/tab_general.py:207
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Lưu mật khẩu cho Cron vào cache (Vấn đề bảo mật: tài khoản root có thể đọc "
 "mật khẩu)"
 
-#: qt/manageprofiles/tab_general.py:239
+#: qt/manageprofiles/tab_general.py:223
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: qt/manageprofiles/tab_general.py:269 qt/manageprofiles/tab_general.py:663
+#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:670
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Đường dẫn đầy đủ của snapshot:"
 
-#: qt/manageprofiles/tab_general.py:392
-#, fuzzy
-msgid "A private key file for SSH was not chosen."
-msgstr "Tập tin khóa riêng \"{file}\" không tồn tại."
-
-#: qt/manageprofiles/tab_general.py:393
-#, fuzzy
-msgid "Should a new password-less public/private key pair be generated?"
-msgstr ""
-"Bạn chưa chọn một tập tin khóa riêng cho SSH.\n"
-"Bạn có muốn tạo một cặp khóa riêng và khóa công khai không có mật khẩu?"
-
-#: qt/manageprofiles/tab_general.py:404
-#, python-brace-format
-msgid "Private key file \"{file}\" does not exist."
-msgstr "Tập tin khóa riêng \"{file}\" không tồn tại."
-
-#: qt/manageprofiles/tab_general.py:489
+#: qt/manageprofiles/tab_general.py:471
 #, fuzzy
 msgid "Copy public SSH key to the remote host to enable password-less login?"
 msgstr ""
 "Bạn có muốn sao chép khóa SSH công khai của bạn đến\n"
 "máy chủ từ xa để bật đăng nhập không cần mật khẩu?"
 
-#: qt/manageprofiles/tab_general.py:523
+#: qt/manageprofiles/tab_general.py:505
 #, fuzzy, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
@@ -1796,27 +1817,59 @@ msgstr ""
 "\n"
 "Vân tay khóa {keytype} là:"
 
-#: qt/manageprofiles/tab_general.py:526
+#: qt/manageprofiles/tab_general.py:508
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:534
+#: qt/manageprofiles/tab_general.py:516
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
 msgstr ""
 "Vui lòng xác nhận vân tay này! Bạn có muốn thêm nó vào tập tin 'known_hosts'"
 " của bạn?"
 
-#: qt/manageprofiles/tab_general.py:618
+#: qt/manageprofiles/tab_general.py:600
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Tạo một thư mục được mã hóa mới?"
 
-#: qt/manageprofiles/tab_general.py:651
+#: qt/manageprofiles/tab_general.py:632
+#, python-brace-format
+msgid ""
+"The selected file {path} appears to be a public SSH key. Please select a "
+"private file (without a \".pub\" extension)."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:635
+msgid "No public SSH keys"
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:647
+#, python-brace-format
+msgid ""
+"The file {path} already exists. Cannot create a new SSH key with that name."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:658
 #, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Tạo khoá SSH trong đường dẫn {path} thất bại"
+
+#: qt/manageprofiles/tab_include.py:48
+#, fuzzy
+msgid "Include files and directories"
+msgstr "Bao gồm các tập tin và thư mục"
+
+#: qt/manageprofiles/tab_include.py:147
+#, fuzzy
+msgid "Include files"
+msgstr "Bao gồm tập tin"
+
+#: qt/manageprofiles/tab_include.py:163
+#, fuzzy
+msgid "Include directories"
+msgstr "Bao gồm thư mục"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -2094,7 +2147,7 @@ msgid ""
 "manually mounted beforehand."
 msgstr ""
 
-#: qt/restoredialog.py:48
+#: qt/restoredialog.py:52
 msgid "Show full Log"
 msgstr "Hiện toàn bộ Nhật ký"
 
@@ -2252,6 +2305,10 @@ msgid "Last check {time}"
 msgstr "Kiểm tra lần cuối: {time}"
 
 #, fuzzy
+#~ msgid "A private key file for SSH was not chosen."
+#~ msgstr "Tập tin khóa riêng \"{file}\" không tồn tại."
+
+#, fuzzy
 #~ msgid "Are you sure you want to change snapshots directory?"
 #~ msgstr "Bạn có chắc chắn muốn thay đổi thư mục snapshot không?"
 
@@ -2277,6 +2334,14 @@ msgstr "Kiểm tra lần cuối: {time}"
 
 #~ msgid "Cipher:"
 #~ msgstr "Thuật toán mã hóa:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Create a new SSH key without password (not allowed if a private key file is "
+#~ "already selected)."
+#~ msgstr ""
+#~ "Tạo một khóa SSH mới mà không cần mật khẩu (không được phép nếu một tập tin "
+#~ "khóa riêng đã được chọn)"
 
 #~ msgid "Do you really want to close it?"
 #~ msgstr "Bạn có thật sự muốn đóng nó ?"
@@ -2309,8 +2374,21 @@ msgstr "Kiểm tra lần cuối: {time}"
 #~ "Những phiên bản mới hơn của các tập tin sẽ được đổi tên với {suffix} ở cuối tên trước khi khôi phục.\n"
 #~ "Nếu bạn không cần chúng nữa, bạn có thể xóa chúng với {cmd}"
 
+#~ msgid "Please confirm the password."
+#~ msgstr "Vui lòng xác nhận mật khẩu."
+
+#, python-brace-format
+#~ msgid "Private key file \"{file}\" does not exist."
+#~ msgstr "Tập tin khóa riêng \"{file}\" không tồn tại."
+
 #~ msgid "Sent"
 #~ msgstr "Đã gửi"
+
+#, fuzzy
+#~ msgid "Should a new password-less public/private key pair be generated?"
+#~ msgstr ""
+#~ "Bạn chưa chọn một tập tin khóa riêng cho SSH.\n"
+#~ "Bạn có muốn tạo một cặp khóa riêng và khóa công khai không có mật khẩu?"
 
 #, fuzzy
 #~ msgid "Shows the message about deprecation of SSH cipher again."

@@ -353,20 +353,25 @@ class Config(configfile.ConfigFileWithProfiles):
                         return False
 
             # check warn free space
-            if self.warnFreeSpaceEnabled(profile_id) \
-                   and self.minFreeSpaceEnabled(profile_id):
+            if (self.warnFreeSpaceEnabled(profile_id)
+                and self.minFreeSpaceEnabled(profile_id)):
 
                 warn = self.warnFreeSpace(profile_id)
                 _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
                 if warn < min_free:
                     self.notifyError(
-                        '{}\n{}'.format(
+                        '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The warning threshold for free space must '
-                              'be greater than or equal to the removing '
-                              'threshold by free space.')))
-
+                            _('The value for "Remove oldest backup if free '
+                              'space is less than" ({val_one}) must be less '
+                              'than or equal the threshold for "Warn if '
+                              'free disk space falls below" ({val_two}).'
+                              ).format(val_one=min_free, val_two=warn),
+                            _('Please adjust the settings so that the backup '
+                              'removal limit is not higher than the '
+                              'warning limit.')
+                        ))
                     return False
 
         return True
@@ -517,25 +522,24 @@ class Config(configfile.ConfigFileWithProfiles):
             path = './'
         return (host, port, user, path, cipher)
 
-    def sshPrivateKeyFile(self, profile_id = None):
-        ssh = self.sshPrivateKeyFolder()
-        default = ''
-        for f in ['id_dsa', 'id_rsa', 'identity']:
-            private_key = os.path.join(ssh, f)
-            if os.path.isfile(private_key):
-                default = private_key
-                break
-        #?Private key file used for password-less authentication on remote host.
-        #?;absolute path to private key file;~/.ssh/id_dsa
-        f = self.profileStrValue('snapshots.ssh.private_key_file', default, profile_id)
-        if f:
-            return f
-        return default
+    def sshPrivateKeyFile(self, profile_id=None) -> None | bool | str:
+        """The field can have three states:
+        1. Field does not exists: Fresh profile. Provide a default value.
+        2. Field exist but is empty: Using keys is disabled.
+        3. Field has a path:
+        """
+        val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
 
-    def sshPrivateKeyFolder(self):
-        return os.path.join(os.path.expanduser('~'), '.ssh')
+        # Using keys is disabled
+        if val == '':
+            return False
 
-    def setSshPrivateKeyFile(self, value, profile_id = None):
+        return val
+
+    def sshPrivateKeyFile_enabled(self, profile_id=None):
+        return self.sshPrivateKeyFile(profile_id) is not False
+
+    def setSshPrivateKeyFile(self, value, profile_id=None):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
 
     def sshProxyHost(self, profile_id=None):
@@ -596,11 +600,17 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         # keep connection alive
         args  = ['-o', 'ServerAliveInterval=240']
+
         # disable ssh banner
         args += ['-o', 'LogLevel=Error']
+
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
-        args += ['-o', 'IdentityFile={}'.format(self.sshPrivateKeyFile(profile_id))]
+        if self.sshPrivateKeyFile_enabled(profile_id):
+            key_file = self.sshPrivateKeyFile(profile_id)
+            if key_file:
+                args += ['-o', f'IdentityFile={key_file}']
+
         return args
 
     def sshCommand(self,
