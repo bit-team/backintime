@@ -110,7 +110,7 @@ class FileDialog(QFileDialog):
             canceled.
         """
         if self.exec() != QDialog.DialogCode.Accepted:
-            return None
+            return [] if self._multiselect else None
 
         if self._multiselect:
             return [Path(fn) for fn in self.selectedFiles()]
