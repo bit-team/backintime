@@ -373,7 +373,6 @@ class Config(configfile.ConfigFileWithProfiles):
                 warn = self.warnFreeSpace(profile_id)
                 _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
-                min_free = StorageSize(50, SizeUnit.GIB)  # DEBUG
                 if warn < min_free:
                     self.notifyError(
                         '{}\n{}\n{}'.format(
