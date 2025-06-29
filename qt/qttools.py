@@ -15,6 +15,7 @@
     - Helpers about path manipulation.
     - FiledialogShowHidden
     - Menu (tooltips in menus)
+    - etc
 """
 import os
 import sys
@@ -22,6 +23,7 @@ import re
 import json
 import textwrap
 from typing import Union, Iterable
+from contextlib import contextmanager
 from PyQt6.QtGui import QDesktopServices, QFont, QIcon
 from PyQt6.QtCore import (QLibraryInfo,
                           QLocale,
@@ -307,7 +309,8 @@ def getExistingDirectory(parent, title, start_dir=None):
     result = dlg.result()
 
     if result:
-        return result
+        return str(result)
+
     return str()
 
 
@@ -323,7 +326,7 @@ def getOpenFileNames(parent, title):
     result = dlg.result()
 
     if result:
-        return result
+        return [str(r) for r in result]
     return [str(), ]
 
 
@@ -338,7 +341,7 @@ def getOpenFileName(parent, title, start_dir = None):
     result = dlg.result()
 
     if result:
-        return result
+        return str(result)
     return str()
 
 
@@ -473,8 +476,11 @@ def initiate_translator(language_code: str) -> QTranslator:
     return translator
 
 
-def indexFirstColumn(idx):
-    if idx.column() > 0:
-        idx = idx.sibling(idx.row(), 0)
+@contextmanager
+def block_signals(widget: QWidget) -> None:
+    """Context manager to temporary block Qt signals"""
+    widget.blockSignals(True)
 
-    return idx
+    yield
+
+    widget.blockSignals(False)

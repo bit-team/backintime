@@ -29,11 +29,14 @@ from PyQt6.QtGui import QPalette, QBrush
 import tools
 import qttools
 from qttools import custom_sort_order
+from filedialog import FileDialog
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
+
 class ExcludeTab(QWidget):
     """Create the 'Exclude' tab."""
+
     def __init__(self, parent):
         super().__init__(parent=parent)
 
@@ -104,15 +107,17 @@ class ExcludeTab(QWidget):
         buttons_layout.addWidget(self.btn_exclude_folder)
         self.btn_exclude_folder.clicked.connect(self.btn_exclude_folder_clicked)
 
-        self.btn_exclude_default = QPushButton(self.icon.DEFAULT_EXCLUDE,
-                                             _('Add default'),
-                                             self)
+        self.btn_exclude_default = QPushButton(
+            self.icon.DEFAULT_EXCLUDE, _('Add default'), self)
         buttons_layout.addWidget(self.btn_exclude_default)
-        self.btn_exclude_default.clicked.connect(self.btn_exclude_default_clicked)
+        self.btn_exclude_default.clicked.connect(
+            self.btn_exclude_default_clicked)
 
-        self.btn_exclude_remove = QPushButton(self.icon.REMOVE, _('Remove'), self)
+        self.btn_exclude_remove = QPushButton(
+            self.icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget(self.btn_exclude_remove)
-        self.btn_exclude_remove.clicked.connect(self.btn_exclude_remove_clicked)
+        self.btn_exclude_remove.clicked.connect(
+            self.btn_exclude_remove_clicked)
 
         # exclude files by size
         hlayout = QHBoxLayout()
@@ -158,7 +163,7 @@ class ExcludeTab(QWidget):
         except KeyError:
             pass
 
-    def store_values(self,profile_state):
+    def store_values(self, profile_state):
         # exclude patterns
         profile_state.exclude_sorting = (
             self.list_exclude.header().sortIndicatorSection(),
@@ -272,9 +277,16 @@ class ExcludeTab(QWidget):
             self.add_exclude(path)
 
     def btn_exclude_folder_clicked(self):
-        for path in qttools.getExistingDirectories(
-                self, _('Exclude directories')):
-            self.add_exclude(path)
+        # pylint: disable=duplicate-code
+        dlg = FileDialog(parent=self,
+                         title=_('Exclude directories'),
+                         show_hidden=True,
+                         allow_multiselection=True,
+                         dirs_only=True)
+        dirs = dlg.result()
+
+        for path in dirs:
+            self.add_exclude(str(path))
 
     def btn_exclude_default_clicked(self):
         for path in self.config.DEFAULT_EXCLUDE:
