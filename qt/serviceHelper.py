@@ -1,8 +1,9 @@
-# SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
-# SPDX-FileCopyrightText: © 2008 Canonical Ltd.
 # SPDX-FileCopyrightText: © 2004-2006 Red Hat Inc. <http://www.redhat.com>
 # SPDX-FileCopyrightText: © 2005-2007 Collabora Ltd. <http://www.collabora.co.uk>
+# SPDX-FileCopyrightText: © 2008 Canonical Ltd.
 # SPDX-FileCopyrightText: © 2009 David D. Lowe
+# SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 # SPDX-License-Identifier: MIT
@@ -101,56 +102,87 @@ class UdevRules(dbus.service.Object):
 
         self.tmpDict = {}
 
-        # find su path
         self.su = self._which('su', '/bin/su')
         self.backintime = self._which('backintime', '/usr/bin/backintime')
-        self.nice = self._which('nice', '/usr/bin/nice')
-        self.ionice = self._which('ionice', '/usr/bin/ionice')
+
         self.max_rules = 100
         self.max_users = 20
         self.max_cmd_len = 120  # was 100 before but was too small (see #1027)
 
     def _which(self, exe, fallback):
         proc = Popen(['which', exe], stdout=PIPE)
-        ret = proc.communicate()[0].strip().decode()
+
+        ret = proc.communicate()
+        # ret = proc.communicate()[0].strip().decode()
+        ret = ret[0].strip().decode()
+
         if proc.returncode or not ret:
             return fallback
 
         return ret
 
     def _validateCmd(self, cmd):
+        """ ???
+        """
 
         if cmd.find("&&") != -1:
             raise InvalidCmd("Parameter 'cmd' contains '&&' concatenation")
-        # make sure it starts with an absolute path
-        elif not cmd.startswith(os.path.sep):
-            raise InvalidCmd("Parameter 'cmd' does not start with '/'")
 
-        parts = cmd.split()
+        # make sure it starts with an absolute path
+        if not cmd.startswith(os.path.sep):
+            raise InvalidCmd(
+                f'Parameter "cmd" does not start with "{os.path.sep}"')
 
         # make sure only well known commands and switches are used
         whitelist = (
-            (self.nice, r'^-n'),
-            (self.ionice, r'(^-c|^-n)'),
+            (
+                # command itself
+                self._which('nice', '/usr/bin/nice'),
+                # command options/switches beginning with "-n"
+                r'^-n'
+            ),
+            (
+                # command itself
+                self._which('ionice', '/usr/bin/ionice'),
+                # command options/switches beginning with "-c" or "-n"
+                r'(^-c|^-n)'
+            ),
         )
 
+        parts = cmd.split()
+
+        # Remove whitelisted comamnds and their options/switches
         while parts:
+
             for c, switches in whitelist:
+
+                # whitelist command?
                 if parts[0] == c:
+
+                    # remove from parts list
                     parts.pop(0)
+
+                    # every whitelisted option/switch
                     while parts and re.match(switches, parts[0]):
+                        # remove from parts list
                         parts.pop(0)
+
                     break
+
             else:
                 break
 
+        # See what's left in parts
         if not parts:
-            raise InvalidCmd(
-                "Parameter 'cmd' does not contain the backintime command")
+            msg = "Parameter 'cmd' does not contain the backintime command"
+            msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+            raise InvalidCmd(msg)
 
-        elif parts[0] != self.backintime:
-            raise InvalidCmd("Parameter 'cmd' contains non-whitelisted "
-                             f"cmd/parameter ({parts[0]})")
+        if parts[0] != self.backintime:
+            msg = "Parameter 'cmd' contains non-whitelisted cmd/parameter " \
+                  f"({parts[0]})"
+            msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+            raise InvalidCmd(msg)
 
     def _checkLimits(self, owner, cmd):
 
