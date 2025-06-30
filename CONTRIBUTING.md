@@ -505,7 +505,7 @@ This is a broad overview of upcoming developlment steps depending on each other:
 2. Removing EncFS.
    Related issue: [#1734](https://github.com/bit-team/backintime/issues/1734)
 3. Introduce new configuration management code.
-   Pending PR: [#1850)(https://github.com/bit-team/backintime/pull/1850)
+   Pending PR: [#1850](https://github.com/bit-team/backintime/pull/1850)
 4. Implement new config file format (TOML).
    Related issue: [#1984](https://github.com/bit-team/backintime/issues/1984)
 
