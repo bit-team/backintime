@@ -410,6 +410,7 @@ priority.
 - [Project infrastructure](#project-infrastructure)
 - [Graphical User Interface (GUI): Redesign and Refactoring](#graphical-user-interface-gui-redesign-and-refactoring)
 - [Terminal User Interface (TUI)](#terminal-user-interface-tui)
+- [Tentative rough roadmap](#tentative-rough-roadmap)
 
 ## Analyzing code and behavior
 
@@ -480,20 +481,33 @@ the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintim
 ## Graphical User Interface (GUI): Redesign and Refactoring
 
 Over the years, the GUI has become increasingly complex. It requires a visual
-redesign as well as code refactoring. Additionally, it lacks tests.
+redesign as well as code refactoring. Additionally, it lacks tests. This is
+an on-going tasks.
 
 ## Terminal User Interface (TUI)
 
 Various people use _Back In Time_ via the terminal, for example, through an SSH
-shell on a headless server. There is an idea of creating a terminal user
-interface (TUI) or to enhance the existing command-line interface (CLI)
-([#254](https://github.com/bit-team/backintime/issues/254)) or to create a
-web-frontend ([#209](https://github.com/bit-team/backintime/issues/209)). The
-later idea was rejected. The TUI idea also has been postponed for now. As an
-alternative, it is currently being considered to change the format of the
-configuration file to TOML
-([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming that
-a TUI, while convenient and pleasant, would no longer be necessary.
+shell on a headless server. There where several ideas of creating alternatives
+to the Qt based GUI: terminal user interface (TUI) or enhance the existing
+command-line interface (CLI)
+([#254](https://github.com/bit-team/backintime/issues/254)); a web-frontend
+([#209](https://github.com/bit-team/backintime/issues/209)). All ideas are
+are rejected or postponed in favor of a human readable config file format using
+TOML ([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming
+that a TUI or WebInterface, while convenient and pleasant, would no longer be
+necessary.
+
+## Tentative rough roadmap
+This is a broad overview of upcoming developlment steps depending on each other:
+
+1. Implement GoCrypt as an EncFS alternative.
+   Related issue: [#1734](https://github.com/bit-team/backintime/issues/1734)
+2. Removing EncFS.
+   Related issue: [#1734](https://github.com/bit-team/backintime/issues/1734)
+3. Introduce new configuration management code.
+   Pending PR: [#1850](https://github.com/bit-team/backintime/pull/1850)
+4. Implement new config file format (TOML).
+   Related issue: [#1984](https://github.com/bit-team/backintime/issues/1984)
 
 # Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted to
@@ -501,7 +515,10 @@ the project are considered licensed under the same terms as the rest of the
 work. With a few exceptions, this is
 [GNU General Public License Version 2 or later](https://spdx.org/licenses/GPL-2.0-or-later.html)
 (`GPL-2.0-or-later`). This project uses [SPDX metadata](https://spdx.dev/) to
-provide detailed license and copyright information. This data is also
-machine-readable with [REUSE tools](https://reuse.software/).
+provide detailed license and copyright information in a machine-readable
+format. This data is
+[available online](https://api.reuse.software/info/github.com/bit-team/backintime).
+or can be read from the local repository with
+[REUSE tools](https://reuse.software/).
 
-<sub>January 2025</sub>
+<sub>July 2025</sub>

@@ -151,7 +151,7 @@ class UdevRules(dbus.service.Object):
 
         parts = cmd.split()
 
-        # Remove whitelisted comamnds and their options/switches
+        # Remove whitelisted commands and their options/switches
         while parts:
 
             for c, switches in whitelist:
