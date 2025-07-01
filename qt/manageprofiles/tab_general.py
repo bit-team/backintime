@@ -632,7 +632,7 @@ class GeneralTab(QDialog):
             msg = _('The selected file {path} appears to be a public SSH '
                     'key. Please select a private file (without a ".pub" '
                     'extension).').format(path=key_file)
-            messagebox.warning(msg, _('No public SSH keys'), self)
+            messagebox.warning(msg, _('Not a private key'), self)
             return
 
         # self.txtSshPrivateKeyFile.setText(str(key_file))
