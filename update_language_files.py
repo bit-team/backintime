@@ -169,7 +169,7 @@ def _set_header(po_path: Path):
 
     pof = polib.pofile(po_path)
 
-    pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERISON}'
+    pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
     pof.save()
 
 
