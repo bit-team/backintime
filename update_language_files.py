@@ -186,7 +186,7 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
 
 
 def _set_header(po_path: Path, spdx_base: str):
-    """Setup the header and comments header of the givin po-file to the current
+    """Setup the header and comments header of the given po-file to the current
     state.
 
     """
