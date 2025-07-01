@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-06-28 22:31+0200\n"
-"PO-Revision-Date: 2025-06-15 18:28+0000\n"
+"PO-Revision-Date: 2025-06-30 05:35+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -99,12 +99,17 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Значення «Видаляти найстарішу копію, якщо вільного місця менше, ніж» "
+"({val_one}) має бути меншим або дорівнювати пороговому значенню "
+"«Попереджати, якщо вільного місця менше, ніж» ({val_two})."
 
 #: common/config.py:386
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Налаштуйте параметри так, щоб ліміт видалення резервної копії не перевищував"
+" ліміт попередження."
 
 #: common/config.py:1516
 #, python-brace-format
@@ -164,14 +169,12 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Будь ласка, введіть пароль для «{user}»."
+msgstr "Для підтвердження введіть пароль EncFS ще раз."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Пароль не збігається."
+msgstr "Паролі EncFS не збігаються."
 
 #: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
@@ -1069,7 +1072,7 @@ msgstr ""
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "User-callback: «{filename}»"
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1077,6 +1080,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Скрипт user-callback повинен містити shebang у першому рядку (напр., "
+"{example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1144,9 +1149,8 @@ msgid "Your Back In Time Team"
 msgstr "Ваша команда Back In Time"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Включити файли і каталоги"
+msgstr "Показати/сховати приховані файли і каталоги (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1441,44 +1445,40 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Вибрати інший файл…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Не вдалося створити новий ключ SSH у {path}."
+msgstr "Створити новий ключ SSH без парольної фрази."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Створити нову пару ключів…>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Оберіть файл приватного ключа (зазвичай має назву «id_ed25519», а в старих "
-"версіях — «id_rsa»)."
+msgstr "Вибрати існуючий файл приватного ключа з іншого місця."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Повний шлях до копії:"
+msgstr "Повний шлях: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Приватний ключ:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Імпортувати конфігурацію"
+msgstr "Використовувати системну конфігурацію SSH"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Залишає файл ключа невибраним. Підключення по SSH залежатимуть від "
+"конфігурації клієнта системи (напр., ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1526,14 +1526,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Виключити шаблони, файли або каталоги"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
 msgid "Add files"
-msgstr "Додати файл"
+msgstr "Додати файли"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
 msgid "Add directories"
-msgstr "Додати каталог"
+msgstr "Додати каталоги"
 
 #: qt/manageprofiles/tab_exclude.py:111
 msgid "Add default"
@@ -1577,14 +1575,12 @@ msgid "Exclude pattern"
 msgstr "Виключити за шаблоном"
 
 #: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
 msgid "Exclude files"
-msgstr "Виключити файл"
+msgstr "Виключити файли"
 
 #: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Виключити каталог"
+msgstr "Виключити каталоги"
 
 #: qt/manageprofiles/tab_exclude.py:313
 msgid ""
@@ -1764,9 +1760,8 @@ msgid "Path:"
 msgstr "Шлях:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Новий профіль"
+msgstr "Файл ключа:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1818,16 +1813,20 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Вибраний файл {path} є публічним ключем SSH. Будь ласка, виберіть приватний "
+"файл (без розширення «.pub»)."
 
 #: qt/manageprofiles/tab_general.py:635
+#, fuzzy
 msgid "No public SSH keys"
-msgstr ""
+msgstr "Немає публічних ключів SSH"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Файл {path} вже існує. Неможливо створити новий ключ SSH з такою назвою."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1839,14 +1838,12 @@ msgid "Include files and directories"
 msgstr "Включити файли і каталоги"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Включити файл"
+msgstr "Включити файли"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Включити каталог"
+msgstr "Включити каталоги"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -2074,7 +2071,7 @@ msgstr "… вільних айнодів менше, ніж"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
 msgid "Remove oldest backup if …"
-msgstr "Видаляти найстаріші копії, якщо…"
+msgstr "Видаляти найстарішу копію, якщо…"
 
 #: qt/messagebox.py:116 qt/messagebox.py:134 qt/messagebox.py:144
 msgid "Question"
