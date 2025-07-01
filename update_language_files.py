@@ -179,8 +179,6 @@ def _set_header(po_path: Path, spdx_base: str):
     # Version string
     pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
 
-    # f'SPDX-FileCopyrightText: {name}' for name
-
     # Extract authors
     e = pof.find(TRANSLATION_PLACEHOLDER_MSGID)
     if e:
@@ -195,10 +193,17 @@ def _set_header(po_path: Path, spdx_base: str):
             f'SPDX-FileCopyrightText: {centry}' for centry in copyright]
 
         copyright = '\n'.join(copyright)
-    else:
-        copyright = ''
 
-    pof.header = f'{copyright}\n{spdx_base}'.rstrip('\n')
+    else:
+        copyright = '© 2009 Back In Time Team <bit-dev@python.org>'
+
+
+    pof.header = f'{copyright}\n{spdx_base}\n' \
+        "# The recording of translators' names began around 2022. As " \
+        "the project\n" \
+        "started in 2009, some earlier translators' names may not have " \
+        "been\n" \
+        'documented and could be lost.'
 
     # Remove someday
     try:
