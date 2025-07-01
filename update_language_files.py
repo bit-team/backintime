@@ -18,7 +18,7 @@ import shutil
 import json
 from pathlib import Path
 from subprocess import run, check_output
-from common import languages
+from common import languages, version
 
 try:
     import polib
@@ -34,7 +34,7 @@ TEMPLATE_PO = LOCAL_DIR / 'messages.pot'
 LANGUAGE_NAMES_PY = Path('common') / 'languages.py'
 WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
-PACKAGE_VERSION = Path('VERSION').read_text('utf-8').strip()
+PACKAGE_VERSION = version.__version__ # Path('VERSION').read_text('utf-8').strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
