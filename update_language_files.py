@@ -39,6 +39,7 @@ BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
 TRANSLATION_PLACEHOLDER_MSGID = 'translator-credits-placeholder'
+DEFAULT_COPYRIGHT = '© Back In Time Team <bit-dev@python.org>'
 
 def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
     """Convert a (nested) Python dict into its PEP8 conform as-in-code
@@ -195,7 +196,6 @@ def _set_header(po_path: Path, spdx_base: str):
     else:
         copyright = ''
 
-    print(f'{copyright=}\n{spdx_base=}')
     pof.header = f'{copyright}\n{spdx_base}'.rstrip('\n')
 
     # Remove someday
