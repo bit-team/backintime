@@ -199,7 +199,7 @@ def _set_header(po_path: Path, spdx_base: str):
 
 
     pof.header = f'{copyright}\n{spdx_base}\n' \
-        "# The recording of translators' names began around 2022. As " \
+        "Recording of translators' names began around 2022. As " \
         "the project\n" \
         "started in 2009, some earlier translators' names may not have " \
         "been\n" \
