@@ -39,10 +39,10 @@ BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
 TRANSLATION_PLACEHOLDER_MSGID = 'translator-credits-placeholder'
-DEFAULT_COPYRIGHT = '© 2009 Back In Time Team <bit-dev@python.org>'
+DEFAULT_COPYRIGHT = '© 2008 Back In Time Team <bit-dev@python.org>'
 MISSING_TRANSLATORS_TXT = "Strict and accurate recording of translators' " \
     "names began around 2022. As\n" \
-    "the project started in 2009, some earlier translators' names " \
+    "the project started in 2008, some earlier translators' names " \
     'may not have\n' \
     'been documented and could be lost.'
 
@@ -127,8 +127,7 @@ def update_po_template():
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
                                         without_comment_prefix=False)
 
-    copyright = 'SPDX-FileCopyrightText: ' \
-        '© 2009 Back In Time Team <bit-dev@python.org>'
+    copyright = f'SPDX-FileCopyrightText: {DEFAULT_COPYRIGHT}'
 
     pof =  polib.pofile(TEMPLATE_PO)
 
