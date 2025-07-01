@@ -1,14 +1,21 @@
-# Estonian translation for backintime
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Priit Jõerüüt 2024-2025 ja mitu tõlkijat enne seda
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
-"PO-Revision-Date: 2025-06-17 07:14+0000\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
+"PO-Revision-Date: 2025-06-30 05:35+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -17,7 +24,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.11.4\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -66,7 +72,7 @@ msgid "Default"
 msgstr "Vaikimisi"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiil: \"{name}\""
@@ -92,30 +98,35 @@ msgstr ""
 "Seda kausta ei saa kaasata varukoopiasse, kuna ta on osa varunduse "
 "sihtkaustast endast."
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"„Eemalda vanimad varukoopiad, kui vaba ruumi on vähem kui“ väärtus "
+"({val_one}) peab olema väiksem või võrdne „Hoiata, kui vaba andmeruumi on "
+"vähem, kui“ ({val_two}) lävendiga."
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Palun muuda seadistusi parasjagu nii, et varukoopiate eemaldamise piir pole "
+"hoiatamise piirist kõrgem."
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "{mode}-režiimis udev'i kasutamine ajastamiseks ei toimi"
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Uue crontabi loomine ei õnnestunud."
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -164,14 +175,12 @@ msgid "Cancel"
 msgstr "Katkesta"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Palun sisesta kasutaja „{user}“ salasõna."
+msgstr "Kinnitamiseks palun sisesta uuesti EncFS-i salasõna."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Salasõnad ei klapi omavahel."
+msgstr "EncFS-i salasõnad ei klapi omavahel."
 
 #: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
@@ -504,7 +513,7 @@ msgstr "Tõlkijad:"
 
 #: qt/aboutdlg.py:98
 msgid "translator-credits-placeholder"
-msgstr "Priit Jõerüüt 2024-2025"
+msgstr "Priit Jõerüüt 2024-2025 ja mitu tõlkijat enne seda"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
@@ -1076,7 +1085,7 @@ msgstr "Keelevalikud jõustuvad vaid Back In Time'i uuesti käivitamisel."
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Kasutaja määratud tagasikutse: „{filename}“"
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1084,6 +1093,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Kasutajapoolse tagasikutse skript peab olema vormistatud tavalise skriptina,"
+" kus esimese rea alguses on trellid ja hüüumärk (nt. {example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1152,9 +1163,8 @@ msgid "Your Back In Time Team"
 msgstr "Sinu Back In Time'i tiim"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Kaasa failid ja kaustad"
+msgstr "Näita/peida peidetud failid ja kaustad (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1448,44 +1458,40 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Vali muu fail…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
-msgid "Create a new SSH key without passphrase."
-msgstr "Uue SSH võtme loomine asukohta „{path}“ ei õnnestunud."
+msgid "Choose an existing private key file from somewhere else."
+msgstr "Vali olemasolev privaatvõtme fail kusagilt mujalt."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Loo uus võtmepaar…>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
-msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Vali olemasolev privaatvõtme fail (tavaliselt nimega „id_ed25519“ kuid "
-"vanemates seadistustes pigem nimega „id_rsa“)."
+msgid "Create a new SSH key without passphrase."
+msgstr "Loo uus ilma salafraasita SSH võti."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Varukoopiate täpne asukoht:"
+msgstr "Täisasukoht: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Privaatvõti:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Impordi seadistused"
+msgstr "Kasuta süsteemi SSH-seadistusi"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Sellega jääb võtmefail valimata. SSH ühendused sõltuvad süsteemi üldistest "
+"kliendi seadistustest (nt. ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1534,14 +1540,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Jäta välja mustrid, failid või kaustad"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
 msgid "Add files"
-msgstr "Lisa fail"
+msgstr "Lisa faile"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
 msgid "Add directories"
-msgstr "Lisa kaust"
+msgstr "Lisa kaustu"
 
 #: qt/manageprofiles/tab_exclude.py:111
 msgid "Add default"
@@ -1585,14 +1589,12 @@ msgid "Exclude pattern"
 msgstr "Jäta välja mustri alusel"
 
 #: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
 msgid "Exclude files"
-msgstr "Jäta välja fail"
+msgstr "Välista failid"
 
 #: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Jäta välja kaust"
+msgstr "Välista kaustad"
 
 #: qt/manageprofiles/tab_exclude.py:313
 msgid ""
@@ -1779,9 +1781,8 @@ msgid "Path:"
 msgstr "Asukoht:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Uus profiil"
+msgstr "Võtmefail:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1838,16 +1839,19 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Valitud fail ({path}) tundub olemas avalik SSH võti. Palun vali privaatvõtme"
+" fail (selline, kus pole .pub laiendit)."
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
-msgstr ""
+#, fuzzy
+msgid "Not a private key"
+msgstr "SSH privaatvõti"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
-msgstr ""
+msgstr "{path} fail on juba olemas. Sellise nimega SSH-võtit ei saa luua."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1859,14 +1863,12 @@ msgid "Include files and directories"
 msgstr "Kaasa failid ja kaustad"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Kaasa fail"
+msgstr "Kaasa failid"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Kaasa kaust"
+msgstr "Kaasa kaustad"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -2369,6 +2371,9 @@ msgstr "Viimati kontrollitud {time}"
 #~ "Enne taastamist muudetakse failide nimesid lisades neile suffiksi "
 #~ "„{suffix}“. Kui sa neid faile enam ei vaja, siis võid nad eemaldada käsuga "
 #~ "„{cmd}“"
+
+#~ msgid "No public SSH keys"
+#~ msgstr "Avalikke SSH-võtmeid pole"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "Palun korda salasõna."

@@ -1,14 +1,20 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the "Back In Time" package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# © 2008 Back In Time Team <bit-dev@python.org>
+# #
+# # SPDX-License-Identifier: GPL-2.0-or-later
+# #
+# # This file is part of the program "Back In time" which is released under GNU
+# # General Public License v2 (GPLv2). See LICENSES directory or go to
+# # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \"Back In Time\" \"1.6.0-dev\"\n"
+"Project-Id-Version: \"Back In Time\" \"1.6.0-dev.0927479b\"\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +71,7 @@ msgid "Default"
 msgstr ""
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr ""
@@ -89,33 +95,33 @@ msgid ""
 "destination itself."
 msgstr ""
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
-"The value for \"Remove oldest backup if free space is less "
-"than\" ({val_one}) must be less than or equal the threshold for \"Warn if "
-"free disk space falls below\" ({val_two})."
+"The value for \"Remove oldest backup if free space is less than\" "
+"({val_one}) must be less than or equal the threshold for \"Warn if free disk"
+" space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr ""
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr ""
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
-"Cron is not running, even though the crontab command is available. Scheduled "
-"backup jobs will not run. Cron might be installed but not enabled. Try "
+"Cron is not running, even though the crontab command is available. Scheduled"
+" backup jobs will not run. Cron might be installed but not enabled. Try "
 "running the two commands \"systemctl enable cron\" and \"systemctl start "
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
@@ -870,8 +876,8 @@ msgstr ""
 
 #: qt/app.py:1635
 msgid ""
-"Restore selected files or directories to the original destination and delete "
-"files or directories which are not in the backup. Be extremely careful "
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the backup. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
@@ -923,14 +929,9 @@ msgstr ""
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
-"The translation of your installed version of Back In Time into {language} is "
-"{perc} complete. Regardless of your level of technical expertise, you can "
-"contribute to the translation and thus Back In Time itself.\n"
-"Please visit the {translation_platform_url} if you wish to contribute. For "
-"further assistance and questions, please visit the "
-"{back_in_time_project_website}.\n"
-"We apologize for the interruption, and this message will not be shown again. "
-"This dialog is available at any time via the help menu.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
 
@@ -977,19 +978,12 @@ msgstr ""
 #: qt/app.py:2203
 #, python-brace-format
 msgid ""
-"This version of Back In Time is a Release Candidate and is primarily "
-"intended for stability testing in preparation for the next official "
-"release.\n"
-"No user data or telemetry is collected. However, the Back In Time team is "
-"very interested in knowing if the Release Candidate is being used and if it "
-"is worth continuing to provide such pre-release versions.\n"
-"Therefore, the team kindly asks for a short feedback on whether you have "
-"tested this version, even if you didn’t encounter any issues. Even a quick "
-"test run of a few minutes would help us a lot.\n"
+"This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
+"No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
+"Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
 "The following contact options are available:\n"
 "{contact_list}\n"
-"In this version, this message won't be shown again but can be accessed "
-"anytime through the help menu.\n"
+"In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
@@ -1045,15 +1039,15 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:87
 msgid ""
-"A replacement is planned, but it cannot be guaranteed that it will arrive on "
-"time."
+"A replacement is planned, but it cannot be guaranteed that it will arrive on"
+" time."
 msgstr ""
 
 #: qt/encfsmsgbox.py:89
 #, python-brace-format
 msgid ""
-"Users are invited to join this discussion. Updated details on the next steps "
-"are available in this {whitepaper}."
+"Users are invited to join this discussion. Updated details on the next steps"
+" are available in this {whitepaper}."
 msgstr ""
 
 #: qt/encfsmsgbox.py:92
@@ -1201,8 +1195,8 @@ msgstr ""
 #: qt/manageprofiles/__init__.py:339
 #, python-brace-format
 msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until it is "
-"included, too."
+"\"{path}\" is a symlink. The linked target will not be backed up until it is"
+" included, too."
 msgstr ""
 
 #: qt/manageprofiles/__init__.py:343
@@ -1239,8 +1233,8 @@ msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:93
 msgid ""
-"Run Back In Time as soon as the drive is connected (only once every X days). "
-"A sudo password prompt will appear."
+"Run Back In Time as soon as the drive is connected (only once every X days)."
+" A sudo password prompt will appear."
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:98
@@ -1352,7 +1346,7 @@ msgid "<Select another file…>"
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:64
-msgid "Create a new SSH key without passphrase."
+msgid "Choose an existing private key file from somewhere else."
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:70
@@ -1360,7 +1354,7 @@ msgid "<Generate new key-pair…>"
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:71
-msgid "Choose an existing private key file from somewhere else."
+msgid "Create a new SSH key without passphrase."
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:91
@@ -1483,8 +1477,8 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:40
 msgid ""
-"These options are for advanced configurations. Modify only if fully aware of "
-"their implications."
+"These options are for advanced configurations. Modify only if fully aware of"
+" their implications."
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:47
@@ -1523,8 +1517,8 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:129
 msgid ""
-"Cron will automatically send an email with attached output of cronjobs if an "
-"MTA is installed."
+"Cron will automatically send an email with attached output of cronjobs if an"
+" MTA is installed."
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:135
@@ -1533,8 +1527,8 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:141
 msgid ""
-"Cron will automatically send an email with attached errors of cronjobs if an "
-"MTA is installed."
+"Cron will automatically send an email with attached errors of cronjobs if an"
+" MTA is installed."
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:151
@@ -1692,7 +1686,7 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
+msgid "Not a private key"
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:647
@@ -1736,8 +1730,8 @@ msgstr ""
 
 #: qt/manageprofiles/tab_options.py:53
 msgid ""
-"Other backups will be blocked until the current backup is completed. This is "
-"a global setting, meaning it will affect all profiles for this user. "
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
 
@@ -1770,8 +1764,8 @@ msgstr ""
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
 "If the Remove & Retention policy is enabled and old backups are removed "
-"based on available free space, this value cannot be lower than the value set "
-"in the policy."
+"based on available free space, this value cannot be lower than the value set"
+" in the policy."
 msgstr ""
 
 #: qt/manageprofiles/tab_options.py:118
@@ -1903,7 +1897,8 @@ msgid "month(s)."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:361
-msgid "The years are counted as calendar years starting with the current year."
+msgid ""
+"The years are counted as calendar years starting with the current year."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:363
@@ -2029,8 +2024,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:105
 #, python-brace-format
-msgid ""
-"No parameters set for the diff command. Using default value \"{params}\"."
+msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 
 #: qt/snapshotsdialog.py:130 qt/timeline.py:45
@@ -2071,8 +2065,8 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:381
 msgid ""
-"It is not possible to compare a backup to itself, as the comparison would be "
-"redundant."
+"It is not possible to compare a backup to itself, as the comparison would be"
+" redundant."
 msgstr ""
 
 #: qt/snapshotsdialog.py:427
