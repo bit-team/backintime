@@ -126,7 +126,7 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
 
     The GNU gettext utility ``msgmerge`` is used for that.
 
-    The function `update_po_template()` should be called before.
+    Make sure that the function `update_po_template()` is called beforehand.
     """
 
     print(
@@ -160,6 +160,17 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
                 f'{po_path}'
             ]
             run(cmd, check=True)
+
+        _set_header(po_path)
+
+def _set_header(po_path: Path):
+    """Setup the header of the givin po-file to the current state.
+    """
+
+    pof = polib.pofile(po_path)
+
+    pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERISON}'
+    pof.save()
 
 
 def check_existence():
