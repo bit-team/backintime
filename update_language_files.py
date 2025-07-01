@@ -116,8 +116,9 @@ def update_po_template():
     print(f'Execute "{cmd}".')
     run(cmd, check=True)
 
-    with polib.pofile(TEMPLATE_PO) as pof:
-        print('\n{len(pof)} entries in {TEMPLATE_PO}')
+    pof =  polib.pofile(TEMPLATE_PO)
+    print('\n{len(pof)} entries in {TEMPLATE_PO}')
+    pof.close()
 
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
