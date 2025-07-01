@@ -136,6 +136,8 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
 
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
                                         without_comment_prefix=True)
+    print('X'*140)
+    print(spdx_base)
 
     # Recursive all po-files
     for po_path in LOCAL_DIR.rglob('**/*.po'):
@@ -187,6 +189,7 @@ def _set_header(po_path: Path, spdx_base: str):
     else:
         copyright = ''
 
+    print(f'{copyright=}\n{spdx_base=}')
     pof.header = f'{copyright}\n{spdx_base}'.rstrip('\n')
 
     # Remove someday
