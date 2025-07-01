@@ -170,6 +170,13 @@ def _set_header(po_path: Path):
     pof = polib.pofile(po_path)
 
     pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
+
+    # Remove someday
+    try:
+        del pof.metadata['X-Launchpad-Export-Date']
+    except KeyError:
+        pass
+
     pof.save()
 
 
