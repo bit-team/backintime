@@ -178,13 +178,19 @@ def _set_header(po_path: Path, spdx_base: str):
     # Version string
     pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
 
+    # f'SPDX-FileCopyrightText: {name}' for name
+
     # Extract authors
     e = pof.find(TRANSLATION_PLACEHOLDER_MSGID)
     if e:
-        copyright = [
-            f'SPDX-FileCopyrightText: {name}' for name
-            in filter(lambda val: len(val) > 0, e.msgstr.split('\n'))
-        ]
+        copyright = list(filter(
+            lambda val: len(val) > 0, e.msgstr.split('\n')
+        ))
+        for idx, centry in enumerate(copyright):
+            if not ('(c)' in centry or '©' in centry):
+                copyright[idx] = f'© {copyright[idx]}'
+
+
         copyright = '\n'.join(copyright)
     else:
         copyright = ''
