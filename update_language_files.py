@@ -179,24 +179,22 @@ def _set_header(po_path: Path, spdx_base: str):
     # Version string
     pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
 
+    copyright = ['© 2009 Back In Time Team <bit-dev@python.org>']
+
     # Extract authors
     e = pof.find(TRANSLATION_PLACEHOLDER_MSGID)
     if e:
-        copyright = list(filter(
+        copyright = copyright + list(filter(
             lambda val: len(val) > 0, e.msgstr.split('\n')
         ))
         for idx, centry in enumerate(copyright):
             if not ('(c)' in centry or '©' in centry):
                 copyright[idx] = f'© {copyright[idx]}'
 
-        copyright = [
-            f'SPDX-FileCopyrightText: {centry}' for centry in copyright]
+    copyright = [
+        f'SPDX-FileCopyrightText: {centry}' for centry in copyright]
 
-        copyright = '\n'.join(copyright)
-
-    else:
-        copyright = '© 2009 Back In Time Team <bit-dev@python.org>'
-
+    copyright = '\n'.join(copyright)
 
     pof.header = f'{copyright}\n{spdx_base}\n' \
         "Recording of translators' names began around 2022. As " \
