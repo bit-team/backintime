@@ -38,7 +38,7 @@ PACKAGE_VERSION = version.__version__ # Path('VERSION').read_text('utf-8').strip
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
-
+TRANSLATION_PLACEHOLDER_MSGID = 'translator-credits-placeholder'
 
 def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
     """Convert a (nested) Python dict into its PEP8 conform as-in-code
@@ -134,6 +134,8 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
         + ' and remove obsolete entries' if remove_obsolete_entries else ''
     )
 
+    spdx_base = get_spdx_metadata_lines(ignore_copyright=True)
+
     # Recursive all po-files
     for po_path in LOCAL_DIR.rglob('**/*.po'):
 
@@ -161,15 +163,28 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
             ]
             run(cmd, check=True)
 
-        _set_header(po_path)
+        _set_header(po_path, spdx_base)
 
-def _set_header(po_path: Path):
-    """Setup the header of the givin po-file to the current state.
+
+def _set_header(po_path: Path, spdx_base: str):
+    """Setup the header and comments header of the givin po-file to the current
+    state.
+
     """
 
     pof = polib.pofile(po_path)
 
+    # Version string
     pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
+
+    # Extract authors
+    e = pof.find(TRANSLATION_PLACEHOLDER_MSGID)
+    if e:
+        copyright = 'SPDX-FileCopyrightText: '.join(e.msgstr.split('\n'))
+    else:
+        copyright = ''
+
+    pof.header = f'{copyright}\n{spdx_base}'.rstrip('\n')
 
     # Remove someday
     try:
@@ -695,7 +710,7 @@ def check_shortcuts():
                 print(err_msg)
 
 
-def get_spdx_metadata_lines() -> str:
+def get_spdx_metadata_lines(ignore_copyright: bool = False) -> str:
     """Extract the SPDX meta data lines from the current source file."""
     result = ''
 
@@ -705,6 +720,10 @@ def get_spdx_metadata_lines() -> str:
 
             # ignore shebang
             if line.startswith('#!'):
+                continue
+
+            # ignore copyright
+            if ignore_copyright and 'SPDX-FileCopyrightText' in line:
                 continue
 
             # stop
