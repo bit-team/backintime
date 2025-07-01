@@ -191,6 +191,8 @@ def _set_header(po_path: Path, spdx_base: str):
             if not ('(c)' in centry or '©' in centry):
                 copyright[idx] = f'© {copyright[idx]}'
 
+        copyright = [
+            f'SPDX-FileCopyrightText: {centry}' for centry in copyright]
 
         copyright = '\n'.join(copyright)
     else:
