@@ -1,13 +1,20 @@
-# Chinese (Traditional) translation for backintime
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
-# This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Kuntao Zhao <kt.zhao@gmail.com>
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
 "PO-Revision-Date: 2025-06-29 08:25+0000\n"
 "Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
@@ -17,7 +24,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.11.4\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -66,7 +72,7 @@ msgid "Default"
 msgstr "預設"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "設定檔：\"{name}\""
@@ -90,7 +96,7 @@ msgid ""
 "destination itself."
 msgstr "該目錄不能包含在備份中，因為它是備份目標本身的一部分。"
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
@@ -99,22 +105,22 @@ msgid ""
 msgstr ""
 "「如果可用空間小於則刪除最舊的備份」（{val_one}）的值必須小於或等於「如果可用磁碟空間低於則發出警告」（{val_two}）的閾值。"
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr "請調整設置，使備份刪除限制不高於警告限制。"
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "udev 定期排程不適用於 {mode} 模式"
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "無法寫入新的 crontab。"
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -1362,16 +1368,16 @@ msgid "<Select another file…>"
 msgstr "<選擇另一個檔案...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-msgid "Create a new SSH key without passphrase."
-msgstr "建立一個沒有密碼的新 SSH 金鑰。"
+msgid "Choose an existing private key file from somewhere else."
+msgstr "從其他地方選擇一個現有的私鑰檔案。"
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
 msgstr "<產生新的金鑰對...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-msgid "Choose an existing private key file from somewhere else."
-msgstr "從其他地方選擇一個現有的私鑰檔案。"
+msgid "Create a new SSH key without passphrase."
+msgstr "建立一個沒有密碼的新 SSH 金鑰。"
 
 #: qt/manageprofiles/sshkeyselector.py:91
 #, python-brace-format
@@ -1709,8 +1715,9 @@ msgid ""
 msgstr "所選檔案 {path} 似乎是 SSH 公用金鑰。請選擇一個私有檔案（不含“.pub”副檔名）。"
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
-msgstr "沒有公共 SSH 金鑰"
+#, fuzzy
+msgid "Not a private key"
+msgstr "SSH 私鑰"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
@@ -2191,6 +2198,9 @@ msgstr "最後一次檢查{time}"
 #~ "Newer versions of files will be renamed with trailing {suffix} before "
 #~ "restoring. If you don't need them anymore you can remove them with {cmd}"
 #~ msgstr "在復原之前，較新版本的檔案將使用 {suffix} 進行重新命名。如果您不再需要它們，可以使用 {cmd} 刪除它們"
+
+#~ msgid "No public SSH keys"
+#~ msgstr "沒有公共 SSH 金鑰"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "請確認密碼。"

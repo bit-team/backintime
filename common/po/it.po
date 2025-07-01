@@ -1,13 +1,20 @@
-# Italian translation for backintime
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Vincenzo Reale <smart2128vr@gmail.com>
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
 "PO-Revision-Date: 2025-07-01 05:58+0000\n"
 "Last-Translator: smart2128 <smart2128@noreply.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
@@ -17,7 +24,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.11.4\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -66,7 +72,7 @@ msgid "Default"
 msgstr "Predefinito"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profilo: \"{name}\""
@@ -92,7 +98,7 @@ msgstr ""
 "La cartella non può essere inclusa nel backup poiché fa parte della "
 "destinazione del backup stesso."
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
@@ -104,7 +110,7 @@ msgstr ""
 "impostata per \"Avvisa se lo spazio libero si riduce al di sotto di\" "
 "({val_two})."
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -112,16 +118,16 @@ msgstr ""
 "Modifica le impostazioni in modo tale che la soglia per la rimozione dei "
 "backup non sia superiore alla soglia di avviso."
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "La pianificazione udev non funziona con la modalità {mode}"
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Impossibile scrivere il nuovo crontab."
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -1463,16 +1469,16 @@ msgid "<Select another file…>"
 msgstr "<Seleziona un altro file...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-msgid "Create a new SSH key without passphrase."
-msgstr "Crea una nuova chiave SSH senza frase segreta."
+msgid "Choose an existing private key file from somewhere else."
+msgstr "Seleziona un file di chiave privata esistente da qualche altra parte."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
 msgstr "<Genera una nuova coppia di chiavi...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-msgid "Choose an existing private key file from somewhere else."
-msgstr "Seleziona un file di chiave privata esistente da qualche altra parte."
+msgid "Create a new SSH key without passphrase."
+msgstr "Crea una nuova chiave SSH senza frase segreta."
 
 #: qt/manageprofiles/sshkeyselector.py:91
 #, python-brace-format
@@ -1843,8 +1849,9 @@ msgstr ""
 "un file di chiave privata (senza estensione \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
-msgstr "Non sono presenti chiavi pubbliche SSH"
+#, fuzzy
+msgid "Not a private key"
+msgstr "Chiave privata SSH"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
@@ -2369,6 +2376,9 @@ msgstr "Ultimo controllo {time}"
 #~ msgstr ""
 #~ "Le nuove versioni dei file saranno rinominate con il suffisso {suffix} prima"
 #~ " del ripristino. Se non ne hai più bisogno, puoi rimuoverle con {cmd}"
+
+#~ msgid "No public SSH keys"
+#~ msgstr "Non sono presenti chiavi pubbliche SSH"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "Conferma la password."
