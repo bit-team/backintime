@@ -125,7 +125,7 @@ def update_po_template():
 
     # Header comment with SPDX data
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
-                                        without_comment_prefix=False)
+                                        without_comment_prefix=True)
 
     copyright = f'SPDX-FileCopyrightText: {DEFAULT_COPYRIGHT}'
 
