@@ -117,7 +117,7 @@ def update_po_template():
     run(cmd, check=True)
 
     pof =  polib.pofile(TEMPLATE_PO)
-    print('\n{len(pof)} entries in {TEMPLATE_PO}')
+    print(f'\n{len(pof)} entries in {TEMPLATE_PO}')
 
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
@@ -741,7 +741,7 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
             if without_comment_prefix and line.startswith('#'):
                 line = line[1:]
 
-            result = result + line.strip()
+            result = result + line.strip() + '\n'
        
     return result
 
