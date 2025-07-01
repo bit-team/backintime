@@ -134,7 +134,8 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
         + ' and remove obsolete entries' if remove_obsolete_entries else ''
     )
 
-    spdx_base = get_spdx_metadata_lines(ignore_copyright=True)
+    spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
+                                        without_comment_prefix=True)
 
     # Recursive all po-files
     for po_path in LOCAL_DIR.rglob('**/*.po'):
@@ -180,7 +181,9 @@ def _set_header(po_path: Path, spdx_base: str):
     # Extract authors
     e = pof.find(TRANSLATION_PLACEHOLDER_MSGID)
     if e:
-        copyright = 'SPDX-FileCopyrightText: '.join(e.msgstr.split('\n'))
+        copyright = [
+            f'SPDX-FileCopyrightText: {name}' for name in e.msgstr.split('\n')]
+        copyright = '\n'.join(copyright)
     else:
         copyright = ''
 
@@ -710,7 +713,8 @@ def check_shortcuts():
                 print(err_msg)
 
 
-def get_spdx_metadata_lines(ignore_copyright: bool = False) -> str:
+def get_spdx_metadata_lines(ignore_copyright: bool = False,
+                            without_comment_prefix: bool = False) -> str:
     """Extract the SPDX meta data lines from the current source file."""
     result = ''
 
@@ -730,7 +734,11 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False) -> str:
             if line.startswith('"""') or line.startswith('import'):
                 break
 
-            result = result + line
+            # remove comments prefix "# "
+            if without_comment_prefix and line.startswith('#'):
+                line = line[1:]
+
+            result = result + line.strip()
        
     return result
 
