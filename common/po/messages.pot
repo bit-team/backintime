@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"Back In Time\" \"1.6.0-dev\"\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
+"POT-Creation-Date: 2025-07-01 11:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgid "Default"
 msgstr ""
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr ""
@@ -89,30 +89,30 @@ msgid ""
 "destination itself."
 msgstr ""
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
-"The value for \"Remove oldest backup if free space is less "
-"than\" ({val_one}) must be less than or equal the threshold for \"Warn if "
-"free disk space falls below\" ({val_two})."
+"The value for \"Remove oldest backup if free space is less than\" "
+"({val_one}) must be less than or equal the threshold for \"Warn if free disk "
+"space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr ""
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr ""
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled "
 "backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -1352,7 +1352,7 @@ msgid "<Select another file…>"
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:64
-msgid "Create a new SSH key without passphrase."
+msgid "Choose an existing private key file from somewhere else."
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:70
@@ -1360,7 +1360,7 @@ msgid "<Generate new key-pair…>"
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:71
-msgid "Choose an existing private key file from somewhere else."
+msgid "Create a new SSH key without passphrase."
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:91
@@ -1692,7 +1692,7 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
+msgid "Not a private key"
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:647

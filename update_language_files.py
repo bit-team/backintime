@@ -118,7 +118,6 @@ def update_po_template():
 
     pof =  polib.pofile(TEMPLATE_PO)
     print('\n{len(pof)} entries in {TEMPLATE_PO}')
-    pof.close()
 
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
