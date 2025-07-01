@@ -197,11 +197,11 @@ def _set_header(po_path: Path, spdx_base: str):
     copyright = '\n'.join(copyright)
 
     pof.header = f'{copyright}\n{spdx_base}\n' \
-        "Recording of translators' names began around 2022. As " \
-        "the project\n" \
-        "started in 2009, some earlier translators' names may not have " \
-        "been\n" \
-        'documented and could be lost.'
+        "Strict and accurate recording of translators' names began " \
+        'around 2022. As\n' \
+        "the project started in 2009, some earlier translators' names " \
+        'may not have\n' \
+        'been documented and could be lost.'
 
     # Remove someday
     try:
