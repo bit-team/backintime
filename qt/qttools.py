@@ -37,7 +37,6 @@ from PyQt6.QtWidgets import (QApplication,
                              QStyleFactory,
                              QSystemTrayIcon,
                              QWidget)
-
 from packaging.version import Version
 from qttools_path import registerBackintimePath
 registerBackintimePath('common')
