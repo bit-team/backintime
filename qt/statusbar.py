@@ -11,7 +11,9 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A modul offering a status bar widget
 """
-from PyQt6.QtWidgets import (QHBoxLayout,
+import os
+from PyQt6.QtWidgets import (QFrame,
+                             QHBoxLayout,
                              QLabel,
                              QMainWindow,
                              QProgressBar,
@@ -32,12 +34,14 @@ class StatusBar(QStatusBar):
 
         self.main_window = main_window
 
-        self._root = QLabel(_('⚠ Root mode'))
-        self._root.setToolTip(_(
-            'Back In Time is currently running with root '
-            'privileges (full system access)'))
-        self._root.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
-        self._root.setVisible(os.geteuid() != 0)
+        # Root mode indicator
+        self._root = None
+        if True: #os.geteuid() == 0:
+            self._root = QLabel(_('⚠ Root mode'))
+            self._root.setToolTip(_(
+                'Back In Time is currently running with root '
+                'privileges (full system access)'))
+            self._root.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
 
         # A container widget give us more control about layout details
         container = QWidget(self)
@@ -57,11 +61,12 @@ class StatusBar(QStatusBar):
         self._progress.setValue(0)
         self._progress.setTextVisible(False)
         self._progress.setVisible(False)
-        self._progress.setSizePolicy(
-            QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        # self._progress.setSizePolicy(
+        #     QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
 
         # Layout
-        layout.addWidget(self._root)
+        if self._root:
+            layout.addWidget(self._root)
         layout.addWidget(self._status, stretch=_PROGRESS_BAR_WIDTH_FX-1)
         layout.addStretch(0)
         layout.addWidget(self._progress, stretch=1)
