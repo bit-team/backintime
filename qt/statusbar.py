@@ -68,7 +68,6 @@ class StatusBar(QStatusBar):
         self.addPermanentWidget(container, 1)
         container.resizeEvent = self._on_resize
 
-
     def _on_resize(self, event: QEvent) -> None:
         """Set the status label with in pixels, but relative.
 
