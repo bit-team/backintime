@@ -24,6 +24,7 @@ from PyQt6.QtWidgets import (QFrame,
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QPalette, QColor
 
+_DARK_MODE_THRESHOLD = 128
 _PROGRESS_BAR_WIDTH_FX = 10
 
 
@@ -36,44 +37,7 @@ class StatusBar(QStatusBar):
         self.main_window = main_window
 
         # Root mode indicator
-        self._root = None
-        if True: #os.geteuid() == 0:
-            # self._root = QLabel(_('⚠ Root mode'))
-            self._root = QLabel(_('Root mode'))
-            self._root.setToolTip(_(
-                'Back In Time is currently running with root '
-                'privileges (full system access)'))
-            self._root.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
-
-            font = self._root.font()
-            font.setBold(True)
-            self._root.setFont(font)
-
-            palette = self._root.palette()
-            is_dark_mode = palette.color(
-                QPalette.ColorRole.Window).value() < 128
-
-            if is_dark_mode:
-                bg_color = "#aa0000"      # dunkles Rot
-                text_color = "#ffffff"
-            else:
-                bg_color = "#ffdddd"      # helles Rotrosa
-                text_color = "#aa0000"
-
-            palette.setColor(QPalette.ColorRole.Window, QColor(bg_color))
-            palette.setColor(QPalette.ColorRole.WindowText, QColor(text_color))
-
-            self._root.setAutoFillBackground(True)
-            self._root.setPalette(palette)
-            # self._root.setStyleSheet(f"""
-            #     QLabel {{
-            #         background-color: {bg_color};
-            #         color: {text_color};
-            #         font-weight: bold;
-            #         border: 1px solid {text_color};
-            #         border-radius: 4px;
-            #         }}""")
-
+        self._root = self._root_mode_indicator()
 
         # A container widget give us more control about layout details
         container = QWidget(self)
@@ -93,8 +57,6 @@ class StatusBar(QStatusBar):
         self._progress.setValue(0)
         self._progress.setTextVisible(False)
         self._progress.setVisible(False)
-        # self._progress.setSizePolicy(
-        #     QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
 
         # Layout
         if self._root:
@@ -115,6 +77,39 @@ class StatusBar(QStatusBar):
         width = width * (1 - (1 / _PROGRESS_BAR_WIDTH_FX))
         self._status.setMaximumWidth(int(width))
         event.accept()
+
+    def _root_mode_indicator(self) -> QLabel:
+        if os.geteuid() != 0:
+            return None
+
+        root = QLabel(_('Root mode'))
+        root.setToolTip(_(
+            'Back In Time is currently running with root '
+            'privileges (full system access)'))
+        root.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
+
+        font = root.font()
+        font.setBold(True)
+        root.setFont(font)
+
+        palette = root.palette()
+        is_dark_mode = palette.color(
+            QPalette.ColorRole.Window).value() < _DARK_MODE_THRESHOLD
+
+        if is_dark_mode:
+            bg_color = "#aa0000"      # dark red
+            text_color = "#ffffff"    # white
+        else:
+            bg_color = "#ffdddd"      # pink
+            text_color = "#aa0000"    # dark red
+
+        palette.setColor(QPalette.ColorRole.Window, QColor(bg_color))
+        palette.setColor(QPalette.ColorRole.WindowText, QColor(text_color))
+
+        root.setAutoFillBackground(True)
+        root.setPalette(palette)
+
+        return root
 
     def set_status_message(self, message: str) -> None:
         """Set status label text."""
