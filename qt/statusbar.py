@@ -32,8 +32,12 @@ class StatusBar(QStatusBar):
 
         self.main_window = main_window
 
-        # self._foo = QLabel('foobar')
-        # self._foo.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken) #
+        self._root = QLabel(_('⚠ Root mode'))
+        self._root.setToolTip(_(
+            'Back In Time is currently running with root '
+            'privileges (full system access)'))
+        self._root.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
+        self._root.setVisible(os.geteuid() != 0)
 
         # A container widget give us more control about layout details
         container = QWidget(self)
@@ -46,8 +50,6 @@ class StatusBar(QStatusBar):
         self._status.setWordWrap(False)
         self._status.setSizePolicy(
             QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-        # # DEBUG
-        # self._status.setStyleSheet("background-color: yellow; color: black;")
 
         # Progress bar
         self._progress = QProgressBar(container)
@@ -59,14 +61,13 @@ class StatusBar(QStatusBar):
             QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
 
         # Layout
-        # layout.addWidget(self._foo)
+        layout.addWidget(self._root)
         layout.addWidget(self._status, stretch=_PROGRESS_BAR_WIDTH_FX-1)
         layout.addStretch(0)
         layout.addWidget(self._progress, stretch=1)
         self.addPermanentWidget(container, 1)
         container.resizeEvent = self._on_resize
 
-        # self._foo.setVisible(False)
 
     def _on_resize(self, event: QEvent) -> None:
         """Set the status label with in pixels, but relative.
