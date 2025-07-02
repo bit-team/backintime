@@ -89,8 +89,6 @@ class StatusBar(QWidget):
 
         self.main_window = main_window
 
-        # ProgressBar
-        # layoutWidget = QWidget()
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 

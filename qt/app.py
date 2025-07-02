@@ -1158,7 +1158,7 @@ class MainWindow(QMainWindow):
             pg.load()
             self.status_bar.progressBar.setValue(pg.intValue('percent'))
             message = ' | '.join(self.getProgressBarFormat(pg, message))
-            self.status.setText(message)
+            self.status_bar.status.setText(message)
         else:
             self.status_bar.progressBar.setVisible(False)
             self.status_bar.progressBarDummy.setVisible(True)
