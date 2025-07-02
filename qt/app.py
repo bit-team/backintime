@@ -70,7 +70,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QGroupBox,
                              QMenu,
                              QToolBar,
-                             QProgressBar,
                              QMessageBox,
                              QInputDialog,
                              QDialog,
@@ -269,7 +268,7 @@ class MainWindow(QMainWindow):
         # self.statusBar().addWidget(layoutWidget, 100)
         self.status_bar = StatusBar(self)
         self.statusBar().addWidget(self.status_bar, 100)
-        self.status_bar.status.setText(_('Done'))
+        self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
@@ -1149,22 +1148,18 @@ class MainWindow(QMainWindow):
                     self.lastTakeSnapshotMessage[1].replace('\n', ' ')
                 )
 
-            self.status_bar.status.setText(message)
+            self.status_bar.set_status_message(message)
 
         pg = progress.ProgressFile(self.config)
         if pg.fileReadable():
-            self.status_bar.progressBar.setVisible(True)
-            self.status_bar.progressBarDummy.setVisible(False)
+            self.status_bar.progress_show()
             pg.load()
-            self.status_bar.progressBar.setValue(pg.intValue('percent'))
+            self.status_bar.set_progress_value(pg.intValue('percent'))
             message = ' | '.join(self.getProgressBarFormat(pg, message))
-            self.status_bar.status.setText(message)
-        else:
-            self.status_bar.progressBar.setVisible(False)
-            self.status_bar.progressBarDummy.setVisible(True)
+            self.status_bar.set_status_message(message)
 
-        #if not fake_busy:
-        #	self.lastTakeSnapshotMessage = None
+        else:
+            self.status_bar.progress_hide()
 
     def getProgressBarFormat(self, pg, message):
         """Generates formatted components of a progress bar display.

@@ -9,108 +9,88 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import pathlib
-import re
-import json
-import subprocess
-import shutil
-import textwrap
-import signal
-from contextlib import contextmanager
-from tempfile import TemporaryDirectory
-# We need to import common/tools.py
-import qttools_path
-qttools_path.registerBackintimePath('common')
-# Workaround until the codebase is rectified/equalized.
-import tools
-tools.initiate_translation(None)
-import qttools
-import backintime
-import bitbase
-import config
-import logger
-import snapshots
-import guiapplicationinstance
-import mount
-import progress
-import encfsmsgbox
-from inhibitsuspend import InhibitSuspend
-from exceptions import MountException
-from statedata import StateData
-from PyQt6.QtGui import (QAction,
-                         QActionGroup,
-                         QShortcut,
-                         QDesktopServices,
-                         QPalette,
-                         QIcon,
-                         QFileSystemModel)
-from PyQt6.QtWidgets import (QWidget,
-                             QFrame,
-                             QMainWindow,
-                             QToolButton,
+"""A modul offering a status bar widget
+"""
+from PyQt6.QtWidgets import (QHBoxLayout,
                              QLabel,
-                             QLineEdit,
-                             QCheckBox,
-                             QListWidget,
-                             QTreeView,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
-                             QStyledItemDelegate,
-                             QVBoxLayout,
-                             QStackedLayout,
-                             QSplitter,
-                             QGroupBox,
-                             QMenu,
-                             QToolBar,
+                             QMainWindow,
                              QProgressBar,
-                             QMessageBox,
-                             QInputDialog,
-                             QDialog,
-                             QApplication,
+                             QSizePolicy,
+                             QStatusBar,
+                             QWidget,
                              )
-from PyQt6.QtCore import (QDir,
-                          QEvent,
-                          QObject,
-                          QPoint,
-                          pyqtSlot,
-                          pyqtSignal,
-                          QSortFilterProxyModel,
-                          Qt,
-                          QTimer,
-                          QThread,
-                          QUrl)
-import messagebox
-import version
+from PyQt6.QtCore import QEvent
 
-class StatusBar(QWidget):
+_PROGRESS_BAR_WIDTH_FX = 10
+
+
+class StatusBar(QStatusBar):
+    """A status bar widget"""
+
     def __init__(self, main_window: QMainWindow):
-        super().__init__()
+        super().__init__(parent=main_window)
 
         self.main_window = main_window
 
-        layout = QVBoxLayout(self)
+        # self._foo = QLabel('foobar')
+        # self._foo.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken) #
+
+        # A container widget give us more control about layout details
+        container = QWidget(self)
+        layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
+        container.setLayout(layout)
 
-        self.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(layout)
+        # Status text
+        self._status = QLabel(container)
+        self._status.setWordWrap(False)
+        self._status.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        # # DEBUG
+        # self._status.setStyleSheet("background-color: yellow; color: black;")
 
-        self.progressBar = QProgressBar(main_window)
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(100)
-        self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(False)
-        self.progressBar.setContentsMargins(0, 0, 0, 0)
-        self.progressBar.setFixedHeight(5)
-        self.progressBar.setVisible(False)
+        # Progress bar
+        self._progress = QProgressBar(container)
+        self._progress.setRange(0, 100)
+        self._progress.setValue(0)
+        self._progress.setTextVisible(False)
+        self._progress.setVisible(False)
+        self._progress.setSizePolicy(
+            QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
 
-        self.progressBarDummy = QWidget()
-        self.progressBarDummy.setContentsMargins(0, 0, 0, 0)
-        self.progressBarDummy.setFixedHeight(5)
+        # Layout
+        # layout.addWidget(self._foo)
+        layout.addWidget(self._status, stretch=_PROGRESS_BAR_WIDTH_FX-1)
+        layout.addStretch(0)
+        layout.addWidget(self._progress, stretch=1)
+        self.addPermanentWidget(container, 1)
+        container.resizeEvent = self._on_resize
 
-        self.status = QLabel(self)
-        self.status.setContentsMargins(0, 0, 0, 0)
+        # self._foo.setVisible(False)
 
-        layout.addWidget(self.status)
-        layout.addWidget(self.progressBar)
-        layout.addWidget(self.progressBarDummy)
+    def _on_resize(self, event: QEvent) -> None:
+        """Set the status label with in pixels, but relative.
+
+        The width is a fraction of the statusbar full width, considering the
+        width of the progressbar, which is also defined by a fraction.
+        """
+        width = self._status.parentWidget().width()
+        width = width * (1 - (1 / _PROGRESS_BAR_WIDTH_FX))
+        self._status.setMaximumWidth(int(width))
+        event.accept()
+
+    def set_status_message(self, message: str) -> None:
+        """Set status label text."""
+        self._status.setText(message)
+
+    def progress_show(self, show: bool = True) -> None:
+        """Set progress bar widget visible."""
+        self._progress.setVisible(show)
+
+    def progress_hide(self) -> None:
+        """Set progress bar widget unvisible."""
+        self.progress_show(show=False)
+
+    def set_progress_value(self, val: int) -> None:
+        """Set numeric value of progress bar."""
+        self._progress.setValue(val)
