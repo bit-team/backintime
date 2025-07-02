@@ -97,11 +97,13 @@ class StatusBar(QStatusBar):
             QPalette.ColorRole.Window).value() < _DARK_MODE_THRESHOLD
 
         if is_dark_mode:
-            bg_color = "#aa0000"      # dark red
-            text_color = "#ffffff"    # white
+            # dark red & white
+            bg_color = '#aa0000'
+            text_color = '#ffffff'
         else:
-            bg_color = "#ffdddd"      # pink
-            text_color = "#aa0000"    # dark red
+            # light pink & dark red
+            bg_color = '#ffdddd'
+            text_color = '#aa0000'
 
         palette.setColor(QPalette.ColorRole.Window, QColor(bg_color))
         palette.setColor(QPalette.ColorRole.WindowText, QColor(text_color))
