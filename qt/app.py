@@ -70,7 +70,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QGroupBox,
                              QMenu,
                              QToolBar,
-                             QProgressBar,
                              QMessageBox,
                              QInputDialog,
                              QDialog,
@@ -102,6 +101,7 @@ from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
+from statusbar import StatusBar
 
 
 class MainWindow(QMainWindow):
@@ -265,34 +265,10 @@ class MainWindow(QMainWindow):
         self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.act_show_hidden)
 
-        # ProgressBar
-        layoutWidget = QWidget()
-        layout = QVBoxLayout(layoutWidget)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layoutWidget.setContentsMargins(0, 0, 0, 0)
-        layoutWidget.setLayout(layout)
-        self.progressBar = QProgressBar(self)
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(100)
-        self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(False)
-        self.progressBar.setContentsMargins(0, 0, 0, 0)
-        self.progressBar.setFixedHeight(5)
-        self.progressBar.setVisible(False)
-
-        self.progressBarDummy = QWidget()
-        self.progressBarDummy.setContentsMargins(0, 0, 0, 0)
-        self.progressBarDummy.setFixedHeight(5)
-
-        self.status = QLabel(self)
-        self.status.setContentsMargins(0, 0, 0, 0)
-
-        layout.addWidget(self.status)
-        layout.addWidget(self.progressBar)
-        layout.addWidget(self.progressBarDummy)
-
-        self.statusBar().addWidget(layoutWidget, 100)
-        self.status.setText(_('Done'))
+        # self.statusBar().addWidget(layoutWidget, 100)
+        self.status_bar = StatusBar(self)
+        self.statusBar().addWidget(self.status_bar, 100)
+        self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
@@ -1172,22 +1148,18 @@ class MainWindow(QMainWindow):
                     self.lastTakeSnapshotMessage[1].replace('\n', ' ')
                 )
 
-            self.status.setText(message)
+            self.status_bar.set_status_message(message)
 
         pg = progress.ProgressFile(self.config)
         if pg.fileReadable():
-            self.progressBar.setVisible(True)
-            self.progressBarDummy.setVisible(False)
+            self.status_bar.progress_show()
             pg.load()
-            self.progressBar.setValue(pg.intValue('percent'))
+            self.status_bar.set_progress_value(pg.intValue('percent'))
             message = ' | '.join(self.getProgressBarFormat(pg, message))
-            self.status.setText(message)
-        else:
-            self.progressBar.setVisible(False)
-            self.progressBarDummy.setVisible(True)
+            self.status_bar.set_status_message(message)
 
-        #if not fake_busy:
-        #	self.lastTakeSnapshotMessage = None
+        else:
+            self.status_bar.progress_hide()
 
     def getProgressBarFormat(self, pg, message):
         """Generates formatted components of a progress bar display.
