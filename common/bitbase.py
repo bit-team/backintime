@@ -6,6 +6,7 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Basic constants used in multiple modules."""
+import os
 from enum import Enum
 from pathlib import Path
 
@@ -25,6 +26,9 @@ COPYRIGHT = 'Copyright © 2008-2024 ' \
 RETURN_OK = 0
 RETURN_ERR = 1
 RETURN_NO_CFG = 2
+
+# Indicator if BIT is running in root mode
+IS_IN_ROOT_MODE = os.geteuid() == 0
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (

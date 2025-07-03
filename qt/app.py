@@ -1250,7 +1250,11 @@ class MainWindow(QMainWindow):
         self.addPlace(_('Places'), '', '')
         self.addPlace(_('File System'), '/', 'computer')
         fp_home = pathlib.Path.home()
-        self.addPlace(fp_home.name, str(fp_home), 'user-home')
+        self.addPlace(
+            # Use full path in root mode ("/root") otherwise users name only
+            str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
+            str(fp_home),
+            'user-home')
 
         # "Now" or a specific snapshot selected?
         if self.sid.isRoot:

@@ -23,6 +23,7 @@ from PyQt6.QtWidgets import (QFrame,
                              )
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QPalette, QColor
+import bitbase
 
 _DARK_MODE_THRESHOLD = 128
 _PROGRESS_BAR_WIDTH_FX = 10
@@ -79,7 +80,7 @@ class StatusBar(QStatusBar):
         event.accept()
 
     def _root_mode_indicator(self) -> QLabel:
-        if os.geteuid() != 0:
+        if not bitbase.IS_IN_ROOT_MODE:
             return None
 
         root = QLabel(_('Root mode'))
