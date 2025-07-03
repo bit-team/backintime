@@ -11,7 +11,6 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A module offering a status bar widget
 """
-import os
 from PyQt6.QtWidgets import (QFrame,
                              QHBoxLayout,
                              QLabel,
