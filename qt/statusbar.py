@@ -9,9 +9,11 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""A modul offering a status bar widget
+"""A module offering a status bar widget
 """
-from PyQt6.QtWidgets import (QHBoxLayout,
+import os
+from PyQt6.QtWidgets import (QFrame,
+                             QHBoxLayout,
                              QLabel,
                              QMainWindow,
                              QProgressBar,
@@ -20,7 +22,9 @@ from PyQt6.QtWidgets import (QHBoxLayout,
                              QWidget,
                              )
 from PyQt6.QtCore import QEvent
+from PyQt6.QtGui import QPalette, QColor
 
+_DARK_MODE_THRESHOLD = 128
 _PROGRESS_BAR_WIDTH_FX = 10
 
 
@@ -32,8 +36,8 @@ class StatusBar(QStatusBar):
 
         self.main_window = main_window
 
-        # self._foo = QLabel('foobar')
-        # self._foo.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken) #
+        # Root mode indicator
+        self._root = self._root_mode_indicator()
 
         # A container widget give us more control about layout details
         container = QWidget(self)
@@ -46,8 +50,6 @@ class StatusBar(QStatusBar):
         self._status.setWordWrap(False)
         self._status.setSizePolicy(
             QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-        # # DEBUG
-        # self._status.setStyleSheet("background-color: yellow; color: black;")
 
         # Progress bar
         self._progress = QProgressBar(container)
@@ -55,18 +57,15 @@ class StatusBar(QStatusBar):
         self._progress.setValue(0)
         self._progress.setTextVisible(False)
         self._progress.setVisible(False)
-        self._progress.setSizePolicy(
-            QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
 
         # Layout
-        # layout.addWidget(self._foo)
+        if self._root:
+            layout.addWidget(self._root)
         layout.addWidget(self._status, stretch=_PROGRESS_BAR_WIDTH_FX-1)
         layout.addStretch(0)
         layout.addWidget(self._progress, stretch=1)
         self.addPermanentWidget(container, 1)
         container.resizeEvent = self._on_resize
-
-        # self._foo.setVisible(False)
 
     def _on_resize(self, event: QEvent) -> None:
         """Set the status label with in pixels, but relative.
@@ -78,6 +77,41 @@ class StatusBar(QStatusBar):
         width = width * (1 - (1 / _PROGRESS_BAR_WIDTH_FX))
         self._status.setMaximumWidth(int(width))
         event.accept()
+
+    def _root_mode_indicator(self) -> QLabel:
+        if os.geteuid() != 0:
+            return None
+
+        root = QLabel(_('Root mode'))
+        root.setToolTip(_(
+            'Back In Time is currently running with root '
+            'privileges (full system access)'))
+        root.setFrameStyle(QFrame.Shape.Panel | QFrame.Shadow.Sunken)
+
+        font = root.font()
+        font.setBold(True)
+        root.setFont(font)
+
+        palette = root.palette()
+        is_dark_mode = palette.color(
+            QPalette.ColorRole.Window).value() < _DARK_MODE_THRESHOLD
+
+        if is_dark_mode:
+            # dark red & white
+            bg_color = '#aa0000'
+            text_color = '#ffffff'
+        else:
+            # light pink & dark red
+            bg_color = '#ffdddd'
+            text_color = '#aa0000'
+
+        palette.setColor(QPalette.ColorRole.Window, QColor(bg_color))
+        palette.setColor(QPalette.ColorRole.WindowText, QColor(text_color))
+
+        root.setAutoFillBackground(True)
+        root.setPalette(palette)
+
+        return root
 
     def set_status_message(self, message: str) -> None:
         """Set status label text."""
