@@ -1247,9 +1247,10 @@ class MainWindow(QMainWindow):
     def updatePlaces(self):
         self.places.clear()
         # name, path, icon
-        self.addPlace(_('Global'), '', '')
+        self.addPlace(_('Places'), '', '')
         self.addPlace(_('File System'), '/', 'computer')
-        self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
+        fp_home = pathlib.Path.home()
+        self.addPlace(fp_home.name, str(fp_home), 'user-home')
 
         # "Now" or a specific snapshot selected?
         if self.sid.isRoot:
