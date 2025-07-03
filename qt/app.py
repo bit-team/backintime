@@ -1907,7 +1907,7 @@ class MainWindow(QMainWindow):
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Backup'), name)
+            text = '{} {}   '.format(_('Backup:'), name)
 
         self.filesWidget.setTitle(text)
 
