@@ -1246,9 +1246,15 @@ class MainWindow(QMainWindow):
 
     def updatePlaces(self):
         self.places.clear()
-        self.addPlace(_('Global'), '', '')
-        self.addPlace(_('Root'), '/', 'computer')
-        self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
+        # name, path, icon
+        self.addPlace(_('Places'), '', '')
+        self.addPlace(_('File System'), '/', 'computer')
+        fp_home = pathlib.Path.home()
+        self.addPlace(
+            # Use full path in root mode ("/root") otherwise users name only
+            str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
+            str(fp_home),
+            'user-home')
 
         # "Now" or a specific snapshot selected?
         if self.sid.isRoot:
@@ -1901,7 +1907,7 @@ class MainWindow(QMainWindow):
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Backup'), name)
+            text = '{} {}   '.format(_('Backup:'), name)
 
         self.filesWidget.setTitle(text)
 
