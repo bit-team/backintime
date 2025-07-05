@@ -479,7 +479,7 @@ class GeneralTab(QDialog):
                     _('Proceed?')
                 )
 
-                answer = messagebox.question(text=question)
+                answer = messagebox.warning(text=question, as_question=True)
                 if not answer:
                     return False
 
