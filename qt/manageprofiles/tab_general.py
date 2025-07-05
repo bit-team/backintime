@@ -652,7 +652,6 @@ class GeneralTab(QDialog):
         key_file_path = DIR_SSH_KEYS / default_keyfile_name
 
         if key_file_path.exists():
-            # TODO: Offer alternative naming (#2194)
             msg = _('The file {path} already exists. Cannot create a new '
                     'SSH key with that name.').format(path=key_file_path)
             messagebox.critical(self, msg)
@@ -660,7 +659,6 @@ class GeneralTab(QDialog):
 
         # Generate the key
         if sshtools.sshKeyGen(str(key_file_path)):
-            # self.txtSshPrivateKeyFile.setText(str(key_file_path))
             self.key_selector.add_and_select_key(key_file_path)
             return
 
