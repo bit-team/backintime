@@ -1278,7 +1278,10 @@ def sshHostKey(host, port='22'):
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.DEVNULL)
 
-        hostKey = proc.communicate()[0].strip()
+        result = proc.communicate()
+        # print('X'*100)# DEBUG
+        # print(f'{result=}')
+        hostKey = result[0].strip()
 
         if hostKey:
             break

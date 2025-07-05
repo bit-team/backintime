@@ -468,34 +468,40 @@ class GeneralTab(QDialog):
         except NoPubKeyLogin as ex:
             logger.error(str(ex), self)
 
-            question = _('Copy public SSH key to the remote host to '
-                         'enable password-less login?')
-            rc_copy_id = sshtools.sshCopyId(
-                self.config.sshPrivateKeyFile() + '.pub',
-                self.config.sshUser(),
-                self.config.sshHost(),
-                port=str(self.config.sshPort()),
-                proxy_user=self.config.sshProxyUser(),
-                proxy_host=self.config.sshProxyHost(),
-                proxy_port=self.config.sshProxyPort(),
-                askPass=tools.which('backintime-askpass'),
-                cipher=self.config.sshCipher()
-            )
+            if self.config.sshPrivateKeyFile_enabled():
+                question = _('Copy public SSH key to the remote host to '
+                            'enable password-less login?')
+                rc_copy_id = sshtools.sshCopyId(
+                    self.config.sshPrivateKeyFile() + '.pub',
+                    self.config.sshUser(),
+                    self.config.sshHost(),
+                    port=str(self.config.sshPort()),
+                    proxy_user=self.config.sshProxyUser(),
+                    proxy_host=self.config.sshProxyHost(),
+                    proxy_port=self.config.sshProxyPort(),
+                    askPass=tools.which('backintime-askpass'),
+                    cipher=self.config.sshCipher()
+                )
 
-            answer = messagebox.warningYesNo(self, question)
-            answer = answer == QMessageBox.StandardButton.Yes
-            if answer and rc_copy_id:
-                # --- DEV NOTE TODO ---
-                # Why this recursive call?
-                return self._parent_dialog.saveProfile()
+                answer = messagebox.warningYesNo(self, question)
+                answer = answer == QMessageBox.StandardButton.Yes
+                if answer and rc_copy_id:
+                    # --- DEV NOTE TODO ---
+                    # Why this recursive call?
+                    return self._parent_dialog.saveProfile()
+                else:
+                    return False
+
             else:
+                # Configured without explicte SSH key file
+                messagebox.critical(self, str(ex))
                 return False
 
         except KnownHost as ex:
             logger.error(str(ex), self)
             fingerprint, hashedKey, keyType = sshtools.sshHostKey(
-                self.config.sshHost(), str(self.config.sshPort())
-            )
+                host=self.config.sshHost(),
+                port=str(self.config.sshPort()))
 
             if not fingerprint:
                 messagebox.critical(self, str(ex))
