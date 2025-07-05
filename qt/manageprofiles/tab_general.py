@@ -469,8 +469,20 @@ class GeneralTab(QDialog):
             logger.error(str(ex), self)
 
             if self.config.sshPrivateKeyFile_enabled():
-                question = _('Copy public SSH key to the remote host to '
-                            'enable password-less login?')
+                question = '<p>{}</p><p>{}</p><p>{}</p><p>{}</p>'.format(
+                    _('An error occurred while attempting to log in to the '
+                      'remote host. The following error message was '
+                      'returned:'),
+                    str(ex),
+                    _('Copying the public SSH key to the remote host can '
+                      'help enable password-less login.'),
+                    _('Proceed?')
+                )
+
+                answer = messagebox.question(text=question)
+                if not answer:
+                    return False
+
                 rc_copy_id = sshtools.sshCopyId(
                     self.config.sshPrivateKeyFile() + '.pub',
                     self.config.sshUser(),
@@ -479,18 +491,18 @@ class GeneralTab(QDialog):
                     proxy_user=self.config.sshProxyUser(),
                     proxy_host=self.config.sshProxyHost(),
                     proxy_port=self.config.sshProxyPort(),
+                    # This will open an extra input dialog to ask for the
+                    # SSH password.
                     askPass=tools.which('backintime-askpass'),
                     cipher=self.config.sshCipher()
                 )
 
-                answer = messagebox.warningYesNo(self, question)
-                answer = answer == QMessageBox.StandardButton.Yes
-                if answer and rc_copy_id:
-                    # --- DEV NOTE TODO ---
-                    # Why this recursive call?
-                    return self._parent_dialog.saveProfile()
-                else:
+                if not rc_copy_id:
                     return False
+
+                # --- DEV NOTE TODO ---
+                # Why this recursive call?
+                return self._parent_dialog.saveProfile()
 
             else:
                 # Configured without explicte SSH key file
@@ -548,6 +560,11 @@ class GeneralTab(QDialog):
             return False
 
         return hash_id
+
+    def _offer_to_copy_public_key_to_remote(self):
+        """Offer the user to copy the public SSH key to the remote host.
+        """
+        pass
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         snapshot_modes = {}
