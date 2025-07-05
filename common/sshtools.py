@@ -1267,8 +1267,6 @@ def sshHostKey(host, port='22'):
                                 stderr=subprocess.DEVNULL)
 
         result = proc.communicate()
-        # print('X'*100)# DEBUG
-        # print(f'{result=}')
         hostKey = result[0].strip()
 
         if hostKey:

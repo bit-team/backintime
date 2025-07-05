@@ -565,11 +565,6 @@ class GeneralTab(QDialog):
 
         return hash_id
 
-    def _offer_to_copy_public_key_to_remote(self):
-        """Offer the user to copy the public SSH key to the remote host.
-        """
-        pass
-
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         snapshot_modes = {}
         for key in self.config.SNAPSHOT_MODES:
