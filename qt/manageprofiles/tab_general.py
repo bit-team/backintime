@@ -498,6 +498,10 @@ class GeneralTab(QDialog):
                 )
 
                 if not rc_copy_id:
+                    messagebox.warning(_(
+                        'The public SSH key could not be copied. This may '
+                        'be due to a connection or permission issue.'
+                    ))
                     return False
 
                 # --- DEV NOTE TODO ---
