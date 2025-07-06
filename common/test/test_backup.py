@@ -17,6 +17,7 @@ import config
 import snapshots
 import tools
 import logger
+import bitbase
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 from mount import Mount
@@ -179,7 +180,7 @@ class TestBackup(generic.SnapshotsTestCase):
         takeSnapshot.reset_mock()
 
         # third run uses anacron-like schedule so it should not run
-        self.cfg.setScheduleMode(self.cfg.REPEATEDLY)
+        self.cfg.setScheduleMode(bitbase.ScheduleMode.REPEATEDLY)
         self.assertFalse(self.sn.backup(force=False))
         self.assertFalse(takeSnapshot.called)
 

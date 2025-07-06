@@ -48,17 +48,22 @@ full_test_files = [_base_dir / fp for fp in (
     # 'cliarguments.py',
     # 'clicommands.py',
     'daemon.py',
+    'event.py',
     'languages.py',
     'inhibitsuspend.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
     'ssh_max_arg.py',
+    'storagesize.py',
     'version.py',
     'test/test_args.py',
+    'test/test_diagnostics.py',
+    'test/test_languages.py',
     'test/test_lint.py',
     'test/test_mount.py',
     'test/test_singleton.py',
+    'test/test_storagesize.py',
     'test/test_uniquenessset.py',
 )]
 
@@ -173,7 +178,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.6.0')
+            version_target = version.parse('0.12.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],
@@ -302,6 +307,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
          - It is able to catch lints other linters miss.
         """
 
+        # Enable asap. This list is a selection of existing (not all!)
+        # problems currently existing in the BIT code base. Quite easy to
+        # fix because their count is low.
+
         # Explicit activate checks
         err_codes = [
             'C0305',  # trailing-newlines
@@ -319,9 +328,11 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1101',  # no-member
             'I0021',  # useless-suppression
             'W0123',  # eval-used
+            # 'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
             'W0404',  # reimported
+            # 'W0603',  # global-statement
             'W0611',  # unused-import
             'W0612',  # unused-variable
             'W0614',  # unused-wildcard-import
@@ -337,13 +348,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # https://github.com/pylint-dev/pylint/issues/214
             # https://github.com/pylint-dev/pylint/issues/7920
             # 'R0801',  # duplicate-code
-
-            # Enable asap. This list is a selection of existing (not all!)
-            # problems currently existing in the BIT code base. Quite easy to
-            # fix because their count is low.
-            # 'W0237',  # arguments-renamed
-            # 'W0221',  # arguments-differ
-            # 'W0603',  # global-statement
         ]
 
         cmd = create_pylint_cmd(err_codes)

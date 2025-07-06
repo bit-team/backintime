@@ -35,7 +35,6 @@ import qttools
 import backintime
 import bitbase
 import config
-import tools
 import logger
 import snapshots
 import guiapplicationinstance
@@ -71,7 +70,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QGroupBox,
                              QMenu,
                              QToolBar,
-                             QProgressBar,
                              QMessageBox,
                              QInputDialog,
                              QDialog,
@@ -93,6 +91,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
 from restoredialog import RestoreDialog
@@ -102,6 +101,7 @@ from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
+from statusbar import StatusBar
 
 
 class MainWindow(QMainWindow):
@@ -145,7 +145,7 @@ class MainWindow(QMainWindow):
         # right widget
         self.filesWidget = QGroupBox(self)
         filesLayout = QVBoxLayout(self.filesWidget)
-        left, top, right, bottom = filesLayout.getContentsMargins()
+        right = filesLayout.getContentsMargins()[2]
         filesLayout.setContentsMargins(0, 0, right, 0)
 
         # main splitter
@@ -265,34 +265,10 @@ class MainWindow(QMainWindow):
         self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.act_show_hidden)
 
-        # ProgressBar
-        layoutWidget = QWidget()
-        layout = QVBoxLayout(layoutWidget)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layoutWidget.setContentsMargins(0, 0, 0, 0)
-        layoutWidget.setLayout(layout)
-        self.progressBar = QProgressBar(self)
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(100)
-        self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(False)
-        self.progressBar.setContentsMargins(0, 0, 0, 0)
-        self.progressBar.setFixedHeight(5)
-        self.progressBar.setVisible(False)
-
-        self.progressBarDummy = QWidget()
-        self.progressBarDummy.setContentsMargins(0, 0, 0, 0)
-        self.progressBarDummy.setFixedHeight(5)
-
-        self.status = QLabel(self)
-        self.status.setContentsMargins(0, 0, 0, 0)
-
-        layout.addWidget(self.status)
-        layout.addWidget(self.progressBar)
-        layout.addWidget(self.progressBarDummy)
-
-        self.statusBar().addWidget(layoutWidget, 100)
-        self.status.setText(_('Done'))
+        # self.statusBar().addWidget(layoutWidget, 100)
+        self.status_bar = StatusBar(self)
+        self.statusBar().addWidget(self.status_bar, 100)
+        self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
@@ -302,8 +278,11 @@ class MainWindow(QMainWindow):
 
         # restore position and size
         try:
-            self.move(*state_data.mainwindow_coords)
-            self.resize(*state_data.mainwindow_dims)
+            if state_data.mainwindow_maximized:
+                self.showMaximized()
+            else:
+                self.move(*state_data.mainwindow_coords)
+                self.resize(*state_data.mainwindow_dims)
         except KeyError:
             pass
 
@@ -399,6 +378,11 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.start()
 
         SetupCron(self).start()
+
+        # SSH Cipher deprecation
+        if state_data.msg_cipher_deprecation is False:
+            self._open_ssh_cipher_deprecation_dialog()
+            state_data.msg_cipher_deprecation = True
 
         # Countdown of manual GUI starts finished?
         if 0 == state_data.manual_starts_countdown():
@@ -516,6 +500,10 @@ class MainWindow(QMainWindow):
                 icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
+            'act_edit_user_callback': (
+                icon.EDIT_USER_CALLBACK, _('Edit user-callback'),
+                self.slot_edit_user_callback, None,
+                None),
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
@@ -575,6 +563,11 @@ class MainWindow(QMainWindow):
                 _('Encryption Transition (EncFS)'),
                 self.slot_help_encryption, None,
                 _('Shows the message about EncFS removal again.')),
+            'act_help_cipher': (
+                icon.ENCRYPT,
+                'SSH Cipher deprecation',
+                self.slot_help_cipher_deprecation, None,
+                'Shows the message about deprecation of SSH cipher again.'),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -691,6 +684,7 @@ class MainWindow(QMainWindow):
                 self.act_snapshot_logview,
                 self.act_last_logview,
                 self.act_update_snapshots,
+                self.act_edit_user_callback,
             ),
             _('&Restore'): (
                 self.act_restore,
@@ -709,6 +703,7 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
+                self.act_help_cipher,
                 self.act_help_about,
             )
         }
@@ -730,6 +725,7 @@ class MainWindow(QMainWindow):
         backup = self.menuBar().actions()[1].menu()
         backup.insertSeparator(self.act_settings)
         backup.insertSeparator(self.act_snapshot_logview)
+        backup.insertSeparator(self.act_update_snapshots)
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
@@ -914,8 +910,11 @@ class MainWindow(QMainWindow):
             self.places.header().sortIndicatorSection(),
             self.places.header().sortIndicatorOrder().value,
         )
-        state_data.mainwindow_coords = (self.x(), self.y())
-        state_data.mainwindow_dims = (self.width(), self.height())
+        if self.isMaximized():
+            state_data.set_mainwindow_maximized()
+        else:
+            state_data.mainwindow_coords = (self.x(), self.y())
+            state_data.mainwindow_dims = (self.width(), self.height())
         state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
         state_data.mainwindow_second_splitter_widths \
             = self.secondSplitter.sizes()
@@ -1149,22 +1148,18 @@ class MainWindow(QMainWindow):
                     self.lastTakeSnapshotMessage[1].replace('\n', ' ')
                 )
 
-            self.status.setText(message)
+            self.status_bar.set_status_message(message)
 
         pg = progress.ProgressFile(self.config)
         if pg.fileReadable():
-            self.progressBar.setVisible(True)
-            self.progressBarDummy.setVisible(False)
+            self.status_bar.progress_show()
             pg.load()
-            self.progressBar.setValue(pg.intValue('percent'))
+            self.status_bar.set_progress_value(pg.intValue('percent'))
             message = ' | '.join(self.getProgressBarFormat(pg, message))
-            self.status.setText(message)
-        else:
-            self.progressBar.setVisible(False)
-            self.progressBarDummy.setVisible(True)
+            self.status_bar.set_status_message(message)
 
-        #if not fake_busy:
-        #	self.lastTakeSnapshotMessage = None
+        else:
+            self.status_bar.progress_hide()
 
     def getProgressBarFormat(self, pg, message):
         """Generates formatted components of a progress bar display.
@@ -1251,9 +1246,15 @@ class MainWindow(QMainWindow):
 
     def updatePlaces(self):
         self.places.clear()
-        self.addPlace(_('Global'), '', '')
-        self.addPlace(_('Root'), '/', 'computer')
-        self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
+        # name, path, icon
+        self.addPlace(_('Places'), '', '')
+        self.addPlace(_('File System'), '/', 'computer')
+        fp_home = pathlib.Path.home()
+        self.addPlace(
+            # Use full path in root mode ("/root") otherwise users name only
+            str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
+            str(fp_home),
+            'user-home')
 
         # "Now" or a specific snapshot selected?
         if self.sid.isRoot:
@@ -1344,7 +1345,7 @@ class MainWindow(QMainWindow):
 
         else:
             for sid in self.snapshotsList:
-                item = self.timeLine.addSnapshot(sid)
+                self.timeLine.addSnapshot(sid)
             self.timeLine.checkSelection()
 
     def btnTakeSnapshotClicked(self):
@@ -1354,6 +1355,24 @@ class MainWindow(QMainWindow):
         self._take_snapshot_clicked(checksum=True)
 
     def _take_snapshot_clicked(self, checksum):
+        sn = snapshots.Snapshots(self.config)
+        real = sn.get_free_space_at_destination()
+
+        if real is not None:
+            warn = sn.config.warnFreeSpace()
+            if warn >= real:
+                msg = _('Only {free} free space available on the '
+                        'destination, which is below the configured threshold '
+                        'of {threshold}.').format(
+                            free=str(real),
+                            threshold=str(warn))
+                qst = _('Proceed with the backup?')
+                proceed = messagebox.warning(
+                    f'<p>{msg}</p><p>{qst}</p>', as_question=True)
+
+                if proceed is False:
+                    return
+
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self.updateTakeSnapshot(True)
 
@@ -1520,7 +1539,7 @@ class MainWindow(QMainWindow):
                                 stdout = subprocess.PIPE,
                                 universal_newlines = True,
                                 env = env)
-        out, err = proc.communicate()
+        out, _err = proc.communicate()
         messagebox.showInfo(self, 'Manual Page {}'.format(man_page), out)
 
     def btnShowHiddenFilesToggled(self, checked):
@@ -1717,7 +1736,7 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def btnSnapshotsClicked(self):
-        path, idx = self.fileSelected(fullPath = True)
+        path, _idx = self.fileSelected(fullPath = True)
 
         with self.suspendMouseButtonNavigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
@@ -1756,7 +1775,7 @@ class MainWindow(QMainWindow):
             self.updateFilesView(0)
 
     def btnOpenCurrentItemClicked(self):
-        path, idx = self.fileSelected()
+        path, _idx = self.fileSelected()
 
         if not path:
             return
@@ -1888,13 +1907,13 @@ class MainWindow(QMainWindow):
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Backup'), name)
+            text = '{} {}   '.format(_('Backup:'), name)
 
         self.filesWidget.setTitle(text)
 
         # try to keep old selected file
         if selected_file is None:
-            selected_file, idx = self.fileSelected()
+            selected_file, _idx = self.fileSelected()
 
         self.selected_file = selected_file
 
@@ -2008,20 +2027,24 @@ class MainWindow(QMainWindow):
         Returns:
             (tuple): Path as a string and the index.
         """
-        idx = qttools.indexFirstColumn(self.filesView.currentIndex())
-        selected_file = str(self.filesViewProxyModel.data(idx))
+        model_index = self.filesView.currentIndex()
+
+        if model_index.column() > 0:
+            model_index = model_index.sibling(model_index.row(), 0)
+
+        selected_file = str(self.filesViewProxyModel.data(model_index))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            idx = self.filesViewProxyModel.mapFromSource(
+            model_index = self.filesViewProxyModel.mapFromSource(
                 self.filesViewModel.index(self.path, 0))
 
         if fullPath:
             # resolve to full path
             selected_file = os.path.join(self.path, selected_file)
 
-        return (selected_file, idx)
+        return (selected_file, model_index)
 
     def multiFileSelected(self, fullPath = False):
         count = 0
@@ -2187,6 +2210,55 @@ class MainWindow(QMainWindow):
             full_label=rc_message)
         dlg.exec()
 
+    def _open_ssh_cipher_deprecation_dialog(self):
+        """SSH cipher deprecation warning (#2143, #2176)"""
+
+        # SSH profiles using cipher other than default
+        ssh_cipher_profiles = []
+        for pid in self.config.profiles():
+            if 'ssh' in self.config.snapshotsMode(pid):
+                if self.config.sshCipher(pid) != 'default':
+                    ssh_cipher_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})')
+
+        if not ssh_cipher_profiles:
+            return
+
+        def _complete_text(profiles: list[str]) -> str:
+            txt = (
+                'The following backup profiles are using an explicitly '
+                'configured SSH cipher.',
+                '{profiles}',
+                'Setting a cipher directly within Back In Time is '
+                'deprecated and will be removed in future versions.',
+                'Recommended action:',
+                'Please configure the preferred cipher in the SSH client'
+                'config file (e.g. ~/.ssh/config) instead.'
+                ' First remove the config key '
+                '"profile<N>.snapshots.ssh.cipher=" from Back In Time '
+                'config file ("~/.config/backintime/config")',
+                'This message will not be shown again automatically, but is '
+                'available at any time via the Help menu.',
+                'Your Back In Time Team'
+            )
+            txt = '\n'.join(txt)
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            profiles = '<ul>' \
+                + ''.join(f'<li>{profile}</li>' for profile in profiles) \
+                + '</ul>'
+
+            return result.format(profiles=profiles)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title='SSH Cipher is deprecated',
+            full_label=_complete_text(ssh_cipher_profiles))
+        dlg.exec()
 
     # |-------|
     # | Slots |
@@ -2216,8 +2288,16 @@ class MainWindow(QMainWindow):
     def slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
 
+    def slot_help_cipher_deprecation(self):
+        self._open_ssh_cipher_deprecation_dialog()
+
     def slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg.exec()
+
+    def slot_edit_user_callback(self):
+        fp = pathlib.Path(self.config.takeSnapshotUserCallback())
+        dlg = EditUserCallback(parent=self, script_path=fp)
         dlg.exec()
 
 
@@ -2227,13 +2307,15 @@ class ExtraMouseButtonEventFilter(QObject):
     and assign it to browse in file history.
     Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
     """
+
     def __init__(self, mainWindow):
         self.mainWindow = mainWindow
         super(ExtraMouseButtonEventFilter, self).__init__()
 
     def eventFilter(self, receiver, event):
         if (event.type() == QEvent.Type.MouseButtonPress
-            and event.button() in (Qt.MouseButton.XButton1, Qt.MouseButton.XButton2)):
+                and event.button() in (Qt.MouseButton.XButton1,
+                                       Qt.MouseButton.XButton2)):
 
             if event.button() == Qt.MouseButton.XButton1:
                 self.mainWindow.btnFolderHistoryPreviousClicked()
@@ -2312,7 +2394,7 @@ class SetupCron(QThread):
         super(SetupCron, self).__init__(parent)
 
     def run(self):
-        self.config.setupCron()
+        self.config.setup_automation()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:
@@ -2459,13 +2541,13 @@ def load_state_data(cfg: config.Config) -> None:
 
     try:
         # load file
-        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
+        StateData(json.loads(fp.read_text(encoding='utf-8')))
 
     except FileNotFoundError:
         logger.debug('State file not found. Using config file and migrate it'
                      'into a state file.')
         fp.parent.mkdir(parents=True, exist_ok=True)
-        state_data = _get_state_data_from_config(cfg)
+        _get_state_data_from_config(cfg)
 
     except json.decoder.JSONDecodeError as exc:
         logger.warning(f'Unable to read and decode state file "{fp}". '
@@ -2479,7 +2561,7 @@ def load_state_data(cfg: config.Config) -> None:
             logger.debug(f'{exc_raw=}')
 
         # Empty state data with default values
-        state_data = StateData()
+        StateData()
 
 
 if __name__ == '__main__':

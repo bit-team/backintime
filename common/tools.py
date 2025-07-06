@@ -25,11 +25,13 @@ import locale
 import gettext
 import hashlib
 import ipaddress
+import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
 from bitbase import TimeUnit
+from storagesize import StorageSize, SizeUnit
 import logger
 
 
@@ -242,29 +244,28 @@ def initiate_translation(language_code):
     used_code = _determine_current_used_language_code(
         translation, language_code)
 
-    set_lc_time_by_language_code(used_code)
+    set_locale_by_language_code(used_code)
 
     logger.debug(f'Language code used: "{used_code}"')
 
     return used_code
 
 
-def set_lc_time_by_language_code(language_code: str):
-    """Set ``LC_TIME`` based on a specific language code.
+def set_locale_by_language_code(language_code: str):
+    """Set ``LC_ALL`` based on a specific language code.
 
     Args:
         language_code(str): A language code consisting of two letters.
 
-    The reason is to display correctly translated weekday and months
-    names. Python's :mod:`datetime` module, as well
-    ``PyQt6.QtCore.QDate``, use :mod:`locale` to determine the
-    correct translation. The module :mod:`gettext` and
-    ``PyQt6.QtCore.QTranslator`` is not involved so their setup does
-    not take effect.
+    The reason is to display correctly translated weekday and months names.
+    Python's :mod:`datetime` module, as well ``PyQt6.QtCore.QDate``,
+    use :mod:`locale` to determine the correct translation. The
+    module :mod:`gettext` and ``PyQt6.QtCore.QTranslator`` is not involved
+    so their setup does not take effect.
 
-    Be aware that a language code (e.g. ``de``) is not the same as a locale code
-    (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter based
-    on the language code. A warning is logged if it is not possible.
+    Be aware that a language code (e.g. ``de``) is not the same as a locale
+    code (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter
+    based on the language code. A warning is logged if it is not possible.
     """
 
     # Determine the normalized locale code (e.g. "de_DE.UTF-8") by
@@ -280,9 +281,7 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-        #              f'language code "{language_code}".')
-        locale.setlocale(locale.LC_TIME, code)
+        locale.setlocale(locale.LC_ALL, code)
 
     except locale.Error:
         logger.debug(
@@ -582,10 +581,81 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 
     return org
 
+# |-------------------|
+# | File system stuff |
+# |-------------------|
+
+
+def free_space(path: pathlib.Path, ssh_command: list[str] = None
+               ) -> StorageSize | None:
+    """Get free space as StorageSize on (remote) filesystem containing ``path``.
+
+    Args:
+        path: File or directory.
+        ssh_command: See `_free_space_ssh()` for details.
+
+    Returns:
+        Free space in StorageSize or ``None`` in case of errors.
+    """
+
+    if ssh_command:
+        value = _free_space_ssh(path, ssh_command)
+    else:
+        value = _free_space_local(path)
+
+    return StorageSize(value, SizeUnit.B) if value else value
+
+
+def _free_space_local(path: pathlib.Path) -> int:
+    """Get free space in Byte on filesystem containing ``path``.
+
+    Args:
+        path: File or directory.
+
+    Returns:
+        Free space in Byte.
+    """
+    return shutil.disk_usage(path).free
+
+
+def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
+    """Get free space in Byte on remote filesystem.
+
+    Use Config.sshCommand() to construct ``ssh_command`` regarding the backup
+    profile of interest. This is a workaround and will be refactored one day.
+
+    Args:
+        path: File or directory on remote system.
+        ssh_command: SSH command used as prefix to the ``stat`` command.
+
+    Returns:
+        Free space in Byte or ``None`` in case of errors.
+    """
+    try:
+        result = subprocess.check_output(
+            ssh_command + [
+                'stat',
+                '--file-system',
+                # %a: Free blocks available for the user.
+                # %S: Blocksize
+                '--format=%a,%S',
+                str(path) if path else './'
+            ],
+            text=True
+        )
+    except subprocess.CalledProcessError as exc:
+        logger.error(f'Unable to get free space via SSH. {exc}')
+        return None
+
+    available, blocksize = [int(val) for val in result.strip().split(',')]
+
+    return available * blocksize
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
+
+
 def registerBackintimePath(*path):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
@@ -847,6 +917,7 @@ def which(cmd):
         fullpath = os.path.join(directory, cmd)
 
         if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            fullpath = str(pathlib.Path(fullpath).resolve())
             return fullpath
 
     return None
@@ -1773,6 +1844,7 @@ def _uuidFromDev_via_filesystem(dev):
     # Nothing found
     return None
 
+
 def _uuidFromDev_via_blkid_command(dev):
     """Get the UUID for the block device ``dev`` via the extern command
     ``blkid``.
@@ -2011,9 +2083,12 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
     """
     while cmds:
         s = head
+
         while cmds and ((len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0):
             s += cmds.pop(0)
+
         s += tail
+
         yield s
 
 
@@ -2130,6 +2205,7 @@ class Alarm:
 
         else:
             self.callback()
+
 
 class SetupUdev:
     """

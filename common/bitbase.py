@@ -6,6 +6,7 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Basic constants used in multiple modules."""
+import os
 from enum import Enum
 from pathlib import Path
 
@@ -25,6 +26,9 @@ COPYRIGHT = 'Copyright © 2008-2024 ' \
 RETURN_OK = 0
 RETURN_ERR = 1
 RETURN_NO_CFG = 2
+
+# Indicator if BIT is running in root mode
+IS_IN_ROOT_MODE = os.geteuid() == 0
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
@@ -49,8 +53,13 @@ URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
 USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
 USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
-    'backintime-common' / 'manual' / 'index.html'
+    PACKAGE_NAME_CLI / 'manual' / 'index.html'
 USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
+
+DIR_CALLBACK_EXAMPLES = Path('/') / 'usr' / 'share' / 'doc' / \
+    PACKAGE_NAME_CLI / 'user-callback-examples'
+DEFAULT_CALLBACK = DIR_CALLBACK_EXAMPLES / 'user-callback.default'
+
 
 # About transition of encryption feature and the removal of EncFS (see #1734).
 # The warnings and deprecation messages are gradually increased in intensity
@@ -82,12 +91,64 @@ def _determine_licenses_dir():
 
 
 DIR_LICENSES = _determine_licenses_dir()
+DIR_SSH_KEYS = Path.home() / '.ssh'
 
 
 class TimeUnit(Enum):
-    """Describe time units used in context of scheduling.
-    """
+    """Describe time units used in context of scheduling."""
     HOUR = 10  # Config.HOUR
     DAY = 20  # Config.DAY
     WEEK = 30  # Config.WEEK
     MONTH = 40  # Config.MONTH
+    YEAR = 80  # Config.YEAR
+
+
+class ScheduleMode(Enum):
+    """Describe schedule mode.
+
+    0 = Disabled
+    1 = at every boot
+    2 = every 5 minute
+    4 = every 10 minute
+    7 = every 30 minute
+    10 = every hour
+    12 = every 2 hours
+    14 = every 4 hours
+    16 = every 6 hours
+    18 = every 12 hours
+    19 = custom defined hours
+    20 = every day
+    25 = daily anacron
+    27 = when drive get connected
+    30 = every week
+    40 = every month
+    80 = every year
+    """
+    DISABLED = 0
+    AT_EVERY_BOOT = 1
+    MINUTES_5 = 2
+    MINUTES_10 = 4
+    MINUTES_30 = 7
+    HOUR = 10
+    HOUR_1 = 10
+    HOURS_2 = 12
+    HOURS_4 = 14
+    HOURS_6 = 16
+    HOURS_12 = 18
+    CUSTOM_HOUR = 19
+    DAY = 20
+    REPEATEDLY = 25
+    UDEV = 27
+    WEEK = 30
+    MONTH = 40
+    YEAR = 80
+
+
+HOURLY_BACKUPS = (
+    ScheduleMode.HOUR,
+    ScheduleMode.HOUR_1,
+    ScheduleMode.HOURS_2,
+    ScheduleMode.HOURS_4,
+    ScheduleMode.HOURS_6,
+    ScheduleMode.HOURS_12,
+    ScheduleMode.CUSTOM_HOUR)

@@ -11,7 +11,7 @@
 
 [codespell]
 # Folders and files to skip
-skip = .codespellrc,*.po,Makefile,*.desktop,.git,__pycache__,*.pyc,#*#,languages.py,_build,TRANSLATIONS,./doc/manual/html,mkdocs.yml,configure
+skip = .codespellrc,*.po,Makefile,*.desktop,.git,__pycache__,*.pyc,#*#,languages.py,_build,TRANSLATIONS,./doc/manual/html,mkdocs.yml,configure,.pytest_cache
 # Print N lines of surrounding context
 context = 1
 # Check hidden files also (empty means True)
@@ -23,7 +23,7 @@ count=
 builtin = clear,rare,informal,usage,code,names,en-GB_to_en-US
 
 # Allowed (ignored) words 
-ignore-words-list=master,whitelist,manuel,dum,assertIn,OIS
+ignore-words-list=master,whitelist,manuel,dum,assertIn,OIS,deque
 # Allowed (ignored) words in URLs and URIs
 uri-ignore-words-list=mitre,Archiv
 
