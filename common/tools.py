@@ -917,6 +917,7 @@ def which(cmd):
         fullpath = os.path.join(directory, cmd)
 
         if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            fullpath = str(pathlib.Path(fullpath).resolve())
             return fullpath
 
     return None
@@ -2082,9 +2083,12 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
     """
     while cmds:
         s = head
+
         while cmds and ((len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0):
             s += cmds.pop(0)
+
         s += tail
+
         yield s
 
 

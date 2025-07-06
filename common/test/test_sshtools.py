@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: © 2016-2022 Taylor Raack
 # SPDX-FileCopyrightText: © 2016-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -13,6 +14,7 @@ import subprocess
 import stat
 import shutil
 import unittest
+from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 from test import generic
@@ -65,6 +67,43 @@ class General(generic.SSHTestCase):
         ssh.private_key_fingerprint = 'wrong fingerprint'
         with self.assertRaisesRegex(MountException, r"Could not unlock ssh private key\. Wrong password or password not available for cron\."):
             ssh.unlockSshAgent(force = True)
+
+    def test_unlockSshAgentKeyWithPassword(self):
+        subprocess.run(
+            ['ssh-add', '-D'],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        private_key = os.path.join(
+            self.tmpDir.name,
+            'test_private_key'
+        )
+        private_key_password = 'test_private_key_password'
+
+        # generate temporary test key
+        subprocess.run(
+            [
+                'ssh-keygen',
+                '-f', private_key,
+                '-N', private_key_password
+            ],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        ssh = sshtools.SSH(
+            cfg=self.cfg,
+            private_key_file=private_key,
+            password=private_key_password,
+        )
+        ssh.unlockSshAgent(force=True)
+        ssh_add = subprocess.run(
+            ['ssh-add', '-l'],
+            capture_output=True,
+            text=True,
+        )
+        self.assertIn(ssh.private_key_fingerprint, ssh_add.stdout)
 
     def test_checkLogin(self):
         ssh = sshtools.SSH(cfg = self.cfg)
@@ -224,8 +263,8 @@ class SshKey(generic.TestCaseCfg):
             pubKey = secKey + '.pub'
             # create new key
             self.assertTrue(sshtools.sshKeyGen(secKey))
-            self.assertIsFile(secKey)
-            self.assertIsFile(pubKey)
+            self.assertTrue(Path(secKey).is_file())
+            self.assertTrue(Path(pubKey).is_file())
 
             # do not overwrite existing keys
             self.assertFalse(sshtools.sshKeyGen(secKey))

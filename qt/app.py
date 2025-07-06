@@ -35,7 +35,6 @@ import qttools
 import backintime
 import bitbase
 import config
-import tools
 import logger
 import snapshots
 import guiapplicationinstance
@@ -71,7 +70,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QGroupBox,
                              QMenu,
                              QToolBar,
-                             QProgressBar,
                              QMessageBox,
                              QInputDialog,
                              QDialog,
@@ -103,6 +101,7 @@ from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
+from statusbar import StatusBar
 
 
 class MainWindow(QMainWindow):
@@ -146,7 +145,7 @@ class MainWindow(QMainWindow):
         # right widget
         self.filesWidget = QGroupBox(self)
         filesLayout = QVBoxLayout(self.filesWidget)
-        left, top, right, bottom = filesLayout.getContentsMargins()
+        right = filesLayout.getContentsMargins()[2]
         filesLayout.setContentsMargins(0, 0, right, 0)
 
         # main splitter
@@ -266,34 +265,10 @@ class MainWindow(QMainWindow):
         self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.act_show_hidden)
 
-        # ProgressBar
-        layoutWidget = QWidget()
-        layout = QVBoxLayout(layoutWidget)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layoutWidget.setContentsMargins(0, 0, 0, 0)
-        layoutWidget.setLayout(layout)
-        self.progressBar = QProgressBar(self)
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(100)
-        self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(False)
-        self.progressBar.setContentsMargins(0, 0, 0, 0)
-        self.progressBar.setFixedHeight(5)
-        self.progressBar.setVisible(False)
-
-        self.progressBarDummy = QWidget()
-        self.progressBarDummy.setContentsMargins(0, 0, 0, 0)
-        self.progressBarDummy.setFixedHeight(5)
-
-        self.status = QLabel(self)
-        self.status.setContentsMargins(0, 0, 0, 0)
-
-        layout.addWidget(self.status)
-        layout.addWidget(self.progressBar)
-        layout.addWidget(self.progressBarDummy)
-
-        self.statusBar().addWidget(layoutWidget, 100)
-        self.status.setText(_('Done'))
+        # self.statusBar().addWidget(layoutWidget, 100)
+        self.status_bar = StatusBar(self)
+        self.statusBar().addWidget(self.status_bar, 100)
+        self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
@@ -1173,22 +1148,18 @@ class MainWindow(QMainWindow):
                     self.lastTakeSnapshotMessage[1].replace('\n', ' ')
                 )
 
-            self.status.setText(message)
+            self.status_bar.set_status_message(message)
 
         pg = progress.ProgressFile(self.config)
         if pg.fileReadable():
-            self.progressBar.setVisible(True)
-            self.progressBarDummy.setVisible(False)
+            self.status_bar.progress_show()
             pg.load()
-            self.progressBar.setValue(pg.intValue('percent'))
+            self.status_bar.set_progress_value(pg.intValue('percent'))
             message = ' | '.join(self.getProgressBarFormat(pg, message))
-            self.status.setText(message)
-        else:
-            self.progressBar.setVisible(False)
-            self.progressBarDummy.setVisible(True)
+            self.status_bar.set_status_message(message)
 
-        #if not fake_busy:
-        #	self.lastTakeSnapshotMessage = None
+        else:
+            self.status_bar.progress_hide()
 
     def getProgressBarFormat(self, pg, message):
         """Generates formatted components of a progress bar display.
@@ -1275,9 +1246,15 @@ class MainWindow(QMainWindow):
 
     def updatePlaces(self):
         self.places.clear()
-        self.addPlace(_('Global'), '', '')
-        self.addPlace(_('Root'), '/', 'computer')
-        self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
+        # name, path, icon
+        self.addPlace(_('Places'), '', '')
+        self.addPlace(_('File System'), '/', 'computer')
+        fp_home = pathlib.Path.home()
+        self.addPlace(
+            # Use full path in root mode ("/root") otherwise users name only
+            str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
+            str(fp_home),
+            'user-home')
 
         # "Now" or a specific snapshot selected?
         if self.sid.isRoot:
@@ -1368,7 +1345,7 @@ class MainWindow(QMainWindow):
 
         else:
             for sid in self.snapshotsList:
-                item = self.timeLine.addSnapshot(sid)
+                self.timeLine.addSnapshot(sid)
             self.timeLine.checkSelection()
 
     def btnTakeSnapshotClicked(self):
@@ -1562,7 +1539,7 @@ class MainWindow(QMainWindow):
                                 stdout = subprocess.PIPE,
                                 universal_newlines = True,
                                 env = env)
-        out, err = proc.communicate()
+        out, _err = proc.communicate()
         messagebox.showInfo(self, 'Manual Page {}'.format(man_page), out)
 
     def btnShowHiddenFilesToggled(self, checked):
@@ -1759,7 +1736,7 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def btnSnapshotsClicked(self):
-        path, idx = self.fileSelected(fullPath = True)
+        path, _idx = self.fileSelected(fullPath = True)
 
         with self.suspendMouseButtonNavigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
@@ -1798,7 +1775,7 @@ class MainWindow(QMainWindow):
             self.updateFilesView(0)
 
     def btnOpenCurrentItemClicked(self):
-        path, idx = self.fileSelected()
+        path, _idx = self.fileSelected()
 
         if not path:
             return
@@ -1930,13 +1907,13 @@ class MainWindow(QMainWindow):
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{}: {}   '.format(_('Backup'), name)
+            text = '{} {}   '.format(_('Backup:'), name)
 
         self.filesWidget.setTitle(text)
 
         # try to keep old selected file
         if selected_file is None:
-            selected_file, idx = self.fileSelected()
+            selected_file, _idx = self.fileSelected()
 
         self.selected_file = selected_file
 
@@ -2050,20 +2027,24 @@ class MainWindow(QMainWindow):
         Returns:
             (tuple): Path as a string and the index.
         """
-        idx = qttools.indexFirstColumn(self.filesView.currentIndex())
-        selected_file = str(self.filesViewProxyModel.data(idx))
+        model_index = self.filesView.currentIndex()
+
+        if model_index.column() > 0:
+            model_index = model_index.sibling(model_index.row(), 0)
+
+        selected_file = str(self.filesViewProxyModel.data(model_index))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            idx = self.filesViewProxyModel.mapFromSource(
+            model_index = self.filesViewProxyModel.mapFromSource(
                 self.filesViewModel.index(self.path, 0))
 
         if fullPath:
             # resolve to full path
             selected_file = os.path.join(self.path, selected_file)
 
-        return (selected_file, idx)
+        return (selected_file, model_index)
 
     def multiFileSelected(self, fullPath = False):
         count = 0
@@ -2560,13 +2541,13 @@ def load_state_data(cfg: config.Config) -> None:
 
     try:
         # load file
-        state_data = StateData(json.loads(fp.read_text(encoding='utf-8')))
+        StateData(json.loads(fp.read_text(encoding='utf-8')))
 
     except FileNotFoundError:
         logger.debug('State file not found. Using config file and migrate it'
                      'into a state file.')
         fp.parent.mkdir(parents=True, exist_ok=True)
-        state_data = _get_state_data_from_config(cfg)
+        _get_state_data_from_config(cfg)
 
     except json.decoder.JSONDecodeError as exc:
         logger.warning(f'Unable to read and decode state file "{fp}". '
@@ -2580,7 +2561,7 @@ def load_state_data(cfg: config.Config) -> None:
             logger.debug(f'{exc_raw=}')
 
         # Empty state data with default values
-        state_data = StateData()
+        StateData()
 
 
 if __name__ == '__main__':
