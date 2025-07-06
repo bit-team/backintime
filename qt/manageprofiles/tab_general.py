@@ -662,10 +662,18 @@ class GeneralTab(QDialog):
 
     def _slot_ssh_key_gen_clicked(self):
         # TODO: make it configurable (#2194)
-        key_file_path = DIR_SSH_KEYS / 'id_rsa'
+        default_keyfile_name = sshtools.determine_default_ssh_key_filename()
+
+        if not default_keyfile_name:
+            msg = 'Unable to determine the default filename for new ' \
+                'generated ssh keys used by "ssh-keygen".'
+            logger.critical(msg)
+            messagebox.critical(self, msg)
+            return
+
+        key_file_path = DIR_SSH_KEYS / default_keyfile_name
 
         if key_file_path.exists():
-            # TODO: Offer alternative naming (#2194)
             msg = _('The file {path} already exists. Cannot create a new '
                     'SSH key with that name.').format(path=key_file_path)
             messagebox.critical(self, msg)
@@ -673,7 +681,6 @@ class GeneralTab(QDialog):
 
         # Generate the key
         if sshtools.sshKeyGen(str(key_file_path)):
-            # self.txtSshPrivateKeyFile.setText(str(key_file_path))
             self.key_selector.add_and_select_key(key_file_path)
             return
 
