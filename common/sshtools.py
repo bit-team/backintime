@@ -518,16 +518,12 @@ class SSH(MountControl):
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True)
 
-        err = proc.communicate()[1]
+        err = proc.communicate()[1].strip('\n')
 
         if proc.returncode:
             raise NoPubKeyLogin(
-                'Password-less authentication for %(user)s@%(host)s '
-                'failed. Look at \'man backintime\' for further '
-                'instructions.' % {
-                    'user': self.user,
-                    'host': self.host}
-                + '\n\n' + err)
+                f'Password-less authentication for {self.user}@{self.host} '
+                f'failed: "{err}"')
 
     def checkCipher(self):
         """Try to login to remote host with the chosen cipher. This should make
@@ -882,8 +878,7 @@ class SSH(MountControl):
 
                     raise MountException(
                         "Remote host {host} doesn't support '{command}:\n"
-                        "{err}\n"
-                        "Look at 'man backintime' for further instructions."
+                        "{err}"
                         .format(
                             host=self.host,
                             command=cmd,
@@ -1020,18 +1015,11 @@ class SSH(MountControl):
                     command = f"'{output_split[-1]}':\n{err}"
                     msg = _("Remote host {host} doesn't support {command}") \
                         .format(host=self.host, command=command)
-                    raise MountException('{}\n{}'.format(
-                        msg,
-                        _("Look at 'man backintime' for further instructions")
-                        )
-                    )
+                    raise MountException(msg)
 
             msg = _('Check commands on host {host} returned unknown error') \
                 .format(host=self.host)
-            raise MountException('{}:\n{}n{}'.format(
-                msg,
-                err,
-                _("Look at 'man backintime' for further instructions")))
+            raise MountException(f'{msg}: "{err}"')
 
         inodes = []
 
@@ -1278,7 +1266,8 @@ def sshHostKey(host, port='22'):
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.DEVNULL)
 
-        hostKey = proc.communicate()[0].strip()
+        result = proc.communicate()
+        hostKey = result[0].strip()
 
         if hostKey:
             break
