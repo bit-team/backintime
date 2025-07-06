@@ -23,6 +23,7 @@ import password
 import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
+import bitbase
 import bcolors
 import version
 
@@ -518,16 +519,12 @@ class SSH(MountControl):
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True)
 
-        err = proc.communicate()[1]
+        err = proc.communicate()[1].strip('\n')
 
         if proc.returncode:
             raise NoPubKeyLogin(
-                'Password-less authentication for %(user)s@%(host)s '
-                'failed. Look at \'man backintime\' for further '
-                'instructions.' % {
-                    'user': self.user,
-                    'host': self.host}
-                + '\n\n' + err)
+                f'Password-less authentication for {self.user}@{self.host} '
+                f'failed: "{err}"')
 
     def checkCipher(self):
         """Try to login to remote host with the chosen cipher. This should make
@@ -882,8 +879,7 @@ class SSH(MountControl):
 
                     raise MountException(
                         "Remote host {host} doesn't support '{command}:\n"
-                        "{err}\n"
-                        "Look at 'man backintime' for further instructions."
+                        "{err}"
                         .format(
                             host=self.host,
                             command=cmd,
@@ -1020,18 +1016,11 @@ class SSH(MountControl):
                     command = f"'{output_split[-1]}':\n{err}"
                     msg = _("Remote host {host} doesn't support {command}") \
                         .format(host=self.host, command=command)
-                    raise MountException('{}\n{}'.format(
-                        msg,
-                        _("Look at 'man backintime' for further instructions")
-                        )
-                    )
+                    raise MountException(msg)
 
             msg = _('Check commands on host {host} returned unknown error') \
                 .format(host=self.host)
-            raise MountException('{}:\n{}n{}'.format(
-                msg,
-                err,
-                _("Look at 'man backintime' for further instructions")))
+            raise MountException(f'{msg}: "{err}"')
 
         inodes = []
 
@@ -1103,6 +1092,7 @@ def sshKeyGen(keyfile: str) -> bool:
     if rc:
         err = com[1]
         logger.error(f'Failed to create a new SSH key: {err}')
+
     else:
         logger.info(f'New SSH key created: {keyfile}')
 
@@ -1278,7 +1268,8 @@ def sshHostKey(host, port='22'):
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.DEVNULL)
 
-        hostKey = proc.communicate()[0].strip()
+        result = proc.communicate()
+        hostKey = result[0].strip()
 
         if hostKey:
             break
@@ -1309,6 +1300,35 @@ def sshHostKey(host, port='22'):
         return (hostKeyFingerprint, hostKeyHash, t.upper())
 
     return (None, None, None)
+
+
+def determine_default_ssh_key_filename() -> str | None:
+    """Return the default filename for new generated SSH keys used by
+    ssh-keygen.
+
+    Return:
+        The filename as string or `None` in case of errors.
+    """
+    proc = subprocess.run(
+        ['ssh-keygen', '-N', '""'],
+        stdin=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        text=True)
+
+    # Extract the default key file name from that question prompt:
+    # "Generating public/private rsa key pair.\nEnter file in which
+    # to save the key (/home/user/.ssh/id_rsa): "
+    pattern = r'.+\(' + re.escape(str(bitbase.DIR_SSH_KEYS)) + r'\/(.+)\):.*'
+
+    result = re.search(pattern, proc.stdout)
+    if result:
+        return result.group(1)
+
+    logger.debug('Error determining the default SSH key file name.'
+                 f'{proc=} match {result=}')
+
+    return None
 
 
 def writeKnownHostsFile(key):

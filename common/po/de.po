@@ -1,13 +1,22 @@
-# German translation of Back In Time
-# Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
-# This file is distributed under the same license as the Back In Time package.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Michael Wiedmann <mw@miwie.in-berlin.de>
+# SPDX-FileCopyrightText: © 2022 Christian BUHTZ <c.buhtz@posteo.jp>
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 0.9.5\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
-"PO-Revision-Date: 2025-06-15 10:50+0000\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
+"PO-Revision-Date: 2025-07-01 14:43+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -16,7 +25,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.11.4\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -65,7 +73,7 @@ msgid "Default"
 msgstr "Standard"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: »{name}«"
@@ -91,30 +99,35 @@ msgstr ""
 "Dieses Verzeichnis kann nicht in die Sicherung aufgenommen werden, da es "
 "Teil des Zielverzeichnisses ist."
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Der Wert für »Entferne ältestes Backup, wenn freier Speicher kleiner ist "
+"als« ({val_one}) muss kleiner oder gleich dem Schwellenwert für »Warne, wenn"
+" freier Speicherplatz weniger als« ({val_two}) sein."
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Bitte die Einstellungen verändern, so dass der Grenzwert für das Entfernen "
+"von Backups nicht größer ist als der Grenzwert für die Warnung."
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev-Zeitplan funktioniert nicht mit dem Modus {mode}"
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Schreiben einer neuen crontab ist fehlgeschlagen."
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -164,14 +177,12 @@ msgid "Cancel"
 msgstr "Abbruch"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Bitte Passwort für »{user}« eingeben."
+msgstr "Bitte zur Bestätigung das EncFS Passwort erneut eingeben."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Passwort stimmt nicht überein."
+msgstr "Die EncFS Passwörter stimmt nicht überein."
 
 #: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
@@ -509,7 +520,7 @@ msgstr "Übersetzende:"
 msgid "translator-credits-placeholder"
 msgstr ""
 "Michael Wiedmann <mw@miwie.in-berlin.de>\n"
-"Christian Buhtz"
+"2022 Christian BUHTZ <c.buhtz@posteo.jp>"
 
 #: qt/aboutdlg.py:105
 msgid "Translator credits not available for current language."
@@ -1084,7 +1095,7 @@ msgstr ""
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "User-callback: »{filename}«"
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1092,6 +1103,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Die erste Zeile des user-callback Skripts mus ein Shebang enthalten (z.B. "
+"{example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1164,9 +1177,8 @@ msgid "Your Back In Time Team"
 msgstr "Dein Back In Time Team"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Dateien und Verzeichnisse einbeziehen"
+msgstr "Zeige/verberge versteckte Dateien und Verzeichnisse (Strg+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1459,44 +1471,41 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Andere Datei auswählen…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
-msgid "Create a new SSH key without passphrase."
-msgstr "Erstellen eines neuen SSH-Schlüssels in {path} ist fehlgeschlagen."
+msgid "Choose an existing private key file from somewhere else."
+msgstr ""
+"Wählt eine vorhandene private Schlüsseldatei von einem anderen Ort aus."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Erzeuge neues Schlüssel-Paar…>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
-msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Wählt eine existierende private Schüsseldatei (üblicherweise als "
-"»id_ed25519« benannt, oder »id_rsa« auf älteren Systemen)."
+msgid "Create a new SSH key without passphrase."
+msgstr "Erstellt einen neuen SSH-Schlüssel ohne Passphrase."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Vollständiger Sicherungspfad:"
+msgstr "Vollständiger Pfad: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Privater Schlüssel:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Konfiguration importieren"
+msgstr "SSH Konfiguration des Systems verwenden"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Wählt keine Schlüsseldatei. SSH Verbindungen nutzen die Konfiguration des "
+"SSH-Clients aus dem System (z.B., ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1545,14 +1554,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Muster, Dateien oder Verzeichnisse ausschließen"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
 msgid "Add files"
-msgstr "Datei hinzufügen"
+msgstr "Dateien hinzufügen"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
 msgid "Add directories"
-msgstr "Verzeichnis hinzufügen"
+msgstr "Verzeichnisse hinzufügen"
 
 #: qt/manageprofiles/tab_exclude.py:111
 msgid "Add default"
@@ -1598,14 +1605,12 @@ msgid "Exclude pattern"
 msgstr "Ausschlussmuster"
 
 #: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
 msgid "Exclude files"
-msgstr "Datei ausschließen"
+msgstr "Dateien ausschließen"
 
 #: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Verzeichnis ausschließen"
+msgstr "Verzeichnisse ausschließen"
 
 #: qt/manageprofiles/tab_exclude.py:313
 msgid ""
@@ -1793,9 +1798,8 @@ msgid "Path:"
 msgstr "Pfad:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Neues Profil"
+msgstr "Schlüssel-Datei:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1852,16 +1856,21 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Die ausgewählte Datei {path} scheint ein öffentliche SSH Schüssel zu sein. "
+"Bitte einen privaten Schlüssel wählen (d.h. ohne \".pub\" Endung)."
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
-msgstr ""
+#, fuzzy
+msgid "Not a private key"
+msgstr "Privater SSH Schlüssel"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Die Datei {path} existiert bereits. Kann keinen neuen SSH Schüssel mit "
+"diesem Namen erzeugen."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1873,14 +1882,12 @@ msgid "Include files and directories"
 msgstr "Dateien und Verzeichnisse einbeziehen"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Datei einbeziehen"
+msgstr "Dateien einbeziehen"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Verzeichnis einbeziehen"
+msgstr "Verzeichnisse einbeziehen"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -2384,6 +2391,9 @@ msgstr "Letzte Überprüfung {time}"
 #~ "Vor dem Wiederherstellen werden neuere Dateiversionen mit einem angehängten "
 #~ "{suffix} umbenannt. Wenn sie nicht mehr benötigt werden, können Sie sie mit "
 #~ "{cmd} entfernen"
+
+#~ msgid "No public SSH keys"
+#~ msgstr "Keine öffentlichen SSH Schlüssel"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "Passwort bitte bestätigen."

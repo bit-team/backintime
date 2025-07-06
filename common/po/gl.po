@@ -1,13 +1,20 @@
-# Galician translation for backintime
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Miguel A. Bouzada <mbouzada@gmail.com>, 2024, 2025
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
 "PO-Revision-Date: 2025-04-14 17:22+0000\n"
 "Last-Translator: mbouzada <mbouzada@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
@@ -17,7 +24,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.10.2\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -66,7 +72,7 @@ msgid "Default"
 msgstr "Predeterminado"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
@@ -93,7 +99,7 @@ msgstr ""
 "Non é posíbel incluír este directorio na copia de seguranza por mor de que é"
 " parte do destino da copia."
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
@@ -101,22 +107,22 @@ msgid ""
 " space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "A programación de udev non funciona co modo {mode}"
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Produciuse un fallo escribindo no novo crontab."
 
-#: common/config.py:1578
+#: common/config.py:1577
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -1466,8 +1472,10 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:64
 #, fuzzy
-msgid "Create a new SSH key without passphrase."
-msgstr "Produciuse un fallo ao crear a nova chave SSH en {path}."
+msgid "Choose an existing private key file from somewhere else."
+msgstr ""
+"Escolla un ficheiro de chave privada existente (normalmente chamado "
+"«id_ed25519» e en configuracións máis antigas «id_rsa»)."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
@@ -1475,10 +1483,8 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:71
 #, fuzzy
-msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Escolla un ficheiro de chave privada existente (normalmente chamado "
-"«id_ed25519» e en configuracións máis antigas «id_rsa»)."
+msgid "Create a new SSH key without passphrase."
+msgstr "Produciuse un fallo ao crear a nova chave SSH en {path}."
 
 #: qt/manageprofiles/sshkeyselector.py:91
 #, fuzzy, python-brace-format
@@ -1854,8 +1860,9 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
-msgstr ""
+#, fuzzy
+msgid "Not a private key"
+msgstr "Chave SSH privada"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format

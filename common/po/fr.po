@@ -1,14 +1,23 @@
-# French translation of Back In Time.
-# Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
-# This file is distributed under the same license as the Back In Time package.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © bubu of Debian-l10n-fr
+# SPDX-FileCopyrightText: © Michel Corps <mahikeulbody@gmail.com> (@jej)
+# SPDX-FileCopyrightText: © milimarg <guittre@ik.me>
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
+# This file is part of the program "Back In time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 0.8.8\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-06-28 22:31+0200\n"
-"PO-Revision-Date: 2025-06-23 14:17+0000\n"
+"POT-Creation-Date: 2025-07-01 16:44+0200\n"
+"PO-Revision-Date: 2025-07-01 05:58+0000\n"
 "Last-Translator: lann <lann@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
@@ -17,7 +26,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.11.4\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -66,7 +74,7 @@ msgid "Default"
 msgstr "Par défaut"
 
 #: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:380
+#: common/config.py:358 common/config.py:379
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil : \"{name}\""
@@ -92,30 +100,35 @@ msgstr ""
 "Le répertoire ne peut pas être inclus dans la sauvegarde car il fait partie "
 "de la destination de sauvegarde."
 
-#: common/config.py:381
+#: common/config.py:380
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"La valeur pour \"Supprimer l'ancienne sauvegarde si l'espace libre est "
+"inférieur à\" ({val_one}) doit être inférieure ou égale au seuil de "
+"\"Attention si l'espace libre du disque est inférieur à\" ({val_two})."
 
-#: common/config.py:386
+#: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"S'il vous plaît, ajuster les paramètres pour que la limite de suppression de"
+" la sauvegarde ne soit pas supérieure à limite d'alerte."
 
-#: common/config.py:1516
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "La planification Udev ne fonctionne pas avec le mode {mode}"
 
-#: common/config.py:1570
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Échec d'écriture de la nouvelle crontab."
 
-#: common/config.py:1578
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -1093,7 +1106,7 @@ msgstr ""
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Rappel-utilisateur : \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1468,23 +1481,23 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Sélectionner un autre fichier …>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
-msgid "Create a new SSH key without passphrase."
-msgstr "Échec de la création de la nouvelle clé SSH dans {path}."
-
-#: qt/manageprofiles/sshkeyselector.py:70
-msgid "<Generate new key-pair…>"
-msgstr ""
-
-#: qt/manageprofiles/sshkeyselector.py:71
 #, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr ""
 "Choisissez un fichier de clé privée (normalement nommé \"id_ed25519\", ou "
 "\"id_rsa\" pour de vieilles configurations)."
+
+#: qt/manageprofiles/sshkeyselector.py:70
+msgid "<Generate new key-pair…>"
+msgstr "<Générer une nouvelle paire de clés...>"
+
+#: qt/manageprofiles/sshkeyselector.py:71
+#, fuzzy
+msgid "Create a new SSH key without passphrase."
+msgstr "Échec de la création de la nouvelle clé SSH dans {path}."
 
 #: qt/manageprofiles/sshkeyselector.py:91
 #, fuzzy, python-brace-format
@@ -1857,8 +1870,9 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:635
-msgid "No public SSH keys"
-msgstr ""
+#, fuzzy
+msgid "Not a private key"
+msgstr "Clé privée SSH"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format

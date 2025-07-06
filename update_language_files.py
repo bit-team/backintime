@@ -3,8 +3,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
@@ -18,7 +18,7 @@ import shutil
 import json
 from pathlib import Path
 from subprocess import run, check_output
-from common import languages
+from common import languages, version
 
 try:
     import polib
@@ -34,10 +34,17 @@ TEMPLATE_PO = LOCAL_DIR / 'messages.pot'
 LANGUAGE_NAMES_PY = Path('common') / 'languages.py'
 WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
-PACKAGE_VERSION = Path('VERSION').read_text('utf-8').strip()
+PACKAGE_VERSION = version.__version__
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
+TRANSLATION_PLACEHOLDER_MSGID = 'translator-credits-placeholder'
+DEFAULT_COPYRIGHT = '© 2008 Back In Time Team <bit-dev@python.org>'
+MISSING_TRANSLATORS_TXT = "Strict and accurate recording of translators' " \
+    "names began around 2022. As\n" \
+    "the project started in 2008, some earlier translators' names " \
+    'may not have\n' \
+    'been documented and could be lost.'
 
 
 def dict_as_code(a_dict: dict, indent_level: int) -> list[str]:
@@ -116,8 +123,19 @@ def update_po_template():
     print(f'Execute "{cmd}".')
     run(cmd, check=True)
 
-    with polib.pofile(TEMPLATE_PO) as pof:
-        print('\n{len(pof)} entries in {TEMPLATE_PO}')
+    # Header comment with SPDX data
+    spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
+                                        without_comment_prefix=True)
+
+    copyright = f'SPDX-FileCopyrightText: {DEFAULT_COPYRIGHT}'
+
+    pof =  polib.pofile(TEMPLATE_PO)
+
+    print(f'\n{len(pof)} entries in {TEMPLATE_PO}')
+
+    pof.header = f'{DEFAULT_COPYRIGHT}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
+    pof.save()
+
 
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
@@ -126,13 +144,16 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
 
     The GNU gettext utility ``msgmerge`` is used for that.
 
-    The function `update_po_template()` should be called before.
+    Make sure that the function `update_po_template()` is called beforehand.
     """
 
     print(
         'Update language (po) files'
         + ' and remove obsolete entries' if remove_obsolete_entries else ''
     )
+
+    spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
+                                        without_comment_prefix=True)
 
     # Recursive all po-files
     for po_path in LOCAL_DIR.rglob('**/*.po'):
@@ -160,6 +181,47 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
                 f'{po_path}'
             ]
             run(cmd, check=True)
+
+        _set_header(po_path, spdx_base)
+
+
+def _set_header(po_path: Path, spdx_base: str):
+    """Setup the header and comments header of the given po-file to the current
+    state.
+
+    """
+
+    pof = polib.pofile(po_path)
+
+    # Version string
+    pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
+
+    copyright = [DEFAULT_COPYRIGHT]
+
+    # Extract authors
+    e = pof.find(TRANSLATION_PLACEHOLDER_MSGID)
+    if e:
+        copyright = copyright + list(filter(
+            lambda val: len(val) > 0, e.msgstr.split('\n')
+        ))
+        for idx, centry in enumerate(copyright):
+            if not ('(c)' in centry or '©' in centry):
+                copyright[idx] = f'© {copyright[idx]}'
+
+    copyright = [
+        f'SPDX-FileCopyrightText: {centry}' for centry in copyright]
+
+    copyright = '\n'.join(copyright)
+
+    pof.header = f'{copyright}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
+
+    # Remove someday
+    try:
+        del pof.metadata['X-Launchpad-Export-Date']
+    except KeyError:
+        pass
+
+    pof.save()
 
 
 def check_existence():
@@ -677,7 +739,8 @@ def check_shortcuts():
                 print(err_msg)
 
 
-def get_spdx_metadata_lines() -> str:
+def get_spdx_metadata_lines(ignore_copyright: bool = False,
+                            without_comment_prefix: bool = False) -> str:
     """Extract the SPDX meta data lines from the current source file."""
     result = ''
 
@@ -689,11 +752,19 @@ def get_spdx_metadata_lines() -> str:
             if line.startswith('#!'):
                 continue
 
+            # ignore copyright
+            if ignore_copyright and 'SPDX-FileCopyrightText' in line:
+                continue
+
             # stop
             if line.startswith('"""') or line.startswith('import'):
                 break
 
-            result = result + line
+            # remove comments prefix "# "
+            if without_comment_prefix and line.startswith('#'):
+                line = line[1:]
+
+            result = result + line.strip() + '\n'
        
     return result
 

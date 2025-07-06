@@ -54,6 +54,7 @@ full_test_files = [_base_dir / fp for fp in (
     'plugins/notifyplugin.py',
     'shutdowndlg.py',
     'statedata.py',
+    'statusbar.py',
     'test/test_lint.py',
     'test/test_statedata.py',
     # 'snapshotsdialog.py', <-- need some more love

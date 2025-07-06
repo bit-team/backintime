@@ -468,34 +468,56 @@ class GeneralTab(QDialog):
         except NoPubKeyLogin as ex:
             logger.error(str(ex), self)
 
-            question = _('Copy public SSH key to the remote host to '
-                         'enable password-less login?')
-            rc_copy_id = sshtools.sshCopyId(
-                self.config.sshPrivateKeyFile() + '.pub',
-                self.config.sshUser(),
-                self.config.sshHost(),
-                port=str(self.config.sshPort()),
-                proxy_user=self.config.sshProxyUser(),
-                proxy_host=self.config.sshProxyHost(),
-                proxy_port=self.config.sshProxyPort(),
-                askPass=tools.which('backintime-askpass'),
-                cipher=self.config.sshCipher()
-            )
+            if self.config.sshPrivateKeyFile_enabled():
+                question = '<p>{}</p><p>{}</p><p>{}</p><p>{}</p>'.format(
+                    _('An error occurred while attempting to log in to the '
+                      'remote host. The following error message was '
+                      'returned:'),
+                    str(ex),
+                    _('Copying the public SSH key to the remote host can '
+                      'help enable password-less login.'),
+                    _('Proceed?')
+                )
 
-            answer = messagebox.warningYesNo(self, question)
-            answer = answer == QMessageBox.StandardButton.Yes
-            if answer and rc_copy_id:
+                answer = messagebox.warning(text=question, as_question=True)
+                if not answer:
+                    return False
+
+                rc_copy_id = sshtools.sshCopyId(
+                    self.config.sshPrivateKeyFile() + '.pub',
+                    self.config.sshUser(),
+                    self.config.sshHost(),
+                    port=str(self.config.sshPort()),
+                    proxy_user=self.config.sshProxyUser(),
+                    proxy_host=self.config.sshProxyHost(),
+                    proxy_port=self.config.sshProxyPort(),
+                    # This will open an extra input dialog to ask for the
+                    # SSH password.
+                    askPass=tools.which('backintime-askpass'),
+                    cipher=self.config.sshCipher()
+                )
+
+                if not rc_copy_id:
+                    messagebox.warning(_(
+                        'The public SSH key could not be copied. This may '
+                        'be due to a connection or permission issue.'
+                    ))
+                    return False
+
                 # --- DEV NOTE TODO ---
                 # Why this recursive call?
                 return self._parent_dialog.saveProfile()
+
             else:
+                # Configured without explicte SSH key file
+                messagebox.critical(self, str(ex))
                 return False
 
         except KnownHost as ex:
             logger.error(str(ex), self)
             fingerprint, hashedKey, keyType = sshtools.sshHostKey(
-                self.config.sshHost(), str(self.config.sshPort())
-            )
+                host=self.config.sshHost(),
+                port=str(self.config.sshPort()))
 
             if not fingerprint:
                 messagebox.critical(self, str(ex))
@@ -632,7 +654,7 @@ class GeneralTab(QDialog):
             msg = _('The selected file {path} appears to be a public SSH '
                     'key. Please select a private file (without a ".pub" '
                     'extension).').format(path=key_file)
-            messagebox.warning(msg, _('No public SSH keys'), self)
+            messagebox.warning(msg, _('Not a private key'), self)
             return
 
         # self.txtSshPrivateKeyFile.setText(str(key_file))
@@ -640,10 +662,18 @@ class GeneralTab(QDialog):
 
     def _slot_ssh_key_gen_clicked(self):
         # TODO: make it configurable (#2194)
-        key_file_path = DIR_SSH_KEYS / 'id_rsa'
+        default_keyfile_name = sshtools.determine_default_ssh_key_filename()
+
+        if not default_keyfile_name:
+            msg = 'Unable to determine the default filename for new ' \
+                'generated ssh keys used by "ssh-keygen".'
+            logger.critical(msg)
+            messagebox.critical(self, msg)
+            return
+
+        key_file_path = DIR_SSH_KEYS / default_keyfile_name
 
         if key_file_path.exists():
-            # TODO: Offer alternative naming (#2194)
             msg = _('The file {path} already exists. Cannot create a new '
                     'SSH key with that name.').format(path=key_file_path)
             messagebox.critical(self, msg)
@@ -651,7 +681,6 @@ class GeneralTab(QDialog):
 
         # Generate the key
         if sshtools.sshKeyGen(str(key_file_path)):
-            # self.txtSshPrivateKeyFile.setText(str(key_file_path))
             self.key_selector.add_and_select_key(key_file_path)
             return
 
