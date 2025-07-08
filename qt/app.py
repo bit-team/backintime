@@ -12,10 +12,8 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
-
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
-
 import pathlib
 import re
 import json
@@ -72,8 +70,6 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QVBoxLayout,
                              QWidget)
 from PyQt6.QtCore import (QDir,
-                          QEvent,
-                          QObject,
                           QPoint,
                           pyqtSlot,
                           pyqtSignal,
@@ -155,8 +151,11 @@ class MainWindow(QMainWindow):
         filesLayout.addWidget(self.toolbar_filesview)
 
         # mouse button navigation
-        self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
-        self.setMouseButtonNavigation()
+        self._mouse_button_event_filter = qttools.MouseButtonEventFilter(
+            back_handler=self.btnFolderHistoryPreviousClicked,
+            next_handler=self.btnFolderHistoryNextClicked,
+        )
+        self.qapp.installEventFilter(self._mouse_button_event_filter)
 
         # second splitter:
         # part of files-layout
@@ -1280,7 +1279,7 @@ class MainWindow(QMainWindow):
         item.update_text()
 
     def btnLastLogViewClicked (self):
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             # no SID argument in constructor means "show last log"
             logviewdialog.LogViewDialog(self).show()
 
@@ -1293,7 +1292,7 @@ class MainWindow(QMainWindow):
         if sid.isRoot:
             return
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             dlg = logviewdialog.LogViewDialog(self, sid)
             dlg.show()
             if sid != dlg.sid:
@@ -1343,7 +1342,7 @@ class MainWindow(QMainWindow):
         thread.start()
 
     def btnSettingsClicked(self):
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             SettingsDialog(self).show()
 
     def btnShutdownToggled(self, checked):
@@ -1353,7 +1352,7 @@ class MainWindow(QMainWindow):
         self.contextMenu.exec(self.filesView.mapToGlobal(point))
 
     def btnAboutClicked(self):
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             dlg = AboutDlg(
                 using_translation=self.config.language_used != 'en',
                 parent=self
@@ -1542,7 +1541,7 @@ class MainWindow(QMainWindow):
 
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             confirm, opt = self.confirmRestore(paths)
             if not confirm:
                 return
@@ -1558,7 +1557,7 @@ class MainWindow(QMainWindow):
 
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
             if not restoreTo:
                 return
@@ -1576,7 +1575,7 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             confirm, opt = self.confirmRestore((self.path,))
             if not confirm:
                 return
@@ -1590,7 +1589,7 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
             if not restoreTo:
                 return
@@ -1607,7 +1606,7 @@ class MainWindow(QMainWindow):
     def btnSnapshotsClicked(self):
         path, _idx = self.fileSelected(fullPath = True)
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
@@ -1915,7 +1914,7 @@ class MainWindow(QMainWindow):
 
         return (selected_file, model_index)
 
-    def multiFileSelected(self, fullPath = False):
+    def multiFileSelected(self, fullPath=False):
         count = 0
         for idx in self.filesView.selectedIndexes():
             if idx.column() > 0:
@@ -1943,14 +1942,14 @@ class MainWindow(QMainWindow):
 
             yield (selected_file, idx)
 
-    def setMouseButtonNavigation(self):
-        self.qapp.installEventFilter(self.mouseButtonEventFilter)
-
     @contextmanager
-    def suspendMouseButtonNavigation(self):
-        self.qapp.removeEventFilter(self.mouseButtonEventFilter)
+    def suspend_mouse_button_navigation(self):
+        """Temporary disable the mouse button event filter."""
+        self.qapp.removeEventFilter(self._mouse_button_event_filter)
+
         yield
-        self.setMouseButtonNavigation()
+
+        self.qapp.installEventFilter(self._mouse_button_event_filter)
 
     def _open_approach_translator_dialog(self, cutoff=101):
         code = self.config.language_used
@@ -2168,36 +2167,6 @@ class MainWindow(QMainWindow):
         fp = pathlib.Path(self.config.takeSnapshotUserCallback())
         dlg = EditUserCallback(parent=self, script_path=fp)
         dlg.exec()
-
-
-class ExtraMouseButtonEventFilter(QObject):
-    """
-    globally catch mouse buttons 4 and 5 (mostly used as back and forward)
-    and assign it to browse in file history.
-    Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
-    """
-
-    def __init__(self, mainWindow):
-        self.mainWindow = mainWindow
-        super(ExtraMouseButtonEventFilter, self).__init__()
-
-    def eventFilter(self, receiver, event):
-        if (event.type() == QEvent.Type.MouseButtonPress
-                and event.button() in (Qt.MouseButton.XButton1,
-                                       Qt.MouseButton.XButton2)):
-
-            if event.button() == Qt.MouseButton.XButton1:
-                self.mainWindow.btnFolderHistoryPreviousClicked()
-
-            if event.button() == Qt.MouseButton.XButton2:
-                self.mainWindow.btnFolderHistoryNextClicked()
-
-            return True
-
-        else:
-
-            return super(ExtraMouseButtonEventFilter, self) \
-                .eventFilter(receiver, event)
 
 
 class RemoveSnapshotThread(QThread):
@@ -2421,7 +2390,7 @@ def load_state_data(cfg: config.Config) -> None:
 
 
 if __name__ == '__main__':
-    cfg = backintime.startApp('backintime-qt')
+    cfg = backintime.startApp(bitbase.BINARY_NAME_GUI)
 
     raiseCmd = ''
     if len(sys.argv) > 1:
@@ -2445,7 +2414,7 @@ if __name__ == '__main__':
         mainWindow.show()
         qapp.exec()
 
-    mainWindow.qapp.removeEventFilter(mainWindow.mouseButtonEventFilter)
+    mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)
 
     cfg.PLUGIN_MANAGER.appExit()
     appInstance.exitApplication()
