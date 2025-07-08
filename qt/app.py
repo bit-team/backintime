@@ -20,6 +20,7 @@ import pathlib
 import re
 import json
 import subprocess
+import threading
 import shutil
 import textwrap
 import signal
@@ -359,7 +360,8 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.timeout.connect(self.updateTakeSnapshot)
         self.timerUpdateTakeSnapshot.start()
 
-        SetupCron(self).start()
+        threading.Thread(
+            target=self.config.setup_automation, daemon=True).start()
 
         # SSH Cipher deprecation
         if state_data.msg_cipher_deprecation is False:
@@ -2249,19 +2251,6 @@ class FillTimeLineThread(QThread):
             self.parent.snapshotsList.append(sid)
 
         self.parent.snapshotsList.sort()
-
-
-class SetupCron(QThread):
-    """
-    Check crontab entries on startup.
-    """
-
-    def __init__(self, parent):
-        self.config = parent.config
-        super(SetupCron, self).__init__(parent)
-
-    def run(self):
-        self.config.setup_automation()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:
