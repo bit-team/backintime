@@ -10,97 +10,37 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Split from app.py
+"""Modul offering the Places widget in the main window.
+"""
 import os
-import sys
-
-if not os.getenv('DISPLAY', ''):
-    os.putenv('DISPLAY', ':0.0')
-
 import pathlib
-import re
-import json
-import subprocess
-import shutil
-import textwrap
-import signal
-from contextlib import contextmanager
-from tempfile import TemporaryDirectory
-# We need to import common/tools.py
-import qttools_path
-qttools_path.registerBackintimePath('common')
-# Workaround until the codebase is rectified/equalized.
-import tools
-tools.initiate_translation(None)
-import qttools
-import backintime
-import bitbase
-import config
-import logger
-import snapshots
-import guiapplicationinstance
-import mount
-import progress
-import encfsmsgbox
-from inhibitsuspend import InhibitSuspend
-from exceptions import MountException
-from statedata import StateData
-from PyQt6.QtGui import (QAction,
-                         QActionGroup,
-                         QShortcut,
-                         QDesktopServices,
-                         QPalette,
-                         QIcon,
-                         QFileSystemModel)
-from PyQt6.QtWidgets import (QWidget,
-                             QFrame,
-                             QMainWindow,
-                             QToolButton,
-                             QLabel,
-                             QLineEdit,
-                             QCheckBox,
-                             QListWidget,
-                             QTreeView,
+from PyQt6.QtWidgets import (
+                             QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem,
-                             QAbstractItemView,
-                             QStyledItemDelegate,
-                             QVBoxLayout,
-                             QStackedLayout,
-                             QSplitter,
-                             QGroupBox,
-                             QMenu,
-                             QToolBar,
-                             QMessageBox,
-                             QInputDialog,
-                             QDialog,
-                             QApplication,
+                             QWidget
                              )
-from PyQt6.QtCore import (QDir,
-                          QEvent,
-                          QObject,
-                          QPoint,
-                          pyqtSlot,
-                          pyqtSignal,
-                          QSortFilterProxyModel,
-                          Qt,
-                          QTimer,
-                          QThread,
-                          QUrl)
-import snapshotsdialog
-import logviewdialog
-import languagedialog
-import messagebox
-import version
-from usermessagedialog import UserMessageDialog
+from PyQt6.QtGui import QIcon, QPalette
+from PyQt6.QtCore import Qt
+import bitbase
+import config
+import qttools
 
 
 class PlacesWidget(QTreeWidget):
-    def __init__(self, parent: QWidget, config: config.Config):
+    """A tree widget used in the main window.
+
+    It contain the file system root and current users home foler as entry
+    points. It also contain all included backup directories as entries.
+    """
+    def __init__(self, parent: QWidget, cfg: config.Config):
         QTreeWidget.__init__(self, parent=parent)
 
-        self.config = config
+        self.config = cfg
         self.parent = parent
-        
+
         # Do not show controls for expanding and collapsing top-level items
         self.setRootIsDecorated(False)
 
@@ -112,36 +52,19 @@ class PlacesWidget(QTreeWidget):
         self.header().setSortIndicatorShown(True)
         self.header().setSectionHidden(1, True)
 
-        # ???
-        self.placesSortLoop = {self.config.currentProfile(): False}
-
-        self.header().sortIndicatorChanged.connect(self._slot_sort)
+        self.header().sortIndicatorChanged.connect(self.do_update)
         self.currentItemChanged.connect(self._slot_changed)
 
-    def _slot_sort(self, newColumn, newOrder, force = False):
-        pid = self.config.currentProfile()
-
-        if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
-
-            if pid in self.placesSortLoop and self.placesSortLoop[pid]:
-                newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
-                self.header().setSortIndicator(newColumn, newOrder)
-                self.placesSortLoop[pid] = False
-
-            else:
-                self.placesSortLoop[pid] = True
-
-        self.do_update()
-
-    def do_update(self):
+    def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:
+        """Update the places view"""
         self.clear()
 
         # name, path, icon
-        self.addPlace(_('Places'), '', '')
-        self.addPlace(_('File System'), '/', 'computer')
+        self._add_place(_('Places'), '', '')
+        self._add_place(_('File System'), '/', 'computer')
 
         fp_home = pathlib.Path.home()
-        self.addPlace(
+        self._add_place(
             # Use full path in root mode ("/root") otherwise users name only
             str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
             str(fp_home),
@@ -159,7 +82,13 @@ class PlacesWidget(QTreeWidget):
                 # Folder not mounted. We can skip for the next updatePlaces()
                 return
 
-            folders = [i.name for i in os.scandir(self.parent.sid.pathBackup(base)) if i.is_dir()]
+            folders = [
+                i.name
+                for i
+                in os.scandir(self.parent.sid.pathBackup(base))
+                if i.is_dir()
+            ]
+
             include_entries = [(os.path.join(base, f), 0) for f in folders]
 
         # Use folders only (if 2nd tuple entry is 0)
@@ -171,15 +100,15 @@ class PlacesWidget(QTreeWidget):
 
         if not self.header().sortIndicatorSection():
             indic = self.header().sortIndicatorOrder()
-            reverse = True if indic == Qt.SortOrder.DescendingOrder else False
+            reverse = indic == Qt.SortOrder.DescendingOrder
             include_folders = sorted(include_folders, reverse=reverse)
 
-        self.addPlace(_('Backup directories'), '', '')
+        self._add_place(_('Backup directories'), '', '')
 
         for folder in include_folders:
-            self.addPlace(folder, folder, 'document-save')
+            self._add_place(folder, folder, 'document-save')
 
-    def addPlace(self, name, path, icon):
+    def _add_place(self, name, path, icon):
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
         timeline.py::HeaderItem.__init__().
@@ -210,7 +139,7 @@ class PlacesWidget(QTreeWidget):
 
         return item
 
-    def _slot_changed(self, item, previous):
+    def _slot_changed(self, item, _previous):
         if item is None:
             return
 
@@ -227,17 +156,13 @@ class PlacesWidget(QTreeWidget):
 
         self.parent.updateFilesView(3)
 
-    def set_sorting(self, sorting: tuple[int, int]) -> None:
-        """Set sorting.
-
-        Args:
-            sorting: Two item tuple with column and order.
-        """
-        self.header().setSortIndicator(sorting[0], Qt.SortOrder(sorting[1]))
-
     def get_sorting(self) -> tuple[int, int]:
         """Current sorting column and order as a tuple."""
-        return = (
+        return (
             self.header().sortIndicatorSection(),
             self.header().sortIndicatorOrder().value
         )
+
+    def set_sorting(self, sorting: tuple[int, int]) -> None:
+        """Set sorting."""
+        self.header().setSortIndicator(sorting[0], Qt.SortOrder(sorting[1]))

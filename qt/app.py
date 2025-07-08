@@ -46,35 +46,30 @@ from exceptions import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
-                         QShortcut,
                          QDesktopServices,
-                         QPalette,
-                         QIcon,
-                         QFileSystemModel)
-from PyQt6.QtWidgets import (QWidget,
+                         QFileSystemModel,
+                         QShortcut)
+from PyQt6.QtWidgets import (QAbstractItemView,
+                             QApplication,
+                             QCheckBox,
+                             QDialog,
                              QFrame,
-                             QMainWindow,
-                             QToolButton,
+                             QGroupBox,
+                             QInputDialog,
                              QLabel,
                              QLineEdit,
-                             QCheckBox,
                              QListWidget,
-                             QTreeView,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
+                             QMainWindow,
+                             QMenu,
+                             QMessageBox,
                              QStyledItemDelegate,
-                             QVBoxLayout,
                              QStackedLayout,
                              QSplitter,
-                             QGroupBox,
-                             QMenu,
                              QToolBar,
-                             QMessageBox,
-                             QInputDialog,
-                             QDialog,
-                             QApplication,
-                             )
+                             QToolButton,
+                             QTreeView,
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import (QDir,
                           QEvent,
                           QObject,
@@ -991,8 +986,6 @@ class MainWindow(QMainWindow):
 
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
-
-            self.placesSortLoop[old_profile_id] = False
 
             profile_state = state_data.profile[profile_id]
             self.places.set_sorting(profile_state.places_sorting)
