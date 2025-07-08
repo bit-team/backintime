@@ -164,7 +164,6 @@ class MainWindow(QMainWindow):
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
         filesLayout.addWidget(self.secondSplitter)
 
-        # places
         self.places = PlacesWidget(self, self.config)
         self.secondSplitter.addWidget(self.places)
 
