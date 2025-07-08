@@ -46,35 +46,30 @@ from exceptions import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
-                         QShortcut,
                          QDesktopServices,
-                         QPalette,
-                         QIcon,
-                         QFileSystemModel)
-from PyQt6.QtWidgets import (QWidget,
+                         QFileSystemModel,
+                         QShortcut)
+from PyQt6.QtWidgets import (QAbstractItemView,
+                             QApplication,
+                             QCheckBox,
+                             QDialog,
                              QFrame,
-                             QMainWindow,
-                             QToolButton,
+                             QGroupBox,
+                             QInputDialog,
                              QLabel,
                              QLineEdit,
-                             QCheckBox,
                              QListWidget,
-                             QTreeView,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
+                             QMainWindow,
+                             QMenu,
+                             QMessageBox,
                              QStyledItemDelegate,
-                             QVBoxLayout,
                              QStackedLayout,
                              QSplitter,
-                             QGroupBox,
-                             QMenu,
                              QToolBar,
-                             QMessageBox,
-                             QInputDialog,
-                             QDialog,
-                             QApplication,
-                             )
+                             QToolButton,
+                             QTreeView,
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import (QDir,
                           QEvent,
                           QObject,
@@ -102,6 +97,7 @@ from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
+from placeswidget import PlacesWidget
 
 
 class MainWindow(QMainWindow):
@@ -168,22 +164,8 @@ class MainWindow(QMainWindow):
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
         filesLayout.addWidget(self.secondSplitter)
 
-        # places
-        self.places = QTreeWidget(self)
-        self.places.setRootIsDecorated(False)
-        self.places.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.places.setHeaderLabel(_('Shortcuts'))
-        self.places.header().setSectionsClickable(True)
-        self.places.header().setSortIndicatorShown(True)
-        self.places.header().setSectionHidden(1, True)
-        self.places.header().setSortIndicator(
-            int(self.config.profileIntValue('qt.places.SortColumn', 1)),
-            Qt.SortOrder(self.config.profileIntValue(
-                'qt.places.SortOrder', Qt.SortOrder.AscendingOrder))
-        )
-        self.placesSortLoop = {self.config.currentProfile(): False}
+        self.places = PlacesWidget(self, self.config)
         self.secondSplitter.addWidget(self.places)
-        self.places.header().sortIndicatorChanged.connect(self.sortPlaces)
 
         # files view stacked layout
         widget = QWidget(self)
@@ -360,7 +342,7 @@ class MainWindow(QMainWindow):
 
         # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
-        self.places.currentItemChanged.connect(self.placesChanged)
+        # self.places.currentItemChanged.connect(self.placesChanged)
         self.filesView.activated.connect(self.filesViewItemActivated)
 
         self.forceWaitLockCounter = 0
@@ -906,10 +888,9 @@ class MainWindow(QMainWindow):
                 return event.ignore()
 
         profile_state.last_path = pathlib.Path(self.path)
-        profile_state.places_sorting = (
-            self.places.header().sortIndicatorSection(),
-            self.places.header().sortIndicatorOrder().value,
-        )
+
+        profile_state.places_sorting = self.places.get_sorting()
+
         if self.isMaximized():
             state_data.set_mainwindow_maximized()
         else:
@@ -967,12 +948,13 @@ class MainWindow(QMainWindow):
 
     def updateProfile(self):
         self.updateTimeLine()
-        self.updatePlaces()
+        self.places.do_update()
         self.updateFilesView(0)
 
         profile_id = self.config.currentProfile()
         state_data = StateData()
         profile_state = state_data.profile(profile_id)
+        self.places.set_sorting(profile_state.places_sorting)
 
         # EncFS deprecation warning (see #1734)
         current_mode = self.config.snapshotsMode(profile_id)
@@ -995,28 +977,17 @@ class MainWindow(QMainWindow):
 
         old_profile_id = self.config.currentProfile()
 
+        state_data = StateData()
+
         if profile_id != old_profile_id:
+            old_profile_state = state_data.profile[old_profile_id]
+            old_profile_state.places_sorting = self.places.get_sorting()
+
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
-            self.config.setProfileIntValue(
-                'qt.places.SortColumn',
-                self.places.header().sortIndicatorSection(),
-                old_profile_id)
-            self.config.setProfileIntValue(
-                'qt.places.SortOrder',
-                self.places.header().sortIndicatorOrder(),
-                old_profile_id)
-
-            self.placesSortLoop[old_profile_id] = False
-            self.places.header().setSortIndicator(
-                int(self.config.profileIntValue(
-                    'qt.places.SortColumn', 1, profile_id)),
-                Qt.SortOrder(self.config.profileIntValue(
-                    'qt.places.SortOrder',
-                    Qt.SortOrder.AscendingOrder,
-                    profile_id))
-            )
+            profile_state = state_data.profile[profile_id]
+            self.places.set_sorting(profile_state.places_sorting)
 
             self.config.setProfileStrValue(
                 'qt.last_path', self.path, old_profile_id)
@@ -1198,110 +1169,6 @@ class MainWindow(QMainWindow):
 
         yield message
 
-    def placesChanged(self, item, previous):
-        if item is None:
-            return
-
-        path = str(item.data(0, Qt.ItemDataRole.UserRole))
-        if not path:
-            return
-
-        if path == self.path:
-            return
-
-        self.path = path
-        self.path_history.append(path)
-        self.updateFilesView(3)
-
-    def addPlace(self, name, path, icon):
-        """
-        Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        timeline.py::HeaderItem.__init__().
-        """
-        item = QTreeWidgetItem()
-
-        item.setText(0, name)
-
-        if icon:
-            item.setIcon(0, QIcon.fromTheme(icon))
-
-        item.setData(0, Qt.ItemDataRole.UserRole, path)
-
-        if not path:
-            item.setFont(0, qttools.fontBold(item.font(0)))
-
-            # item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            item.setFlags(Qt.ItemFlag.NoItemFlags)
-            item.setForeground(
-                0, self.palette().color(QPalette.ColorRole.PlaceholderText))
-            item.setBackground(
-                0, self.palette().color(QPalette.ColorRole.Window))
-
-        self.places.addTopLevelItem(item)
-
-        if path == self.path:
-            self.places.setCurrentItem(item)
-
-        return item
-
-    def updatePlaces(self):
-        self.places.clear()
-        # name, path, icon
-        self.addPlace(_('Places'), '', '')
-        self.addPlace(_('File System'), '/', 'computer')
-        fp_home = pathlib.Path.home()
-        self.addPlace(
-            # Use full path in root mode ("/root") otherwise users name only
-            str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
-            str(fp_home),
-            'user-home')
-
-        # "Now" or a specific snapshot selected?
-        if self.sid.isRoot:
-            # Use snapshots profiles list of include files and folders
-            include_entries = self.config.include()
-
-        else:
-            # Determine folders from the snapshot itself
-            base = os.path.expanduser('~')
-            if not os.path.isdir(self.sid.pathBackup(base)):
-                # Folder not mounted. We can skip for the next updatePlaces()
-                return
-            folders = [i.name for i in os.scandir(self.sid.pathBackup(base)) if i.is_dir()]
-            include_entries = [(os.path.join(base, f), 0) for f in folders]
-
-        # Use folders only (if 2nd tuple entry is 0)
-        only_folders = filter(lambda entry: entry[1] == 0, include_entries)
-        include_folders = [item[0] for item in only_folders]
-
-        if not include_folders:
-            return
-
-        if not self.places.header().sortIndicatorSection():
-            indic = self.places.header().sortIndicatorOrder()
-            reverse = True if indic == Qt.SortOrder.DescendingOrder else False
-            include_folders = sorted(include_folders, reverse=reverse)
-
-        self.addPlace(_('Backup directories'), '', '')
-
-        for folder in include_folders:
-            self.addPlace(folder, folder, 'document-save')
-
-    def sortPlaces(self, newColumn, newOrder, force = False):
-        profile_id = self.config.currentProfile()
-
-        if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
-
-            if profile_id in self.placesSortLoop and self.placesSortLoop[profile_id]:
-                newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
-                self.places.header().setSortIndicator(newColumn, newOrder)
-                self.placesSortLoop[profile_id] = False
-
-            else:
-                self.placesSortLoop[profile_id] = True
-
-        self.updatePlaces()
-
     def updateSnapshotActions(self, item = None):
         enabled = False
 
@@ -1329,7 +1196,7 @@ class MainWindow(QMainWindow):
             return
 
         self.sid = sid
-        self.updatePlaces()
+        self.places.do_update()
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList=True):
@@ -1783,7 +1650,7 @@ class MainWindow(QMainWindow):
         self.openPath(path)
 
     def btnAddIncludeClicked(self):
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
+        paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
         include = self.config.include()
         updatePlaces = False
 
@@ -1798,7 +1665,7 @@ class MainWindow(QMainWindow):
         self.config.setInclude(include)
 
         if updatePlaces:
-            self.updatePlaces()
+            self.places.do_update()
 
     def btnAddExcludeClicked(self):
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
