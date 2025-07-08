@@ -150,10 +150,10 @@ class MainWindow(QMainWindow):
         self.toolbar_filesview = self._create_and_get_filesview_toolbar()
         filesLayout.addWidget(self.toolbar_filesview)
 
-        # mouse button navigation
+        # Catch mouse button's 4 (back) and 5 (forward)
         self._mouse_button_event_filter = qttools.MouseButtonEventFilter(
             back_handler=self.btnFolderHistoryPreviousClicked,
-            next_handler=self.btnFolderHistoryNextClicked,
+            forward_handler=self.btnFolderHistoryNextClicked,
         )
         self.qapp.installEventFilter(self._mouse_button_event_filter)
 

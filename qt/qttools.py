@@ -262,9 +262,11 @@ class MouseButtonEventFilter(QObject):
 
     def __init__(self,
                  back_handler: Callable,
-                 next_handler: Callable):
+                 forward_handler: Callable):
+        # mouse button 4
         self._handle_back = back_handler
-        self._handle_next = next_handler
+        # mouse button 5
+        self._handle_forward = forward_handler
 
         super().__init__()
 
@@ -279,7 +281,7 @@ class MouseButtonEventFilter(QObject):
             # button 4 or 5 ?
             handler = {
                 Qt.MouseButton.BackButton: self._handle_back,
-                Qt.MouseButton.ForwardButton: self._handle_next
+                Qt.MouseButton.ForwardButton: self._handle_forward
             }[event.button()]
 
         except KeyError:
