@@ -1532,6 +1532,8 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             confirm, opt = self.confirmRestore(paths)
+            print(f'{confirm=} {opt=}')
+            sys.exit()  # DEBUG
             if not confirm:
                 return
             if opt['delete'] and not self.confirmDelete(warnRoot='/' in paths):
