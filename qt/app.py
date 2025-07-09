@@ -111,6 +111,9 @@ class MainWindow(QMainWindow):
         self.firstUpdateAll = True
         self.disableProfileChanged = False
 
+        # related to files view
+        self.selected_file = ''
+
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
         self.shutdown = ShutdownAgent()
@@ -1760,14 +1763,15 @@ class MainWindow(QMainWindow):
                 self.path_history.append(rel_path)
                 self.updateFilesView(0)
 
-            else:
-                # prevent backup data from being accidentally overwritten
-                # by create a temporary local copy and only open that one
-                if not isinstance(self.sid, snapshots.RootSnapshot):
-                    full_path = self.tmpCopy(full_path, self.sid)
+                return
 
-                file_url = QUrl('file://' + full_path)
-                self.run = QDesktopServices.openUrl(file_url)
+            # prevent backup data from being accidentally overwritten
+            # by create a temporary local copy and only open that one
+            if not isinstance(self.sid, snapshots.RootSnapshot):
+                full_path = self.tmpCopy(full_path, self.sid)
+
+            file_url = QUrl('file://' + full_path)
+            QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
     def updateFilesView(self,

@@ -94,7 +94,6 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
         except Exception as exc:
             logger.critical(f'Undefined situation: {exc}', self)
-            pass
 
     def processEnd(self):
         if not self.process is None:

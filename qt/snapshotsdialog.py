@@ -364,7 +364,7 @@ class SnapshotsDialog(QDialog):
         if not isinstance(self.sid, snapshots.RootSnapshot):
             full_path = self.parent.tmpCopy(full_path, sid)
 
-        self.run = QDesktopServices.openUrl(QUrl(full_path))
+        QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
         sid1 = self.timeLine.current_snapshot_id()

@@ -320,11 +320,15 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'E1120',  # no-value-for-parameter
+            'E1121',  # too-many-function-args
             'I0021',  # useless-suppression
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
             'R0801',  # duplicate-code
+            'W0107',  # unnecessary-pass
             'W0123',  # eval-used
+            'W0201',  # attribute-defined-outside-init
             'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
