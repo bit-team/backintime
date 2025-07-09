@@ -305,8 +305,11 @@ class MainWindow(QMainWindow):
             message = message + _(
                 'Import an existing configuration (from a backup target '
                 'directory or another computer)?')
-            answer = messagebox.warningYesNo(self, message)
-            if answer == QMessageBox.StandardButton.Yes:
+
+            answer = messagebox.question(text=message,
+                                         widget_to_center_on=self)
+
+            if answer:
                 RestoreConfigDialog(self).exec()
 
             SettingsDialog(self).exec()
@@ -893,8 +896,10 @@ class MainWindow(QMainWindow):
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
             msg = msg + _('Close the window anyway?')
-            answer = messagebox.warningYesNo(self, msg)
-            if answer != QMessageBox.StandardButton.Yes:
+
+            answer = messagebox.question(text=msg,
+                                         widget_to_center_on=self)
+            if not answer:
                 return event.ignore()
 
         profile_state.last_path = pathlib.Path(self.path)
@@ -1333,9 +1338,10 @@ class MainWindow(QMainWindow):
             ),
             '\n'.join([item.snapshot_id.displayName for item in items]))
 
-        answer = messagebox.warningYesNo(self, question_msg)
+        answer = messagebox.question(text=question_msg,
+                                     widget_to_center_on=self)
 
-        if answer != QMessageBox.StandardButton.Yes:
+        if not answer:
             return
 
         for item in items:
@@ -1501,7 +1507,7 @@ class MainWindow(QMainWindow):
         )
         return (confirm, opt)
 
-    def confirmDelete(self, warnRoot=False, restoreTo=None):
+    def confirmDelete(self, warnRoot=False, restoreTo=None) -> bool:
         if restoreTo:
             msg = _('All newer files in {path} will be removed. '
                     'Proceed?').format(path=restoreTo)
@@ -1517,9 +1523,7 @@ class MainWindow(QMainWindow):
                     BOLD='<strong>', BOLDEND='</strong>')
             msg = msg + '</p>'
 
-        answer = messagebox.warningYesNo(self, msg)
-
-        return answer == QMessageBox.StandardButton.Yes
+        return messagebox.question(text=msg, widget_to_center_on=self)
 
     def restoreThis(self):
         if self.sid.isRoot:

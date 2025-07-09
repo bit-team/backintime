@@ -619,10 +619,10 @@ class GeneralTab(QDialog):
         if path:
 
             if old_path and old_path != path:
-                question = _('Really change the backup directory?')
 
-                answer = messagebox.warningYesNo(self, question)
-                answer = answer == QMessageBox.StandardButton.Yes
+                answer = messagebox.question(
+                    text=_('Really change the backup directory?'),
+                    widget_to_center_on=self)
 
                 if not answer:
                     return
