@@ -136,15 +136,6 @@ def critical(parent, msg):
         defaultButton=QMessageBox.StandardButton.Ok)
 
 
-def warningYesNo(parent, msg):
-    return QMessageBox.question(
-        parent,
-        _('Question'),
-        msg,
-        buttons=QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-        defaultButton=QMessageBox.StandardButton.No)
-
-
 def warningYesNoOptions(parent, msg, options=()):
 
     # Create a dialog
