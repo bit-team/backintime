@@ -44,6 +44,7 @@ full_test_files = [_base_dir / fp for fp in (
     'editusercallback.py',
     'encfsmsgbox.py',
     'filedialog.py',
+    'languagedialog.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sshkeyselector.py',
@@ -58,7 +59,6 @@ full_test_files = [_base_dir / fp for fp in (
     'statusbar.py',
     'test/test_lint.py',
     'test/test_statedata.py',
-    # 'snapshotsdialog.py', <-- need some more love
     'timeline.py',
     'usermessagedialog.py',
 )]
@@ -319,7 +319,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1101',  # no-member
             'I0021',  # useless-suppression
             'R0801',  # duplicate-code
-            # 'W0221',  # arguments-differ
+            'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
             'W0404',  # reimported
