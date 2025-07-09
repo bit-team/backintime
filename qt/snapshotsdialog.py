@@ -21,7 +21,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLabel,
                              QLineEdit,
                              QMenu,
-                             QMessageBox,
                              QPushButton,
                              QToolBar,
                              QVBoxLayout)
@@ -454,7 +453,7 @@ class SnapshotsDialog(QDialog):
 
             if self.path not in exclude:
 
-                if messagebox.question(msg)
+                if messagebox.question(msg):
                     exclude.append(self.path)
                     self.config.setExclude(exclude)
 
