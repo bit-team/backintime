@@ -447,8 +447,8 @@ def _show_qt_debug_info(qapp):
             'QT supported styles': QStyleFactory.keys(),
             'themeSearchPaths': QIcon.themeSearchPaths(),
             'fallbackSearchPaths': QIcon.fallbackSearchPaths(),
-            # The Back In Time system tray icon can only be shown if the desktop
-            # environment supports this
+            # The Back In Time system tray icon can only be shown if the
+            # desktop environment supports this
             'Is SystemTray available':
                 QSystemTrayIcon.isSystemTrayAvailable(),
         }

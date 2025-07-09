@@ -49,8 +49,8 @@ class QtSysTrayIcon:
 
         if len(sys.argv) > 1:
             if not self.config.setCurrentProfile(sys.argv[1]):
-                logger.warning("Failed to change Profile_ID %s"
-                               %sys.argv[1], self)
+                logger.warning(
+                    f'Failed to change Profile_ID {sys.argv[1]}', self)
 
         self.qapp = qttools.createQApplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
@@ -62,11 +62,12 @@ class QtSysTrayIcon:
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
-        #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(
-            _('Profile: {profile_name}').format(profile_name=self.config.profileName()))
+            _('Profile: {profile_name}').format(
+                profile_name=self.config.profileName())
+        )
         qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
@@ -145,13 +146,7 @@ class QtSysTrayIcon:
             sys.exit()
         self.status_icon.show()
         self.timer.start(500)
-
-        # logger.debug("begin loop", self)
-
         self.qapp.exec()
-
-        # logger.debug("end loop", self)
-
         self.prepareExit()
 
     def updateInfo(self):
@@ -173,14 +168,17 @@ class QtSysTrayIcon:
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
+
                 if self.decode:
                     message = (message[0], self.decode.log(message[1]))
-                self.menuStatusMessage.setText('\n'.join(textwrap.wrap(message[1], \
-                                                                                width = 80) \
-                                                         ))
+
+                self.menuStatusMessage.setText(
+                    '\n'.join(textwrap.wrap(message[1], width=80)))
+
                 self.status_icon.setToolTip(message[1])
 
         pg = progress.ProgressFile(self.config)
+
         if pg.fileReadable():
             pg.load()
             # percent = pg.intValue('percent')
@@ -188,11 +186,15 @@ class QtSysTrayIcon:
             ## fixes bug #902
             # if percent != self.progressBar.value():
             #     self.progressBar.setValue(percent)
-            #     self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
+            #     self.progressBar.render(
+            #         self.pixmap,
+            #         sourceRegion=QRegion(0, -14, 24, 6),
+            #         flags=QWidget.RenderFlags(QWidget.DrawChildren))
             #     self.status_icon.setIcon(QIcon(self.pixmap))
 
             self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)))
             self.menuProgress.setVisible(True)
+
         else:
             # self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
@@ -249,10 +251,11 @@ if __name__ == '__main__':
 
     logger.openlog()
 
-    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+    # HACK: Minimal arg parsing to enable debug-level logging
+    if '--debug' in sys.argv:
         logger.DEBUG = True
 
-    logger.debug("Sub process tries to show systray icon...")
-    logger.debug(f"qtsystrayicon.py call args: {str(sys.argv)}")
+    logger.debug('Sub process tries to show systray icon, '
+                 f'called with args {str(sys.argv)}')
 
     QtSysTrayIcon().run()

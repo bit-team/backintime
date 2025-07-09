@@ -59,7 +59,6 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QListWidget,
                              QMainWindow,
                              QMenu,
-                             QMessageBox,
                              QStyledItemDelegate,
                              QStackedLayout,
                              QSplitter,
@@ -109,6 +108,9 @@ class MainWindow(QMainWindow):
         self.tmpDirs = []
         self.firstUpdateAll = True
         self.disableProfileChanged = False
+
+        # related to files view
+        self.selected_file = ''
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
@@ -179,7 +181,8 @@ class MainWindow(QMainWindow):
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
-        self.lblFolderDontExists.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.lblFolderDontExists.setAlignment(
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.stackFilesView.addWidget(self.lblFolderDontExists)
 
         # list files view
@@ -187,10 +190,12 @@ class MainWindow(QMainWindow):
         self.stackFilesView.addWidget(self.filesView)
         self.filesView.setRootIsDecorated(False)
         self.filesView.setAlternatingRowColors(True)
-        self.filesView.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.filesView.setEditTriggers(
+            QAbstractItemView.EditTrigger.NoEditTriggers)
         self.filesView.setItemsExpandable(False)
         self.filesView.setDragEnabled(False)
-        self.filesView.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.filesView.setSelectionMode(
+            QAbstractItemView.SelectionMode.ExtendedSelection)
 
         self.filesView.header().setSectionsClickable(True)
         self.filesView.header().setSectionsMovable(False)
@@ -229,7 +234,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainSplitter)
 
         # context menu for Files View
-        self.filesView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.filesView.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu)
         self.filesView.customContextMenuRequested \
                       .connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
@@ -298,8 +304,11 @@ class MainWindow(QMainWindow):
             message = message + _(
                 'Import an existing configuration (from a backup target '
                 'directory or another computer)?')
-            answer = messagebox.warningYesNo(self, message)
-            if answer == QMessageBox.StandardButton.Yes:
+
+            answer = messagebox.question(text=message,
+                                         widget_to_center_on=self)
+
+            if answer:
                 RestoreConfigDialog(self).exec()
 
             SettingsDialog(self).exec()
@@ -886,8 +895,10 @@ class MainWindow(QMainWindow):
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
             msg = msg + _('Close the window anyway?')
-            answer = messagebox.warningYesNo(self, msg)
-            if answer != QMessageBox.StandardButton.Yes:
+
+            answer = messagebox.question(text=msg,
+                                         widget_to_center_on=self)
+            if not answer:
                 return event.ignore()
 
         profile_state.last_path = pathlib.Path(self.path)
@@ -1326,9 +1337,10 @@ class MainWindow(QMainWindow):
             ),
             '\n'.join([item.snapshot_id.displayName for item in items]))
 
-        answer = messagebox.warningYesNo(self, question_msg)
+        answer = messagebox.question(text=question_msg,
+                                     widget_to_center_on=self)
 
-        if answer != QMessageBox.StandardButton.Yes:
+        if not answer:
             return
 
         for item in items:
@@ -1387,7 +1399,7 @@ class MainWindow(QMainWindow):
         qttools.open_url(bitbase.URL_ISSUES)
 
     def btnReportBugClicked(self):
-        self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
+        qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
     def btnShowHiddenFilesToggled(self, checked):
         self.showHiddenFiles = checked
@@ -1494,7 +1506,7 @@ class MainWindow(QMainWindow):
         )
         return (confirm, opt)
 
-    def confirmDelete(self, warnRoot=False, restoreTo=None):
+    def confirmDelete(self, warnRoot=False, restoreTo=None) -> bool:
         if restoreTo:
             msg = _('All newer files in {path} will be removed. '
                     'Proceed?').format(path=restoreTo)
@@ -1510,9 +1522,7 @@ class MainWindow(QMainWindow):
                     BOLD='<strong>', BOLDEND='</strong>')
             msg = msg + '</p>'
 
-        answer = messagebox.warningYesNo(self, msg)
-
-        return answer == QMessageBox.StandardButton.Yes
+        return messagebox.question(text=msg, widget_to_center_on=self)
 
     def restoreThis(self):
         if self.sid.isRoot:
@@ -1524,7 +1534,7 @@ class MainWindow(QMainWindow):
             confirm, opt = self.confirmRestore(paths)
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths):
+            if opt['delete'] and not self.confirmDelete(warnRoot='/' in paths):
                 return
 
         rd = RestoreDialog(self, self.sid, paths, **opt)
@@ -1538,13 +1548,19 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
+
             if not restoreTo:
                 return
+
             restoreTo = self.config.preparePath(restoreTo)
             confirm, opt = self.confirmRestore(paths, restoreTo)
+
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths, restoreTo = restoreTo):
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot='/' in paths, restoreTo=restoreTo):
                 return
 
         rd = RestoreDialog(self, self.sid, paths, restoreTo, **opt)
@@ -1556,9 +1572,12 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             confirm, opt = self.confirmRestore((self.path,))
+
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/'):
+
+            if opt['delete'] and not self.confirmDelete(
+                    warnRoot=self.path == '/'):
                 return
 
         rd = RestoreDialog(self, self.sid, self.path, **opt)
@@ -1570,13 +1589,19 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
+
             if not restoreTo:
                 return
+
             restoreTo = self.config.preparePath(restoreTo)
             confirm, opt = self.confirmRestore((self.path,), restoreTo)
+
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/', restoreTo = restoreTo):
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot=self.path == '/', restoreTo=restoreTo):
                 return
 
         rd = RestoreDialog(self, self.sid, self.path, restoreTo, **opt)
@@ -1710,14 +1735,15 @@ class MainWindow(QMainWindow):
                 self.path_history.append(rel_path)
                 self.updateFilesView(0)
 
-            else:
-                # prevent backup data from being accidentally overwritten
-                # by create a temporary local copy and only open that one
-                if not isinstance(self.sid, snapshots.RootSnapshot):
-                    full_path = self.tmpCopy(full_path, self.sid)
+                return
 
-                file_url = QUrl('file://' + full_path)
-                self.run = QDesktopServices.openUrl(file_url)
+            # prevent backup data from being accidentally overwritten
+            # by create a temporary local copy and only open that one
+            if not isinstance(self.sid, snapshots.RootSnapshot):
+                full_path = self.tmpCopy(full_path, self.sid)
+
+            file_url = QUrl('file://' + full_path)
+            QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
     def updateFilesView(self,
@@ -1776,7 +1802,8 @@ class MainWindow(QMainWindow):
                 self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
 
             model_index = self.filesViewModel.setRootPath(full_path)
-            proxy_model_index = self.filesViewProxyModel.mapFromSource(model_index)
+            proxy_model_index = self.filesViewProxyModel.mapFromSource(
+                model_index)
             self.filesView.setRootIndex(proxy_model_index)
 
             self.toolbar_filesview.setEnabled(False)
@@ -1862,7 +1889,8 @@ class MainWindow(QMainWindow):
             self.selected_file = ''
 
         if not found and has_files:
-            self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
+            self.filesView.setCurrentIndex(
+                self.filesViewProxyModel.index(0, 0))
 
     def fileSelected(self, fullPath=False):
         """Return path and index of the currently in Files View highlighted
@@ -1913,11 +1941,10 @@ class MainWindow(QMainWindow):
 
         if not count:
             # nothing is selected
-            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
-            if fullPath:
-                selected_file = self.path
-            else:
-                selected_file = ''
+            idx = self.filesViewProxyModel.mapFromSource(
+                self.filesViewModel.index(self.path, 0))
+
+            selected_file = self.path if fullPath else ''
 
             yield (selected_file, idx)
 

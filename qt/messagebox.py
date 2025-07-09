@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -36,6 +37,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog = QInputDialog()
 
     timer = QTimer()
+
     if timeout is not None:
         timer.timeout.connect(dialog.reject)
         timer.setInterval(timeout * 1000)
@@ -47,13 +49,12 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog.setTextEchoMode(QLineEdit.EchoMode.Password)
     QApplication.processEvents()
 
-    ret = dialog.exec()
+    result = dialog.exec()
 
     timer.stop()
-    if ret:
-        password = dialog.textValue()
-    else:
-        password = ''
+
+    password = dialog.textValue() if result else ''
+
     del dialog
 
     return password
@@ -133,15 +134,6 @@ def critical(parent, msg):
         msg,
         buttons=QMessageBox.StandardButton.Ok,
         defaultButton=QMessageBox.StandardButton.Ok)
-
-
-def warningYesNo(parent, msg):
-    return QMessageBox.question(
-        parent,
-        _('Question'),
-        msg,
-        buttons=QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-        defaultButton=QMessageBox.StandardButton.No)
 
 
 def warningYesNoOptions(parent, msg, options=()):

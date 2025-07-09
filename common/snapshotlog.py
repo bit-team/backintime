@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2016-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -10,6 +11,8 @@ import re
 import logger
 import snapshots
 import tools
+import encfstools
+from typing import Generator
 
 
 class LogFilter:
@@ -166,37 +169,46 @@ class SnapshotLog:
         if self.logFile:
             self.logFile.close()
 
-    def get(self, mode = None, decode = None, skipLines = 0):
-        """
-        Read the log, filter and decode it and yield its lines.
+    def get(self,
+            mode: int = None,
+            decode: encfstools.Decode = None,
+            skipLines: int = 0) -> Generator[str]:
+        """Read the log, filter and decode it and yield its lines.
 
         Args:
-            mode (int):                 Mode used for filtering. Take a look at
-                                        :py:class:`snapshotlog.LogFilter`
-            decode (encfstools.Decode): instance used for decoding lines or ``None``
-            skipLines (int):            skip ``n`` lines before yielding lines.
-                                        This is used to append only new lines
-                                        to LogView
+            mode: Mode used for filtering. See `snapshotlog.LogFilter`
+            decode (encfstools.Decode): Instance used for decoding lines.
+            skipLines: Number of lines to skip before yielding. This is used
+                to append only new lines to LogView.
 
         Yields:
-            str:                        filtered and decoded log lines
+            str: Filtered and decoded log lines.
         """
         logFilter = LogFilter(mode, decode)
         count = logFilter.header.count('\n')
+
         try:
             with open(self.logFileName, 'rt') as f:
+
                 if logFilter.header and not skipLines:
                     yield logFilter.header
+
                 for line in f.readlines():
                     line = logFilter.filter(line.rstrip('\n'))
+
                     if not line is None:
                         count += 1
+
                         if count <= skipLines:
                             continue
+
                         yield line
-        except Exception as e:
-            msg = ('Failed to get take_snapshot log from {}:'.format(self.logFile), str(e))
-            logger.debug(' '.join(msg), self)
+
+        except Exception as exc:
+            logger.debug('Failed to get take_snapshot log from '
+                         f'{self.logFile}: {str(exc)}',
+                         self)
+
             for line in msg:
                 yield line
 

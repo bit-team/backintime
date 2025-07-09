@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: © 2004-2006 Red Hat Inc. <http://www.redhat.com>
-# SPDX-FileCopyrightText: © 2005-2007 Collabora Ltd. <http://www.collabora.co.uk>
+# SPDX-FileCopyrightText: © 2005-2007 Collabora Ltd. <www.collabora.co.uk>
 # SPDX-FileCopyrightText: © 2008 Canonical Ltd.
 # SPDX-FileCopyrightText: © 2009 David D. Lowe
 # SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
@@ -176,12 +176,14 @@ class UdevRules(dbus.service.Object):
         if not parts:
             msg = "Parameter 'cmd' does not contain the backintime command"
             msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+
             raise InvalidCmd(msg)
 
         if parts[0] != self.backintime:
             msg = "Parameter 'cmd' contains non-whitelisted cmd/parameter " \
                   f"({parts[0]})"
             msg = f'{msg}\n{cmd=}\nrest of {parts=}'
+
             raise InvalidCmd(msg)
 
     def _checkLimits(self, owner, cmd):
@@ -202,21 +204,24 @@ class UdevRules(dbus.service.Object):
                          in_signature='ss', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def addRule(self, cmd, uuid, sender=None, conn=None):
-        """
-        Receive command and uuid and create an Udev rule out of this.
+        """Receive command and uuid and create an Udev rule out of this.
+
         This is done on the service side to prevent malicious code to
         run as root.
         """
         # prevent breaking out of su command
         chars = re.findall(r'[^a-zA-Z0-9-/\.>& ]', cmd)
         if chars:
-            raise InvalidChar("Parameter 'cmd' contains invalid character(s) %s"
-                              % '|'.join(set(chars)))
+            raise InvalidChar(
+                "Parameter 'cmd' contains invalid character(s) %s"
+                % '|'.join(set(chars)))
+
         # only allow relevant chars in uuid
         chars = re.findall(r'[^a-zA-Z0-9-]', uuid)
         if chars:
-            raise InvalidChar("Parameter 'uuid' contains invalid character(s) %s"
-                              % '|'.join(set(chars)))
+            raise InvalidChar(
+                "Parameter 'uuid' contains invalid character(s) %s"
+                % '|'.join(set(chars)))
 
         self._validateCmd(cmd)
 
@@ -226,12 +231,19 @@ class UdevRules(dbus.service.Object):
 
         self._checkLimits(owner, cmd)
 
-        #create su command
-        sucmd = "%s - '%s' -c '%s'" %(self.su, user, cmd)
-        #create Udev rule
-        rule = 'ACTION=="add|change", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, sucmd)
+        # create su command
+        sucmd = f"{self.su} - '{user}' -c '{cmd}'"
 
-        #store rule
+        # create Udev rule
+        rule = 'ACTION=="add|change", ENV{ID_FS_UUID}=="' \
+            + uuid \
+            + '", RUN+="' \
+            + sucmd \
+            + '"\n'
+
+        print(f'{sucmd=} {rule=}')
+
+        # store rule
         if not owner in self.tmpDict:
             self.tmpDict[owner] = []
 
@@ -241,8 +253,8 @@ class UdevRules(dbus.service.Object):
                          in_signature='', out_signature='b',
                          sender_keyword='sender', connection_keyword='conn')
     def save(self, sender=None, conn=None):
-        """
-        Save rules to destination file after user authenticated as admin.
+        """Save rules to destination file after user authenticated as admin.
+
         This will first check if there are any changes between
         temporary added rules and current rules in destination file.
         Returns False if files are identical or no rules to be installed.
@@ -251,20 +263,25 @@ class UdevRules(dbus.service.Object):
         user = info.connectionUnixUser()
         owner = info.nameOwner()
 
-        #delete rule if no rules in tmp
+        # delete rule if no rules in tmp
         if not owner in self.tmpDict or not self.tmpDict[owner]:
             self.delete(sender, conn)
+
             return False
 
-        #return False if rule already exist.
+        # return False if rule already exist.
         if os.path.exists(UDEV_RULES_PATH % user):
+
             with open(UDEV_RULES_PATH % user, 'r') as f:
+
                 if self.tmpDict[owner] == f.readlines():
                     self._clean(owner)
+
                     return False
 
-        #auth to save changes
-        self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleSave')
+        # auth to save changes
+        self._checkPolkitPrivilege(
+            sender, conn, 'net.launchpad.backintime.UdevRuleSave')
 
         with open(UDEV_RULES_PATH % user, 'w') as f:
             f.writelines(self.tmpDict[owner])
@@ -277,26 +294,23 @@ class UdevRules(dbus.service.Object):
                          in_signature='', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def delete(self, sender=None, conn=None):
-        """
-        Delete existing Udev rule
-        """
+        """Delete existing Udev rule"""
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()
         owner = info.nameOwner()
         self._clean(owner)
 
         if os.path.exists(UDEV_RULES_PATH % user):
-            #auth to delete rule
-            self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleDelete')
+            # auth to delete rule
+            self._checkPolkitPrivilege(
+                sender, conn, 'net.launchpad.backintime.UdevRuleDelete')
             os.remove(UDEV_RULES_PATH % user)
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def clean(self, sender=None, conn=None):
-        """
-        clean up previous cached rules
-        """
+        """clean up previous cached rules"""
         info = SenderInfo(sender, conn)
         self._clean(info.nameOwner())
 
@@ -350,8 +364,9 @@ class UdevRules(dbus.service.Object):
                 timeout=3000
             )
 
-        except dbus.DBusException as e:
-            if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
+        except dbus.DBusException as exc:
+            err_name = exc._dbus_error_name
+            if err_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
                 # polkitd timed out, connect again
                 self.polkit = None
 
@@ -393,5 +408,4 @@ if __name__ == '__main__':
     name = dbus.service.BusName("net.launchpad.backintime.serviceHelper", bus)
     object = UdevRules(bus, '/UdevRules')
 
-    print("Running BIT service.")
     app.exec()
