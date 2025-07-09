@@ -22,8 +22,10 @@ import sys
 import re
 import json
 import textwrap
+import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
+from tempfile import NamedTemporaryFile
 from PyQt6.QtGui import QDesktopServices, QFont, QIcon
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
@@ -46,6 +48,7 @@ import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
+import messagebox
 from filedialog import FileDialog
 
 # |---------------|
@@ -297,6 +300,44 @@ class MouseButtonEventFilter(QObject):
 def open_url(url: str) -> None:
     """Open an URL or URI"""
     QDesktopServices.openUrl(QUrl(url))
+
+
+def open_man_page(manpage: str) -> None:
+    """Open the manpage in a terminal window."""
+    env=os.environ.copy()
+    env['MANWIDTH'] = '80'
+
+    content = ''
+
+    try:
+        proc = subprocess.run(
+            ['man', manpage],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            env=env
+        )
+        content = proc.stdout
+
+        if not content:
+            raise FileNotFoundError(
+                f'No content for man page "{manpage}". {proc.stderr=}')
+
+    except FileNotFoundError as exc:
+        messagebox.critical(None, str(exc))
+        logger.error(str(exc))
+
+    else:
+        # Write content to temp text file
+        with NamedTemporaryFile(mode='w',
+                                encoding='utf-8',
+                                suffix='.txt',
+                                delete=False,
+                                delete_on_close=False) as temp_file:
+            temp_file.write(content)
+
+        # open text file with associated default application
+        subprocess.run(['xdg-open', temp_file.name], check=True)
 
 
 def user_manual_uri() -> str:

@@ -5,7 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import (QApplication,
                              QDialog,
                              QDialogButtonBox,
@@ -13,7 +13,6 @@ from PyQt6.QtWidgets import (QApplication,
                              QLabel,
                              QLineEdit,
                              QMessageBox,
-                             QScrollArea,
                              QVBoxLayout,
                              QWidget)
 import qttools
@@ -172,28 +171,3 @@ def warningYesNoOptions(parent, msg, options=()):
             if opt['retFunc'] is not None
         }
     )
-
-
-def showInfo(parent, title, msg):
-    """Show extended information dialog with framed and scrollable text area.
-
-    Dev info (buhtz, 2024): That function is deprecated. Use `info()` instead.
-    """
-    dlg = QDialog(parent)
-    dlg.setWindowTitle(title)
-    vlayout = QVBoxLayout(dlg)
-    label = QLabel(msg)
-    label.setTextInteractionFlags(
-        Qt.TextInteractionFlag.LinksAccessibleByMouse)
-    label.setOpenExternalLinks(True)
-
-    scroll_area = QScrollArea()
-    scroll_area.setWidget(label)
-
-    buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
-    buttonBox.accepted.connect(dlg.accept)
-
-    vlayout.addWidget(scroll_area)
-    vlayout.addWidget(buttonBox)
-
-    return dlg.exec()
