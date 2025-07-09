@@ -45,6 +45,7 @@ full_test_files = [_base_dir / fp for fp in (
     'encfsmsgbox.py',
     'filedialog.py',
     'languagedialog.py',
+    'logviewdialog.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sshkeyselector.py',
@@ -94,7 +95,7 @@ def create_pylint_cmd(include_error_codes=None):
         # PEP8 conform line length (see PyLint Issue #3078)
         f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
         # Whitelist variable names
-        '--good-names=idx,fp',
+        '--good-names=idx,fp,closeEvent',
     ]
 
     if include_error_codes:
@@ -304,8 +305,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            'C0301',  # line-too-long
             'C0305',  # trailing-newlines
             'C0325',  # superfluous-parens
+            'C0321',  # multiple-statements
             'C0410',  # multiple-imports
             'C0303',  # trailing-whitespace
             'E0100',  # init-is-generator
@@ -318,11 +321,15 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0602',  # undefined-variable
             'E1101',  # no-member
             'I0021',  # useless-suppression
+            'R0202',  # no-classmethod-decorator
+            'R0203',  # no-staticmethod-decorator
             'R0801',  # duplicate-code
+            'W0123',  # eval-used
             'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
             'W0404',  # reimported
+            'W0603',  # global-statement
             'W0611',  # unused-import
             'W0612',  # unused-variable
             'W0614',  # unused-wildcard-import
@@ -332,14 +339,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W1515',  # forgotten-debug-statement
             'W4902',  # deprecated-method
             'W4904',  # deprecated-class
-
-            # Enable asap. This list is selection of existing (not all!)
-            # problems currently exiting in the BIT code base. Quit easy to fix
-            # because there count is low.
-            # 'R0202',  # no-classmethod-decorator
-            # 'R0203',  # no-staticmethod-decorator
-            # 'W0123',  # eval-used
-            # 'W0603',  # global-statement
         ]
 
         cmd = create_pylint_cmd(err_codes)
