@@ -105,7 +105,8 @@ class ExcludeTab(QWidget):
         self.btn_exclude_folder = QPushButton(
             self.icon.ADD, _('Add directories'), self)
         buttons_layout.addWidget(self.btn_exclude_folder)
-        self.btn_exclude_folder.clicked.connect(self.btn_exclude_folder_clicked)
+        self.btn_exclude_folder.clicked.connect(
+            self.btn_exclude_folder_clicked)
 
         self.btn_exclude_default = QPushButton(
             self.icon.DEFAULT_EXCLUDE, _('Add default'), self)

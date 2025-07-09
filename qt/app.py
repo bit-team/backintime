@@ -180,7 +180,8 @@ class MainWindow(QMainWindow):
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
-        self.lblFolderDontExists.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.lblFolderDontExists.setAlignment(
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.stackFilesView.addWidget(self.lblFolderDontExists)
 
         # list files view
@@ -188,10 +189,12 @@ class MainWindow(QMainWindow):
         self.stackFilesView.addWidget(self.filesView)
         self.filesView.setRootIsDecorated(False)
         self.filesView.setAlternatingRowColors(True)
-        self.filesView.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.filesView.setEditTriggers(
+            QAbstractItemView.EditTrigger.NoEditTriggers)
         self.filesView.setItemsExpandable(False)
         self.filesView.setDragEnabled(False)
-        self.filesView.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.filesView.setSelectionMode(
+            QAbstractItemView.SelectionMode.ExtendedSelection)
 
         self.filesView.header().setSectionsClickable(True)
         self.filesView.header().setSectionsMovable(False)
@@ -230,7 +233,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainSplitter)
 
         # context menu for Files View
-        self.filesView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.filesView.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu)
         self.filesView.customContextMenuRequested \
                       .connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
@@ -1373,13 +1377,18 @@ class MainWindow(QMainWindow):
 
     def btnChangelogClicked(self):
         def aHref(m):
-            if m.group(0).count('@'):
-                return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(0)}
+            url = m.group(0)
+
+            if url.count('@'):
+                return f'<a href="mailto:{url}">{url}</a>'
             else:
-                return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(0)}
+                return f'<a href="{url}">{url}</a>'
 
         def aHref_lp(m):
-            return '<a href="https://bugs.launchpad.net/backintime/+bug/%(id)s">%(txt)s</a>' % {'txt': m.group(0), 'id': m.group(1)}
+            txt = m.group(0)
+            ident = m.group(1)
+            return '<a href="https://bugs.launchpad.net/backintime/+bug/' \
+                f'{ident}">{txt}</a>'
 
         changelog_path = pathlib.Path(tools.docPath()) / 'CHANGES'
         msg = changelog_path.read_text('utf-8')
@@ -1399,16 +1408,21 @@ class MainWindow(QMainWindow):
 
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
-            messagebox.critical(self, "Couldn't find 'man' to show the help page. Please install 'man'")
+            messagebox.critical(
+                self,
+                "Couldn't find 'man' to show the help page. "
+                "Please install 'man'")
+
             return
+
         env = os.environ
         env['MANWIDTH'] = '80'
         proc = subprocess.Popen(['man', man_page],
-                                stdout = subprocess.PIPE,
-                                universal_newlines = True,
-                                env = env)
+                                stdout=subprocess.PIPE,
+                                universal_newlines=True,
+                                env=env)
         out, _err = proc.communicate()
-        messagebox.showInfo(self, 'Manual Page {}'.format(man_page), out)
+        messagebox.showInfo(self, f'Manual Page {man_page}', out)
 
     def btnShowHiddenFilesToggled(self, checked):
         self.showHiddenFiles = checked
@@ -1545,7 +1559,7 @@ class MainWindow(QMainWindow):
             confirm, opt = self.confirmRestore(paths)
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths):
+            if opt['delete'] and not self.confirmDelete(warnRoot='/' in paths):
                 return
 
         rd = RestoreDialog(self, self.sid, paths, **opt)
@@ -1559,13 +1573,19 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
+
             if not restoreTo:
                 return
+
             restoreTo = self.config.preparePath(restoreTo)
             confirm, opt = self.confirmRestore(paths, restoreTo)
+
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths, restoreTo = restoreTo):
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot='/' in paths, restoreTo=restoreTo):
                 return
 
         rd = RestoreDialog(self, self.sid, paths, restoreTo, **opt)
@@ -1577,9 +1597,12 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             confirm, opt = self.confirmRestore((self.path,))
+
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/'):
+
+            if opt['delete'] and not self.confirmDelete(
+                    warnRoot=self.path == '/'):
                 return
 
         rd = RestoreDialog(self, self.sid, self.path, **opt)
@@ -1591,13 +1614,19 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
+
             if not restoreTo:
                 return
+
             restoreTo = self.config.preparePath(restoreTo)
             confirm, opt = self.confirmRestore((self.path,), restoreTo)
+
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/', restoreTo = restoreTo):
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot=self.path == '/', restoreTo=restoreTo):
                 return
 
         rd = RestoreDialog(self, self.sid, self.path, restoreTo, **opt)
@@ -1797,7 +1826,8 @@ class MainWindow(QMainWindow):
                 self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
 
             model_index = self.filesViewModel.setRootPath(full_path)
-            proxy_model_index = self.filesViewProxyModel.mapFromSource(model_index)
+            proxy_model_index = self.filesViewProxyModel.mapFromSource(
+                model_index)
             self.filesView.setRootIndex(proxy_model_index)
 
             self.toolbar_filesview.setEnabled(False)
@@ -1883,7 +1913,8 @@ class MainWindow(QMainWindow):
             self.selected_file = ''
 
         if not found and has_files:
-            self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
+            self.filesView.setCurrentIndex(
+                self.filesViewProxyModel.index(0, 0))
 
     def fileSelected(self, fullPath=False):
         """Return path and index of the currently in Files View highlighted
@@ -1934,11 +1965,10 @@ class MainWindow(QMainWindow):
 
         if not count:
             # nothing is selected
-            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
-            if fullPath:
-                selected_file = self.path
-            else:
-                selected_file = ''
+            idx = self.filesViewProxyModel.mapFromSource(
+                self.filesViewModel.index(self.path, 0))
+
+            selected_file = self.path if fullPath else ''
 
             yield (selected_file, idx)
 

@@ -64,7 +64,8 @@ class IncludeTab(QWidget):
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
 
-        self.btn_include_file = QPushButton(self.icon.ADD, _('Add files'), self)
+        self.btn_include_file = QPushButton(
+            self.icon.ADD, _('Add files'), self)
         buttons_layout.addWidget(self.btn_include_file)
         self.btn_include_file.clicked.connect(self.btn_include_file_clicked)
 

@@ -137,7 +137,8 @@ class SettingsDialog(QDialog):
 
         # buttons
         buttonBox = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
         btnRestore = buttonBox.addButton(
             _('Restore Config'), QDialogButtonBox.ButtonRole.ResetRole)

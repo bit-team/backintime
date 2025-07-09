@@ -383,7 +383,8 @@ class ScanFileSystem(QThread):
             if self.CONFIG in files:
                 rootdirs = root.split(os.sep)
 
-                if len(rootdirs) > 4 and rootdirs[-5].startswith(self.BACKINTIME):
+                if (len(rootdirs) > 4
+                        and rootdirs[-5].startswith(self.BACKINTIME)):
 
                     if self.BACKUP in dirs:
                         del dirs[dirs.index(self.BACKUP)]
