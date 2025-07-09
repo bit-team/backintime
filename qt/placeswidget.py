@@ -12,7 +12,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from app.py
-"""Modul offering the Places widget in the main window.
+"""Module offering the Places widget in the main window.
 """
 import os
 import pathlib
@@ -32,7 +32,7 @@ import qttools
 class PlacesWidget(QTreeWidget):
     """A tree widget used in the main window.
 
-    It contain the file system root and current users home foler as entry
+    It contain the file system root and current users home directory as entry
     points. It also contain all included backup directories as entries.
     """
     def __init__(self, parent: QWidget, cfg: config.Config):

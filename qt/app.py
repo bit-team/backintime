@@ -15,7 +15,6 @@ import sys
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 import pathlib
-import re
 import json
 import subprocess
 import threading
@@ -509,8 +508,8 @@ class MainWindow(QMainWindow):
             'act_help_user_manual': (
                 icon.HELP, _('User manual'),
                 self.btn_help_user_manual, ['F1'],
-                _('Open user manual in browser (local if '
-                  'available otherwise online)'),
+                _('Open user manual in browser (locally if '
+                  'available, otherwise online)'),
             ),
             'act_help_man_backintime': (
                 icon.HELP, _('man page: Back In Time'),
@@ -531,7 +530,10 @@ class MainWindow(QMainWindow):
                 _('Open Back In Time website in browser')),
             'act_help_changelog': (
                 icon.CHANGELOG, _('Changelog'),
-                self.btnChangelogClicked, None, None),
+                self.btnChangelogClicked,
+                None,
+                _('Open changelog (locally if available, '
+                  'otherwise from the web)')),
             'act_help_faq': (
                 icon.FAQ, _('FAQ'),
                 self.btnFaqClicked, None,
@@ -1370,36 +1372,20 @@ class MainWindow(QMainWindow):
         qttools.open_user_manual()
 
     def btn_help_man_backintime(self):
-        self.openManPage('backintime')
+        qttools.open_man_page('backintime')
 
     def btn_help_man_config(self):
-        self.openManPage('backintime-config')
+        qttools.open_man_page('backintime-config')
 
     def btnWebsiteClicked(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def btnChangelogClicked(self):
-        def aHref(m):
-            url = m.group(0)
+        if bitbase.CHANGELOG_LOCAL_AVAILABLE:
+            subprocess.run(['xdg-open', str(bitbase.CHANGELOG_LOCAL_PATH)])
+            return
 
-            if url.count('@'):
-                return f'<a href="mailto:{url}">{url}</a>'
-            else:
-                return f'<a href="{url}">{url}</a>'
-
-        def aHref_lp(m):
-            txt = m.group(0)
-            ident = m.group(1)
-            return '<a href="https://bugs.launchpad.net/backintime/+bug/' \
-                f'{ident}">{txt}</a>'
-
-        changelog_path = pathlib.Path(tools.docPath()) / 'CHANGES'
-        msg = changelog_path.read_text('utf-8')
-        msg = re.sub(r'https?://[^) \n]*', aHref, msg)
-        msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', aHref_lp, msg)
-        msg = re.sub(r'\n', '<br>', msg)
-
-        messagebox.showInfo(self, _('Changelog'), msg)
+        qttools.open_url(bitbase.URL_CHANGELOG)
 
     def btnFaqClicked(self):
         qttools.open_url(bitbase.URL_FAQ)
@@ -1409,25 +1395,6 @@ class MainWindow(QMainWindow):
 
     def btnReportBugClicked(self):
         qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)
-
-    def openManPage(self, man_page):
-        if not tools.checkCommand('man'):
-            messagebox.critical(
-                self,
-                "Couldn't find 'man' to show the help page. "
-                "Please install 'man'")
-
-            return
-
-        env = os.environ
-        env['MANWIDTH'] = '80'
-        proc = subprocess.Popen(['man', man_page],
-                                stdout=subprocess.PIPE,
-                                universal_newlines=True,
-                                env=env)
-        out, _err = proc.communicate()
-
-        messagebox.showInfo(self, f'Manual Page {man_page}', out)
 
     def btnShowHiddenFilesToggled(self, checked):
         self.showHiddenFiles = checked

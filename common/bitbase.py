@@ -48,16 +48,23 @@ URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
 URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
+URL_CHANGELOG = f'{URL_WEBSITE}/blob/dev/CHANGES'
 URL_TRANSLATION = 'https://translate.codeberg.org/engage/backintime'
 URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
 USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
-USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
-    PACKAGE_NAME_CLI / 'manual' / 'index.html'
+
+_DIR_DOC_PATH_BASE = Path('/') / 'usr' / 'share' / 'doc'
+
+USER_MANUAL_LOCAL_PATH = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI \
+    / 'manual' / 'index.html'
 USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 
-DIR_CALLBACK_EXAMPLES = Path('/') / 'usr' / 'share' / 'doc' / \
-    PACKAGE_NAME_CLI / 'user-callback-examples'
+CHANGELOG_LOCAL_PATH = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI / 'CHANGES'
+CHANGELOG_LOCAL_AVAILABLE = CHANGELOG_LOCAL_PATH.exists()
+
+DIR_CALLBACK_EXAMPLES = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI \
+    / 'user-callback-examples'
 DEFAULT_CALLBACK = DIR_CALLBACK_EXAMPLES / 'user-callback.default'
 
 
