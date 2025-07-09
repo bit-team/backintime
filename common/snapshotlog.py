@@ -172,7 +172,7 @@ class SnapshotLog:
     def get(self,
             mode: int = None,
             decode: encfstools.Decode = None,
-            skipLines: int = 0) -> Generator[str]:
+            skipLines: int = 0) -> Generator[str, None, None]:
         """Read the log, filter and decode it and yield its lines.
 
         Args:
