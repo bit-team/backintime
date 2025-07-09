@@ -58,7 +58,6 @@ full_test_files = [_base_dir / fp for fp in (
     'statusbar.py',
     'test/test_lint.py',
     'test/test_statedata.py',
-    # 'snapshotsdialog.py', <-- need some more love
     'timeline.py',
     'usermessagedialog.py',
 )]
