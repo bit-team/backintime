@@ -509,7 +509,7 @@ class GeneralTab(QDialog):
                 return self._parent_dialog.saveProfile()
 
             else:
-                # Configured without explicte SSH key file
+                # Configured without explicit SSH key file
                 messagebox.critical(self, str(ex))
                 return False
 
@@ -651,10 +651,12 @@ class GeneralTab(QDialog):
 
         # No public key
         if key_file.suffix.lower() == '.pub':
-            msg = _('The selected file {path} appears to be a public SSH '
-                    'key. Please select a private file (without a ".pub" '
-                    'extension).').format(path=key_file)
-            messagebox.warning(msg, _('Not a private key'), self)
+            title = _('Invalid file: Not a private SSH key'),
+            msg = _('The selected file ({path}) is a public SSH key. '
+                    'Please choose the corresponding private key file instead '
+                    '(without ".pub").').format(path=key_file)
+            messagebox.warning(msg, title, self)
+
             return
 
         # self.txtSshPrivateKeyFile.setText(str(key_file))

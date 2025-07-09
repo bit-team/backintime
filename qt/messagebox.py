@@ -19,6 +19,14 @@ import qttools
 
 
 def askPasswordDialog(parent, title, prompt, language_code, timeout):
+    """Dev note (2025-07, buhtz): Replace with extern use of zenity, yat,
+    kdialog
+
+    e.g.
+    zenity --entry --title="foo" --text="text" --hide-text
+    yad --entry --title="foo" --text="text" --hide-text
+    kdialog --password "enter password"
+    """
     if parent is None:
         app = qttools.createQApplication()
         translator = qttools.initiate_translator(language_code)
