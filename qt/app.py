@@ -1398,6 +1398,7 @@ class MainWindow(QMainWindow):
         msg = re.sub(r'https?://[^) \n]*', aHref, msg)
         msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', aHref_lp, msg)
         msg = re.sub(r'\n', '<br>', msg)
+
         messagebox.showInfo(self, _('Changelog'), msg)
 
     def btnFaqClicked(self):
@@ -1407,7 +1408,7 @@ class MainWindow(QMainWindow):
         qttools.open_url(bitbase.URL_ISSUES)
 
     def btnReportBugClicked(self):
-        self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
+        qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
@@ -1425,6 +1426,7 @@ class MainWindow(QMainWindow):
                                 universal_newlines=True,
                                 env=env)
         out, _err = proc.communicate()
+
         messagebox.showInfo(self, f'Manual Page {man_page}', out)
 
     def btnShowHiddenFilesToggled(self, checked):

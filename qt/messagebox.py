@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -20,6 +21,7 @@ import qttools
 
 
 def askPasswordDialog(parent, title, prompt, language_code, timeout):
+
     if parent is None:
         app = qttools.createQApplication()
         translator = qttools.initiate_translator(language_code)
@@ -29,6 +31,7 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog = QInputDialog()
 
     timer = QTimer()
+
     if timeout is not None:
         timer.timeout.connect(dialog.reject)
         timer.setInterval(timeout * 1000)
@@ -40,13 +43,12 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
     dialog.setTextEchoMode(QLineEdit.EchoMode.Password)
     QApplication.processEvents()
 
-    ret = dialog.exec()
+    result = dialog.exec()
 
     timer.stop()
-    if ret:
-        password = dialog.textValue()
-    else:
-        password = ''
+
+    password = dialog.textValue() if result else ''
+
     del dialog
 
     return password
