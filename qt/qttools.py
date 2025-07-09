@@ -22,12 +22,14 @@ import sys
 import re
 import json
 import textwrap
-from typing import Union, Iterable
+from typing import Union, Iterable, Callable
 from contextlib import contextmanager
 from PyQt6.QtGui import QDesktopServices, QFont, QIcon
-from PyQt6.QtCore import (QLibraryInfo,
+from PyQt6.QtCore import (QEvent,
+                          QLibraryInfo,
                           QLocale,
                           Qt,
+                          QObject,
                           QT_VERSION_STR,
                           QTranslator,
                           QUrl)
@@ -251,6 +253,45 @@ def custom_sort_order(header, loop, new_column, new_order):
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|
+
+
+class MouseButtonEventFilter(QObject):
+    """Catch mouse buttons 4 and 5 (mostly used as back and forward)
+    and assign it to browse in file history.
+    """
+
+    def __init__(self,
+                 back_handler: Callable,
+                 forward_handler: Callable):
+        # mouse button 4
+        self._handle_back = back_handler
+        # mouse button 5
+        self._handle_forward = forward_handler
+
+        super().__init__()
+
+    def eventFilter(self, receiver, event):
+        """Catch global input events."""
+
+        # not a mouse press event
+        if event.type() != QEvent.Type.MouseButtonPress:
+            return super().eventFilter(receiver, event)
+
+        try:
+            # button 4 or 5 ?
+            handler = {
+                Qt.MouseButton.BackButton: self._handle_back,
+                Qt.MouseButton.ForwardButton: self._handle_forward
+            }[event.button()]
+
+        except KeyError:
+            pass
+
+        else:  # no exception
+            handler()
+            return True
+
+        return super().eventFilter(receiver, event)
 
 
 def open_url(url: str) -> None:
