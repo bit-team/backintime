@@ -310,8 +310,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         err_codes = [
             'C0301',  # line-too-long
             'C0305',  # trailing-newlines
-            'C0325',  # superfluous-parens
             'C0321',  # multiple-statements
+            'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
             'C0303',  # trailing-whitespace
             'E0100',  # init-is-generator
@@ -346,6 +346,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W1515',  # forgotten-debug-statement
             'W4902',  # deprecated-method
             'W4904',  # deprecated-class
+            # 'R0202',  # no-classmethod-decorator
+            # 'R0203',  # no-staticmethod-decorator
         ]
 
         cmd = create_pylint_cmd(err_codes)

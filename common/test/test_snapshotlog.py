@@ -16,10 +16,10 @@ import snapshotlog
 import snapshots
 
 
-class TestLogFilter(generic.TestCase):
+class Filter(generic.TestCase):
     # TODO: add decode test
     def __init__(self, *args, **kwargs):
-        super(TestLogFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.e = '[E] foo bar'
         self.c = '[C] foo bar'
         self.i = '[I] foo bar'
@@ -27,60 +27,80 @@ class TestLogFilter(generic.TestCase):
         self.h = '========== header ==========='
 
     def test_filter(self):
-        #No filter
+        # No filter
         logFilter = snapshotlog.LogFilter()
         for line in (self.e, self.c, self.i, self.n, self.h):
             self.assertEqual(line, logFilter.filter(line))
 
-        #Error filter
-        logFilter = snapshotlog.LogFilter(mode = snapshotlog.LogFilter.ERROR)
+        # Error filter
+        logFilter = snapshotlog.LogFilter(mode=snapshotlog.LogFilter.ERROR)
         for line in (self.e, self.n, self.h):
             self.assertEqual(line, logFilter.filter(line))
         for line in (self.c, self.i):
             self.assertIsNone(logFilter.filter(line))
 
-        #Changes filter
-        logFilter = snapshotlog.LogFilter(mode = snapshotlog.LogFilter.CHANGES)
+        # Changes filter
+        logFilter = snapshotlog.LogFilter(mode=snapshotlog.LogFilter.CHANGES)
         for line in (self.c, self.n, self.h):
             self.assertEqual(line, logFilter.filter(line))
         for line in (self.e, self.i):
             self.assertIsNone(logFilter.filter(line))
 
-        #Information filter
-        logFilter = snapshotlog.LogFilter(mode = snapshotlog.LogFilter.INFORMATION)
+        # Information filter
+        logFilter = snapshotlog.LogFilter(
+            mode=snapshotlog.LogFilter.INFORMATION)
         for line in (self.i, self.n, self.h):
             self.assertEqual(line, logFilter.filter(line))
         for line in (self.c, self.e):
             self.assertIsNone(logFilter.filter(line))
 
-        #Error + Changes filter
-        logFilter = snapshotlog.LogFilter(mode = snapshotlog.LogFilter.ERROR_AND_CHANGES)
+        # Error + Changes filter
+        logFilter = snapshotlog.LogFilter(
+            mode=snapshotlog.LogFilter.ERROR_AND_CHANGES)
         for line in (self.e, self.c, self.n, self.h):
             self.assertEqual(line, logFilter.filter(line))
         for line in (self.i,):
             self.assertIsNone(logFilter.filter(line))
 
         # New filter (#1587): rsync transfer failures (experimental)
-        logFilter = snapshotlog.LogFilter(mode=snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
+        logFilter = snapshotlog.LogFilter(
+            mode=snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
         log_lines = (
-            '[I] Take snapshot (rsync: symlink has no referent: "/home/user/Documents/dead-link")',
-            '[E] Error: rsync: [sender] send_files failed to open "/home/user/Documents/root_only_file.txt": Permission denied (13)',
-            '[I] Schnappschuss erstellen (rsync: IO error encountered -- skipping file deletion)',
-            '[I] Schnappschuss erstellen (rsync: rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1333) [sender=3.2.3])',
-            '[I] Take snapshot (rsync: rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1333) [sender=3.2.3])',
+            '[I] Take snapshot (rsync: symlink has no referent: '
+            '"/home/user/Documents/dead-link")',
+
+            '[E] Error: rsync: [sender] send_files failed to open '
+            '"/home/user/Documents/root_only_file.txt": '
+            'Permission denied (13)',
+
+            '[I] Schnappschuss erstellen (rsync: IO error encountered -- '
+            'skipping file deletion)',
+
+            '[I] Schnappschuss erstellen (rsync: rsync error: some '
+            'files/attrs were not transferred (see previous errors) '
+            '(code 23) at main.c(1333) [sender=3.2.3])',
+
+            '[I] Take snapshot (rsync: rsync error: some files/attrs were '
+            'not transferred (see previous errors) (code 23) at '
+            'main.c(1333) [sender=3.2.3])',
         )
+
         for line in log_lines:
             self.assertEqual(line, logFilter.filter(line))
+
         for line in (self.e, self.c, self.i, self.h):
             self.assertIsNone(logFilter.filter(line))
+
         for line in self.n:
-            self.assertEqual(line, logFilter.filter(line))  # empty line stays empty line
+            # empty line stays empty line
+            self.assertEqual(line, logFilter.filter(line))
 
 
-class TestSnapshotLog(generic.SnapshotsTestCase):
+class Log(generic.SnapshotsTestCase):
     def setUp(self):
-        super(TestSnapshotLog, self).setUp()
-        self.logFile = os.path.join(self.cfg._LOCAL_DATA_FOLDER, 'takesnapshot_.log')
+        super().setUp()
+        self.logFile = os.path.join(
+            self.cfg._LOCAL_DATA_FOLDER, 'takesnapshot_.log')
 
     def test_new(self):
         log = snapshotlog.SnapshotLog(self.cfg)
@@ -92,7 +112,10 @@ class TestSnapshotLog(generic.SnapshotsTestCase):
         log.flush()
         self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:
-            self.assertRegex(f.read(), re.compile(r'''========== Take snapshot \(profile .*\): .* ==========
+            self.assertRegex(
+                f.read(),
+                re.compile(
+                    r'''========== Take snapshot \(profile .*\): .* ==========
 
 ''', re.MULTILINE))
 
@@ -157,7 +180,9 @@ Last snapshot didn't finish but can be continued.
         log.append('[E] bla', 1)
         log.flush()
         self.assertExists(self.logFile)
-        self.assertEqual('\n'.join(log.get(mode = snapshotlog.LogFilter.CHANGES)), 'foo bar\n[C] baz')
+        self.assertEqual(
+            '\n'.join(log.get(mode=snapshotlog.LogFilter.CHANGES)),
+            'foo bar\n[C] baz')
 
     def test_skipLines_show_all(self):
         log = snapshotlog.SnapshotLog(self.cfg)
@@ -192,5 +217,7 @@ Last snapshot didn't finish but can be continued.
         log.append('[C] asd', 1)
         log.flush()
 
-        self.assertEqual('\n'.join(log.get(mode = snapshotlog.LogFilter.CHANGES, skipLines = 2)),
-                         '[C] 456\n[C] 789\n[C] asd')
+        self.assertEqual(
+            '\n'.join(log.get(mode=snapshotlog.LogFilter.CHANGES,
+                              skipLines=2)),
+            '[C] 456\n[C] 789\n[C] asd')

@@ -33,12 +33,14 @@ class RestoreTestCase(generic.SnapshotsWithSidTestCase):
 
     def prepairFileInfo(self, restoreFile, mode = 33260):
         d = self.sid.fileInfo
-        d[restoreFile.encode('utf-8', 'replace')] = (mode,
-                                                     CURRENTUSER.encode('utf-8', 'replace'),
-                                                     CURRENTGROUP.encode('utf-8', 'replace'))
+        d[restoreFile.encode('utf-8', 'replace')] = (
+            mode,
+            CURRENTUSER.encode('utf-8', 'replace'),
+            CURRENTGROUP.encode('utf-8', 'replace')
+        )
         self.sid.fileInfo = d
 
-class TestRestore(RestoreTestCase):
+class General(RestoreTestCase):
     def test_restore_multiple_files(self):
         restoreFile1 = os.path.join(self.include.name, 'test')
         self.prepairFileInfo(restoreFile1)
@@ -74,11 +76,14 @@ class TestRestore(RestoreTestCase):
         self.prepairFileInfo(os.path.join(restoreFolder, 'file with spaces'))
 
         with TemporaryDirectory() as dest:
-            destRestoreFile = os.path.join(dest, os.path.basename(restoreFolder), 'test')
+            destRestoreFile = os.path.join(
+                dest, os.path.basename(restoreFolder), 'test')
             self.sn.restore(self.sid, restoreFolder, restore_to = dest)
             self.assertIsFile(destRestoreFile)
+
             with open(destRestoreFile, 'rt') as f:
                 self.assertEqual(f.read(), 'bar')
+
             self.assertEqual(33260, os.stat(destRestoreFile).st_mode)
 
     def test_delete(self):
@@ -138,7 +143,7 @@ class TestRestore(RestoreTestCase):
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'fooooooooooooooooooo')
 
-class TestRestoreLocal(RestoreTestCase):
+class RestoreLocal(RestoreTestCase):
     """
     Tests which should run on local and ssh profile
     """
@@ -158,27 +163,30 @@ class TestRestoreLocal(RestoreTestCase):
 
         self.sn.restore(self.sid, restoreFile)
         self.assertIsFile(restoreFile)
+
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'asdf')
+
         self.assertEqual(33260, os.stat(restoreFile).st_mode)
 
-@unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
-class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestoreLocal):
+@unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
+class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, RestoreLocal):
     """BUHTZ 2022-10-09: Seems to me that testing restore via SSH isn't
     implemented yet.
     """
 
     def setUp(self):
-        super(TestRestoreSSH, self).setUp()
+        super().setUp()
         self.include = TemporaryDirectory()
-        generic.create_test_files(os.path.join(self.remoteSIDBackupPath, self.include.name[1:]))
+        generic.create_test_files(os.path.join(
+            self.remoteSIDBackupPath, self.include.name[1:]))
 
-        #mount
+        # mount
         self.cfg.setCurrentHashId(mount.Mount(cfg = self.cfg).mount())
 
     def tearDown(self):
         #unmount
         mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
-        super(TestRestoreSSH, self).tearDown()
+        super().tearDown()
 
         self.include.cleanup()
