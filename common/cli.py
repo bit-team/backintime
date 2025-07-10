@@ -34,7 +34,8 @@ def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
 
     snapshotsList = snapshots.listSnapshots(cfg)
 
-    sid = selectSnapshot(snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
+    sid = selectSnapshot(
+        snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
     print('')
 
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
@@ -286,7 +287,8 @@ class RestoreDialog:
 
     def run(self):
         s = snapshots.Snapshots(self.config)
-        s.restore(self.sid, self.what, self.callback, self.where, **self.kwargs)
+        s.restore(
+            self.sid, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.logFile)
 
 

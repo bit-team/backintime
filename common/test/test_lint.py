@@ -312,7 +312,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            # 'C0301',  # line-too-long
             'C0305',  # trailing-newlines
+            # 'C0321',  # multiple-statements
             'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
             'C0303',  # trailing-whitespace
@@ -325,8 +327,15 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            # 'E1120',  # no-value-for-parameter
+            # 'E1121',  # too-many-function-args
             'I0021',  # useless-suppression
+            # 'R0202',  # no-classmethod-decorator
+            # 'R0203',  # no-staticmethod-decorator
+            # 'R0801',  # duplicate-code
+            # 'W0107',  # unnecessary-pass
             'W0123',  # eval-used
+            # 'W0201',  # attribute-defined-outside-init
             # 'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
@@ -346,7 +355,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # See PyLint bugs:
             # https://github.com/pylint-dev/pylint/issues/214
             # https://github.com/pylint-dev/pylint/issues/7920
-            # 'R0801',  # duplicate-code
         ]
 
         cmd = create_pylint_cmd(err_codes)

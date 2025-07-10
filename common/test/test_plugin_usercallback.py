@@ -58,7 +58,8 @@ class Reasons(unittest.TestCase):
         self._generic_called_with(UserCallbackPlugin.processEnd, '2')
 
     def test_processnewSnapshot(self):
-        self._generic_called_with(UserCallbackPlugin.newSnapshot, '3', 'id1', 'path')
+        self._generic_called_with(
+            UserCallbackPlugin.newSnapshot, '3', 'id1', 'path')
 
     def test_error(self):
         sut = UserCallbackPlugin()

@@ -326,7 +326,8 @@ class SSHTestCase(TestCaseCfg):
         self.cfg.setSshPrivateKeyFile(PRIV_KEY_FILE)
 
         # use a TemporaryDirectory for remote snapshot path
-        # self.tmpDir = TemporaryDirectory(prefix='bit_test_', suffix=' with blank')
+        # self.tmpDir = TemporaryDirectory(
+        #     prefix='bit_test_', suffix=' with blank')
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
         self.remoteFullPath = os.path.join(
