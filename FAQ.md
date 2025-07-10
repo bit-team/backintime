@@ -530,6 +530,28 @@ If you encounter clear rules about configuring Samba that it works with
 _Back In Time_ in a reliable way, please let us know the details. We will than
 integrate it into the documentation.
 
+## How does Back In Time handle open or changed files during backup?
+
+**Explanation**
+
+Back in Time uses rsync to copy the files and folders specified to be backed up in the configuration. Rsync does not lock any files that are open or being modified and therefore the backup can be copied in an inconsistent state. Rsync only reads a file on time when it goes through it and as a result of this only some changes are captured by rsync. This can affect files such as logs, browser caches, databases or virtual machine images where inconsistencies can even lead to data corruption.
+
+**To reduce this risk, the following approaches can be considered:**
+
+- **Filesystem snapshots**
+   If using a filesystem like btrfs and ZFS that has a snapshot function this can be used together with Back in Time. Filesystem snapshots provide a read-only copy of a filesystem frozen at a specific point in time, which ensures data integrity even for open/changing files. Configure Back in Time to backup from this filesystem's read-only snapshot.
+
+- **Use exclusions**
+   If the filesystem does not have filesystem snapshots available, one solution could be to exclude files that are frequently open or actively changing. The command lsof in Linux presents open files and the processes that opened them as a list. Use this list as base for configuring BIT exclusion list.
+
+- **Application specific handling**
+   For applications that opens and modifies files frequently like databases or virtual machines, specific solutions my be needed. Use the databases own backup function to create a consistent copy and include that in the BIT backup. Virtual machines products typically have ability to create snapshots of their state, that can be included in BIT.
+
+- **Choose when to perform backup**
+   Perform backup at times where less files are open, for example at night.
+
+
+
 # Restore
 
 ## After Restore I have duplicates with extension ".backup.20131121"
