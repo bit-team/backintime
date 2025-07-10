@@ -173,6 +173,7 @@ class SnapshotLog:
             mode: int = None,
             decode: encfstools.Decode = None,
             skipLines: int = 0) -> Iterator[str]:
+
         """Read the log, filter and decode it and yield its lines.
 
         Args:
