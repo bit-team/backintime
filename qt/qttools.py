@@ -172,7 +172,7 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
     # glue all together
     result = newline.join(result)
 
-    # Qt handels the string as richttext (interpreting html tags) only,
+    # Qt handles the string as richttext (interpreting html tags) only,
     # if it begins with a tag.
     if is_richtext and result[0] != '<':
         result = f'<html>{result}</html>'

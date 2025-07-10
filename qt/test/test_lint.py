@@ -204,7 +204,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
-            # Considere UP, ANN (upgrade and annotation)
+            # Consider UP, ANN (upgrade and annotation)
             '--extend-select=PL,E,W,INT,RUF100',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
