@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor, QFont
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,

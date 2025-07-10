@@ -205,11 +205,14 @@ class SnapshotLog:
                         yield line
 
         except Exception as exc:
-            logger.debug('Failed to get take_snapshot log from '
-                         f'{self.logFile}: {str(exc)}',
-                         self)
+            msg = (
+                f'Failed to get take_snapshot log from {self.logFile}:',
+                str(exc)
+            )
+            logger.debug(' '.join(msg), self)
 
             for line in msg:
+                # Why???
                 yield line
 
     def new(self, date):
