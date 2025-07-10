@@ -203,12 +203,13 @@ class RestoreConfigDialog(QDialog):
         return self.treeViewFilterProxy.mapFromSource(indexSource)
 
     def indexChanged(self, current, previous):
-        """
-        called every time a new item is chosen in treeView.
+        """Called every time a new item is chosen in treeView.
+
         If there was a config found inside the selected folder, show
         available information about the config.
         """
         cfg = self.searchConfig(self.pathFromIndex(current))
+
         if cfg:
             self.expandAll(
                 os.path.dirname(os.path.dirname(cfg._LOCAL_CONFIG_PATH)))
@@ -216,11 +217,13 @@ class RestoreConfigDialog(QDialog):
             self.lblFound.setPalette(self.colorGreen)
             self.showProfile(cfg)
             self.restoreConfig = cfg
+
         else:
             self.lblFound.setText(_('No config found'))
             self.lblFound.setPalette(self.colorRed)
             self.widgetProfiles.hide()
             self.restoreConfig = None
+
         self.restoreButton.setEnabled(bool(cfg))
 
     def searchConfig(self, path):
@@ -247,12 +250,10 @@ class RestoreConfigDialog(QDialog):
                         return cfg
 
                 except Exception as exc:
-                    logger.error(
+                    logger.critical(
                         f'Unhandled branch in code! See in {__file__} '
-                        f'SettingsDialog.searchConfig()\n{exc}')
-                    pass
-
-        return
+                        f'SettingsDialog.searchConfig()\n{exc}',
+                        self)
 
     def expandAll(self, path):
         """
@@ -383,7 +384,8 @@ class ScanFileSystem(QThread):
             if self.CONFIG in files:
                 rootdirs = root.split(os.sep)
 
-                if len(rootdirs) > 4 and rootdirs[-5].startswith(self.BACKINTIME):
+                if (len(rootdirs) > 4
+                        and rootdirs[-5].startswith(self.BACKINTIME)):
 
                     if self.BACKUP in dirs:
                         del dirs[dirs.index(self.BACKUP)]

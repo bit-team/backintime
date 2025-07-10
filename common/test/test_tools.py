@@ -798,7 +798,8 @@ class OlderThan(unittest.TestCase):
         self.assertTrue(tools.older_than(birth, 2, TimeUnit.MONTH))
 
     def test_month_31th(self, mock_dt):
-        """From May with 31th as last day to September with 30th as last day."""
+        """From May with 31th as last day to September with 30th as last day.
+        """
         birth = datetime(1982, 5, 31, 18, 23, 0, 0)
         mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 0)
 

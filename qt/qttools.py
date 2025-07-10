@@ -22,12 +22,16 @@ import sys
 import re
 import json
 import textwrap
-from typing import Union, Iterable
+import subprocess
+from typing import Union, Iterable, Callable
 from contextlib import contextmanager
+from tempfile import NamedTemporaryFile
 from PyQt6.QtGui import QDesktopServices, QFont, QIcon
-from PyQt6.QtCore import (QLibraryInfo,
+from PyQt6.QtCore import (QEvent,
+                          QLibraryInfo,
                           QLocale,
                           Qt,
+                          QObject,
                           QT_VERSION_STR,
                           QTranslator,
                           QUrl)
@@ -44,6 +48,7 @@ import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
+import messagebox
 from filedialog import FileDialog
 
 # |---------------|
@@ -153,7 +158,9 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         tooltip = (tooltip, )
 
     # Richtext or plain text
-    newline = {True: '<br>', False: '\n'}[might_be_richtext(tooltip[0])]
+    is_richtext =  might_be_richtext(tooltip[0])
+
+    newline = {True: '<br>', False: '\n'}[is_richtext]
 
     result = []
     # Wrap each paragraph in itself
@@ -163,7 +170,14 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         ))
 
     # glue all together
-    widget.setToolTip(newline.join(result))
+    result = newline.join(result)
+
+    # Qt handles the string as richttext (interpreting html tags) only,
+    # if it begins with a tag.
+    if is_richtext and result[0] != '<':
+        result = f'<html>{result}</html>'
+
+    widget.setToolTip(result)
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):
@@ -253,9 +267,86 @@ def custom_sort_order(header, loop, new_column, new_order):
 # |---------------------|
 
 
+class MouseButtonEventFilter(QObject):
+    """Catch mouse buttons 4 and 5 (mostly used as back and forward)
+    and assign it to browse in file history.
+    """
+
+    def __init__(self,
+                 back_handler: Callable,
+                 forward_handler: Callable):
+        # mouse button 4
+        self._handle_back = back_handler
+        # mouse button 5
+        self._handle_forward = forward_handler
+
+        super().__init__()
+
+    def eventFilter(self, receiver, event):
+        """Catch global input events."""
+
+        # not a mouse press event
+        if event.type() != QEvent.Type.MouseButtonPress:
+            return super().eventFilter(receiver, event)
+
+        try:
+            # button 4 or 5 ?
+            handler = {
+                Qt.MouseButton.BackButton: self._handle_back,
+                Qt.MouseButton.ForwardButton: self._handle_forward
+            }[event.button()]
+
+        except KeyError:
+            pass
+
+        else:  # no exception
+            handler()
+            return True
+
+        return super().eventFilter(receiver, event)
+
+
 def open_url(url: str) -> None:
     """Open an URL or URI"""
     QDesktopServices.openUrl(QUrl(url))
+
+
+def open_man_page(manpage: str) -> None:
+    """Open the manpage in a terminal window."""
+    env=os.environ.copy()
+    env['MANWIDTH'] = '80'
+
+    content = ''
+
+    try:
+        proc = subprocess.run(
+            ['man', manpage],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            env=env
+        )
+        content = proc.stdout
+
+        if not content:
+            raise FileNotFoundError(
+                f'No content for man page "{manpage}". {proc.stderr=}')
+
+    except FileNotFoundError as exc:
+        messagebox.critical(None, str(exc))
+        logger.error(str(exc))
+
+    else:
+        # Write content to temp text file
+        with NamedTemporaryFile(mode='w',
+                                encoding='utf-8',
+                                suffix='.txt',
+                                delete=False,
+                                delete_on_close=False) as temp_file:
+            temp_file.write(content)
+
+        # open text file with associated default application
+        subprocess.run(['xdg-open', temp_file.name], check=True)
 
 
 def user_manual_uri() -> str:
@@ -365,8 +456,8 @@ def _show_qt_debug_info(qapp):
             'QT supported styles': QStyleFactory.keys(),
             'themeSearchPaths': QIcon.themeSearchPaths(),
             'fallbackSearchPaths': QIcon.fallbackSearchPaths(),
-            # The Back In Time system tray icon can only be shown if the desktop
-            # environment supports this
+            # The Back In Time system tray icon can only be shown if the
+            # desktop environment supports this
             'Is SystemTray available':
                 QSystemTrayIcon.isSystemTrayAvailable(),
         }

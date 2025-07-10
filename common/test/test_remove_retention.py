@@ -486,12 +486,13 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
 
 
 class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
-    """Covering the smart remove setting 'Keep the last snapshot for each week for the
-    last N weeks'.
+    """Covering the smart remove setting 'Keep the last snapshot for each week
+    for the last N weeks'.
 
     That logic is implemented in 'Snapshots.smartRemoveList()' but not testable
     in isolation. So for a first shot we just duplicate that code in this
     tests (see self._org()).
+
     """
 
     def setUp(self):

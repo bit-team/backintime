@@ -137,7 +137,8 @@ class SettingsDialog(QDialog):
 
         # buttons
         buttonBox = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
         btnRestore = buttonBox.addButton(
             _('Restore Config'), QDialogButtonBox.ButtonRole.ResetRole)
@@ -306,10 +307,8 @@ class SettingsDialog(QDialog):
     def errorHandler(self, message):
         messagebox.critical(self, message)
 
-    def questionHandler(self, message):
-        answer = messagebox.warningYesNo(self, message)
-
-        return answer == QMessageBox.StandardButton.Yes
+    def questionHandler(self, message: str) -> bool:
+        return messagebox.question(text=message, widget_to_center_on=self)
 
     def setComboValue(self, combo, value, t='int'):
         for i in range(combo.count()):

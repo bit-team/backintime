@@ -17,9 +17,15 @@ Dev note (buhtz, 2025-03: Have look at "qt/manageprofiles/combobox.py" and
 consolidate if possible.
 """
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QFrame, QComboBox
-# from qttools_path import registerBackintimePath
-# registerBackintimePath('common')
+from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtWidgets import (QCheckBox,
+                             QComboBox,
+                             QFrame,
+                             QHBoxLayout,
+                             QLabel,
+                             QSizePolicy,
+                             QWidget)
+import qttools
 
 
 class SortedComboBox(QComboBox):
@@ -131,3 +137,49 @@ class HLineWidget(QFrame):
         super().__init__()
         self.setFrameShape(QFrame.Shape.HLine)
         self.setFrameShadow(QFrame.Shadow.Sunken)
+
+
+class WrappedCheckBox(QWidget):
+    """A checkbox with word wrap capabilities.
+
+    QCheckBox itself is not able to wrap text in its label, without hacks."""
+    def __init__(self,
+                 label: str,
+                 tooltip: str = None,
+                 parent: QWidget = None):
+        super().__init__(parent)
+
+        self.checkbox = QCheckBox()
+        self.label = QLabel(label)
+
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.checkbox, stretch=0)
+        layout.addWidget(self.label, stretch=1)
+
+        self.label.setWordWrap(True)
+        self.label.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+        self.label.mouseReleaseEvent = self._slot_label_clicked
+
+        if tooltip:
+            qttools.set_wrapped_tooltip([self.checkbox, self.label], tooltip)
+
+        # # DEBUG
+        # self.setStyleSheet("background: lightblue; border: 1px solid red;")
+        # self.label.setStyleSheet("background: yellow;")
+
+    def _slot_label_clicked(self, event: QMouseEvent):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.checkbox.toggle()
+
+    @property
+    def checked(self) -> bool:
+        """Checked state of the check box"""
+        return self.checkbox.isChecked()
+
+    @checked.setter
+    def checked(self, check: bool) -> None:
+        self.checkbox.setChecked(check)

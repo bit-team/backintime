@@ -24,23 +24,28 @@ import sshtools
 import tools
 from exceptions import MountException
 
-SKIP_MESSAGE_SSH = 'Skip as this test requires a local ssh server, public ' \
-                   'and private keys installed'
 
-
-@unittest.skipIf(not generic.LOCAL_SSH, SKIP_MESSAGE_SSH)
+@unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
 class General(generic.SSHTestCase):
     def test_can_mount_ssh_rw(self):
-        mnt = mount.Mount(cfg = self.cfg, tmp_mount = True)
-        mnt.preMountCheck(mode = 'ssh', first_run = True, **self.mount_kwargs)
+        mnt = mount.Mount(cfg=self.cfg, tmp_mount=True)
+        mnt.preMountCheck(mode='ssh', first_run=True, **self.mount_kwargs)
 
         try:
-            hash_id = mnt.mount(mode = 'ssh', check = False, **self.mount_kwargs)
+            hash_id = mnt.mount(mode='ssh', check=False, **self.mount_kwargs)
             full_path = os.path.join(
-                    self.sharePath, ".local", "share", "backintime", "mnt", hash_id, "mountpoint", "testfile")
+                    self.sharePath,
+                    ".local",
+                    "share",
+                    "backintime",
+                    "mnt",
+                    hash_id,
+                    "mountpoint",
+                    "testfile")
 
             # warning - don't use os.access for checking writability
-            # https://github.com/bit-team/backintime/issues/490#issuecomment-156265196
+            # https://github.com/bit-team/backintime
+            # /issues/490#issuecomment-156265196
             with open(full_path, 'wt') as f:
                 f.write('foo')
 
@@ -65,7 +70,10 @@ class General(generic.SSHTestCase):
                          stderr = subprocess.DEVNULL).communicate()
         ssh = sshtools.SSH(cfg = self.cfg)
         ssh.private_key_fingerprint = 'wrong fingerprint'
-        with self.assertRaisesRegex(MountException, r"Could not unlock ssh private key\. Wrong password or password not available for cron\."):
+        with self.assertRaisesRegex(
+                MountException,
+                r"Could not unlock ssh private key\. Wrong password or "
+                r"password not available for cron\."):
             ssh.unlockSshAgent(force = True)
 
     def test_unlockSshAgentKeyWithPassword(self):
@@ -112,7 +120,9 @@ class General(generic.SSHTestCase):
     def test_checkLogin_fail_wrong_user(self):
         self.cfg.setSshUser('non_existing_user')
         ssh = sshtools.SSH(cfg = self.cfg)
-        with self.assertRaisesRegex(MountException, r"Password-less authentication for .+ failed.+"):
+        with self.assertRaisesRegex(
+                MountException,
+                r"Password-less authentication for .+ failed.+"):
             ssh.checkLogin()
 
     def test_checkCipher_default(self):
@@ -137,7 +147,8 @@ class General(generic.SSHTestCase):
     def test_checkKnownHosts_fail(self):
         self.cfg.setSshHost('non_existing_host')
         ssh = sshtools.SSH(cfg = self.cfg)
-        with self.assertRaisesRegex(MountException, r".+ not found in ssh_known_hosts\."):
+        with self.assertRaisesRegex(
+                MountException, r".+ not found in ssh_known_hosts\."):
             ssh.checkKnownHosts()
 
     def test_checkRemoteFolder(self):
@@ -150,13 +161,17 @@ class General(generic.SSHTestCase):
         ssh.checkRemoteFolder()
 
         #make folder read-only
-        with generic.mockPermissions(self.remotePath, stat.S_IRUSR | stat.S_IXUSR):
-            with self.assertRaisesRegex(MountException, r"Remote path is not writable.+"):
+        with generic.mockPermissions(self.remotePath,
+                                     stat.S_IRUSR | stat.S_IXUSR):
+            with self.assertRaisesRegex(
+                    MountException, r"Remote path is not writable.+"):
                 ssh.checkRemoteFolder()
 
         #make folder not executable
-        with generic.mockPermissions(self.remotePath, stat.S_IRUSR | stat.S_IWUSR):
-            with self.assertRaisesRegex(MountException, r"Remote path is not executable.+"):
+        with generic.mockPermissions(self.remotePath,
+                                     stat.S_IRUSR | stat.S_IWUSR):
+            with self.assertRaisesRegex(
+                    MountException, r"Remote path is not executable.+"):
                 ssh.checkRemoteFolder()
 
     def test_checkRemoteFolder_fail_not_a_folder(self):
@@ -166,15 +181,19 @@ class General(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
 
         #path already exist but is not a folder
-        with self.assertRaisesRegex(MountException, r"Remote path exists but is not a directory.+"):
+        with self.assertRaisesRegex(
+                MountException,
+                r"Remote path exists but is not a directory.+"):
             ssh.checkRemoteFolder()
 
     def test_checkRemoteFolder_fail_can_not_create(self):
         ssh = sshtools.SSH(cfg = self.cfg)
 
         #can not create path
-        with generic.mockPermissions(self.tmpDir.name, stat.S_IRUSR | stat.S_IXUSR):
-            with self.assertRaisesRegex(MountException, r"Couldn't create remote path.+"):
+        with generic.mockPermissions(self.tmpDir.name,
+                                     stat.S_IRUSR | stat.S_IXUSR):
+            with self.assertRaisesRegex(
+                    MountException, r"Couldn't create remote path.+"):
                 ssh.checkRemoteFolder()
 
     def test_checkRemoteFolder_with_spaces(self):
@@ -193,14 +212,18 @@ class General(generic.SSHTestCase):
     def test_checkPingHost_fail(self):
         self.cfg.setSshHost('non_existing_host')
         ssh = sshtools.SSH(cfg = self.cfg)
-        with self.assertRaisesRegex(MountException, r'Ping .+ failed\. Host is down or wrong address\.'):
+
+        with self.assertRaisesRegex(
+                MountException,
+                r'Ping .+ failed\. Host is down or wrong address\.'):
             ssh.checkPingHost()
 
     def test_check_remote_command(self):
         self.cfg.setNiceOnRemote(tools.checkCommand('nice'))
         self.cfg.setIoniceOnRemote(tools.checkCommand('ionice'))
         self.cfg.setNocacheOnRemote(tools.checkCommand('nocache'))
-        self.cfg.setSmartRemoveRunRemoteInBackground(tools.checkCommand('screen') and tools.checkCommand('flock'))
+        self.cfg.setSmartRemoveRunRemoteInBackground(
+            tools.checkCommand('screen') and tools.checkCommand('flock'))
         os.mkdir(self.remotePath)
         ssh = sshtools.SSH(cfg = self.cfg)
         ssh.checkRemoteCommands()
@@ -230,21 +253,32 @@ class General(generic.SSHTestCase):
                     self.cfg.setSshSnapshotsPath(self.remotePath)
 
                     os.symlink(false, os.path.join(self.remotePath, cmd))
-                    self.cfg.setSshPrefix(True, "export PATH=%s:$PATH; " %self.remotePath)
+                    self.cfg.setSshPrefix(
+                        True, "export PATH=%s:$PATH; " % self.remotePath)
                     ssh = sshtools.SSH(cfg = self.cfg)
-                    with self.assertRaisesRegex(MountException, r"Remote host .+ doesn't support '.*?%s.*'" %cmd, msg = msg):
+                    with self.assertRaisesRegex(
+                            MountException,
+                            r"Remote host .+ doesn't support '.*?%s.*'" % cmd,
+                            msg=msg):
                         ssh.checkRemoteCommands()
 
     def test_check_remote_command_hard_link_fail(self):
         # let hard-link check fail by manipulate one of the files
         os.mkdir(self.remotePath)
-        self.cfg.setSshPrefix(True, 'TRAP=$(ls -1d %s/tmp_* | tail -n1)/a; rm $TRAP; echo bar > $TRAP; ' %self.remotePath)
+        self.cfg.setSshPrefix(
+            True,
+            'TRAP=$(ls -1d %s/tmp_* | tail -n1)/a; '
+            'rm $TRAP; echo bar > $TRAP; ' % self.remotePath)
+
         ssh = sshtools.SSH(cfg = self.cfg)
-        with self.assertRaisesRegex(MountException, r"Remote host .+ doesn't support hardlinks"):
+
+        with self.assertRaisesRegex(
+                MountException, r"Remote host .+ doesn't support hardlinks"):
             ssh.checkRemoteCommands()
 
     def test_check_remote_command_with_spaces(self):
-        self.cfg.setSmartRemoveRunRemoteInBackground(tools.checkCommand('screen') and tools.checkCommand('flock'))
+        self.cfg.setSmartRemoveRunRemoteInBackground(
+            tools.checkCommand('screen') and tools.checkCommand('flock'))
         self.remotePath = os.path.join(self.tmpDir.name, 'foo bar')
         self.cfg.setSshSnapshotsPath(self.remotePath)
         os.mkdir(self.remotePath)
@@ -291,7 +325,7 @@ class SshKey(generic.TestCaseCfg):
                 self.assertEqual(len(fingerprint), 47)
                 self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
 
-    @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
+    @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
     def test_host_key(self):
         fingerprint, keyHash, keyType = sshtools.sshHostKey('localhost')
         self.assertIsInstance(fingerprint, str)
@@ -310,10 +344,13 @@ class SshKey(generic.TestCaseCfg):
         self.assertExists(hostKey)
 
     def test_write_known_host_file(self):
-        KEY = '|1|abcdefghijklmnopqrstuvwxyz= ecdsa-sha2-nistp256 AAAAABCDEFGHIJKLMNOPQRSTUVWXYZ='
+        KEY = '|1|abcdefghijklmnopqrstuvwxyz= ' \
+              'ecdsa-sha2-nistp256 AAAAABCDEFGHIJKLMNOPQRSTUVWXYZ='
+
         with TemporaryDirectory() as tmp:
             knownHosts = os.path.expanduser('~/.ssh/known_hosts')
             knownHostsSic = os.path.join(tmp, 'known_hosts')
+
             if os.path.exists(knownHosts):
                 shutil.copyfile(knownHosts, knownHostsSic)
 
@@ -323,15 +360,15 @@ class SshKey(generic.TestCaseCfg):
                 self.assertExists(knownHosts)
                 with open(knownHosts, 'rt') as f:
                     self.assertIn(KEY, [x.strip() for x in f.readlines()])
+
             finally:
                 # restore original known_hosts file
                 if os.path.exists(knownHostsSic):
                     shutil.copyfile(knownHostsSic, knownHosts)
 
 
-@unittest.skipIf(not generic.LOCAL_SSH, SKIP_MESSAGE_SSH)
+@unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
 class StartSshAgent(generic.SSHTestCase):
-    # running this test requires that user has public / private key pair created and ssh server running
     SOCK = 'SSH_AUTH_SOCK'
     PID =  'SSH_AGENT_PID'
 
@@ -353,9 +390,11 @@ class StartSshAgent(generic.SSHTestCase):
     @patch('tools.which')
     @patch('os.kill')
     def test_equal_sign(self, mockKill, mockWhich):
-        mockWhich.return_value = ['echo', 'setenv SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
-                                  'setenv SSH_AGENT_PID=9071;\n'
-                                  'echo Agent pid 9071;']
+        mockWhich.return_value = [
+            'echo',
+            'setenv SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
+            'setenv SSH_AGENT_PID=9071;\necho Agent pid 9071;'
+        ]
         self.ssh.startSshAgent()
         self.assertTrue(self.SOCK in os.environ)
         self.assertTrue(self.PID  in os.environ)
@@ -363,9 +402,11 @@ class StartSshAgent(generic.SSHTestCase):
     @patch('tools.which')
     @patch('os.kill')
     def test_space(self, mockKill, mockWhich):
-        mockWhich.return_value = ['echo', 'setenv SSH_AUTH_SOCK /tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
-                                  'setenv SSH_AGENT_PID 9071;\n'
-                                  'echo Agent pid 9071;']
+        mockWhich.return_value = [
+            'echo',
+            'setenv SSH_AUTH_SOCK /tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
+            'setenv SSH_AGENT_PID 9071;\necho Agent pid 9071;'
+        ]
         self.ssh.startSshAgent()
         self.assertTrue(self.SOCK in os.environ)
         self.assertTrue(self.PID  in os.environ)
@@ -373,9 +414,12 @@ class StartSshAgent(generic.SSHTestCase):
     @patch('tools.which')
     @patch('os.kill')
     def test_export(self, mockKill, mockWhich):
-        mockWhich.return_value = ['echo', 'SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070; export SSH_AUTH_SOCK;\n',
-                                  'SSH_AGENT_PID=9071; export SSH_AGENT_PID;\n'
-                                  'echo Agent pid 9071;']
+        mockWhich.return_value = [
+            'echo',
+            'SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070; '
+            'export SSH_AUTH_SOCK;\n',
+             'SSH_AGENT_PID=9071; export SSH_AGENT_PID;\necho Agent pid 9071;'
+        ]
         self.ssh.startSshAgent()
         self.assertTrue(self.SOCK in os.environ)
         self.assertTrue(self.PID  in os.environ)

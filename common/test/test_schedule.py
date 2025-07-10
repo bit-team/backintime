@@ -43,12 +43,14 @@ class Schedule(unittest.TestCase):
             '/usr/bin/backintime backup --background >/dev/null',
 
             '0 2 3 4 5 /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 7 backup --background >/dev/null',
+            '/usr/bin/backintime --profile-id 7 '
+            'backup --background >/dev/null',
 
             '#Back In Time system entry, this will be edited by the gui:',
 
             '0 0 1 1 * /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 3 backup --background >/dev/null',
+            '/usr/bin/backintime --profile-id 3 '
+            'backup --background >/dev/null',
         ]
 
         expect = content[:]

@@ -137,16 +137,21 @@ class TestSID(generic.SnapshotsTestCase):
     def test_path(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
 
-        self.assertEqual(sid.path(),
-                         os.path.join(self.snapshotPath, '20151219-010324-123'))
-        self.assertEqual(sid.path('foo', 'bar', 'baz'),
-                         os.path.join(self.snapshotPath,
-                                      '20151219-010324-123',
-                                      'foo', 'bar', 'baz'))
+        self.assertEqual(
+            sid.path(),
+            os.path.join(self.snapshotPath, '20151219-010324-123'))
+
+        self.assertEqual(
+            sid.path('foo', 'bar', 'baz'),
+            os.path.join(self.snapshotPath,
+                         '20151219-010324-123',
+                         'foo', 'bar', 'baz'))
+
         self.assertEqual(sid.pathBackup(),
                          os.path.join(self.snapshotPath,
                                       '20151219-010324-123',
                                       'backup'))
+
         self.assertEqual(sid.pathBackup('/foo'),
                          os.path.join(self.snapshotPath,
                                       '20151219-010324-123',
@@ -226,7 +231,8 @@ class TestSID(generic.SnapshotsTestCase):
     def test_lastChecked(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'info')
+        infoFile = os.path.join(
+            self.snapshotPath, '20151219-010324-123', 'info')
 
         #no info file
         self.assertEqual(sid.lastChecked, '2015-12-19 01:03:24')
@@ -241,7 +247,8 @@ class TestSID(generic.SnapshotsTestCase):
         #setLastChecked and check if it matches current date
         sid.setLastChecked()
         now = datetime.now()
-        self.assertRegex(sid.lastChecked, now.strftime(r'%Y-%m-%d %H:%M:\d{2}'))
+        self.assertRegex(sid.lastChecked,
+                         now.strftime(r'%Y-%m-%d %H:%M:\d{2}'))
 
     def test_failed(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -262,7 +269,8 @@ class TestSID(generic.SnapshotsTestCase):
     def test_info(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'info')
+        infoFile = os.path.join(
+            self.snapshotPath, '20151219-010324-123', 'info')
 
         i1 = configfile.ConfigFile()
         i1.setStrValue('foo', 'bar')
@@ -332,8 +340,9 @@ class TestSID(generic.SnapshotsTestCase):
                                '20151219-010324-123',
                                'takesnapshot.log.bz2')
 
-        #no log available
-        self.assertRegex('\n'.join(sid.log()), r'Failed to get snapshot log from.*')
+        # no log available
+        self.assertRegex('\n'.join(sid.log()),
+                         r'Failed to get snapshot log from.*')
 
         sid.setLog('foo bar\nbaz')
         self.assertIsFile(logFile)
@@ -350,7 +359,8 @@ class TestSID(generic.SnapshotsTestCase):
         sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
         self.assertIsFile(logFile)
 
-        self.assertEqual('\n'.join(sid.log(mode = LogFilter.CHANGES)), 'foo bar\n[C] baz')
+        self.assertEqual('\n'.join(sid.log(mode=LogFilter.CHANGES)),
+                         'foo bar\n[C] baz')
 
     def test_setLog_binary(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -387,7 +397,7 @@ class TestSID(generic.SnapshotsTestCase):
             self.fail(msg.format(testFile))
 
 
-class TestNewSnapshot(generic.SnapshotsTestCase):
+class NewBackup(generic.SnapshotsTestCase):
     def test_create_new(self):
         new = snapshots.NewSnapshot(self.cfg)
         self.assertFalse(new.exists())
@@ -398,7 +408,7 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
                                                    new.NEWSNAPSHOT,
                                                    'backup')))
 
-    def test_saveToContinue(self):
+    def test_save_to_continue(self):
         new = snapshots.NewSnapshot(self.cfg)
         snapshotPath = os.path.join(self.snapshotPath, new.NEWSNAPSHOT)
         saveToContinuePath = os.path.join(snapshotPath, new.SAVETOCONTINUE)
@@ -415,7 +425,7 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         self.assertNotExists(saveToContinuePath)
         self.assertFalse(new.saveToContinue)
 
-    def test_hasChanges(self):
+    def test_has_changes(self):
         now = datetime(2016, 7, 10, 16, 24, 17)
 
         new = snapshots.NewSnapshot(self.cfg)
@@ -433,7 +443,7 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(new.hasChanges)
 
 
-class TestRootSnapshot(generic.SnapshotsTestCase):
+class RootBackup(generic.SnapshotsTestCase):
     #TODO: add test with 'sid.path(use_mode=['ssh_encfs'])'
     def test_create(self):
         sid = snapshots.RootSnapshot(self.cfg)
@@ -447,9 +457,9 @@ class TestRootSnapshot(generic.SnapshotsTestCase):
         self.assertEqual(sid.path('foo', 'bar'), '/foo/bar')
 
 
-class TestIterSnapshots(generic.SnapshotsTestCase):
+class IterBackups(generic.SnapshotsTestCase):
     def setUp(self):
-        super(TestIterSnapshots, self).setUp()
+        super().setUp()
 
         for i in ('20151219-010324-123',
                   '20151219-020324-123',
@@ -465,7 +475,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
                                   '20151219-010324-123'])
         self.assertIsInstance(l1[0], snapshots.SID)
 
-    def test_list_new_snapshot(self):
+    def test_list_new(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
         l2 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = True)
         self.assertListEqual(l2, ['new_snapshot',
@@ -476,7 +486,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
         self.assertIsInstance(l2[0], snapshots.NewSnapshot)
         self.assertIsInstance(l2[-1], snapshots.SID)
 
-    def test_list_snapshot_without_backup(self):
+    def test_list_without_backup(self):
         #new snapshot without backup folder shouldn't be added
         os.makedirs(os.path.join(self.snapshotPath, '20151219-050324-123'))
         l3 = snapshots.listSnapshots(self.cfg)
@@ -485,7 +495,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
                                   '20151219-020324-123',
                                   '20151219-010324-123'])
 
-    def test_list_invalid_snapshot(self):
+    def test_list_invalid(self):
         # invalid snapshot shouldn't be added
         os.makedirs(os.path.join(self.snapshotPath,
                                  '20151219-000324-abc',
@@ -497,7 +507,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
                                   '20151219-020324-123',
                                   '20151219-010324-123'])
 
-    def test_list_without_new_snapshot(self):
+    def test_list_without_new_backup(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
         l5 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = False)
         self.assertListEqual(l5, ['20151219-040324-123',
@@ -505,7 +515,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
                                   '20151219-020324-123',
                                   '20151219-010324-123'])
 
-    def test_list_symlink_last_snapshot(self):
+    def test_list_symlink_last_backup(self):
         os.symlink('./20151219-040324-123',
                    os.path.join(self.snapshotPath, 'last_snapshot'))
         l6 = snapshots.listSnapshots(self.cfg)
@@ -527,7 +537,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
         self.assertIsInstance(l7[0], snapshots.SID)
         self.assertIsInstance(l7[-1], snapshots.NewSnapshot)
 
-    def test_iter_snapshots(self):
+    def test_iter(self):
         for i, sid in enumerate(snapshots.iterSnapshots(self.cfg)):
             self.assertIn(sid, ['20151219-040324-123',
                                 '20151219-030324-123',
@@ -536,20 +546,20 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
             self.assertIsInstance(sid, snapshots.SID)
         self.assertEqual(i, 3)
 
-    def test_lastSnapshot(self):
+    def test_last(self):
         self.assertEqual(snapshots.lastSnapshot(self.cfg),
                          '20151219-040324-123')
 
 
-class TestIterSnapshotsNonexistingSnapshotPath(generic.TestCaseSnapshotPath):
-    def test_iterSnapshots(self):
+class IterBackupsNonexistingBackupPath(generic.TestCaseSnapshotPath):
+    def test_iter(self):
         for _ in snapshots.iterSnapshots(self.cfg):
             self.fail('got unexpected snapshot')
 
-    def test_listSnapshots(self):
+    def test_list(self):
         self.assertEqual(snapshots.listSnapshots(self.cfg), [])
 
-    def test_lastSnapshots(self):
+    def test_last(self):
         self.assertIsNone(snapshots.lastSnapshot(self.cfg))
 
 
