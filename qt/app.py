@@ -1501,8 +1501,11 @@ class MainWindow(QMainWindow):
             msg,
             (
                 self.listRestorePaths(paths),
+                # backup
                 self.backupOnRestore(),
+                # only_new
                 self.restoreOnlyNew(),
+                # delete
                 self.deleteOnRestore()
             )
         )
@@ -1532,15 +1535,15 @@ class MainWindow(QMainWindow):
 
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
-        with self.suspend_mouse_button_navigation():
-            confirm_dlg = ConfirmRestoreDialog(
-                parent=self,
-                paths=paths,
-                to_path=None,
-                backup_on_restore=self.config.backupOnRestore(),
-                backup_suffix=self.snapshots.backupSuffix()
-            )
+        confirm_dlg = ConfirmRestoreDialog(
+            parent=self,
+            paths=paths,
+            to_path=None,
+            backup_on_restore=self.config.backupOnRestore(),
+            backup_suffix=self.snapshots.backupSuffix()
+        )
 
+        with self.suspend_mouse_button_navigation():
             if not confirm_dlg.answer():
                 return
 
@@ -1548,7 +1551,13 @@ class MainWindow(QMainWindow):
                 if not self.confirmDelete(warnRoot='/' in paths):
                     return
 
-        rd = RestoreDialog(self, self.sid, paths, **opt)
+        opt = confirm_dlg.get_values_as_dict()
+
+        rd = RestoreDialog(
+            parent=self,
+            sid=self.sid,
+            what=paths,
+            **opt)
         rd.exec()
 
     def restoreThisTo(self):

@@ -7,23 +7,24 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from app.py
+"""Module offering a confirmation dialog shown before restoring backup elements
+starts.
+"""
 from PyQt6.QtWidgets import (QAbstractItemView,
-                             QCheckBox,
                              QDialog,
                              QDialogButtonBox,
                              QLabel,
-                             QLayout,
                              QListWidget,
-                             QHBoxLayout,
-                             QSizePolicy,
                              QVBoxLayout,
                              QWidget)
-from PyQt6.QtCore import Qt
 from bitwidgets import WrappedCheckBox
-import qttools
 
 
 class ConfirmRestoreDialog(QDialog):
+    """A dialog asking user details if and how to perform restoring a specific
+    backup or some of backup elements."""
+
+    # pylint: disable-next=too-many-arguments, too-many-positional-arguments
     def __init__(self,
                  parent: QWidget,
                  paths: list[str],
@@ -65,18 +66,16 @@ class ConfirmRestoreDialog(QDialog):
         btn_box.accepted.connect(self.accept)
         btn_box.rejected.connect(self.reject)
 
-
     def _create_checkbox_backup(self,
                                 backup_on_restore: bool,
                                 backup_suffix: str
-                         ) -> WrappedCheckBox:
+                                ) -> WrappedCheckBox:
 
-        suffix=f'<code>{backup_suffix}</code>'
+        suffix = f'<code>{backup_suffix}</code>'
 
         label = _('Create backup copies with trailing {suffix} before '
                   'overwriting or removing local elements.'
                   ).format(suffix=suffix)
-
 
         tooltip = [
             _("Before restoring, newer versions of files will be renamed "
@@ -149,7 +148,7 @@ class ConfirmRestoreDialog(QDialog):
                 # plural
                 'Really restore these elements into the new directory?',
                 len(self._paths))
-            msg = f'{msg}\n{to_path}'
+            msg = f'{msg}\n{self._to_path}'
 
             return QLabel(msg)
 
@@ -181,3 +180,14 @@ class ConfirmRestoreDialog(QDialog):
     def delete_newer(self) -> bool:
         """Remove newer elements in original folder."""
         return self._checkbox_delete.isChecked()
+
+    def get_values_as_dict(self) -> dict:
+        """This is a workaround until more refactoring is done.
+
+        This dict is handed to RestoreDialog to RestoreThread (see kwargs).
+        """
+        return {
+            'backup': self.create_backup_copies,
+            'only_new': self.only_newer_or_not_existing,
+            'delete': self.delete_newer
+        }

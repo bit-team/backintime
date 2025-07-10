@@ -172,6 +172,7 @@ class WrappedCheckBox(QWidget):
 
     @property
     def checked(self) -> bool:
+        """Checked state of the check box"""
         return self.checkbox.isChecked()
 
     @checked.setter
