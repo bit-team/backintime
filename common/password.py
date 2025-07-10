@@ -327,7 +327,7 @@ class Password:
             return password
 
         # Use QDialog as graphical prompt
-        password = messagebox.askPasswordDialog(
+        password = messagebox.ask_password_dialog(
             parent=parent,
             title=self.config.APP_NAME,
             prompt=prompt,

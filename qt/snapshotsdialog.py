@@ -21,7 +21,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLabel,
                              QLineEdit,
                              QMenu,
-                             QMessageBox,
                              QPushButton,
                              QToolBar,
                              QVBoxLayout)
@@ -364,7 +363,7 @@ class SnapshotsDialog(QDialog):
         if not isinstance(self.sid, snapshots.RootSnapshot):
             full_path = self.parent.tmpCopy(full_path, sid)
 
-        self.run = QDesktopServices.openUrl(QUrl(full_path))
+        QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
         sid1 = self.timeLine.current_snapshot_id()
@@ -434,8 +433,7 @@ class SnapshotsDialog(QDialog):
 
         msg = msg + '\n' + _('WARNING: This cannot be revoked.')
 
-        answer = messagebox.warningYesNo(self, msg)
-        if answer == QMessageBox.StandardButton.Yes:
+        if messagebox.question(msg):
 
             for item in items:
                 item.setFlags(Qt.ItemFlag.NoItemFlags)
@@ -454,9 +452,8 @@ class SnapshotsDialog(QDialog):
                 path=f'"{self.path}"')
 
             if self.path not in exclude:
-                answer = messagebox.warningYesNo(self, msg)
 
-                if answer == QMessageBox.StandardButton.Yes:
+                if messagebox.question(msg):
                     exclude.append(self.path)
                     self.config.setExclude(exclude)
 

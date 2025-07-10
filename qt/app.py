@@ -12,14 +12,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
-
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
-
 import pathlib
-import re
 import json
 import subprocess
+import threading
 import shutil
 import textwrap
 import signal
@@ -46,38 +44,28 @@ from exceptions import MountException
 from statedata import StateData
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
-                         QShortcut,
                          QDesktopServices,
-                         QPalette,
-                         QIcon,
-                         QFileSystemModel)
-from PyQt6.QtWidgets import (QWidget,
+                         QFileSystemModel,
+                         QShortcut)
+from PyQt6.QtWidgets import (QAbstractItemView,
+                             QApplication,
+                             QDialog,
                              QFrame,
-                             QMainWindow,
-                             QToolButton,
+                             QGroupBox,
+                             QInputDialog,
                              QLabel,
                              QLineEdit,
-                             QCheckBox,
-                             QListWidget,
-                             QTreeView,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QAbstractItemView,
+                             QMainWindow,
+                             QMenu,
                              QStyledItemDelegate,
-                             QVBoxLayout,
                              QStackedLayout,
                              QSplitter,
-                             QGroupBox,
-                             QMenu,
                              QToolBar,
-                             QMessageBox,
-                             QInputDialog,
-                             QDialog,
-                             QApplication,
-                             )
+                             QToolButton,
+                             QTreeView,
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import (QDir,
-                          QEvent,
-                          QObject,
                           QPoint,
                           pyqtSlot,
                           pyqtSignal,
@@ -91,6 +79,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from confirmrestoredialog import ConfirmRestoreDialog
 from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
@@ -102,6 +91,7 @@ from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
+from placeswidget import PlacesWidget
 
 
 class MainWindow(QMainWindow):
@@ -117,6 +107,9 @@ class MainWindow(QMainWindow):
         self.tmpDirs = []
         self.firstUpdateAll = True
         self.disableProfileChanged = False
+
+        # related to files view
+        self.selected_file = ''
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
@@ -157,9 +150,12 @@ class MainWindow(QMainWindow):
         self.toolbar_filesview = self._create_and_get_filesview_toolbar()
         filesLayout.addWidget(self.toolbar_filesview)
 
-        # mouse button navigation
-        self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
-        self.setMouseButtonNavigation()
+        # Catch mouse button's 4 (back) and 5 (forward)
+        self._mouse_button_event_filter = qttools.MouseButtonEventFilter(
+            back_handler=self.btnFolderHistoryPreviousClicked,
+            forward_handler=self.btnFolderHistoryNextClicked,
+        )
+        self.qapp.installEventFilter(self._mouse_button_event_filter)
 
         # second splitter:
         # part of files-layout
@@ -168,22 +164,8 @@ class MainWindow(QMainWindow):
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
         filesLayout.addWidget(self.secondSplitter)
 
-        # places
-        self.places = QTreeWidget(self)
-        self.places.setRootIsDecorated(False)
-        self.places.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.places.setHeaderLabel(_('Shortcuts'))
-        self.places.header().setSectionsClickable(True)
-        self.places.header().setSortIndicatorShown(True)
-        self.places.header().setSectionHidden(1, True)
-        self.places.header().setSortIndicator(
-            int(self.config.profileIntValue('qt.places.SortColumn', 1)),
-            Qt.SortOrder(self.config.profileIntValue(
-                'qt.places.SortOrder', Qt.SortOrder.AscendingOrder))
-        )
-        self.placesSortLoop = {self.config.currentProfile(): False}
+        self.places = PlacesWidget(self, self.config)
         self.secondSplitter.addWidget(self.places)
-        self.places.header().sortIndicatorChanged.connect(self.sortPlaces)
 
         # files view stacked layout
         widget = QWidget(self)
@@ -198,7 +180,8 @@ class MainWindow(QMainWindow):
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
-        self.lblFolderDontExists.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.lblFolderDontExists.setAlignment(
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.stackFilesView.addWidget(self.lblFolderDontExists)
 
         # list files view
@@ -206,10 +189,12 @@ class MainWindow(QMainWindow):
         self.stackFilesView.addWidget(self.filesView)
         self.filesView.setRootIsDecorated(False)
         self.filesView.setAlternatingRowColors(True)
-        self.filesView.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.filesView.setEditTriggers(
+            QAbstractItemView.EditTrigger.NoEditTriggers)
         self.filesView.setItemsExpandable(False)
         self.filesView.setDragEnabled(False)
-        self.filesView.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.filesView.setSelectionMode(
+            QAbstractItemView.SelectionMode.ExtendedSelection)
 
         self.filesView.header().setSectionsClickable(True)
         self.filesView.header().setSectionsMovable(False)
@@ -248,7 +233,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainSplitter)
 
         # context menu for Files View
-        self.filesView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.filesView.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu)
         self.filesView.customContextMenuRequested \
                       .connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
@@ -317,8 +303,11 @@ class MainWindow(QMainWindow):
             message = message + _(
                 'Import an existing configuration (from a backup target '
                 'directory or another computer)?')
-            answer = messagebox.warningYesNo(self, message)
-            if answer == QMessageBox.StandardButton.Yes:
+
+            answer = messagebox.question(text=message,
+                                         widget_to_center_on=self)
+
+            if answer:
                 RestoreConfigDialog(self).exec()
 
             SettingsDialog(self).exec()
@@ -360,7 +349,7 @@ class MainWindow(QMainWindow):
 
         # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
-        self.places.currentItemChanged.connect(self.placesChanged)
+        # self.places.currentItemChanged.connect(self.placesChanged)
         self.filesView.activated.connect(self.filesViewItemActivated)
 
         self.forceWaitLockCounter = 0
@@ -377,7 +366,8 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.timeout.connect(self.updateTakeSnapshot)
         self.timerUpdateTakeSnapshot.start()
 
-        SetupCron(self).start()
+        threading.Thread(
+            target=self.config.setup_automation, daemon=True).start()
 
         # SSH Cipher deprecation
         if state_data.msg_cipher_deprecation is False:
@@ -519,8 +509,8 @@ class MainWindow(QMainWindow):
             'act_help_user_manual': (
                 icon.HELP, _('User manual'),
                 self.btn_help_user_manual, ['F1'],
-                _('Open user manual in browser (local if '
-                  'available otherwise online)'),
+                _('Open user manual in browser (locally if '
+                  'available, otherwise online)'),
             ),
             'act_help_man_backintime': (
                 icon.HELP, _('man page: Back In Time'),
@@ -541,7 +531,10 @@ class MainWindow(QMainWindow):
                 _('Open Back In Time website in browser')),
             'act_help_changelog': (
                 icon.CHANGELOG, _('Changelog'),
-                self.btnChangelogClicked, None, None),
+                self.btnChangelogClicked,
+                None,
+                _('Open changelog (locally if available, '
+                  'otherwise from the web)')),
             'act_help_faq': (
                 icon.FAQ, _('FAQ'),
                 self.btnFaqClicked, None,
@@ -901,15 +894,16 @@ class MainWindow(QMainWindow):
                     'to shut down your system when the backup is finished.')
             msg = msg + '\n'
             msg = msg + _('Close the window anyway?')
-            answer = messagebox.warningYesNo(self, msg)
-            if answer != QMessageBox.StandardButton.Yes:
+
+            answer = messagebox.question(text=msg,
+                                         widget_to_center_on=self)
+            if not answer:
                 return event.ignore()
 
         profile_state.last_path = pathlib.Path(self.path)
-        profile_state.places_sorting = (
-            self.places.header().sortIndicatorSection(),
-            self.places.header().sortIndicatorOrder().value,
-        )
+
+        profile_state.places_sorting = self.places.get_sorting()
+
         if self.isMaximized():
             state_data.set_mainwindow_maximized()
         else:
@@ -967,12 +961,13 @@ class MainWindow(QMainWindow):
 
     def updateProfile(self):
         self.updateTimeLine()
-        self.updatePlaces()
+        self.places.do_update()
         self.updateFilesView(0)
 
         profile_id = self.config.currentProfile()
         state_data = StateData()
         profile_state = state_data.profile(profile_id)
+        self.places.set_sorting(profile_state.places_sorting)
 
         # EncFS deprecation warning (see #1734)
         current_mode = self.config.snapshotsMode(profile_id)
@@ -995,28 +990,17 @@ class MainWindow(QMainWindow):
 
         old_profile_id = self.config.currentProfile()
 
+        state_data = StateData()
+
         if profile_id != old_profile_id:
+            old_profile_state = state_data.profile[old_profile_id]
+            old_profile_state.places_sorting = self.places.get_sorting()
+
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
-            self.config.setProfileIntValue(
-                'qt.places.SortColumn',
-                self.places.header().sortIndicatorSection(),
-                old_profile_id)
-            self.config.setProfileIntValue(
-                'qt.places.SortOrder',
-                self.places.header().sortIndicatorOrder(),
-                old_profile_id)
-
-            self.placesSortLoop[old_profile_id] = False
-            self.places.header().setSortIndicator(
-                int(self.config.profileIntValue(
-                    'qt.places.SortColumn', 1, profile_id)),
-                Qt.SortOrder(self.config.profileIntValue(
-                    'qt.places.SortOrder',
-                    Qt.SortOrder.AscendingOrder,
-                    profile_id))
-            )
+            profile_state = state_data.profile[profile_id]
+            self.places.set_sorting(profile_state.places_sorting)
 
             self.config.setProfileStrValue(
                 'qt.last_path', self.path, old_profile_id)
@@ -1198,110 +1182,6 @@ class MainWindow(QMainWindow):
 
         yield message
 
-    def placesChanged(self, item, previous):
-        if item is None:
-            return
-
-        path = str(item.data(0, Qt.ItemDataRole.UserRole))
-        if not path:
-            return
-
-        if path == self.path:
-            return
-
-        self.path = path
-        self.path_history.append(path)
-        self.updateFilesView(3)
-
-    def addPlace(self, name, path, icon):
-        """
-        Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
-        timeline.py::HeaderItem.__init__().
-        """
-        item = QTreeWidgetItem()
-
-        item.setText(0, name)
-
-        if icon:
-            item.setIcon(0, QIcon.fromTheme(icon))
-
-        item.setData(0, Qt.ItemDataRole.UserRole, path)
-
-        if not path:
-            item.setFont(0, qttools.fontBold(item.font(0)))
-
-            # item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            item.setFlags(Qt.ItemFlag.NoItemFlags)
-            item.setForeground(
-                0, self.palette().color(QPalette.ColorRole.PlaceholderText))
-            item.setBackground(
-                0, self.palette().color(QPalette.ColorRole.Window))
-
-        self.places.addTopLevelItem(item)
-
-        if path == self.path:
-            self.places.setCurrentItem(item)
-
-        return item
-
-    def updatePlaces(self):
-        self.places.clear()
-        # name, path, icon
-        self.addPlace(_('Places'), '', '')
-        self.addPlace(_('File System'), '/', 'computer')
-        fp_home = pathlib.Path.home()
-        self.addPlace(
-            # Use full path in root mode ("/root") otherwise users name only
-            str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
-            str(fp_home),
-            'user-home')
-
-        # "Now" or a specific snapshot selected?
-        if self.sid.isRoot:
-            # Use snapshots profiles list of include files and folders
-            include_entries = self.config.include()
-
-        else:
-            # Determine folders from the snapshot itself
-            base = os.path.expanduser('~')
-            if not os.path.isdir(self.sid.pathBackup(base)):
-                # Folder not mounted. We can skip for the next updatePlaces()
-                return
-            folders = [i.name for i in os.scandir(self.sid.pathBackup(base)) if i.is_dir()]
-            include_entries = [(os.path.join(base, f), 0) for f in folders]
-
-        # Use folders only (if 2nd tuple entry is 0)
-        only_folders = filter(lambda entry: entry[1] == 0, include_entries)
-        include_folders = [item[0] for item in only_folders]
-
-        if not include_folders:
-            return
-
-        if not self.places.header().sortIndicatorSection():
-            indic = self.places.header().sortIndicatorOrder()
-            reverse = True if indic == Qt.SortOrder.DescendingOrder else False
-            include_folders = sorted(include_folders, reverse=reverse)
-
-        self.addPlace(_('Backup directories'), '', '')
-
-        for folder in include_folders:
-            self.addPlace(folder, folder, 'document-save')
-
-    def sortPlaces(self, newColumn, newOrder, force = False):
-        profile_id = self.config.currentProfile()
-
-        if newColumn == 0 and newOrder == Qt.SortOrder.AscendingOrder:
-
-            if profile_id in self.placesSortLoop and self.placesSortLoop[profile_id]:
-                newColumn, newOrder = 1, Qt.SortOrder.AscendingOrder
-                self.places.header().setSortIndicator(newColumn, newOrder)
-                self.placesSortLoop[profile_id] = False
-
-            else:
-                self.placesSortLoop[profile_id] = True
-
-        self.updatePlaces()
-
     def updateSnapshotActions(self, item = None):
         enabled = False
 
@@ -1329,7 +1209,7 @@ class MainWindow(QMainWindow):
             return
 
         self.sid = sid
-        self.updatePlaces()
+        self.places.do_update()
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList=True):
@@ -1411,7 +1291,7 @@ class MainWindow(QMainWindow):
         item.update_text()
 
     def btnLastLogViewClicked (self):
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             # no SID argument in constructor means "show last log"
             logviewdialog.LogViewDialog(self).show()
 
@@ -1424,7 +1304,7 @@ class MainWindow(QMainWindow):
         if sid.isRoot:
             return
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             dlg = logviewdialog.LogViewDialog(self, sid)
             dlg.show()
             if sid != dlg.sid:
@@ -1456,9 +1336,10 @@ class MainWindow(QMainWindow):
             ),
             '\n'.join([item.snapshot_id.displayName for item in items]))
 
-        answer = messagebox.warningYesNo(self, question_msg)
+        answer = messagebox.question(text=question_msg,
+                                     widget_to_center_on=self)
 
-        if answer != QMessageBox.StandardButton.Yes:
+        if not answer:
             return
 
         for item in items:
@@ -1474,7 +1355,7 @@ class MainWindow(QMainWindow):
         thread.start()
 
     def btnSettingsClicked(self):
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             SettingsDialog(self).show()
 
     def btnShutdownToggled(self, checked):
@@ -1484,7 +1365,7 @@ class MainWindow(QMainWindow):
         self.contextMenu.exec(self.filesView.mapToGlobal(point))
 
     def btnAboutClicked(self):
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             dlg = AboutDlg(
                 using_translation=self.config.language_used != 'en',
                 parent=self
@@ -1495,30 +1376,20 @@ class MainWindow(QMainWindow):
         qttools.open_user_manual()
 
     def btn_help_man_backintime(self):
-        self.openManPage('backintime')
+        qttools.open_man_page('backintime')
 
     def btn_help_man_config(self):
-        self.openManPage('backintime-config')
+        qttools.open_man_page('backintime-config')
 
     def btnWebsiteClicked(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def btnChangelogClicked(self):
-        def aHref(m):
-            if m.group(0).count('@'):
-                return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(0)}
-            else:
-                return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(0)}
+        if bitbase.CHANGELOG_LOCAL_AVAILABLE:
+            subprocess.run(['xdg-open', str(bitbase.CHANGELOG_LOCAL_PATH)])
+            return
 
-        def aHref_lp(m):
-            return '<a href="https://bugs.launchpad.net/backintime/+bug/%(id)s">%(txt)s</a>' % {'txt': m.group(0), 'id': m.group(1)}
-
-        changelog_path = pathlib.Path(tools.docPath()) / 'CHANGES'
-        msg = changelog_path.read_text('utf-8')
-        msg = re.sub(r'https?://[^) \n]*', aHref, msg)
-        msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', aHref_lp, msg)
-        msg = re.sub(r'\n', '<br>', msg)
-        messagebox.showInfo(self, _('Changelog'), msg)
+        qttools.open_url(bitbase.URL_CHANGELOG)
 
     def btnFaqClicked(self):
         qttools.open_url(bitbase.URL_FAQ)
@@ -1527,127 +1398,13 @@ class MainWindow(QMainWindow):
         qttools.open_url(bitbase.URL_ISSUES)
 
     def btnReportBugClicked(self):
-        self.open_url(bitbase.URL_ISSUES_CREATE_NEW)
-
-    def openManPage(self, man_page):
-        if not tools.checkCommand('man'):
-            messagebox.critical(self, "Couldn't find 'man' to show the help page. Please install 'man'")
-            return
-        env = os.environ
-        env['MANWIDTH'] = '80'
-        proc = subprocess.Popen(['man', man_page],
-                                stdout = subprocess.PIPE,
-                                universal_newlines = True,
-                                env = env)
-        out, _err = proc.communicate()
-        messagebox.showInfo(self, 'Manual Page {}'.format(man_page), out)
+        qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)
 
     def btnShowHiddenFilesToggled(self, checked):
         self.showHiddenFiles = checked
         self.updateFilesView(1)
 
-    def backupOnRestore(self):
-        cb = QCheckBox(_(
-            'Create backup copies with trailing {suffix}\n'
-            'before overwriting or removing local elements.').format(
-                suffix=self.snapshots.backupSuffix()))
-
-        cb.setChecked(self.config.backupOnRestore())
-        qttools.set_wrapped_tooltip(
-            cb,
-            [
-                _("Before restoring, newer versions of files will be renamed "
-                  "with the appended {suffix}. These files can be removed "
-                  "with the following command:").format(
-                      suffix=self.snapshots.backupSuffix()),
-                'find ./ -name "*{suffix}" -delete'.format(
-                    suffix=self.snapshots.backupSuffix())
-            ]
-        ),
-
-        return {
-            'widget': cb,
-            'retFunc': cb.isChecked,
-            'id': 'backup'
-        }
-
-    def restoreOnlyNew(self):
-        cb = QCheckBox(_('Only restore elements which do not exist or\n'
-                         'are newer than those in destination.\n'
-                         'Using "rsync --update" option.'))
-        qttools.set_wrapped_tooltip(
-            cb,
-            ["From 'man rsync':",
-             "",
-             "This forces rsync to skip any files which exist on the "
-             "destination and have a modified time that is newer than the "
-             "source file. (If an existing destination file has a "
-             "modification time equal to the source file’s, it will be "
-             "updated if the sizes are different.)",
-             "",
-             "Note that this does not affect the copying of dirs, symlinks, "
-             "or other special files. Also, a difference of file format "
-             "between the sender and receiver is always considered to be "
-             "important enough for an update, no matter what date is on the "
-             "objects. In other words, if the source has a directory where "
-             "the destination has a file, the transfer would occur regardless "
-             "of the timestamps.",
-             "",
-             "This option is a transfer rule, not an exclude, so it doesn’t "
-             "affect the data that goes into the file-lists, and thus it "
-             "doesn’t affect deletions. It just limits the files that the "
-             "receiver requests to be transferred."]
-        )
-        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
-
-    def listRestorePaths(self, paths):
-        fileList = QListWidget()
-        fileList.addItems(paths)
-        fileList.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-        return {'widget': fileList, 'retFunc': None}
-
-    def deleteOnRestore(self):
-        cb = QCheckBox(_('Remove newer elements in original directory.'))
-        qttools.set_wrapped_tooltip(
-            cb,
-            _('Restore selected files or directories to the original '
-              'destination and delete files or directories which are not in '
-              'the backup. Be extremely careful because this will delete '
-              'files and directories which were excluded during the creation '
-              'of the backup.')
-        )
-        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
-
-    def confirmRestore(self, paths, restoreTo=None):
-        if restoreTo:
-            msg = ngettext(
-                # singular
-                'Really restore this element into the new directory?',
-                # plural
-                'Really restore these elements into the new directory?',
-                len(paths))
-            msg = f'{msg}\n{restoreTo}'
-        else:
-            msg = ngettext(
-                # singular
-                'Really restore this element?',
-                # plural
-                'Really restore these elements?',
-                len(paths))
-
-        confirm, opt = messagebox.warningYesNoOptions(
-            self,
-            msg,
-            (
-                self.listRestorePaths(paths),
-                self.backupOnRestore(),
-                self.restoreOnlyNew(),
-                self.deleteOnRestore()
-            )
-        )
-        return (confirm, opt)
-
-    def confirmDelete(self, warnRoot=False, restoreTo=None):
+    def confirmDelete(self, warnRoot=False, restoreTo=None) -> bool:
         if restoreTo:
             msg = _('All newer files in {path} will be removed. '
                     'Proceed?').format(path=restoreTo)
@@ -1663,9 +1420,7 @@ class MainWindow(QMainWindow):
                     BOLD='<strong>', BOLDEND='</strong>')
             msg = msg + '</p>'
 
-        answer = messagebox.warningYesNo(self, msg)
-
-        return answer == QMessageBox.StandardButton.Yes
+        return messagebox.question(text=msg, widget_to_center_on=self)
 
     def restoreThis(self):
         if self.sid.isRoot:
@@ -1673,14 +1428,29 @@ class MainWindow(QMainWindow):
 
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
-        with self.suspendMouseButtonNavigation():
-            confirm, opt = self.confirmRestore(paths)
-            if not confirm:
-                return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths):
+        confirm_dlg = ConfirmRestoreDialog(
+            parent=self,
+            paths=paths,
+            to_path=None,
+            backup_on_restore=self.config.backupOnRestore(),
+            backup_suffix=self.snapshots.backupSuffix()
+        )
+
+        with self.suspend_mouse_button_navigation():
+            if not confirm_dlg.answer():
                 return
 
-        rd = RestoreDialog(self, self.sid, paths, **opt)
+            if confirm_dlg.delete_newer:
+                if not self.confirmDelete(warnRoot='/' in paths):
+                    return
+
+        opt = confirm_dlg.get_values_as_dict()
+
+        rd = RestoreDialog(
+            parent=self,
+            sid=self.sid,
+            what=paths,
+            **opt)
         rd.exec()
 
     def restoreThisTo(self):
@@ -1689,15 +1459,30 @@ class MainWindow(QMainWindow):
 
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
+
             if not restoreTo:
                 return
+
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore(paths, restoreTo)
-            if not confirm:
+
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=paths,
+                to_path=restoreTo,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths, restoreTo = restoreTo):
+
+            opt = confirm_dlg.get_values_as_dict()
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot='/' in paths, restoreTo=restoreTo):
                 return
 
         rd = RestoreDialog(self, self.sid, paths, restoreTo, **opt)
@@ -1707,11 +1492,22 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspendMouseButtonNavigation():
-            confirm, opt = self.confirmRestore((self.path,))
-            if not confirm:
+        confirm_dlg = ConfirmRestoreDialog(
+            parent=self,
+            paths=(self.path, ),
+            to_path=None,
+            backup_on_restore=self.config.backupOnRestore(),
+            backup_suffix=self.snapshots.backupSuffix()
+        )
+
+        with self.suspend_mouse_button_navigation():
+            if not confirm_dlg.answer():
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/'):
+
+            opt = confirm_dlg.get_values_as_dict()
+
+            if opt['delete'] and not self.confirmDelete(
+                    warnRoot=self.path == '/'):
                 return
 
         rd = RestoreDialog(self, self.sid, self.path, **opt)
@@ -1721,15 +1517,30 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
+
             if not restoreTo:
                 return
+
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore((self.path,), restoreTo)
-            if not confirm:
+
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=(self.path,),
+                to_path=restoreTo,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/', restoreTo = restoreTo):
+
+            opt = confirm_dlg.get_values_as_dict()
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot=self.path == '/', restoreTo=restoreTo):
                 return
 
         rd = RestoreDialog(self, self.sid, self.path, restoreTo, **opt)
@@ -1738,7 +1549,7 @@ class MainWindow(QMainWindow):
     def btnSnapshotsClicked(self):
         path, _idx = self.fileSelected(fullPath = True)
 
-        with self.suspendMouseButtonNavigation():
+        with self.suspend_mouse_button_navigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
@@ -1783,7 +1594,7 @@ class MainWindow(QMainWindow):
         self.openPath(path)
 
     def btnAddIncludeClicked(self):
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
+        paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
         include = self.config.include()
         updatePlaces = False
 
@@ -1798,7 +1609,7 @@ class MainWindow(QMainWindow):
         self.config.setInclude(include)
 
         if updatePlaces:
-            self.updatePlaces()
+            self.places.do_update()
 
     def btnAddExcludeClicked(self):
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
@@ -1863,14 +1674,15 @@ class MainWindow(QMainWindow):
                 self.path_history.append(rel_path)
                 self.updateFilesView(0)
 
-            else:
-                # prevent backup data from being accidentally overwritten
-                # by create a temporary local copy and only open that one
-                if not isinstance(self.sid, snapshots.RootSnapshot):
-                    full_path = self.tmpCopy(full_path, self.sid)
+                return
 
-                file_url = QUrl('file://' + full_path)
-                self.run = QDesktopServices.openUrl(file_url)
+            # prevent backup data from being accidentally overwritten
+            # by create a temporary local copy and only open that one
+            if not isinstance(self.sid, snapshots.RootSnapshot):
+                full_path = self.tmpCopy(full_path, self.sid)
+
+            file_url = QUrl('file://' + full_path)
+            QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
     def updateFilesView(self,
@@ -1929,7 +1741,8 @@ class MainWindow(QMainWindow):
                 self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
 
             model_index = self.filesViewModel.setRootPath(full_path)
-            proxy_model_index = self.filesViewProxyModel.mapFromSource(model_index)
+            proxy_model_index = self.filesViewProxyModel.mapFromSource(
+                model_index)
             self.filesView.setRootIndex(proxy_model_index)
 
             self.toolbar_filesview.setEnabled(False)
@@ -2015,7 +1828,8 @@ class MainWindow(QMainWindow):
             self.selected_file = ''
 
         if not found and has_files:
-            self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
+            self.filesView.setCurrentIndex(
+                self.filesViewProxyModel.index(0, 0))
 
     def fileSelected(self, fullPath=False):
         """Return path and index of the currently in Files View highlighted
@@ -2046,7 +1860,7 @@ class MainWindow(QMainWindow):
 
         return (selected_file, model_index)
 
-    def multiFileSelected(self, fullPath = False):
+    def multiFileSelected(self, fullPath=False):
         count = 0
         for idx in self.filesView.selectedIndexes():
             if idx.column() > 0:
@@ -2066,22 +1880,21 @@ class MainWindow(QMainWindow):
 
         if not count:
             # nothing is selected
-            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
-            if fullPath:
-                selected_file = self.path
-            else:
-                selected_file = ''
+            idx = self.filesViewProxyModel.mapFromSource(
+                self.filesViewModel.index(self.path, 0))
+
+            selected_file = self.path if fullPath else ''
 
             yield (selected_file, idx)
 
-    def setMouseButtonNavigation(self):
-        self.qapp.installEventFilter(self.mouseButtonEventFilter)
-
     @contextmanager
-    def suspendMouseButtonNavigation(self):
-        self.qapp.removeEventFilter(self.mouseButtonEventFilter)
+    def suspend_mouse_button_navigation(self):
+        """Temporary disable the mouse button event filter."""
+        self.qapp.removeEventFilter(self._mouse_button_event_filter)
+
         yield
-        self.setMouseButtonNavigation()
+
+        self.qapp.installEventFilter(self._mouse_button_event_filter)
 
     def _open_approach_translator_dialog(self, cutoff=101):
         code = self.config.language_used
@@ -2301,36 +2114,6 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
 
-class ExtraMouseButtonEventFilter(QObject):
-    """
-    globally catch mouse buttons 4 and 5 (mostly used as back and forward)
-    and assign it to browse in file history.
-    Dev Note (Germar): Maybe use Qt.BackButton and Qt.ForwardButton instead.
-    """
-
-    def __init__(self, mainWindow):
-        self.mainWindow = mainWindow
-        super(ExtraMouseButtonEventFilter, self).__init__()
-
-    def eventFilter(self, receiver, event):
-        if (event.type() == QEvent.Type.MouseButtonPress
-                and event.button() in (Qt.MouseButton.XButton1,
-                                       Qt.MouseButton.XButton2)):
-
-            if event.button() == Qt.MouseButton.XButton1:
-                self.mainWindow.btnFolderHistoryPreviousClicked()
-
-            if event.button() == Qt.MouseButton.XButton2:
-                self.mainWindow.btnFolderHistoryNextClicked()
-
-            return True
-
-        else:
-
-            return super(ExtraMouseButtonEventFilter, self) \
-                .eventFilter(receiver, event)
-
-
 class RemoveSnapshotThread(QThread):
     """
     remove snapshots in background thread so GUI will not freeze
@@ -2382,19 +2165,6 @@ class FillTimeLineThread(QThread):
             self.parent.snapshotsList.append(sid)
 
         self.parent.snapshotsList.sort()
-
-
-class SetupCron(QThread):
-    """
-    Check crontab entries on startup.
-    """
-
-    def __init__(self, parent):
-        self.config = parent.config
-        super(SetupCron, self).__init__(parent)
-
-    def run(self):
-        self.config.setup_automation()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:
@@ -2565,7 +2335,7 @@ def load_state_data(cfg: config.Config) -> None:
 
 
 if __name__ == '__main__':
-    cfg = backintime.startApp('backintime-qt')
+    cfg = backintime.startApp(bitbase.BINARY_NAME_GUI)
 
     raiseCmd = ''
     if len(sys.argv) > 1:
@@ -2589,7 +2359,7 @@ if __name__ == '__main__':
         mainWindow.show()
         qapp.exec()
 
-    mainWindow.qapp.removeEventFilter(mainWindow.mouseButtonEventFilter)
+    mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)
 
     cfg.PLUGIN_MANAGER.appExit()
     appInstance.exitApplication()

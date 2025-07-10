@@ -41,9 +41,12 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
     'bitwidgets.py',
+    'confirmrestoredialog.py',
     'editusercallback.py',
     'encfsmsgbox.py',
     'filedialog.py',
+    'languagedialog.py',
+    'logviewdialog.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sshkeyselector.py',
@@ -51,13 +54,14 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/statebindcheckbox.py',
     'manageprofiles/storagesizewidget.py',
     'manageprofiles/sshproxywidget.py',
+    'messagebox.py',
+    'placeswidget.py',
     'plugins/notifyplugin.py',
     'shutdowndlg.py',
     'statedata.py',
     'statusbar.py',
     'test/test_lint.py',
     'test/test_statedata.py',
-    # 'snapshotsdialog.py', <-- need some more love
     'timeline.py',
     'usermessagedialog.py',
 )]
@@ -93,7 +97,7 @@ def create_pylint_cmd(include_error_codes=None):
         # PEP8 conform line length (see PyLint Issue #3078)
         f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
         # Whitelist variable names
-        '--good-names=idx,fp',
+        '--good-names=idx,fp,closeEvent',
     ]
 
     if include_error_codes:
@@ -201,6 +205,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
+            # Consider UP, ANN (upgrade and annotation)
             '--extend-select=PL,E,W,INT,RUF100',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
@@ -304,7 +309,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            'C0301',  # line-too-long
             'C0305',  # trailing-newlines
+            'C0321',  # multiple-statements
             'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
             'C0303',  # trailing-whitespace
@@ -317,12 +324,20 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
+            'E1120',  # no-value-for-parameter
+            'E1121',  # too-many-function-args
             'I0021',  # useless-suppression
+            'R0202',  # no-classmethod-decorator
+            'R0203',  # no-staticmethod-decorator
             'R0801',  # duplicate-code
-            # 'W0221',  # arguments-differ
+            'W0107',  # unnecessary-pass
+            'W0123',  # eval-used
+            'W0201',  # attribute-defined-outside-init
+            'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
             'W0311',  # bad-indentation
             'W0404',  # reimported
+            'W0603',  # global-statement
             'W0611',  # unused-import
             'W0612',  # unused-variable
             'W0614',  # unused-wildcard-import
@@ -332,14 +347,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W1515',  # forgotten-debug-statement
             'W4902',  # deprecated-method
             'W4904',  # deprecated-class
-
-            # Enable asap. This list is selection of existing (not all!)
-            # problems currently exiting in the BIT code base. Quit easy to fix
-            # because there count is low.
             # 'R0202',  # no-classmethod-decorator
             # 'R0203',  # no-staticmethod-decorator
-            # 'W0123',  # eval-used
-            # 'W0603',  # global-statement
         ]
 
         cmd = create_pylint_cmd(err_codes)

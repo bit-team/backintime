@@ -8,257 +8,278 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-from PyQt6.QtGui import QFont
-from PyQt6.QtWidgets import (QDialog,
+"""Module offering a dialog to view log files.
+"""
+from PyQt6.QtWidgets import (QCheckBox,
+                             QComboBox,
+                             QDialog,
+                             QDialogButtonBox,
+                             QHBoxLayout,
                              QLabel,
                              QPlainTextEdit,
                              QVBoxLayout,
-                             QHBoxLayout,
-                             QComboBox,
-                             QDialogButtonBox,
-                             QCheckBox)
+                             QWidget)
+from PyQt6.QtGui import QFont
 from PyQt6.QtCore import QFileSystemWatcher
-import qttools
 import snapshots
 import encfstools
 import snapshotlog
 import tools
+import qttools
+import qtsystrayicon
 from statedata import StateData
 from bitwidgets import SnapshotCombo, ProfileCombo
 
 
-class LogViewDialog(QDialog):
-    def __init__(self, parent, sid=None, systray=False):
+class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
+    """A log file viewer dialog"""
+    def __init__(self,
+                 parent: QWidget,
+                 sid: snapshots.SID = None):
         """
-        Instantiate a snapshot log file viewer
-
         Args:
-            parent:
-            sid (:py:class:`SID`): snapshot ID whose log file shall be shown
-                                   (``None`` = show last log)
-            systray (bool): TODO Show log from systray icon or from App (boolean)
+            parent: Parent widget.
+            sid: Backup ID whose log file shall be shown. If ``None`` the last
+                log is shown.
         """
-        if systray:
-            super(LogViewDialog, self).__init__()
-        else:
-            super(LogViewDialog, self).__init__(parent)
+        super().__init__(parent)
 
         self.config = parent.config
-        self.snapshots = parent.snapshots
-        self.mainWindow = parent
+        # self.snapshots = parent.snapshots
+        self._main_window = parent
         self.sid = sid
-        self.enableUpdate = False
-        self.decode = None
+        self._enable_update = False  # ???
+        self._decoder = None
 
         state_data = StateData()
         self.resize(*state_data.logview_dims)
 
-        import icon
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
-        if self.sid is None:
-            self.setWindowTitle(_('Last Log View'))
-        else:
-            self.setWindowTitle(_('Backup Log View'))
+        self.setWindowTitle(
+            _('Last Log View') if sid is None else _('Backup Log View'))
 
-        self.mainLayout = QVBoxLayout(self)
+        main_layout = QVBoxLayout(self)
 
         layout = QHBoxLayout()
-        self.mainLayout.addLayout(layout)
+        main_layout.addLayout(layout)
 
         # profiles
-        self.lblProfile = QLabel(_('Profile:'), self)
-        layout.addWidget(self.lblProfile)
+        self._lbl_profile = QLabel(_('Profile:'), self)
+        layout.addWidget(self._lbl_profile)
 
-        self.comboProfiles = ProfileCombo(self)
-        layout.addWidget(self.comboProfiles, 1)
-        self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
+        self._combo_profiles = ProfileCombo(self)
+        layout.addWidget(self._combo_profiles, 1)
+        self._combo_profiles.currentIndexChanged.connect(
+            self._slot_profile_changed)
 
-        # snapshots
-        self.lblSnapshots = QLabel(_('Backups:'), self)
-        layout.addWidget(self.lblSnapshots)
-        self.comboSnapshots = SnapshotCombo(self)
-        layout.addWidget(self.comboSnapshots, 1)
-        self.comboSnapshots.currentIndexChanged.connect(
-            self.comboSnapshotsChanged)
+        # No profile selector for specific log files or if started from systray
+        if self.sid or isinstance(parent, qtsystrayicon.QtSysTrayIcon):
+            self._lbl_profile.hide()
+            self._combo_profiles.hide()
 
-        if self.sid is None:
-            self.lblSnapshots.hide()
-            self.comboSnapshots.hide()
+        # snapshots widget
+        if self.sid:
+            layout.addWidget(QLabel(_('Backups:'), self))
+            self._combo_backups = SnapshotCombo(self)
+            layout.addWidget(self._combo_backups, 1)
+            self._combo_backups.currentIndexChanged.connect(
+                self._slot_backups_changed)
 
-        if self.sid or systray:
-            self.lblProfile.hide()
-            self.comboProfiles.hide()
-
-        # filter
+        self._combo_filter = self._create_filter_widget()
         layout.addWidget(QLabel(_('Filter:'), self))
+        layout.addWidget(self._combo_filter, 1)
 
-        self.comboFilter = QComboBox(self)
-        layout.addWidget(self.comboFilter, 1)
-        self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
+        self._txt_log_view = self._create_text_log_view()
+        main_layout.addWidget(self._txt_log_view)
 
-        self.comboFilter.addItem(_('All'), snapshotlog.LogFilter.NO_FILTER)
+        main_layout.addWidget(
+            QLabel(_('[E] Error, [I] Information, [C] Change')))
+
+        # decode path
+        self._checkbox_decode = QCheckBox(_('decode paths'), self)
+        self._checkbox_decode.stateChanged.connect(self._slot_decode_changed)
+        main_layout.addWidget(self._checkbox_decode)
+
+        btn_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
+        main_layout.addWidget(btn_box)
+        btn_box.rejected.connect(self.close)
+
+        self._update_backups()
+        self._update_decode()
+        self._update_profiles()
+
+        self.watcher = self._create_watcher()
+
+    def _create_filter_widget(self) -> QComboBox:
+        wdg = QComboBox(self)
+        wdg.currentIndexChanged.connect(self._slot_filter_changed)
+
+        wdg.addItem(_('All'), snapshotlog.LogFilter.NO_FILTER)
 
         # Note about ngettext plural forms: n=102 means "Other" in Arabic and
         # "Few" in Polish.
         # Research in translation community indicate this as the best fit to
         # the meaning of "all".
-        self.comboFilter.addItem(
-            ' + '.join((_('Errors'), _('Changes'))),
-            snapshotlog.LogFilter.ERROR_AND_CHANGES)
-        self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
-        self.comboFilter.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
-        self.comboFilter.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
-        self.comboFilter.addItem(ngettext('Information', 'Information', 2),
-                                 snapshotlog.LogFilter.INFORMATION)
-        self.comboFilter.addItem(
-            _('rsync transfer failures (experimental)'),
-            snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
+        wdg.addItem(' + '.join((_('Errors'), _('Changes'))),
+                    snapshotlog.LogFilter.ERROR_AND_CHANGES)
+        wdg.setCurrentIndex(wdg.count() - 1)
+        wdg.addItem(_('Errors'), snapshotlog.LogFilter.ERROR)
+        wdg.addItem(_('Changes'), snapshotlog.LogFilter.CHANGES)
+        wdg.addItem(ngettext('Information', 'Information', 2),
+                    snapshotlog.LogFilter.INFORMATION)
+        wdg.addItem(_('rsync transfer failures (experimental)'),
+                    snapshotlog.LogFilter.RSYNC_TRANSFER_FAILURES)
 
-        # text view
-        self.txtLogView = QPlainTextEdit(self)
-        self.txtLogView.setFont(QFont('Monospace'))
-        self.txtLogView.setReadOnly(True)
-        self.txtLogView.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
-        self.mainLayout.addWidget(self.txtLogView)
+        return wdg
 
-        #
-        self.mainLayout.addWidget(
-            QLabel(_('[E] Error, [I] Information, [C] Change')))
+    def _create_text_log_view(self) -> QPlainTextEdit:
+        wdg = QPlainTextEdit(self)
+        wdg.setFont(QFont('Monospace'))
+        wdg.setReadOnly(True)
+        wdg.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
 
-        # decode path
-        self.cbDecode = QCheckBox(_('decode paths'), self)
-        self.cbDecode.stateChanged.connect(self.cbDecodeChanged)
-        self.mainLayout.addWidget(self.cbDecode)
+        return wdg
 
-        # buttons
-        buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
-        self.mainLayout.addWidget(buttonBox)
-        buttonBox.rejected.connect(self.close)
+    def _create_watcher(self) -> QFileSystemWatcher:
+        """ Watch for changes in log file"""
+        watcher = QFileSystemWatcher(self)
 
-        self.updateSnapshots()
-        self.updateDecode()
-        self.updateProfiles()
-
-        # watch for changes in log file
-        self.watcher = QFileSystemWatcher(self)
         if self.sid is None:
             # only watch if we show the last log
             log = self.config.takeSnapshotLogFile(
-                self.comboProfiles.current_profile_id())
-            self.watcher.addPath(log)
-        # passes the path to the changed file to updateLog()
-        self.watcher.fileChanged.connect(self.updateLog)
+                self._combo_profiles.current_profile_id())
 
-    def cbDecodeChanged(self):
-        if self.cbDecode.isChecked():
-            if not self.decode:
-                self.decode = encfstools.Decode(self.config)
+            watcher.addPath(log)
+
+        # passes the path to the changed file
+        watcher.fileChanged.connect(self._update_log)
+
+        return watcher
+
+    def _slot_decode_changed(self):
+        if self._checkbox_decode.isChecked():
+            if not self._decoder:
+                self._decoder = encfstools.Decode(self.config)
 
         else:
-            if self.decode is not None:
-                self.decode.close()
-            self.decode = None
+            if self._decoder is not None:
+                self._decoder.close()
+            self._decoder = None
 
-        self.updateLog()
+        self._update_log()
 
-    def profileChanged(self, index):
-        if not self.enableUpdate:
+    def _slot_profile_changed(self, _idx):
+        if not self._enable_update:
             return
-        profile_id = self.comboProfiles.current_profile_id()
-        self.mainWindow.comboProfiles.set_current_profile_id(profile_id)
-        self.mainWindow.comboProfileChanged(None)
 
-        self.updateDecode()
-        self.updateLog()
+        pid = self._combo_profiles.current_profile_id()
+        self._main_window.comboProfiles.set_current_profile_id(pid)
+        self._main_window.comboProfileChanged(None)
 
-    def comboSnapshotsChanged(self, index):
-        if not self.enableUpdate:
+        self._update_decode()
+        self._update_log()
+
+    def _slot_backups_changed(self, _idx):
+        if not self._enable_update:
             return
-        self.sid = self.comboSnapshots.current_snapshot_id()
-        self.updateLog()
 
-    def comboFilterChanged(self, index):
-        self.updateLog()
+        self.sid = self._combo_backups.current_snapshot_id()
+        self._update_log()
 
-    def updateProfiles(self):
+    def _slot_filter_changed(self, _idx):
+        self._update_log()
+
+    def _update_profiles(self):
         current_profile_id = self.config.currentProfile()
 
-        self.comboProfiles.clear()
+        self._combo_profiles.clear()
 
-        qttools.update_combo_profiles(self.config, self.comboProfiles, current_profile_id)
+        qttools.update_combo_profiles(
+            self.config, self._combo_profiles, current_profile_id)
 
-        self.enableUpdate = True
-        self.updateLog()
+        self._enable_update = True
+        self._update_log()
 
         if len(self.config.profilesSortedByName()) <= 1:
-            self.lblProfile.setVisible(False)
-            self.comboProfiles.setVisible(False)
+            self._lbl_profile.setVisible(False)
+            self._combo_profiles.setVisible(False)
 
-    def updateSnapshots(self):
-        if self.sid:
-            self.comboSnapshots.clear()
-            for sid in snapshots.iterSnapshots(self.config):
-                self.comboSnapshots.add_snapshot_id(sid)
-                if sid == self.sid:
-                    self.comboSnapshots.set_current_snapshot_id(sid)
+    def _update_backups(self):
+        if not self.sid:
+            return
 
-    def updateDecode(self):
+        self._combo_backups.clear()
+
+        for sid in snapshots.iterSnapshots(self.config):
+            self._combo_backups.add_snapshot_id(sid)
+
+            if sid == self.sid:
+                self._combo_backups.set_current_snapshot_id(sid)
+
+    def _update_decode(self):
         if self.config.snapshotsMode() == 'ssh_encfs':
-            self.cbDecode.show()
-        else:
-            self.cbDecode.hide()
-            if self.cbDecode.isChecked():
-                self.cbDecode.setChecked(False)
+            self._checkbox_decode.show()
+            return
 
-    def updateLog(self, watchPath=None):
+        self._checkbox_decode.hide()
+        self._checkbox_decode.setChecked(False)
+
+    def _update_log(self, watched_path: str = None):
         """
         Show the log file of the current snapshot in the GUI
 
         Args:
-            watchPath: FQN to a log file (as string) whose changes are watched
-                       via ``QFileSystemWatcher``. In case of changes
-                       this function is called with the log file
-                       and only the new lines in the log file are appended
-                       to the log file widget in the GUI
-                       Use ``None`` if a complete log file shall be shown
-                       at once.
+            watched_path: Full path to a log file (as string) whose changes
+                are watched via ``QFileSystemWatcher``. In case of changes
+                this function is called with the log file and only the new
+                lines in the log file are appended to the log file widget in
+                the GUI. If ``None`` a complete log file will be shown at
+                once.
         """
-        if not self.enableUpdate:
+        if not self._enable_update:
             return
 
-        mode = self.comboFilter.itemData(self.comboFilter.currentIndex())
+        mode = self._combo_filter.itemData(self._combo_filter.currentIndex())
 
-        # TODO This expressions is hard to understand (watchPath is not a
-        # boolean!)
-        if watchPath and self.sid is None:
+        if watched_path and self.sid is None:
             # remove path from watch to prevent multiple updates at the same
             # time
-            self.watcher.removePath(watchPath)
+            self.watcher.removePath(watched_path)
+
             # append only new lines to txtLogView
             log = snapshotlog.SnapshotLog(
-                self.config, self.comboProfiles.current_profile_id())
+                self.config, self._combo_profiles.current_profile_id())
+
+            skip_n = self._txt_log_view.document().lineCount() - 1
             for line in log.get(mode=mode,
-                                decode=self.decode,
-                                skipLines=self.txtLogView.document().lineCount()-1):
-                self.txtLogView.appendPlainText(line)
+                                decode=self._decoder,
+                                skipLines=skip_n):
+                self._txt_log_view.appendPlainText(line)
 
             # re-add path to watch after 5sec delay
             alarm = tools.Alarm(
-                callback=lambda: self.watcher.addPath(watchPath),
+                callback=lambda: self.watcher.addPath(watched_path),
                 overwrite=False)
+
             alarm.start(5)
 
-        elif self.sid is None:
-            log = snapshotlog.SnapshotLog(
-                self.config, self.comboProfiles.current_profile_id())
-            self.txtLogView.setPlainText(
-                '\n'.join(log.get(mode=mode, decode=self.decode)))
+            return
 
-        else:
-            self.txtLogView.setPlainText(
-                '\n'.join(self.sid.log(mode, decode=self.decode)))
+        if self.sid is None:
+            log = snapshotlog.SnapshotLog(
+                self.config, self._combo_profiles.current_profile_id())
+            self._txt_log_view.setPlainText(
+                '\n'.join(log.get(mode=mode, decode=self._decoder)))
+
+            return
+
+        self._txt_log_view.setPlainText(
+            '\n'.join(self.sid.log(mode, decode=self._decoder)))
 
     def closeEvent(self, event):
+        """Handle dialog closed event"""
         state_data = StateData()
         state_data.logview_dims = (self.width(), self.height())
         event.accept()

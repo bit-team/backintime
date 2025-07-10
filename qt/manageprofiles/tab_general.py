@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor, QFont
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -22,7 +22,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QHBoxLayout,
                              QLabel,
                              QLineEdit,
-                             QMessageBox,
                              QToolButton,
                              QToolTip,
                              QVBoxLayout,
@@ -509,7 +508,7 @@ class GeneralTab(QDialog):
                 return self._parent_dialog.saveProfile()
 
             else:
-                # Configured without explicte SSH key file
+                # Configured without explicit SSH key file
                 messagebox.critical(self, str(ex))
                 return False
 
@@ -523,28 +522,28 @@ class GeneralTab(QDialog):
                 messagebox.critical(self, str(ex))
                 return False
 
-            msg = '{}\n\n{}'.format(
-                    _("The authenticity of host {host} can't be "
-                        "established.").format(
-                            host=self.config.sshHost()),
-                    _('{keytype} key fingerprint is:').format(
-                        keytype=keyType))
-            options = []
-            lblFingerprint = QLabel(fingerprint + '\n')
-            lblFingerprint.setWordWrap(False)
-            lblFingerprint.setFont(QFont('Monospace'))
-            options.append({'widget': lblFingerprint, 'retFunc': None})
-            lblQuestion = QLabel(
-                _("Please verify this fingerprint. Add it to the "
-                  "'known_hosts' file?")
+            msg = (
+                '<p>{}</p>'
+                '<p>{}</p>'
+                '<p><code>{}</code></p>'
+                '<p>{}</p>'
+            ).format(
+                _("The authenticity of host {host} can't be established.")
+                .format(host=self.config.sshHost()),
+                _('{keytype} key fingerprint is:')
+                .format(keytype=keyType),
+                fingerprint,
+                _('Please verify this fingerprint. Add it to the '
+                  '"known_hosts" file?')
             )
-            options.append({'widget': lblQuestion, 'retFunc': None})
 
-            if messagebox.warningYesNoOptions(self, msg, options)[0]:
+            if messagebox.question(msg):
                 sshtools.writeKnownHostsFile(hashedKey)
+
                 # --- DEV NOTE TODO ---
                 # AGAIN: Why this recursive call?
                 return self.saveProfile()
+
             else:
                 return False
 
@@ -619,10 +618,10 @@ class GeneralTab(QDialog):
         if path:
 
             if old_path and old_path != path:
-                question = _('Really change the backup directory?')
 
-                answer = messagebox.warningYesNo(self, question)
-                answer = answer == QMessageBox.StandardButton.Yes
+                answer = messagebox.question(
+                    text=_('Really change the backup directory?'),
+                    widget_to_center_on=self)
 
                 if not answer:
                     return
@@ -651,10 +650,12 @@ class GeneralTab(QDialog):
 
         # No public key
         if key_file.suffix.lower() == '.pub':
-            msg = _('The selected file {path} appears to be a public SSH '
-                    'key. Please select a private file (without a ".pub" '
-                    'extension).').format(path=key_file)
-            messagebox.warning(msg, _('Not a private key'), self)
+            title = _('Invalid file: Not a private SSH key'),
+            msg = _('The selected file ({path}) is a public SSH key. '
+                    'Please choose the corresponding private key file instead '
+                    '(without ".pub").').format(path=key_file)
+            messagebox.warning(msg, title, self)
+
             return
 
         # self.txtSshPrivateKeyFile.setText(str(key_file))
