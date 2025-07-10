@@ -23,7 +23,11 @@ import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
 
 
-def _create_config_file(parent_path, mode='local', local_encfs_snapshots_path='/tmp/bit-test-snapshots'):
+def _create_config_file(
+        parent_path,
+        mode='local',
+        local_encfs_snapshots_path='/tmp/bit-test-snapshots'
+):
     """Minimal config file
 
     Args:
@@ -33,7 +37,7 @@ def _create_config_file(parent_path, mode='local', local_encfs_snapshots_path='/
         mode: One of 'local', 'ssh', 'local_encfs' or 'ssh_encfs'
         local_encfs_snapshots_path:
     """
-    defaults = f'''
+    defaults = '''
             config.version=6
             profile1.snapshots.include.1.type=0
             profile1.snapshots.include.1.value=rootpath/source
@@ -305,9 +309,16 @@ class MountWithLocalEncFS(pyfakefs_ut.TestCase):
 
     # Mock passwordFromUser to bypass the interactive password
     # confirmation dialog.
-    @mock.patch('password.Password.passwordFromUser', return_value=test_password)
+    @mock.patch(
+        'password.Password.passwordFromUser',
+        return_value=test_password
+    )
     @mock.patch('configfile.ConfigFile.askQuestion', return_value=True)
-    def test_uninitialised_mount(self, _mock_ask_question, _mock_passwordFromUser):
+    def test_uninitialised_mount(
+            self,
+            _mock_ask_question,
+            _mock_password_from_user
+    ):
         """High-level Mount.mount returns the output from backend.mount.
         Due to inheritence, this is the same as MountControl.mount.
         If all goes well, MountControl.mount returns self.hash_id.
@@ -325,7 +336,9 @@ class MountWithLocalEncFS(pyfakefs_ut.TestCase):
             with TemporaryDirectory(prefix='bit.') as temp_dir:
                 temp_path = Path(temp_dir)
 
-                local_encfs_snapshots_path = temp_path / 'local-encfs-snapshots'
+                local_encfs_snapshots_path = (
+                    temp_path / 'local-encfs-snapshots'
+                )
                 local_encfs_snapshots_path.mkdir()
 
                 _config_fp = _create_config_file(
