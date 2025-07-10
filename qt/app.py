@@ -81,6 +81,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from confirmrestoredialog import ConfirmRestoreDialog
 from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
@@ -1532,13 +1533,20 @@ class MainWindow(QMainWindow):
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
         with self.suspend_mouse_button_navigation():
-            confirm, opt = self.confirmRestore(paths)
-            # print(f'{confirm=} {opt=}')
-            # sys.exit()  # DEBUG
-            if not confirm:
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=paths,
+                to_path=None,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot='/' in paths):
-                return
+
+            if confirm_dlg.delete_newer:
+                if not self.confirmDelete(warnRoot='/' in paths):
+                    return
 
         rd = RestoreDialog(self, self.sid, paths, **opt)
         rd.exec()
