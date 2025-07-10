@@ -49,14 +49,12 @@ from PyQt6.QtGui import (QAction,
                          QShortcut)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
-                             QCheckBox,
                              QDialog,
                              QFrame,
                              QGroupBox,
                              QInputDialog,
                              QLabel,
                              QLineEdit,
-                             QListWidget,
                              QMainWindow,
                              QMenu,
                              QStyledItemDelegate,
@@ -81,6 +79,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+from confirmrestoredialog import ConfirmRestoreDialog
 from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
 from manageprofiles import SettingsDialog
@@ -1405,107 +1404,6 @@ class MainWindow(QMainWindow):
         self.showHiddenFiles = checked
         self.updateFilesView(1)
 
-    def backupOnRestore(self):
-        cb = QCheckBox(_(
-            'Create backup copies with trailing {suffix}\n'
-            'before overwriting or removing local elements.').format(
-                suffix=self.snapshots.backupSuffix()))
-
-        cb.setChecked(self.config.backupOnRestore())
-        qttools.set_wrapped_tooltip(
-            cb,
-            [
-                _("Before restoring, newer versions of files will be renamed "
-                  "with the appended {suffix}. These files can be removed "
-                  "with the following command:").format(
-                      suffix=self.snapshots.backupSuffix()),
-                'find ./ -name "*{suffix}" -delete'.format(
-                    suffix=self.snapshots.backupSuffix())
-            ]
-        ),
-
-        return {
-            'widget': cb,
-            'retFunc': cb.isChecked,
-            'id': 'backup'
-        }
-
-    def restoreOnlyNew(self):
-        cb = QCheckBox(_('Only restore elements which do not exist or\n'
-                         'are newer than those in destination.\n'
-                         'Using "rsync --update" option.'))
-        qttools.set_wrapped_tooltip(
-            cb,
-            ["From 'man rsync':",
-             "",
-             "This forces rsync to skip any files which exist on the "
-             "destination and have a modified time that is newer than the "
-             "source file. (If an existing destination file has a "
-             "modification time equal to the source file’s, it will be "
-             "updated if the sizes are different.)",
-             "",
-             "Note that this does not affect the copying of dirs, symlinks, "
-             "or other special files. Also, a difference of file format "
-             "between the sender and receiver is always considered to be "
-             "important enough for an update, no matter what date is on the "
-             "objects. In other words, if the source has a directory where "
-             "the destination has a file, the transfer would occur regardless "
-             "of the timestamps.",
-             "",
-             "This option is a transfer rule, not an exclude, so it doesn’t "
-             "affect the data that goes into the file-lists, and thus it "
-             "doesn’t affect deletions. It just limits the files that the "
-             "receiver requests to be transferred."]
-        )
-        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
-
-    def listRestorePaths(self, paths):
-        fileList = QListWidget()
-        fileList.addItems(paths)
-        fileList.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-        return {'widget': fileList, 'retFunc': None}
-
-    def deleteOnRestore(self):
-        cb = QCheckBox(_('Remove newer elements in original directory.'))
-        qttools.set_wrapped_tooltip(
-            cb,
-            _('Restore selected files or directories to the original '
-              'destination and delete files or directories which are not in '
-              'the backup. Be extremely careful because this will delete '
-              'files and directories which were excluded during the creation '
-              'of the backup.')
-        )
-        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
-
-    def confirmRestore(self, paths, restoreTo=None):
-        if restoreTo:
-            msg = ngettext(
-                # singular
-                'Really restore this element into the new directory?',
-                # plural
-                'Really restore these elements into the new directory?',
-                len(paths))
-            msg = f'{msg}\n{restoreTo}'
-        else:
-            msg = ngettext(
-                # singular
-                'Really restore this element?',
-                # plural
-                'Really restore these elements?',
-                len(paths))
-
-        confirm, opt = messagebox.warningYesNoOptions(
-            self,
-            msg,
-            (
-                self.listRestorePaths(paths),
-                self.backupOnRestore(),
-                self.restoreOnlyNew(),
-                self.deleteOnRestore()
-            )
-        )
-        return (confirm, opt)
-
     def confirmDelete(self, warnRoot=False, restoreTo=None) -> bool:
         if restoreTo:
             msg = _('All newer files in {path} will be removed. '
@@ -1530,14 +1428,29 @@ class MainWindow(QMainWindow):
 
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
+        confirm_dlg = ConfirmRestoreDialog(
+            parent=self,
+            paths=paths,
+            to_path=None,
+            backup_on_restore=self.config.backupOnRestore(),
+            backup_suffix=self.snapshots.backupSuffix()
+        )
+
         with self.suspend_mouse_button_navigation():
-            confirm, opt = self.confirmRestore(paths)
-            if not confirm:
-                return
-            if opt['delete'] and not self.confirmDelete(warnRoot='/' in paths):
+            if not confirm_dlg.answer():
                 return
 
-        rd = RestoreDialog(self, self.sid, paths, **opt)
+            if confirm_dlg.delete_newer:
+                if not self.confirmDelete(warnRoot='/' in paths):
+                    return
+
+        opt = confirm_dlg.get_values_as_dict()
+
+        rd = RestoreDialog(
+            parent=self,
+            sid=self.sid,
+            what=paths,
+            **opt)
         rd.exec()
 
     def restoreThisTo(self):
@@ -1553,10 +1466,19 @@ class MainWindow(QMainWindow):
                 return
 
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore(paths, restoreTo)
 
-            if not confirm:
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=paths,
+                to_path=restoreTo,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
+
+            opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] \
                and not self.confirmDelete(
@@ -1570,11 +1492,19 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspend_mouse_button_navigation():
-            confirm, opt = self.confirmRestore((self.path,))
+        confirm_dlg = ConfirmRestoreDialog(
+            parent=self,
+            paths=(self.path, ),
+            to_path=None,
+            backup_on_restore=self.config.backupOnRestore(),
+            backup_suffix=self.snapshots.backupSuffix()
+        )
 
-            if not confirm:
+        with self.suspend_mouse_button_navigation():
+            if not confirm_dlg.answer():
                 return
+
+            opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] and not self.confirmDelete(
                     warnRoot=self.path == '/'):
@@ -1594,10 +1524,19 @@ class MainWindow(QMainWindow):
                 return
 
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore((self.path,), restoreTo)
 
-            if not confirm:
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=(self.path,),
+                to_path=restoreTo,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
+
+            opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] \
                and not self.confirmDelete(

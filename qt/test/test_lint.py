@@ -41,6 +41,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
     'bitwidgets.py',
+    'confirmrestoredialog.py',
     'editusercallback.py',
     'encfsmsgbox.py',
     'filedialog.py',
@@ -53,6 +54,7 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/statebindcheckbox.py',
     'manageprofiles/storagesizewidget.py',
     'manageprofiles/sshproxywidget.py',
+    'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
     'shutdowndlg.py',
@@ -203,6 +205,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
+            # Consider UP, ANN (upgrade and annotation)
             '--extend-select=PL,E,W,INT,RUF100',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',

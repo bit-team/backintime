@@ -12,7 +12,7 @@ import logger
 import snapshots
 import tools
 import encfstools
-from typing import Generator
+from collections.abc import Iterator
 
 
 class LogFilter:
@@ -172,7 +172,8 @@ class SnapshotLog:
     def get(self,
             mode: int = None,
             decode: encfstools.Decode = None,
-            skipLines: int = 0) -> Generator[str, None, None]:
+            skipLines: int = 0) -> Iterator[str]:
+
         """Read the log, filter and decode it and yield its lines.
 
         Args:
@@ -196,7 +197,7 @@ class SnapshotLog:
                 for line in f.readlines():
                     line = logFilter.filter(line.rstrip('\n'))
 
-                    if not line is None:
+                    if line is not None:
                         count += 1
 
                         if count <= skipLines:
@@ -205,11 +206,14 @@ class SnapshotLog:
                         yield line
 
         except Exception as exc:
-            logger.debug('Failed to get take_snapshot log from '
-                         f'{self.logFile}: {str(exc)}',
-                         self)
+            msg = (
+                f'Failed to get take_snapshot log from {self.logFile}:',
+                str(exc)
+            )
+            logger.debug(' '.join(msg), self)
 
             for line in msg:
+                # Why???
                 yield line
 
     def new(self, date):

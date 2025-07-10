@@ -20,6 +20,8 @@ from inhibitsuspend import InhibitSuspend
 
 
 class RestoreDialog(QDialog):
+    """A dialog showing a live log of a restore process."""
+
     def __init__(self, parent, sid, what, where='', **kwargs):
         super(RestoreDialog, self).__init__(parent)
         self.resize(600, 500)

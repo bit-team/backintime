@@ -158,7 +158,9 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         tooltip = (tooltip, )
 
     # Richtext or plain text
-    newline = {True: '<br>', False: '\n'}[might_be_richtext(tooltip[0])]
+    is_richtext =  might_be_richtext(tooltip[0])
+
+    newline = {True: '<br>', False: '\n'}[is_richtext]
 
     result = []
     # Wrap each paragraph in itself
@@ -168,7 +170,14 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         ))
 
     # glue all together
-    widget.setToolTip(newline.join(result))
+    result = newline.join(result)
+
+    # Qt handles the string as richttext (interpreting html tags) only,
+    # if it begins with a tag.
+    if is_richtext and result[0] != '<':
+        result = f'<html>{result}</html>'
+
+    widget.setToolTip(result)
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):

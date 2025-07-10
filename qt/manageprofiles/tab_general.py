@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor, QFont
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -522,28 +522,28 @@ class GeneralTab(QDialog):
                 messagebox.critical(self, str(ex))
                 return False
 
-            msg = '{}\n\n{}'.format(
-                    _("The authenticity of host {host} can't be "
-                        "established.").format(
-                            host=self.config.sshHost()),
-                    _('{keytype} key fingerprint is:').format(
-                        keytype=keyType))
-            options = []
-            lblFingerprint = QLabel(fingerprint + '\n')
-            lblFingerprint.setWordWrap(False)
-            lblFingerprint.setFont(QFont('Monospace'))
-            options.append({'widget': lblFingerprint, 'retFunc': None})
-            lblQuestion = QLabel(
-                _("Please verify this fingerprint. Add it to the "
-                  "'known_hosts' file?")
+            msg = (
+                '<p>{}</p>'
+                '<p>{}</p>'
+                '<p><code>{}</code></p>'
+                '<p>{}</p>'
+            ).format(
+                _("The authenticity of host {host} can't be established.")
+                .format(host=self.config.sshHost()),
+                _('{keytype} key fingerprint is:')
+                .format(keytype=keyType),
+                fingerprint,
+                _('Please verify this fingerprint. Add it to the '
+                  '"known_hosts" file?')
             )
-            options.append({'widget': lblQuestion, 'retFunc': None})
 
-            if messagebox.warningYesNoOptions(self, msg, options)[0]:
+            if messagebox.question(msg):
                 sshtools.writeKnownHostsFile(hashedKey)
+
                 # --- DEV NOTE TODO ---
                 # AGAIN: Why this recursive call?
                 return self.saveProfile()
+
             else:
                 return False
 

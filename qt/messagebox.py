@@ -6,23 +6,19 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Module offering several message boxes to inform user in the GUI."""
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import (QApplication,
-                             QDialog,
-                             QDialogButtonBox,
                              QInputDialog,
-                             QLabel,
                              QLineEdit,
                              QMessageBox,
-                             QVBoxLayout,
                              QWidget)
 import qttools
 
 
-def askPasswordDialog(parent, title, prompt, language_code, timeout):
-    """Dev note (2025-07, buhtz): Replace with extern use of zenity, yat,
-    kdialog
-
+def ask_password_dialog(parent, title, prompt, language_code, timeout):
+    """Dev note (2025-07, buhtz):
+    Replace with extern use of zenity, yat, kdialog
     e.g.
     zenity --entry --title="foo" --text="text" --hide-text
     yad --entry --title="foo" --text="text" --hide-text
@@ -33,7 +29,9 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
         translator = qttools.initiate_translator(language_code)
         app.installTranslator(translator)
 
-    import icon
+    # pylint: disable-next=import-outside-toplevel
+    import icon  # noqa: PLC0415
+
     dialog = QInputDialog()
 
     timer = QTimer()
@@ -128,46 +126,13 @@ def question(text, title=None, widget_to_center_on=None) -> bool:
 
 
 def critical(parent, msg):
+    """Shows an error message box.
+
+    Qt itseld does not distinguish between error and critical messages.
+    """
     return QMessageBox.critical(
         parent,
         _('Error'),
         msg,
         buttons=QMessageBox.StandardButton.Ok,
         defaultButton=QMessageBox.StandardButton.Ok)
-
-
-def warningYesNoOptions(parent, msg, options=()):
-
-    # Create a dialog
-    dlg = QDialog(parent)
-    dlg.setWindowTitle(_('Question'))
-    layout = QVBoxLayout()
-    dlg.setLayout(layout)
-
-    # Initial message
-    label = QLabel(msg)
-    layout.addWidget(label)
-
-    # Add optional elements
-    for opt in options:
-        layout.addWidget(opt['widget'])
-
-    # Button box
-    buttonBox = QDialogButtonBox(
-        QDialogButtonBox.StandardButton.Yes
-        | QDialogButtonBox.StandardButton.No)
-    buttonBox.button(QDialogButtonBox.StandardButton.No).setDefault(True)
-    layout.addWidget(buttonBox)
-    buttonBox.accepted.connect(dlg.accept)
-    buttonBox.rejected.connect(dlg.reject)
-
-    # Show and ask user for the answer
-    ret = dlg.exec()
-
-    return (
-        ret,
-        {
-            opt['id']: opt['retFunc']() for opt in options
-            if opt['retFunc'] is not None
-        }
-    )
