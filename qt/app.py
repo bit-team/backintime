@@ -1478,39 +1478,6 @@ class MainWindow(QMainWindow):
         )
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
-    def confirmRestore(self, paths, restoreTo=None):
-        if restoreTo:
-            msg = ngettext(
-                # singular
-                'Really restore this element into the new directory?',
-                # plural
-                'Really restore these elements into the new directory?',
-                len(paths))
-            msg = f'{msg}\n{restoreTo}'
-
-        else:
-            msg = ngettext(
-                # singular
-                'Really restore this element?',
-                # plural
-                'Really restore these elements?',
-                len(paths))
-
-        confirm, opt = messagebox.warningYesNoOptions(
-            self,
-            msg,
-            (
-                self.listRestorePaths(paths),
-                # backup
-                self.backupOnRestore(),
-                # only_new
-                self.restoreOnlyNew(),
-                # delete
-                self.deleteOnRestore()
-            )
-        )
-        return (confirm, opt)
-
     def confirmDelete(self, warnRoot=False, restoreTo=None) -> bool:
         if restoreTo:
             msg = _('All newer files in {path} will be removed. '
@@ -1573,10 +1540,19 @@ class MainWindow(QMainWindow):
                 return
 
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore(paths, restoreTo)
 
-            if not confirm:
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=paths,
+                to_path=restoreTo,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
+
+            opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] \
                and not self.confirmDelete(
@@ -1590,11 +1566,19 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspend_mouse_button_navigation():
-            confirm, opt = self.confirmRestore((self.path,))
+        confirm_dlg = ConfirmRestoreDialog(
+            parent=self,
+            paths=(self.path, ),
+            to_path=None,
+            backup_on_restore=self.config.backupOnRestore(),
+            backup_suffix=self.snapshots.backupSuffix()
+        )
 
-            if not confirm:
+        with self.suspend_mouse_button_navigation():
+            if not confirm_dlg.answer():
                 return
+
+            opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] and not self.confirmDelete(
                     warnRoot=self.path == '/'):
@@ -1614,10 +1598,19 @@ class MainWindow(QMainWindow):
                 return
 
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore((self.path,), restoreTo)
 
-            if not confirm:
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=(self.path,),
+                to_path=restoreTo,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
                 return
+
+            opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] \
                and not self.confirmDelete(

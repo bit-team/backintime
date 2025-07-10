@@ -154,8 +154,9 @@ class WrappedCheckBox(QWidget):
 
         layout = QHBoxLayout()
         self.setLayout(layout)
-        layout.addWidget(self.checkbox)
-        layout.addWidget(self.label)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.checkbox, stretch=0)
+        layout.addWidget(self.label, stretch=1)
 
         self.label.setWordWrap(True)
         self.label.setSizePolicy(
@@ -165,6 +166,10 @@ class WrappedCheckBox(QWidget):
 
         if tooltip:
             qttools.set_wrapped_tooltip([self.checkbox, self.label], tooltip)
+
+        # # DEBUG
+        # self.setStyleSheet("background: lightblue; border: 1px solid red;")
+        # self.label.setStyleSheet("background: yellow;")
 
     def _slot_label_clicked(self, event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:

@@ -44,7 +44,7 @@ class ConfirmRestoreDialog(QDialog):
         layout.addWidget(self._create_question_label())
 
         # path list
-        layout.addWidget(self._create_paths_list())
+        layout.addWidget(self._create_paths_list(), stretch=2)
 
         # three checkboxes
         self._checkbox_backup = self._create_checkbox_backup(

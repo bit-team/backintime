@@ -8,13 +8,9 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import (QApplication,
-                             QDialog,
-                             QDialogButtonBox,
                              QInputDialog,
-                             QLabel,
                              QLineEdit,
                              QMessageBox,
-                             QVBoxLayout,
                              QWidget)
 import qttools
 
@@ -134,40 +130,3 @@ def critical(parent, msg):
         msg,
         buttons=QMessageBox.StandardButton.Ok,
         defaultButton=QMessageBox.StandardButton.Ok)
-
-
-def warningYesNoOptions(parent, msg, options=()):
-
-    # Create a dialog
-    dlg = QDialog(parent)
-    dlg.setWindowTitle(_('Question'))
-    layout = QVBoxLayout()
-    dlg.setLayout(layout)
-
-    # Initial message
-    label = QLabel(msg)
-    layout.addWidget(label)
-
-    # Add optional elements
-    for opt in options:
-        layout.addWidget(opt['widget'])
-
-    # Button box
-    buttonBox = QDialogButtonBox(
-        QDialogButtonBox.StandardButton.Yes
-        | QDialogButtonBox.StandardButton.No)
-    buttonBox.button(QDialogButtonBox.StandardButton.No).setDefault(True)
-    layout.addWidget(buttonBox)
-    buttonBox.accepted.connect(dlg.accept)
-    buttonBox.rejected.connect(dlg.reject)
-
-    # Show and ask user for the answer
-    ret = dlg.exec()
-
-    return (
-        ret,
-        {
-            opt['id']: opt['retFunc']() for opt in options
-            if opt['retFunc'] is not None
-        }
-    )
