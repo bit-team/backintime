@@ -176,7 +176,7 @@ class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, RestoreLocal):
     """
 
     def setUp(self):
-        super(TestRestoreSSH, self).setUp()
+        super().setUp()
         self.include = TemporaryDirectory()
         generic.create_test_files(os.path.join(
             self.remoteSIDBackupPath, self.include.name[1:]))
@@ -187,6 +187,6 @@ class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, RestoreLocal):
     def tearDown(self):
         #unmount
         mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
-        super(TestRestoreSSH, self).tearDown()
+        super().tearDown()
 
         self.include.cleanup()
