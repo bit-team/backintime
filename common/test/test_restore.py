@@ -170,7 +170,7 @@ class RestoreLocal(RestoreTestCase):
         self.assertEqual(33260, os.stat(restoreFile).st_mode)
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestoreLocal):
+class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, RestoreLocal):
     """BUHTZ 2022-10-09: Seems to me that testing restore via SSH isn't
     implemented yet.
     """
@@ -181,7 +181,7 @@ class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestoreLocal):
         generic.create_test_files(os.path.join(
             self.remoteSIDBackupPath, self.include.name[1:]))
 
-        #mount
+        # mount
         self.cfg.setCurrentHashId(mount.Mount(cfg = self.cfg).mount())
 
     def tearDown(self):
