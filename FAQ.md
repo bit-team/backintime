@@ -545,7 +545,11 @@ can even lead to data corruption.
 **To reduce this risk, the following approaches can be considered:**
 
 - **Filesystem snapshots**
-   If using a filesystem like btrfs and ZFS that has a snapshot function this can be used together with Back in Time. Filesystem snapshots provide a read-only copy of a filesystem frozen at a specific point in time, which ensures data integrity even for open/changing files. Configure Back in Time to backup from this filesystem's read-only snapshot.
+   If using a filesystem like btrfs and ZFS that has a snapshot function this
+   can be used together with Back in Time. Filesystem snapshots provide a
+   read-only copy of a filesystem frozen at a specific point in time, which
+   ensures data integrity even for open/changing files. Configure Back In Time
+   to backup from this filesystem's read-only snapshot.
 
 - **Use exclusions**
    If the filesystem does not have filesystem snapshots available, one
