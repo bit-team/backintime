@@ -559,7 +559,11 @@ can even lead to data corruption.
    configuring BIT exclusion list.
 
 - **Application specific handling**
-   For applications that opens and modifies files frequently like databases or virtual machines, specific solutions my be needed. Use the databases own backup function to create a consistent copy and include that in the BIT backup. Virtual machines products typically have ability to create snapshots of their state, that can be included in BIT.
+   For applications that opens and modifies files frequently like databases
+   or virtual machines, specific solutions may be needed. Use the databases
+   own backup function to create a consistent copy and include that in the
+   BIT backup. Virtual machines products typically have ability to create
+   snapshots of their state, that can be included in BIT.
 
 - **Choose when to perform backup**
    Perform backup at times where less files are open, for example at night.
