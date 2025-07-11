@@ -534,7 +534,13 @@ integrate it into the documentation.
 
 **Explanation**
 
-Back in Time uses rsync to copy the files and folders specified to be backed up in the configuration. Rsync does not lock any files that are open or being modified and therefore the backup can be copied in an inconsistent state. Rsync only reads a file on time when it goes through it and as a result of this only some changes are captured by rsync. This can affect files such as logs, browser caches, databases or virtual machine images where inconsistencies can even lead to data corruption.
+Back In Time uses rsync to copy the files and directories specified to be
+backed up in the configuration. Rsync does not lock any files that are open
+or being modified and therefore the backup can be copied in an inconsistent
+state. Rsync only reads a file on time when it goes through it and as a result
+of this only some changes are captured by rsync. This can affect files such as
+logs, browser caches, databases or virtual machine images where inconsistencies
+can even lead to data corruption.
 
 **To reduce this risk, the following approaches can be considered:**
 
