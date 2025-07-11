@@ -20,7 +20,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Where is the log file?](#where-is-the-log-file)
    * [How to read log entries?](#how-to-read-log-entries)
    * [How to move backups to a new hard-drive?](#how-to-move-backups-to-a-new-hard-drive)
-   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directoryhttps://github.com/johanR04/backintimehttps://github.com/johanR04/backintime-in-the-backup-source-without-duplicating-the-files-in-the-backup)
+   * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
 - [Backups (snapshots)](#backups-snapshots)
    * [Backup or Snapshot?](#backup-or-snapshot)
