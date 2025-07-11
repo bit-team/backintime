@@ -548,7 +548,11 @@ can even lead to data corruption.
    If using a filesystem like btrfs and ZFS that has a snapshot function this can be used together with Back in Time. Filesystem snapshots provide a read-only copy of a filesystem frozen at a specific point in time, which ensures data integrity even for open/changing files. Configure Back in Time to backup from this filesystem's read-only snapshot.
 
 - **Use exclusions**
-   If the filesystem does not have filesystem snapshots available, one solution could be to exclude files that are frequently open or actively changing. The command lsof in Linux presents open files and the processes that opened them as a list. Use this list as base for configuring BIT exclusion list.
+   If the filesystem does not have filesystem snapshots available, one
+   solution could be to exclude files that are frequently open or actively
+   changing. The command `lsof` in GNU/Linux presents open files and the
+   processes that opened them as a list. Use this list as base for
+   configuring BIT exclusion list.
 
 - **Application specific handling**
    For applications that opens and modifies files frequently like databases or virtual machines, specific solutions my be needed. Use the databases own backup function to create a consistent copy and include that in the BIT backup. Virtual machines products typically have ability to create snapshots of their state, that can be included in BIT.
