@@ -48,7 +48,8 @@ class RestoreConfigDialog(QDialog):
         self.config = config
         self.snapshots = snapshots
 
-        import icon  # pylint: disable=import-outside-toplevel
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Import configuration'))
 
@@ -381,7 +382,7 @@ class ScanFileSystem(QThread):
             if bitbase.FILENAME_CONFIG in files:
                 rootdirs = root.split(os.sep)
 
-                if (len(rootdirs) > 4
+                if (len(rootdirs) > 4  # noqa: PLR2004
                         and rootdirs[-5].startswith(bitbase.BINARY_NAME_BASE)):
 
                     if 'backup' in dirs:

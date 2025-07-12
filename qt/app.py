@@ -174,10 +174,10 @@ class MainWindow(QMainWindow):
 
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
-            _("This directory doesn't exist\n"
-              "in the current selected backup."),
+            '<strong>{}</strong>'.format(
+                _("This directory doesn't exist\n"
+                  "in the current selected backup.")),
             self)
-        qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
         self.lblFolderDontExists.setAlignment(
