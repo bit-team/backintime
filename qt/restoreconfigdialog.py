@@ -126,7 +126,7 @@ class RestoreConfigDialog(QDialog):
 
         filter_proxy = QSortFilterProxyModel(self)
         filter_proxy.setDynamicSortFilter(True)
-        filter_proxy.setSourceModel(view)
+        filter_proxy.setSourceModel(model)
 
         filter_proxy.setFilterRegularExpression(r'^[^\.]')
 
@@ -141,11 +141,11 @@ class RestoreConfigDialog(QDialog):
 
     @staticmethod
     def _red_and_green() -> tuple[QColor, QColor]:
-        red = QPalette().setColor(
-            QPalette.ColorRole.WindowText, QColor(205, 0, 0))
+        red = QPalette()
+        red.setColor(QPalette.ColorRole.WindowText, QColor(205, 0, 0))
 
-        green = QPalette().setColor(
-            QPalette.ColorRole.WindowText, QColor(0, 160, 0))
+        green = QPalette()
+        green.setColor(QPalette.ColorRole.WindowText, QColor(0, 160, 0))
 
         return red, green
 
@@ -297,6 +297,7 @@ class RestoreConfigDialog(QDialog):
         """
         scan hit a config. Expand the snapshot folder.
         """
+        print(f'handle_scan_found() :: {path=}')
         self._expand_all(os.path.dirname(path))
 
     def _slot_on_context_menu(self, point):
