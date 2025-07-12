@@ -356,7 +356,7 @@ def user_manual_uri() -> str:
     """
     uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
         if bitbase.USER_MANUAL_LOCAL_AVAILABLE \
-        else bitbase.USER_MANUAL_ONLINE_URL
+        else bitbase.URL_USER_MANUAL
 
     return uri
 

@@ -170,7 +170,7 @@ class ParserAgent:
             logo,
             '',
             f'            Project : {bitbase.URL_WEBSITE}',
-            f'        User Manual : {bitbase.USER_MANUAL_ONLINE_URL}',
+            f'        User Manual : {bitbase.URL_USER_MANUAL}',
             '          Copyright : see file LICENSES.md',
             f'    Project License : {prj_license}',
             f'Additional Licenses : {add_licenses}',

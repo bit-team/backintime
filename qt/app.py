@@ -304,11 +304,10 @@ class MainWindow(QMainWindow):
                 'Import an existing configuration (from a backup target '
                 'directory or another computer)?')
 
-            answer = messagebox.question(text=message,
-                                         widget_to_center_on=self)
+            answer = messagebox.question(text=message)
 
             if answer:
-                RestoreConfigDialog(self).exec()
+                RestoreConfigDialog(self.config, self.snapshots).exec()
 
             SettingsDialog(self).exec()
 

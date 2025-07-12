@@ -23,75 +23,39 @@ from PyQt6.QtWidgets import (QDialog,
                              QWidget,
                              QLabel,
                              QMenu,
-                             QProgressBar,
                              QTreeView)
 from PyQt6.QtCore import (Qt,
                           QDir,
                           QSortFilterProxyModel,
                           QThread,
-                          QModelIndex,
                           pyqtSignal)
-
-import config
-import snapshots
 import logger
+from config import Config
+from snapshots import SID, Snapshots
 
 
-class MyTreeView(QTreeView):
-    """
-    subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
-    if the SLOT currentChanged is called
-
-    Used by restoreconfigdialog.py
-    """
-    myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
-
-    # pylint: disable-next=invalid-name
-    def currentChanged(self, current, previous):
-        self.myCurrentIndexChanged.emit(current, previous)
-        super(MyTreeView, self).currentChanged(current, previous)
-
-
+# pylint: disable-next=too-many-instance-attributes
 class RestoreConfigDialog(QDialog):
     """
     Show a dialog that will help to restore BITs configuration.
     User can select a config from previous snapshots.
     """
 
-    def __init__(self, parent):
-        super(RestoreConfigDialog, self).__init__(parent)
+    def __init__(self, config: Config, snapshots: Snapshots):
+        super().__init__()
 
-        self.parent = parent
-        self.config = parent.config
-        self.snapshots = parent.snapshots
+        self.config = config
+        self.snapshots = snapshots
 
-        import icon
-        self.icon = icon
+        import icon  # pylint: disable=import-outside-toplevel
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Import configuration'))
 
         layout = QVBoxLayout(self)
         layout.addWidget(self._create_hint_label())
 
-        # treeView
-        self._tree_view = QTreeView(self)  # MyTreeView(self)
-        self._tree_model = QFileSystemModel(self)
-        self._tree_model.setRootPath(QDir().rootPath())
-        self._tree_model.setReadOnly(True)
-        self._tree_model.setFilter(QDir.Filter.AllDirs |
-                                   QDir.Filter.NoDotAndDotDot |
-                                   QDir.Filter.Hidden)
-
-        self._filter_proxy = QSortFilterProxyModel(self)
-        self._filter_proxy.setDynamicSortFilter(True)
-        self._filter_proxy.setSourceModel(self._tree_model)
-
-        self._filter_proxy.setFilterRegularExpression(r'^[^\.]')
-
-        self._tree_view.setModel(self._filter_proxy)
-        for col in range(self._tree_view.header().count()):
-            self._tree_view.setColumnHidden(col, col != 0)
-        self._tree_view.header().hide()
+        self._tree_view, self._tree_model, self._filter_proxy \
+            = self._create_tree()
 
         # expand users home
         self._expand_all(os.path.expanduser('~'))
@@ -109,20 +73,7 @@ class RestoreConfigDialog(QDialog):
         self._btn_show_hidden.toggled.connect(self._slot_show_hidden)
 
         # colors
-        self._color_red = QPalette()
-        self._color_red.setColor(
-            QPalette.ColorRole.WindowText, QColor(205, 0, 0))
-        self._color_green = QPalette()
-        self._color_green.setColor(
-            QPalette.ColorRole.WindowText, QColor(0, 160, 0))
-
-        # wait indicator which will show that the scan for
-        # snapshots is still running
-        self.wait = QProgressBar(self)
-        self.wait.setMinimum(0)
-        self.wait.setMaximum(0)
-        self.wait.setMaximumHeight(7)
-        layout.addWidget(self.wait)
+        self._color_red, self._color_green = __class__._red_and_green()
 
         # show where a snapshot with config was found
         self._lbl_found = QLabel(_('No config found'), self)
@@ -146,14 +97,14 @@ class RestoreConfigDialog(QDialog):
 
         self._tree_view.selectionModel().currentChanged.connect(
             self._slot_index_changed)
-        # self._tree_view.myCurrentIndexChanged.connect(self._slot_index_changed)
         self._scan_fs_thread.foundConfig.connect(self.handle_scan_found)
-        self._scan_fs_thread.finished.connect(self.handle_scan_finished)
 
         btn_box = QDialogButtonBox(self)
+
         self._btn_restore = btn_box.addButton(
             _('Import'), QDialogButtonBox.ButtonRole.AcceptRole)
         self._btn_restore.setEnabled(False)
+
         btn_box.addButton(QDialogButtonBox.StandardButton.Cancel)
         btn_box.accepted.connect(self.accept)
         btn_box.rejected.connect(self.reject)
@@ -162,6 +113,40 @@ class RestoreConfigDialog(QDialog):
         self._scan_fs_thread.start()
 
         self.resize(600, 700)
+
+    def _create_tree(self):
+        view = QTreeView(self)  # MyTreeView(self)
+        model = QFileSystemModel(self)
+        model.setRootPath(QDir().rootPath())
+        model.setReadOnly(True)
+        model.setFilter(QDir.Filter.AllDirs |
+                        QDir.Filter.NoDotAndDotDot |
+                        QDir.Filter.Hidden)
+
+        filter_proxy = QSortFilterProxyModel(self)
+        filter_proxy.setDynamicSortFilter(True)
+        filter_proxy.setSourceModel(view)
+
+        filter_proxy.setFilterRegularExpression(r'^[^\.]')
+
+        view.setModel(filter_proxy)
+
+        for col in range(view.header().count()):
+            view.setColumnHidden(col, col != 0)
+
+        view.header().hide()
+
+        return view, model, filter_proxy
+
+    @staticmethod
+    def _red_and_green() -> tuple[QColor, QColor]:
+        red = QPalette().setColor(
+            QPalette.ColorRole.WindowText, QColor(205, 0, 0))
+
+        green = QPalette().setColor(
+            QPalette.ColorRole.WindowText, QColor(0, 160, 0))
+
+        return red, green
 
     def _create_hint_label(self):
         """Create the label to explain how and where to find existing config
@@ -175,7 +160,7 @@ class RestoreConfigDialog(QDialog):
             'backintime',
             self.config.host(),
             getpass.getuser(), '1',
-            snapshots.SID(datetime.datetime.now(), self.config).sid
+            SID(datetime.datetime.now(), self.config).sid
         )
         sample_path = f'</ br><code>{sample_path}</code>'
 
@@ -210,12 +195,13 @@ class RestoreConfigDialog(QDialog):
 
         return self._filter_proxy.mapFromSource(idx)
 
-    def _slot_index_changed(self, current, previous):
+    def _slot_index_changed(self, current, _previous):
         """Called every time a new item is chosen in treeView.
 
         If there was a config found inside the selected folder, show
         available information about the config.
         """
+        # pylint: disable=protected-access
         cfg = self._search_config(self._path_from_index(current))
 
         if cfg:
@@ -234,9 +220,8 @@ class RestoreConfigDialog(QDialog):
 
         self._btn_restore.setEnabled(bool(cfg))
 
-    def _search_config(self, path):
-        """
-        try to find config in couple possible subfolders
+    def _search_config(self, path: str) -> Config:
+        """Try to find config file in couple possible subdirectories.
         """
         backup_path = os.path.join(
             'backintime', self.config.host(), getpass.getuser())
@@ -252,28 +237,37 @@ class RestoreConfigDialog(QDialog):
             if os.path.exists(cfg_path):
 
                 try:
-                    cfg = config.Config(cfg_path)
+                    cfg = Config(cfg_path)
 
                     if cfg.isConfigured():
                         return cfg
 
+                # Dev note (2025-07, buhtz): Remove it soon.
+                # pylint: disable-next=broad-exception-caught
                 except Exception as exc:
                     logger.critical(
                         f'Unhandled branch in code! See in {__file__} '
                         f'SettingsDialog.searchConfig()\n{exc}',
                         self)
 
+        return None
+
     def _expand_all(self, path):
-        """
-        expand all folders from filesystem root to given path
+        """Expand all folders from filesystem root to given path
+
+        ???
         """
         paths = [path, ]
+
         while len(path) > 1:
             path = os.path.dirname(path)
             paths.append(path)
+
         paths.append('/')
         paths.reverse()
-        [self._tree_view.expand(self._index_from_path(p)) for p in paths]
+
+        for p in paths:
+            self._tree_view.expand(self._index_from_path(p))
 
     def _show_profile(self, cfg):
         """
@@ -304,12 +298,6 @@ class RestoreConfigDialog(QDialog):
         """
         self._expand_all(os.path.dirname(path))
 
-    def handle_scan_finished(self):
-        """
-        scan is done. Delete the wait indicator
-        """
-        self.wait.deleteLater()
-
     def _slot_on_context_menu(self, point):
         self._context_menu.exec(self._tree_view.mapToGlobal(point))
 
@@ -326,18 +314,21 @@ class RestoreConfigDialog(QDialog):
         """
         if self._config_to_restore:
             self.config.dict = self._config_to_restore.dict
-        super(RestoreConfigDialog, self).accept()
+
+        super().accept()
 
     def exec(self):
         """
         stop the scan thread if it is still running after dialog was closed.
         """
-        ret = super(RestoreConfigDialog, self).exec()
+        ret = super().exec()
         self._scan_fs_thread.stop()
+
         return ret
 
 
 class ScanFileSystem(QThread):
+    """A thread scanning the file system for config files related to BIT."""
     CONFIG = 'config'
     BACKUP = 'backup'
     BACKINTIME = 'backintime'
@@ -345,7 +336,7 @@ class ScanFileSystem(QThread):
     foundConfig = pyqtSignal(str)
 
     def __init__(self, parent):
-        super(ScanFileSystem, self).__init__(parent)
+        super().__init__(parent)
         self._stopper = False
 
     def stop(self):
@@ -353,6 +344,7 @@ class ScanFileSystem(QThread):
         prepare stop and wait for finish.
         """
         self._stopper = True
+
         return self.wait()
 
     def run(self):
