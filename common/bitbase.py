@@ -10,9 +10,9 @@ import os
 from enum import Enum
 from pathlib import Path
 
-# |------------|
-# | Applicaton |
-# |------------|
+# |-------------|
+# | Application |
+# |-------------|
 
 APP_NAME = 'Back In Time'
 BINARY_NAME_BASE = 'backintime'
@@ -40,9 +40,9 @@ TRANSLATION_CREDITS_MISC = (
     '(@lists.ubuntu.com) especially the user related lists',
 )
 
-# |--------------------------------|
-# | Online ressources & references |
-# |--------------------------------|
+# |-------------------------------|
+# | Online resources & references |
+# |-------------------------------|
 
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
