@@ -25,7 +25,7 @@ from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 # We need to import common/tools.py
 import qttools_path
-qttools_path.registerBackintimePath('common')
+qttools_path.register_backintime_path('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
@@ -174,10 +174,10 @@ class MainWindow(QMainWindow):
 
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
-            _("This directory doesn't exist\n"
-              "in the current selected backup."),
+            '<strong>{}</strong>'.format(
+                _("This directory doesn't exist\n"
+                  "in the current selected backup.")),
             self)
-        qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
         self.lblFolderDontExists.setAlignment(
@@ -304,11 +304,10 @@ class MainWindow(QMainWindow):
                 'Import an existing configuration (from a backup target '
                 'directory or another computer)?')
 
-            answer = messagebox.question(text=message,
-                                         widget_to_center_on=self)
+            answer = messagebox.question(text=message)
 
             if answer:
-                RestoreConfigDialog(self).exec()
+                RestoreConfigDialog(self.config, self.snapshots).exec()
 
             SettingsDialog(self).exec()
 

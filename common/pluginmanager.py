@@ -12,10 +12,10 @@ import os
 import sys
 import tools
 
-tools.registerBackintimePath('common')
-tools.registerBackintimePath('plugins')
-tools.registerBackintimePath('common', 'plugins')
-tools.registerBackintimePath('qt', 'plugins')
+tools.register_backintime_path('common')
+tools.register_backintime_path('plugins')
+tools.register_backintime_path('common', 'plugins')
+tools.register_backintime_path('qt', 'plugins')
 
 import logger
 from exceptions import StopException
@@ -227,11 +227,11 @@ class PluginManager:
 
         # TODO 09/28/2022: Move hard coded plugin folders to configuration
         for path in ('plugins', 'common/plugins', 'qt/plugins'):
-            fullPath = tools.backintimePath(path)
+            fullPath = tools.as_backintime_path(path)
 
             if os.path.isdir(fullPath):
-                logger.debug('Register plugin path %s' %fullPath, self)
-                tools.registerBackintimePath(path)
+                logger.debug(f'Register plugin path {fullPath}', self)
+                tools.register_backintime_path(path)
 
                 for f in os.listdir(fullPath):
 

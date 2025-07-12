@@ -22,19 +22,15 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 import qttools
-qttools.registerBackintimePath('common')
-
+qttools.register_backintime_path('common')
 import logger
-
 # Workaround until the codebase allows a single place to init all translations
 import tools
 tools.initiate_translation(None)
-
 import snapshots
 import progress
 import logviewdialog
 import encfstools
-
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QRegion
@@ -68,7 +64,6 @@ class QtSysTrayIcon:
             _('Profile: {profile_name}').format(
                 profile_name=self.config.profileName())
         )
-        qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
