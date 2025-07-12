@@ -25,8 +25,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidgetItem)
 import snapshots
 import qttools
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 
 
 class TimeLine(QTreeWidget):

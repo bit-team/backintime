@@ -25,7 +25,7 @@ from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 # We need to import common/tools.py
 import qttools_path
-qttools_path.registerBackintimePath('common')
+qttools_path.register_backintime_path('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)

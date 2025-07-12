@@ -42,8 +42,8 @@ from PyQt6.QtWidgets import (QApplication,
                              QSystemTrayIcon,
                              QWidget)
 from packaging.version import Version
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402

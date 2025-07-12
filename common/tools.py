@@ -120,9 +120,8 @@ def sharePath():
     return '/usr/share'
 
 
-def backintimePath(*path):
-    """
-    Get path inside ``backintime`` install folder.
+def as_backintime_path(*path: str) -> str:
+    """Get path inside ``backintime`` install folder.
 
     Args:
         *path (str): Paths that should be joined to ``backintime``.
@@ -131,7 +130,10 @@ def backintimePath(*path):
         str: Child path of ``backintime`` child path e.g.
             ``/usr/share/backintime/common``or ``/usr/share/backintime/qt``.
     """
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+    result = pathlib.Path(__file__).parent.parent / pathlib.Path(*path)
+    result = result.resolve()
+
+    return str(result)
 
 
 def docPath():
@@ -151,9 +153,9 @@ def docPath():
     # b) or a left-over from old code where the LICENSE was installed
     # differently...
 
-    license_file = pathlib.Path(backintimePath()) / 'LICENSE'
+    license_file = pathlib.Path(as_backintime_path()) / 'LICENSE'
     if license_file.exists():
-        path = backintimePath()
+        path = as_backintime_path()
 
     return str(path)
 
@@ -656,7 +658,7 @@ def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
 # |------------------------------------|
 
 
-def registerBackintimePath(*path):
+def register_backintime_path(*path: str):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
     can discover them.
@@ -668,7 +670,7 @@ def registerBackintimePath(*path):
         Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
         would need this to actually import :py:mod:`tools`.
     """
-    path = backintimePath(*path)
+    path = as_backintime_path(*path)
 
     if path not in sys.path:
         sys.path.insert(0, path)
@@ -685,14 +687,14 @@ def runningFromSource():
     Returns:
         bool: ``True`` if BackInTime is running from source.
     """
-    return os.path.isfile(backintimePath('common', 'backintime'))
+    return os.path.isfile(as_backintime_path('common', 'backintime'))
 
 
 def addSourceToPathEnviron():
     """
     Add 'backintime/common' path to 'PATH' environ variable.
     """
-    source = backintimePath('common')
+    source = as_backintime_path('common')
     path = os.getenv('PATH')
     if path and source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' % (source, path)
@@ -908,7 +910,7 @@ def which(cmd):
     """
     pathenv = os.getenv('PATH', '')
     path = pathenv.split(':')
-    common = backintimePath('common')
+    common = as_backintime_path('common')
 
     if runningFromSource() and common not in path:
         path.insert(0, common)
@@ -1178,7 +1180,7 @@ def is_Qt_working(systray_required=False):
     # don't want to crash BiT if this happens...
 
     try:
-        path = os.path.join(backintimePath("common"), "qt_probing.py")
+        path = os.path.join(as_backintime_path("common"), "qt_probing.py")
         cmd = [sys.executable, path]
         if logger.DEBUG:
             cmd.append('--debug')

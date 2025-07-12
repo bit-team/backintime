@@ -22,7 +22,7 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 import qttools
-qttools.registerBackintimePath('common')
+qttools.register_backintime_path('common')
 
 import logger
 
