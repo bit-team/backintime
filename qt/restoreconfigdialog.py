@@ -15,6 +15,10 @@
 import os
 import datetime
 import getpass
+import threading
+import subprocess
+from pathlib import Path
+from collections.abc import Callable
 from PyQt6.QtGui import QPalette, QColor, QFileSystemModel
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
@@ -27,8 +31,7 @@ from PyQt6.QtWidgets import (QDialog,
 from PyQt6.QtCore import (Qt,
                           QDir,
                           QSortFilterProxyModel,
-                          QThread,
-                          pyqtSignal)
+                          )
 import logger
 import bitbase
 from config import Config
@@ -95,11 +98,11 @@ class RestoreConfigDialog(QDialog):
 
         self._config_to_restore = None
 
-        self._scan_fs_thread = ScanFileSystem(self)
+        self._scan_fs_thread = ScanFileSystem(
+            found_handler=self.handle_scan_found)
 
         self._tree_view.selectionModel().currentChanged.connect(
             self._slot_index_changed)
-        self._scan_fs_thread.foundConfig.connect(self.handle_scan_found)
 
         btn_box = QDialogButtonBox(self)
 
@@ -330,19 +333,15 @@ class RestoreConfigDialog(QDialog):
         return ret
 
 
-class ScanFileSystem(QThread):
+class ScanFileSystem(threading.Thread):
     """A thread scanning the file system for config files related to BIT."""
-    foundConfig = pyqtSignal(str)
+    # foundConfig = pyqtSignal(str)
 
-    def __init__(self, parent):
-        super().__init__(parent)
-        self._stopper = False
+    def __init__(self, found_handler: Callable, stop_event=None):
+        super().__init__()
 
-    def stop(self):
-        """Prepare stop and wait for finish."""
-        self._stopper = True
-
-        return self.wait()
+        self._handler_found_config = found_handler
+        self._stop_event = stop_event or threading.Event()
 
     def run(self):
         """Search in order of hopefully fastest way to find the backups.
@@ -350,42 +349,68 @@ class ScanFileSystem(QThread):
         1. /home/USER 2. /media 3. /mnt and at last filesystem root.
         Already searched paths will be excluded.
         """
-        search_order = [os.path.expanduser('~'), '/media', '/mnt', '/']
+        search_order = [
+            Path.home(),
+            Path('/media'),
+            Path('/mnt'),
+            Path('/'),
+        ]
 
-        for scan in search_order:
+        for path_to_scan in search_order:
             exclude = search_order[:]
-            exclude.remove(scan)
+            exclude.remove(path_to_scan)
 
-            for path in self._scan_path(scan, exclude):
-                self.foundConfig.emit(path)
+            for found in self._scan(path_to_scan, exclude):
+                if self._stop_event.is_set():
+                    return
 
-    def _scan_path(self, path, excludes=()):
+                # Fire signal
+                self._handler_found_config(str(found))
+
+    def _scan(self, root: Path, excludes: list[Path]):
         """Walk through all directories and try to find 'config' file.
 
         If found make sure it is nested in backintime/FOO/BAR/1/2345/config and
         return its path. Exclude all paths from excludes and also
         all backintime/FOO/BAR/1/2345/backup
         """
-        for root, dirs, files in os.walk(path, topdown=True):
+        cmd = [
+            'find', str(root),
+            '-type',
+            'f',
+            '-name',
+            bitbase.FILENAME_CONFIG,
+        ]
 
-            if self._stopper:
-                return
+        with subprocess.Popen(cmd,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.DEVNULL,
+                              text=True) as proc:
 
-            for exclude in excludes:
-                ex_dir, ex_base = os.path.split(exclude)
+            for line in proc.stdout():
 
-                if root == ex_dir:
+                if self._stop_event.is_set():
+                    return
 
-                    if ex_base in dirs:
-                        del dirs[dirs.index(ex_base)]
+                path = Path(line.strip())
 
-            if bitbase.FILENAME_CONFIG in files:
-                rootdirs = root.split(os.sep)
+                # Skip excluded
+                if any(path.is_relative_to(entry) for entry in excludes):
+                    continue
 
-                if (len(rootdirs) > 4  # noqa: PLR2004
-                        and rootdirs[-5].startswith(bitbase.BINARY_NAME_BASE)):
+                # Example: .../backintime/FOO/BAR/1/2345/config
+                try:
+                    if path.parts[-5] == bitbase.BINARY_NAME_BASE:
+                        if 'backup' in path.parts:
+                            continue
 
-                    if 'backup' in dirs:
-                        del dirs[dirs.index('backup')]
+                except IndexError:
+                    continue
 
-                    yield root
+                else:
+                    yield path.parent
+
+    def stop(self):
+        """Prepare stop and wait for finish."""
+        self._stop_event.set()
+        self.join()
