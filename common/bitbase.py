@@ -61,6 +61,8 @@ URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 # | Directories & files |
 # |---------------------|
 
+FILENAME_CONFIG = 'config'
+
 _DIR_DOC_PATH_BASE = Path('/') / 'usr' / 'share' / 'doc'
 
 USER_MANUAL_LOCAL_PATH = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI \

@@ -30,6 +30,7 @@ from PyQt6.QtCore import (Qt,
                           QThread,
                           pyqtSignal)
 import logger
+import bitbase
 from config import Config
 from snapshots import SID, Snapshots
 
@@ -329,10 +330,6 @@ class RestoreConfigDialog(QDialog):
 
 class ScanFileSystem(QThread):
     """A thread scanning the file system for config files related to BIT."""
-    CONFIG = 'config'
-    BACKUP = 'backup'
-    BACKINTIME = 'backintime'
-
     foundConfig = pyqtSignal(str)
 
     def __init__(self, parent):
@@ -340,16 +337,14 @@ class ScanFileSystem(QThread):
         self._stopper = False
 
     def stop(self):
-        """
-        prepare stop and wait for finish.
-        """
+        """Prepare stop and wait for finish."""
         self._stopper = True
 
         return self.wait()
 
     def run(self):
-        """
-        search in order of hopefully fastest way to find the snapshots.
+        """Search in order of hopefully fastest way to find the backups.
+
         1. /home/USER 2. /media 3. /mnt and at last filesystem root.
         Already searched paths will be excluded.
         """
@@ -363,11 +358,10 @@ class ScanFileSystem(QThread):
                 self.foundConfig.emit(path)
 
     def _scan_path(self, path, excludes=()):
-        """
-        walk through all folders and try to find 'config' file.
+        """Walk through all directories and try to find 'config' file.
+
         If found make sure it is nested in backintime/FOO/BAR/1/2345/config and
-        return its path.
-        Exclude all paths from excludes and also
+        return its path. Exclude all paths from excludes and also
         all backintime/FOO/BAR/1/2345/backup
         """
         for root, dirs, files in os.walk(path, topdown=True):
@@ -383,13 +377,13 @@ class ScanFileSystem(QThread):
                     if ex_base in dirs:
                         del dirs[dirs.index(ex_base)]
 
-            if self.CONFIG in files:
+            if bitbase.FILENAME_CONFIG in files:
                 rootdirs = root.split(os.sep)
 
                 if (len(rootdirs) > 4
-                        and rootdirs[-5].startswith(self.BACKINTIME)):
+                        and rootdirs[-5].startswith(bitbase.BINARY_NAME_BASE)):
 
-                    if self.BACKUP in dirs:
-                        del dirs[dirs.index(self.BACKUP)]
+                    if 'backup' in dirs:
+                        del dirs[dirs.index('backup')]
 
                     yield root
