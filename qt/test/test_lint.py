@@ -346,8 +346,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W1515',  # forgotten-debug-statement
             'W4902',  # deprecated-method
             'W4904',  # deprecated-class
-            # 'R0202',  # no-classmethod-decorator
-            # 'R0203',  # no-staticmethod-decorator
+            'R0202',  # no-classmethod-decorator
+            'R0203',  # no-staticmethod-decorator
         ]
 
         cmd = create_pylint_cmd(err_codes)
