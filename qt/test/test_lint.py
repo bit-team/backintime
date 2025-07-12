@@ -57,6 +57,7 @@ full_test_files = [_base_dir / fp for fp in (
     'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
+    'restoreconfigdialog.py',
     'shutdowndlg.py',
     'statedata.py',
     'statusbar.py',

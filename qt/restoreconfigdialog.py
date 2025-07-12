@@ -10,6 +10,8 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""A dialog to identify and import old Back In Time configs.
+"""
 import os
 import datetime
 import getpass
@@ -72,13 +74,13 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(self._create_hint_label())
 
         # treeView
-        self._tree_view = MyTreeView(self)
+        self._tree_view = QTreeView(self)  # MyTreeView(self)
         self._tree_model = QFileSystemModel(self)
         self._tree_model.setRootPath(QDir().rootPath())
         self._tree_model.setReadOnly(True)
         self._tree_model.setFilter(QDir.Filter.AllDirs |
-                                     QDir.Filter.NoDotAndDotDot |
-                                     QDir.Filter.Hidden)
+                                   QDir.Filter.NoDotAndDotDot |
+                                   QDir.Filter.Hidden)
 
         self._filter_proxy = QSortFilterProxyModel(self)
         self._filter_proxy.setDynamicSortFilter(True)
@@ -142,7 +144,9 @@ class RestoreConfigDialog(QDialog):
 
         self._scan_fs_thread = ScanFileSystem(self)
 
-        self._tree_view.myCurrentIndexChanged.connect(self._slot_index_changed)
+        self._tree_view.selectionModel().currentChanged.connect(
+            self._slot_index_changed)
+        # self._tree_view.myCurrentIndexChanged.connect(self._slot_index_changed)
         self._scan_fs_thread.foundConfig.connect(self.handle_scan_found)
         self._scan_fs_thread.finished.connect(self.handle_scan_finished)
 
@@ -194,16 +198,17 @@ class RestoreConfigDialog(QDialog):
         """
         return a path string for a given treeView index
         """
-        idx = self._filter_proxy.mapToSource(index)
+        idx_source = self._filter_proxy.mapToSource(index)
 
-        return str(self._tree_model.filePath(idx))
+        return str(self._tree_model.filePath(idx_source))
 
     def _index_from_path(self, path: str) -> int:
         """
         return the index for path which can be used in treeView
         """
-        indexSource = self._tree_model.index(path)
-        return self._filter_proxy.mapFromSource(indexSource)
+        idx = self._tree_model.index(path)
+
+        return self._filter_proxy.mapFromSource(idx)
 
     def _slot_index_changed(self, current, previous):
         """Called every time a new item is chosen in treeView.
