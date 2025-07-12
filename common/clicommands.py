@@ -657,7 +657,6 @@ def status(args: argparse.Namespace):
     status_object = BackupStatus(
         cfg=cfg,
         all_status=False if args.profile else True,
-        issues=args.issues,
         format_json=args.json
     )
 

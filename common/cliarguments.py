@@ -726,13 +726,6 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
 
         parser.add_argument(
-            '--issues', '-i',
-            action='store_true',
-            default=False,
-            help='show only profiles with errors on most recent '
-                 'run or no backup history at all')
-
-        parser.add_argument(
             '--json', '-j',
             action='store_true',
             default=False,

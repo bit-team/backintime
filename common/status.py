@@ -10,7 +10,6 @@ Tool for reporting the status of backup profiles.
 
 This script supports command-line arguments to:
 - Filter output by profile
-- Show only issues
 - Return the status in JSON format
 
 The status file is stored at:
@@ -32,25 +31,22 @@ class BackupStatus:
     """
     Reports the status of the most recent backup for all profiles.
 
-    The status includes details about the last successful backup, the last
+    The status includes details about the last backup, the last
     run, backup mode, and relevant paths. It can be formatted as a
     human-readable string or JSON.
 
     Args:
         cfg: Configuration object.
         all_status: Status for all profiles.
-        issues: If True, only profiles with issues are shown.
         json: If True, output is in JSON format.
     """
 
     def __init__(self,
                  cfg: config.Config,
                  all_status: bool = True,
-                 issues: bool = False,
                  format_json: bool = False):
 
         self.cfg = cfg
-        self.issues = issues
         self.json = format_json
         self.all_status = all_status
         self.status = {}
@@ -120,8 +116,8 @@ class BackupStatus:
         Write the current status dictionary to the backup status file.
         """
         try:
-            with open(_status_file_path(), 'w', encoding='utf-8') as f:
-                json.dump(self.status, f, indent=2)
+            with open(_status_file_path(), 'w', encoding='utf-8') as handle:
+                json.dump(self.status, handle)
 
         except (OSError, TypeError) as exc:
             logger.error(f'Error writing status file: {exc}')
@@ -168,7 +164,7 @@ class BackupStatus:
             # Get the last run timestamp
             if timestamp is not None:
                 # If a timestamp is provided, use it for the last run
-                last_log_ts = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+                last_log_ts = timestamp.strftime("%x %X")
             else:
                 # use the timestamp from the last log file
                 last_log = self.cfg.takeSnapshotLogFile(profile_id)
@@ -178,37 +174,14 @@ class BackupStatus:
                 'Last Run': str(last_log_ts) if last_log_ts else None
             }
 
-            # Get the timestamp for most recent backup (w or w/out errors)
+            # Get the timestamp for most recent backup
             last_backup = snapshots.lastSnapshot(self.cfg)
-            last_backup_ts = last_backup.date if last_backup else None
+            last_backup_ts = last_backup.date.strftime("%x %X")\
+                if last_backup else None
 
-            # Get the timestamp for the last successful backup (no errors)
-            last_success = next(
-                (backup for backup in snapshots.listSnapshots(self.cfg)
-                    if not backup.failed), None
-            )
-            last_success_ts = last_success.date if last_success else None
-
-            # If timestamps for most recent and last successful backup
-            # are the same, then the last backup was successful.
-            if last_backup and last_success_ts == last_backup_ts:
-                profile_status = "Success"
-            else:
-                profile_status = "Errors"
-
-            # If there has been a backup, add its status and timestamp
+            # If there has been a backup, add its timestamp
             if last_backup_ts:
-                status['Last Backup'] = {
-                    'Status': profile_status,
-                    'Completed At': str(last_backup_ts)
-                }
-
-            # If last backup was with errors, add the last successful
-            # backup timestamp
-            if last_success_ts != last_backup_ts:
-                status['Last Full Backup'] = str(
-                    last_success_ts
-                ) if last_success_ts else None
+                status['Last Backup'] = str(last_backup_ts)
 
             # Add mode and paths to backup detail
             status.update({
@@ -225,24 +198,22 @@ class BackupStatus:
                            f'{self.cfg.sshHost(profile_id=profile_id)}')
             status = (
                 {
-                    'Last Run': 'Unknown',
-                    'Note': 'Connect the drive to get status for this '
-                            f'profile (id={profile_id})'
+                    'Last Run': 'Connect the drive to get status',
+                    'Last Backup': f'for this profile (id={profile_id})'
                 }
             )
 
         finally:
+            self.cfg.setCurrentProfile(original_profile_id)
             if ssh:
                 ssh.umount()
-
-        self.cfg.setCurrentProfile(original_profile_id)
 
         return status
 
     def _get_formatted_status(self) -> str:
         """
         Format the backup status data for output based on the instance's
-        CLI-related flags (`self.json`, `self.profile_id`, `self.issues`).
+        CLI-related flags (`self.json`, `self.profile_id`).
 
         The output can be:
         - Human-readable text if `self.json` is False (default).
@@ -251,8 +222,6 @@ class BackupStatus:
         Filtering:
         - If `self.profile_id` is set, only the status for that profile is
             included.
-        - If `self.issues` is True, only profiles with errors in their last
-            backup (or no successful backup) are included.
 
         If a list of statuses will be returned, some keys ('Backup mode' and
         'Paths') are omitted to keep the output more clear.
@@ -264,20 +233,10 @@ class BackupStatus:
         """
         def profile_filter(key):
             """Returns true if the current profile should be printed, either
-            because no profile is specified, the issues flag is set,
-            or the profile name matches the key."""
+            because no profile is specified, or the profile name matches
+            the key."""
 
-            return self.all_status or self.issues \
-                or self.cfg.profileName() == key
-
-        def issues_filter(key):
-            """Returns true if --issues flag is not set or it is set and
-            either no backup exists or last backup for profile has errors."""
-
-            return (not self.issues
-                    or not self.status[key].get('Last Backup')
-                    or self.status[key]['Last Backup'].get(
-                        'Status') == 'Errors')
+            return self.all_status or self.cfg.profileName() == key
 
         def remove_keys(dic, keys):
             """Helper function to remove specified keys from a dict."""
@@ -285,8 +244,7 @@ class BackupStatus:
             if isinstance(dic, dict):
                 return {
                     key: remove_keys(value, keys) for key, value in dic.items()
-                    if (not self.all_status and not self.issues) or key
-                    not in keys
+                    if not self.all_status or key not in keys
                 }
 
             return dic
@@ -297,11 +255,11 @@ class BackupStatus:
         result = {
             key: remove_keys(value, keys_to_remove)
             for key, value in self.status.items()
-            if profile_filter(key) and issues_filter(key)
+            if profile_filter(key)
         }
 
         if self.json:
-            return json.dumps(result, indent=2)
+            return json.dumps(result)
 
         return _human(result)
 
@@ -321,77 +279,31 @@ def _date_of(filename: str) -> str:
     return timestamp_ts.strftime("%x %X")
 
 
-def _longest_key(dic: dict, depth: int = 0) -> int:
-    """
-    Find the length of the longest key in a nested dictionary
-    to assist with formatting for human-readable output.
-
-    Args:
-        dic (dict):
-                        Dictionary to search.
-        depth (int):
-                        Current recursion depth, used internally.
-                        Should not be set manually.
-
-    Returns:
-        int:
-                        Length of the longest key.
-    """
-    max_len = max(map(len, dic.keys()), default=0) if depth > 0 else 0
-
-    for value in dic.values():
-        if isinstance(value, dict):
-            max_len = max(
-                max_len,
-                _longest_key(value, depth=depth + 1)
-            )
-
-    return max_len
-
-
-def _human(dic: dict, indent: int = 0, width: int = None) -> str:
+def _human(dic: dict) -> str:
     """
     Return a human-readable string representation of a nested dictionary.
 
     Args:
         dic (dict):
                         Dictionary to format.
-        indent (int):
-                        Indentation level, used internally for recursion.
-                        Should not be set manually.
-        width (int):
-                        Key width for alignment, calculated automatically
-                        during recursion.
-                        Should not be set manually.
 
     Returns:
         str:
                         Formatted string.
     """
-    human = []
-    singly_nested = 2
-    # doubly_nested = 4
+    result = []
 
-    if width is None:
-        width = _longest_key(dic)
+    for profile, info in dic.items():
+        result.append(f"{profile}:")
+        for label in ['Last Run', 'Last Backup', 'Backup mode', 'Paths']:
+            value = info.get(label)
+            if isinstance(value, dict):
+                sub_items = [f"\n     {k:<9}: {v}" for k, v in value.items()]
+                value = ''.join(sub_items)
+            if label == 'Last Run' or value is not None:
+                result.append(f"  {label:<12}: {value}")
 
-    for key, value in dic.items():
-        if isinstance(value, dict):
-            if indent == 0 and human:
-                human.append('')
-
-            human.append(f"{' ' * indent}{key}:")
-            human.append(
-                _human(value, indent=indent + 2, width=width)
-            )
-
-        elif indent == singly_nested:
-            human.append(f"{' ' * indent}{key:{width + 2}}: {value}")
-
-        else:
-            human.append(f"{' ' * indent}{key:{width}}: {value}")
-
-    return '\n'.join(human)
+    return '\n'.join(result)
 
 
 def _status_file_path() -> Path:
