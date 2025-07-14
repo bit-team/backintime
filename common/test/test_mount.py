@@ -12,7 +12,6 @@ import os
 import sys
 import inspect
 import random
-import shutil
 import string
 from unittest import mock
 from pathlib import Path
@@ -259,18 +258,31 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 # with pyfakefs:
 # https://pytest-pyfakefs.readthedocs.io/en/latest/troubleshooting.html#subprocess-built-in
 
-# For this test, we need to suspend patching and use a real temp dir:
-# https://pytest-pyfakefs.readthedocs.io/en/latest/convenience.html#suspending-patching
+TEST_ENCFS_PASSWORD = 'test_password'
 
+
+# NOTE: We specify the `new` argument to `mock.patch`, as this prevents
+# the mocked objects from being passed as arguments to the test methods.
+
+# Mock passwordFromUser to bypass the interactive password confirmation
+@mock.patch(
+    'password.Password.passwordFromUser',
+    new=mock.MagicMock(return_value=TEST_ENCFS_PASSWORD),
+)
+# Mock askQuestion to bypass the interactive user confirmation
+@mock.patch(
+    'configfile.ConfigFile.askQuestion',
+    new=mock.MagicMock(return_value=True)
+)
 class MountWithLocalEncFs(generic.TestCase):
     """Test high-level Mount with 'local_encfs' backend.
     """
-    test_password = 'test_password_8'
 
     def setUp(self):
         """Setup EncFS config and temporary directory"""
         self.mode = 'local_encfs'
 
+        # pylint: disable=R1732
         self.temp_dir = TemporaryDirectory(prefix='bit-test-')
         self.temp_path = Path(self.temp_dir.name)
 
@@ -289,10 +301,12 @@ class MountWithLocalEncFs(generic.TestCase):
         # Ensure the correct test password is set, to hopefully
         # bypass all the interactive shenanigans that would
         # normally occur.
-        self.cfg.setPassword(self.test_password)
+        self.cfg.setPassword(TEST_ENCFS_PASSWORD)
 
         # setup mount root
-        fp = self.temp_path / ''.join(random.choices(string.ascii_letters, k=10))
+        fp = self.temp_path / ''.join(
+            random.choices(string.ascii_letters, k=10)
+        )
         fp.mkdir()
         # pylint: disable-next=protected-access
         self.cfg._LOCAL_MOUNT_ROOT = str(fp)
@@ -319,18 +333,7 @@ class MountWithLocalEncFs(generic.TestCase):
                     self.test_mount.preMountCheck(first_run=first_run)
                 )
 
-    # Mock passwordFromUser to bypass the interactive password
-    # confirmation dialog.
-    @mock.patch(
-        'password.Password.passwordFromUser',
-        return_value=test_password
-    )
-    @mock.patch('configfile.ConfigFile.askQuestion', return_value=True)
-    def test_uninitialised_mount_and_unmount(
-            self,
-            _mock_ask_question,
-            _mock_password_from_user
-    ):
+    def test_uninitialised_mount_and_unmount(self):
         """High-level Mount.mount returns the output from backend.mount.
         Due to inheritence, this is the same as MountControl.mount.
         If all goes well, MountControl.mount returns self.hash_id.
@@ -340,10 +343,6 @@ class MountWithLocalEncFs(generic.TestCase):
         without unmounting.
         """
 
-        # TODO: Make this test better?
-        # mount() returns the 8 character hash_id.
-        # Perhaps there's a more substantial test we can do of
-        # this?
         mount_hash = self.test_mount.mount(check=False)
         self.assertEqual(
             8,
@@ -354,18 +353,7 @@ class MountWithLocalEncFs(generic.TestCase):
         # it tries to delete the temporary directory.
         self.test_mount.umount(hash_id=mount_hash)
 
-    # Mock passwordFromUser to bypass the interactive password
-    # confirmation dialog.
-    @mock.patch(
-        'password.Password.passwordFromUser',
-        return_value=test_password
-    )
-    @mock.patch('configfile.ConfigFile.askQuestion', return_value=True)
-    def test_remount_current_profile(
-            self,
-            _mock_ask_question,
-            _mock_password_from_user
-    ):
+    def test_remount_current_profile(self):
         """Test if we can remount and existing mount.
         """
 
@@ -381,3 +369,6 @@ class MountWithLocalEncFs(generic.TestCase):
         # We need to unmount it, otherwise the test fails when
         # it tries to delete the temporary directory.
         self.test_mount.umount(hash_id=mount_hash)
+
+    # def test_remount_to_different_profile():
+    #     assert False
