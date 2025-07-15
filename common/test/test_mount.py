@@ -280,28 +280,40 @@ class MountWithLocalEncFs(generic.TestCase):
 
     def setUp(self):
         """Setup EncFS config and temporary directory"""
+
+        # See profiles in test/config
+        # We need two profiles to test remounting to a different
+        # profile.
+        self.local_profile = 1
+        self.local_encfs_profile_id = 3
+        self.local_encfs_profile_id_2 = 4
+
         self.mode = 'local_encfs'
 
         # pylint: disable=R1732
         self.temp_dir = TemporaryDirectory(prefix='bit-test-')
         self.temp_path = Path(self.temp_dir.name)
 
-        self.local_encfs_snapshots_path = (
+        local_encfs_snapshots_path = (
             self.temp_path / 'local-encfs-snapshots'
         )
-        self.local_encfs_snapshots_path.mkdir()
+        local_encfs_snapshots_path.mkdir()
 
-        self._config_fp = _create_config_file(
-            parent_path=self.temp_path,
-            mode=self.mode,
-            local_encfs_snapshots_path=self.local_encfs_snapshots_path,
-        )
-        self.cfg = config.Config(str(self._config_fp))
+        self.cfg = config.Config(self.cfgFile)
+
+        # setCurrentProfile returns False if it fails.
+        # If this happens, crash to minimise confusion.
+        assert self.cfg.setCurrentProfile(self.local_encfs_profile_id)
+        self.cfg.setLocalEncfsPath(str(local_encfs_snapshots_path))
 
         # Ensure the correct test password is set, to hopefully
         # bypass all the interactive shenanigans that would
         # normally occur.
         self.cfg.setPassword(TEST_ENCFS_PASSWORD)
+        self.cfg.setPassword(
+            TEST_ENCFS_PASSWORD,
+            profile_id=self.local_encfs_profile_id_2
+        )
 
         # setup mount root
         fp = self.temp_path / ''.join(
@@ -360,7 +372,7 @@ class MountWithLocalEncFs(generic.TestCase):
         mount_hash = self.test_mount.mount()
 
         # Remount current profile
-        remount_hash = self.test_mount.remount(1)
+        remount_hash = self.test_mount.remount(self.local_encfs_profile_id)
 
         # When remounting the same profile, the new mount
         # hash should be the same.
@@ -377,7 +389,7 @@ class MountWithLocalEncFs(generic.TestCase):
         print(f"{mount_hash=}")
 
         # Remount different profile
-        remount_hash = self.test_mount.remount(2, mode='local')
+        remount_hash = self.test_mount.remount(self.local_profile)
         print(f'{remount_hash=}')
 
         # When remounting a different profile, the new mount
@@ -387,3 +399,30 @@ class MountWithLocalEncFs(generic.TestCase):
         # We need to unmount it, otherwise the test fails when
         # it tries to delete the temporary directory.
         self.test_mount.umount(hash_id=mount_hash)
+
+    def test_remount_to_new_local_encfs_profile(self):
+        """Test if we can remount to a new local EncFS profile"""
+
+        local_encfs_snapshots_2_path = (
+            self.temp_path / 'local-encfs-snapshots-2'
+        )
+        local_encfs_snapshots_2_path.mkdir()
+        self.cfg.setLocalEncfsPath(
+            str(local_encfs_snapshots_2_path),
+            profile_id=self.local_encfs_profile_id_2
+        )
+
+        mount_hash = self.test_mount.mount()
+        # Set the current hash_id, so remount() can find it.
+        self.cfg.setCurrentHashId(mount_hash)
+
+        # Remount different profile
+        remount_hash = self.test_mount.remount(self.local_encfs_profile_id_2)
+
+        # When remounting a different profile, the new mount
+        # hash should be different.
+        self.assertNotEqual(mount_hash, remount_hash)
+
+        # We need to unmount it, otherwise the test fails when
+        # it tries to delete the temporary directory.
+        self.test_mount.umount(hash_id=remount_hash)
