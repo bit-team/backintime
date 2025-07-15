@@ -170,8 +170,6 @@ class Mount:
                         f'Failed to {action} pw-cache: {proc.returncode}',
                         self)
 
-                    pass
-
     def mount(self, mode=None, check=True, **kwargs):
         """High-level `mount`. Check if the selected ``mode`` need to be mounted,
         select the low-level backend and mount it.
