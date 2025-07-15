@@ -288,8 +288,6 @@ class MountWithLocalEncFs(generic.TestCase):
         self.local_encfs_profile_id = 3
         self.local_encfs_profile_id_2 = 4
 
-        self.mode = 'local_encfs'
-
         # pylint: disable=R1732
         self.temp_dir = TemporaryDirectory(prefix='bit-test-')
         self.temp_path = Path(self.temp_dir.name)
