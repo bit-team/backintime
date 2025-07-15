@@ -354,7 +354,7 @@ class MountWithLocalEncFs(generic.TestCase):
         self.test_mount.umount(hash_id=mount_hash)
 
     def test_remount_current_profile(self):
-        """Test if we can remount and existing mount.
+        """Test if we can remount an existing mount.
         """
 
         mount_hash = self.test_mount.mount()
