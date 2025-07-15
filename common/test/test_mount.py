@@ -370,5 +370,20 @@ class MountWithLocalEncFs(generic.TestCase):
         # it tries to delete the temporary directory.
         self.test_mount.umount(hash_id=mount_hash)
 
-    # def test_remount_to_different_profile():
-    #     assert False
+    def test_remount_to_new_local_profile(self):
+        """Test if we can remount to a new local profile"""
+
+        mount_hash = self.test_mount.mount()
+        print(f"{mount_hash=}")
+
+        # Remount different profile
+        remount_hash = self.test_mount.remount(2, mode='local')
+        print(f'{remount_hash=}')
+
+        # When remounting a different profile, the new mount
+        # hash should be different.
+        self.assertNotEqual(mount_hash, remount_hash)
+
+        # We need to unmount it, otherwise the test fails when
+        # it tries to delete the temporary directory.
+        self.test_mount.umount(hash_id=mount_hash)
