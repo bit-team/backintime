@@ -33,6 +33,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [What happens when I remove a backup?](#what-happens-when-i-remove-a-backup)
    * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
    * [How to use extended filesystem attributes (xattr) to exclude files/directories?](#how-to-use-extended-filesystem-attributes-xattr-to-exclude-filesdirectories)
+   * [How does Back In Time handle open or changed files during backup?](#how-does-back-in-time-handle-open-or-changed-files-during-backup)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
    * [Back In Time doesn't find my old backups on my new Computer](#back-in-time-doesnt-find-my-old-backups-on-my-new-computer)
@@ -529,6 +530,46 @@ Further reading:
 If you encounter clear rules about configuring Samba that it works with
 _Back In Time_ in a reliable way, please let us know the details. We will than
 integrate it into the documentation.
+
+## How does _Back in Time_ handle open or changed files during backup?
+
+**Explanation**
+
+Back In Time uses rsync to copy the files and directories specified to be
+backed up in the configuration. Rsync does not lock any files that are open
+or being modified and therefore the backup can be copied in an inconsistent
+state. Rsync only reads a file on time when it goes through it and as a result
+of this only some changes are captured by rsync. This can affect files such as
+logs, browser caches, databases or virtual machine images where inconsistencies
+can even lead to data corruption.
+
+**To reduce this risk, the following approaches can be considered:**
+
+- **Filesystem snapshots**
+   If using a filesystem like btrfs and ZFS that has a snapshot function this
+   can be used together with Back in Time. Filesystem snapshots provide a
+   read-only copy of a filesystem frozen at a specific point in time, which
+   ensures data integrity even for open/changing files. Configure Back In Time
+   to backup from this filesystem's read-only snapshot.
+
+- **Use exclusions**
+   If the filesystem does not have filesystem snapshots available, one
+   solution could be to exclude files that are frequently open or actively
+   changing. The command `lsof` in GNU/Linux presents open files and the
+   processes that opened them as a list. Use this list as base for
+   configuring BIT exclusion list.
+
+- **Application specific handling**
+   For applications that opens and modifies files frequently like databases
+   or virtual machines, specific solutions may be needed. Use the databases
+   own backup function to create a consistent copy and include that in the
+   BIT backup. Virtual machines products typically have ability to create
+   snapshots of their state, that can be included in BIT.
+
+- **Choose when to perform backup**
+   Perform backup at times where less files are open, for example at night.
+
+
 
 # Restore
 

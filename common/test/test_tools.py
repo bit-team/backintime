@@ -70,11 +70,20 @@ General Public License for details.
 """
 
 
-class TestTools(generic.TestCase):
-    """
-    All functions test here come from tools.py
-    """
+class Basics(unittest.TestCase):
+    def test_as_backintime_path(self):
+        path = tools.as_backintime_path('common')
+        self.assertIn(path, __file__)
 
+    def test_register_backintime_path(self):
+        path = tools.as_backintime_path('foo')
+        tools.register_backintime_path('foo')
+
+        self.assertIn(path, sys.path)
+        sys.path.remove(path)
+
+
+class General(generic.TestCase):
     def setUp(self):
         super().setUp()
         self.subproc = None
@@ -101,21 +110,11 @@ class TestTools(generic.TestCase):
         share = tools.sharePath()
         self.assertTrue(share.endswith('share'), 'share = {}'.format(share))
 
-    def test_backintimePath(self):
-        path = tools.backintimePath('common')
-        self.assertIn(path, __file__)
-
-    def test_registerBackintimePath(self):
-        path = tools.backintimePath('foo')
-        tools.registerBackintimePath('foo')
-        self.assertIn(path, sys.path)
-        sys.path.remove(path)
-
     def test_runningFromSource(self):
         self.assertTrue(tools.runningFromSource())
 
     def test_addSourceToPathEnviron(self):
-        source = tools.backintimePath('common')
+        source = tools.as_backintime_path('common')
         path = [x for x in os.getenv('PATH').split(':') if x != source]
         os.environ['PATH'] = ':'.join(path)
 

@@ -298,7 +298,7 @@ class Password:
                     profile=self.config.profileName(profile_id),
                     mode=self.config.SNAPSHOT_MODES[mode][pw_id+1])
 
-        tools.registerBackintimePath('qt')
+        tools.register_backintime_path('qt')
 
         x_server = tools.checkXServer()
         import_successful = False

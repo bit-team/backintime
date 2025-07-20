@@ -26,7 +26,7 @@ import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
-from PyQt6.QtGui import QDesktopServices, QFont, QIcon
+from PyQt6.QtGui import QDesktopServices, QIcon
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
                           QLocale,
@@ -42,8 +42,8 @@ from PyQt6.QtWidgets import (QApplication,
                              QSystemTrayIcon,
                              QWidget)
 from packaging.version import Version
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
@@ -51,28 +51,10 @@ import version  # noqa: E402
 import messagebox
 from filedialog import FileDialog
 
-# |---------------|
-# | Font handling |
-# |---------------|
 
-
-def fontBold(font):
-    font.setWeight(QFont.Weight.Bold)
-    return font
-
-
-def setFontBold(widget):
-    widget.setFont(fontBold(widget.font()))
-
-
-def fontNormal(font):
-    font.setWeight(QFont.Weight.Normal)
-    return font
-
-
-def setFontNormal(widget):
-    widget.setFont(fontNormal(widget.font()))
-
+# |--------------------------------|
+# | Widget modification & creation |
+# |--------------------------------|
 
 def can_render(string, widget):
     """Check if the string can be rendered by the font used by the widget.
@@ -94,10 +76,6 @@ def can_render(string, widget):
 
     return True
 
-
-# |--------------------------------|
-# | Widget modification & creation |
-# |--------------------------------|
 
 _REX_RICHTEXT = re.compile(
     # begin of line
@@ -356,7 +334,7 @@ def user_manual_uri() -> str:
     """
     uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
         if bitbase.USER_MANUAL_LOCAL_AVAILABLE \
-        else bitbase.USER_MANUAL_ONLINE_URL
+        else bitbase.URL_USER_MANUAL
 
     return uri
 

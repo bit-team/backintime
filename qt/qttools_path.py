@@ -15,19 +15,30 @@ manipulation will become obsolete when migrating to state of the art Python
 packaging standards. This module is a workaround and will get refactored in
 the future.
 """
-import os
 import sys
+from pathlib import Path
 
 
-def backintimePath(*path):
-    """Return the path of the backintime project folder."""
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+def as_backintime_path(*path: str) -> str:
+    """Get path inside ``backintime`` install folder.
+
+    Args:
+        *path (str): Paths that should be joined to ``backintime``.
+
+    Returns:
+        str: Child path of ``backintime`` child path e.g.
+            ``/usr/share/backintime/common``or ``/usr/share/backintime/qt``.
+    """
+    result = Path(__file__).parent.parent / Path(*path)
+    result = result.resolve()
+
+    return str(result)
 
 
-def registerBackintimePath(*path):
+def register_backintime_path(*path: str):
     """Find duplicate in common/tools.py
     """
-    path = backintimePath(*path)
+    path = as_backintime_path(*path)
 
     if path not in sys.path:
         sys.path.insert(0, path)
