@@ -44,6 +44,7 @@ backintime - Create and manage incremental backups using rsync
 [--diagnostics]
 {
     backup [--checksum] [--background]
+    | status [--json]
     | show [--path] [--last]
     | restore [--checksum] [--delete] [--local-backup | --no-local-backup] [--only-new] [WHAT] [WHERE] [BACKUP_ID]
     | remove [--skip-confirmation] [BACKUP_ID ...]
@@ -109,6 +110,11 @@ not running on battery.
 
 *--checksum* :: Force to use checksum for checking if files have been changed.
 *--background* :: Run in background via daemonization.
+
+=== status
+Display timepoint of last run and status (e.g. Success) of last backup.
+
+*-j*, *--json*  :: Output in JSON format.
 
 === show
 List backup ID's or paths.

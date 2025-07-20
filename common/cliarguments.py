@@ -91,7 +91,9 @@ def _license_info() -> tuple[str, str]:
 
     if not result[1]:
         result = (
-            result[0], 'Unable to extract licenses from LICENSES directory.')
+            result[0],
+            'Unable to extract licenses from LICENSES '
+            f'directory "{bitbase.DIR_LICENSES}".')
         logger.error(result[1])
 
     return result
@@ -121,6 +123,7 @@ class ParserAgent:
             'prune': clicommands.prune,
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
+            'status': clicommands.status,
             # Deprecated commands (#2124)
             'decode': clicommands.decode,
             'backup-job': clicommands.backup_job,
@@ -708,6 +711,28 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
+    def _create_cmd_status(self):
+        name = 'status'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='summarize backup status for all profiles or a specific one',
+            description='Display last run and status of last backup')
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--json', '-j',
+            action='store_true',
+            default=False,
+            help="output in json format")
+
+        self.parsers[name] = parser
+
     def _create_cmd_show(self):
         name = 'show'
 
@@ -780,6 +805,7 @@ class ParserAgent:
             title='Commands', dest='command')
 
         self._create_cmd_backup()
+        self._create_cmd_status()
         self._create_cmd_backup_job()
         self._create_cmd_show()
         self._create_cmd_restore()
