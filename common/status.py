@@ -124,7 +124,7 @@ class BackupStatus:
 
     def _create_status_file(self):
         """
-        Create a status dictionary for all profiles and save it disk.
+        Create a status dictionary for all profiles and save it to disk.
         Called when no backup status file exists.
         """
 
