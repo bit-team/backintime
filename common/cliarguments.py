@@ -720,8 +720,8 @@ class ParserAgent:
                 self._reusable_parsers['profile'],
                 self._reusable_parsers['common'],
             ],
-            help='summarize last backups form all profiles',
-            description='Show a summary of the last backup from all profiles.')
+            help='summarize backup status for all profiles or a specific one',
+            description='Display last run and status of last backup')
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 
