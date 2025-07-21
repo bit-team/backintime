@@ -7,7 +7,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Basic constants used in multiple modules.
 
-See also license.py for additional constants and logic."""
+See also bitlicense.py for additional constants and logic."""
 import os
 from enum import Enum
 from pathlib import Path

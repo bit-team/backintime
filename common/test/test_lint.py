@@ -45,6 +45,7 @@ full_test_files = [_base_dir / fp for fp in (
     'status.py',
     'askpass.py',
     'bitbase.py',
+    'bitlicense.py',
     # 'cliarguments.py',
     # 'clicommands.py',
     'daemon.py',

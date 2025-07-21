@@ -20,11 +20,12 @@ COPYRIGHT = 'Copyright © 2008-2024 ' \
 
 URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
-def get_gpl_short_text(href: str=None) -> str:
+
+def get_gpl_short_text(href: str = None) -> str:
     """Short description of primary license.
-   
+
     The string is used in the AboutDialog and when using --license on shell.
-   
+
     Dev note (buhtz, 2025-03): That string is untranslated on purpose.
     It is legally relevant, and no one should be given the opportunity
     to change the string—whether intentionally or accidentally.
@@ -44,7 +45,7 @@ TXT_LICENSES = _(
     'using SPDX metadata, refer to {readme_link}.')
 
 
-def _determine_licenses_dir():
+def _determine_licenses_dir() -> str | None:
     for pkg in (bitbase.PACKAGE_NAME_GUI,
                 bitbase.PACKAGE_NAME_CLI,
                 bitbase.BINARY_NAME_GUI,
