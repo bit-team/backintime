@@ -16,7 +16,6 @@ import sys
 import subprocess
 import random
 import pathlib
-import gzip
 import stat
 import signal
 import unittest
@@ -53,6 +52,42 @@ class Basics(unittest.TestCase):
 
         self.assertIn(path, sys.path)
         sys.path.remove(path)
+
+    def test_which(self):
+        self.assertRegex(tools.which('ls'), r'/.*/ls')
+
+        self.assertEqual(tools.which('backintime'),
+                         os.path.join(os.getcwd(), 'backintime'))
+
+        self.assertIsNone(tools.which('notExistedCommand'))
+
+    def test_makeDirs(self):
+        self.assertFalse(tools.makeDirs('/'))
+        self.assertTrue(tools.makeDirs(os.getcwd()))
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo', 'bar')
+            self.assertTrue(tools.makeDirs(path))
+
+    def test_makeDirs_not_writable(self):
+        with TemporaryDirectory() as d:
+            os.chmod(d, stat.S_IRUSR)
+            path = os.path.join(
+                d, 'foobar{}'.format(random.randrange(100, 999)))
+            self.assertFalse(tools.makeDirs(path))
+
+    def test_mkdir(self):
+        self.assertFalse(tools.mkdir('/'))
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo')
+            self.assertTrue(tools.mkdir(path))
+            for mode in (0o700, 0o644, 0o777):
+                msg = 'new path should have octal permissions {0:#o}' \
+                      .format(mode)
+                path = os.path.join(d, '{0:#o}'.format(mode))
+                self.assertTrue(tools.mkdir(path, mode), msg)
+                self.assertEqual(
+                    '{0:o}'.format(os.stat(path).st_mode & 0o777),
+                    '{0:o}'.format(mode), msg)
 
 
 class General(generic.TestCase):
@@ -92,101 +127,6 @@ class General(generic.TestCase):
 
         tools.addSourceToPathEnviron()
         self.assertIn(source, os.environ['PATH'])
-
-    def test_readFile(self):
-        """
-        Test the function readFile
-        """
-        test_tools_file = os.path.abspath(__file__)
-        test_directory = os.path.dirname(test_tools_file)
-        non_existing_file = os.path.join(test_directory, "nonExistingFile")
-
-        self.assertIsInstance(tools.readFile(test_tools_file), str)
-        self.assertIsNone(tools.readFile(non_existing_file))
-
-        with NamedTemporaryFile('wt') as tmp:
-            tmp.write('foo\nbar')
-            tmp.flush()
-            self.assertIsInstance(tools.readFile(tmp.name), str)
-            self.assertEqual(tools.readFile(tmp.name), 'foo\nbar')
-
-        tmp_gz = NamedTemporaryFile().name
-        with gzip.open(tmp_gz + '.gz', 'wt') as f:
-            f.write('foo\nbar')
-            f.flush()
-        self.assertIsInstance(tools.readFile(tmp_gz), str)
-        self.assertEqual(tools.readFile(tmp_gz), 'foo\nbar')
-        os.remove(tmp_gz + '.gz')
-
-    def test_readFileLines(self):
-        """
-        Test the function readFileLines
-        """
-        test_tools_file = os.path.abspath(__file__)
-        test_directory = os.path.dirname(test_tools_file)
-        non_existing_file = os.path.join(test_directory, "nonExistingFile")
-
-        output = tools.readFileLines(test_tools_file)
-        self.assertIsInstance(output, list)
-        self.assertGreaterEqual(len(output), 1)
-        self.assertIsInstance(output[0], str)
-        self.assertIsNone(tools.readFileLines(non_existing_file))
-
-        with NamedTemporaryFile('wt') as tmp:
-            tmp.write('foo\nbar')
-            tmp.flush()
-            self.assertIsInstance(tools.readFileLines(tmp.name), list)
-            self.assertListEqual(tools.readFileLines(tmp.name), ['foo', 'bar'])
-
-        tmp_gz = NamedTemporaryFile().name
-        with gzip.open(tmp_gz + '.gz', 'wt') as f:
-            f.write('foo\nbar')
-            f.flush()
-        self.assertIsInstance(tools.readFileLines(tmp_gz), list)
-        self.assertEqual(tools.readFileLines(tmp_gz), ['foo', 'bar'])
-        os.remove(tmp_gz + '.gz')
-
-    def test_which(self):
-        """
-        Test the function which
-        """
-        self.assertRegex(tools.which("ls"), r'/.*/ls')
-        self.assertEqual(tools.which('backintime'),
-                         os.path.join(os.getcwd(), 'backintime'))
-        self.assertIsNone(tools.which("notExistedCommand"))
-
-    def test_makeDirs(self):
-        self.assertFalse(tools.makeDirs('/'))
-        self.assertTrue(tools.makeDirs(os.getcwd()))
-        with TemporaryDirectory() as d:
-            path = os.path.join(d, 'foo', 'bar')
-            self.assertTrue(tools.makeDirs(path))
-
-    def test_makeDirs_not_writable(self):
-        with TemporaryDirectory() as d:
-            os.chmod(d, stat.S_IRUSR)
-            path = os.path.join(
-                d, 'foobar{}'.format(random.randrange(100, 999)))
-            self.assertFalse(tools.makeDirs(path))
-
-    def test_mkdir(self):
-        self.assertFalse(tools.mkdir('/'))
-        with TemporaryDirectory() as d:
-            path = os.path.join(d, 'foo')
-            self.assertTrue(tools.mkdir(path))
-            for mode in (0o700, 0o644, 0o777):
-                msg = 'new path should have octal permissions {0:#o}' \
-                      .format(mode)
-                path = os.path.join(d, '{0:#o}'.format(mode))
-                self.assertTrue(tools.mkdir(path, mode), msg)
-                self.assertEqual(
-                    '{0:o}'.format(os.stat(path).st_mode & 0o777),
-                    '{0:o}'.format(mode), msg)
-
-    def test_pids(self):
-        pids = tools.pids()
-        self.assertGreater(len(pids), 0)
-        self.assertIn(os.getpid(), pids)
 
     def test_processStat(self):
         pid = self._create_process()
@@ -370,7 +310,8 @@ class CheckCronPattern(unittest.TestCase):
             '*/6'
         )
 
-        self.assertTrue(tools.checkCronPattern(sut))
+        for sut in to_test:
+            self.assertTrue(tools.checkCronPattern(sut))
 
     def test_not_valid(self):
         to_test = (
@@ -382,8 +323,8 @@ class CheckCronPattern(unittest.TestCase):
             '*/6 a'
         )
 
-        self.assertFalse(tools.checkCronPattern(sut))
-
+        for sut in to_test:
+            self.assertFalse(tools.checkCronPattern(sut))
 
 
 class CheckCommand(unittest.TestCase):
@@ -451,7 +392,7 @@ class EncryptableWildcards(unittest.TestCase):
             self.assertTrue(tools.patternHasNotEncryptableWildcard(sut))
 
 
-class EscapeIPv6(generic.TestCase):
+class EscapeIPv6(unittest.TestCase):
     def test_escaped(self):
         values_and_expected = (
             ('fd00:0::5', '[fd00:0::5]'),
@@ -577,26 +518,31 @@ class Environ(generic.TestCase):
                 self.assertEqual(test_env.strValue(k), str(i), msg)
 
 
-class ExecuteSubprocess(generic.TestCase):
-    # new method with subprocess
+class ExecuteSubprocess(unittest.TestCase):
+    def setUp(self):
+        self.run = False
+
+    def _callback(self, func, *args):
+        func(*args)
+        self.run = True
+
     def test_returncode(self):
         self.assertEqual(tools.Execute(['true']).run(), 0)
         self.assertEqual(tools.Execute(['false']).run(), 1)
 
-    def test_callback(self):
-        c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
+    def test_callback_simple(self):
+        c = lambda x, y: self._callback(self.assertEqual, x, 'foo')
         tools.Execute(['echo', 'foo'], callback=c).run()
         self.assertTrue(self.run)
-        self.run = False
 
-        # give extra user_data for callback
-        c = lambda x, y: self.callback(self.assertEqual, x, y)
+    def test_callback_extra_user_data(self):
+        c = lambda x, y: self._callback(self.assertEqual, x, y)
         tools.Execute(['echo', 'foo'], callback=c, user_data='foo').run()
         self.assertTrue(self.run)
         self.run = False
 
-        # no output
-        c = lambda x, y: self.callback(self.fail,
+    def test_callback_no_output(self):
+        c = lambda x, y: self._callback(self.fail,
                                        'callback was called unexpectedly')
         tools.Execute(['true'], callback=c).run()
         self.assertFalse(self.run)

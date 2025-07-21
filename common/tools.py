@@ -20,7 +20,6 @@ import shlex
 import signal
 import re
 import errno
-import gzip
 import locale
 import gettext
 import hashlib
@@ -757,68 +756,6 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def readFile(path, default=None):
-    """
-    Read the file in ``path`` or its '.gz' compressed variant and return its
-    content or ``default`` if ``path`` does not exist.
-
-    Args:
-        path (str):             full path to file that should be read.
-                                '.gz' will be added automatically if the file
-                                is compressed
-        default (str):          default if ``path`` does not exist
-
-    Returns:
-        str:                    content of file in ``path``
-    """
-    ret_val = default
-
-    try:
-        if os.path.exists(path):
-
-            with open(path) as f:
-                ret_val = f.read()
-
-        elif os.path.exists(path + '.gz'):
-
-            with gzip.open(path + '.gz', 'rt') as f:
-                ret_val = f.read()
-
-    except:
-        pass
-
-    return ret_val
-
-
-def readFileLines(path, default=None):
-    """
-    Read the file in ``path`` or its '.gz' compressed variant and return its
-    content as a list of lines or ``default`` if ``path`` does not exist.
-
-    Args:
-        path (str):             full path to file that should be read.
-                                '.gz' will be added automatically if the file
-                                is compressed
-        default (list):         default if ``path`` does not exist
-
-    Returns:
-        list:                   content of file in ``path`` split by lines.
-    """
-    ret_val = default
-
-    try:
-        if os.path.exists(path):
-            with open(path) as f:
-                ret_val = [x.rstrip('\n') for x in f.readlines()]
-        elif os.path.exists(path + '.gz'):
-            with gzip.open(path + '.gz', 'rt') as f:
-                ret_val = [x.rstrip('\n') for x in f.readlines()]
-    except:
-        pass
-
-    return ret_val
-
-
 def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
     hours compared to the current time (`datetime.now()`).
@@ -985,16 +922,6 @@ def mkdir(path, mode=0o755, enforce_permissions=True):
     return os.path.isdir(path)
 
 
-def pids():
-    """
-    List all PIDs currently running on the system.
-
-    Returns:
-        list:   PIDs as int
-    """
-    return [int(x) for x in os.listdir('/proc') if x.isdigit()]
-
-
 def processStat(pid):
     """
     Get the stat's of the process with ``pid``.
@@ -1077,8 +1004,16 @@ def pidsWithName(name):
     Returns:
         list:       PIDs as int
     """
+    all_pids = [
+        int(fp.name)
+        for fp in pathlib.Path('/proc').iterdir()
+        if fp.name.isdigit()
+    ]
+
     # /proc/###/stat stores just the first 16 chars of the process name
-    return [x for x in pids() if processName(x) == name[:15]]
+    name_to_look_for = name[:15]
+
+    return [pid for pid in all_pids if processName(pid) == name_to_look_for]
 
 
 def processExists(name):
@@ -1179,12 +1114,12 @@ def is_Qt_working(systray_required=False):
     # Spawns a new process since it may crash with a SIGABRT and we
     # don't want to crash BiT if this happens...
 
-    try:
-        path = os.path.join(as_backintime_path("common"), "qt_probing.py")
-        cmd = [sys.executable, path]
-        if logger.DEBUG:
-            cmd.append('--debug')
+    path = os.path.join(as_backintime_path("common"), "qt_probing.py")
+    cmd = [sys.executable, path]
+    if logger.DEBUG:
+        cmd.append('--debug')
 
+    try:
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
@@ -1198,26 +1133,28 @@ def is_Qt_working(systray_required=False):
 
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
-                logger.debug(f"Qt probing stdout:\n{std_output}")
-                logger.debug(f"Qt probing errout:\n{error_output}")
+                logger.debug(f'Qt probing stdout: "{std_output}"')
+                logger.debug(f'Qt probing errout: "{error_otuput}"')
 
-            return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
+            rc = proc.returncode
+
+            return rc == 2 or (rc == 1 and systray_required is False)
 
     except FileNotFoundError:
-        logger.error(f"Qt probing script not found: {cmd[0]}")
+        logger.error(f'Qt probing script not found: {cmd[0]}')
         raise
 
     # Fix for #1592 (qt_probing.py may hang as root): Kill after timeout
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
-        logger.info("Qt probing sub process killed after timeout "
-                    "without response")
-        logger.debug(f"Qt probing stdout:\n{outs}")
-        logger.debug(f"Qt probing errout:\n{errs}")
+        logger.info('Qt probing sub process killed after timeout '
+                    'without response')
+        logger.debug(f'Qt probing stdout: "{outs}"')
+        logger.debug(f'Qt probing errout: "{errs}"')
 
-    except Exception as e:
-        logger.error(f"Error: {repr(e)}")
+    except Exception as exc:
+        logger.critical(f'Unknown Error: {exc}')
         raise
 
 
