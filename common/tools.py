@@ -1974,21 +1974,6 @@ def isRoot():
     return os.geteuid() == 0
 
 
-def usingSudo() -> bool:
-    """
-    Check if 'sudo' was used to start this process.
-
-    Returns:
-        bool:   ``True`` if the process was started with sudo
-    """
-    if not isRoot():
-        return False
-
-    if not os.getenv('SUDO_USER'):
-        return False
-
-    return True
-
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
