@@ -481,7 +481,7 @@ def createQApplication(app_name=bitbase.APP_NAME):
 
     try:
 
-        if tools.isRoot():
+        if bitbase.IS_IN_ROOT_MODE:
             qapp.setApplicationName(app_name + " (root)")
             qapp.setDesktopFileName("backintime-qt-root")
 
@@ -492,7 +492,7 @@ def createQApplication(app_name=bitbase.APP_NAME):
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
 
-    if (os.geteuid() == 0
+    if (bitbase.IS_IN_ROOT_MODE
             and qapp.style().objectName().lower() == 'windows'
             and 'GTK+' in QStyleFactory.keys()):
 

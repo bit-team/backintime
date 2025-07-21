@@ -1960,20 +1960,6 @@ def uuidFromPath(path):
     return uuidFromDev(device(path))
 
 
-def isRoot():
-    """
-    Check if we are root.
-
-    Returns:
-        bool:   ``True`` if we are root
-    """
-
-    # The EUID (Effective UID) may be different from the UID (user ID)
-    # in case of SetUID or using "sudo" (where EUID is "root" and UID
-    # is the original user who executed "sudo").
-    return os.geteuid() == 0
-
-
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
