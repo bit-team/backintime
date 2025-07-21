@@ -1974,14 +1974,20 @@ def isRoot():
     return os.geteuid() == 0
 
 
-def usingSudo():
+def usingSudo() -> bool:
     """
     Check if 'sudo' was used to start this process.
 
     Returns:
         bool:   ``True`` if the process was started with sudo
     """
-    return isRoot() and os.getenv('HOME', '/root') != '/root'
+    if not isRoot():
+        return False
+
+    if not os.getenv('SUDO_USER'):
+        return False
+
+    return True
 
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
@@ -2115,7 +2121,6 @@ def escapeIPv6Address(address):
         return f'[{address}]'
 
     return address
-
 
 
 class Alarm:
