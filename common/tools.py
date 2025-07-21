@@ -1134,7 +1134,7 @@ def is_Qt_working(systray_required=False):
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
                 logger.debug(f'Qt probing stdout: "{std_output}"')
-                logger.debug(f'Qt probing errout: "{error_otuput}"')
+                logger.debug(f'Qt probing errout: "{error_output}"')
 
             rc = proc.returncode
 
