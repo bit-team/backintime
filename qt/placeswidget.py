@@ -22,11 +22,10 @@ from PyQt6.QtWidgets import (
                              QTreeWidgetItem,
                              QWidget
                              )
-from PyQt6.QtGui import QIcon, QPalette
+from PyQt6.QtGui import QFont, QIcon, QPalette
 from PyQt6.QtCore import Qt
 import bitbase
 import config
-import qttools
 
 
 class PlacesWidget(QTreeWidget):
@@ -35,6 +34,7 @@ class PlacesWidget(QTreeWidget):
     It contain the file system root and current users home directory as entry
     points. It also contain all included backup directories as entries.
     """
+
     def __init__(self, parent: QWidget, cfg: config.Config):
         QTreeWidget.__init__(self, parent=parent)
 
@@ -123,7 +123,9 @@ class PlacesWidget(QTreeWidget):
         item.setData(0, Qt.ItemDataRole.UserRole, path)
 
         if not path:
-            item.setFont(0, qttools.fontBold(item.font(0)))
+            font = item.font(0)
+            font.setWeight(QFont.Weight.Bold)
+            item.setFont(0, font)
 
             # item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             item.setFlags(Qt.ItemFlag.NoItemFlags)

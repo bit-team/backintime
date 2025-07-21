@@ -57,6 +57,8 @@ full_test_files = [_base_dir / fp for fp in (
     'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
+    'qttools_path.py',
+    'restoreconfigdialog.py',
     'shutdowndlg.py',
     'statedata.py',
     'statusbar.py',
@@ -309,6 +311,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            # 'C0103',  # invalid-name
+            # 'C0114',  # missing-module-docstring
+            # 'C0115',  # missing-clas-docstring
+            # 'C0116',  # missing-function-docstring
             'C0301',  # line-too-long
             'C0305',  # trailing-newlines
             'C0321',  # multiple-statements
@@ -347,8 +353,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W1515',  # forgotten-debug-statement
             'W4902',  # deprecated-method
             'W4904',  # deprecated-class
-            # 'R0202',  # no-classmethod-decorator
-            # 'R0203',  # no-staticmethod-decorator
+            'R0202',  # no-classmethod-decorator
+            'R0203',  # no-staticmethod-decorator
         ]
 
         cmd = create_pylint_cmd(err_codes)

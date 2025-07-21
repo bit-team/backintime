@@ -11,7 +11,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg)](https://fosstodon.org/@backintime)
 
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
+<!--
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
+-->
 [![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
@@ -82,6 +84,7 @@ features. This work is carried out voluntarily during their limited spare time.
  * [FAQ - Frequently Asked Questions](FAQ.md)
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+   (**Disabled** and not up-2-tdate. Please open an issue if you need to use it.)
 
 # Contact & Social
 
@@ -171,4 +174,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>April 2025</sub>
+<sub>July 2025</sub>

@@ -141,8 +141,9 @@ under certain conditions; type `backintime --license' for details.
         #       The same goes with Gtk warnings.
 
         line_beginnings_to_exclude = [
-            "WARNING",
-            "Warning",
+            'WARNING',
+            'Warning',
+            'ERROR: Error writing status file',
         ]
 
         # Warnings currently known:
@@ -153,8 +154,8 @@ under certain conditions; type `backintime --license' for details.
         #    QT_QPA_PLATFORM=wayland to run on Wayland anyway"
 
         line_contains_to_exclude = [
-            "Gtk-WARNING",
-            "qt.qpa.plugin: Could not find the Qt platform plugin",
+            'Gtk-WARNING',
+            'qt.qpa.plugin: Could not find the Qt platform plugin',
             'qt.dbus.integration: Could not connect "org.freedesktop.IBus" '
             'to globalEngineChanged(QString)',
             'Inhibition (via',
