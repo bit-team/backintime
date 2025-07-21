@@ -58,22 +58,6 @@ TRANSLATION_CREDITS_MISC = (
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
 
-SSH_CIPHERS = {
-    'default': _('Default'),
-    'aes128-ctr': 'AES128-CTR',
-    'aes192-ctr': 'AES192-CTR',
-    'aes256-ctr': 'AES256-CTR',
-    'arcfour256': 'ARCFOUR256',
-    'arcfour128': 'ARCFOUR128',
-    'aes128-cbc': 'AES128-CBC',
-    '3des-cbc': '3DES-CBC',
-    'blowfish-cbc': 'Blowfish-CBC',
-    'cast128-cbc': 'Cast128-CBC',
-    'aes192-cbc': 'AES192-CBC',
-    'aes256-cbc': 'AES256-CBC',
-    'arcfour': 'ARCFOUR'
-}
-
 URL_SOURCE = 'https://github.com/bit-team/backintime'
 URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
@@ -152,7 +136,6 @@ class StorageSizeUnit(Enum):
     system objects."""
     MB = 10  # Config.DISK_UNIT_MB
     GB = 20  # Config.DISK_UNIT_GB
-    YEAR = 80  # Config.YEAR
 
 
 class ScheduleMode(Enum):
@@ -218,3 +201,19 @@ IS_IN_ROOT_MODE = os.geteuid() == 0
 # last shown intensity is stored in the state data file. If they don't fit, the
 # message is displayed.
 ENCFS_MSG_STAGE = 2
+
+SSH_CIPHERS = {
+    'default': _('Default'),
+    'aes128-ctr': 'AES128-CTR',
+    'aes192-ctr': 'AES192-CTR',
+    'aes256-ctr': 'AES256-CTR',
+    'arcfour256': 'ARCFOUR256',
+    'arcfour128': 'ARCFOUR128',
+    'aes128-cbc': 'AES128-CBC',
+    '3des-cbc': '3DES-CBC',
+    'blowfish-cbc': 'Blowfish-CBC',
+    'cast128-cbc': 'Cast128-CBC',
+    'aes192-cbc': 'AES192-CBC',
+    'aes256-cbc': 'AES256-CBC',
+    'arcfour': 'ARCFOUR'
+}
