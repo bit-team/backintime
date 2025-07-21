@@ -335,7 +335,6 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1120',  # no-value-for-parameter
             'E1121',  # too-many-function-args
             'E1123',  # unexpected-keyword-arg
-            # 'I0011',  # locally-disabled
             'I0021',  # useless-suppression
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
@@ -355,7 +354,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0603',  # global-statement
             'W0611',  # unused-import
             'W0612',  # unused-variable
-            # 'W0613',  # unused-argument
+            'W0613',  # unused-argument
             'W0614',  # unused-wildcard-import
             # 'W0702',  # bare-except
             # 'W0703',  # broad-except

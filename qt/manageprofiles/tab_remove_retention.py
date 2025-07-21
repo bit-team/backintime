@@ -223,7 +223,7 @@ class RemoveRetentionTab(QDialog):
 
         self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
 
-    def handle_link_activated(self, link):
+    def handle_link_activated(self, _link):
         qttools.open_user_manual()
 
     def _label_keep_most_recent(self) -> None:

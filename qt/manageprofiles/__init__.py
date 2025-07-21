@@ -212,7 +212,7 @@ class SettingsDialog(QDialog):
             self.config.removeProfile()
             self.updateProfiles()
 
-    def profileChanged(self, index):
+    def profileChanged(self, _index):
         if self.disableProfileChanged:
             return
 
@@ -343,8 +343,7 @@ class SettingsDialog(QDialog):
 
         return self.questionHandler(question_msg)
 
-
-    def slot_combo_modes_changed(self, *params):
+    def slot_combo_modes_changed(self, *_params):
         """Hide/show widget elements related to one of
         the four snapshot modes.
 
@@ -357,8 +356,7 @@ class SettingsDialog(QDialog):
         self._tab_exclude.mode = active_mode
         self._tab_exclude.update_exclude_items()
         self._tab_exclude.lbl_ssh_encfs_exclude_warning.setVisible(
-        active_mode == 'ssh_encfs'
-    )
+            active_mode == 'ssh_encfs')
 
         enabled = active_mode in ('ssh', 'ssh_encfs')
         self._tab_retention.update_items_state(enabled)
@@ -367,12 +365,9 @@ class SettingsDialog(QDialog):
         # Resize (but don't move) dialog based on backup mode
         self._restore_dims_and_coords(move=False)
 
-    def restoreConfig(self, *args):
+    def restoreConfig(self, *_args):
         RestoreConfigDialog(self).exec()
         self.updateProfiles()
-
-    # def editUserCallback(self, *args):
-    #     EditUserCallback(self).exec()
 
     def accept(self):
         if self.validate():

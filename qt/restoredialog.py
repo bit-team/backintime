@@ -125,7 +125,7 @@ class RestoreThread(QThread):
 
         self.log.close()
 
-    def callback(self, line, *args):
+    def callback(self, line, *_args):
         """
         write into log file and provide thread save string for log window
         """

@@ -980,7 +980,7 @@ class MainWindow(QMainWindow):
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
-    def comboProfileChanged(self, index):
+    def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
             return
 
@@ -1688,7 +1688,7 @@ class MainWindow(QMainWindow):
     def updateFilesView(self,
                         changed_from,
                         selected_file=None,
-                        show_snapshots=False):
+                        _show_snapshots=False):
         """
         changed_from? WTF!
             0 - files view change directory,
