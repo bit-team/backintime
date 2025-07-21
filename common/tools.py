@@ -872,7 +872,7 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
                        'Please report it via a bug ticket.')
 
 
-def checkCommand(cmd):
+def checkCommand(cmd: str) -> bool:
     """Check if command ``cmd`` is a file in 'PATH' environment.
 
     Args:
@@ -1286,29 +1286,34 @@ def onBattery():
     return False
 
 
-def rsyncCaps(data=None):
+def rsyncCaps() -> list[str]:
     """
     Get capabilities of the installed rsync binary. This can be different from
     version to version and also on build arguments used when building rsync.
 
-    Args:
-        data (str): 'rsync --version' output. This is just for unittests.
+    Dev note (buhtz, 2025-07): BIT uses --xattrs and --acls only. Both are
+    introduced with rsync 3.0.0 in year 2008. Might be worth to keep this
+    check.
 
     Returns:
-        list:       List of str with rsyncs capabilities
+        List of str with rsyncs capabilities.
     """
-    if not data:
-        proc = subprocess.Popen(['rsync', '--version'],
-                                stdout=subprocess.PIPE,
-                                universal_newlines=True)
-        data = proc.communicate()[0]
+    proc = subprocess.Popen(['rsync', '--version'],
+                            stdout=subprocess.PIPE,
+                            universal_newlines=True)
+    data = proc.communicate()[0]
+
     caps = []
 
     # rsync >= 3.1 does provide --info=progress2
-    matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+    matchers = (
+        r'rsync\s*version\s*(\d\.\d)',
+        r'rsync\s*version\s*v(\d\.\d.\d)'
+    )
 
     for matcher in matchers:
         m = re.match(matcher, data)
+
         if m and Version(m.group(1)) >= Version('3.1'):
             caps.append('progress2')
             break
@@ -1322,6 +1327,7 @@ def rsyncCaps(data=None):
     for line in m.group(1).split('\n'):
         caps.extend(
             [i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
+
     return caps
 
 
@@ -1397,6 +1403,7 @@ def rsyncPrefix(config,
 
     if no_perms:
         cmd.extend(('--no-perms', '--no-group', '--no-owner'))
+
     else:
         cmd.extend(('--perms',          # preserve permissions
                     '--executability',  # preserve executability
@@ -1531,18 +1538,22 @@ def checkCronPattern(s):
     """
     if s.find(' ') >= 0:
         return False
+
     try:
         if s.startswith('*/'):
             if s[2:].isdigit() and int(s[2:]) <= 24:
                 return True
             else:
                 return False
+
         for i in s.split(','):
             if i.isdigit() and int(i) <= 24:
                 continue
             else:
                 return False
+
         return True
+
     except ValueError:
         return False
 
@@ -1746,7 +1757,7 @@ def decodeOctalEscape(s):
     return re.sub(r'\\(\d{3})', repl, s)
 
 
-def mountArgs(path):
+def mountArgs(path: str) -> list | None:
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
@@ -1759,7 +1770,7 @@ def mountArgs(path):
         path (str): full path
 
     Returns:
-        list:       mount args
+        The mount args.
     """
     mp = mountpoint(path)
 

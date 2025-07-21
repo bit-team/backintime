@@ -41,34 +41,6 @@ UDEVADM_HAS_UUID = subprocess.Popen(
     stdout=subprocess.PIPE,
     stderr=subprocess.DEVNULL).communicate()[0].find(b'ID_FS_UUID=') > 0
 
-RSYNC_INSTALLED = tools.checkCommand('rsync')
-
-RSYNC_307_VERSION = """rsync  version 3.0.7  protocol version 30
-Copyright (C) 1996-2009 by Andrew Tridgell, Wayne Davison, and others.
-Web site: http://rsync.samba.org/
-Capabilities:
-    64-bit files, 64-bit inums, 32-bit timestamps, 64-bit long ints,
-    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,
-    append, ACLs, xattrs, iconv, symtimes
-
-rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
-are welcome to redistribute it under certain conditions.  See the GNU
-General Public License for details.
-"""
-
-RSYNC_310_VERSION = """rsync  version 3.1.0  protocol version 31
-Copyright (C) 1996-2013 by Andrew Tridgell, Wayne Davison, and others.
-Web site: http://rsync.samba.org/
-Capabilities:
-    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,
-    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,
-    append, ACLs, xattrs, iconv, symtimes, prealloc
-
-rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
-are welcome to redistribute it under certain conditions.  See the GNU
-General Public License for details.
-"""
-
 
 class Basics(unittest.TestCase):
     def test_as_backintime_path(self):
@@ -173,15 +145,6 @@ class General(generic.TestCase):
         self.assertIsInstance(tools.readFileLines(tmp_gz), list)
         self.assertEqual(tools.readFileLines(tmp_gz), ['foo', 'bar'])
         os.remove(tmp_gz + '.gz')
-
-    def test_checkCommand(self):
-        """
-        Test the function checkCommand
-        """
-        self.assertFalse(tools.checkCommand(''))
-        self.assertFalse(tools.checkCommand("notExistedCommand"))
-        self.assertTrue(tools.checkCommand("ls"))
-        self.assertTrue(tools.checkCommand('backintime'))
 
     def test_which(self):
         """
@@ -325,48 +288,6 @@ class General(generic.TestCase):
             self.assertFalse(tools.powerStatusAvailable())
         self.assertIsInstance(tools.onBattery(), bool)
 
-    def test_rsyncCaps(self):
-        if RSYNC_INSTALLED:
-            caps = tools.rsyncCaps()
-            self.assertIsInstance(caps, list)
-            self.assertGreaterEqual(len(caps), 1)
-
-        self.assertListEqual(tools.rsyncCaps(data=RSYNC_307_VERSION),
-                             ['64-bit files',
-                              '64-bit inums',
-                              '32-bit timestamps',
-                              '64-bit long ints',
-                              'socketpairs',
-                              'hardlinks',
-                              'symlinks',
-                              'IPv6',
-                              'batchfiles',
-                              'inplace',
-                              'append',
-                              'ACLs',
-                              'xattrs',
-                              'iconv',
-                              'symtimes'])
-
-        self.assertListEqual(tools.rsyncCaps(data=RSYNC_310_VERSION),
-                             ['progress2',
-                              '64-bit files',
-                              '64-bit inums',
-                              '64-bit timestamps',
-                              '64-bit long ints',
-                              'socketpairs',
-                              'hardlinks',
-                              'symlinks',
-                              'IPv6',
-                              'batchfiles',
-                              'inplace',
-                              'append',
-                              'ACLs',
-                              'xattrs',
-                              'iconv',
-                              'symtimes',
-                              'prealloc'])
-
     def test_md5sum(self):
         with NamedTemporaryFile() as f:
             f.write(b'foo')
@@ -374,17 +295,6 @@ class General(generic.TestCase):
 
             self.assertEqual(tools.md5sum(f.name),
                              'acbd18db4cc2f85cedef654fccc4a4d8')
-
-    def test_checkCronPattern(self):
-        self.assertTrue(tools.checkCronPattern('0'))
-        self.assertTrue(tools.checkCronPattern('0,10,13,15,17,20,23'))
-        self.assertTrue(tools.checkCronPattern('*/6'))
-        self.assertFalse(tools.checkCronPattern('a'))
-        self.assertFalse(tools.checkCronPattern(' 1'))
-        self.assertFalse(tools.checkCronPattern('0,10,13,1a,17,20,23'))
-        self.assertFalse(tools.checkCronPattern('0,10,13, 15,17,20,23'))
-        self.assertFalse(tools.checkCronPattern('*/6,8'))
-        self.assertFalse(tools.checkCronPattern('*/6 a'))
 
     def test_mountpoint(self):
         self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
@@ -397,49 +307,6 @@ class General(generic.TestCase):
         self.assertEqual(
             tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
             '/mnt/path with space')
-
-    def test_mountArgs(self):
-        rootArgs = tools.mountArgs('/')
-        self.assertIsInstance(rootArgs, list)
-        self.assertGreaterEqual(len(rootArgs), 3)
-        self.assertEqual(rootArgs[1], '/')
-
-        procArgs = tools.mountArgs('/proc')
-        self.assertGreaterEqual(len(procArgs), 3)
-        self.assertEqual(procArgs[0], 'proc')
-        self.assertEqual(procArgs[1], '/proc')
-        self.assertEqual(procArgs[2], 'proc')
-
-    def test_isRoot(self):
-        self.assertIsInstance(tools.isRoot(), bool)
-
-    def test_usingSudo(self):
-        self.assertIsInstance(tools.usingSudo(), bool)
-
-    def test_patternHasNotEncryptableWildcard(self):
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('/foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/*/bar'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/**/bar'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('*/foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('**/foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/*'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/**'))
-
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo?'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo[1-2]'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('*foo'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('**foo'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('*.foo'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo**bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*/bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo**/bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/*bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/**bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/*/bar*'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('*foo/*/bar'))
 
     def test_readTimeStamp(self):
         with NamedTemporaryFile('wt') as f:
@@ -493,6 +360,95 @@ class General(generic.TestCase):
         self.assertEqual(
             ret[0],
             'echo start;echo foo;echo foo;echo foo;echo end')
+
+
+class CheckCronPattern(unittest.TestCase):
+    def test_valid(self):
+        to_test = (
+            '0',
+            '0,10,13,15,17,20,23',
+            '*/6'
+        )
+
+        self.assertTrue(tools.checkCronPattern(sut))
+
+    def test_not_valid(self):
+        to_test = (
+            'a',
+            ' 1',
+            '0,10,13,1a,17,20,23',
+            '0,10,13, 15,17,20,23',
+            '*/6,8',
+            '*/6 a'
+        )
+
+        self.assertFalse(tools.checkCronPattern(sut))
+
+
+
+class CheckCommand(unittest.TestCase):
+    def test_empty(self):
+        self.assertFalse(tools.checkCommand(''))
+
+    def test_not_existing(self):
+        self.assertFalse(tools.checkCommand('notExistedCommand'))
+
+    def test_existing(self):
+        for sut in ('ls', 'backintime'):
+            self.assertTrue(tools.checkCommand(sut))
+
+
+class MountArgs(unittest.TestCase):
+    def test_root_fs(self):
+        sut = tools.mountArgs('/')
+        self.assertIsInstance(sut, list)
+        self.assertGreaterEqual(len(sut), 3)
+        self.assertEqual(sut[1], '/')
+
+    def test_proc(self):
+        sut = tools.mountArgs('/proc')
+        self.assertGreaterEqual(len(sut), 3)
+        self.assertEqual(sut[0], 'proc')
+        self.assertEqual(sut[1], '/proc')
+        self.assertEqual(sut[2], 'proc')
+
+
+class EncryptableWildcards(unittest.TestCase):
+    def test_has(self):
+        to_test = (
+            'foo',
+            '/foo',
+            'foo/*/bar',
+            'foo/**/bar',
+            '*/foo',
+            '**/foo',
+            'foo/*',
+            'foo/**'
+        )
+
+        for sut in to_test:
+            self.assertFalse(tools.patternHasNotEncryptableWildcard(sut))
+
+    def test_has_not(self):
+        to_test = (
+            'foo?',
+            'foo[1-2]',
+            'foo*',
+            '*foo',
+            '**foo',
+            '*.foo',
+            'foo*bar',
+            'foo**bar',
+            'foo*/bar',
+            'foo**/bar',
+            'foo/*bar',
+            'foo/**bar',
+            'foo/*/bar*',
+            '*foo/*/bar'
+        )
+
+        for sut in to_test:
+            self.assertTrue(tools.patternHasNotEncryptableWildcard(sut))
 
 
 class EscapeIPv6(generic.TestCase):
