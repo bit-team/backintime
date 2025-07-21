@@ -2117,18 +2117,6 @@ def escapeIPv6Address(address):
     return address
 
 
-def camelCase(s):
-    """
-    Remove underlines and make every first char uppercase.
-
-    Args:
-        s (str):    string separated by underlines (foo_bar)
-
-    Returns:
-        str:        string without underlines but uppercase chars (FooBar)
-    """
-    return ''.join([x.capitalize() for x in s.split('_')])
-
 
 class Alarm:
     """Establish a callback function that is called after a timeout using
