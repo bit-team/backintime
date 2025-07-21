@@ -314,8 +314,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'C0114',  # missing-module-docstring
             # 'C0115',  # missing-class-docstring
             # 'C0116',  # missing-function-docstring
-            # 'C0200',  # consider-using-enumerate
-            # 'C0201',  # consider-iterating-dictionary
+            'C0200',  # consider-using-enumerate
+            'C0201',  # consider-iterating-dictionary
             'C0301',  # line-too-long
             'C0305',  # trailing-newlines
             'C0321',  # multiple-statements
@@ -359,7 +359,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0702',  # bare-except
             # 'W0703',  # broad-except
             'W0707',  # raise-missing-from
-            # 'W0711',  # binary-op-exception
+            'W0711',  # binary-op-exception
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement
