@@ -315,12 +315,17 @@ def open_man_page(manpage: str) -> None:
         logger.error(str(exc))
 
     else:
+        # Workaround until min Python version is 3.12
+        extra_args = {}
+        if sys.version_info >= (3, 12):
+            extra_args['delete_on_close'] = False
+
         # Write content to temp text file
         with NamedTemporaryFile(mode='w',
                                 encoding='utf-8',
                                 suffix='.txt',
                                 delete=False,
-                                delete_on_close=False) as temp_file:
+                                **extra_args) as temp_file:
             temp_file.write(content)
 
         # open text file with associated default application
