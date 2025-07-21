@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Module about the Remove & Retention policy tab"""
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -222,7 +223,7 @@ class RemoveRetentionTab(QDialog):
 
         self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
 
-    def handle_link_activated(self, link):
+    def handle_link_activated(self, _link):
         qttools.open_user_manual()
 
     def _label_keep_most_recent(self) -> None:
