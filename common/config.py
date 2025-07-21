@@ -39,7 +39,6 @@ except NameError:
     _ = lambda val: val
 
 import bitbase
-import bitlicense
 import tools
 import configfile
 import logger
