@@ -2,10 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""Basic constants used in multiple modules."""
+"""Basic constants used in multiple modules.
+
+See also bitlicense.py for additional constants and logic."""
 import os
 from enum import Enum
 from pathlib import Path
@@ -26,11 +28,6 @@ PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 # | Several strings |
 # |-----------------|
 
-COPYRIGHT = 'Copyright © 2008-2024 ' \
-            'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
-            'Copyright © 2022 ' \
-            'Christian Buhtz, Michael Büker, Jürgen Altfeld'
-
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
     'Launchpad translators <https://translations.launchpad.net/backintime/'
@@ -39,6 +36,7 @@ TRANSLATION_CREDITS_MISC = (
     'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
     '(@lists.ubuntu.com) especially the user related lists',
 )
+
 
 # |-------------------------------|
 # | Online resources & references |
@@ -54,7 +52,6 @@ URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
 URL_CHANGELOG = f'{URL_WEBSITE}/blob/dev/CHANGES'
 URL_TRANSLATION = 'https://translate.codeberg.org/engage/backintime'
-URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 
 # |---------------------|
@@ -83,22 +80,6 @@ DIR_NAME_NEWSNAPSHOT = 'new_snapshot'
 DIR_NAME_SAVETOCONTINUE = 'save_to_continue'
 
 
-def _determine_licenses_dir():
-    for pkg in (PACKAGE_NAME_GUI,
-                PACKAGE_NAME_CLI,
-                BINARY_NAME_GUI,
-                BINARY_NAME_CLI,
-                BINARY_NAME_BASE):
-        for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
-
-            fp = path / pkg / 'LICENSES'
-            if fp.is_dir():
-                return fp
-
-    return None
-
-
-DIR_LICENSES = _determine_licenses_dir()
 DIR_SSH_KEYS = Path.home() / '.ssh'
 
 # |-------------------|
