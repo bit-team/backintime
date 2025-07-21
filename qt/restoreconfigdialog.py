@@ -387,7 +387,7 @@ class ScanFileSystem(threading.Thread):
                               stderr=subprocess.DEVNULL,
                               text=True) as proc:
 
-            for line in proc.stdout():
+            for line in proc.stdout:
 
                 if self._stop_event.is_set():
                     return
